@@ -23,42 +23,46 @@
 
             <form method='post'>
 
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
                 <div class='row'>
                     <div class='small-6 columns'>
-                        <label for="id_first_name">Email address</label>
-                        <input type='text' name='first_name' id='id_first_name' maxlength='75' placeholder='First Name'/>
+                        {{ form.first_name.errors }}
+                        {{ form.first_name }}
                     </div>
                     <div class='small-6 columns'>
-                        <label for="id_last_name">Email address</label>
-                        <input type='text' name='last_name' id='id_last_name' maxlength='75' placeholder='Last Name'/>
+                        {{ form.last_name.errors }}
+                        {{ form.last_name }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_email">Email address</label>
-                        <input type='email' name='email' id='id_email' maxlength='75' placeholder='Email address'/>
+                        {{ form.email.errors }}
+                        {{ form.email }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_school">Email address</label>
-                        <input type='text' name='school' id='id_school' maxlength='75' placeholder='School / Club'/>
+                        {{ form.school.errors }}
+                        {{ form.school }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_password">Password</label>
-                        <input type='password' name='password' id='id_password' maxlength='75' placeholder='Password' />
+                        {{ form.password.errors }}
+                        {{ form.password }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_confirm_password">Password</label>
-                        <input type='password' name='confirm_password' id='id_confirm_password' maxlength='75' placeholder='Confirm Password'/>
+                        {{ form.confirm_password.errors }}
+                        {{ form.confirm_password }}
                     </div>
                 </div>
 
@@ -69,8 +73,6 @@
                         <input type='submit' value='Sign Up!'/>
                     </div>
                 </div>
-
-                {% csrf_token %}
 
             </form>
         </div>
