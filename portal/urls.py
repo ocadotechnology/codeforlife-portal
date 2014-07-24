@@ -9,7 +9,8 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
-    url(r'^$', 'portal.views.home',),
+    url(r'^$', 'portal.views.login'),
+    url(r'^login$', 'portal.views.login'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )

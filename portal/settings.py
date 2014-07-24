@@ -127,7 +127,7 @@ if os.getenv('DEPLOYMENT', None):
 #     COMPRESS_ROOT = STATIC_ROOT
 #     COMPRESS_URL = STATIC_URL
 #     # And require login for now
-#     MIDDLEWARE_CLASSES.append('website.middleware.loginrequired.LoginRequiredMiddleware')
+#     MIDDLEWARE_CLASSES.append('portal.middleware.loginrequired.LoginRequiredMiddleware')
 #     # inject the lib folder into the python path
 #     import sys
 #     lib_path = os.path.join(os.path.dirname(__file__), 'lib')
