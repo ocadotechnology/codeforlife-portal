@@ -1,0 +1,62 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<h1>[ code ] for { life }</h1>
+
+<div class='row'>
+    <div class='small-6 small-centered columns'>
+
+        <div class='panel radius'>
+            <h3>Teachers - log in</h3>
+
+            <form method='post'>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        <label for="id_email">Email address</label>
+                        <input type='email' name='email' id='id_email' maxlength='75' placeholder='Email address'/>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        <label for="id_password">Password</label>
+                        <input type='password' name='password' id='id_password' maxlength='75' placeholder='Password'/>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-9 columns' style='padding: 10px 23px'>
+                        <a><u>Lost your password?</u></a>
+                    </div>
+
+                    <div class='small-3 columns'>
+                        <input type='submit' value='Log in'/>
+                    </div>
+                </div>
+
+                {% csrf_token %}
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}

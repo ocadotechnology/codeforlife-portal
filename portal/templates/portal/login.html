@@ -18,37 +18,32 @@
 <div class='row'>
     <div class='small-6 small-centered columns'>
         <div class='panel radius'>
-            <h3>Teachers - log in</h3>
-
-            <form method='post'>
-
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        <label for="id_email">Email address</label>
-                        <input type='email' name='email' id='id_email' maxlength='75' placeholder='Email address' />
-                    </div>
+            <div class='row'>
+                <h3 style='text-align: center'>I am a teacher and I want to...</h3>
+            </div>
+            <div class='row'>
+                <div class='small-6 columns'>
+                    <form action='/teacher/signup'><input type='submit' value='Sign up!'/></form>
                 </div>
-
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        <label for="id_password">Password</label>
-                        <input type='password' name='password' id='id_password' maxlength='75' placeholder='Password' />
-                    </div>
+                <div class='small-6 columns'>
+                    <form action='/teacher/login'><input type='submit' value='Log in'/></form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div class='row'>
-                    <div class='small-9 columns' style='padding: 10px 23px'>
-                        <a><u>Lost your password?</u></a>
-                    </div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Log in' />
-                    </div>
+<div class='row'>
+    <div class='small-6 small-centered columns'>
+        <div class='panel radius'>
+            <div class='row'>
+                <h3 style='text-align: center'>I am a student and I want to...</h3>
+            </div>
+            <div class='row'>
+                <div class='small-6 small-centered columns'>
+                    <form action='/student/login'><input type='submit' value='Log in'/></form>
                 </div>
-
-                {% csrf_token %}
-
-            </form>
+            </div>
         </div>
     </div>
 </div>

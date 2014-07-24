@@ -1,0 +1,85 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<h1>[ code ] for { life }</h1>
+
+<div class='row'>
+    <div class='small-6 small-centered columns'>
+
+        <div class='panel radius'>
+            <h3>Teachers - sign up</h3>
+
+            <form method='post'>
+
+                <div class='row'>
+                    <div class='small-6 columns'>
+                        <label for="id_first_name">Email address</label>
+                        <input type='text' name='first_name' id='id_first_name' maxlength='75' placeholder='First Name'/>
+                    </div>
+                    <div class='small-6 columns'>
+                        <label for="id_last_name">Email address</label>
+                        <input type='text' name='last_name' id='id_last_name' maxlength='75' placeholder='Last Name'/>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        <label for="id_email">Email address</label>
+                        <input type='email' name='email' id='id_email' maxlength='75' placeholder='Email address'/>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        <label for="id_school">Email address</label>
+                        <input type='text' name='school' id='id_school' maxlength='75' placeholder='School / Club'/>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        <label for="id_password">Password</label>
+                        <input type='password' name='password' id='id_password' maxlength='75' placeholder='Password' />
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        <label for="id_confirm_password">Password</label>
+                        <input type='password' name='confirm_password' id='id_confirm_password' maxlength='75' placeholder='Confirm Password'/>
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-9 columns' style='padding: 10px 23px'></div>
+
+                    <div class='small-3 columns'>
+                        <input type='submit' value='Sign Up!'/>
+                    </div>
+                </div>
+
+                {% csrf_token %}
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
