@@ -19,11 +19,65 @@
     </span>
     <span class='right'>
         Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='logout' href='/logout'>Logout</a>
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
     </span>
 </header>
 
-Class {{ class.name }}
+<h3>{{ class.teacher.name }} / {{ class.name }} ({{ class.access_code }})</h3>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
+
+<div class='row'>
+    <div class='small-3 columns'>
+        <h4>Students</h4>
+    </div>
+
+    <div class='small-3 columns'>
+        <a class='portal_button' href="{% url 'portal.views.teacher_print_reminder_cards' class.id %}">Print Reminder Cards</a>
+    </div>
+
+    <div class='small-6 columns'></div>
+</div>
+
+<div class='row'>
+    <div class='small-6 columns'>
+        <table width='100%'>
+            <thead>
+                <th>Student Name</th>
+                <th>Password</th>
+            </thead>
+            <tbody>
+                <tr><td><a href='#'>Sam</a></td><td>2362 <a href='#'>(Change)</a></td></tr>
+                <tr><td><a href='#'>Harry</a></td><td>7984 <a href='#'>(Change)</a></td></tr>
+                <tr><td><a href='#'>Sarah</a></td><td>3871 <a href='#'>(Change)</a></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class='small-6 columns'>
+        <h4>New Students</h4>
+
+        <p>Type (or paste) the student's names, one on each line. Note: names should be unique within a class.</p>
+
+        <form method='POST'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class='row'>
+                <div class='small-9 columns'>
+                    {{ form.names.errors }}
+                    {{ form.names }}
+                </div>
+
+                <div class='small-3 columns'>
+                    <input type='submit' value='Save'/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <footer>
     <small>Ocado Technology &copy; 2014</small>

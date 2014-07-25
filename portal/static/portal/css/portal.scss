@@ -64,7 +64,7 @@ input[type='password'] {
     display: inline-block;
 }
 
-a.logout, input[type='submit'] {
+a.portal_button, input[type='submit'] {
     -moz-box-shadow: inset 0px 1px 0px 0px #fce2c1;
     -webkit-box-shadow: inset 0px 1px 0px 0px #fce2c1;
     box-shadow: inset 0px 1px 0px 0px #fce2c1;
@@ -91,7 +91,7 @@ a.logout, input[type='submit'] {
     text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
 }
 
-input[type='submit']:hover {
+a.portal_button:hover, input[type='submit']:hover {
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #faac38), color-stop(1, #fbed27) );
     background:-moz-linear-gradient( center top, #faac38 5%, #fbed27 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#faac38', endColorstr='#fbed27');

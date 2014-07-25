@@ -11,8 +11,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
-from models import Teacher, UserProfile, School, Class
-from forms import TeacherSignupForm, TeacherLoginForm, ClassCreationForm
+from models import Teacher, UserProfile, School, Class, Student
+from forms import TeacherSignupForm, TeacherLoginForm, ClassCreationForm, StudentCreationForm
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -91,8 +91,18 @@ def teacher_classes(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
+    form = StudentCreationForm()
+
     klass = get_object_or_404(Class, id=pk)
-    return render(request, 'portal/teacher_class.html', { 'class': klass })
+
+    return render(request, 'portal/teacher_class.html', {
+        'form': form,
+        'class': klass,
+    })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_print_reminder_cards(request, pk):
+    return HttpResponse('printing reminders')
 
 def student_login(request):
     return render(request, 'portal/student_login.html', {})

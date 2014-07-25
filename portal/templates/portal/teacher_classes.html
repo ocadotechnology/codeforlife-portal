@@ -19,7 +19,7 @@
     </span>
     <span class='right'>
         Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='logout' href='/logout'>Logout</a>
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
     </span>
 </header>
 
