@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
-from models import Teacher, UserProfile
+from models import Teacher, UserProfile, School, Class
 from forms import TeacherSignupForm, TeacherLoginForm
 
 def home(request):
@@ -34,9 +34,13 @@ def teacher_signup(request):
 
             userProfile = UserProfile.objects.create(user=user)
 
+            school, created = School.objects.get_or_create(
+                name=data['school'])
+
             teacher = Teacher.objects.create(
                 name=data['first_name'] + ' ' + data['last_name'],
-                user=userProfile)
+                user=userProfile,
+                school=school)
 
             login(request, authenticate(username=user.username, password=data['password']))
             
