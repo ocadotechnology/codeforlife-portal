@@ -23,6 +23,56 @@
     </span>
 </header>
 
+<h3>Welcome, {{ user.first_name }}</h3>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
+
+<h4 style='margin-top: 2em'>Classes / Groups</h4>
+
+<div class='row'>
+    <div class='small-6 columns'>
+        <table width='100%'>
+            <thead>
+                <th>Group name</th>
+                <th>Access Code</th>
+            </thead>
+            <tbody>
+                {% for class in classes %}
+                    <tr>
+                        <td>{{ class.name }}</td>
+                        <td>{{ class.access_code }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class='small-6 columns'>
+        <h4>New Group</h4>
+
+        <p>A unique Access Code will be generated for each group.</p>
+
+        <form method='post'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class='row'>
+                <div class='small-9 columns'>
+                    {{ form.name.errors }}
+                    {{ form.name }}
+                </div>
+
+                <div class='small-3 columns'>
+                    <input type='submit' value='Create'/>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
 <footer>
     <small>Ocado Technology &copy; 2014</small>
 </footer>

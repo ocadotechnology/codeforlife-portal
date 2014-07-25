@@ -52,3 +52,6 @@ class TeacherLoginForm(forms.Form):
             self.user = user
 
         return self.cleaned_data
+
+class ClassCreationForm(forms.Form):
+    name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
