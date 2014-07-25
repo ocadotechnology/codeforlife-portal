@@ -44,7 +44,7 @@ def teacher_signup(request):
 
             login(request, authenticate(username=user.username, password=data['password']))
             
-            return HttpResponseRedirect(reverse('portal.views.teacher_home'))
+            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
 
     else:
         form = TeacherSignupForm()
@@ -56,15 +56,15 @@ def teacher_login(request):
         form = TeacherLoginForm(request.POST)
         if form.is_valid():
             login(request, form.user)
-            return HttpResponseRedirect(reverse('portal.views.teacher_home'))
+            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
     else:
         form = TeacherLoginForm()
 
     return render(request, 'portal/teacher_login.html', { 'form': form })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-def teacher_home(request):
-    return render(request, 'portal/teacher_home.html')
+def teacher_classes(request):
+    return render(request, 'portal/teacher_classes.html')
 
 def student_login(request):
     return render(request, 'portal/student_login.html', {})
