@@ -3,6 +3,7 @@ from uuid import uuid4
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -16,7 +17,7 @@ def home(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('portal.views.home'))
 
 def teacher_signup(request):
     if request.method == 'POST':
@@ -39,7 +40,7 @@ def teacher_signup(request):
 
             login(request, authenticate(username=user.username, password=data['password']))
             
-            return HttpResponseRedirect('/teacher/home')
+            return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
     else:
         form = TeacherSignupForm()
@@ -51,13 +52,13 @@ def teacher_login(request):
         form = TeacherLoginForm(request.POST)
         if form.is_valid():
             login(request, form.user)
-            return HttpResponseRedirect('/teacher/home')
+            return HttpResponseRedirect(reverse('portal.views.teacher_home'))
     else:
         form = TeacherLoginForm()
 
     return render(request, 'portal/teacher_login.html', { 'form': form })
 
-@login_required(login_url='/teacher/login')
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_home(request):
     return render(request, 'portal/teacher_home.html')
 
