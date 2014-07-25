@@ -23,17 +23,21 @@
 
             <form method='post'>
 
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_email">Email address</label>
-                        <input type='email' name='email' id='id_email' maxlength='75' placeholder='Email address'/>
+                        {{ form.email.errors }}
+                        {{ form.email }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_password">Password</label>
-                        <input type='password' name='password' id='id_password' maxlength='75' placeholder='Password'/>
+                        {{ form.password.errors }}
+                        {{ form.password }}
                     </div>
                 </div>
 
@@ -46,8 +50,6 @@
                         <input type='submit' value='Log in'/>
                     </div>
                 </div>
-
-                {% csrf_token %}
 
             </form>
         </div>
