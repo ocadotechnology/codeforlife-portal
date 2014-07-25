@@ -74,10 +74,11 @@ def teacher_classes(request):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
         if form.is_valid():
-            Class.objects.create(
+            klass = Class.objects.create(
                 name=form.cleaned_data['name'],
                 teacher=request.user.userprofile.teacher,
                 access_code=generate_access_code())
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'pk': klass.id }))
     else:
         form = ClassCreationForm()
 
@@ -87,6 +88,11 @@ def teacher_classes(request):
         'form': form,
         'classes': classes,
     })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_class(request, pk):
+    klass = get_object_or_404(Class, id=pk)
+    return render(request, 'portal/teacher_class.html', { 'class': klass })
 
 def student_login(request):
     return render(request, 'portal/student_login.html', {})
