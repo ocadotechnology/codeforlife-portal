@@ -14,8 +14,9 @@ body {
     margin: 0 auto;
 }
 
-h1 {
+header {
     background-color: #00072c;
+    background: #00072c url(../img/logo_white.png) no-repeat 20px 50%;
     color: #ffffff;
     display: block;
     height: 70px;
@@ -31,7 +32,6 @@ footer {
 }
 
 h1 {
-    background: #00072c url(../img/logo_white.png) no-repeat 20px 50%;
     text-indent: -9000px;
 }
 
@@ -64,7 +64,7 @@ input[type='password'] {
     display: inline-block;
 }
 
-input[type='submit'] {
+a.logout, input[type='submit'] {
     -moz-box-shadow: inset 0px 1px 0px 0px #fce2c1;
     -webkit-box-shadow: inset 0px 1px 0px 0px #fce2c1;
     box-shadow: inset 0px 1px 0px 0px #fce2c1;
@@ -112,4 +112,9 @@ label {
     width:1px;
     height:1px;
     overflow:hidden;
+}
+
+a.logout {
+    margin: 15px 22px 0px 16px;
+    width: 100px;
 }
