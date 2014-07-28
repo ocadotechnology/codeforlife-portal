@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
+from captcha.fields import ReCaptchaField
+
 from models import Student, Class
 
 class TeacherSignupForm(forms.Form):
@@ -11,6 +13,7 @@ class TeacherSignupForm(forms.Form):
     school = forms.CharField(label='School / Club', max_length=200, widget=forms.TextInput(attrs={'placeholder': 'School / Club'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password'}))
+    # captcha = ReCaptchaField()
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
@@ -38,6 +41,7 @@ class TeacherEditAccountForm(forms.Form):
     password = forms.CharField(label='New password (optional)', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'New password (optional)'}))
     confirm_password = forms.CharField(label='Confirm new password', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
     current_password = forms.CharField(label='Current password', widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))
+    # captcha = ReCaptchaField()
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -71,6 +75,7 @@ class TeacherEditAccountForm(forms.Form):
 class TeacherLoginForm(forms.Form):
     email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    # captcha = ReCaptchaField()
 
     def clean(self):
         email = self.cleaned_data.get('email', None)
@@ -102,6 +107,7 @@ class StudentLoginForm(forms.Form):
     name =  forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     access_code = forms.CharField(label='Class Access Code', widget=forms.TextInput(attrs={'placeholder': 'Class Access Code'}))
     PIN = forms.CharField(label='PIN', widget=forms.TextInput(attrs={'placeholder': 'PIN', 'size': 4, 'maxlength': 4}))
+    # captcha = ReCaptchaField()
 
     def clean(self):
         name = self.cleaned_data.get('name', None)

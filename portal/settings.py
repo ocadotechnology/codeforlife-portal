@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'nuit',
     'rest_framework',
+    'captcha'
 )
 
 MIDDLEWARE_CLASSES = [
