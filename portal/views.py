@@ -1,7 +1,9 @@
 from uuid import uuid4
 import string
 import random
+import datetime
 
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
@@ -11,7 +13,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
-from models import Teacher, UserProfile, School, Class, Student
+from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm
 
 def home(request):
@@ -34,6 +36,17 @@ def create_organisation(request):
         form = OrganisationCreationForm(request.user)
 
     return render(request, 'portal/create_organisation.html', { 'form': form })
+
+def send_teacher_verification_email(request, teacher):
+    verification = TeacherEmailVerification.objects.create(
+        teacher=teacher,
+        token=uuid4().hex[:30],
+        expiry=datetime.datetime.now() + datetime.timedelta(hours=1))
+
+    send_mail('[ code ] for { life } : Email address verification needed',
+              'Please go to ' + request.build_absolute_uri(reverse('portal.views.teacher_verify_email', kwargs={'token': verification.token})) + ' to verifiy your email address',
+              'code4life@mail.com',
+              [teacher.user.user.email])
 
 def teacher_signup(request):
     if request.method == 'POST':
@@ -58,25 +71,53 @@ def teacher_signup(request):
                 user=userProfile,
                 school=school)
 
-            login(request, authenticate(username=user.username, password=data['password']))
-            
-            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+            send_teacher_verification_email(request, teacher)
+
+            return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })
 
     else:
         form = TeacherSignupForm()
 
     return render(request, 'portal/teacher_signup.html', { 'form': form })
 
+def teacher_verify_email(request, token):
+    verifications = TeacherEmailVerification.objects.filter(token=token)
+
+    if len(verifications) != 1:
+        return render(request, 'portal/teacher_verification_failed.html')
+
+    verification = verifications[0]
+
+    if verification.used or (verification.expiry - timezone.now()) < datetime.timedelta():
+        return render(request, 'portal/teacher_verification_failed.html')
+
+    verification.used = True
+    verification.save()
+
+    teacher = verification.teacher
+    teacher.email_verified = True
+    teacher.save()
+
+    return HttpResponseRedirect(reverse('portal.views.teacher_login') + '?email_verified=true')
+
 def teacher_login(request):
     if request.method == 'POST':
         form = TeacherLoginForm(request.POST)
         if form.is_valid():
+            teacher = form.user.userprofile.teacher
+            if not teacher.email_verified:
+                send_teacher_verification_email(request, teacher)
+                return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })
+
             login(request, form.user)
             return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
     else:
         form = TeacherLoginForm()
 
-    return render(request, 'portal/teacher_login.html', { 'form': form })
+    return render(request, 'portal/teacher_login.html', {
+        'form': form,
+        'email_verified': request.GET.get('email_verified', False)
+    })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_classes(request):
