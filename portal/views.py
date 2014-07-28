@@ -127,7 +127,7 @@ def teacher_classes(request):
             second_part = ''.join(random.choice(string.digits) for _ in range(3))
             access_code = first_part + second_part
 
-            if len(Class.objects.filter(access_code=access_code)) == 0:
+            if not Class.objects.filter(access_code=access_code).exists():
                 return access_code
 
     if request.method == 'POST':
