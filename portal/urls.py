@@ -10,6 +10,7 @@ js_info_dict = {
 urlpatterns = patterns('',
     url(r'^$', 'portal.views.home'),
     url(r'^logout$', 'portal.views.logout_view'),
+    url(r'^organisation/create$', 'portal.views.create_organisation'),
     url(r'^teacher/signup$', 'portal.views.teacher_signup'),
     url(r'^teacher/login$', 'portal.views.teacher_login'),
     url(r'^teacher/account$', 'portal.views.teacher_edit_account'),

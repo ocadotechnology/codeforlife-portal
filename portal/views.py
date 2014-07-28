@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
 from models import Teacher, UserProfile, School, Class, Student
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -20,6 +20,20 @@ def home(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('portal.views.home'))
+
+def create_organisation(request):
+    if request.method == 'POST':
+        form = OrganisationCreationForm(request.user, request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            # TODO add organisation etc.
+            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+
+    else:
+        form = OrganisationCreationForm(request.user)
+
+    return render(request, 'portal/create_organisation.html', { 'form': form })
 
 def teacher_signup(request):
     if request.method == 'POST':

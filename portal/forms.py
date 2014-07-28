@@ -4,7 +4,30 @@ from django.contrib.auth.models import User
 
 from captcha.fields import ReCaptchaField
 
-from models import Student, Class
+from models import Student, Class, School
+
+class OrganisationCreationForm(forms.Form):
+    school = forms.CharField(label='Organisation Name', widget=forms.TextInput(attrs={'placeholder': 'Organisation Name'}))
+    current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(OrganisationCreationForm, self).__init__(*args, **kwargs)
+
+    def clean_school(self):
+        school = self.cleaned_data.get('school', None)
+
+        if school:
+            schools = School.objects.filter(name=school)
+            if len(schools) != 0:
+                raise forms.ValidationError('That organisation name is already in use')
+
+        return school
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get('current_password', None)
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError('Your password was incorrect')
 
 class TeacherSignupForm(forms.Form):
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))

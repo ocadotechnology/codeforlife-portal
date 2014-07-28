@@ -1,0 +1,66 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>[ code ] for { life }</h1>
+</header>
+
+<div class='row'>
+    <div class='small-6 small-centered columns'>
+
+        <div class='panel radius'>
+            <h3>Create a new organisation</h3>
+
+            <p>Note: this will create a new organisation with you as the administrator (responsible for approving other teachers to join the organisation, etc.). If you wanted to join other teachers at your organisation on Code For Life, please <a href="{% url 'portal.views.home' %}">join an existing organisation</a>.</p>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        {{ form.school.errors }}
+                        {{ form.school }}
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        {{ form.current_password.errors }}
+                        {{ form.current_password }}
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-9 columns'></div>
+
+                    <div class='small-3 columns'>
+                        <input type='submit' value='Create'/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
