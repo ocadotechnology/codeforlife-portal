@@ -67,9 +67,13 @@ def teacher_login(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_classes(request):
     def generate_access_code():
-        first_part = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
-        second_part = ''.join(random.choice(string.digits) for _ in range(3))
-        return first_part + second_part
+        while True:
+            first_part = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
+            second_part = ''.join(random.choice(string.digits) for _ in range(3))
+            access_code = first_part + second_part
+
+            if len(Class.objects.filter(access_code=access_code)) == 0:
+                return access_code
 
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
