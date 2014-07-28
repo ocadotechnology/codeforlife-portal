@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
 from models import Teacher, UserProfile, School, Class, Student
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -67,9 +67,13 @@ def teacher_login(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_classes(request):
     def generate_access_code():
-        first_part = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
-        second_part = ''.join(random.choice(string.digits) for _ in range(3))
-        return first_part + second_part
+        while True:
+            first_part = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
+            second_part = ''.join(random.choice(string.digits) for _ in range(3))
+            access_code = first_part + second_part
+
+            if len(Class.objects.filter(access_code=access_code)) == 0:
+                return access_code
 
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
@@ -91,13 +95,42 @@ def teacher_classes(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
-    form = StudentCreationForm()
+    def generate_PIN():
+        return ''.join(random.choice(string.digits) for _ in range(4))
 
     klass = get_object_or_404(Class, id=pk)
+
+    if request.method == 'POST':
+        form = StudentCreationForm(request.POST)
+        if form.is_valid():
+            for name in form.cleaned_data['names'].splitlines():
+                if name != '':
+                    PIN = generate_PIN()
+
+                    user = User.objects.create_user(
+                        username=uuid4().hex[:30], # generate a random username
+                        password=PIN,
+                        first_name=name)
+
+                    userProfile = UserProfile.objects.create(user=user)
+
+                    student = Student.objects.create(
+                        name=name,
+                        class_field=klass,
+                        user=userProfile,
+                        PIN=PIN)
+
+            form = StudentCreationForm()
+
+    else:
+        form = StudentCreationForm()
+
+    students = Student.objects.filter(class_field=klass)
 
     return render(request, 'portal/teacher_class.html', {
         'form': form,
         'class': klass,
+        'students': students,
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -137,4 +170,16 @@ def teacher_print_reminder_cards(request, pk):
     return HttpResponse('printing reminders')
 
 def student_login(request):
-    return render(request, 'portal/student_login.html', {})
+    if request.method == 'POST':
+        form = StudentLoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.user)
+            return HttpResponseRedirect(reverse('portal.views.student_details'))
+    else:
+        form = StudentLoginForm()
+
+    return render(request, 'portal/student_login.html', { 'form': form })
+
+@login_required(login_url=reverse_lazy('portal.views.student_login'))
+def student_details(request):
+    return render(request, 'portal/student_details.html')

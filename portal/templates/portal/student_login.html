@@ -25,36 +25,38 @@
 
             <form method='post'>
 
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_name">Email address</label>
-                        <input type='text' name='name' id='id_name' maxlength='75' placeholder='Name'/>
+                        {{ form.name.errors }}
+                        {{ form.name }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_class">Email address</label>
-                        <input type='text' name='class' id='id_class' maxlength='75' placeholder='Class Acess Code'/>
+                        {{ form.access_code.errors }}
+                        {{ form.access_code }}
                     </div>
                 </div>
 
                 <div class='row'>
                     <div class='small-12 columns'>
-                        <label for="id_PIN">Email address</label>
-                        <input type='text' name='PIN' id='id_PIN' maxlength='75' placeholder='PIN'/>
+                        {{ form.PIN.errors }}
+                        {{ form.PIN }}
                     </div>
                 </div>
 
                 <div class='row'>
-                    <div class='small-9 columns' style='padding: 10px 23px'></div>
+                    <div class='small-9 columns'></div>
 
                     <div class='small-3 columns'>
                         <input type='submit' value='Log in'/>
                     </div>
                 </div>
-
-                {% csrf_token %}
 
             </form>
         </div>

@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^teacher/class/(?P<pk>[0-9]+)$', 'portal.views.teacher_class'),
     url(r'^teacher/class/(?P<pk>[0-9]+)/print_reminder_cards$', 'portal.views.teacher_print_reminder_cards'),
     url(r'^student/login$', 'portal.views.student_login'),
+    url(r'^student/details$', 'portal.views.student_details'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )

@@ -47,9 +47,12 @@
                 <th>Password</th>
             </thead>
             <tbody>
-                <tr><td><a href='#'>Sam</a></td><td>2362 <a href='#'>(Change)</a></td></tr>
-                <tr><td><a href='#'>Harry</a></td><td>7984 <a href='#'>(Change)</a></td></tr>
-                <tr><td><a href='#'>Sarah</a></td><td>3871 <a href='#'>(Change)</a></td></tr>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.PIN }} <a href='#'>(Change)</a></td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
