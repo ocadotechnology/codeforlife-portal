@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
 from models import Teacher, UserProfile, School, Class, Student
-from forms import TeacherSignupForm, TeacherLoginForm, ClassCreationForm, StudentCreationForm
+from forms import TeacherSignupForm, TeacherLoginForm, ClassCreationForm, StudentCreationForm, StudentLoginForm
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -105,8 +105,11 @@ def teacher_class(request, pk):
         if form.is_valid():
             for name in form.cleaned_data['names'].splitlines():
                 if name != '':
+                    PIN = generate_PIN()
+
                     user = User.objects.create_user(
                         username=uuid4().hex[:30], # generate a random username
+                        password=PIN,
                         first_name=name)
 
                     userProfile = UserProfile.objects.create(user=user)
@@ -115,7 +118,7 @@ def teacher_class(request, pk):
                         name=name,
                         class_field=klass,
                         user=userProfile,
-                        PIN=generate_PIN())
+                        PIN=PIN)
 
             form = StudentCreationForm()
 
@@ -135,4 +138,16 @@ def teacher_print_reminder_cards(request, pk):
     return HttpResponse('printing reminders')
 
 def student_login(request):
-    return render(request, 'portal/student_login.html', {})
+    if request.method == 'POST':
+        form = StudentLoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.user)
+            return HttpResponseRedirect(reverse('portal.views.student_details'))
+    else:
+        form = StudentLoginForm()
+
+    return render(request, 'portal/student_login.html', { 'form': form })
+
+@login_required(login_url=reverse_lazy('portal.views.student_login'))
+def student_details(request):
+    return render(request, 'portal/student_details.html')

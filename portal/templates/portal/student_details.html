@@ -1,0 +1,34 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+<h3>Welcome,</h3>
+
+<p>you are logged in as {{ user.userprofile.student.name }}, a member of class {{ user.userprofile.student.class_field.name }}. Your PIN is {{ user.userprofile.student.PIN }}.</p>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
