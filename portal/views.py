@@ -95,13 +95,39 @@ def teacher_classes(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
-    form = StudentCreationForm()
+    def generate_PIN():
+        return ''.join(random.choice(string.digits) for _ in range(4))
 
     klass = get_object_or_404(Class, id=pk)
+
+    if request.method == 'POST':
+        form = StudentCreationForm(request.POST)
+        if form.is_valid():
+            for name in form.cleaned_data['names'].splitlines():
+                if name != '':
+                    user = User.objects.create_user(
+                        username=uuid4().hex[:30], # generate a random username
+                        first_name=name)
+
+                    userProfile = UserProfile.objects.create(user=user)
+
+                    student = Student.objects.create(
+                        name=name,
+                        class_field=klass,
+                        user=userProfile,
+                        PIN=generate_PIN())
+
+            form = StudentCreationForm()
+
+    else:
+        form = StudentCreationForm()
+
+    students = Student.objects.filter(class_field=klass)
 
     return render(request, 'portal/teacher_class.html', {
         'form': form,
         'class': klass,
+        'students': students,
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
