@@ -25,6 +25,7 @@ class Teacher (models.Model):
     name = models.CharField(max_length=200)
     user = models.OneToOneField(UserProfile)
     school = models.ForeignKey(School, related_name='teacher_school')
+    email_verified = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
@@ -73,3 +74,10 @@ class Guardian (models.Model):
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+
+
+class TeacherEmailVerification (models.Model):
+    teacher = models.ForeignKey(Teacher, related_name='email_verifications')
+    token = models.CharField(max_length=30)
+    expiry = models.DateTimeField()
+    used = models.BooleanField(default=False)
