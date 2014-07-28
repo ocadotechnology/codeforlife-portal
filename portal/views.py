@@ -6,13 +6,13 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 
 from models import Teacher, UserProfile, School, Class, Student
-from forms import TeacherSignupForm, TeacherLoginForm, ClassCreationForm, StudentCreationForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -99,6 +99,38 @@ def teacher_class(request, pk):
         'form': form,
         'class': klass,
     })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_edit_account(request):
+    teacher = request.user.userprofile.teacher
+
+    if request.method == 'POST':
+        form = TeacherEditAccountForm(request.user, request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            # check not default value for CharField
+            if (data['password'] != ''):
+                teacher.user.user.set_password(data['password'])
+                teacher.user.user.save()
+                update_session_auth_hash(request, form.user)
+
+            teacher.user.user.first_name = data['first_name']
+            teacher.user.user.last_name = data['last_name']
+            teacher.user.user.email = data['email']
+            teacher.user.user.save()
+
+            return HttpResponseRedirect('?updated=True')
+    else:
+        form = TeacherEditAccountForm(request.user, initial={
+            'first_name': teacher.user.user.first_name,
+            'last_name': teacher.user.user.last_name,
+            'email': teacher.user.user.email,
+            'school': teacher.school,
+        })
+
+    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
+    return render(request, 'portal/teacher_edit_account.html', { 'form': form, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_print_reminder_cards(request, pk):
