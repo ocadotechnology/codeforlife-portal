@@ -9,6 +9,7 @@ from models import Student, Class, School
 class OrganisationCreationForm(forms.Form):
     school = forms.CharField(label='Organisation Name', widget=forms.TextInput(attrs={'placeholder': 'Organisation Name'}))
     current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
+    # captcha = ReCaptchaField()
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -17,10 +18,8 @@ class OrganisationCreationForm(forms.Form):
     def clean_school(self):
         school = self.cleaned_data.get('school', None)
 
-        if school:
-            schools = School.objects.filter(name=school)
-            if len(schools) != 0:
-                raise forms.ValidationError('That organisation name is already in use')
+        if school and School.objects.filter(name=school).exists():
+            raise forms.ValidationError('That organisation name is already in use')
 
         return school
 
@@ -33,7 +32,6 @@ class TeacherSignupForm(forms.Form):
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
     last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
     email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
-    school = forms.CharField(label='School / Club', max_length=200, widget=forms.TextInput(attrs={'placeholder': 'School / Club'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password'}))
     # captcha = ReCaptchaField()
@@ -41,10 +39,8 @@ class TeacherSignupForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
 
-        if email:
-            users = User.objects.filter(email=email)
-            if len(users) != 0:
-                raise forms.ValidationError('That email address is already in use')
+        if email and User.objects.filter(email=email).exists():
+            raise forms.ValidationError('That email address is already in use')
 
         return email
 

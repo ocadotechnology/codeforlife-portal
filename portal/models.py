@@ -16,6 +16,7 @@ class UserProfile (models.Model):
 
 class School (models.Model):
     name = models.CharField(max_length=200)
+    admin = models.ForeignKey('Teacher', related_name='admin')
 
     def __unicode__(self):
         return self.name
@@ -24,7 +25,7 @@ class School (models.Model):
 class Teacher (models.Model):
     name = models.CharField(max_length=200)
     user = models.OneToOneField(UserProfile)
-    school = models.ForeignKey(School, related_name='teacher_school')
+    school = models.ForeignKey(School, related_name='teacher_school', null=True)
     email_verified = models.BooleanField(default=False)
 
     def __unicode__(self):

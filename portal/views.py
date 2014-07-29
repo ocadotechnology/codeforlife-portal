@@ -28,8 +28,15 @@ def create_organisation(request):
         form = OrganisationCreationForm(request.user, request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            teacher = request.user.userprofile.teacher
 
-            # TODO add organisation etc.
+            school = School.objects.create(
+                name=data['school'],
+                admin=teacher)
+
+            teacher.school = school
+            teacher.save()
+
             return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
 
     else:
@@ -63,13 +70,9 @@ def teacher_signup(request):
 
             userProfile = UserProfile.objects.create(user=user)
 
-            school, created = School.objects.get_or_create(
-                name=data['school'])
-
             teacher = Teacher.objects.create(
                 name=data['first_name'] + ' ' + data['last_name'],
-                user=userProfile,
-                school=school)
+                user=userProfile)
 
             send_teacher_verification_email(request, teacher)
 
