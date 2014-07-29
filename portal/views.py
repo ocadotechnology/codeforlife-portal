@@ -261,11 +261,10 @@ def teacher_edit_class(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_student_reset(request, pk):
     new_password = generate_password(8)
-    students = Student.objects.filter(id=pk)
-    if len(students) == 1:
-        students[0].user.user.set_password(new_password)
-        students[0].user.user.save()
-    return render(request, 'portal/teacher_student_reset.html', { 'student': students[0], 'class': students[0].class_field, 'password': new_password })
+    student = get_object_or_404(Student, id=pk)
+    student.user.user.set_password(new_password)
+    student.user.user.save()
+    return render(request, 'portal/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
