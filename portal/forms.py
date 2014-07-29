@@ -135,6 +135,23 @@ class ClassCreationForm(forms.Form):
 class ClassEditForm(forms.Form):
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
 
+
+class TeacherEditStudentForm(forms.Form):
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    
+    def __init__(self, student, *args, **kwargs):
+        self.student = student
+        self.klass = student.class_field
+        super(TeacherEditStudentForm, self).__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name=self.cleaned_data.get('name', None)
+        students = Student.objects.filter(class_field=self.klass)
+        if students.filter(name=name).exists() and name != self.student.name:
+            raise forms.ValidationError('A student already exists with that name in this class')
+        return name
+
+
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
 
@@ -161,10 +178,13 @@ class StudentCreationForm(forms.Form):
         if len(validationErrors) > 0:
             raise forms.ValidationError(validationErrors)
 
+        return self.cleaned_data
+
+
 class StudentLoginForm(forms.Form):
     name =  forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     access_code = forms.CharField(label='Class Access Code', widget=forms.TextInput(attrs={'placeholder': 'Class Access Code'}))
-    password = forms.CharField(label='Password', widget=forms.TextInput(attrs={'placeholder': 'Password'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     # captcha = ReCaptchaField()
 
     def clean(self):

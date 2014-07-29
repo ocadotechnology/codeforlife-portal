@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -266,6 +266,27 @@ def teacher_student_reset(request, pk):
         students[0].user.user.set_password(new_password)
         students[0].user.user.save()
     return render(request, 'portal/teacher_student_reset.html', { 'student': students[0], 'class': students[0].class_field, 'password': new_password })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_edit_student(request, pk):
+    student = get_object_or_404(Student, id=pk)
+
+    if request.method == 'POST':
+        form = TeacherEditStudentForm(student, request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            student.name = name
+            student.user.user.first_name = name
+            student.user.user.save()
+            student.save()
+
+            return HttpResponseRedirect('?updated=True')
+    else:
+        form = TeacherEditStudentForm(student, initial={
+            'name': student.name
+        })
+    return render(request, 'portal/teacher_edit_student.html', { 'form': form, 'student': student, 'class': student.class_field, 'updated': request.GET.get('updated', False) and not request.method == 'POST' })
 
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
