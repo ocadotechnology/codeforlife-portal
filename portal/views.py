@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.views import password_reset
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
@@ -23,6 +24,9 @@ def home(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('portal.views.home'))
+
+def teacher_reset(request):
+    password_reset(request, from_email='accounts@codeforlife.eduction')
 
 def get_random_username():
     while True:
@@ -453,4 +457,4 @@ def student_edit_account(request):
 
     # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
     return render(request, 'portal/student_edit_account.html', { 'form': form, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
-    
+

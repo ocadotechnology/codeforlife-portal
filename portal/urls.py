@@ -31,4 +31,17 @@ urlpatterns = patterns('',
     url(r'^student/account$', 'portal.views.student_edit_account'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+
+
+    url(r'^user/password/reset/$', 
+        'django.contrib.auth.views.password_reset',
+        {'post_reset_redirect' : '/user/password/reset/done/'},
+        name="password_reset"),
+    url(r'^user/password/reset/done/$',
+        'django.contrib.auth.views.password_reset_done'),
+    url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        'django.contrib.auth.views.password_reset_confirm',
+        {'post_reset_redirect' : '/user/password/done/'}),
+    url(r'^user/password/done/$',
+        'django.contrib.auth.views.password_reset_complete'),
 )
