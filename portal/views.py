@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -35,7 +35,7 @@ def generate_password(length):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
-def create_organisation(request):
+def organisation_create(request):
     teacher = request.user.userprofile.teacher
 
     create_form = OrganisationCreationForm()
@@ -77,12 +77,79 @@ def create_organisation(request):
             teacher.pending_join_request = None
             teacher.save()
 
-    return render(request, 'portal/create_organisation.html', {
+    return render(request, 'portal/organisation_create.html', {
         'create_form': create_form,
         'join_form': join_form,
         'teacher': teacher,
         'just_joined': just_joined,
     })
+
+def organisation_teacher_view(request, is_admin):
+    teacher = request.user.userprofile.teacher
+    school = teacher.school
+
+    coworkers = Teacher.objects.filter(school=school)
+
+    join_requests = Teacher.objects.filter(pending_join_request=school)
+
+    form = OrganisationEditForm()
+    form.fields['name'].initial = school.name
+
+    if request.method == 'POST':
+        form = OrganisationEditForm(request.POST, current_school=school)
+        if form.is_valid():
+            school.name = form.cleaned_data['name']
+            school.save()
+
+    return render(request, 'portal/organisation_manage.html', {
+        'teacher': teacher,
+        'is_admin': is_admin,
+        'coworkers': coworkers,
+        'join_requests': join_requests,
+        'form': form,
+    })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def organisation_manage(request):
+    teacher = request.user.userprofile.teacher
+
+    if teacher.school:
+        is_admin = (teacher.school.admin == teacher)
+        return organisation_teacher_view(request, is_admin)
+
+    else:
+        return organisation_create(request)
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def organisation_leave(request):
+    teacher = request.user.userprofile.teacher
+
+    teacher.school = None
+    teacher.save()
+
+    return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def organisation_kick(request, pk):
+    return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def organisation_transfer(request, pk):
+    return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def organisation_allow_join(request, pk):
+    return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def organisation_deny_join(request, pk):
+    return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 def send_teacher_verification_email(request, teacher):
     verification = TeacherEmailVerification.objects.create(
@@ -175,7 +242,7 @@ def teacher_classes(request):
                 return access_code
 
     if not request.user.userprofile.teacher.school:
-        return HttpResponseRedirect(reverse('portal.views.create_organisation'))
+        return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)

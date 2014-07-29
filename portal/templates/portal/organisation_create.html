@@ -33,7 +33,7 @@
                 </div>
             {% endif %}
 
-            <p>You already have a pending join request.</p>
+            <p>You have a pending join request to '{{ teacher.pending_join_request.name }}'.</p>
             <p>You may only have one at a time, if you wish to join another you must revoke your pending request first.</p>
 
             <form method='post'>
@@ -112,7 +112,7 @@
                         <div class='small-9 columns'></div>
 
                         <div class='small-3 columns'>
-                            <input type='submit' name='join_organisation' value='Create'/>
+                            <input type='submit' name='join_organisation' value='Join'/>
                         </div>
                     </div>
 

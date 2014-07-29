@@ -1,0 +1,113 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+<h3>Teachers who are part of your school/club</h3>
+
+<table width='100%'>
+    <thead>
+        <th>Name</th>
+        <th>Email address</th>
+        {% if is_admin %}
+            <th colspan='2'>Actions</th>
+        {% endif %}
+    </thead>
+
+    <tbody>
+        {% for coworker in coworkers %}
+            <tr>
+                <td>{{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }}</td>
+                <td>{{ coworker.user.user.email }}</td>
+                {% if is_admin %}
+                    <td><a class='portal_button' href="{% url 'portal.views.organisation_kick' coworker.id %}">Kick</a></td>
+                    <td><a class='portal_button' href="{% url 'portal.views.organisation_transfer' coworker.id %}">Transfer</a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if is_admin %}
+
+    <h3>Teachers who have made a request to join your school/club</h3>
+
+    <table width='100%'>
+        <thead>
+            <th>Name</th>
+            <th>Email address</th>
+            <th colspan='2'>Actions</th>
+        </thead>
+
+        <tbody>
+            {% for join_request in join_requests %}
+                <tr>
+                    <td>{{ join_request.user.user.first_name }} {{ join_request.user.user.last_name }}</td>
+                    <td>{{ join_request.user.user.email }}</td>
+                    <td><a class='portal_button' href="{% url 'portal.views.organisation_allow_join' join_request.id %}">Allow</a></td>
+                    <td><a class='portal_button' href="{% url 'portal.views.organisation_deny_join' join_request.id %}">Deny</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Change the details of your school/club</h3>
+
+    <div class='row'>
+        <div class='small-6 small-centered columns'>
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class='row'>
+                    <div class='small-9 columns'>
+                        {{ form.name.errors }}
+                        {{ form.name }}
+                    </div>
+
+                    <div class='small-3 columns'>
+                        <input type='submit' value='Change'/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+{% else %}
+
+    <div class='row'>
+        <div class='small-3 small-centered columns'>
+            <a class='portal_button' href="{% url 'portal.views.organisation_leave' %}">Leave school/club</a>
+        </div>
+    </div>
+
+{% endif %}
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
