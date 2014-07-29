@@ -189,35 +189,45 @@ def teacher_classes(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
-    def generate_PIN():
-        return ''.join(random.choice(string.digits) for _ in range(4))
+    def generate_PIN(length):
+        return ''.join(random.choice(string.digits) for _ in range(length))
 
     klass = get_object_or_404(Class, id=pk)
 
     if request.method == 'POST':
-        form = StudentCreationForm(request.POST)
+        form = StudentCreationForm(klass, request.POST)
         if form.is_valid():
+            names_tokens = []
+            bad_names = []
             for name in form.cleaned_data['names'].splitlines():
                 if name != '':
-                    PIN = generate_PIN()
+                    if Student.objects.filter(class_field=klass, name=name).exists():
+                        bad_names.append(name)
+                    else:
+                        PIN = generate_PIN(4)
+                        names_tokens.append([name, PIN])
+                        print names_tokens
+                        user = User.objects.create_user(
+                            username=uuid4().hex[:30], # generate a random username
+                            password=PIN,
+                            first_name=name)
 
-                    user = User.objects.create_user(
-                        username=uuid4().hex[:30], # generate a random username
-                        password=PIN,
-                        first_name=name)
+                        userProfile = UserProfile.objects.create(user=user)
 
-                    userProfile = UserProfile.objects.create(user=user)
+                        student = Student.objects.create(
+                            name=name,
+                            class_field=klass,
+                            user=userProfile,
+                            password_chosen=False,
+                            token_expiry=datetime.datetime.now() + datetime.timedelta(hours=24))
 
-                    student = Student.objects.create(
-                        name=name,
-                        class_field=klass,
-                        user=userProfile,
-                        PIN=PIN)
-
-            form = StudentCreationForm()
+            form = StudentCreationForm(klass)
+            # Check students have been added and redirect to show their tokens
+            if len(names_tokens) > 0:
+                return render(request, 'portal/teacher_new_students.html', { 'class': klass, 'namestokens': names_tokens, 'badnames': bad_names })
 
     else:
-        form = StudentCreationForm()
+        form = StudentCreationForm(klass)
 
     students = Student.objects.filter(class_field=klass)
 

@@ -6,6 +6,8 @@ from captcha.fields import ReCaptchaField
 
 from models import Student, Class, School
 
+from collections import Counter
+
 class OrganisationCreationForm(forms.Form):
     school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
     current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
@@ -133,33 +135,56 @@ class ClassCreationForm(forms.Form):
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
 
+    def __init__(self, klass, *args, **kwargs):
+        self.klass = klass
+        super(StudentCreationForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        names = self.cleaned_data.get('names', None).splitlines()
+        names = [name for name in names if name != '']
+
+        duplicates = [name for name, count in Counter(names).items() if count > 1]
+
+        if len(duplicates) > 0:
+            validationErrors = []
+            for duplicate in duplicates:
+                validationErrors.append(forms.ValidationError('Student ' + duplicate + ' cannot be added more than once'))
+            raise forms.ValidationError(validationErrors)
+        students = Student.objects.filter(class_field=self.klass)
+        validationErrors = []
+        for name in names:
+             if students.filter(name=name).exists():
+                 validationErrors.append(forms.ValidationError('A student already exists with the name ' + name))
+        if len(validationErrors) > 0:
+            raise forms.ValidationError(validationErrors)
+
 class StudentLoginForm(forms.Form):
     name =  forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     access_code = forms.CharField(label='Class Access Code', widget=forms.TextInput(attrs={'placeholder': 'Class Access Code'}))
-    PIN = forms.CharField(label='PIN', widget=forms.TextInput(attrs={'placeholder': 'PIN', 'size': 4, 'maxlength': 4}))
+    password = forms.CharField(label='Password', widget=forms.TextInput(attrs={'placeholder': 'Password'}))
     # captcha = ReCaptchaField()
 
     def clean(self):
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
-        PIN = self.cleaned_data.get('PIN', None)
+        password = self.cleaned_data.get('password', None)
 
-        if name and access_code and PIN:
+        if name and access_code and password:
             classes = Class.objects.filter(access_code=access_code)
             if len(classes) != 1:
-                raise forms.ValidationError('Invalid name, access code or PIN')
+                raise forms.ValidationError('Invalid name, class access code or password')
 
-            students = Student.objects.filter(name=name, PIN=PIN, class_field=classes[0])
+            students = Student.objects.filter(name=name, class_field=classes[0])
             if len(students) != 1:
-                raise forms.ValidationError('Invalid name, access code or PIN')
+                raise forms.ValidationError('Invalid name, class access code or password')
 
             student = students[0]
-            user = authenticate(username=student.user.user.username, password=PIN)
+            user = authenticate(username=student.user.user.username, password=password)
 
             if user is None:
-                raise forms.ValidationError('Invalid name, access code or PIN')
+                raise forms.ValidationError('Invalid name, class access code or password')
             if not user.is_active:
-                raise forms.ValidationError('User account has been deactivated')
+                raise forms.ValidationError('This user account has been deactivated')
 
             self.student = student
             self.user = user

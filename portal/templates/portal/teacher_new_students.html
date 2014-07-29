@@ -1,0 +1,51 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>[ code ] for { life }</h1>
+</header>
+
+<h3>New students created</h3>
+
+<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of their temporary passwords to prevent having to generate a new set of passwords for these students.</p>
+
+<p>The following students have been created for your class. Their temporary passwords are listed below and will expire in approximately 24 hours. When they log in for the first time, they will be asked to provide a new password. If they do not do this before the temporary password expires, you will have to reset their password to a new temporary password.</p>
+
+<p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
+
+<div class='row'>
+    <div class='small-6 columns'>
+        <table width='100%'>
+            <thead>
+                <th>Name</th>
+                <th>Temporary Password</th>
+            </thead>
+            <tbody>
+                {% for nametoken in namestokens %}
+                    <tr>
+                        <td>{{ nametoken.0 }}</td>
+                        <td>{{ nametoken.1 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
