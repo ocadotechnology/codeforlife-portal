@@ -14,49 +14,113 @@
 {% block content %}
 
 <header>
-    <h1>[ code ] for { life }</h1>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
 </header>
 
 <div class='row'>
-    <div class='small-6 small-centered columns'>
+    {% if teacher.pending_join_request %}
 
-        <div class='panel radius'>
-            <h3>Create a new organisation</h3>
+        <div class='small-6 small-centered columns'>
+            {% if just_joined %}
+                <div class='panel callout radius'>
+                    Your request to join the school/club has been sent successfully.
+                </div>
+            {% endif %}
 
-            <p>Note: this will create a new organisation with you as the administrator (responsible for approving other teachers to join the organisation, etc.). If you wanted to join other teachers at your organisation on Code For Life, please <a href="{% url 'portal.views.home' %}">join an existing organisation</a>.</p>
+            <p>You already have a pending join request.</p>
+            <p>You may only have one at a time, if you wish to join another you must revoke your pending request first.</p>
 
             <form method='post'>
 
                 {% csrf_token %}
 
-                {{ form.non_field_errors }}
-
                 <div class='row'>
                     <div class='small-12 columns'>
-                        {{ form.school.errors }}
-                        {{ form.school }}
-                    </div>
-                </div>
-
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.current_password.errors }}
-                        {{ form.current_password }}
-                    </div>
-                </div>
-
-                <div class='row'>
-                    <div class='small-9 columns'></div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Create'/>
+                        <input type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
                     </div>
                 </div>
 
             </form>
         </div>
 
-    </div>
+    {% else %}
+
+        <div class='small-6 columns'>
+            <div class='panel radius'>
+                <h3>Create a new organisation</h3>
+
+                <p>You will be set up as the administrator of this new organisation and will be responsible for approving other teachers to join the organisation.</p>
+
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ create_form.non_field_errors }}
+
+                    <div class='row'>
+                        <div class='small-12 columns'>
+                            {{ create_form.school.errors }}
+                            {{ create_form.school }}
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='small-12 columns'>
+                            {{ create_form.current_password.errors }}
+                            {{ create_form.current_password }}
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='small-9 columns'></div>
+
+                        <div class='small-3 columns'>
+                            <input type='submit' name='create_organisation' value='Create'/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class='small-6 columns'>
+            <div class='panel radius'>
+                <h3>Join an organisation</h3>
+
+                <p>A request will be sent to the administrator of the organisation who will either accept or deny your request.</p>
+
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ join_form.non_field_errors }}
+
+                    <div class='row'>
+                        <div class='small-12 columns'>
+                            {{ join_form.school.errors }}
+                            {{ join_form.school }}
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='small-9 columns'></div>
+
+                        <div class='small-3 columns'>
+                            <input type='submit' name='join_organisation' value='Create'/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    {% endif %}
 </div>
 
 <footer>

@@ -7,19 +7,19 @@ from captcha.fields import ReCaptchaField
 from models import Student, Class, School
 
 class OrganisationCreationForm(forms.Form):
-    school = forms.CharField(label='Organisation Name', widget=forms.TextInput(attrs={'placeholder': 'Organisation Name'}))
+    school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
     current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
     # captcha = ReCaptchaField()
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super(OrganisationCreationForm, self).__init__(*args, **kwargs)
 
     def clean_school(self):
         school = self.cleaned_data.get('school', None)
 
         if school and School.objects.filter(name=school).exists():
-            raise forms.ValidationError('That organisation name is already in use')
+            raise forms.ValidationError('That school/club name is already in use')
 
         return school
 
@@ -27,6 +27,17 @@ class OrganisationCreationForm(forms.Form):
         current_password = self.cleaned_data.get('current_password', None)
         if not self.user.check_password(current_password):
             raise forms.ValidationError('Your password was incorrect')
+
+class OrganisationJoinForm(forms.Form):
+    school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    
+    def clean_school(self):
+        school = self.cleaned_data.get('school', None)
+
+        if school and not School.objects.filter(name=school).exists():
+            raise forms.ValidationError('That school/club name was not recognised.')
+
+        return school
 
 class TeacherSignupForm(forms.Form):
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))

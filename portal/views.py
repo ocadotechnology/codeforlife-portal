@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -27,25 +27,53 @@ def logout_view(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def create_organisation(request):
+    teacher = request.user.userprofile.teacher
+
+    create_form = OrganisationCreationForm()
+    join_form = OrganisationJoinForm()
+
+    just_joined = False
+
     if request.method == 'POST':
-        form = OrganisationCreationForm(request.user, request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            teacher = request.user.userprofile.teacher
+        if 'create_organisation' in request.POST:
+            create_form = OrganisationCreationForm(request.POST, user=request.user)
+            if create_form.is_valid():
+                school = School.objects.create(
+                    name=create_form.cleaned_data['school'],
+                    admin=teacher)
 
-            school = School.objects.create(
-                name=data['school'],
-                admin=teacher)
+                teacher.school = school
+                teacher.save()
 
-            teacher.school = school
+                return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+
+        elif 'join_organisation' in request.POST:
+            join_form = OrganisationJoinForm(request.POST)
+            if join_form.is_valid():
+                school = get_object_or_404(School, name=join_form.cleaned_data['school'])
+
+                teacher.pending_join_request = school
+                teacher.save()
+
+                send_mail('[ code ] for { life } : School/club join request pending',
+                          'Someone has asked to join your school/club, please go to ' +
+                              '###manage_organisation link here###' +
+                              ' to view the pending join request.',
+                          'code4life@main.com',
+                          [school.admin.user.user.email])
+
+                just_joined = True
+
+        elif 'revoke_join_request' in request.POST:
+            teacher.pending_join_request = None
             teacher.save()
 
-            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
-
-    else:
-        form = OrganisationCreationForm(request.user)
-
-    return render(request, 'portal/create_organisation.html', { 'form': form })
+    return render(request, 'portal/create_organisation.html', {
+        'create_form': create_form,
+        'join_form': join_form,
+        'teacher': teacher,
+        'just_joined': just_joined,
+    })
 
 def send_teacher_verification_email(request, teacher):
     verification = TeacherEmailVerification.objects.create(
@@ -136,6 +164,9 @@ def teacher_classes(request):
 
             if not Class.objects.filter(access_code=access_code).exists():
                 return access_code
+
+    if not request.user.userprofile.teacher.school:
+        return HttpResponseRedirect(reverse('portal.views.create_organisation'))
 
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
