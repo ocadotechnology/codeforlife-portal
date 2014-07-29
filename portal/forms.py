@@ -213,3 +213,26 @@ class StudentLoginForm(forms.Form):
             self.user = user
 
         return self.cleaned_data
+
+class StudentEditAccountForm(forms.Form):
+    password = forms.CharField(label='New password (optional)', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'New password (optional)'}))
+    confirm_password = forms.CharField(label='Confirm new password', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
+    current_password = forms.CharField(label='Current password', widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))
+    # captcha = ReCaptchaField()
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(StudentEditAccountForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        password = self.cleaned_data.get('password', None)
+        confirm_password = self.cleaned_data.get('confirm_password', None)
+        current_password = self.cleaned_data.get('current_password', None)
+
+        if (password or confirm_password) and password != confirm_password:
+            raise forms.ValidationError('Your new passwords do not match')
+
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError('Your current password was incorrect')
+
+        return self.cleaned_data

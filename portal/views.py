@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -341,3 +341,27 @@ def student_login(request):
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
 def student_details(request):
     return render(request, 'portal/student_details.html')
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
+def student_edit_account(request):
+    student = request.user.userprofile.student
+
+    if request.method == 'POST':
+        form = StudentEditAccountForm(request.user, request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            # check not default value for CharField
+            if (data['password'] != ''):
+                student.user.user.set_password(data['password'])
+                student.user.user.save()
+                update_session_auth_hash(request, form.user)
+
+            return HttpResponseRedirect('?updated=True')
+    else:
+        form = StudentEditAccountForm(request.user)
+
+    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
+    return render(request, 'portal/student_edit_account.html', { 'form': form, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
+    

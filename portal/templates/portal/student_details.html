@@ -27,6 +27,8 @@
 
 <p>You are logged in as {{ user.userprofile.student.name }}, a member of class {{ user.userprofile.student.class_field.name }}.</p>
 
+<p><a href="{% url 'portal.views.student_edit_account' %}">Click here</a> to change your password/edit account details.</p>
+
 <footer>
     <small>Ocado Technology &copy; 2014</small>
 </footer>
