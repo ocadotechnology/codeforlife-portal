@@ -11,10 +11,11 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm
+from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -23,6 +24,8 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('portal.views.home'))
 
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def create_organisation(request):
     if request.method == 'POST':
         form = OrganisationCreationForm(request.user, request.POST)
@@ -123,6 +126,7 @@ def teacher_login(request):
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_classes(request):
     def generate_access_code():
         while True:
@@ -152,6 +156,7 @@ def teacher_classes(request):
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
     def generate_PIN():
         return ''.join(random.choice(string.digits) for _ in range(4))
@@ -192,6 +197,7 @@ def teacher_class(request, pk):
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_edit_account(request):
     teacher = request.user.userprofile.teacher
 
@@ -224,6 +230,7 @@ def teacher_edit_account(request):
     return render(request, 'portal/teacher_edit_account.html', { 'form': form, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_print_reminder_cards(request, pk):
     return HttpResponse('printing reminders')
 
@@ -239,5 +246,6 @@ def student_login(request):
     return render(request, 'portal/student_login.html', { 'form': form })
 
 @login_required(login_url=reverse_lazy('portal.views.student_login'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
 def student_details(request):
     return render(request, 'portal/student_details.html')
