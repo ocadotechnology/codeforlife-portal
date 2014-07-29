@@ -30,6 +30,9 @@ def get_random_username():
         if not User.objects.filter(username=random_username).exists():
             return random_username
 
+def generate_password(length):
+    return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
+
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def create_organisation(request):
@@ -195,9 +198,6 @@ def teacher_classes(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
-    def generate_password(length):
-        return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
-
     klass = get_object_or_404(Class, id=pk)
 
     if request.method == 'POST':
@@ -237,7 +237,8 @@ def teacher_class(request, pk):
         'students': students,
     })
 
-
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_edit_class(request, pk):
     klass = get_object_or_404(Class, id=pk)
 
@@ -255,6 +256,17 @@ def teacher_edit_class(request, pk):
 
     # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
     return render(request, 'portal/teacher_edit_class.html', { 'form': form, 'class': klass, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_student_reset(request, pk):
+    new_password = generate_password(8)
+    students = Student.objects.filter(id=pk)
+    if len(students) == 1:
+        students[0].user.user.set_password(new_password)
+        students[0].user.user.save()
+    return render(request, 'portal/teacher_student_reset.html', { 'student': students[0], 'class': students[0].class_field, 'password': new_password })
+
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))

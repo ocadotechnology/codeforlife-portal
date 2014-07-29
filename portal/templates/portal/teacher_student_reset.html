@@ -1,0 +1,31 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>[ code ] for { life }</h1>
+</header>
+
+<h3>Student Password Reset for {{ student.name }}</h3>
+
+<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of the passwords to prevent having to generate another password.</p>
+
+<p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
+<p>The new password for the above student is: <b>{{ password }}</b></p>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
