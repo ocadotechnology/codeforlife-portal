@@ -132,6 +132,9 @@ class TeacherLoginForm(forms.Form):
 class ClassCreationForm(forms.Form):
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
 
+class ClassEditForm(forms.Form):
+    name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
+
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
 

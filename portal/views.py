@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -23,6 +23,12 @@ def home(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('portal.views.home'))
+
+def get_random_username():
+    while True:
+        random_username = uuid4().hex[:30]  # generate a random username
+        if not User.objects.filter(username=random_username).exists():
+            return random_username
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -93,7 +99,7 @@ def teacher_signup(request):
             data = form.cleaned_data
 
             user = User.objects.create_user(
-                username=uuid4().hex[:30], # generate a random username
+                username=get_random_username(), # generate a random username
                 email=data['email'],
                 password=data['password'],
                 first_name=data['first_name'],
@@ -189,8 +195,8 @@ def teacher_classes(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, pk):
-    def generate_PIN(length):
-        return ''.join(random.choice(string.digits) for _ in range(length))
+    def generate_password(length):
+        return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
 
     klass = get_object_or_404(Class, id=pk)
 
@@ -201,30 +207,24 @@ def teacher_class(request, pk):
             bad_names = []
             for name in form.cleaned_data['names'].splitlines():
                 if name != '':
-                    if Student.objects.filter(class_field=klass, name=name).exists():
-                        bad_names.append(name)
-                    else:
-                        PIN = generate_PIN(4)
-                        names_tokens.append([name, PIN])
-                        print names_tokens
-                        user = User.objects.create_user(
-                            username=uuid4().hex[:30], # generate a random username
-                            password=PIN,
-                            first_name=name)
+                    password = generate_password(8)
+                    names_tokens.append([name, password])
+                    user = User.objects.create_user(
+                        username=get_random_username(),
+                        password=password,
+                        first_name=name)
 
-                        userProfile = UserProfile.objects.create(user=user)
+                    userProfile = UserProfile.objects.create(user=user)
 
-                        student = Student.objects.create(
-                            name=name,
-                            class_field=klass,
-                            user=userProfile,
-                            password_chosen=False,
-                            token_expiry=datetime.datetime.now() + datetime.timedelta(hours=24))
+                    student = Student.objects.create(
+                        name=name,
+                        class_field=klass,
+                        user=userProfile)
 
             form = StudentCreationForm(klass)
             # Check students have been added and redirect to show their tokens
             if len(names_tokens) > 0:
-                return render(request, 'portal/teacher_new_students.html', { 'class': klass, 'namestokens': names_tokens, 'badnames': bad_names })
+                return render(request, 'portal/teacher_new_students.html', { 'class': klass, 'namestokens': names_tokens })
 
     else:
         form = StudentCreationForm(klass)
@@ -236,6 +236,25 @@ def teacher_class(request, pk):
         'class': klass,
         'students': students,
     })
+
+
+def teacher_edit_class(request, pk):
+    klass = get_object_or_404(Class, id=pk)
+
+    if request.method == 'POST':
+        form = ClassEditForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            klass.name = name
+            klass.save()
+            return HttpResponseRedirect('?updated=True')
+    else:
+        form = ClassEditForm(initial={
+            'name': klass.name,
+        })
+
+    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
+    return render(request, 'portal/teacher_edit_class.html', { 'form': form, 'class': klass, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))

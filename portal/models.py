@@ -38,7 +38,6 @@ class Class (models.Model):
     teacher = models.ForeignKey(Teacher, related_name='class_teacher')
     access_code = models.CharField(max_length=5)
 
-
     def __unicode__(self):
         return self.name
 
@@ -63,8 +62,6 @@ class Student (models.Model):
     name = models.CharField(max_length=200)
     class_field = models.ForeignKey(Class, related_name='students')
     user = models.OneToOneField(UserProfile)
-    password_chosen = models.BooleanField(default=False)
-    token_expiry = models.DateTimeField(null=True)
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)

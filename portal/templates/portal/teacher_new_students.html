@@ -19,9 +19,9 @@
 
 <h3>New students created</h3>
 
-<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of their temporary passwords to prevent having to generate a new set of passwords for these students.</p>
+<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of their passwords to prevent having to generate a new set of passwords for these students.</p>
 
-<p>The following students have been created for your class. Their temporary passwords are listed below and will expire in approximately 24 hours. When they log in for the first time, they will be asked to provide a new password. If they do not do this before the temporary password expires, you will have to reset their password to a new temporary password.</p>
+<p>The following students have been created for your class. When they log in for the first time, you may wish them to change to a new password which is more memorable. You will be able to reset these students' passwords at any time.</p>
 
 <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
 
@@ -30,7 +30,7 @@
         <table width='100%'>
             <thead>
                 <th>Name</th>
-                <th>Temporary Password</th>
+                <th>Password</th>
             </thead>
             <tbody>
                 {% for nametoken in namestokens %}

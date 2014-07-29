@@ -29,19 +29,18 @@
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
 
-<h4 style='margin-top: 2em'>Classes / Groups</h4>
-
 <div class='row'>
     <div class='small-6 columns'>
+        <h4>Current Classes</h4>
         <table width='100%'>
             <thead>
-                <th>Group name</th>
+                <th>Class Name</th>
                 <th>Access Code</th>
             </thead>
             <tbody>
                 {% for class in classes %}
                     <tr>
-                        <td><a href="{% url 'portal.views.teacher_class' class.id %}">{{ class.name }}</a></td>
+                        <td><a href="{% url 'portal.views.teacher_class' class.id %}">{{ class.name }}</a> <a href="{% url 'portal.views.teacher_edit_class' class.id %}">(edit)</a></td>
                         <td>{{ class.access_code }}</td>
                     </tr>
                 {% endfor %}
@@ -50,9 +49,9 @@
     </div>
 
     <div class='small-6 columns'>
-        <h4>New Group</h4>
+        <h4>New Class</h4>
 
-        <p>A unique Access Code will be generated for each group.</p>
+        <p>A unique Access Code will be generated for the new class.</p>
 
         <form method='post'>
 
