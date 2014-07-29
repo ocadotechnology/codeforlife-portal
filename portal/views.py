@@ -134,21 +134,43 @@ def organisation_leave(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_kick(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+
+    teacher.school = None
+    teacher.save()
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_transfer(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+    school = teacher.school
+
+    school.admin = teacher
+    school.save()
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_allow_join(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+
+    teacher.school = teacher.pending_join_request
+    teacher.pending_join_request = None
+    teacher.save()
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_deny_join(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+
+    teacher.pending_join_request = None
+    teacher.save()
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 def send_teacher_verification_email(request, teacher):
