@@ -253,3 +253,16 @@ class StudentEditAccountForm(forms.Form):
             raise forms.ValidationError('Your current password was incorrect')
 
         return self.cleaned_data
+
+class TeacherSetStudentPass(forms.Form):
+    password = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={'placeholder': 'New password'}))
+    confirm_password = forms.CharField(label='Confirm new password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
+
+    def clean(self):
+        password = self.cleaned_data.get('password', None)
+        confirm_password = self.cleaned_data.get('confirm_password', None)
+
+        if (password or confirm_password) and password != confirm_password:
+            raise forms.ValidationError('The new passwords do not match')
+
+        return self.cleaned_data

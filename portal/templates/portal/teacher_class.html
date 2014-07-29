@@ -50,7 +50,7 @@
                 {% for student in students %}
                     <tr>
                         <td>{{ student.name }} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">(edit)</a></td>
-                        <td><a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset password)</a></td>
+                        <td><a href="{% url 'portal.views.teacher_student_set' student.id %}">(set)</a> <a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset)</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

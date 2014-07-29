@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -358,6 +358,27 @@ def teacher_student_reset(request, pk):
     student.user.user.set_password(new_password)
     student.user.user.save()
     return render(request, 'portal/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_student_set(request, pk):
+    student = get_object_or_404(Student, id=pk)
+    if request.method == 'POST':
+        form = TeacherSetStudentPass(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            # check not default value for CharField
+            if (data['password'] != ''):
+                student.user.user.set_password(data['password'])
+                student.user.user.save()
+
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk':student.class_field.id}))
+    else:
+        form = TeacherSetStudentPass()
+
+    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
+    return render(request, 'portal/teacher_edit_account.html', { 'form': form, 'student': student})
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))

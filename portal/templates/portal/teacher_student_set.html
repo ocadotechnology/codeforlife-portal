@@ -1,0 +1,66 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+    <div class='panel radius'>
+        <h3>Set password for {{ student.name }}</h3>
+
+        <p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
+
+        <form method='post'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class='row'>
+                <div class='small-12 columns'>
+                    {{ form.password.errors }}
+                    {{ form.password }}
+                </div>
+            </div>
+
+            <div class='row'>
+                <div class='small-12 columns'>
+                    {{ form.confirm_password.errors }}
+                    {{ form.confirm_password }}
+                </div>
+            </div>
+
+            <div class='row'>
+                <div class='small-9 columns'></div>
+
+                <div class='small-3 columns'>
+                    <input type='submit' value='Update'/>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
