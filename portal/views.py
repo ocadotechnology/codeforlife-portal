@@ -195,7 +195,7 @@ def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
 
     # check user has authority to accept teacher
-    if request.user.userprofile.teacher != teacher.school.admin:
+    if request.user.userprofile.teacher != request.user.userprofile.teacher.school.admin:
         return HttpResponseNotFound()
 
     teacher.school = teacher.pending_join_request
@@ -211,10 +211,10 @@ def organisation_allow_join(request, pk):
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
 
-    # check user has authority to decline teacher
-    if request.user.userprofile.teacher != teacher.school.admin:
+    # check user has authority to accept teacher
+    if request.user.userprofile.teacher != request.user.userprofile.teacher.school.admin:
         return HttpResponseNotFound()
-
+        
     teacher.pending_join_request = None
     teacher.save()
 
