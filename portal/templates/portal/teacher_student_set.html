@@ -22,41 +22,42 @@
         <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
     </span>
 </header>
+     <div class='small-6 small-centered columns'>
+        <div class='panel radius'>
+            <h3>Set password for {{ student.name }}</h3>
 
-    <div class='panel radius'>
-        <h3>Set password for {{ student.name }}</h3>
+            <p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
 
-        <p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
+            <form method='post'>
 
-        <form method='post'>
+                {% csrf_token %}
 
-            {% csrf_token %}
+                {{ form.non_field_errors }}
 
-            {{ form.non_field_errors }}
-
-            <div class='row'>
-                <div class='small-12 columns'>
-                    {{ form.password.errors }}
-                    {{ form.password }}
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        {{ form.password.errors }}
+                        {{ form.password }}
+                    </div>
                 </div>
-            </div>
 
-            <div class='row'>
-                <div class='small-12 columns'>
-                    {{ form.confirm_password.errors }}
-                    {{ form.confirm_password }}
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        {{ form.confirm_password.errors }}
+                        {{ form.confirm_password }}
+                    </div>
                 </div>
-            </div>
 
-            <div class='row'>
-                <div class='small-9 columns'></div>
+                <div class='row'>
+                    <div class='small-9 columns'></div>
 
-                <div class='small-3 columns'>
-                    <input type='submit' value='Update'/>
+                    <div class='small-3 columns'>
+                        <input type='submit' value='Update'/>
+                    </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 
 <footer>

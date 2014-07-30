@@ -375,7 +375,7 @@ def teacher_student_set(request, pk):
         form = TeacherSetStudentPass()
 
     # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
-    return render(request, 'portal/teacher_edit_account.html', { 'form': form, 'student': student})
+    return render(request, 'portal/teacher_student_set.html', { 'form': form, 'student': student, 'class': student.class_field })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
