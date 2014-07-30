@@ -17,10 +17,20 @@ from django.contrib.auth.views import password_reset
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
-from permissions import logged_in_as_teacher, logged_in_as_student
+from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 
 def home(request):
     return render(request, 'portal/home.html', {})
+
+def current_user(request):
+    u = request.user.userprofile
+    if hasattr(u, 'student'):
+        return HttpResponseRedirect(reverse('portal.views.student_details'))
+    elif hasattr(u, 'teacher'):
+        return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+    else:
+        # default to homepage if something goes wrong
+        return HttpResponseRedirect(reverse('portal.views.home'))
 
 def logout_view(request):
     logout(request)
@@ -195,6 +205,7 @@ def send_teacher_verification_email(request, teacher):
               'code4life@mail.com',
               [teacher.user.user.email])
 
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_signup(request):
     if request.method == 'POST':
         form = TeacherSignupForm(request.POST)
@@ -245,6 +256,7 @@ def teacher_verify_email(request, token):
 
     return HttpResponseRedirect(reverse('portal.views.teacher_login'))
 
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_login(request):
     if request.method == 'POST':
         form = TeacherLoginForm(request.POST)
@@ -328,7 +340,7 @@ def teacher_class(request, pk):
                         user=userProfile)
 
             form = StudentCreationForm(klass)
-            # Check students have been added and redirect to show their tokens
+            # Check students have been added and redirect to show their passwords
             if len(names_tokens) > 0:
                 return render(request, 'portal/teacher_new_students.html', { 'class': klass, 'namestokens': names_tokens })
 
@@ -398,7 +410,6 @@ def teacher_student_set(request, pk):
     else:
         form = TeacherSetStudentPass()
 
-    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
     return render(request, 'portal/teacher_student_set.html', { 'form': form, 'student': student, 'class': student.class_field })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -462,7 +473,6 @@ def teacher_edit_account(request):
             'school': teacher.school,
         })
 
-    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
     return render(request, 'portal/teacher_edit_account.html', { 'form': form })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -470,6 +480,7 @@ def teacher_edit_account(request):
 def teacher_print_reminder_cards(request, pk):
     return HttpResponse('printing reminders')
 
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_login(request):
     if request.method == 'POST':
         form = StudentLoginForm(request.POST)
@@ -502,15 +513,28 @@ def student_edit_account(request):
                 student.user.user.save()
                 update_session_auth_hash(request, form.user)
 
+            # allow individual students to update more
+            if not student.class_field:
+                student.user.user.first_name = data['first_name']
+                student.user.user.last_name = data['last_name']
+                student.user.user.save()
+                name = data['first_name']
+                if data['last_name'] != '':
+                    name = name + ' ' + data['last_name']
+                student.name = name
+                student.save()
+
             messages.success(request, 'Account details changed successfully.')
 
-            return HttpResponseRedirect(reverse('portal.view.student_details'))
+            return HttpResponseRedirect(reverse('portal.views.student_details'))
     else:
-        form = StudentEditAccountForm(request.user)
+        form = StudentEditAccountForm(request.user, initial={
+            'first_name': student.user.user.first_name,
+            'last_name': student.user.user.last_name})
 
-    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
     return render(request, 'portal/student_edit_account.html', { 'form': form })
 
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_signup(request):
     if request.method == 'POST':
         form = StudentSignupForm(request.POST)
@@ -537,6 +561,9 @@ def student_signup(request):
             if (data['email'] != ''):
                 # TODO send verification email etc.
                 print 'TODO send verification email etc.'
+                return HttpResponse("got to verify your email now...")
+            else:
+                login(request, user)
 
             return render(request, 'portal/student_details.html')
 
@@ -545,11 +572,13 @@ def student_signup(request):
 
     return render(request, 'portal/student_signup.html', { 'form': form })
 
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_solo_login(request):
     if request.method == 'POST':
         form = StudentSoloLoginForm(request.POST)
         if form.is_valid():
             student = form.user.userprofile.student
+            # TODO email verification check
             # if not teacher.email_verified:
             #     send_teacher_verification_email(request, teacher)
             #     return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })

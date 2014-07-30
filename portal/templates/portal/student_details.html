@@ -25,7 +25,7 @@
 
 <h3>Welcome</h3>
 
-<p>You are logged in as {{ user.userprofile.student.name }}, a member of class {{ user.userprofile.student.class_field.name }}.</p>
+<p>You are logged in as {{ user.userprofile.student.name }}{% if user.userprofile.student.class_field %}, a member of class {{ user.userprofile.student.class_field.name }}{% endif %}.</p>
 
 <p><a href="{% url 'portal.views.student_edit_account' %}">Click here</a> to change your password/edit account details.</p>
 

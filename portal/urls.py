@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     url(r'^student/account$', 'portal.views.student_edit_account'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-
+    url(r'^user$', 'portal.views.current_user'),
 
     url(r'^user/password/reset/$', 
         'django.contrib.auth.views.password_reset',

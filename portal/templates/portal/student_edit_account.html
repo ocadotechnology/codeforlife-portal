@@ -36,6 +36,21 @@
 
                 {{ form.non_field_errors }}
 
+                {% if not user.userprofile.student.class_field %}
+
+                <div class='row'>
+                    <div class='small-6 columns'>
+                        {{ form.first_name.errors }}
+                        {{ form.first_name }}
+                    </div>
+                    <div class='small-6 columns'>
+                        {{ form.last_name.errors }}
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                {% endif %}
+
                 <div class='row'>
                     <div class='small-12 columns'>
                         {{ form.password.errors }}
