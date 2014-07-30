@@ -25,9 +25,6 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('portal.views.home'))
 
-def teacher_reset(request):
-    password_reset(request, from_email='accounts@codeforlife.eduction')
-
 def get_random_username():
     while True:
         random_username = uuid4().hex[:30]  # generate a random username
