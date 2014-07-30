@@ -246,6 +246,7 @@ class StudentLoginForm(forms.Form):
 class StudentEditAccountForm(forms.Form):
     first_name = forms.CharField(label='First name', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
     last_name = forms.CharField(label='Last name (optional)', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'Last name (optional)'}))
+    email = forms.EmailField(label='Email address (optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Email Address (optional)'}))
     password = forms.CharField(label='New password (optional)', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'New password (optional)'}))
     confirm_password = forms.CharField(label='Confirm new password', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
     current_password = forms.CharField(label='Current password', widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))
@@ -260,6 +261,14 @@ class StudentEditAccountForm(forms.Form):
         if not self.user.userprofile.student.class_field and first_name == '':
             raise forms.ValidationError('This field is required')
         return first_name
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', None)
+
+        if email != '' and email != self.user.userprofile.user.email and User.objects.filter(email=email).exists():
+            raise forms.ValidationError('That email address is already in use')
+
+        return email
 
     def clean(self):
         password = self.cleaned_data.get('password', None)

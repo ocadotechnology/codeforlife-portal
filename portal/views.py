@@ -515,6 +515,7 @@ def student_edit_account(request):
         form = StudentEditAccountForm(request.user, request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            changing_email=False
 
             # check not default value for CharField
             if (data['password'] != ''):
@@ -524,14 +525,28 @@ def student_edit_account(request):
 
             # allow individual students to update more
             if not student.class_field:
+                new_email = data['email']
+                if new_email != '' and new_email != student.user.user.email:
+                    # new email to set and verify
+                    changing_email=True
+                    student.user.user.email = new_email
+                    student.user.awaiting_email_verification = True
+                    send_verification_email(request, student.user)
                 student.user.user.first_name = data['first_name']
                 student.user.user.last_name = data['last_name']
-                student.user.user.save()
+                
                 name = data['first_name']
                 if data['last_name'] != '':
                     name = name + ' ' + data['last_name']
                 student.name = name
+                # save all tables
                 student.save()
+                student.user.save()
+                student.user.user.save()
+
+            if changing_email:
+                logout(request)
+                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
             messages.success(request, 'Account details changed successfully.')
 
@@ -539,7 +554,8 @@ def student_edit_account(request):
     else:
         form = StudentEditAccountForm(request.user, initial={
             'first_name': student.user.user.first_name,
-            'last_name': student.user.user.last_name})
+            'last_name': student.user.user.last_name,
+            'email': student.user.user.email})
 
     return render(request, 'portal/student_edit_account.html', { 'form': form })
 
