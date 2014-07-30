@@ -534,7 +534,7 @@ def student_signup(request):
                 name=name,
                 user=userProfile)
 
-            if (email):
+            if (data['email'] != ''):
                 # TODO send verification email etc.
                 print 'TODO send verification email etc.'
 
