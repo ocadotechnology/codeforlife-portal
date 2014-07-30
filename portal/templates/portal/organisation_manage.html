@@ -40,7 +40,7 @@
                 <td>{{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }}</td>
                 <td>{{ coworker.user.user.email }}</td>
                 {% if is_admin %}
-                    <td><a class='portal_button' href="{% url 'portal.views.organisation_kick' coworker.id %}">Kick</a></td>
+                    <td>{% if coworker.user.user != user %}<a class='portal_button' href="{% url 'portal.views.organisation_kick' coworker.id %}">Kick</a>{% endif %}</td>
                     <td><a class='portal_button' href="{% url 'portal.views.organisation_transfer' coworker.id %}">Transfer</a></td>
                 {% endif %}
             </tr>

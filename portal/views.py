@@ -5,7 +5,7 @@ import datetime
 
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.mail import send_mail, BadHeaderError
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
@@ -149,6 +149,14 @@ def organisation_leave(request):
 def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
 
+    # check not trying to kick self
+    if teacher == request.user.userprofile.teacher:
+        return HttpResponseNotFound()
+
+    # check authorised to kick teacher
+    if teacher.school.admin != request.user.userprofile.teacher:
+        return HttpResponseNotFound()
+
     teacher.school = None
     teacher.save()
 
@@ -162,6 +170,18 @@ def organisation_transfer(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     school = teacher.school
 
+    # check request keeps school managed by coworker
+    if request.user.userprofile.teacher.school != school:
+        return HttpResponseNotFound()
+
+    # check user has authority to change
+    if request.user.userprofile.teacher != school.admin:
+        return HttpResponseNotFound()
+
+    # check not trying to do identity change
+    if request.user.userprofile.teacher == teacher:
+        return HttpResponseNotFound()
+
     school.admin = teacher
     school.save()
 
@@ -173,6 +193,10 @@ def organisation_transfer(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
+
+    # check user has authority to accept teacher
+    if request.user.userprofile.teacher != teacher.school.admin:
+        return HttpResponseNotFound()
 
     teacher.school = teacher.pending_join_request
     teacher.pending_join_request = None
@@ -186,6 +210,10 @@ def organisation_allow_join(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
+
+    # check user has authority to decline teacher
+    if request.user.userprofile.teacher != teacher.school.admin:
+        return HttpResponseNotFound()
 
     teacher.pending_join_request = None
     teacher.save()
@@ -327,6 +355,10 @@ def teacher_classes(request):
 def teacher_class(request, pk):
     klass = get_object_or_404(Class, id=pk)
 
+    # check user authorised to see class
+    if request.user.userprofile.teacher != klass.teacher:
+        return HttpResponseNotFound()
+
     if request.method == 'POST':
         form = StudentCreationForm(klass, request.POST)
         if form.is_valid():
@@ -369,6 +401,10 @@ def teacher_class(request, pk):
 def teacher_edit_class(request, pk):
     klass = get_object_or_404(Class, id=pk)
 
+    # check user authorised to see class
+    if request.user.userprofile.teacher != klass.teacher:
+        return HttpResponseNotFound()
+
     if request.method == 'POST':
         form = ClassEditForm(request.POST)
         if form.is_valid():
@@ -392,8 +428,13 @@ def teacher_edit_class(request, pk):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_student_reset(request, pk):
-    new_password = generate_password(8)
     student = get_object_or_404(Student, id=pk)
+
+    # check user is authorised to edit student
+    if request.user.userprofile.teacher != student.class_field.teacher:
+        return HttpResponseNotFound()
+
+    new_password = generate_password(8)
     student.user.user.set_password(new_password)
     student.user.user.save()
 
@@ -403,6 +444,11 @@ def teacher_student_reset(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_student_set(request, pk):
     student = get_object_or_404(Student, id=pk)
+
+    # check user is authorised to edit student
+    if request.user.userprofile.teacher != student.class_field.teacher:
+        return HttpResponseNotFound()
+
     if request.method == 'POST':
         form = TeacherSetStudentPass(request.POST)
         if form.is_valid():
@@ -425,6 +471,10 @@ def teacher_student_set(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_edit_student(request, pk):
     student = get_object_or_404(Student, id=pk)
+
+    # check user is authorised to edit student
+    if request.user.userprofile.teacher != student.class_field.teacher:
+        return HttpResponseNotFound()
 
     if request.method == 'POST':
         form = TeacherEditStudentForm(student, request.POST)
