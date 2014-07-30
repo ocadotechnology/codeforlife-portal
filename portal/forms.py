@@ -168,6 +168,18 @@ class TeacherEditStudentForm(forms.Form):
             raise forms.ValidationError('A student already exists with that name in this class')
         return name
 
+class TeacherSetStudentPass(forms.Form):
+    password = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={'placeholder': 'New password'}))
+    confirm_password = forms.CharField(label='Confirm new password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
+
+    def clean(self):
+        password = self.cleaned_data.get('password', None)
+        confirm_password = self.cleaned_data.get('confirm_password', None)
+
+        if (password or confirm_password) and password != confirm_password:
+            raise forms.ValidationError('The new passwords do not match')
+
+        return self.cleaned_data
 
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
@@ -254,15 +266,61 @@ class StudentEditAccountForm(forms.Form):
 
         return self.cleaned_data
 
-class TeacherSetStudentPass(forms.Form):
-    password = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={'placeholder': 'New password'}))
-    confirm_password = forms.CharField(label='Confirm new password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
+class StudentSignupForm(forms.Form):
+    first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
+    last_name = forms.CharField(label='Last name (optional)', required=False, max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name (optional)'}))
+    username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    email = forms.EmailField(label='Email address (optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Email Address (optional)'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password'}))
+    # captcha = ReCaptchaField()
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username', None)
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError('That username is already in use')
+
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', None)
+
+        if email != '' and User.objects.filter(email=email).exists():
+            raise forms.ValidationError('That email address is already in use')
+
+        return email
 
     def clean(self):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
 
-        if (password or confirm_password) and password != confirm_password:
-            raise forms.ValidationError('The new passwords do not match')
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError('Your passwords do not match')
 
         return self.cleaned_data
+
+class StudentSoloLoginForm(forms.Form):
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    # captcha = ReCaptchaField()
+
+    def clean(self):
+        username = self.cleaned_data.get('username', None)
+        password = self.cleaned_data.get('password', None)
+
+        if username and password:
+            students = Student.objects.filter(class_field=None, user__user__username=username)
+            if not students.exists():
+                raise forms.ValidationError('Incorrect username or password')
+
+            user = authenticate(username=username, password=password)
+
+            if user is None:
+                raise forms.ValidationError('Incorrect username or password')
+            if not user.is_active:
+                raise forms.ValidationError('User account has been deactivated')
+
+            self.user = user
+
+        return self.cleaned_data
+

@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
 
 from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from permissions import logged_in_as_teacher, logged_in_as_student
 
 def home(request):
@@ -511,3 +511,55 @@ def student_edit_account(request):
     # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
     return render(request, 'portal/student_edit_account.html', { 'form': form })
 
+def student_signup(request):
+    if request.method == 'POST':
+        form = StudentSignupForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            user = User.objects.create_user(
+                username=data['username'], # use username field for username!
+                email=data['email'],
+                password=data['password'],
+                first_name=data['first_name'],
+                last_name=data['last_name'])
+
+            userProfile = UserProfile.objects.create(user=user)
+
+            name = data['first_name']
+            if data['last_name'] != '':
+                name = name + ' ' + data['last_name']
+
+            student = Student.objects.create(
+                name=name,
+                user=userProfile)
+
+            if (email):
+                # TODO send verification email etc.
+                print 'TODO send verification email etc.'
+
+            return render(request, 'portal/student_details.html')
+
+    else:
+        form = StudentSignupForm()
+
+    return render(request, 'portal/student_signup.html', { 'form': form })
+
+def student_solo_login(request):
+    if request.method == 'POST':
+        form = StudentSoloLoginForm(request.POST)
+        if form.is_valid():
+            student = form.user.userprofile.student
+            # if not teacher.email_verified:
+            #     send_teacher_verification_email(request, teacher)
+            #     return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })
+
+            login(request, form.user)
+            return HttpResponseRedirect(reverse('portal.views.student_details'))
+    else:
+        form = StudentSoloLoginForm()
+
+    return render(request, 'portal/student_solo_login.html', {
+        'form': form,
+        'email_verified': request.GET.get('email_verified', False)
+    })
