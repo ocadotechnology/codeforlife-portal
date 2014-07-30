@@ -27,11 +27,6 @@
     {% if teacher.pending_join_request %}
 
         <div class='small-6 small-centered columns'>
-            {% if just_joined %}
-                <div class='panel callout radius'>
-                    Your request to join the school/club has been sent successfully.
-                </div>
-            {% endif %}
 
             <p>You have a pending join request to '{{ teacher.pending_join_request.name }}'.</p>
             <p>You may only have one at a time, if you wish to join another you must revoke your pending request first.</p>

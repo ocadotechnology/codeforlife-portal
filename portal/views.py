@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -34,15 +35,11 @@ def get_random_username():
 def generate_password(length):
     return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_create(request):
     teacher = request.user.userprofile.teacher
 
     create_form = OrganisationCreationForm()
     join_form = OrganisationJoinForm()
-
-    just_joined = False
 
     if request.method == 'POST':
         if 'create_organisation' in request.POST:
@@ -54,6 +51,8 @@ def organisation_create(request):
 
                 teacher.school = school
                 teacher.save()
+
+                messages.success(request, "The school/club '" + teacher.school.name + "' has been successfully added.")
 
                 return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
 
@@ -72,17 +71,18 @@ def organisation_create(request):
                           'code4life@main.com',
                           [school.admin.user.user.email])
 
-                just_joined = True
+                messages.success(request, 'Your request to join the school/club has been sent successfully.')
 
         elif 'revoke_join_request' in request.POST:
             teacher.pending_join_request = None
             teacher.save()
 
+            messages.success(request, 'Your request to join the school/club has been revoked successfully.')
+
     return render(request, 'portal/organisation_create.html', {
         'create_form': create_form,
         'join_form': join_form,
         'teacher': teacher,
-        'just_joined': just_joined,
     })
 
 def organisation_teacher_view(request, is_admin):
@@ -130,6 +130,8 @@ def organisation_leave(request):
     teacher.school = None
     teacher.save()
 
+    messages.success(request, 'You have successfully left the school/club.')
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -139,6 +141,8 @@ def organisation_kick(request, pk):
 
     teacher.school = None
     teacher.save()
+
+    messages.success(request, 'User has been successfully kicked from school/club.')
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -151,6 +155,8 @@ def organisation_transfer(request, pk):
     school.admin = teacher
     school.save()
 
+    messages.success(request, 'Admin status has been successfully transfered.')
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -162,6 +168,8 @@ def organisation_allow_join(request, pk):
     teacher.pending_join_request = None
     teacher.save()
 
+    messages.success(request, 'User successfully added to school/club.')
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -171,6 +179,8 @@ def organisation_deny_join(request, pk):
 
     teacher.pending_join_request = None
     teacher.save()
+
+    messages.success(request, 'The request to join school/club has been successfully denied.')
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -231,7 +241,9 @@ def teacher_verify_email(request, token):
     teacher.email_verified = True
     teacher.save()
 
-    return HttpResponseRedirect(reverse('portal.views.teacher_login') + '?email_verified=true')
+    messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    return HttpResponseRedirect(reverse('portal.views.teacher_login'))
 
 def teacher_login(request):
     if request.method == 'POST':
@@ -249,7 +261,6 @@ def teacher_login(request):
 
     return render(request, 'portal/teacher_login.html', {
         'form': form,
-        'email_verified': request.GET.get('email_verified', False)
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -264,7 +275,9 @@ def teacher_classes(request):
             if not Class.objects.filter(access_code=access_code).exists():
                 return access_code
 
-    if not request.user.userprofile.teacher.school:
+    teacher = request.user.userprofile.teacher
+
+    if not teacher.school:
         return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
     if request.method == 'POST':
@@ -272,13 +285,16 @@ def teacher_classes(request):
         if form.is_valid():
             klass = Class.objects.create(
                 name=form.cleaned_data['name'],
-                teacher=request.user.userprofile.teacher,
+                teacher=teacher,
                 access_code=generate_access_code())
+
+            messages.success(request, "The class '" + klass.name + "' has been successfully created.")
+            
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'pk': klass.id }))
     else:
         form = ClassCreationForm()
 
-    classes = Class.objects.filter(teacher=request.user.userprofile.teacher)
+    classes = Class.objects.filter(teacher=teacher)
 
     return render(request, 'portal/teacher_classes.html', {
         'form': form,
@@ -338,14 +354,19 @@ def teacher_edit_class(request, pk):
             name = form.cleaned_data['name']
             klass.name = name
             klass.save()
-            return HttpResponseRedirect('?updated=True')
+
+            messages.success(request, 'Class details successfully changed.')
+
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk': klass.id}))
     else:
         form = ClassEditForm(initial={
             'name': klass.name,
         })
 
-    # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
-    return render(request, 'portal/teacher_edit_class.html', { 'form': form, 'class': klass, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
+    return render(request, 'portal/teacher_edit_class.html', {
+        'form': form,
+        'class': klass
+    })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -354,6 +375,7 @@ def teacher_student_reset(request, pk):
     student = get_object_or_404(Student, id=pk)
     student.user.user.set_password(new_password)
     student.user.user.save()
+
     return render(request, 'portal/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -369,6 +391,8 @@ def teacher_student_set(request, pk):
             if (data['password'] != ''):
                 student.user.user.set_password(data['password'])
                 student.user.user.save()
+
+            messages.success(request, 'Student password changed successfully.')
 
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk':student.class_field.id}))
     else:
@@ -391,12 +415,19 @@ def teacher_edit_student(request, pk):
             student.user.user.save()
             student.save()
 
-            return HttpResponseRedirect('?updated=True')
+            messages.success(request, 'Student details changed successfully.')
+
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk':student.class_field.id}))
     else:
         form = TeacherEditStudentForm(student, initial={
             'name': student.name
         })
-    return render(request, 'portal/teacher_edit_student.html', { 'form': form, 'student': student, 'class': student.class_field, 'updated': request.GET.get('updated', False) and not request.method == 'POST' })
+
+    return render(request, 'portal/teacher_edit_student.html', {
+        'form': form,
+        'student': student,
+        'class': student.class_field,
+    })
 
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -420,7 +451,9 @@ def teacher_edit_account(request):
             teacher.user.user.email = data['email']
             teacher.user.user.save()
 
-            return HttpResponseRedirect('?updated=True')
+            messages.success(request, 'Account details changed successfully.')
+
+            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
     else:
         form = TeacherEditAccountForm(request.user, initial={
             'first_name': teacher.user.user.first_name,
@@ -430,7 +463,7 @@ def teacher_edit_account(request):
         })
 
     # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
-    return render(request, 'portal/teacher_edit_account.html', { 'form': form, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
+    return render(request, 'portal/teacher_edit_account.html', { 'form': form })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -469,10 +502,12 @@ def student_edit_account(request):
                 student.user.user.save()
                 update_session_auth_hash(request, form.user)
 
-            return HttpResponseRedirect('?updated=True')
+            messages.success(request, 'Account details changed successfully.')
+
+            return HttpResponseRedirect(reverse('portal.view.student_details'))
     else:
         form = StudentEditAccountForm(request.user)
 
     # make sure form updated flag does not propogate from a successful update to an unsuccessful form update
-    return render(request, 'portal/student_edit_account.html', { 'form': form, 'updated': request.GET.get('updated', False) and not request.method == 'POST'})
+    return render(request, 'portal/student_edit_account.html', { 'form': form })
 
