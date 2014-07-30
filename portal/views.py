@@ -15,7 +15,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
 
-from models import Teacher, UserProfile, School, Class, Student, TeacherEmailVerification
+from models import Teacher, UserProfile, School, Class, Student, EmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 
@@ -194,16 +194,16 @@ def organisation_deny_join(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-def send_teacher_verification_email(request, teacher):
-    verification = TeacherEmailVerification.objects.create(
-        teacher=teacher,
+def send_verification_email(request, userProfile):
+    verification = EmailVerification.objects.create(
+        user=userProfile,
         token=uuid4().hex[:30],
         expiry=datetime.datetime.now() + datetime.timedelta(hours=1))
 
     send_mail('[ code ] for { life } : Email address verification needed',
-              'Please go to ' + request.build_absolute_uri(reverse('portal.views.teacher_verify_email', kwargs={'token': verification.token})) + ' to verifiy your email address',
+              'Please go to ' + request.build_absolute_uri(reverse('portal.views.verify_email', kwargs={'token': verification.token})) + ' to verify your email address',
               'code4life@mail.com',
-              [teacher.user.user.email])
+              [userProfile.user.email])
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_signup(request):
@@ -219,52 +219,61 @@ def teacher_signup(request):
                 first_name=data['first_name'],
                 last_name=data['last_name'])
 
-            userProfile = UserProfile.objects.create(user=user)
+            userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
 
             teacher = Teacher.objects.create(
                 name=data['first_name'] + ' ' + data['last_name'],
                 user=userProfile)
 
-            send_teacher_verification_email(request, teacher)
+            send_verification_email(request, userProfile)
 
-            return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })
+            return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
     else:
         form = TeacherSignupForm()
 
     return render(request, 'portal/teacher_signup.html', { 'form': form })
 
-def teacher_verify_email(request, token):
-    verifications = TeacherEmailVerification.objects.filter(token=token)
+def verify_email(request, token):
+    verifications = EmailVerification.objects.filter(token=token)
 
     if len(verifications) != 1:
-        return render(request, 'portal/teacher_verification_failed.html')
+        return render(request, 'portal/email_verification_failed.html')
 
     verification = verifications[0]
 
     if verification.used or (verification.expiry - timezone.now()) < datetime.timedelta():
-        return render(request, 'portal/teacher_verification_failed.html')
+        return render(request, 'portal/email_verification_failed.html')
 
     verification.used = True
     verification.save()
 
-    teacher = verification.teacher
-    teacher.email_verified = True
-    teacher.save()
+    user = verification.user
+    user.awaiting_email_verification = False
+    user.save()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
-    return HttpResponseRedirect(reverse('portal.views.teacher_login'))
+    if hasattr(user, 'student'):
+        if user.student.class_field:
+            return HttpResponseRedirect(reverse('portal.views.student_login'))
+        else:
+            return HttpResponseRedirect(reverse('portal.views.student_solo_login'))
+    elif hasattr(user, 'teacher'):
+        return HttpResponseRedirect(reverse('portal.views.teacher_login'))
+
+    # default to homepage if something goes wrong
+    return HttpResponseRedirect(reverse('portal.views.home'))
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_login(request):
     if request.method == 'POST':
         form = TeacherLoginForm(request.POST)
         if form.is_valid():
-            teacher = form.user.userprofile.teacher
-            if not teacher.email_verified:
-                send_teacher_verification_email(request, teacher)
-                return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })
+            userProfile = form.user.userprofile
+            if userProfile.awaiting_email_verification:
+                send_verification_email(request, userProfile)
+                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
             login(request, form.user)
             return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
@@ -548,7 +557,7 @@ def student_signup(request):
                 first_name=data['first_name'],
                 last_name=data['last_name'])
 
-            userProfile = UserProfile.objects.create(user=user)
+            userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
 
             name = data['first_name']
             if data['last_name'] != '':
@@ -559,9 +568,8 @@ def student_signup(request):
                 user=userProfile)
 
             if (data['email'] != ''):
-                # TODO send verification email etc.
-                print 'TODO send verification email etc.'
-                return HttpResponse("got to verify your email now...")
+                send_verification_email(request, userProfile)
+                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
             else:
                 login(request, user)
 
@@ -577,11 +585,10 @@ def student_solo_login(request):
     if request.method == 'POST':
         form = StudentSoloLoginForm(request.POST)
         if form.is_valid():
-            student = form.user.userprofile.student
-            # TODO email verification check
-            # if not teacher.email_verified:
-            #     send_teacher_verification_email(request, teacher)
-            #     return render(request, 'portal/teacher_verification_needed.html', { 'teacher': teacher })
+            userProfile = form.user.userprofile
+            if userProfile.awaiting_email_verification:
+                send_verification_email(request, userProfile)
+                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
             login(request, form.user)
             return HttpResponseRedirect(reverse('portal.views.student_details'))

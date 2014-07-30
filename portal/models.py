@@ -9,6 +9,7 @@ class UserProfile (models.Model):
     user = models.OneToOneField(User)
     avatar = models.ImageField(upload_to='static/game/image/avatars/', null=True, blank=True,
                                default='static/game/image/avatars/default-avatar.jpeg')
+    awaiting_email_verification = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
@@ -27,7 +28,6 @@ class Teacher (models.Model):
     user = models.OneToOneField(UserProfile)
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
     pending_join_request = models.ForeignKey(School, related_name='join_request', null=True)
-    email_verified = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
@@ -75,8 +75,8 @@ class Guardian (models.Model):
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
 
-class TeacherEmailVerification (models.Model):
-    teacher = models.ForeignKey(Teacher, related_name='email_verifications')
+class EmailVerification (models.Model):
+    user = models.ForeignKey(UserProfile, related_name='email_verifications')
     token = models.CharField(max_length=30)
     expiry = models.DateTimeField()
     used = models.BooleanField(default=False)
