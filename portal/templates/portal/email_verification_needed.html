@@ -1,0 +1,38 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>[ code ] for { life }</h1>
+</header>
+
+<div class='row'>
+    <div class='small-6 small-centered columns'>
+
+        <div class='panel radius'>
+            <h3>We need to verify your email address.</h3>
+
+            <p>An email has been sent to '{{ user.user.email }}', please follow the link within it to verify your email address.</p>
+
+            <p>Once done you may log in.</p>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
