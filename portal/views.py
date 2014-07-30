@@ -459,6 +459,7 @@ def teacher_edit_account(request):
         form = TeacherEditAccountForm(request.user, request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            changing_email=False
 
             # check not default value for CharField
             if (data['password'] != ''):
@@ -468,8 +469,20 @@ def teacher_edit_account(request):
 
             teacher.user.user.first_name = data['first_name']
             teacher.user.user.last_name = data['last_name']
-            teacher.user.user.email = data['email']
+            new_email = data['email']
+            if new_email != '' and new_email != teacher.user.user.email:
+                    # new email to set and verify
+                    changing_email=True
+                    teacher.user.user.email = new_email
+                    teacher.user.awaiting_email_verification = True
+                    send_verification_email(request, teacher.user)
+
+            teacher.user.save()
             teacher.user.user.save()
+
+            if changing_email:
+                logout(request)
+                return render(request, 'portal/email_verification_needed.html', { 'user': teacher.user })
 
             messages.success(request, 'Account details changed successfully.')
 
