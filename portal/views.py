@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.mail import send_mail, BadHeaderError
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib import messages
+from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -18,6 +18,7 @@ from django.contrib.auth.views import password_reset
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
+import emailMessages
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -74,12 +75,19 @@ def organisation_create(request):
                 teacher.pending_join_request = school
                 teacher.save()
 
-                send_mail('[ code ] for { life } : School/club join request pending',
-                          'Someone has asked to join your school/club, please go to ' +
-                              '###manage_organisation link here###' +
-                              ' to view the pending join request.',
+                emailMessage = emailMessages.joinRequestPendingEmail(request, teacher.user.user.email)
+
+                send_mail(emailMessage['subject'],
+                          emailMessage['message'],
                           'code4life@main.com',
                           [school.admin.user.user.email])
+
+                emailMessage = emailMessages.joinRequestSentEmail(school.name)
+
+                send_mail(emailMessage['subject'],
+                          emailMessage['message'],
+                          'code4life@mail.com',
+                          [teacher.user.user.email])
 
                 messages.success(request, 'Your request to join the school/club has been sent successfully.')
 
@@ -154,13 +162,20 @@ def organisation_kick(request, pk):
         return HttpResponseNotFound()
 
     # check authorised to kick teacher
-    if teacher.school.admin != request.user.userprofile.teacher:
+    if not teacher.school or teacher.school.admin != request.user.userprofile.teacher:
         return HttpResponseNotFound()
 
     teacher.school = None
     teacher.save()
 
     messages.success(request, 'User has been successfully kicked from school/club.')
+
+    emailMessage = emailMessages.kickedEmail(request.user.userprofile.teacher.school.name)
+
+    send_mail(emailMessage['subject'],
+              emailMessage['message'],
+              'code4life@mail.com',
+              [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -187,6 +202,13 @@ def organisation_transfer(request, pk):
 
     messages.success(request, 'Admin status has been successfully transfered.')
 
+    emailMessage = emailMessages.transferEmail(teacher.school.name)
+
+    send_mail(emailMessage['subject'],
+              emailMessage['message'],
+              'code4life@mail.com',
+              [teacher.user.user.email])
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -204,6 +226,13 @@ def organisation_allow_join(request, pk):
 
     messages.success(request, 'User successfully added to school/club.')
 
+    emailMessage = emailMessages.joinRequestAcceptedEmail(teacher.school.name)
+
+    send_mail(emailMessage['subject'],
+              emailMessage['message'],
+              'code4life@mail.com',
+              [teacher.user.user.email])
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
@@ -220,6 +249,13 @@ def organisation_deny_join(request, pk):
 
     messages.success(request, 'The request to join school/club has been successfully denied.')
 
+    emailMessage = emailMessages.joinRequestDeniedEmail(request.user.userprofile.teacher.school.name)
+
+    send_mail(emailMessage['subject'],
+              emailMessage['message'],
+              'code4life@mail.com',
+              [teacher.user.user.email])
+
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 def send_verification_email(request, userProfile):
@@ -228,8 +264,10 @@ def send_verification_email(request, userProfile):
         token=uuid4().hex[:30],
         expiry=datetime.datetime.now() + datetime.timedelta(hours=1))
 
-    send_mail('[ code ] for { life } : Email address verification needed',
-              'Please go to ' + request.build_absolute_uri(reverse('portal.views.verify_email', kwargs={'token': verification.token})) + ' to verify your email address',
+    emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
+
+    send_mail(emailMessage['subject'],
+              emailMessage['message'],
               'code4life@mail.com',
               [userProfile.user.email])
 
