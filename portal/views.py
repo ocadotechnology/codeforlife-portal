@@ -14,6 +14,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.colors import black, grey, blue
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
@@ -593,7 +596,71 @@ def teacher_edit_account(request):
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_print_reminder_cards(request, pk):
-    return HttpResponse('printing reminders')
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="somefilename.pdf"'
+
+    p = canvas.Canvas(response, pagesize=A4)
+
+    PAGE_WIDTH, PAGE_HEIGHT = A4
+    CARD_MARGIN = PAGE_WIDTH / 32
+    CARD_PADDING = PAGE_WIDTH / 32
+
+    NUM_X = 2
+    NUM_Y = 4
+    CARDS_PER_PAGE = NUM_X * NUM_Y
+
+    CARD_WIDTH = PAGE_WIDTH / NUM_X
+    CARD_HEIGHT = PAGE_HEIGHT / NUM_Y
+    CARD_INNER_WIDTH = CARD_WIDTH - CARD_MARGIN * 2
+    CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_MARGIN * 2
+
+    COLUMN_WIDTH = CARD_INNER_WIDTH * 0.5
+
+    klass = Class.objects.get(id=pk)
+    students = Student.objects.filter(class_field=pk)
+
+    x = 0
+    y = 0
+
+    for student in students:
+        left = x * PAGE_WIDTH / NUM_X + CARD_MARGIN
+        bottom = PAGE_HEIGHT - (y + 1) * PAGE_HEIGHT / NUM_Y + CARD_MARGIN
+
+        p.setFillColor(black)
+        p.rect(left,
+               bottom,
+               CARD_INNER_WIDTH,
+               CARD_INNER_HEIGHT)
+
+        p.setFont('Helvetica', 12)
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.25, 'Password')
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.44, 'Class Code')
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.63, 'Name')
+
+        p.setFont('Helvetica-Bold', 16)
+        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.25, '__________')
+        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.44, klass.access_code)
+        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.63, student.user.user.first_name)
+
+        p.setFillColor(grey)
+        p.setFont('Helvetica', 18)
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.82, '[ code ] for { life }')
+
+        p.setFillColor(blue)
+        p.setFont('Helvetica', 10)
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.1, 'http://codeforlife.education')
+
+        x = (x + 1) % NUM_X
+        if x == 0:
+            y = (y + 1) % NUM_Y
+            if y == 0:
+                p.showPage()
+
+    if x != 0 or y != 0:
+        p.showPage()
+
+    p.save()
+    return response
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
