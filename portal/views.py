@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 import emailMessages
 
@@ -24,13 +24,16 @@ def home(request):
     return render(request, 'portal/home.html', {})
 
 def current_user(request):
+    if not hasattr(request.user, 'userprofile'):
+        return HttpResponseRedirect(reverse('portal.views.home'))
     u = request.user.userprofile
     if hasattr(u, 'student'):
         return HttpResponseRedirect(reverse('portal.views.student_details'))
     elif hasattr(u, 'teacher'):
         return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
     else:
-        # default to homepage if something goes wrong
+        # default to homepage and logout if something goes wrong
+        logout(request)
         return HttpResponseRedirect(reverse('portal.views.home'))
 
 def logout_view(request):
@@ -243,7 +246,7 @@ def organisation_deny_join(request, pk):
     # check user has authority to accept teacher
     if request.user.userprofile.teacher != request.user.userprofile.teacher.school.admin:
         return HttpResponseNotFound()
-        
+
     teacher.pending_join_request = None
     teacher.save()
 
@@ -363,6 +366,7 @@ def teacher_classes(request):
                 return access_code
 
     teacher = request.user.userprofile.teacher
+    requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     if not teacher.school:
         return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -385,6 +389,7 @@ def teacher_classes(request):
 
     return render(request, 'portal/teacher_classes.html', {
         'form': form,
+        'requests': requests,
         'classes': classes,
     })
 
@@ -590,6 +595,60 @@ def teacher_edit_account(request):
 def teacher_print_reminder_cards(request, pk):
     return HttpResponse('printing reminders')
 
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_accept_student_request(request, pk):
+    student = get_object_or_404(Student, id=pk)
+
+    # check student is awaiting decision on request
+    if not student.pending_class_request:
+        return HttpResponseNotFound()
+
+    # check user (teacher) has authority to accept student
+    if request.user.userprofile.teacher != student.pending_class_request.teacher:
+        return HttpResponseNotFound()
+
+    students = Student.objects.filter(class_field=student.pending_class_request)
+    
+    if request.method == 'POST':
+        form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            student.class_field = student.pending_class_request
+            student.pending_class_request = None
+            student.name = data['name']
+            student.user.user.username = get_random_username()
+            student.user.user.first_name = data['name']
+            student.user.user.last_name = ''
+            student.user.user.email = ''
+            student.save()
+            student.user.user.save()
+            return render(request, 'portal/teacher_added_external_student.html', { 'student': student, 'class': student.class_field })
+    else:
+        form = TeacherAddExternalStudentForm(student.pending_class_request, initial={ 'name': student.user.user.first_name })
+
+    return render(request, 'portal/teacher_add_external_student.html', { 'students': students, 'class': student.pending_class_request, 'student': student, 'form':form })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_reject_student_request(request, pk):
+    student = get_object_or_404(Student, id=pk)
+
+    # check student is awaiting decision on request
+    if not student.pending_class_request:
+        return HttpResponseNotFound()
+
+    # check user (teacher) has authority to reject student
+    if request.user.userprofile.teacher != student.pending_class_request.teacher:
+        return HttpResponseNotFound()
+
+    student.pending_class_request = None
+    student.save()
+
+    messages.success(request, 'Student request successfully rejected.')
+
+    return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_login(request):
     if request.method == 'POST':
@@ -607,7 +666,7 @@ def student_login(request):
 def student_details(request):
     return render(request, 'portal/student_details.html')
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.student_login'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
 def student_edit_account(request):
     student = request.user.userprofile.student
@@ -674,7 +733,8 @@ def student_signup(request):
                 first_name=data['first_name'],
                 last_name=data['last_name'])
 
-            userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+            email_supplied = (data['email'] != '')
+            userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=email_supplied)
 
             name = data['first_name']
             if data['last_name'] != '':
@@ -684,11 +744,12 @@ def student_signup(request):
                 name=name,
                 user=userProfile)
 
-            if (data['email'] != ''):
+            if (email_supplied):
                 send_verification_email(request, userProfile)
                 return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
             else:
-                login(request, user)
+                auth_user = authenticate(username=data['username'], password=data['password'])
+                login(request, auth_user)
 
             return render(request, 'portal/student_details.html')
 
@@ -716,3 +777,26 @@ def student_solo_login(request):
         'form': form,
         'email_verified': request.GET.get('email_verified', False)
     })
+
+@login_required(login_url=reverse_lazy('portal.views.student_login'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
+def student_join_organisation(request):
+    student = request.user.userprofile.student
+    request_form = StudentJoinOrganisationForm()
+    if request.method == 'POST':
+        if 'class_join_request' in request.POST:
+            request_form = StudentJoinOrganisationForm(request.POST)
+            if request_form.is_valid():
+                student.pending_class_request = request_form.klass
+                student.save()
+                messages.success(request, 'Your request to join a school has been received successfully')
+                return HttpResponseRedirect(reverse('portal.views.student_details'))
+        elif 'revoke_join_request' in request.POST:
+            student.pending_class_request = None
+            student.save()
+            # Check teacher hasn't since accepted rejection before posting success message
+            if not student.class_field:
+                messages.success(request, 'Your request to join a school has been cancelled successfully')
+            return HttpResponseRedirect(reverse('portal.views.student_details'))
+
+    return render(request, 'portal/student_join_organisation.html', { 'request_form': request_form, 'student': student })

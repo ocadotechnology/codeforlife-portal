@@ -1,0 +1,75 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+<h3>{{ class.teacher.name }} / {{ class.name }} ({{ class.access_code }})</h3>
+
+
+<div class='row'>
+    <div class='small-6 columns'>
+        <h4>Students currently in class</h4>
+        <table width='100%'>
+            <thead>
+                <th>Student Name</th>
+            </thead>
+            <tbody>
+                {% for currentstudent in students %}
+                    <tr>
+                        <td>{{ currentstudent.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class='small-6 columns'>
+        <h4>Add external student</h4>
+
+        <p>Please confirm the details for adding student with username {{ student.username }} to the class. Remember their name must be unique in the class.</p>
+
+        <form method='POST'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class='row'>
+                <div class='small-9 columns'>
+                    {{ form.name.errors }}
+                    {{ form.name }}
+                </div>
+
+                <div class='small-3 columns'>
+                    <input type='submit' value='Save'/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}

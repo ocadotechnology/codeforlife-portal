@@ -1,0 +1,103 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>[ code ] for { life }</h1>
+</header>
+
+<div class='row'>
+
+    {% if student.pending_class_request %}
+        <div class='small-6 small-centered columns'>
+            <div class='panel radius'>
+                <h3>Join school request pending</h3>
+
+                <p>Your request to join class <b>{{ student.pending_class_request.access_code }}</b> in school <b>{{ student.pending_class_request.teacher.school.name }}</b> is still pending.</p>
+
+                <p>The teacher for that class must review and approve the request to complete the process.</p>
+
+                <p>If successful, the teacher will then contact you with your new login details.</p>
+
+                <p><b>Warning:</b> once the teacher accepts you to their class, this cannot be undone - you cannot later elect to leave a school!</p>
+
+                <p>You may revoke your request now, before the teacher makes their decision:</p>
+
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    <div class='row'>
+                        <div class='small-12 columns'>
+                            <input type='submit' name='revoke_join_request' value="Revoke request to join class"/>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    {% else %}
+        <div class='small-6 small-centered columns'>
+
+            <div class='panel radius'>
+                <h3>Join school</h3>
+
+                <p>If you want to link your Code For Life account with a school or club, ask a teacher from the group for the following information, and submit a request!</p>
+
+                <p><b>Warning:</b> once the teacher accepts you to their class, this cannot be undone - you cannot later elect to leave a school!</p>
+
+                <p>If successful, the teacher will then contact you with your new login details.</p>
+
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ request_form.non_field_errors }}
+
+                    <div class='row'>
+                        <div class='small-12 columns'>
+                            {{ request_form.school.errors }}
+                            {{ request_form.school }}
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='small-12 columns'>
+                            {{ request_form.access_code.errors }}
+                            {{ request_form.access_code }}
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='small-9 columns'></div>
+
+                        <div class='small-3 columns'>
+                            <input type='submit' name='class_join_request' value='Request'/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    {% endif %}
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}

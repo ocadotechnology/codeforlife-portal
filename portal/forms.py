@@ -181,6 +181,20 @@ class TeacherSetStudentPass(forms.Form):
 
         return self.cleaned_data
 
+class TeacherAddExternalStudentForm(forms.Form):
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    
+    def __init__(self, klass, *args, **kwargs):
+        self.klass = klass
+        super(TeacherAddExternalStudentForm, self).__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name=self.cleaned_data.get('name', None)
+        students = Student.objects.filter(class_field=self.klass)
+        if students.filter(name=name).exists():
+            raise forms.ValidationError('A student already exists with that name in this class')
+        return name
+
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
 
@@ -339,5 +353,25 @@ class StudentSoloLoginForm(forms.Form):
 
             self.user = user
 
+        return self.cleaned_data
+
+
+class StudentJoinOrganisationForm(forms.Form):
+    access_code = forms.CharField(label='Class Access Code', widget=forms.TextInput(attrs={'placeholder': 'Class Access Code'}))
+    school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    # captcha = ReCaptchaField()
+
+    def clean(self):
+        access_code = self.cleaned_data.get('access_code', None)
+        school = self.cleaned_data.get('school', None)
+
+        if access_code and school:
+            classes = Class.objects.filter(access_code=access_code)
+            if len(classes) != 1:
+                raise forms.ValidationError('Cannot find the school/club and/or class.')
+            klass = classes[0]
+            if klass.teacher.school.name != school:
+                raise forms.ValidationError('Cannot find the school/club and/or class.')
+            self.klass = klass
         return self.cleaned_data
 
