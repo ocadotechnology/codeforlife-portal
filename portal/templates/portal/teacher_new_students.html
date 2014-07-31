@@ -29,20 +29,28 @@
 
 <p>The following students have been created for your class. When they log in for the first time, you may wish them to change to a new password which is more memorable. You will be able to reset these students' passwords at any time.</p>
 
-<p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
+<div class='row'>
+    <div class='small-9 columns'>
+        <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
+    </div>
+
+    <div class='small-3 columns'>
+        <a class='portal_button' href="{% url 'portal.views.teacher_print_reminder_cards' class.id %}?data={{ query_data }}">Print Reminder Cards</a>
+    </div>
+</div>
 
 <div class='row'>
-    <div class='small-6 columns'>
+    <div class='small-6 small-centered columns'>
         <table width='100%'>
             <thead>
                 <th>Name</th>
                 <th>Password</th>
             </thead>
             <tbody>
-                {% for nametoken in namestokens %}
+                {% for name_token in name_tokens %}
                     <tr>
-                        <td>{{ nametoken.0 }}</td>
-                        <td>{{ nametoken.1 }}</td>
+                        <td>{{ name_token.name }}</td>
+                        <td>{{ name_token.password }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

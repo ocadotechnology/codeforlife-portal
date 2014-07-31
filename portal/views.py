@@ -2,6 +2,7 @@ from uuid import uuid4
 import string
 import random
 import datetime
+import json
 
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
@@ -408,12 +409,12 @@ def teacher_class(request, pk):
     if request.method == 'POST':
         form = StudentCreationForm(klass, request.POST)
         if form.is_valid():
-            names_tokens = []
+            name_tokens = []
             bad_names = []
             for name in form.cleaned_data['names'].splitlines():
                 if name != '':
                     password = generate_password(8)
-                    names_tokens.append([name, password])
+                    name_tokens.append({'name': name, 'password': password})
                     user = User.objects.create_user(
                         username=get_random_username(),
                         password=password,
@@ -428,8 +429,12 @@ def teacher_class(request, pk):
 
             form = StudentCreationForm(klass)
             # Check students have been added and redirect to show their passwords
-            if len(names_tokens) > 0:
-                return render(request, 'portal/teacher_new_students.html', { 'class': klass, 'namestokens': names_tokens })
+            if len(name_tokens) > 0:
+                return render(request, 'portal/teacher_new_students.html', {
+                    'class': klass,
+                    'name_tokens': name_tokens,
+                    'query_data': json.dumps(name_tokens),
+                })
 
     else:
         form = StudentCreationForm(klass)
@@ -601,6 +606,7 @@ def teacher_print_reminder_cards(request, pk):
 
     p = canvas.Canvas(response, pagesize=A4)
 
+    # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
     CARD_MARGIN = PAGE_WIDTH / 32
     CARD_PADDING = PAGE_WIDTH / 32
@@ -617,12 +623,28 @@ def teacher_print_reminder_cards(request, pk):
     COLUMN_WIDTH = CARD_INNER_WIDTH * 0.5
 
     klass = Class.objects.get(id=pk)
-    students = Student.objects.filter(class_field=pk)
 
+    # Work out the data we're going to display, use data from the query string
+    # if given, else display everyone in the class without passwords
+    student_data = []
+
+    if request.GET.get('data', '') != '':
+        student_data = json.loads(request.GET.get('data', '[]'))
+
+    else:
+        students = Student.objects.filter(class_field=pk)
+
+        for student in students:
+            student_data.append({
+                'name': student.user.user.first_name,
+                'password': '__________',
+            })
+
+    # Now draw everything
     x = 0
     y = 0
 
-    for student in students:
+    for student in student_data:
         left = x * PAGE_WIDTH / NUM_X + CARD_MARGIN
         bottom = PAGE_HEIGHT - (y + 1) * PAGE_HEIGHT / NUM_Y + CARD_MARGIN
 
@@ -638,9 +660,9 @@ def teacher_print_reminder_cards(request, pk):
         p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.63, 'Name')
 
         p.setFont('Helvetica-Bold', 16)
-        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.25, '__________')
+        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.25, student['password'])
         p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.44, klass.access_code)
-        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.63, student.user.user.first_name)
+        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.63, student['name'])
 
         p.setFillColor(grey)
         p.setFont('Helvetica', 18)
