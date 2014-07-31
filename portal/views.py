@@ -783,6 +783,10 @@ def student_solo_login(request):
 def student_join_organisation(request):
     student = request.user.userprofile.student
     request_form = StudentJoinOrganisationForm()
+    # check student not managed by a school
+    if student.class_field:
+        return HttpResponseNotFound()
+
     if request.method == 'POST':
         if 'class_join_request' in request.POST:
             request_form = StudentJoinOrganisationForm(request.POST)

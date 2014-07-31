@@ -32,19 +32,27 @@
 
                 <p><b>Warning:</b> once the teacher accepts you to their class, this cannot be undone - you cannot later elect to leave a school!</p>
 
-                <p>You may revoke your request now, before the teacher makes their decision:</p>
+                <p>You may revoke your request now, before the teacher makes their decision.</p>
 
                 <form method='post'>
 
                     {% csrf_token %}
 
                     <div class='row'>
-                        <div class='small-12 columns'>
-                            <input type='submit' name='revoke_join_request' value="Revoke request to join class"/>
+                        <div class='small-3 columns'>
+                            <a class='portal_button' href="{% url 'portal.views.student_details' %}">Back</a>
+                        </div>
+
+                        <div class='small-3 columns'></div>
+
+                        <div class='small-6 columns'>
+                            <input type='submit' name='revoke_join_request' value="Revoke class join request"/>
                         </div>
                     </div>
 
                 </form>
+
+                
 
             </div>
         </div>
@@ -82,7 +90,11 @@
                     </div>
 
                     <div class='row'>
-                        <div class='small-9 columns'></div>
+                        <div class='small-3 columns'>
+                            <a class='portal_button' href="{% url 'portal.views.student_details' %}">Back</a>
+                        </div>
+
+                        <div class='small-3 columns'></div>
 
                         <div class='small-3 columns'>
                             <input type='submit' name='class_join_request' value='Request'/>
