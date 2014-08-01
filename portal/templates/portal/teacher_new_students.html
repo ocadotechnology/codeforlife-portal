@@ -35,7 +35,11 @@
     </div>
 
     <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_print_reminder_cards' class.id %}?data={{ query_data }}">Print Reminder Cards</a>
+        <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.id %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <input type='submit' value='Print Reminder Cards'/>
+        </form>
     </div>
 </div>
 

@@ -628,8 +628,8 @@ def teacher_print_reminder_cards(request, pk):
     # if given, else display everyone in the class without passwords
     student_data = []
 
-    if request.GET.get('data', '') != '':
-        student_data = json.loads(request.GET.get('data', '[]'))
+    if request.method == 'POST':
+        student_data = json.loads(request.POST.get('data', '[]'))
 
     else:
         students = Student.objects.filter(class_field=pk)
