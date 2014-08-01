@@ -17,6 +17,12 @@ Logo
 <a href='{% url 'portal.views.teach' %}'>Teach</a>
 <a href='{% url 'portal.views.play' %}'>Play</a>
 <br /><br />
+
+{% if user.is_authenticated %}
+    Logged in as {{ user.first_name }} {{ user.last_name }}
+    <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+{% endif %}
+
 END HEADER
 <br /><br />
 
@@ -36,7 +42,7 @@ END HEADER
 FOOTER:
 <br /><br />
 <a href='{% url 'portal.views.about' %}'>About Us</a>
-<a href='{% url 'portal.views.about' %}#contact'>Contact Us</a>
+<a href='{% url 'portal.views.about' %}#id_name'>Contact Us</a>
 <a href='{% url 'portal.views.terms' %}'>Terms of Use</a>
 <br /><br />
 Ocado Technology &copy; 2014

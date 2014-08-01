@@ -47,6 +47,7 @@ def about(request):
                       CONTACT_FORM_EMAILS,
                       )
             messages.success(request, 'Your message was sent successfully.')
+            return HttpResponseRedirect('.')
     else:
         contact_form = ContactForm()
 
