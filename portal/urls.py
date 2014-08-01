@@ -8,6 +8,12 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
+
+    url(r'^teach/$', 'portal.views.teach'),
+    url(r'^play/$', 'portal.views.play'),
+    url(r'^about/$', 'portal.views.about'),
+    url(r'^terms/$', 'portal.views.terms'),
+
     url(r'^$', 'portal.views.home'),
     url(r'^logout$', 'portal.views.logout_view'),
     url(r'^organisation/manage$', 'portal.views.organisation_manage'),
@@ -39,7 +45,7 @@ urlpatterns = patterns('',
     url(r'^user$', 'portal.views.current_user'),
     url(r'^user/verify_email/(?P<token>[0-9a-f]+)$', 'portal.views.verify_email'),
 
-    url(r'^user/password/reset/$', 
+    url(r'^user/password/reset/$',
         'django.contrib.auth.views.password_reset',
         {'post_reset_redirect' : '/user/password/reset/done/'},
         name="password_reset"),

@@ -1,11 +1,19 @@
-{% extend 'nuit/base.html' topbar=False leftmenu=False breadcrumbs=False show_user_info=False %}
-
+{% extend 'nuit/base.html' topbar=True leftmenu=False breadcrumbs=False show_user_info=False %}
 {% load compress %}
+{% load static %}
 
-{% block css %}
+{% block top_bar_right_menu %}
+  {% menu_item name='TEACH' link='#' %}
+  {% menu_item name='PLAY' link='#' %}
+  {% menu_item name='SIGN IN' link='#' %}
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
 
 {% block scripts %}
   {{block.super}}
@@ -19,4 +27,17 @@
         ga('send', 'pageview');
 
     </script>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <nav>
+        <ul>
+            <li><a href='#'>About Us</a></li>
+            <li><a href='#'>Contact Us</a></li>
+            <li><a href='#'>Terms of Use</a></li>
+            <li>Ocado Technology &copy; 2014</li>
+        </ul>
+    </nav>
+</footer>
 {% endblock %}

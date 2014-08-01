@@ -24,6 +24,24 @@ from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, T
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 import emailMessages
 
+# New views for GUI
+
+def teach(request):
+    # Needs both login and sign up forms
+    return render(request, 'portal/teach/home.html')
+
+def play(request):
+    # Needs both login and sign up forms
+    return render(request, 'portal/play/home.html')
+
+def about(request):
+    return render(request, 'portal/about.html')
+
+def terms(request):
+    return render(request, 'portal/terms.html')
+
+
+
 def home(request):
     return render(request, 'portal/home.html', {})
 
@@ -384,7 +402,7 @@ def teacher_classes(request):
                 access_code=generate_access_code())
 
             messages.success(request, "The class '" + klass.name + "' has been successfully created.")
-            
+
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'pk': klass.id }))
     else:
         form = ClassCreationForm()
@@ -698,7 +716,7 @@ def teacher_accept_student_request(request, pk):
         return HttpResponseNotFound()
 
     students = Student.objects.filter(class_field=student.pending_class_request)
-    
+
     if request.method == 'POST':
         form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
         if form.is_valid():
@@ -783,7 +801,7 @@ def student_edit_account(request):
                     send_verification_email(request, student.user)
                 student.user.user.first_name = data['first_name']
                 student.user.user.last_name = data['last_name']
-                
+
                 name = data['first_name']
                 if data['last_name'] != '':
                     name = name + ' ' + data['last_name']
