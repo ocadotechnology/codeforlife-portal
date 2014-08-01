@@ -10,27 +10,36 @@
 
 <body>
 
-<pre>
-
 HEADER:
-
+<br /><br />
 Logo
-
+<br /><br />
 <a href='{% url 'portal.views.teach' %}'>Teach</a>
 <a href='{% url 'portal.views.play' %}'>Play</a>
+<br /><br />
+END HEADER
+<br /><br />
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+<br /><br />
+{% endif %}
 
 {% block content %}
 {% endblock content %}
 
+<br /><br />
 FOOTER:
-
+<br /><br />
 <a href='{% url 'portal.views.about' %}'>About Us</a>
 <a href='{% url 'portal.views.about' %}#contact'>Contact Us</a>
 <a href='{% url 'portal.views.terms' %}'>Terms of Use</a>
-
+<br /><br />
 Ocado Technology &copy; 2014
-
-</pre>
 
 </body>
 
