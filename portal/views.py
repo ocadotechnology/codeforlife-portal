@@ -122,7 +122,7 @@ def organisation_create(request):
 
             messages.success(request, 'Your request to join the school/club has been revoked successfully.')
 
-    return render(request, 'portal/organisation_create.html', {
+    return render(request, 'portal/teach/organisation_create.html', {
         'create_form': create_form,
         'join_form': join_form,
         'teacher': teacher,
@@ -145,7 +145,7 @@ def organisation_teacher_view(request, is_admin):
             school.name = form.cleaned_data['name']
             school.save()
 
-    return render(request, 'portal/organisation_manage.html', {
+    return render(request, 'portal/teach/organisation_manage.html', {
         'teacher': teacher,
         'is_admin': is_admin,
         'coworkers': coworkers,
@@ -333,7 +333,7 @@ def teacher_signup(request):
     else:
         form = TeacherSignupForm()
 
-    return render(request, 'portal/teacher_signup.html', { 'form': form })
+    return render(request, 'portal/teach/teacher_signup.html', { 'form': form })
 
 def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
@@ -381,7 +381,7 @@ def teacher_login(request):
     else:
         form = TeacherLoginForm()
 
-    return render(request, 'portal/teacher_login.html', {
+    return render(request, 'portal/teach/teacher_login.html', {
         'form': form,
     })
 
@@ -418,7 +418,7 @@ def teacher_classes(request):
 
     classes = Class.objects.filter(teacher=teacher)
 
-    return render(request, 'portal/teacher_classes.html', {
+    return render(request, 'portal/teach/teacher_classes.html', {
         'form': form,
         'requests': requests,
         'classes': classes,
@@ -457,7 +457,7 @@ def teacher_class(request, access_code):
             form = StudentCreationForm(klass)
             # Check students have been added and redirect to show their passwords
             if len(name_tokens) > 0:
-                return render(request, 'portal/teacher_new_students.html', {
+                return render(request, 'portal/teach/teacher_new_students.html', {
                     'class': klass,
                     'name_tokens': name_tokens,
                     'query_data': json.dumps(name_tokens),
@@ -468,7 +468,7 @@ def teacher_class(request, access_code):
 
     students = Student.objects.filter(class_field=klass)
 
-    return render(request, 'portal/teacher_class.html', {
+    return render(request, 'portal/teach/teacher_class.html', {
         'form': form,
         'class': klass,
         'students': students,
@@ -498,7 +498,7 @@ def teacher_edit_class(request, access_code):
             'name': klass.name,
         })
 
-    return render(request, 'portal/teacher_edit_class.html', {
+    return render(request, 'portal/teach/teacher_edit_class.html', {
         'form': form,
         'class': klass
     })
@@ -516,7 +516,7 @@ def teacher_student_reset(request, pk):
     student.user.user.set_password(new_password)
     student.user.user.save()
 
-    return render(request, 'portal/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
+    return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -543,7 +543,7 @@ def teacher_student_set(request, pk):
     else:
         form = TeacherSetStudentPass()
 
-    return render(request, 'portal/teacher_student_set.html', { 'form': form, 'student': student, 'class': student.class_field })
+    return render(request, 'portal/teach/teacher_student_set.html', { 'form': form, 'student': student, 'class': student.class_field })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -571,7 +571,7 @@ def teacher_edit_student(request, pk):
             'name': student.name
         })
 
-    return render(request, 'portal/teacher_edit_student.html', {
+    return render(request, 'portal/teach/teacher_edit_student.html', {
         'form': form,
         'student': student,
         'class': student.class_field,
@@ -623,7 +623,7 @@ def teacher_edit_account(request):
             'school': teacher.school,
         })
 
-    return render(request, 'portal/teacher_edit_account.html', { 'form': form })
+    return render(request, 'portal/teach/teacher_edit_account.html', { 'form': form })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -739,11 +739,11 @@ def teacher_accept_student_request(request, pk):
             student.user.user.email = ''
             student.save()
             student.user.user.save()
-            return render(request, 'portal/teacher_added_external_student.html', { 'student': student, 'class': student.class_field })
+            return render(request, 'portal/teach/teacher_added_external_student.html', { 'student': student, 'class': student.class_field })
     else:
         form = TeacherAddExternalStudentForm(student.pending_class_request, initial={ 'name': student.user.user.first_name })
 
-    return render(request, 'portal/teacher_add_external_student.html', { 'students': students, 'class': student.pending_class_request, 'student': student, 'form':form })
+    return render(request, 'portal/teach/teacher_add_external_student.html', { 'students': students, 'class': student.pending_class_request, 'student': student, 'form':form })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -775,12 +775,12 @@ def student_login(request):
     else:
         form = StudentLoginForm()
 
-    return render(request, 'portal/student_login.html', { 'form': form })
+    return render(request, 'portal/play/student_login.html', { 'form': form })
 
 @login_required(login_url=reverse_lazy('portal.views.student_login'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
 def student_details(request):
-    return render(request, 'portal/student_details.html')
+    return render(request, 'portal/play/student_details.html')
 
 @login_required(login_url=reverse_lazy('portal.views.student_login'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
@@ -833,7 +833,7 @@ def student_edit_account(request):
             'last_name': student.user.user.last_name,
             'email': student.user.user.email})
 
-    return render(request, 'portal/student_edit_account.html', { 'form': form })
+    return render(request, 'portal/play/student_edit_account.html', { 'form': form })
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_signup(request):
@@ -867,12 +867,12 @@ def student_signup(request):
                 auth_user = authenticate(username=data['username'], password=data['password'])
                 login(request, auth_user)
 
-            return render(request, 'portal/student_details.html')
+            return render(request, 'portal/play/student_details.html')
 
     else:
         form = StudentSignupForm()
 
-    return render(request, 'portal/student_signup.html', { 'form': form })
+    return render(request, 'portal/play/student_signup.html', { 'form': form })
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_solo_login(request):
@@ -889,7 +889,7 @@ def student_solo_login(request):
     else:
         form = StudentSoloLoginForm()
 
-    return render(request, 'portal/student_solo_login.html', {
+    return render(request, 'portal/play/student_solo_login.html', {
         'form': form,
         'email_verified': request.GET.get('email_verified', False)
     })
@@ -919,4 +919,4 @@ def student_join_organisation(request):
                 messages.success(request, 'Your request to join a school has been cancelled successfully')
             return HttpResponseRedirect(reverse('portal.views.student_details'))
 
-    return render(request, 'portal/student_join_organisation.html', { 'request_form': request_form, 'student': student })
+    return render(request, 'portal/play/student_join_organisation.html', { 'request_form': request_form, 'student': student })
