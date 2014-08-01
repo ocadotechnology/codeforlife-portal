@@ -26,6 +26,7 @@
 <div class='row'>
     <div class='small-6 columns'>
         <h3>Welcome, {{ user.first_name }}</h3>
+
     </div>
     <div class='small-3 columns'>
         <a class='portal_button' href="{% url 'portal.views.teacher_edit_account' %}">Manage your account</a>
@@ -86,7 +87,9 @@
     <div class='small-12 columns'>
         <h4>External requests to join your classes</h4>
 
-        <p>The following users made requests to join your classes. If you accept a request, you will be able to choose a name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them like any other student.</p>
+        <p>External/independent students may request to join your classes given a class Access Code from the above table and the school name ({{ user.userprofile.teacher.school.name }}).</p>
+
+        <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them like any other student.</p>
 
         <p><i>To conform to security models, the request user's username, last name, and email will be wiped on successful acceptance, but these details are displayed here to enable positive identification.</i></p>
 
