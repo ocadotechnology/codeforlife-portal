@@ -395,7 +395,7 @@ def teacher_classes(request):
 
             messages.success(request, "The class '" + klass.name + "' has been successfully created.")
             
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'pk': klass.id }))
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'access_code': klass.access_code }))
     else:
         form = ClassCreationForm()
 
@@ -409,8 +409,8 @@ def teacher_classes(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
-def teacher_class(request, pk):
-    klass = get_object_or_404(Class, id=pk)
+def teacher_class(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
@@ -459,8 +459,8 @@ def teacher_class(request, pk):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
-def teacher_edit_class(request, pk):
-    klass = get_object_or_404(Class, id=pk)
+def teacher_edit_class(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
@@ -475,7 +475,7 @@ def teacher_edit_class(request, pk):
 
             messages.success(request, 'Class details successfully changed.')
 
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk': klass.id}))
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': klass.access_code}))
     else:
         form = ClassEditForm(initial={
             'name': klass.name,
@@ -522,7 +522,7 @@ def teacher_student_set(request, pk):
 
             messages.success(request, 'Student password changed successfully.')
 
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk':student.class_field.id}))
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code':student.class_field.access_code}))
     else:
         form = TeacherSetStudentPass()
 
@@ -548,7 +548,7 @@ def teacher_edit_student(request, pk):
 
             messages.success(request, 'Student details changed successfully.')
 
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'pk':student.class_field.id}))
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code':student.class_field.access_code}))
     else:
         form = TeacherEditStudentForm(student, initial={
             'name': student.name
@@ -610,7 +610,7 @@ def teacher_edit_account(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
-def teacher_print_reminder_cards(request, pk):
+def teacher_print_reminder_cards(request, access_code):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="somefilename.pdf"'
 
@@ -632,7 +632,7 @@ def teacher_print_reminder_cards(request, pk):
 
     COLUMN_WIDTH = CARD_INNER_WIDTH * 0.5
 
-    klass = Class.objects.get(id=pk)
+    klass = Class.objects.get(access_code=access_code)
 
     # Work out the data we're going to display, use data from the query string
     # if given, else display everyone in the class without passwords
@@ -642,7 +642,7 @@ def teacher_print_reminder_cards(request, pk):
         student_data = json.loads(request.POST.get('data', '[]'))
 
     else:
-        students = Student.objects.filter(class_field=pk)
+        students = Student.objects.filter(class_field=klass)
 
         for student in students:
             student_data.append({

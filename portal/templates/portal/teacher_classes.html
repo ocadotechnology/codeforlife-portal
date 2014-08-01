@@ -49,7 +49,7 @@
             <tbody>
                 {% for class in classes %}
                     <tr>
-                        <td><a href="{% url 'portal.views.teacher_class' class.id %}">{{ class.name }}</a> <a href="{% url 'portal.views.teacher_edit_class' class.id %}">(edit)</a></td>
+                        <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a> <a href="{% url 'portal.views.teacher_edit_class' class.access_code %}">(edit)</a></td>
                         <td>{{ class.access_code }}</td>
                     </tr>
                 {% endfor %}
