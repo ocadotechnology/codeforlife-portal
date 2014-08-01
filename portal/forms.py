@@ -160,6 +160,15 @@ class ClassCreationForm(forms.Form):
 class ClassEditForm(forms.Form):
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
 
+class ClassMoveForm(forms.Form):
+    new_teacher = forms.ChoiceField(label='Teachers')
+    def __init__(self, teachers, *args, **kwargs):
+        self.teachers = teachers
+        teacher_choices = []
+        for teacher in teachers:
+            teacher_choices.append((teacher.id, teacher.name))
+        super(ClassMoveForm, self).__init__(*args, **kwargs)
+        self.fields['new_teacher'].choices = teacher_choices
 
 class TeacherEditStudentForm(forms.Form):
     name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))

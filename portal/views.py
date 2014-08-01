@@ -20,7 +20,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
@@ -541,6 +541,30 @@ def teacher_class(request, access_code):
         'class': klass,
         'students': students,
     })
+
+@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+def teacher_move_class(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+    teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(user=klass.teacher.user)
+
+    # check user authorised to see class
+    if request.user.userprofile.teacher != klass.teacher:
+        return HttpResponseNotFound()
+
+    if request.method == 'POST':
+        form = ClassMoveForm(teachers, request.POST)
+        if form.is_valid():
+            teacher = form.cleaned_data['new_teacher']
+            klass.teacher = get_object_or_404(Teacher, id=teacher)
+            klass.save()
+
+            messages.success(request, 'The class has been successfully assigned to a different teacher.')
+
+            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+    else:
+        form = ClassMoveForm(teachers)
+    return render(request, 'portal/teacher_move_class.html', { 'form': form, 'class': klass })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))

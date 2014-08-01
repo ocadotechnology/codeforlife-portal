@@ -30,6 +30,14 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
 
 <div class='row'>
+    <div class='small-9 columns'></div>
+    <div class='small-3 columns'>
+        <a class='portal_button' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer class to teacher</a>
+    </div>
+</div>
+
+
+<div class='row'>
     <div class='small-3 columns'>
         <h4>Students</h4>
     </div>
@@ -45,18 +53,21 @@
     <div class='small-6 columns'>
         <table width='100%'>
             <thead>
+                <th></th>
                 <th>Student Name</th>
                 <th>Password</th>
             </thead>
             <tbody>
                 {% for student in students %}
                     <tr>
+                        <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
                         <td>{{ student.name }} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">(edit)</a></td>
                         <td><a href="{% url 'portal.views.teacher_student_set' student.id %}">(set)</a> <a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset)</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <a class='portal_button' href='#' id='moveSelectedStudents'>Move selected</a>
     </div>
 
     <div class='small-6 columns'>
@@ -68,12 +79,12 @@
 
             {% csrf_token %}
 
-            {{ form.non_field_errors }}
+            {{ new_students_form.non_field_errors }}
 
             <div class='row'>
                 <div class='small-9 columns'>
-                    {{ form.names.errors }}
-                    {{ form.names }}
+                    {{ new_students_form.names.errors }}
+                    {{ new_students_form.names }}
                 </div>
 
                 <div class='small-3 columns'>
