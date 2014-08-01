@@ -62,3 +62,9 @@ def transferEmail(schoolName):
         'subject': emailSubjectPrefix() + ' : You have been made the school/club administrator',
         'message': "Admin control of the school/club '" + schoolName + "' has been transfered to you.",
     }
+
+def contactEmail(name, email, message):
+    return {
+        'subject': emailSubjectPrefix() + ' : Contact from Portal',
+        'message': "Contact from portal:\n\nName: {name}\nEmail: {email}\n\n{message}".format(name=name, email=email, message=message),
+    }

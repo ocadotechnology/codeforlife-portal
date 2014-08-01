@@ -32,7 +32,7 @@ class OrganisationCreationForm(forms.Form):
 
 class OrganisationJoinForm(forms.Form):
     school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
-    
+
     def clean_school(self):
         school = self.cleaned_data.get('school', None)
 
@@ -155,7 +155,7 @@ class ClassEditForm(forms.Form):
 
 class TeacherEditStudentForm(forms.Form):
     name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-    
+
     def __init__(self, student, *args, **kwargs):
         self.student = student
         self.klass = student.class_field
@@ -183,7 +183,7 @@ class TeacherSetStudentPass(forms.Form):
 
 class TeacherAddExternalStudentForm(forms.Form):
     name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-    
+
     def __init__(self, klass, *args, **kwargs):
         self.klass = klass
         super(TeacherAddExternalStudentForm, self).__init__(*args, **kwargs)
@@ -375,3 +375,7 @@ class StudentJoinOrganisationForm(forms.Form):
             self.klass = klass
         return self.cleaned_data
 
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
+    message = forms.CharField(label='Message', widget=forms.Textarea(attrs={'placeholder': 'Message'}))

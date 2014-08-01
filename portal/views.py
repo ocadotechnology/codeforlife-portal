@@ -20,8 +20,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, ClassCreationForm, ClassEditForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
+from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
 
 # New views for GUI
@@ -35,7 +36,21 @@ def play(request):
     return render(request, 'portal/play/home.html')
 
 def about(request):
-    return render(request, 'portal/about.html')
+
+    if request.method == 'POST':
+        contact_form = ContactForm(request.POST)
+        if contact_form.is_valid():
+            emailMessage = emailMessages.contactEmail(contact_form.cleaned_data['name'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            send_mail(emailMessage['subject'],
+                      emailMessage['message'],
+                      'code4life@main.com',
+                      CONTACT_FORM_EMAILS,
+                      )
+            messages.success(request, 'Your message was sent successfully.')
+    else:
+        contact_form = ContactForm()
+
+    return render(request, 'portal/about.html', {'form': contact_form})
 
 def terms(request):
     return render(request, 'portal/terms.html')

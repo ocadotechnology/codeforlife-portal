@@ -12,6 +12,10 @@ h2:target { color: red; }
 
 <h2 id='contact'>Contact Us</h2>
 
-Form form form
+<form method='post'>
+    {% csrf_token %}
+    {{form.as_ul}}
+    <input type='submit' value='Send' />
+</form>
 
 {% endblock content %}
