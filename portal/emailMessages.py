@@ -9,6 +9,18 @@ def emailVerificationNeededEmail(request, token):
         'message': 'Please go to ' + request.build_absolute_uri(reverse('portal.views.verify_email', kwargs={'token': token})) + ' to verify your email address',
     }
 
+def emailChangeVerificationEmail(request, token):
+    return {
+        'subject': emailSubjectPrefix() + ' : Email address verification needed',
+        'message': 'You are changing your email, please go to ' + request.build_absolute_uri(reverse('portal.views.verify_email', kwargs={'token': token})) + ' to verify your new email address. If you are not part of codeforlife then please ignore this email.',
+    }
+
+def emailChangeNotificationEmail(request, new_email):
+    return {
+        'subject': emailSubjectPrefix() + ' : Email address changed',
+        'message': "Someone has tried to change the email address of your account to '" + new_email + "'. If this was not you, do something!",
+    }
+
 def joinRequestPendingEmail(request, pendingAddress):
     return {
         'subject': emailSubjectPrefix() + ' : School/club join request pending',

@@ -293,18 +293,35 @@ def organisation_deny_join(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-def send_verification_email(request, userProfile):
+def send_verification_email(request, userProfile, new_email=None):
     verification = EmailVerification.objects.create(
         user=userProfile,
+        email=new_email,
         token=uuid4().hex[:30],
         expiry=datetime.datetime.now() + datetime.timedelta(hours=1))
 
-    emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
+    if new_email:
+        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
 
-    send_mail(emailMessage['subject'],
-              emailMessage['message'],
-              'code4life@mail.com',
-              [userProfile.user.email])
+        send_mail(emailMessage['subject'],
+                  emailMessage['message'],
+                  'code4life@mail.com',
+                  [new_email])
+
+        emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
+
+        send_mail(emailMessage['subject'],
+                  emailMessage['message'],
+                  'code4life@mail.com',
+                  [userProfile.user.email])
+
+    else:
+        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
+
+        send_mail(emailMessage['subject'],
+                  emailMessage['message'],
+                  'code4life@mail.com',
+                  [userProfile.user.email])
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_signup(request):
@@ -352,6 +369,10 @@ def verify_email(request, token):
     user = verification.user
     user.awaiting_email_verification = False
     user.save()
+
+    if verification.email:
+        user.user.email = verification.email
+        user.user.save()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
@@ -601,16 +622,13 @@ def teacher_edit_account(request):
             if new_email != '' and new_email != teacher.user.user.email:
                     # new email to set and verify
                     changing_email=True
-                    teacher.user.user.email = new_email
-                    teacher.user.awaiting_email_verification = True
-                    send_verification_email(request, teacher.user)
+                    send_verification_email(request, teacher.user, new_email)
 
-            teacher.user.save()
             teacher.user.user.save()
 
             if changing_email:
                 logout(request)
-                return render(request, 'portal/email_verification_needed.html', { 'user': teacher.user })
+                return render(request, 'portal/email_verification_needed.html', { 'user': teacher.user, 'email': new_email })
 
             messages.success(request, 'Account details changed successfully.')
 
@@ -805,9 +823,7 @@ def student_edit_account(request):
                 if new_email != '' and new_email != student.user.user.email:
                     # new email to set and verify
                     changing_email=True
-                    student.user.user.email = new_email
-                    student.user.awaiting_email_verification = True
-                    send_verification_email(request, student.user)
+                    send_verification_email(request, student.user, new_email)
                 student.user.user.first_name = data['first_name']
                 student.user.user.last_name = data['last_name']
 
@@ -817,12 +833,11 @@ def student_edit_account(request):
                 student.name = name
                 # save all tables
                 student.save()
-                student.user.save()
                 student.user.user.save()
 
             if changing_email:
                 logout(request)
-                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                return render(request, 'portal/email_verification_needed.html', { 'user': student.user, 'email': new_email })
 
             messages.success(request, 'Account details changed successfully.')
 

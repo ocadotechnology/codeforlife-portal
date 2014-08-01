@@ -79,5 +79,6 @@ class Guardian (models.Model):
 class EmailVerification (models.Model):
     user = models.ForeignKey(UserProfile, related_name='email_verifications')
     token = models.CharField(max_length=30)
+    email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()
     used = models.BooleanField(default=False)

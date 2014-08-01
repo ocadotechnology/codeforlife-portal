@@ -23,7 +23,7 @@
         <div class='panel radius'>
             <h3>We need to verify your email address.</h3>
 
-            <p>An email has been sent to '{{ user.user.email }}', please follow the link within it to verify your email address.</p>
+            <p>An email has been sent to '{% if email %}{{ email }}{% else %}{{ user.user.email }}{% endif %}', please follow the link within it to verify your email address.</p>
 
             <p>Once done you may log in.</p>
         </div>
