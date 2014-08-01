@@ -102,9 +102,6 @@ if os.getenv('DEPLOYMENT', None):
             'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
         }
     }
-    COMPRESS_OFFLINE = True
-    COMPRESS_ROOT = STATIC_ROOT
-    COMPRESS_URL = STATIC_URL
 elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
@@ -121,9 +118,6 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
             'KEY_PREFIX': os.getenv('CACHE_PREFIX'),
         }
     }
-    COMPRESS_OFFLINE = True
-    COMPRESS_ROOT = STATIC_ROOT
-    COMPRESS_URL = STATIC_URL
     # And require login for now
     MIDDLEWARE_CLASSES.append('portal.middleware.loginrequired.LoginRequiredMiddleware')
     # inject the lib folder into the python path

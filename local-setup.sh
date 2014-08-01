@@ -65,8 +65,6 @@ echo 'Doing local setup (syncdb, collectstatic)'
 ./manage.py syncdb
 # collectstatic
 ./manage.py collectstatic --noinput > /dev/null 2>&1
-# compress
-# ./manage.py compress
 # echo starting command
 echo "run 'workon ${VIRTUALENV_NAME}' to activate your virtualenv"
 echo 'then run "./manage.py runserver" to run a local runserver'
