@@ -30,6 +30,13 @@
 <p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
 <p>The new password for the above student is: <b>{{ password }}</b></p>
 
+<div class='row'>
+    <div class='small-3 columns'>
+        <a class='portal_button' href="{% url 'portal.views.teacher_class' class.access_code %}">Return</a>
+    </div>
+    <div class='small-9 columns'></div>
+</div>
+
 <footer>
     <small>Ocado Technology &copy; 2014</small>
 </footer>

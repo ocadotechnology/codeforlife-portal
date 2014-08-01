@@ -35,7 +35,11 @@
     </div>
 
     <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_print_reminder_cards' class.id %}?data={{ query_data }}">Print Reminder Cards</a>
+        <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <input type='submit' value='Print Reminder Cards'/>
+        </form>
     </div>
 </div>
 
@@ -58,10 +62,12 @@
     </div>
 </div>
 
-<div class='small-3 columns'>
-    <a class='portal_button' href="{% url 'portal.views.teacher_class' class.id %}">Return</a>
+<div class='row'>
+    <div class='small-3 columns'>
+        <a class='portal_button' href="{% url 'portal.views.teacher_class' class.access_code %}">Return</a>
+    </div>
+    <div class='small-9 columns'></div>
 </div>
-<div class='small-9 columns'></div>
 
 <footer>
     <small>Ocado Technology &copy; 2014</small>

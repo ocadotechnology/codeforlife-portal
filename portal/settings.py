@@ -90,7 +90,7 @@ SITE_ID = 1
 
 # PRESENTATION LAYER
 
-NUIT_GLOBAL_TITLE = "Rapid Router"
+NUIT_GLOBAL_TITLE = "Code for Life"
 NUIT_GLOBAL_LINK = "/home/"
 
 
@@ -110,32 +110,32 @@ if os.getenv('DEPLOYMENT', None):
     COMPRESS_OFFLINE = True
     COMPRESS_ROOT = STATIC_ROOT
     COMPRESS_URL = STATIC_URL
-# elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
-#     # Running on production App Engine, so use a Google Cloud SQL database.
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'HOST': '/cloudsql/numeric-incline-526:db',
-#             'NAME': os.getenv('DATABASE_NAME'),
-#             'USER': 'root',
-#         }
-#     }
-#     CACHES = {
-#         'default': {
-#             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#             'KEY_PREFIX': os.getenv('CACHE_PREFIX'),
-#         }
-#     }
-#     COMPRESS_OFFLINE = True
-#     COMPRESS_ROOT = STATIC_ROOT
-#     COMPRESS_URL = STATIC_URL
-#     # And require login for now
-#     MIDDLEWARE_CLASSES.append('portal.middleware.loginrequired.LoginRequiredMiddleware')
-#     # inject the lib folder into the python path
-#     import sys
-#     lib_path = os.path.join(os.path.dirname(__file__), 'lib')
-#     if lib_path not in sys.path:
-#         sys.path.append(lib_path)
+elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
+    # Running on production App Engine, so use a Google Cloud SQL database.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '/cloudsql/numeric-incline-526:db',
+            'NAME': os.getenv('DATABASE_NAME'),
+            'USER': 'root',
+        }
+    }
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'KEY_PREFIX': os.getenv('CACHE_PREFIX'),
+        }
+    }
+    COMPRESS_OFFLINE = True
+    COMPRESS_ROOT = STATIC_ROOT
+    COMPRESS_URL = STATIC_URL
+    # And require login for now
+    MIDDLEWARE_CLASSES.append('portal.middleware.loginrequired.LoginRequiredMiddleware')
+    # inject the lib folder into the python path
+    import sys
+    lib_path = os.path.join(os.path.dirname(__file__), 'lib')
+    if lib_path not in sys.path:
+        sys.path.append(lib_path)
 else:
     DATABASES = {
         'default': {
