@@ -152,6 +152,11 @@ def organisation_manage(request):
 def organisation_leave(request):
     teacher = request.user.userprofile.teacher
 
+    # Move all classes of this teacher on to the school admin.
+    for klass in Class.objects.filter(teacher=teacher):
+        klass.teacher = teacher.school.admin
+        klass.save()
+
     teacher.school = None
     teacher.save()
 
@@ -171,6 +176,11 @@ def organisation_kick(request, pk):
     # check authorised to kick teacher
     if not teacher.school or teacher.school.admin != request.user.userprofile.teacher:
         return HttpResponseNotFound()
+
+    # Move all classes of this teacher on to the school admin.
+    for klass in Class.objects.filter(teacher=teacher):
+        klass.teacher = teacher.school.admin
+        klass.save()
 
     teacher.school = None
     teacher.save()
