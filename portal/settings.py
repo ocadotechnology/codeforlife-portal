@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nuit',
     'rest_framework',
     'captcha'
 )
@@ -89,10 +88,6 @@ SITE_ID = 1
 
 
 # PRESENTATION LAYER
-
-NUIT_GLOBAL_TITLE = "Code for Life"
-NUIT_GLOBAL_LINK = "/home/"
-
 
 # Deployment
 
@@ -157,8 +152,3 @@ LOCALE_PATHS = (
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + \
      ('django.core.context_processors.i18n',)
-
-
-# Keep this at the bottom
-from django_autoconfig.autoconfig import configure_settings
-configure_settings(globals())
