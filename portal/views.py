@@ -298,7 +298,7 @@ def send_verification_email(request, userProfile, new_email=None):
         user=userProfile,
         email=new_email,
         token=uuid4().hex[:30],
-        expiry=datetime.datetime.now() + datetime.timedelta(hours=1))
+        expiry=timezone.now() + datetime.timedelta(hours=1))
 
     if new_email:
         emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
