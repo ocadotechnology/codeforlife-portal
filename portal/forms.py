@@ -34,7 +34,9 @@ class OrganisationCreationForm(forms.Form):
 
         if postcode:
             result = PostCoder().get(postcode)
-            if not result:
+            if result:
+                self.postcode_data = result
+            else:
                 raise forms.ValidationError('That postcode was not recognised.')
 
         return postcode

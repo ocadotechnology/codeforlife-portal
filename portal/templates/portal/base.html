@@ -8,6 +8,9 @@
 
     <title>Code for Life Portal</title>
 
+    {% block head %}
+    {% endblock head %}
+
     <script type='text/javascript' src='{% static "js/jquery.js" %}'></script>
 
 </head>
@@ -46,6 +49,7 @@ END HEADER
 FOOTER:
 <br /><br />
 <a href='{% url 'portal.views.about' %}'>About Us</a>
+<a href='{% url 'portal.views.schools_map' %}'>Map</a>
 <a href='{% url 'portal.views.about' %}#id_name'>Contact Us</a>
 <a href='{% url 'portal.views.terms' %}'>Terms of Use</a>
 <br /><br />

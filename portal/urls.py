@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^play/$', 'portal.views.play'),
     url(r'^about/$', 'portal.views.about'),
     url(r'^terms/$', 'portal.views.terms'),
+    url(r'^map/$', 'portal.views.schools_map'),
 
     url(r'^$', 'portal.views.home'),
     url(r'^logout/$', 'portal.views.logout_view'),

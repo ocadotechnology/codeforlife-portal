@@ -57,6 +57,10 @@ def about(request):
 def terms(request):
     return render(request, 'portal/terms.html')
 
+def schools_map(request):
+    schools = School.objects.all()
+    return render(request, 'portal/map.html', { 'schools': schools })
+
 
 
 def home(request):
@@ -130,7 +134,10 @@ def organisation_create(request):
             if create_form.is_valid():
                 school = School.objects.create(
                     name=create_form.cleaned_data['name'],
-                    postcode=create_form.cleaned_data['postcode'])
+                    postcode=create_form.cleaned_data['postcode'],
+                    town=create_form.postcode_data['administrative']['constituency']['title'],
+                    latitude=create_form.postcode_data['geo']['lat'],
+                    longitude=create_form.postcode_data['geo']['lng'])
 
                 teacher.school = school
                 teacher.is_admin = True

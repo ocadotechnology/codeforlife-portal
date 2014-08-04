@@ -1,0 +1,46 @@
+{% extends 'portal/base.html' %}
+
+{% block head %}
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<style type="text/css">
+    html {
+        height: 100%
+    }
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0
+    }
+    #map-canvas {
+        height: 100%
+    }
+</style>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8jA1Fo1v-zy_BpZ24PX-49pRp6ZRvf30"></script>
+
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', function() {
+        var map = new google.maps.Map(document.getElementById("map-canvas"), {
+            center: new google.maps.LatLng(53.830115, -3.80127),
+            zoom: 6
+        });
+
+        {% for school in schools %}
+            new google.maps.Marker({
+                position: new google.maps.LatLng({{ school.latitude }}, {{ school.longitude }}),
+                map: map,
+                title: '{{ school.name }}'
+            });
+        {% endfor %}
+    });
+</script>
+
+{% endblock head %}
+
+{% block content %}
+
+<div id="map-canvas"/>
+
+{% endblock content %}

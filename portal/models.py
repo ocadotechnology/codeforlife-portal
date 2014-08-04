@@ -17,7 +17,10 @@ class UserProfile (models.Model):
 
 class School (models.Model):
     name = models.CharField(max_length=200)
-    postcode = models.CharField(max_length=7)
+    postcode = models.CharField(max_length=10)
+    town = models.CharField(max_length=200)
+    latitude = models.CharField(max_length=20)
+    longitude = models.CharField(max_length=20)
 
     def __unicode__(self):
         return self.name
