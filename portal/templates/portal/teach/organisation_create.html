@@ -6,17 +6,6 @@
 {% block content %}
 
 <script>
-function callAjax(url, callback){
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function(){
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-            callback(JSON.parse(xmlhttp.responseText));
-        }
-    }
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-}
-
 // Here we want to send off an ajax request whenever the user types something
 // but we want it limited to some rate. This method of setting timeouts will
 // unfortunately introduce a delay but it was easy to implement and it ensures
@@ -28,8 +17,8 @@ function updateChosenOrgSelect() {
     if (!timeout_scheduled) {
         timeout_scheduled = true;
         update_timeout = setTimeout(function() {
-            fuzzy_name = document.getElementById('{{ join_form.fuzzy_name.auto_id }}').value;
-            callAjax("{% url 'portal.views.organisation_fuzzy_lookup' %}?fuzzy_name=" + fuzzy_name, function(data) {
+            fuzzy_name = $('#{{ join_form.fuzzy_name.auto_id }}').val();
+            $.getJSON("{% url 'portal.views.organisation_fuzzy_lookup' %}", { fuzzy_name: fuzzy_name }, function(data) {
                 select = document.getElementById('{{ join_form.chosen_org.auto_id }}');
                 select.options.length = 0;
                 for (var i = 0; i < data.length; i++) {
@@ -42,17 +31,14 @@ function updateChosenOrgSelect() {
     }
 }
 
-oldOnload = window.onload;
-window.onload = function() {
-    if (oldOnload) oldOnload();
-
-    fuzzy_name = document.getElementById('{{ join_form.fuzzy_name.auto_id }}');
-    if (fuzzy_name) {
-        fuzzy_name.addEventListener('keydown', updateChosenOrgSelect);
-        fuzzy_name.addEventListener('paste', updateChosenOrgSelect);
-        fuzzy_name.addEventListener('cut', updateChosenOrgSelect);
+$(function() {
+    fuzzy_name = $('#{{ join_form.fuzzy_name.auto_id }}');
+    if (fuzzy_name.length > 0) {
+        fuzzy_name.on('keydown', updateChosenOrgSelect);
+        fuzzy_name.on('paste', updateChosenOrgSelect);
+        fuzzy_name.on('cut', updateChosenOrgSelect);
     }
-};
+});
 </script>
 
 <header>
