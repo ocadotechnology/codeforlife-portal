@@ -503,37 +503,6 @@ def teacher_class(request, access_code):
         return HttpResponseNotFound()
 
     if request.method == 'POST':
-<<<<<<< HEAD
-        form = StudentCreationForm(klass, request.POST)
-        if form.is_valid():
-            name_tokens = []
-            bad_names = []
-            for name in form.cleaned_data['names'].splitlines():
-                if name != '':
-                    password = generate_password(8)
-                    name_tokens.append({'name': name, 'password': password})
-                    user = User.objects.create_user(
-                        username=get_random_username(),
-                        password=password,
-                        first_name=name)
-
-                    userProfile = UserProfile.objects.create(user=user)
-
-                    student = Student.objects.create(
-                        name=name,
-                        class_field=klass,
-                        user=userProfile)
-
-            form = StudentCreationForm(klass)
-            # Check students have been added and redirect to show their passwords
-            if len(name_tokens) > 0:
-                return render(request, 'portal/teach/teacher_new_students.html', {
-                    'class': klass,
-                    'name_tokens': name_tokens,
-                    'query_data': json.dumps(name_tokens),
-                })
-
-=======
         if 'new_students' in request.POST:
             new_students_form = StudentCreationForm(klass, request.POST)
             if new_students_form.is_valid():
@@ -558,7 +527,7 @@ def teacher_class(request, access_code):
                 new_students_form = StudentCreationForm(klass)
                 # Check students have been added and redirect to show their passwords
                 if len(name_tokens) > 0:
-                    return render(request, 'portal/teacher_new_students.html', {
+                    return render(request, 'portal/teach/teacher_new_students.html', {
                         'class': klass,
                         'name_tokens': name_tokens,
                         'query_data': json.dumps(name_tokens),
@@ -570,17 +539,11 @@ def teacher_class(request, access_code):
                     transfer_students.append({'name': student.name, 'id': student.id})
             # request.POST['transfer_students'] = json.dumps(transfer_students)
             return HttpResponseRedirect(reverse('portal.views.teacher_move_students', kwargs={ 'access_code': klass.access_code }))
->>>>>>> Some work towards transferring students between classes
     else:
         new_students_form = StudentCreationForm(klass)
 
-<<<<<<< HEAD
     return render(request, 'portal/teach/teacher_class.html', {
-        'form': form,
-=======
-    return render(request, 'portal/teacher_class.html', {
         'new_students_form': new_students_form,
->>>>>>> Some work towards transferring students between classes
         'class': klass,
         'students': students,
     })
@@ -607,7 +570,7 @@ def teacher_move_class(request, access_code):
             return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
     else:
         form = ClassMoveForm(teachers)
-    return render(request, 'portal/teacher_move_class.html', { 'form': form, 'class': klass })
+    return render(request, 'portal/teach/teacher_move_class.html', { 'form': form, 'class': klass })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -628,7 +591,7 @@ def teacher_move_students(request, access_code):
 
     form = TeacherMoveStudentsDestinationForm(classes)
 
-    return render(request, 'portal/teacher_move_students.html', {'transfer_students': transfer_students, 'old_class': klass, 'form': form})
+    return render(request, 'portal/teach/teacher_move_students.html', {'transfer_students': transfer_students, 'old_class': klass, 'form': form})
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -646,7 +609,7 @@ def teacher_move_students_to_class(request, access_code, new_access_code):
 
     # TODO check all transfer_students are from old_class
 
-    return render(request, 'portal/teacher_move_students_to_class.html', { 'old_class': old_class, 'new_class': new_class, 'new_class_students': new_class_students, 'transfer_students': transfer_students})
+    return render(request, 'portal/teach/teacher_move_students_to_class.html', { 'old_class': old_class, 'new_class': new_class, 'new_class_students': new_class_students, 'transfer_students': transfer_students})
 
     return HttpResponse("Preparing to move students " + transfer_students + " from " + old_class.access_code + " to " + new_class.access_code)
 
