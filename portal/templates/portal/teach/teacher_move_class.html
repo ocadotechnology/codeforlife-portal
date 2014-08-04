@@ -1,0 +1,71 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+<div class='row'>
+
+    <div class='small-6 small-centered columns'>
+
+        <div class='panel radius'>
+            <h3>Move class {{ class.access_code }} ({{ class.name }})</h3>
+
+            <p>Select a new teacher to take over the above class from the list below.</p>
+            <p><b>Warning:</b> This action cannot be undone by you.</p>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class='row'>
+                    <div class='small-12 columns'>
+                        {{ form.new_teacher.errors }}
+                        {{ form.new_teacher }}
+                    </div>
+                </div>
+
+                <div class='row'>
+                    <div class='small-3 columns'>
+                        <a class='portal_button' href="#">Cancel</a>
+                    </div>
+
+                    <div class='small-6 columns'></div>
+
+                    <div class='small-3 columns'>
+                        <input type='submit' value='Update'/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
