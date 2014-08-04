@@ -57,10 +57,16 @@ def kickedEmail(schoolName):
         'message': "You have been kicked from the school/club '" + schoolName + "', to dispute this contact the administrator or that school/club.",
     }
 
-def transferEmail(schoolName):
+def adminGivenEmail(schoolName):
     return {
-        'subject': emailSubjectPrefix() + ' : You have been made the school/club administrator',
-        'message': "Admin control of the school/club '" + schoolName + "' has been transfered to you.",
+        'subject': emailSubjectPrefix() + ' : You have been made a school/club administrator',
+        'message': "Admin control of the school/club '" + schoolName + "' has been given to you.",
+    }
+
+def adminRevokedEmail(schoolName):
+    return {
+        'subject': emailSubjectPrefix() + ' : You are no longer a school/club administrator',
+        'message': "Your admin control of the school/club '" + schoolName + "' has been ervoked.",
     }
 
 def contactEmail(name, email, message):

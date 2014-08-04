@@ -17,7 +17,6 @@ class UserProfile (models.Model):
 
 class School (models.Model):
     name = models.CharField(max_length=200)
-    admin = models.ForeignKey('Teacher', related_name='admin')
     postcode = models.CharField(max_length=7)
 
     def __unicode__(self):
@@ -28,6 +27,7 @@ class Teacher (models.Model):
     name = models.CharField(max_length=200)
     user = models.OneToOneField(UserProfile)
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
+    is_admin = models.BooleanField(default=False)
     pending_join_request = models.ForeignKey(School, related_name='join_request', null=True)
 
     def __unicode__(self):

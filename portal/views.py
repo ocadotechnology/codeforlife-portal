@@ -129,10 +129,10 @@ def organisation_create(request):
             if create_form.is_valid():
                 school = School.objects.create(
                     name=create_form.cleaned_data['name'],
-                    postcode=create_form.cleaned_data['postcode'],
-                    admin=teacher)
+                    postcode=create_form.cleaned_data['postcode'])
 
                 teacher.school = school
+                teacher.is_admin = True
                 teacher.save()
 
                 messages.success(request, "The school/club '" + teacher.school.name + "' has been successfully added.")
@@ -149,10 +149,11 @@ def organisation_create(request):
 
                 emailMessage = emailMessages.joinRequestPendingEmail(request, teacher.user.user.email)
 
-                send_mail(emailMessage['subject'],
-                          emailMessage['message'],
-                          'code4life@main.com',
-                          [school.admin.user.user.email])
+                for admin in Teacher.objects.filter(school=school, is_admin=True):
+                    send_mail(emailMessage['subject'],
+                              emailMessage['message'],
+                              'code4life@main.com',
+                              [admin.user.user.email])
 
                 emailMessage = emailMessages.joinRequestSentEmail(school.name)
 
@@ -206,8 +207,7 @@ def organisation_manage(request):
     teacher = request.user.userprofile.teacher
 
     if teacher.school:
-        is_admin = (teacher.school.admin == teacher)
-        return organisation_teacher_view(request, is_admin)
+        return organisation_teacher_view(request, teacher.is_admin)
 
     else:
         return organisation_create(request)
@@ -233,13 +233,14 @@ def organisation_leave(request):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
+    user = request.user.userprofile.teacher
 
     # check not trying to kick self
     if teacher == request.user.userprofile.teacher:
         return HttpResponseNotFound()
 
     # check authorised to kick teacher
-    if not teacher.school or teacher.school.admin != request.user.userprofile.teacher:
+    if teacher.school != user.school or not user.is_admin:
         return HttpResponseNotFound()
 
     # Move all classes of this teacher on to the school admin.
@@ -263,28 +264,27 @@ def organisation_kick(request, pk):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
-def organisation_transfer(request, pk):
+def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
-    school = teacher.school
-
-    # check request keeps school managed by coworker
-    if request.user.userprofile.teacher.school != school:
-        return HttpResponseNotFound()
+    user = request.user.userprofile.teacher
 
     # check user has authority to change
-    if request.user.userprofile.teacher != school.admin:
+    if teacher.school != user.school or not user.is_admin:
         return HttpResponseNotFound()
 
-    # check not trying to do identity change
-    if request.user.userprofile.teacher == teacher:
+    # check not trying to change self
+    if user == teacher:
         return HttpResponseNotFound()
 
-    school.admin = teacher
-    school.save()
+    teacher.is_admin = not teacher.is_admin
+    teacher.save()
 
-    messages.success(request, 'Admin status has been successfully transfered.')
-
-    emailMessage = emailMessages.transferEmail(teacher.school.name)
+    if teacher.is_admin:
+        messages.success(request, 'Admin status has been successfully given.')
+        emailMessage = emailMessages.adminGivenEmail(teacher.school.name)
+    else:
+        messages.success(request, 'Admin status has been successfully revoked.')
+        emailMessage = emailMessages.adminRevokedEmail(teacher.school.name)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -297,13 +297,15 @@ def organisation_transfer(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
+    user = request.user.userprofile.teacher
 
     # check user has authority to accept teacher
-    if request.user.userprofile.teacher != request.user.userprofile.teacher.school.admin:
+    if teacher.pending_join_request != user.school or not user.is_admin:
         return HttpResponseNotFound()
 
     teacher.school = teacher.pending_join_request
     teacher.pending_join_request = None
+    teacher.is_admin = False
     teacher.save()
 
     messages.success(request, 'User successfully added to school/club.')
@@ -321,9 +323,10 @@ def organisation_allow_join(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
+    user = request.user.userprofile.teacher
 
     # check user has authority to accept teacher
-    if request.user.userprofile.teacher != request.user.userprofile.teacher.school.admin:
+    if teacher.pending_join_request != user.school or not user.is_admin:
         return HttpResponseNotFound()
 
     teacher.pending_join_request = None
