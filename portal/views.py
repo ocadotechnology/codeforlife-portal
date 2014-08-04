@@ -530,7 +530,7 @@ def teacher_classes(request):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
 def teacher_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass)
+    students = Student.objects.filter(class_field=klass).order_by('user__user__first_name')
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
@@ -580,6 +580,7 @@ def teacher_class(request, access_code):
         'new_students_form': new_students_form,
         'class': klass,
         'students': students,
+        'num_students': len(students),
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
