@@ -3,6 +3,15 @@
 
 {% block title %}Code For Life - Portal{% endblock %}
 
+{% block scripts %}
+{{block.super}}
+  <script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>
+    <script>
+      var CLASS_CODE = "{{ class.access_code }}";
+    </script>
+{% endblock %}
+
+
 {% block content %}
 
 <header>
@@ -53,23 +62,26 @@
 
 <div class='row'>
     <div class='small-6 columns'>
-        <table width='100%'>
-            <thead>
-                <th></th>
-                <th>Student Name</th>
-                <th>Password</th>
-            </thead>
-            <tbody>
-                {% for student in students %}
-                    <tr>
-                        <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                        <td>{{ student.name }} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">(edit)</a></td>
-                        <td><a href="{% url 'portal.views.teacher_student_set' student.id %}">(set)</a> <a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset)</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <a class='portal_button' href='#' id='moveSelectedStudents'>Move selected</a>
+
+            {% csrf_token %}
+
+            <table width='100%'>
+                <thead>
+                    <th></th>
+                    <th>Student Name</th>
+                    <th>Password</th>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
+                            <td>{{ student.name }} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">(edit)</a></td>
+                            <td><a href="{% url 'portal.views.teacher_student_set' student.id %}">(set)</a> <a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset)</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button id='moveSelectedStudents'>Move selected</button>
     </div>
 
 

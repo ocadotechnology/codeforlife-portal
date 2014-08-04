@@ -24,7 +24,7 @@
 
             <p>Select a new class for the students.</p>
 
-            <form method='post' action="{% url 'portal.views.teacher_move_students_to_class' old_class.access_code old_class.access_code %}">
+            <form method='post' action="{% url 'portal.views.teacher_move_students_to_class' old_class.access_code %}">
 
                 {% csrf_token %}
 
@@ -46,7 +46,6 @@
 
                     <div class='small-3 columns'>
                         <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
-                        <input type='hidden' name='old_class' value='{{ old_class.id }}'/>
 
                         <input type='submit' value='Continue'/>
                     </div>

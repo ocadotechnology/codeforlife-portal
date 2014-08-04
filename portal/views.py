@@ -1,4 +1,5 @@
 from uuid import uuid4
+from functools import partial, wraps
 import string
 import random
 import datetime
@@ -16,12 +17,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
+from django.forms.formsets import formset_factory
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
@@ -623,8 +625,8 @@ def teacher_move_students(request, access_code):
     if request.user.userprofile.teacher != klass.teacher:
         return HttpResponseNotFound()
 
-    transfer_students = json.loads(request.POST.get('transfer_students', '[]'))
-
+    transfer_students = request.POST.get('transfer_students', '[]')
+    
     # get teachers in the same school
     teachers = Teacher.objects.filter(school=klass.teacher.school)
 
@@ -637,23 +639,59 @@ def teacher_move_students(request, access_code):
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
-def teacher_move_students_to_class(request, access_code, new_access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
-
+def teacher_move_students_to_class(request, access_code):
+    old_class = get_object_or_404(Class, access_code=access_code)
+    new_class_id = request.POST.get('new_class', None)
+    new_class = get_object_or_404(Class, id=new_class_id)
+    
     # check user is authorised to deal with class
-    if request.user.userprofile.teacher != klass.teacher:
+    if request.user.userprofile.teacher != old_class.teacher:
         return HttpResponseNotFound()
 
-    transfer_students = json.loads(request.POST.get('transfer_students', '[]'))
-    old_class = get_object_or_404(Class, id=request.POST.get('old_class', None))
-    new_class = get_object_or_404(Class, id=request.POST.get('new_class', None))
+    # check teacher authorised to transfer to new class
+    if request.user.userprofile.teacher.school != new_class.teacher.school:
+        return HttpResponseNotFound()
+
+    transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
+    
+    # get student objects for students to be transferred, confirming they are in the old class still
+    transfer_students = []
+    for i in transfer_students_ids:
+        transfer_students.append(get_object_or_404(Student, id=i, class_field=old_class))
+
+    # get new class' students
     new_class_students = Student.objects.filter(class_field=new_class)
 
-    # TODO check all transfer_students are from old_class
+    TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm, destination=new_class)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
 
-    return render(request, 'portal/teach/teacher_move_students_to_class.html', { 'old_class': old_class, 'new_class': new_class, 'new_class_students': new_class_students, 'transfer_students': transfer_students})
+    if request.method == 'POST':
+        if 'submit_disambiguation' in request.POST:
+            formset = TeacherMoveStudentDisambiguationFormSet(request.POST)
+            if formset.is_valid():
+                old_class_students = Student.objects.filter(class_field=old_class)
+                data = formset.cleaned_data
+                print "GOT DATA"
+                print data
+                for name_update in data:
+                    potential_matches = old_class_students.filter(name=name_update['orig_name'])
+                    if len(potential_matches) != 1:
+                        return HttpResponseNotFound()
+                    else:
+                        student = potential_matches[0]
+                        student.name = name_update['name']
+                        student.class_field = new_class
+                        student.user.user.first_name = name_update['name']
+                        student.save()
+                        student.user.user.save()
 
-    return HttpResponse("Preparing to move students " + transfer_students + " from " + old_class.access_code + " to " + new_class.access_code)
+                messages.success(request, 'Students successfully transferred')
+                return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': old_class.access_code }))
+        else:
+            formset = TeacherMoveStudentDisambiguationFormSet(initial=[{'orig_name' : student.name, 'name' : student.name } for student in transfer_students])
+    else:
+        formset = TeacherMoveStudentDisambiguationFormSet(initial=[{'orig_name' : student.name, 'name' : student.name } for student in transfer_students])
+
+    return render(request, 'portal/teach/teacher_move_students_to_class.html', { 'formset': formset, 'old_class': old_class, 'new_class': new_class, 'new_class_students': new_class_students, 'transfer_students': transfer_students})
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))

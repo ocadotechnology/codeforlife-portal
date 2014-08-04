@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.forms.formsets import BaseFormSet
 
 from captcha.fields import ReCaptchaField
 
@@ -235,6 +236,37 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
             class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.name))
         super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
         self.fields['new_class'].choices = class_choices
+
+class TeacherMoveStudentDisambiguationForm(forms.Form):
+    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+
+    def __init__(self, destination, *args, **kwargs):
+        self.destination = destination
+        super(TeacherMoveStudentDisambiguationForm, self).__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name', None)
+        students = Student.objects.filter(class_field=self.destination)
+        if students.filter(name=name).exists():
+            raise forms.ValidationError('A student already exists with the name ' + name + ' in this class')
+        return name
+
+class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+
+        names = []
+        for form in self.forms:
+            name = form.cleaned_data['name']
+            names.append(name)
+        duplicates = [name for name, count in Counter(names).items() if count > 1]
+        if len(duplicates) > 0:
+            validationErrors = []
+            for duplicate in duplicates:
+                validationErrors.append(forms.ValidationError('Student name ' + duplicate + ' cannot be used more than once!'))
+            raise forms.ValidationError(validationErrors)
 
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)

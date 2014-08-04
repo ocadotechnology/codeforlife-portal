@@ -41,16 +41,24 @@
 
             {% csrf_token %}
 
-            {{ form.non_field_errors }}
+            {{ formset.management_form }}
 
             <table width='100%'>
                 <thead>
-                    <th>Student Name</th>
+                    <th>Original Student Name</th>
+                    <th>New Student Name</th>
                 </thead>
                 <tbody>
-                    {% for student in transfer_students %}
+                    {{ formset.non_form_errors }}
+                    {% for dict in formset.errors %}
+                        {% for error in dict.values %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endfor %}
+                    {% for form in formset %}
                         <tr>
-                            <td>{{ student.name }}</td>
+                            <td>{{ form.orig_name }}</td>
+                            <td>{{ form.name }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -63,7 +71,8 @@
                 <div class='small-6 columns'></div>
 
                 <div class='small-3 columns'>
-                    <input type='submit' value='Save'/>
+                    <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
+                    <input type='submit' name='submit_disambiguation' value='Save'/>
                 </div>
             </div>
         </form>
