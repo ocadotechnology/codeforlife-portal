@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 from captcha.fields import ReCaptchaField
 
+from postcodes import PostCoder
+
 from models import Student, Class, School
 
 from collections import Counter
@@ -26,6 +28,16 @@ class OrganisationCreationForm(forms.Form):
             raise forms.ValidationError('There is already a school/club registered to that postcode.')
 
         return self.cleaned_data
+
+    def clean_postcode(self):
+        postcode = self.cleaned_data.get('postcode', None)
+
+        if postcode:
+            result = PostCoder().get(postcode)
+            if not result:
+                raise forms.ValidationError('That postcode was not recognised.')
+
+        return postcode
 
     def clean_current_password(self):
         current_password = self.cleaned_data.get('current_password', None)
