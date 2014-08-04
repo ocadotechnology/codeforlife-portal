@@ -212,6 +212,16 @@ class TeacherAddExternalStudentForm(forms.Form):
             raise forms.ValidationError('A student already exists with that name in this class')
         return name
 
+class TeacherMoveStudentsDestinationForm(forms.Form):
+    new_class = forms.ChoiceField(label='Classes')
+    def __init__(self, classes, *args, **kwargs):
+        self.classes = classes
+        class_choices = []
+        for klass in classes:
+            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.name))
+        super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
+        self.fields['new_class'].choices = class_choices
+
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
 

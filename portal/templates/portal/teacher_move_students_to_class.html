@@ -1,0 +1,85 @@
+{% extends 'portal/basenonav.html' %}
+{% load static %}
+{% load compress %}
+
+{% block css %}
+    {{block.super}}
+    {% compress css %}
+    <link rel='stylesheet' type='text/x-scss' href='{% static 'portal/css/portal.scss' %}' />
+    {% endcompress %}
+{% endblock %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+<div class='row'>
+    <div class='small-6 columns'>
+        <h4>Students currently in class</h4>
+        <table width='100%'>
+            <thead>
+                <th>Student Name</th>
+            </thead>
+            <tbody>
+                {% for student in new_class_students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class='small-6 columns'>
+        <h4>Students to transfer</h4>
+
+        <p>Please confirm the details for adding the following students to the class {{ new_class.name }} ({{ new_class.access_code }}) from your class {{ old_class.name }} ({{ old_class.access_code }}). Remember their names must be unique in the new class.</p>
+
+        <form method='POST'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <table width='100%'>
+                <thead>
+                    <th>Student Name</th>
+                </thead>
+                <tbody>
+                    {% for student in transfer_students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class='row'>
+                <div class='small-3 columns'>
+                    <a class='portal_button' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
+                </div>
+
+                <div class='small-6 columns'></div>
+
+                <div class='small-3 columns'>
+                    <input type='submit' value='Save'/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}
