@@ -3,6 +3,7 @@ import string
 import random
 import datetime
 import json
+import re
 
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
@@ -541,7 +542,7 @@ def teacher_class(request, access_code):
             if new_students_form.is_valid():
                 name_tokens = []
                 bad_names = []
-                for name in new_students_form.cleaned_data['names'].splitlines():
+                for name in re.split(';|,|\n', new_students_form.cleaned_data['names']):
                     if name != '':
                         password = generate_password(8)
                         name_tokens.append({'name': name, 'password': password})
