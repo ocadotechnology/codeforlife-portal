@@ -18,6 +18,7 @@ class UserProfile (models.Model):
 class School (models.Model):
     name = models.CharField(max_length=200)
     admin = models.ForeignKey('Teacher', related_name='admin')
+    postcode = models.CharField(max_length=7)
 
     def __unicode__(self):
         return self.name

@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'portal.views.home'),
     url(r'^logout/$', 'portal.views.logout_view'),
+    url(r'^teach/organisation/fuzzy_lookup$', 'portal.views.organisation_fuzzy_lookup'),
     url(r'^teach/organisation/manage/$', 'portal.views.organisation_manage'),
     url(r'^teach/organisation/leave/$', 'portal.views.organisation_leave'),
     url(r'^teach/organisation/kick/(?P<pk>[0-9]+)/$', 'portal.views.organisation_kick'),

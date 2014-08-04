@@ -87,6 +87,36 @@ def get_random_username():
 def generate_password(length):
     return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
 
+def organisation_fuzzy_lookup(request):
+    fuzzy_name = request.GET.get('fuzzy_name', None)
+    school_data = []
+
+    # The idea here is to return all schools that satisfy that each
+    # part of the fuzzy_name (separated by spaces) occurs in either
+    # school.name or school.postcode.
+    # So it is an intersection of unions.
+
+    if fuzzy_name and len(fuzzy_name) > 2:
+        schools = None
+        for part in fuzzy_name.split():
+            regex = r'.*'+part+'.*'
+            name_part = School.objects.filter(name__iregex=regex)
+            postcode_part = School.objects.filter(postcode__iregex=regex)
+
+            if schools:
+                schools = schools & (name_part | postcode_part)
+            else:
+                schools = name_part | postcode_part
+
+        for school in schools:
+            school_data.append({
+                'id': school.id,
+                'name': school.name,
+                'postcode': school.postcode,
+            })
+
+    return HttpResponse(json.dumps(school_data), content_type="application/json")
+
 def organisation_create(request):
     teacher = request.user.userprofile.teacher
 
@@ -98,7 +128,8 @@ def organisation_create(request):
             create_form = OrganisationCreationForm(request.POST, user=request.user)
             if create_form.is_valid():
                 school = School.objects.create(
-                    name=create_form.cleaned_data['school'],
+                    name=create_form.cleaned_data['name'],
+                    postcode=create_form.cleaned_data['postcode'],
                     admin=teacher)
 
                 teacher.school = school
@@ -111,7 +142,7 @@ def organisation_create(request):
         elif 'join_organisation' in request.POST:
             join_form = OrganisationJoinForm(request.POST)
             if join_form.is_valid():
-                school = get_object_or_404(School, name=join_form.cleaned_data['school'])
+                school = get_object_or_404(School, id=join_form.cleaned_data['chosen_org'][0])
 
                 teacher.pending_join_request = school
                 teacher.save()

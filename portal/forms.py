@@ -9,21 +9,23 @@ from models import Student, Class, School
 from collections import Counter
 
 class OrganisationCreationForm(forms.Form):
-    school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
     current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
+    postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
     # captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(OrganisationCreationForm, self).__init__(*args, **kwargs)
 
-    def clean_school(self):
-        school = self.cleaned_data.get('school', None)
+    def clean(self):
+        name = self.cleaned_data.get('name', None)
+        postcode = self.cleaned_data.get('postcode', None)
 
-        if school and School.objects.filter(name=school).exists():
-            raise forms.ValidationError('That school/club name is already in use')
+        if name and postcode and School.objects.filter(name=name, postcode=postcode).exists():
+            raise forms.ValidationError('There is already a school/club registered to that postcode.')
 
-        return school
+        return self.cleaned_data
 
     def clean_current_password(self):
         current_password = self.cleaned_data.get('current_password', None)
@@ -31,32 +33,38 @@ class OrganisationCreationForm(forms.Form):
             raise forms.ValidationError('Your password was incorrect')
 
 class OrganisationJoinForm(forms.Form):
-    school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    fuzzy_name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
 
-    def clean_school(self):
-        school = self.cleaned_data.get('school', None)
+    # Note: the reason this is a CharField rather than a ChoiceField is to avoid having to provide choices
+    # which was problematic given that the options are dynamically generated.
+    chosen_org = forms.CharField(widget=forms.Select())
 
-        if school and not School.objects.filter(name=school).exists():
-            raise forms.ValidationError('That school/club name was not recognised.')
+    def clean_chosen_org(self):
+        chosen_org = self.cleaned_data.get('chosen_org', None)
 
-        return school
+        if chosen_org and not School.objects.filter(id=int(chosen_org)).exists():
+            raise forms.ValidationError('That school/club was not recognised.')
+
+        return chosen_org
 
 class OrganisationEditForm(forms.Form):
     name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
 
     def __init__(self, *args, **kwargs):
         self.current_school = kwargs.pop('current_school', None)
         super(OrganisationEditForm, self).__init__(*args, **kwargs)
 
-    def clean_name(self):
+    def clean(self):
         name = self.cleaned_data.get('name', None)
+        postcode = self.cleaned_data.get('postcode', None)
 
-        if name:
+        if name and postcode:
             schools = School.objects.filter(name=name)
             if schools.exists() and schools[0].id != self.current_school.id:
-                raise forms.ValidationError('That school/club name is already in use')
+                raise forms.ValidationError('There is already a school/club registered to that postcode.')
 
-        return name
+        return self.cleaned_data
 
 class TeacherSignupForm(forms.Form):
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
