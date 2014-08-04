@@ -1,0 +1,68 @@
+{% extends 'portal/teach/base.html' %}
+{% load static %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<header>
+    <span class='left'>
+        <h1>[ code ] for { life }</h1>
+    </span>
+    <span class='right'>
+        Logged in as {{ user.first_name }} {{ user.last_name }}
+        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
+    </span>
+</header>
+
+<div class='row'>
+
+    <div class='small-6 small-centered columns'>
+
+        <div class='panel radius'>
+            <h3>Move all classes</h3>
+
+            <p>Select teachers to take over the classes from the lists below.</p>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {% for class in classes %}
+                    <div class='row'>
+                        <div class='small-6 columns'>
+                            {{ class.name }} ({{ class.access_code }})
+                        </div>
+                        <div class='small-6 columns'>
+                            <select name='{{ class.access_code }}'>
+                                {% for teacher in teachers %}
+                                    <option value='{{ teacher.id }}'>{{ teacher.user.user.first_name }} {{ teacher.user.user.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class='row'>
+                    <div class='small-3 columns'>
+                        <a class='portal_button' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
+                    </div>
+
+                    <div class='small-6 columns'></div>
+
+                    <div class='small-3 columns'>
+                        <input type='submit' value='{{ submit_button_text }}'/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <small>Ocado Technology &copy; 2014</small>
+</footer>
+
+{% endblock %}

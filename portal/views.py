@@ -217,10 +217,25 @@ def organisation_manage(request):
 def organisation_leave(request):
     teacher = request.user.userprofile.teacher
 
-    # Move all classes of this teacher on to the school admin.
-    for klass in Class.objects.filter(teacher=teacher):
-        klass.teacher = teacher.school.admin
-        klass.save()
+    if request.method == 'POST':
+        classes = Class.objects.filter(teacher=teacher)
+        for klass in classes:
+            teacher_id = request.POST.get(klass.access_code, None)
+            if teacher_id:
+                new_teacher = get_object_or_404(Teacher, id=teacher_id)
+                klass.teacher = new_teacher
+                klass.save()
+
+    classes = Class.objects.filter(teacher=teacher)
+    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+
+    if classes.exists():
+        messages.info(request, 'You still have classes, you must first move them to another teacher.')
+        return render(request, 'portal/teach/teacher_move_all_classes.html', {
+            'classes': classes,
+            'teachers': teachers,
+            'submit_button_text': 'Move classes and leave',
+        })
 
     teacher.school = None
     teacher.save()
@@ -236,24 +251,39 @@ def organisation_kick(request, pk):
     user = request.user.userprofile.teacher
 
     # check not trying to kick self
-    if teacher == request.user.userprofile.teacher:
+    if teacher == user:
         return HttpResponseNotFound()
 
     # check authorised to kick teacher
     if teacher.school != user.school or not user.is_admin:
         return HttpResponseNotFound()
 
-    # Move all classes of this teacher on to the school admin.
-    for klass in Class.objects.filter(teacher=teacher):
-        klass.teacher = teacher.school.admin
-        klass.save()
+    if request.method == 'POST':
+        classes = Class.objects.filter(teacher=teacher)
+        for klass in classes:
+            teacher_id = request.POST.get(klass.access_code, None)
+            if teacher_id:
+                new_teacher = get_object_or_404(Teacher, id=teacher_id)
+                klass.teacher = new_teacher
+                klass.save()
+
+    classes = Class.objects.filter(teacher=teacher)
+    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+
+    if classes.exists():
+        messages.info(request, 'This teacher still has classes, you must first move them to another teacher.')
+        return render(request, 'portal/teach/teacher_move_all_classes.html', {
+            'classes': classes,
+            'teachers': teachers,
+            'submit_button_text': 'Move classes and kick',
+        })
 
     teacher.school = None
     teacher.save()
 
     messages.success(request, 'User has been successfully kicked from school/club.')
 
-    emailMessage = emailMessages.kickedEmail(request.user.userprofile.teacher.school.name)
+    emailMessage = emailMessages.kickedEmail(user.school.name)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -483,7 +513,7 @@ def teacher_classes(request):
                 access_code=generate_access_code())
 
             messages.success(request, "The class '" + klass.name + "' has been successfully created.")
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'pk': klass.id }))
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'access_code': klass.access_code }))
     else:
         form = ClassCreationForm()
 
