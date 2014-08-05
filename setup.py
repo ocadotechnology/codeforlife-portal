@@ -3,7 +3,6 @@ setup(name='portal',
       version='1.0',
       packages=find_packages(),
       install_requires=[
-        'https://www.djangoproject.com/download/1.7c1/tarball/',
         'django-appconf==0.6',
         'django-casper==0.0.2',
         'djangorestframework==2.3.9',
