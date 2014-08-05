@@ -158,10 +158,18 @@ class TeacherLoginForm(forms.Form):
 
         if email and password:
             users = User.objects.filter(email=email)
-            if len(users) != 1:
+
+            # Check it's a teacher and not a student using the same email address
+            user = None
+            for result in users:
+                if hasattr(result, 'userprofile') and hasattr(result.userprofile, 'teacher'):
+                    user = result
+                    break
+
+            if user is None:
                 raise forms.ValidationError('Incorrect email address or password')
 
-            user = authenticate(username=users[0].username, password=password)
+            user = authenticate(username=user.username, password=password)
 
             if user is None:
                 raise forms.ValidationError('Incorrect email address or password')
@@ -358,9 +366,8 @@ class StudentLoginForm(forms.Form):
         return self.cleaned_data
 
 class StudentEditAccountForm(forms.Form):
-    first_name = forms.CharField(label='First name', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
-    last_name = forms.CharField(label='Last name (optional)', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'Last name (optional)'}))
-    email = forms.EmailField(label='Email address (optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Email Address (optional)'}))
+    name = forms.CharField(label='Name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
     password = forms.CharField(label='New password (optional)', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'New password (optional)'}))
     confirm_password = forms.CharField(label='Confirm new password', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
     current_password = forms.CharField(label='Current password', widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))
@@ -376,14 +383,6 @@ class StudentEditAccountForm(forms.Form):
             raise forms.ValidationError('This field is required')
         return first_name
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email', None)
-
-        if email != '' and email != self.user.userprofile.user.email and User.objects.filter(email=email).exists():
-            raise forms.ValidationError('That email address is already in use')
-
-        return email
-
     def clean(self):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
@@ -398,10 +397,9 @@ class StudentEditAccountForm(forms.Form):
         return self.cleaned_data
 
 class StudentSignupForm(forms.Form):
-    first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
-    last_name = forms.CharField(label='Last name (optional)', required=False, max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name (optional)'}))
+    name = forms.CharField(label='Name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
-    email = forms.EmailField(label='Email address (optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Email Address (optional)'}))
+    email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password'}))
     # captcha = ReCaptchaField()
@@ -412,14 +410,6 @@ class StudentSignupForm(forms.Form):
             raise forms.ValidationError('That username is already in use')
 
         return username
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email', None)
-
-        if email != '' and User.objects.filter(email=email).exists():
-            raise forms.ValidationError('That email address is already in use')
-
-        return email
 
     def clean(self):
         password = self.cleaned_data.get('password', None)

@@ -19,7 +19,7 @@
 
             <p>Sign up here if you want to go it alone!</p>
 
-            <p>It is not required that you provide an email address (younger people might ask their parent/gaurdian to help!), but if you don't, there is no way to reset your password if you forget it!</p>
+            <p>It is required that you provide an email address (younger people should ask their parent/gaurdian to help!). This is so that you can have the option to reset your password in case you forget it.</p>
 
             <form method='post'>
 
@@ -28,13 +28,9 @@
                 {{ form.non_field_errors }}
 
                 <div class='row'>
-                    <div class='small-6 columns'>
-                        {{ form.first_name.errors }}
-                        {{ form.first_name }}
-                    </div>
-                    <div class='small-6 columns'>
-                        {{ form.last_name.errors }}
-                        {{ form.last_name }}
+                    <div class='small-12 columns'>
+                        {{ form.name.errors }}
+                        {{ form.name }}
                     </div>
                 </div>
 

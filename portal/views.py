@@ -1009,26 +1009,22 @@ def student_edit_account(request):
             # allow individual students to update more
             if not student.class_field:
                 new_email = data['email']
-                if new_email != '' and new_email != student.user.user.email:
+                if new_email != student.user.user.email:
                     # new email to set and verify
                     changing_email=True
                     send_verification_email(request, student.user, new_email)
-                student.user.user.first_name = data['first_name']
-                student.user.user.last_name = data['last_name']
 
-                name = data['first_name']
-                if data['last_name'] != '':
-                    name = name + ' ' + data['last_name']
-                student.name = name
+                student.user.user.first_name = data['name']
+                student.name = data['name']
                 # save all tables
                 student.save()
                 student.user.user.save()
 
+            messages.success(request, 'Account details changed successfully.')
+
             if changing_email:
                 logout(request)
                 return render(request, 'portal/email_verification_needed.html', { 'user': student.user, 'email': new_email })
-
-            messages.success(request, 'Account details changed successfully.')
 
             return HttpResponseRedirect(reverse('portal.views.student_details'))
     else:
@@ -1050,18 +1046,13 @@ def student_signup(request):
                 username=data['username'], # use username field for username!
                 email=data['email'],
                 password=data['password'],
-                first_name=data['first_name'],
-                last_name=data['last_name'])
+                first_name=data['name'])
 
             email_supplied = (data['email'] != '')
             userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=email_supplied)
 
-            name = data['first_name']
-            if data['last_name'] != '':
-                name = name + ' ' + data['last_name']
-
             student = Student.objects.create(
-                name=name,
+                name=data['name'],
                 user=userProfile)
 
             if (email_supplied):
