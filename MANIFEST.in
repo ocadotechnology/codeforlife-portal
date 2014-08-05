@@ -1,0 +1,3 @@
+include README.md
+recursive-include portal/static *
+recursive-include portal/templates *
