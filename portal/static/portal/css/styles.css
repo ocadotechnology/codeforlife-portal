@@ -1,0 +1,514 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* GLOBALS */
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+html { font-family: Arial, Helvetica, sans-serif; font-size: 62.5%; } 
+body { font-size: 14px; font-size: 1.4rem; } /* =14px */
+h1   { font-size: 24px; font-size: 2.4rem; } /* =24px */
+p  {font-size: 16px; font-size: 1.6rem; margin:0; padding-bottom:20px; } /* =16px */
+h2   { font-size: 24px; font-size: 1.8rem; margin:0; padding-bottom:10px;  } /* =24px */
+h3   { font-size: 24px; font-size: 1.8rem; margin:0; padding-bottom:10px;  } /* =24px */
+
+body
+{
+	background-color:#ECEAEE;
+	padding:0;
+	margin:0;
+}
+
+#contentWrapper
+{
+min-height:500px;
+position:relative;
+}
+
+
+.content
+{
+	min-width: 768px;
+    width: 90%;
+    max-width: 1200px;
+	
+	margin:0 auto;
+	padding:20px;
+	clear:both;
+}
+
+ul.resources
+{
+	margin:0 0 0 20px;
+	padding:0;
+}
+
+ul.resources li
+{
+	margin-bottom:5px;
+}
+
+
+/******  IE specific code  ******/
+/* Fix the width */
+
+    .ie7 .content {  
+        width:768px; 
+    }  
+      
+    .ie8 .content {  
+        width:768px; 
+    }  
+/******  IE specific code end  ******/
+
+.topBar, .footer
+{
+	height:70px;
+	background-color:#00072C;
+	clear:both;
+}
+.footer
+{
+
+}
+
+.topBar h1
+{
+	color:#FFF;
+	position:absolute;
+	z-index:1;
+	
+}
+.topBar .logo
+{
+	position:relative;
+	display:block;
+}
+
+.topBar .logo span
+{
+	position:absolute;
+	z-index:2;
+	background-color:#00072C;
+	background-image:url('/static/portal/img/logo_white.png');
+	background-repeat:no-repeat;
+	width:350px;
+	height:50px;
+	display:block;
+}
+
+ul.topNav
+{
+	float:right;
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+ul.topNav li
+{
+	color:#FFFFFF;
+	float:left;
+	list-style:none;
+	list-style-type:none;
+	margin:0 20px;
+}
+.footer ul
+{
+	padding:27px 0 0;
+	margin:0;
+	margin:0 auto;
+	width:768px;	
+	display:block;
+	overflow:hidden;
+}
+
+.footer ul li
+{
+	list-style:none;
+	list-style-type:none;
+	color:#FFFFFF;
+	float:left;
+	margin-left:30px;
+}
+ul.topNav li a, .footer ul li a
+{
+	text-decoration:none;
+	color:#FFFFFF;
+}
+ul.topNav li a:hover, .footer ul li a:hover
+{
+	text-decoration:underline;
+}
+
+.video img
+{
+	width:100%;
+	border:1px solid #000000;
+}
+
+
+.gameBox
+{
+background: none repeat scroll 0 0 #440e62;
+border-radius: 10px;
+color: rgba(255, 255, 255, 0.9);
+padding:10px;
+margin-bottom:10px;
+}
+
+.gameBox img
+{
+width:100%;
+position:absolute;
+z-index:2;
+}
+
+.splash{
+border-radius: 5px;
+margin-bottom: 10px;
+text-align: center;
+position:relative;
+background-image:url('/static/portal/img/rrBG.jpg');
+
+background-repeat:no-repeat;
+background-size: 100%;
+padding-top:50%;
+}
+/******  IE specific code  ******/
+/* Fix the width */
+
+    .ie7 .splash {  
+        
+		background-image:url('/static/portal/img/rrBGIE.jpg');
+    }  
+      
+    .ie8 .splash {  
+		background-image:url('/static/portal/img/rrBGIE.jpg');
+    }  
+/******  IE specific code end  ******/
+
+
+/*  SECTIONS  */
+.section {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+
+/*  GROUPING  */
+.group:before,
+.group:after {
+	content:"";
+	display:table;
+}
+.group:after {
+	clear:both;
+}
+.group {
+    zoom:1; /* For IE 6/7 */
+}
+
+/*  GRID OF THREE  */
+.span_3_of_3 {
+	width: 100%;
+}
+.span_2_of_3 {
+	width: 60.1%;
+}
+.span_1_of_3 {
+	width: 38.2%;
+}
+
+/*  GRID OF TWO  */
+.span_2_of_2 {
+    width: 100%;
+}
+.span_1_of_2 {
+    width: 49.2%;
+}
+
+
+/*************** button code ******/
+
+
+
+.btn {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fed897;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fed897;
+	box-shadow:inset 0px 1px 0px 0px #fed897;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6b33d), color-stop(1, #d29105) );
+	background:-moz-linear-gradient( center top, #f6b33d 5%, #d29105 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6b33d', endColorstr='#d29105');
+	background-color:#f6b33d;
+	-webkit-border-top-left-radius:5px;
+	-moz-border-radius-topleft:5px;
+	border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	-moz-border-radius-topright:5px;
+	border-top-right-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	-moz-border-radius-bottomright:5px;
+	border-bottom-right-radius:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-moz-border-radius-bottomleft:5px;
+	border-bottom-left-radius:5px;
+	text-indent:0;
+	border:1px solid #eda933;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:1.6rem;
+	font-weight:bold;
+	font-style:normal;
+	height:40px;
+	line-height:40px;
+	width:200px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #cd8a15;
+}
+.btn:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
+	background:-moz-linear-gradient( center top, #d29105 5%, #f6b33d 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
+	background-color:#d29105;
+}.btn:active {
+	position:relative;
+	top:1px;
+}
+
+
+.wide
+{
+	width:100%;
+}
+
+
+
+/*************** end button code ******/
+
+
+
+/************** message boxes *******************/
+
+	.info, .success, .warning, .error, .validation, .warningIE {
+border: 1px solid;
+margin: 10px 0px;
+padding: 15px 10px 15px 50px;
+background-repeat: no-repeat;
+background-position: 10px center;
+
+}
+.info {
+color: #00529B;
+background-color: #BDE5F8;
+}
+.success {
+color: #4F8A10;
+background-color: #DFF2BF;
+}
+.warning, .warningIE {
+color: #9F6000;
+background-color: #FEEFB3;
+}
+.error{
+color: #D8000C;
+background-color: #FFBABA;
+}
+.validation{
+color: #D63301;
+background-color: #FFCCBA;
+}
+
+.warningIE
+{
+	display:none;
+}
+.ie7 .warningIE, .ie8 .warningIE
+{
+	display:block;
+}
+
+/************** end message boxes *******************/
+
+
+
+
+/************** login box **************/
+
+.ieLabels
+{
+	display:none;
+}
+.ie7 .ieLabels, .ie8 .ieLabels
+{
+	display:block;
+	font-size:1.2rem;
+	color:#666;
+	clear:both;
+	padding-top:10px;
+}
+
+
+.login-card {
+  padding: 20px;
+  width: 100%;
+  max-width:400px;
+  background-color: #F7F7F7;
+  border-radius: 2px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.login-card h3
+{
+	margin:0;
+	padding:0;
+}
+
+.login-card input[type=submit] {
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.login-card input[type=text], input[type=password] {
+  height: 44px;
+  font-size: 1.4rem;
+  width: 100%;
+  margin-bottom: 10px;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  /* border-radius: 2px; */
+  padding: 0 8px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.login-card input[type=text]:hover, input[type=password]:hover {
+  border: 1px solid #b9b9b9;
+  border-top: 1px solid #a0a0a0;
+  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+
+.login-card a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 400;
+  text-align: center;
+  display: inline-block;
+  opacity: 0.6;
+  transition: opacity ease 0.5s;
+}
+
+.login-card a:hover {
+  opacity: 1;
+}
+
+.login-help {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.login-card select
+{
+	 float: left;
+    font-size: 1.4rem;
+    height: 40px;
+	width:19%;
+}
+.login-card input.fName, .login-card input.lName
+{
+	float:left;
+	width:39%;
+	margin-left:1.5%;
+}
+
+.ie7 .login-card input.fName, 
+.ie7 .login-card input.lName,
+.ie8 .login-card input.fName, 
+.ie8 .login-card input.lName
+{
+	float:none;
+	width:100%;
+	margin-left:0;
+}
+
+.pCode
+{
+	width:50%;
+}
+
+/************** end log in box **************/
+
+
+/************** Contact form **************/
+#contact-area {
+	width: 600px;
+	margin-top: 25px;
+}
+
+#contact-area .contactField, #contact-area textarea {
+	padding: 5px;
+	width: 471px;
+
+	margin: 0px 0px 10px 0px;
+	border: 1px solid #ccc;
+}
+
+#contact-area input[type=text]:hover, input[type=textarea]:hover {
+  border: 1px solid #b9b9b9;
+  border-top: 1px solid #a0a0a0;
+  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+#contact-area textarea {
+	height: 90px;
+}
+
+
+
+#contact-area .btn
+{
+	margin-left:115px;
+}
+label {
+	float: left;
+	text-align: right;
+	margin-right: 15px;
+	width: 100px;
+	padding-top: 5px;
+}
+
+/************** End contact form **************/

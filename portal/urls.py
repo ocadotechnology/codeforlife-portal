@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     url(r'^about/$', 'portal.views.about'),
     url(r'^terms/$', 'portal.views.terms'),
     url(r'^map/$', 'portal.views.schools_map'),
+    url(r'^cookie/$', 'portal.views.cookie'),
+    url(r'^browser/$', 'portal.views.browser'),
 
     url(r'^$', 'portal.views.home'),
     url(r'^logout/$', 'portal.views.logout_view'),

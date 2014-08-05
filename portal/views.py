@@ -64,6 +64,12 @@ def schools_map(request):
     schools = School.objects.all()
     return render(request, 'portal/map.html', { 'schools': schools })
 
+def cookie(request):
+    return render(request, 'portal/about.html')
+
+def browser(request):
+    return render(request, 'portal/about.html')
+
 
 
 def home(request):
