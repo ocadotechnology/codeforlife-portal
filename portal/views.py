@@ -23,6 +23,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification
+from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
@@ -796,6 +797,9 @@ def teacher_edit_student(request, pk):
         'class': student.class_field,
     })
 
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
+def teacher_password_reset(request, post_reset_redirect):
+    return password_reset(request, template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -1106,6 +1110,11 @@ def student_solo_login(request):
         'form': form,
         'email_verified': request.GET.get('email_verified', False)
     })
+
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
+def student_password_reset(request, post_reset_redirect):
+    return password_reset(request, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    
 
 @login_required(login_url=reverse_lazy('portal.views.student_login'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))

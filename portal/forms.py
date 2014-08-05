@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.forms.formsets import BaseFormSet
 
 from captcha.fields import ReCaptchaField
