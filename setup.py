@@ -2,7 +2,8 @@ from setuptools import find_packages, setup
 setup(name='portal',
       version='1.0',
       packages=find_packages(),
-      install_requires=[
+      install_requires = [
+        'django==1.'
         'django-appconf==0.6',
         'django-casper==0.0.2',
         'djangorestframework==2.3.9',
@@ -14,5 +15,8 @@ setup(name='portal',
         'reportlab==3.1.8',
         'django-jquery==1.9.1',
         'postcodes==0.1',
+      ],
+      dependency_links = [
+        'https://www.djangoproject.com/download/1.7c1/tarball/',
       ],
 )
