@@ -1,0 +1,2 @@
+https://www.djangoproject.com/download/1.7c1/tarball/
+git+https://github.com/ocadotechnology/codeforlife-portal#egg=codeforlife-portal
