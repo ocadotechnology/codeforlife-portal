@@ -51,11 +51,11 @@ urlpatterns = patterns('',
     url(r'^user/verify_email/(?P<token>[0-9a-f]+)/$', 'portal.views.verify_email'),
 
 
-    url(r'^user/student/password/reset/$',
+    url(r'^user/password/reset/student/$',
         'portal.views.student_password_reset',
         {'post_reset_redirect' : '/user/password/reset/done/'},
         name="password_reset"),
-    url(r'^user/teacher/password/reset/$',
+    url(r'^user/password/reset/teacher/$',
         'portal.views.teacher_password_reset',
         {'post_reset_redirect' : '/user/password/reset/done/'},
         name="password_reset"),
