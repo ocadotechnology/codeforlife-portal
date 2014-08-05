@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
@@ -70,6 +71,9 @@ class Student (models.Model):
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+
+def stripStudentName(name):
+        return re.sub('[ \t]+', ' ', name.strip())
 
 
 class Guardian (models.Model):

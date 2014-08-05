@@ -22,7 +22,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 
-from models import Teacher, UserProfile, School, Class, Student, EmailVerification
+from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
@@ -547,42 +547,30 @@ def teacher_class(request, access_code):
         return HttpResponseNotFound()
 
     if request.method == 'POST':
-        if 'new_students' in request.POST:
-            new_students_form = StudentCreationForm(klass, request.POST)
-            if new_students_form.is_valid():
-                name_tokens = []
-                bad_names = []
-                for name in re.split(';|,|\n', new_students_form.cleaned_data['names']):
-                    if name != '':
-                        password = generate_password(8)
-                        name_tokens.append({'name': name, 'password': password})
-                        user = User.objects.create_user(
-                            username=get_random_username(),
-                            password=password,
-                            first_name=name)
+        new_students_form = StudentCreationForm(klass, request.POST)
+        if new_students_form.is_valid():
+            name_tokens = []
+            for name in new_students_form.strippedNames:
+                password = generate_password(8)
+                name_tokens.append({'name': name, 'password': password})
+                user = User.objects.create_user(
+                    username=get_random_username(),
+                    password=password,
+                    first_name=name)
 
-                        userProfile = UserProfile.objects.create(user=user)
+                userProfile = UserProfile.objects.create(user=user)
 
-                        student = Student.objects.create(
-                            name=name,
-                            class_field=klass,
-                            user=userProfile)
+                student = Student.objects.create(
+                    name=name,
+                    class_field=klass,
+                    user=userProfile)
 
-                new_students_form = StudentCreationForm(klass)
-                # Check students have been added and redirect to show their passwords
-                if len(name_tokens) > 0:
-                    return render(request, 'portal/teach/teacher_new_students.html', {
-                        'class': klass,
-                        'name_tokens': name_tokens,
-                        'query_data': json.dumps(name_tokens),
-                    })
-        elif 'move_selected_students' in request.POST:
-            transfer_students = []
-            for student in students:
-                if request.POST.get(str(student.id)):
-                    transfer_students.append({'name': student.name, 'id': student.id})
-            # request.POST['transfer_students'] = json.dumps(transfer_students)
-            return HttpResponseRedirect(reverse('portal.views.teacher_move_students', kwargs={ 'access_code': klass.access_code }))
+            return render(request, 'portal/teach/teacher_new_students.html', {
+                'class': klass,
+                'name_tokens': name_tokens,
+                'query_data': json.dumps(name_tokens),
+            })
+
     else:
         new_students_form = StudentCreationForm(klass)
 
@@ -656,43 +644,42 @@ def teacher_move_students_to_class(request, access_code):
     transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
     
     # get student objects for students to be transferred, confirming they are in the old class still
-    transfer_students = []
-    for i in transfer_students_ids:
-        transfer_students.append(get_object_or_404(Student, id=i, class_field=old_class))
+    transfer_students = [get_object_or_404(Student, id=i, class_field=old_class) for i in transfer_students_ids]
+
+    # format the students for the form
+    initial_data = [{'orig_name' : student.name, 'name' : student.name } for student in transfer_students]
 
     # get new class' students
-    new_class_students = Student.objects.filter(class_field=new_class)
+    new_class_students = Student.objects.filter(class_field=new_class).order_by('user__user__first_name')
 
-    TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm, destination=new_class)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
+    TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
 
     if request.method == 'POST':
         if 'submit_disambiguation' in request.POST:
-            formset = TeacherMoveStudentDisambiguationFormSet(request.POST)
+            formset = TeacherMoveStudentDisambiguationFormSet(new_class, request.POST)
             if formset.is_valid():
-                old_class_students = Student.objects.filter(class_field=old_class)
-                data = formset.cleaned_data
-                print "GOT DATA"
-                print data
-                for name_update in data:
-                    potential_matches = old_class_students.filter(name=name_update['orig_name'])
-                    if len(potential_matches) != 1:
-                        return HttpResponseNotFound()
-                    else:
-                        student = potential_matches[0]
-                        student.name = name_update['name']
-                        student.class_field = new_class
-                        student.user.user.first_name = name_update['name']
-                        student.save()
-                        student.user.user.save()
+                for name_update in formset.cleaned_data:
+                    student = get_object_or_404(Student, class_field=old_class, name=name_update['orig_name'])
+                    student.name = name_update['name']
+                    student.class_field = new_class
+                    student.user.user.first_name = name_update['name']
+                    student.save()
+                    student.user.user.save()
 
                 messages.success(request, 'Students successfully transferred')
                 return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': old_class.access_code }))
         else:
-            formset = TeacherMoveStudentDisambiguationFormSet(initial=[{'orig_name' : student.name, 'name' : student.name } for student in transfer_students])
+            formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
     else:
-        formset = TeacherMoveStudentDisambiguationFormSet(initial=[{'orig_name' : student.name, 'name' : student.name } for student in transfer_students])
+        formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
 
-    return render(request, 'portal/teach/teacher_move_students_to_class.html', { 'formset': formset, 'old_class': old_class, 'new_class': new_class, 'new_class_students': new_class_students, 'transfer_students': transfer_students})
+    return render(request, 'portal/teach/teacher_move_students_to_class.html', {
+        'formset': formset,
+        'old_class': old_class,
+        'new_class': new_class,
+        'new_class_students': new_class_students,
+        'transfer_students': transfer_students
+    })
 
 @login_required(login_url=reverse_lazy('portal.views.teacher_login'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
@@ -944,7 +931,7 @@ def teacher_accept_student_request(request, pk):
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
         return HttpResponseNotFound()
 
-    students = Student.objects.filter(class_field=student.pending_class_request)
+    students = Student.objects.filter(class_field=student.pending_class_request).order_by('user__user__first_name')
 
     if request.method == 'POST':
         form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)

@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -8,7 +10,7 @@ from captcha.fields import ReCaptchaField
 
 from postcodes import PostCoder
 
-from models import Student, Class, School
+from models import Student, Class, School, stripStudentName
 
 from collections import Counter
 
@@ -195,10 +197,15 @@ class TeacherEditStudentForm(forms.Form):
         super(TeacherEditStudentForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
-        name=self.cleaned_data.get('name', None)
-        students = Student.objects.filter(class_field=self.klass)
-        if students.filter(name=name).exists() and name != self.student.name:
-            raise forms.ValidationError('A student already exists with that name in this class')
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        students = Student.objects.filter(class_field=self.klass, name__iexact=name)
+        if students.exists() and students[0] != self.student:
+             raise forms.ValidationError("There is already a student called '" + name + "' in this class")
+
         return name
 
 class TeacherSetStudentPass(forms.Form):
@@ -222,10 +229,14 @@ class TeacherAddExternalStudentForm(forms.Form):
         super(TeacherAddExternalStudentForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
-        name=self.cleaned_data.get('name', None)
-        students = Student.objects.filter(class_field=self.klass)
-        if students.filter(name=name).exists():
-            raise forms.ValidationError('A student already exists with that name in this class')
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        if Student.objects.filter(class_field=self.klass, name__iexact=name).exists():
+             raise forms.ValidationError("There is already a student called '" + name + "' in this class")
+
         return name
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
@@ -242,32 +253,53 @@ class TeacherMoveStudentDisambiguationForm(forms.Form):
     orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
     name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
 
-    def __init__(self, destination, *args, **kwargs):
-        self.destination = destination
-        super(TeacherMoveStudentDisambiguationForm, self).__init__(*args, **kwargs)
-
     def clean_name(self):
-        name = self.cleaned_data.get('name', None)
-        students = Student.objects.filter(class_field=self.destination)
-        if students.filter(name=name).exists():
-            raise forms.ValidationError('A student already exists with the name ' + name + ' in this class')
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
         return name
 
+def validateStudentNames(klass, names):
+    validationErrors = []
+
+    # We want to report if a student already exists with that name.
+    # But only report each name once if there are duplicates.
+    students = Student.objects.filter(class_field=klass)
+    clashes_found = []
+    for name in names:
+        if students.filter(name__iexact=name).exists() and not name in clashes_found:
+             validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
+             clashes_found.append(name)
+
+    # Also report if a student appears twice in the list to be added.
+    # But again only report each name once.
+    lower_names = map(lambda x: x.lower(), names)
+    duplicates = [name for name in names if lower_names.count(name.lower()) > 1]
+    duplicates_found = []
+    for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
+        if not duplicate in duplicates_found:
+            validationErrors.append(forms.ValidationError("You cannot add more than one students called '" + duplicate + "'"))
+            duplicates_found.append(duplicate)
+
+    return validationErrors
+
 class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
+    def __init__(self, destination, *args, **kwargs):
+        self.destination = destination
+        super(BaseTeacherMoveStudentsDisambiguationFormSet, self).__init__(*args, **kwargs)
+
     def clean(self):
         if any(self.errors):
             return
 
-        names = []
-        for form in self.forms:
-            name = form.cleaned_data['name']
-            names.append(name)
-        duplicates = [name for name, count in Counter(names).items() if count > 1]
-        if len(duplicates) > 0:
-            validationErrors = []
-            for duplicate in duplicates:
-                validationErrors.append(forms.ValidationError('Student name ' + duplicate + ' cannot be used more than once!'))
+        names = [form.cleaned_data['name'] for form in self.forms]
+
+        validationErrors = validateStudentNames(self.destination, names)
+
+        if len(validationErrors) > 0:
             raise forms.ValidationError(validationErrors)
+
+        self.strippedNames = names
 
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
@@ -277,29 +309,21 @@ class StudentCreationForm(forms.Form):
         super(StudentCreationForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        names = self.cleaned_data.get('names', None).splitlines()
+        names = re.split(';|,|\n', self.cleaned_data.get('names', ''))
+        names = map(stripStudentName, names)
         names = [name for name in names if name != '']
 
-        duplicates = [name for name, count in Counter(names).items() if count > 1]
+        validationErrors = validateStudentNames(self.klass, names)
 
-        if len(duplicates) > 0:
-            validationErrors = []
-            for duplicate in duplicates:
-                validationErrors.append(forms.ValidationError('Student ' + duplicate + ' cannot be added more than once'))
-            raise forms.ValidationError(validationErrors)
-        students = Student.objects.filter(class_field=self.klass)
-        validationErrors = []
-        for name in names:
-             if students.filter(name=name).exists():
-                 validationErrors.append(forms.ValidationError('A student already exists with the name ' + name))
         if len(validationErrors) > 0:
             raise forms.ValidationError(validationErrors)
 
+        self.strippedNames = names
+
         return self.cleaned_data
 
-
 class StudentLoginForm(forms.Form):
-    name =  forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
     access_code = forms.CharField(label='Class Access Code', widget=forms.TextInput(attrs={'placeholder': 'Class Access Code'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     # captcha = ReCaptchaField()
@@ -310,11 +334,13 @@ class StudentLoginForm(forms.Form):
         password = self.cleaned_data.get('password', None)
 
         if name and access_code and password:
-            classes = Class.objects.filter(access_code=access_code)
+            classes = Class.objects.filter(access_code__iexact=access_code)
             if len(classes) != 1:
                 raise forms.ValidationError('Invalid name, class access code or password')
 
-            students = Student.objects.filter(name=name, class_field=classes[0])
+            name = stripStudentName(name)
+
+            students = Student.objects.filter(name__iexact=name, class_field=classes[0])
             if len(students) != 1:
                 raise forms.ValidationError('Invalid name, class access code or password')
 
