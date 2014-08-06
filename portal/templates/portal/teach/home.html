@@ -1,23 +1,121 @@
 {% extends 'portal/teach/base.html' %}
 
+{% block scripts %}
+<script type="text/javascript">
+function DropDown(el) {
+    this.dd = el;
+    this.placeholder = this.dd.children('span');
+    this.opts = this.dd.find('ul.dropdown > li');
+    this.val = '';
+    this.index = -1;
+    this.initEvents();
+}
+
+DropDown.prototype = {
+    initEvents : function() {
+        var obj = this;
+
+        obj.dd.on('click', function(event){
+            $(this).toggleClass('active');
+            return false;
+        });
+
+        obj.opts.on('click',function(){
+            var opt = $(this);
+            obj.val = opt.text();
+            obj.index = opt.index();
+            obj.placeholder.text(obj.val);
+
+            document.getElementById("txt_title").value=opt.text();
+        });
+    },
+    getValue : function() {
+        return this.val;
+    },
+    getIndex : function() {
+        return this.index;
+    }
+}
+
+$(function() {
+    var dd = new DropDown( $('#dd') );
+    $(document).click(function() {
+        // all dropdowns
+        $('.wrapper-dropdown-3').removeClass('active');
+    });
+});
+</script>
+{% endblock scripts %}
+
 {% block content %}
 {{block.super}}
 
-<pre>
-Teach page!
+<div class="section group">
+    <div class="col span_2_of_3">
+        <h3>Teacher resource</h3>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
+        </p>
+        <h3>School curriculum</h3>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
+        </p>
 
-- Teacher introduction
-- Curriculum information
+    </div>
+    
+    <div class="col span_1_of_3">
+        <div class="login-card">
+            <h3>Sign in</h3><br>
 
-- <a href='{% url 'portal.views.teacher_login' %}'>Login form</a>
-- <a href='{% url 'portal.views.teacher_signup' %}'>Sign up form</a>
+            <form>
+                <label class="ieLabels">Email</label>
+                <input type="text" name="email" placeholder="Email">
+                <label class="ieLabels">Password</label>
+                <input type="password" name="pass" placeholder="Password">
+                <input type="submit" name="signin" class="btn wide" value="Sign in">
+            </form>
+                        
+            <div class="login-help">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
 
-- Rapid Router description
-  - Video
-  - List of available resources (but not actually available to download)
+        <br>
 
-- Other resources and links
+        <div class="login-card">
+            <h3>Register</h3><br>
 
-</pre>
+            <form>
+                <div id="dd" class="wrapper-dropdown-3" tabindex="1">
+                    <span>Title</span>
+                    <ul class="dropdown">
+                        <li>Mr</li>
+                        <li>Mrs</li>
+                        <li>Ms</li>
+                        <li>Miss</li>
+                    </ul>
+                </div>
+
+                <input class="title" type="hidden" id="txt_title" name="txt_title" placeholder="">
+
+                <label class="ieLabels">First Name</label>
+                <input class="fName" type="text" name="txt_firtsName" placeholder="First name">
+
+                <label class="ieLabels">Last Name</label>
+                <input class="lName" type="text" name="txt_lastName" placeholder="Last name">
+
+                <label class="ieLabels">Email</label>
+                <input type="text" name="txt_email" placeholder="Email">
+
+                <label class="ieLabels">Password</label>
+                <input type="password" name="txt_pass" placeholder="Password">
+
+                <label class="ieLabels">Confirm Password</label>
+                <input type="password" name="txt_confpass" placeholder="Confirm password">
+                <input type="submit" name="txt_signin" class="btn wide" value="Register">
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
