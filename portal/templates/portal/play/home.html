@@ -1,19 +1,144 @@
 {% extends 'portal/play/base.html' %}
 
+{% block scripts %}
+<script type="text/javascript">       
+function DropDown(el) {
+    this.dd = el;
+    this.placeholder = this.dd.children('span');
+    this.opts = this.dd.find('ul.dropdown > li');
+    this.val = '';
+    this.index = -1;
+    this.initEvents();
+}
+
+DropDown.prototype = {
+    initEvents : function() {
+        var obj = this;
+
+        obj.dd.on('click', function(event){
+            $(this).toggleClass('active');
+            return false;
+        });
+
+        obj.opts.on('click',function(){
+            var opt = $(this);
+            obj.val = opt.text();
+            obj.index = opt.index();
+            obj.placeholder.text(obj.val);
+
+            document.getElementById("txt_title").value=opt.text();
+        });
+    },
+    getValue : function() {
+        return this.val;
+    },
+    getIndex : function() {
+        return this.index;
+    }
+}
+
+$(function() {
+    var dd = new DropDown( $('#dd') );
+    $(document).click(function() {
+        // all dropdowns
+        $('.wrapper-dropdown-3').removeClass('active');
+    });
+});
+</script>
+{% endblock scripts %}
+
 {% block content %}
 {{block.super}}
 
-<pre>
-Play page!
+<div class="warningIE">In order to play, please <a href="http://browsehappy.com/">update your browser</a></div>
 
-- Kids introduction
+<div class="section group">
+    <div class="col span_2_of_3">
+        <h3>Play</h3>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. 
+        </p>
 
-- <a href='{% url 'portal.views.student_login' %}'>Login form</a>
-- <a href='{% url 'portal.views.student_solo_login' %}'>Independent Leaner login form</a>
-- <a href='{% url 'portal.views.student_signup' %}'>Sign up form</a>
+        <p>
+        <a href="" class="btn">Play now</a>
+        </p>
 
-- Rapid Router description
+        <h3>Student Resources</h3>
+        <ul class="resources">
+            <li>KS1 Resource</li>
+            <li>KS2 Resource</li>
+            <li>Unplugged activity sheets</li>
+            <li>Command cards</li>
+            <li>Scenario starters using the app characters for the ‘Create your own maze/game’</li>
+        </ul>
 
-</pre>
+        <br>
+
+        <div class="gameBox">
+            <div class="splash">
+                <h3>Coming soon</h3>
+
+                <ul class="clock">
+                    <li class="days">
+                        <span class="ten">3</span>
+                        <span class="unit">0</span>
+                        <em>Days</em>
+                    </li>
+                    <li class="hours">
+                        <span class="ten">0</span>
+                        <span class="unit">8</span>
+                        <em>Hours</em>
+                    </li>
+                    <li class="mins">
+                        <span class="ten">4</span>
+                        <span class="unit">8</span>
+                        <em>Mins</em>
+                    </li>
+                    <li class="secs">
+                        <span class="ten">4</span>
+                        <span class="unit">6</span>
+                        <em>Secs</em>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col span_1_of_3">
+        <div class="login-card">
+            <h3>Sign in</h3><br>
+
+            <form>
+                <label class="ieLabels">Email</label>
+                <input type="text" name="email" placeholder="Email">
+                <label class="ieLabels">Password</label>
+                <input type="password" name="pass" placeholder="Password">
+                <input type="submit" name="signin" class="btn wide" value="Sign in">
+            </form>
+
+            <div class="login-help">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="login-card">
+            <h3>Register to track your performance</h3><br>
+
+            <form>
+                <label class="ieLabels">Email</label>
+                <input type="text" name="txt_email" placeholder="Email">
+
+                <label class="ieLabels">Password</label>
+                <input type="password" name="txt_pass" placeholder="Password">
+
+                <label class="ieLabels">Confirm Password</label>
+                <input type="password" name="txt_confpass" placeholder="Confirm password">
+                <input type="submit" name="txt_signin" class="btn wide" value="Register">
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
