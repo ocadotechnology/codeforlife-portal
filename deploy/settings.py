@@ -33,16 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'deploy',
     'portal',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'captcha',
-    'jquery',
+    'game',
 )
 
 MIDDLEWARE_CLASSES = [
@@ -148,3 +139,7 @@ LOCALE_PATHS = (
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + \
      ('django.core.context_processors.i18n',)
+
+# Keep this at the bottom
+from django_autoconfig.autoconfig import configure_settings
+configure_settings(globals())
