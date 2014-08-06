@@ -65,10 +65,10 @@ def schools_map(request):
     return render(request, 'portal/map.html', { 'schools': schools })
 
 def cookie(request):
-    return render(request, 'portal/about.html')
+    return render(request, 'portal/cookie.html')
 
 def browser(request):
-    return render(request, 'portal/about.html')
+    return render(request, 'portal/browser.html')
 
 
 
