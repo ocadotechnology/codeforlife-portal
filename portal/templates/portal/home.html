@@ -1,10 +1,16 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/colorbox.css" %}'>
+{% endblock css %}
+
 {% block scripts %}
 {{ block.super }}
 
 <script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
+<script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -16,6 +22,31 @@ $(document).ready(function() {
         preloader: false,
 
         fixedContentPos: false
+    });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    //Examples of how to assign the Colorbox event to elements
+
+    $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
+
+    $(".callbacks").colorbox({
+        onOpen:function(){ alert('onOpen: colorbox is about to open'); },
+        onLoad:function(){ alert('onLoad: colorbox has started to load the targeted content'); },
+        onComplete:function(){ alert('onComplete: colorbox has displayed the loaded content'); },
+        onCleanup:function(){ alert('onCleanup: colorbox has begun the close process'); },
+        onClosed:function(){ alert('onClosed: colorbox has completely closed'); }
+    });
+
+    $('.non-retina').colorbox({rel:'group5', transition:'none'})
+    $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
+    
+    //Example of preserving a JavaScript event for inline calls.
+    $("#click").click(function(){ 
+        $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
+        return false;
     });
 });
 </script>
@@ -43,7 +74,7 @@ $(document).ready(function() {
                 <img alt="Watch Video" src="https://www.codeforlife.education/static/website/img/video_still.png">
             </a>
         </div>
-        <a href="teach.html" class="btn wide">Get Involved</a>
+        <a href="{% url 'portal.views.teach' %}" class="btn wide">Get Involved</a>
 
     </div>
 </div>

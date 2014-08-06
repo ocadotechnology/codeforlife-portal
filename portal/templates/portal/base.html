@@ -35,12 +35,6 @@
             <ul class="topNav">
                 <li><a href="{% url 'portal.views.teach' %}">TEACH</a></li>
                 <li><a href="{% url 'portal.views.play' %}">PLAY</a></li>
-
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'portal.views.logout_view' %}">LOG OUT</a></li>
-                {% else %}
-                <li><a href="{% url 'portal.views.teacher_login' %}">SIGN IN</a></li>
-                {% endif %}
             </ul>
         </div>
     </div>
