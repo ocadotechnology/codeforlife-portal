@@ -69,14 +69,14 @@ def teach(request):
 
                 return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
-    return render(request, 'portal/teach/home.html', {
+    return render(request, 'portal/teach.html', {
         'login_form': login_form,
         'signup_form': signup_form,
     })
 
 def play(request):
     # Needs both login and sign up forms
-    return render(request, 'portal/play/home.html')
+    return render(request, 'portal/play.html')
 
 def about(request):
 

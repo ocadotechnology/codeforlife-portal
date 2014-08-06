@@ -33,8 +33,10 @@
                 <h1>Code for Life</h1>
             </a>
             <ul class="topNav">
+                {% block topNav %}
                 <li><a href="{% url 'portal.views.teach' %}">TEACH</a></li>
                 <li><a href="{% url 'portal.views.play' %}">PLAY</a></li>
+                {% endblock topNav %}
             </ul>
         </div>
     </div>
