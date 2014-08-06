@@ -5,7 +5,7 @@ import os
 def insert_admin_user(apps, schema_editor):
     User = apps.get_model('auth', 'User')
     admin = User.objects.create()
-    admin.username = 'admin'
+    admin.username = 'portaladmin'
     admin.email = 'codeforlife-portal@ocado.com', 
     admin.is_superuser = True
     admin.is_staff = True
