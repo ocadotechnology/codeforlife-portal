@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+from django.core.urlresolvers import reverse_lazy
 
 # Build paths inside the project like this: rel(rel_path)
 import os
@@ -42,6 +43,10 @@ INSTALLED_APPS = (
     'rest_framework',
     'captcha',
     'jquery',
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
 )
 
 MIDDLEWARE_CLASSES = [
@@ -52,6 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_otp.middleware.OTPMiddleware',
 ]
 
 ROOT_URLCONF = 'portal.urls'
@@ -59,6 +65,9 @@ ROOT_URLCONF = 'portal.urls'
 WSGI_APPLICATION = 'portal.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_URL = reverse_lazy('portal.views.teacher_login')
+LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_classes')
 
 
 # Internationalization

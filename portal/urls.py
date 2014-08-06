@@ -9,6 +9,8 @@ js_info_dict = {
 
 urlpatterns = patterns('',
 
+    url(r'', include('two_factor.urls', 'two_factor')),
+
     url(r'^teach/$', 'portal.views.teach'),
     url(r'^play/$', 'portal.views.play'),
     url(r'^about/$', 'portal.views.about'),
