@@ -12,8 +12,7 @@ WORKSPACE=`pwd`
 
 
 echo 'Creating dev-requirements.txt'
-echo "-e git+https://github.com/ocadotechnology/django-nuit.git@0.7.0#egg=django-nuit
-pyyaml==3.11
+echo "pyyaml==3.11
 django-debug-toolbar==1.2.1
 django-extensions==1.3.7" > $PROJECT_PATH/dev-requirements.txt
 
