@@ -8,8 +8,8 @@ from django.db import models
 
 class UserProfile (models.Model):
     user = models.OneToOneField(User)
-    avatar = models.ImageField(upload_to='static/game/image/avatars/', null=True, blank=True,
-                               default='static/game/image/avatars/default-avatar.jpeg')
+    avatar = models.ImageField(upload_to='static/portal/img/avatars/', null=True, blank=True,
+                               default='static/portal/img/avatars/default-avatar.jpeg')
     awaiting_email_verification = models.BooleanField(default=False)
 
     def __unicode__(self):
