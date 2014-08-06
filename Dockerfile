@@ -18,8 +18,5 @@ ADD . /opt/codeforlife-deploy/
 ENV TMPDIR /pip
 RUN mkdir -p $TMPDIR
 RUN mkdir -p /root/.ssh
-RUN echo $SSH_KEY > /root/.ssh/id_rsa
-RUN pip install -r /opt/codeforlife-deploy/requirements.txt
-RUN ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | xargs -i cp -R {} /opt/codeforlife-deploy/
 RUN chmod +x /opt/codeforlife-deploy/deploy.sh
 CMD ["/opt/codeforlife-deploy/deploy.sh"]
