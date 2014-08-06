@@ -32,8 +32,47 @@ import emailMessages
 # New views for GUI
 
 def teach(request):
-    # Needs both login and sign up forms
-    return render(request, 'portal/teach/home.html')
+    login_form = TeacherLoginForm()
+    signup_form = TeacherSignupForm()
+
+    if request.method == 'POST':
+        if 'login' in request.POST:
+            login_form = TeacherLoginForm(request.POST)
+            if login_form.is_valid():
+                userProfile = login_form.user.userprofile
+                if userProfile.awaiting_email_verification:
+                    send_verification_email(request, userProfile)
+                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+
+                login(request, login_form.user)
+                return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+
+        if 'signup' in request.POST:
+            signup_form = TeacherSignupForm(request.POST)
+            if signup_form.is_valid():
+                data = signup_form.cleaned_data
+
+                user = User.objects.create_user(
+                    username=get_random_username(), # generate a random username
+                    email=data['email'],
+                    password=data['password'],
+                    first_name=data['first_name'],
+                    last_name=data['last_name'])
+
+                userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+
+                teacher = Teacher.objects.create(
+                    user=userProfile,
+                    title=data['title'])
+
+                send_verification_email(request, userProfile)
+
+                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+
+    return render(request, 'portal/teach/home.html', {
+        'login_form': login_form,
+        'signup_form': signup_form,
+    })
 
 def play(request):
     # Needs both login and sign up forms
