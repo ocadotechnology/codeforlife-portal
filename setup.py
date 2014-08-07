@@ -15,6 +15,7 @@ setup(name='portal',
         'reportlab==3.1.8',
         'django-jquery==1.9.1',
         'postcodes==0.1',
+        'django-two-factor-auth==1.0.0-beta3',
       ],
       dependency_links = [
         'https://www.djangoproject.com/download/1.7c1/tarball/',
