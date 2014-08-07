@@ -149,8 +149,60 @@ def teach(request):
     })
 
 def play(request):
-    # Needs both login and sign up forms
-    return render(request, 'portal/play.html')
+    if request.method == 'POST':
+        school_login_form = StudentLoginForm()
+        solo_login_form = StudentSoloLoginForm()
+        signup_form = StudentSignupForm()
+        if 'school_login' in request.POST:
+            school_login_form = StudentLoginForm(request.POST)
+            if school_login_form.is_valid():
+                login(request, school_login_form.user)
+                return HttpResponseRedirect(reverse('portal.views.student_details'))
+        elif 'solo_login' in request.POST:
+            solo_login_form = StudentSoloLoginForm(request.POST)
+            if solo_login_form.is_valid():
+                userProfile = solo_login_form.user.userprofile
+                if userProfile.awaiting_email_verification:
+                    send_verification_email(request, userProfile)
+                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                login(request, solo_login_form.user)
+                return HttpResponseRedirect(reverse('portal.views.student_details'))
+        elif 'signup' in request.POST:
+            signup_form = StudentSignupForm(request.POST)
+            if signup_form.is_valid():
+                data = signup_form.cleaned_data
+
+                user = User.objects.create_user(
+                    username=data['username'], # use username field for username!
+                    email=data['email'],
+                    password=data['password'],
+                    first_name=data['name'])
+
+                email_supplied = (data['email'] != '')
+                userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=email_supplied)
+
+                student = Student.objects.create(
+                    name=data['name'],
+                    user=userProfile)
+
+                if (email_supplied):
+                    send_verification_email(request, userProfile)
+                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                else:
+                    auth_user = authenticate(username=data['username'], password=data['password'])
+                    login(request, auth_user)
+
+                return render(request, 'portal/play/student_details.html')
+    else:
+        school_login_form = StudentLoginForm()
+        solo_login_form = StudentSoloLoginForm()
+        signup_form = StudentSignupForm()
+
+    return render(request, 'portal/play.html', {
+        'school_login_form': school_login_form,
+        'solo_login_form': solo_login_form,
+        'signup_form': signup_form,
+    })
 
 def about(request):
 
@@ -182,8 +234,6 @@ def cookie(request):
 
 def browser(request):
     return render(request, 'portal/browser.html')
-
-
 
 def home(request):
     return render(request, 'portal/home.html', {})
@@ -987,18 +1037,6 @@ def teacher_reject_student_request(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
-def student_login(request):
-    if request.method == 'POST':
-        form = StudentLoginForm(request.POST)
-        if form.is_valid():
-            login(request, form.user)
-            return HttpResponseRedirect(reverse('portal.views.student_details'))
-    else:
-        form = StudentLoginForm()
-
-    return render(request, 'portal/play/play.html', { 'form': form })
-
 @login_required(login_url=reverse_lazy('portal.views.play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
 def student_details(request):
@@ -1049,60 +1087,6 @@ def student_edit_account(request):
             'email': student.user.user.email})
 
     return render(request, 'portal/play/student_edit_account.html', { 'form': form })
-
-@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
-def student_signup(request):
-    if request.method == 'POST':
-        form = StudentSignupForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-
-            user = User.objects.create_user(
-                username=data['username'], # use username field for username!
-                email=data['email'],
-                password=data['password'],
-                first_name=data['name'])
-
-            email_supplied = (data['email'] != '')
-            userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=email_supplied)
-
-            student = Student.objects.create(
-                name=data['name'],
-                user=userProfile)
-
-            if (email_supplied):
-                send_verification_email(request, userProfile)
-                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
-            else:
-                auth_user = authenticate(username=data['username'], password=data['password'])
-                login(request, auth_user)
-
-            return render(request, 'portal/play/student_details.html')
-
-    else:
-        form = StudentSignupForm()
-
-    return render(request, 'portal/play/play.html', { 'form': form })
-
-@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
-def student_solo_login(request):
-    if request.method == 'POST':
-        form = StudentSoloLoginForm(request.POST)
-        if form.is_valid():
-            userProfile = form.user.userprofile
-            if userProfile.awaiting_email_verification:
-                send_verification_email(request, userProfile)
-                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
-
-            login(request, form.user)
-            return HttpResponseRedirect(reverse('portal.views.student_details'))
-    else:
-        form = StudentSoloLoginForm()
-
-    return render(request, 'portal/play/play.html', {
-        'form': form,
-        'email_verified': request.GET.get('email_verified', False)
-    })
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_password_reset(request, post_reset_redirect):
