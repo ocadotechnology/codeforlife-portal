@@ -551,7 +551,7 @@ def teacher_class(request, access_code):
         if new_students_form.is_valid():
             name_tokens = []
             for name in new_students_form.strippedNames:
-                password = generate_password(8)
+                password = generate_password(6)
                 name_tokens.append({'name': name, 'password': password})
                 user = User.objects.create_user(
                     username=get_random_username(),
@@ -719,7 +719,7 @@ def teacher_student_reset(request, pk):
     if request.user.userprofile.teacher != student.class_field.teacher:
         return HttpResponseNotFound()
 
-    new_password = generate_password(8)
+    new_password = generate_password(6)
     student.user.user.set_password(new_password)
     student.user.user.save()
 
