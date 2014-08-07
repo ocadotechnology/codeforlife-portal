@@ -119,7 +119,7 @@ def teach(request):
                 else:
                     messages.info(request, 'You are currently not set up with two-factor-authentication. Go to your account page to set it up.')
 
-                return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+                return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
         if 'signup' in request.POST:
             signup_form = TeacherSignupForm(request.POST)
@@ -195,7 +195,7 @@ def current_user(request):
     if hasattr(u, 'student'):
         return HttpResponseRedirect(reverse('portal.views.student_details'))
     elif hasattr(u, 'teacher'):
-        return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+        return HttpResponseRedirect(reverse('portal.views.teacher_home'))
     else:
         # default to homepage and logout if something goes wrong
         logout(request)
@@ -502,6 +502,15 @@ def organisation_deny_join(request, pk):
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+def teacher_home(request):
+    teacher = request.user.userprofile.teacher
+
+    return render(request, 'portal/teach/teacher_home.html', {
+        'teacher': teacher,
+    })
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))

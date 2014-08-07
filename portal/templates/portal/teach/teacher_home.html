@@ -1,0 +1,54 @@
+{% extends 'portal/teach/base.html' %}
+{% load static %}
+
+{% block title %}Code For Life - Portal{% endblock %}
+
+{% block content %}
+
+<h3>Welcome, {{ user.first_name }}</h3>
+
+<h2>Teacher Resources</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
+
+<div class="section group">
+    <div class="col span_1_of_2">
+        <table class='CSSTable'>
+            <tr>
+                <td>Management Links</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'portal.views.teacher_classes' %}">My classes</a></td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'portal.views.organisation_manage' %}">My organisation</a></td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'portal.views.teacher_edit_account' %}">My account</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col span_1_of_2">
+        <table class='CSSTable'>
+            <tr>
+                <td>Resources Links</td>
+            </tr>
+            <tr>
+                <td><a href="#">Resource 1</a></td>
+            </tr>
+            <tr>
+                <td><a href="#">Resource 2</a></td>
+            </tr>
+            <tr>
+                <td><a href="#">Resource 3</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br/>
+
+
+
+{% endblock %}
