@@ -66,7 +66,8 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_URL = reverse_lazy('portal.views.teacher_login')
+LOGIN_URL = reverse_lazy('portal.views.teach')
+LOGOUT_URL = reverse_lazy('portal.views.logout_view')
 LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_classes')
 
 

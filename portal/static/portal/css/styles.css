@@ -389,10 +389,12 @@ background-color: #FFCCBA;
 }
 
 .login-card input[type=submit] {
+  text-decoration: none;
   width: 100%;
   display: block;
   margin-bottom: 10px;
   position: relative;
+  text-align: center;
 }
 
 .login-card input[type=text], input[type=password] {
@@ -410,29 +412,12 @@ background-color: #FFCCBA;
   -moz-box-sizing: border-box;
 }
 
-
 .login-card input[type=text]:hover, input[type=password]:hover {
   border: 1px solid #b9b9b9;
   border-top: 1px solid #a0a0a0;
   -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-
-
-
-.login-card a {
-  text-decoration: none;
-  color: #666;
-  font-weight: 400;
-  text-align: center;
-  display: inline-block;
-  opacity: 0.6;
-  transition: opacity ease 0.5s;
-}
-
-.login-card a:hover {
-  opacity: 1;
 }
 
 .login-help {
