@@ -1,10 +1,128 @@
 {% extends 'portal/base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/colorbox.css" %}'>
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+
+<script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
+<script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+        disableOn: 700,
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        removalDelay: 160,
+        preloader: false,
+
+        fixedContentPos: false
+    });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    //Examples of how to assign the Colorbox event to elements
+
+    $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
+
+    $(".callbacks").colorbox({
+        onOpen:function(){ alert('onOpen: colorbox is about to open'); },
+        onLoad:function(){ alert('onLoad: colorbox has started to load the targeted content'); },
+        onComplete:function(){ alert('onComplete: colorbox has displayed the loaded content'); },
+        onCleanup:function(){ alert('onCleanup: colorbox has begun the close process'); },
+        onClosed:function(){ alert('onClosed: colorbox has completely closed'); }
+    });
+
+    $('.non-retina').colorbox({rel:'group5', transition:'none'})
+    $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
+    
+    //Example of preserving a JavaScript event for inline calls.
+    $("#click").click(function(){ 
+        $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
+        return false;
+    });
+});
+</script>
+{% endblock scripts %}
 
 {% block content %}
 
-Home page!
+<div class="section group">
+    <div class="col span_1_of_2">
 
-- Introduction
-- Call to action
+        <div class="description">
+            <h3 id="intro">An Introduction</h3>
+            <p>In September 2014, the UK becomes the first country in the world to put Computing at the heart of the school curriculum.</p>
+            <p>Ocado Technology's Code for Life initiative has been developed to help teachers deliver the new curriculum, so they can inspire the next generation of computer scientists.</p>
+            <p>But this is just the beginning. Over the next couple of years, this initiative will be expanded to support pupils throughout their school career, from age five to 16, and beyond.</p>
+            <p><em>Rapid Router</em> marks the first step in this journey. It is a free, comprehensive Key Stage 1 and lower Key Stage 2 teaching resource and web application, designed for, and tested by, primary school teachers.</p>
+        </div>
+
+    </div>
+
+    <div class="col span_1_of_2">
+
+        <div class="video">
+            <a href="https://www.youtube.com/watch?v=xP-U-MJLk-g" class="popup-youtube">
+                <img alt="Watch Video" src="https://www.codeforlife.education/static/website/img/video_still.png">
+            </a>
+        </div>
+        <a href="{% url 'portal.views.teach' %}" class="btn wide">Get Involved</a>
+
+    </div>
+</div>
+
+<div class="section group">
+    <div class="col span_1_of_2">
+
+        <div class="gameBox">
+            <div class="splash">
+                <h3>Coming soon</h3>
+                <ul class="clock">
+                    <li class="days">
+                        <span class="ten">3</span>
+                        <span class="unit">0</span>
+                        <em>Days</em>
+                    </li>
+                    <li class="hours">
+                        <span class="ten">0</span>
+                        <span class="unit">8</span>
+                        <em>Hours</em>
+                    </li>
+                        <li class="mins">
+                        <span class="ten">4</span>
+                        <span class="unit">8</span>
+                        <em>Mins</em>
+                    </li>
+                        <li class="secs">
+                        <span class="ten">4</span>
+                        <span class="unit">6</span>
+                        <em>Secs</em>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <p><strong><em>Rapid Router</em> is a fun and engaging education resource, which includes a coding game that helps teach children the basic principles of programming.</strong></p>
+        <p>Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, <em>Rapid Router</em> enables teachers to monitor and manage individual pupil progress and identify where more support is required.</p>
+    </div>
+
+    <div class="col span_1_of_2">
+        <h3>Useful links</h3>
+
+        <ul class="resources">
+            <li>Introduction to Coding</li>
+            <li>Teaching plans</li>
+            <li>Assessment for learning recording sheets</li>
+        </ul>
+    </div>
+</div>
 
 {% endblock content %}

@@ -3,59 +3,73 @@
 <!DOCTYPE html>
 
 <html>
-
 <head>
 
-    <title>Code for Life Portal</title>
-    {% block head %}
-    {% endblock head %}
+<title>Code for Life Portal</title>
+{% block head %}
+{% endblock head %}
 
-    <script type='text/javascript' src='{% static "js/jquery.js" %}'></script>
-    {% block scripts %}
-    {% endblock scripts %}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
+{% block css %}
+{% endblock css %}
+
+<script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
+<script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
+<noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
+{% block scripts %}
+{% endblock scripts %}
 
 </head>
 
 <body>
 
-HEADER:
-<br /><br />
-Logo
-<br /><br />
-<a href='{% url 'portal.views.teach' %}'>Teach</a>
-<a href='{% url 'portal.views.play' %}'>Play</a>
-<br /><br />
+<div id='contentWrapper'>
+    <div class='topBar'>
+        <div class="content">
+            <a href="/" class="logo">
+                <span></span>
+                <h1>Code for Life</h1>
+            </a>
+            <ul class="topNav">
+                {% block topNav %}
+                <li><a href="{% url 'portal.views.teach' %}">TEACH</a></li>
+                <li><a href="{% url 'portal.views.play' %}">PLAY</a></li>
+                {% endblock topNav %}
+            </ul>
+        </div>
+    </div>
 
-{% if user.is_authenticated %}
-    Logged in as {{ user.first_name }} {{ user.last_name }}
-    <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-{% endif %}
+    <div class="content">
 
-END HEADER
-<br /><br />
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <br /><br />
+        {% endif %}
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-<br /><br />
-{% endif %}
+        {% block content %}
+        {% endblock content %}
 
-{% block content %}
-{% endblock content %}
+    </div>
 
-<br /><br />
-FOOTER:
-<br /><br />
-<a href='{% url 'portal.views.about' %}'>About Us</a>
-<a href='{% url 'portal.views.schools_map' %}'>Map</a>
-<a href='{% url 'portal.views.about' %}#id_name'>Contact Us</a>
-<a href='{% url 'portal.views.terms' %}'>Terms of Use</a>
-<br /><br />
-Ocado Technology &copy; 2014
+    <div class="push"></div>
+</div>
+
+<div class="footer">
+    <ul>
+        <li><a href="{% url 'portal.views.about' %}">About us</a></li>
+        <li><a href="{% url 'portal.views.about' %}#contact-area">Contact Us</a></li>
+        <li><a href="{% url 'portal.views.terms' %}">Terms of use</a></li>
+        <li><a href="{% url 'portal.views.cookie' %}">Cookie policy</a></li>
+        <li><a href="{% url 'portal.views.browser' %}">Browser support</a></li>
+        <li>Ocado Technology &copy;2014</li>
+    </ul>
+</div>
 
 </body>
-
 </html>

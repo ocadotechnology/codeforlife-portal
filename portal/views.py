@@ -17,10 +17,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset
+from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
+from two_factor.utils import default_device
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm
@@ -31,13 +33,124 @@ import emailMessages
 
 # New views for GUI
 
+def send_verification_email(request, userProfile, new_email=None):
+    verification = EmailVerification.objects.create(
+        user=userProfile,
+        email=new_email,
+        token=uuid4().hex[:30],
+        expiry=timezone.now() + datetime.timedelta(hours=1))
+
+    if new_email:
+        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
+
+        send_mail(emailMessage['subject'],
+                  emailMessage['message'],
+                  'code4life@mail.com',
+                  [new_email])
+
+        emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
+
+        send_mail(emailMessage['subject'],
+                  emailMessage['message'],
+                  'code4life@mail.com',
+                  [userProfile.user.email])
+
+    else:
+        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
+
+        send_mail(emailMessage['subject'],
+                  emailMessage['message'],
+                  'code4life@mail.com',
+                  [userProfile.user.email])
+
+def verify_email(request, token):
+    verifications = EmailVerification.objects.filter(token=token)
+
+    if len(verifications) != 1:
+        return render(request, 'portal/email_verification_failed.html')
+
+    verification = verifications[0]
+
+    if verification.used or (verification.expiry - timezone.now()) < datetime.timedelta():
+        return render(request, 'portal/email_verification_failed.html')
+
+    verification.used = True
+    verification.save()
+
+    user = verification.user
+    user.awaiting_email_verification = False
+    user.save()
+
+    if verification.email:
+        user.user.email = verification.email
+        user.user.save()
+
+    messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    if hasattr(user, 'student'):
+        return HttpResponseRedirect(reverse('portal.views.play'))
+    elif hasattr(user, 'teacher'):
+        return HttpResponseRedirect(reverse('portal.views.teach'))
+
+    # default to homepage if something goes wrong
+    return HttpResponseRedirect(reverse('portal.views.home'))
+
 def teach(request):
-    # Needs both login and sign up forms
-    return render(request, 'portal/teach/home.html')
+    login_form = TeacherLoginForm()
+    signup_form = TeacherSignupForm()
+
+    if request.method == 'POST':
+        if 'login' in request.POST:
+            login_form = TeacherLoginForm(request.POST)
+            if login_form.is_valid():
+                userProfile = login_form.user.userprofile
+                if userProfile.awaiting_email_verification:
+                    send_verification_email(request, userProfile)
+                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+
+                login(request, login_form.user)
+
+                if default_device(request.user):
+                    return render(request, 'portal/2FA_redirect.html', {
+                        'form': AuthenticationForm(),
+                        'username': request.user.username,
+                        'password': login_form.cleaned_data['password'],
+                    })
+                else:
+                    messages.info(request, 'You are currently not set up with two-factor-authentication. Go to your account page to set it up.')
+
+                return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+
+        if 'signup' in request.POST:
+            signup_form = TeacherSignupForm(request.POST)
+            if signup_form.is_valid():
+                data = signup_form.cleaned_data
+
+                user = User.objects.create_user(
+                    username=get_random_username(), # generate a random username
+                    email=data['email'],
+                    password=data['password'],
+                    first_name=data['first_name'],
+                    last_name=data['last_name'])
+
+                userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+
+                teacher = Teacher.objects.create(
+                    user=userProfile,
+                    title=data['title'])
+
+                send_verification_email(request, userProfile)
+
+                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+
+    return render(request, 'portal/teach.html', {
+        'login_form': login_form,
+        'signup_form': signup_form,
+    })
 
 def play(request):
     # Needs both login and sign up forms
-    return render(request, 'portal/play/home.html')
+    return render(request, 'portal/play.html')
 
 def about(request):
 
@@ -63,6 +176,12 @@ def terms(request):
 def schools_map(request):
     schools = School.objects.all()
     return render(request, 'portal/map.html', { 'schools': schools })
+
+def cookie(request):
+    return render(request, 'portal/cookie.html')
+
+def browser(request):
+    return render(request, 'portal/browser.html')
 
 
 
@@ -212,8 +331,8 @@ def organisation_teacher_view(request, is_admin):
         'form': form,
     })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_manage(request):
     teacher = request.user.userprofile.teacher
 
@@ -223,8 +342,8 @@ def organisation_manage(request):
     else:
         return organisation_create(request)
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_leave(request):
     teacher = request.user.userprofile.teacher
 
@@ -255,8 +374,8 @@ def organisation_leave(request):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.userprofile.teacher
@@ -303,8 +422,8 @@ def organisation_kick(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.userprofile.teacher
@@ -334,8 +453,8 @@ def organisation_toggle_admin(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.userprofile.teacher
@@ -360,8 +479,8 @@ def organisation_allow_join(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.userprofile.teacher
@@ -384,121 +503,8 @@ def organisation_deny_join(request, pk):
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
-def send_verification_email(request, userProfile, new_email=None):
-    verification = EmailVerification.objects.create(
-        user=userProfile,
-        email=new_email,
-        token=uuid4().hex[:30],
-        expiry=timezone.now() + datetime.timedelta(hours=1))
-
-    if new_email:
-        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
-
-        send_mail(emailMessage['subject'],
-                  emailMessage['message'],
-                  'code4life@mail.com',
-                  [new_email])
-
-        emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
-
-        send_mail(emailMessage['subject'],
-                  emailMessage['message'],
-                  'code4life@mail.com',
-                  [userProfile.user.email])
-
-    else:
-        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
-
-        send_mail(emailMessage['subject'],
-                  emailMessage['message'],
-                  'code4life@mail.com',
-                  [userProfile.user.email])
-
-@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
-def teacher_signup(request):
-    if request.method == 'POST':
-        form = TeacherSignupForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-
-            user = User.objects.create_user(
-                username=get_random_username(), # generate a random username
-                email=data['email'],
-                password=data['password'],
-                first_name=data['first_name'],
-                last_name=data['last_name'])
-
-            userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
-
-            teacher = Teacher.objects.create(
-                name=data['first_name'] + ' ' + data['last_name'],
-                user=userProfile)
-
-            send_verification_email(request, userProfile)
-
-            return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
-
-    else:
-        form = TeacherSignupForm()
-
-    return render(request, 'portal/teach/teacher_signup.html', { 'form': form })
-
-def verify_email(request, token):
-    verifications = EmailVerification.objects.filter(token=token)
-
-    if len(verifications) != 1:
-        return render(request, 'portal/email_verification_failed.html')
-
-    verification = verifications[0]
-
-    if verification.used or (verification.expiry - timezone.now()) < datetime.timedelta():
-        return render(request, 'portal/email_verification_failed.html')
-
-    verification.used = True
-    verification.save()
-
-    user = verification.user
-    user.awaiting_email_verification = False
-    user.save()
-
-    if verification.email:
-        user.user.email = verification.email
-        user.user.save()
-
-    messages.success(request, 'Your email address was successfully verified, please log in.')
-
-    if hasattr(user, 'student'):
-        if user.student.class_field:
-            return HttpResponseRedirect(reverse('portal.views.student_login'))
-        else:
-            return HttpResponseRedirect(reverse('portal.views.student_solo_login'))
-    elif hasattr(user, 'teacher'):
-        return HttpResponseRedirect(reverse('portal.views.teacher_login'))
-
-    # default to homepage if something goes wrong
-    return HttpResponseRedirect(reverse('portal.views.home'))
-
-@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
-def teacher_login(request):
-    if request.method == 'POST':
-        form = TeacherLoginForm(request.POST)
-        if form.is_valid():
-            userProfile = form.user.userprofile
-            if userProfile.awaiting_email_verification:
-                send_verification_email(request, userProfile)
-                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
-
-            login(request, form.user)
-            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
-    else:
-        form = TeacherLoginForm()
-
-    return render(request, 'portal/teach/teacher_login.html', {
-        'form': form,
-    })
-
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_classes(request):
     def generate_access_code():
         while True:
@@ -536,8 +542,8 @@ def teacher_classes(request):
         'classes': classes,
     })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     students = Student.objects.filter(class_field=klass).order_by('user__user__first_name')
@@ -581,8 +587,8 @@ def teacher_class(request, access_code):
         'num_students': len(students),
     })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_move_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(user=klass.teacher.user)
@@ -605,8 +611,8 @@ def teacher_move_class(request, access_code):
         form = ClassMoveForm(teachers)
     return render(request, 'portal/teach/teacher_move_class.html', { 'form': form, 'class': klass })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_move_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
@@ -626,8 +632,8 @@ def teacher_move_students(request, access_code):
 
     return render(request, 'portal/teach/teacher_move_students.html', {'transfer_students': transfer_students, 'old_class': klass, 'form': form})
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_move_students_to_class(request, access_code):
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get('new_class', None)
@@ -681,8 +687,8 @@ def teacher_move_students_to_class(request, access_code):
         'transfer_students': transfer_students
     })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_edit_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
@@ -710,8 +716,8 @@ def teacher_edit_class(request, access_code):
         'class': klass
     })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_student_reset(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -725,8 +731,8 @@ def teacher_student_reset(request, pk):
 
     return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_student_set(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -752,8 +758,8 @@ def teacher_student_set(request, pk):
 
     return render(request, 'portal/teach/teacher_student_set.html', { 'form': form, 'student': student, 'class': student.class_field })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_edit_student(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -788,8 +794,8 @@ def teacher_edit_student(request, pk):
 def teacher_password_reset(request, post_reset_redirect):
     return password_reset(request, template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_edit_account(request):
     teacher = request.user.userprofile.teacher
 
@@ -832,8 +838,8 @@ def teacher_edit_account(request):
 
     return render(request, 'portal/teach/teacher_edit_account.html', { 'form': form })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_print_reminder_cards(request, access_code):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="student_reminder_cards.pdf"'
@@ -918,8 +924,8 @@ def teacher_print_reminder_cards(request, access_code):
     p.save()
     return response
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_accept_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -952,8 +958,8 @@ def teacher_accept_student_request(request, pk):
 
     return render(request, 'portal/teach/teacher_add_external_student.html', { 'students': students, 'class': student.pending_class_request, 'student': student, 'form':form })
 
-@login_required(login_url=reverse_lazy('portal.views.teacher_login'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teacher_login'))
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_reject_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -982,15 +988,15 @@ def student_login(request):
     else:
         form = StudentLoginForm()
 
-    return render(request, 'portal/play/student_login.html', { 'form': form })
+    return render(request, 'portal/play/play.html', { 'form': form })
 
-@login_required(login_url=reverse_lazy('portal.views.student_login'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
+@login_required(login_url=reverse_lazy('portal.views.play'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
 def student_details(request):
     return render(request, 'portal/play/student_details.html')
 
-@login_required(login_url=reverse_lazy('portal.views.student_login'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
+@login_required(login_url=reverse_lazy('portal.views.play'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
 def student_edit_account(request):
     student = request.user.userprofile.student
 
@@ -1067,7 +1073,7 @@ def student_signup(request):
     else:
         form = StudentSignupForm()
 
-    return render(request, 'portal/play/student_signup.html', { 'form': form })
+    return render(request, 'portal/play/play.html', { 'form': form })
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_solo_login(request):
@@ -1084,7 +1090,7 @@ def student_solo_login(request):
     else:
         form = StudentSoloLoginForm()
 
-    return render(request, 'portal/play/student_solo_login.html', {
+    return render(request, 'portal/play/play.html', {
         'form': form,
         'email_verified': request.GET.get('email_verified', False)
     })
@@ -1094,8 +1100,8 @@ def student_password_reset(request, post_reset_redirect):
     return password_reset(request, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
     
 
-@login_required(login_url=reverse_lazy('portal.views.student_login'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.student_login'))
+@login_required(login_url=reverse_lazy('portal.views.play'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
 def student_join_organisation(request):
     student = request.user.userprofile.student
     request_form = StudentJoinOrganisationForm()

@@ -28,7 +28,7 @@ class School (models.Model):
 
 
 class Teacher (models.Model):
-    name = models.CharField(max_length=200)
+    title = models.CharField(max_length=35)
     user = models.OneToOneField(UserProfile)
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
     is_admin = models.BooleanField(default=False)
