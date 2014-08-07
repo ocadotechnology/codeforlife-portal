@@ -1,8 +1,10 @@
 #!/bin/bash
-echo $SSH_KEY > /root/.ssh/id_rsa
-pip install -r /opt/codeforlife-deploy/requirements.txt
-ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | xargs -i cp -R {} /opt/codeforlife-deploy/
+pip install https://www.djangoproject.com/download/1.7c1/tarball/
+ssh-agent /opt/codeforlife-deploy/install-portal.sh
+ssh-agent /opt/codeforlife-deploy/install-rapid-router.sh
+ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | grep -v PIL | xargs -i cp -R {} /opt/codeforlife-deploy/
 # To be used to docker deployment environment
+cd /opt/codeforlife-deploy/
 export DEPLOYMENT=1
 ./manage.py collectstatic --noinput
 ./manage.py migrate
