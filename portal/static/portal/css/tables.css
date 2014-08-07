@@ -1,7 +1,6 @@
-table.CSSTable {
+.CSSTable {
 	margin:0px;padding:0px;
 	width:100%;
-	0 2px 2px rgba(0, 0, 0, 0.3)
 	border:1px solid #e2e2e2;
 	
 	-moz-border-radius-bottomleft:2px;
@@ -19,35 +18,35 @@ table.CSSTable {
 	-moz-border-radius-topleft:2px;
 	-webkit-border-top-left-radius:2px;
 	border-top-left-radius:2px;
-}table.CSSTable table{
+}table.CSSTable{
     border-collapse: collapse;
         border-spacing: 0;
 	width:100%;
 	height:100%;
 	margin:0px;padding:0px;
-}table.CSSTable tr:last-child td:last-child {
+}.CSSTable tr:last-child td:last-child {
 	-moz-border-radius-bottomright:2px;
 	-webkit-border-bottom-right-radius:2px;
 	border-bottom-right-radius:2px;
 }
-table.CSSTable table tr:first-child td:first-child {
+table.CSSTable tr:first-child td:first-child {
 	-moz-border-radius-topleft:2px;
 	-webkit-border-top-left-radius:2px;
 	border-top-left-radius:2px;
 }
-table.CSSTable table tr:first-child td:last-child {
+table.CSSTable tr:first-child td:last-child {
 	-moz-border-radius-topright:2px;
 	-webkit-border-top-right-radius:2px;
 	border-top-right-radius:2px;
-}table.CSSTable tr:last-child td:first-child{
+}.CSSTable tr:last-child td:first-child{
 	-moz-border-radius-bottomleft:2px;
 	-webkit-border-bottom-left-radius:2px;
 	border-bottom-left-radius:2px;
-}table.CSSTable tr:hover td{
+}.CSSTable tr:hover td{
 	
 }
-table.CSSTable tr:nth-child(odd){ background-color:#ffe4b7; }
-table.CSSTable tr:nth-child(even)    { background-color:#ffffff; }table.CSSTable td{
+.CSSTable tr:nth-child(odd){ background-color:#fff7ea; }
+.CSSTable tr:nth-child(even)    { background-color:#ffffff; }.CSSTable td{
 	vertical-align:middle;
 	
 	
@@ -55,41 +54,41 @@ table.CSSTable tr:nth-child(even)    { background-color:#ffffff; }table.CSSTable
 	border-width:0px 1px 1px 0px;
 	text-align:left;
 	padding:7px;
-	font-size:10px;
+	font-size:1.4rem;
 	font-family:Arial;
 	font-weight:normal;
-	color:#000000;
-}table.CSSTable tr:last-child td{
+	color:#333333;
+}.CSSTable tr:last-child td{
 	border-width:0px 1px 0px 0px;
-}table.CSSTable tr td:last-child{
+}.CSSTable tr td:last-child{
 	border-width:0px 0px 1px 0px;
-}table.CSSTable tr:last-child td:last-child{
+}.CSSTable tr:last-child td:last-child{
 	border-width:0px 0px 0px 0px;
 }
-table.CSSTable tr:first-child td{
-		background:-o-linear-gradient(bottom, #eda933 5%, #d39207 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eda933), color-stop(1, #d39207) );
-	background:-moz-linear-gradient( center top, #eda933 5%, #d39207 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#eda933", endColorstr="#d39207");	background: -o-linear-gradient(top,#eda933,d39207);
+.CSSTable tr:first-child td{
+		background:-o-linear-gradient(bottom, #ffc563 5%, #ffc563 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffc563), color-stop(1, #ffc563) );
+	background:-moz-linear-gradient( center top, #ffc563 5%, #ffc563 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffc563", endColorstr="#ffc563");	background: -o-linear-gradient(top,#ffc563,ffc563);
 
-	background-color:#eda933;
+	background-color:#ffc563;
 	border:0px solid #e2e2e2;
 	text-align:center;
 	border-width:0px 0px 1px 1px;
-	font-size:14px;
+	font-size:1.4rem;
 	font-family:Arial;
 	font-weight:bold;
-	color:#ffffff;
+	color:#333;
 }
-table.CSSTable tr:first-child:hover td{
-	background:-o-linear-gradient(bottom, #eda933 5%, #d39207 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eda933), color-stop(1, #d39207) );
-	background:-moz-linear-gradient( center top, #eda933 5%, #d39207 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#eda933", endColorstr="#d39207");	background: -o-linear-gradient(top,#eda933,d39207);
+.CSSTable tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #ffc563 5%, #ffc563 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffc563), color-stop(1, #ffc563) );
+	background:-moz-linear-gradient( center top, #ffc563 5%, #ffc563 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffc563", endColorstr="#ffc563");	background: -o-linear-gradient(top,#ffc563,ffc563);
 
-	background-color:#eda933;
+	background-color:#ffc563;
 }
-table.CSSTable tr:first-child td:first-child{
+.CSSTable tr:first-child td:first-child{
 	border-width:0px 0px 1px 0px;
 }
-table.CSSTable tr:first-child td:last-child{
+.CSSTable tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }

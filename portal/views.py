@@ -117,7 +117,7 @@ def teach(request):
                         'password': login_form.cleaned_data['password'],
                     })
                 else:
-                    messages.info(request, 'You are currently not set up with two-factor-authentication. Go to your account page to set it up.')
+                    messages.info(request, 'You are currently not set up with two-factor-authentication. Click <a href="/account/two_factor/setup">here</a> to set it up or go to your account page at any time.')
 
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
