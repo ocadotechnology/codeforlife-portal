@@ -1,26 +1,11 @@
 {% extends 'portal/teach/base.html' %}
-{% load static %}
-
-{% block title %}Code For Life - Portal{% endblock %}
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
-
-<div class='row'>
-
-    <div class='small-6 small-centered columns'>
-
-        <div class='panel radius'>
-            <h3>Update class details for {{ class.access_code }}</h3>
+<div class='section group'>
+    <div class='span_centered_third'>
+        <div class='login-card'>
+            <h3>Update class details for {{ class.access_code }}</h3><br/>
 
             <form method='post'>
 
@@ -28,33 +13,19 @@
 
                 {{ form.non_field_errors }}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.name.errors }}
-                        {{ form.name }}
+                {{ form.name.errors }}
+                {{ form.name }}
+
+                <div class='section group'>
+                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+
+                    <div class='col span_1_of_3 pull-right'>
+                        <input type='submit' class='btn' value='Update'/>
                     </div>
                 </div>
-
-                <div class='row'>
-                    <div class='small-3 columns'>
-                        <a class='portal_button' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
-                    </div>
-
-                    <div class='small-6 columns'></div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Update'/>
-                    </div>
-                </div>
-
             </form>
         </div>
-
     </div>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

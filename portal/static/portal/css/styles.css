@@ -249,6 +249,12 @@ padding-top:50%;
     width: 49.2%;
 }
 
+/* CENTERED */
+.span_centered_third {
+    margin-left: 33%;
+    width: 33%;
+}
+
 
 /*************** button code ******/
 
@@ -284,10 +290,11 @@ padding-top:50%;
 	font-style:normal;
 	height:40px;
 	line-height:40px;
-	width:200px;
 	text-decoration:none;
 	text-align:center;
 	text-shadow:1px 1px 0px #cd8a15;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .btn:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
@@ -299,13 +306,9 @@ padding-top:50%;
 	top:1px;
 }
 
-
-.wide
-{
+.wide {
 	width:100%;
 }
-
-
 
 /*************** end button code ******/
 
@@ -420,6 +423,21 @@ background-color: #FFCCBA;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
+.login-card textarea {
+  font-size: 1.4rem;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 10px;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  /* border-radius: 2px; */
+  padding: 0 8px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
 .login-help {
   width: 100%;
   text-align: center;
@@ -520,3 +538,11 @@ label {
 }
 
 /************** End contact form **************/
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
