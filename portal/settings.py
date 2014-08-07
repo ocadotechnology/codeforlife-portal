@@ -70,6 +70,9 @@ LOGIN_URL = reverse_lazy('portal.views.teach')
 LOGOUT_URL = reverse_lazy('portal.views.logout_view')
 LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_classes')
 
+RECAPTCHA_PUBLIC_KEY = '6LfdOfgSAAAAADDdLN40FtToVvE3moMgOUhGU7oq'
+RECAPTCHA_PRIVATE_KEY = '6LfdOfgSAAAAAFwSXYu9BVD2lCCXEypoFYIJM_tp'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
