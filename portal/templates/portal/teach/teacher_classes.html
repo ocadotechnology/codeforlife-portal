@@ -5,119 +5,92 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
-
-<div class='row'>
-    <div class='small-6 columns'>
-        <h3>Welcome, {{ user.first_name }}</h3>
-
-    </div>
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_edit_account' %}">Manage your account</a>
-    </div>
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.organisation_manage' %}">Manage your organisation</a>
-    </div>
-</div>
+<h3>Welcome, {{ user.first_name }}</h3>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
 
-<div class='row'>
-    <div class='small-6 columns'>
-        <h4>Current Classes</h4>
-        <table width='100%'>
-            <thead>
-                <th>Class Name</th>
-                <th>Access Code</th>
-            </thead>
-            <tbody>
-                {% for class in classes %}
-                    <tr>
-                        <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a> <a href="{% url 'portal.views.teacher_edit_class' class.access_code %}">(edit)</a></td>
-                        <td>{{ class.access_code }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
+<div class="section group">
+    <div class="col span_1_of_2">
+        <h3>Current Classes</h3>
+
+        <table class='CSSTable'>
+            <tr>
+                <td>Class Name</td>
+                <td>Access Code</td>
+            </tr>
+            {% for class in classes %}
+                <tr>
+                    <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a> <a href="{% url 'portal.views.teacher_edit_class' class.access_code %}">(edit)</a></td>
+                    <td>{{ class.access_code }}</td>
+                </tr>
+            {% endfor %}
         </table>
     </div>
 
-    <div class='small-6 columns'>
-        <h4>New Class</h4>
+    <div class="col span_1_of_2">
+        <div class='login-card'>
+            <h3>New Class</h3><br/>
 
-        <p>A unique Access Code will be generated for the new class.</p>
+            <p>A unique Access Code will be generated for the new class.</p>
 
-        <form method='post'>
+            <form method='post'>
 
-            {% csrf_token %}
+                {% csrf_token %}
 
-            {{ form.non_field_errors }}
+                {{ form.non_field_errors }}
 
-            <div class='row'>
-                <div class='small-9 columns'>
-                    {{ form.name.errors }}
-                    {{ form.name }}
+                <div class="section group">
+                    <div class="col span_2_of_3">
+                        {{ form.name.errors }}
+                        {{ form.name }}
+                    </div>
+
+                    <div class="col span_1_of_3">
+                        <input type='submit' class='btn' value='Create'/>
+                    </div>
                 </div>
 
-                <div class='small-3 columns'>
-                    <input type='submit' value='Create'/>
-                </div>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
-<div class='row'>
-    <div class='small-12 columns'>
-        <h4>External requests to join your classes</h4>
+<br/>
 
-        <p>External/independent students may request to join your classes given a class Access Code from the above table and the school name ({{ user.userprofile.teacher.school.name }}).</p>
+<h3>External requests to join your classes</h3>
 
-        <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them like any other student.</p>
+<p>External/independent students may request to join your classes given a class Access Code from the above table and the school name ({{ user.userprofile.teacher.school.name }}).</p>
 
-        <p><i>To conform to security models, the request user's username, last name, and email will be wiped on successful acceptance, but these details are displayed here to enable positive identification.</i></p>
+{% if requests %}
+    <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them like any other student.</p>
 
-        <table width='100%'>
-            <thead>
-                <th>Username</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Email</th>
-                <th>Class</th>
-                <th>Access code</th>
-                <th colspan='2'>Actions</th>
-            </thead>
-            <tbody>
-                {% for request in requests %}
-                    <tr>
-                        <td>{{ request.user.user.username }}</td>
-                        <td>{{ request.user.user.first_name }}</td>
-                        <td>{{ request.user.user.last_name }}</td>
-                        <td>{{ request.user.user.email }}</td>
-                        <td>{{ request.pending_class_request.name }}</td>
-                        <td>{{ request.pending_class_request.access_code }}</td>
-                        <td><a class='portal_button' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
-                        <td><a class='portal_button' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <p><i>To conform to security models, the request user's username, last name, and email will be wiped on successful acceptance, but these details are displayed here to enable positive identification.</i></p>
 
-    </div>
-
-
-</div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
+    <table class="CSSTable" width='100%'>
+        <tr>
+            <td>Username</td>
+            <td>First name</td>
+            <td>Last name</td>
+            <td>Email</td>
+            <td>Class</td>
+            <td>Access code</td>
+            <td colspan='2'>Actions</td>
+        </tr>
+        {% for request in requests %}
+            <tr>
+                <td>{{ request.user.user.username }}</td>
+                <td>{{ request.user.user.first_name }}</td>
+                <td>{{ request.user.user.last_name }}</td>
+                <td>{{ request.user.user.email }}</td>
+                <td>{{ request.pending_class_request.name }}</td>
+                <td>{{ request.pending_class_request.access_code }}</td>
+                <td><a class='portal_button' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
+                <td><a class='portal_button' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No students have currently requested to join your classes.</p>
+{% endif %}
 
 {% endblock %}

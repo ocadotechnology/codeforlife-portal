@@ -1,0 +1,66 @@
+{% extends 'portal/base.html' %}
+
+{% block content %}
+{{block.super}}
+
+<div class="section group">
+    <div class="col span_2_of_3">
+        <h3>Teacher resource</h3>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
+        </p>
+        <h3>School curriculum</h3>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
+        </p>
+
+    </div>
+    
+    <div class="col span_1_of_3">
+        <div class="login-card">
+            <h3>Sign in</h3><br>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ login_form.non_field_errors }}
+
+                {% for field in login_form %}
+                    {{ field.errors }}
+                    <label class="ieLabels">{{ field.html_name }}</label>
+                    {{ field }}
+                {% endfor %}
+
+                <input type="submit" name="login" class="btn wide" value="Sign in">
+            </form>
+                        
+            <div class="login-help">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="login-card">
+            <h3>Register</h3><br>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ signup_form.non_field_errors }}
+
+                {% for field in signup_form %}
+                    {{ field.errors }}
+                    <label class="ieLabels">{{ field.html_name }}</label>
+                    {{ field }}
+                {% endfor %}
+
+                <input type="submit" name="signup" class="btn wide" value="Register">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

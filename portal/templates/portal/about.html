@@ -2,20 +2,30 @@
 
 {% block content %}
 
-<h1>About Us</h1>
+<h2>About us</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac sem eu tortor dignissim elementum eu a erat. Cras porttitor tempor sagittis. Vivamus lectus justo, rhoncus sed laoreet in, tempus vel arcu. In tristique nibh eget cursus molestie. Nunc quam felis, semper id ultrices et, tempus ut urna. Vestibulum sit amet sapien sed odio commodo interdum. Curabitur at libero orci. Curabitur consequat mauris orci, ac vestibulum arcu iaculis sed.</p>
 
-Copy copy copy
+<h2>Contact Us</h2>
+<div id="contact-area">
 
-<style>
-h2:target { color: red; }
-</style>
+    <form method="post" action="">
+        <label for="Name">Name:</label>
+        <input class="contactField" type="text" name="Name" id="Name" />
+        
+        <label for="Telephone">Telephone</label>
+        <input class="contactField" type="text" name="Telephone" id="txt_phone" />
 
-<h2 id='contact'>Contact Us</h2>
+        <label for="Email">Email:</label>
+        <input  class="contactField"type="text" name="Email" id="Email" />
+        
+        <label for="Message">Message:</label><br />
+        <textarea class="contactField" name="Message" rows="20" cols="20" id="Message"></textarea>
 
-<form method='post'>
-    {% csrf_token %}
-    {{form.as_ul}}
-    <input type='submit' value='Send' />
-</form>
+        <input type="submit" name="submit" value="Submit" class="btn" />
+    </form>
+    
+    <div style="clear: both;"></div>
+    
+</div>
 
 {% endblock content %}
