@@ -1,4 +1,10 @@
 {% extends 'portal/base.html' %}
+{% load staticfiles %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src='{% static "portal/js/play.js" %}'></script>
+{% endblock scripts %}
 
 {% block content %}
 {{block.super}}
@@ -59,9 +65,9 @@
 
     <div class="col span_1_of_3">
         <div id="school-login" class="login-card">
-            <h3>Sign in</h3><br>
+            <h3>School student sign in</h3><br>
 
-            <p>Signed up indiviudally? <a href='#'>Click here</a> to sign in.</p>
+            <p>Signed up indiviudally? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
             <form method='post'>
 
                 {% csrf_token %}
@@ -78,12 +84,10 @@
             </form>
         </div>
 
-        <br>
-
         <div id="solo-login" class="login-card">
-            <h3>Individual Sign in</h3><br>
+            <h3>Individual sign in</h3><br>
 
-            <p>Part of a school? <a href='#'>Click here</a> to sign in.</p>
+            <p>Part of a school? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
 
             <form method='post'>
 
@@ -110,7 +114,9 @@
         <div id="signup" class="login-card">
             <h3>Register to track your performance</h3><br>
 
-            <form method='post'>
+            <p id='signup-warning' >If you're not part of a school who is signed up to Code for Life, <a href='#' id='signupShow'>click here</a> to sign up.</p>
+
+            <form id="signup-form" method='post'>
 
                 {% csrf_token %}
 
