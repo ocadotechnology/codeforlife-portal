@@ -256,7 +256,7 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
         self.classes = classes
         class_choices = []
         for klass in classes:
-            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.name))
+            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.user.user.first_name + klass.teacher.user.user.last_name))
         super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
         self.fields['new_class'].choices = class_choices
 
