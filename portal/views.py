@@ -895,9 +895,9 @@ def teacher_print_reminder_cards(request, access_code):
                CARD_INNER_HEIGHT)
 
         p.setFont('Helvetica', 12)
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.25, 'Password')
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.44, 'Class Code')
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.63, 'Name')
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.25, 'My Password is:')
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.44, 'My Class Code is:')
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.63, 'Name:')
 
         p.setFont('Helvetica-Bold', 16)
         p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.25, student['password'])
@@ -910,7 +910,7 @@ def teacher_print_reminder_cards(request, access_code):
 
         p.setFillColor(blue)
         p.setFont('Helvetica', 10)
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.1, 'http://codeforlife.education')
+        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.1, 'www.codeforlife.education')
 
         x = (x + 1) % NUM_X
         if x == 0:
