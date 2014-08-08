@@ -3,9 +3,11 @@
 
 {% block content %}
 
-<h1>Edit student details for {{ student.name }} from class ({{ student.class_field.access_code }})</h1><br/>
+<div class="section group">
+    <h1 class='col'>Edit student details for {{ student.name }} from class ({{ student.class_field.access_code }})</h1>
 
-<a class='btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+    <a class='col btn pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+</div>
 
 <div class='section group'>
     <div class='col span_1_of_2'>
