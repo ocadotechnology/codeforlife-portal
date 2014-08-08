@@ -10,17 +10,7 @@
 <p>The following students have been created for your class. When they log in for the first time, you may wish them to change to a new password which is more memorable. You will be able to reset these students' passwords at any time.</p>
 
 <div class='section group'>
-    <div class='col span_2_of_3'>
-        <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
-    </div>
-
-    <div class='col span_1_of_3'>
-        <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
-            {% csrf_token %}
-            <input type='hidden' name='data' value='{{ query_data }}'/>
-            <input class='btn wide'type='submit' value='Print Reminder Cards'/>
-        </form>
-    </div>
+    <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
 </div>
 
 <div class='span_centered_third'>
@@ -36,8 +26,15 @@
             </tr>
         {% endfor %}
     </table>
+    <br>
+    <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
+        {% csrf_token %}
+        <input type='hidden' name='data' value='{{ query_data }}'/>
+        <input class='btn wide'type='submit' value='Print Reminder Cards'/>
+    </form>
+    <br>
+    <a class='btn wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
 </div>
 
-<a class='btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
 
 {% endblock %}
