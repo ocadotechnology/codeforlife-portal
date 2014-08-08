@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='teacher',
             name='school',
-            field=models.ForeignKey(default=0, to='portal.School'),
+            field=models.ForeignKey(to='portal.School', null=True, blank=True, default=None),
             preserve_default=False,
         ),
         migrations.RemoveField(
