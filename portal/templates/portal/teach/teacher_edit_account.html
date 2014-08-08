@@ -9,7 +9,7 @@
 
     <div class='span_centered_third'>
 
-        <div class='login-card with-title'>
+        <div class='login-card'>
             <h3>Update account details</h3><br>
 
             <form method='post'>
@@ -18,11 +18,55 @@
 
                 {{ form.non_field_errors }}
 
-                {% for field in form %}
-                    {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
-                    {{ field }}
-                {% endfor %}
+                <table width='100%'>
+                    <tr>
+                        <td>{{ form.title.errors }}</td>
+                        <td>{{ form.first_name.errors }}</td>
+                        <td>{{ form.last_name.errors }}</td>
+                    </tr>
+                    <tr>
+                        <td class='title'>
+                            <label class="ieLabels">{{ form.title.html_name }}</label>
+                            {{ form.title }}
+                        </td>
+                        <td class='fName'>
+                            <label class="ieLabels">{{ form.first_name.html_name }}</label>
+                            {{ form.first_name }}
+                        </td>
+                        <td class='lName'>
+                            <label class="ieLabels">{{ form.last_name.html_name }}</label>
+                            {{ form.last_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ form.email.errors }}
+                            <label class="ieLabels">{{ form.email.html_name }}</label>
+                            {{ form.email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ form.password.errors }}
+                            <label class="ieLabels">{{ form.password.html_name }}</label>
+                            {{ form.password }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ form.confirm_password.errors }}
+                            <label class="ieLabels">{{ form.confirm_password.html_name }}</label>
+                            {{ form.confirm_password }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ form.current_password.errors }}
+                            <label class="ieLabels">{{ form.current_password.html_name }}</label>
+                            {{ form.current_password }}
+                        </td>
+                    </tr>
+                </table>
 
 
                 <div class='section group'>

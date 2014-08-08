@@ -42,7 +42,7 @@
 
         <br>
 
-        <div class="login-card with-title">
+        <div class="login-card">
             <h3>Register</h3><br>
 
             <form method='post'>
@@ -51,11 +51,48 @@
 
                 {{ signup_form.non_field_errors }}
 
-                {% for field in signup_form %}
-                    {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
-                    {{ field }}
-                {% endfor %}
+                <table width='100%'>
+                    <tr>
+                        <td>{{ signup_form.title.errors }}</td>
+                        <td>{{ signup_form.first_name.errors }}</td>
+                        <td>{{ signup_form.last_name.errors }}</td>
+                    </tr>
+                    <tr>
+                        <td class='title'>
+                            <label class="ieLabels">{{ signup_form.title.html_name }}</label>
+                            {{ signup_form.title }}
+                        </td>
+                        <td class='fName'>
+                            <label class="ieLabels">{{ signup_form.first_name.html_name }}</label>
+                            {{ signup_form.first_name }}
+                        </td>
+                        <td class='lName'>
+                            <label class="ieLabels">{{ signup_form.last_name.html_name }}</label>
+                            {{ signup_form.last_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ signup_form.email.errors }}
+                            <label class="ieLabels">{{ signup_form.email.html_name }}</label>
+                            {{ signup_form.email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ signup_form.password.errors }}
+                            <label class="ieLabels">{{ signup_form.password.html_name }}</label>
+                            {{ signup_form.password }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='3'>
+                            {{ signup_form.confirm_password.errors }}
+                            <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
+                            {{ signup_form.confirm_password }}
+                        </td>
+                    </tr>
+                </table>
 
                 <input type="submit" name="signup" class="btn wide" value="Register">
             </form>
