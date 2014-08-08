@@ -81,8 +81,8 @@
                 <td>{{ request.user.user.email }}</td>
                 <td>{{ request.pending_class_request.name }}</td>
                 <td>{{ request.pending_class_request.access_code }}</td>
-                <td><a class='portal_button' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
-                <td><a class='portal_button' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
+                <td><a class='btn' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
+                <td><a class='btn' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
             </tr>
         {% endfor %}
     </table>
