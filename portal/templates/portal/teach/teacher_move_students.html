@@ -5,22 +5,12 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
+<div class='section group'>
 
-<div class='row'>
+    <div class='span_centered_third'>
 
-    <div class='small-6 small-centered columns'>
-
-        <div class='panel radius'>
-            <h3>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h3>
+        <div class='login-card'>
+            <h3>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h3><br>
 
             <p>Select a new class for the students.</p>
 
@@ -30,35 +20,24 @@
 
                 {{ form.non_field_errors }}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.new_class.errors }}
-                        {{ form.new_class }}
-                    </div>
-                </div>
+                {% for field in form %}
+                    {{ field.errors }}
+                    <label class="ieLabels">{{ field.html_name }}</label>
+                    {{ field }}
+                {% endfor %}
 
-                <div class='row'>
-                    <div class='small-3 columns'>
-                        <a class='portal_button' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
-                    </div>
+                <div class='section group'>
+                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
 
-                    <div class='small-6 columns'></div>
-
-                    <div class='small-3 columns'>
+                    <div class='col span_1_of_3 pull-right'>
                         <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
-
-                        <input type='submit' value='Continue'/>
+                        <input type='submit' class='btn' value='Continue'/>
                     </div>
                 </div>
-
             </form>
         </div>
 
     </div>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}
