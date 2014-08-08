@@ -5,22 +5,12 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
+<div class='section group'>
 
-<div class='row'>
+    <div class='span_centered_half'>
 
-    <div class='small-6 small-centered columns'>
-
-        <div class='panel radius'>
-            <h3>Update account details</h3>
+        <div class='login-card'>
+            <h3>Update account details</h3><br>
 
             <form method='post'>
 
@@ -30,56 +20,33 @@
 
                 {% if not user.userprofile.student.class_field %}
 
-                <div class='row'>
-                    <div class='small-6 columns'>
-                        {{ form.first_name.errors }}
-                        {{ form.first_name }}
-                    </div>
-                    <div class='small-6 columns'>
-                        {{ form.last_name.errors }}
-                        {{ form.last_name }}
-                    </div>
-                </div>
+                    {{ form.first_name.errors }}
+                    <label class="ieLabels">{{ form.first_name.html_name }}</label>
+                    {{ form.first_name }}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.email.errors }}
-                        {{ form.email }}
-                    </div>
-                </div>
+                    {{ form.email.errors }}
+                    <label class="ieLabels">{{ form.email.html_name }}</label>
+                    {{ form.email }}
 
                 {% endif %}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.password.errors }}
-                        {{ form.password }}
-                    </div>
-                </div>
+                {{ form.password.errors }}
+                <label class="ieLabels">{{ form.password.html_name }}</label>
+                {{ form.password }}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.confirm_password.errors }}
-                        {{ form.confirm_password }}
-                    </div>
-                </div>
+                {{ form.confirm_password.errors }}
+                <label class="ieLabels">{{ form.confirm_password.html_name }}</label>
+                {{ form.confirm_password }}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.current_password.errors }}
-                        {{ form.current_password }}
-                    </div>
-                </div>
+                {{ form.current_password.errors }}
+                <label class="ieLabels">{{ form.current_password.html_name }}</label>
+                {{ form.current_password }}
 
-                <div class='row'>
-                    <div class='small-3 columns'>
-                        <a class='portal_button' href="{% url 'portal.views.student_details' %}">Cancel</a>
-                    </div>
+                <div class='section group'>
+                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.student_details' %}">Cancel</a>
 
-                    <div class='small-6 columns'></div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Update'/>
+                    <div class='col span_1_of_3 pull-right'>
+                        <input type='submit' class='btn' value='Update'/>
                     </div>
                 </div>
 
@@ -88,9 +55,5 @@
 
     </div>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

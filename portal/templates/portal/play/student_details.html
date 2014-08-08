@@ -5,16 +5,6 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
-
 <h3>Welcome</h3>
 
 <p>You are logged in as {{ user.userprofile.student.name }}{% if user.userprofile.student.class_field %}, a member of class {{ user.userprofile.student.class_field.name }}{% endif %}.</p>
@@ -25,8 +15,5 @@
     <p><a href="{% url 'portal.views.student_join_organisation' %}">Click here</a> to manage joining an organisation.</p>
 {% endif %}
 
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}
