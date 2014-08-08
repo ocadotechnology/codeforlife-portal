@@ -12,7 +12,7 @@
 <br>
 
 <div class='section group'>
-    <h3>Teachers who are part of your school/club</h3>
+    <h3>Teachers who are part of your school/club</h3><br>
 
     <table class='CSSTable' width='100%'>
         <tr>
@@ -28,7 +28,7 @@
                 <td>{{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
                 <td>{{ coworker.user.user.email }}</td>
                 {% if coworker.user.user != user and is_admin %}
-                    <td><a class='btn' href="{% url 'portal.views.organisation_kick' coworker.id %}">Kick</a></td>
+                    <td><a class='btn' href="{% url 'portal.views.organisation_kick' coworker.id %}">Remove</a></td>
                     <td><a class='btn' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
                 {% else %}
                     {% if is_admin %}

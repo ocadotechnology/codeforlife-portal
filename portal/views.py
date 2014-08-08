@@ -457,7 +457,7 @@ def organisation_kick(request, pk):
         return render(request, 'portal/teach/teacher_move_all_classes.html', {
             'classes': classes,
             'teachers': teachers,
-            'submit_button_text': 'Move classes and kick',
+            'submit_button_text': 'Remove teacher',
         })
 
     teacher.school = None
