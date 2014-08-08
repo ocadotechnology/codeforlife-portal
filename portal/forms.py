@@ -210,7 +210,7 @@ class ClassMoveForm(forms.Form):
         self.teachers = teachers
         teacher_choices = []
         for teacher in teachers:
-            teacher_choices.append((teacher.id, teacher.name))
+            teacher_choices.append((teacher.id, teacher.user.user.first_name + ' ' + teacher.user.user.last_name))
         super(ClassMoveForm, self).__init__(*args, **kwargs)
         self.fields['new_teacher'].choices = teacher_choices
 
