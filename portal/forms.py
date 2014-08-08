@@ -51,11 +51,11 @@ class OrganisationCreationForm(forms.Form):
             raise forms.ValidationError('Your password was incorrect')
 
 class OrganisationJoinForm(forms.Form):
-    fuzzy_name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    fuzzy_name = forms.CharField(label='Search for school/club (enter name)', widget=forms.TextInput(attrs={'placeholder': 'Search for school/club (enter name)'}))
 
     # Note: the reason this is a CharField rather than a ChoiceField is to avoid having to provide choices
     # which was problematic given that the options are dynamically generated.
-    chosen_org = forms.CharField(widget=forms.Select())
+    chosen_org = forms.CharField(label='Select school/club', widget=forms.Select())
 
     def clean_chosen_org(self):
         chosen_org = self.cleaned_data.get('chosen_org', None)
