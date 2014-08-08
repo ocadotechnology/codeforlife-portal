@@ -16,8 +16,8 @@ from collections import Counter
 
 class OrganisationCreationForm(forms.Form):
     name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
-    current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
     postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
+    current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
     # captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):

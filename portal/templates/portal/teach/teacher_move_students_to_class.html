@@ -7,17 +7,21 @@
 
 <div class='section group'>
     <div class='col span_1_of_2'>
-        <h3>Students currently in class</h3><br>
-        <table class='CSSTable' width='100%'>
-            <tr>
-                <td>Student Name</td>
-            </tr>
-                {% for student in new_class_students %}
-                    <tr>
-                        <td>{{ student.name }}</td>
-                    </tr>
-                {% endfor %}
-        </table>
+        <h3>Students currently in destination class</h3><br>
+        {% if new_class_students %}
+            <table class='CSSTable' width='100%'>
+                <tr>
+                    <td>Student Name</td>
+                </tr>
+                    {% for student in new_class_students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        {% else %}
+            <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
+        {% endif %}
     </div>
 
     <div class='col span_1_of_2'>
