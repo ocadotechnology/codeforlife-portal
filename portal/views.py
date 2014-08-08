@@ -794,33 +794,6 @@ def teacher_student_reset(request, pk):
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
-def teacher_student_set(request, pk):
-    student = get_object_or_404(Student, id=pk)
-
-    # check user is authorised to edit student
-    if request.user.userprofile.teacher != student.class_field.teacher:
-        return HttpResponseNotFound()
-
-    if request.method == 'POST':
-        form = TeacherSetStudentPass(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-
-            # check not default value for CharField
-            if (data['password'] != ''):
-                student.user.user.set_password(data['password'])
-                student.user.user.save()
-
-            messages.success(request, 'Student password changed successfully.')
-
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code':student.class_field.access_code}))
-    else:
-        form = TeacherSetStudentPass()
-
-    return render(request, 'portal/teach/teacher_student_set.html', { 'form': form, 'student': student, 'class': student.class_field })
-
-@login_required(login_url=reverse_lazy('portal.views.teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_edit_student(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -828,25 +801,39 @@ def teacher_edit_student(request, pk):
     if request.user.userprofile.teacher != student.class_field.teacher:
         return HttpResponseNotFound()
 
+    name_form = TeacherEditStudentForm(student, initial={
+        'name': student.name
+    })
+
+    password_form = TeacherSetStudentPass()
+
     if request.method == 'POST':
-        form = TeacherEditStudentForm(student, request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            student.name = name
-            student.user.user.first_name = name
-            student.user.user.save()
-            student.save()
+        if 'update_details' in request.POST:
+            name_form = TeacherEditStudentForm(student, request.POST)
+            if name_form.is_valid():
+                name = name_form.cleaned_data['name']
+                student.name = name
+                student.user.user.first_name = name
+                student.user.user.save()
+                student.save()
 
-            messages.success(request, 'Student details changed successfully.')
+                messages.success(request, 'Student details changed successfully.')
 
-            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code':student.class_field.access_code}))
-    else:
-        form = TeacherEditStudentForm(student, initial={
-            'name': student.name
-        })
+        elif 'set_password' in request.POST:
+            password_form = TeacherSetStudentPass(request.POST)
+            if password_form.is_valid():
+                # check not default value for CharField
+                if (password_form.cleaned_data['password'] != ''):
+                    student.user.user.set_password(password_form.cleaned_data['password'])
+                    student.user.user.save()
+
+                messages.success(request, 'Student password changed successfully.')
+
+                password_form = TeacherSetStudentPass()
 
     return render(request, 'portal/teach/teacher_edit_student.html', {
-        'form': form,
+        'name_form': name_form,
+        'password_form': password_form,
         'student': student,
         'class': student.class_field,
     })

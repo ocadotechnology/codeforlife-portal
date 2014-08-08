@@ -32,13 +32,11 @@
             <tr>
                 <td></td>
                 <td>Student Name</td>
-                <td>Password</td>
             </tr>
             {% for student in students %}
                 <tr>
                     <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                    <td>{{ student.name }} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">(edit)</a></td>
-                    <td><a href="{% url 'portal.views.teacher_student_set' student.id %}">(set)</a> <a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset)</a></td>
+                    <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.name }}</a></td>
                 </tr>
             {% endfor %}
         </table>

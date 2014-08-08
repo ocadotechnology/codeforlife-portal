@@ -2,29 +2,27 @@
 
 {% block content %}
 
-<div class='section group'>
-    <div class='span_centered_third'>
-        <div class='login-card'>
-            <h3>Update class details for {{ class.access_code }}</h3><br/>
+<div class='span_centered_third'>
+    <div class='login-card'>
+        <h3>Update class details for {{ class.access_code }}</h3><br/>
 
-            <form method='post'>
+        <form method='post'>
 
-                {% csrf_token %}
+            {% csrf_token %}
 
-                {{ form.non_field_errors }}
+            {{ form.non_field_errors }}
 
-                {{ form.name.errors }}
-                {{ form.name }}
+            {{ form.name.errors }}
+            {{ form.name }}
 
-                <div class='section group'>
-                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+            <div class='section group'>
+                <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
 
-                    <div class='col span_1_of_3 pull-right'>
-                        <input type='submit' class='btn' value='Update'/>
-                    </div>
+                <div class='col span_1_of_3 pull-right'>
+                    <input type='submit' class='btn' value='Update'/>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
