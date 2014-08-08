@@ -73,6 +73,18 @@ class OrganisationEditForm(forms.Form):
         self.current_school = kwargs.pop('current_school', None)
         super(OrganisationEditForm, self).__init__(*args, **kwargs)
 
+    def clean_postcode(self):
+        postcode = self.cleaned_data.get('postcode', None)
+
+        if postcode:
+            result = PostCoder().get(postcode)
+            if result:
+                self.postcode_data = result
+            else:
+                raise forms.ValidationError('That postcode was not recognised.')
+                
+        return postcode
+
     def clean(self):
         name = self.cleaned_data.get('name', None)
         postcode = self.cleaned_data.get('postcode', None)

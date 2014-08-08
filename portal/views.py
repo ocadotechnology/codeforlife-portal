@@ -360,17 +360,19 @@ def organisation_teacher_view(request, is_admin):
     teacher = request.user.userprofile.teacher
     school = teacher.school
 
-    coworkers = Teacher.objects.filter(school=school)
+    coworkers = Teacher.objects.filter(school=school).order_by('user__user__last_name', 'user__user__first_name')
 
-    join_requests = Teacher.objects.filter(pending_join_request=school)
+    join_requests = Teacher.objects.filter(pending_join_request=school).order_by('user__user__last_name', 'user__user__first_name')
 
     form = OrganisationEditForm()
     form.fields['name'].initial = school.name
+    form.fields['postcode'].initial = school.postcode
 
     if request.method == 'POST':
         form = OrganisationEditForm(request.POST, current_school=school)
         if form.is_valid():
             school.name = form.cleaned_data['name']
+            school.postcode = form.cleaned_data['postcode']
             school.save()
 
     return render(request, 'portal/teach/organisation_manage.html', {

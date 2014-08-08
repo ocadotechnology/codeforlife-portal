@@ -5,42 +5,31 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
-
-<div class='row'>
-    <div class='small-9 columns'>
-        <h3>Teachers who are part of your school/club</h3>
-    </div>
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_classes' %}">My Classes</a>
-    </div>
+<div class='section group'>
+    <h1>Manage organisation</h1>
 </div>
 
-<table width='100%'>
-    <thead>
-        <th>Name</th>
-        <th>Email address</th>
-        {% if is_admin %}
-            <th colspan='2'>Actions</th>
-        {% endif %}
-    </thead>
+<br>
 
-    <tbody>
+<div class='section group'>
+    <h3>Teachers who are part of your school/club</h3>
+
+    <table class='CSSTable' width='100%'>
+        <tr>
+            <td>Name</td>
+            <td>Email address</td>
+            {% if is_admin %}
+                <td colspan='2'>Actions</td>
+            {% endif %}
+        </tr>
+
         {% for coworker in coworkers %}
             <tr>
-                <td>{{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }}</td>
+                <td>{{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
                 <td>{{ coworker.user.user.email }}</td>
                 {% if coworker.user.user != user and is_admin %}
-                    <td><a class='portal_button' href="{% url 'portal.views.organisation_kick' coworker.id %}">Kick</a></td>
-                    <td><a class='portal_button' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
+                    <td><a class='btn' href="{% url 'portal.views.organisation_kick' coworker.id %}">Kick</a></td>
+                    <td><a class='btn' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
@@ -49,69 +38,76 @@
                 {% endif %}
             </tr>
         {% endfor %}
-    </tbody>
-</table>
+    </table>
+</div>
 
 {% if is_admin %}
 
+<br>
+
+<div class='section group'>
     <h3>Teachers who have made a request to join your school/club</h3>
+    {% if join_requests %}
+        <table class='CSSTable' width='100%'>
+            <tr>
+                <td>Name</td>
+                <td>Email address</td>
+                <td colspan='2'>Actions</td>
+            </tr>
 
-    <table width='100%'>
-        <thead>
-            <th>Name</th>
-            <th>Email address</th>
-            <th colspan='2'>Actions</th>
-        </thead>
-
-        <tbody>
             {% for join_request in join_requests %}
                 <tr>
                     <td>{{ join_request.user.user.first_name }} {{ join_request.user.user.last_name }}</td>
                     <td>{{ join_request.user.user.email }}</td>
-                    <td><a class='portal_button' href="{% url 'portal.views.organisation_allow_join' join_request.id %}">Allow</a></td>
-                    <td><a class='portal_button' href="{% url 'portal.views.organisation_deny_join' join_request.id %}">Deny</a></td>
+                    <td><a class='btn' href="{% url 'portal.views.organisation_allow_join' join_request.id %}">Allow</a></td>
+                    <td><a class='btn' href="{% url 'portal.views.organisation_deny_join' join_request.id %}">Deny</a></td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+        </table>
 
-    <h3>Change the details of your school/club</h3>
+    {% else %}
+        <p>No teachers have currently requested to join your school/club.</p>
 
-    <div class='row'>
-        <div class='small-6 small-centered columns'>
+    {% endif %}
+</div>
+
+<br>
+
+<div class='span_centered_third'>
+    <div class='section group login-card'>
+        <h3>Change the details of your school/club</h3><br>
+
             <form method='post'>
 
                 {% csrf_token %}
 
                 {{ form.non_field_errors }}
 
-                <div class='row'>
-                    <div class='small-9 columns'>
-                        {{ form.name.errors }}
-                        {{ form.name }}
-                    </div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Change'/>
+                {% for field in form %}
+                    {{ field.errors }}
+                    <label class="ieLabels">{{ field.html_name }}</label>
+                    {{ field }}
+                {% endfor %}
+                <div class='section group'>
+                    <div class="col span_2_of_3"></div>
+                    <div class="col span_1_of_3">
+                        <input type='submit' class='btn' value='Change'/>
                     </div>
                 </div>
 
             </form>
-        </div>
     </div>
-
+</div>
 {% else %}
 
-    <div class='row'>
+<br>
+
+    <div class='section group'>
         <div class='small-3 small-centered columns'>
             <a class='portal_button' href="{% url 'portal.views.organisation_leave' %}">Leave school/club</a>
         </div>
     </div>
 
 {% endif %}
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

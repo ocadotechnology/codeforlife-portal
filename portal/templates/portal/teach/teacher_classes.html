@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h3>Welcome, {{ user.first_name }}</h3>
+<h1>Classes</h1><br>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
 
@@ -17,7 +17,7 @@
             </tr>
             {% for class in classes %}
                 <tr>
-                    <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a> <a href="{% url 'portal.views.teacher_edit_class' class.access_code %}">(edit)</a></td>
+                    <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a></td>
                     <td>{{ class.access_code }}</td>
                 </tr>
             {% endfor %}
@@ -56,7 +56,7 @@
 
 <h3>External requests to join your classes</h3>
 
-<p>External/independent students may request to join your classes given a class Access Code from the above table and the school name ({{ user.userprofile.teacher.school.name }}).</p>
+<p>External/independent students may request to join your classes given a class Access Code from the above table and the school name ({{ user.userprofile.teacher.school.name }}), provided you have enabled external requests for that class.</p>
 
 {% if requests %}
     <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them like any other student.</p>
