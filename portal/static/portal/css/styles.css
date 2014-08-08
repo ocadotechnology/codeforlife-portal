@@ -451,7 +451,7 @@ background-color: #FFCCBA;
   height: 44px;
   line-height: 44px;
   vertical-align: middle;
-  width:19%;
+  width: 100%;
   margin-bottom: 10px;
   -webkit-appearance: none;
   background: #fff;
@@ -476,6 +476,10 @@ background-color: #FFCCBA;
 	float:left;
 	width:39%;
 	margin-left:1.5%;
+}
+
+.with-title select {
+	width: 19%;
 }
 
 .ie7 .login-card input.fName, 
