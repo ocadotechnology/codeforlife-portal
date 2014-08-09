@@ -1,53 +1,16 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block title %}Code For Life - Portal{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
+<script>
+var FUZZY_NAME_FIELD_ID = '{{ join_form.fuzzy_name.auto_id }}';
+var CHOSEN_ORG_FIELD_ID = '{{ join_form.chosen_org.auto_id }}';
+var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
+</script>
+{% endblock scripts %}
 
 {% block content %}
-
-<script>
-// Here we want to send off an ajax request whenever the user types something
-// but we want it limited to some rate. This method of setting timeouts will
-// unfortunately introduce a delay but it was easy to implement and it ensures
-// that every character the user types is considered and the last one cannot
-// be missed off.
-
-var timeout_scheduled = false;
-function updateChosenOrgSelect() {
-    if (!timeout_scheduled) {
-        timeout_scheduled = true;
-        update_timeout = setTimeout(function() {
-            fuzzy_name = $('#{{ join_form.fuzzy_name.auto_id }}').val();
-            $.getJSON("{% url 'portal.views.organisation_fuzzy_lookup' %}", { fuzzy_name: fuzzy_name }, function(data) {
-                select = document.getElementById('{{ join_form.chosen_org.auto_id }}');
-                select.options.length = 0;
-                select.options.add(new Option('Select school/club', '-1'));
-                select.options[0].selected = true;
-                select.options[0].disabled = true;
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    select.options.add(new Option(d.name + ', ' + d.postcode, d.id));
-                }
-            });
-            timeout_scheduled = false;
-        }, 200);
-    }
-}
-
-$(function() {
-    fuzzy_name = $('#{{ join_form.fuzzy_name.auto_id }}');
-    select = document.getElementById('{{ join_form.chosen_org.auto_id }}');
-    select.options.length = 0;
-    select.options.add(new Option('Select school/club', '-1'));
-    select.options[0].selected = true;
-    select.options[0].disabled = true;
-    if (fuzzy_name.length > 0) {
-        fuzzy_name.on('keydown', updateChosenOrgSelect);
-        fuzzy_name.on('paste', updateChosenOrgSelect);
-        fuzzy_name.on('cut', updateChosenOrgSelect);
-    }
-});
-</script>
 
 <div class='section group'>
     {% if teacher.pending_join_request %}
