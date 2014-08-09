@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="section group">
-    <h1 class='col'>Edit student details for {{ student.name }} from class ({{ student.class_field.access_code }})</h1>
+    <h1 class='col'>Edit student details for {{ student.user.user.first_name }} from class ({{ student.class_field.access_code }})</h1>
 
     <a class='col btn pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
 </div>

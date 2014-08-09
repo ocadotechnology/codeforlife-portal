@@ -26,7 +26,7 @@ from two_factor.utils import default_device
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm
-from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm
+from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
@@ -260,6 +260,17 @@ def get_random_username():
         random_username = uuid4().hex[:30]  # generate a random username
         if not User.objects.filter(username=random_username).exists():
             return random_username
+
+def generate_new_student_name(orig_name):
+    if not Student.objects.filter(user__user__username=orig_name).exists():
+        return orig_name
+
+    i = 1
+    while True:
+        new_name = orig_name + unicode(i)
+        if not Student.objects.filter(user__user__username=new_name).exists():
+            return new_name
+        i += 1
 
 def generate_password(length):
     return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
@@ -713,31 +724,29 @@ def teacher_move_students_to_class(request, access_code):
     # get student objects for students to be transferred, confirming they are in the old class still
     transfer_students = [get_object_or_404(Student, id=i, class_field=old_class) for i in transfer_students_ids]
 
-    # format the students for the form
-    initial_data = [{'orig_name' : student.name, 'name' : student.name } for student in transfer_students]
-
     # get new class' students
     new_class_students = Student.objects.filter(class_field=new_class).order_by('user__user__first_name')
 
     TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
 
-    if request.method == 'POST':
-        if 'submit_disambiguation' in request.POST:
-            formset = TeacherMoveStudentDisambiguationFormSet(new_class, request.POST)
-            if formset.is_valid():
-                for name_update in formset.cleaned_data:
-                    student = get_object_or_404(Student, class_field=old_class, name=name_update['orig_name'])
-                    student.name = name_update['name']
-                    student.class_field = new_class
-                    student.user.user.first_name = name_update['name']
-                    student.save()
-                    student.user.user.save()
+    if request.method == 'POST' and 'submit_disambiguation' in request.POST:
+        formset = TeacherMoveStudentDisambiguationFormSet(new_class, request.POST)
+        if formset.is_valid():
+            for name_update in formset.cleaned_data:
+                student = get_object_or_404(Student, class_field=old_class, user__user__first_name__iexact=name_update['orig_name'])
+                student.class_field = new_class
+                student.user.user.first_name = name_update['name']
+                student.save()
+                student.user.user.save()
 
-                messages.success(request, 'Students successfully transferred')
-                return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': old_class.access_code }))
-        else:
-            formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
+            messages.success(request, 'Students successfully transferred')
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': old_class.access_code }))
     else:
+        # format the students for the form
+        initial_data = [{'orig_name' : student.user.user.first_name,
+                         'name' : student.user.user.first_name
+                        } for student in transfer_students]
+
         formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
 
     return render(request, 'portal/teach/teacher_move_students_to_class.html', {
@@ -770,7 +779,49 @@ def teacher_delete_students(request, access_code):
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_dismiss_students(request, access_code):
-    return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code }))
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    # check user is authorised to deal with class
+    if request.user.userprofile.teacher != klass.teacher:
+        return HttpResponseNotFound()
+    
+    # get student objects for students to be deleted, confirming they are in the class
+    student_ids = json.loads(request.POST.get('transfer_students', '[]'))
+    students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
+
+    TeacherDismissStudentsFormSet = formset_factory(wraps(TeacherDismissStudentsForm)(partial(TeacherDismissStudentsForm)), extra=0, formset=BaseTeacherDismissStudentsFormSet)
+
+    if request.method == 'POST' and 'submit_dismiss' in request.POST:
+        formset = TeacherDismissStudentsFormSet(request.POST)
+        if formset.is_valid():
+            for data in formset.cleaned_data:
+                student = get_object_or_404(Student, class_field=klass, user__user__first_name__iexact=data['orig_name'])
+                student.class_field = None
+                student.user.awaiting_email_verification = True
+                student.user.user.first_name = data['name']
+                student.user.user.username = data['name']
+                student.user.user.email = data['email']
+                student.save()
+                student.user.save()
+                student.user.user.save()
+
+                send_verification_email(request, student.user)
+
+            messages.success(request, 'Students successfully removed from class')
+            return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code }))
+    else:
+        initial_data = [{'orig_name' : student.user.user.first_name,
+                         'name' : generate_new_student_name(student.user.user.first_name),
+                         'email' : '',
+                        } for student in students]
+
+        formset = TeacherDismissStudentsFormSet(initial=initial_data)
+
+    return render(request, 'portal/teach/teacher_dismiss_students.html', {
+        'formset': formset,
+        'class': klass,
+        'students': students,
+    })
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
@@ -826,7 +877,7 @@ def teacher_edit_student(request, pk):
         return HttpResponseNotFound()
 
     name_form = TeacherEditStudentForm(student, initial={
-        'name': student.name
+        'name': student.user.user.first_name
     })
 
     password_form = TeacherSetStudentPass()
@@ -836,7 +887,6 @@ def teacher_edit_student(request, pk):
             name_form = TeacherEditStudentForm(student, request.POST)
             if name_form.is_valid():
                 name = name_form.cleaned_data['name']
-                student.name = name
                 student.user.user.first_name = name
                 student.user.user.save()
                 student.save()
@@ -1017,7 +1067,6 @@ def teacher_accept_student_request(request, pk):
             data = form.cleaned_data
             student.class_field = student.pending_class_request
             student.pending_class_request = None
-            student.name = data['name']
             student.user.user.username = get_random_username()
             student.user.user.first_name = data['name']
             student.user.user.last_name = ''
@@ -1081,7 +1130,6 @@ def student_edit_account(request):
                     send_verification_email(request, student.user, new_email)
 
                 student.user.user.first_name = data['name']
-                student.name = data['name']
                 # save all tables
                 student.save()
                 student.user.user.save()

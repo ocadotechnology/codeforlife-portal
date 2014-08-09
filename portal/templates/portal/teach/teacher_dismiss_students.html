@@ -1,0 +1,46 @@
+{% extends 'portal/teach/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class='login-card'>
+    <h3>Students to remove from class</h3><br>
+
+    <p>New names will be generated for the students as shown below. They will now log in with these new names and do not have to provide a class access code, their passwords will stay the same.</p>
+
+    <p>Please set email addresses for the students you are removing from this class. Email addresses are required for students not part of a class, if a student is too young to have one or otherwise does not have one please enquire as to the address of one of their parents to use instead. These email addresses will have to be validated before the student can log in.</p>
+
+    <form method='POST'>
+
+        {% csrf_token %}
+
+        {{ formset.management_form }}
+
+        <table class='CSSTable' width='100%'>
+            <tr>
+                <td>Original Student Name</td>
+                <td>New Student Name</td>
+                <td>Email address</td>
+            </tr>
+                {{ formset.non_form_errors }}
+                {% for form in formset %}
+                    <tr>
+                        <td>{{ form.orig_name }}</td>
+                        <td>{{ form.name }}</td>
+                        <td>{{ form.email.errors }}{{ form.email }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+
+        <div class='section group'>
+            <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+
+            <div class='col span_1_of_3 pull-right'>
+                <input type='submit' name='submit_dismiss' class='btn' value='Remove'/>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

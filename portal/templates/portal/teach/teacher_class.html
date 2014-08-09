@@ -39,7 +39,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
             {% for student in students %}
                 <tr>
                     <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                    <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.name }}</a></td>
+                    <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
                 </tr>
             {% endfor %}
         </table>

@@ -12,7 +12,7 @@
         <p>The student has been successfully added to the class {{ class.name }}.</p>
         <p>Please tell them that their new details for logging on are now as follows:</p>
         <p><b>Class Access Code:</b> {{ class.access_code }}</p>
-        <p><b>Name:</b> {{ student.name }}</p>
+        <p><b>Name:</b> {{ student.user.user.first_name }}</p>
         <p>Their password is unchanged. You may manage this student, including changing their name and password, as with other students.</p>
     </div>
 

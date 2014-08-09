@@ -14,7 +14,7 @@
             </tr>
             {% for currentstudent in students %}
                 <tr>
-                    <td>{{ currentstudent.name }}</td>
+                    <td>{{ currentstudent.user.user.first_name }}</td>
                 </tr>
             {% endfor %}
         </table>

@@ -228,7 +228,7 @@ class TeacherEditStudentForm(forms.Form):
         if name == '':
             raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
-        students = Student.objects.filter(class_field=self.klass, name__iexact=name)
+        students = Student.objects.filter(class_field=self.klass, user__user__first_name__iexact=name)
         if students.exists() and students[0] != self.student:
              raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
@@ -260,7 +260,7 @@ class TeacherAddExternalStudentForm(forms.Form):
         if name == '':
             raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
-        if Student.objects.filter(class_field=self.klass, name__iexact=name).exists():
+        if Student.objects.filter(class_field=self.klass, user__user__first_name__iexact=name).exists():
              raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
         return name
@@ -293,7 +293,7 @@ def validateStudentNames(klass, names):
     students = Student.objects.filter(class_field=klass)
     clashes_found = []
     for name in names:
-        if students.filter(name__iexact=name).exists() and not name in clashes_found:
+        if students.filter(user__user__first_name__iexact=name).exists() and not name in clashes_found:
              validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
              clashes_found.append(name)
 
@@ -326,6 +326,14 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
             raise forms.ValidationError(validationErrors)
 
         self.strippedNames = names
+
+class TeacherDismissStudentsForm(forms.Form):
+    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Name'}))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
+
+class BaseTeacherDismissStudentsFormSet(forms.BaseFormSet):
+    pass
 
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
@@ -366,7 +374,7 @@ class StudentLoginForm(forms.Form):
 
             name = stripStudentName(name)
 
-            students = Student.objects.filter(name__iexact=name, class_field=classes[0])
+            students = Student.objects.filter(user__user__first_name__iexact=name, class_field=classes[0])
             if len(students) != 1:
                 raise forms.ValidationError('Invalid name, class access code or password')
 

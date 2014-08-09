@@ -15,7 +15,7 @@
                 </tr>
                     {% for student in new_class_students %}
                         <tr>
-                            <td>{{ student.name }}</td>
+                            <td>{{ student.user.user.first_name }}</td>
                         </tr>
                     {% endfor %}
             </table>

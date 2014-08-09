@@ -64,7 +64,6 @@ class Class (models.Model):
 
 
 class Student (models.Model):
-    name = models.CharField(max_length=200)
     class_field = models.ForeignKey(Class, related_name='students', null=True)
     user = models.OneToOneField(UserProfile)
     pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
