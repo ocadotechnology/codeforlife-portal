@@ -639,7 +639,6 @@ def teacher_class(request, access_code):
                 userProfile = UserProfile.objects.create(user=user)
 
                 student = Student.objects.create(
-                    name=name,
                     class_field=klass,
                     user=userProfile)
 

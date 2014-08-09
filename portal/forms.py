@@ -288,14 +288,15 @@ class TeacherMoveStudentDisambiguationForm(forms.Form):
 def validateStudentNames(klass, names):
     validationErrors = []
 
-    # We want to report if a student already exists with that name.
-    # But only report each name once if there are duplicates.
-    students = Student.objects.filter(class_field=klass)
-    clashes_found = []
-    for name in names:
-        if students.filter(user__user__first_name__iexact=name).exists() and not name in clashes_found:
-             validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
-             clashes_found.append(name)
+    if klass:
+        # We want to report if a student already exists with that name.
+        # But only report each name once if there are duplicates.
+        students = Student.objects.filter(class_field=klass)
+        clashes_found = []
+        for name in names:
+            if students.filter(user__user__first_name__iexact=name).exists() and not name in clashes_found:
+                 validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
+                 clashes_found.append(name)
 
     # Also report if a student appears twice in the list to be added.
     # But again only report each name once.
@@ -329,11 +330,32 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
-    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Name'}))
+    name = forms.CharField(label='New Name', widget=forms.TextInput(attrs={'placeholder': 'New Name'}))
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
 
+    def clean_name(self):
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        if User.objects.filter(username=name).exists():
+            raise forms.ValidationError('That username is already in use')
+
+        return name
+
+
 class BaseTeacherDismissStudentsFormSet(forms.BaseFormSet):
-    pass
+    def clean(self):
+        if any(self.errors):
+            return
+
+        names = [form.cleaned_data['name'] for form in self.forms]
+
+        validationErrors = validateStudentNames(None, names)
+
+        if len(validationErrors) > 0:
+            raise forms.ValidationError(validationErrors)
 
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
