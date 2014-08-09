@@ -853,6 +853,23 @@ def teacher_edit_class(request, access_code):
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+def teacher_delete_class(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    # check user authorised to see class
+    if request.user.userprofile.teacher != klass.teacher:
+        return HttpResponseNotFound()
+
+    if Student.objects.filter(class_field=klass).exists():
+        messages.info(request, 'This class still has students, please remove or delete them all before deleting the class')
+        return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code}))
+
+    klass.delete()
+
+    return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_student_reset(request, pk):
     student = get_object_or_404(Student, id=pk)
 

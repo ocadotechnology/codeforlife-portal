@@ -18,6 +18,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 <div class="section group">
     <h3 class="col">{{ class.teacher.user.user.first_name }} {{ class.teacher.user.user.last_name }} / {{ class.name }} ({{ class.access_code }})</h3>
 
+    <a class='col btn pull-right' href="{% url 'portal.views.teacher_delete_class' class.access_code %}">Delete class</a>
     <a class='col btn pull-right' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit class settings</a>
 </div>
 
