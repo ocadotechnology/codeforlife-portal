@@ -96,12 +96,12 @@ def verify_email(request, token):
     return HttpResponseRedirect(reverse('portal.views.home'))
 
 def teach(request):
-    login_form = TeacherLoginForm()
-    signup_form = TeacherSignupForm()
+    login_form = TeacherLoginForm(prefix='login')
+    signup_form = TeacherSignupForm(prefix='signup')
 
     if request.method == 'POST':
         if 'login' in request.POST:
-            login_form = TeacherLoginForm(request.POST)
+            login_form = TeacherLoginForm(request.POST, prefix='login')
             if login_form.is_valid():
                 userProfile = login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
@@ -122,7 +122,7 @@ def teach(request):
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
         if 'signup' in request.POST:
-            signup_form = TeacherSignupForm(request.POST)
+            signup_form = TeacherSignupForm(request.POST, prefix='signup')
             if signup_form.is_valid():
                 data = signup_form.cleaned_data
 

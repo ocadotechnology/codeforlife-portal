@@ -1,4 +1,17 @@
 {% extends 'portal/base.html' %}
+{% load static %}
+
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+<script>
+var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
+var PASSWORD_LENGTH = 8;
+var PASSWORD_UPPER = true;
+var PASSWORD_LOWER = true;
+var PASSWORD_NUMBERS = true;
+</script>
+{% endblock scripts %}
 
 {% block content %}
 {{block.super}}
@@ -77,6 +90,12 @@
                             <label class="ieLabels">{{ signup_form.email.html_name }}</label>
                             {{ signup_form.email }}
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan='2' class='password-strength-bar-container'>
+                            <div class='password-strength-bar'></div>
+                        </td>
+                        <td class='password-strength-text'></td>
                     </tr>
                     <tr>
                         <td colspan='3'>

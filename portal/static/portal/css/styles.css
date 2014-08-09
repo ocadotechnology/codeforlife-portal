@@ -606,3 +606,32 @@ ul.errorlist li {
 }
 
 /********** End Django messages and form errors ***********/
+
+/********** Password strength bar **********/
+
+.password-strength-bar {
+    height: 100%;
+}
+
+.password-strength-bar-container {
+    height: 16px;
+    border: 1px solid black;
+
+    -webkit-border-top-left-radius:5px;
+    -moz-border-radius-topleft:5px;
+    border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -moz-border-radius-topright:5px;
+    border-top-right-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    -moz-border-radius-bottomright:5px;
+    border-bottom-right-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    -moz-border-radius-bottomleft:5px;
+}
+
+.password-strength-text {
+    padding-left: 10px;
+}
+
+/********** End Password strength bar **********/

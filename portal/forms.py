@@ -14,6 +14,12 @@ from models import Student, Class, School, stripStudentName
 
 from collections import Counter
 
+def password_strength_test(password, length=8, upper=True, lower=True, numbers=True):
+    return (len(password) >= length and
+        (not upper or re.search(r'[A-Z]', password)) and
+        (not lower or re.search(r'[a-z]', password)) and
+        (not numbers or re.search(r'[0-9]', password)))
+
 class OrganisationCreationForm(forms.Form):
     name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
     postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
@@ -115,7 +121,18 @@ class TeacherSignupForm(forms.Form):
 
         return email
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password):
+            raise forms.ValidationError('Password not strong enough, consider using at least 8 character, upper and lower case letters, and numbers')
+
+        return password
+
     def clean(self):
+        if any(self.errors):
+            return
+
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
 
@@ -151,7 +168,18 @@ class TeacherEditAccountForm(forms.Form):
 
         return email
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password):
+            raise forms.ValidationError('Password not strong enough, consider using at least 8 character, upper and lower case letters, and numbers')
+
+        return password
+
     def clean(self):
+        if any(self.errors):
+            return
+
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
         current_password = self.cleaned_data.get('current_password', None)
