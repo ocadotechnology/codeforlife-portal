@@ -3,10 +3,13 @@
 
 {% block scripts %}
 {{block.super}}
-  <script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>
-    <script>
-      var CLASS_CODE = "{{ class.access_code }}";
-    </script>
+<script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>
+<script>
+var CLASS_CODE = "{{ class.access_code }}";
+var MOVE_STUDENTS_URL = "{% url 'portal.views.teacher_move_students' class.access_code %}";
+var DELETE_STUDENTS_URL = "{% url 'portal.views.teacher_delete_students' class.access_code %}";
+var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class.access_code %}";
+</script>
 {% endblock %}
 
 
@@ -42,7 +45,12 @@
         </table>
 
         <br/>
-        <button class='btn wide' id='moveSelectedStudents'>Move selected students to another class</button>
+        <h3>Operations on selected students:</h3>
+        <button class='btn wide' id='moveSelectedStudents'>Move to another class</button>
+        <div class='section group'>
+            <button class='col span_1_of_2 btn' id='dismissSelectedStudents'>Remove from class</button>
+            <button class='col span_1_of_2 btn' id='deleteSelectedStudents'>Delete from system</button>
+        </div>
     </div>
 
 

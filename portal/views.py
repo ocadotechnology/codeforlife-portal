@@ -750,6 +750,30 @@ def teacher_move_students_to_class(request, access_code):
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+def teacher_delete_students(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    # check user is authorised to deal with class
+    if request.user.userprofile.teacher != klass.teacher:
+        return HttpResponseNotFound()
+    
+    # get student objects for students to be deleted, confirming they are in the class
+    student_ids = json.loads(request.POST.get('transfer_students', '[]'))
+    students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
+
+    # Delete all of the students
+    for student in students:
+        student.user.user.delete()
+
+    return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code }))
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+def teacher_dismiss_students(request, access_code):
+    return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code }))
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_edit_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
