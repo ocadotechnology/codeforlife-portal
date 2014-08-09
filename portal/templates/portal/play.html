@@ -4,6 +4,11 @@
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript" src='{% static "portal/js/play.js" %}'></script>
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+<script>
+var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
+var PASSWORD_TYPE = 'STUDENT';
+</script>
 {% endblock scripts %}
 
 {% block content %}
@@ -122,11 +127,32 @@
 
                 {{ signup_form.non_field_errors }}
 
-                {% for field in signup_form %}
-                    {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
-                    {{ field }}
-                {% endfor %}
+                {{ signup_form.name.errors }}
+                <label class="ieLabels">{{ signup_form.name.html_name }}</label>
+                {{ signup_form.name }}
+
+                {{ signup_form.username.errors }}
+                <label class="ieLabels">{{ signup_form.username.html_name }}</label>
+                {{ signup_form.username }}
+
+                {{ signup_form.email.errors }}
+                <label class="ieLabels">{{ signup_form.email.html_name }}</label>
+                {{ signup_form.email }}
+
+                <div class='section group'>
+                    <div class='col span_2_of_3 password-strength-bar-container'>
+                        <div class='password-strength-bar'></div>
+                    </div>
+                    <div class='col span_1_of_3 password-strength-text'></div>
+                </div>
+
+                {{ signup_form.password.errors }}
+                <label class="ieLabels">{{ signup_form.password.html_name }}</label>
+                {{ signup_form.password }}
+
+                {{ signup_form.confirm_password.errors }}
+                <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
+                {{ signup_form.confirm_password }}
 
                 <input type='submit' name='signup' class="btn wide" value='Register'/>
             </form>

@@ -150,16 +150,16 @@ def teach(request):
 
 def play(request):
     if request.method == 'POST':
-        school_login_form = StudentLoginForm()
-        solo_login_form = StudentSoloLoginForm()
-        signup_form = StudentSignupForm()
+        school_login_form = StudentLoginForm(prefix='login')
+        solo_login_form = StudentSoloLoginForm(prefix='solo')
+        signup_form = StudentSignupForm(prefix='signup')
         if 'school_login' in request.POST:
-            school_login_form = StudentLoginForm(request.POST)
+            school_login_form = StudentLoginForm(request.POST, prefix='login')
             if school_login_form.is_valid():
                 login(request, school_login_form.user)
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
         elif 'solo_login' in request.POST:
-            solo_login_form = StudentSoloLoginForm(request.POST)
+            solo_login_form = StudentSoloLoginForm(request.POST, prefix='solo')
             if solo_login_form.is_valid():
                 userProfile = solo_login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
@@ -168,7 +168,7 @@ def play(request):
                 login(request, solo_login_form.user)
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
         elif 'signup' in request.POST:
-            signup_form = StudentSignupForm(request.POST)
+            signup_form = StudentSignupForm(request.POST, prefix='signup')
             if signup_form.is_valid():
                 data = signup_form.cleaned_data
 
@@ -182,7 +182,6 @@ def play(request):
                 userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=email_supplied)
 
                 student = Student.objects.create(
-                    name=data['name'],
                     user=userProfile)
 
                 if (email_supplied):

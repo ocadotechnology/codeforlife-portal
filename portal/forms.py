@@ -125,7 +125,7 @@ class TeacherSignupForm(forms.Form):
         password = self.cleaned_data.get('password', None)
 
         if password and not password_strength_test(password):
-            raise forms.ValidationError('Password not strong enough, consider using at least 8 character, upper and lower case letters, and numbers')
+            raise forms.ValidationError('Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
 
         return password
 
@@ -172,7 +172,7 @@ class TeacherEditAccountForm(forms.Form):
         password = self.cleaned_data.get('password', None)
 
         if password and not password_strength_test(password):
-            raise forms.ValidationError('Password not strong enough, consider using at least 8 character, upper and lower case letters, and numbers')
+            raise forms.ValidationError('Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
 
         return password
 
@@ -459,6 +459,14 @@ class StudentEditAccountForm(forms.Form):
             raise forms.ValidationError('This field is required')
         return first_name
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError('Password not strong enough, consider using at least 6 characters')
+
+        return password
+
     def clean(self):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
@@ -486,6 +494,14 @@ class StudentSignupForm(forms.Form):
             raise forms.ValidationError('That username is already in use')
 
         return username
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError('Password not strong enough, consider using at least 6 characters')
+
+        return password
 
     def clean(self):
         password = self.cleaned_data.get('password', None)
