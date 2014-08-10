@@ -68,10 +68,32 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = reverse_lazy('portal.views.teach')
 LOGOUT_URL = reverse_lazy('portal.views.logout_view')
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_classes')
+LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_home')
 
 RECAPTCHA_PUBLIC_KEY = '6LfdOfgSAAAAADDdLN40FtToVvE3moMgOUhGU7oq'
 RECAPTCHA_PRIVATE_KEY = '6LfdOfgSAAAAAFwSXYu9BVD2lCCXEypoFYIJM_tp'
+
+TWO_FACTOR_CALL_GATEWAY = 'two_factor.gateways.fake.Fake'
+TWO_FACTOR_SMS_GATEWAY = 'two_factor.gateways.fake.Fake'
+
+TWO_FACTOR_QR_FACTORY = 'qrcode.image.pil.PilImage'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'two_factor': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    }
+}
 
 
 # Internationalization
