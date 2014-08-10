@@ -405,7 +405,7 @@ background-color: #FFCCBA;
   text-align: center;
 }
 
-.login-card input[type=text], input[type=password] {
+.login-card input[type=text], input[type=password], input[type=number] {
   height: 44px;
   font-size: 1.4rem;
   width: 100%;
@@ -420,7 +420,7 @@ background-color: #FFCCBA;
   -moz-box-sizing: border-box;
 }
 
-.login-card input[type=text]:hover, input[type=password]:hover {
+.login-card input[type=text]:hover, input[type=password]:hover, input[type=number]:hover {
   border: 1px solid #b9b9b9;
   border-top: 1px solid #a0a0a0;
   -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
