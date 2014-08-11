@@ -53,6 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'deploy.middleware.basicauth.BasicAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'deploy.urls'
@@ -126,6 +127,8 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     EMAIL_BACKEND = 'deploy.mail.EmailBackend'
     # Specify a queue name for the async. email backend.
     EMAIL_QUEUE_NAME = 'default'
+    BASICAUTH_USERNAME = 'trial'
+    BASICAUTH_PASSWORD = 'cabbage'
 else:
     DATABASES = {
         'default': {
