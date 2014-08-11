@@ -34,6 +34,15 @@ INSTALLED_APPS = (
     'deploy',
     'portal',
     'game',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'nuit',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = [
