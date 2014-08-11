@@ -27,31 +27,39 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 <div class="section group">
     <div class="col span_1_of_2">
         <div class="section group">
-            <h3 class='col'>Current students ({{ num_students }})</h3>
-
+            <h3 class='col'>Current students</h3>
+        {% if students %}
             <a class='col btn pull-right' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
+        {% endif %}
         </div>
+        {% if students %}
 
-        <table class='CSSTable' width='100%'>
-            <tr>
-                <td></td>
-                <td>Student Name</td>
-            </tr>
-            {% for student in students %}
+            <table class='CSSTable' width='100%'>
                 <tr>
-                    <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                    <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
+                    <td></td>
+                    <td>Student Name</td>
                 </tr>
-            {% endfor %}
-        </table>
-
+                {% for student in students %}
+                    <tr>
+                        <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
+                        <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <p class='pull-right'>(Total: {{ num_students }})</p>
+        {% else %}
+            <p>There are no students in this class. Add some students to get started!</p>
+        {% endif %}
         <br/>
-        <h3>Operations on selected students:</h3>
-        <button class='btn wide' id='moveSelectedStudents'>Move to another class</button>
-        <div class='section group'>
-            <button class='col span_1_of_2 btn' id='dismissSelectedStudents'>Remove from class</button>
-            <button class='col span_1_of_2 btn' id='deleteSelectedStudents'>Delete from system</button>
-        </div>
+        {% if students %}
+            <h3>Operations on selected students:</h3>
+            <button class='btn wide' id='moveSelectedStudents'>Move to another class</button>
+            <div class='section group'>
+                <button class='col span_1_of_2 btn' id='dismissSelectedStudents'>Remove from class</button>
+                <button class='col span_1_of_2 btn' id='deleteSelectedStudents'>Delete from system</button>
+            </div>
+        {% endif %}
     </div>
 
 
