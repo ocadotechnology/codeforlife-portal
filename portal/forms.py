@@ -266,11 +266,19 @@ class TeacherSetStudentPass(forms.Form):
     password = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={'placeholder': 'New password'}))
     confirm_password = forms.CharField(label='Confirm new password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError('Password not strong enough, consider using at least 6 characters')
+
+        return password
+
     def clean(self):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
 
-        if (password or confirm_password) and password != confirm_password:
+        if password != None and (password or confirm_password) and password != confirm_password:
             raise forms.ValidationError('The new passwords do not match')
 
         return self.cleaned_data
