@@ -6,13 +6,13 @@
 {% block content %}
 
 <div class='section group'>
-    <h1>Manage organisation</h1>
+    <h1>Manage my school or club</h1>
 </div>
 
 <br>
 
 <div class='section group'>
-    <h3>Teachers who are part of your school/club</h3><br>
+    <h3>Teachers who are part of your school or club</h3><br>
 
     <table class='CSSTable' width='100%'>
         <tr>
@@ -46,7 +46,7 @@
 <br>
 
 <div class='section group'>
-    <h3>Teachers who have made a request to join your school/club</h3>
+    <h3>Teachers who have made a request to join your school or club</h3>
     {% if join_requests %}
         <table class='CSSTable' width='100%'>
             <tr>
@@ -66,7 +66,7 @@
         </table>
 
     {% else %}
-        <p>No teachers have currently requested to join your school/club.</p>
+        <p>No teachers have currently requested to join your school or club.</p>
 
     {% endif %}
 </div>
@@ -75,7 +75,7 @@
 
 <div class='span_centered_third'>
     <div class='section group login-card'>
-        <h3>Change the details of your school/club</h3><br>
+        <h3>Change the details of your school or club</h3><br>
 
             <form method='post'>
 
@@ -104,7 +104,7 @@
 
 <div class='section group'>
     <div class='span_centered_third'>
-        <a class='btn' style="width: 100%" href="{% url 'portal.views.organisation_leave' %}">Leave school/club</a>
+        <a class='btn' style="width: 100%" href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
     </div>
 </div>
 
