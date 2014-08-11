@@ -2,7 +2,7 @@
 
 {% block topNav %}
 <li><a href="{% url 'portal.views.student_details' %}">MY HOMEPAGE</a></li>
-<li><a href="{% url 'portal.views.student_edit_account' %}">ACCOUNT</a></li>
+<li><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}MY PASSWORD{% else %}MY ACCOUNT{% endif %}</a></li>
 <li><a href="{% url 'portal.views.logout_view' %}">LOG OUT</a></li>
 {% endblock topNav %}
 
