@@ -17,6 +17,17 @@ function init() {
 
 $( document ).ready(function() {
     init();
-    $('#signup-form').hide()
-    $('#switchToSchool').click()
+    if (!SIGNUP_VIEW) {
+      $('#signup-form').hide()
+    }
+    else {
+      $('#signup-warning').hide()
+    }
+    if (SOLO_VIEW) {
+      $('#switchToSolo').click()
+    }
+    else {
+      $('#switchToSchool').click()
+    }
+
 });

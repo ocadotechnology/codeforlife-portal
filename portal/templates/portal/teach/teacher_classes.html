@@ -67,7 +67,6 @@
         <tr>
             <td>Username</td>
             <td>First name</td>
-            <td>Last name</td>
             <td>Email</td>
             <td>Class</td>
             <td>Access code</td>
@@ -77,7 +76,6 @@
             <tr>
                 <td>{{ request.user.user.username }}</td>
                 <td>{{ request.user.user.first_name }}</td>
-                <td>{{ request.user.user.last_name }}</td>
                 <td>{{ request.user.user.email }}</td>
                 <td>{{ request.pending_class_request.name }}</td>
                 <td>{{ request.pending_class_request.access_code }}</td>

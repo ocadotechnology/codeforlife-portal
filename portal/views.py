@@ -149,6 +149,8 @@ def teach(request):
     })
 
 def play(request):
+    solo_view = False
+    signup_view = False
     if request.method == 'POST':
         school_login_form = StudentLoginForm(prefix='login')
         solo_login_form = StudentSoloLoginForm(prefix='solo')
@@ -167,6 +169,8 @@ def play(request):
                     return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
                 login(request, solo_login_form.user)
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
+            else:
+                solo_view = True
         elif 'signup' in request.POST:
             signup_form = StudentSignupForm(request.POST, prefix='signup')
             if signup_form.is_valid():
@@ -192,6 +196,8 @@ def play(request):
                     login(request, auth_user)
 
                 return render(request, 'portal/play/student_details.html')
+            else:
+                signup_view = True
     else:
         school_login_form = StudentLoginForm(prefix='login')
         solo_login_form = StudentSoloLoginForm(prefix='solo')
@@ -201,6 +207,8 @@ def play(request):
         'school_login_form': school_login_form,
         'solo_login_form': solo_login_form,
         'signup_form': signup_form,
+        'solo_view': solo_view,
+        'signup_view': signup_view,
     })
 
 def about(request):

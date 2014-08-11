@@ -540,21 +540,16 @@ class StudentSoloLoginForm(forms.Form):
 
 class StudentJoinOrganisationForm(forms.Form):
     access_code = forms.CharField(label='Class Access Code', widget=forms.TextInput(attrs={'placeholder': 'Class Access Code'}))
-    school = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
     # captcha = ReCaptchaField()
 
     def clean(self):
         access_code = self.cleaned_data.get('access_code', None)
-        school = self.cleaned_data.get('school', None)
 
-        if access_code and school:
+        if access_code:
             classes = Class.objects.filter(access_code=access_code)
             if len(classes) != 1:
                 raise forms.ValidationError('Cannot find the school/club and/or class.')
-            klass = classes[0]
-            if klass.teacher.school.name != school:
-                raise forms.ValidationError('Cannot find the school/club and/or class.')
-            self.klass = klass
+            self.klass = classes[0]
         return self.cleaned_data
 
 class ContactForm(forms.Form):
