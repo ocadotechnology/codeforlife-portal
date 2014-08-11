@@ -45,14 +45,14 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@integrate.numeric-incline-526.appspot.com',
+                  'verifyemail@integrate.numeric-incline-526.appspotmail.com',
                   [new_email])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@integrate.numeric-incline-526.appspot.com',
+                  'verifyemail@integrate.numeric-incline-526.appspotmail.com',
                   [userProfile.user.email])
 
     else:
@@ -60,7 +60,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@integrate.numeric-incline-526.appspot.com',
+                  'verifyemail@integrate.numeric-incline-526.appspotmail.com',
                   [userProfile.user.email])
 
 def verify_email(request, token):
@@ -211,7 +211,7 @@ def about(request):
             emailMessage = emailMessages.contactEmail(contact_form.cleaned_data['name'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
                       emailMessage['message'],
-                      'contact@integrate.numeric-incline-526.appspot.com',
+                      'contact@integrate.numeric-incline-526.appspotmail.com',
                       CONTACT_FORM_EMAILS,
                       )
             messages.success(request, 'Your message was sent successfully.')
@@ -342,14 +342,14 @@ def organisation_create(request):
                 for admin in Teacher.objects.filter(school=school, is_admin=True):
                     send_mail(emailMessage['subject'],
                               emailMessage['message'],
-                              'notification@integrate.numeric-incline-526.appspot.com',
+                              'notification@integrate.numeric-incline-526.appspotmail.com',
                               [admin.user.user.email])
 
                 emailMessage = emailMessages.joinRequestSentEmail(school.name)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notification@integrate.numeric-incline-526.appspot.com',
+                          'notification@integrate.numeric-incline-526.appspotmail.com',
                           [teacher.user.user.email])
 
                 messages.success(request, 'Your request to join the school/club has been sent successfully.')
@@ -479,7 +479,7 @@ def organisation_kick(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@integrate.numeric-incline-526.appspot.com',
+              'notification@integrate.numeric-incline-526.appspotmail.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -510,7 +510,7 @@ def organisation_toggle_admin(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@integrate.numeric-incline-526.appspot.com',
+              'notification@integrate.numeric-incline-526.appspotmail.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -536,7 +536,7 @@ def organisation_allow_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@integrate.numeric-incline-526.appspot.com',
+              'notification@integrate.numeric-incline-526.appspotmail.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -560,7 +560,7 @@ def organisation_deny_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@integrate.numeric-incline-526.appspot.com',
+              'notification@integrate.numeric-incline-526.appspotmail.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
