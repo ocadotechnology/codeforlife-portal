@@ -3,6 +3,9 @@ pip install https://www.djangoproject.com/download/1.7c1/tarball/
 pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
 ssh-agent /opt/codeforlife-deploy/install-portal.sh
 ssh-agent /opt/codeforlife-deploy/install-rapid-router.sh
+echo "Following packages present:"
+pip freeze
+echo "--------------------------------------------------------------------------------"
 ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | grep -v PIL | xargs -i cp -R {} /opt/codeforlife-deploy/
 # To be used to docker deployment environment
 cd /opt/codeforlife-deploy/
