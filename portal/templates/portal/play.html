@@ -71,50 +71,58 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
     </div>
 
     <div class="col span_1_of_3">
-        <div id="school-login" class="login-card">
-            <h3>School student sign in</h3><br>
-
-            <p>Signed up indiviudally? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
-            <form method='post'>
-
-                {% csrf_token %}
-
-                {{ school_login_form.non_field_errors }}
-
-                {% for field in school_login_form %}
-                    {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
-                    {{ field }}
-                {% endfor %}
-
-                <input type='submit' name='school_login' class="btn wide" value='Log in'/>
-            </form>
-        </div>
-
-        <div id="solo-login" class="login-card">
-            <h3>Individual sign in</h3><br>
-
-            <p>Part of a school? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
-
-            <form method='post'>
-
-                {% csrf_token %}
-
-                {{ solo_login_form.non_field_errors }}
-
-                {% for field in solo_login_form %}
-                    {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
-                    {{ field }}
-                {% endfor %}
-
-                <input type='submit' name='solo_login' class="btn wide" value='Log in'/>
-            </form>
-
-            <div class="login-help">
-                <a href="{% url 'portal.views.student_password_reset' %}">Forgotten Password?</a>
+        {% if user.is_authenticated %}
+            <div class="login-card">
+                <h3>Welcome, {{ user.first_name }}</h3><br>
+                <p>You are logged in as {{ user.first_name }} {{ user.last_name }}</p>
+                <p>Lost? Go to <a href="{% url 'portal.views.current_user' %}">my homepage</a></p>
+                <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a></p>
             </div>
-        </div>
+        {% else %}
+            <div id="school-login" class="login-card">
+                <h3>School student sign in</h3><br>
+
+                <p>Signed up indiviudally? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ school_login_form.non_field_errors }}
+
+                    {% for field in school_login_form %}
+                        {{ field.errors }}
+                        <label class="ieLabels">{{ field.html_name }}</label>
+                        {{ field }}
+                    {% endfor %}
+
+                    <input type='submit' name='school_login' class="btn wide" value='Log in'/>
+                </form>
+            </div>
+
+            <div id="solo-login" class="login-card">
+                <h3>Individual sign in</h3><br>
+
+                <p>Part of a school? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
+
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ solo_login_form.non_field_errors }}
+
+                    {% for field in solo_login_form %}
+                        {{ field.errors }}
+                        <label class="ieLabels">{{ field.html_name }}</label>
+                        {{ field }}
+                    {% endfor %}
+
+                    <input type='submit' name='solo_login' class="btn wide" value='Log in'/>
+                </form>
+
+                <div class="login-help">
+                    <a href="{% url 'portal.views.student_password_reset' %}">Forgotten Password?</a>
+                </div>
+            </div>
 
         <br>
 
@@ -159,6 +167,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                 <input type='submit' name='signup' class="btn wide" value='Register'/>
             </form>
         </div>
+        {% endif %}
     </div>
 </div>
 

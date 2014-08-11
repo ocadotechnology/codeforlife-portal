@@ -27,92 +27,101 @@ var PASSWORD_TYPE = 'TEACHER';
     </div>
     
     <div class="col span_1_of_3">
-        <div class="login-card">
-            <h3>Sign in</h3><br>
-
-            <form method='post'>
-
-                {% csrf_token %}
-
-                {{ login_form.non_field_errors }}
-
-                {% for field in login_form %}
-                    {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
-                    {{ field }}
-                {% endfor %}
-
-                <input type="submit" name="login" class="btn wide" value="Sign in">
-            </form>
-                        
-            <div class="login-help">
-                <a href="{% url 'portal.views.teacher_password_reset' %}">Forgotten Password?</a>
+        {% if user.is_authenticated %}
+            <div class="login-card">
+                <h3>Welcome, {{ user.first_name }}</h3><br>
+                <p>You are logged in as {{ user.first_name }} {{ user.last_name }}</p>
+                <p>Lost? Go to <a href="{% url 'portal.views.current_user' %}">my homepage</a></p>
+                <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a></p>
             </div>
-        </div>
+        {% else %}
+            <div class="login-card">
+                <h3>Sign in</h3><br>
 
-        <br>
+                <form method='post'>
 
-        <div class="login-card">
-            <h3>Register</h3><br>
+                    {% csrf_token %}
 
-            <form method='post'>
+                    {{ login_form.non_field_errors }}
 
-                {% csrf_token %}
+                    {% for field in login_form %}
+                        {{ field.errors }}
+                        <label class="ieLabels">{{ field.html_name }}</label>
+                        {{ field }}
+                    {% endfor %}
 
-                {{ signup_form.non_field_errors }}
+                    <input type="submit" name="login" class="btn wide" value="Sign in">
+                </form>
+                            
+                <div class="login-help">
+                    <a href="{% url 'portal.views.teacher_password_reset' %}">Forgotten Password?</a>
+                </div>
+            </div>
 
-                <table width='100%'>
-                    <tr>
-                        <td>{{ signup_form.title.errors }}</td>
-                        <td>{{ signup_form.first_name.errors }}</td>
-                        <td>{{ signup_form.last_name.errors }}</td>
-                    </tr>
-                    <tr>
-                        <td class='title'>
-                            <label class="ieLabels">{{ signup_form.title.html_name }}</label>
-                            {{ signup_form.title }}
-                        </td>
-                        <td class='fName'>
-                            <label class="ieLabels">{{ signup_form.first_name.html_name }}</label>
-                            {{ signup_form.first_name }}
-                        </td>
-                        <td class='lName'>
-                            <label class="ieLabels">{{ signup_form.last_name.html_name }}</label>
-                            {{ signup_form.last_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan='3'>
-                            {{ signup_form.email.errors }}
-                            <label class="ieLabels">{{ signup_form.email.html_name }}</label>
-                            {{ signup_form.email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan='2' class='password-strength-bar-container'>
-                            <div class='password-strength-bar'></div>
-                        </td>
-                        <td class='password-strength-text'></td>
-                    </tr>
-                    <tr>
-                        <td colspan='3'>
-                            {{ signup_form.password.errors }}
-                            <label class="ieLabels">{{ signup_form.password.html_name }}</label>
-                            {{ signup_form.password }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan='3'>
-                            {{ signup_form.confirm_password.errors }}
-                            <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
-                            {{ signup_form.confirm_password }}
-                        </td>
-                    </tr>
-                </table>
+            <br>
 
-                <input type="submit" name="signup" class="btn wide" value="Register">
-            </form>
-        </div>
+            <div class="login-card">
+                <h3>Register</h3><br>
+
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ signup_form.non_field_errors }}
+
+                    <table width='100%'>
+                        <tr>
+                            <td>{{ signup_form.title.errors }}</td>
+                            <td>{{ signup_form.first_name.errors }}</td>
+                            <td>{{ signup_form.last_name.errors }}</td>
+                        </tr>
+                        <tr>
+                            <td class='title'>
+                                <label class="ieLabels">{{ signup_form.title.html_name }}</label>
+                                {{ signup_form.title }}
+                            </td>
+                            <td class='fName'>
+                                <label class="ieLabels">{{ signup_form.first_name.html_name }}</label>
+                                {{ signup_form.first_name }}
+                            </td>
+                            <td class='lName'>
+                                <label class="ieLabels">{{ signup_form.last_name.html_name }}</label>
+                                {{ signup_form.last_name }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='3'>
+                                {{ signup_form.email.errors }}
+                                <label class="ieLabels">{{ signup_form.email.html_name }}</label>
+                                {{ signup_form.email }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='2' class='password-strength-bar-container'>
+                                <div class='password-strength-bar'></div>
+                            </td>
+                            <td class='password-strength-text'></td>
+                        </tr>
+                        <tr>
+                            <td colspan='3'>
+                                {{ signup_form.password.errors }}
+                                <label class="ieLabels">{{ signup_form.password.html_name }}</label>
+                                {{ signup_form.password }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='3'>
+                                {{ signup_form.confirm_password.errors }}
+                                <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
+                                {{ signup_form.confirm_password }}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="signup" class="btn wide" value="Register">
+                </form>
+            </div>
+        {% endif %}
     </div>
 </div>
 
