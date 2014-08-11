@@ -17,12 +17,14 @@
             {{ form.non_field_errors }}
 
             <div class='section group'>
-                <div class='col span_2_of_3'>
-                    {{ form.new_teacher.errors }}
-                    {{ form.new_teacher }}
-                </div>
+                {{ form.new_teacher.errors }}
+                {{ form.new_teacher }}
+            </div>
+            
+            <div class='section group'>
+                <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
 
-                <div class='col span_1_of_3'>
+                <div class='col span_1_of_3 pull-right'>
                     <input class='btn' type='submit' value='Move'/>
                 </div>
             </div>
