@@ -16,10 +16,8 @@ setup(name='portal',
         'postcodes==0.1',
         'django-two-factor-auth==1.0.0-beta3',
         'django==1.7c1',
-        'reportlab>=3.1.29'
       ],
       dependency_links = [
         'https://www.djangoproject.com/download/1.7c1/tarball/#egg=django-1.7c1',
-        'https://bitbucket.org/rptlab/reportlab/get/tip.zip#egg=reportlab-3.1.29',
       ],
 )
