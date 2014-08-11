@@ -11,6 +11,7 @@ ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | grep -v PIL | xa
 cd /opt/codeforlife-deploy/
 export DEPLOYMENT=1
 ./manage.py collectstatic --noinput
+./manage.py compress -f
 ./manage.py migrate
 # flush memcache
 echo "from django.core.cache import cache; cache.clear()" | ./manage.py shell
