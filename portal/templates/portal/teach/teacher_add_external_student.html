@@ -8,16 +8,22 @@
 <div class='section group'>
     <div class='col span_1_of_2'>
         <h3>Students currently in class</h3><br>
-        <table class="CSSTable" width='100%'>
-            <tr>
-                <td>Student Name</td>
-            </tr>
-            {% for currentstudent in students %}
+
+        {% if students %}
+            <p>The following are students in the class to which the external student with username {{ student.username }} will be added.</p>
+            <table class="CSSTable" width='100%'>
                 <tr>
-                    <td>{{ currentstudent.user.user.first_name }}</td>
+                    <td>Student Name</td>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for currentstudent in students %}
+                    <tr>
+                        <td>{{ currentstudent.user.user.first_name }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>The class into which the external student with username {{ student.username }} is to be added is empty.</p>
+        {% endif %}
     </div>
 
     <div class='col span_1_of_2'>
