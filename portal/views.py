@@ -479,7 +479,7 @@ def organisation_kick(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'code4life@mail.com',
+              'notification@integrate.numeric-incline-526.appspot.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -510,7 +510,7 @@ def organisation_toggle_admin(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'code4life@mail.com',
+              'notification@integrate.numeric-incline-526.appspot.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -536,7 +536,7 @@ def organisation_allow_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'code4life@mail.com',
+              'notification@integrate.numeric-incline-526.appspot.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -560,7 +560,7 @@ def organisation_deny_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'code4life@mail.com',
+              'notification@integrate.numeric-incline-526.appspot.com',
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
