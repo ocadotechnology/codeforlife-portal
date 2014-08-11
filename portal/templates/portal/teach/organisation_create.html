@@ -1,60 +1,23 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block title %}Code For Life - Portal{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
+<script>
+var FUZZY_NAME_FIELD_ID = '{{ join_form.fuzzy_name.auto_id }}';
+var CHOSEN_ORG_FIELD_ID = '{{ join_form.chosen_org.auto_id }}';
+var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
+</script>
+{% endblock scripts %}
 
 {% block content %}
 
-<script>
-// Here we want to send off an ajax request whenever the user types something
-// but we want it limited to some rate. This method of setting timeouts will
-// unfortunately introduce a delay but it was easy to implement and it ensures
-// that every character the user types is considered and the last one cannot
-// be missed off.
-
-var timeout_scheduled = false;
-function updateChosenOrgSelect() {
-    if (!timeout_scheduled) {
-        timeout_scheduled = true;
-        update_timeout = setTimeout(function() {
-            fuzzy_name = $('#{{ join_form.fuzzy_name.auto_id }}').val();
-            $.getJSON("{% url 'portal.views.organisation_fuzzy_lookup' %}", { fuzzy_name: fuzzy_name }, function(data) {
-                select = document.getElementById('{{ join_form.chosen_org.auto_id }}');
-                select.options.length = 0;
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    select.options.add(new Option(d.name + ', ' + d.postcode, d.id));
-                }
-            });
-            timeout_scheduled = false;
-        }, 200);
-    }
-}
-
-$(function() {
-    fuzzy_name = $('#{{ join_form.fuzzy_name.auto_id }}');
-    if (fuzzy_name.length > 0) {
-        fuzzy_name.on('keydown', updateChosenOrgSelect);
-        fuzzy_name.on('paste', updateChosenOrgSelect);
-        fuzzy_name.on('cut', updateChosenOrgSelect);
-    }
-});
-</script>
-
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
-
-<div class='row'>
+<div class='section group'>
     {% if teacher.pending_join_request %}
+    <div class='span_centered_third'>
+        <div class='login-card'>
 
-        <div class='small-6 small-centered columns'>
+            <h3>Request to join organisation</h3><br>
 
             <p>You have a pending join request to '{{ teacher.pending_join_request.name }}'.</p>
             <p>You may only have one at a time, if you wish to join another you must revoke your pending request first.</p>
@@ -63,20 +26,18 @@ $(function() {
 
                 {% csrf_token %}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        <input type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
-                    </div>
+                <div class='section group'>
+                    <input class='btn' type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
                 </div>
 
             </form>
         </div>
-
+    </div>
     {% else %}
 
-        <div class='small-6 columns'>
-            <div class='panel radius'>
-                <h3>Create a new organisation</h3>
+        <div class='col span_1_of_2'>
+            <div class='login-card'>
+                <h3>Create a new organisation</h3><br>
 
                 <p>You will be set up as the administrator of this new organisation and will be responsible for approving other teachers to join the organisation.</p>
 
@@ -86,32 +47,17 @@ $(function() {
 
                     {{ create_form.non_field_errors }}
 
-                    <div class='row'>
-                        <div class='small-12 columns'>
-                            {{ create_form.name.errors }}
-                            {{ create_form.name }}
-                        </div>
-                    </div>
+                    {% for field in create_form %}
+                        {{ field.errors }}
+                        <label class="ieLabels">{{ field.html_name }}</label>
+                        {{ field }}
+                    {% endfor %}
 
-                    <div class='row'>
-                        <div class='small-12 columns'>
-                            {{ create_form.postcode.errors }}
-                            {{ create_form.postcode }}
-                        </div>
-                    </div>
+                    <div class='section group'>
+                        <div class='col span_2_of_3'></div>
 
-                    <div class='row'>
-                        <div class='small-12 columns'>
-                            {{ create_form.current_password.errors }}
-                            {{ create_form.current_password }}
-                        </div>
-                    </div>
-
-                    <div class='row'>
-                        <div class='small-9 columns'></div>
-
-                        <div class='small-3 columns'>
-                            <input type='submit' name='create_organisation' value='Create'/>
+                        <div class='col span_1_of_3'>
+                            <input type='submit' class='btn' name='create_organisation' value='Create'/>
                         </div>
                     </div>
 
@@ -119,9 +65,9 @@ $(function() {
             </div>
         </div>
 
-        <div class='small-6 columns'>
-            <div class='panel radius'>
-                <h3>Join an organisation</h3>
+        <div class='col span_1_of_2'>
+            <div class='login-card'>
+                <h3>Join an organisation</h3><br>
 
                 <p>A request will be sent to the administrator of the organisation who will either accept or deny your request.</p>
 
@@ -131,25 +77,17 @@ $(function() {
 
                     {{ join_form.non_field_errors }}
 
-                    <div class='row'>
-                        <div class='small-12 columns'>
-                            {{ join_form.fuzzy_name.errors }}
-                            {{ join_form.fuzzy_name }}
-                        </div>
-                    </div>
+                    {% for field in join_form %}
+                        {{ field.errors }}
+                        <label class="ieLabels">{{ field.html_name }}</label>
+                        {{ field }}
+                    {% endfor %}
 
-                    <div class='row'>
-                        <div class='small-12 columns'>
-                            {{ join_form.chosen_org.errors }}
-                            {{ join_form.chosen_org }}
-                        </div>
-                    </div>
+                    <div class='section group'>
+                        <div class='col span_2_of_3'></div>
 
-                    <div class='row'>
-                        <div class='small-9 columns'></div>
-
-                        <div class='small-3 columns'>
-                            <input type='submit' name='join_organisation' value='Join'/>
+                        <div class='col span_1_of_3'>
+                            <input type='submit' class='btn' name='join_organisation' value='Join'/>
                         </div>
                     </div>
 
@@ -159,9 +97,5 @@ $(function() {
 
     {% endif %}
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

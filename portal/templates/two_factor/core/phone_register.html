@@ -1,0 +1,72 @@
+{% extends "portal/teach/base.html" %}
+
+{% block content %}
+<div class='span_centered_half'>
+    <div class='login-card'>
+        <h3>Add Backup Phone</h3><br/>
+
+        {% if wizard.steps.current == 'setup' %}
+            <p>You'll be adding a backup phone number to your
+                account. This number will be used if your primary method of
+                registration is not available.</p>
+
+            <form action="" method="post">
+
+                {% csrf_token %}
+
+                {{ wizard.management_form }}
+
+                {{ wizard.form.number.errors }}
+                <div class='section group'>
+                    <div class='col' style='width: 15%; height: 44px; line-height: 44px'>
+                        <b>Number:</b>
+                    </div>
+                    <div class='col' style='width: 83%'>
+                        <input id='id_setup-number' name='setup-number' maxlength='16' type='text'>
+                    </div>
+                </div>
+
+                {{ wizard.form.method.errors }}
+                <div class='section group'>
+                    <div class='col' style='width: 15%; height: 44px; line-height: 44px'>
+                        <b>Method:</b>
+                    </div>
+                    <div class='col' style='width: 30%'>
+                        <input id='id_setup-method_0' name='setup-method' type='radio' value='call' style='margin-top: 14px'>
+                        <label for='id_setup-method_0' style='height: 30px; line-height: 30px'>Phone call</label>
+                    </div>
+                    <div class='col' style='width: 30%'>
+                        <input id='id_setup-method_1' name='setup-method' type='radio' value='sms' style='margin-top: 14px'>
+                        <label for='id_setup-method_1' style='height: 30px; line-height: 30px'>Text message</label>
+                    </div>
+                </div>
+
+                {% include "two_factor/_wizard_actions.html" %}
+            </form>
+
+        {% elif wizard.steps.current == 'validation' %}
+            <p>We've sent a token to your phone number. Please
+                enter the token you've received.</p>
+
+            <form action="" method="post">
+
+                {% csrf_token %}
+
+                {{ wizard.management_form }}
+
+                {{ wizard.form.token.errors }}
+                <div class='section group'>
+                    <div class='col' style='width: 15%; height: 44px; line-height: 44px'>
+                        <b>Token:</b>
+                    </div>
+                    <div class='col' style='width: 83%'>
+                        <input id='id_validation-token' name='validation-token'max='999999' min='1' type='number'>
+                    </div>
+                </div>
+
+                {% include "two_factor/_wizard_actions.html" %}
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -5,38 +5,19 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
 
-<h3>{{ class.teacher.name }} / {{ class.name }} ({{ class.access_code }})</h3>
-
-
-<div class='row'>
-    <div class='small-12 columns'>
-        <h4>External student added to class</h4>
+<div class='section group'>
+        <h3>External student added to class</h3><br>
 
         <p>The student has been successfully added to the class {{ class.name }}.</p>
         <p>Please tell them that their new details for logging on are now as follows:</p>
         <p><b>Class Access Code:</b> {{ class.access_code }}</p>
-        <p><b>Name:</b> {{ student.name }}</p>
+        <p><b>Name:</b> {{ student.user.user.first_name }}</p>
         <p>Their password is unchanged. You may manage this student, including changing their name and password, as with other students.</p>
     </div>
 
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_class' class.access_code %}">Return</a>
-    </div>
-    <div class='small-9 columns'></div>
+<div class='section group'>
+    <a class='btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Return</a>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

@@ -1,60 +1,66 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block title %}Code For Life - Portal{% endblock %}
-
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
+<div class="section group">
+    <h1 class='col'>Edit student details for {{ student.user.user.first_name }} from class ({{ student.class_field.access_code }})</h1>
 
-<div class='row'>
+    <a class='col btn pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+</div>
 
-    <div class='small-6 small-centered columns'>
-
-        <div class='panel radius'>
-            <h3>Update student details for {{ student.name }}</h3>
+<div class='section group'>
+    <div class='col span_1_of_2'>
+        <div class='login-card'>
+            <h3>Update name</h3><br/>
 
             <form method='post'>
 
                 {% csrf_token %}
 
-                {{ form.non_field_errors }}
+                {{ name_form.non_field_errors }}
 
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.name.errors }}
-                        {{ form.name }}
+                <div class='section group'>
+                    <div class='col span_2_of_3'>
+                        {{ name_form.name.errors }}
+                        {{ name_form.name }}
+                    </div>
+
+                    <div class='col span_1_of_3'>
+                        <input type='submit' name='update_details' class='btn' value='Update'/>
                     </div>
                 </div>
-
-                <div class='row'>
-                    <div class='small-3 columns'>
-                        <a class='portal_button' href="{% url 'portal.views.teacher_class' student.class_field.access_code %}">Cancel</a>
-                    </div>
-
-                    <div class='small-6 columns'></div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Update'/>
-                    </div>
-                </div>
-
             </form>
         </div>
+    </div>
 
+    <div class='col span_1_of_2'>
+        <div class='login-card'>
+            <h3>Set / reset password</h3><br/>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ password_form.non_field_errors }}
+
+                <div class='section group'>
+                    <div class='col span_2_of_3'>
+                        {{ password_form.password.errors }}
+                        {{ password_form.password }}
+
+                        {{ password_form.confirm_password.errors }}
+                        {{ password_form.confirm_password }}
+                    </div>
+
+                    <div class='col span_1_of_3'>
+                        <input type='submit' name='set_password' class='btn' value='Set'/>
+                        <a class='btn wide' href="{% url 'portal.views.teacher_student_reset' student.id %}">Generate random</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

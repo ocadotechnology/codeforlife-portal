@@ -1,19 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block title %}Code For Life - Portal{% endblock %}
-
 {% block content %}
-
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
 
 <h3>New students created</h3>
 
@@ -21,48 +9,32 @@
 
 <p>The following students have been created for your class. When they log in for the first time, you may wish them to change to a new password which is more memorable. You will be able to reset these students' passwords at any time.</p>
 
-<div class='row'>
-    <div class='small-9 columns'>
-        <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
-    </div>
-
-    <div class='small-3 columns'>
-        <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
-            {% csrf_token %}
-            <input type='hidden' name='data' value='{{ query_data }}'/>
-            <input type='submit' value='Print Reminder Cards'/>
-        </form>
-    </div>
+<div class='section group'>
+    <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
 </div>
 
-<div class='row'>
-    <div class='small-6 small-centered columns'>
-        <table width='100%'>
-            <thead>
-                <th>Name</th>
-                <th>Password</th>
-            </thead>
-            <tbody>
-                {% for name_token in name_tokens %}
-                    <tr>
-                        <td>{{ name_token.name }}</td>
-                        <td>{{ name_token.password }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class='span_centered_third'>
+    <table class='CSSTable' width='100%'>
+        <tr>
+            <td>Name</td>
+            <td>Password</td>
+        </tr>
+        {% for name_token in name_tokens %}
+            <tr>
+                <td>{{ name_token.name }}</td>
+                <td>{{ name_token.password }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
+        {% csrf_token %}
+        <input type='hidden' name='data' value='{{ query_data }}'/>
+        <input class='btn wide'type='submit' value='Print Reminder Cards'/>
+    </form>
+    <br>
+    <a class='btn wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
 </div>
 
-<div class='row'>
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_class' class.access_code %}">Return</a>
-    </div>
-    <div class='small-9 columns'></div>
-</div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

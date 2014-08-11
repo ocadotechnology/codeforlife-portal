@@ -5,82 +5,68 @@
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
-
-<div class='row'>
-    <div class='small-6 columns'>
-        <h4>Students currently in class</h4>
-        <table width='100%'>
-            <thead>
-                <th>Student Name</th>
-            </thead>
-            <tbody>
-                {% for student in new_class_students %}
-                    <tr>
-                        <td>{{ student.name }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class='small-6 columns'>
-        <h4>Students to transfer</h4>
-
-        <p>Please confirm the details for adding the following students to the class {{ new_class.name }} ({{ new_class.access_code }}) from your class {{ old_class.name }} ({{ old_class.access_code }}). Remember their names must be unique in the new class.</p>
-
-        <form method='POST'>
-
-            {% csrf_token %}
-
-            {{ formset.management_form }}
-
-            <table width='100%'>
-                <thead>
-                    <th>Original Student Name</th>
-                    <th>New Student Name</th>
-                </thead>
-                <tbody>
-                    {{ formset.non_form_errors }}
-                    {% for dict in formset.errors %}
-                        {% for error in dict.values %}
-                            {{ error }}
-                        {% endfor %}
-                    {% endfor %}
-                    {% for form in formset %}
+<div class='section group'>
+    <div class='col span_1_of_2'>
+        <h3>Students currently in destination class</h3><br>
+        {% if new_class_students %}
+            <table class='CSSTable' width='100%'>
+                <tr>
+                    <td>Student Name</td>
+                </tr>
+                    {% for student in new_class_students %}
                         <tr>
-                            <td>{{ form.orig_name }}</td>
-                            <td>{{ form.name }}</td>
+                            <td>{{ student.user.user.first_name }}</td>
                         </tr>
                     {% endfor %}
-                </tbody>
             </table>
-            <div class='row'>
-                <div class='small-3 columns'>
-                    <a class='portal_button' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
+        {% else %}
+            <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
+        {% endif %}
+    </div>
+
+    <div class='col span_1_of_2'>
+        <div class='login-card'>
+            <h3>Students to transfer</h3><br>
+
+            <p>Please confirm the details for adding the following students to the class {{ new_class.name }} ({{ new_class.access_code }}) from your class {{ old_class.name }} ({{ old_class.access_code }}). Remember their names must be unique in the new class.</p>
+
+            <form method='POST'>
+
+                {% csrf_token %}
+
+                {{ formset.management_form }}
+
+                <table class='CSSTable' width='100%'>
+                    <tr>
+                        <td>Original Student Name</td>
+                        <td>New Student Name</td>
+                    </tr>
+                        {{ formset.non_form_errors }}
+                        {% for dict in formset.errors %}
+                            {% for error in dict.values %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endfor %}
+                        {% for form in formset %}
+                            <tr>
+                                <td>{{ form.orig_name }}</td>
+                                <td>{{ form.name }}</td>
+                            </tr>
+                        {% endfor %}
+                </table>
+
+                <div class='section group'>
+                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
+
+                    <div class='col span_1_of_3 pull-right'>
+                        <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
+                        <input type='submit' name='submit_disambiguation' class='btn' value='Save'/>
+                    </div>
                 </div>
 
-                <div class='small-6 columns'></div>
-
-                <div class='small-3 columns'>
-                    <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
-                    <input type='submit' name='submit_disambiguation' value='Save'/>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

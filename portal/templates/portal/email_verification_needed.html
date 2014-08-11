@@ -5,26 +5,19 @@
 
 {% block content %}
 
-<header>
-    <h1>[ code ] for { life }</h1>
-</header>
+<div class='section group'>
+    <div class='span_centered_third'>
 
-<div class='row'>
-    <div class='small-6 small-centered columns'>
+        <div class='login-card'>
+            <h3>We need to verify your email address.</h3><br>
 
-        <div class='panel radius'>
-            <h3>We need to verify your email address.</h3>
+            <p>An email has been sent to '{% if email %}{{ email }}{% else %}{{ user.user.email }}{% endif %}'.</p>
+            <p>Please follow the link within it to verify your email address.</p>
 
-            <p>An email has been sent to '{% if email %}{{ email }}{% else %}{{ user.user.email }}{% endif %}', please follow the link within it to verify your email address.</p>
-
-            <p>Once done you may log in.</p>
+            <a class='btn wide' href="{% url 'portal.views.home' %}">Go to Homepage</a>
         </div>
 
     </div>
 </div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

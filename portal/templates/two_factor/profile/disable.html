@@ -1,0 +1,30 @@
+{% extends "portal/teach/base.html" %}
+
+{% block content %}
+<div class='span_centered_half'>
+    <div class='login-card'>
+        <h3>Disable Two-factor Authentication</h3><br/>
+
+        <p>You are about to disable two-factor authentication. This
+            compromises your account security, are you sure?</p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class='pull-left'>
+                {{ form.understand.errors }}
+                <div style='height: 30px; line-height: 30px'>
+                    <label for='id_understand'><b>Yes I am sure: </b></label>
+                    <input id='id_understand' name='understand' type='checkbox' style='margin-top: 14px'>
+                </div>
+            </div>
+
+            <div class='pull-right'>
+                <a href="{% url 'two_factor:profile'%}" class="btn" style='margin-right: 10px'>Cancel</a>
+                <button class="btn" type="submit">Disable</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

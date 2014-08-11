@@ -1,117 +1,78 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block title %}Code For Life - Portal{% endblock %}
-
 {% block scripts %}
 {{block.super}}
-  <script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>
-    <script>
-      var CLASS_CODE = "{{ class.access_code }}";
-    </script>
+<script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>
+<script>
+var CLASS_CODE = "{{ class.access_code }}";
+var MOVE_STUDENTS_URL = "{% url 'portal.views.teacher_move_students' class.access_code %}";
+var DELETE_STUDENTS_URL = "{% url 'portal.views.teacher_delete_students' class.access_code %}";
+var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class.access_code %}";
+</script>
 {% endblock %}
 
 
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
+<div class="section group">
+    <h3 class="col">{{ class.teacher.user.user.first_name }} {{ class.teacher.user.user.last_name }} / {{ class.name }} ({{ class.access_code }})</h3>
 
-<div class='row'>
-    <div class='small-9 columns'>
-        <h3>{{ class.teacher.name }} / {{ class.name }} ({{ class.access_code }})</h3>
-    </div>
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_classes' %}">My Classes</a>
-    </div>
-
-
+    <a class='col btn pull-right' href="{% url 'portal.views.teacher_delete_class' class.access_code %}">Delete class</a>
+    <a class='col btn pull-right' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit class settings</a>
 </div>
-
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
 
-<div class='row'>
-    <div class='small-9 columns'></div>
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer class to teacher</a>
+<div class="section group">
+    <div class="col span_1_of_2">
+        <div class="section group">
+            <h3 class='col'>Current students ({{ num_students }})</h3>
+
+            <a class='col btn pull-right' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
+        </div>
+
+        <table class='CSSTable' width='100%'>
+            <tr>
+                <td></td>
+                <td>Student Name</td>
+            </tr>
+            {% for student in students %}
+                <tr>
+                    <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
+                    <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br/>
+        <h3>Operations on selected students:</h3>
+        <button class='btn wide' id='moveSelectedStudents'>Move to another class</button>
+        <div class='section group'>
+            <button class='col span_1_of_2 btn' id='dismissSelectedStudents'>Remove from class</button>
+            <button class='col span_1_of_2 btn' id='deleteSelectedStudents'>Delete from system</button>
+        </div>
+    </div>
+
+
+    <div class="col span_1_of_2">
+        <div class='login-card'>
+            <h3>New Students</h3><br/>
+
+            <p>Type or paste the student's names, either one per line or seperated by commas or semicolons. Note that names must be unique within a class.</p>
+
+            <form method='POST'>
+
+                {% csrf_token %}
+
+                {{ new_students_form.non_field_errors }}
+
+                {{ new_students_form.names.errors }}
+                {{ new_students_form.names }}
+
+                <input type='submit' class='btn' name='new_students' value='Add students'/>
+        </div>
     </div>
 </div>
-
-
-<div class='row'>
-    <div class='small-3 columns'>
-        <h4>Students</h4>
-    </div>
-
-    <div class='small-3 columns'>
-        <a class='portal_button' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
-    </div>
-
-    <div class='small-6 columns'></div>
-</div>
-
-<p>Number of students in class = {{ num_students }}</p>
-
-<div class='row'>
-    <div class='small-6 columns'>
-
-            {% csrf_token %}
-
-            <table width='100%'>
-                <thead>
-                    <th></th>
-                    <th>Student Name</th>
-                    <th>Password</th>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                        <tr>
-                            <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                            <td>{{ student.name }} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">(edit)</a></td>
-                            <td><a href="{% url 'portal.views.teacher_student_set' student.id %}">(set)</a> <a href="{% url 'portal.views.teacher_student_reset' student.id %}">(reset)</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <button id='moveSelectedStudents'>Move selected</button>
-    </div>
-
-
-    <div class='small-6 columns'>
-        <h4>New Students</h4>
-
-        <p>Type (or paste) the student's names, one on each line. Note: names should be unique within a class.</p>
-
-        <form method='POST'>
-
-            {% csrf_token %}
-
-            {{ new_students_form.non_field_errors }}
-
-            <div class='row'>
-                <div class='small-9 columns'>
-                    {{ new_students_form.names.errors }}
-                    {{ new_students_form.names }}
-                </div>
-
-                <div class='small-3 columns'>
-                    <input type='submit' name='new_students' value='Save'/>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
 
 {% endblock %}

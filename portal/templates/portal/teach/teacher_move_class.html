@@ -1,63 +1,35 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block title %}Code For Life - Portal{% endblock %}
-
 {% block content %}
 
-<header>
-    <span class='left'>
-        <h1>[ code ] for { life }</h1>
-    </span>
-    <span class='right'>
-        Logged in as {{ user.first_name }} {{ user.last_name }}
-        <a class='portal_button logout' href="{% url 'portal.views.logout_view' %}">Logout</a>
-    </span>
-</header>
+<div class='span_centered_half'>
+    <div class='login-card'>
+        <h3>Move class {{ class.access_code }} ({{ class.name }})</h3><br/>
 
-<div class='row'>
+        <p>Select a new teacher to take over the above class from the list below.</p>
+        <p><b>Warning:</b> This action cannot be undone by you.</p>
 
-    <div class='small-6 small-centered columns'>
+        <form method='post'>
 
-        <div class='panel radius'>
-            <h3>Move class {{ class.access_code }} ({{ class.name }})</h3>
+            {% csrf_token %}
 
-            <p>Select a new teacher to take over the above class from the list below.</p>
-            <p><b>Warning:</b> This action cannot be undone by you.</p>
+            {{ form.non_field_errors }}
 
-            <form method='post'>
-
-                {% csrf_token %}
-
-                {{ form.non_field_errors }}
-
-                <div class='row'>
-                    <div class='small-12 columns'>
-                        {{ form.new_teacher.errors }}
-                        {{ form.new_teacher }}
-                    </div>
+            <div class='section group'>
+                <div class='col span_2_of_3'>
+                    {{ form.new_teacher.errors }}
+                    {{ form.new_teacher }}
                 </div>
 
-                <div class='row'>
-                    <div class='small-3 columns'>
-                        <a class='portal_button' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
-                    </div>
-
-                    <div class='small-6 columns'></div>
-
-                    <div class='small-3 columns'>
-                        <input type='submit' value='Update'/>
-                    </div>
+                <div class='col span_1_of_3'>
+                    <input class='btn' type='submit' value='Move'/>
                 </div>
+            </div>
 
-            </form>
-        </div>
-
+        </form>
     </div>
-</div>
 
-<footer>
-    <small>Ocado Technology &copy; 2014</small>
-</footer>
+</div>
 
 {% endblock %}

@@ -14,10 +14,16 @@ from models import Student, Class, School, stripStudentName
 
 from collections import Counter
 
+def password_strength_test(password, length=8, upper=True, lower=True, numbers=True):
+    return (len(password) >= length and
+        (not upper or re.search(r'[A-Z]', password)) and
+        (not lower or re.search(r'[a-z]', password)) and
+        (not numbers or re.search(r'[0-9]', password)))
+
 class OrganisationCreationForm(forms.Form):
     name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
-    current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
     postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
+    current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
     # captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
@@ -51,11 +57,11 @@ class OrganisationCreationForm(forms.Form):
             raise forms.ValidationError('Your password was incorrect')
 
 class OrganisationJoinForm(forms.Form):
-    fuzzy_name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    fuzzy_name = forms.CharField(label='Search for school/club (enter name)', widget=forms.TextInput(attrs={'placeholder': 'Search for school/club (enter name)'}))
 
     # Note: the reason this is a CharField rather than a ChoiceField is to avoid having to provide choices
     # which was problematic given that the options are dynamically generated.
-    chosen_org = forms.CharField(widget=forms.Select())
+    chosen_org = forms.CharField(label='Select school/club', widget=forms.Select())
 
     def clean_chosen_org(self):
         chosen_org = self.cleaned_data.get('chosen_org', None)
@@ -73,6 +79,18 @@ class OrganisationEditForm(forms.Form):
         self.current_school = kwargs.pop('current_school', None)
         super(OrganisationEditForm, self).__init__(*args, **kwargs)
 
+    def clean_postcode(self):
+        postcode = self.cleaned_data.get('postcode', None)
+
+        if postcode:
+            result = PostCoder().get(postcode)
+            if result:
+                self.postcode_data = result
+            else:
+                raise forms.ValidationError('That postcode was not recognised.')
+                
+        return postcode
+
     def clean(self):
         name = self.cleaned_data.get('name', None)
         postcode = self.cleaned_data.get('postcode', None)
@@ -85,6 +103,9 @@ class OrganisationEditForm(forms.Form):
         return self.cleaned_data
 
 class TeacherSignupForm(forms.Form):
+    choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'), ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
+
+    title = forms.ChoiceField(label='Title', choices=choices, widget=forms.Select(attrs={'placeholder': 'Title'}))
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
     last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
     email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
@@ -100,7 +121,18 @@ class TeacherSignupForm(forms.Form):
 
         return email
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password):
+            raise forms.ValidationError('Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
+
+        return password
+
     def clean(self):
+        if any(self.errors):
+            return
+
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
 
@@ -110,8 +142,11 @@ class TeacherSignupForm(forms.Form):
         return self.cleaned_data
 
 class TeacherEditAccountForm(forms.Form):
-    first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
-    last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+    choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'), ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
+
+    title = forms.ChoiceField(label='Title', choices=choices, widget=forms.Select(attrs={'placeholder': 'Title'}))
+    first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name', 'class': 'fName'}))
+    last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name', 'class': 'lName'}))
     email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
     password = forms.CharField(label='New password (optional)', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'New password (optional)'}))
     confirm_password = forms.CharField(label='Confirm new password', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
@@ -133,7 +168,18 @@ class TeacherEditAccountForm(forms.Form):
 
         return email
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password):
+            raise forms.ValidationError('Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
+
+        return password
+
     def clean(self):
+        if any(self.errors):
+            return
+
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
         current_password = self.cleaned_data.get('current_password', None)
@@ -192,7 +238,7 @@ class ClassMoveForm(forms.Form):
         self.teachers = teachers
         teacher_choices = []
         for teacher in teachers:
-            teacher_choices.append((teacher.id, teacher.name))
+            teacher_choices.append((teacher.id, teacher.user.user.first_name + ' ' + teacher.user.user.last_name))
         super(ClassMoveForm, self).__init__(*args, **kwargs)
         self.fields['new_teacher'].choices = teacher_choices
 
@@ -210,7 +256,7 @@ class TeacherEditStudentForm(forms.Form):
         if name == '':
             raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
-        students = Student.objects.filter(class_field=self.klass, name__iexact=name)
+        students = Student.objects.filter(class_field=self.klass, user__user__first_name__iexact=name)
         if students.exists() and students[0] != self.student:
              raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
@@ -242,7 +288,7 @@ class TeacherAddExternalStudentForm(forms.Form):
         if name == '':
             raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
-        if Student.objects.filter(class_field=self.klass, name__iexact=name).exists():
+        if Student.objects.filter(class_field=self.klass, user__user__first_name__iexact=name).exists():
              raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
         return name
@@ -253,7 +299,7 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
         self.classes = classes
         class_choices = []
         for klass in classes:
-            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.name))
+            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.user.user.first_name + ' ' + klass.teacher.user.user.last_name))
         super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
         self.fields['new_class'].choices = class_choices
 
@@ -270,14 +316,15 @@ class TeacherMoveStudentDisambiguationForm(forms.Form):
 def validateStudentNames(klass, names):
     validationErrors = []
 
-    # We want to report if a student already exists with that name.
-    # But only report each name once if there are duplicates.
-    students = Student.objects.filter(class_field=klass)
-    clashes_found = []
-    for name in names:
-        if students.filter(name__iexact=name).exists() and not name in clashes_found:
-             validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
-             clashes_found.append(name)
+    if klass:
+        # We want to report if a student already exists with that name.
+        # But only report each name once if there are duplicates.
+        students = Student.objects.filter(class_field=klass)
+        clashes_found = []
+        for name in names:
+            if students.filter(user__user__first_name__iexact=name).exists() and not name in clashes_found:
+                 validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
+                 clashes_found.append(name)
 
     # Also report if a student appears twice in the list to be added.
     # But again only report each name once.
@@ -308,6 +355,35 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
             raise forms.ValidationError(validationErrors)
 
         self.strippedNames = names
+
+class TeacherDismissStudentsForm(forms.Form):
+    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
+    name = forms.CharField(label='New Name', widget=forms.TextInput(attrs={'placeholder': 'New Name'}))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
+
+    def clean_name(self):
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        if User.objects.filter(username=name).exists():
+            raise forms.ValidationError('That username is already in use')
+
+        return name
+
+
+class BaseTeacherDismissStudentsFormSet(forms.BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+
+        names = [form.cleaned_data['name'] for form in self.forms]
+
+        validationErrors = validateStudentNames(None, names)
+
+        if len(validationErrors) > 0:
+            raise forms.ValidationError(validationErrors)
 
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
@@ -348,7 +424,7 @@ class StudentLoginForm(forms.Form):
 
             name = stripStudentName(name)
 
-            students = Student.objects.filter(name__iexact=name, class_field=classes[0])
+            students = Student.objects.filter(user__user__first_name__iexact=name, class_field=classes[0])
             if len(students) != 1:
                 raise forms.ValidationError('Invalid name, class access code or password')
 
@@ -383,6 +459,14 @@ class StudentEditAccountForm(forms.Form):
             raise forms.ValidationError('This field is required')
         return first_name
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError('Password not strong enough, consider using at least 6 characters')
+
+        return password
+
     def clean(self):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
@@ -410,6 +494,14 @@ class StudentSignupForm(forms.Form):
             raise forms.ValidationError('That username is already in use')
 
         return username
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError('Password not strong enough, consider using at least 6 characters')
+
+        return password
 
     def clean(self):
         password = self.cleaned_data.get('password', None)

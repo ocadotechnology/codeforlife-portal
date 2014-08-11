@@ -1,19 +1,33 @@
-function init() {
+$(function() {
 	$('#moveSelectedStudents').click(function() {
-		students = document.getElementsByClassName('student');
-		selectedStudents = [];
-		for (var i = 0; i < students.length; i++) {
-			if (students[i].checked) {
-				selectedStudents.push(students[i].name)
-			}
-		}
-		if (selectedStudents.length > 0) {
-			// send request to move selectedStudents
-			post('/teach/class/' + CLASS_CODE + '/students/move/', {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(), transfer_students: JSON.stringify(selectedStudents)});
-		}
-
+		postSelectedStudents(MOVE_STUDENTS_URL);
 	});
-};
+
+    $('#deleteSelectedStudents').click(function() {
+        postSelectedStudents(DELETE_STUDENTS_URL);
+    });
+
+    $('#dismissSelectedStudents').click(function() {
+        postSelectedStudents(DISMISS_STUDENTS_URL);
+    });
+});
+
+function postSelectedStudents(path) {
+    var students = document.getElementsByClassName('student');
+    var selectedStudents = [];
+    for (var i = 0; i < students.length; i++) {
+        if (students[i].checked) {
+            selectedStudents.push(students[i].name)
+        }
+    }
+
+    if (selectedStudents.length > 0) {
+        post(path, {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            transfer_students: JSON.stringify(selectedStudents)
+        });
+    }
+}
 
 function post(path, params) {
 
@@ -35,7 +49,3 @@ function post(path, params) {
     document.body.appendChild(form);
     form.submit();
 }
-
-$( document ).ready(function() {
-    init();
-});
