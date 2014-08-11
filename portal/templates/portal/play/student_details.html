@@ -12,7 +12,7 @@
 <p><a href="{% url 'portal.views.student_edit_account' %}">Click here</a> to change your password/edit account details.</p>
 
 {% if not user.userprofile.student.class_field %}
-    <p><a href="{% url 'portal.views.student_join_organisation' %}">Click here</a> to manage joining an organisation.</p>
+    <p><a href="{% url 'portal.views.student_join_organisation' %}">Click here</a> to manage joining a school or club.</p>
 {% endif %}
 
 <p>To go to Rapid Router, click below!</p>
