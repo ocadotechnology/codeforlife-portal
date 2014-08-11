@@ -193,9 +193,9 @@ def play(request):
 
                 return render(request, 'portal/play/student_details.html')
     else:
-        school_login_form = StudentLoginForm()
-        solo_login_form = StudentSoloLoginForm()
-        signup_form = StudentSignupForm()
+        school_login_form = StudentLoginForm(prefix='login')
+        solo_login_form = StudentSoloLoginForm(prefix='solo')
+        signup_form = StudentSignupForm(prefix='signup')
 
     return render(request, 'portal/play.html', {
         'school_login_form': school_login_form,
