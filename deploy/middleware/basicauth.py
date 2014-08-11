@@ -1,11 +1,12 @@
 from django.http import HttpResponse
 from django.conf import settings
+import os
 
 class BasicAuthMiddleware:
     def unauthed(self):
         response = HttpResponse("""<html><title>Auth required</title><body>
                                 <h1>Authorization Required</h1></body></html>""", content_type="text/html")
-        response['WWW-Authenticate'] = 'Basic realm="' + settings.BASE_URL + '"'
+        response['WWW-Authenticate'] = 'Basic realm="' + os.getenv('APPLICATION_ID', None) + '"'
         response.status_code = 401
         return response
 
