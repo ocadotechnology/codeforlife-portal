@@ -9,7 +9,7 @@ $(function() {
 });
 
 var teacher_password_strengths = [
-    { name: 'Pasword quality', colour: '' },
+    { name: 'Password quality', colour: '' },
     { name: 'Poor quality', colour: '#FF0000' },
     { name: 'Not quite', colour: '#DBA901' },
     { name: 'Nearly there', colour: '#D7DF01' },
@@ -37,7 +37,7 @@ function updateTeacherPasswordStrength() {
 }
 
 var student_password_strengths = [
-    { name: 'Pasword quality', colour: '' },
+    { name: 'Password quality', colour: '' },
     { name: 'Not long enough', colour: '#DBA901' },
     { name: 'Good password', colour: '#088A08' }
 ];
