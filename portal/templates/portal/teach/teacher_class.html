@@ -17,12 +17,9 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 
 <div class="section group">
     <h3 class="col">{{ class.teacher.user.user.first_name }} {{ class.teacher.user.user.last_name }} / {{ class.name }} ({{ class.access_code }})</h3>
-
-    <a class='col btn pull-right' href="{% url 'portal.views.teacher_delete_class' class.access_code %}">Delete class</a>
-    <a class='col btn pull-right' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit class settings</a>
 </div>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
+<p>COPY concise but complete description of class management page.</p>
 
 <div class="section group">
     <div class="col span_1_of_2">
@@ -32,8 +29,11 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
             <a class='col btn pull-right' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
         {% endif %}
         </div>
-        {% if students %}
 
+        {% if students %}
+        <div class="section group">
+            <p>Click on a student to change their name, or set or generate a new password.</p>
+        </div>
             <table class='CSSTable' width='100%'>
                 <tr>
                     <td></td>
@@ -46,14 +46,14 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                     </tr>
                 {% endfor %}
             </table>
-            <br>
             <p class='pull-right'>(Total: {{ num_students }})</p>
         {% else %}
             <p>There are no students in this class. Add some students to get started!</p>
         {% endif %}
         <br/>
         {% if students %}
-            <h3>Operations on selected students:</h3>
+            <h3>Operations on selected students</h3>
+            <p>Using the checkboxes next to each student name, you can move students to another class in the school, you can remove them from the school and assign them usernames to login to Code for Life as an indepedent user, and you can delete them from the system.</p>
             <button class='btn wide' id='moveSelectedStudents'>Move to another class</button>
             <div class='section group'>
                 <button class='col span_1_of_2 btn' id='dismissSelectedStudents'>Remove from class</button>
@@ -67,7 +67,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
         <div class='login-card'>
             <h3>New Students</h3><br/>
 
-            <p>Type or paste the student's names, either one per line or seperated by commas or semicolons. Note that names must be unique within a class.</p>
+            <p>Type the students' names in the box below with one name per line. Note that names must be unique within a class. Students will use these names plus the class's access code to sign in.</p>
 
             <form method='POST'>
 
@@ -79,6 +79,23 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                 {{ new_students_form.names }}
 
                 <input type='submit' class='btn' name='new_students' value='Add students'/>
+        </div>
+    </div>
+</div>
+
+<div class="section group">
+
+    <div class="col span_2_of_3">
+        <h3>Edit other class settings</h3>
+
+        <p>You may change this class's name, transfer the class to another teacher in the school or club, and setup whether the class can accept requests from external students.</p>
+        <p>You may also delete the class if it has no students.</p>
+    </div>
+
+    <div class="col span_1_of_3">
+        <div class="section group">
+            <a class='col btn wide pull-right' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit class settings</a>
+            <a class='col btn wide pull-right' href="{% url 'portal.views.teacher_delete_class' class.access_code %}">Delete class</a>
         </div>
     </div>
 </div>
