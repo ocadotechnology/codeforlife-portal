@@ -116,7 +116,7 @@ class TeacherSignupForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
 
-        if email and User.objects.filter(email=email).exists():
+        if email and Teacher.objects.filter(user__user__email=email).exists():
             raise forms.ValidationError('That email address is already in use')
 
         return email
@@ -160,10 +160,9 @@ class TeacherEditAccountForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
-
         if email:
-            users = User.objects.filter(email=email)
-            if not (len(users) == 0 or (len(users) == 1 and users[0].email == self.user.email)):
+            teachers = Teacher.objects.filter(user__user__email=email)
+            if not (len(teachers) == 0 or (len(teachers) == 1 and users[0] == self.user)):
                 raise forms.ValidationError('That email address is already in use')
 
         return email
