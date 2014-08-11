@@ -119,8 +119,6 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
             'KEY_PREFIX': os.getenv('CACHE_PREFIX'),
         }
     }
-    # And require login for now
-    MIDDLEWARE_CLASSES.append('portal.middleware.loginrequired.LoginRequiredMiddleware')
     # inject the lib folder into the python path
     import sys
     lib_path = os.path.join(os.path.dirname(__file__), 'lib')
