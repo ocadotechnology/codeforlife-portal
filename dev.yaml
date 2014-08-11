@@ -16,7 +16,7 @@ handlers:
   secure: always
 
 env_variables:
-  DJANGO_SETTINGS_MODULE: 'website.settings'
+  DJANGO_SETTINGS_MODULE: 'deploy.settings'
   DATABASE_NAME: 'codeforlife_integrate'
   CACHE_PREFIX: 'integrate-'
 
