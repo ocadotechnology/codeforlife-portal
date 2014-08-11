@@ -123,7 +123,7 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     if lib_path not in sys.path:
         sys.path.append(lib_path)
     # setup email on app engine
-    EMAIL_BACKEND = 'deploy.mail.AsyncEmailBackend'
+    EMAIL_BACKEND = 'deploy.mail.EmailBackend'
     # Specify a queue name for the async. email backend.
     EMAIL_QUEUE_NAME = 'default'
 else:
