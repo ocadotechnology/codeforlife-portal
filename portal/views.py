@@ -45,7 +45,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'code4life@mail.com',
+                  '520912890903@developer.gserviceaccount.com',
                   [new_email])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
