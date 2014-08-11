@@ -17,8 +17,8 @@ class BasicAuthMiddleware:
                 auth = auth.strip().decode('base64')
                 username, password = auth.split(':', 1)
                 if username != settings.BASICAUTH_USERNAME or password != settings.BASICAUTH_PASSWORD:
-                    self.unauthed()
+                    return self.unauthed()
             else:
-                self.unauthed()
+                return self.unauthed()
         else:
-            self.unauthed()
+            return self.unauthed()
