@@ -81,6 +81,12 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = rel('static')
 
+# Auth URLs
+
+LOGIN_URL = '/'
+
+LOGOUT_URL = '/logout/'
+
 
 # Required for admindocs
 
@@ -148,6 +154,7 @@ else:
             'LOCATION': 'unique-snowflake'
         }
     }
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOCALE_PATHS = (
     'conf/locale',
