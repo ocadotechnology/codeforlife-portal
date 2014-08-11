@@ -52,7 +52,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'code4life@mail.com',
+                  'verifyemail@integrate.numeric-incline-526.appspot.com',
                   [userProfile.user.email])
 
     else:
@@ -60,7 +60,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'code4life@mail.com',
+                  'verifyemail@integrate.numeric-incline-526.appspot.com',
                   [userProfile.user.email])
 
 def verify_email(request, token):
@@ -211,7 +211,7 @@ def about(request):
             emailMessage = emailMessages.contactEmail(contact_form.cleaned_data['name'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
                       emailMessage['message'],
-                      'code4life@main.com',
+                      'contact@integrate.numeric-incline-526.appspot.com',
                       CONTACT_FORM_EMAILS,
                       )
             messages.success(request, 'Your message was sent successfully.')
@@ -342,14 +342,14 @@ def organisation_create(request):
                 for admin in Teacher.objects.filter(school=school, is_admin=True):
                     send_mail(emailMessage['subject'],
                               emailMessage['message'],
-                              'code4life@main.com',
+                              'notification@integrate.numeric-incline-526.appspot.com',
                               [admin.user.user.email])
 
                 emailMessage = emailMessages.joinRequestSentEmail(school.name)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'code4life@mail.com',
+                          'notification@integrate.numeric-incline-526.appspot.com',
                           [teacher.user.user.email])
 
                 messages.success(request, 'Your request to join the school/club has been sent successfully.')
