@@ -335,7 +335,7 @@ def organisation_create(request):
 
                 messages.success(request, "The school/club '" + teacher.school.name + "' has been successfully added.")
 
-                return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+                return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
         elif 'join_organisation' in request.POST:
             join_form = OrganisationJoinForm(request.POST)
@@ -972,7 +972,7 @@ def teacher_edit_account(request):
 
             messages.success(request, 'Account details changed successfully.')
 
-            return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
+            return HttpResponseRedirect(reverse('portal.views.teacher_home'))
     else:
         form = TeacherEditAccountForm(request.user, initial={
             'first_name': teacher.user.user.first_name,
