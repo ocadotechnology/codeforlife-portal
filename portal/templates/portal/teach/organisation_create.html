@@ -14,7 +14,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
 
 <div class='section group'>
     {% if teacher.pending_join_request %}
-    <div class='span_centered_third'>
+    <div class='span_centered_half'>
         <div class='login-card'>
 
             <h3>Request to join a school or club</h3><br>
@@ -27,7 +27,9 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
                 {% csrf_token %}
 
                 <div class='section group'>
-                    <input class='btn' type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
+                    <div class='span_centered_two_thirds'>
+                        <input class='btn wide' type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
+                    </div>
                 </div>
 
             </form>

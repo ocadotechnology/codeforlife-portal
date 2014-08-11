@@ -255,6 +255,11 @@ padding-top:50%;
     width: 33%;
 }
 
+.span_centered_two_thirds {
+    margin-left: 16.5%;
+    width: 66%;
+}
+
 .span_centered_half {
     margin-left: 25%;
     width: 50%;

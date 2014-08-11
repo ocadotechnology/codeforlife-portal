@@ -17,7 +17,16 @@ var PASSWORD_TYPE = 'STUDENT';
     <div class='span_centered_half'>
 
         <div class='login-card'>
-            <h3>Update account details</h3><br>
+            <h3>{% if user.userprofile.student.class_field %}My Password{% else %}My Account{% endif %}</h3><br>
+
+            {% if user.userprofile.student.class_field %}
+                <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work!</p>
+                <p>Your password is case insensitive, so it doesn't matter if you accidentally type a capital letter when you shouldn't.</p>
+                <p>If you have any problems, ask a teacher to help you.</p>
+            {% else %}
+                <p>You may edit your account details below, including your name, password, and registered email address (if you change this, you will have to verify the email belongs to you or your parent or guardian by following the instructions on an email).</p>
+                <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work! It is also case insensitive, so it doesn't matter if you accidentally type a capital letter when you shouldn't.</p>
+            {% endif %}
 
             <form method='post'>
 

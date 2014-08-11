@@ -6,13 +6,26 @@
 {% block content %}
 
 <div class='section group'>
-    <h1>Manage my school or club</h1>
+    <h1>Manage my school or club</h1><br>
+
+    {% if is_admin %}
+        <p>You can manage your school or club here, including choosing which other teachers to give or remove admin rights to, removing any teachers from your school, and responding to requests by new teachers to join your school.</p>
+    {% else %}
+        <p>You can see who else in your school or club is registered here, and you can choose to leave the school or club.</p>
+    {% endif %}
 </div>
 
 <br>
 
 <div class='section group'>
-    <h3>Teachers who are part of your school or club</h3><br>
+    <h3>Teachers who are part of your school or club</h3>
+
+    <p>The following teachers are in your school or club.</p>
+
+    {% if is_admin %}
+        <p>Click 'Remove' to remove a teacher from your school or club. You will be able to choose which teachers take over any of the teacher's classes.</p>
+        <p>You can also administer admin rights by clicking the 'Make non-admin' and 'Make admin' buttons.</p>
+    {% endif %}
 
     <table class='CSSTable' width='100%'>
         <tr>
@@ -47,7 +60,9 @@
 
 <div class='section group'>
     <h3>Teachers who have made a request to join your school or club</h3>
+
     {% if join_requests %}
+        <p>The following teachers have requested to join your school or club. Use the email address to verify their identity, and use the 'Allow' and 'Deny' buttons to let or not let them join your school's Code for Life team!</p>
         <table class='CSSTable' width='100%'>
             <tr>
                 <td>Name</td>
@@ -77,6 +92,8 @@
     <div class='section group login-card'>
         <h3>Change the details of your school or club</h3><br>
 
+            <p>The following details are used to allow other teachers to join your team.</p>
+
             <form method='post'>
 
                 {% csrf_token %}
@@ -103,8 +120,12 @@
 <br>
 
 <div class='section group'>
-    <div class='span_centered_third'>
-        <a class='btn' style="width: 100%" href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
+    <div class='span_1_of_2'>
+        <div class='login-card'>
+            <h3>Leave {{ user.userprofile.teacher.school.name }}</h3><br>
+            <p>Time to go? You may leave this school or club as a non-admin teacher, and will be able to select which teachers take over any classes you may still have on your account.</p>
+            <a class='btn' style="width: 100%" href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
+        </div>
     </div>
 </div>
 
