@@ -45,7 +45,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  '520912890903@developer.gserviceaccount.com',
+                  'verifyemail@integrate.numeric-incline-526.appspot.com',
                   [new_email])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
