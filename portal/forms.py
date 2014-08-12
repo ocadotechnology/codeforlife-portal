@@ -10,7 +10,7 @@ from captcha.fields import ReCaptchaField
 
 from postcodes import PostCoder
 
-from models import Student, Class, School, stripStudentName
+from models import Student, Class, School, Teacher, stripStudentName
 
 from collections import Counter
 

@@ -10,18 +10,22 @@
     <div class="col span_1_of_2">
         <h3>Current Classes</h3>
 
-        <table class='CSSTable'>
-            <tr>
-                <td>Class Name</td>
-                <td>Access Code</td>
-            </tr>
-            {% for class in classes %}
+        {% if classes %}
+            <table class='CSSTable'>
                 <tr>
-                    <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a></td>
-                    <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.access_code }}</a></td>
+                    <td>Class Name</td>
+                    <td>Access Code</td>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for class in classes %}
+                    <tr>
+                        <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a></td>
+                        <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.access_code }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>It doesn't look like you have any classes assigned to you. To create a class, use the 'New Class' box on the right.</p>
+        {% endif %}
     </div>
 
     <div class="col span_1_of_2">
