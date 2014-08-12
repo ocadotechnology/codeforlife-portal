@@ -310,10 +310,15 @@ def organisation_fuzzy_lookup(request):
                 schools = name_part | postcode_part
 
         for school in schools:
+            admins = Teacher.objects.filter(school=school, is_admin=True)
+            anAdmin = admins[0]
+            email = anAdmin.user.user.email
+            adminDomain = '*********' + email[email.find('@'):]
             school_data.append({
                 'id': school.id,
                 'name': school.name,
                 'postcode': school.postcode,
+                'admin_domain': adminDomain
             })
 
     return HttpResponse(json.dumps(school_data), content_type="application/json")

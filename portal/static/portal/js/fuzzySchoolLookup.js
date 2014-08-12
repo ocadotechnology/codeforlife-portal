@@ -17,7 +17,7 @@ function updateChosenOrgSelect() {
                 if (data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
                         var d = data[i];
-                        select.options.add(new Option(d.name + ', ' + d.postcode, d.id));
+                        select.options.add(new Option(d.name + ', ' + d.postcode + ', ' + d.admin_domain, d.id));
                     }
                 }
                 else {
