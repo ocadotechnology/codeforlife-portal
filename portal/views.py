@@ -399,6 +399,8 @@ def organisation_teacher_view(request, is_admin):
             school.postcode = form.cleaned_data['postcode']
             school.save()
 
+            messages.success(request, 'You have updated the details for your school/club successfully.')
+
     return render(request, 'portal/teach/organisation_manage.html', {
         'teacher': teacher,
         'is_admin': is_admin,
