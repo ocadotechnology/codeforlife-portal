@@ -9,22 +9,8 @@
 {% block scripts %}
 {{ block.super }}
 
-<script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
-<script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
-        disableOn: 700,
-        type: 'iframe',
-        mainClass: 'mfp-fade',
-        removalDelay: 160,
-        preloader: false,
-
-        fixedContentPos: false
-    });
-});
-</script>
+<!-- <script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
+ --><script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -140,5 +126,22 @@ $(document).ready(function(){
                                      
        </div>
  </div>
+
+<script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+        disableOn: 700,
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        removalDelay: 160,
+        preloader: false,
+
+        fixedContentPos: false
+    });
+});
+</script>
+
 
 {% endblock content %}
