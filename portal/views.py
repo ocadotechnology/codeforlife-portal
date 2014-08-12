@@ -1127,6 +1127,13 @@ def teacher_reject_student_request(request, pk):
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
         return HttpResponseNotFound()
 
+    emailMessage = emailMessages.studentJoinRequestRejectedEmail(student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
+
+    send_mail(emailMessage['subject'],
+              emailMessage['message'],
+              'notifications@numeric-incline-526.appspotmail.com',
+              [student.user.user.email])
+
     student.pending_class_request = None
     student.save()
 
@@ -1202,6 +1209,21 @@ def student_join_organisation(request):
             if request_form.is_valid():
                 student.pending_class_request = request_form.klass
                 student.save()
+
+                emailMessage = emailMessages.studentJoinRequestSentEmail(request_form.klass.teacher.school.name, request_form.klass.access_code)
+
+                send_mail(emailMessage['subject'],
+                          emailMessage['message'],
+                          'notifications@numeric-incline-526.appspotmail.com',
+                          [student.user.user.email])
+
+                emailMessage = emailMessages.studentJoinRequestNotifyEmail(student.user.user.username, student.user.user.email, student.pending_class_request.access_code)
+
+                send_mail(emailMessage['subject'],
+                          emailMessage['message'],
+                          'notifications@numeric-incline-526.appspotmail.com',
+                          [student.pending_class_request.teacher.user.user.email])
+
                 messages.success(request, 'Your request to join a school has been received successfully')
                 return HttpResponseRedirect(reverse('portal.views.student_join_organisation'))
         elif 'revoke_join_request' in request.POST:
@@ -1213,3 +1235,5 @@ def student_join_organisation(request):
             return HttpResponseRedirect(reverse('portal.views.student_details'))
 
     return render(request, 'portal/play/student_join_organisation.html', { 'request_form': request_form, 'student': student })
+
+

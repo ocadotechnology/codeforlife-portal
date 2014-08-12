@@ -30,7 +30,7 @@ def joinRequestPendingEmail(request, pendingAddress):
 def joinRequestSentEmail(schoolName):
     return {
         'subject': emailSubjectPrefix() + ' : School/club join request sent',
-        'message': "Your request to join the school/club '" + schoolName + "' has been sent. Someone wil either accept or deny your request soon.",
+        'message': "Your request to join the school/club '" + schoolName + "' has been sent. Someone will either accept or deny your request soon.",
     }
 
 def joinRequestAcceptedEmail(schoolName):
@@ -73,4 +73,19 @@ def contactEmail(name, email, message):
     return {
         'subject': emailSubjectPrefix() + ' : Contact from Portal',
         'message': "Contact from portal:\n\nName: {name}\nEmail: {email}\n\n{message}".format(name=name, email=email, message=message),
+    }
+def studentJoinRequestSentEmail(schoolName, accessCode):
+    return {
+        'subject': emailSubjectPrefix() + ' : School/club join request sent',
+        'message': "Your request to join the school/club '" + schoolName + "' in class " + accessCode + " has been sent. Someone will either accept or deny your request soon.",
+    }
+def studentJoinRequestRejectedEmail(schoolName, accessCode):
+    return {
+        'subject': emailSubjectPrefix() + ' : School/club join request rejected',
+        'message': "Your request to join the school/club '" + schoolName + "' in class " + accessCode + " has been rejected. Speak to your teacher if you think this is in error.",
+    }
+def studentJoinRequestNotifyEmail(username, email, accessCode):
+    return {
+        'subject': emailSubjectPrefix() + ' : School/club join request by student ' + username,
+        'message': "There is a request waiting from student with username '" + username + "' and email " + email + " to join your class " + accessCode + ". Logon to Code For Life and go to My Classes to review.",
     }
