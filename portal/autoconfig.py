@@ -28,4 +28,24 @@ SETTINGS = {
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'django_otp.middleware.OTPMiddleware',
     ],
+
+    'TWO_FACTOR_CALL_GATEWAY': 'two_factor.gateways.fake.Fake',
+    'TWO_FACTOR_SMS_GATEWAY': 'two_factor.gateways.fake.Fake',
+    
+    'LOGGING': {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'two_factor': {
+                'handlers': ['console'],
+                'level': 'INFO',
+            }
+        }
+    },
 }

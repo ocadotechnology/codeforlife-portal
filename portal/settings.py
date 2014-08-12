@@ -76,8 +76,6 @@ RECAPTCHA_PRIVATE_KEY = '6LfdOfgSAAAAAFwSXYu9BVD2lCCXEypoFYIJM_tp'
 TWO_FACTOR_CALL_GATEWAY = 'two_factor.gateways.fake.Fake'
 TWO_FACTOR_SMS_GATEWAY = 'two_factor.gateways.fake.Fake'
 
-TWO_FACTOR_QR_FACTORY = 'qrcode.image.pil.PilImage'
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
