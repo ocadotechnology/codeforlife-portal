@@ -8,6 +8,5 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
-    url(r'^/', include('portal.urls')),
     url(r'^', include('portal.urls')),
     url(r'^game/', include('game.urls')),)
