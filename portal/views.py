@@ -990,7 +990,6 @@ def teacher_edit_account(request):
         form = TeacherEditAccountForm(request.user, initial={
             'first_name': teacher.user.user.first_name,
             'last_name': teacher.user.user.last_name,
-            'email': teacher.user.user.email,
             'school': teacher.school,
         })
 
