@@ -31,7 +31,7 @@
     <table class='CSSTable' width='100%'>
         <tr>
             <td>Name</td>
-            <td>Administrator email</td>
+            <td>Admin Status</td>
             {% if is_admin %}
                 <td colspan='2'>Actions</td>
             {% endif %}
@@ -40,7 +40,7 @@
         {% for coworker in coworkers %}
             <tr>
                 <td>{{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
-                <td>{% if coworker.is_admin %}Admin ({{ coworker.user.user.email|emaildomain }}){% endif %}</td>
+                <td>{% if coworker.is_admin %}Admin{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.user.user.email|emaildomain }}){% endif %}</td>
                 {% if coworker.user.user != user and is_admin %}
                     <td><a class='btn' href="{% url 'portal.views.organisation_kick' coworker.id %}">Remove</a></td>
                     <td><a class='btn' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
