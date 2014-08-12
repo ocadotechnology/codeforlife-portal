@@ -9,12 +9,13 @@ js_info_dict = {
 
 urlpatterns = patterns('',
 
-    url(r'', include('two_factor.urls', 'two_factor')),
+    url(r'^', include('two_factor.urls', 'two_factor')),
 
     url(r'^teach/$', 'portal.views.teach'),
     url(r'^play/$', 'portal.views.play'),
     url(r'^about/$', 'portal.views.about'),
     url(r'^help/$', 'portal.views.help'),
+    url(r'^contact/$', 'portal.views.contact'),
     url(r'^terms/$', 'portal.views.terms'),
     url(r'^map/$', 'portal.views.schools_map'),
     url(r'^cookie/$', 'portal.views.cookie'),

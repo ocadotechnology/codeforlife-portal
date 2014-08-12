@@ -1,0 +1,28 @@
+{% extends 'portal/base.html' %}
+
+{% block content %}
+
+<h2>Contact Us</h2>
+<div id="contact-area">
+
+    <form method="post" action="">
+        <label for="Name">Name:</label>
+        <input class="contactField" type="text" name="Name" id="Name" />
+        
+        <label for="Telephone">Telephone</label>
+        <input class="contactField" type="text" name="Telephone" id="txt_phone" />
+
+        <label for="Email">Email:</label>
+        <input  class="contactField"type="text" name="Email" id="Email" />
+        
+        <label for="Message">Message:</label><br />
+        <textarea class="contactField" name="Message" rows="20" cols="20" id="Message"></textarea>
+
+        <input type="submit" name="submit" value="Submit" class="btn" />
+    </form>
+    
+    <div style="clear: both;"></div>
+    
+</div>
+
+{% endblock content %}

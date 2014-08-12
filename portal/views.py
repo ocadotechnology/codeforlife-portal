@@ -235,6 +235,9 @@ def terms(request):
 def help(request):
     return render(request, 'portal/help-and-support.html')
 
+def contact(request):
+    return render(request, 'portal/contact.html')
+
 def schools_map(request):
     schools = School.objects.all()
     return render(request, 'portal/map.html', { 'schools': schools })
