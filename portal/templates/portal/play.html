@@ -20,54 +20,37 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
 
 <div class="section group">
     <div class="col span_2_of_3">
-        <h3>Play</h3>
+        <h3>Learning to code is fun</h3>
         <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. 
-        </p>
-
-        <p>
-        <a href="{% url 'game.views.levels' %}" class="btn">Play now</a>
-        </p>
-
-        <h3>Student Resources</h3>
-        <ul class="resources">
-            <li>KS1 Resource</li>
-            <li>KS2 Resource</li>
-            <li>Unplugged activity sheets</li>
-            <li>Command cards</li>
-            <li>Scenario starters using the app characters for the ‘Create your own maze/game’</li>
-        </ul>
-
-        <br>
-
-        <div class="gameBox">
-            <div class="splash">
-                <h3>Coming soon</h3>
-
-                <ul class="clock">
-                    <li class="days">
-                        <span class="ten">3</span>
-                        <span class="unit">0</span>
-                        <em>Days</em>
-                    </li>
-                    <li class="hours">
-                        <span class="ten">0</span>
-                        <span class="unit">8</span>
-                        <em>Hours</em>
-                    </li>
-                    <li class="mins">
-                        <span class="ten">4</span>
-                        <span class="unit">8</span>
-                        <em>Mins</em>
-                    </li>
-                    <li class="secs">
-                        <span class="ten">4</span>
-                        <span class="unit">6</span>
-                        <em>Secs</em>
-                    </li>
-                </ul>
-            </div>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. 
+         </p>
+     
+     
+        <div class="gameBoxPlay">
+        
+            <h3>Rapid Router - Our first app</h3>
+            <div class="section group">
+                <div class="col span_1_of_3">
+                     <div class="play">
+                         <img src="{% static 'portal/img/rrBGsmall.jpg' %}" />
+                         <a class="btn" href="{% url 'game.views.levels' %}">Play Now</a>
+                     </div>
+                </div>
+                 
+                <div class="col span_2_of_3">
+                   
+                    <p>
+                    Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
+                    </p>
+                    
+                </div>
+             </div>
         </div>
+     
+      
+
+
+      
     </div>
 
     <div class="col span_1_of_3">

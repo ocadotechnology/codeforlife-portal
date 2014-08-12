@@ -55,74 +55,90 @@ $(document).ready(function(){
 {% block content %}
 
 <div class="section group">
-    <div class="col span_1_of_2">
-
+    <div class="col span_2_of_3">
+           
         <div class="description">
             <h3 id="intro">An Introduction</h3>
-            <p>In September 2014, the UK becomes the first country in the world to put Computing at the heart of the school curriculum.</p>
-            <p>Ocado Technology's Code for Life initiative has been developed to help teachers deliver the new curriculum, so they can inspire the next generation of computer scientists.</p>
-            <p>But this is just the beginning. Over the next couple of years, this initiative will be expanded to support pupils throughout their school career, from age five to 16, and beyond.</p>
-            <p><em>Rapid Router</em> marks the first step in this journey. It is a free, comprehensive Key Stage 1 and lower Key Stage 2 teaching resource and web application, designed for, and tested by, primary school teachers.</p>
-        </div>
-
+            <p>
+            In September 2014, the UK became the first country in the world to put Computing at the heart of the school curriculum.
+            </p>
+            <p>
+            Ocado Technology's Code for Life initiative has been developed to help teachers deliver the new curriculum, so they can inspire the next generation of computer scientists. But this is just the beginning. Over the next couple of years, this initiative will be expanded to support pupils throughout their school career, from age five to 16, and beyond. 
+            </p>
+            <h3>Rapid Router - Our first app</h3>
+            <p>
+            Rapid Router marks the first step in this journey. It is a free, comprehensive Key Stage 1 and lower Key Stage 2 teaching resource and web application, designed for, and tested by, primary school teachers.
+            </p>
+      </div>
+      
+           
     </div>
-
-    <div class="col span_1_of_2">
-
-        <div class="video">
-            <a href="https://www.youtube.com/watch?v=xP-U-MJLk-g" class="popup-youtube">
+           
+    <div class="col span_1_of_3">
+           
+        <h3 id="intro">Take the journey</h3>
+       
+       <div class="video">
+            <a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">
                 <img alt="Watch Video" src="https://www.codeforlife.education/static/website/img/video_still.png">
             </a>
         </div>
-        <a href="{% url 'portal.views.teach' %}" class="btn wide">Get Involved</a>
-
+                                    
     </div>
 </div>
 
 <div class="section group">
-    <div class="col span_1_of_2">
-
+     <div class="col span_2_of_3">
+  
         <div class="gameBox">
-            <div class="splash">
-                <h3>Coming soon</h3>
-                <ul class="clock">
-                    <li class="days">
-                        <span class="ten">3</span>
-                        <span class="unit">0</span>
-                        <em>Days</em>
-                    </li>
-                    <li class="hours">
-                        <span class="ten">0</span>
-                        <span class="unit">8</span>
-                        <em>Hours</em>
-                    </li>
-                        <li class="mins">
-                        <span class="ten">4</span>
-                        <span class="unit">8</span>
-                        <em>Mins</em>
-                    </li>
-                        <li class="secs">
-                        <span class="ten">4</span>
-                        <span class="unit">6</span>
-                        <em>Secs</em>
-                    </li>
-                </ul>
-            </div>
+        
+            <div class="section group">
+                 <div class="col span_1_of_3">
+                 <img src="{% static 'portal/img/rrBGsmall.jpg' %}" />
+                
+                 
+                 </div>
+                 
+                 <div class="col span_2_of_3">
+                 
+                   
+                    <p>
+                    Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. 
+                    </p>
+                    <p>
+                    Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
+                    </p>
+                 </div>
+             </div>
         </div>
-
-        <p><strong><em>Rapid Router</em> is a fun and engaging education resource, which includes a coding game that helps teach children the basic principles of programming.</strong></p>
-        <p>Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, <em>Rapid Router</em> enables teachers to monitor and manage individual pupil progress and identify where more support is required.</p>
-    </div>
-
-    <div class="col span_1_of_2">
-        <h3>Useful links</h3>
-
-        <ul class="resources">
-            <li>Introduction to Coding</li>
-            <li>Teaching plans</li>
-            <li>Assessment for learning recording sheets</li>
-        </ul>
-    </div>
-</div>
+            
+      </div>
+                        
+       <div class="col span_1_of_3">
+            
+        
+            <a href="{% url 'portal.views.teach' %}" class="btn wide">Teacher sign up</a>
+            
+                                        
+             <div class="news">
+                <h3>In the news</h3>
+               
+               <div class="newsItem"> 
+                <h4>Lorem ipsum dolor sit amet</h4>
+                  <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
+                  </p>
+                </div>  
+                
+                <div class="newsItem"> 
+                <h4>Lorem ipsum dolor sit amet</h4>
+                  <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
+                  </p>
+                </div>  
+            </div>
+                                     
+       </div>
+ </div>
 
 {% endblock content %}

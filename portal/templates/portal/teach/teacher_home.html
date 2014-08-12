@@ -5,54 +5,110 @@
 
 {% block content %}
 
-<h3>Welcome, {{ user.first_name }}</h3>
+<div class="section group">
+    
 
-<h2>Teacher Resources</h2>
+    <div class="col span_2_of_3">
+        <h3>Hello, (TODO Mr Smith) {{ user.first_name }}</h3>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.</p>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
+        </p>
+
+        <h3>Your Students</h3>
+        <p>
+        Donec placerat vulputate nulla vel scelerisque. Phasellus ullamcorper nec nisl ac pharetra. Quisque pharetra velit eget mi faucibus consequat. In faucibus, justo a consectetur posuere, nibh elit posuere quam, sed lobortis nunc elit eu lacus. Vivamus in arcu nisi. Aliquam erat volutpat. Praesent volutpat rhoncus neque, vel auctor purus posuere nec. Integer feugiat, risus et consectetur consequat, turpis nunc euismod purus, fermentum dictum nisi augue in ligula. Quisque tincidunt risus ante, in varius arcu porta non.
+        </p>
+        <h3>Your Classroom</h3>
+        <p>
+        Sed ac consectetur velit. Duis ultrices fringilla dolor, ut cursus felis molestie ut. Donec at felis vehicula, porta risus at, fringilla nulla. Fusce blandit interdum ante ac iaculis. Fusce fermentum bibendum leo, ut blandit diam. In vestibulum nibh ac metus faucibus, eu lacinia diam placerat. Donec vitae leo felis.
+        </p>
+        <p>
+        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut vel ligula hendrerit, auctor ligula sed, elementum lacus. Vivamus eu turpis cursus, pellentesque purus quis, rhoncus lacus. Sed vel nisl laoreet, semper lectus sit amet, posuere lectus. Duis accumsan tincidunt neque nec ullamcorper. 
+        </p>
+        <h3>Your Resources</h3>
+        <p>
+        Ut laoreet justo metus, ac cursus nulla sagittis vel. Nam enim purus, interdum id dui sit amet, tincidunt adipiscing sem. Morbi in velit ipsum. Praesent id eros libero. Integer iaculis porta elit, a commodo odio mattis vestibulum. Nam quis est non nibh tempor posuere ut non ligula. Sed sodales tortor eu rhoncus varius. Nullam aliquet diam at leo mollis, non hendrerit urna posuere. Nunc tristique vehicula massa sit amet viverra. 
+        </p>
+    </div>
+
+    <div class="col span_1_of_3">
+                    
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="CSSTable">
+           <tr>
+             <td>Manage classrooms</td>
+           </tr>
+           <tr>
+             <td><a href="{% url 'portal.views.teacher_edit_account' %}">Account settings</a></td>
+           </tr>
+           <tr>
+             <td><a href="{% url 'portal.views.organisation_manage' %}">My school or club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
+           </tr>
+           <tr>
+             <td><a href="{% url 'portal.views.teacher_classes' %}">Classes (5 TODO)</a></td>
+           </tr>
+           <tr>
+             <td><a href="#">Students (150) (?? Shouldn't this go via Classes??)</a></td>
+           </tr>
+         </table>
+
+         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="CSSTable">
+            <tr>
+              <td>Downloads</td>
+            </tr>
+            <tr>
+              <td><a href="#">Lesson plan</a></td>
+            </tr>
+            <tr>
+              <td><a href="#">Pupil resources</a></td>
+            </tr>
+            <tr>
+              <td><a href="#">Assessment sheets</a></td>
+            </tr>
+            <tr>
+              <td><a href="#">Character sheets</a></td>
+            </tr>
+          </table>
+        
+        
+          <a class="btn ks" href="#">KS1</a><a class="btn ks" href="#">LKS2</a>
+    </div>
+</div>
+
+
+<h3>Rapid Router characters summary</h3>         
+            
+<div class="section group characters">
+    <div class="col span_1_of_5">
+        <img src="{% static 'portal/img/kirsty.png' %}" />
+        <h4>Kirsty</h4>
+       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+    </div>
+    <div class="col span_1_of_5">
+            <img src="{% static 'portal/img/nigel.png' %}" />
+            <h4>Nigel</h4>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+    </div>
+    <div class="col span_1_of_5">
+         <img src="{% static 'portal/img/dee_red box.png' %}" />
+         <h4>Dee</h4>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+    </div>
+    <div class="col span_1_of_5">
+        <img src="{% static 'portal/img/phil.png' %}" />
+        <h4>Phil</h4>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+    </div>
+    <div class="col span_1_of_5">
+    <img src="{% static 'portal/img/wes.png' %}" />
+    <h4>Wes</h4>
+       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
+    </div>
+</div>
 
 <p>To go to Rapid Router, click below!</p>
 
 <a href="{% url 'game.views.levels' %}" class="btn">Play now</a>
-
-<div class="section group">
-    <div class="col span_1_of_2">
-        <table class='CSSTable'>
-            <tr>
-                <td>Management Links</td>
-            </tr>
-            <tr>
-                <td><a href="{% url 'portal.views.teacher_classes' %}">My classes</a></td>
-            </tr>
-            <tr>
-                <td><a href="{% url 'portal.views.organisation_manage' %}">My school or club</a></td>
-            </tr>
-            <tr>
-                <td><a href="{% url 'portal.views.teacher_edit_account' %}">My account</a></td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="col span_1_of_2">
-        <table class='CSSTable'>
-            <tr>
-                <td>Resources Links</td>
-            </tr>
-            <tr>
-                <td><a href="#">Resource 1</a></td>
-            </tr>
-            <tr>
-                <td><a href="#">Resource 2</a></td>
-            </tr>
-            <tr>
-                <td><a href="#">Resource 3</a></td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-<br/>
-
 
 
 {% endblock %}
