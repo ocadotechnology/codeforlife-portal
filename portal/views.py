@@ -232,6 +232,9 @@ def about(request):
 def terms(request):
     return render(request, 'portal/terms.html')
 
+def help(request):
+    return render(request, 'portal/help-and-support.html')
+
 def schools_map(request):
     schools = School.objects.all()
     return render(request, 'portal/map.html', { 'schools': schools })
