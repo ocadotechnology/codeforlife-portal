@@ -450,7 +450,7 @@ class StudentLoginForm(forms.Form):
 
 class StudentEditAccountForm(forms.Form):
     name = forms.CharField(label='Name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-    email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
+    email = forms.EmailField(label='Change email address (optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Change email address (optional)'}))
     password = forms.CharField(label='New password (optional)', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'New password (optional)'}))
     confirm_password = forms.CharField(label='Confirm new password', required=False, widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
     current_password = forms.CharField(label='Current password', widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))

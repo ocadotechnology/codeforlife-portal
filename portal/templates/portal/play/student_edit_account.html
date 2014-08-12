@@ -36,9 +36,9 @@ var PASSWORD_TYPE = 'STUDENT';
 
                 {% if not user.userprofile.student.class_field %}
 
-                    {{ form.first_name.errors }}
-                    <label class="ieLabels">{{ form.first_name.html_name }}</label>
-                    {{ form.first_name }}
+                    {{ form.name.errors }}
+                    <label class="ieLabels">{{ form.name.html_name }}</label>
+                    {{ form.name }}
 
                     {{ form.email.errors }}
                     <label class="ieLabels">{{ form.email.html_name }}</label>

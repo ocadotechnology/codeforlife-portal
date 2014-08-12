@@ -1159,7 +1159,7 @@ def student_edit_account(request):
             # allow individual students to update more
             if not student.class_field:
                 new_email = data['email']
-                if new_email != student.user.user.email:
+                if new_email != '' and new_email != student.user.user.email:
                     # new email to set and verify
                     changing_email=True
                     send_verification_email(request, student.user, new_email)
@@ -1178,9 +1178,7 @@ def student_edit_account(request):
             return HttpResponseRedirect(reverse('portal.views.student_details'))
     else:
         form = StudentEditAccountForm(request.user, initial={
-            'first_name': student.user.user.first_name,
-            'last_name': student.user.user.last_name,
-            'email': student.user.user.email})
+            'name': student.user.user.first_name})
 
     return render(request, 'portal/play/student_edit_account.html', { 'form': form })
 
