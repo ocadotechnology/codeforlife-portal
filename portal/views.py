@@ -1203,7 +1203,7 @@ def student_join_organisation(request):
                 student.pending_class_request = request_form.klass
                 student.save()
                 messages.success(request, 'Your request to join a school has been received successfully')
-                return HttpResponseRedirect(reverse('portal.views.student_details'))
+                return HttpResponseRedirect(reverse('portal.views.student_join_organisation'))
         elif 'revoke_join_request' in request.POST:
             student.pending_class_request = None
             student.save()
