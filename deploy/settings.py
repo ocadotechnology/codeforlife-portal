@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+from django.core.urlresolvers import reverse_lazy
 
 # Build paths inside the project like this: rel(rel_path)
 import os
@@ -89,6 +90,10 @@ STATIC_ROOT = rel('static')
 LOGIN_URL = '/'
 
 LOGOUT_URL = '/logout/'
+
+LOGIN_URL = reverse_lazy('portal.views.teach')
+LOGOUT_URL = reverse_lazy('portal.views.logout_view')
+LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_home')
 
 
 # Required for admindocs
