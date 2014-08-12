@@ -161,6 +161,13 @@ ul.topNav li a:hover, .footer ul li a:hover
   border-bottom:1px solid #FFFFFF;
 }
 
+ul.topNav li.selected a
+{
+  border-top:1px solid #FFFFFF;
+  border-bottom:1px solid #FFFFFF;
+  display:block;
+}
+
 .video img
 {
 	width:100%;
