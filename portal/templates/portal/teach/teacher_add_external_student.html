@@ -10,7 +10,7 @@
         <h3>Students currently in class</h3><br>
 
         {% if students %}
-            <p>The following are students in the class to which the external student with username {{ student.username }} will be added.</p>
+            <p>The following are students in the class to which the external student with username {{ student.user.user.username }} will be added.</p>
             <table class="CSSTable" width='100%'>
                 <tr>
                     <td>Student Name</td>
@@ -22,7 +22,7 @@
                 {% endfor %}
             </table>
         {% else %}
-            <p>The class into which the external student with username {{ student.username }} is to be added is empty.</p>
+            <p>The class into which the external student with username {{ student.user.user.username }} is to be added is empty.</p>
         {% endif %}
     </div>
 
@@ -30,7 +30,7 @@
         <div class='login-card'>
             <h3>Add external student</h3><br>
 
-            <p>Please confirm the details for adding student with username {{ student.username }} to the class. Remember their name must be unique in the class.</p>
+            <p>Please confirm the details for adding student with username {{ student.user.user.username }} to the class. Remember their name must be unique in the class.</p>
 
             <form method='POST'>
 
