@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
-from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
+from django.views.generic.base import TemplateView
 admin.autodiscover()
 
 js_info_dict = {
@@ -8,23 +8,20 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
-
     url(r'^account/login/$', 'portal.views.custom_2FA_login'),
 
     url(r'^', include('two_factor.urls', 'two_factor')),
 
     url(r'^teach/$', 'portal.views.teach'),
     url(r'^play/$', 'portal.views.play'),
-    url(r'^about/$', 'portal.views.about'),
-    url(r'^help/$', 'portal.views.help'),
-    url(r'^contact/$', 'portal.views.contact'),
-    url(r'^terms/$', 'portal.views.terms'),
+    url(r'^about/$', TemplateView.as_view(template_name='portal/about.html'), name='about'),
+    url(r'^help/$', TemplateView.as_view(template_name='portal/help-and-support.html'), name='help'),
+    url(r'^contact/$', 'portal.views.contact', name='contact'),
+    url(r'^terms/$', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
     url(r'^map/$', 'portal.views.schools_map'),
-    url(r'^cookie/$', 'portal.views.cookie'),
-    url(r'^browser/$', 'portal.views.browser'),
-    url(r'^locked_out/$', 'portal.views.locked_out'),
+    url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'), name='locked_out'),
 
-    url(r'^$', 'portal.views.home'),
+    url(r'^$', TemplateView.as_view(template_name='portal/home.html'), name='home'),
     url(r'^logout/$', 'portal.views.logout_view'),
     url(r'^teach/school/fuzzy_lookup$', 'portal.views.organisation_fuzzy_lookup'),
     url(r'^teach/school/manage/$', 'portal.views.organisation_manage'),

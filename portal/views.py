@@ -4,19 +4,17 @@ import string
 import random
 import datetime
 import json
-import re
 
 from django.conf import settings
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.forms import AuthenticationForm
@@ -31,7 +29,7 @@ from brake import utils as brake_utils
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
+from models import Teacher, UserProfile, School, Class, Student, EmailVerification
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm, PasswordResetSetPasswordForm
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
@@ -39,8 +37,6 @@ from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
-
-# New views for GUI
 
 def send_verification_email(request, userProfile, new_email=None):
     verification = EmailVerification.objects.create(
@@ -159,10 +155,7 @@ def teach(request):
                     last_name=data['last_name'])
 
                 userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
-
-                teacher = Teacher.objects.create(
-                    user=userProfile,
-                    title=data['title'])
+                Teacher.objects.create(user=userProfile, title=data['title'])
 
                 send_verification_email(request, userProfile)
 
@@ -185,9 +178,6 @@ def custom_2FA_login(request):
         return HttpResponseRedirect(reverse('portal.views.locked_out'))
 
     return LoginView.as_view()(request)
-
-def locked_out(request):
-    return render(request, 'portal/locked_out.html')
 
 @ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
 def play(request):
@@ -252,8 +242,7 @@ def play(request):
                 email_supplied = (data['email'] != '')
                 userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=email_supplied)
 
-                student = Student.objects.create(
-                    user=userProfile)
+                Student.objects.create(user=userProfile)
 
                 if (email_supplied):
                     send_verification_email(request, userProfile)
@@ -277,8 +266,7 @@ def play(request):
     res.count = invalid_form
     return res
 
-def about(request):
-
+def contact(request):
     if request.method == 'POST':
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
@@ -292,30 +280,12 @@ def about(request):
             return HttpResponseRedirect('.')
     else:
         contact_form = ContactForm()
-
-    return render(request, 'portal/about.html', {'form': contact_form})
-
-def terms(request):
-    return render(request, 'portal/terms.html')
-
-def help(request):
-    return render(request, 'portal/help-and-support.html')
-
-def contact(request):
-    return render(request, 'portal/contact.html')
+        
+    return render(request, 'portal/contact.html', {'form': contact_form})
 
 def schools_map(request):
     schools = School.objects.all()
     return render(request, 'portal/map.html', { 'schools': schools })
-
-def cookie(request):
-    return render(request, 'portal/cookie.html')
-
-def browser(request):
-    return render(request, 'portal/browser.html')
-
-def home(request):
-    return render(request, 'portal/home.html', {})
 
 def current_user(request):
     if not hasattr(request.user, 'userprofile'):
@@ -487,7 +457,6 @@ def organisation_manage(request):
 
     if teacher.school:
         return organisation_teacher_view(request, teacher.is_admin)
-
     else:
         return organisation_create(request)
 
@@ -727,10 +696,7 @@ def teacher_class(request, access_code):
                     first_name=name)
 
                 userProfile = UserProfile.objects.create(user=user)
-
-                student = Student.objects.create(
-                    class_field=klass,
-                    user=userProfile)
+                Student.objects.create(class_field=klass, user=userProfile)
 
             return render(request, 'portal/teach/teacher_new_students.html', {
                 'class': klass,
@@ -1130,7 +1096,6 @@ def teacher_print_reminder_cards(request, access_code):
 
     NUM_X = 2
     NUM_Y = 4
-    CARDS_PER_PAGE = NUM_X * NUM_Y
 
     CARD_WIDTH = PAGE_WIDTH / NUM_X
     CARD_HEIGHT = PAGE_HEIGHT / NUM_Y
