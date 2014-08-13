@@ -47,14 +47,8 @@ def joinRequestDeniedEmail(schoolName):
 
 def kickedEmail(schoolName):
     return {
-        'subject': emailSubjectPrefix() + ' : You were kicked from your school/club',
-        'message': "You have been kicked from the school/club '" + schoolName + "', to dispute this contact the administrator or that school/club.",
-    }
-
-def kickedEmail(schoolName):
-    return {
-        'subject': emailSubjectPrefix() + ' : You were kicked from your school/club',
-        'message': "You have been kicked from the school/club '" + schoolName + "', to dispute this contact the administrator or that school/club.",
+        'subject': emailSubjectPrefix() + ' : You were removed from your school/club',
+        'message': "You have been removed from the school/club '" + schoolName + "', to dispute this contact the administrator of that school/club.",
     }
 
 def adminGivenEmail(schoolName):
@@ -66,7 +60,7 @@ def adminGivenEmail(schoolName):
 def adminRevokedEmail(schoolName):
     return {
         'subject': emailSubjectPrefix() + ' : You are no longer a school/club administrator',
-        'message': "Your admin control of the school/club '" + schoolName + "' has been ervoked.",
+        'message': "Your admin control of the school/club '" + schoolName + "' has been revoked.",
     }
 
 def contactEmail(name, email, message):
