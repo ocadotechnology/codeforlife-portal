@@ -75,7 +75,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                     {% for field in school_login_form %}
                         {{ field.errors }}
                         <label class="ieLabels">{{ field.html_name }}</label>
-                        {{ field }}
+                        {{ field|safe }}
                     {% endfor %}
 
                     <input type='submit' name='school_login' class="btn wide" value='Log in'/>
@@ -96,7 +96,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                     {% for field in solo_login_form %}
                         {{ field.errors }}
                         <label class="ieLabels">{{ field.html_name }}</label>
-                        {{ field }}
+                        {{ field|safe }}
                     {% endfor %}
 
                     <input type='submit' name='solo_login' class="btn wide" value='Log in'/>

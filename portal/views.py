@@ -175,20 +175,42 @@ def teach(request):
     res.count = invalid_form
     return res
 
+@ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
 def play(request):
+    invalid_form = False
+    limits = getattr(request, 'limits', [{ 'count': 0 }])
+    captcha_limit = 2
+
+    using_captcha = (limits[0]['count'] > captcha_limit)
+    should_use_captcha = (limits[0]['count'] >= captcha_limit)
+
+    StudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
+    InputStudentLoginForm = StudentLoginFormWithCaptcha if using_captcha else StudentLoginForm
+    OutputStudentLoginForm = StudentLoginFormWithCaptcha if should_use_captcha else StudentLoginForm
+
+    SoloLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentSoloLoginForm, recaptcha_client), request)
+    InputSoloLoginForm = SoloLoginFormWithCaptcha if using_captcha else StudentSoloLoginForm
+    OutputSoloLoginForm = SoloLoginFormWithCaptcha if should_use_captcha else StudentSoloLoginForm
+
+    school_login_form = OutputStudentLoginForm(prefix='login')
+    solo_login_form = StudentSoloLoginForm(prefix='solo')
+    signup_form = StudentSignupForm(prefix='signup')
+
     solo_view = False
     signup_view = False
     if request.method == 'POST':
-        school_login_form = StudentLoginForm(prefix='login')
-        solo_login_form = StudentSoloLoginForm(prefix='solo')
-        signup_form = StudentSignupForm(prefix='signup')
         if 'school_login' in request.POST:
-            school_login_form = StudentLoginForm(request.POST, prefix='login')
+            school_login_form = InputStudentLoginForm(request.POST, prefix='login')
             if school_login_form.is_valid():
                 login(request, school_login_form.user)
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
+
+            else:
+                school_login_form = OutputStudentLoginForm(request.POST, prefix='login')
+                invalid_form = True
+
         elif 'solo_login' in request.POST:
-            solo_login_form = StudentSoloLoginForm(request.POST, prefix='solo')
+            solo_login_form = InputSoloLoginForm(request.POST, prefix='solo')
             if solo_login_form.is_valid():
                 userProfile = solo_login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
@@ -198,6 +220,10 @@ def play(request):
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
             else:
                 solo_view = True
+                solo_login_form = OutputSoloLoginForm(request.POST, prefix='solo')
+                school_login_form = StudentLoginForm(prefix='login')
+                invalid_form = True
+
         elif 'signup' in request.POST:
             signup_form = StudentSignupForm(request.POST, prefix='signup')
             if signup_form.is_valid():
@@ -225,18 +251,17 @@ def play(request):
                 return render(request, 'portal/play/student_details.html')
             else:
                 signup_view = True
-    else:
-        school_login_form = StudentLoginForm(prefix='login')
-        solo_login_form = StudentSoloLoginForm(prefix='solo')
-        signup_form = StudentSignupForm(prefix='signup')
 
-    return render(request, 'portal/play.html', {
+    res = render(request, 'portal/play.html', {
         'school_login_form': school_login_form,
         'solo_login_form': solo_login_form,
         'signup_form': signup_form,
         'solo_view': solo_view,
         'signup_view': signup_view,
     })
+
+    res.count = invalid_form
+    return res
 
 def about(request):
 
