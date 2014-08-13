@@ -226,7 +226,10 @@ class TeacherLoginForm(forms.Form):
         return self.cleaned_data
 
 class ClassCreationForm(forms.Form):
+    choices = [('True','Yes'), ('False','No')]
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
+    classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=choices, widget=forms.Select(attrs={'class': 'wide'}))
+
 
 class ClassEditForm(forms.Form):
     choices = [('True','Yes'), ('False','No')]

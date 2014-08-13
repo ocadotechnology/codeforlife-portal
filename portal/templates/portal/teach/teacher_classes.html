@@ -45,14 +45,24 @@
                 <div class="section group">
                     <div class="col span_2_of_3">
                         {{ form.name.errors }}
+                        <label class="ieLabels">{{ form.name.html_name }}</label>
                         {{ form.name }}
+                        <div class="section group">
+                            <div class='col span_2_of_3'>
+                                <p>Allow students to see their classmates' progress?</p>
+                            </div>
+                            <div class='col span_1_of_3'>
+                                {{ form.classmate_progress.errors }}
+                                <label class="ieLabels">{{ form.classmate_progress.html_name }}</label>
+                                {{ form.classmate_progress }}
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col span_1_of_3">
                         <input type='submit' class='btn' value='Create'/>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>

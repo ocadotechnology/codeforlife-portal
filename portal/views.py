@@ -617,15 +617,19 @@ def teacher_classes(request):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
         if form.is_valid():
+            classmate_progress = False
+            if form.cleaned_data['classmate_progress']=='True':
+                classmate_progress = True
             klass = Class.objects.create(
                 name=form.cleaned_data['name'],
                 teacher=teacher,
-                access_code=generate_access_code())
+                access_code=generate_access_code(),
+                classmates_data_viewable=classmate_progress)
 
             messages.success(request, "The class '" + klass.name + "' has been successfully created.")
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'access_code': klass.access_code }))
     else:
-        form = ClassCreationForm()
+        form = ClassCreationForm(initial={ 'classmate_progress' : 'False' })
 
     classes = Class.objects.filter(teacher=teacher)
 
