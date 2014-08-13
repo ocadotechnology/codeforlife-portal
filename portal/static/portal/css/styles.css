@@ -764,3 +764,16 @@ ul.errorlist li {
 }
 
 /********** End Password strength bar **********/
+
+.recaptchatable, #recaptcha_area tr, #recaptcha_area td, #recaptcha_area th {
+  line-height: 0 !important;
+}
+
+#recaptcha_area {
+  margin: 0 auto;
+}
+
+#recaptcha_area input {
+  height: auto;
+  display: inline;
+}

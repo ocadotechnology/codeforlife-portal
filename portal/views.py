@@ -167,9 +167,6 @@ def teach(request):
 
                 return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
-            else:
-                invalid_form = True
-
     res = render(request, 'portal/teach.html', {
         'login_form': login_form,
         'signup_form': signup_form,
