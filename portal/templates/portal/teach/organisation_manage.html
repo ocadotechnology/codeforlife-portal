@@ -33,7 +33,7 @@
             <td>Name</td>
             <td>Admin Status</td>
             {% if is_admin %}
-                <td colspan='2'>Actions</td>
+                <td colspan='3'>Actions</td>
             {% endif %}
         </tr>
 
@@ -44,8 +44,10 @@
                 {% if coworker.user.user != user and is_admin %}
                     <td><a class='btn' href="{% url 'portal.views.organisation_kick' coworker.id %}">Remove</a></td>
                     <td><a class='btn' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
+                    <td>{% if coworker.user.user|has_2FA %}<a class='btn' href="{% url 'portal.views.teacher_disable_2FA' coworker.id %}">Disable 2FA</a>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
+                        <td></td>
                         <td></td>
                         <td></td>
                     {% endif %}

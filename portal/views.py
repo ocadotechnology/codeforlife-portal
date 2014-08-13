@@ -23,7 +23,7 @@ from django.forms.formsets import formset_factory
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
-from two_factor.utils import default_device
+from two_factor.utils import default_device, devices_for_user
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm, PasswordResetSetPasswordForm
@@ -998,6 +998,21 @@ def teacher_edit_account(request):
         })
 
     return render(request, 'portal/teach/teacher_edit_account.html', { 'form': form })
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+def teacher_disable_2FA(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+    user = request.user.userprofile.teacher
+
+    # check user has authority to change
+    if teacher.school != user.school or not user.is_admin:
+        return HttpResponseNotFound()
+
+    for device in devices_for_user(teacher.user.user):
+        device.delete()
+
+    return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
