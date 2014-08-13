@@ -128,34 +128,35 @@ ul.topNav li
 	color:#FFFFFF;
 	float:left;
 	list-style:none;
-	list-style-type:none;
 	margin:0 20px;
 }
 .footer ul
 {
   padding:27px 0 0;
-  margin:0;
   margin:0 auto;
-  width:768px;  
-  display:block;
-  overflow:hidden;
+  width:768px;
 }
 
 .footer ul li
 {
-  list-style:none;
-  list-style-type:none;
-  color:#FFFFFF;
-  float:left;
-  margin-left:30px;
+    color:#FFFFFF;
+    display: inline;
+    list-style: none;
+    margin-left:30px;
 }
+
 ul.topNav li a, .footer ul li a
 {
   text-decoration:none;
   color:#FFFFFF;
-  border-top:1px solid #00072C;
-  display:block;
 }
+
+ul.topNav li a
+{
+    border-top:1px solid #00072C;
+    display:block;
+}
+
 ul.topNav li a:hover, .footer ul li a:hover
 {
   border-bottom:1px solid #FFFFFF;
