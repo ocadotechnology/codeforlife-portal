@@ -195,7 +195,13 @@ class TeacherEditAccountForm(forms.Form):
 class TeacherLoginForm(forms.Form):
     email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
-    # captcha = ReCaptchaField()
+
+    def __init__(self, *args, **kwargs):
+        use_captcha = kwargs.pop('use_captcha', False)
+        super(TeacherLoginForm, self).__init__(*args, **kwargs)
+
+        if use_captcha:
+            self.fields['captcha'] = ReCaptchaField()
 
     def clean(self):
         email = self.cleaned_data.get('email', None)

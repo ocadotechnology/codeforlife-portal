@@ -11,3 +11,4 @@ django-recaptcha==1.0
 https://bitbucket.org/rptlab/reportlab/get/tip.zip
 postcodes==0.1
 django-two-factor-auth==1.0.0-beta3
+django-brake==1.3.1

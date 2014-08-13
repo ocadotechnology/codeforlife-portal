@@ -31,6 +31,9 @@ SETTINGS = {
 
     'TWO_FACTOR_CALL_GATEWAY': 'two_factor.gateways.fake.Fake',
     'TWO_FACTOR_SMS_GATEWAY': 'two_factor.gateways.fake.Fake',
+
+    'RECAPTCHA_PUBLIC_KEY': '6LfdOfgSAAAAADDdLN40FtToVvE3moMgOUhGU7oq',
+    'RECAPTCHA_PRIVATE_KEY': '6LfdOfgSAAAAAFwSXYu9BVD2lCCXEypoFYIJM_tp',
     
     'LOGGING': {
         'version': 1,

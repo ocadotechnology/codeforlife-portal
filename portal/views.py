@@ -24,6 +24,8 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 from two_factor.utils import default_device, devices_for_user
+from brake.decorators import ratelimit
+from brake import utils as brake_utils
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm, PasswordResetSetPasswordForm
@@ -96,13 +98,21 @@ def verify_email(request, token):
     # default to homepage if something goes wrong
     return HttpResponseRedirect(reverse('portal.views.home'))
 
+@ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
 def teach(request):
-    login_form = TeacherLoginForm(prefix='login')
+    invalid_form = False
+    limits = getattr(request, 'limits', [{ 'count': 0 }])
+    captcha_limit = 2
+
+    using_captcha = (limits[0]['count'] > captcha_limit)
+    should_use_captcha = (limits[0]['count'] >= captcha_limit)
+
+    login_form = TeacherLoginForm(prefix='login', use_captcha=should_use_captcha)
     signup_form = TeacherSignupForm(prefix='signup')
 
     if request.method == 'POST':
         if 'login' in request.POST:
-            login_form = TeacherLoginForm(request.POST, prefix='login')
+            login_form = TeacherLoginForm(request.POST, prefix='login', use_captcha=using_captcha)
             if login_form.is_valid():
                 userProfile = login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
@@ -121,6 +131,10 @@ def teach(request):
                     messages.info(request, 'You are currently not set up with two-factor-authentication. Click <a href="/account/two_factor/setup">here</a> to set it up or go to your account page at any time.')
 
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
+
+            else:
+                login_form = TeacherLoginForm(request.POST, prefix='login', use_captcha=should_use_captcha)
+                invalid_form = True
 
         if 'signup' in request.POST:
             signup_form = TeacherSignupForm(request.POST, prefix='signup')
@@ -144,10 +158,16 @@ def teach(request):
 
                 return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
-    return render(request, 'portal/teach.html', {
+            else:
+                invalid_form = True
+
+    res = render(request, 'portal/teach.html', {
         'login_form': login_form,
         'signup_form': signup_form,
     })
+
+    res.count = invalid_form
+    return res
 
 def play(request):
     solo_view = False
