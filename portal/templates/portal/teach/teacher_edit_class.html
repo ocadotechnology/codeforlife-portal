@@ -29,6 +29,15 @@
                 </div>
             </div>
 
+            <h4>External requests setting</h4><br>
+            <p>You can setup this class to allow students to request to join your class from outside of your school.</p>
+
+            <p>{{ external_requests_message }}</p>
+            {{ form.external_requests.errors }}
+            <label class="ieLabels">{{ form.external_requests.html_name }}</label>
+            {{ form.external_requests }}
+
+
             <div class='section group'>
                 <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
 

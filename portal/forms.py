@@ -225,15 +225,29 @@ class TeacherLoginForm(forms.Form):
         return self.cleaned_data
 
 class ClassCreationForm(forms.Form):
-    choices = [('True','Yes'), ('False','No')]
+    classmate_choices = [('True','Yes'), ('False','No')]
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
-    classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=choices, widget=forms.Select(attrs={'class': 'wide'}))
+    classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
 
 
 class ClassEditForm(forms.Form):
-    choices = [('True','Yes'), ('False','No')]
+    classmate_choices = [('True','Yes'), ('False','No')]
+    # select dropdown choices for potentially limiting time in which external students may join class
+    # 0 value = don't allow
+    # n value = allow for next n hours, n < 1000 hours
+    # o/w = allow forever
+    join_choices = [('',"Don't change my current setting"),('0',"Don't allow external requests to this class"), ('1',"Allow external requests to this class for the next hour")]
+    for i in range(5):
+        hours = 4*(i+1)
+        join_choices.append((str(hours), "Allow external requests to this class for the next " + str(hours) + " hours"))
+    for i in range(5):
+        days = i+1
+        hours = days*24
+        join_choices.append((str(days), "Allow external requests to this class for the next " + str(days) + " days"))
+    join_choices.append(('1000', "Always allow external requests to this class (not recommended)"))
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
-    classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=choices, widget=forms.Select(attrs={'class': 'wide'}))
+    classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
+    external_requests = forms.ChoiceField(label="Setup external requests to this class", required=False, choices=join_choices, widget=forms.Select(attrs={'class': 'wide'}))
 
 class ClassMoveForm(forms.Form):
     new_teacher = forms.ChoiceField(label='Teachers')

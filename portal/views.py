@@ -921,6 +921,12 @@ def teacher_edit_class(request, access_code):
     if request.user.userprofile.teacher != klass.teacher:
         return HttpResponseNotFound()
 
+    if klass.always_accept_requests:
+        external_requests_message = 'This class is currently set to always accept requests.'
+    elif klass.accept_requests_until != None and (klass.accept_requests_until - timezone.now()) >= datetime.timedelta():
+        external_requests_message = 'This class is accepting external requests until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
+    else:
+        external_requests_message = 'This class is not currently accepting external requests.'
     if request.method == 'POST':
         form = ClassEditForm(request.POST)
         if form.is_valid():
@@ -928,6 +934,26 @@ def teacher_edit_class(request, access_code):
             classmate_progress = False
             if form.cleaned_data['classmate_progress']=='True':
                 classmate_progress = True
+            external_requests_setting = form.cleaned_data['external_requests']
+            if external_requests_setting!='':
+                # Change submitted for external requests
+                hours = int(external_requests_setting)
+                if hours == 0:
+                    # Setting to off
+                    klass.always_accept_requests = False
+                    klass.accept_requests_until = None
+                    messages.info(request, 'Class set successfully to never receive requests from external students.')
+                elif hours < 1000:
+                    # Setting to number of hours
+                    klass.always_accept_requests = False
+                    klass.accept_requests_until = timezone.now() + datetime.timedelta(hours=hours)
+                    messages.info(request, 'Class set successfully to receive requests from external students until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name())
+                else:
+                    # Setting to always on
+                    klass.always_accept_requests = True
+                    klass.accept_requests_until = None
+                    messages.info(request, 'Class set successfully to always receive requests from external students (not recommended)')
+
             klass.name = name
             klass.classmates_data_viewable = classmate_progress
             klass.save()
@@ -943,7 +969,8 @@ def teacher_edit_class(request, access_code):
 
     return render(request, 'portal/teach/teacher_edit_class.html', {
         'form': form,
-        'class': klass
+        'class': klass,
+        'external_requests_message' : external_requests_message,
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))

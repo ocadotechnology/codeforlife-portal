@@ -43,6 +43,8 @@ class Class (models.Model):
     teacher = models.ForeignKey(Teacher, related_name='class_teacher')
     access_code = models.CharField(max_length=5)
     classmates_data_viewable = models.BooleanField(default=False)
+    always_accept_requests = models.BooleanField(default=False)
+    accept_requests_until = models.DateTimeField(null=True)
 
     def __unicode__(self):
         return self.name
