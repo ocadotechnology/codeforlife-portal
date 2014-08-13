@@ -168,9 +168,12 @@ def teach(request):
 
                 return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
 
+    logged_in_as_teacher = hasattr(request.user, 'userprofile') and hasattr(request.user.userprofile, 'teacher') and (request.user.is_verified() or not default_device(request.user))
+
     res = render(request, 'portal/teach.html', {
         'login_form': login_form,
         'signup_form': signup_form,
+        'logged_in_as_teacher': logged_in_as_teacher,
     })
 
     res.count = invalid_form
