@@ -23,7 +23,5 @@ env_variables:
 libraries:
 - name: MySQLdb
   version: latest
-- name: ssl
-  version: latest
 - name: PIL
   version: latest
