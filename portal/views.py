@@ -6,6 +6,7 @@ import datetime
 import json
 import re
 
+from django.conf import settings
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
@@ -26,6 +27,8 @@ from reportlab.lib.colors import black, grey, blue
 from two_factor.utils import default_device, devices_for_user
 from brake.decorators import ratelimit
 from brake import utils as brake_utils
+from recaptcha import RecaptchaClient
+from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
 from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm, PasswordResetSetPasswordForm
@@ -33,6 +36,8 @@ from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, T
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
+
+recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
 
 # New views for GUI
 
@@ -107,12 +112,16 @@ def teach(request):
     using_captcha = (limits[0]['count'] > captcha_limit)
     should_use_captcha = (limits[0]['count'] >= captcha_limit)
 
-    login_form = TeacherLoginForm(prefix='login', use_captcha=should_use_captcha)
+    LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
+    InputLoginForm = LoginFormWithCaptcha if using_captcha else TeacherLoginForm
+    OutputLoginForm = LoginFormWithCaptcha if should_use_captcha else TeacherLoginForm
+
+    login_form = OutputLoginForm(prefix='login')
     signup_form = TeacherSignupForm(prefix='signup')
 
     if request.method == 'POST':
         if 'login' in request.POST:
-            login_form = TeacherLoginForm(request.POST, prefix='login', use_captcha=using_captcha)
+            login_form = InputLoginForm(request.POST, prefix='login')
             if login_form.is_valid():
                 userProfile = login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
@@ -133,7 +142,7 @@ def teach(request):
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
             else:
-                login_form = TeacherLoginForm(request.POST, prefix='login', use_captcha=should_use_captcha)
+                login_form = OutputLoginForm(request.POST, prefix='login')
                 invalid_form = True
 
         if 'signup' in request.POST:

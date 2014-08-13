@@ -58,7 +58,7 @@ var PASSWORD_TYPE = 'TEACHER';
                     {% for field in login_form %}
                         {{ field.errors }}
                         <label class="ieLabels">{{ field.html_name }}</label>
-                        {{ field }}
+                        {{ field|safe }}
                     {% endfor %}
 
                     <input type="submit" name="login" class="btn wide" value="Sign in">

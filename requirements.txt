@@ -7,7 +7,7 @@ unittest2==0.5.1
 pyyaml==3.11
 six==1.6.1
 docutils==0.11
-django-recaptcha==1.0
+django-recaptcha-field==1.0b2
 https://bitbucket.org/rptlab/reportlab/get/tip.zip
 postcodes==0.1
 django-two-factor-auth==1.0.0-beta3
