@@ -856,7 +856,9 @@ def teacher_edit_class(request, access_code):
         form = ClassEditForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            classmate_progress = form.cleaned_data['classmate_progress']
+            classmate_progress = False
+            if form.cleaned_data['classmate_progress']=='True':
+                classmate_progress = True
             klass.name = name
             klass.classmates_data_viewable = classmate_progress
             klass.save()
