@@ -565,6 +565,11 @@ class StudentJoinOrganisationForm(forms.Form):
             if len(classes) != 1:
                 raise forms.ValidationError('Cannot find the school/club and/or class.')
             self.klass = classes[0]
+            if not self.klass.always_accept_requests:
+                if self.klass.accept_requests_until == None:
+                    raise forms.ValidationError('Cannot find the school/club and/or class.')
+                elif (self.klass.accept_requests_until - timezone.now()) < datetime.timedelta():
+                    raise forms.ValidationError('Cannot find the school/club and/or class.')
         return self.cleaned_data
 
 class ContactForm(forms.Form):
