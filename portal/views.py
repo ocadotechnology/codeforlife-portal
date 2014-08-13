@@ -25,6 +25,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 from two_factor.utils import default_device, devices_for_user
+from two_factor.views import LoginView
 from brake.decorators import ratelimit
 from brake import utils as brake_utils
 from recaptcha import RecaptchaClient
@@ -174,6 +175,16 @@ def teach(request):
 
     res.count = invalid_form
     return res
+
+@ratelimit(rate='5/m')
+def custom_2FA_login(request):
+    if getattr(request, 'limited', False):
+        return HttpResponseRedirect(reverse('portal.views.locked_out'))
+
+    return LoginView.as_view()(request)
+
+def locked_out(request):
+    return render(request, 'portal/locked_out.html')
 
 @ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
 def play(request):

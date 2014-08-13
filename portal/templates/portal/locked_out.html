@@ -1,0 +1,14 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="span_centered_half">
+  <h3>Blocked</h3><br/>
+
+  <p>You have been blocked because your IP address is making too many requests, please wait one minute and try again.</p>
+
+  <a href="{% url 'portal.views.home' %}">Go back to home page</a>
+</div>
+
+{% endblock content %}

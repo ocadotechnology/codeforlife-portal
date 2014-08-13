@@ -9,6 +9,8 @@ js_info_dict = {
 
 urlpatterns = patterns('',
 
+    url(r'^account/login/$', 'portal.views.custom_2FA_login'),
+
     url(r'^', include('two_factor.urls', 'two_factor')),
 
     url(r'^teach/$', 'portal.views.teach'),
@@ -20,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^map/$', 'portal.views.schools_map'),
     url(r'^cookie/$', 'portal.views.cookie'),
     url(r'^browser/$', 'portal.views.browser'),
+    url(r'^locked_out/$', 'portal.views.locked_out'),
 
     url(r'^$', 'portal.views.home'),
     url(r'^logout/$', 'portal.views.logout_view'),
