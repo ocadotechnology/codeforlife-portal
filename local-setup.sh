@@ -19,8 +19,7 @@ echo "Cloning other git repositories"
 cd ..
 PROJECT_PATH=`pwd`
 
-rm -rf ocargo portal
-git clone -b integrate https://github.com/ocadotechnology/ocargo ocargo
+git clone https://github.com/ocadotechnology/ocargo ocargo
 git clone https://github.com/ocadotechnology/codeforlife-portal portal
 
 # create local requirements
