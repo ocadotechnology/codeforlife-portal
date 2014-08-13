@@ -951,7 +951,7 @@ def teacher_edit_student(request, pk):
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_password_reset(request, post_reset_redirect):
-    return password_reset(request, template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
@@ -1210,7 +1210,7 @@ def student_edit_account(request):
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_password_reset(request, post_reset_redirect):
-    return password_reset(request, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
     
 
 @login_required(login_url=reverse_lazy('portal.views.play'))
