@@ -16,7 +16,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.views import password_reset
+from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
 from reportlab.pdfgen import canvas
@@ -969,6 +969,7 @@ def teacher_edit_account(request):
                 teacher.user.user.save()
                 update_session_auth_hash(request, form.user)
 
+            teacher.title = data['title']
             teacher.user.user.first_name = data['first_name']
             teacher.user.user.last_name = data['last_name']
             new_email = data['email']
@@ -977,6 +978,7 @@ def teacher_edit_account(request):
                     changing_email=True
                     send_verification_email(request, teacher.user, new_email)
 
+            teacher.save()
             teacher.user.user.save()
 
             if changing_email:
@@ -988,6 +990,7 @@ def teacher_edit_account(request):
             return HttpResponseRedirect(reverse('portal.views.teacher_home'))
     else:
         form = TeacherEditAccountForm(request.user, initial={
+            'title' : teacher.title,
             'first_name': teacher.user.user.first_name,
             'last_name': teacher.user.user.last_name,
             'school': teacher.school,
@@ -1236,4 +1239,7 @@ def student_join_organisation(request):
 
     return render(request, 'portal/play/student_join_organisation.html', { 'request_form': request_form, 'student': student })
 
-
+@user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
+def password_reset_check_and_confirm(request):
+    # TODO Customised standard django auth view to incorporate checking the password set is strong enough
+    pass
