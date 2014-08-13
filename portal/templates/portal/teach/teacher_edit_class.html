@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<div class='span_centered_third'>
+<div class='span_centered_half'>
     <div class='login-card'>
         <h3>Update class details for {{ class.access_code }}</h3><br/>
 
-        <p>You may change the name of the class, and (TODO) setup whether the class can accept external requests to join.</p>
+        <p>You may change the name of the class, change if the class will allow external requests to join from independent students, and change if pupils will be able to see their classmates progress.</p>
 
         <form method='post'>
 
@@ -15,7 +15,19 @@
             {{ form.non_field_errors }}
 
             {{ form.name.errors }}
+            <label class="ieLabels">{{ form.name.html_name }}</label>
             {{ form.name }}
+
+            <div class='section group'>
+                <div class='col span_2_of_3'>
+                    <p>Allow students to see their classmates' progress?</p>
+                </div>
+                <div class='col span_1_of_3'>
+                    {{ form.classmate_progress.errors }}
+                    <label class="ieLabels">{{ form.classmate_progress.html_name }}</label>
+                    {{ form.classmate_progress }}
+                </div>
+            </div>
 
             <div class='section group'>
                 <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
@@ -31,9 +43,11 @@
 <br>
 
 <div class='section group'>
-    <div class='span_centered_third'>
+    <div class='span_centered_half'>
         <div class='login-card'>
-            <a class='btn wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer class to another teacher</a>
+            <div class='span_centered_two_thirds'>
+                <a class='btn wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer class to another teacher</a>
+            </div>
         </div>
     </div>
 </div>

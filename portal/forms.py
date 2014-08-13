@@ -57,17 +57,17 @@ class OrganisationCreationForm(forms.Form):
             raise forms.ValidationError('Your password was incorrect')
 
 class OrganisationJoinForm(forms.Form):
-    fuzzy_name = forms.CharField(label='Search for school/club (enter name)', widget=forms.TextInput(attrs={'placeholder': 'Search for school/club (enter name)'}))
+    fuzzy_name = forms.CharField(label='Search for school or club by name or postcode', widget=forms.TextInput(attrs={'placeholder': 'Search for school or club by name or postcode'}))
 
     # Note: the reason this is a CharField rather than a ChoiceField is to avoid having to provide choices
     # which was problematic given that the options are dynamically generated.
-    chosen_org = forms.CharField(label='Select school/club', widget=forms.Select())
+    chosen_org = forms.CharField(label='Select school or club', widget=forms.Select(attrs={'class': 'wide'}))
 
     def clean_chosen_org(self):
         chosen_org = self.cleaned_data.get('chosen_org', None)
 
         if chosen_org and not School.objects.filter(id=int(chosen_org)).exists():
-            raise forms.ValidationError('That school/club was not recognised.')
+            raise forms.ValidationError('That school or club was not recognised.')
 
         return chosen_org
 
@@ -105,7 +105,7 @@ class OrganisationEditForm(forms.Form):
 class TeacherSignupForm(forms.Form):
     choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'), ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
-    title = forms.ChoiceField(label='Title', choices=choices, widget=forms.Select(attrs={'placeholder': 'Title'}))
+    title = forms.ChoiceField(label='Title', choices=choices, widget=forms.Select(attrs={'placeholder': 'Title', 'class': 'wide'}))
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
     last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
     email = forms.EmailField(label='Email address', widget=forms.TextInput(attrs={'placeholder': 'Email Address'}))
@@ -144,7 +144,7 @@ class TeacherSignupForm(forms.Form):
 class TeacherEditAccountForm(forms.Form):
     choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'), ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
-    title = forms.ChoiceField(label='Title', choices=choices, widget=forms.Select(attrs={'placeholder': 'Title'}))
+    title = forms.ChoiceField(label='Title', choices=choices, widget=forms.Select(attrs={'placeholder': 'Title', 'class': 'wide'}))
     first_name = forms.CharField(label='First name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First name', 'class': 'fName'}))
     last_name = forms.CharField(label='Last name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last name', 'class': 'lName'}))
     email = forms.EmailField(label='Change email address (optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Change email address (optional)'}))
@@ -229,7 +229,9 @@ class ClassCreationForm(forms.Form):
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
 
 class ClassEditForm(forms.Form):
+    choices = [('True','Yes'), ('False','No')]
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
+    classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=choices, widget=forms.Select(attrs={'class': 'wide'}))
 
 class ClassMoveForm(forms.Form):
     new_teacher = forms.ChoiceField(label='Teachers')

@@ -856,7 +856,9 @@ def teacher_edit_class(request, access_code):
         form = ClassEditForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
+            classmate_progress = form.cleaned_data['classmate_progress']
             klass.name = name
+            klass.classmates_data_viewable = classmate_progress
             klass.save()
 
             messages.success(request, 'Class details successfully changed.')
@@ -865,6 +867,7 @@ def teacher_edit_class(request, access_code):
     else:
         form = ClassEditForm(initial={
             'name': klass.name,
+            'classmate_progress': klass.classmates_data_viewable,
         })
 
     return render(request, 'portal/teach/teacher_edit_class.html', {

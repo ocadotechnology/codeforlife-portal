@@ -42,6 +42,7 @@ class Class (models.Model):
     name = models.CharField(max_length=200)
     teacher = models.ForeignKey(Teacher, related_name='class_teacher')
     access_code = models.CharField(max_length=5)
+    classmates_data_viewable = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
