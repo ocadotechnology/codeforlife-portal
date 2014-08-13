@@ -7,12 +7,13 @@ import json
 import re
 
 from django.utils import timezone
+from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.mail import send_mail, BadHeaderError
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -25,7 +26,7 @@ from reportlab.lib.colors import black, grey, blue
 from two_factor.utils import default_device
 
 from models import Teacher, UserProfile, School, Class, Student, EmailVerification, stripStudentName
-from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm
+from auth_forms import StudentPasswordResetForm, TeacherPasswordResetForm, PasswordResetSetPasswordForm
 from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, ClassCreationForm, ClassEditForm, ClassMoveForm, StudentCreationForm, StudentEditAccountForm, StudentLoginForm, StudentSoloLoginForm, StudentSignupForm, StudentJoinOrganisationForm, OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, ContactForm, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
@@ -1240,6 +1241,17 @@ def student_join_organisation(request):
     return render(request, 'portal/play/student_join_organisation.html', { 'request_form': request_form, 'student': student })
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
-def password_reset_check_and_confirm(request):
-    # TODO Customised standard django auth view to incorporate checking the password set is strong enough
-    pass
+def password_reset_check_and_confirm(request, uidb64=None, token=None, post_reset_redirect=None):
+    # Customised standard django auth view with customised form to incorporate checking the password set is strong enough
+    UserModel = get_user_model()
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = UserModel._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+    if user != None:
+        if hasattr(user.userprofile, 'student'):
+            usertype = 'STUDENT'
+        elif hasattr(user.userprofile, 'teacher'):
+            usertype = 'TEACHER'
+    return password_reset_confirm(request, set_password_form=PasswordResetSetPasswordForm, uidb64=uidb64, token=token, post_reset_redirect=post_reset_redirect, extra_context= { 'usertype': usertype })
