@@ -247,7 +247,7 @@ class ClassEditForm(forms.Form):
     external_requests = forms.ChoiceField(label="Setup external requests to this class", required=False, choices=join_choices, widget=forms.Select(attrs={'class': 'wide'}))
 
 class ClassMoveForm(forms.Form):
-    new_teacher = forms.ChoiceField(label='Teachers')
+    new_teacher = forms.ChoiceField(label='Teachers', widget=forms.Select(attrs={'class': 'wide'}))
     def __init__(self, teachers, *args, **kwargs):
         self.teachers = teachers
         teacher_choices = []
@@ -316,7 +316,7 @@ class TeacherAddExternalStudentForm(forms.Form):
         return name
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
-    new_class = forms.ChoiceField(label='Classes')
+    new_class = forms.ChoiceField(label='Classes', widget=forms.Select(attrs={'class': 'wide'}))
     def __init__(self, classes, *args, **kwargs):
         self.classes = classes
         class_choices = []
