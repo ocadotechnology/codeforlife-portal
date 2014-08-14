@@ -31,8 +31,7 @@ def make_into_username(u):
 @register.filter(name='truncate')
 def truncate(s, max_length=20):
     if len(s) > max_length:
-        allowed_chars = max(0, max_length)
-        s = s[:allowed_chars] + '...'
+        s = s[:max(0, max_length-3)] + '...'
     return s
 
 @register.filter(name='is_logged_in_as_teacher')
