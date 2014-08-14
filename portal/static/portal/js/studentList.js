@@ -10,6 +10,30 @@ $(function() {
     $('#dismissSelectedStudents').click(function() {
         postSelectedStudents(DISMISS_STUDENTS_URL);
     });
+
+    $('#selectedStudentsListToggle').click(function() {
+        var students = document.getElementsByClassName('student');
+        var selectedStudents = [];
+        for (var i = 0; i < students.length; i++) {
+            if (students[i].checked) {
+                selectedStudents.push(students[i].name)
+            }
+        }
+        if (selectedStudents.length < students.length) {
+            // select all students
+            for (var i = 0; i < students.length; i++) {
+                students[i].checked = true
+            }
+            $('#selectedStudentsListToggle')[0].checked = true
+        }
+        else {
+            // unselect all students
+            for (var i = 0; i < students.length; i++) {
+                students[i].checked = false
+            }
+            $('#selectedStudentsListToggle')[0].checked = false
+        }
+    });
 });
 
 function postSelectedStudents(path) {

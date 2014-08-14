@@ -36,12 +36,12 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
         </div>
             <table class='CSSTable' width='100%'>
                 <tr>
-                    <td></td>
+                    <td style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></td>
                     <td>Student Name</td>
                 </tr>
                 {% for student in students %}
                     <tr>
-                        <td><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
+                        <td style='text-align: center'><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
                         <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
                     </tr>
                 {% endfor %}
