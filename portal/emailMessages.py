@@ -63,10 +63,10 @@ def adminRevokedEmail(schoolName):
         'message': "Your admin control of the school/club '" + schoolName + "' has been revoked.",
     }
 
-def contactEmail(name, email, message):
+def contactEmail(name, telephone, email, message):
     return {
         'subject': emailSubjectPrefix() + ' : Contact from Portal',
-        'message': "Contact from portal:\n\nName: {name}\nEmail: {email}\n\n{message}".format(name=name, email=email, message=message),
+        'message': "Contact from portal:\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\n{message}".format(name=name, telephone=telephone, email=email, message=message),
     }
 def studentJoinRequestSentEmail(schoolName, accessCode):
     return {
