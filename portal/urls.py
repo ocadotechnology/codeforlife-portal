@@ -3,14 +3,30 @@ from django.contrib import admin
 from django.views.generic.base import TemplateView
 admin.autodiscover()
 
+from two_factor.views import (LoginView,
+                              PhoneDeleteView, PhoneSetupView, DisableView,
+                              BackupTokensView, SetupCompleteView, SetupView,
+                              ProfileView, QRGeneratorView)
+
+from portal.permissions import teacher_verified
+
 js_info_dict = {
     'packages': ('conf.locale',),
 }
 
-urlpatterns = patterns('',
-    url(r'^account/login/$', 'portal.views.custom_2FA_login'),
+two_factor_patterns = [
+    url(r'^account/login/$', 'portal.views.custom_2FA_login', name='login'),
+    url(r'^account/two_factor/setup/$', SetupView.as_view(), name='setup'),
+    url(r'^account/two_factor/qrcode$', QRGeneratorView.as_view(), name='qr'),
+    url(r'^account/two_factor/setup/complete/$', SetupCompleteView.as_view(), name='setup_complete'),
+    url(r'^account/two_factor/backup/tokens/$', teacher_verified(BackupTokensView.as_view()), name='backup_tokens'),
+    url(r'^account/two_factor/backup/phone/register/$', teacher_verified(PhoneSetupView.as_view()), name='phone_create'),
+    url(r'^account/two_factor/backup/phone/unregister/(?P<pk>\d+)/$', teacher_verified(PhoneDeleteView.as_view()), name='phone_delete'),
+    url(r'^account/two_factor/$', teacher_verified(ProfileView.as_view()), name='profile'),
+    url(r'^account/two_factor/disable/$', teacher_verified(DisableView.as_view()), name='disable'),
+]
 
-    url(r'^', include('two_factor.urls', 'two_factor')),
+urlpatterns = patterns('',
 
     url(r'^teach/$', 'portal.views.teach'),
     url(r'^play/$', 'portal.views.play'),
@@ -72,4 +88,7 @@ urlpatterns = patterns('',
         {'post_reset_redirect' : '/user/password/done/'}),
     url(r'^user/password/done/$',
         'django.contrib.auth.views.password_reset_complete'),
+
+
+    url(r'^', include(two_factor_patterns, 'two_factor')),
 )
