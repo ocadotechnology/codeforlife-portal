@@ -633,6 +633,14 @@ def teacher_home(request):
     teacher = request.user.userprofile.teacher
     num_classes = len(Class.objects.filter(teacher=teacher))
 
+    if Student.objects.filter(pending_class_request__teacher=teacher).exists():
+        link = reverse('portal.views.teacher_classes')
+        messages.info(request, 'You have external student requests pending. Go to your <a href="' + link + '">classes</a> page to review.')
+
+    if teacher.is_admin and Teacher.objects.filter(pending_join_request=teacher.school).exists():
+        link = reverse('portal.views.organisation_manage')
+        messages.info(request, 'You have requests from teachers pending. Go to the <a href="' + link + '">school or club management</a> page to review.')
+
     return render(request, 'portal/teach/teacher_home.html', {
         'teacher': teacher,
         'num_classes': num_classes,
@@ -981,8 +989,9 @@ def teacher_student_reset(request, pk):
     new_password = generate_password(6)
     student.user.user.set_password(new_password)
     student.user.user.save()
+    name_pass = [{'name': student.user.user.first_name, 'password': new_password}]
 
-    return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password })
+    return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password, 'query_data': json.dumps(name_pass) })
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
@@ -1014,13 +1023,12 @@ def teacher_edit_student(request, pk):
             password_form = TeacherSetStudentPass(request.POST)
             if password_form.is_valid():
                 # check not default value for CharField
-                if (password_form.cleaned_data['password'] != ''):
-                    student.user.user.set_password(password_form.cleaned_data['password'])
+                new_password = password_form.cleaned_data['password']
+                if (new_password != ''):
+                    student.user.user.set_password(new_password)
                     student.user.user.save()
-
-                messages.success(request, 'Student password changed successfully.')
-
-                password_form = TeacherSetStudentPass()
+                    name_pass = [{'name': student.user.user.first_name, 'password': new_password}]
+                    return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password, 'query_data': json.dumps(name_pass) })
 
     return render(request, 'portal/teach/teacher_edit_student.html', {
         'name_form': name_form,

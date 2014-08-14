@@ -3,13 +3,25 @@
 
 {% block content %}
 
-<h3>Student Password Reset for {{ student.user.user.first_name }}</h3>
+<h3>Student Password Changed for {{ student.user.user.first_name }}</h3>
 
-<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of the password to prevent having to generate another password.</p>
+<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of the password to prevent having to reset and issue another password.</p>
 
 <p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
 <p>The new password for the above student is: <b>{{ password }}</b></p>
 
-<a class='btn' href="{% url 'portal.views.teacher_edit_student' student.id %}">Return</a>
+
+<div class='span_1_of_2'>
+	<div class='col span_2_of_3'>
+		<form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
+		    {% csrf_token %}
+		    <input type='hidden' name='data' value='{{ query_data }}'/>
+		    <input class='btn wide'type='submit' value='Print Reminder Cards'/>
+		</form>
+	</div>
+	<div class='col span_1_of_3'>
+		<a class='btn wide' href="{% url 'portal.views.teacher_edit_student' student.id %}">Return</a>
+	</div>
+</div>
 
 {% endblock %}
