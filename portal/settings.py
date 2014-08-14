@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'captcha',
     'jquery',
     'django_otp',
     'django_otp.plugins.otp_static',
