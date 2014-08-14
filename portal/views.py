@@ -625,9 +625,11 @@ def organisation_deny_join(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_home(request):
     teacher = request.user.userprofile.teacher
+    num_classes = len(Class.objects.filter(teacher=teacher))
 
     return render(request, 'portal/teach/teacher_home.html', {
         'teacher': teacher,
+        'num_classes': num_classes,
     })
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))

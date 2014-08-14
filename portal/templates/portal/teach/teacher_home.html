@@ -1,5 +1,6 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
+{% load app_tags %}
 
 {% block title %}Code For Life - Portal{% endblock %}
 
@@ -9,7 +10,7 @@
     
 
     <div class="col span_2_of_3">
-        <h3>Hello, {{ user.userprofile.teacher.title }} {{ user.last_name }}</h3>
+        <h3>Hello, {{ user|make_into_username }}</h3>
 
         <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
@@ -39,25 +40,25 @@
              <td>Manage classrooms</td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.teacher_edit_account' %}">Account settings</a></td>
-           </tr>
-           <tr>
              <td><a href="{% url 'portal.views.organisation_manage' %}">My school or club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.teacher_classes' %}">Classes (5 TODO)</a></td>
+             <td><a href="{% url 'portal.views.teacher_classes' %}">My Classes ({{ num_classes }})</a></td>
            </tr>
-           <tr>
-             <td><a href="#">Students (150) (?? Shouldn't this go via Classes??)</a></td>
-           </tr>
+            <tr>
+              <td><a href="{% url 'game.views.scoreboard' %}">Track Student Progress on Rapid Router</a></td>
+            </tr>
          </table>
 
          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="CSSTable">
             <tr>
-              <td>Downloads</td>
+              <td>Resources</td>
             </tr>
             <tr>
-              <td><a href="#">Lesson plan</a></td>
+              <td><a href="{% url 'game.views.levels' %}">Rapid Router</a></td>
+            </tr>
+            <tr>
+              <td><a href="#">Lesson plans</a></td>
             </tr>
             <tr>
               <td><a href="#">Pupil resources</a></td>
@@ -69,9 +70,6 @@
               <td><a href="#">Character sheets</a></td>
             </tr>
           </table>
-        
-        
-          <a class="btn ks" href="#">KS1</a><a class="btn ks" href="#">LKS2</a>
     </div>
 </div>
 
@@ -105,10 +103,6 @@
        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> 
     </div>
 </div>
-
-<p>To go to Rapid Router, click below!</p>
-
-<a href="{% url 'game.views.levels' %}" class="btn">Play now</a>
 
 
 {% endblock %}
