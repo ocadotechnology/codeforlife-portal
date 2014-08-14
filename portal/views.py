@@ -98,7 +98,7 @@ def verify_email(request, token):
         return HttpResponseRedirect(reverse('portal.views.teach'))
 
     # default to homepage if something goes wrong
-    return HttpResponseRedirect(reverse('portal.views.home'))
+    return HttpResponseRedirect(reverse('home'))
 
 @ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
 def teach(request):
@@ -289,7 +289,7 @@ def schools_map(request):
 
 def current_user(request):
     if not hasattr(request.user, 'userprofile'):
-        return HttpResponseRedirect(reverse('portal.views.home'))
+        return HttpResponseRedirect(reverse('home'))
     u = request.user.userprofile
     if hasattr(u, 'student'):
         return HttpResponseRedirect(reverse('portal.views.student_details'))
@@ -298,11 +298,11 @@ def current_user(request):
     else:
         # default to homepage and logout if something goes wrong
         logout(request)
-        return HttpResponseRedirect(reverse('portal.views.home'))
+        return HttpResponseRedirect(reverse('home'))
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('portal.views.home'))
+    return HttpResponseRedirect(reverse('home'))
 
 def get_random_username():
     while True:
