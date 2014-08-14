@@ -111,10 +111,7 @@ def teach_email_labeller(request):
 def teach(request):
     invalid_form = False
     limits = getattr(request, 'limits', { 'ip': [0], 'email': [0] })
-    captcha_limit = 2
-
-    print 'limits = ',
-    print limits
+    captcha_limit = 5
 
     using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
@@ -186,7 +183,7 @@ def teach(request):
 def custom_2FA_login(request):
     block_limit = 5
 
-    if getattr(request, 'limits', { 'def' : [0]})['def'][0] >= block_limit:
+    if getattr(request, 'limits', { 'def' : [0] })['def'][0] >= block_limit:
         return HttpResponseRedirect(reverse('portal.views.locked_out'))
 
     return LoginView.as_view()(request)
@@ -206,10 +203,7 @@ def play_name_labeller(request):
 def play(request):
     invalid_form = False
     limits = getattr(request, 'limits', { 'ip': [0], 'name': [0] })
-    captcha_limit = 2
-
-    print 'limits = ',
-    print limits
+    captcha_limit = 5
 
     using_captcha = (limits['ip'][0] > captcha_limit or limits['name'][0] >= captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['name'][0] >= captcha_limit)

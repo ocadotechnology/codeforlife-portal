@@ -43,8 +43,6 @@ def ratelimit(tag, label=None, labeller=None, path=True, ip=True, periods=[], in
             if ip:
                 name = request.META['REMOTE_ADDR'] + ':' + name
 
-            print 'name = ' + name
-
             request.limits = getattr(request, 'limits', {})
             request.limits[tag] = backend.limits(name, decoded_periods)
 
