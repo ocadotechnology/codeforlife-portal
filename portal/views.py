@@ -127,7 +127,7 @@ def teach(request):
                 userProfile = login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
-                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                    return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
 
                 login(request, login_form.user)
 
@@ -166,7 +166,7 @@ def teach(request):
 
                 send_verification_email(request, userProfile)
 
-                return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
 
     logged_in_as_teacher = hasattr(request.user, 'userprofile') and hasattr(request.user.userprofile, 'teacher') and (request.user.is_verified() or not default_device(request.user))
 
@@ -229,7 +229,7 @@ def play(request):
                 userProfile = solo_login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
-                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                    return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
                 login(request, solo_login_form.user)
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
             else:
@@ -257,7 +257,7 @@ def play(request):
 
                 if (email_supplied):
                     send_verification_email(request, userProfile)
-                    return render(request, 'portal/email_verification_needed.html', { 'user': userProfile })
+                    return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
                 else:
                     auth_user = authenticate(username=data['username'], password=data['password'])
                     login(request, auth_user)
@@ -1085,7 +1085,7 @@ def teacher_edit_account(request):
 
             if changing_email:
                 logout(request)
-                return render(request, 'portal/email_verification_needed.html', { 'user': teacher.user, 'email': new_email })
+                return render(request, 'portal/email_verification_needed.html', { 'userprofile': teacher.user, 'email': new_email })
 
             messages.success(request, 'Account details changed successfully.')
 
@@ -1300,7 +1300,7 @@ def student_edit_account(request):
 
             if changing_email:
                 logout(request)
-                return render(request, 'portal/email_verification_needed.html', { 'user': student.user, 'email': new_email })
+                return render(request, 'portal/email_verification_needed.html', { 'userprofile': student.user, 'email': new_email })
 
             return HttpResponseRedirect(reverse('portal.views.student_details'))
     else:
