@@ -30,6 +30,9 @@ function updateTeacherPasswordStrength() {
         if (password.search(/[a-z]/) === -1) { strength--; }
         if (password.search(/[0-9]/) === -1) { strength--; }
 
+        if (password == '') { $('.password-strength-bar-container').hide(); $('.password-strength-text').hide(); }
+        else { $('.password-strength-bar-container').show(); $('.password-strength-text').show(); }
+
         $('.password-strength-bar').css('width', strength / 4 * 100 + '%');
         $('.password-strength-bar').css('background-color', teacher_password_strengths[strength].colour);
         $('.password-strength-text').html(teacher_password_strengths[strength].name);
@@ -50,6 +53,9 @@ function updateStudentPasswordStrength() {
         if (password == '') { strength = 0; }
         else if (password.length < 6) { strength = 1; }
         else if (password.length >= 6) { strength = 2; }
+
+        if (password == '') { $('.password-strength-bar-container').hide(); $('.password-strength-text').hide(); }
+        else { $('.password-strength-bar-container').show(); $('.password-strength-text').show(); }
 
         $('.password-strength-bar').css('width', strength / 2 * 100 + '%');
         $('.password-strength-bar').css('background-color', student_password_strengths[strength].colour);
