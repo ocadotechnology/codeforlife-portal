@@ -36,9 +36,6 @@ class CacheBackend(BaseBackend):
             while i >= 0 and timestamps[i] >= cut_off:
                 i -= 1
 
-            results.append({
-                'period': period,
-                'count': len(timestamps) - 1 - i,
-            })
+            results.append(len(timestamps) - 1 - i)
 
         return results

@@ -100,14 +100,24 @@ def verify_email(request, token):
     # default to homepage if something goes wrong
     return HttpResponseRedirect(reverse('home'))
 
-@ratelimit(periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+def teach_email_labeller(request):
+    if request.method == 'POST' and 'login' in request.POST:
+        return request.POST['login-email']
+
+    return ''
+
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def teach(request):
     invalid_form = False
-    limits = getattr(request, 'limits', [{ 'count': 0 }])
+    limits = getattr(request, 'limits', { 'ip': [0], 'email': [0] })
     captcha_limit = 2
 
-    using_captcha = (limits[0]['count'] > captcha_limit)
-    should_use_captcha = (limits[0]['count'] >= captcha_limit)
+    print 'limits = ',
+    print limits
+
+    using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
 
     LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
     InputLoginForm = LoginFormWithCaptcha if using_captcha else TeacherLoginForm
@@ -172,23 +182,37 @@ def teach(request):
     res.count = invalid_form
     return res
 
-@ratelimit(periods=['1m'])
+@ratelimit('def', periods=['1m'])
 def custom_2FA_login(request):
     block_limit = 5
 
-    if getattr(request, 'limits', [{ 'count': 0}])[0]['count'] >= block_limit:
+    if getattr(request, 'limits', { 'def' : [0]})['def'][0] >= block_limit:
         return HttpResponseRedirect(reverse('portal.views.locked_out'))
 
     return LoginView.as_view()(request)
 
-@ratelimit(periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+def play_name_labeller(request):
+    if request.method == 'POST':
+        if 'school_login' in request.POST:
+            return request.POST['login-name'] + ':' + request.POST['login-access_code']
+
+        if 'solo_login' in request.POST:
+            return request.POST['solo-username']
+
+    return ''
+
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def play(request):
     invalid_form = False
-    limits = getattr(request, 'limits', [{ 'count': 0 }])
+    limits = getattr(request, 'limits', { 'ip': [0], 'name': [0] })
     captcha_limit = 2
 
-    using_captcha = (limits[0]['count'] > captcha_limit)
-    should_use_captcha = (limits[0]['count'] >= captcha_limit)
+    print 'limits = ',
+    print limits
+
+    using_captcha = (limits['ip'][0] > captcha_limit or limits['name'][0] >= captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['name'][0] >= captcha_limit)
 
     StudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
     InputStudentLoginForm = StudentLoginFormWithCaptcha if using_captcha else StudentLoginForm
