@@ -15,7 +15,6 @@
 
 
 
-
 html { font-family: Arial, Helvetica, sans-serif; font-size: 62.5%; } 
 body { font-size: 14px; font-size: 1.4rem; } /* =14px */
 h1   { font-size: 24px; font-size: 2.4rem; } /* =24px */
@@ -26,10 +25,15 @@ h4   { font-size: 16px; font-size: 1.6rem; margin:0; padding-bottom:0;  } /* =16
 
 html, body
 {
-	background-color:#ECEAEE;
-	padding:0;
-	margin:0;
+  background-color:#ECEAEE;
+  padding:0;
+  margin:0;
     height: 100%;
+}
+
+p a
+{
+  color:#333;
 }
 
 #contentWrapper
@@ -131,6 +135,78 @@ ul.topNav li
 	list-style-type:none;
 	margin:0 20px;
 }
+
+.loggedIn
+{
+  display:block;
+  float:right;
+  height:70px;
+  color:#333;
+  position:relative;
+  margin-left: 20px;
+  margin-top:-20px;
+  background-color: #FFC563;
+    border-radius: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  padding:5px 10px;
+  text-align:center;
+  line-height:18px;
+  font-weight:bold;
+  min-width: 170px;
+}
+.loggedIn a
+{
+    background-color: #00072c;
+    border-radius: 6px;
+    color: #fff;
+    display: block;
+    font-weight: bold;
+    padding: 3px;
+    text-decoration: none;
+}
+.loggedIn a:hover
+{
+  background-color:#FFF;
+  color:#333;
+}
+
+.subnav
+{
+  background-color:#ccc;
+  height:30px;
+}
+.subnav div
+{
+    min-width: 768px;
+    width: 90%;
+    max-width: 1200px;
+  margin:0 auto;
+}
+.subnav ul
+{
+  padding:0;
+  margin:0;
+  overflow:hidden;
+}
+.subnav ul li
+{
+  color:#FFFFFF;
+  float:left;
+  list-style:none;
+  list-style-type:none;
+  margin:6px 20px;
+}
+.subnav ul li a
+{
+  color:#333;
+  font-weight:bold;
+  text-decoration:none;
+}
+.subnav ul li a:hover
+{
+  color:#fff;
+}
+
 .footer ul
 {
   padding:27px 0 0;
