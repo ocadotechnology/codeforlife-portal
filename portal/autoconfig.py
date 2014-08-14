@@ -3,6 +3,7 @@
 SETTINGS = {
     'INSTALLED_APPS': [
         'portal',
+        'ratelimit',
         'django.contrib.admin',
         'django.contrib.admindocs',
         'django.contrib.auth',

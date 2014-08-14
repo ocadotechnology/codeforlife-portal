@@ -24,8 +24,6 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, grey, blue
 from two_factor.utils import default_device, devices_for_user
 from two_factor.views import LoginView
-from brake.decorators import ratelimit
-from brake import utils as brake_utils
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
@@ -35,6 +33,8 @@ from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, T
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
+
+from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
 
@@ -100,7 +100,7 @@ def verify_email(request, token):
     # default to homepage if something goes wrong
     return HttpResponseRedirect(reverse('home'))
 
-@ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit(periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def teach(request):
     invalid_form = False
     limits = getattr(request, 'limits', [{ 'count': 0 }])
@@ -172,14 +172,16 @@ def teach(request):
     res.count = invalid_form
     return res
 
-@ratelimit(rate='5/m')
+@ratelimit(periods=['1m'])
 def custom_2FA_login(request):
-    if getattr(request, 'limited', False):
+    block_limit = 5
+
+    if getattr(request, 'limits', [{ 'count': 0}])[0]['count'] >= block_limit:
         return HttpResponseRedirect(reverse('portal.views.locked_out'))
 
     return LoginView.as_view()(request)
 
-@ratelimit(rate='1/m', increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit(periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def play(request):
     invalid_form = False
     limits = getattr(request, 'limits', [{ 'count': 0 }])
