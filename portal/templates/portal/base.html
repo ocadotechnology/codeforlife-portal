@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load app_tags %}
 
 <!DOCTYPE html>
 
@@ -32,6 +33,13 @@
                 <span></span>
                 <h1>Code for Life</h1>
             </a>
+            {% if user|is_logged_in %}
+                <div class="loggedIn">
+                    You are logged in as<br>
+                    {{ user|make_into_username }}<br>
+                    <a href="{% url 'portal.views.logout_view' %}">Log out</a>
+                </div>
+            {% endif %}
             <ul class="topNav">
                 {% block topNav %}
                 <li><a href="{% url 'portal.views.teach' %}">TEACH</a></li>
@@ -40,6 +48,24 @@
             </ul>
         </div>
     </div>
+    {% if user|is_logged_in %}
+        <div class="subnav">
+            <div>
+                <ul>
+                    {% if user|is_logged_in_as_student %}
+                        <li><a href="{% url 'portal.views.student_details' %}">MY HOMEPAGE</a></li>
+                        <li><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}MY PASSWORD{% else %}MY ACCOUNT{% endif %}</a></li>
+                    {% endif %}
+                    {% if user|is_logged_in_as_teacher %}
+                        <li><a href="{% url 'portal.views.teacher_home' %}">MY RESOURCES</a></li>
+                        <li><a href="{% url 'portal.views.teacher_classes' %}">MY CLASSES</a></li>
+                        <li><a href="{% url 'portal.views.teacher_edit_account' %}">MY ACCOUNT</a></li>
+                        <li><a href="{% url 'portal.views.organisation_manage' %}">MY SCHOOL/CLUB</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="content">
 
