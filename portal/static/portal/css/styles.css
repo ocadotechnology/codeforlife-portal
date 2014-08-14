@@ -46,13 +46,16 @@ p a
 
 .content
 {
-	min-width: 768px;
-    width: 90%;
-    max-width: 1200px;
-	
-	margin:0 auto;
-	padding:20px;
-	clear:both;
+  min-width: 768px;
+        width: 90%;
+        max-width: 1200px;
+  margin:0 auto;
+  padding:50px 20px 20px 20px;
+  clear:both;
+}
+.topBar .content, footer.content
+{
+  padding:20px;
 }
 
 .video

@@ -634,6 +634,11 @@ def teacher_home(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+def teacher_lesson_plans(request):
+    return render(request, 'portal/teach/teacher_lesson_plans.html')
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def teacher_classes(request):
     def generate_access_code():
         while True:
