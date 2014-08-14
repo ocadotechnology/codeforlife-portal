@@ -15,7 +15,7 @@ def has_2FA(u):
 
 @register.filter(name='is_logged_in')
 def is_logged_in(u):
-    return u.is_authenticated() and (not default_device(u) or u.is_verified())
+    return u.is_authenticated() and (not default_device(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
 @register.filter(name='make_into_username')
 def make_into_username(u):
