@@ -270,11 +270,17 @@ def contact(request):
     if request.method == 'POST':
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
-            emailMessage = emailMessages.contactEmail(contact_form.cleaned_data['name'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            emailMessage = emailMessages.contactEmail(contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
                       emailMessage['message'],
                       'contact@numeric-incline-526.appspotmail.com',
                       CONTACT_FORM_EMAILS,
+                      )
+            confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            send_mail(confirmedEmailMessage['subject'],
+                      confirmedEmailMessage['message'],
+                      'contact@numeric-incline-526.appspotmail.com',
+                      [contact_form.cleaned_data['email']],
                       )
             messages.success(request, 'Your message was sent successfully.')
             return HttpResponseRedirect('.')

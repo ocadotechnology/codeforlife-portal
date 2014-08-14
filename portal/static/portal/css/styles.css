@@ -427,6 +427,10 @@ padding-top:50%;
     width: 50%;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 
 /*************** button code ******/
 
