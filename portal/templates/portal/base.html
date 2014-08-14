@@ -57,7 +57,7 @@
                         <li><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}MY PASSWORD{% else %}MY ACCOUNT{% endif %}</a></li>
                     {% endif %}
                     {% if user|is_logged_in_as_teacher %}
-                        <li><a href="{% url 'portal.views.teacher_home' %}">MY RESOURCES</a></li>
+                        <li><a href="{% url 'portal.views.teacher_home' %}">MY DASHBOARD</a></li>
                         <li><a href="{% url 'portal.views.teacher_classes' %}">MY CLASSES</a></li>
                         <li><a href="{% url 'portal.views.teacher_edit_account' %}">MY ACCOUNT</a></li>
                         <li><a href="{% url 'portal.views.organisation_manage' %}">MY SCHOOL/CLUB</a></li>
