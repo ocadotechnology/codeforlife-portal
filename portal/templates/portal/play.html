@@ -1,5 +1,6 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
+{% load app_tags %}
 
 {% block scripts %}
 {{ block.super }}
@@ -54,10 +55,10 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
     </div>
 
     <div class="col span_1_of_3">
-        {% if user.is_authenticated %}
+        {% if user|is_logged_in %}
             <div class="login-card">
-                <h3>Welcome, {{ user.first_name }}</h3><br>
-                <p>You are logged in as {{ user.first_name }} {{ user.last_name }}</p>
+                <h3>Welcome, {{ user|make_into_username }}</h3><br>
+                <p>You are already logged in.</p>
                 <p>Lost? Go to <a href="{% url 'portal.views.current_user' %}">my homepage</a></p>
                 <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a></p>
             </div>

@@ -1,5 +1,6 @@
 {% extends 'portal/base.html' %}
 {% load static %}
+{% load app_tags %}
 
 {% block scripts %}
 {{block.super}}
@@ -38,8 +39,8 @@ var PASSWORD_TYPE = 'TEACHER';
     <div class="col span_1_of_3">
         {% if logged_in_as_teacher %}
             <div class="login-card">
-                <h3>Welcome, {{ user.first_name }}</h3><br>
-                <p>You are logged in as {{ user.first_name }} {{ user.last_name }}</p>
+                <h3>Welcome, {{ user|make_into_username }}</h3><br>
+                <p>You are already logged in.</p>
                 <p>Lost? Go to <a href="{% url 'portal.views.current_user' %}">my homepage</a></p>
                 <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a></p>
             </div>
