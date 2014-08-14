@@ -36,7 +36,7 @@
             {% if user|is_logged_in %}
                 <div class="loggedIn">
                     You are logged in as<br>
-                    {{ user|make_into_username }}<br>
+                    {{ user|make_into_username|truncate:20 }}<br>
                     <a href="{% url 'portal.views.logout_view' %}">Log out</a>
                 </div>
             {% endif %}

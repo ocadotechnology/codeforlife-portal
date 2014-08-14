@@ -26,9 +26,14 @@ def make_into_username(u):
         if hasattr(u.userprofile, 'student'):
             username = u.first_name
 
-    if len(username) > 20:
-        username = username[:18] + '...'
     return username
+
+@register.filter(name='truncate')
+def truncate(s, max_length=20):
+    if len(s) > max_length:
+        allowed_chars = max(0, max_length)
+        s = s[:allowed_chars] + '...'
+    return s
 
 @register.filter(name='is_logged_in_as_teacher')
 def is_logged_in_as_teacher(u):
