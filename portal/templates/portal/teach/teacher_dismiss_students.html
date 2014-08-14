@@ -27,7 +27,7 @@
                 {{ formset.non_form_errors }}
                 {% for form in formset %}
                     <tr>
-                        <td>{{ form.orig_name }}</td>
+                        <td>{{ form.orig_name.value }}{{ form.orig_name }}</td>
                         <td>{{ form.name.errors }}{{ form.name }}</td>
                         <td>{{ form.email.errors }}{{ form.email }}</td>
                     </tr>

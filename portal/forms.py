@@ -326,8 +326,8 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
         self.fields['new_class'].choices = class_choices
 
 class TeacherMoveStudentDisambiguationForm(forms.Form):
-    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
-    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name', 'type' : 'hidden'}))
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name', 'style' : 'margin : 0px'}))
 
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get('name', ''))
@@ -379,9 +379,9 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
         self.strippedNames = names
 
 class TeacherDismissStudentsForm(forms.Form):
-    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name'}))
-    name = forms.CharField(label='New Name', widget=forms.TextInput(attrs={'placeholder': 'New Name'}))
-    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email address'}))
+    orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name', 'type' : 'hidden'}))
+    name = forms.CharField(label='New Name', widget=forms.TextInput(attrs={'placeholder': 'New Name', 'style' : 'margin : 0px'}))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email address', 'style' : 'margin : 0px'}))
 
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get('name', ''))

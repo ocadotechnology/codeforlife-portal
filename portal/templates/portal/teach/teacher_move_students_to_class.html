@@ -50,7 +50,7 @@
                         {% endfor %}
                         {% for form in formset %}
                             <tr>
-                                <td>{{ form.orig_name }}</td>
+                                <td>{{ form.orig_name.value }}{{ form.orig_name }}</td>
                                 <td>{{ form.name }}</td>
                             </tr>
                         {% endfor %}
