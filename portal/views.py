@@ -661,6 +661,16 @@ def teacher_home(request):
         link = reverse('portal.views.organisation_manage')
         messages.info(request, 'You have requests from teachers pending. Go to the <a href="' + link + '">school or club management</a> page to review.')
 
+    # For teachers using 2FA, warn if they don't have any backup tokens set
+    if default_device(request.user):
+        try:
+            backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
+        except Exception:
+            backup_tokens = 0
+        if not backup_tokens > 0:
+            link = reverse('two_factor:profile')
+            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if your phone breaks. <a href="' + link + '">Set up backup tokens now</a>.')
+
     return render(request, 'portal/teach/teacher_home.html', {
         'teacher': teacher,
         'num_classes': num_classes,
