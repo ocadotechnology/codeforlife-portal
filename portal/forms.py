@@ -1,10 +1,12 @@
 import re
+import datetime
 
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.forms.formsets import BaseFormSet
+from django.utils import timezone
 
 from postcodes import PostCoder
 
@@ -232,13 +234,13 @@ class ClassEditForm(forms.Form):
     # n value = allow for next n hours, n < 1000 hours
     # o/w = allow forever
     join_choices = [('',"Don't change my current setting"),('0',"Don't allow external requests to this class"), ('1',"Allow external requests to this class for the next hour")]
-    for i in range(5):
+    for i in range(6):
         hours = 4*(i+1)
         join_choices.append((str(hours), "Allow external requests to this class for the next " + str(hours) + " hours"))
-    for i in range(5):
-        days = i+1
+    for i in range(4):
+        days = i+2
         hours = days*24
-        join_choices.append((str(days), "Allow external requests to this class for the next " + str(days) + " days"))
+        join_choices.append((str(hours), "Allow external requests to this class for the next " + str(days) + " days"))
     join_choices.append(('1000', "Always allow external requests to this class (not recommended)"))
     name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
     classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
