@@ -390,7 +390,7 @@ def username_labeller(request):
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
-@ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def organisation_create(request):
     increment_count = False
     limits = getattr(request, 'limits', { 'ip': [0] })
@@ -1354,26 +1354,6 @@ def student_edit_account(request):
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_password_reset(request, post_reset_redirect):
     return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
-
-@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def organisation_create(request):
-    increment_count = False
-    limits = getattr(request, 'limits', { 'ip': [0] })
-    captcha_limit = 5
-
-    print limits
-
-    using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
-
-    OrganisationJoinFormWithCaptcha = partial(create_form_subclass_with_recaptcha(OrganisationJoinForm, recaptcha_client), request)
-    InputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
-    OutputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
-
-    teacher = request.user.userprofile.teacher
-
-    create_form = OrganisationCreationForm()
-    join_form = OutputOrganisationJoinForm()
 
 @login_required(login_url=reverse_lazy('portal.views.play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
