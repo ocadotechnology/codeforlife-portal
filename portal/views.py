@@ -385,11 +385,28 @@ def organisation_fuzzy_lookup(request):
 
     return HttpResponse(json.dumps(school_data), content_type="application/json")
 
+def username_labeller(request):
+    return request.user.username
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
+@ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def organisation_create(request):
+    increment_count = False
+    limits = getattr(request, 'limits', { 'ip': [0] })
+    captcha_limit = 5
+
+    using_captcha = (limits['ip'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+
+    OrganisationJoinFormWithCaptcha = partial(create_form_subclass_with_recaptcha(OrganisationJoinForm, recaptcha_client), request)
+    InputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
+    OutputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
+
     teacher = request.user.userprofile.teacher
 
     create_form = OrganisationCreationForm()
-    join_form = OrganisationJoinForm()
+    join_form = OutputOrganisationJoinForm()
 
     if request.method == 'POST':
         if 'create_organisation' in request.POST:
@@ -411,7 +428,8 @@ def organisation_create(request):
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
         elif 'join_organisation' in request.POST:
-            join_form = OrganisationJoinForm(request.POST)
+            increment_count = True
+            join_form = InputOrganisationJoinForm(request.POST)
             if join_form.is_valid():
                 school = get_object_or_404(School, id=join_form.cleaned_data['chosen_org'][0])
 
@@ -435,18 +453,26 @@ def organisation_create(request):
 
                 messages.success(request, 'Your request to join the school/club has been sent successfully.')
 
+            else:
+                join_form = OutputOrganisationJoinForm(request.POST)
+
         elif 'revoke_join_request' in request.POST:
             teacher.pending_join_request = None
             teacher.save()
 
             messages.success(request, 'Your request to join the school/club has been revoked successfully.')
 
-    return render(request, 'portal/teach/organisation_create.html', {
+    res = render(request, 'portal/teach/organisation_create.html', {
         'create_form': create_form,
         'join_form': join_form,
         'teacher': teacher,
     })
 
+    res.count = increment_count
+    return res
+
+@login_required(login_url=reverse_lazy('portal.views.teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
 def organisation_teacher_view(request, is_admin):
     teacher = request.user.userprofile.teacher
     school = teacher.school
@@ -1328,20 +1354,53 @@ def student_edit_account(request):
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_password_reset(request, post_reset_redirect):
     return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
-    
+
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+def organisation_create(request):
+    increment_count = False
+    limits = getattr(request, 'limits', { 'ip': [0] })
+    captcha_limit = 5
+
+    print limits
+
+    using_captcha = (limits['ip'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+
+    OrganisationJoinFormWithCaptcha = partial(create_form_subclass_with_recaptcha(OrganisationJoinForm, recaptcha_client), request)
+    InputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
+    OutputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
+
+    teacher = request.user.userprofile.teacher
+
+    create_form = OrganisationCreationForm()
+    join_form = OutputOrganisationJoinForm()
 
 @login_required(login_url=reverse_lazy('portal.views.play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
+@ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def student_join_organisation(request):
+    increment_count = False
+    limits = getattr(request, 'limits', { 'ip': [0] })
+    captcha_limit = 5
+
+    using_captcha = (limits['ip'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+
+    StudentJoinOrganisationFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentJoinOrganisationForm, recaptcha_client), request)
+    InputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if using_captcha else StudentJoinOrganisationForm
+    OutputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if should_use_captcha else StudentJoinOrganisationForm
+
     student = request.user.userprofile.student
-    request_form = StudentJoinOrganisationForm()
+    request_form = OutputStudentJoinOrganisationForm()
+
     # check student not managed by a school
     if student.class_field:
         return HttpResponseNotFound()
 
     if request.method == 'POST':
         if 'class_join_request' in request.POST:
-            request_form = StudentJoinOrganisationForm(request.POST)
+            increment_count = True
+            request_form = InputStudentJoinOrganisationForm(request.POST)
             if request_form.is_valid():
                 student.pending_class_request = request_form.klass
                 student.save()
@@ -1361,7 +1420,10 @@ def student_join_organisation(request):
                           [student.pending_class_request.teacher.user.user.email])
 
                 messages.success(request, 'Your request to join a school has been received successfully')
-                return HttpResponseRedirect(reverse('portal.views.student_join_organisation'))
+
+            else:
+                request_form = OutputStudentJoinOrganisationForm(request.POST)
+
         elif 'revoke_join_request' in request.POST:
             student.pending_class_request = None
             student.save()
@@ -1370,7 +1432,13 @@ def student_join_organisation(request):
                 messages.success(request, 'Your request to join a school has been cancelled successfully')
             return HttpResponseRedirect(reverse('portal.views.student_details'))
 
-    return render(request, 'portal/play/student_join_organisation.html', { 'request_form': request_form, 'student': student })
+    res = render(request, 'portal/play/student_join_organisation.html', {
+        'request_form': request_form,
+        'student': student }
+    )
+
+    res.count = increment_count
+    return res
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def password_reset_check_and_confirm(request, uidb64=None, token=None, post_reset_redirect=None):

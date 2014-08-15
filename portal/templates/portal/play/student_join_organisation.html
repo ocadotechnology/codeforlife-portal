@@ -57,13 +57,11 @@
 
                     {{ request_form.non_field_errors }}
 
-                    {{ request_form.school.errors }}
-                    <label class="ieLabels">{{ form.school.html_name }}</label>
-                    {{ request_form.school }}
-
-                    {{ request_form.access_code.errors }}
-                    <label class="ieLabels">{{ form.access_code.html_name }}</label>
-                    {{ request_form.access_code }}
+                    {% for field in request_form %}
+                        {{ field.errors }}
+                        <label class="ieLabels">{{ field.html_name }}</label>
+                        {{ field|safe }}
+                    {% endfor %}
 
                     <div class='section group'>
                         <a class='col span_1_of_3 btn' href="{% url 'portal.views.student_details' %}">Cancel</a>
