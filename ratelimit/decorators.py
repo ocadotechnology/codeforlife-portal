@@ -49,7 +49,7 @@ def ratelimit(tag, label=None, labeller=None, path=True, ip=True, periods=[], in
             response = fn(request, *args, **kwargs)
 
             if increment is None or (callable(increment) and increment(request, response)):
-                backend.increment(name)
+                backend.increment(name, decoded_periods)
 
             return response
 
