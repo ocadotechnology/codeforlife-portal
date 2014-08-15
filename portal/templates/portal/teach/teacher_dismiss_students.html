@@ -20,11 +20,11 @@
 
         {{ formset.management_form }}
 
-        <table class='CSSTable' width='100%'>
+        <table class='CSSTable alternate wide smaller'>
             <tr>
-                <td>Original Student Name</td>
-                <td>New Student Username</td>
-                <td>Email address</td>
+                <th>Original Student Name</th>
+                <th>New Student Username</th>
+                <th>Email address</th>
             </tr>
                 {{ formset.non_form_errors }}
                 {% for form in formset %}
@@ -37,10 +37,10 @@
         </table>
 
         <div class='section group'>
-            <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+            <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
 
             <div class='col span_1_of_3 pull-right'>
-                <input type='submit' name='submit_dismiss' class='btn' value='Remove'/>
+                <input type='submit' name='submit_dismiss' class='btn btn-danger' value='Remove'/>
             </div>
         </div>
 

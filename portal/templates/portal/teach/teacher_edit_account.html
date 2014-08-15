@@ -15,13 +15,14 @@ var PASSWORD_TYPE = 'TEACHER';
 {% block content %}
 
 <div class='section group'>
+    <h3>My account</h3>
 
-    <div class='span_centered_half'>
+    <p>You may update your account details here, including update your name, email address (verification of a new email address will be required), and password.</p>
+
+    <div class='span_1_of_2'>
 
         <div class='login-card'>
-            <h3>My account</h3><br>
-
-            <p>You may update your account details here, including update your name, email address (verification of a new email address will be required), and password.</p>
+            <h3> Update details</h3><br>
 
             <form method='post'>
 
@@ -87,31 +88,28 @@ var PASSWORD_TYPE = 'TEACHER';
 
 
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
+                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
 
                     <div class='col span_1_of_3 pull-right'>
-                        <input type='submit' class='btn' value='Update'/>
+                        <input type='submit' class='btn btn-primary' value='Update'/>
                     </div>
                 </div>
 
             </form>
         </div>
 
-    </div>
-</div>
+        <div style='margin-top: 30px'>
+            <h3>Two Factor Authentication</h3>
 
-<br>
+            <p>For enhanced security, consider setting up two factor authentication.</p>
 
-<div class='section group'>
-
-    <div class='span_centered_half'>
-
-        <div class='login-card'>
-            <div class='span_centered_two_thirds'>
-                <a class='btn wide' href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
+            <div class='span_2_of_3'>
+                <a class='btn btn-primary wide' href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
             </div>
         </div>
     </div>
 </div>
+
+<br>
 
 {% endblock %}

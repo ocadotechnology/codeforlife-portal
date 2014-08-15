@@ -10,9 +10,9 @@
         <h3>Students currently in destination class</h3><br>
         {% if new_class_students %}
             <p>The following students are in the class {{ new_class.name }} ({{ new_class.access_code }}) into which you are about to move students from your class {{ old_class.name }} ({{ old_class.access_code }}).</p>
-            <table class='CSSTable' width='100%'>
+            <table class='CSSTable alternate smaller wide'>
                 <tr>
-                    <td>Student Name</td>
+                    <th>Student Name</th>
                 </tr>
                     {% for student in new_class_students %}
                         <tr>
@@ -37,10 +37,10 @@
 
                 {{ formset.management_form }}
 
-                <table class='CSSTable' width='100%'>
+                <table class='CSSTable alternate smaller wide'>
                     <tr>
-                        <td>Original Student Name</td>
-                        <td>New Student Name</td>
+                        <th>Original Student Name</th>
+                        <th>New Student Name</th>
                     </tr>
                         {{ formset.non_form_errors }}
                         {% for dict in formset.errors %}
@@ -57,11 +57,11 @@
                 </table>
 
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
+                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
 
                     <div class='col span_1_of_3 pull-right'>
                         <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
-                        <input type='submit' name='submit_disambiguation' class='btn' value='Save'/>
+                        <input type='submit' name='submit_disambiguation' class='btn btn-primary' value='Save'/>
                     </div>
                 </div>
 

@@ -41,10 +41,10 @@
 
 
             <div class='section group'>
-                <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
 
                 <div class='col span_1_of_3 pull-right'>
-                    <input type='submit' class='btn' value='Update'/>
+                    <input type='submit' class='btn btn-primary' value='Update'/>
                 </div>
             </div>
         </form>
@@ -57,7 +57,7 @@
     <div class='span_centered_half'>
         <div class='login-card'>
             <div class='span_centered_two_thirds'>
-                <a class='btn wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer class to another teacher</a>
+                <a class='btn btn-default wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer class to another teacher</a>
             </div>
         </div>
     </div>

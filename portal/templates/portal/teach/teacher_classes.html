@@ -13,10 +13,10 @@
         <h3>Current Classes</h3>
 
         {% if classes %}
-            <table class='CSSTable'>
+            <table class='CSSTable wide smaller alternate'>
                 <tr>
-                    <td>Class Name</td>
-                    <td>Access Code</td>
+                    <th>Class Name</th>
+                    <th>Access Code</th>
                 </tr>
                 {% for class in classes %}
                     <tr>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="col span_1_of_3">
-                        <input type='submit' class='btn' value='Create'/>
+                        <input type='submit' class='btn btn-primary' value='Create'/>
                     </div>
                 </div>
             </form>
@@ -79,14 +79,14 @@
 
     <p>To conform to security models, the request user's username, last name, and email will be wiped on successful acceptance, but these details are displayed here to enable you to identify them as genuine. You should <b>not</b> accept a request from a student whose email and username you do not recognise, or if you weren't expecting such a request.</p>
 
-    <table class="CSSTable" width='100%'>
+    <table class="CSSTable alternate smaller wide">
         <tr>
-            <td>Username</td>
-            <td>First name</td>
-            <td>Email</td>
-            <td>Class</td>
-            <td>Access code</td>
-            <td colspan='2'>Actions</td>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Email</th>
+            <th>Class</th>
+            <th>Access code</th>
+            <th colspan='2'>Actions</th>
         </tr>
         {% for request in requests %}
             <tr>
@@ -95,8 +95,8 @@
                 <td>{{ request.user.user.email }}</td>
                 <td>{{ request.pending_class_request.name }}</td>
                 <td>{{ request.pending_class_request.access_code }}</td>
-                <td><a class='btn' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
-                <td><a class='btn' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
+                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
+                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
             </tr>
         {% endfor %}
     </table>

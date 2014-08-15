@@ -27,11 +27,11 @@
                 {% endfor %}
 
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
+                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
 
                     <div class='col span_1_of_3 pull-right'>
                         <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
-                        <input type='submit' class='btn' value='Continue'/>
+                        <input type='submit' class='btn btn-primary' value='Continue'/>
                     </div>
                 </div>
             </form>

@@ -28,12 +28,12 @@
         <p>You can also administer admin rights by clicking the 'Make non-admin' and 'Make admin' buttons.</p>
     {% endif %}
 
-    <table class='CSSTable' width='100%'>
+    <table class='CSSTable smaller alternate wide'>
         <tr>
-            <td>Name</td>
-            <td>Admin Status</td>
+            <th>Name</th>
+            <th>Admin Status</th>
             {% if is_admin %}
-                <td colspan='3'>Actions</td>
+                <th colspan='3'>Actions</h>
             {% endif %}
         </tr>
 
@@ -42,9 +42,9 @@
                 <td>{{ coworker.title }} {{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
                 <td>{% if coworker.is_admin %}Admin{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.user.user.email|emaildomain }}){% endif %}</td>
                 {% if coworker.user.user != user and is_admin %}
-                    <td><a class='btn' href="{% url 'portal.views.organisation_kick' coworker.id %}">Remove</a></td>
-                    <td><a class='btn' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
-                    <td>{% if coworker.user.user|has_2FA %}<a class='btn' href="{% url 'portal.views.teacher_disable_2FA' coworker.id %}">Disable 2FA</a>{% endif %}</td>
+                    <td><a class='btn btn-danger btn-small' href="{% url 'portal.views.organisation_kick' coworker.id %}">Remove</a></td>
+                    <td><a class='btn btn-default btn-small' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
+                    <td>{% if coworker.user.user|has_2FA %}<a class='btn btn-danger btn-small' href="{% url 'portal.views.teacher_disable_2FA' coworker.id %}">Disable 2FA</a>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
@@ -66,19 +66,19 @@
 
     {% if join_requests %}
         <p>The following teachers have requested to join your school or club. Use the email address to verify their identity, and use the 'Allow' and 'Deny' buttons to let or not let them join your school's Code for Life team!</p>
-        <table class='CSSTable' width='100%'>
+        <table class='CSSTable alternate smaller wide'>
             <tr>
-                <td>Name</td>
-                <td>Email address</td>
-                <td colspan='2'>Actions</td>
+                <th>Name</th>
+                <th>Email address</th>
+                <th colspan='2'>Actions</th>
             </tr>
 
             {% for join_request in join_requests %}
                 <tr>
                     <td>{{ join_request.title }} {{ join_request.user.user.first_name }} {{ join_request.user.user.last_name }}</td>
                     <td>{{ join_request.user.user.email }}</td>
-                    <td><a class='btn' href="{% url 'portal.views.organisation_allow_join' join_request.id %}">Allow</a></td>
-                    <td><a class='btn' href="{% url 'portal.views.organisation_deny_join' join_request.id %}">Deny</a></td>
+                    <td><a class='btn btn-default btn-small' href="{% url 'portal.views.organisation_allow_join' join_request.id %}">Allow</a></td>
+                    <td><a class='btn btn-default btn-small' href="{% url 'portal.views.organisation_deny_join' join_request.id %}">Deny</a></td>
                 </tr>
             {% endfor %}
         </table>
@@ -109,10 +109,7 @@
                     {{ field }}
                 {% endfor %}
                 <div class='section group'>
-                    <div class="col span_2_of_3"></div>
-                    <div class="col span_1_of_3">
-                        <input type='submit' class='btn' value='Change'/>
-                    </div>
+                        <input type='submit' class='btn btn-primary' value='Change'/>
                 </div>
 
             </form>
@@ -127,7 +124,7 @@
         <div class='login-card'>
             <h3>Leave {{ user.userprofile.teacher.school.name }}</h3><br>
             <p>Time to go? You may leave this school or club as a non-admin teacher, and will be able to select which teachers take over any classes you may still have on your account.</p>
-            <a class='btn' style="width: 100%" href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
+            <a class='btn btn-default' style="width: 100%" href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
         </div>
     </div>
 </div>

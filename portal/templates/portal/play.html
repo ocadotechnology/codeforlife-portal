@@ -34,7 +34,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                 <div class="col span_1_of_3">
                      <div class="play">
                          <img src="{% static 'portal/img/rrBGsmall.jpg' %}" />
-                         <a class="btn" href="{% url 'game.views.levels' %}">Play Now</a>
+                         <a class="btn btn-primary" href="{% url 'game.views.levels' %}">Play Now</a>
                      </div>
                 </div>
                  
@@ -79,7 +79,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                         {{ field|safe }}
                     {% endfor %}
 
-                    <input type='submit' name='school_login' class="btn wide" value='Log in'/>
+                    <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in'/>
                 </form>
             </div>
 
@@ -100,7 +100,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                         {{ field|safe }}
                     {% endfor %}
 
-                    <input type='submit' name='solo_login' class="btn wide" value='Log in'/>
+                    <input type='submit' name='solo_login' class="btn btn-primary wide" value='Log in'/>
                 </form>
 
                 <div class="login-help">
@@ -148,7 +148,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
                 <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
                 {{ signup_form.confirm_password }}
 
-                <input type='submit' name='signup' class="btn wide" value='Register'/>
+                <input type='submit' name='signup' class="btn btn-primary wide" value='Register'/>
             </form>
         </div>
         {% endif %}

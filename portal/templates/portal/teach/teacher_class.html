@@ -28,7 +28,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
         <div class="section group">
             <h3 class='col'>Current students</h3>
         {% if students %}
-            <a class='col btn pull-right' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
+            <a class='col btn btn-primary pull-right' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
         {% endif %}
         </div>
 
@@ -36,10 +36,10 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
         <div class="section group">
             <p>Click on a student to change their name, or set or generate a new password.</p>
         </div>
-            <table class='CSSTable' width='100%'>
+            <table class='CSSTable wide alternate smaller'>
                 <tr>
-                    <td style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></td>
-                    <td>Student Name</td>
+                    <th style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></th>
+                    <th>Student Name</th>
                 </tr>
                 {% for student in students %}
                     <tr>
@@ -48,20 +48,17 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                     </tr>
                 {% endfor %}
             </table>
-            <p class='pull-right'>(Total: {{ num_students }})</p>
-        {% else %}
-            <p>There are no students in this class. Add some students to get started!</p>
-        {% endif %}
-        <br/>
-        {% if students %}
-            <h3>Operations on selected students</h3>
-            <p>Using the checkboxes next to each student name, you can move students to another class in the school, you can remove them from the school and assign them usernames to login to Code for Life as an indepedent user, and you can delete them from the system.</p>
-            <button class='btn wide' id='moveSelectedStudents'>Move to another class</button>
             <div class='section group'>
-                <button class='col span_1_of_2 btn' id='dismissSelectedStudents'>Remove from class</button>
-                <button class='col span_1_of_2 btn' id='deleteSelectedStudents'>Delete from system</button>
+                <div class='col span_1_of_5' style='line-height: 30px; padding-left: 20px'>0/{{ num_students }} selected</div>
+                <div class='col span_1_of_5'></div>
+                <div class='col span_1_of_5'><button class='btn btn-default btn-small wide' id='moveSelectedStudents'>Move</button></div>
+                <div class='col span_1_of_5'><button class='btn btn-default btn-small wide' id='dismissSelectedStudents'>Release</button></div>
+                <div class='col span_1_of_5'><button class='btn btn-danger btn-small wide' id='deleteSelectedStudents'>Delete</button></div>
             </div>
-        {% endif %}
+            {% else %}
+                <p>There are no students in this class. Add some students to get started!</p>
+            {% endif %}
+        <br/>
     </div>
 
 
@@ -80,26 +77,22 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                 {{ new_students_form.names.errors }}
                 {{ new_students_form.names }}
 
-                <input type='submit' class='btn' name='new_students' value='Add students'/>
+                <input type='submit' class='btn btn-primary' name='new_students' value='Add students'/>
         </div>
     </div>
 </div>
 
 <div class="section group">
+    <h3>Edit other class settings</h3>
 
-    <div class="col span_2_of_3">
-        <h3>Edit other class settings</h3>
-
-        <p>You may change this class's name, transfer the class to another teacher in the school or club, setup whether the class can accept requests from external students, and setup whether students in this class will be able to see their classmates' progress.</p>
-        <p>You may also delete the class if it has no students.</p>
+    <p>You may change this class's name, transfer the class to another teacher in the school or club, setup whether the class can accept requests from external students, and setup whether students in this class will be able to see their classmates' progress.</p>
+    <p>You may also delete the class if it has no students.</p>
+    </div>
+    <div class="section group">
+        <a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit Settings</a>
+        <a class='btn btn-danger btn-small' href="{% url 'portal.views.teacher_delete_class' class.access_code %}">Delete Class</a>
     </div>
 
-    <div class="col span_1_of_3">
-        <div class="section group">
-            <a class='col btn wide pull-right' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit class settings</a>
-            <a class='col btn wide pull-right' href="{% url 'portal.views.teacher_delete_class' class.access_code %}">Delete class</a>
-        </div>
-    </div>
 </div>
 
 {% endblock %}

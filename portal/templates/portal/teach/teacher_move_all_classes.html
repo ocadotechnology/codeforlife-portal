@@ -17,10 +17,10 @@
             <form method='post'>
 
                 {% csrf_token %}
-                <table class='CSSTable'>
+                <table class='CSSTable alternate smaller wide'>
                     <tr>
-                        <td>Class</td>
-                        <td>New Teacher</td>
+                        <th>Class</th>
+                        <th>New Teacher</th>
                     </tr>
                 {% for class in classes %}
                     <tr>
@@ -39,10 +39,10 @@
                 </table>
                 <br>
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
+                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
 
                     <div class='col span_1_of_3 pull-right'>
-                        <input type='submit' class='btn' value='{{ submit_button_text }}'/>
+                        <input type='submit' class='btn btn-primary' value='{{ submit_button_text }}'/>
                     </div>
                 </div>
 

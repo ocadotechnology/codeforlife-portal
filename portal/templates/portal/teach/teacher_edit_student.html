@@ -17,7 +17,7 @@ var PASSWORD_TYPE = 'STUDENT';
 <div class="section group">
     <h1 class='col'>Edit student details for {{ student.user.user.first_name }} from class ({{ student.class_field.access_code }})</h1>
 
-    <a class='col btn pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+    <a class='col btn btn-default pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
 </div>
 
 <div class='section group'>
@@ -40,7 +40,7 @@ var PASSWORD_TYPE = 'STUDENT';
                     </div>
 
                     <div class='col span_1_of_3'>
-                        <input type='submit' name='update_details' class='btn' value='Update'/>
+                        <input type='submit' name='update_details' class='btn btn-primary' value='Update'/>
                     </div>
                 </div>
             </form>
@@ -79,8 +79,8 @@ var PASSWORD_TYPE = 'STUDENT';
                     </div>
 
                     <div class='col span_1_of_3'>
-                        <input type='submit' name='set_password' class='btn' value='Set'/>
-                        <a class='btn wide' href="{% url 'portal.views.teacher_student_reset' student.id %}">Generate random</a>
+                        <input type='submit' name='set_password' class='btn btn-primary' value='Set'/>
+                        <a class='btn btn-primary wide' href="{% url 'portal.views.teacher_student_reset' student.id %}">Generate random</a>
                     </div>
                 </div>
             </form>

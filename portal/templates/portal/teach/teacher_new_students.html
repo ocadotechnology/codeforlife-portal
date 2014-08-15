@@ -16,10 +16,10 @@
 </div>
 
 <div class='span_centered_third'>
-    <table class='CSSTable' width='100%'>
+    <table class='CSSTable alternate smaller wide'>
         <tr>
-            <td>Name</td>
-            <td>Password</td>
+            <th>Name</th>
+            <th>Password</th>
         </tr>
         {% for name_token in name_tokens %}
             <tr>
@@ -32,10 +32,10 @@
     <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
         {% csrf_token %}
         <input type='hidden' name='data' value='{{ query_data }}'/>
-        <input class='btn wide'type='submit' value='Print Reminder Cards'/>
+        <input class='btn btn-primary wide'type='submit' value='Print Reminder Cards'/>
     </form>
     <br>
-    <a class='btn wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
+    <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
 </div>
 
 

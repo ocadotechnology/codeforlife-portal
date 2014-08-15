@@ -11,9 +11,9 @@
 
         {% if students %}
             <p>The following are students in the class to which the external student with username {{ student.user.user.username }} will be added.</p>
-            <table class="CSSTable" width='100%'>
+            <table class="CSSTable smaller alternate wide">
                 <tr>
-                    <td>Student Name</td>
+                    <th>Student Name</th>
                 </tr>
                 {% for currentstudent in students %}
                     <tr>
@@ -45,10 +45,10 @@
                 {% endfor %}
 
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn' href="{% url 'portal.views.teacher_classes' %}">Cancel</a>
+                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_classes' %}">Cancel</a>
 
                     <div class='col span_1_of_3 pull-right'>
-                        <input type='submit' class='btn' value='Save'/>
+                        <input type='submit' class='btn btn-primary' value='Save'/>
                     </div>
                 </div>
                 
