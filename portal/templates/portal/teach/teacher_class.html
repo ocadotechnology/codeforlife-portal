@@ -49,7 +49,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                 {% endfor %}
             </table>
             <div class='section group'>
-                <div class='col span_1_of_5' style='line-height: 30px; padding-left: 20px'>0/{{ num_students }} selected</div>
+                <div class='col span_1_of_5' style='line-height: 30px; padding-left: 20px'><span id="num_students_selected">0</span>/{{ num_students }} selected</div>
                 <div class='col span_1_of_5'></div>
                 <div class='col span_1_of_5'><button class='btn btn-default btn-small wide' id='moveSelectedStudents'>Move</button></div>
                 <div class='col span_1_of_5'><button class='btn btn-default btn-small wide' id='dismissSelectedStudents'>Release</button></div>
