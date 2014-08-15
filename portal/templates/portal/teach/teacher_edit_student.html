@@ -75,14 +75,15 @@ $( document ).ready(function() {
                         <div class='section group'>
                             <br>
                             <p>Enter and confirm the password in the box below - remember the password you choose should be secure enough to stop others guessing it easily!</p>
-
-                            <div class='col span_2_of_3'>
-                                <div class='password-strength-bar-container'>
-                                    <div class='password-strength-bar'></div>
+                            <div class='section group'>
+                                <div class='col span_2_of_3'>
+                                    <div class='password-strength-bar-container'>
+                                        <div class='password-strength-bar'></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='col span_1_of_3'>
-                                <div class='password-strength-text'></div>
+                                <div class='col span_1_of_3'>
+                                    <div class='password-strength-text'></div>
+                                </div>
                             </div>
                             {{ password_form.password.errors }}
                             {{ password_form.password }}
