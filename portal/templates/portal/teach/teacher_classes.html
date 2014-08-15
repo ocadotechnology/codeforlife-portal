@@ -82,21 +82,19 @@
     <table class="CSSTable alternate smaller wide">
         <tr>
             <th>Username</th>
-            <th>First name</th>
+            <th>Name</th>
             <th>Email</th>
             <th>Class</th>
-            <th>Access code</th>
-            <th colspan='2'>Actions</th>
+            <th colspan="2"></th>
         </tr>
-        {% for request in requests %}
+        {% for join_request in requests %}
             <tr>
-                <td>{{ request.user.user.username }}</td>
-                <td>{{ request.user.user.first_name }}</td>
-                <td>{{ request.user.user.email }}</td>
-                <td>{{ request.pending_class_request.name }}</td>
-                <td>{{ request.pending_class_request.access_code }}</td>
-                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_accept_student_request' request.id %}">Accept</a></td>
-                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_reject_student_request' request.id %}">Reject</a></td>
+                <td>{{ join_request.user.user.username }}</td>
+                <td>{{ join_request.user.user.first_name }}</td>
+                <td>{{ join_request.user.user.email }}</td>
+                <td>{{ join_request.pending_class_request.name }} ({{ join_request.pending_class_request.access_code }})</td>
+                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_accept_student_request' join_request.id %}">Accept</a></td>
+                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_reject_student_request' join_request.id %}">Reject</a></td>
             </tr>
         {% endfor %}
     </table>

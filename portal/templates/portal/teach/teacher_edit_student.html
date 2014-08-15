@@ -5,11 +5,17 @@
 
 {% block scripts %}
 {{block.super}}
-<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
 <script>
 var PASSWORD_FIELD_ID = '{{ password_form.password.auto_id }}';
 var PASSWORD_TYPE = 'STUDENT';
+
+$( document ).ready(function() {
+    $('#password-setter').hide();
+    $('#request-password-setter').click(function(){$('#password-setter').show();});
+});
+
 </script>
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
 {% endblock scripts %}
 
 {% block content %}
@@ -18,14 +24,15 @@ var PASSWORD_TYPE = 'STUDENT';
     <h1 class='col'>Edit student details for {{ student.user.user.first_name }} from class ({{ student.class_field.access_code }})</h1>
 
     <a class='col btn btn-default pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+
 </div>
 
 <div class='section group'>
-    <div class='col span_1_of_2'>
+    <div class='span_centered_half'>
         <div class='login-card'>
             <h3>Update name</h3><br/>
 
-            <p>You can update a student's name here. Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
+            <p>Update this student's name. Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
 
             <form method='post'>
 
@@ -44,16 +51,11 @@ var PASSWORD_TYPE = 'STUDENT';
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
+            <br>
 
-    <div class='col span_1_of_2'>
-        <div class='login-card'>
             <h3>Set / reset password</h3><br/>
 
-            <p>You can either set this student's password by entering a new password in the box below, confirming it and pressing 'Set', or you can let us generate a random and secure password by clicking 'Generate random'.</p>
-
-            <p>Remember student's passwords are case insensitive, and should be secure enough to stop other from guessing their password!</p>
+            <p>You can either set this student's password by clicking 'Set password', or you can let us generate a random and secure password by clicking 'Generate random'.</p>
 
             <form method='post'>
 
@@ -62,25 +64,35 @@ var PASSWORD_TYPE = 'STUDENT';
                 {{ password_form.non_field_errors }}
 
                 <div class='section group'>
-                    <div class='col span_2_of_3'>
-                        <div class='col span_2_of_3'>
-                            <div class='password-strength-bar-container'>
-                                <div class='password-strength-bar'></div>
-                            </div>
-                        </div>
-                        <div class='col span_1_of_3'>
-                            <div class='password-strength-text'></div>
-                        </div>
-                        {{ password_form.password.errors }}
-                        {{ password_form.password }}
-
-                        {{ password_form.confirm_password.errors }}
-                        {{ password_form.confirm_password }}
+                    <div class='col span_1_of_3'>
+                        <a class='btn btn-primary wide' href="{% url 'portal.views.teacher_student_reset' student.id %}">Generate random</a>
+                    </div>
+                    <div class='col span_1_of_3 pull-right'>
+                        <a id="request-password-setter" class='btn btn-default wide' href="#">Set password</a>
                     </div>
 
-                    <div class='col span_1_of_3'>
-                        <input type='submit' name='set_password' class='btn btn-primary' value='Set'/>
-                        <a class='btn btn-primary wide' href="{% url 'portal.views.teacher_student_reset' student.id %}">Generate random</a>
+                    <div id="password-setter">
+                        <div class='section group'>
+                            <br>
+                            <p>Enter and confirm the password in the box below - remember the password you choose should be secure enough to stop others guessing it easily!</p>
+
+                            <div class='col span_2_of_3'>
+                                <div class='password-strength-bar-container'>
+                                    <div class='password-strength-bar'></div>
+                                </div>
+                            </div>
+                            <div class='col span_1_of_3'>
+                                <div class='password-strength-text'></div>
+                            </div>
+                            {{ password_form.password.errors }}
+                            {{ password_form.password }}
+
+                            {{ password_form.confirm_password.errors }}
+                            {{ password_form.confirm_password }}
+                            <div class='col span_1_of_3 pull-right'>
+                                <input type='submit' name='set_password' class='btn btn-primary' value='Set'/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

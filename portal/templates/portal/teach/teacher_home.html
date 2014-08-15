@@ -33,10 +33,10 @@
              <td>Manage classrooms</td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.organisation_manage' %}">My School or Club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
+             <td><a href="{% url 'portal.views.organisation_manage' %}">School or Club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.teacher_classes' %}">My Classes ({{ num_classes }})</a></td>
+             <td><a href="{% url 'portal.views.teacher_classes' %}">Classes ({{ num_classes }})</a></td>
            </tr>
             <tr>
               <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
@@ -51,7 +51,7 @@
               <td><a href="{% url 'game.views.levels' %}">Rapid Router</a></td>
             </tr>
             <tr>
-              <td><a href="{% url 'portal.views.teacher_lesson_plans' %}">Downloadable Resources</a></td>
+              <td><a href="{% url 'portal.views.teacher_lesson_plans' %}">Teaching Packs</a></td>
             </tr>
           </table>
     </div>

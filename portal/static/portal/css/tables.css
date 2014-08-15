@@ -25,15 +25,9 @@ table.CSSTable th, .CSSTable tr:first-child td{
 	border-top:none;
 	border-bottom:1px solid #e0e0e0;
 
-	background: #C0BEE2;
+	background: #AEAAF7;
 
 	font-weight:bold;
-}
-
-
-table.CSSTable th:first-child{
-	text-align: left;
-	padding-left:15px;
 }
 table.CSSTable tr:first-child th:first-child{
 	-moz-border-radius-topleft:3px;
@@ -79,6 +73,11 @@ table.CSSTable tr:last-child td:last-child{
 	-moz-border-radius-bottomright:3px;
 	-webkit-border-bottom-right-radius:3px;
 	border-bottom-right-radius:3px;
+}
+
+table.CSSTable tr td a img
+{
+	vertical-align:bottom;
 }
 
 .downloadTable span
