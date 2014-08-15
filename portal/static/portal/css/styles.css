@@ -31,10 +31,17 @@ html, body
     height: 100%;
 }
 
-p a
+a
 {
-  color:#333;
+  color: #0033cc;
+  text-decoration: none;
 }
+
+a:hover
+{
+  text-decoration: underline;
+}
+
 
 #contentWrapper
 {
@@ -44,18 +51,20 @@ p a
     margin: 0 auto -70px;
 }
 
-.content
-{
-  min-width: 768px;
-        width: 90%;
-        max-width: 1200px;
-  margin:0 auto;
-  padding:50px 20px 20px 20px;
-  clear:both;
+ .content
+ {
+ min-width: 768px;
+    width: 90%;
+    max-width: 1200px;
+ 
+   margin:0 auto;
+   padding:20px;
+   clear:both;
 }
-.topBar .content, footer.content
+
+.topPadding
 {
-  padding:20px;
+  padding: 12px;
 }
 
 .video
@@ -172,10 +181,26 @@ ul.topNav li
   color:#333;
 }
 
+.subnavBar
+{
+  min-width:768px;
+  max-width:1200px;
+  margin:0 auto;
+  clear:both;
+}
+
 .subnav
 {
+  display: inline-block;
+  border-left: 1px solid #00072C;;
+  border-right: 1px solid #00072C;;
+  border-bottom: 1px solid #00072C;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  margin: 0 20px;
   background-color:#ccc;
-  height:30px;
+  height:40px;
+  line-height: 34px;
 }
 .subnav div
 {
@@ -192,16 +217,15 @@ ul.topNav li
 }
 .subnav ul li
 {
-  color:#FFFFFF;
+  color:#333;
   float:left;
   list-style:none;
   list-style-type:none;
-  margin:6px 20px;
+  margin:0 20px;
 }
 .subnav ul li a
 {
   color:#333;
-  font-weight:bold;
   text-decoration:none;
 }
 .subnav ul li a:hover
@@ -226,14 +250,12 @@ ul.topNav li
 
 ul.topNav li a, .footer ul li a
 {
-  text-decoration:none;
   color:#FFFFFF;
 }
 
 ul.topNav li a
 {
     border-top:1px solid #00072C;
-    display:block;
 }
 
 ul.topNav li a:hover, .footer ul li a:hover
@@ -375,6 +397,14 @@ padding-top:50%;
     zoom:1; /* For IE 6/7 */
 }
 
+/*  GRID OF TWO  */
+.span_2_of_2 {
+    width: 100%;
+}
+.span_1_of_2 {
+    width: 49.2%;
+}
+
 /*  GRID OF THREE  */
 .span_3_of_3 {
   width: 100%;
@@ -386,12 +416,15 @@ padding-top:50%;
   width: 38.2%;
 }
 
-/*  GRID OF TWO  */
-.span_2_of_2 {
-    width: 100%;
+/*  PROPER GRID OF THREE  */
+.span_3_of_3_strict {
+  width: 100%;
 }
-.span_1_of_2 {
-    width: 49.2%;
+.span_2_of_3_strict {
+  width: 65%;
+}
+.span_1_of_3_strict {
+  width: 32%;
 }
 
 /*  GRID OF FIVE  */
@@ -483,6 +516,10 @@ padding-top:50%;
 
 .wide {
 	width:100%;
+}
+
+.rounded {
+  border-radius: 2%;
 }
 
 .ks

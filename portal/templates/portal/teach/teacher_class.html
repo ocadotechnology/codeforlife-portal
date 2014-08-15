@@ -1,6 +1,8 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
+{% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>

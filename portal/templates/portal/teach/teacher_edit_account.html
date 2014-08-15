@@ -1,6 +1,8 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
+{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>

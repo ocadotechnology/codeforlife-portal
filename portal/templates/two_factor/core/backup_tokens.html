@@ -1,5 +1,7 @@
 {% extends "portal/teach/base.html" %}
 
+{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+
 {% block content %}
     <h1>Backup Tokens</h1>
     <p>Backup tokens can be used when your primary and backup

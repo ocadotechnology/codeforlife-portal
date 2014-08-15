@@ -1,6 +1,8 @@
 {% extends "portal/teach/base.html" %}
 {% load two_factor %}
 
+{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+
 {% block content %}
 {% if default_device %}
 <div class='section group'>

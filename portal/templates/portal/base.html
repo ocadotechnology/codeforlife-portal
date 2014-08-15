@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<title>{% block title %}Code For Life - Portal{% endblock %}</title>
+<title>{% block title %}Code For Life{% endblock %}</title>
 {% block head %}
 {% endblock head %}
 
@@ -27,46 +27,46 @@
 <body>
 
 <div id='contentWrapper'>
-    <div class='topBar'>
-        <div class="content">
-            <a href="/" class="logo">
-                <span></span>
-                <h1>Code for Life</h1>
-            </a>
-            {% if user|is_logged_in %}
-                <div class="loggedIn">
-                    You are logged in as<br>
-                    {{ user|make_into_username|truncate:20 }}<br>
-                    <a href="{% url 'portal.views.logout_view' %}">Log out</a>
-                </div>
-            {% endif %}
-            <ul class="topNav">
-                {% block topNav %}
-                <li><a href="{% url 'portal.views.teach' %}">TEACH</a></li>
-                <li><a href="{% url 'portal.views.play' %}">PLAY</a></li>
-                {% endblock topNav %}
-            </ul>
-        </div>
-    </div>
-    {% if user|is_logged_in %}
-        <div class="subnav">
-            <div>
-                <ul>
-                    {% if user|is_logged_in_as_student %}
-                        <li><a href="{% url 'portal.views.student_details' %}">MY HOMEPAGE</a></li>
-                        <li><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}MY PASSWORD{% else %}MY ACCOUNT{% endif %}</a></li>
-                    {% endif %}
-                    {% if user|is_logged_in_as_teacher %}
-                        <li><a href="{% url 'portal.views.teacher_home' %}">MY DASHBOARD</a></li>
-                        <li><a href="{% url 'portal.views.teacher_classes' %}">MY CLASSES</a></li>
-                        <li><a href="{% url 'portal.views.teacher_edit_account' %}">MY ACCOUNT</a></li>
-                        <li><a href="{% url 'portal.views.organisation_manage' %}">MY SCHOOL/CLUB</a></li>
-                    {% endif %}
-                </ul>
+    {% block topBar %}
+        <div class='topBar'>
+            <div class="content">
+                <a href="/" class="logo">
+                    <span></span>
+                    <h1>Code for Life</h1>
+                </a>
+                    <ul class="topNav">
+                        <li>{% block nav_teach %}<a href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
+                        <li>{% block nav_play %}<a href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
+                        {% if user|is_logged_in %}
+                            <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
+                        {% endif %}
+                    </ul>
             </div>
         </div>
-    {% endif %}
+    {% endblock topBar %}
+    {% block subNav %}
+        {% if user|is_logged_in %}
+        <div class="subnavBar">
+            <div class="subnav">
+                    <ul>
+                        {% if user|is_logged_in_as_student %}
+                            <li>{% block nav_student_dashboard %}<a href="{% url 'portal.views.student_details' %}">Dashboard</a>{% endblock nav_student_dashboard %}</li>
+                            <li>{% block nav_student_account %}<a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
+                        {% endif %}
+                        {% if user|is_logged_in_as_teacher %}
+                            <li>{% block nav_teacher_dashboard %}<a href="{% url 'portal.views.teacher_home' %}">Dashboard</a>{% endblock nav_teacher_dashboard %}</li>
+                            <li>{% block nav_teacher_classes %}<a href="{% url 'portal.views.teacher_classes' %}">Classes</a>{% endblock nav_teacher_classes %}</li>
+                            <li>{% block nav_teacher_account %}<a href="{% url 'portal.views.teacher_edit_account' %}">Account</a>{% endblock nav_teacher_account %}</li>
+                            <li>{% block nav_teacher_school %}<a href="{% url 'portal.views.organisation_manage' %}">School/Club</a>{% endblock nav_teacher_school %}</li>
+                        {% endif %}
+                    </ul>
+            </div>
+        </div>
+        {% endif %}
+    {% endblock subNav %}
 
+
+    {% block contentDiv %}
     <div class="content">
 
         {% if messages %}
@@ -75,29 +75,32 @@
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message | safe }}</li>
             {% endfor %}
         </ul>
-        <br /><br />
         {% endif %}
+
+        {% block contentTopPadding %}
+            <div class="topPadding"></div>
+        {% endblock contentTopPadding %}
 
         {% block content %}
         {% endblock content %}
 
     </div>
+    {% endblock contentDiv %}
 
     <div class="push"></div>
 </div>
 
-<div class="footer">
-    <ul>
-        <li><a href="{% url 'about' %}">About us</a></li>
-        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-        <li><a href="{% url 'terms' %}">Terms of use</a></li>
-        <li><a href="{% url 'help' %}">Help &amp Support</a></li>
-        <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy;2014</li>
-    </ul>
-</div>
-
-    </ul>
-</div>
+{% block footer %}
+    <div class="footer">
+        <ul>
+            <li><a href="{% url 'about' %}">About us</a></li>
+            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            <li><a href="{% url 'terms' %}">Terms of use</a></li>
+            <li><a href="{% url 'help' %}">Help &amp Support</a></li>
+            <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy;2014</li>
+        </ul>
+    </div>
+{% endblock footer %}
 
 </body>
 </html>

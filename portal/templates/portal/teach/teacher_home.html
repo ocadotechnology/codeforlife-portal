@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block title %}Code For Life - Portal{% endblock %}
+{% block nav_teacher_dashboard %}<b><a href="{% url 'portal.views.teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
 
 {% block content %}
 
@@ -13,19 +13,12 @@
         <h3>Hello, {{ user|make_into_username }}</h3>
 
         <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus. Etiam vel sem dolor. Fusce et massa ac nulla varius pulvinar. Donec quis accumsan felis, faucibus sollicitudin turpis. Nullam fermentum elit vel ipsum tincidunt egestas. Proin pretium dui eu velit dapibus ultrices. Nulla facilisi. Curabitur venenatis, nibh posuere pretium aliquet, erat justo lacinia eros, et venenatis nulla eros ac odio. Etiam sed lorem et felis luctus cursus at volutpat magna. Duis fermentum dui a metus condimentum, eu dignissim tortor faucibus. Quisque quis lobortis quam, pharetra sagittis risus. 
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. Sed libero nibh, condimentum sit amet nulla ut, tincidunt varius nisi. Pellentesque non velit eu orci cursus pulvinar euismod non tellus.
         </p>
 
-        <h3>Your Students</h3>
-        <p>
-        Donec placerat vulputate nulla vel scelerisque. Phasellus ullamcorper nec nisl ac pharetra. Quisque pharetra velit eget mi faucibus consequat. In faucibus, justo a consectetur posuere, nibh elit posuere quam, sed lobortis nunc elit eu lacus. Vivamus in arcu nisi. Aliquam erat volutpat. Praesent volutpat rhoncus neque, vel auctor purus posuere nec. Integer feugiat, risus et consectetur consequat, turpis nunc euismod purus, fermentum dictum nisi augue in ligula. Quisque tincidunt risus ante, in varius arcu porta non.
-        </p>
         <h3>Your Classroom</h3>
         <p>
         Sed ac consectetur velit. Duis ultrices fringilla dolor, ut cursus felis molestie ut. Donec at felis vehicula, porta risus at, fringilla nulla. Fusce blandit interdum ante ac iaculis. Fusce fermentum bibendum leo, ut blandit diam. In vestibulum nibh ac metus faucibus, eu lacinia diam placerat. Donec vitae leo felis.
-        </p>
-        <p>
-        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut vel ligula hendrerit, auctor ligula sed, elementum lacus. Vivamus eu turpis cursus, pellentesque purus quis, rhoncus lacus. Sed vel nisl laoreet, semper lectus sit amet, posuere lectus. Duis accumsan tincidunt neque nec ullamcorper. 
         </p>
         <h3>Your Resources</h3>
         <p>
@@ -40,13 +33,13 @@
              <td>Manage classrooms</td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.organisation_manage' %}">My school or club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
+             <td><a href="{% url 'portal.views.organisation_manage' %}">My School or Club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
            </tr>
            <tr>
              <td><a href="{% url 'portal.views.teacher_classes' %}">My Classes ({{ num_classes }})</a></td>
            </tr>
             <tr>
-              <td><a href="{% url 'game.views.scoreboard' %}">Track Student Progress on Rapid Router</a></td>
+              <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
             </tr>
          </table>
 
@@ -58,16 +51,7 @@
               <td><a href="{% url 'game.views.levels' %}">Rapid Router</a></td>
             </tr>
             <tr>
-              <td><a href="{% url 'portal.views.teacher_lesson_plans' %}">Lesson plans</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Pupil resources</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Assessment sheets</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Character sheets</a></td>
+              <td><a href="{% url 'portal.views.teacher_lesson_plans' %}">Downloadable Resources</a></td>
             </tr>
           </table>
     </div>

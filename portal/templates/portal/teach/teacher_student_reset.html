@@ -1,6 +1,8 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
+{% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+
 {% block content %}
 
 <h3>Student Password Changed for {{ student.user.user.first_name }}</h3>

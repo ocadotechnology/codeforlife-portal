@@ -10,6 +10,8 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
 </script>
 {% endblock scripts %}
 
+{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School/Club</a></b>{% endblock nav_teacher_school %}
+
 {% block content %}
 
 <div class='section group'>
