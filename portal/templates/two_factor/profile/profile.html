@@ -26,7 +26,7 @@
 
             <p>However we strongly discourage you to do so, you can
                 also disable two-factor authentication for your account.</p>
-            <a class="btn wide" href="{% url 'two_factor:disable' %}">
+            <a class="btn btn-danger wide" href="{% url 'two_factor:disable' %}">
                 Disable Two-Factor Authentication</a>
         </div>
     </div>
@@ -41,12 +41,12 @@
             {% for phone in backup_phones %}
                 <form method="post" action="{% url 'two_factor:phone_delete' phone.id %}">
                     {% csrf_token %}
-                    <button class="btn" type="submit">Unregister, {{ phone|device_action }}</button>
+                    <button class="btn btn-default btn-small" type="submit">Unregister, {{ phone|device_action }}</button>
                 </form>
                 <br/>
             {% endfor %}
 
-            <a class='btn wide' href="{% url 'two_factor:phone_create' %}">Add Phone Number</a>
+            <a class='btn btn-primary wide' href="{% url 'two_factor:phone_create' %}">Add Phone Number</a>
         </div>
 
         <br/>
@@ -62,7 +62,7 @@
                     You have {{ backup_tokens }} backup tokens remaining.
                 {% endif %}
             </p>
-            <a class="btn wide" href="{% url 'two_factor:backup_tokens' %}">Show Codes</a>
+            <a class="btn btn-primary wide" href="{% url 'two_factor:backup_tokens' %}">Show Codes</a>
         </div>
     </div>
 </div>
@@ -75,7 +75,7 @@
                 account. Enable two-factor authentication for enhanced account
                 security.</p>
 
-            <a class="btn wide" href="{% url 'two_factor:setup' %}">Enable Two-Factor Authentication</a>
+            <a class="btn btn-primary wide" href="{% url 'two_factor:setup' %}">Enable Two-Factor Authentication</a>
         </div>
     </div>
 {% endif %}

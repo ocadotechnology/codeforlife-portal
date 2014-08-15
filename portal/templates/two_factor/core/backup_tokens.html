@@ -24,7 +24,7 @@
 
     <form method="post">{% csrf_token %}{{ form }}
         <a href="{% url 'two_factor:profile'%}"
-             class="pull-right btn btn-default btn-link">Back to Account Security</a>
+             class="pull-right btn btn-default">Back to Account Security</a>
         <button class="btn btn-primary" type="submit">Generate Tokens</button>
     </form>
 {% endblock %}

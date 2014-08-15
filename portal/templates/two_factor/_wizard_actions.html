@@ -2,13 +2,13 @@
     {# hidden submit button to enable [enter] key #}
     <div style="margin-left: -500px"><input type="submit" value="" style="display: none"/></div>
 
-    <a href="{% url 'two_factor:profile'%}" class="btn" style="margin-right: 10px">Cancel</a>
+    <a href="{% url 'two_factor:profile'%}" class="btn btn-default" style="margin-right: 10px">Cancel</a>
 
     {% if wizard.steps.prev and wizard.steps.current != 'token' %}
         <button name="wizard_goto_step" type="submit"
                 value="{{ wizard.steps.prev }}"
-                class="btn" style="margin-right: 10px">Back</button>
+                class="btn btn-default" style="margin-right: 10px">Back</button>
     {% endif %}
 
-    <button type="submit" class="btn">Next</button>
+    <button type="submit" class="btn btn-primary">Next</button>
 </div>
