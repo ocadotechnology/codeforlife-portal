@@ -836,23 +836,11 @@ ul.messages li {
 }
 
 ul.errorlist li {
+    color: #db3636;
     list-style-type: none;
 
-    padding: 5px 10px;
+    padding: 5px 5px;
     margin-bottom: 5px;
-
-    background-color:#ff7878;
-    -webkit-border-top-left-radius:5px;
-    -moz-border-radius-topleft:5px;
-    border-top-left-radius:5px;
-    -webkit-border-top-right-radius:5px;
-    -moz-border-radius-topright:5px;
-    border-top-right-radius:5px;
-    -webkit-border-bottom-right-radius:5px;
-    -moz-border-radius-bottomright:5px;
-    border-bottom-right-radius:5px;
-    -webkit-border-bottom-left-radius:5px;
-    -moz-border-radius-bottomleft:5px;
 }
 
 /********** End Django messages and form errors ***********/
