@@ -25,7 +25,7 @@ table.CSSTable th, .CSSTable tr:first-child td{
 	border-top:none;
 	border-bottom:1px solid #e0e0e0;
 
-	background: #AEAAF7;
+	background: #8EAECA;
 
 	font-weight:bold;
 }
@@ -104,5 +104,5 @@ table.smaller tr td
 	padding:5px 15px 5px 15px;
 }
 
-table.alternate tr:nth-child(odd) td{ background-color:#E1DFFF; }
+table.alternate tr:nth-child(odd) td{ background-color:#d1dee9; }
 table.alternate tr:nth-child(even) td{ background-color:#fafafa; }
