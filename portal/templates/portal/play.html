@@ -21,37 +21,41 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
 
 <div class="section group">
     <div class="col span_2_of_3">
-        <h3>Learning to code is fun</h3>
+        <h3>Play</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. Etiam ut nisl nec mauris elementum vestibulum. 
-         </p>
-     
+        Anyone can learn how to code. Rapid Router will help you learn how. It&#8217;s fun, free and easy. Once you know how, you can build just about anything.
+        </p>
+        <p>
+        If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, login to continue playing. 
+        </p>
+        <p>
+        If you&#8217;ve signed up independently, login to continue your Rapid Router journey.
+        </p>
+        <p>
+        Not signed up yet? Register now to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
+        </p>
+        <p>
+        If you just want to try Rapid Router without logging in, use the Play Now button.
+        </p>
      
         <div class="gameBoxPlay">
-        
             <h3>Rapid Router - Our first app</h3>
+
             <div class="section group">
-                <div class="col span_1_of_3">
+                 <div class="col span_1_of_3">
                      <div class="play">
                          <img src="{% static 'portal/img/rrBGsmall.jpg' %}" />
                          <a class="btn btn-primary" href="{% url 'game.views.levels' %}">Play Now</a>
                      </div>
-                </div>
+                 </div>
                  
-                <div class="col span_2_of_3">
-                   
+                 <div class="col span_2_of_3">
                     <p>
                     Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
                     </p>
-                    
-                </div>
+                 </div>
              </div>
         </div>
-     
-      
-
-
-      
     </div>
 
     <div class="col span_1_of_3">
@@ -59,14 +63,14 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
-                <p>Lost? Go to <a href="{% url 'portal.views.current_user' %}">my homepage</a></p>
+                <p>Lost? Go to my <a href="{% url 'portal.views.current_user' %}">dashboard</a></p>
                 <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a></p>
             </div>
         {% else %}
             <div id="school-login" class="login-card">
                 <h3>School or club student sign in</h3><br>
 
-                <p>Signed up indiviudally? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
+                <p>Signed up independently? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
                 <form method='post'>
 
                     {% csrf_token %}
@@ -84,7 +88,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
             </div>
 
             <div id="solo-login" class="login-card">
-                <h3>Individual sign in</h3><br>
+                <h3>Independent student sign in</h3><br>
 
                 <p>Part of a school or club? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
 
@@ -113,7 +117,7 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
         <div id="signup" class="login-card">
             <h3>Register to track your performance</h3><br>
 
-            <p id='signup-warning' >If you're not part of a school or club who are signed up to Code for Life, <a href='#' id='signupShow'>click here</a> to sign up as an individual.</p>
+            <p id='signup-warning' >If you're not part of a school or club who are signed up to Code for Life, <a href='#' id='signupShow'>click here</a> to sign up independently.</p>
 
             <form id="signup-form" method='post'>
 

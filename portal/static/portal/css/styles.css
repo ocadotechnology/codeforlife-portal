@@ -422,6 +422,10 @@ padding-top:50%;
   width: 32%;
 }
 
+.span_1_of_3a {
+  width: 32.26%;
+}
+
 /*  GRID OF FOUR  */
 .span_4_of_4 {
   width: 100%;
@@ -590,7 +594,6 @@ padding-top:50%;
     width: 80%;
     z-index: 2;
 }
-
 
 /*************** end button code ******/
 

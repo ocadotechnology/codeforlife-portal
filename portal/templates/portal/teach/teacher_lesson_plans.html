@@ -1,6 +1,42 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/colorbox.css" %}'>
+{% endblock css %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    //Examples of how to assign the Colorbox event to elements
+
+    $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
+
+    $(".callbacks").colorbox({
+        onOpen:function(){ alert('onOpen: colorbox is about to open'); },
+        onLoad:function(){ alert('onLoad: colorbox has started to load the targeted content'); },
+        onComplete:function(){ alert('onComplete: colorbox has displayed the loaded content'); },
+        onCleanup:function(){ alert('onCleanup: colorbox has begun the close process'); },
+        onClosed:function(){ alert('onClosed: colorbox has completely closed'); }
+    });
+
+    $('.non-retina').colorbox({rel:'group5', transition:'none'})
+    $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
+    
+    //Example of preserving a JavaScript event for inline calls.
+    $("#click").click(function(){ 
+        $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
+        return false;
+    });
+});
+</script>
+{% endblock scripts %}
+
 {% block content %}   	
 
 <h2>Teaching Packs</h2>
@@ -37,7 +73,7 @@
     </tr>
     <tr>
       <td><a href="#">Session 2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td><a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
       <td>Starting off on-screen with the app</td>
     </tr>
     <tr>
@@ -62,7 +98,7 @@
     </tr>
     <tr>
       <td><a href="#">Session 7 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td><a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
       <td>Introducing the repeat code</td>
     </tr>
     <tr>
@@ -111,17 +147,17 @@
     </tr>
     <tr>
       <td><a href="#">Session 2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td><a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
       <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
     </tr>
     <tr>
       <td><a href="#">Session 3 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td><a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
       <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
     </tr>
     <tr>
       <td><a href="#">Session 4 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td><a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
       <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
     </tr>
     <tr>
@@ -131,7 +167,7 @@
     </tr>
     <tr>
       <td><a href="#">Session 6 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td><a href="http://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
       <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
     </tr>
     <tr>
@@ -147,5 +183,21 @@
   </table>
 
 </div>
+
+<script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+        disableOn: 700,
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        removalDelay: 160,
+        preloader: false,
+
+        fixedContentPos: false
+    });
+});
+</script>
 
 {% endblock content %}     
