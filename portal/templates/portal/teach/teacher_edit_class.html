@@ -41,23 +41,29 @@
 
 
             <div class='section group'>
-                <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
-
-                <div class='col span_1_of_3 pull-right'>
-                    <input type='submit' class='btn btn-primary' value='Update'/>
+                <div class='col span_1_of_2'>
+                    <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
                 </div>
-            </div>
-
-            <h4>Transfer class to another teacher</h4><br>
-            <div class='section group'>
-                <div class='col span_2_of_3'>
-                    <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
-                </div>
-                <div class='col span_1_of_3'>
-                    <a class='btn btn-default wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer</a>
+                
+                <div class='col span_1_of_2'>
+                    <input type='submit' class='btn btn-primary wide' value='Update'/>
                 </div>
             </div>
         </form>
+
+
+    </div>
+    <br>
+    <div class='login-card'>
+        <h4>Transfer class to another teacher</h4><br>
+        <div class='section group'>
+            <div class='col span_2_of_3'>
+                <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
+            </div>
+            <div class='col span_1_of_3'>
+                <a class='btn btn-default wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

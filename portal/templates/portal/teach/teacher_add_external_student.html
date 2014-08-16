@@ -45,10 +45,12 @@
                 {% endfor %}
 
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_classes' %}">Cancel</a>
+                    <div class='col span_1_of_2'>
+                        <a class='btn btn-default wide' href="{% url 'portal.views.teacher_classes' %}">Cancel</a>
+                    </div>
 
-                    <div class='col span_1_of_3 pull-right'>
-                        <input type='submit' class='btn btn-primary' value='Save'/>
+                    <div class='col span_1_of_2'>
+                        <input type='submit' class='btn btn-primary wide' value='Save'/>
                     </div>
                 </div>
                 

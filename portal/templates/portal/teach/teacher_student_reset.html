@@ -18,7 +18,7 @@
 		<form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
 		    {% csrf_token %}
 		    <input type='hidden' name='data' value='{{ query_data }}'/>
-		    <input class='btn btn-primary wide'type='submit' value='Print Reminder Cards'/>
+		    <input class='btn btn-primary wide'type='submit' value='Print Reminder Card'/>
 		</form>
 	</div>
 	<div class='col span_1_of_3'>

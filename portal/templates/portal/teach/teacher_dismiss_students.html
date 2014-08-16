@@ -37,10 +37,11 @@
         </table>
 
         <div class='section group'>
-            <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
-
+            <div class='col span_1_of_3'>
+                <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+            </div>
             <div class='col span_1_of_3 pull-right'>
-                <input type='submit' name='submit_dismiss' class='btn btn-danger' value='Remove'/>
+                <input type='submit' name='submit_dismiss' class='btn btn-danger wide' value='Remove'/>
             </div>
         </div>
 

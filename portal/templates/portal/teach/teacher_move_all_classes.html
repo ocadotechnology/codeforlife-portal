@@ -39,9 +39,11 @@
                 </table>
                 <br>
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
+                    <div class='col span_1_of_2'>
+                        <a class='btn btn-default' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
+                    </div>
 
-                    <div class='col span_1_of_3 pull-right'>
+                    <div class='col span_1_of_2'>
                         <input type='submit' class='btn btn-primary' value='{{ submit_button_text }}'/>
                     </div>
                 </div>

@@ -29,12 +29,12 @@
         {% endfor %}
     </table>
     <br>
+    <br>
     <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
         {% csrf_token %}
         <input type='hidden' name='data' value='{{ query_data }}'/>
         <input class='btn btn-primary wide'type='submit' value='Print Reminder Cards'/>
     </form>
-    <br>
     <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
 </div>
 

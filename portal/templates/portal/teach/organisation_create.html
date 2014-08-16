@@ -29,9 +29,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
                 {% csrf_token %}
 
                 <div class='section group'>
-                    <div class='span_centered_two_thirds'>
-                        <input class='btn btn-primary wide' type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
-                    </div>
+                    <input class='btn btn-primary wide' type='submit' name='revoke_join_request' value="Revoke request to '{{ teacher.pending_join_request.name }}'"/>
                 </div>
 
             </form>
@@ -58,11 +56,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
                     {% endfor %}
 
                     <div class='section group'>
-                        <div class='col span_2_of_3'></div>
-
-                        <div class='col span_1_of_3'>
-                            <input type='submit' class='btn btn-primary' name='create_organisation' value='Create'/>
-                        </div>
+                        <input type='submit' class='btn btn-primary wide' name='create_organisation' value='Create'/>
                     </div>
 
                 </form>
@@ -88,11 +82,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
                     {% endfor %}
 
                     <div class='section group'>
-                        <div class='col span_2_of_3'></div>
-
-                        <div class='col span_1_of_3'>
-                            <input type='submit' class='btn btn-primary' name='join_organisation' value='Join'/>
-                        </div>
+                        <input type='submit' class='btn btn-primary wide' name='join_organisation' value='Join'/>
                     </div>
 
                 </form>

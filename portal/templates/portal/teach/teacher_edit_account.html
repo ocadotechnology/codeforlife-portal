@@ -88,10 +88,12 @@ var PASSWORD_TYPE = 'TEACHER';
 
 
                 <div class='section group'>
-                    <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
+                    <div class='col span_1_of_2'>
+                        <a class='btn btn-default wide' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
+                    </div>
 
-                    <div class='col span_1_of_3 pull-right'>
-                        <input type='submit' class='btn btn-primary' value='Update'/>
+                    <div class='col span_1_of_2'>
+                        <input type='submit' class='btn btn-primary wide' value='Update'/>
                     </div>
                 </div>
 
@@ -102,10 +104,8 @@ var PASSWORD_TYPE = 'TEACHER';
             <h3>Two Factor Authentication</h3>
 
             <p>For enhanced security, consider setting up two factor authentication.</p>
-
-            <div class='span_2_of_3'>
-                <a class='btn btn-primary wide' href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
-            </div>
+            <a class='btn btn-primary' href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
+            
         </div>
     </div>
 </div>

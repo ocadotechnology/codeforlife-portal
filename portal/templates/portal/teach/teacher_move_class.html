@@ -24,9 +24,11 @@
             </div>
             
             <div class='section group'>
-                <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                <div class='col span_1_of_2'>
+                    <a class='btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                </div>
 
-                <div class='col span_1_of_3 pull-right'>
+                <div class='col span_1_of_2'>
                     <input class='btn btn-primary' type='submit' value='Move'/>
                 </div>
             </div>

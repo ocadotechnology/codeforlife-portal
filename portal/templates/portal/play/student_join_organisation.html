@@ -25,10 +25,12 @@
                     {% csrf_token %}
 
                     <div class='section group'>
-                        <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.student_details' %}">Back</a>
+                        <div class='col span_1_of_2'>
+                            <a class='btn btn-default wide' href="{% url 'portal.views.student_details' %}">Back</a>
+                        </div>
 
-                        <div class='col span_1_of_3 pull-right'>
-                            <input type='submit' name='revoke_join_request' class='btn btn-primary' value="Cancel join request"/>
+                        <div class='col span_1_of_2'>
+                            <input type='submit' name='revoke_join_request' class='btn btn-primary wide' value="Cancel request"/>
                         </div>
                     </div>
 
@@ -62,10 +64,12 @@
                     {% endfor %}
 
                     <div class='section group'>
-                        <a class='col span_1_of_3 btn btn-default' href="{% url 'portal.views.student_details' %}">Cancel</a>
+                        <div class='col span_1_of_2'>
+                            <a class='btn btn-default wide' href="{% url 'portal.views.student_details' %}">Cancel</a>
+                        </div>
 
-                        <div class='col span_1_of_3 pull-right'>
-                            <input type='submit' name='class_join_request' class='btn btn-primary' value="Request"/>
+                        <div class='col span_1_of_2'>
+                            <input type='submit' name='class_join_request' class='btn btn-primary wide' value="Request"/>
                         </div>
                     </div>
                 </form>

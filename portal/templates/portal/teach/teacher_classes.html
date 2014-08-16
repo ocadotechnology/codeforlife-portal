@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="col span_1_of_3">
-                        <input type='submit' class='btn btn-primary' value='Create'/>
+                        <input type='submit' class='btn btn-primary wide' value='Create'/>
                     </div>
                 </div>
             </form>
@@ -93,8 +93,8 @@
                 <td>{{ join_request.user.user.first_name }}</td>
                 <td>{{ join_request.user.user.email }}</td>
                 <td>{{ join_request.pending_class_request.name }} ({{ join_request.pending_class_request.access_code }})</td>
-                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_accept_student_request' join_request.id %}">Accept</a></td>
-                <td><a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_reject_student_request' join_request.id %}">Reject</a></td>
+                <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.teacher_accept_student_request' join_request.id %}">Accept</a></td>
+                <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.teacher_reject_student_request' join_request.id %}">Reject</a></td>
             </tr>
         {% endfor %}
     </table>
