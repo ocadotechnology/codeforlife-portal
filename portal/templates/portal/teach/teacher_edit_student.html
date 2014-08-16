@@ -12,6 +12,7 @@ var PASSWORD_TYPE = 'STUDENT';
 $( document ).ready(function() {
     $('#password-setter').hide();
     $('#request-password-setter').click(function(){$('#password-setter').show();});
+    $('#cancel-password-setter').click(function(){$('#password-setter').hide();});
 });
 
 </script>
@@ -20,19 +21,18 @@ $( document ).ready(function() {
 
 {% block content %}
 
-<div class="section group">
-    <h1 class='col'>Edit student details for {{ student.user.user.first_name }} from class ({{ student.class_field.access_code }})</h1>
+<h1>Classes</h1><br>
+<a class='col btn btn-default pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+<h2>Edit student details for {{ student.user.user.first_name }} from class ({{ student.class_field.access_code }})</h2><br>
+<p>Edit this student's name and manage their password.</p>
 
-    <a class='col btn btn-default pull-right' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
 
-</div>
-
-<div class='section group'>
-    <div class='span_centered_half'>
+<div class='col section group'>
+    <div class='span_1_of_2'>
         <div class='login-card'>
-            <h3>Update name</h3><br/>
+            <h4>Update name</h4><br/>
 
-            <p>Update this student's name. Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
+            <p>Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
 
             <form method='post'>
 
@@ -47,13 +47,13 @@ $( document ).ready(function() {
                     </div>
 
                     <div class='col span_1_of_3'>
-                        <input type='submit' name='update_details' class='btn btn-primary' value='Update'/>
+                        <input type='submit' name='update_details' class='btn btn-primary wide' value='Update'/>
                     </div>
                 </div>
             </form>
             <br>
 
-            <h3>Set / reset password</h3><br/>
+            <h4>Set or reset password</h4><br/>
 
             <p>You can either set this student's password by clicking 'Set password', or you can let us generate a random and secure password by clicking 'Generate random'.</p>
 
@@ -90,8 +90,13 @@ $( document ).ready(function() {
 
                             {{ password_form.confirm_password.errors }}
                             {{ password_form.confirm_password }}
-                            <div class='col span_1_of_3 pull-right'>
-                                <input type='submit' name='set_password' class='btn btn-primary' value='Set'/>
+                            <div class='section group'>
+                                <div class='col span_1_of_2'>
+                                    <a id='cancel-password-setter' class='btn btn-default wide'>Cancel</a>
+                                </div>
+                                <div class='col span_1_of_2'>
+                                    <input type='submit' name='set_password' class='btn btn-primary wide' value='Set'/>
+                                </div>
                             </div>
                         </div>
                     </div>

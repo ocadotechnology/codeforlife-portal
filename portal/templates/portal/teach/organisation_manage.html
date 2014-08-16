@@ -7,7 +7,8 @@
 {% block content %}
 
 <div class='section group'>
-    <h1>Manage my school or club</h1><br>
+    <h1>School/Club</h1><br>
+    <h2>Manage my school or club ({{ teacher.school.name }})</h2><br>
 
     {% if is_admin %}
         <p>You can manage your school or club here, including choosing which other teachers to give or remove admin rights to, removing any teachers from your school, and responding to requests by new teachers to join your school.</p>
@@ -19,7 +20,7 @@
 <br>
 
 <div class='section group'>
-    <h3>Teachers who are part of your school or club</h3>
+    <h4>Teachers who are part of your school or club</h4><br>
 
     <p>The following teachers are in your school or club.</p>
 
@@ -62,7 +63,7 @@
 <br>
 
 <div class='section group'>
-    <h3>Teachers who have made a request to join your school or club</h3>
+    <h4>Teachers who have made a request to join your school or club</h4><br>
 
     {% if join_requests %}
         <p>The following teachers have requested to join your school or club. Use the email address to verify their identity, and use the 'Allow' and 'Deny' buttons to let or not let them join your school's Code for Life team!</p>
@@ -93,7 +94,7 @@
 
 <div class='span_1_of_2'>
     <div class='section group login-card'>
-        <h3>Change the details of your school or club</h3><br>
+        <h4>Change the details of your school or club</h4><br>
 
             <p>The following details are used to allow other teachers to join your team.</p>
 
@@ -122,9 +123,9 @@
 <div class='section group'>
     <div class='span_1_of_2'>
         <div class='login-card'>
-            <h3>Leave {{ user.userprofile.teacher.school.name }}</h3><br>
+            <h4>Leave {{ user.userprofile.teacher.school.name }}</h4><br>
             <p>Time to go? You may leave this school or club as a non-admin teacher, and will be able to select which teachers take over any classes you may still have on your account.</p>
-            <a class='btn btn-default wide' href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
+            <a class='btn btn-danger wide' href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
         </div>
     </div>
 </div>

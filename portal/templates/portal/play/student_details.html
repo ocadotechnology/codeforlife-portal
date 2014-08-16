@@ -2,6 +2,8 @@
 {% load static %}
 {% load app_tags %}
 
+{% block nav_student_dashboard %}<b><a href="{% url 'portal.views.student_details' %}">Dashboard</a></b>{% endblock nav_student_dashboard %}
+
 {% block content %}
 
 <h3>Welcome</h3>

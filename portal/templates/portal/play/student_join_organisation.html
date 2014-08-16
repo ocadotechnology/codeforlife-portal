@@ -3,12 +3,17 @@
 
 {% block content %}
 
+<h1>School/Club</h1><br>
+<h2>Join a school or club</h2><br>
+
+<p>Transfer your progress here to your school or club so your teacher can track your progress and set you challenges!</p>
+
 <div class='section group'>
 
     {% if student.pending_class_request %}
-        <div class='span_centered_half'>
+        <div class='span_1_of_2'>
             <div class='login-card'>
-                <h3>Join a school or club: request pending</h3><br>
+                <h4>Request pending</h4><br>
 
                 <p>Your request to join class <b>{{ student.pending_class_request.access_code }}</b> in the school or club <b>{{ student.pending_class_request.teacher.school.name }}</b> is still pending.</p>
 
@@ -40,10 +45,10 @@
         </div>
 
     {% else %}
-        <div class='span_centered_half'>
+        <div class='span_1_of_2'>
 
             <div class='login-card'>
-                <h3>Join a school or club</h3><br>
+                <h4>Request to join a school or club</h4><br>
 
                 <p>If you want to link your Code For Life account with a school or club, ask a teacher from the group to enable external requests for a class and give you a Class Access Code, then simply submit your request below!</p>
 

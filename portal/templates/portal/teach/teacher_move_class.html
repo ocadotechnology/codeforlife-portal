@@ -5,9 +5,14 @@
 
 {% block content %}
 
-<div class='span_centered_half'>
+<h1>Classes</h1><br>
+<h2>Transfer class {{ class.name }} ({{ class.access_code }}) to another teacher</h2><br>
+
+<p>Transfer this class to another teacher in the school.</p>
+
+<div class='span_1_of_2'>
     <div class='login-card'>
-        <h3>Move class {{ class.access_code }} ({{ class.name }})</h3><br/>
+        <h4>New teacher to take over class</h4><br/>
 
         <p>Select a new teacher to take over the above class from the list below.</p>
         <p><b>Warning:</b> The class will move immediately to the new teacher, and then only they will be able to undo this action.</p>
@@ -25,11 +30,11 @@
             
             <div class='section group'>
                 <div class='col span_1_of_2'>
-                    <a class='btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                    <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
                 </div>
 
                 <div class='col span_1_of_2'>
-                    <input class='btn btn-primary' type='submit' value='Move'/>
+                    <input class='btn btn-primary wide' type='submit' value='Move'/>
                 </div>
             </div>
 

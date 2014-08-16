@@ -4,11 +4,13 @@
 
 {% block content %}
 
-<div class='span_centered_half'>
-    <div class='login-card'>
-        <h3>Update class details for {{ class.access_code }}</h3><br/>
+<h1>Classes</h1><br>
 
-        <p>You may change the name of the class, change if the class will allow external requests to join from independent students, and change if pupils will be able to see their classmates progress.</p>
+<h2>Update settings for class {{ class.name }} ({{ class.access_code }})</h2><br/>
+<p>You may change the name of the class, change if the class will allow external requests to join from independent students, and change if pupils will be able to see their classmates' progress. You may also transfer the class to another teacher.</p>
+<div class='span_1_of_2'>
+    <div class='login-card'>
+
 
         <form method='post'>
 
@@ -17,6 +19,7 @@
             {{ form.non_field_errors }}
 
             {{ form.name.errors }}
+            <h4>Class details</h4><br>
             <label class="ieLabels">{{ form.name.html_name }}</label>
             {{ form.name }}
 

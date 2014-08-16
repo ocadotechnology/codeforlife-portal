@@ -1,10 +1,12 @@
 {% extends 'portal/teach/base.html' %}
+{% load app_tags %}
 
 {% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
-<h1>My Classes</h1><br>
+<h1>Classes</h1><br>
+<h2>{{ user|make_into_username }}, {{ user.userprofile.teacher.school.name }}</h2><br>
 
 <p>COPY COPY Here are the classes you teach. Add a class using the 'New Class' box, or manage a particular class by clicking on its name or access code.</p>
 

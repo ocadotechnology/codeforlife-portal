@@ -532,6 +532,7 @@ def organisation_leave(request):
     if classes.exists():
         messages.info(request, 'You still have classes, you must first move them to another teacher.')
         return render(request, 'portal/teach/teacher_move_all_classes.html', {
+            'original_teacher': teacher,
             'classes': classes,
             'teachers': teachers,
             'submit_button_text': 'Move classes and leave',
@@ -573,6 +574,7 @@ def organisation_kick(request, pk):
     if classes.exists():
         messages.info(request, 'This teacher still has classes, you must first move them to another teacher.')
         return render(request, 'portal/teach/teacher_move_all_classes.html', {
+            'original_teacher': teacher,
             'classes': classes,
             'teachers': teachers,
             'submit_button_text': 'Remove teacher',

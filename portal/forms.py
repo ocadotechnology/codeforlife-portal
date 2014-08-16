@@ -21,7 +21,7 @@ def password_strength_test(password, length=8, upper=True, lower=True, numbers=T
         (not numbers or re.search(r'[0-9]', password)))
 
 class OrganisationCreationForm(forms.Form):
-    name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    name = forms.CharField(label='Name of your school or club', widget=forms.TextInput(attrs={'placeholder': 'Name of your school or club'}))
     postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
     current_password = forms.CharField(label='Confirm your password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm your password'}))
 
@@ -71,7 +71,7 @@ class OrganisationJoinForm(forms.Form):
         return chosen_org
 
 class OrganisationEditForm(forms.Form):
-    name = forms.CharField(label='School/club Name', widget=forms.TextInput(attrs={'placeholder': 'School/club Name'}))
+    name = forms.CharField(label='Name of your school or club', widget=forms.TextInput(attrs={'placeholder': 'Name of your school or club'}))
     postcode = forms.CharField(label="Postcode", widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
 
     def __init__(self, *args, **kwargs):

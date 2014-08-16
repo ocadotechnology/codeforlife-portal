@@ -5,29 +5,34 @@
 
 {% block content %}
 
+<h1>Classes</h1><br>
+<h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2><br>
+
 <div class='section group'>
     <div class='col span_1_of_2'>
-        <h3>Students currently in destination class</h3><br>
-        {% if new_class_students %}
-            <p>The following students are in the class {{ new_class.name }} ({{ new_class.access_code }}) into which you are about to move students from your class {{ old_class.name }} ({{ old_class.access_code }}).</p>
-            <table class='CSSTable alternate smaller wide'>
-                <tr>
-                    <th>Student Name</th>
-                </tr>
-                    {% for student in new_class_students %}
-                        <tr>
-                            <td>{{ student.user.user.first_name }}</td>
-                        </tr>
-                    {% endfor %}
-            </table>
-        {% else %}
-            <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
-        {% endif %}
+        <div class='login-card'>
+            <h4>Students currently in destination class</h4><br>
+            {% if new_class_students %}
+                <p>The following students are in the class {{ new_class.name }} ({{ new_class.access_code }}) into which you are about to move students from your class {{ old_class.name }} ({{ old_class.access_code }}).</p>
+                <table class='CSSTable alternate smaller wide'>
+                    <tr>
+                        <th>Student Name</th>
+                    </tr>
+                        {% for student in new_class_students %}
+                            <tr>
+                                <td>{{ student.user.user.first_name }}</td>
+                            </tr>
+                        {% endfor %}
+                </table>
+            {% else %}
+                <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
+            {% endif %}
+        </div>
     </div>
 
     <div class='col span_1_of_2'>
         <div class='login-card'>
-            <h3>Students to transfer</h3><br>
+            <h4>Students to transfer</h4><br>
 
             <p>Please confirm the details for adding the following students to the class {{ new_class.name }} ({{ new_class.access_code }}) from your class {{ old_class.name }} ({{ old_class.access_code }}). Remember their names must be unique in the new class.</p>
 
@@ -59,12 +64,12 @@
 
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
+                        <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' old_class.access_code %}">Cancel</a>
                     </div>
 
                     <div class='col span_1_of_2'>
                         <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
-                        <input type='submit' name='submit_disambiguation' class='btn btn-primary' value='Save'/>
+                        <input type='submit' name='submit_disambiguation' class='btn btn-primary wide' value='Save'/>
                     </div>
                 </div>
 

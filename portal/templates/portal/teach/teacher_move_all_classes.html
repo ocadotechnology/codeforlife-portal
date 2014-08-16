@@ -6,9 +6,15 @@
 
 {% block content %}
 
+
+<h1>School/Club</h1><br>
+<h2>Move all classes for teacher {{ original_teacher.user.user|make_into_username }}</h2><br>
+
+<p>Move all classes assigned to teacher {{ original_teacher.user.user.first_name }} {{ original_teacher.user.user.last_name }} to other teachers in {{ original_teacher.school.name }}.</p>
+
 <div class='section group'>
 
-    <div class='span_centered_half'>
+    <div class='span_1_of_2'>
         <div class='login-card'>
             <h3>Move all classes</h3><br>
 
@@ -28,7 +34,7 @@
                             {{ class.name }} ({{ class.access_code }})
                         </td>
                         <td>
-                            <select name='{{ class.access_code }}'>
+                            <select class='wide' name='{{ class.access_code }}'>
                                 {% for teacher in teachers %}
                                     <option value='{{ teacher.id }}'>{{ teacher.title }} {{ teacher.user.user.first_name }} {{ teacher.user.user.last_name }}</option>
                                 {% endfor %}
@@ -40,11 +46,11 @@
                 <br>
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
+                        <a class='btn btn-default wide' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
                     </div>
 
                     <div class='col span_1_of_2'>
-                        <input type='submit' class='btn btn-primary' value='{{ submit_button_text }}'/>
+                        <input type='submit' class='btn btn-primary wide' value='{{ submit_button_text }}'/>
                     </div>
                 </div>
 
