@@ -185,6 +185,7 @@ ul.topNav li
 {
   min-width:768px;
   max-width:1200px;
+  width: 90%;
   margin:0 auto;
   clear:both;
 }

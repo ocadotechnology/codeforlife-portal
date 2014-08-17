@@ -49,10 +49,12 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                 {% endfor %}
             </table>
             <div class='section group'>
-                <div class='col span_2_of_5' style='line-height: 30px; padding-left: 20px'>(<span id="num_students_selected">0</span>/{{ num_students }} selected)</div>
-                <div class='col span_1_of_5'><button class='btn btn-default btn-small wide' id='moveSelectedStudents'>Move</button></div>
-                <div class='col span_1_of_5'><button class='btn btn-default btn-small wide' id='dismissSelectedStudents'>Release</button></div>
-                <div class='col span_1_of_5'><button class='btn btn-danger btn-small wide' id='deleteSelectedStudents'>Delete</button></div>
+                <div class='col' style='line-height: 30px; padding-left: 20px'>(<span id="num_students_selected">0</span>/{{ num_students }} selected)</div>
+                <div class='col pull-right'>
+                    <button class='btn btn-default btn-small' id='moveSelectedStudents'>Move</button>
+                    <button class='btn btn-default btn-small' id='dismissSelectedStudents'>Release</button>
+                    <button class='btn btn-danger btn-small' id='deleteSelectedStudents'>Delete</button>
+                </div>
             </div>
             {% else %}
                 <p>There are no students in this class. Add some students to get started!</p>
