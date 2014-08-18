@@ -99,7 +99,11 @@ table.CSSTable tr td a img
 	display:inline-block;
 	vertical-align:bottom;
 }
+
 table.smaller tr td
+{
+	padding:8px;
+}table.smaller tr td
 {
 	padding:5px 15px 5px 15px;
 }
