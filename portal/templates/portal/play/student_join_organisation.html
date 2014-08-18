@@ -1,9 +1,11 @@
 {% extends 'portal/play/base.html' %}
 {% load static %}
 
+{% block nav_student_account %}<b><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
+
 {% block content %}
 
-<h1>School/Club</h1><br>
+<h1>Account</h1><br>
 <h2>Join a school or club</h2><br>
 
 <div class='section group'>

@@ -88,6 +88,20 @@ var PASSWORD_TYPE = 'STUDENT';
 
             </form>
         </div>
+        {% if not user.userprofile.student.class_field %}
+        <br>
+        <div class='login-card'>
+            <h4>Join a school or club</h4><br>
+            <div class='section group'>
+                <div class='col span_2_of_3'>
+                    <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
+                </div>
+                <div class='col span_1_of_3'>
+                    <a class='btn btn-default wide' href="{% url 'portal.views.student_join_organisation' %}">Join</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 </div>
