@@ -611,8 +611,9 @@ background-position: 10px center;
 
 }
 .info {
-color: #00529B;
+color: #333;
 background-color: #BDE5F8;
+border-color: #00529B;
 }
 .success {
 color: #4F8A10;
