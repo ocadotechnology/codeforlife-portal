@@ -4,11 +4,13 @@
 
 {% block scripts %}
 {{block.super}}
-<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-<script>
-var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
-var PASSWORD_TYPE = 'TEACHER';
-</script>
+{% if not user|is_logged_in %}
+    <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+    <script>
+    var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
+    var PASSWORD_TYPE = 'TEACHER';
+    </script>
+{% endif %}
 {% endblock scripts %}
 
 {% block content %}

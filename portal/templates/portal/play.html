@@ -2,16 +2,19 @@
 {% load staticfiles %}
 {% load app_tags %}
 
+
 {% block scripts %}
 {{ block.super }}
-<script type="text/javascript" src='{% static "portal/js/play.js" %}'></script>
-<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-<script>
-var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
-var PASSWORD_TYPE = 'STUDENT';
-var SOLO_VIEW = {% if solo_view %}true{% else %}false{% endif %};
-var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
-</script>
+    {% if not user|is_logged_in %}
+    <script type="text/javascript" src='{% static "portal/js/play.js" %}'></script>
+    <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+    <script>
+    var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
+    var PASSWORD_TYPE = 'STUDENT';
+    var SOLO_VIEW = {% if solo_view %}true{% else %}false{% endif %};
+    var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
+    </script>
+    {% endif %}
 {% endblock scripts %}
 
 {% block content %}
