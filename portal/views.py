@@ -146,7 +146,7 @@ def teach(request):
                         'password': login_form.cleaned_data['password'],
                     })
                 else:
-                    messages.info(request, 'You are currently not set up with two-factor-authentication. Click <a href="/account/two_factor/setup">here</a> to set it up or go to your account page at any time.')
+                    messages.info(request, 'You are currently not set up with two-factor authentication. Click <a href="/account/two_factor/setup">here</a> to set it up or go to your account page at any time.')
 
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
@@ -428,7 +428,7 @@ def organisation_create(request):
                 teacher.is_admin = True
                 teacher.save()
 
-                messages.success(request, "The school/club '" + teacher.school.name + "' has been successfully added.")
+                messages.success(request, "The school or club '" + teacher.school.name + "' has been successfully added.")
 
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
@@ -456,7 +456,7 @@ def organisation_create(request):
                           'notification@numeric-incline-526.appspotmail.com',
                           [teacher.user.user.email])
 
-                messages.success(request, 'Your request to join the school/club has been sent successfully.')
+                messages.success(request, 'Your request to join the school or club has been sent successfully.')
 
             else:
                 join_form = OutputOrganisationJoinForm(request.POST)
@@ -465,7 +465,7 @@ def organisation_create(request):
             teacher.pending_join_request = None
             teacher.save()
 
-            messages.success(request, 'Your request to join the school/club has been revoked successfully.')
+            messages.success(request, 'Your request to join the school or club has been revoked successfully.')
 
     res = render(request, 'portal/teach/organisation_create.html', {
         'create_form': create_form,
@@ -497,7 +497,7 @@ def organisation_teacher_view(request, is_admin):
             school.postcode = form.cleaned_data['postcode']
             school.save()
 
-            messages.success(request, 'You have updated the details for your school/club successfully.')
+            messages.success(request, 'You have updated the details for your school or club successfully.')
 
     return render(request, 'portal/teach/organisation_manage.html', {
         'teacher': teacher,
@@ -546,7 +546,7 @@ def organisation_leave(request):
     teacher.school = None
     teacher.save()
 
-    messages.success(request, 'You have successfully left the school/club.')
+    messages.success(request, 'You have successfully left the school or club.')
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -588,7 +588,7 @@ def organisation_kick(request, pk):
     teacher.school = None
     teacher.save()
 
-    messages.success(request, 'User has been successfully kicked from school/club.')
+    messages.success(request, 'The teacher has been successfully removed from your school or club.')
 
     emailMessage = emailMessages.kickedEmail(user.school.name)
 
@@ -617,10 +617,10 @@ def organisation_toggle_admin(request, pk):
     teacher.save()
 
     if teacher.is_admin:
-        messages.success(request, 'Admin status has been successfully given.')
+        messages.success(request, 'Administrator status has been given successfully.')
         emailMessage = emailMessages.adminGivenEmail(teacher.school.name)
     else:
-        messages.success(request, 'Admin status has been successfully revoked.')
+        messages.success(request, 'Administractor status has been revoked successfully.')
         emailMessage = emailMessages.adminRevokedEmail(teacher.school.name)
 
     send_mail(emailMessage['subject'],
@@ -645,7 +645,7 @@ def organisation_allow_join(request, pk):
     teacher.is_admin = False
     teacher.save()
 
-    messages.success(request, 'User successfully added to school/club.')
+    messages.success(request, 'The teacher has been added to your school or club.')
 
     emailMessage = emailMessages.joinRequestAcceptedEmail(teacher.school.name)
 
@@ -669,7 +669,7 @@ def organisation_deny_join(request, pk):
     teacher.pending_join_request = None
     teacher.save()
 
-    messages.success(request, 'The request to join school|club has been successfully denied.')
+    messages.success(request, 'The request to join your school or club has been successfully denied.')
 
     emailMessage = emailMessages.joinRequestDeniedEmail(request.user.userprofile.teacher.school.name)
 
@@ -878,7 +878,7 @@ def teacher_move_students_to_class(request, access_code):
                 student.save()
                 student.user.user.save()
 
-            messages.success(request, 'Students successfully transferred')
+            messages.success(request, 'The students have been transferred successfully.')
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': old_class.access_code }))
     else:
         # format the students for the form
@@ -946,7 +946,7 @@ def teacher_dismiss_students(request, access_code):
 
                 send_verification_email(request, student.user)
 
-            messages.success(request, 'Students successfully removed from class')
+            messages.success(request, 'The students have been removed successfully from the class.')
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code }))
     else:
         initial_data = [{'orig_name' : student.user.user.first_name,
@@ -1008,7 +1008,7 @@ def teacher_edit_class(request, access_code):
             klass.classmates_data_viewable = classmate_progress
             klass.save()
 
-            messages.success(request, 'Class details successfully changed.')
+            messages.success(request, "The class's settings have been changed successfully.")
 
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': klass.access_code}))
     else:
@@ -1033,7 +1033,7 @@ def teacher_delete_class(request, access_code):
         return HttpResponseNotFound()
 
     if Student.objects.filter(class_field=klass).exists():
-        messages.info(request, 'This class still has students, please remove or delete them all before deleting the class')
+        messages.info(request, 'This class still has students, please remove or delete them all before deleting the class.')
         return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={'access_code': access_code}))
 
     klass.delete()
@@ -1080,7 +1080,7 @@ def teacher_edit_student(request, pk):
                 student.user.user.save()
                 student.save()
 
-                messages.success(request, 'Student details changed successfully.')
+                messages.success(request, "The student's details have been changed successfully.")
 
         elif 'set_password' in request.POST:
             password_form = TeacherSetStudentPass(request.POST)
@@ -1137,7 +1137,7 @@ def teacher_edit_account(request):
                 logout(request)
                 return render(request, 'portal/email_verification_needed.html', { 'userprofile': teacher.user, 'email': new_email })
 
-            messages.success(request, 'You account details have been successfully changed.')
+            messages.success(request, 'Your account details have been successfully changed.')
 
             return HttpResponseRedirect(reverse('portal.views.teacher_home'))
     else:
@@ -1352,7 +1352,7 @@ def teacher_reject_student_request(request, pk):
     student.pending_class_request = None
     student.save()
 
-    messages.success(request, 'Student request successfully rejected.')
+    messages.success(request, 'Request from external/independent student has been rejected successfully.')
 
     return HttpResponseRedirect(reverse('portal.views.teacher_classes'))
 
@@ -1391,7 +1391,7 @@ def student_edit_account(request):
                 student.save()
                 student.user.user.save()
 
-            messages.success(request, 'Account details changed successfully.')
+            messages.success(request, 'Your account details have been changed successfully.')
 
             if changing_email:
                 logout(request)
@@ -1452,7 +1452,7 @@ def student_join_organisation(request):
                           'notifications@numeric-incline-526.appspotmail.com',
                           [student.pending_class_request.teacher.user.user.email])
 
-                messages.success(request, 'Your request to join a school has been received successfully')
+                messages.success(request, 'Your request to join a school has been received successfully.')
 
             else:
                 request_form = OutputStudentJoinOrganisationForm(request.POST)
@@ -1462,8 +1462,8 @@ def student_join_organisation(request):
             student.save()
             # Check teacher hasn't since accepted rejection before posting success message
             if not student.class_field:
-                messages.success(request, 'Your request to join a school has been cancelled successfully')
-            return HttpResponseRedirect(reverse('portal.views.student_details'))
+                messages.success(request, 'Your request to join a school has been cancelled successfully.')
+            return HttpResponseRedirect(reverse('portal.views.student_edit_account'))
 
     res = render(request, 'portal/play/student_join_organisation.html', {
         'request_form': request_form,
