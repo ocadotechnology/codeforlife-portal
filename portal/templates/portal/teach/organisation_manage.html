@@ -2,12 +2,12 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School/Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
 
 <div class='section group'>
-    <h1>School/Club</h1><br>
+    <h1>School | Club</h1><br>
     <h2>Manage my school or club ({{ teacher.school.name }})</h2><br>
 
     {% if is_admin %}

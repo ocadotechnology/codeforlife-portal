@@ -8,7 +8,7 @@
 
 <h3>Welcome</h3>
 
-<p>You are logged in as {{ user|make_into_username }}{% if user.userprofile.student.class_field %}, a member of class {{ user.userprofile.student.class_field.name }} in school/club {{ user.userprofile.student.class_field.teacher.school.name }}{% endif %}.</p>
+<p>You are logged in as {{ user|make_into_username }}{% if user.userprofile.student.class_field %}, a member of class {{ user.userprofile.student.class_field.name }} in school or club {{ user.userprofile.student.class_field.teacher.school.name }}{% endif %}.</p>
 
 <p><a href="{% url 'portal.views.student_edit_account' %}">Click here</a> to change your password/edit account details{% if not user.userprofile.student.class_field %}, and to manage joining a school or club.{% else %}.{% endif %}</p>
 

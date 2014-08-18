@@ -2,12 +2,12 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School/Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
 
 
-<h1>School/Club</h1><br>
+<h1>School | Club</h1><br>
 <h2>Move all classes for teacher {{ original_teacher.user.user|make_into_username }}</h2><br>
 
 <p>Move all classes assigned to teacher {{ original_teacher.user.user.first_name }} {{ original_teacher.user.user.last_name }} to other teachers in {{ original_teacher.school.name }}.</p>
