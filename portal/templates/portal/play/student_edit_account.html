@@ -16,10 +16,12 @@ var PASSWORD_TYPE = 'STUDENT';
 {% block content %}
 
 <h1>{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</h1><br>
-<h2>Edit my details</h2><br>
+
 {% if user.userprofile.student.class_field %}
-    <p>Edit your password here to something memorable</p>
+    <h2>Update my password</h2><br>
+    <p>Change your password here to something memorable</p>
 {% else %}
+    <h2>Edit my details</h2><br>
     <p>You may edit your account details below, including your name, email and password.</p>
 {% endif %}
 
@@ -31,12 +33,11 @@ var PASSWORD_TYPE = 'STUDENT';
             <h4>{% if user.userprofile.student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
 
             {% if user.userprofile.student.class_field %}
-                <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work!</p>
+                <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
                 <p>If you have any problems, ask a teacher to help you.</p>
             {% else %}
-                <p>You may edit your account details below, including your name, password, and registered email address.</p>
-                <p>If you do change your email, you will have to verify it belongs to you or your parent or guardian by following the instructions.</p>
-                <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work!</p>
+                <p>You may edit your account details below, including your name, password, and registered email address. If you change this, you will have to verify the email belongs to you, or your parent or guardian by following the instructions on the verification email.</p>
+                <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
             {% endif %}
 
             <form method='post'>

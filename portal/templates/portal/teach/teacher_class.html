@@ -21,7 +21,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 <h1>Classes</h1><br>
 <h2>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h2>
 
-<p>COPY concise but complete description of class management page.</p>
+<p>Here you can view and manage all of your students within each of your classes. We've created reminder cards which includes each students login details for you to print out, meaning they won't forget and you don't have to remember this for them. You can add new students, transfer existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</p>
 
 <div class="section group">
     <div class="col span_1_of_2">
@@ -34,7 +34,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 
         {% if students %}
         <div class="section group">
-            <p>Click on a student to change their name, or set or generate a new password.</p>
+            <p>Select a student to change their name, or to set or generate a new password.</p>
         </div>
             <table class='CSSTable wide alternate smaller'>
                 <tr>
@@ -57,7 +57,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                 </div>
             </div>
             {% else %}
-                <p>There are no students in this class. Add some students to get started!</p>
+                <p>There are no students in this class. Add some students to get started.</p>
             {% endif %}
         <br/>
     </div>
@@ -86,8 +86,7 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 <div class="section group">
     <h3>Edit other class settings</h3>
 
-    <p>You may change this class's name, transfer the class to another teacher in the school or club, setup whether the class can accept requests from external students, and setup whether students in this class will be able to see their classmates' progress.</p>
-    <p>You may also delete the class if it has no students.</p>
+    <p>Here you may change the name of the  class, transfer the class to another teacher in the school or club, create permissions for the class to accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see their classmates' progress.</p>
     </div>
     <div class="section group">
         <a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit Settings</a>

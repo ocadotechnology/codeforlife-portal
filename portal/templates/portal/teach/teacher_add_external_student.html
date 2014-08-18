@@ -14,7 +14,7 @@
             <h4>Students currently in class</h4><br>
 
             {% if students %}
-                <p>The following are students in the class to which the external student with username {{ student.user.user.username }} will be added.</p>
+                <p>{{ student.user.user.username }}, the new external student, will be joining students in the class {{ class.name }} ({{ class.access_code }}).</p>
                 <table class="CSSTable smaller alternate wide">
                     <tr>
                         <th>Student Name</th>
@@ -26,7 +26,7 @@
                     {% endfor %}
                 </table>
             {% else %}
-                <p>The class into which the external student with username {{ student.user.user.username }} is to be added is empty.</p>
+                <p>The new external student {{ student.user.user.username }} is joining the class {{ class.name }} ({{ class.access_code }}) in which there are currently no other students.</p>
             {% endif %}
         </div>
     </div>

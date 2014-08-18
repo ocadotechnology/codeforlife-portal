@@ -9,8 +9,10 @@
         <div class='login-card'>
             <h3>We need to verify your email address.</h3><br>
 
-            <p>An email has been sent to '{% if email %}{{ email }}{% else %}{{ userprofile.user.email }}{% endif %}'.</p>
-            <p>Please follow the link within it to verify your email address.</p>
+            <!-- <p>An email has been sent to '{% if email %}{{ email }}{% else %}{{ userprofile.user.email }}{% endif %}'.</p>
+             -->
+            <p>We need to verify your email address. An email has been sent to the address you provided.</p>
+            <p>Please follow the link within the email to verify your details.</p>
 
             <a class='btn btn-primary wide' href="{% url 'home' %}">Go to Homepage</a>
         </div>

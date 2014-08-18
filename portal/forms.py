@@ -223,7 +223,7 @@ class TeacherLoginForm(forms.Form):
 
 class ClassCreationForm(forms.Form):
     classmate_choices = [('True','Yes'), ('False','No')]
-    name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
+    name = forms.CharField(label='Class Name', widget=forms.TextInput(attrs={'placeholder': 'Class Name'}))
     classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
 
 
@@ -242,7 +242,7 @@ class ClassEditForm(forms.Form):
         hours = days*24
         join_choices.append((str(hours), "Allow external requests to this class for the next " + str(days) + " days"))
     join_choices.append(('1000', "Always allow external requests to this class (not recommended)"))
-    name = forms.CharField(label='Group Name', widget=forms.TextInput(attrs={'placeholder': 'Group Name'}))
+    name = forms.CharField(label='Class Name', widget=forms.TextInput(attrs={'placeholder': 'Class Name'}))
     classmate_progress = forms.ChoiceField(label="Allow students to see their classmates' progress?", choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
     external_requests = forms.ChoiceField(label="Setup external requests to this class", required=False, choices=join_choices, widget=forms.Select(attrs={'class': 'wide'}))
 

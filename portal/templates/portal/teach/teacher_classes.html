@@ -8,7 +8,7 @@
 <h1>Classes</h1><br>
 <h2>{{ user|make_into_username }}, {{ user.userprofile.teacher.school.name }}</h2><br>
 
-<p>COPY COPY Here are the classes you teach. Add a class using the 'New Class' box, or manage a particular class by clicking on its name or access code.</p>
+<p>Here is a list of all the classes you teach. Add a class using the 'New Class' box, or manage a particular class by clicking on the class name or access code. You can also accept or deny requests from indpendent students wanting to join one of your classes.</p>
 
 <div class="section group">
     <div class="col span_1_of_2">
@@ -36,7 +36,7 @@
         <div class='login-card'>
             <h3>New Class</h3><br/>
 
-            <p>A unique Class Access Code will be generated for the new class.</p>
+            <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that class.</p>
 
             <form method='post'>
 
@@ -74,7 +74,7 @@
 
 <h3>External requests to join your classes</h3>
 
-<p>External/independent students may request to join your classes given a Class Access Code from the above table, provided you have enabled external requests for that class.</p>
+<p>External, or independent students may request to join your classes if the student has been given a Class Access Code from the above table, and provided you have enabled external requests for that class.</p>
 
 {% if requests %}
     <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them like any other student.</p>

@@ -26,8 +26,8 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
 
             <h3>Request to join a school or club</h3><br>
 
-            <p>You have a pending join request to {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}.</p>
-            <p>You may only make one request at a time, if you wish to join another you must revoke your pending request first.</p>
+            <p>You have a pending request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}.</p>
+            <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke your pending request first.</p>
 
             <form method='post'>
 
@@ -72,7 +72,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
             <div class='login-card'>
                 <h3>Join a school or club</h3><br>
 
-                <p>A request will be sent to the administrator of the school or club who will either accept or deny your request.</p>
+                <p>A request will be sent to the school or club's administrator for processing.</p>
 
                 <form method='post'>
 

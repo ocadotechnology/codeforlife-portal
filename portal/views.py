@@ -664,7 +664,7 @@ def organisation_deny_join(request, pk):
     teacher.pending_join_request = None
     teacher.save()
 
-    messages.success(request, 'The request to join school/club has been successfully denied.')
+    messages.success(request, 'The request to join school|club has been successfully denied.')
 
     emailMessage = emailMessages.joinRequestDeniedEmail(request.user.userprofile.teacher.school.name)
 
@@ -683,11 +683,11 @@ def teacher_home(request):
 
     if Student.objects.filter(pending_class_request__teacher=teacher).exists():
         link = reverse('portal.views.teacher_classes')
-        messages.info(request, 'You have external student requests pending. Go to your <a href="' + link + '">classes</a> page to review.')
+        messages.info(request, 'You have pending requests from students wanting to join your classes. Please go to the <a href="' + link + '">classes</a> page to review these requests.')
 
     if teacher.is_admin and Teacher.objects.filter(pending_join_request=teacher.school).exists():
         link = reverse('portal.views.organisation_manage')
-        messages.info(request, 'You have requests from teachers pending. Go to the <a href="' + link + '">school or club management</a> page to review.')
+        messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.')
 
     # For teachers using 2FA, warn if they don't have any backup tokens set
     if default_device(request.user):
@@ -739,7 +739,7 @@ def teacher_classes(request):
                 access_code=generate_access_code(),
                 classmates_data_viewable=classmate_progress)
 
-            messages.success(request, "The class '" + klass.name + "' has been successfully created.")
+            messages.success(request, "The class '" + klass.name + "' has been created successfully.")
             return HttpResponseRedirect(reverse('portal.views.teacher_class', kwargs={ 'access_code': klass.access_code }))
     else:
         form = ClassCreationForm(initial={ 'classmate_progress' : 'False' })
@@ -1132,7 +1132,7 @@ def teacher_edit_account(request):
                 logout(request)
                 return render(request, 'portal/email_verification_needed.html', { 'userprofile': teacher.user, 'email': new_email })
 
-            messages.success(request, 'Account details changed successfully.')
+            messages.success(request, 'You account details have been successfully changed.')
 
             return HttpResponseRedirect(reverse('portal.views.teacher_home'))
     else:
