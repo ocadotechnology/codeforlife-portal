@@ -63,8 +63,8 @@ var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
-                <p>Lost? Go to my <a href="{% url 'portal.views.current_user' %}">dashboard</a></p>
-                <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a></p>
+                <p>Lost? Go to my <a href="{% url 'portal.views.current_user' %}">dashboard</a>.</p>
+                <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a>.</p>
             </div>
         {% else %}
             <div id="school-login" class="login-card">
