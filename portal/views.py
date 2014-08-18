@@ -254,7 +254,7 @@ def play(request):
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
                     return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
-                
+
                 login(request, solo_login_form.user)
 
                 next_url = request.GET.get('next', None)
@@ -1214,7 +1214,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     klass = Class.objects.get(access_code=access_code)
 
-    COLUMN_WIDTH = (CARD_INNER_WIDTH - DEE_WIDTH) * 0.42
+    COLUMN_WIDTH = (CARD_INNER_WIDTH - DEE_WIDTH) * 0.35
 
     # Work out the data we're going to display, use data from the query string
     # if given, else display everyone in the class without passwords
@@ -1236,6 +1236,24 @@ def teacher_print_reminder_cards(request, access_code):
     x = 0
     y = 0
 
+    def drawParagraph(text, position):
+        style = ParagraphStyle('test')
+        style.font = 'Helvetica-Bold'
+
+        font_size = 16
+        while font_size > 0:
+            style.fontSize = font_size
+            style.leading = font_size
+
+            para = Paragraph(text, style)
+            (para_width, para_height) = para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
+
+            if para_height <= 48:
+                para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * position + 8 - para_height / 2)
+                return
+
+            font_size -= 1
+
     for student in student_data:
         left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN
         bottom = PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INTER_CARD_MARGIN
@@ -1246,13 +1264,9 @@ def teacher_print_reminder_cards(request, access_code):
         header_bottom = bottom + CARD_HEIGHT - HEADER_HEIGHT
         footer_bottom = bottom
 
-        # outer box
-        p.setFillColor(black)
-        p.roundRect(left, bottom, CARD_WIDTH, CARD_HEIGHT, CORNER_RADIUS)
-
         # header rect
-        p.setFillColorRGB(0.266, 0.055, 0.384)
-        p.setStrokeColorRGB(0.266, 0.055, 0.384)
+        p.setFillColorRGB(0.0, 0.027, 0.172)
+        p.setStrokeColorRGB(0.0, 0.027, 0.172)
         p.roundRect(left, header_bottom, CARD_WIDTH, HEADER_HEIGHT, CORNER_RADIUS, fill=1)
         p.rect(left, header_bottom, CARD_WIDTH, HEADER_HEIGHT / 2, fill=1)
 
@@ -1260,41 +1274,30 @@ def teacher_print_reminder_cards(request, access_code):
         p.roundRect(left, bottom, CARD_WIDTH, FOOTER_HEIGHT, CORNER_RADIUS, fill=1)
         p.rect(left, bottom + FOOTER_HEIGHT / 2, CARD_WIDTH, FOOTER_HEIGHT / 2, fill=1)
 
+        # outer box
+        p.setStrokeColor(black)
+        p.roundRect(left, bottom, CARD_WIDTH, CARD_HEIGHT, CORNER_RADIUS)
+
         # header text
         p.setFillColor(white)
         p.setFont('Helvetica', 18)
-        p.drawString(inner_left, header_bottom + HEADER_HEIGHT * 0.35, '[ code ] for { life }')
+        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, header_bottom + HEADER_HEIGHT * 0.35, '[ code ] for { life }')
 
         # footer text
         p.setFont('Helvetica', 10)
-        p.drawString(inner_left, footer_bottom + FOOTER_HEIGHT * 0.32 , 'www.codeforlife.education')
+        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, footer_bottom + FOOTER_HEIGHT * 0.32 , 'www.codeforlife.education')
 
         # left hand side writing
         p.setFillColor(black)
         p.setFont('Helvetica', 12)
-        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.12, 'My Password:')
+        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.12, 'Password:')
         p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.45, 'Class Code:')
         p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.78, 'Name:')
 
-        style = ParagraphStyle('test')
-        style.font = 'Helvetica-Bold'
-        style.fontSize = 16
-        style.leading = 16
-
-        # password
-        para = Paragraph(student['password'], style)
-        para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
-        para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * 0.10)
-
-        # class access code
-        para = Paragraph(klass.access_code, style)
-        para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
-        para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * 0.43)
-
-        # name
-        para = Paragraph(student['name'], style)
-        para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
-        para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * 0.76)
+        # right hand side writing
+        drawParagraph(student['password'], 0.10)
+        drawParagraph(klass.access_code, 0.43)
+        drawParagraph(student['name'], 0.76)
 
         # dee image
         p.drawImage(DEE, inner_left + CARD_INNER_WIDTH - DEE_WIDTH, inner_bottom, DEE_WIDTH, DEE_HEIGHT, mask='auto')
