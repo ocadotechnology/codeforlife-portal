@@ -14,11 +14,11 @@
 <div class='login-card'>
     <h4>Students to release from school</h4><br>
 
-    <p>You are about to remove students from your class and set them up as indepedent students. Neither you nor your school will be able to manage them.</p>
+    <p>You are about to remove students from your class and set them up as indepedent students. Neither you nor your school will be able to manage them once you have submitted this request.</p>
 
-    <p>You may have to change the new username these students will use. The suggestions below are unique, but you may want to change them to something more memorable. The students will then log in with these new names via the independent login (on the <a href="{% url 'portal.views.play' %}">Play</a> page), and so will not have to provide a class access code. Their passwords will stay the same.</p>
+    <p>You may want to change the username for these students to something more memorable. The students will then log in with these new usernames via the independent student login on the <a href="{% url 'portal.views.play' %}">Play</a> page. Their passwords will stay the same. Independent students do not need to provide a class access code.</p>
 
-    <p>Please also set email addresses for the students. Email addresses are required for students not part of a class. If a student is too young to have one or otherwise does not have one please enquire as to the address of one of their parents/guardians to use instead. These email addresses will have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
+    <p>Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts. If a student is too young to own an email address, a parent or guardian's email address will be required. These email addresses will have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
 
     <form method='POST'>
 

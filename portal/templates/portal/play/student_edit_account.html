@@ -19,7 +19,7 @@ var PASSWORD_TYPE = 'STUDENT';
 
 {% if user.userprofile.student.class_field %}
     <h2>Update my password</h2><br>
-    <p>Change your password here to something memorable</p>
+    <p>Change your password here to something memorable.</p>
 {% else %}
     <h2>Edit my details</h2><br>
     <p>You may edit your account details below, including your name, email and password.</p>
@@ -36,7 +36,7 @@ var PASSWORD_TYPE = 'STUDENT';
                 <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
                 <p>If you have any problems, ask a teacher to help you.</p>
             {% else %}
-                <p>You may edit your account details below, including your name, password, and registered email address. If you change this, you will have to verify the email belongs to you, or your parent or guardian by following the instructions on the verification email.</p>
+                <p>You may edit your account details below, including your name, password, and registered email address. If you change your email address, you will have to verify it belongs to you, or your parent or guardian by following the instructions on the verification email.</p>
                 <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
             {% endif %}
 

@@ -34,7 +34,8 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 
         {% if students %}
         <div class="section group">
-            <p>Select a student to change their name, or to set or generate a new password.</p>
+            <p>Select a student's name to change their details, including their name and password.</p>
+            <p>Select mulitple students using the checkboxes to move students to another class, release them from your school and make them an independent Code for Life user, or delete them permanently.</p>
         </div>
             <table class='CSSTable wide alternate smaller'>
                 <tr>
@@ -67,7 +68,8 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
         <div class='login-card'>
             <h3>New Students</h3><br/>
 
-            <p>Type the students' names in the box below with one name per line. Note that names must be unique within a class. Students will use these names plus the class's access code to sign in.</p>
+            <p>Add the students' names to the box below with one student name per line. Students' names will be used in their login details, and so each name should be unique.</p>
+            <p>Students will use these names plus the class's access code to sign in. You have the option to use students' first names only, or first and last names.</p>
 
             <form method='POST'>
 

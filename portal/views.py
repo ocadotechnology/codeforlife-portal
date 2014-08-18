@@ -535,7 +535,7 @@ def organisation_leave(request):
     teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
 
     if classes.exists():
-        messages.info(request, 'You still have classes, you must first move them to another teacher.')
+        messages.info(request, 'You still have classes, you must first move them to another teacher within your school or club.')
         return render(request, 'portal/teach/teacher_move_all_classes.html', {
             'original_teacher': teacher,
             'classes': classes,
@@ -577,7 +577,7 @@ def organisation_kick(request, pk):
     teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
 
     if classes.exists():
-        messages.info(request, 'This teacher still has classes, you must first move them to another teacher.')
+        messages.info(request, 'This teacher still has classes assigned to them. You must first move them to another teacher in your school or club.')
         return render(request, 'portal/teach/teacher_move_all_classes.html', {
             'original_teacher': teacher,
             'classes': classes,
