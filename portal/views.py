@@ -295,13 +295,13 @@ def contact(request):
     if request.method == 'POST':
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
-            emailMessage = emailMessages.contactEmail(contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
                       emailMessage['message'],
                       'contact@numeric-incline-526.appspotmail.com',
                       CONTACT_FORM_EMAILS,
                       )
-            confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(confirmedEmailMessage['subject'],
                       confirmedEmailMessage['message'],
                       'contact@numeric-incline-526.appspotmail.com',
@@ -449,7 +449,7 @@ def organisation_create(request):
                               'notification@numeric-incline-526.appspotmail.com',
                               [admin.user.user.email])
 
-                emailMessage = emailMessages.joinRequestSentEmail(school.name)
+                emailMessage = emailMessages.joinRequestSentEmail(request, school.name)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
@@ -590,7 +590,7 @@ def organisation_kick(request, pk):
 
     messages.success(request, 'The teacher has been successfully removed from your school or club.')
 
-    emailMessage = emailMessages.kickedEmail(user.school.name)
+    emailMessage = emailMessages.kickedEmail(request, user.school.name)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -618,10 +618,10 @@ def organisation_toggle_admin(request, pk):
 
     if teacher.is_admin:
         messages.success(request, 'Administrator status has been given successfully.')
-        emailMessage = emailMessages.adminGivenEmail(teacher.school.name)
+        emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
     else:
         messages.success(request, 'Administractor status has been revoked successfully.')
-        emailMessage = emailMessages.adminRevokedEmail(teacher.school.name)
+        emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -647,7 +647,7 @@ def organisation_allow_join(request, pk):
 
     messages.success(request, 'The teacher has been added to your school or club.')
 
-    emailMessage = emailMessages.joinRequestAcceptedEmail(teacher.school.name)
+    emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -671,7 +671,7 @@ def organisation_deny_join(request, pk):
 
     messages.success(request, 'The request to join your school or club has been successfully denied.')
 
-    emailMessage = emailMessages.joinRequestDeniedEmail(request.user.userprofile.teacher.school.name)
+    emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.userprofile.teacher.school.name)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -1342,7 +1342,7 @@ def teacher_reject_student_request(request, pk):
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
         return HttpResponseNotFound()
 
-    emailMessage = emailMessages.studentJoinRequestRejectedEmail(student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
+    emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
@@ -1438,14 +1438,14 @@ def student_join_organisation(request):
                 student.pending_class_request = request_form.klass
                 student.save()
 
-                emailMessage = emailMessages.studentJoinRequestSentEmail(request_form.klass.teacher.school.name, request_form.klass.access_code)
+                emailMessage = emailMessages.studentJoinRequestSentEmail(request, request_form.klass.teacher.school.name, request_form.klass.access_code)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
                           'notifications@numeric-incline-526.appspotmail.com',
                           [student.user.user.email])
 
-                emailMessage = emailMessages.studentJoinRequestNotifyEmail(student.user.user.username, student.user.user.email, student.pending_class_request.access_code)
+                emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.user.user.username, student.user.user.email, student.pending_class_request.access_code)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
