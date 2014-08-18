@@ -13,6 +13,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
+from django.contrib.staticfiles import finders
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -21,7 +22,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.forms.formsets import formset_factory
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.colors import black, grey, blue
+from reportlab.lib.colors import black, white
+from reportlab.lib.utils import ImageReader
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import ParagraphStyle
+from PIL import Image
 from two_factor.utils import default_device, devices_for_user
 from two_factor.views import LoginView
 from recaptcha import RecaptchaClient
@@ -1170,20 +1175,31 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
-    CARD_MARGIN = PAGE_WIDTH / 32
-    CARD_PADDING = PAGE_WIDTH / 32
+    PAGE_MARGIN = PAGE_WIDTH / 32
+    INTER_CARD_MARGIN = PAGE_WIDTH / 64
+    CARD_PADDING = PAGE_WIDTH / 48
 
     NUM_X = 2
     NUM_Y = 4
 
-    CARD_WIDTH = PAGE_WIDTH / NUM_X
-    CARD_HEIGHT = PAGE_HEIGHT / NUM_Y
-    CARD_INNER_WIDTH = CARD_WIDTH - CARD_MARGIN * 2
-    CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_MARGIN * 2
+    CARD_WIDTH = (PAGE_WIDTH - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_X - 1)) / NUM_X
+    CARD_HEIGHT = (PAGE_HEIGHT - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_Y - 1)) / NUM_Y
 
-    COLUMN_WIDTH = CARD_INNER_WIDTH * 0.5
+    HEADER_HEIGHT = CARD_HEIGHT * 0.16
+    FOOTER_HEIGHT = CARD_HEIGHT * 0.1
+
+    CARD_INNER_WIDTH = CARD_WIDTH - CARD_PADDING * 2
+    CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2 - HEADER_HEIGHT - FOOTER_HEIGHT
+
+    CORNER_RADIUS = CARD_WIDTH / 32
+
+    DEE = ImageReader(finders.find("portal/img/dee_large.png"))
+    DEE_HEIGHT = CARD_INNER_HEIGHT
+    DEE_WIDTH = DEE_HEIGHT * DEE.getSize()[0] / DEE.getSize()[1]
 
     klass = Class.objects.get(access_code=access_code)
+
+    COLUMN_WIDTH = (CARD_INNER_WIDTH - DEE_WIDTH) * 0.42
 
     # Work out the data we're going to display, use data from the query string
     # if given, else display everyone in the class without passwords
@@ -1198,7 +1214,7 @@ def teacher_print_reminder_cards(request, access_code):
         for student in students:
             student_data.append({
                 'name': student.user.user.first_name,
-                'password': '__________',
+                'password': '________',
             })
 
     # Now draw everything
@@ -1206,32 +1222,67 @@ def teacher_print_reminder_cards(request, access_code):
     y = 0
 
     for student in student_data:
-        left = x * PAGE_WIDTH / NUM_X + CARD_MARGIN
-        bottom = PAGE_HEIGHT - (y + 1) * PAGE_HEIGHT / NUM_Y + CARD_MARGIN
+        left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN
+        bottom = PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INTER_CARD_MARGIN
 
+        inner_left = left + CARD_PADDING
+        inner_bottom = bottom + CARD_PADDING + FOOTER_HEIGHT
+
+        header_bottom = bottom + CARD_HEIGHT - HEADER_HEIGHT
+        footer_bottom = bottom
+
+        # outer box
         p.setFillColor(black)
-        p.rect(left,
-               bottom,
-               CARD_INNER_WIDTH,
-               CARD_INNER_HEIGHT)
+        p.roundRect(left, bottom, CARD_WIDTH, CARD_HEIGHT, CORNER_RADIUS)
 
-        p.setFont('Helvetica', 12)
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.25, 'My Password is:')
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.44, 'My Class Code is:')
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.63, 'Name:')
+        # header rect
+        p.setFillColorRGB(0.266, 0.055, 0.384)
+        p.setStrokeColorRGB(0.266, 0.055, 0.384)
+        p.roundRect(left, header_bottom, CARD_WIDTH, HEADER_HEIGHT, CORNER_RADIUS, fill=1)
+        p.rect(left, header_bottom, CARD_WIDTH, HEADER_HEIGHT / 2, fill=1)
 
-        p.setFont('Helvetica-Bold', 16)
-        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.25, student['password'])
-        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.44, klass.access_code)
-        p.drawString(left + COLUMN_WIDTH, bottom + CARD_INNER_HEIGHT * 0.63, student['name'])
+        # footer rect
+        p.roundRect(left, bottom, CARD_WIDTH, FOOTER_HEIGHT, CORNER_RADIUS, fill=1)
+        p.rect(left, bottom + FOOTER_HEIGHT / 2, CARD_WIDTH, FOOTER_HEIGHT / 2, fill=1)
 
-        p.setFillColor(grey)
+        # header text
+        p.setFillColor(white)
         p.setFont('Helvetica', 18)
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.82, '[ code ] for { life }')
+        p.drawString(inner_left, header_bottom + HEADER_HEIGHT * 0.35, '[ code ] for { life }')
 
-        p.setFillColor(blue)
+        # footer text
         p.setFont('Helvetica', 10)
-        p.drawString(left + CARD_PADDING, bottom + CARD_INNER_HEIGHT * 0.1, 'www.codeforlife.education')
+        p.drawString(inner_left, footer_bottom + FOOTER_HEIGHT * 0.32 , 'www.codeforlife.education')
+
+        # left hand side writing
+        p.setFillColor(black)
+        p.setFont('Helvetica', 12)
+        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.12, 'My Password:')
+        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.45, 'Class Code:')
+        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.78, 'Name:')
+
+        style = ParagraphStyle('test')
+        style.font = 'Helvetica-Bold'
+        style.fontSize = 16
+        style.leading = 16
+
+        # password
+        para = Paragraph(student['password'], style)
+        para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
+        para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * 0.10)
+
+        # class access code
+        para = Paragraph(klass.access_code, style)
+        para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
+        para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * 0.43)
+
+        # name
+        para = Paragraph(student['name'], style)
+        para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
+        para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * 0.76)
+
+        # dee image
+        p.drawImage(DEE, inner_left + CARD_INNER_WIDTH - DEE_WIDTH, inner_bottom, DEE_WIDTH, DEE_HEIGHT, mask='auto')
 
         x = (x + 1) % NUM_X
         if x == 0:
