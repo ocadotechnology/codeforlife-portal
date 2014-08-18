@@ -36,6 +36,22 @@ $(document).ready(function(){
     });
 });
 </script>
+
+<script type="text/javascript" src='{% static "portal/js/lib/jquery.easy-ticker.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var dd = $('.newsTicker').easyTicker({
+        direction: 'up',
+        speed: 'slow',
+        interval: 5000,
+        height: 'auto',
+        visible: 1,
+        mousePause: 1
+    }).data('easyTicker');
+});
+</script>
+
 {% endblock scripts %}
 
 {% block content %}
@@ -97,33 +113,42 @@ $(document).ready(function(){
                  </div>
              </div>
         </div>
-            
-      </div>
-                        
-       <div class="col span_1_of_3">
-            
-        
+
+    </div>
+
+        <div class="col span_1_of_3">
+
             <a href="{% url 'portal.views.teach' %}" class="btn btn-primary wide">Teacher sign up</a>
-            
-                                        
-             <div class="news">
+
+            <div class="news">
                 <h3>In the news</h3>
-               
-               <div class="newsItem"> 
-                <h4>Lorem ipsum dolor sit amet</h4>
-                  <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
-                  </p>
-                </div>  
-                
-                <div class="newsItem"> 
-                <h4>Lorem ipsum dolor sit amet</h4>
-                  <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
-                  </p>
-                </div>  
+
+                <div class="newsTicker">
+                    <ul>
+                        <li> 
+                            <h4>News item 1</h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
+                            </p>
+                        </li>
+
+                        <li> 
+                            <h4>News item 2</h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
+                            </p>
+                        </li>
+
+                        <li> 
+                            <h4>News item 3</h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus nibh, accumsan et fringilla eu, dapibus in dui. Proin leo est, varius non vestibulum et, tempor vitae nulla. <a href="#">Read more...</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
-                                     
+
        </div>
  </div>
 

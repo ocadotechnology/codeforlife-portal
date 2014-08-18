@@ -859,13 +859,18 @@ label {
   padding: 0px 0 10px 5px;
 }
 
-.news div
+.newsTicker ul
 {
+  padding: 0px;
+}
+
+.newsTicker li
+{
+  list-style: none;
   background-color:#ECEAEE;
   padding:10px 0 0 10px;
   margin-bottom:10px;
 }
-
 
 /*************** End News Item ********************/
 
@@ -929,6 +934,8 @@ ul.errorlist li {
 
 /********** End Password strength bar **********/
 
+/********** ReCaptcha styling **************/
+
 .recaptchatable, #recaptcha_area tr, #recaptcha_area td, #recaptcha_area th {
   line-height: 0 !important;
 }
@@ -941,3 +948,5 @@ ul.errorlist li {
   height: auto;
   display: inline;
 }
+
+/********** End ReCaptcha styling **************/
