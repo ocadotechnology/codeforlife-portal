@@ -3,12 +3,32 @@ $(function() {
 		postSelectedStudents(MOVE_STUDENTS_URL);
 	});
 
-    $('#deleteSelectedStudents').click(function() {
-        postSelectedStudents(DELETE_STUDENTS_URL);
-    });
-
     $('#dismissSelectedStudents').click(function() {
         postSelectedStudents(DISMISS_STUDENTS_URL);
+    });
+
+    // Link to open the dialog
+    $("#deleteSelectedStudents").click(function(event) {
+        runIfStudentsSelected(function() {
+            $("#deleteSelectedStudents-confirm").dialog("open");
+        });
+        event.preventDefault();
+    });
+
+    $("#deleteSelectedStudents-confirm").dialog({
+        autoOpen: false,
+        resizable: false,
+        height:200,
+        modal: true,
+        buttons: {
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            },
+            "Delete Students": function() {
+                $( this ).dialog( "close" );
+                postSelectedStudents(DELETE_STUDENTS_URL);
+            }
+        }
     });
 
     $('#selectedStudentsListToggle').click(function() {
@@ -60,6 +80,15 @@ $(function() {
 });
 
 function postSelectedStudents(path) {
+    runIfStudentsSelected(function(selectedStudents) {
+        post(path, {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            transfer_students: JSON.stringify(selectedStudents)
+        });
+    });
+}
+
+function runIfStudentsSelected(func) {
     var students = document.getElementsByClassName('student');
     var selectedStudents = [];
     for (var i = 0; i < students.length; i++) {
@@ -69,10 +98,7 @@ function postSelectedStudents(path) {
     }
 
     if (selectedStudents.length > 0) {
-        post(path, {
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            transfer_students: JSON.stringify(selectedStudents)
-        });
+        func(selectedStudents);
     }
 }
 

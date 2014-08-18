@@ -6,6 +6,7 @@
 
 {% block scripts %}
 {{block.super}}
+<script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
 <script type="text/javascript" src="{% static 'portal/js/studentList.js' %}"></script>
 <script>
 var CLASS_CODE = "{{ class.access_code }}";
@@ -54,7 +55,11 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
                 <div class='col pull-right'>
                     <button class='btn btn-default btn-small' id='moveSelectedStudents'>Move</button>
                     <button class='btn btn-default btn-small' id='dismissSelectedStudents'>Release</button>
-                    <button class='btn btn-danger btn-small' id='deleteSelectedStudents'>Delete</button>
+
+                    <a href="#" id="deleteSelectedStudents" class="btn btn-danger btn-small">Delete</a>                  
+                    <div id="deleteSelectedStudents-confirm" title="Delete students">
+                        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>These students will be permanently deleted. Are you sure?</p>
+                    </div>
                 </div>
             </div>
             {% else %}
