@@ -148,6 +148,10 @@ def teach(request):
                 else:
                     messages.info(request, 'You are currently not set up with two-factor authentication. Click <a href="/account/two_factor/setup">here</a> to set it up or go to your account page at any time.')
 
+                next_url = request.GET.get('next', None)
+                if next_url:
+                    return HttpResponseRedirect(next_url)
+
                 return HttpResponseRedirect(reverse('portal.views.teacher_home'))
 
             else:
@@ -232,6 +236,11 @@ def play(request):
             school_login_form = InputStudentLoginForm(request.POST, prefix='login')
             if school_login_form.is_valid():
                 login(request, school_login_form.user)
+
+                next_url = request.GET.get('next', None)
+                if next_url:
+                    return HttpResponseRedirect(next_url)
+
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
 
             else:
@@ -245,7 +254,13 @@ def play(request):
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
                     return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
+                
                 login(request, solo_login_form.user)
+
+                next_url = request.GET.get('next', None)
+                if next_url:
+                    return HttpResponseRedirect(next_url)
+
                 return HttpResponseRedirect(reverse('portal.views.student_details'))
             else:
                 solo_view = True
