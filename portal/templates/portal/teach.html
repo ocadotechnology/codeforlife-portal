@@ -36,7 +36,7 @@ var PASSWORD_TYPE = 'TEACHER';
     </div>
 
     <div class="col span_1_of_3">
-        {% if logged_in_as_teacher %}
+        {% if user|is_logged_in %}
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
