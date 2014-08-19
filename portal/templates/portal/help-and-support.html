@@ -5,8 +5,15 @@
 <script>
 $( document ).ready(function() {
 	questions = $('.faqs').find('div').each(function() {
+		$( this ).children('h4').html('<span>+　</span>'+$( this ).children('h4').html())
 		$( this ).children('h4').click(function() {
 			$( this ).parent().children('div').toggle()
+			if ($( this ).children('span').text() == '+　') {
+				$( this ).children('span').text('–　');
+			}
+			else {
+				$( this ).children('span').text('+　');	
+			}
 		});
 	});
 });
@@ -26,7 +33,7 @@ The Code for Life website and the Rapid Router app should be supported by all mo
 
 <h3>FAQs</h3>
 <p>Here are a number of answers to common questions. If they don't help you and you need some assistance, please <a href="{% url 'contact' %}">contact us</a>.</p>
-<div class='faqs indent'>
+<div class='faqs'>
 	<div>	
 		<h4>I am a school student and have forgotten my password. How do I reset it?</h4>
 		<div>
