@@ -1,18 +1,99 @@
 {% extends 'portal/base.html' %}
 
+{% block scripts %}
+{{ block.super }}
+<script>
+$( document ).ready(function() {
+	questions = $('.faqs').find('div').each(function() {
+		$( this ).children('h4').click(function() {
+			console.log($( this ).parent().children('div').text())
+			$( this ).parent().children('div').toggle()
+		});
+	});
+});
+
+</script>
+{% endblock scripts %}
+
 {% block content %}
 
 <h1>Help &amp; support</h1><br>
+
 <h3>Browser Support</h3>
 <p>
-The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8 is not supported - please upgrade to Internet Explorer 9 or above, or use an alternative browser if you are currently using Internet Explorer 8.
+The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8 is not supported. Please upgrade to Internet Explorer 9 or above, or use an alternative browser if you are currently using Internet Explorer 8.
 </p>
 <p>Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please <a href="{% url 'contact' %}">contact us</a> for assistance.</p>
-<h3>FAQ</h3>
-<p>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac sem eu tortor dignissim elementum eu a erat. Cras porttitor tempor sagittis. Vivamus lectus justo, rhoncus sed laoreet in, tempus vel arcu. In tristique nibh eget cursus molestie. Nunc quam felis, semper id ultrices et, tempus ut urna. Vestibulum sit amet sapien sed odio commodo interdum. Curabitur at libero orci. Curabitur consequat mauris orci, ac vestibulum arcu iaculis sed. 
-
-</p>
+<h3>FAQs</h3>
+<p>Here are a number of answers to common questions. If they don't help you and you need some assistance, please <a href="{% url 'contact' %}">contact us</a>.</p>
+<div class='faqs indent'>
+	<div>	
+		<h4>I am a school student and have forgotten my password. How do I reset it?</h4>
+		<div>
+			<p>Your teacher is the only person who can update or reset your password, so you should speak to them.</p>
+		</div>
+	</div>
+	<div>
+		<h4>I am a teacher and have forgotten my password. How do I reset it?</h4>
+		<div>
+			<p>Go to the <a href="{% url 'portal.views.teach' %}">Teach</a> page and select the forgotten password link at the bottom of the log in box to be sent a link to reset your password.</p>
+		</div>
+	</div>
+	<div>
+		<h4>I am an independent student and have forgotten my password. How do I reset it?</h4>
+		<div>
+			<p>Go to the <a href="{% url 'portal.views.play' %}">Play</a> page, go to the independent students' login box and select the forgotten password link at the bottom of the log in box to be sent a link to reset your password.</p>
+		</div>
+	</div>
+	<div>
+		<h4>What is two factor authentication? Do I need it?</h4>
+		<div>
+			<p>Well... Use your phone... Much security... Do this!</p>
+		</div>
+	</div>
+	<div>
+		<h4>What should I do when my students leave my school or club?</h4>
+		<div>
+			<p>Students can either be permanently deleted through the class page, or can be 'released' from the school or club. This allows the student to continue working on Code for Life, retaining their current progress, signing in as an independent student rather than as a school student. See the 'Delete' and 'Release' options on your class's page.</p>
+		</div>
+	</div>
+	<div>
+		<h4>What if I teach at more than one school? Can I sign up with one email address?</h4>
+		<div>
+			<p>No. Teachers who want to join more than one school or club must set up separate accounts for each, which must use separate email addresses. Most teachers will use their professional email address for their account.</p>
+		</div>
+	</div>
+	<div>
+		<h4>What is an independent student?</h4>
+		<div>
+			<p>Independent students are students who are not part of any school or club.</p>
+		</div>
+	</div>
+	<div>
+		<h4>What if a student moves to another school? Can they keep their progress?</h4>
+		<div>
+			<p>Yes. You should 'release' the student from your class and school, and they will then become an independent student and be able to log in as such. They will then be able to submit a request to their new school using details supplied by their new teacher. Release a student using the 'Release' button on their class's page.</p>
+		</div>
+	</div>
+	<div>
+		<h4>What do I need to do to allow an independent student to join my class or school?</h4>
+		<div>
+			<p>You need to decide which class they should join, enable external requests for that class for an appropriate time period in that class's settings, and then give them the class access code for that class. Provided they submit their request from their account settings while your class is set to permit requests, you will receive a notification when they send the request, and will be able to accept or decline it on your <a href="{% url 'portal.views.teacher_classes' %}">classes</a> page</p>
+		</div>
+	</div>
+	<div>
+		<h4>I've set up my students. How do they log in?</h4>
+		<div>
+			<p>School students log in via the <a href="{% url 'portal.views.play' %}">Play</a> page, using their name, class access code, and password to sign in.</p>
+		</div>
+	</div>
+	<div>
+		<h4>How do I choose a secure and memorable password for my account?</h4>
+		<div>
+			<p>Details details details! Not guessable! Etc.</p>
+		</div>
+	</div>
+</div>
 
 {% endblock content %}

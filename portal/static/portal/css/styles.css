@@ -481,6 +481,27 @@ padding-top:50%;
     margin: 0 !important;
 }
 
+.indent {
+  margin-left: 20px;
+}
+
+/****** FAQs styling *******/
+.faqs h4:hover {
+  color: #0033cc;
+}
+
+.faqs div {
+  margin-bottom: 10px;
+}
+
+.faqs div div {
+  display: none;
+}
+
+.faqs div div p {
+  margin-top: 8px;
+}
+
 
 /****** button styling ******/
 
