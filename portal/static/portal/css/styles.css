@@ -988,3 +988,66 @@ ul.errorlist li {
 }
 
 /********** End ReCaptcha styling **************/
+
+/********** jQuery ui dialogs ************/
+
+.ui-dialog {
+  padding: 0px;
+  border: 0px;
+  background: #ECEAEE;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  padding: 10px;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-button.ui-state-default,
+.ui-dialog .ui-dialog-buttonpane .ui-button.ui-state-default,
+.ui-dialog .ui-dialog-buttonpane .ui-button.ui-state-focus {
+  height:30px;
+  line-height:30px;
+  color:#000;
+  text-shadow: none;
+  font-weight: normal;
+  margin: 0px 0px 0px 5px;
+
+  -moz-box-shadow:inset 0px 1px 0px 0px #e8eafc;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #e8eafc;
+  box-shadow:inset 0px 1px 0px 0px #e8eafc;
+  background:#E2DFDF;
+  border:1px solid #979599;
+  filter: none;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-button:hover {
+  background:#E4E5E9;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-button:active {
+  background:#BFC0C5;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+  height: 30px;
+  border: 0px;
+  background: #00072C;
+
+  -webkit-border-top-left-radius:4px;
+  -moz-border-radius-topleft:4px;
+  border-top-left-radius:4px;
+  -webkit-border-top-right-radius:4px;
+  -moz-border-radius-topright:4px;
+  border-top-right-radius:4px;
+  -webkit-border-bottom-right-radius:0px;
+  -moz-border-radius-bottomright:0px;
+  border-bottom-right-radius:0px;
+  -webkit-border-bottom-left-radius:0px;
+  -moz-border-radius-bottomleft:0px;
+  border-bottom-left-radius:0px;
+}
+
+.ui-state-default .ui-icon {
+  background-image: url("images/ui-icons_222222_256x240.png")
+}
+
+/********** End jQuery ui dialogs ************/

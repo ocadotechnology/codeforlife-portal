@@ -15,13 +15,17 @@ var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class
 
 var CONFIRMATION_DATA = {
     'deleteStudents': {
-        title: 'Delete students',
-        html: '<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span><p>These students will be permanently deleted. Are you sure?</p>',
+        options: {
+            title: 'Delete students',
+        },
+        html: '<p>These students will be permanently deleted. Are you sure?</p>',
         confirm: function() { postSelectedStudents(DELETE_STUDENTS_URL); },
     },
     'deleteClass': {
-        title: 'Delete class',
-        html: '<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span><p>This class will be permanently deleted. Are you sure?</p>',
+        options: {
+            title: 'Delete class',
+        },
+        html: '<p>This class will be permanently deleted. Are you sure?</p>',
         confirm: function() { window.location.replace("{% url 'portal.views.teacher_delete_class' class.access_code %}"); },
     },
 };

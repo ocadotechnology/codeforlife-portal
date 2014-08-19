@@ -22,8 +22,7 @@ function post(path, params) {
 var defaultConfirmationOptions = {
     autoOpen: false,
     resizable: false,
-    width:350,
-    height:250,
+    draggable: false,
     modal: true,
     buttons: {
         Cancel: function() {
@@ -35,8 +34,8 @@ var defaultConfirmationOptions = {
 function openConfirmationBox(name) {
     var data = CONFIRMATION_DATA[name]
 
-    // copy the default options
-    opts = $.extend(defaultConfirmationOptions, {})
+    // copy the default options, overriding with our own where appropriate
+    opts = $.extend(defaultConfirmationOptions, data.options)
 
     // add in the confirmation function if supplied
     if (data.confirm) {
@@ -46,12 +45,8 @@ function openConfirmationBox(name) {
         }
     }
 
-    // now override with any user supplied options
-    opts = $.extend(opts, data.options | {})
-
     $('#confirmation-dialog').dialog('option', opts)
-    $('#confirmation-dialog').html(CONFIRMATION_DATA[name].html)
-    $('#confirmation-dialog').attr('title', data.title | '');
+    $('#confirmation-dialog').html(data.html)
     $('#confirmation-dialog').dialog('open');
 }
 
