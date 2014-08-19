@@ -887,13 +887,25 @@ label {
 {
   padding: 0px;
 }
+.newsTicker ul li {
+  position: relative;
+}
 
 .newsTicker li
 {
   list-style: none;
   background-color:#ECEAEE;
-  padding:10px 0 0 10px;
+  padding:10px 0 35px 10px;
   margin-bottom:10px;
+  min-height: 150px;
+}
+
+.newsTicker ul li a
+{
+  position: absolute;
+  padding: 0px 0 10px 10px;
+  bottom: 0;
+  left: 0;
 }
 
 /*************** End News Item ********************/
