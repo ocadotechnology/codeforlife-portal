@@ -11,11 +11,13 @@
             below will be valid, and each token may only be used once.</p>
 
     {% if device.token_set.count %}
-        <ul>
-            {% for token in device.token_set.all %}
-                <li>{{ token.token }}</li>
-            {% endfor %}
-        </ul>
+        <div class='indent'>
+            <ul>
+                {% for token in device.token_set.all %}
+                    <li>{{ token.token }}</li>
+                {% endfor %}
+            </ul>
+        </div>
         <br/>
         <p>Print these tokens and keep them somewhere safe away from other passwords.</p>
     {% else %}
@@ -23,7 +25,7 @@
     {% endif %}
 
     <form method="post">{% csrf_token %}{{ form }}
-        <a href="{% url 'two_factor:profile'%}"
+        <a href="{% url 'portal.views.teacher_edit_account'%}"
              class="btn btn-default">Back to my account</a>
         <button class="btn btn-primary" type="submit">Generate Tokens</button>
     </form>

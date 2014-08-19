@@ -710,8 +710,9 @@ def teacher_home(request):
         link = reverse('portal.views.organisation_manage')
         messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.')
 
-    # For teachers using 2FA, warn if they don't have any backup tokens set
+    # For teachers using 2FA, warn if they don't have any backup tokens set, and warn solo-admins to set up another admin
     if default_device(request.user):
+        # check backup tokens
         try:
             backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
         except Exception:
@@ -719,6 +720,12 @@ def teacher_home(request):
         if not backup_tokens > 0:
             link = reverse('two_factor:profile')
             messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if your phone breaks. <a href="' + link + '">Set up backup tokens now</a>.')
+        # check admin
+        if teacher.is_admin:
+            admins = Teacher.objects.filter(school=teacher.school, is_admin=True)
+            manageSchoolLink = reverse('portal.views.organisation_manage')
+            if len(admins) == 1:
+                messages.warning(request, 'You are the only administrator in your school and are using Two Factor Authentication (2FA). We recommend you <a href="' + manageSchoolLink + '">set up another administrator</a> who will be able to disable your 2FA should you have problems with your smartphone or tablet.')
 
     return render(request, 'portal/teach/teacher_home.html', {
         'teacher': teacher,
@@ -1125,6 +1132,14 @@ def teacher_password_reset(request, post_reset_redirect):
 def teacher_edit_account(request):
     teacher = request.user.userprofile.teacher
 
+    backup_tokens = 0
+    # For teachers using 2FA, find out how many backup tokens they have
+    if default_device(request.user):
+        try:
+            backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
+        except Exception:
+            backup_tokens = 0
+
     if request.method == 'POST':
         form = TeacherEditAccountForm(request.user, request.POST)
         if form.is_valid():
@@ -1164,7 +1179,7 @@ def teacher_edit_account(request):
             'school': teacher.school,
         })
 
-    return render(request, 'portal/teach/teacher_edit_account.html', { 'form': form })
+    return render(request, 'portal/teach/teacher_edit_account.html', { 'form': form, 'backup_tokens': backup_tokens })
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))

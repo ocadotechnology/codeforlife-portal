@@ -20,8 +20,6 @@ two_factor_patterns = [
     url(r'^account/two_factor/qrcode$', QRGeneratorView.as_view(), name='qr'),
     url(r'^account/two_factor/setup/complete/$', SetupCompleteView.as_view(), name='setup_complete'),
     url(r'^account/two_factor/backup/tokens/$', teacher_verified(BackupTokensView.as_view()), name='backup_tokens'),
-    url(r'^account/two_factor/backup/phone/register/$', teacher_verified(PhoneSetupView.as_view()), name='phone_create'),
-    url(r'^account/two_factor/backup/phone/unregister/(?P<pk>\d+)/$', teacher_verified(PhoneDeleteView.as_view()), name='phone_delete'),
     url(r'^account/two_factor/$', teacher_verified(ProfileView.as_view()), name='profile'),
     url(r'^account/two_factor/disable/$', teacher_verified(DisableView.as_view()), name='disable'),
 ]
