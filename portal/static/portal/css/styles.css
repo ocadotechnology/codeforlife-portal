@@ -488,6 +488,7 @@ padding-top:50%;
 /****** FAQs styling *******/
 .faqs h4:hover {
   color: #0033cc;
+  cursor:pointer;
 }
 
 .faqs div {
