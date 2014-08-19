@@ -146,7 +146,8 @@ def teach(request):
                         'password': login_form.cleaned_data['password'],
                     })
                 else:
-                    messages.info(request, 'You are currently not set up with two-factor authentication. Click <a href="/account/two_factor/setup">here</a> to set it up or go to your account page at any time.')
+                    link = reverse('two_factor:profile')
+                    messages.info(request, "You are not currently set up with two-factor authentication. Use your phone or tablet to enhance your account's security. Click <a href='" + link + "'>here</a> to find out more and set it up or go to your account page at any time.")
 
                 next_url = request.GET.get('next', None)
                 if next_url:

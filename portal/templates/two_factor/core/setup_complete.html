@@ -8,21 +8,20 @@
         <h1>Enable Two-Factor Authentication</h1><br/>
 
         <p>Congratulations, you've successfully enabled two-factor
-                authentication.
+                authentication on your Code for Life account.</p>
 
-        {% if not phone_methods %}
-            <p><a href="{% url 'two_factor:profile' %}"
-                    class="btn btn-default">Back to Profile</a></p>
-        {% else %}
-            <p>However, it might happen that you don't have access to
-                your primary token device. To enable account recovery, add a phone 
-                number.</p>
+        <p>It is recommended that you set up some backup tokens. Should you ever be without your smartphone or tablet, these will allow you to log on.</p>
 
-            <a href="{% url 'two_factor:phone_create' %}"
-                    class="pull-right btn btn-primary">Add Phone Number</a>
-            <a href="{% url 'two_factor:profile' %}"
-                    class="btn btn-default btn-link">Back to Profile</a>
-        {% endif %}
+        <div class='section group'>
+            <div class='col span_1_of_2'>
+                <a href="{% url 'portal.views.teacher_edit_account' %}"
+                        class="btn btn-default wide">Back to my account</a>
+            </div>
+            <div class='col span_1_of_2'>
+                <a href="{% url 'two_factor:backup_tokens' %}"
+                        class="btn btn-primary wide">Setup backup tokens</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
