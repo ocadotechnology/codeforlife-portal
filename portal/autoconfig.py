@@ -29,9 +29,6 @@ SETTINGS = {
         'django_otp.middleware.OTPMiddleware',
     ],
 
-    'TWO_FACTOR_CALL_GATEWAY': 'two_factor.gateways.fake.Fake',
-    'TWO_FACTOR_SMS_GATEWAY': 'two_factor.gateways.fake.Fake',
-
     'RECAPTCHA_PUBLIC_KEY': '6LcGkPgSAAAAAMXqgeeiDsp2XJ0EBlTOHMZavp8t',
     'RECAPTCHA_PRIVATE_KEY': '6LcGkPgSAAAAACEZHXbIjB6IqEtXy4ljDptHnQej',
     

@@ -7,8 +7,7 @@
     <div class='login-card'>
         <h3>Disable Two-factor Authentication</h3><br/>
 
-        <p>You are about to disable two-factor authentication. This
-            compromises your account security, are you sure?</p>
+        <p>You are about to disable two-factor authentication. Are you sure you want to do this?</p>
 
         <form method="post">
 
@@ -23,7 +22,7 @@
             </div>
 
             <div class='pull-right'>
-                <a href="{% url 'two_factor:profile'%}" class="btn btn-default" style='margin-right: 10px'>Cancel</a>
+                <a href="{% url 'portal.views.teacher_edit_account'%}" class="btn btn-default" style='margin-right: 10px'>Cancel</a>
                 <button class="btn btn-danger" type="submit">Disable</button>
             </div>
         </form>

@@ -1,11 +1,12 @@
 {% extends "portal/teach/base.html" %}
+{% load staticfiles %}
 
 {% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
 
 {% block content %}
 <div class='span_centered_half'>
     <div class='login-card'>
-        <h1>Enable Two-Factor Authentication</h1><br/>
+        <h1>Enable Two Factor Authentication</h1><br/>
 
         {% if wizard.steps.current == 'welcome' %}
             <p>You are about to set up Two Factor Authentication on your Code for Life account.</p>
@@ -26,9 +27,10 @@
 
         {% elif wizard.steps.current == 'method' %}
             <p>Already have Google Authenticator installed on your smartphone or tablet? Click 'Next'.</p>
-            <p>Need to download Google Authenticator? Follow the following links either directly or via the QR codes to download the Google Authenticator app for your device.</p>
+            <p>Need to download Google Authenticator or an equivalent?</p>
 
-            <p>LINKS LINKS</p>
+            <p style="text-align: center"><img src="{% static 'portal/img/2fa_authenticator_link.png' %}" /></p>
+            <p>Go to <a href="http://m.google.com/authenticator/" target="_blank">Google Authenticator</a> for more information, or scan the QR code above from your device.</p>
 
             <form action="" method="post">
                 {% csrf_token %}
@@ -41,15 +43,7 @@
                     </div>
                     <div class='col' style='width: 25%'>
                         <input id='id_method-method_0' name='method-method' type='radio' value='generator' checked='checked' style='margin-top: 14px'>
-                        <label for='id_method-method_0' style='height: 30px; line-height: 30px'>Token</label>
-                    </div>
-                    <div class='col' style='width: 25%'>
-                        <input id='id_method-method_1' name='method-method' type='radio' value='call' style='margin-top: 14px'>
-                        <label for='id_method-method_1' style='height: 30px; line-height: 30px'>Phone call</label>
-                    </div>
-                    <div class='col' style='width: 25%'>
-                        <input id='id_method-method_2' name='method-method' type='radio' value='sms' style='margin-top: 14px'>
-                        <label for='id_method-method_2' style='height: 30px; line-height: 30px'>Text message</label>
+                        <label for='id_method-method_0' style='height: 30px; line-height: 30px'>Google Authenticator</label>
                     </div>
                 </div>
 
@@ -59,7 +53,7 @@
         {% elif wizard.steps.current == 'generator' %}
             <p>Using your smartphone or tablet, open the Google Authenticator app (or equivalent) and go to add a new account. Then, scan the QR code below and enter the token returned by the app.</p>
 
-            <img src="{{ QR_URL }}" alt="Loading QR Code, please wait" />
+            <p style="text-align: center" ><img style="background-color: white" src="{{ QR_URL }}" alt="Loading QR Code, please wait" /></p>
 
             <form action="" method="post">
                 {% csrf_token %}
