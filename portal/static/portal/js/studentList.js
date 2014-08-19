@@ -10,25 +10,9 @@ $(function() {
     // Link to open the dialog
     $("#deleteSelectedStudents").click(function(event) {
         runIfStudentsSelected(function() {
-            $("#deleteSelectedStudents-confirm").dialog("open");
+            openConfirmationBox('delete');
         });
         event.preventDefault();
-    });
-
-    $("#deleteSelectedStudents-confirm").dialog({
-        autoOpen: false,
-        resizable: false,
-        height:200,
-        modal: true,
-        buttons: {
-            Cancel: function() {
-                $( this ).dialog( "close" );
-            },
-            "Delete Students": function() {
-                $( this ).dialog( "close" );
-                postSelectedStudents(DELETE_STUDENTS_URL);
-            }
-        }
     });
 
     $('#selectedStudentsListToggle').click(function() {

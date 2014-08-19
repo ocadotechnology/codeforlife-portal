@@ -21,8 +21,11 @@
 {% endblock css %}
 
 <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
+<script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
 <noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
+
+<script type="text/javascript" src='{% static "portal/js/confirmation.js" %}'></script>
 {% block scripts %}
 {% endblock scripts %}
 
@@ -105,6 +108,8 @@
         </ul>
     </div>
 {% endblock footer %}
+
+<div id="confirmation-dialog" title=""></div>
 
 </body>
 </html>
