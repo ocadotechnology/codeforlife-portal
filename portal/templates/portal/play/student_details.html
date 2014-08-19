@@ -6,15 +6,45 @@
 
 {% block content %}
 
-<h3>Welcome</h3>
+<div class="section group">
+    
 
-<p>You are logged in as {{ user|make_into_username }}{% if user.userprofile.student.class_field %}, a member of class {{ user.userprofile.student.class_field.name }} in school or club {{ user.userprofile.student.class_field.teacher.school.name }}{% endif %}.</p>
+    <div class="col span_2_of_3">
 
-<p><a href="{% url 'portal.views.student_edit_account' %}">Click here</a> to change your password/edit account details{% if not user.userprofile.student.class_field %}, and to manage joining a school or club.{% else %}.{% endif %}</p>
+		<h3>Welcome, {{ user|make_into_username }}</h3>
+
+		<p>You are logged in as {{ user|make_into_username }}{% if user.userprofile.student.class_field %}, a member of class {{ user.userprofile.student.class_field.name }} in school or club {{ user.userprofile.student.class_field.teacher.school.name }}{% endif %}.</p>
+
+		<p><a href="{% url 'portal.views.student_edit_account' %}">Click here</a> to change your password/edit account details{% if not user.userprofile.student.class_field %}, and to manage joining a school or club.{% else %}.{% endif %}</p>
 
 
-<p>To go to Rapid Router, click below!</p>
+		<p>To go to Rapid Router, click below!</p>
 
-<a href="{% url 'game.views.levels' %}" class="btn btn-primary">Play now</a>
+		<a href="{% url 'game.views.levels' %}" class="btn btn-primary">Play now</a>
+	</div>
+
+	<div class="col span_1_of_3">
+                    
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="CSSTable">
+           <tr>
+             <td>Links and Resources</td>
+           </tr>
+            <tr>
+              <td><a href="{% url 'game.views.levels' %}">Rapid Router</a></td>
+            </tr>
+            <tr>
+              <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
+            </tr>
+            <tr>
+              <td><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
+            </tr>
+            {% if not user.userprofile.student.class_field %}
+            <tr>
+              <td><a href="{% url 'portal.views.student_join_organisation' %}">Join a school or club</a></td>
+            </tr>
+            {% endif %}
+         </table>
+    </div>
+</div>
 
 {% endblock %}
