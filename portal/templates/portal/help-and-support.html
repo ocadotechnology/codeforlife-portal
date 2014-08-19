@@ -6,7 +6,6 @@
 $( document ).ready(function() {
 	questions = $('.faqs').find('div').each(function() {
 		$( this ).children('h4').click(function() {
-			console.log($( this ).parent().children('div').text())
 			$( this ).parent().children('div').toggle()
 		});
 	});
