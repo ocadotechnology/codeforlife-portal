@@ -10,7 +10,7 @@ $(function() {
     // Link to open the dialog
     $("#deleteSelectedStudents").click(function(event) {
         runIfStudentsSelected(function() {
-            openConfirmationBox('delete');
+            openConfirmationBox('deleteStudents');
         });
         event.preventDefault();
     });
@@ -59,8 +59,12 @@ $(function() {
             $('#selectedStudentsListToggle')[0].checked = true
         }
         $('#num_students_selected').text(count)
+    });
 
-    })
+    $("#deleteClass").click(function(event) {
+        openConfirmationBox('deleteClass');
+        event.preventDefault();
+    });
 });
 
 function postSelectedStudents(path) {
@@ -84,25 +88,4 @@ function runIfStudentsSelected(func) {
     if (selectedStudents.length > 0) {
         func(selectedStudents);
     }
-}
-
-function post(path, params) {
-
-    var form = document.createElement("form");
-    form.setAttribute("method", 'POST');
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
 }

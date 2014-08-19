@@ -4,6 +4,14 @@
 
 {% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
+<script>
+var CONFIRMATION_DATA = {};
+</script>
+{% endblock %}
+
 {% block content %}
 
 <div class='section group'>
@@ -44,9 +52,9 @@
                 <td>{{ coworker.title }} {{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
                 <td>{% if coworker.is_admin %}Admin{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.user.user.email|emaildomain }}){% endif %}</td>
                 {% if coworker.user.user != user and is_admin %}
-                    <td><a class='btn btn-danger btn-small no-margin' href="{% url 'portal.views.organisation_kick' coworker.id %}">Remove</a></td>
-                    <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">{% if coworker.is_admin %}Make non-admin{% else %}Make admin{% endif %}</a></td>
-                    <td>{% if coworker.user.user|has_2FA %}<a class='btn btn-danger btn-small no-margin' href="{% url 'portal.views.teacher_disable_2FA' coworker.id %}">Disable 2FA</a>{% endif %}</td>
+                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'portal.views.organisation_kick' coworker.id %}', '{{ coworker.user.user.first_name }}')">Remove</a></td>
+                    <td>{% if coworker.is_admin %}<a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">Make non-admin</a>{% else %}<button class='btn btn-default btn-small no-margin' onclick="showToggleAdminConfirmation('{% url 'portal.views.organisation_toggle_admin' coworker.id %}', '{{ coworker.user.user.first_name }}')">Make admin</button>{% endif %}</td>
+                    <td>{% if coworker.user.user|has_2FA %}<button class='btn btn-default btn-small no-margin' onclick="showDisable2FAConfirmation('{% url 'portal.views.teacher_disable_2FA' coworker.id %}', '{{ coworker.user.user.first_name }}')">Disable 2FA</button>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
