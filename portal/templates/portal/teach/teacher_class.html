@@ -6,7 +6,7 @@
 
 {% block scripts %}
 {{block.super}}
-<script type="text/javascript" src="{% static 'portal/js/class.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
 <script>
 var CLASS_CODE = "{{ class.access_code }}";
 var MOVE_STUDENTS_URL = "{% url 'portal.views.teacher_move_students' class.access_code %}";
