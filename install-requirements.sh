@@ -20,8 +20,5 @@ pip install -r ../portal/requirements.txt
 # without the need to install requirements again or restart the server
 rm -rf VIRTUALENV/lib/python2.7/site-packages/{game,portal}
 ln -sv ${PROJECT_PATH}/ocargo/game VIRTUALENV/lib/python2.7/site-packages/game
-ln -sv ${PROJECT_PATH}/ocargo/nuit VIRTUALENV/lib/python2.7/site-packages/nuit
-ln -sv ${PROJECT_PATH}/ocargo/reports VIRTUALENV/lib/python2.7/site-packages/reports
-ln -sv ${PROJECT_PATH}/ocargo/website VIRTUALENV/lib/python2.7/site-packages/website
 ln -sv ${PROJECT_PATH}/portal/portal VIRTUALENV/lib/python2.7/site-packages/portal
 ln -sv ${PROJECT_PATH}/portal/ratelimit VIRTUALENV/lib/python2.7/site-packages/ratelimit
