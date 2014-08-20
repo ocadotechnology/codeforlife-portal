@@ -6,35 +6,24 @@
 
 {% block content %}
 
+<h2>Welcome, {{ user|make_into_username }}</h2><br>
 <div class="section group">
     
 
     <div class="col span_2_of_3">
 
-		<h2>Welcome, {{ user|make_into_username }}</h2><br>
 
 		{% if user.userprofile.student.class_field %}
 		<p>You are logged in as a member of class {{ user.userprofile.student.class_field.name }} in school or club {{ user.userprofile.student.class_field.teacher.school.name }}.</p>
 		{% endif %}
 
-		<div class="gameBox">
-        
-            <div class="section group">
-                 <div class="col span_1_of_3">
-                 <img src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
-                
-                 
-                 </div>
-                 
-                 <div class="col span_2_of_3">
-                 	<br>
-                    <p>
-                    Are you ready to play?
-                    </p>
-                    <a class='btn btn-primary' href="{% url 'game.views.levels' %}">Play now!</a>
-                 </div>
-             </div>
-        </div>
+      <div class="section group">
+              <p style="text-align: center">
+              <img style='width: 75%' src="{% static 'portal/img/RR_logo_blank.png' %}" /><br>
+              Are you ready to play?<br><br>
+              <a class='btn btn-primary' href="{% url 'game.views.levels' %}">Play now!</a>
+              </p>
+       </div>
 
 	</div>
 

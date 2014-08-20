@@ -6,11 +6,11 @@
 
 {% block content %}
 
+<h3>Hello, {{ user|make_into_username }}{% if user.userprofile.teacher.school %} ({{ user.userprofile.teacher.school.name }}){% endif %}</h3>
 <div class="section group">
     
 
     <div class="col span_2_of_3">
-        <h3>Hello, {{ user|make_into_username }}{% if user.userprofile.teacher.school %} ({{ user.userprofile.teacher.school.name }}){% endif %}</h3>
 
         <p>
         Welcome to your Code for Life dashboard.
