@@ -30,14 +30,19 @@
             <tr>
                 <th>Original Student Name</th>
                 <th>New Student Username</th>
-                <th>Email address</th>
+                <th>Email Address</th>
+                <th>Confirm Email Address</th>
             </tr>
                 {{ formset.non_form_errors }}
                 {% for form in formset %}
                     <tr>
+                        <td colspan='4'>{{ form.non_field_errors }}</td>
+                    </tr>
+                    <tr>
                         <td>{{ form.orig_name.value }}{{ form.orig_name }}</td>
                         <td>{{ form.name.errors }}{{ form.name }}</td>
                         <td>{{ form.email.errors }}{{ form.email }}</td>
+                        <td>{{ form.email.confirm_errors }}{{ form.confirm_email }}</td>
                     </tr>
                 {% endfor %}
         </table>

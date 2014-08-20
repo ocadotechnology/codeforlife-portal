@@ -381,7 +381,8 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(label='Original Name', widget=forms.TextInput(attrs={'readonly':'readonly', 'placeholder': 'Original Name', 'type' : 'hidden'}))
     name = forms.CharField(label='New Name', widget=forms.TextInput(attrs={'placeholder': 'New Name', 'style' : 'margin : 0px'}))
-    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email address', 'style' : 'margin : 0px'}))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'placeholder': 'Email Address', 'style' : 'margin : 0px'}))
+    confirm_email = forms.EmailField(label='Confirm Email', widget=forms.TextInput(attrs={'placeholder': 'Confirm Email Address', 'style' : 'margin : 0px'}))
 
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get('name', ''))
@@ -394,6 +395,14 @@ class TeacherDismissStudentsForm(forms.Form):
 
         return name
 
+    def clean(self):
+        email = self.cleaned_data.get('email', None)
+        confirm_email = self.cleaned_data.get('confirm_email', None)
+
+        if (email or confirm_email) and email != confirm_email:
+            raise forms.ValidationError('Your new emails do not match')
+
+        return self.cleaned_data
 
 class BaseTeacherDismissStudentsFormSet(forms.BaseFormSet):
     def clean(self):
