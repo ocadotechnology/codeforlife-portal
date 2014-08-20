@@ -36,7 +36,6 @@ urlpatterns = patterns('',
     url(r'^help/$', TemplateView.as_view(template_name='portal/help-and-support.html'), name='help'),
     url(r'^contact/$', 'portal.views.contact', name='contact'),
     url(r'^terms/$', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
-    url(r'^map/$', 'portal.views.schools_map'),
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'), name='locked_out'),
 
     url(r'^$', TemplateView.as_view(template_name='portal/home.html'), name='home'),
