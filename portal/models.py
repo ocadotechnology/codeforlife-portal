@@ -4,6 +4,8 @@ import re
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.db import models
+from django.utils import timezone
+
 
 
 class UserProfile (models.Model):
@@ -51,7 +53,7 @@ class Class (models.Model):
 
     def get_logged_in_students(self):
         """This gets all the students who are logged in."""
-        sessions = Session.objects.filter(expire_date__gte=datetime.now())
+        sessions = Session.objects.filter(expire_date__gte=timezone.now())
         uid_list = []
 
         # Build a list of user ids from that query
@@ -60,7 +62,7 @@ class Class (models.Model):
             uid_list.append(data.get('_auth_user_id', None))
 
         # Query all logged in users based on id list
-        return Student.objects.filter(class_field=self).filter(user__id__in=uid_list)
+        return Student.objects.filter(class_field=self).filter(user__user__id__in=uid_list)
 
     class Meta:
         verbose_name_plural = "classes"

@@ -785,6 +785,15 @@ def teacher_classes(request):
 def teacher_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     students = Student.objects.filter(class_field=klass).order_by('user__user__first_name')
+    # Check which students are logged in
+    logged_in_students = klass.get_logged_in_students()
+    print students
+    print logged_in_students
+    for student in students:
+        if logged_in_students.filter(id=student.id).exists():
+            student.logged_in = True
+        else:
+            student.logged_in = False
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:

@@ -58,11 +58,13 @@ var CONFIRMATION_DATA = {
                 <tr>
                     <th style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></th>
                     <th>Student Name</th>
+                    <th></th>
                 </tr>
                 {% for student in students %}
                     <tr>
                         <td style='text-align: center'><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
                         <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
+                        <td>{% if student.logged_in %}Y{% else %}N{% endif %}</td>
                     </tr>
                 {% endfor %}
             </table>
