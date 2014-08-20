@@ -863,7 +863,7 @@ label {
   padding: 10px;
   margin-bottom:10px;
   margin-top:20px;
-  background-color:#e2e2e2;
+  background-color:#C2C2C2;
 }
 .news h3
 {
@@ -881,7 +881,7 @@ label {
 .newsTicker li
 {
   list-style: none;
-  background-color:#ECEAEE;
+  background-color:#FAFAFA;
   padding:10px 0 35px 10px;
   margin-bottom:10px;
   min-height: 150px;
@@ -893,6 +893,16 @@ label {
   padding: 0px 0 10px 10px;
   bottom: 0;
   left: 0;
+}
+
+.driver
+{
+  font-size: 10pt;
+  color: #3C3C3C;
+}
+.driver a
+{
+  color: #3C3C3C;
 }
 
 /*************** End News Item ********************/
