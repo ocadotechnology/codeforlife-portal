@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load app_tags %}
+{% load cache %}
 
 <!DOCTYPE html>
 
@@ -10,22 +11,25 @@
 {% block head %}
 {% endblock head %}
 
+{% block css %}
+{% cache 3600 fragment-base-css %}
 <link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
 <link href='{% static "portal/css/jquery-ui.structure.css" %}' rel="stylesheet">
 <link href='{% static "portal/css/jquery-ui.theme.css" %}' rel="stylesheet">
-
-{% block css %}
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
+<noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
+{% endcache %}
 {% endblock css %}
 
+{% cache 3600 fragment-base-javascript %}
 <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
-<noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
-
 <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
+{% endcache %}
+
 {% block scripts %}
 {% endblock scripts %}
 
@@ -36,6 +40,7 @@
 {% block contentWrapper %}
 <div id='contentWrapper'>
     {% block topBar %}
+        {% cache 3600 fragment-base-topbar user %}
         <div class='topBar'>
             <div class="content">
                 <a href="/" class="logo">
@@ -51,8 +56,10 @@
                     </ul>
             </div>
         </div>
+        {% endcache %}
     {% endblock topBar %}
     {% block subNav %}
+        {% cache 3600 fragment-base-subnav user %}
         {% if user|is_logged_in %}
         <div class="subnavBar">
             <div class="subnav">
@@ -71,6 +78,7 @@
             </div>
         </div>
         {% endif %}
+        {% endcache %}
     {% endblock subNav %}
 
 
@@ -100,6 +108,7 @@
 {% endblock contentWrapper %}
 
 {% block footer %}
+{% cache 3600 fragment-base-footer %}
     <div class="footer">
         <ul>
             <li><a href="{% url 'about' %}">About us</a></li>
@@ -109,6 +118,7 @@
             <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy; 2014</li>
         </ul>
     </div>
+{% endcache %}
 {% endblock footer %}
 
 <div id="confirmation-dialog" title=""></div>
