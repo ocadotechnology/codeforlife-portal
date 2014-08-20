@@ -20,6 +20,9 @@ You run all manage.py commands from the deploy directory (apart from makemigrati
 - ###### Making migrations
 You should make migrations from the repository where you've changed the models, this will make sure that the migration file is created in the correct place in the correct repository. If you run makemigrations from the deploy directory the migration file may be created in the virtualenv and be lost.
 
+- ###### Connect to local server from IPad using a Wifi hotspot
+Start the server using 'python manage.py runserver 0.0.0.0:8000' to allow connections from places other than localhost. Use ifconfig to find the ip address of your hotspot.
+
 ## Common problems:
 - ###### Errors about clashing models, particularly userprofile, etc...
 You probably have an old copy of ocargo, please pull the latest changes and try migrating and running the server again.
