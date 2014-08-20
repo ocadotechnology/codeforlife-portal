@@ -14,10 +14,10 @@
 <link href='{% static "portal/css/jquery-ui.structure.css" %}' rel="stylesheet">
 <link href='{% static "portal/css/jquery-ui.theme.css" %}' rel="stylesheet">
 
+{% block css %}
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
-{% block css %}
 {% endblock css %}
 
 <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
@@ -33,6 +33,7 @@
 
 <body>
 
+{% block contentWrapper %}
 <div id='contentWrapper'>
     {% block topBar %}
         <div class='topBar'>
@@ -96,6 +97,7 @@
 
     <div class="push"></div>
 </div>
+{% endblock contentWrapper %}
 
 {% block footer %}
     <div class="footer">
