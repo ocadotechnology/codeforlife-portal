@@ -29,13 +29,13 @@
         Anyone can learn how to code. Rapid Router will help you learn how. It&#8217;s fun, free and easy. Once you know how, you can build just about anything.
         </p>
         <p>
-        If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, login to continue playing. 
+        If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, <a href="#" id="school-login-link">login</a> to continue playing. 
         </p>
         <p>
-        If you&#8217;ve signed up independently, login to continue your Rapid Router journey.
+        If you&#8217;ve signed up independently, <a href="#" id="solo-login-link">login</a> to continue your Rapid Router journey.
         </p>
         <p>
-        Not signed up yet? Register now to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
+        Not signed up yet? <a href="#" id="register-link">Register now</a> to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
         </p>
         <p>
         If you just want to try Rapid Router without logging in, use the Play Now button.
@@ -48,7 +48,6 @@
                  <div class="col span_1_of_3">
                      <div class="play">
                          <img src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
-                         <a class="btn btn-primary" href="{% url 'game.views.levels' %}">Play Now</a>
                      </div>
                  </div>
                  
@@ -56,6 +55,7 @@
                     <p>
                     Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
                     </p>
+                    <a class="btn btn-primary" href="{% url 'game.views.levels' %}">Play Now</a>
                  </div>
              </div>
         </div>
