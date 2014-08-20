@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.generic.base import TemplateView
+from django.conf.urls.static import static
+from django.views.generic import RedirectView
 admin.autodiscover()
 
 from two_factor.views import (LoginView,
@@ -25,6 +27,8 @@ two_factor_patterns = [
 ]
 
 urlpatterns = patterns('',
+
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico')),
 
     url(r'^teach/$', 'portal.views.teach'),
     url(r'^play/$', 'portal.views.play'),
