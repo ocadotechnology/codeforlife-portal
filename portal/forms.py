@@ -34,7 +34,7 @@ class OrganisationCreationForm(forms.Form):
         postcode = self.cleaned_data.get('postcode', None)
 
         if name and postcode and School.objects.filter(name=name, postcode=postcode).exists():
-            raise forms.ValidationError('There is already a school/club registered to that postcode.')
+            raise forms.ValidationError('There is already a school or club registered with that name and postcode')
 
         return self.cleaned_data
 
@@ -46,7 +46,7 @@ class OrganisationCreationForm(forms.Form):
             if result:
                 self.postcode_data = result
             else:
-                raise forms.ValidationError('That postcode was not recognised.')
+                raise forms.ValidationError('That postcode was not recognised')
 
         return postcode
 
@@ -66,7 +66,7 @@ class OrganisationJoinForm(forms.Form):
         chosen_org = self.cleaned_data.get('chosen_org', None)
 
         if chosen_org and not School.objects.filter(id=int(chosen_org)).exists():
-            raise forms.ValidationError('That school or club was not recognised.')
+            raise forms.ValidationError('That school or club was not recognised')
 
         return chosen_org
 
@@ -86,7 +86,7 @@ class OrganisationEditForm(forms.Form):
             if result:
                 self.postcode_data = result
             else:
-                raise forms.ValidationError('That postcode was not recognised.')
+                raise forms.ValidationError('That postcode was not recognised')
                 
         return postcode
 
@@ -97,7 +97,7 @@ class OrganisationEditForm(forms.Form):
         if name and postcode:
             schools = School.objects.filter(name=name)
             if schools.exists() and schools[0].id != self.current_school.id:
-                raise forms.ValidationError('There is already a school/club registered to that postcode.')
+                raise forms.ValidationError('There is already a school or club registered with that name and postcode')
 
         return self.cleaned_data
 
@@ -355,7 +355,7 @@ def validateStudentNames(klass, names):
     duplicates_found = []
     for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
         if not duplicate in duplicates_found:
-            validationErrors.append(forms.ValidationError("You cannot add more than one students called '" + duplicate + "'"))
+            validationErrors.append(forms.ValidationError("You cannot add more than one student called '" + duplicate + "'"))
             duplicates_found.append(duplicate)
 
     return validationErrors
@@ -558,7 +558,7 @@ class StudentSoloLoginForm(forms.Form):
             if user is None:
                 raise forms.ValidationError('Incorrect username or password')
             if not user.is_active:
-                raise forms.ValidationError('User account has been deactivated')
+                raise forms.ValidationError('This user account has been deactivated')
 
             self.user = user
 
@@ -574,13 +574,13 @@ class StudentJoinOrganisationForm(forms.Form):
         if access_code:
             classes = Class.objects.filter(access_code=access_code)
             if len(classes) != 1:
-                raise forms.ValidationError('Cannot find the school/club and/or class.')
+                raise forms.ValidationError('Cannot find the school or club and/or class')
             self.klass = classes[0]
             if not self.klass.always_accept_requests:
                 if self.klass.accept_requests_until == None:
-                    raise forms.ValidationError('Cannot find the school/club and/or class.')
+                    raise forms.ValidationError('Cannot find the school or club and/or class')
                 elif (self.klass.accept_requests_until - timezone.now()) < datetime.timedelta():
-                    raise forms.ValidationError('Cannot find the school/club and/or class.')
+                    raise forms.ValidationError('Cannot find the school or club and/or class')
         return self.cleaned_data
 
 class ContactForm(forms.Form):
