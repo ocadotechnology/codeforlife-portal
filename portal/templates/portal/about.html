@@ -1,6 +1,9 @@
 {% extends 'portal/base.html' %}
+{% load cache %}
 
 {% block content %}
+
+{% cache 3600 fragment-about-content %}
 
 <h2>
 Ocado Technology
@@ -28,5 +31,7 @@ Thank you, Christopher Richard James Brett, Paul Heideman, Matt Whelan, Anders S
 <p>
 We would also like to thank our friends who have contributed to this initiative, including BCS Academy of Computing, <a href="#">Barefoot Computing</a>, <a href="#">Computing at School</a>, <a href="#">The National Museum of Computer Science</a>, Imperial College, M&amp;C Saatchi, Alvaro Ramirez, Jason Fingland, Ramneet Loyall, Sharon Harrison.
 </p>
+
+{% endcache %}
 
 {% endblock content %}
