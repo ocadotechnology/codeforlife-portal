@@ -58,13 +58,11 @@ var CONFIRMATION_DATA = {
                 <tr>
                     <th style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></th>
                     <th>Student Name</th>
-                    <th></th>
                 </tr>
                 {% for student in students %}
                     <tr>
                         <td style='text-align: center'><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                        <td><a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
-                        <td>{% if student.logged_in %}Y{% else %}N{% endif %}</td>
+                        <td>{% if student.logged_in %}<img title='Student logged in' height=10 src="{% static 'portal/img/logged_in_blob.png' %}" />{% else %}<img title='Student logged out' height=10 src="{% static 'portal/img/logged_out_blob.png' %}" />{% endif %} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -87,7 +85,7 @@ var CONFIRMATION_DATA = {
 
     <div class="col span_1_of_2">
         <div class='login-card'>
-            <h3>New Students</h3><br/>
+            <h3>New students</h3><br/>
 
             <p>Add the students' names to the box below with one student name per line. Students' names will be used in their login details, and so each name should be unique.</p>
             <p>You have the option to use students' first names only, or first and last names. Students' names and the class access code are required to sign in.</p>
