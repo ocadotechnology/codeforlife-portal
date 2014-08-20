@@ -42,8 +42,12 @@
             <p>It's that easy.</p>
         </div>
     </div>
-
-    <a class="btn btn-default" href="{% url 'portal.views.teacher_edit_account' %}">Cancel</a>
-    <a class="btn btn-primary pull-right" href="{% url 'two_factor:setup' %}">Set Up Two Factor Authentication</a>
+    {% if default_device %}
+        <p><b>You are already signed up for two factor authentication.</b></p>
+        <a class="btn btn-default" href="{% url 'portal.views.teacher_edit_account' %}">Cancel</a>
+    {% else %}
+        <a class="btn btn-default" href="{% url 'portal.views.teacher_edit_account' %}">Cancel</a>
+        <a class="btn btn-primary pull-right" href="{% url 'two_factor:setup' %}">Set Up Two Factor Authentication</a>
+    {% endif %}
 
 {% endblock %}

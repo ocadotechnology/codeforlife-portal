@@ -35,7 +35,7 @@ table.CSSTable tr:first-child th:first-child{
 	border-top-left-radius:3px;
 }
 table.CSSTable tr:first-child td:first-child{
-	text-align: center;
+	text-align: left;
 }
 table.CSSTable tr:first-child th:last-child{
 	-moz-border-radius-topright:3px;
@@ -43,7 +43,7 @@ table.CSSTable tr:first-child th:last-child{
 	border-top-right-radius:3px;
 }
 table.CSSTable tr{
-	text-align: center;
+	text-align: left;
 	padding-left:20px;
 }
 table.CSSTable tr td:first-child{

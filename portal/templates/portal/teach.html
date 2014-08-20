@@ -42,8 +42,8 @@
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
-                <p>Lost? Go to my <a href="{% url 'portal.views.current_user' %}">dashboard</a>.</p>
-                <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a>.</p>
+                <a href="{% url 'portal.views.current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
+                <a href="{% url 'portal.views.logout_view' %}" class='wide btn btn-default'>Logout</a>
             </div>
         {% else %}
             <div class="login-card">

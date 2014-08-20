@@ -28,18 +28,20 @@
         <p>
         Anyone can learn how to code. Rapid Router will help you learn how. It&#8217;s fun, free and easy. Once you know how, you can build just about anything.
         </p>
-        <p>
-        If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, <a href="#" id="school-login-link">login</a> to continue playing. 
-        </p>
-        <p>
-        If you&#8217;ve signed up independently, <a href="#" id="solo-login-link">login</a> to continue your Rapid Router journey.
-        </p>
-        <p>
-        Not signed up yet? <a href="#" id="register-link">Register now</a> to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
-        </p>
-        <p>
-        If you just want to try Rapid Router without logging in, use the Play Now button.
-        </p>
+        {% if not user|is_logged_in %}
+            <p>
+            If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, <a href="#" id="school-login-link">login</a> to continue playing. 
+            </p>
+            <p>
+            If you&#8217;ve signed up independently, <a href="#" id="solo-login-link">login</a> to continue your Rapid Router journey.
+            </p>
+            <p>
+            Not signed up yet? <a href="#" id="register-link">Register now</a> to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
+            </p>
+            <p>
+            If you just want to try Rapid Router without logging in, use the Play Now button.
+            </p>
+        {% endif %}
      
         <div class="gameBoxPlay">
             <h3>Rapid Router - Our first app</h3>
@@ -66,8 +68,8 @@
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
-                <p>Lost? Go to my <a href="{% url 'portal.views.current_user' %}">dashboard</a>.</p>
-                <p>Not you? <a href="{% url 'portal.views.logout_view' %}">Logout</a>.</p>
+                <a href="{% url 'portal.views.current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
+                <a href="{% url 'portal.views.logout_view' %}" class='wide btn btn-default'>Logout</a>
             </div>
         {% else %}
             <div id="school-login" class="login-card">
