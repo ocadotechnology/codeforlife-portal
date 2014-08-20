@@ -719,7 +719,7 @@ def teacher_home(request):
             backup_tokens = 0
         if not backup_tokens > 0:
             link = reverse('two_factor:profile')
-            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if your phone breaks. <a href="' + link + '">Set up backup tokens now</a>.')
+            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if you have problems with your smartphone or tablet. <a href="' + link + '">Set up backup tokens now</a>.')
         # check admin
         if teacher.is_admin:
             admins = Teacher.objects.filter(school=teacher.school, is_admin=True)
