@@ -11,6 +11,8 @@ To run any of the subprojects it is currently necessary to download all of them 
 You should commit code from the repository it comes from in the normal way.
 
 - ###### How do I run the server
+First run "source VIRTUALENV/bin/activate" in the deploy directory
+
 You run all manage.py commands from the deploy directory (apart from makemigrations, explained next),
   - to migrate / sync the database - python manage.py migrate
   - to collect static - python manage.py collectstatic [--noinput]
