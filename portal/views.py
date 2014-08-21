@@ -147,7 +147,7 @@ def teach(request):
                     })
                 else:
                     link = reverse('two_factor:profile')
-                    messages.info(request, "You are not currently set up with two-factor authentication. Use your phone or tablet to enhance your account's security. Click <a href='" + link + "'>here</a> to find out more and set it up or go to your account page at any time.")
+                    messages.info(request, "You are not currently set up with two-factor authentication. Use your phone or tablet to enhance your account's security. Click <a href='" + link + "'>here</a> to find out more and set it up or go to your account page at any time.", extra_tags='safe')
 
                 next_url = request.GET.get('next', None)
                 if next_url:
@@ -708,11 +708,11 @@ def teacher_home(request):
 
     if Student.objects.filter(pending_class_request__teacher=teacher).exists():
         link = reverse('portal.views.teacher_classes')
-        messages.info(request, 'You have pending requests from students wanting to join your classes. Please go to the <a href="' + link + '">classes</a> page to review these requests.')
+        messages.info(request, 'You have pending requests from students wanting to join your classes. Please go to the <a href="' + link + '">classes</a> page to review these requests.', extra_tags='safe')
 
     if teacher.is_admin and Teacher.objects.filter(pending_join_request=teacher.school).exists():
         link = reverse('portal.views.organisation_manage')
-        messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.')
+        messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.', extra_tags='safe')
 
     # For teachers using 2FA, warn if they don't have any backup tokens set, and warn solo-admins to set up another admin
     if default_device(request.user):
@@ -723,13 +723,13 @@ def teacher_home(request):
             backup_tokens = 0
         if not backup_tokens > 0:
             link = reverse('two_factor:profile')
-            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if you have problems with your smartphone or tablet. <a href="' + link + '">Set up backup tokens now</a>.')
+            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if you have problems with your smartphone or tablet. <a href="' + link + '">Set up backup tokens now</a>.', extra_tags='safe')
         # check admin
         if teacher.is_admin:
             admins = Teacher.objects.filter(school=teacher.school, is_admin=True)
             manageSchoolLink = reverse('portal.views.organisation_manage')
             if len(admins) == 1:
-                messages.warning(request, 'You are the only administrator in your school and are using Two Factor Authentication (2FA). We recommend you <a href="' + manageSchoolLink + '">set up another administrator</a> who will be able to disable your 2FA should you have problems with your smartphone or tablet.')
+                messages.warning(request, 'You are the only administrator in your school and are using Two Factor Authentication (2FA). We recommend you <a href="' + manageSchoolLink + '">set up another administrator</a> who will be able to disable your 2FA should you have problems with your smartphone or tablet.', extra_tags='safe')
 
     return render(request, 'portal/teach/teacher_home.html', {
         'teacher': teacher,
