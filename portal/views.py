@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
