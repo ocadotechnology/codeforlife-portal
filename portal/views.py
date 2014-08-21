@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
@@ -538,6 +538,10 @@ def organisation_manage(request):
 def organisation_leave(request):
     teacher = request.user.userprofile.teacher
 
+    # check not admin
+    if teacher.is_admin:
+        raise Http404
+
     if request.method == 'POST':
         classes = Class.objects.filter(teacher=teacher)
         for klass in classes:
@@ -574,11 +578,11 @@ def organisation_kick(request, pk):
 
     # check not trying to kick self
     if teacher == user:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check authorised to kick teacher
     if teacher.school != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         classes = Class.objects.filter(teacher=teacher)
@@ -623,11 +627,11 @@ def organisation_toggle_admin(request, pk):
 
     # check user has authority to change
     if teacher.school != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check not trying to change self
     if user == teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     teacher.is_admin = not teacher.is_admin
     teacher.save()
@@ -654,7 +658,7 @@ def organisation_allow_join(request, pk):
 
     # check user has authority to accept teacher
     if teacher.pending_join_request != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     teacher.school = teacher.pending_join_request
     teacher.pending_join_request = None
@@ -680,7 +684,7 @@ def organisation_deny_join(request, pk):
 
     # check user has authority to accept teacher
     if teacher.pending_join_request != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     teacher.pending_join_request = None
     teacher.save()
@@ -797,7 +801,7 @@ def teacher_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         new_students_form = StudentCreationForm(klass, request.POST)
@@ -838,7 +842,7 @@ def teacher_move_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         form = ClassMoveForm(teachers, request.POST)
@@ -861,7 +865,7 @@ def teacher_move_students(request, access_code):
 
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     transfer_students = request.POST.get('transfer_students', '[]')
     
@@ -884,11 +888,11 @@ def teacher_move_students_to_class(request, access_code):
     
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != old_class.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check teacher authorised to transfer to new class
     if request.user.userprofile.teacher.school != new_class.teacher.school:
-        return HttpResponseNotFound()
+        raise Http404
 
     transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
     
@@ -935,7 +939,7 @@ def teacher_delete_students(request, access_code):
 
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
     
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
@@ -954,7 +958,7 @@ def teacher_dismiss_students(request, access_code):
 
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
     
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
@@ -1001,7 +1005,7 @@ def teacher_edit_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if klass.always_accept_requests:
         external_requests_message = 'This class is currently set to always accept requests.'
@@ -1062,7 +1066,7 @@ def teacher_delete_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if Student.objects.filter(class_field=klass).exists():
         messages.info(request, 'This class still has students, please remove or delete them all before deleting the class.')
@@ -1079,7 +1083,7 @@ def teacher_student_reset(request, pk):
 
     # check user is authorised to edit student
     if request.user.userprofile.teacher != student.class_field.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     new_password = generate_password(6)
     student.user.user.set_password(new_password)
@@ -1095,7 +1099,7 @@ def teacher_edit_student(request, pk):
 
     # check user is authorised to edit student
     if request.user.userprofile.teacher != student.class_field.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     name_form = TeacherEditStudentForm(student, initial={
         'name': student.user.user.first_name
@@ -1198,7 +1202,7 @@ def teacher_disable_2FA(request, pk):
 
     # check user has authority to change
     if teacher.school != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     for device in devices_for_user(teacher.user.user):
         device.delete()
@@ -1346,11 +1350,11 @@ def teacher_accept_student_request(request, pk):
 
     # check student is awaiting decision on request
     if not student.pending_class_request:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check user (teacher) has authority to accept student
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     students = Student.objects.filter(class_field=student.pending_class_request).order_by('user__user__first_name')
 
@@ -1379,11 +1383,11 @@ def teacher_reject_student_request(request, pk):
 
     # check student is awaiting decision on request
     if not student.pending_class_request:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check user (teacher) has authority to reject student
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
 
@@ -1471,7 +1475,7 @@ def student_join_organisation(request):
 
     # check student not managed by a school
     if student.class_field:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         if 'class_join_request' in request.POST:
