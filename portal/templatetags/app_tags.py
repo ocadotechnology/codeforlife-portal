@@ -41,3 +41,7 @@ def is_logged_in_as_teacher(u):
 @register.filter(name='is_logged_in_as_student')
 def is_logged_in_as_student(u):
     return is_logged_in(u) and hasattr(u.userprofile, 'student')
+
+@register.filter(name='is_logged_in_as_school_user')
+def is_logged_in_as_school_user(u):
+    return is_logged_in(u) and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
