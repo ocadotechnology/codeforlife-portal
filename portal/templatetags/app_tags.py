@@ -53,3 +53,16 @@ def make_title_caps(s):
     else:
         s = s[0].upper() + s[1:]
     return s
+
+@register.filter(name='get_user_status')
+def get_user_status(u):
+    if is_logged_in_as_school_user(u):
+        if is_logged_in_as_teacher(u):
+            return 'TEACHER'
+        else:
+            return 'SCHOOL_STUDENT'
+    elif is_logged_in(u):
+        return 'SOLO_STUDENT'
+    else:
+        return 'UNTRACKED'
+    return 'UNTRACKED'

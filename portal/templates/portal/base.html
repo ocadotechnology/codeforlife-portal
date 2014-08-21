@@ -29,6 +29,11 @@
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
 {% endcache %}
+<script>
+    // Set to 'TEACHER', 'SCHOOL_STUDENT', 'SOLO_STUDENT', or 'UNTRACKED'
+    USER_STATUS = '{{ user|get_user_status }}';
+
+</script>
 
 {% block scripts %}
 {% endblock scripts %}
