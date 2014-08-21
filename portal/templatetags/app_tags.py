@@ -45,3 +45,11 @@ def is_logged_in_as_student(u):
 @register.filter(name='is_logged_in_as_school_user')
 def is_logged_in_as_school_user(u):
     return is_logged_in(u) and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
+
+@register.filter(name='make_title_caps')
+def make_title_caps(s):
+    if len(s) <= 0:
+        return s
+    else:
+        s = s[0].upper() + s[1:]
+    return s
