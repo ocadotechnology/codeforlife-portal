@@ -40,7 +40,6 @@
 {% block contentWrapper %}
 <div id='contentWrapper'>
     {% block topBar %}
-        {% cache 3600 fragment-base-topbar user %}
         <div class='topBar'>
             <div class="content">
                 <a href="/" class="logo">
@@ -56,10 +55,8 @@
                     </ul>
             </div>
         </div>
-        {% endcache %}
     {% endblock topBar %}
     {% block subNav %}
-        {% cache 3600 fragment-base-subnav user %}
         {% if user|is_logged_in %}
         <div class="subnavBar">
             <div class="subnav">
@@ -78,7 +75,6 @@
             </div>
         </div>
         {% endif %}
-        {% endcache %}
     {% endblock subNav %}
 
 
