@@ -43,7 +43,7 @@ var CONFIRMATION_DATA = {};
             <th>Name</th>
             <th>Administrator Status</th>
             {% if is_admin %}
-                <th colspan='3'>Actions</h>
+                <th colspan='3'>Actions</th>
             {% endif %}
         </tr>
 
@@ -52,7 +52,7 @@ var CONFIRMATION_DATA = {};
                 <td>{{ coworker.title }} {{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
                 <td>{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.user.user.email|emaildomain }}){% endif %}</td>
                 {% if coworker.user.user != user and is_admin %}
-                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'portal.views.organisation_kick' coworker.id %}', '{{ coworker.user.user.first_name }}')">Remove</a></td>
+                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'portal.views.organisation_kick' coworker.id %}', '{{ coworker.user.user.first_name }}')">Remove</button></td>
                     <td>{% if coworker.is_admin %}<a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">Make non-admin</a>{% else %}<button class='btn btn-default btn-small no-margin' onclick="showToggleAdminConfirmation('{% url 'portal.views.organisation_toggle_admin' coworker.id %}', '{{ coworker.user.user.first_name }}')">Make admin</button>{% endif %}</td>
                     <td>{% if coworker.user.user|has_2FA %}<button class='btn btn-default btn-small no-margin' onclick="showDisable2FAConfirmation('{% url 'portal.views.teacher_disable_2FA' coworker.id %}', '{{ coworker.user.user.first_name }}')">Disable 2FA</button>{% endif %}</td>
                 {% else %}
