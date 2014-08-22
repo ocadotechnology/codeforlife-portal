@@ -702,6 +702,7 @@ background-color: #FFCCBA;
 
 .login-card input[type=text], input[type=password], input[type=number] {
   height: 44px;
+  line-height: 44px;
   font-size: 1.4rem;
   width: 100%;
   margin-bottom: 10px;

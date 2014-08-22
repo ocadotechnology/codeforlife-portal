@@ -16,7 +16,7 @@ $(function() {
     });
 
     $('#selectedStudentsListToggle').click(function() {
-        var students = document.getElementsByClassName('student');
+        var students = $('.student');
         var selectedStudents = [];
         for (var i = 0; i < students.length; i++) {
             if (students[i].checked) {
@@ -42,7 +42,7 @@ $(function() {
         }
     });
     $('.student').click(function() {
-        var students = document.getElementsByClassName('student');
+        var students = $('.student');
 
         var count = 0;
         for (var i = 0; i < students.length; i++) {
@@ -77,7 +77,7 @@ function postSelectedStudents(path) {
 }
 
 function runIfStudentsSelected(func) {
-    var students = document.getElementsByClassName('student');
+    var students = $('.student');
     var selectedStudents = [];
     for (var i = 0; i < students.length; i++) {
         if (students[i].checked) {
