@@ -12,6 +12,7 @@
 {% endblock head %}
 
 {% block css %}
+<link href='{% static "portal/css/common.css" %}' rel="stylesheet">
 {% cache 3600 fragment-base-css %}
 <link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
 <link href='{% static "portal/css/jquery-ui.structure.css" %}' rel="stylesheet">
@@ -29,6 +30,7 @@
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
 {% endcache %}
+<script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
 <script>
     // Set to 'TEACHER', 'SCHOOL_STUDENT', 'SOLO_STUDENT', or 'UNTRACKED'
     USER_STATUS = '{{ user|get_user_status }}';
@@ -123,6 +125,12 @@
 {% endblock footer %}
 
 <div id="confirmation-dialog" title=""></div>
+
+<script>
+$(function() {
+    $('input, textarea').placeholder();
+});
+</script>
 
 </body>
 </html>
