@@ -791,8 +791,6 @@ def teacher_class(request, access_code):
     students = Student.objects.filter(class_field=klass).order_by('user__user__first_name')
     # Check which students are logged in
     logged_in_students = klass.get_logged_in_students()
-    print students
-    print logged_in_students
     for student in students:
         if logged_in_students.filter(id=student.id).exists():
             student.logged_in = True
