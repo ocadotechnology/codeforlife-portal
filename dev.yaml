@@ -6,6 +6,10 @@ threadsafe: true
 module: integrate
 
 handlers:
+- url: /favicon\.ico
+  static_files: static/portal/img/favicon.ico
+  upload: static/portal/img/favicon\.ico
+
 - url: /static
   static_dir: static
   application_readable: true
