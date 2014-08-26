@@ -164,6 +164,8 @@ else:
     }
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+EMAIL_DOMAIN = 'numeric-incline-526.appspotmail.com'
+
 LOCALE_PATHS = (
     'conf/locale',
 )
