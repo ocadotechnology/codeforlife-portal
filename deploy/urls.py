@@ -9,4 +9,5 @@ js_info_dict = {
 
 urlpatterns = patterns('',
     url(r'^', include('portal.urls')),
-    url(r'^game/', include('game.urls')),)
+    url(r'^rapidrouter/', include('game.urls')),
+)
