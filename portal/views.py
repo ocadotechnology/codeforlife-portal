@@ -55,14 +55,14 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@numeric-incline-526.appspotmail.com',
+                  'verifyemail@' + settings.EMAIL_DOMAIN,
                   [new_email])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@numeric-incline-526.appspotmail.com',
+                  'verifyemail@' + settings.EMAIL_DOMAIN,
                   [userProfile.user.email])
 
     else:
@@ -70,7 +70,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@numeric-incline-526.appspotmail.com',
+                  'verifyemail@' + settings.EMAIL_DOMAIN,
                   [userProfile.user.email])
 
 def verify_email(request, token):
@@ -314,13 +314,13 @@ def contact(request):
             emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
                       emailMessage['message'],
-                      'contact@numeric-incline-526.appspotmail.com',
+                      'contact@' + settings.EMAIL_DOMAIN,
                       CONTACT_FORM_EMAILS,
                       )
             confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(confirmedEmailMessage['subject'],
                       confirmedEmailMessage['message'],
-                      'contact@numeric-incline-526.appspotmail.com',
+                      'contact@' + settings.EMAIL_DOMAIN,
                       [contact_form.cleaned_data['email']],
                       )
             messages.success(request, 'Your message was sent successfully.')
@@ -462,14 +462,14 @@ def organisation_create(request):
                 for admin in Teacher.objects.filter(school=school, is_admin=True):
                     send_mail(emailMessage['subject'],
                               emailMessage['message'],
-                              'notification@numeric-incline-526.appspotmail.com',
+                              'notification@' + settings.EMAIL_DOMAIN,
                               [admin.user.user.email])
 
                 emailMessage = emailMessages.joinRequestSentEmail(request, school.name)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notification@numeric-incline-526.appspotmail.com',
+                          'notification@' + settings.EMAIL_DOMAIN,
                           [teacher.user.user.email])
 
                 messages.success(request, 'Your request to join the school or club has been sent successfully.')
@@ -614,7 +614,7 @@ def organisation_kick(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -645,7 +645,7 @@ def organisation_toggle_admin(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -671,7 +671,7 @@ def organisation_allow_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -695,7 +695,7 @@ def organisation_deny_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -1136,7 +1136,7 @@ def teacher_edit_student(request, pk):
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email='passwordreset@' + settings.EMAIL_DOMAIN, template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
@@ -1391,7 +1391,7 @@ def teacher_reject_student_request(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notifications@numeric-incline-526.appspotmail.com',
+              'notifications@' + settings.EMAIL_DOMAIN,
               [student.user.user.email])
 
     student.pending_class_request = None
@@ -1451,7 +1451,7 @@ def student_edit_account(request):
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email='passwordreset@' + settings.EMAIL_DOMAIN, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
 @login_required(login_url=reverse_lazy('portal.views.play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
@@ -1487,14 +1487,14 @@ def student_join_organisation(request):
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notifications@numeric-incline-526.appspotmail.com',
+                          'notifications@' + settings.EMAIL_DOMAIN,
                           [student.user.user.email])
 
                 emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.user.user.username, student.user.user.email, student.pending_class_request.access_code)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notifications@numeric-incline-526.appspotmail.com',
+                          'notifications@' + settings.EMAIL_DOMAIN,
                           [student.pending_class_request.teacher.user.user.email])
 
                 messages.success(request, 'Your request to join a school has been received successfully.')
