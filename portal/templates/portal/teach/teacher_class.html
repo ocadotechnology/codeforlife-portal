@@ -58,7 +58,7 @@ var CONFIRMATION_DATA = {
             <table class='CSSTable wide alternate smaller'>
                 <tr>
                     <th style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></th>
-                    <th>Student Name</th>
+                    <th style='padding-left: 30px'>Student Name</th>
                 </tr>
                 {% for student in students %}
                     <tr>
@@ -112,7 +112,7 @@ var CONFIRMATION_DATA = {
     </div>
     <div class="section group">
         <a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit Settings</a>
-        <button class='btn btn-danger btn-small' id='deleteClass'>Delete Class</a>
+        <button class='btn btn-danger btn-small' id='deleteClass'>Delete Class</button>
     </div>
 
 </div>

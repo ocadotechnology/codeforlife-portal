@@ -41,3 +41,28 @@ def is_logged_in_as_teacher(u):
 @register.filter(name='is_logged_in_as_student')
 def is_logged_in_as_student(u):
     return is_logged_in(u) and hasattr(u.userprofile, 'student')
+
+@register.filter(name='is_logged_in_as_school_user')
+def is_logged_in_as_school_user(u):
+    return is_logged_in(u) and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
+
+@register.filter(name='make_title_caps')
+def make_title_caps(s):
+    if len(s) <= 0:
+        return s
+    else:
+        s = s[0].upper() + s[1:]
+    return s
+
+@register.filter(name='get_user_status')
+def get_user_status(u):
+    if is_logged_in_as_school_user(u):
+        if is_logged_in_as_teacher(u):
+            return 'TEACHER'
+        else:
+            return 'SCHOOL_STUDENT'
+    elif is_logged_in(u):
+        return 'SOLO_STUDENT'
+    else:
+        return 'UNTRACKED'
+    return 'UNTRACKED'

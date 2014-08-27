@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
@@ -55,14 +55,14 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@numeric-incline-526.appspotmail.com',
+                  'verifyemail@' + settings.EMAIL_DOMAIN,
                   [new_email])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@numeric-incline-526.appspotmail.com',
+                  'verifyemail@' + settings.EMAIL_DOMAIN,
                   [userProfile.user.email])
 
     else:
@@ -70,7 +70,7 @@ def send_verification_email(request, userProfile, new_email=None):
 
         send_mail(emailMessage['subject'],
                   emailMessage['message'],
-                  'verifyemail@numeric-incline-526.appspotmail.com',
+                  'verifyemail@' + settings.EMAIL_DOMAIN,
                   [userProfile.user.email])
 
 def verify_email(request, token):
@@ -147,7 +147,7 @@ def teach(request):
                     })
                 else:
                     link = reverse('two_factor:profile')
-                    messages.info(request, "You are not currently set up with two-factor authentication. Use your phone or tablet to enhance your account's security. Click <a href='" + link + "'>here</a> to find out more and set it up or go to your account page at any time.")
+                    messages.info(request, "You are not currently set up with two-factor authentication. Use your phone or tablet to enhance your account's security. Click <a href='" + link + "'>here</a> to find out more and set it up or go to your account page at any time.", extra_tags='safe')
 
                 next_url = request.GET.get('next', None)
                 if next_url:
@@ -314,13 +314,13 @@ def contact(request):
             emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
                       emailMessage['message'],
-                      'contact@numeric-incline-526.appspotmail.com',
+                      'contact@' + settings.EMAIL_DOMAIN,
                       CONTACT_FORM_EMAILS,
                       )
             confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(confirmedEmailMessage['subject'],
                       confirmedEmailMessage['message'],
-                      'contact@numeric-incline-526.appspotmail.com',
+                      'contact@' + settings.EMAIL_DOMAIN,
                       [contact_form.cleaned_data['email']],
                       )
             messages.success(request, 'Your message was sent successfully.')
@@ -462,14 +462,14 @@ def organisation_create(request):
                 for admin in Teacher.objects.filter(school=school, is_admin=True):
                     send_mail(emailMessage['subject'],
                               emailMessage['message'],
-                              'notification@numeric-incline-526.appspotmail.com',
+                              'notification@' + settings.EMAIL_DOMAIN,
                               [admin.user.user.email])
 
                 emailMessage = emailMessages.joinRequestSentEmail(request, school.name)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notification@numeric-incline-526.appspotmail.com',
+                          'notification@' + settings.EMAIL_DOMAIN,
                           [teacher.user.user.email])
 
                 messages.success(request, 'Your request to join the school or club has been sent successfully.')
@@ -538,6 +538,10 @@ def organisation_manage(request):
 def organisation_leave(request):
     teacher = request.user.userprofile.teacher
 
+    # check not admin
+    if teacher.is_admin:
+        raise Http404
+
     if request.method == 'POST':
         classes = Class.objects.filter(teacher=teacher)
         for klass in classes:
@@ -574,11 +578,11 @@ def organisation_kick(request, pk):
 
     # check not trying to kick self
     if teacher == user:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check authorised to kick teacher
     if teacher.school != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         classes = Class.objects.filter(teacher=teacher)
@@ -610,7 +614,7 @@ def organisation_kick(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -623,11 +627,11 @@ def organisation_toggle_admin(request, pk):
 
     # check user has authority to change
     if teacher.school != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check not trying to change self
     if user == teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     teacher.is_admin = not teacher.is_admin
     teacher.save()
@@ -641,7 +645,7 @@ def organisation_toggle_admin(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -654,7 +658,7 @@ def organisation_allow_join(request, pk):
 
     # check user has authority to accept teacher
     if teacher.pending_join_request != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     teacher.school = teacher.pending_join_request
     teacher.pending_join_request = None
@@ -667,7 +671,7 @@ def organisation_allow_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -680,7 +684,7 @@ def organisation_deny_join(request, pk):
 
     # check user has authority to accept teacher
     if teacher.pending_join_request != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     teacher.pending_join_request = None
     teacher.save()
@@ -691,7 +695,7 @@ def organisation_deny_join(request, pk):
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notification@numeric-incline-526.appspotmail.com',
+              'notification@' + settings.EMAIL_DOMAIN,
               [teacher.user.user.email])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
@@ -704,11 +708,11 @@ def teacher_home(request):
 
     if Student.objects.filter(pending_class_request__teacher=teacher).exists():
         link = reverse('portal.views.teacher_classes')
-        messages.info(request, 'You have pending requests from students wanting to join your classes. Please go to the <a href="' + link + '">classes</a> page to review these requests.')
+        messages.info(request, 'You have pending requests from students wanting to join your classes. Please go to the <a href="' + link + '">classes</a> page to review these requests.', extra_tags='safe')
 
     if teacher.is_admin and Teacher.objects.filter(pending_join_request=teacher.school).exists():
         link = reverse('portal.views.organisation_manage')
-        messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.')
+        messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.', extra_tags='safe')
 
     # For teachers using 2FA, warn if they don't have any backup tokens set, and warn solo-admins to set up another admin
     if default_device(request.user):
@@ -719,13 +723,13 @@ def teacher_home(request):
             backup_tokens = 0
         if not backup_tokens > 0:
             link = reverse('two_factor:profile')
-            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if you have problems with your smartphone or tablet. <a href="' + link + '">Set up backup tokens now</a>.')
+            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if you have problems with your smartphone or tablet. <a href="' + link + '">Set up backup tokens now</a>.', extra_tags='safe')
         # check admin
         if teacher.is_admin:
             admins = Teacher.objects.filter(school=teacher.school, is_admin=True)
             manageSchoolLink = reverse('portal.views.organisation_manage')
             if len(admins) == 1:
-                messages.warning(request, 'You are the only administrator in your school and are using Two Factor Authentication (2FA). We recommend you <a href="' + manageSchoolLink + '">set up another administrator</a> who will be able to disable your 2FA should you have problems with your smartphone or tablet.')
+                messages.warning(request, 'You are the only administrator in your school and are using Two Factor Authentication (2FA). We recommend you <a href="' + manageSchoolLink + '">set up another administrator</a> who will be able to disable your 2FA should you have problems with your smartphone or tablet.', extra_tags='safe')
 
     return render(request, 'portal/teach/teacher_home.html', {
         'teacher': teacher,
@@ -787,8 +791,6 @@ def teacher_class(request, access_code):
     students = Student.objects.filter(class_field=klass).order_by('user__user__first_name')
     # Check which students are logged in
     logged_in_students = klass.get_logged_in_students()
-    print students
-    print logged_in_students
     for student in students:
         if logged_in_students.filter(id=student.id).exists():
             student.logged_in = True
@@ -797,7 +799,7 @@ def teacher_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         new_students_form = StudentCreationForm(klass, request.POST)
@@ -838,7 +840,7 @@ def teacher_move_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         form = ClassMoveForm(teachers, request.POST)
@@ -861,7 +863,7 @@ def teacher_move_students(request, access_code):
 
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     transfer_students = request.POST.get('transfer_students', '[]')
     
@@ -884,11 +886,11 @@ def teacher_move_students_to_class(request, access_code):
     
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != old_class.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check teacher authorised to transfer to new class
     if request.user.userprofile.teacher.school != new_class.teacher.school:
-        return HttpResponseNotFound()
+        raise Http404
 
     transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
     
@@ -935,7 +937,7 @@ def teacher_delete_students(request, access_code):
 
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
     
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
@@ -954,7 +956,7 @@ def teacher_dismiss_students(request, access_code):
 
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
     
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
@@ -1001,7 +1003,7 @@ def teacher_edit_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if klass.always_accept_requests:
         external_requests_message = 'This class is currently set to always accept requests.'
@@ -1062,7 +1064,7 @@ def teacher_delete_class(request, access_code):
 
     # check user authorised to see class
     if request.user.userprofile.teacher != klass.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     if Student.objects.filter(class_field=klass).exists():
         messages.info(request, 'This class still has students, please remove or delete them all before deleting the class.')
@@ -1079,7 +1081,7 @@ def teacher_student_reset(request, pk):
 
     # check user is authorised to edit student
     if request.user.userprofile.teacher != student.class_field.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     new_password = generate_password(6)
     student.user.user.set_password(new_password)
@@ -1095,7 +1097,7 @@ def teacher_edit_student(request, pk):
 
     # check user is authorised to edit student
     if request.user.userprofile.teacher != student.class_field.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     name_form = TeacherEditStudentForm(student, initial={
         'name': student.user.user.first_name
@@ -1134,7 +1136,7 @@ def teacher_edit_student(request, pk):
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def teacher_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email='passwordreset@' + settings.EMAIL_DOMAIN, template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
 @login_required(login_url=reverse_lazy('portal.views.teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('portal.views.teach'))
@@ -1198,7 +1200,7 @@ def teacher_disable_2FA(request, pk):
 
     # check user has authority to change
     if teacher.school != user.school or not user.is_admin:
-        return HttpResponseNotFound()
+        raise Http404
 
     for device in devices_for_user(teacher.user.user):
         device.delete()
@@ -1346,11 +1348,11 @@ def teacher_accept_student_request(request, pk):
 
     # check student is awaiting decision on request
     if not student.pending_class_request:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check user (teacher) has authority to accept student
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     students = Student.objects.filter(class_field=student.pending_class_request).order_by('user__user__first_name')
 
@@ -1379,17 +1381,17 @@ def teacher_reject_student_request(request, pk):
 
     # check student is awaiting decision on request
     if not student.pending_class_request:
-        return HttpResponseNotFound()
+        raise Http404
 
     # check user (teacher) has authority to reject student
     if request.user.userprofile.teacher != student.pending_class_request.teacher:
-        return HttpResponseNotFound()
+        raise Http404
 
     emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
 
     send_mail(emailMessage['subject'],
               emailMessage['message'],
-              'notifications@numeric-incline-526.appspotmail.com',
+              'notifications@' + settings.EMAIL_DOMAIN,
               [student.user.user.email])
 
     student.pending_class_request = None
@@ -1449,7 +1451,7 @@ def student_edit_account(request):
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('portal.views.current_user'))
 def student_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email='passwordreset@numeric-incline-526.appspotmail.com', template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email='passwordreset@' + settings.EMAIL_DOMAIN, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
 
 @login_required(login_url=reverse_lazy('portal.views.play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('portal.views.play'))
@@ -1471,7 +1473,7 @@ def student_join_organisation(request):
 
     # check student not managed by a school
     if student.class_field:
-        return HttpResponseNotFound()
+        raise Http404
 
     if request.method == 'POST':
         if 'class_join_request' in request.POST:
@@ -1485,14 +1487,14 @@ def student_join_organisation(request):
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notifications@numeric-incline-526.appspotmail.com',
+                          'notifications@' + settings.EMAIL_DOMAIN,
                           [student.user.user.email])
 
                 emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.user.user.username, student.user.user.email, student.pending_class_request.access_code)
 
                 send_mail(emailMessage['subject'],
                           emailMessage['message'],
-                          'notifications@numeric-incline-526.appspotmail.com',
+                          'notifications@' + settings.EMAIL_DOMAIN,
                           [student.pending_class_request.teacher.user.user.email])
 
                 messages.success(request, 'Your request to join a school has been received successfully.')

@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load app_tags %}
+{% load cache %}
 
 <!DOCTYPE html>
 
@@ -10,22 +11,32 @@
 {% block head %}
 {% endblock head %}
 
+{% block css %}
+<link href='{% static "portal/css/common.css" %}' rel="stylesheet">
+{% cache 3600 fragment-base-css %}
 <link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
 <link href='{% static "portal/css/jquery-ui.structure.css" %}' rel="stylesheet">
 <link href='{% static "portal/css/jquery-ui.theme.css" %}' rel="stylesheet">
-
-{% block css %}
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
+<noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
+{% endcache %}
 {% endblock css %}
 
+{% cache 3600 fragment-base-javascript %}
 <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
-<noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
-
 <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
+{% endcache %}
+<script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
+<script>
+    // Set to 'TEACHER', 'SCHOOL_STUDENT', 'SOLO_STUDENT', or 'UNTRACKED'
+    USER_STATUS = '{{ user|get_user_status }}';
+
+</script>
+
 {% block scripts %}
 {% endblock scripts %}
 
@@ -80,7 +91,7 @@
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message | safe }}</li>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -100,18 +111,26 @@
 {% endblock contentWrapper %}
 
 {% block footer %}
+{% cache 3600 fragment-base-footer %}
     <div class="footer">
         <ul>
             <li><a href="{% url 'about' %}">About us</a></li>
             <li><a href="{% url 'contact' %}">Contact Us</a></li>
             <li><a href="{% url 'terms' %}">Terms of use</a></li>
-            <li><a href="{% url 'help' %}">Help &amp Support</a></li>
+            <li><a href="{% url 'help' %}">Help &amp; Support</a></li>
             <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy; 2014</li>
         </ul>
     </div>
+{% endcache %}
 {% endblock footer %}
 
 <div id="confirmation-dialog" title=""></div>
+
+<script>
+$(function() {
+    $('input, textarea').placeholder();
+});
+</script>
 
 </body>
 </html>

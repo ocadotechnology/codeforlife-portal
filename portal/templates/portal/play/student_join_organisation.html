@@ -62,11 +62,15 @@
 
                     {{ request_form.non_field_errors }}
 
-                    {% for field in request_form %}
-                        {{ field.errors }}
-                        <label class="ieLabels">{{ field.html_name }}</label>
-                        {{ field|safe }}
-                    {% endfor %}
+                    {{ request_form.access_code.errors }}
+                    <label class="ieLabels">{{ request_form.access_code.html_name }}</label>
+                    {{ request_form.access_code }}
+
+                    {% if request_form.recaptcha %}
+                        {{ request_form.recaptcha.errors }}
+                        <label class="ieLabels">{{ request_form.recaptcha.html_name }}</label>
+                        {{ request_form.recaptcha|safe }}
+                    {% endif %}
 
                     <div class='section group'>
                         <div class='col span_1_of_2'>

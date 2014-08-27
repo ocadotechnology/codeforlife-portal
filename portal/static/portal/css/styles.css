@@ -157,7 +157,7 @@ ul.topNav li
   margin-left: 20px;
   margin-top:-20px;
   background-color: #FFC563;
-    border-radius: 2px;
+  border-radius: 2px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   padding:5px 10px;
   text-align:center;
@@ -702,6 +702,7 @@ background-color: #FFCCBA;
 
 .login-card input[type=text], input[type=password], input[type=number] {
   height: 44px;
+  line-height: 44px;
   font-size: 1.4rem;
   width: 100%;
   margin-bottom: 10px;
@@ -978,7 +979,8 @@ ul.errorlist li {
 }
 
 #recaptcha_area input {
-  height: auto;
+  height: 25px;
+  line-height: 25px;
   display: inline;
 }
 
