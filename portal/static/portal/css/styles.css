@@ -979,7 +979,8 @@ ul.errorlist li {
 }
 
 #recaptcha_area input {
-  height: auto;
+  height: 25px;
+  line-height: 25px;
   display: inline;
 }
 
