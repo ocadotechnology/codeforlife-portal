@@ -1,3 +1,4 @@
+from django.conf import settings
 from django import template
 from django.template.defaultfilters import stringfilter
 from two_factor.utils import default_device
@@ -66,3 +67,8 @@ def get_user_status(u):
     else:
         return 'UNTRACKED'
     return 'UNTRACKED'
+
+@register.filter(name='cloud_storage')
+@stringfilter
+def cloud_storage(e):
+    return settings.CLOUD_STORAGE_PREFIX + e

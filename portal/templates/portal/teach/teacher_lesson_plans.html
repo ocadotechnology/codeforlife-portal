@@ -1,4 +1,5 @@
 {% extends 'portal/teach/base.html' %}
+{% load app_tags %}
 {% load static %}
 
 {% block css %}
@@ -42,18 +43,45 @@ $(document).ready(function(){
 <h2>Teaching Packs</h2>
 <div class="section group">
 
-
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="40%">Key Stage 1</td>
-      <td></td>
+      <td colspan="2">General Resources Key Stage 1, and Lower Key Stage 2</td>
     </tr>
     <tr>
-      <td><a href="#">Key Stage 1 Activity Set <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td width="40%"><a href="{{ 'KS1/general_resources/introduction_to_coding.pdf'|cloud_storage }}">Introduction to coding guide <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
      <td></td>
     </tr>
     <tr>
-      <td><a href="#">Key Stage 1 Assessment <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
+      <td><a href="{{ 'KS1/general_resources/levels_guide.pdf'|cloud_storage }}">Levels guide <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS1/general_resources/glossary.pdf'|cloud_storage }}">Glossary <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+     <td></td>
+    </tr>
+
+  </table>
+  
+  <br>
+
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="2">Key Stage 1</td>
+    </tr>
+    <tr>
+      <td width="40%"><a href="{{ 'KS1.zip'|cloud_storage }}">Download complete KS1 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS1/activity_set.pdf'|cloud_storage }}">Activity Set <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS1/resource_sheets.zip'|cloud_storage }}">Resource sheets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS1/assessment.zip'|cloud_storage }}">Assessment <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
       <td>Assessment techniques and key questions</td>
     </tr>
 
@@ -68,121 +96,152 @@ $(document).ready(function(){
       <td>Videos</td>
     </tr>
     <tr>
-      <td><a href="#">Session 1 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s1.pdf'|cloud_storage }}">Session 1 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Unplugged algorithms for moving along a route</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s2.pdf'|cloud_storage }}">Session 2 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Starting off on-screen with the app</td>
-      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/PQFyF3R6Xts?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="{{ 'videos/KS1_2_Introduction_to_Rapid_Router_with_Matt_and_Chris.mp4'|cloud_storage }}">Download Video</a></td>
     </tr>
     <tr>
-      <td><a href="#">Session 3 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s3.pdf'|cloud_storage }}">Session 3 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Creating simple algorithms to reach a single destination</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 4 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s4.pdf'|cloud_storage }}">Session 4 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Creating simple algorithms to reach a single destination along the shortest route</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 5 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s5.pdf'|cloud_storage }}">Session 5 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Create a more complex algorithm to deliver one or more packages on the way</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 6 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s6.pdf'|cloud_storage }}">Session 6 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Delivering several packages in a sensible sequence (extension activity)</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 7 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s7.pdf'|cloud_storage }}">Session 7 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Introducing the repeat code</td>
-      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
+      <td><a href="https://www.youtube.com/embed/vFGd0v3msRE?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="{{ 'videos/KS1_7_Mahana_explains_repeat_functions.mp4'|cloud_storage }}">Download Video</a></td>
     </tr>
     <tr>
-      <td><a href="#">Session 8 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s8.pdf'|cloud_storage }}">Session 8 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Follow-on and extension work on multiple repeat loops and nested repeats</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 9 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s9.pdf'|cloud_storage }}">Session 9 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Children create their own routes</td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#">Session 10 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'KS1/lesson_plans/s10.pdf'|cloud_storage }}">Session 10 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
       <td>Try out a partners route</td>
       <td></td>
     </tr>
   </table>
 
   <br>
-
-   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+  
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="40%">Lower Key Stage 2</td>
-      <td></td>
+      <td colspan="2">KS1 Assets</td>
     </tr>
     <tr>
-      <td><a href="#">Lower Key Stage 2 Activity Set <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td width="40%"><a href="{{ 'KS1/assets.zip'|cloud_storage }}">KS1 Assets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td></td>
+    </tr>
+  </table>
+  
+  <br>
+
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="2">Key Stage 2</td>
+    </tr>
+    <tr>
+      <td width="40%"><a href="{{ 'KS2.zip'|cloud_storage }}">Download complete KS1 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
      <td></td>
     </tr>
     <tr>
-      <td><a href="#">Lower Key Stage 2 Assessment <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
+      <td><a href="{{ 'KS2/activity_set.pdf'|cloud_storage }}">Activity Set <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/resource_sheets.zip'|cloud_storage }}">Resource sheets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/assessment.zip'|cloud_storage }}">Assessment <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
       <td>Assessment techniques and key questions</td>
     </tr>
 
+  </table>
+  
+  <br>
+  
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td>KS2 Sessions</td>
+      <td>Descriptions</td>
+      <td>Videos</td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s1.pdf'|cloud_storage }}">Session 1 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Recap on using a simple 'repeat' loop</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s2.pdf'|cloud_storage }}">Session 2 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Using repeat with a condition on a simple route: 'repeat until'</td>
+      <td><a href="https://www.youtube.com/embed/EDwc80X_LQI?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="{{ 'videos/LKS2_2_Ana_discusses_repeat_until_and_repeat_while_functions.mp4'|cloud_storage }}">Download Video</a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s3.pdf'|cloud_storage }}">Session 3 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Using simple selections and repetition: Repeat until at destination 'if…do'</td>
+      <td><a href="https://www.youtube.com/embed/O0RXbJyYq8o?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="{{ 'videos/LKS2_3_Chris_and_Matt_introduce_if_statements.mp4'|cloud_storage }}">Download Video</a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s4.pdf'|cloud_storage }}">Session 4 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>General solution using repeat until and if…do…(including else if for more able children)</td>
+      <td><a href="https://www.youtube.com/embed/GUUJSRuAyU0?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="{{ 'videos/LKS2_4_Helen_explains_if_else_statements.mp4'|cloud_storage }}">Download Video</a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s5.pdf'|cloud_storage }}">Session 5 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Extension group activity - Explain why the general program does not work for some more complex maps</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s6.pdf'|cloud_storage }}">Session 6 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Traffic lights: understanding variables and the if do…if else statements</td>
+      <td><a href="https://www.youtube.com/embed/UFpsEjaB_DI?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="{{ 'videos/LKS2_6_Will_discusses_variables.mp4'|cloud_storage }}">Download Video</a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s7.pdf'|cloud_storage }}">Session 7 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Applying their programming knowledge to create a game challenge</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'KS2/lesson_plans/s8.pdf'|cloud_storage }}">Session 8 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Applying their programming knowledge to play and evaluate a game challenge</td>
+      <td></td>
+    </tr>
   </table>
 
   <br>
   
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td>Lower KS2 Sessions</td>
-      <td>Descriptions</td>
-      <td>Videos</td>
+      <td colspan="2">KS2 Assets</td>
     </tr>
     <tr>
-      <td><a href="#">Session 1 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 3 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 4 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 5 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 6 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td><a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><br><a href="#">Download Video</a></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 7 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><a href="#">Session 8 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+      <td width="40%"><a href="{{ 'KS2/assets.zip'|cloud_storage }}">KS2 Assets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
       <td></td>
     </tr>
   </table>

@@ -59,6 +59,8 @@ MIDDLEWARE_CLASSES = [
     'django_otp.middleware.OTPMiddleware',
 ]
 
+CLOUD_STORAGE_PREFIX = 'http://storage.googleapis.com/codeforlife-assets/'
+
 ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'

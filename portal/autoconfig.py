@@ -29,6 +29,8 @@ SETTINGS = {
         'django_otp.middleware.OTPMiddleware',
     ],
 
+    'CLOUD_STORAGE_PREFIX': 'http://storage.googleapis.com/codeforlife-assets/',
+
     'RECAPTCHA_PUBLIC_KEY': '6LcGkPgSAAAAAMXqgeeiDsp2XJ0EBlTOHMZavp8t',
     'RECAPTCHA_PRIVATE_KEY': '6LcGkPgSAAAAACEZHXbIjB6IqEtXy4ljDptHnQej',
     
