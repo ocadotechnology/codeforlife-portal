@@ -1053,7 +1053,6 @@ ul.errorlist li {
 
 div.table {
   display: table;
-  width: 100%;
 }
 
 div.table_row {
@@ -1062,11 +1061,24 @@ div.table_row {
 
 div.table_cell {
   display: table-cell;
-  padding-top: 10px;
 }
 
-div.table > :first-child div.table_cell {
+
+div.resource_table div.table_row div.table_cell {
+  padding-top: 10px;
+  padding-right: 30px;
+}
+
+div.resource_table > :first-child div.table_cell {
   padding-top: 0px;
+}
+
+div.resource_table div.table_row div.table_cell {
+  padding-right: 30px;
+}
+
+div.resource_table div.table_row > :last-child {
+  padding-right: 0px;
 }
 
 /********** End teacher resource page ************/
