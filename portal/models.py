@@ -17,7 +17,6 @@ class UserProfile (models.Model):
     def __unicode__(self):
         return self.user.username
 
-
 class School (models.Model):
     name = models.CharField(max_length=200)
     postcode = models.CharField(max_length=10)
@@ -35,6 +34,11 @@ class Teacher (models.Model):
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
     is_admin = models.BooleanField(default=False)
     pending_join_request = models.ForeignKey(School, related_name='join_request', null=True)
+
+    def teaches(self, userprofile):
+        if hasattr(userprofile, 'student'):
+            student = userprofile.student
+            return not student.is_independent() and student.class_field.teacher == self
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
@@ -72,6 +76,9 @@ class Student (models.Model):
     class_field = models.ForeignKey(Class, related_name='students', null=True)
     user = models.OneToOneField(UserProfile)
     pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
+    
+    def is_independent(self):
+        return not self.class_field
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
