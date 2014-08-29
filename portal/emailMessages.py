@@ -1,10 +1,10 @@
 from django.core.urlresolvers import reverse
 
 def emailSubjectPrefix():
-    return '[ code ] for { life }'
+    return 'Code for Life'
 
 def emailBodySignOff(request):
-    return '\n\nThanks,\n\nThe [ code ] for { life } team.\n' + request.build_absolute_uri(reverse('home'))
+    return '\n\nThanks,\n\nThe Code for Life team.\n' + request.build_absolute_uri(reverse('home'))
 
 def emailVerificationNeededEmail(request, token):
     return {
