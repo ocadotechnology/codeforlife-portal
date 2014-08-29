@@ -1,9 +1,9 @@
-application: numeric-incline-526
+application: decent-digit-629
 version: 1
 runtime: python27
 api_version: 1
 threadsafe: true
-module: integrate
+module: dev
 
 handlers:
 - url: /favicon\.ico
@@ -25,11 +25,19 @@ handlers:
 
 env_variables:
   DJANGO_SETTINGS_MODULE: 'deploy.settings'
-  DATABASE_NAME: 'codeforlife_integrate'
-  CACHE_PREFIX: 'integrate-'
+  DATABASE_NAME: 'cfl_dev'
+  CACHE_PREFIX: 'dev-'
 
 libraries:
 - name: MySQLdb
   version: latest
 - name: PIL
   version: latest
+
+skip_files:
+- ^(.*/)?.*\.scss$
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
