@@ -13,8 +13,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client \
                                                       rubygems1.9.1 \
                                                       git
 RUN gem install sass --version '3.3.4'
-RUN cd /opt; curl -O -s https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.8.zip && \
-    unzip -qq google_appengine_1.9.8.zip && rm google_appengine_1.9.8.zip
+RUN cd /opt; curl -O -s https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.10.zip && \
+    unzip -qq google_appengine_1.9.10.zip && rm google_appengine_1.9.10.zip
 ENV PATH /opt/google_appengine:$PATH
 ADD . /opt/codeforlife-deploy/
 ENV TMPDIR /pip

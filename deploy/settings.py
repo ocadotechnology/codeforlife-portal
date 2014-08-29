@@ -126,7 +126,7 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/numeric-incline-526:db',
+            'HOST': '/cloudsql/decent-digit-629:db',
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
         }
@@ -164,7 +164,7 @@ else:
     }
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_DOMAIN = 'numeric-incline-526.appspotmail.com'
+EMAIL_DOMAIN = 'decent-digit-629.appspotmail.com'
 
 LOCALE_PATHS = (
     'conf/locale',
