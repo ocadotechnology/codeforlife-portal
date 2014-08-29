@@ -104,6 +104,10 @@
 
                     <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in'/>
                 </form>
+                <div class="login-help">
+                    Are you a teacher? <a href="{% url 'portal.views.teach' %}">Log in</a>.
+                </div>
+
             </div>
 
             <div id="solo-login" class="login-card">
@@ -135,7 +139,8 @@
                 </form>
 
                 <div class="login-help">
-                    <a href="{% url 'student_password_reset' %}">Forgotten Password?</a>
+                    <a href="{% url 'student_password_reset' %}">Forgotten Password?</a><br>
+                    Are you a teacher? <a href="{% url 'portal.views.teach' %}">Log in</a>.
                 </div>
             </div>
 
