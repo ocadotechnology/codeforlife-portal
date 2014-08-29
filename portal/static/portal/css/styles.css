@@ -1048,3 +1048,25 @@ ul.errorlist li {
 }
 
 /********** End jQuery ui dialogs ************/
+
+/********** Teacher resource page ************/
+
+div.table {
+  display: table;
+  width: 100%;
+}
+
+div.table_row {
+  display: table-row;
+}
+
+div.table_cell {
+  display: table-cell;
+  padding-top: 10px;
+}
+
+div.table > :first-child div.table_cell {
+  padding-top: 0px;
+}
+
+/********** End teacher resource page ************/
