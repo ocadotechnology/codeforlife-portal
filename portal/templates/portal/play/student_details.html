@@ -36,9 +36,11 @@
             <tr>
               <td><a href="{% url 'game.views.levels' %}">Play Rapid Router</a></td>
             </tr>
+            {% if user.userprofile.student.class_field %}
             <tr>
               <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
             </tr>
+            {% endif %}
             <tr>
               <td><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
             </tr>
