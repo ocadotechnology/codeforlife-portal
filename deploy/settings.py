@@ -171,7 +171,7 @@ else:
     }
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_DOMAIN = 'decent-digit-629.appspotmail.com'
+EMAIL_DOMAIN = 'codeforlife.education'
 
 LOCALE_PATHS = (
     'conf/locale',
