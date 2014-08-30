@@ -19,7 +19,7 @@ rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xbq1u1w_zknl4t=wlem!)!)j*8=n9(2*wcxj$r6!b5#1uxgsv2'
+SECRET_KEY = os.getenv('DJANGO_SECRET', 'xbq1u1w_zknl4t=wlem!)!)j*8=n9(2*wcxj$r6!b5#1uxgsv2')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
