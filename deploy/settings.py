@@ -116,6 +116,13 @@ if os.getenv('DEPLOYMENT', None):
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
             'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
+            'OPTIONS':  {
+                'ssl': {
+                    'ca': 'server-ca.pem',
+                    'cert': 'client-cert.pem',
+                    'key': 'client-key.pem'
+                }
+            }
         }
     }
     COMPRESS_OFFLINE = True
