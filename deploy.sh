@@ -15,4 +15,4 @@ export DEPLOYMENT=1
 ./manage.py migrate
 # flush memcache
 echo "from django.core.cache import cache; cache.clear()" | ./manage.py shell
-appcfg.py update --authenticate_service_account $DEPLOYMENT_CONFIG
+appcfg.py update --authenticate_service_account -E DJANGO_SECRET:$DJANGO_SECRET $DEPLOYMENT_CONFIG
