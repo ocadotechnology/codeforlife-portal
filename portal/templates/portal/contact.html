@@ -39,7 +39,7 @@
 
             {% if form.recaptcha %}
                 <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
-                <div class="col no-margins">
+                <div class="col no-margin">
                     {{ form.recaptcha.errors }}
                     {{ form.recaptcha|safe }}
                 </div>
