@@ -10,7 +10,6 @@ from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.staticfiles import finders
@@ -58,28 +57,15 @@ def send_verification_email(request, userProfile, new_email=None):
 
     if new_email:
         emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
-
-        send_mail(emailMessage['subject'],
-                  emailMessage['message'],
-                  VERIFICATION_EMAIL,
-                  [new_email])
+        email_sender.send_email(VERIFICATION_EMAIL, [new_email], emailMessage['subject'], emailMessage['message'])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
-
-        send_mail(emailMessage['subject'],
-                  emailMessage['message'],
-                  VERIFICATION_EMAIL,
-                  [userProfile.user.email])
+        email_sender.send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])
 
     else:
         emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
 
         email_sender.send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])
-
-        # send_mail(emailMessage['subject'],
-        #           emailMessage['message'],
-        #           VERIFICATION_EMAIL,
-        #           [userProfile.user.email])
 
 def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
@@ -334,17 +320,11 @@ def contact(request):
 
         if contact_form.is_valid():
             emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
-            send_mail(emailMessage['subject'],
-                      emailMessage['message'],
-                      CONTACT_EMAIL,
-                      CONTACT_FORM_EMAILS,
-                      )
+            email_sender.send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, emailMessage['subject'], emailMessage['message'])
+
             confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
-            send_mail(confirmedEmailMessage['subject'],
-                      confirmedEmailMessage['message'],
-                      CONTACT_EMAIL,
-                      [contact_form.cleaned_data['email']],
-                      )
+            email_sender.send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']], confirmedEmailMessage['subject'], confirmedEmailMessage['message'])
+
             messages.success(request, 'Your message was sent successfully.')
             return HttpResponseRedirect('.')
 
@@ -489,17 +469,10 @@ def organisation_create(request):
                 emailMessage = emailMessages.joinRequestPendingEmail(request, teacher.user.user.email)
 
                 for admin in Teacher.objects.filter(school=school, is_admin=True):
-                    send_mail(emailMessage['subject'],
-                              emailMessage['message'],
-                              NOTIFICATION_EMAIL,
-                              [admin.user.user.email])
+                    email_sender.send_email(NOTIFICATION_EMAIL, [admin.user.user.email], emailMessage['subject'], emailMessage['message'])
 
                 emailMessage = emailMessages.joinRequestSentEmail(request, school.name)
-
-                send_mail(emailMessage['subject'],
-                          emailMessage['message'],
-                          NOTIFICATION_EMAIL,
-                          [teacher.user.user.email])
+                email_sender.send_email(NOTIFICATION_EMAIL, [teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
 
                 messages.success(request, 'Your request to join the school or club has been sent successfully.')
 
@@ -641,10 +614,7 @@ def organisation_kick(request, pk):
 
     emailMessage = emailMessages.kickedEmail(request, user.school.name)
 
-    send_mail(emailMessage['subject'],
-              emailMessage['message'],
-              NOTIFICATION_EMAIL,
-              [teacher.user.user.email])
+    email_sender.send_email(NOTIFICATION_EMAIL, [teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -672,10 +642,7 @@ def organisation_toggle_admin(request, pk):
         messages.success(request, 'Administractor status has been revoked successfully.')
         emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
 
-    send_mail(emailMessage['subject'],
-              emailMessage['message'],
-              NOTIFICATION_EMAIL,
-              [teacher.user.user.email])
+    email_sender.send_email(NOTIFICATION_EMAIL, [teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -697,11 +664,7 @@ def organisation_allow_join(request, pk):
     messages.success(request, 'The teacher has been added to your school or club.')
 
     emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
-
-    send_mail(emailMessage['subject'],
-              emailMessage['message'],
-              NOTIFICATION_EMAIL,
-              [teacher.user.user.email])
+    email_sender.send_email(NOTIFICATION_EMAIL, [teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -721,11 +684,7 @@ def organisation_deny_join(request, pk):
     messages.success(request, 'The request to join your school or club has been successfully denied.')
 
     emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.userprofile.teacher.school.name)
-
-    send_mail(emailMessage['subject'],
-              emailMessage['message'],
-              NOTIFICATION_EMAIL,
-              [teacher.user.user.email])
+    email_sender.send_email(NOTIFICATION_EMAIL, [teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse('portal.views.organisation_manage'))
 
@@ -1417,11 +1376,7 @@ def teacher_reject_student_request(request, pk):
         raise Http404
 
     emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
-
-    send_mail(emailMessage['subject'],
-              emailMessage['message'],
-              NOTIFICATION_EMAIL,
-              [student.user.user.email])
+    email_sender.send_email(NOTIFICATION_EMAIL, [student.user.user.email], emailMessage['subject'], emailMessage['message'])
 
     student.pending_class_request = None
     student.save()
@@ -1513,18 +1468,10 @@ def student_join_organisation(request):
                 student.save()
 
                 emailMessage = emailMessages.studentJoinRequestSentEmail(request, request_form.klass.teacher.school.name, request_form.klass.access_code)
-
-                send_mail(emailMessage['subject'],
-                          emailMessage['message'],
-                          NOTIFICATION_EMAIL,
-                          [student.user.user.email])
+                email_sender.send_email(NOTIFICATION_EMAIL, [student.user.user.email], emailMessage['subject'], emailMessage['message'])
 
                 emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.user.user.username, student.user.user.email, student.pending_class_request.access_code)
-
-                send_mail(emailMessage['subject'],
-                          emailMessage['message'],
-                          NOTIFICATION_EMAIL,
-                          [student.pending_class_request.teacher.user.user.email])
+                email_sender.send_email(NOTIFICATION_EMAIL, [student.pending_class_request.teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
 
                 messages.success(request, 'Your request to join a school has been received successfully.')
 
