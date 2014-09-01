@@ -445,9 +445,9 @@ def organisation_create(request):
                 school = School.objects.create(
                     name=create_form.cleaned_data['name'],
                     postcode=create_form.cleaned_data['postcode'],
-                    town=create_form.postcode_data['administrative']['constituency']['title'],
-                    latitude=create_form.postcode_data['geo']['lat'],
-                    longitude=create_form.postcode_data['geo']['lng'])
+                    town='0',
+                    latitude='0',
+                    longitude='0')
 
                 teacher.school = school
                 teacher.is_admin = True
@@ -508,7 +508,7 @@ def organisation_teacher_view(request, is_admin):
     form.fields['name'].initial = school.name
     form.fields['postcode'].initial = school.postcode
 
-    if request.method == 'POST':
+    if request.method == 'POST' and is_admin:
         form = OrganisationEditForm(request.POST, current_school=school)
         if form.is_valid():
             school.name = form.cleaned_data['name']
