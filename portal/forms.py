@@ -159,7 +159,7 @@ class TeacherEditAccountForm(forms.Form):
         email = self.cleaned_data.get('email', None)
         if email:
             teachers = Teacher.objects.filter(user__user__email=email)
-            if not (len(teachers) == 0 or (len(teachers) == 1 and users[0] == self.user)):
+            if not (len(teachers) == 0 or (len(teachers) == 1 and teachers[0].user.user == self.user)):
                 raise forms.ValidationError('That email address is already in use')
 
         return email
