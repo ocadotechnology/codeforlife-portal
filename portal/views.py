@@ -38,6 +38,7 @@ from forms import TeacherSignupForm, TeacherLoginForm, TeacherEditAccountForm, T
 from permissions import logged_in_as_teacher, logged_in_as_student, not_logged_in
 from app_settings import CONTACT_FORM_EMAILS
 import emailMessages
+import email_sender
 
 from ratelimit.decorators import ratelimit
 
@@ -73,10 +74,12 @@ def send_verification_email(request, userProfile, new_email=None):
     else:
         emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
 
-        send_mail(emailMessage['subject'],
-                  emailMessage['message'],
-                  VERIFICATION_EMAIL,
-                  [userProfile.user.email])
+        email_sender.send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])
+
+        # send_mail(emailMessage['subject'],
+        #           emailMessage['message'],
+        #           VERIFICATION_EMAIL,
+        #           [userProfile.user.email])
 
 def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
