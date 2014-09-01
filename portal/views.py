@@ -312,9 +312,23 @@ def play(request):
     res.count = invalid_form
     return res
 
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def contact(request):
+    increment_count = False
+    limits = getattr(request, 'limits', { 'ip': [0] })
+    captcha_limit = 5
+
+    using_captcha = (limits['ip'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+
+    ContactFormWithCaptcha = partial(create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
+    InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
+    OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
+
     if request.method == 'POST':
-        contact_form = ContactForm(request.POST)
+        contact_form = InputContactForm(request.POST)
+        increment_count = True
+
         if contact_form.is_valid():
             emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_mail(emailMessage['subject'],
@@ -330,10 +344,17 @@ def contact(request):
                       )
             messages.success(request, 'Your message was sent successfully.')
             return HttpResponseRedirect('.')
+
+        else:
+            contact_form = OutputContactForm(request.POST)
+
     else:
-        contact_form = ContactForm()
+        contact_form = OutputContactForm()
         
-    return render(request, 'portal/contact.html', {'form': contact_form})
+    response = render(request, 'portal/contact.html', { 'form': contact_form })
+
+    response.count = increment_count
+    return response
 
 def schools_map(request):
     schools = School.objects.all()
