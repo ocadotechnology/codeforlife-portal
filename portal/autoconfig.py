@@ -30,6 +30,8 @@ SETTINGS = {
         'django_otp.middleware.OTPMiddleware',
     ],
 
+    'CODEFORLIFE_WEBSITE': 'www.codeforlife.education',
+
     'CLOUD_STORAGE_PREFIX': 'http://storage.googleapis.com/codeforlife-assets/',
 
     'RECAPTCHA_PUBLIC_KEY': os.getenv('RECAPTCHA_PUBLIC_KEY', None),

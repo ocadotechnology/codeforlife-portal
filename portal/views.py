@@ -1317,7 +1317,7 @@ def teacher_print_reminder_cards(request, access_code):
 
         # footer text
         p.setFont('Helvetica', 10)
-        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, footer_bottom + FOOTER_HEIGHT * 0.32 , 'www.codeforlife.education')
+        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, footer_bottom + FOOTER_HEIGHT * 0.32 , settings.CODEFORLIFE_WEBSITE)
 
         # left hand side writing
         p.setFillColor(black)
