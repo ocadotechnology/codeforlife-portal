@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
+
 
 def send_email(sender, recipients, subject, text_content, html_content=None, plaintext_template='email.txt', html_template='email.html'):
 	plaintext = loader.get_template(plaintext_template)
