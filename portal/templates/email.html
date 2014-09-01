@@ -1,5 +1,5 @@
 {% load static %}
 
-<img src="{% static 'portal/img/cfl_logo_blue_rounded.png' %}" width="40%" alt="Code for Life" />
+<img src="{% static 'portal/img/cfl_logo_blue_rounded.png' %}" height="50" alt="Code for Life" />
 
-{{ content|linebreaks }}
+{{ content|urlize|linebreaks }}
