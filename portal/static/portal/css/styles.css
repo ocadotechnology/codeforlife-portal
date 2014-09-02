@@ -927,6 +927,7 @@ ul.messages li {
     border-bottom-right-radius:5px;
     -webkit-border-bottom-left-radius:5px;
     -moz-border-radius-bottomleft:5px;
+    border-bottom-left-radius:5px;
 }
 
 ul.errorlist li {
