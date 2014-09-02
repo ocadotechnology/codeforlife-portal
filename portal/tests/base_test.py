@@ -1,15 +1,10 @@
 from django.test import TestCase
 from selenium import webdriver
 
+master_browser = webdriver.Firefox()
+
+import os, sys
+sys.path.append(os.path.dirname(__file__))
+
 class BaseTest(TestCase):
-    browser = None
-
-    @classmethod
-    def setUpClass(cls):
-        super(BaseTest, cls).setUpClass()
-        cls.browser = webdriver.Firefox()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.browser.close()
-        super(BaseTest, cls).tearDownClass()
+    browser = master_browser

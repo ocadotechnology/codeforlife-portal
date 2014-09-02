@@ -49,13 +49,13 @@
     {% block topBar %}
         <div class='topBar'>
             <div class="content">
-                <a id="topNav_home" href="{% url 'home' %}" class="logo">
+                <a id="home_button" href="{% url 'home' %}" class="logo">
                     <span></span>
                     <h1>Code for Life</h1>
                 </a>
                 <ul class="topNav">
-                    <li>{% block nav_teach %}<a id="topNav_teach" href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
-                    <li>{% block nav_play %}<a id="topNav_play" href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
+                    <li>{% block nav_teach %}<a id="teach_button" href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
+                    <li>{% block nav_play %}<a id="play_button" href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
                     {% if user|is_logged_in %}
                         <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
                     {% endif %}
@@ -114,10 +114,10 @@
 {% cache 3600 fragment-base-footer %}
     <div class="footer">
         <ul>
-            <li><a href="{% url 'about' %}">About us</a></li>
-            <li><a href="{% url 'contact' %}">Contact Us</a></li>
-            <li><a href="{% url 'terms' %}">Terms of use</a></li>
-            <li><a href="{% url 'help' %}">Help &amp; Support</a></li>
+            <li><a id="about_button" href="{% url 'about' %}">About us</a></li>
+            <li><a id="contact_button" href="{% url 'contact' %}">Contact Us</a></li>
+            <li><a id="terms_button" href="{% url 'terms' %}">Terms of use</a></li>
+            <li><a id="help_button" href="{% url 'help' %}">Help &amp; Support</a></li>
             <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy; 2014</li>
         </ul>
     </div>
