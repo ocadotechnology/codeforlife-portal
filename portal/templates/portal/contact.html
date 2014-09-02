@@ -37,6 +37,8 @@
                 {{ form.message }}
             </div>
 
+            {{ form.browser }}
+
             {% if form.recaptcha %}
                 <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
                 <div class="col no-margin">
@@ -52,5 +54,9 @@
         
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#browserField').val(navigator.userAgent);
+</script>
 
 {% endblock content %}

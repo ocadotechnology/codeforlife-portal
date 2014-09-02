@@ -66,10 +66,10 @@ def adminRevokedEmail(request, schoolName):
         'message': "Your administrator control of the school or club '" + schoolName + "' has been revoked. If you think this is in error, please contact one of the other administrators in your school or club." + emailBodySignOff(request),
     }
 
-def contactEmail(request, name, telephone, email, message):
+def contactEmail(request, name, telephone, email, message, browser):
     return {
         'subject': emailSubjectPrefix() + ' : Contact from Portal',
-        'message': "The following message has been submitted on the Code for Life portal:\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\nMessage:\n{message}".format(name=name, telephone=telephone, email=email, message=message),
+        'message': "The following message has been submitted on the Code for Life portal:\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\nMessage:\n{message}\n\nBrowser version data received:\n{browser}".format(name=name, telephone=telephone, email=email, message=message, browser=browser),
     }
 def confirmationContactEmailMessage(request, name, telephone, email, message):
     return {
