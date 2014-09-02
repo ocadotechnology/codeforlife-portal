@@ -6,7 +6,7 @@ from email.MIMEImage import MIMEImage
 
 def send_email(sender, recipients, subject, text_content, html_content=None, plaintext_template='email.txt', html_template='email.html'):
     # setup template images library, make into attachments
-    images=[['cfl_logo_blue_rounded.png','cfl-logo']]
+    images=[['cfl_logo_blue_rounded.png','cfllogo']]
     attachments = []
     # add in template for templates to message
     for img in images:
