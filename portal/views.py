@@ -319,7 +319,7 @@ def contact(request):
         increment_count = True
 
         if contact_form.is_valid():
-            emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'], contact_form.cleaned_data['browser'])
             email_sender.send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, emailMessage['subject'], emailMessage['message'])
 
             confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
