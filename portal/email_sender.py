@@ -5,8 +5,16 @@ from email.MIMEImage import MIMEImage
 
 
 def send_email(sender, recipients, subject, text_content, html_content=None, plaintext_template='email.txt', html_template='email.html'):
-    # setup template images library
+    # setup template images library, make into attachments
     images=[['cfl_logo_blue_rounded.png','cfl-logo']]
+    attachments = []
+    # add in template for templates to message
+    for img in images:
+        fp = open(settings.MEDIA_ROOT+img[0], 'rb')
+        msgImage = MIMEImage(fp.read())
+        fp.close()
+        msgImage.add_header('Content-ID', '<'+img[1]+'>')
+        attachments.append(msgImage)
 
     # setup templates
     plaintext = loader.get_template(plaintext_template)
@@ -21,16 +29,9 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
     html_body = html.render(html_email_context)
 
     # make message using templates
-    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
+    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients, attachments=attachments)
     message.attach_alternative(html_body, "text/html")
 
-    # add in template for templates to message
-    for img in images:
-      fp = open(settings.MEDIA_ROOT+img[0], 'rb')
-      msgImage = MIMEImage(fp.read())
-      fp.close()
-      msgImage.add_header('Content-ID', '<'+img[1]+'>')
-      message.attach(msgImage)
 
     # send!
     message.send()
