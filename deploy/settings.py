@@ -87,6 +87,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = rel('static')
 
+MEDIA_ROOT = rel('static')+'/email_media/'
+
 # Auth URLs
 
 LOGIN_URL = '/'
