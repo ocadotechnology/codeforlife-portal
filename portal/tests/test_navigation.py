@@ -1,19 +1,20 @@
 from django.conf import settings
-from django.test import TestCase
-from selenium import webdriver
 
-class TestNavigation(TestCase):
-    browser = None
+from base_test import BaseTest
 
-    def setUp(self):
-        self.browser = webdriver.Firefox()
+from pageObjects import HomePage, PlayPage, TeachPage
 
-    def tearDown(self):
-        self.browser.close()
-
+class TestNavigation(BaseTest):
     def test_home(self):
         self.browser.get(settings.TESTING_WEBSITE)
+        page = HomePage(self.browser)
 
-        # Check we're on the home page
-        self.browser.find_element_by_id('home_page')
-        assert self.browser.title == 'Code for Life'
+    def test_play(self):
+        self.browser.get(settings.TESTING_WEBSITE)
+        page = HomePage(self.browser)
+        page = page.goToPlayPage()
+
+    def test_teach(self):
+        self.browser.get(settings.TESTING_WEBSITE)
+        page = HomePage(self.browser)
+        page = page.goToTeachPage()

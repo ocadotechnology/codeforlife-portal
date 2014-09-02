@@ -49,17 +49,17 @@
     {% block topBar %}
         <div class='topBar'>
             <div class="content">
-                <a href="/" class="logo">
+                <a id="topNav_home" href="{% url 'home' %}" class="logo">
                     <span></span>
                     <h1>Code for Life</h1>
                 </a>
-                    <ul class="topNav">
-                        <li>{% block nav_teach %}<a href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
-                        <li>{% block nav_play %}<a href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
-                        {% if user|is_logged_in %}
-                            <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
-                        {% endif %}
-                    </ul>
+                <ul class="topNav">
+                    <li>{% block nav_teach %}<a id="topNav_teach" href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
+                    <li>{% block nav_play %}<a id="topNav_play" href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
+                    {% if user|is_logged_in %}
+                        <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     {% endblock topBar %}
