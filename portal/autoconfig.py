@@ -32,6 +32,8 @@ SETTINGS = {
 
     'CODEFORLIFE_WEBSITE': 'www.codeforlife.education',
 
+    'TESTING_WEBSITE': 'http://trial:cabbage@127.0.0.1:8000/',
+
     'CLOUD_STORAGE_PREFIX': 'http://storage.googleapis.com/codeforlife-assets/',
 
     'RECAPTCHA_PUBLIC_KEY': os.getenv('RECAPTCHA_PUBLIC_KEY', None),

@@ -16,6 +16,7 @@ setup(name='portal',
         'postcodes==0.1',
         'django-two-factor-auth==1.0.0-beta3',
         'django==1.7c1',
+        'selenium==2.42.1',
       ],
       dependency_links = [
         'https://www.djangoproject.com/download/1.7c1/tarball/#egg=django-1.7c1',
