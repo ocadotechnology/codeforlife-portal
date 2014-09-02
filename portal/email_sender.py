@@ -13,7 +13,7 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
         fp = open(settings.MEDIA_ROOT+img[0], 'rb')
         msgImage = MIMEImage(fp.read())
         fp.close()
-        msgImage.add_header('Content-ID', '<'+img[1]+'>')
+        # msgImage.add_header('Content-ID', '<'+img[1]+'>')
         attachments.append(msgImage)
 
     # setup templates
