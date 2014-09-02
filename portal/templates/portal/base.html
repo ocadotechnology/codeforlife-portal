@@ -104,6 +104,12 @@
         </ul>
         <![endif]-->
 
+        <!--[if lt IE 10]>
+        <ul class="messages">
+            <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router correctly. Please consider using another browser, or upgrading to at least Internet Explorer 10. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
+        </ul>
+        <![endif]-->
+
         {% block contentTopPadding %}
             <div class="topPadding"></div>
         {% endblock contentTopPadding %}
