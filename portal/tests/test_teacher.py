@@ -49,9 +49,9 @@ class TestTeacher(BaseTest):
             'last_name': 'Koch',
         })
 
-    def test_change_email(self):
-        pass
+    # def test_change_email(self):
+    #     pass
 
 
-    def test_change_password(self):
-        pass
+    # def test_change_password(self):
+    #     pass
