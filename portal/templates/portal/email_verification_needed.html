@@ -3,6 +3,8 @@
 
 {% block content %}
 
+<div id="emailVerificationNeeded_page"></div>
+
 <div class='section group'>
     <div class='span_centered_half'>
 
@@ -15,7 +17,7 @@
             <p>Please follow the link within the email to verify your details.</p>
             <p>If you don't receive the email within the next few minutes, check your spam folder.</p>
 
-            <a class='btn btn-primary wide' href="{% url 'home' %}">Go to Homepage</a>
+            <a id="homepage_button" class='btn btn-primary wide' href="{% url 'home' %}">Go to Homepage</a>
         </div>
 
     </div>

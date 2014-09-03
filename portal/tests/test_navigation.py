@@ -1,5 +1,3 @@
-from django.conf import settings
-
 from base_test import BaseTest
 
 from pageObjects.portal.home import HomePage
