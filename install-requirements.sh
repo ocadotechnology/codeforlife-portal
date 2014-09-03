@@ -9,7 +9,7 @@ rm -rf VIRTUALENV
 virtualenv VIRTUALENV
 source VIRTUALENV/bin/activate
 
-pip install https://www.djangoproject.com/download/1.7c1/tarball/
+pip install -r requirements.txt
 pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
 
 pip install -r ../ocargo/requirements.txt

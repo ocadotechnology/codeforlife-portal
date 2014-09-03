@@ -1,5 +1,5 @@
 #!/bin/bash
-pip install https://www.djangoproject.com/download/1.7c1/tarball/
+pip install -r /opt/codeforlife-deploy/requirements.txt
 pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
 ssh-agent /opt/codeforlife-deploy/install-portal.sh
 ssh-agent /opt/codeforlife-deploy/install-rapid-router.sh
