@@ -15,6 +15,7 @@ var PASSWORD_TYPE = 'TEACHER';
 
 {% block content %}
 
+<div id="teach_account_page"></div>
 
 <h1>Account</h1><br>
 <h2>Edit my details</h2><br>
@@ -91,11 +92,11 @@ var PASSWORD_TYPE = 'TEACHER';
 
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default wide' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
+                        <a id="cancel_button" class='btn btn-default wide' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
                     </div>
 
                     <div class='col span_1_of_2'>
-                        <input type='submit' class='btn btn-primary wide' value='Update'/>
+                        <input id="update_button" type='submit' class='btn btn-primary wide' value='Update'/>
                     </div>
                 </div>
 

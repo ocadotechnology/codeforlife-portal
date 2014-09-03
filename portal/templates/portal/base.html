@@ -69,14 +69,14 @@
             <div class="subnav">
                     <ul>
                         {% if user|is_logged_in_as_student %}
-                            <li>{% block nav_student_dashboard %}<a href="{% url 'portal.views.student_details' %}">Dashboard</a>{% endblock nav_student_dashboard %}</li>
-                            <li>{% block nav_student_account %}<a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
+                            <li>{% block nav_student_dashboard %}<a id="student_dashboard_button" href="{% url 'portal.views.student_details' %}">Dashboard</a>{% endblock nav_student_dashboard %}</li>
+                            <li>{% block nav_student_account %}<a id="student_account_button" href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
                         {% endif %}
                         {% if user|is_logged_in_as_teacher %}
-                            <li>{% block nav_teacher_dashboard %}<a href="{% url 'portal.views.teacher_home' %}">Dashboard</a>{% endblock nav_teacher_dashboard %}</li>
-                            <li>{% block nav_teacher_classes %}<a href="{% url 'portal.views.teacher_classes' %}">Classes</a>{% endblock nav_teacher_classes %}</li>
-                            <li>{% block nav_teacher_account %}<a href="{% url 'portal.views.teacher_edit_account' %}">Account</a>{% endblock nav_teacher_account %}</li>
-                            <li>{% block nav_teacher_school %}<a href="{% url 'portal.views.organisation_manage' %}">School | Club</a>{% endblock nav_teacher_school %}</li>
+                            <li>{% block nav_teacher_dashboard %}<a id="teacher_dashboard_button" href="{% url 'portal.views.teacher_home' %}">Dashboard</a>{% endblock nav_teacher_dashboard %}</li>
+                            <li>{% block nav_teacher_classes %}<a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a>{% endblock nav_teacher_classes %}</li>
+                            <li>{% block nav_teacher_account %}<a id="teacher_account_button" href="{% url 'portal.views.teacher_edit_account' %}">Account</a>{% endblock nav_teacher_account %}</li>
+                            <li>{% block nav_teacher_school %}<a id="teacher_organisation_button" href="{% url 'portal.views.organisation_manage' %}">School | Club</a>{% endblock nav_teacher_school %}</li>
                         {% endif %}
                     </ul>
             </div>

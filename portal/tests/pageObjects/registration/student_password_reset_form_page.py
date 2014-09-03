@@ -1,6 +1,3 @@
-from django.conf import settings
-from selenium import webdriver
-
 from pageObjects.portal.base_page import BasePage
 
 class StudentPasswordResetFormPage(BasePage):

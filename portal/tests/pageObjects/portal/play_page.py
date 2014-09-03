@@ -1,5 +1,3 @@
-from django.conf import settings
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,7 +8,7 @@ class PlayPage(BasePage):
     def __init__(self, browser):
         super(PlayPage, self).__init__(browser)
 
-        self.browser.find_element_by_id('play_page')
+        self.assertOnCorrectPage('play_page')
 
     def goToTeacherLogin(self):
         if self.browser.find_element_by_id('school-login').is_displayed():
