@@ -1,7 +1,7 @@
 from django.conf import settings
 from selenium import webdriver
 
-from base import BasePage
+from base_page import BasePage
 
 class HelpPage(BasePage):
     def __init__(self, browser):

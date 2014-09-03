@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from base import BasePage
+from base_page import BasePage
 
 class PlayPage(BasePage):
     def __init__(self, browser):
@@ -17,11 +17,11 @@ class PlayPage(BasePage):
             self.browser.find_element_by_id('teacherLogin_school_button').click()
         else:
             self.browser.find_element_by_id('teacherLogin_solo_button').click()
-        return teach.TeachPage(self.browser)
+        return teach_page.TeachPage(self.browser)
 
     def goToForgottenPasswordPage(self):
         self.browser.find_element_by_id('forgottenPassword_button').click()
-        return pageObjects.registration.student_password_reset_form.StudentPasswordResetFormPage(self.browser)
+        return pageObjects.registration.student_password_reset_form_page.StudentPasswordResetFormPage(self.browser)
 
     def showSchoolLogin(self):
         button = self.browser.find_element_by_id('switchToSchool')
@@ -56,5 +56,5 @@ class PlayPage(BasePage):
         return self.browser.find_element_by_id('signup-form').is_displayed() == showing and \
                self.browser.find_element_by_id('signup-warning').is_displayed() != showing
 
-import teach
-import pageObjects.registration.student_password_reset_form
+import teach_page
+import pageObjects.registration.student_password_reset_form_page

@@ -1,7 +1,7 @@
 from django.conf import settings
 from selenium import webdriver
 
-from base import BasePage
+from base_page import BasePage
 
 class HomePage(BasePage):
     def __init__(self, browser):
@@ -11,6 +11,6 @@ class HomePage(BasePage):
 
     def goToTeacherSignUp(self):
         self.browser.find_element_by_id('teacherSignUp_button').click()
-        return teach.TeachPage(self.browser)
+        return teach_page.TeachPage(self.browser)
 
-import teach
+import teach_page

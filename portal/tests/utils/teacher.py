@@ -3,7 +3,7 @@ from django.core import mail
 def signup_teacher(page):
     page = page.goToTeachPage()
 
-    page = page.signup_teacher('Mr', 'Test', 'Teacher', 'testteacher%d@codeforlife.com' % signup_teacher.next_id, 'Password1', 'Password1')
+    page = page.signup('Mr', 'Test', 'Teacher', 'testteacher%d@codeforlife.com' % signup_teacher.next_id, 'Password1', 'Password1')
     signup_teacher.next_id += 1
 
     page = page.returnToHomePage()

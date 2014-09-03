@@ -9,36 +9,36 @@ class BasePage(object):
 
     def goToAboutPage(self):
         self.browser.find_element_by_id('about_button').click()
-        return about.AboutPage(self.browser)
+        return about_page.AboutPage(self.browser)
 
     def goToContactPage(self):
         self.browser.find_element_by_id('contact_button').click()
-        return contact.ContactPage(self.browser)
+        return contact_page.ContactPage(self.browser)
 
     def goToHelpPage(self):
         self.browser.find_element_by_id('help_button').click()
-        return help_and_support.HelpPage(self.browser)
+        return help_and_support_page.HelpPage(self.browser)
 
     def goToHomePage(self):
         self.browser.find_element_by_id('home_button').find_element_by_tag_name('span').click()
-        return home.HomePage(self.browser)
+        return home_page.HomePage(self.browser)
 
     def goToPlayPage(self):
         self.browser.find_element_by_id('play_button').click()
-        return play.PlayPage(self.browser)
+        return play_page.PlayPage(self.browser)
 
     def goToTeachPage(self):
         self.browser.find_element_by_id('teach_button').click()
-        return teach.TeachPage(self.browser)
+        return teach_page.TeachPage(self.browser)
 
     def goToTermsPage(self):
         self.browser.find_element_by_id('terms_button').click()
-        return terms.TermsPage(self.browser)
+        return terms_page.TermsPage(self.browser)
 
-import about
-import contact
-import help_and_support
-import home
-import play
-import teach
-import terms
+import about_page
+import contact_page
+import help_and_support_page
+import home_page
+import play_page
+import teach_page
+import terms_page

@@ -11,6 +11,6 @@ def follow_verify_email_link(page, email):
 
     page.browser.get(message[i:j])
 
-    return pageObjects.portal.teach.TeachPage(page.browser)
+    return pageObjects.portal.teach_page.TeachPage(page.browser)
 
-import pageObjects.portal.teach
+import pageObjects.portal.teach_page

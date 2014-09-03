@@ -1,7 +1,7 @@
 from django.conf import settings
 from selenium import webdriver
 
-from ..portal.base import BasePage
+from pageObjects.portal.base_page import BasePage
 
 class TeacherPasswordResetFormPage(BasePage):
     def __init__(self, browser):
@@ -12,6 +12,6 @@ class TeacherPasswordResetFormPage(BasePage):
 
     def cancel(self):
         self.browser.find_element_by_id('cancel_button').click()
-        return pageObjects.portal.home.HomePage(self.browser)
+        return pageObjects.portal.home_page.HomePage(self.browser)
 
-import pageObjects.portal.home
+import pageObjects.portal.home_page
