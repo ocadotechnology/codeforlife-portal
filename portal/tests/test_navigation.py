@@ -6,7 +6,7 @@ from pageObjects.portal.home import HomePage
 
 class TestNavigation(BaseTest):
     def test_base(self):
-        self.browser.get(settings.TESTING_WEBSITE)
+        self.browser.get(self.home_url)
         page = HomePage(self.browser)
         page = page.goToAboutPage()
         page = page.goToContactPage()
@@ -16,13 +16,13 @@ class TestNavigation(BaseTest):
         page = page.goToTeachPage()
 
     def test_home(self):
-        self.browser.get(settings.TESTING_WEBSITE)
+        self.browser.get(self.home_url)
         page = HomePage(self.browser)
 
         page = page.goToTeacherSignUp().goToHomePage()
 
     def test_play(self):
-        self.browser.get(settings.TESTING_WEBSITE)
+        self.browser.get(self.home_url)
         page = HomePage(self.browser)
         page = page.goToPlayPage()
 
@@ -64,7 +64,7 @@ class TestNavigation(BaseTest):
 
 
     def test_teach(self):
-        self.browser.get(settings.TESTING_WEBSITE)
+        self.browser.get(self.home_url)
         page = HomePage(self.browser)
         page = page.goToTeachPage()
 
