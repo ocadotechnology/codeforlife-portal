@@ -57,7 +57,7 @@
                     <li>{% block nav_teach %}<a id="teach_button" href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
                     <li>{% block nav_play %}<a id="play_button" href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
                     {% if user|is_logged_in %}
-                        <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
+                        <li>{{ user|make_into_username|truncate:20 }} | <a id="logout_button" href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
                     {% endif %}
                 </ul>
             </div>

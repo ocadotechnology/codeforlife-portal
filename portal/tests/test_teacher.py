@@ -78,7 +78,25 @@ class TestTeacher(BaseTest):
             'last_name': 'Teacher',
         })
 
-    # def test_change_password(self):
-    #     pass
+    def test_change_password(self):
+        self.browser.get(self.home_url)
+        page = HomePage(self.browser)
+        page, email, password = signup_teacher(page)
+        page = page.login(email, password)
+
+        page = page.goToAccountPage()
+        new_password = 'AnotherPassword1'
+        page = page.changeDetails({
+            'password': new_password,
+            'confirm_password': new_password,
+            'current_password': password,
+        })
+        assert page.__class__.__name__ == 'TeachDashboardPage'
+        assert is_teacher_details_updated_message_showing(self.browser)
+
+        page = page.logout()
+        page = page.goToTeachPage()
+        page = page.login(email, new_password)
+        assert page.__class__.__name__ == 'TeachDashboardPage'
 
 from utils import email as email_utils

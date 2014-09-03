@@ -4,6 +4,10 @@ class TeachBasePage(BasePage):
     def __init__(self, browser):
         super(TeachBasePage, self).__init__(browser)
 
+    def logout(self):
+        self.browser.find_element_by_id('logout_button').click()
+        return pageObjects.portal.home_page.HomePage(self.browser)
+
     def goToDashboardPage(self):
         self.browser.find_element_by_id('teacher_dashboard_button').click()
         return dashboard_page.TeachDashboardPage(self.browser)
@@ -20,6 +24,7 @@ class TeachBasePage(BasePage):
         self.browser.find_element_by_id('teacher_organisation_button').click()
         return organisation_manage_page.TeachOrganisationManagePage(self.browser)
 
+import pageObjects.portal.home_page
 import dashboard_page
 import classes_page
 import account_page
