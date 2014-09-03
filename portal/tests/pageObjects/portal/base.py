@@ -20,7 +20,7 @@ class BasePage(object):
         return help_and_support.HelpPage(self.browser)
 
     def goToHomePage(self):
-        self.browser.find_element_by_id('home_button').click()
+        self.browser.find_element_by_id('home_button').find_element_by_tag_name('span').click()
         return home.HomePage(self.browser)
 
     def goToPlayPage(self):

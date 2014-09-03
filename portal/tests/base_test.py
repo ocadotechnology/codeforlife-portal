@@ -2,12 +2,17 @@ from django.conf import settings
 from django.test import LiveServerTestCase
 from selenium import webdriver
 
-master_browser = webdriver.Firefox()
-
 # This means that however nested the file is you can do
 # import pageObjects/.../... or whatever
 import os, sys
 sys.path.append(os.path.dirname(__file__))
+
+# Also point selenium to the chrome driver
+chromedriver = os.path.join(os.path.dirname(__file__), 'chromedriver')
+os.environ['webdriver.chrome.driver'] = chromedriver
+
+# master_browser = webdriver.Firefox()
+master_browser = webdriver.Chrome(chromedriver)
 
 class BaseTest(LiveServerTestCase):
     browser = master_browser
