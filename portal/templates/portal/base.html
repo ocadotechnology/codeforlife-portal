@@ -49,17 +49,17 @@
     {% block topBar %}
         <div class='topBar'>
             <div class="content">
-                <a href="/" class="logo">
+                <a id="home_button" href="{% url 'home' %}" class="logo">
                     <span></span>
                     <h1>Code for Life</h1>
                 </a>
-                    <ul class="topNav">
-                        <li>{% block nav_teach %}<a href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
-                        <li>{% block nav_play %}<a href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
-                        {% if user|is_logged_in %}
-                            <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
-                        {% endif %}
-                    </ul>
+                <ul class="topNav">
+                    <li>{% block nav_teach %}<a id="teach_button" href="{% url 'portal.views.teach' %}">TEACH</a>{% endblock nav_teach %}</li>
+                    <li>{% block nav_play %}<a id="play_button" href="{% url 'portal.views.play' %}">PLAY</a>{% endblock nav_play %}</li>
+                    {% if user|is_logged_in %}
+                        <li>{{ user|make_into_username|truncate:20 }} | <a href="{% url 'portal.views.logout_view' %}">LOGOUT</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     {% endblock topBar %}
@@ -69,14 +69,14 @@
             <div class="subnav">
                     <ul>
                         {% if user|is_logged_in_as_student %}
-                            <li>{% block nav_student_dashboard %}<a href="{% url 'portal.views.student_details' %}">Dashboard</a>{% endblock nav_student_dashboard %}</li>
-                            <li>{% block nav_student_account %}<a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
+                            <li>{% block nav_student_dashboard %}<a id="student_dashboard_button" href="{% url 'portal.views.student_details' %}">Dashboard</a>{% endblock nav_student_dashboard %}</li>
+                            <li>{% block nav_student_account %}<a id="student_account_button" href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
                         {% endif %}
                         {% if user|is_logged_in_as_teacher %}
-                            <li>{% block nav_teacher_dashboard %}<a href="{% url 'portal.views.teacher_home' %}">Dashboard</a>{% endblock nav_teacher_dashboard %}</li>
-                            <li>{% block nav_teacher_classes %}<a href="{% url 'portal.views.teacher_classes' %}">Classes</a>{% endblock nav_teacher_classes %}</li>
-                            <li>{% block nav_teacher_account %}<a href="{% url 'portal.views.teacher_edit_account' %}">Account</a>{% endblock nav_teacher_account %}</li>
-                            <li>{% block nav_teacher_school %}<a href="{% url 'portal.views.organisation_manage' %}">School | Club</a>{% endblock nav_teacher_school %}</li>
+                            <li>{% block nav_teacher_dashboard %}<a id="teacher_dashboard_button" href="{% url 'portal.views.teacher_home' %}">Dashboard</a>{% endblock nav_teacher_dashboard %}</li>
+                            <li>{% block nav_teacher_classes %}<a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a>{% endblock nav_teacher_classes %}</li>
+                            <li>{% block nav_teacher_account %}<a id="teacher_account_button" href="{% url 'portal.views.teacher_edit_account' %}">Account</a>{% endblock nav_teacher_account %}</li>
+                            <li>{% block nav_teacher_school %}<a id="teacher_organisation_button" href="{% url 'portal.views.organisation_manage' %}">School | Club</a>{% endblock nav_teacher_school %}</li>
                         {% endif %}
                     </ul>
             </div>
@@ -88,13 +88,15 @@
     {% block contentDiv %}
     <div class="content">
 
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        <div id='messages'>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
 
         <!--[if lt IE 10]>
         <ul class="messages">
@@ -120,10 +122,10 @@
 {% cache 3600 fragment-base-footer %}
     <div class="footer">
         <ul>
-            <li><a href="{% url 'about' %}">About us</a></li>
-            <li><a href="{% url 'contact' %}">Contact Us</a></li>
-            <li><a href="{% url 'terms' %}">Terms of use</a></li>
-            <li><a href="{% url 'help' %}">Help &amp; Support</a></li>
+            <li><a id="about_button" href="{% url 'about' %}">About us</a></li>
+            <li><a id="contact_button" href="{% url 'contact' %}">Contact Us</a></li>
+            <li><a id="terms_button" href="{% url 'terms' %}">Terms of use</a></li>
+            <li><a id="help_button" href="{% url 'help' %}">Help &amp; Support</a></li>
             <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy; 2014</li>
         </ul>
     </div>

@@ -20,6 +20,8 @@
 {% block content %}
 {{block.super}}
 
+<div id="play_page"></div>
+
 <div class="warningIE">In order to play, please <a href="http://browsehappy.com/">update your browser</a></div>
 
 <div class="section group">
@@ -105,7 +107,7 @@
                     <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in'/>
                 </form>
                 <div class="login-help">
-                    Are you a teacher? <a href="{% url 'portal.views.teach' %}">Log in</a>.
+                    Are you a teacher? <a id="teacherLogin_school_button" href="{% url 'portal.views.teach' %}">Log in</a>.
                 </div>
 
             </div>
@@ -139,8 +141,8 @@
                 </form>
 
                 <div class="login-help">
-                    <a href="{% url 'student_password_reset' %}">Forgotten Password?</a><br>
-                    Are you a teacher? <a href="{% url 'portal.views.teach' %}">Log in</a>.
+                    <a id="forgottenPassword_button" href="{% url 'student_password_reset' %}">Forgotten Password?</a><br>
+                    Are you a teacher? <a id="teacherLogin_solo_button" href="{% url 'portal.views.teach' %}">Log in</a>.
                 </div>
             </div>
 

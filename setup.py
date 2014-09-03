@@ -16,5 +16,6 @@ setup(name='portal',
         'django-jquery==1.9.1',
         'postcodes==0.1',
         'django-two-factor-auth==1.0.0-beta3',
+        'selenium==2.42.1',
       ],
 )
