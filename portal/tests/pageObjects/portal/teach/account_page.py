@@ -22,14 +22,13 @@ class TeachAccountPage(TeachBasePage):
 
         try:
             self.assertOnCorrectPage('teach_dashboard_page')
-            update_successful = True
-        except TimeoutException:
-            update_successful = False
-
-        if update_successful:
             return dashboard_page.TeachDashboardPage(self.browser)
-        else:
-            return self
+        except TimeoutException:
+            try:
+                self.assertOnCorrectPage('emailVerificationNeeded_page')
+                return pageObjects.portal.email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+            except TimeoutException:
+                return self
 
     def checkAccountDetails(self, details):
         correct = True
@@ -44,3 +43,4 @@ class TeachAccountPage(TeachBasePage):
         return correct
 
 import dashboard_page
+import pageObjects.portal.email_verification_needed_page
