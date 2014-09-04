@@ -4,6 +4,7 @@ setup(name='portal',
       packages=find_packages(),
       include_package_data=True,
       install_requires = [
+        'django==1.7',
         'django-appconf==0.6',
         'django-casper==0.0.2',
         'djangorestframework==2.3.9',
@@ -15,9 +16,6 @@ setup(name='portal',
         'django-jquery==1.9.1',
         'postcodes==0.1',
         'django-two-factor-auth==1.0.0-beta3',
-        'django==1.7c1',
-      ],
-      dependency_links = [
-        'https://www.djangoproject.com/download/1.7c1/tarball/#egg=django-1.7c1',
+        'selenium==2.42.1',
       ],
 )

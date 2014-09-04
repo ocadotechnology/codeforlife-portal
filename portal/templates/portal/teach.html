@@ -16,6 +16,8 @@
 {% block content %}
 {{block.super}}
 
+<div id="teach_page"></div>
+
 <div class="section group">
     <div class="col span_2_of_3">
         <h3>Resources</h3>
@@ -49,7 +51,7 @@
             <div class="login-card">
                 <h3>Teacher sign in</h3><br>
 
-                <form method='post'>
+                <form id='login_form' method='post'>
 
                     {% csrf_token %}
 
@@ -73,8 +75,8 @@
                 </form>
                             
                 <div class="login-help">
-                    <a href="{% url 'teacher_password_reset' %}">Forgotten Password?</a><br>
-                    Are you a student? <a href="{% url 'portal.views.play' %}">Log in</a>.
+                    <a id="forgottenPassword_button" href="{% url 'teacher_password_reset' %}">Forgotten Password?</a><br>
+                    Are you a student? <a id="studentLogin_button" href="{% url 'portal.views.play' %}">Log in</a>.
                 </div>
             </div>
 

@@ -1165,6 +1165,7 @@ def teacher_edit_account(request):
 
             if changing_email:
                 logout(request)
+                messages.success(request, 'Your account details have been successfully changed. Your email will be changed once you have verified it, until then you can still log in with your old email.')
                 return render(request, 'portal/email_verification_needed.html', { 'userprofile': teacher.user, 'email': new_email })
 
             messages.success(request, 'Your account details have been successfully changed.')

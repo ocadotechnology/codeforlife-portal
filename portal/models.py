@@ -14,6 +14,8 @@ class UserProfile (models.Model):
                                default='static/portal/img/avatars/default-avatar.jpeg')
     awaiting_email_verification = models.BooleanField(default=False)
 
+    can_view_aggregated_data = models.BooleanField(default=False)
+
     def __unicode__(self):
         return self.user.username
 

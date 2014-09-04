@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<div id="teach_classes_page"></div>
+
 <h1>Classes</h1><br>
 <h2>{{ user|make_into_username }}, {{ user.userprofile.teacher.school.name }}</h2><br>
 
@@ -63,7 +65,7 @@
                     </div>
 
                     <div class="col span_1_of_3">
-                        <input type='submit' class='btn btn-primary wide' value='Create'/>
+                        <input id="create_class_button" type='submit' class='btn btn-primary wide' value='Create'/>
                     </div>
                 </div>
             </form>
