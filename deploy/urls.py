@@ -10,4 +10,5 @@ js_info_dict = {
 urlpatterns = patterns('',
     url(r'^', include('portal.urls')),
     url(r'^rapidrouter/', include('game.urls')),
+    url(r'^data$', 'deploy.views.aggregated_data'),
 )
