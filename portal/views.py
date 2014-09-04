@@ -461,7 +461,7 @@ def organisation_create(request):
             increment_count = True
             join_form = InputOrganisationJoinForm(request.POST)
             if join_form.is_valid():
-                school = get_object_or_404(School, id=join_form.cleaned_data['chosen_org'][0])
+                school = get_object_or_404(School, id=join_form.cleaned_data['chosen_org'])
 
                 teacher.pending_join_request = school
                 teacher.save()
