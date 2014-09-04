@@ -8,8 +8,8 @@ def insert_user(apps, schema_editor):
 
     user = User.objects.create(
         username='DATA_AGGREGATE',
-        first_name='',
-        last_name='',
+        first_name='DATA',
+        last_name='AGGREGATE',
         email='aggregator@codeforlife.com',
         password=make_password(os.getenv('DATA_AGGREGATE_PASSWORD', 'Password1')))
 
