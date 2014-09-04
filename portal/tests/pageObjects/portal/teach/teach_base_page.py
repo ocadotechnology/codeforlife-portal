@@ -22,10 +22,16 @@ class TeachBasePage(BasePage):
 
     def goToOrganisationPage(self):
         self.browser.find_element_by_id('teacher_organisation_button').click()
-        return organisation_manage_page.TeachOrganisationManagePage(self.browser)
+
+        try:
+            self.assertOnCorrectPage('teach_organisation_create_page')
+            return organisation_create_page.TeachOrganisationCreatePage(self.browser)
+        except TimeoutException:
+            return organisation_manage_page.TeachOrganisationManagePage(self.browser)
 
 import pageObjects.portal.home_page
 import dashboard_page
 import classes_page
 import account_page
 import organisation_manage_page
+import organisation_create_page
