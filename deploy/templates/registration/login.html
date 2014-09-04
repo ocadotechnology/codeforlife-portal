@@ -12,8 +12,6 @@
 
             {% csrf_token %}
 
-            {{ form.non_field_errors }}
-
             <table>
                 <tr>
                     <td colspan='2'>{{ form.non_field_errors }}</td>
@@ -36,6 +34,7 @@
 
             <input type="submit" name="login" class="btn btn-primary wide" value="Log in">
             <input type="hidden" name="next" value="{{ next }}" />
+
         </form>
     </div>
 </div>
