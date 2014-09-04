@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block scripts %}
 {{block.super}}
@@ -21,6 +21,7 @@ var CONFIRMATION_DATA = {};
     <h2>Manage my school or club ({{ teacher.school.name }})</h2><br>
 
     {% if is_admin %}
+        <div id="admin_view"></div>
         <p>As an administrator of your school or club, you can select other teachers to whom you can provide or revoke administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers joining your organisation.</p>
     {% else %}
         <p>You can see which other teachers in your school or club are registered here. Should you need to leave the school or club, you can do so below.</p>
@@ -40,7 +41,7 @@ var CONFIRMATION_DATA = {};
         <p>You can also manage administrator rights by clicking the 'Make non-admin' and 'Make admin' buttons.</p>
     {% endif %}
 
-    <table class='CSSTable smaller alternate wide'>
+    <table id="coworker_table" class='CSSTable smaller alternate wide'>
         <tr>
             <th>Name</th>
             <th>Administrator Status</th>
@@ -79,7 +80,7 @@ var CONFIRMATION_DATA = {};
 
     {% if join_requests %}
         <p>The following teachers have requested to join your school or club. Use the email address to verify their identity, selecting the 'Allow' button to join your organisation or 'Deny' button to reject their request. Do not accept requests that you were not expecting, or that are from an unknown source.</p>
-        <table class='CSSTable alternate smaller wide'>
+        <table id="request_table" class='CSSTable alternate smaller wide'>
             <tr>
                 <th>Name</th>
                 <th>Email address</th>
@@ -112,7 +113,7 @@ var CONFIRMATION_DATA = {};
             <p>Update your school or club's name and/or postcode.</p>
             <p>These details are used to allow other teachers to join your team.</p>
 
-            <form method='post'>
+            <form id="edit_form" method='post'>
 
                 {% csrf_token %}
 
@@ -124,7 +125,7 @@ var CONFIRMATION_DATA = {};
                     {{ field }}
                 {% endfor %}
                 <div class='section group'>
-                    <input type='submit' class='btn btn-primary wide' value='Change'/>
+                    <input id="update_details_button" type='submit' class='btn btn-primary wide' value='Change'/>
                 </div>
 
             </form>

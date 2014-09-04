@@ -12,7 +12,7 @@ class TestClass(BaseTest):
         page = HomePage(self.browser)
         page, email, password = signup_teacher(page)
         page = page.login(email, password)
-        page, name = create_organisation(page, password)
+        page, _, _ = create_organisation(page, password)
         
         page, name = create_class(page)
         assert is_class_created_message_showing(self.browser, name)

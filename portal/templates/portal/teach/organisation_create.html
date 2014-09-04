@@ -10,11 +10,9 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
 </script>
 {% endblock scripts %}
 
-{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
-
-<div id='teach_organisation_create_page'></div>
 
 <h1>School | Club</h1><br>
 <h2>Create or join a school or club</h2><br>
@@ -23,6 +21,8 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
 
 <div class='section group'>
     {% if teacher.pending_join_request %}
+    <div id='teach_organisation_revoke_page'></div>
+
     <div class='span_1_of_2'>
         <div class='login-card'>
 
@@ -31,7 +31,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
             <p>You have a pending request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}.</p>
             <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke your pending request first.</p>
 
-            <form method='post'>
+            <form id="revoke_form" method='post'>
 
                 {% csrf_token %}
 
@@ -44,6 +44,8 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
     </div>
     {% else %}
 
+        <div id='teach_organisation_create_page'></div>
+
         <div class='col span_1_of_2'>
             <div class='login-card'>
                 <h3>Create a new school or club</h3><br>
@@ -51,7 +53,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
                 <p><b>Please note:</b> As the first person from your school or club to register for Code for Life, by default, you become the organisation's administrator. As administrator you have the authority to give and revoke administrative powers to other teachers within your organisation, allow or deny requests from other teachers who wish to join your organisation and remove teachers from your organisation.</p>
                 <p>The administrator is responsible and accountable for ensuring the overall safety of your school or club, and should only accept insitutional address when requesting to join.</p>
 
-                <form method='post'>
+                <form id="create_form" method='post'>
 
                     {% csrf_token %}
 
@@ -79,7 +81,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
                 <p>You can verify that you are joining the desired school or club through its postcode and the email address shown.</p>
                 <p>A request will be sent to the school or club's administrator for processing.</p>
 
-                <form method='post'>
+                <form id="join_form" method='post'>
 
                     {% csrf_token %}
 

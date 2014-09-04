@@ -1,3 +1,5 @@
+from selenium.common.exceptions import TimeoutException
+
 from pageObjects.portal.base_page import BasePage
 
 

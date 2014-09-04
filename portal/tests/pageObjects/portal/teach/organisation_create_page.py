@@ -1,3 +1,6 @@
+from time import sleep
+from selenium.common.exceptions import TimeoutException
+
 from teach_base_page import TeachBasePage
 
 class TeachOrganisationCreatePage(TeachBasePage):
@@ -13,6 +16,27 @@ class TeachOrganisationCreatePage(TeachBasePage):
 
         self.browser.find_element_by_name('create_organisation').click()
 
-        return dashboard_page.TeachDashboardPage(self.browser)
+        try:
+            self.assertOnCorrectPage('teach_dashboard_page')
+            return dashboard_page.TeachDashboardPage(self.browser)
+        except TimeoutException:
+            return self
+
+    def has_creation_failed(self):
+        errorlist = self.browser.find_element_by_id('create_form').find_element_by_class_name('errorlist').text
+        error = 'There is already a school or club registered with that name and postcode'
+        return (error in errorlist)
+
+    def join_organisation(self, name):
+        self.browser.find_element_by_id('id_fuzzy_name').send_keys(name)
+        sleep(1)
+        self.browser.find_element_by_name('join_organisation').click()
+
+        try:
+            self.assertOnCorrectPage('teach_organisation_revoke_page')
+            return organisation_revoke_page.TeachOrganisationRevokePage(self.browser)
+        except TimeoutException:
+            return self
 
 import dashboard_page
+import organisation_revoke_page
