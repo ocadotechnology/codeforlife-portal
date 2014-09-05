@@ -1,7 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
@@ -13,12 +13,12 @@
         <p>Please provide the student with their new login details:</p>
         <p><b>Class Access Code:</b> {{ class.access_code }}</p>
         <p><b>Name:</b> {{ student.user.user.first_name }}</p>
-        <p>{{ student.user.user.first_name }} should now login using the school login box on the <a href="{% url 'portal.views.play' %}">Play</a> page with these details.</p>
+        <p>{{ student.user.user.first_name }} should now login using the school login box on the <a href="{% url 'play' %}">Play</a> page with these details.</p>
         <p>{{ student.user.user.first_name }}'s password is unchanged. You may manage this student, including changing their name and password, as with other students.</p>
     </div>
 
 <div class='section group'>
-    <a class='btn btn-primary' href="{% url 'portal.views.teacher_class' class.access_code %}">Return</a>
+    <a class='btn btn-primary' href="{% url 'teacher_class' class.access_code %}">Return</a>
 </div>
 
 {% endblock %}

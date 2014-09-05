@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
 
@@ -46,7 +46,7 @@
                 <br>
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default wide' href="{% url 'portal.views.organisation_manage' %}">Cancel</a>
+                        <a class='btn btn-default wide' href="{% url 'organisation_manage' %}">Cancel</a>
                     </div>
 
                     <div class='col span_1_of_2'>

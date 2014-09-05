@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_account %}<b><a id="teacher_account_button" href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+{% block nav_teacher_account %}<b><a id="teacher_account_button" href="{% url 'teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
 
 {% block scripts %}
 {{block.super}}
@@ -92,7 +92,7 @@ var PASSWORD_TYPE = 'TEACHER';
 
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a id="cancel_button" class='btn btn-default wide' href="{% url 'portal.views.teacher_home' %}">Cancel</a>
+                        <a id="cancel_button" class='btn btn-default wide' href="{% url 'teacher_home' %}">Cancel</a>
                     </div>
 
                     <div class='col span_1_of_2'>

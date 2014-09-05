@@ -29,6 +29,20 @@ class School (models.Model):
     def __unicode__(self):
         return self.name
 
+class TeacherModelManager(models.Manager):
+    def factory(self, title, first_name, last_name, email, password):
+        from portal.helpers.generators import get_random_username
+
+        user = User.objects.create_user(
+            username=get_random_username(),
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name)
+
+        userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+
+        return Teacher.objects.create(user=userProfile, title=title)
 
 class Teacher (models.Model):
     title = models.CharField(max_length=35)
@@ -36,6 +50,8 @@ class Teacher (models.Model):
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
     is_admin = models.BooleanField(default=False)
     pending_join_request = models.ForeignKey(School, related_name='join_request', null=True)
+
+    objects = TeacherModelManager()
 
     def teaches(self, userprofile):
         if hasattr(userprofile, 'student'):
@@ -74,10 +90,35 @@ class Class (models.Model):
         verbose_name_plural = "classes"
 
 
+class StudentModelManager(models.Manager):
+    def schoolFactory(self, klass, name, password):
+        from portal.helpers.generators import get_random_username
+
+        user = User.objects.create_user(
+            username=get_random_username(),
+            password=password,
+            first_name=name)
+
+        userProfile = UserProfile.objects.create(user=user)
+        return Student.objects.create(class_field=klass, user=userProfile)
+
+    def soloFactory(self, username, name, email, password):
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=name)
+
+        userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+
+        return Student.objects.create(user=userProfile)
+
 class Student (models.Model):
     class_field = models.ForeignKey(Class, related_name='students', null=True)
     user = models.OneToOneField(UserProfile)
     pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
+
+    objects = StudentModelManager();
     
     def is_independent(self):
         return not self.class_field

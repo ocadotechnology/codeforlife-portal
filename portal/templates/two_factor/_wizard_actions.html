@@ -2,7 +2,7 @@
     {# hidden submit button to enable [enter] key #}
     <div style="margin-left: -500px"><input type="submit" value="" style="display: none"/></div>
 
-    <a href="{% url 'portal.views.teacher_edit_account'%}" class="btn btn-default" style="margin-right: 10px">Cancel</a>
+    <a href="{% url 'teacher_edit_account'%}" class="btn btn-default" style="margin-right: 10px">Cancel</a>
 
     {% if wizard.steps.prev and wizard.steps.current != 'token' %}
         <button name="wizard_goto_step" type="submit"

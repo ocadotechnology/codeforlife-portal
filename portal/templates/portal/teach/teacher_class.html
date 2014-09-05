@@ -2,16 +2,16 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
 <script>
 var CLASS_CODE = "{{ class.access_code }}";
-var MOVE_STUDENTS_URL = "{% url 'portal.views.teacher_move_students' class.access_code %}";
-var DELETE_STUDENTS_URL = "{% url 'portal.views.teacher_delete_students' class.access_code %}";
-var DISMISS_STUDENTS_URL = "{% url 'portal.views.teacher_dismiss_students' class.access_code %}";
+var MOVE_STUDENTS_URL = "{% url 'teacher_move_students' class.access_code %}";
+var DELETE_STUDENTS_URL = "{% url 'teacher_delete_students' class.access_code %}";
+var DISMISS_STUDENTS_URL = "{% url 'teacher_dismiss_students' class.access_code %}";
 
 var CONFIRMATION_DATA = {
     'deleteStudents': {
@@ -26,7 +26,7 @@ var CONFIRMATION_DATA = {
             title: 'Delete class',
         },
         html: '<p>This class will be permanently deleted. Are you sure?</p>',
-        confirm: function() { window.location.replace("{% url 'portal.views.teacher_delete_class' class.access_code %}"); },
+        confirm: function() { window.location.replace("{% url 'teacher_delete_class' class.access_code %}"); },
     },
 };
 </script>
@@ -47,7 +47,7 @@ var CONFIRMATION_DATA = {
         <div class="section group">
             <h3 class='col'>Current students</h3>
         {% if students %}
-            <a class='col btn btn-primary pull-right' href="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
+            <a class='col btn btn-primary pull-right' href="{% url 'teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
         {% endif %}
         </div>
 
@@ -65,7 +65,7 @@ var CONFIRMATION_DATA = {
                 {% for student in students %}
                     <tr>
                         <td style='text-align: center'><input type='checkbox' class='student' name='{{ student.id }}' value='1'></td>
-                        <td>{% if student.logged_in %}<img title='Student logged in' height=10 src="{% static 'portal/img/logged_in_blob.png' %}" />{% else %}<img title='Student logged out' height=10 src="{% static 'portal/img/logged_out_blob.png' %}" />{% endif %} <a href="{% url 'portal.views.teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
+                        <td>{% if student.logged_in %}<img title='Student logged in' height=10 src="{% static 'portal/img/logged_in_blob.png' %}" />{% else %}<img title='Student logged out' height=10 src="{% static 'portal/img/logged_out_blob.png' %}" />{% endif %} <a href="{% url 'teacher_edit_student' student.id %}">{{ student.user.user.first_name }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -113,7 +113,7 @@ var CONFIRMATION_DATA = {
     <p>Here you may change the name of the  class, transfer the class to another teacher in the school or club, create permissions for the class to accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see their classmates' progress.</p>
     </div>
     <div class="section group">
-        <a class='btn btn-default btn-small' href="{% url 'portal.views.teacher_edit_class' class.access_code %}">Edit Settings</a>
+        <a class='btn btn-default btn-small' href="{% url 'teacher_edit_class' class.access_code %}">Edit Settings</a>
         <button class='btn btn-danger btn-small' id='deleteClass'>Delete Class</button>
     </div>
 

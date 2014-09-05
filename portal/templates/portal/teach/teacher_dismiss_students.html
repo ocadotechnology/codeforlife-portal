@@ -1,7 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
@@ -16,7 +16,7 @@
 
     <p>You are about to remove students from your class and set them up as indepedent students. Neither you nor your school will be able to manage them once you have submitted this request.</p>
 
-    <p>You may want to change the username for these students to something more memorable. The students will then log in with these new usernames via the independent student login on the <a href="{% url 'portal.views.play' %}">Play</a> page. Their passwords will stay the same. Independent students do not need to provide a class access code.</p>
+    <p>You may want to change the username for these students to something more memorable. The students will then log in with these new usernames via the independent student login on the <a href="{% url 'play' %}">Play</a> page. Their passwords will stay the same. Independent students do not need to provide a class access code.</p>
 
     <p>Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts. If a student is too young to own an email address, a parent or guardian's email address will be required. These email addresses will have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
 
@@ -49,7 +49,7 @@
 
         <div class='section group'>
             <div class='col span_1_of_3'>
-                <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                <a class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
             </div>
             <div class='col span_1_of_3 pull-right'>
                 <input type='submit' name='submit_dismiss' class='btn btn-danger wide' value='Remove'/>

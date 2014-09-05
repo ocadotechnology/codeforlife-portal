@@ -10,7 +10,7 @@ var PASSWORD_TYPE = 'STUDENT';
 </script>
 {% endblock scripts %}
 
-{% block nav_student_account %}<b><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
+{% block nav_student_account %}<b><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
 
 
 {% block content %}
@@ -79,7 +79,7 @@ var PASSWORD_TYPE = 'STUDENT';
 
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default wide' href="{% url 'portal.views.student_details' %}">Cancel</a>
+                        <a class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
                     </div>
                     <div class='col span_1_of_2'>
                         <input type='submit' class='btn btn-primary wide' value='Update'/>
@@ -97,7 +97,7 @@ var PASSWORD_TYPE = 'STUDENT';
                     <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
                 </div>
                 <div class='col span_1_of_3'>
-                    <a class='btn btn-default wide' href="{% url 'portal.views.student_join_organisation' %}">Join</a>
+                    <a class='btn btn-default wide' href="{% url 'student_join_organisation' %}">Join</a>
                 </div>
             </div>
         </div>
