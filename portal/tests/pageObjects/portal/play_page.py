@@ -8,7 +8,7 @@ class PlayPage(BasePage):
     def __init__(self, browser):
         super(PlayPage, self).__init__(browser)
 
-        self.assertOnCorrectPage('play_page')
+        assert self.onCorrectPage('play_page')
 
     def goToTeacherLogin(self):
         if self.browser.find_element_by_id('school-login').is_displayed():

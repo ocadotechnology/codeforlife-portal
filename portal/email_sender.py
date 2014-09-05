@@ -9,13 +9,16 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
     images=[['cfllogo.png','cfllogo']]
     attachments = []
     # add in template for templates to message
-    for img in images:
-        fp = open(settings.MEDIA_ROOT+img[0], 'rb')
-        msgImage = MIMEImage(fp.read())
-        fp.close()
-        msgImage.add_header('Content-ID', '<'+img[1]+'>')
-        msgImage.add_header('Content-Disposition', 'inline', filename=img[0])
-        attachments.append(msgImage)
+
+
+    # TODO come back to this and solve attaching pictures inline with Google AppEngine
+    # for img in images:
+    #     fp = open(settings.MEDIA_ROOT+img[0], 'rb')
+    #     msgImage = MIMEImage(fp.read())
+    #     fp.close()
+    #     msgImage.add_header('Content-ID', '<'+img[1]+'>')
+    #     msgImage.add_header('Content-Disposition', 'inline', filename=img[0])
+    #     attachments.append(msgImage)
 
     # setup templates
     plaintext = loader.get_template(plaintext_template)
@@ -30,7 +33,7 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
     html_body = html.render(html_email_context)
 
     # make message using templates
-    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients, attachments=attachments)
+    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
     message.attach_alternative(html_body, "text/html")
 
 
