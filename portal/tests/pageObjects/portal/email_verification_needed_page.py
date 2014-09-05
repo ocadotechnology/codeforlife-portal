@@ -4,7 +4,7 @@ class EmailVerificationNeededPage(BasePage):
     def __init__(self, browser):
         super(EmailVerificationNeededPage, self).__init__(browser)
 
-        self.assertOnCorrectPage('emailVerificationNeeded_page')
+        assert self.onCorrectPage('emailVerificationNeeded_page')
 
     def returnToHomePage(self):
         self.browser.find_element_by_id('homepage_button').click()

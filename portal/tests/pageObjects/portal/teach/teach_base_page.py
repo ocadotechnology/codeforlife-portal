@@ -1,5 +1,3 @@
-from selenium.common.exceptions import TimeoutException
-
 from pageObjects.portal.base_page import BasePage
 
 
@@ -26,10 +24,9 @@ class TeachBasePage(BasePage):
     def goToOrganisationPage(self):
         self.browser.find_element_by_id('teacher_organisation_button').click()
 
-        try:
-            self.assertOnCorrectPage('teach_organisation_create_page')
+        if self.onCorrectPage('teach_organisation_create_page'):
             return organisation_create_page.TeachOrganisationCreatePage(self.browser)
-        except TimeoutException:
+        else:
             return organisation_manage_page.TeachOrganisationManagePage(self.browser)
 
 import pageObjects.portal.home_page

@@ -1,5 +1,4 @@
 from time import sleep
-from selenium.common.exceptions import TimeoutException
 
 from teach_base_page import TeachBasePage
 
@@ -7,7 +6,7 @@ class TeachOrganisationCreatePage(TeachBasePage):
     def __init__(self, browser):
         super(TeachOrganisationCreatePage, self).__init__(browser)
 
-        self.assertOnCorrectPage('teach_organisation_create_page')
+        assert self.onCorrectPage('teach_organisation_create_page')
 
     def create_organisation(self, name, postcode, password):
         self.browser.find_element_by_id('id_name').send_keys(name)
@@ -16,10 +15,9 @@ class TeachOrganisationCreatePage(TeachBasePage):
 
         self.browser.find_element_by_name('create_organisation').click()
 
-        try:
-            self.assertOnCorrectPage('teach_dashboard_page')
+        if self.onCorrectPage('teach_dashboard_page'):
             return dashboard_page.TeachDashboardPage(self.browser)
-        except TimeoutException:
+        else:
             return self
 
     def has_creation_failed(self):
@@ -32,10 +30,9 @@ class TeachOrganisationCreatePage(TeachBasePage):
         sleep(1)
         self.browser.find_element_by_name('join_organisation').click()
 
-        try:
-            self.assertOnCorrectPage('teach_organisation_revoke_page')
+        if self.onCorrectPage('teach_organisation_revoke_page'):
             return organisation_revoke_page.TeachOrganisationRevokePage(self.browser)
-        except TimeoutException:
+        else:
             return self
 
 import dashboard_page

@@ -6,7 +6,7 @@ class TeachOrganisationManagePage(TeachBasePage):
     def __init__(self, browser):
         super(TeachOrganisationManagePage, self).__init__(browser)
 
-        self.assertOnCorrectPage('teach_organisation_manage_page')
+        assert self.onCorrectPage('teach_organisation_manage_page')
 
     def changeOrganisationDetails(self, details):
         for field, value in details.items():

@@ -1,4 +1,3 @@
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import Select
 
 from teach_base_page import TeachBasePage
@@ -7,7 +6,7 @@ class TeachAccountPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachAccountPage, self).__init__(browser)
 
-        self.assertOnCorrectPage('teach_account_page')
+        assert self.onCorrectPage('teach_account_page')
 
     def changeDetails(self, details):
         if 'title' in details:
@@ -20,15 +19,12 @@ class TeachAccountPage(TeachBasePage):
 
         self.browser.find_element_by_id('update_button').click()
 
-        try:
-            self.assertOnCorrectPage('teach_dashboard_page')
+        if self.onCorrectPage('teach_dashboard_page'):
             return dashboard_page.TeachDashboardPage(self.browser)
-        except TimeoutException:
-            try:
-                self.assertOnCorrectPage('emailVerificationNeeded_page')
-                return pageObjects.portal.email_verification_needed_page.EmailVerificationNeededPage(self.browser)
-            except TimeoutException:
-                return self
+        elif self.onCorrectPage('emailVerificationNeeded_page'):
+            return pageObjects.portal.email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+        else:
+            return self
 
     def checkAccountDetails(self, details):
         correct = True
