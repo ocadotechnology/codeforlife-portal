@@ -20,8 +20,8 @@ def is_logged_in(u):
 
 @register.filter(name='make_into_username')
 def make_into_username(u):
+    username = ''
     if hasattr(u, 'userprofile'):
-        username = ''
         if hasattr(u.userprofile, 'teacher'):
             username = u.userprofile.teacher.title + ' ' + u.last_name
         if hasattr(u.userprofile, 'student'):
