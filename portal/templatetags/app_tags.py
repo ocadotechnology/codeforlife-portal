@@ -18,6 +18,10 @@ def has_2FA(u):
 def is_logged_in(u):
     return u.is_authenticated() and (not default_device(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
+@register.filter(name='is_developer')
+def is_developer(u): 
+    return not u.is_anonymous() and u.userprofile.developer
+
 @register.filter(name='make_into_username')
 def make_into_username(u):
     username = ''

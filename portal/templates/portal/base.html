@@ -34,7 +34,7 @@
 <script>
     // Set to 'TEACHER', 'SCHOOL_STUDENT', 'SOLO_STUDENT', or 'UNTRACKED'
     USER_STATUS = '{{ user|get_user_status }}';
-
+    DEVELOPER = '{{ user|is_developer}}' === 'True';
 </script>
 
 {% block scripts %}
