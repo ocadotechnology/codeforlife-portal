@@ -2,7 +2,7 @@
 {% load two_factor %}
 {% load staticfiles %}
 
-{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+{% block nav_teacher_account %}<b><a href="{% url 'teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
 
 {% block content %}
 
@@ -44,9 +44,9 @@
     </div>
     {% if default_device %}
         <p><b>You are already signed up for two factor authentication.</b></p>
-        <a class="btn btn-default" href="{% url 'portal.views.teacher_edit_account' %}">Cancel</a>
+        <a class="btn btn-default" href="{% url 'teacher_edit_account' %}">Cancel</a>
     {% else %}
-        <a class="btn btn-default" href="{% url 'portal.views.teacher_edit_account' %}">Cancel</a>
+        <a class="btn btn-default" href="{% url 'teacher_edit_account' %}">Cancel</a>
         <a class="btn btn-primary pull-right" href="{% url 'two_factor:setup' %}">Set Up Two Factor Authentication</a>
     {% endif %}
 

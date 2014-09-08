@@ -1,6 +1,6 @@
 {% extends "portal/teach/base.html" %}
 
-{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+{% block nav_teacher_account %}<b><a href="{% url 'teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
 
 {% block content %}
 <div class='span_centered_half'>
@@ -16,7 +16,7 @@
 
         <div class='section group'>
             <div class='col span_1_of_2'>
-                <a href="{% url 'portal.views.teacher_edit_account' %}"
+                <a href="{% url 'teacher_edit_account' %}"
                         class="btn btn-default wide">Back to my account</a>
             </div>
             <div class='col span_1_of_2'>

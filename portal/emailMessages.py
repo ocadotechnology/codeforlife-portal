@@ -9,25 +9,25 @@ def emailBodySignOff(request):
 def emailVerificationNeededEmail(request, token):
     return {
         'subject': emailSubjectPrefix() + ' : Email address verification needed',
-        'message': 'Please go to ' + request.build_absolute_uri(reverse('portal.views.verify_email', kwargs={'token': token})) + ' to verify your email address' + emailBodySignOff(request),
+        'message': 'Please go to ' + request.build_absolute_uri(reverse('verify_email', kwargs={'token': token})) + ' to verify your email address' + emailBodySignOff(request),
     }
 
 def emailChangeVerificationEmail(request, token):
     return {
         'subject': emailSubjectPrefix() + ' : Email address verification needed',
-        'message': 'You are changing your email, please go to ' + request.build_absolute_uri(reverse('portal.views.verify_email', kwargs={'token': token})) + ' to verify your new email address. If you are not part of Code for Life then please ignore this email.' + emailBodySignOff(request),
+        'message': 'You are changing your email, please go to ' + request.build_absolute_uri(reverse('verify_email', kwargs={'token': token})) + ' to verify your new email address. If you are not part of Code for Life then please ignore this email.' + emailBodySignOff(request),
     }
 
 def emailChangeNotificationEmail(request, new_email):
     return {
         'subject': emailSubjectPrefix() + ' : Email address changed',
-        'message': "Someone has tried to change the email address of your account. If this was not you, please get in contact with us via " + request.build_absolute_uri(reverse('portal.views.contact')) + "." + emailBodySignOff(request),
+        'message': "Someone has tried to change the email address of your account. If this was not you, please get in contact with us via " + request.build_absolute_uri(reverse('contact')) + "." + emailBodySignOff(request),
     }
 
 def joinRequestPendingEmail(request, pendingAddress):
     return {
         'subject': emailSubjectPrefix() + ' : School or club join request pending',
-        'message': "Someone with the email address '" + pendingAddress + "' has asked to join your school or club, please go to " + request.build_absolute_uri(reverse('portal.views.organisation_manage')) + " to view the pending join request." + emailBodySignOff(request),
+        'message': "Someone with the email address '" + pendingAddress + "' has asked to join your school or club, please go to " + request.build_absolute_uri(reverse('organisation_manage')) + " to view the pending join request." + emailBodySignOff(request),
     }
 
 def joinRequestSentEmail(request, schoolName):
@@ -57,7 +57,7 @@ def kickedEmail(request, schoolName):
 def adminGivenEmail(request, schoolName):
     return {
         'subject': emailSubjectPrefix() + ' : You have been made a school or club administrator',
-        'message': "Administrator control of the school or club '" + schoolName + "' has been given to you. Go to " + request.build_absolute_uri(reverse('portal.views.organisation_manage')) + " to start managing your school or club." + emailBodySignOff(request),
+        'message': "Administrator control of the school or club '" + schoolName + "' has been given to you. Go to " + request.build_absolute_uri(reverse('organisation_manage')) + " to start managing your school or club." + emailBodySignOff(request),
     }
 
 def adminRevokedEmail(request, schoolName):
@@ -85,7 +85,7 @@ def studentJoinRequestSentEmail(request, schoolName, accessCode):
 def studentJoinRequestNotifyEmail(request, username, email, accessCode):
     return {
         'subject': emailSubjectPrefix() + ' : School or club join request by student ' + username,
-        'message': "There is a request waiting from student with username '" + username + "' and email " + email + " to join your class " + accessCode + ". Go to " + request.build_absolute_uri(reverse('portal.views.teacher_classes')) + " to review the request." + emailBodySignOff(request),
+        'message': "There is a request waiting from student with username '" + username + "' and email " + email + " to join your class " + accessCode + ". Go to " + request.build_absolute_uri(reverse('teacher_classes')) + " to review the request." + emailBodySignOff(request),
     }
 def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
     return {

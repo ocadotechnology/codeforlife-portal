@@ -1,7 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block scripts %}
 {{block.super}}
@@ -64,7 +64,7 @@ $( document ).ready(function() {
 
                 <div class='section group'>
                     <div class='col span_1_of_3'>
-                        <a class='btn btn-primary wide' href="{% url 'portal.views.teacher_student_reset' student.id %}">Generate random</a>
+                        <a class='btn btn-primary wide' href="{% url 'teacher_student_reset' student.id %}">Generate random</a>
                     </div>
                     <div class='col span_1_of_3 pull-right'>
                         <a id="request-password-setter" class='btn btn-default wide' href="#">Set password</a>
@@ -104,7 +104,7 @@ $( document ).ready(function() {
         </div>
     </div>
 </div>
-<a class='col btn btn-default' href="{% url 'portal.views.teacher_class' class.access_code %}">Back to class</a>
+<a class='col btn btn-default' href="{% url 'teacher_class' class.access_code %}">Back to class</a>
 
 
 {% endblock %}

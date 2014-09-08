@@ -1,7 +1,7 @@
 {% extends 'portal/play/base.html' %}
 {% load static %}
 
-{% block nav_student_account %}<b><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
+{% block nav_student_account %}<b><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
 
 {% block content %}
 
@@ -31,7 +31,7 @@
 
                     <div class='section group'>
                         <div class='col span_1_of_2'>
-                            <a class='btn btn-default wide' href="{% url 'portal.views.student_details' %}">Back</a>
+                            <a class='btn btn-default wide' href="{% url 'student_details' %}">Back</a>
                         </div>
 
                         <div class='col span_1_of_2'>
@@ -74,7 +74,7 @@
 
                     <div class='section group'>
                         <div class='col span_1_of_2'>
-                            <a class='btn btn-default wide' href="{% url 'portal.views.student_details' %}">Cancel</a>
+                            <a class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
                         </div>
 
                         <div class='col span_1_of_2'>

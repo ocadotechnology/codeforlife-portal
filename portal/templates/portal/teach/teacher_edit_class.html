@@ -1,6 +1,6 @@
 {% extends 'portal/teach/base.html' %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
@@ -45,7 +45,7 @@
 
             <div class='section group'>
                 <div class='col span_1_of_2'>
-                    <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                    <a class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
                 </div>
                 
                 <div class='col span_1_of_2'>
@@ -64,7 +64,7 @@
                 <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
             </div>
             <div class='col span_1_of_3'>
-                <a class='btn btn-default wide' href="{% url 'portal.views.teacher_move_class' class.access_code %}">Transfer</a>
+                <a class='btn btn-default wide' href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
             </div>
         </div>
     </div>

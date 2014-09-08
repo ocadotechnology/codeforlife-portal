@@ -9,7 +9,7 @@
         {% if wizard.steps.current == 'auth' %}
             <p>Enter your credentials.</p>
             <script type="text/javascript">
-                window.location.replace("{% url 'portal.views.teach' %}");
+                window.location.replace("{% url 'teach' %}");
             </script>
 
         {% elif wizard.steps.current == 'token' %}

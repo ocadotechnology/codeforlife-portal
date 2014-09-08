@@ -6,11 +6,11 @@
 <script>
 var FUZZY_NAME_FIELD_ID = '{{ join_form.fuzzy_name.auto_id }}';
 var CHOSEN_ORG_FIELD_ID = '{{ join_form.chosen_org.auto_id }}';
-var FUZZY_ORG_LOOKUP_URL = "{% url 'portal.views.organisation_fuzzy_lookup' %}";
+var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
 </script>
 {% endblock scripts %}
 
-{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
 
