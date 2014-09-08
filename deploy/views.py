@@ -15,31 +15,36 @@ def is_authorised_to_view_aggregated_data(u):
 @user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
 def aggregated_data(request):
 
+	tables = []
+
 	table_head = ["Data description", "Value", "More info"]
 	table_data = []
 
+	"""
+	Overall statistics
+	"""
+
 	table_data.append(["# users", Teacher.objects.count()+Student.objects.count(), "# teachers + # students"])
+
+	tables.append({'heading': "Overall Statistics", 'header': table_head, 'data': table_data})
 
 
 	"""
 	School statistics
 	"""
-	table_data.append(["-", "", ""])
-	table_data.append(["SCHOOLS", "", ""])
-
+	table_data = []
 	table_data.append(["# schools", School.objects.count(), ""])
 	num_of_teachers_per_school = School.objects.annotate(num_teachers=Count('teacher_school'))
 	stats_teachers_per_school = num_of_teachers_per_school.aggregate(Avg('num_teachers'))
 
 	table_data.append(["avg # of teachers per school", stats_teachers_per_school['num_teachers__avg'], ""])
 
+	tables.append({'heading': "Schools or Clubs", 'header': table_head, 'data': table_data})
 
 	"""
 	Teacher statistics
 	"""
-	table_data.append(["-", "", ""])
-	table_data.append(["TEACHERS", "", ""])
-
+	table_data = []
 	table_data.append(["# teachers", Teacher.objects.count(), ""])
 	table_data.append(["# teachers not in a school", Teacher.objects.filter(school=None).count(), ""])
 	table_data.append(["# teachers with request pending to join a school", Teacher.objects.exclude(pending_join_request=None).count(), ""])
@@ -60,13 +65,12 @@ def aggregated_data(request):
 	table_data.append(["# of teachers with no classes", num_of_classes_per_teacher.filter(num_classes=0).count(), ""])
 	table_data.append(["# of active teachers with no classes", num_of_classes_per_active_teacher.filter(num_classes=0).count(), "Excludes teachers without a school"])
 
+	tables.append({'heading': "Teachers", 'header': table_head, 'data': table_data})
 
 	"""
 	Class statistics
 	"""
-	table_data.append(["-", "", ""])
-	table_data.append(["CLASSES", "", ""])
-
+	table_data = []
 	table_data.append(["# classes", Class.objects.count(), ""])
 
 	num_students_per_class = Class.objects.annotate(num_students=Count('students'))
@@ -76,13 +80,13 @@ def aggregated_data(request):
 	table_data.append(["avg # students per class", stats_students_per_class['num_students__avg'], ""])
 	table_data.append(["avg # students per active class", stats_students_per_active_class['num_students__avg'], "Excludes classes which are empty"])
 
+	tables.append({'heading': "Classes", 'header': table_head, 'data': table_data})
+
 
 	"""
 	Student statistics
 	"""
-	table_data.append(["-", "", ""])
-	table_data.append(["STUDENTS", "", ""])
-
+	table_data = []
 	table_data.append(["# students", Student.objects.count(), ""])
 
 	independent_students = Student.objects.filter(class_field=None)
@@ -91,12 +95,13 @@ def aggregated_data(request):
 
 	table_data.append(["# school students", Student.objects.exclude(class_field=None).count(), ""])
 
+	tables.append({'heading': "Students", 'header': table_head, 'data': table_data})
+
 
 	"""
 	Rapid Router Student Progress statistics
 	"""
-	table_data.append(["-", "", ""])
-	table_data.append(["RAPID ROUTER - STUDENT PROGRESS", "", ""])
+	table_data = []
 
 	students_with_attempts = Student.objects.annotate(num_attempts=Count('attempts')).exclude(num_attempts=0)
 	table_data.append(["# students who have started RR", students_with_attempts.count(), ""])
@@ -140,12 +145,12 @@ def aggregated_data(request):
 		percentage = (float(independent_perfect_attempts)/float(independent_all_attempts))*100
 	table_data.append(["percentage of perfect scores amongst independent students on default RR levels", percentage, ""])
 
+	tables.append({'heading': "Rapid Router Student Progress", 'header': table_head, 'data': table_data})
 
 	"""
 	Rapid Router Levels statistics
 	"""
-	table_data.append(["-", "", ""])
-	table_data.append(["RAPID ROUTER - LEVELS", "", ""])
+	table_data = []
 	num_user_levels = UserProfile.objects.annotate(num_custom_levels=Count('levels')).exclude(num_custom_levels=0)
 	stats_user_levels = num_user_levels.aggregate(Avg('num_custom_levels'))
 
@@ -176,7 +181,8 @@ def aggregated_data(request):
 	table_data.append(["number of independent students with custom levels", num_independent_student_levels.count(), ""])
 	table_data.append(["of independent students with custom levels, avg # of custom levels", stats_independent_student_levels['num_custom_levels__avg'], ""])
 
+	tables.append({'heading': "Rapid Router Levels", 'header': table_head, 'data': table_data})
+
 	return render(request, 'deploy/aggregated_data.html', {
-		'tableHead': table_head,
-        'tableData': table_data,
+		'tables': tables,
     })

@@ -7,13 +7,17 @@
 
 <h1>Aggregated Data from CFL</h1><br>
 
+{% for table in tables %}
+
+<h2>{{table.heading}}</h2>
+
 <table class="CSSTable alternate smaller">
     <tr>
-        {% for head in tableHead %}
+        {% for head in table.header %}
         <th>{{ head }}</th>
         {% endfor %}
     </tr>
-    {% for data in tableData %}
+    {% for data in table.data %}
     <tr>
         {% for entry in data %}
         <td>{{ entry }}</td>
@@ -22,5 +26,9 @@
     {% endfor %}
 
 </table>
+<br>
+<br>
+
+{% endfor %}
 
 {% endblock content %}
