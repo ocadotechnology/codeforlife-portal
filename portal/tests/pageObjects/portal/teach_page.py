@@ -7,7 +7,7 @@ class TeachPage(BasePage):
     def __init__(self, browser):
         super(TeachPage, self).__init__(browser)
 
-        self.assertOnCorrectPage('teach_page')
+        assert self.onCorrectPage('teach_page')
 
     def goToStudentLoginPage(self):
         self.browser.find_element_by_id('studentLogin_button').click()
@@ -33,14 +33,8 @@ class TeachPage(BasePage):
         self.browser.find_element_by_id('id_login-password').send_keys(password)
 
         self.browser.find_element_by_name('login').click()
-        
-        try:
-            self.assertOnCorrectPage('teach_dashboard_page')
-            login_successful = True
-        except TimeoutException:
-            login_successful = False
 
-        if login_successful:
+        if self.onCorrectPage('teach_dashboard_page'):
             return teach.dashboard_page.TeachDashboardPage(self.browser)
         else:
             return self

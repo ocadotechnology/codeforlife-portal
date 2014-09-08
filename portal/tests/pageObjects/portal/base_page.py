@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,10 +9,14 @@ class BasePage(object):
     def __init__(self, browser):
         self.browser = browser
 
-    def assertOnCorrectPage(self, pageName):
-        WebDriverWait(self.browser, 1).until(
-            EC.presence_of_element_located((By.ID, pageName))
-        )
+    def onCorrectPage(self, pageName):
+        try:
+            WebDriverWait(self.browser, 1).until(
+                EC.presence_of_element_located((By.ID, pageName))
+            )
+            return True
+        except TimeoutException:
+            return False
 
     def goToAboutPage(self):
         self.browser.find_element_by_id('about_button').click()

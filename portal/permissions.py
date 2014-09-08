@@ -1,6 +1,6 @@
 from functools import wraps
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 
 from two_factor.utils import default_device
 
@@ -21,7 +21,7 @@ def teacher_verified(view_func):
     def wrapped(request, *args, **kwargs):
         u = request.user
         if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or (not u.is_verified() and default_device(u)):
-            return HttpResponseRedirect(reverse('portal.views.teach'))
+            return HttpResponseRedirect(reverse_lazy('teach'))
 
         return view_func(request, *args, **kwargs)
 

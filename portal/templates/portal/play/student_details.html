@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_student_dashboard %}<b><a href="{% url 'portal.views.student_details' %}">Dashboard</a></b>{% endblock nav_student_dashboard %}
+{% block nav_student_dashboard %}<b><a href="{% url 'student_details' %}">Dashboard</a></b>{% endblock nav_student_dashboard %}
 
 {% block content %}
 
@@ -42,11 +42,11 @@
             </tr>
             {% endif %}
             <tr>
-              <td><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
+              <td><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
             </tr>
             {% if not user.userprofile.student.class_field %}
             <tr>
-              <td><a href="{% url 'portal.views.student_join_organisation' %}">Join a school or club</a></td>
+              <td><a href="{% url 'student_join_organisation' %}">Join a school or club</a></td>
             </tr>
             {% endif %}
          </table>

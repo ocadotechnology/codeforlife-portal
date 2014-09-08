@@ -1,15 +1,24 @@
+from uuid import uuid4
+from datetime import timedelta
+
 from django.conf import settings
+from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
-from email.MIMEImage import MIMEImage
 
+from portal.models import EmailVerification
+from portal import emailMessages
+
+NOTIFICATION_EMAIL = 'Code For Life Notification <' + settings.EMAIL_ADDRESS + '>'
+VERIFICATION_EMAIL = 'Code For Life Verification <' + settings.EMAIL_ADDRESS + '>'
+PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + settings.EMAIL_ADDRESS + '>'
+CONTACT_EMAIL = 'Code For Life Contact <' + settings.EMAIL_ADDRESS + '>'
 
 def send_email(sender, recipients, subject, text_content, html_content=None, plaintext_template='email.txt', html_template='email.html'):
     # setup template images library, make into attachments
     images=[['cfllogo.png','cfllogo']]
     attachments = []
     # add in template for templates to message
-
 
     # TODO come back to this and solve attaching pictures inline with Google AppEngine
     # for img in images:
@@ -36,6 +45,23 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
     message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
     message.attach_alternative(html_body, "text/html")
 
-
-    # send!
     message.send()
+
+def send_verification_email(request, userProfile, new_email=None):
+    verification = EmailVerification.objects.create(
+        user=userProfile,
+        email=new_email,
+        token=uuid4().hex[:30],
+        expiry=timezone.now() + timedelta(hours=1))
+
+    if new_email:
+        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
+        send_email(VERIFICATION_EMAIL, [new_email], emailMessage['subject'], emailMessage['message'])
+
+        emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
+        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])
+
+    else:
+        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
+
+        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])

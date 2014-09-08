@@ -7,4 +7,4 @@ class TeachClassPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachClassPage, self).__init__(browser)
 
-        self.assertOnCorrectPage('teach_class_page')
+        assert self.onCorrectPage('teach_class_page')

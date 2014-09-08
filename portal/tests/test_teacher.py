@@ -94,9 +94,7 @@ class TestTeacher(BaseTest):
         assert page.__class__.__name__ == 'TeachDashboardPage'
         assert is_teacher_details_updated_message_showing(self.browser)
 
-        page = page.logout()
-        page = page.goToTeachPage()
-        page = page.login(email, new_password)
+        page = page.logout().goToTeachPage().login(email, new_password)
         assert page.__class__.__name__ == 'TeachDashboardPage'
 
 from utils import email as email_utils

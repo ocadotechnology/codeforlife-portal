@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_dashboard %}<b><a href="{% url 'portal.views.teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
+{% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
 
 {% block content %}
 
@@ -72,10 +72,10 @@
              <td>Manage classrooms</td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.organisation_manage' %}">School or Club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
+             <td><a href="{% url 'organisation_manage' %}">School or Club ({% if user.userprofile.teacher.school %}{{ user.userprofile.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
            </tr>
            <tr>
-             <td><a href="{% url 'portal.views.teacher_classes' %}">Classes ({{ num_classes }})</a></td>
+             <td><a href="{% url 'teacher_classes' %}">Classes ({{ num_classes }})</a></td>
            </tr>
             <tr>
               <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
@@ -90,7 +90,7 @@
               <td><a href="{% url 'game.views.levels' %}">Rapid Router</a></td>
             </tr>
             <tr>
-              <td><a href="{% url 'portal.views.teacher_lesson_plans' %}">Teaching Packs</a></td>
+              <td><a href="{% url 'teacher_lesson_plans' %}">Teaching Packs</a></td>
             </tr>
           </table>
     </div>

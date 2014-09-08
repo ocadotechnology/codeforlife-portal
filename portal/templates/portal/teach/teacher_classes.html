@@ -1,7 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load app_tags %}
 
-{% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
@@ -24,8 +24,8 @@
                 </tr>
                 {% for class in classes %}
                     <tr>
-                        <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.name }}</a></td>
-                        <td><a href="{% url 'portal.views.teacher_class' class.access_code %}">{{ class.access_code }}</a></td>
+                        <td><a href="{% url 'teacher_class' class.access_code %}">{{ class.name }}</a></td>
+                        <td><a href="{% url 'teacher_class' class.access_code %}">{{ class.access_code }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -98,8 +98,8 @@
                 <td>{{ join_request.user.user.first_name }}</td>
                 <td>{{ join_request.user.user.email }}</td>
                 <td>{{ join_request.pending_class_request.name }} ({{ join_request.pending_class_request.access_code }})</td>
-                <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.teacher_accept_student_request' join_request.id %}">Accept</a></td>
-                <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.teacher_reject_student_request' join_request.id %}">Reject</a></td>
+                <td><a class='btn btn-default btn-small no-margin' href="{% url 'teacher_accept_student_request' join_request.id %}">Accept</a></td>
+                <td><a class='btn btn-default btn-small no-margin' href="{% url 'teacher_reject_student_request' join_request.id %}">Reject</a></td>
             </tr>
         {% endfor %}
     </table>

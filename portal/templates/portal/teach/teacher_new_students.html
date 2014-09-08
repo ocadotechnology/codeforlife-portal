@@ -1,7 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
@@ -31,12 +31,12 @@
     </table>
     <br>
     <br>
-    <form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
+    <form method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
         {% csrf_token %}
         <input type='hidden' name='data' value='{{ query_data }}'/>
         <div class='section group'>
             <div class='col span_1_of_2'>
-                <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Return to class</a>
+                <a class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Return to class</a>
             </div>
             <div class='col span_1_of_2'>
                 <input class='btn btn-primary wide'type='submit' value='Print Reminder Cards'/>

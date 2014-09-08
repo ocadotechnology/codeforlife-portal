@@ -1,7 +1,7 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
@@ -30,7 +30,7 @@
             
             <div class='section group'>
                 <div class='col span_1_of_2'>
-                    <a class='btn btn-default wide' href="{% url 'portal.views.teacher_class' class.access_code %}">Cancel</a>
+                    <a class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
                 </div>
 
                 <div class='col span_1_of_2'>
