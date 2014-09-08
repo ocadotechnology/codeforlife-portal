@@ -3,7 +3,7 @@ from django.core import mail
 from base_test import BaseTest
 
 from pageObjects.portal.home_page import HomePage
-from utils.teacher import signup_teacher
+from utils.teacher import signup_teacher, signup_teacher_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
 
 class TestTeacher(BaseTest):
@@ -28,11 +28,18 @@ class TestTeacher(BaseTest):
         page = page.login(email, password)
         assert page.__class__.__name__ == 'TeachDashboardPage'
 
+        page = page.goToAccountPage()
+        assert page.checkAccountDetails({
+            'title': 'Mr',
+            'first_name': 'Test',
+            'last_name': 'Teacher',
+        })
+
     def test_edit_details(self):
+        email, password = signup_teacher_directly()
+
         self.browser.get(self.home_url)
-        page = HomePage(self.browser)
-        page, email, password = signup_teacher(page)
-        page = page.login(email, password)
+        page = HomePage(self.browser).goToTeachPage().login(email, password)
 
         page = page.goToAccountPage()
         page = page.changeDetails({
@@ -52,10 +59,10 @@ class TestTeacher(BaseTest):
         })
 
     def test_change_email(self):
+        email, password = signup_teacher_directly()
+
         self.browser.get(self.home_url)
-        page = HomePage(self.browser)
-        page, email, password = signup_teacher(page)
-        page = page.login(email, password)
+        page = HomePage(self.browser).goToTeachPage().login(email, password)
 
         page = page.goToAccountPage()
         new_email = 'another-email@codeforlife.com'
@@ -79,10 +86,10 @@ class TestTeacher(BaseTest):
         })
 
     def test_change_password(self):
+        email, password = signup_teacher_directly()
+
         self.browser.get(self.home_url)
-        page = HomePage(self.browser)
-        page, email, password = signup_teacher(page)
-        page = page.login(email, password)
+        page = HomePage(self.browser).goToTeachPage().login(email, password)
 
         page = page.goToAccountPage()
         new_password = 'AnotherPassword1'
