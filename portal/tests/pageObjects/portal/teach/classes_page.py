@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from teach_base_page import TeachBasePage
 
-
 class TeachClassesPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachClassesPage, self).__init__(browser)
@@ -34,5 +33,9 @@ class TeachClassesPage(TeachBasePage):
         return self.have_classes() and \
                (name in self.browser.find_element_by_id('classes_table').text) and \
                (access_code in self.browser.find_element_by_id('classes_table').text)
+
+    def goToClassPage(self, name):
+        self.browser.find_element_by_xpath("//table[@id='classes_table']//a[contains(text(),'%s')]" % name).click()
+        return class_page.TeachClassPage(self.browser)
 
 import class_page

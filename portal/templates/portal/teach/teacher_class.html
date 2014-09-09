@@ -113,8 +113,8 @@ var CONFIRMATION_DATA = {
     <p>Here you may change the name of the  class, transfer the class to another teacher in the school or club, create permissions for the class to accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see their classmates' progress.</p>
     </div>
     <div class="section group">
-        <a class='btn btn-default btn-small' href="{% url 'teacher_edit_class' class.access_code %}">Edit Settings</a>
-        <button class='btn btn-danger btn-small' id='deleteClass'>Delete Class</button>
+        <a id='class_settings_button' class='btn btn-default btn-small' href="{% url 'teacher_edit_class' class.access_code %}">Edit Settings</a>
+        <button id='delete_class_button' class='btn btn-danger btn-small' id='deleteClass'>Delete Class</button>
     </div>
 
 </div>
