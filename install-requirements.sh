@@ -15,6 +15,24 @@ pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
 pip install -r ../ocargo/requirements.txt
 pip install -r ../portal/requirements.txt
 
+# Point the pre-push hook to the pre-push in ocargo.
+echo 'Setting up the pre-push hooks.'
+# ocargo 
+echo '#!/bin/bash' > ../ocargo/.git/hooks/pre-push
+echo 'bash pre-push' >> ../ocargo/.git/hooks/pre-push
+chmod +x ../ocargo/.git/hooks/pre-push
+chmod +x ../ocargo/pre-push
+# portal
+echo '#!/bin/bash' > ../portal/.git/hooks/pre-push
+echo 'bash pre-push' >> ../portal/.git/hooks/pre-push
+chmod +x ../portal/.git/hooks/pre-push
+chmod +x ../portal/pre-push
+# deploy
+echo '#!/bin/bash' > .git/hooks/pre-push
+echo 'bash pre-push' >> .git/hooks/pre-push
+chmod +x .git/hooks/pre-push
+chmod +x pre-push
+
 # now change to symlinks,
 # this means that local changes affect the running server immediately
 # without the need to install requirements again or restart the server
