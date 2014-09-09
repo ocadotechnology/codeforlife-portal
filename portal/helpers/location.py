@@ -1,4 +1,7 @@
-import requests
+import urllib3
+import json
+
+http = urllib3.PoolManager()
 
 
 def is_GB(component):
@@ -32,13 +35,12 @@ def extract_location_data(results, school):
 
 
 def fill_in_location(school):
-    res = requests.get('https://maps.googleapis.com/maps/api/geocode/json', params={
-        'address': school.postcode,
-    })
+    res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
+                       fields={'address': school.postcode})
 
-    data = res.json()
-    if not res.status_code == requests.codes.ok:
-        return False, 'Request error: %s' % res.status_code
+    data = json.loads(res.data)
+    if not res.status == 200:
+        return False, 'Request error: %s' % res.status
 
     if not (data.get('status', '') == 'OK' and len(data.get('results', [])) > 0):
         return False, 'API error: %s' % data.get('status', 'No status')

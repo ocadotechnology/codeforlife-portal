@@ -19,10 +19,10 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
 
 <p>You can either request to join a school or club that is already set up on Code for Life, or create a new one if you are the first teacher in your school or club.</p>
 
-<div class='section group'>
-    {% if teacher.pending_join_request %}
-    <div id='teach_organisation_revoke_page'></div>
+{% if teacher.pending_join_request %}
+<div id='teach_organisation_revoke_page'></div>
 
+<div class='section group'>
     <div class='span_1_of_2'>
         <div class='login-card'>
 
@@ -42,74 +42,75 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
             </form>
         </div>
     </div>
-    {% else %}
+</div>
+{% else %}
+<div id='teach_organisation_create_page'></div>
 
-        <div id='teach_organisation_create_page'></div>
+<div class='section group'>
+    <div class='col span_1_of_2'>
+        <div class='login-card'>
+            <h3>Create a new school or club</h3><br>
 
-        <div class='col span_1_of_2'>
-            <div class='login-card'>
-                <h3>Create a new school or club</h3><br>
+            <p><b>Please note:</b> As the first person from your school or club to register for Code for Life, by default, you become the organisation's administrator. As administrator you have the authority to give and revoke administrative powers to other teachers within your organisation, allow or deny requests from other teachers who wish to join your organisation and remove teachers from your organisation.</p>
+            <p>The administrator is responsible and accountable for ensuring the overall safety of your school or club, and should only accept insitutional address when requesting to join.</p>
 
-                <p><b>Please note:</b> As the first person from your school or club to register for Code for Life, by default, you become the organisation's administrator. As administrator you have the authority to give and revoke administrative powers to other teachers within your organisation, allow or deny requests from other teachers who wish to join your organisation and remove teachers from your organisation.</p>
-                <p>The administrator is responsible and accountable for ensuring the overall safety of your school or club, and should only accept insitutional address when requesting to join.</p>
+            <form id="create_form" method='post'>
 
-                <form id="create_form" method='post'>
+                {% csrf_token %}
 
-                    {% csrf_token %}
+                {{ create_form.non_field_errors }}
 
-                    {{ create_form.non_field_errors }}
+                {% for field in create_form %}
+                    {{ field.errors }}
+                    <label class="ieLabels">{{ field.html_name }}</label>
+                    {{ field }}
+                {% endfor %}
 
-                    {% for field in create_form %}
-                        {{ field.errors }}
-                        <label class="ieLabels">{{ field.html_name }}</label>
-                        {{ field }}
-                    {% endfor %}
+                <div class='section group'>
+                    <input type='submit' class='btn btn-primary wide' name='create_organisation' value='Create'/>
+                </div>
 
-                    <div class='section group'>
-                        <input type='submit' class='btn btn-primary wide' name='create_organisation' value='Create'/>
-                    </div>
-
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
 
-        <div class='col span_1_of_2'>
-            <div class='login-card'>
-                <h3>Join a school or club</h3><br>
+    <div class='col span_1_of_2'>
+        <div class='login-card'>
+            <h3>Join a school or club</h3><br>
 
-                <p>You can search for your school or club by name and/or postcode below.</p>
-                <p>You can verify that you are joining the desired school or club through its postcode and the email address shown.</p>
-                <p>A request will be sent to the school or club's administrator for processing.</p>
+            <p>You can search for your school or club by name and/or postcode below.</p>
+            <p>You can verify that you are joining the desired school or club through its postcode and the email address shown.</p>
+            <p>A request will be sent to the school or club's administrator for processing.</p>
 
-                <form id="join_form" method='post'>
+            <form id="join_form" method='post'>
 
-                    {% csrf_token %}
+                {% csrf_token %}
 
-                    {{ join_form.non_field_errors }}
+                {{ join_form.non_field_errors }}
 
-                    {{ join_form.fuzzy_name.errors }}
-                    <label class="ieLabels">{{ join_form.fuzzy_name.html_name }}</label>
-                    {{ join_form.fuzzy_name }}
+                {{ join_form.fuzzy_name.errors }}
+                <label class="ieLabels">{{ join_form.fuzzy_name.html_name }}</label>
+                {{ join_form.fuzzy_name }}
 
-                    {{ join_form.chosen_org.errors }}
-                    <label class="ieLabels">{{ join_form.chosen_org.html_name }}</label>
-                    {{ join_form.chosen_org }}
+                {{ join_form.chosen_org.errors }}
+                <label class="ieLabels">{{ join_form.chosen_org.html_name }}</label>
+                {{ join_form.chosen_org }}
 
-                    {% if join_form.recaptcha %}
-                        {{ join_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ join_form.recaptcha.html_name }}</label>
-                        {{ join_form.recaptcha|safe }}
-                    {% endif %}
+                {% if join_form.recaptcha %}
+                    {{ join_form.recaptcha.errors }}
+                    <label class="ieLabels">{{ join_form.recaptcha.html_name }}</label>
+                    {{ join_form.recaptcha|safe }}
+                {% endif %}
 
-                    <div class='section group'>
-                        <input type='submit' class='btn btn-primary wide' name='join_organisation' value='Join'/>
-                    </div>
+                <div class='section group'>
+                    <input type='submit' class='btn btn-primary wide' name='join_organisation' value='Join'/>
+                </div>
 
-                </form>
-            </div>
+            </form>
         </div>
-
-    {% endif %}
+    </div>
+</div>
+{% endif %}
 </div>
 
 {% endblock %}
