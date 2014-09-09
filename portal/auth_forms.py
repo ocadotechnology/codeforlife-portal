@@ -12,36 +12,44 @@ from django.utils.http import urlsafe_base64_encode
 from models import Student, Teacher
 from forms import password_strength_test
 
+
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwags):
         super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwags)
-        self.fields['new_password1'].label = 'Enter your new password'
-        self.fields['new_password1'].widget.attrs['placeholder'] = 'Enter your new password'
-        self.fields['new_password2'].label = 'Confirm your new password'
-        self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm your new password'
+        self.fields['new_password1'].label = "Enter your new password"
+        self.fields['new_password1'].widget.attrs['placeholder'] = "Enter your new password"
+        self.fields['new_password2'].label = "Confirm your new password"
+        self.fields['new_password2'].widget.attrs['placeholder'] = "Confirm your new password"
 
     def clean_new_password1(self):
         new_password1 = self.cleaned_data.get('new_password1', None)
         if hasattr(self.user.userprofile, 'teacher'):
             if not password_strength_test(new_password1):
-                raise forms.ValidationError('Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
+                raise forms.ValidationError(
+                    "Password not strong enough, consider using at least 8 characters, upper and "
+                    + "lower case letters, and numbers")
         elif hasattr(self.user.userprofile, 'student'):
-            if not password_strength_test(new_password1, length=6, upper=False, lower=False, numbers=False):
-                raise forms.ValidationError('Password not strong enough, consider using at least 6 characters')
+            if not password_strength_test(new_password1, length=6, upper=False, lower=False,
+                                          numbers=False):
+                raise forms.ValidationError(
+                    "Password not strong enough, consider using at least 6 characters")
         return new_password1
 
+
 class StudentPasswordResetForm(forms.Form):
-    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+    username = forms.CharField(
+        label='Username',
+        widget=forms.TextInput(attrs={'placeholder': "Username"}))
 
     def clean_username(self):
         username = self.cleaned_data.get('username', None)
         user_filter = User.objects.filter(username=username)
         # Check such a username exists
         if not user_filter.exists():
-            raise forms.ValidationError('Cannot find an account with that username')
+            raise forms.ValidationError("Cannot find an account with that username")
         # Check such a username is not in use by a student part of a class/school
         if not Student.objects.filter(class_field=None, user__user__username=username).exists():
-            raise forms.ValidationError('Cannot find an account with that username')
+            raise forms.ValidationError("Cannot find an account with that username")
         return username
 
     def send_mail(self, subject_template_name, email_template_name,
@@ -101,17 +109,19 @@ class StudentPasswordResetForm(forms.Form):
 
 
 class TeacherPasswordResetForm(forms.Form):
-    email = forms.EmailField(label='Email', max_length=254, widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    email = forms.EmailField(
+        label='Email', max_length=254,
+        widget=forms.TextInput(attrs={'placeholder': "Email"}))
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
         # Check such an email exists
         if not User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Cannot find an account with that email')
+            raise forms.ValidationError("Cannot find an account with that email")
         teacher_filter = Teacher.objects.filter(user__user__email=email)
         # Check such an email is associated with a teacher
         if not teacher_filter.exists():
-            raise forms.ValidationError('Cannot find an account with that email')
+            raise forms.ValidationError("Cannot find an account with that email")
         self.username = teacher_filter[0].user.user.username
         return email
 
