@@ -258,14 +258,24 @@ def schools_map(request):
 
     requests = 0
     failures = []
+    town0 = 0
+
     for school in schools:
         if school.town == '0':
             requests += 1
             sleep(0.11) # so we execute a bit less than 10/sec
-            if not fill_in_location(school):
-                failures += (school.id, school.postcode)
 
-    messages.info(request, 'Made %d requests, there were %d errors: %s' % (requests, len(failures), str(failures)))
+            success, error = fill_in_location(school):
+            
+            if not success:
+                failures += [(school.id, school.postcode, error)]
+
+            if school.town == '0':
+                town0 += 1
+
+    messages.info(request, 'Made %d requests' % requests)
+    messages.info(request, 'There were %d errors: %s' % (len(failures), str(failures)))
+    messages.info(request, '%d school have no town' % town0)
 
     return render(request, 'portal/map.html', { 'schools': schools })
 

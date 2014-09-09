@@ -8,17 +8,22 @@ def extract_locality(components, school):
     for component in components:
         if 'locality' in component['types']:
             school.town = component['long_name']
-            return True
+            return
 
-    return False
+        if 'postal_town' in component['types']:
+            school.town = component['long_name']
+            return
 
 def extract_location_data(results, school):
     for result in results:
         for component in result['address_components']:
-            if is_GB(component) and extract_locality(result['address_components'], school):
+            if is_GB(component):
+                extract_locality(result['address_components'], school)
+
                 location = result['geometry']['location']
                 school.latitude = location['lat']
                 school.longitude = location['lng']
+
                 return True
 
     return False
@@ -29,7 +34,10 @@ def fill_in_location(school):
     })
 
     data = res.json()
-    return res.status_code == requests.codes.ok and \
-           data.get('status', '') == 'OK' and \
-           len(data.get('results', [])) > 0 and \
-           extract_location_data(data['results'], school)
+    if not res.status_code == requests.codes.ok:
+        return False, 'Request error: %s' % res.status_code
+
+    if not (data.get('status', '') == 'OK' and len(data.get('results', [])) > 0):
+        return False, 'API error: %s' % data.get('status', 'No status')
+
+    return extract_location_data(data['results'], school), ''
