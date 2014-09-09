@@ -1,5 +1,7 @@
 {% extends 'portal/base.html' %}
 
+{% load table_tags %}
+
 {% block subNav %}
 {% endblock subNav %}
 
@@ -22,7 +24,7 @@
     {% for data in table.data %}
     <tr>
         {% for entry in data %}
-        <td>{{ entry }}</td>
+        <td>{{ entry|tableformat }}</td>
         {% endfor %}
     </tr>
     {% endfor %}
