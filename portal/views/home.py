@@ -18,6 +18,7 @@ from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
 from portal.helpers.generators import get_random_username
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
+from portal.helpers.location import fill_in_location
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
 
@@ -251,6 +252,31 @@ def contact(request):
 
 def schools_map(request):
     schools = School.objects.all()
+
+    # Temporarily, fill in any schools without a location set
+    from time import sleep
+
+    requests = 0
+    failures = []
+    town0 = 0
+
+    for school in schools:
+        if school.town == '0':
+            requests += 1
+            sleep(0.11) # so we execute a bit less than 10/sec
+
+            success, error = fill_in_location(school)
+            
+            if not success:
+                failures += [(school.id, school.postcode, error)]
+
+            if school.town == '0':
+                town0 += 1
+
+    messages.info(request, 'Made %d requests' % requests)
+    messages.info(request, 'There were %d errors: %s' % (len(failures), str(failures)))
+    messages.info(request, '%d school have no town' % town0)
+
     return render(request, 'portal/map.html', { 'schools': schools })
 
 def current_user(request):
