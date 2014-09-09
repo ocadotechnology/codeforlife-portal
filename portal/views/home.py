@@ -265,7 +265,7 @@ def schools_map(request):
             requests += 1
             sleep(0.11) # so we execute a bit less than 10/sec
 
-            success, error = fill_in_location(school):
+            success, error = fill_in_location(school)
             
             if not success:
                 failures += [(school.id, school.postcode, error)]
