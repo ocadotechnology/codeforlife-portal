@@ -2,28 +2,32 @@ from functools import partial
 
 from django.conf import settings
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from two_factor.utils import default_device
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import UserProfile, School, Teacher, Class, Student
+from deploy.permissions import is_authorised_to_view_aggregated_data
+
+from portal.models import School, Teacher, Student
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
-from portal.helpers.generators import get_random_username
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
+from portal.helpers.location import fill_in_location
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
+
 
 from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
+
 
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login' in request.POST:
@@ -31,17 +35,20 @@ def teach_email_labeller(request):
 
     return ''
 
+
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req,
+           res: hasattr(res, 'count') and res.count)
 def teach(request):
     invalid_form = False
-    limits = getattr(request, 'limits', { 'ip': [0], 'email': [0] })
+    limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
     captcha_limit = 5
 
     using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
 
-    LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
+    LoginFormWithCaptcha = partial(
+        create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
     InputLoginForm = LoginFormWithCaptcha if using_captcha else TeacherLoginForm
     OutputLoginForm = LoginFormWithCaptcha if should_use_captcha else TeacherLoginForm
 
@@ -55,7 +62,8 @@ def teach(request):
                 userProfile = login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
-                    return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
+                    return render(request, 'portal/email_verification_needed.html',
+                                  {'userprofile': userProfile})
 
                 login(request, login_form.user)
 
@@ -67,7 +75,12 @@ def teach(request):
                     })
                 else:
                     link = reverse('two_factor:profile')
-                    messages.info(request, "You are not currently set up with two-factor authentication. Use your phone or tablet to enhance your account's security. Click <a href='" + link + "'>here</a> to find out more and set it up or go to your account page at any time.", extra_tags='safe')
+                    messages.info(
+                        request, ("You are not currently set up with two-factor authentication. "
+                                  + "Use your phone or tablet to enhance your account's security. "
+                                  + "Click <a href='" + link + "'>here</a> to find out more and "
+                                  + "set it up or go to your account page at any time."),
+                        extra_tags='safe')
 
                 next_url = request.GET.get('next', None)
                 if next_url:
@@ -93,9 +106,12 @@ def teach(request):
 
                 send_verification_email(request, teacher.user)
 
-                return render(request, 'portal/email_verification_needed.html', { 'userprofile': teacher.user })
+                return render(request, 'portal/email_verification_needed.html',
+                              {'userprofile': teacher.user})
 
-    logged_in_as_teacher = hasattr(request.user, 'userprofile') and hasattr(request.user.userprofile, 'teacher') and (request.user.is_verified() or not default_device(request.user))
+    logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
+        hasattr(request.user.userprofile, 'teacher') and \
+        (request.user.is_verified() or not default_device(request.user))
 
     res = render(request, 'portal/teach.html', {
         'login_form': login_form,
@@ -105,6 +121,7 @@ def teach(request):
 
     res.count = invalid_form
     return res
+
 
 def play_name_labeller(request):
     if request.method == 'POST':
@@ -116,21 +133,25 @@ def play_name_labeller(request):
 
     return ''
 
+
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req,
+           res: hasattr(res, 'count') and res.count)
 def play(request):
     invalid_form = False
-    limits = getattr(request, 'limits', { 'ip': [0], 'name': [0] })
+    limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
     captcha_limit = 5
 
     using_captcha = (limits['ip'][0] > captcha_limit or limits['name'][0] >= captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['name'][0] >= captcha_limit)
 
-    StudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
+    StudentLoginFormWithCaptcha = partial(
+        create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
     InputStudentLoginForm = StudentLoginFormWithCaptcha if using_captcha else StudentLoginForm
     OutputStudentLoginForm = StudentLoginFormWithCaptcha if should_use_captcha else StudentLoginForm
 
-    SoloLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentSoloLoginForm, recaptcha_client), request)
+    SoloLoginFormWithCaptcha = partial(
+        create_form_subclass_with_recaptcha(StudentSoloLoginForm, recaptcha_client), request)
     InputSoloLoginForm = SoloLoginFormWithCaptcha if using_captcha else StudentSoloLoginForm
     OutputSoloLoginForm = SoloLoginFormWithCaptcha if should_use_captcha else StudentSoloLoginForm
 
@@ -162,7 +183,8 @@ def play(request):
                 userProfile = solo_login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
-                    return render(request, 'portal/email_verification_needed.html', { 'userprofile': userProfile })
+                    return render(request, 'portal/email_verification_needed.html',
+                                  {'userprofile': userProfile})
 
                 login(request, solo_login_form.user)
 
@@ -191,7 +213,8 @@ def play(request):
                 email_supplied = (data['email'] != '')
                 if (email_supplied):
                     send_verification_email(request, student.user)
-                    return render(request, 'portal/email_verification_needed.html', { 'userprofile': student.user })
+                    return render(request, 'portal/email_verification_needed.html',
+                                  {'userprofile': student.user})
                 else:
                     auth_user = authenticate(username=data['username'], password=data['password'])
                     login(request, auth_user)
@@ -211,16 +234,18 @@ def play(request):
     res.count = invalid_form
     return res
 
+
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def contact(request):
     increment_count = False
-    limits = getattr(request, 'limits', { 'ip': [0] })
+    limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
 
     using_captcha = (limits['ip'][0] > captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit)
 
-    ContactFormWithCaptcha = partial(create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
+    ContactFormWithCaptcha = partial(
+        create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
     InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
     OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
 
@@ -229,11 +254,18 @@ def contact(request):
         increment_count = True
 
         if contact_form.is_valid():
-            emailMessage = emailMessages.contactEmail(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'], contact_form.cleaned_data['browser'])
-            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, emailMessage['subject'], emailMessage['message'])
+            emailMessage = emailMessages.contactEmail(
+                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
+                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
+                contact_form.cleaned_data['browser'])
+            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, emailMessage['subject'],
+                       emailMessage['message'])
 
-            confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'], contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
-            send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']], confirmedEmailMessage['subject'], confirmedEmailMessage['message'])
+            confirmedEmailMessage = emailMessages.confirmationContactEmailMessage(
+                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
+                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']],
+                       confirmedEmailMessage['subject'], confirmedEmailMessage['message'])
 
             messages.success(request, 'Your message was sent successfully.')
             return HttpResponseRedirect('.')
@@ -243,15 +275,42 @@ def contact(request):
 
     else:
         contact_form = OutputContactForm()
-        
-    response = render(request, 'portal/contact.html', { 'form': contact_form })
+
+    response = render(request, 'portal/contact.html', {'form': contact_form})
 
     response.count = increment_count
     return response
 
+@user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
 def schools_map(request):
     schools = School.objects.all()
-    return render(request, 'portal/map.html', { 'schools': schools })
+
+    # Temporarily, fill in any schools without a location set
+    from time import sleep
+
+    requests = 0
+    failures = []
+    town0 = 0
+
+    for school in schools:
+        if school.town == '0':
+            requests += 1
+            sleep(0.11)  # so we execute a bit less than 10/sec
+
+            success, error = fill_in_location(school)
+
+            if not success:
+                failures += [(school.id, school.postcode, error)]
+
+            if school.town == '0':
+                town0 += 1
+
+    messages.info(request, 'Made %d requests' % requests)
+    messages.info(request, 'There were %d errors: %s' % (len(failures), str(failures)))
+    messages.info(request, '%d school have no town' % town0)
+
+    return render(request, 'portal/map.html', {'schools': schools})
+
 
 def current_user(request):
     if not hasattr(request.user, 'userprofile'):
@@ -265,6 +324,7 @@ def current_user(request):
         # default to homepage and logout if something goes wrong
         logout(request)
         return HttpResponseRedirect(reverse_lazy('home'))
+
 
 def logout_view(request):
     logout(request)

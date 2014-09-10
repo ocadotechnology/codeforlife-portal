@@ -7,12 +7,17 @@ from selenium import webdriver
 import os, sys
 sys.path.append(os.path.dirname(__file__))
 
-# Also point selenium to the chrome driver
+#### Uncomment to use FireFox
+# master_browser = webdriver.Firefox()
+
+#### Uncomment to use Chrome
 chromedriver = os.path.join(os.path.dirname(__file__), 'chromedriver')
 os.environ['webdriver.chrome.driver'] = chromedriver
-
-# master_browser = webdriver.Firefox()
 master_browser = webdriver.Chrome(chromedriver)
+
+#### Uncomment to use PhantomJS
+# master_browser = webdriver.PhantomJS()
+# master_browser.set_window_size(1000, 500)
 
 class BaseTest(LiveServerTestCase):
     browser = master_browser

@@ -6,7 +6,7 @@ class TeachOrganisationCreatePage(TeachBasePage):
     def __init__(self, browser):
         super(TeachOrganisationCreatePage, self).__init__(browser)
 
-        assert self.onCorrectPage('teach_organisation_create_page')
+        assert self.on_correct_page('teach_organisation_create_page')
 
     def create_organisation(self, name, postcode, password):
         self.browser.find_element_by_id('id_name').send_keys(name)
@@ -15,7 +15,7 @@ class TeachOrganisationCreatePage(TeachBasePage):
 
         self.browser.find_element_by_name('create_organisation').click()
 
-        if self.onCorrectPage('teach_dashboard_page'):
+        if self.on_correct_page('teach_dashboard_page'):
             return dashboard_page.TeachDashboardPage(self.browser)
         else:
             return self
@@ -30,7 +30,7 @@ class TeachOrganisationCreatePage(TeachBasePage):
         sleep(1)
         self.browser.find_element_by_name('join_organisation').click()
 
-        if self.onCorrectPage('teach_organisation_revoke_page'):
+        if self.on_correct_page('teach_organisation_revoke_page'):
             return organisation_revoke_page.TeachOrganisationRevokePage(self.browser)
         else:
             return self

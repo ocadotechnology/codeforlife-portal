@@ -1,14 +1,12 @@
-from selenium.common.exceptions import NoSuchElementException
-
 from teach_base_page import TeachBasePage
 
 class TeachOrganisationManagePage(TeachBasePage):
     def __init__(self, browser):
         super(TeachOrganisationManagePage, self).__init__(browser)
 
-        assert self.onCorrectPage('teach_organisation_manage_page')
+        assert self.on_correct_page('teach_organisation_manage_page')
 
-    def changeOrganisationDetails(self, details):
+    def change_organisation_details(self, details):
         for field, value in details.items():
             self.browser.find_element_by_id('id_' + field).clear()
             self.browser.find_element_by_id('id_' + field).send_keys(value)
@@ -16,7 +14,7 @@ class TeachOrganisationManagePage(TeachBasePage):
         self.browser.find_element_by_id('update_details_button').click()
         return self
 
-    def checkOrganisationDetails(self, details):
+    def check_organisation_details(self, details):
         correct = True
 
         for field, value in details.items():
@@ -30,21 +28,14 @@ class TeachOrganisationManagePage(TeachBasePage):
         return (error in errorlist)
 
     def is_admin_view(self):
-        try:
-            self.browser.find_element_by_id('admin_view')
-            return True
-        except NoSuchElementException:
-            return False
+        return self.element_exists_by_id('admin_view')
 
     def accept_join_request(self, email):
         self.browser.find_element_by_xpath("//table[@id='request_table']//td[contains(text(),'%s')]/..//td//a[contains(text(),'Allow')]" % email).click()
         return self
 
     def have_join_request(self, email):
-        try:
-            return (email in self.browser.find_element_by_id('request_table').text)
-        except NoSuchElementException:
-            return False
+        return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
 
     def number_of_members(self):
         return len(self.browser.find_elements_by_xpath("//table[@id='coworker_table']//tr")) - 1

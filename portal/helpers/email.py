@@ -14,9 +14,11 @@ VERIFICATION_EMAIL = 'Code For Life Verification <' + settings.EMAIL_ADDRESS + '
 PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + settings.EMAIL_ADDRESS + '>'
 CONTACT_EMAIL = 'Code For Life Contact <' + settings.EMAIL_ADDRESS + '>'
 
-def send_email(sender, recipients, subject, text_content, html_content=None, plaintext_template='email.txt', html_template='email.html'):
+
+def send_email(sender, recipients, subject, text_content, html_content=None,
+               plaintext_template='email.txt', html_template='email.html'):
     # setup template images library, make into attachments
-    images=[['cfllogo.png','cfllogo']]
+    images = [['cfllogo.png', 'cfllogo']]
     attachments = []
     # add in template for templates to message
 
@@ -32,10 +34,10 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
     # setup templates
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
-    plaintext_email_context = Context({ 'content' : text_content })
-    html_email_context = Context({ 'content' : text_content })
+    plaintext_email_context = Context({'content': text_content})
+    html_email_context = Context({'content': text_content})
     if html_content:
-        html_email_context = Context({ 'content' : html_content })
+        html_email_context = Context({'content': html_content})
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
@@ -47,6 +49,7 @@ def send_email(sender, recipients, subject, text_content, html_content=None, pla
 
     message.send()
 
+
 def send_verification_email(request, userProfile, new_email=None):
     verification = EmailVerification.objects.create(
         user=userProfile,
@@ -56,12 +59,15 @@ def send_verification_email(request, userProfile, new_email=None):
 
     if new_email:
         emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
-        send_email(VERIFICATION_EMAIL, [new_email], emailMessage['subject'], emailMessage['message'])
+        send_email(VERIFICATION_EMAIL, [new_email], emailMessage['subject'],
+                   emailMessage['message'])
 
         emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
-        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])
+        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'],
+                   emailMessage['message'])
 
     else:
         emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
 
-        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'], emailMessage['message'])
+        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'],
+                   emailMessage['message'])

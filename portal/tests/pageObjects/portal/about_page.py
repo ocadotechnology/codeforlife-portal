@@ -4,4 +4,4 @@ class AboutPage(BasePage):
     def __init__(self, browser):
         super(AboutPage, self).__init__(browser)
 
-        assert self.onCorrectPage('about_page')
+        assert self.on_correct_page('about_page')

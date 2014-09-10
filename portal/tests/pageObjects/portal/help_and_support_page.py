@@ -4,4 +4,4 @@ class HelpPage(BasePage):
     def __init__(self, browser):
         super(HelpPage, self).__init__(browser)
 
-        assert self.onCorrectPage('help_page')
+        assert self.on_correct_page('help_page')

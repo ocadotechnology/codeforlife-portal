@@ -34,7 +34,7 @@
 <script>
     // Set to 'TEACHER', 'SCHOOL_STUDENT', 'SOLO_STUDENT', or 'UNTRACKED'
     USER_STATUS = '{{ user|get_user_status }}';
-
+    DEVELOPER = '{{ user|is_developer}}' === 'True';
 </script>
 
 {% block scripts %}
@@ -97,12 +97,6 @@
             </ul>
             {% endif %}
         </div>
-
-        <!--[if lt IE 10]>
-        <ul class="messages">
-            <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
-        </ul>
-        <![endif]-->
 
         <!--[if lt IE 10]>
         <ul class="messages">

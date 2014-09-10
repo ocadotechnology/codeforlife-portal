@@ -1,4 +1,3 @@
-from datetime import datetime
 import re
 
 from django.contrib.auth.models import User
@@ -7,17 +6,17 @@ from django.db import models
 from django.utils import timezone
 
 
-
 class UserProfile (models.Model):
     user = models.OneToOneField(User)
     avatar = models.ImageField(upload_to='static/portal/img/avatars/', null=True, blank=True,
                                default='static/portal/img/avatars/default-avatar.jpeg')
     awaiting_email_verification = models.BooleanField(default=False)
-
     can_view_aggregated_data = models.BooleanField(default=False)
+    developer = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
+
 
 class School (models.Model):
     name = models.CharField(max_length=200)
@@ -28,6 +27,7 @@ class School (models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class TeacherModelManager(models.Manager):
     def factory(self, title, first_name, last_name, email, password):
@@ -43,6 +43,7 @@ class TeacherModelManager(models.Manager):
         userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
 
         return Teacher.objects.create(user=userProfile, title=title)
+
 
 class Teacher (models.Model):
     title = models.CharField(max_length=35)
@@ -113,18 +114,20 @@ class StudentModelManager(models.Manager):
 
         return Student.objects.create(user=userProfile)
 
+
 class Student (models.Model):
     class_field = models.ForeignKey(Class, related_name='students', null=True)
     user = models.OneToOneField(UserProfile)
     pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
 
-    objects = StudentModelManager();
-    
+    objects = StudentModelManager()
+
     def is_independent(self):
         return not self.class_field
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+
 
 def stripStudentName(name):
         return re.sub('[ \t]+', ' ', name.strip())
@@ -137,6 +140,7 @@ class Guardian (models.Model):
 
     def __unicode__(self):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+
 
 class EmailVerification (models.Model):
     user = models.ForeignKey(UserProfile, related_name='email_verifications')
