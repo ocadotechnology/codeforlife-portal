@@ -1,6 +1,7 @@
 import json
-from functools import partial
+from functools import partial, wraps
 import json
+from datetime import timedelta
 
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
@@ -11,6 +12,8 @@ from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles import finders
+from django.forms.formsets import formset_factory
+from django.utils import timezone
 from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -325,7 +328,7 @@ def teacher_edit_class(request, access_code):
 
     if klass.always_accept_requests:
         external_requests_message = 'This class is currently set to always accept requests.'
-    elif klass.accept_requests_until != None and (klass.accept_requests_until - timezone.now()) >= datetime.timedelta():
+    elif klass.accept_requests_until != None and (klass.accept_requests_until - timezone.now()) >= timedelta():
         external_requests_message = 'This class is accepting external requests until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
     else:
         external_requests_message = 'This class is not currently accepting external requests.'
@@ -348,7 +351,7 @@ def teacher_edit_class(request, access_code):
                 elif hours < 1000:
                     # Setting to number of hours
                     klass.always_accept_requests = False
-                    klass.accept_requests_until = timezone.now() + datetime.timedelta(hours=hours)
+                    klass.accept_requests_until = timezone.now() + timedelta(hours=hours)
                     messages.info(request, 'Class set successfully to receive requests from external students until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name())
                 else:
                     # Setting to always on

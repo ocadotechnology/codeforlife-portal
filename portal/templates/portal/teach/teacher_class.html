@@ -71,10 +71,10 @@ var CONFIRMATION_DATA = {
             <div class='section group'>
                 <div class='col' style='line-height: 30px; padding-left: 20px'>(<span id="num_students_selected">0</span>/{{ num_students }} selected)</div>
                 <div class='col pull-right'>
-                    <button class='btn btn-default btn-small' id='moveSelectedStudents'>Move</button>
-                    <button class='btn btn-default btn-small' id='dismissSelectedStudents'>Release</button>
+                    <button id='moveSelectedStudents' class='btn btn-default btn-small'>Move</button>
+                    <button id='dismissSelectedStudents' class='btn btn-default btn-small'>Release</button>
 
-                    <a href="#" id="deleteSelectedStudents" class="btn btn-danger btn-small">Delete</a>
+                    <button id="deleteSelectedStudents" class="btn btn-danger btn-small">Delete</button>
                 </div>
             </div>
         {% else %}

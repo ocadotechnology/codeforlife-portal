@@ -1,18 +1,20 @@
 $(function() {
 	$('#moveSelectedStudents').click(function() {
 		postSelectedStudents(MOVE_STUDENTS_URL);
+        return false;
 	});
 
     $('#dismissSelectedStudents').click(function() {
         postSelectedStudents(DISMISS_STUDENTS_URL);
+        return false;
     });
 
     // Link to open the dialog
-    $("#deleteSelectedStudents").click(function(event) {
+    $("#deleteSelectedStudents").click(function() {
         runIfStudentsSelected(function() {
             openConfirmationBox('deleteStudents');
         });
-        event.preventDefault();
+        return false;
     });
 
     $('#selectedStudentsListToggle').click(function() {
@@ -61,9 +63,9 @@ $(function() {
         $('#num_students_selected').text(count)
     });
 
-    $("#deleteClass").click(function(event) {
+    $("#deleteClass").click(function() {
         openConfirmationBox('deleteClass');
-        event.preventDefault();
+        return false;
     });
 });
 

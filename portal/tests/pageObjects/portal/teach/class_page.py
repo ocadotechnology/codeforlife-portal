@@ -17,18 +17,18 @@ class TeachClassPage(TeachBasePage):
         self.browser.find_element_by_id('deleteClass').click()
         return self
 
-    def cancel_delete(self):
+    def cancel_dialog(self):
         self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
         return self
 
-    def confirm_delete(self):
+    def confirm_dialog(self):
         self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
         if self.on_correct_page('teach_classes_page'):
             return classes_page.TeachClassesPage(self.browser)
         else:
             return self
 
-    def is_delete_confirm_showing(self):
+    def is_dialog_showing(self):
         return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
 
     def have_students(self):
@@ -61,6 +61,14 @@ class TeachClassPage(TeachBasePage):
         errorlist = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
         error = "You cannot add more than one student called '{0}'".format(name)
         return (error in errorlist)
+
+    def toggle_select_student(self, name):
+        self.browser.find_element_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]/../..//input".format(name)).click()
+        return self
+
+    def delete_students(self):
+        self.browser.find_element_by_id('deleteSelectedStudents').click()
+        return self
 
 import classes_page
 import class_settings_page

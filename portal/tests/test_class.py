@@ -71,12 +71,12 @@ class TestClass(BaseTest):
         assert not page.have_students()
 
         page = page.delete_class()
-        assert page.is_delete_confirm_showing()
-        page = page.cancel_delete()
-        assert not page.is_delete_confirm_showing()
+        assert page.is_dialog_showing()
+        page = page.cancel_dialog()
+        assert not page.is_dialog_showing()
         page = page.delete_class()
-        assert page.is_delete_confirm_showing()
-        page = page.confirm_delete()
+        assert page.is_dialog_showing()
+        page = page.confirm_dialog()
         assert page.__class__.__name__ == 'TeachClassesPage'
         assert not page.have_classes()
 
@@ -92,12 +92,12 @@ class TestClass(BaseTest):
         assert page.have_students()
 
         page = page.delete_class()
-        assert page.is_delete_confirm_showing()
-        page = page.cancel_delete()
-        assert not page.is_delete_confirm_showing()
+        assert page.is_dialog_showing()
+        page = page.cancel_dialog()
+        assert not page.is_dialog_showing()
         page = page.delete_class()
-        assert page.is_delete_confirm_showing()
-        page = page.confirm_delete()
+        assert page.is_dialog_showing()
+        page = page.confirm_dialog()
         assert page.__class__.__name__ == 'TeachClassPage'
         assert is_class_nonempty_message_showing(self.browser)
 
