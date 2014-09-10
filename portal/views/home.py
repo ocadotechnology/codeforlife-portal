@@ -6,10 +6,13 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from two_factor.utils import default_device
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
+
+from deploy.permissions import is_authorised_to_view_aggregated_data
 
 from portal.models import School, Teacher, Student
 from portal.forms.home import ContactForm
@@ -19,6 +22,7 @@ from portal.helpers.email import send_email, send_verification_email, CONTACT_EM
 from portal.helpers.location import fill_in_location
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
+
 
 from ratelimit.decorators import ratelimit
 
@@ -277,7 +281,7 @@ def contact(request):
     response.count = increment_count
     return response
 
-
+@user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
 def schools_map(request):
     schools = School.objects.all()
 
