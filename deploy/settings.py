@@ -67,6 +67,8 @@ ROOT_URLCONF = 'deploy.urls'
 
 WSGI_APPLICATION = 'deploy.wsgi.application'
 
+CSRF_FAILURE_VIEW = 'deploy.views.csrf_failure'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 

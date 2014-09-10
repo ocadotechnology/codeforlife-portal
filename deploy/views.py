@@ -11,6 +11,10 @@ from ratelimit.decorators import ratelimit
 
 from two_factor.utils import default_device
 
+def csrf_failure(request, reason=""):
+    return render(request, 'deploy/csrf_failure.html')
+
+
 @ratelimit('def', periods=['1m'])
 def admin_login(request):
     block_limit = 5
