@@ -1,4 +1,3 @@
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import Select
 
 from base_page import BasePage

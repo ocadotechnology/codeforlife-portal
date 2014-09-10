@@ -1,5 +1,3 @@
-from selenium.common.exceptions import NoSuchElementException
-
 from teach_base_page import TeachBasePage
 
 class TeachOrganisationManagePage(TeachBasePage):
@@ -30,21 +28,14 @@ class TeachOrganisationManagePage(TeachBasePage):
         return (error in errorlist)
 
     def is_admin_view(self):
-        try:
-            self.browser.find_element_by_id('admin_view')
-            return True
-        except NoSuchElementException:
-            return False
+        return self.elementExistsById('admin_view')
 
     def accept_join_request(self, email):
         self.browser.find_element_by_xpath("//table[@id='request_table']//td[contains(text(),'%s')]/..//td//a[contains(text(),'Allow')]" % email).click()
         return self
 
     def have_join_request(self, email):
-        try:
-            return (email in self.browser.find_element_by_id('request_table').text)
-        except NoSuchElementException:
-            return False
+        return self.elementExistsById('request_table') and (email in self.browser.find_element_by_id('request_table').text)
 
     def number_of_members(self):
         return len(self.browser.find_elements_by_xpath("//table[@id='coworker_table']//tr")) - 1

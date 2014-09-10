@@ -1,6 +1,5 @@
 from pageObjects.portal.base_page import BasePage
 
-
 class TeachBasePage(BasePage):
     def __init__(self, browser):
         super(TeachBasePage, self).__init__(browser)

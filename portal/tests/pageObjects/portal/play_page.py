@@ -1,7 +1,3 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 from base_page import BasePage
 
 class PlayPage(BasePage):
@@ -25,18 +21,14 @@ class PlayPage(BasePage):
         button = self.browser.find_element_by_id('switchToSchool')
         if button.is_displayed():
             button.click()
-            WebDriverWait(self.browser, 10).until(
-                EC.visibility_of_element_located((By.ID, "switchToSolo"))
-            )
+            self.waitForElementById('switchToSolo')
         return self
 
     def showSoloLogin(self):
         button = self.browser.find_element_by_id('switchToSolo')
         if button.is_displayed():
             button.click()
-            WebDriverWait(self.browser, 10).until(
-                EC.visibility_of_element_located((By.ID, "switchToSchool"))
-            )
+            self.waitForElementById('switchToSchool')
         return self
 
     def isCorrectLoginState(self, state):

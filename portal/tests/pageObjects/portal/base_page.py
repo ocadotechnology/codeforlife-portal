@@ -9,14 +9,36 @@ class BasePage(object):
     def __init__(self, browser):
         self.browser = browser
 
-    def onCorrectPage(self, pageName):
+    def waitForElement(self, method):
+        WebDriverWait(self.browser, 1).until(
+            EC.presence_of_element_located(method)
+        )
+
+    def waitForElementById(self, name):
+        WebDriverWait(self.browser, 1).until(
+            EC.presence_of_element_located((By.ID, name))
+        )
+
+    def waitForElementByXPATH(self, name):
+        WebDriverWait(self.browser, 1).until(
+            EC.presence_of_element_located((By.XPATH, name))
+        )
+
+    def elementExists(self, method):
         try:
-            WebDriverWait(self.browser, 1).until(
-                EC.presence_of_element_located((By.ID, pageName))
-            )
+            self.waitForElement(method)
             return True
         except TimeoutException:
             return False
+
+    def elementExistsById(self, name):
+        return self.elementExists((By.ID, name))
+
+    def elementExistsByXPATH(self, path):
+        return self.elementExists((By.XPATH, path))
+
+    def onCorrectPage(self, pageName):
+        return self.elementExistsById(pageName)
 
     def goToAboutPage(self):
         self.browser.find_element_by_id('about_button').click()

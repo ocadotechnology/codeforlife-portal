@@ -1,8 +1,4 @@
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from teach_base_page import TeachBasePage
 
@@ -21,13 +17,7 @@ class TeachClassesPage(TeachBasePage):
         return class_page.TeachClassPage(self.browser)
 
     def have_classes(self):
-        try:
-            WebDriverWait(self.browser, 1).until(
-                EC.presence_of_element_located((By.ID, 'classes_table'))
-            )
-            return True
-        except TimeoutException:
-            return False
+        return self.elementExistsById('classes_table')
 
     def does_class_exist(self, name, access_code):
         return self.have_classes() and \

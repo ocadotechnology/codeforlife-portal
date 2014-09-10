@@ -32,11 +32,7 @@ class TeachClassPage(TeachBasePage):
         return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
 
     def have_students(self):
-        try:
-            self.browser.find_element_by_id('student_table')
-            return True
-        except NoSuchElementException:
-            return False
+        return self.elementExistsById('student_table')
 
     def does_student_exist(self, name):
         try:
@@ -44,6 +40,7 @@ class TeachClassPage(TeachBasePage):
             return True
         except NoSuchElementException:
             return False
+        return self.elementExistsByXPATH('student_table')
 
 import classes_page
 import class_settings_page
