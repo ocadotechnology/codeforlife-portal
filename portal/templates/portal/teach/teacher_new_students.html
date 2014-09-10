@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<div id='teach_new_students_page'></div>
+
 <h1>Classes</h1><br>
 <h2>New students created in class {{ class.name }} ({{ class.access_code }})</h2><br>
 
@@ -17,7 +19,7 @@
 </div>
 
 <div class='span_1_of_2'>
-    <table class='CSSTable alternate smaller wide'>
+    <table id='students_table' class='CSSTable alternate smaller wide'>
         <tr>
             <th>Name</th>
             <th>Password</th>
@@ -36,10 +38,10 @@
         <input type='hidden' name='data' value='{{ query_data }}'/>
         <div class='section group'>
             <div class='col span_1_of_2'>
-                <a class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Return to class</a>
+                <a id='return_button' class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Return to class</a>
             </div>
             <div class='col span_1_of_2'>
-                <input class='btn btn-primary wide'type='submit' value='Print Reminder Cards'/>
+                <input id='print_reminder_cards_button' class='btn btn-primary wide' type='submit' value='Print Reminder Cards'/>
             </div>
         </div>
     </form>

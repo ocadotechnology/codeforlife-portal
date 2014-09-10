@@ -35,12 +35,33 @@ class TeachClassPage(TeachBasePage):
         return self.element_exists_by_id('student_table')
 
     def does_student_exist(self, name):
-        try:
-            self.browser.find_element_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]".format(name))
-            return True
-        except NoSuchElementException:
-            return False
-        return self.element_exists_by_xpath('student_table')
+        return self.element_exists_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]".format(name))
+
+    def type_student_name(self, name):
+        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+        return self
+
+    def create_students(self):
+        self.browser.find_element_by_name('new_students').click()
+
+        if self.on_correct_page('teach_new_students_page'):
+            return new_students.TeachNewStudentsPage(self.browser)
+        else:
+            return self
+
+    def did_add_fail(self):
+        return self.element_exists_by_xpath("//form[@id='add_form']//ul[@class='errorlist']")
+
+    def student_already_existed(self, name):
+        errorlist = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
+        error = "There is already a student called '{0}' in this class".format(name)
+        return (error in errorlist)
+
+    def duplicate_students(self, name):
+        errorlist = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
+        error = "You cannot add more than one student called '{0}'".format(name)
+        return (error in errorlist)
 
 import classes_page
 import class_settings_page
+import new_students
