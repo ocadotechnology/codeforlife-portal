@@ -75,3 +75,29 @@ class TestSchoolStudent(BaseTest):
         assert page.duplicate_students(student_name)
         assert not page.have_students()
         assert not page.does_student_exist(student_name)
+
+    def test_delete(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        class_name, access_code = create_class_directly(email)
+        student_name, student_password = create_school_student_directly(access_code)
+
+        self.browser.get(self.home_url)
+        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = page.go_to_classes_page().go_to_class_page(class_name)
+        assert page.have_students()
+        assert page.does_student_exist(student_name)
+
+        page = page.toggle_select_student(student_name)
+        page = page.delete_students()
+        assert page.is_dialog_showing()
+        page = page.cancel_dialog()
+        assert not page.is_dialog_showing()
+        assert page.have_students()
+        assert page.does_student_exist(student_name)
+
+        page = page.delete_students()
+        assert page.is_dialog_showing()
+        page = page.confirm_dialog()
+        assert not page.have_students()
+        assert not page.does_student_exist(student_name)
