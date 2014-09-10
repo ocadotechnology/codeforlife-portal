@@ -112,38 +112,59 @@ def aggregated_data(request):
 	independent_students_with_attempts = students_with_attempts.filter(class_field=None)
 	table_data.append(["Number of independent students who have started RR", independent_students_with_attempts.count(), ""])
 
-	default_level_attempts = Attempt.objects.filter(level__default=True).exclude(score=None)
-	table_data.append(["Average score recorded on default RR levels", default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
+	# TODO revisit this once episodes have been restructured, as this doesn't work because of episode being a PROPERTY of level...
+	
+	# Need to filter out so we're only looking at attempts on levels that could be relevant, and don't look at null scores
+	# default_level_attempts = Attempt.objects.filter(level__default=True).exclude(level__episode=None).exclude(level__episode__in_development=True).exclude(score=None)
+	# table_data.append(["Average score recorded on default RR levels", default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
 
-	perfect_default_level_attempts = default_level_attempts.filter(score=20)
-	perfect_attempts = perfect_default_level_attempts.count()
-	all_attempts = default_level_attempts.count()
-	percentage = None
-	if all_attempts != 0:
-		percentage =  (float(perfect_attempts)/float(all_attempts))*100
-	table_data.append(["Percentage of perfect scores on default RR levels", percentage, ""])
+	# perfect_default_level_attempts = default_level_attempts.filter(score=20)
+	# perfect_attempts = perfect_default_level_attempts.count()
+	# all_attempts = default_level_attempts.count()
+	# percentage = None
+	# if all_attempts != 0:
+	# 	percentage =  (float(perfect_attempts)/float(all_attempts))*100
+	# table_data.append(["Percentage of perfect scores on default RR levels", percentage, ""])
 
-	school_default_level_attempts = default_level_attempts.exclude(student__class_field=None)
-	table_data.append(["Average score recorded amongst school students on default RR levels", school_default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
+	# school_default_level_attempts = default_level_attempts.exclude(student__class_field=None)
+	# table_data.append(["Average score recorded amongst school students on default RR levels", school_default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
 
-	school_perfect_default_level_attempts = school_default_level_attempts.filter(score=20)
-	school_perfect_attempts = school_perfect_default_level_attempts.count()
-	school_all_attempts = school_default_level_attempts.count()
-	percentage = None
-	if school_all_attempts != 0:
-		percentage = (float(school_perfect_attempts)/float(school_all_attempts))*100
-	table_data.append(["Percentage of perfect scores amongst school students on default RR levels", percentage, ""])
+	# school_perfect_default_level_attempts = school_default_level_attempts.filter(score=20)
+	# school_perfect_attempts = school_perfect_default_level_attempts.count()
+	# school_all_attempts = school_default_level_attempts.count()
+	# percentage = None
+	# if school_all_attempts != 0:
+	# 	percentage = (float(school_perfect_attempts)/float(school_all_attempts))*100
+	# table_data.append(["Percentage of perfect scores amongst school students on default RR levels", percentage, ""])
 
-	independent_default_level_attempts = default_level_attempts.filter(student__class_field=None)
-	table_data.append(["Average score recorded amongst independent students on default RR levels", independent_default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
+	# independent_default_level_attempts = default_level_attempts.filter(student__class_field=None)
+	# table_data.append(["Average score recorded amongst independent students on default RR levels", independent_default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
 
-	independent_perfect_default_level_attempts = independent_default_level_attempts.filter(score=20)
-	independent_perfect_attempts = independent_perfect_default_level_attempts.count()
-	independent_all_attempts = independent_default_level_attempts.count()
-	percentage = None
-	if independent_all_attempts != 0:
-		percentage = (float(independent_perfect_attempts)/float(independent_all_attempts))*100
-	table_data.append(["Percentage of perfect scores amongst independent students on default RR levels", percentage, ""])
+	# independent_perfect_default_level_attempts = independent_default_level_attempts.filter(score=20)
+	# independent_perfect_attempts = independent_perfect_default_level_attempts.count()
+	# independent_all_attempts = independent_default_level_attempts.count()
+	# percentage = None
+	# if independent_all_attempts != 0:
+	# 	percentage = (float(independent_perfect_attempts)/float(independent_all_attempts))*100
+	# table_data.append(["Percentage of perfect scores amongst independent students on default RR levels", percentage, ""])
+
+
+	# student_attempts_on_default_levels = default_level_attempts.values('student').annotate(num_completed=Count('level'))
+	# school_student_attempts_on_default_levels = school_default_level_attempts.values('student').annotate(num_completed=Count('level'))
+	# independent_student_attempts_on_default_levels =  independent_default_level_attempts.values('student').annotate(num_completed=Count('level'))
+
+	# avg_levels_completed = student_attempts_on_default_levels.aggregate(Avg('num_completed'))['num_completed__avg']
+	# table_data.append(["Average number of levels completed by students", avg_levels_completed, ""])
+	# avg_levels_completed = school_student_attempts_on_default_levels.aggregate(Avg('num_completed'))['num_completed__avg']
+	# table_data.append(["Average number of levels completed by school students", avg_levels_completed, ""])
+	# avg_levels_completed = independent_student_attempts_on_default_levels.aggregate(Avg('num_completed'))['num_completed__avg']
+	# table_data.append(["Average number of levels completed by independent students", avg_levels_completed, ""])
+
+
+
+	# default_levels = Level.objects.filter(default=True)
+	# available_levels = [level for level in default_levels if level.episode and not level.episode.in_development]
+	# print len(available_levels)
 
 	tables.append({'title': "Rapid Router Student Progress", 'description': "", 'header': table_head, 'data': table_data})
 
