@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoSuchElementException
 
 from teach_base_page import TeachBasePage
 
@@ -29,6 +30,20 @@ class TeachClassPage(TeachBasePage):
 
     def isDeleteConfirmShowing(self):
         return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
+
+    def have_students(self):
+        try:
+            self.browser.find_element_by_id('student_table')
+            return True
+        except NoSuchElementException:
+            return False
+
+    def does_student_exist(self, name):
+        try:
+            self.browser.find_element_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]".format(name))
+            return True
+        except NoSuchElementException:
+            return False
 
 import classes_page
 import class_settings_page

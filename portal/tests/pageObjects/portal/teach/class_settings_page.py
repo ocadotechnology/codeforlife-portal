@@ -40,4 +40,9 @@ class TeachClassSettingsPage(TeachBasePage):
 
         return correct
 
+    def transfer_class(self):
+        self.browser.find_element_by_id('transfer_button').click()
+        return move_class_page.TeachMoveClassPage(self.browser)
+
 import class_page
+import move_class_page

@@ -35,3 +35,6 @@ def create_class(page):
     accesss_code = re.search('([A-Z]{2}[0-9]{3})\)$', page.browser.find_element_by_id('class_header').text).group(1)
     
     return page, name, accesss_code
+
+def transfer_class(page, teacher_index):
+    return page.transfer_class().select_teacher_by_index(teacher_index).move()

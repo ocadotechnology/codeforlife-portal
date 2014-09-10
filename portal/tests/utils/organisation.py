@@ -27,6 +27,14 @@ def create_organisation_directly(teacher_email):
 
     return name, postcode
 
+def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):
+    teacher = Teacher.objects.get(user__user__email=teacher_email)
+    school = School.objects.get(name=org_name, postcode=postcode)
+
+    teacher.school = school
+    teacher.is_admin = is_admin
+    teacher.save()
+
 def create_organisation(page, password):
     page = page.goToOrganisationPage()
     
