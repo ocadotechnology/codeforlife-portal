@@ -42,5 +42,18 @@ class TeachClassPage(TeachBasePage):
             return False
         return self.element_exists_by_xpath('student_table')
 
+    def type_student_name(self, name):
+        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+        return self
+
+    def create_students(self):
+        self.browser.find_element_by_name('new_students').click()
+
+        if self.on_correct_page('teach_new_students_page'):
+            return new_students.TeachNewStudentsPage(self.browser)
+        else:
+            return self
+
 import classes_page
 import class_settings_page
+import new_students
