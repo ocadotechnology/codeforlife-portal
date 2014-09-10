@@ -1,3 +1,4 @@
+import json
 from functools import partial
 import json
 
@@ -9,6 +10,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.staticfiles import finders
 from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -545,16 +547,30 @@ def teacher_print_reminder_cards(request, access_code):
 
     CARD_INNER_WIDTH = CARD_WIDTH - CARD_PADDING * 2
     CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2 - HEADER_HEIGHT - FOOTER_HEIGHT
+    
+    CARD_IMAGE_WIDTH = CARD_INNER_WIDTH * 0.25
 
     CORNER_RADIUS = CARD_WIDTH / 32
 
-    DEE = ImageReader(finders.find("portal/img/dee_large.png"))
-    DEE_HEIGHT = CARD_INNER_HEIGHT
-    DEE_WIDTH = DEE_HEIGHT * DEE.getSize()[0] / DEE.getSize()[1]
+    # Setup various character images to cycle round
+    CHARACTER_FILES = ["portal/img/dee_large.png", "portal/img/kirsty_large.png", "portal/img/wes_large.png", "portal/img/nigel_large.png", "portal/img/phil_large.png"]
+    CHARACTERS = []
+
+    for character_file in CHARACTER_FILES:
+        character_image = ImageReader(finders.find(character_file))
+        character_height = CARD_INNER_HEIGHT
+        character_width = CARD_IMAGE_WIDTH
+        character_height = character_width * character_image.getSize()[1] / character_image.getSize()[0]
+        if character_height > CARD_INNER_HEIGHT:
+            character_height = CARD_INNER_HEIGHT
+            character_width = character_height * character_image.getSize()[0] / character_image.getSize()[1]
+        character = { 'image': character_image, 'height': character_height, 'width': character_width }
+        CHARACTERS.append(character)
 
     klass = Class.objects.get(access_code=access_code)
 
-    COLUMN_WIDTH = (CARD_INNER_WIDTH - DEE_WIDTH) * 0.35
+
+    COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
 
     # Work out the data we're going to display, use data from the query string
     # if given, else display everyone in the class without passwords
@@ -569,7 +585,7 @@ def teacher_print_reminder_cards(request, access_code):
         for student in students:
             student_data.append({
                 'name': student.user.user.first_name,
-                'password': '________',
+                'password': '__________',
             })
 
     # Now draw everything
@@ -586,7 +602,7 @@ def teacher_print_reminder_cards(request, access_code):
             style.leading = font_size
 
             para = Paragraph(text, style)
-            (para_width, para_height) = para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - DEE_WIDTH, CARD_INNER_HEIGHT)
+            (para_width, para_height) = para.wrap(CARD_INNER_WIDTH - COLUMN_WIDTH - CARD_IMAGE_WIDTH, CARD_INNER_HEIGHT)
 
             if para_height <= 48:
                 para.drawOn(p, inner_left + COLUMN_WIDTH, inner_bottom + CARD_INNER_HEIGHT * position + 8 - para_height / 2)
@@ -594,7 +610,10 @@ def teacher_print_reminder_cards(request, access_code):
 
             font_size -= 1
 
+    current_student_count = 0
     for student in student_data:
+        character_index = current_student_count % len(CHARACTERS)
+
         left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN
         bottom = PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INTER_CARD_MARGIN
 
@@ -639,14 +658,16 @@ def teacher_print_reminder_cards(request, access_code):
         drawParagraph(klass.access_code, 0.43)
         drawParagraph(student['name'], 0.76)
 
-        # dee image
-        p.drawImage(DEE, inner_left + CARD_INNER_WIDTH - DEE_WIDTH, inner_bottom, DEE_WIDTH, DEE_HEIGHT, mask='auto')
+        # character image
+        character = CHARACTERS[character_index]
+        p.drawImage(character['image'], inner_left + CARD_INNER_WIDTH - character['width'], inner_bottom, character['width'], character['height'], mask='auto')
 
         x = (x + 1) % NUM_X
         if x == 0:
             y = (y + 1) % NUM_Y
             if y == 0:
                 p.showPage()
+        current_student_count += 1
 
     if x != 0 or y != 0:
         p.showPage()
