@@ -7,6 +7,7 @@ from django.db.models import Avg, Count, Sum
 from portal.models import UserProfile, Teacher, School, Class, Student
 from game.models import Level, Attempt
 from ratelimit.decorators import ratelimit
+from deploy.permissions import is_authorised_to_view_aggregated_data
 
 
 from two_factor.utils import default_device
@@ -24,9 +25,6 @@ def admin_login(request):
 
     return auth_views.login(request)
 
-
-def is_authorised_to_view_aggregated_data(u):
-    return hasattr(u, 'userprofile') and u.userprofile.can_view_aggregated_data
 
 @user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
 def aggregated_data(request):
