@@ -6,13 +6,13 @@ class TeachClassSettingsPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachClassSettingsPage, self).__init__(browser)
 
-        assert self.onCorrectPage('teach_edit_class_page')
+        assert self.on_correct_page('teach_edit_class_page')
 
     def cancel(self):
         self.browser.find_element_by_id('cancel_button').click()
         return class_page.TeachClassPage(self.browser)
 
-    def changeClassDetails(self, details):
+    def change_class_details(self, details):
         if 'classmates_data_viewable' in details:
             Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(str(details['classmates_data_viewable']))
             del details['classmates_data_viewable']
@@ -23,12 +23,12 @@ class TeachClassSettingsPage(TeachBasePage):
 
         self.browser.find_element_by_id('update_button').click()
 
-        if self.onCorrectPage('teach_class_page'):
+        if self.on_correct_page('teach_class_page'):
             return class_page.TeachClassPage(self.browser)
         else:
             return self
 
-    def checkClassDetails(self, details):
+    def check_class_details(self, details):
         correct = True
 
         if 'classmates_data_viewable' in details:

@@ -13,22 +13,22 @@ class TestClass(BaseTest):
         org_name, postcode = create_organisation_directly(email)
 
         self.browser.get(self.home_url)
-        page = HomePage(self.browser).goToTeachPage().login(email, password).goToClassesPage()
+        page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_classes_page()
 
         assert not page.have_classes()
         
         page, class_name, access_code = create_class(page)
         assert is_class_created_message_showing(self.browser, class_name)
 
-        page = page.goToClassesPage()
+        page = page.go_to_classes_page()
         assert page.have_classes()
         assert page.does_class_exist(class_name, access_code)
 
-        page = page.goToClassPage(class_name)
+        page = page.go_to_class_page(class_name)
         assert not page.have_students()
 
-        page = page.goToClassSettingsPage()
-        assert page.checkClassDetails({
+        page = page.go_to_class_settings_page()
+        assert page.check_class_details({
             'name': class_name,
             'classmates_data_viewable': False,
         })
@@ -39,23 +39,23 @@ class TestClass(BaseTest):
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.home_url)
-        page = HomePage(self.browser).goToTeachPage().login(email, password)
-        page = page.goToClassesPage().goToClassPage(class_name).goToClassSettingsPage()
+        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         new_class_name = 'new ' + class_name
-        assert not page.checkClassDetails({
+        assert not page.check_class_details({
             'name': new_class_name,
             'classmates_data_viewable': True,
         })
 
-        page = page.changeClassDetails({
+        page = page.change_class_details({
             'name': new_class_name,
             'classmates_data_viewable': True,
         })
 
-        page = page.goToClassSettingsPage()
+        page = page.go_to_class_settings_page()
         new_class_name = 'new ' + class_name
-        assert page.checkClassDetails({
+        assert page.check_class_details({
             'name': new_class_name,
             'classmates_data_viewable': True,
         })
@@ -66,17 +66,17 @@ class TestClass(BaseTest):
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.home_url)
-        page = HomePage(self.browser).goToTeachPage().login(email, password)
-        page = page.goToClassesPage().goToClassPage(class_name)
+        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = page.go_to_classes_page().go_to_class_page(class_name)
         assert not page.have_students()
 
-        page = page.deleteClass()
-        assert page.isDeleteConfirmShowing()
-        page = page.cancelDelete()
-        assert not page.isDeleteConfirmShowing()
-        page = page.deleteClass()
-        assert page.isDeleteConfirmShowing()
-        page = page.confirmDelete()
+        page = page.delete_class()
+        assert page.is_delete_confirm_showing()
+        page = page.cancel_delete()
+        assert not page.is_delete_confirm_showing()
+        page = page.delete_class()
+        assert page.is_delete_confirm_showing()
+        page = page.confirm_delete()
         assert page.__class__.__name__ == 'TeachClassesPage'
         assert not page.have_classes()
 
@@ -87,17 +87,17 @@ class TestClass(BaseTest):
         student_name = create_school_student_directly(access_code)
 
         self.browser.get(self.home_url)
-        page = HomePage(self.browser).goToTeachPage().login(email, password)
-        page = page.goToClassesPage().goToClassPage(class_name)
+        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.have_students()
 
-        page = page.deleteClass()
-        assert page.isDeleteConfirmShowing()
-        page = page.cancelDelete()
-        assert not page.isDeleteConfirmShowing()
-        page = page.deleteClass()
-        assert page.isDeleteConfirmShowing()
-        page = page.confirmDelete()
+        page = page.delete_class()
+        assert page.is_delete_confirm_showing()
+        page = page.cancel_delete()
+        assert not page.is_delete_confirm_showing()
+        page = page.delete_class()
+        assert page.is_delete_confirm_showing()
+        page = page.confirm_delete()
         assert page.__class__.__name__ == 'TeachClassPage'
         assert is_class_nonempty_message_showing(self.browser)
 
@@ -107,8 +107,8 @@ class TestClass(BaseTest):
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.home_url)
-        page = HomePage(self.browser).goToTeachPage().login(email, password)
-        page = page.goToClassesPage().goToClassPage(class_name).goToClassSettingsPage()
+        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         page = page.transfer_class()
         assert page.get_tranfer_list_length() == 0
@@ -124,15 +124,15 @@ class TestClass(BaseTest):
         student_name, student_password = create_school_student_directly(access_code)
 
         self.browser.get(self.home_url)
-        page = HomePage(self.browser).goToTeachPage().login(email_1, password_1)
-        page = page.goToClassesPage().goToClassPage(class_name).goToClassSettingsPage()
+        page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
+        page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         page = transfer_class(page, 0)
         assert not page.have_classes()
 
-        page = page.logout().goToTeachPage().login(email_2, password_2).goToClassesPage()
+        page = page.logout().go_to_teach_page().login(email_2, password_2).go_to_classes_page()
         assert page.have_classes()
         assert page.does_class_exist(class_name, access_code)
-        page = page.goToClassPage(class_name)
+        page = page.go_to_class_page(class_name)
         assert page.have_students()
         assert page.does_student_exist(student_name)

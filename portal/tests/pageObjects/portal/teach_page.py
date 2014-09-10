@@ -6,13 +6,13 @@ class TeachPage(BasePage):
     def __init__(self, browser):
         super(TeachPage, self).__init__(browser)
 
-        assert self.onCorrectPage('teach_page')
+        assert self.on_correct_page('teach_page')
 
-    def goToStudentLoginPage(self):
+    def go_to_student_login_page(self):
         self.browser.find_element_by_id('studentLogin_button').click()
         return play_page.PlayPage(self.browser)
 
-    def goToForgottenPasswordPage(self):
+    def go_to_forgotten_password_page(self):
         self.browser.find_element_by_id('forgottenPassword_button').click()
         return pageObjects.registration.teacher_password_reset_form_page.TeacherPasswordResetFormPage(self.browser)
 
@@ -33,7 +33,7 @@ class TeachPage(BasePage):
 
         self.browser.find_element_by_name('login').click()
 
-        if self.onCorrectPage('teach_dashboard_page'):
+        if self.on_correct_page('teach_dashboard_page'):
             return teach.dashboard_page.TeachDashboardPage(self.browser)
         else:
             return self

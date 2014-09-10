@@ -9,62 +9,62 @@ class BasePage(object):
     def __init__(self, browser):
         self.browser = browser
 
-    def waitForElement(self, method):
+    def wait_for_element(self, method):
         WebDriverWait(self.browser, 1).until(
             EC.presence_of_element_located(method)
         )
 
-    def waitForElementById(self, name):
+    def wait_for_element_by_id(self, name):
         WebDriverWait(self.browser, 1).until(
             EC.presence_of_element_located((By.ID, name))
         )
 
-    def waitForElementByXPATH(self, name):
+    def wait_for_element_by_xpath(self, name):
         WebDriverWait(self.browser, 1).until(
             EC.presence_of_element_located((By.XPATH, name))
         )
 
-    def elementExists(self, method):
+    def element_exists(self, method):
         try:
-            self.waitForElement(method)
+            self.wait_for_element(method)
             return True
         except TimeoutException:
             return False
 
-    def elementExistsById(self, name):
-        return self.elementExists((By.ID, name))
+    def element_exists_by_id(self, name):
+        return self.element_exists((By.ID, name))
 
-    def elementExistsByXPATH(self, path):
-        return self.elementExists((By.XPATH, path))
+    def element_exists_by_xpath(self, path):
+        return self.element_exists((By.XPATH, path))
 
-    def onCorrectPage(self, pageName):
-        return self.elementExistsById(pageName)
+    def on_correct_page(self, pageName):
+        return self.element_exists_by_id(pageName)
 
-    def goToAboutPage(self):
+    def go_to_about_page(self):
         self.browser.find_element_by_id('about_button').click()
         return about_page.AboutPage(self.browser)
 
-    def goToContactPage(self):
+    def go_to_contact_page(self):
         self.browser.find_element_by_id('contact_button').click()
         return contact_page.ContactPage(self.browser)
 
-    def goToHelpPage(self):
+    def go_to_help_page(self):
         self.browser.find_element_by_id('help_button').click()
         return help_and_support_page.HelpPage(self.browser)
 
-    def goToHomePage(self):
+    def go_to_home_page(self):
         self.browser.find_element_by_id('home_button').find_element_by_tag_name('span').click()
         return home_page.HomePage(self.browser)
 
-    def goToPlayPage(self):
+    def go_to_play_page(self):
         self.browser.find_element_by_id('play_button').click()
         return play_page.PlayPage(self.browser)
 
-    def goToTeachPage(self):
+    def go_to_teach_page(self):
         self.browser.find_element_by_id('teach_button').click()
         return teach_page.TeachPage(self.browser)
 
-    def goToTermsPage(self):
+    def go_to_terms_page(self):
         self.browser.find_element_by_id('terms_button').click()
         return terms_page.TermsPage(self.browser)
 

@@ -6,7 +6,7 @@ class TeachMoveClassPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachMoveClassPage, self).__init__(browser)
 
-        assert self.onCorrectPage('teach_move_class_page')
+        assert self.on_correct_page('teach_move_class_page')
 
     def get_tranfer_list_length(self):
         return len(self.browser.find_element_by_id('id_new_teacher').find_elements_by_tag_name('option'))

@@ -23,12 +23,12 @@ def signup_teacher_directly():
     return email_address, password
 
 def signup_teacher(page):
-    page = page.goToTeachPage()
+    page = page.go_to_teach_page()
 
     title, first_name, last_name, email_address, password = generate_details()
     page = page.signup(title, first_name, last_name, email_address, password, password)
     
-    page = page.returnToHomePage()
+    page = page.return_to_home_page()
 
     page = email.follow_verify_email_link(page, mail.outbox[0])
     mail.outbox = []

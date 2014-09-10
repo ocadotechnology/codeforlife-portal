@@ -6,66 +6,67 @@ class TestNavigation(BaseTest):
     def test_base(self):
         self.browser.get(self.home_url)
         page = HomePage(self.browser)
-        page = page.goToAboutPage()
-        page = page.goToContactPage()
-        page = page.goToTermsPage()
-        page = page.goToHelpPage()
-        page = page.goToPlayPage()
-        page = page.goToTeachPage()
+        page = page.go_to_about_page()
+        page = page.go_to_contact_page()
+        page = page.go_to_terms_page()
+        page = page.go_to_help_page()
+        page = page.go_to_play_page()
+        page = page.go_to_teach_page()
 
     def test_home(self):
         self.browser.get(self.home_url)
         page = HomePage(self.browser)
 
-        page = page.goToTeacherSignUp().goToHomePage()
+        page = page.go_to_teacher_sign_up().go_to_home_page()
 
     def test_play(self):
         self.browser.get(self.home_url)
         page = HomePage(self.browser)
-        page = page.goToPlayPage()
+        page = HomePage(self.browser)
+        page = page.go_to_play_page()
 
-        page = page.goToTeacherLogin().goToPlayPage()
-        page.showSoloLogin()
-        page = page.goToTeacherLogin().goToPlayPage()
-        page.showSchoolLogin()
+        page = page.go_to_teacher_login().go_to_play_page()
+        page.show_solo_login()
+        page = page.go_to_teacher_login().go_to_play_page()
+        page.show_school_login()
 
-        assert page.isCorrectLoginState('school')
-        assert page.isCorrectSignupState(False)
+        assert page.is_correct_login_state('school')
+        assert page.is_correct_signup_state(False)
 
-        page.showSoloLogin()
+        page.show_solo_login()
 
-        assert page.isCorrectLoginState('solo')
-        assert page.isCorrectSignupState(False)
+        assert page.is_correct_login_state('solo')
+        assert page.is_correct_signup_state(False)
 
-        page.showSchoolLogin()
+        page.show_school_login()
 
-        assert page.isCorrectLoginState('school')
-        assert page.isCorrectSignupState(False)
+        assert page.is_correct_login_state('school')
+        assert page.is_correct_signup_state(False)
 
-        page.showSignup()
+        page.show_signup()
 
-        assert page.isCorrectLoginState('school')
-        assert page.isCorrectSignupState(True)
+        assert page.is_correct_login_state('school')
+        assert page.is_correct_signup_state(True)
 
-        page.showSoloLogin()
+        page.show_solo_login()
 
-        assert page.isCorrectLoginState('solo')
-        assert page.isCorrectSignupState(True)
+        assert page.is_correct_login_state('solo')
+        assert page.is_correct_signup_state(True)
 
-        page.showSchoolLogin()
+        page.show_school_login()
 
-        assert page.isCorrectLoginState('school')
-        assert page.isCorrectSignupState(True)
+        assert page.is_correct_login_state('school')
+        assert page.is_correct_signup_state(True)
 
-        page.showSoloLogin()
-        page = page.goToForgottenPasswordPage().cancel().goToPlayPage()
+        page.show_solo_login()
+        page = page.go_to_forgotten_password_page().cancel().go_to_play_page()
 
 
     def test_teach(self):
         self.browser.get(self.home_url)
         page = HomePage(self.browser)
-        page = page.goToTeachPage()
+        page = page.go_to_teach_page()
 
-        page = page.goToStudentLoginPage().goToTeachPage()
+        page = page.go_to_student_login_page().go_to_teach_page()
 
-        page = page.goToForgottenPasswordPage().cancel().goToTeachPage()
+        page = page.go_to_forgotten_password_page().cancel().go_to_teach_page()

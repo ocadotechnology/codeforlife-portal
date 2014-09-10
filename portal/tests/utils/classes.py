@@ -26,7 +26,7 @@ def create_class_directly(teacher_email):
     return name, accesss_code
 
 def create_class(page):
-    page = page.goToClassesPage()
+    page = page.go_to_classes_page()
 
     name, _ = generate_details()
 

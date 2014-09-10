@@ -8,22 +8,22 @@ class TeachBasePage(BasePage):
         self.browser.find_element_by_id('logout_button').click()
         return pageObjects.portal.home_page.HomePage(self.browser)
 
-    def goToDashboardPage(self):
+    def go_to_dashboard_page(self):
         self.browser.find_element_by_id('teacher_dashboard_button').click()
         return dashboard_page.TeachDashboardPage(self.browser)
 
-    def goToClassesPage(self):
+    def go_to_classes_page(self):
         self.browser.find_element_by_id('teacher_classes_button').click()
         return classes_page.TeachClassesPage(self.browser)
 
-    def goToAccountPage(self):
+    def go_to_account_page(self):
         self.browser.find_element_by_id('teacher_account_button').click()
         return account_page.TeachAccountPage(self.browser)
 
-    def goToOrganisationPage(self):
+    def go_to_organisation_page(self):
         self.browser.find_element_by_id('teacher_organisation_button').click()
 
-        if self.onCorrectPage('teach_organisation_create_page'):
+        if self.on_correct_page('teach_organisation_create_page'):
             return organisation_create_page.TeachOrganisationCreatePage(self.browser)
         else:
             return organisation_manage_page.TeachOrganisationManagePage(self.browser)
