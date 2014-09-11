@@ -18,4 +18,12 @@ class PlayAccountPage(PlayBasePage):
         else:
             return self
 
+    def check_account_details(self, details):
+        correct = True
+
+        for field, value in details.items():
+            correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
+
+        return correct
+
 import dashboard_page
