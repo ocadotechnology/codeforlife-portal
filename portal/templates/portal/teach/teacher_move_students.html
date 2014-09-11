@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<div id='teach_move_students_page'></div>
+
 <h1>Classes</h1><br>
 <h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2><br>
 
@@ -31,12 +33,12 @@
 
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default wide' href="{% url 'teacher_class' old_class.access_code %}">Cancel</a>
+                        <a id='cancel_button' class='btn btn-default wide' href="{% url 'teacher_class' old_class.access_code %}">Cancel</a>
                     </div>
 
                     <div class='col span_1_of_2'>
                         <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
-                        <input type='submit' class='btn btn-primary wide' value='Continue'/>
+                        <input id='move_button' type='submit' class='btn btn-primary wide' value='Continue'/>
                     </div>
                 </div>
             </form>

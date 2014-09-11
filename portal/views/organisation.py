@@ -81,12 +81,14 @@ def organisation_create(request):
         if 'create_organisation' in request.POST:
             create_form = OrganisationCreationForm(request.POST, user=request.user)
             if create_form.is_valid():
+                data = create_form.cleaned_data
+
                 school = School.objects.create(
-                    name=create_form.cleaned_data['name'],
-                    postcode=create_form.cleaned_data['postcode'],
-                    town='0',
-                    latitude='0',
-                    longitude='0')
+                    name=data['name'],
+                    postcode=data['postcode'],
+                    town=create_form.town,
+                    latitude=create_form.lat,
+                    longitude=create_form.lng)
 
                 teacher.school = school
                 teacher.is_admin = True
@@ -150,8 +152,13 @@ def organisation_teacher_view(request, is_admin):
     if request.method == 'POST' and is_admin:
         form = OrganisationEditForm(request.POST, current_school=school)
         if form.is_valid():
-            school.name = form.cleaned_data['name']
-            school.postcode = form.cleaned_data['postcode']
+            data = form.cleaned_data
+
+            school.name = data['name']
+            school.postcode = data['postcode']
+            school.town = form.town
+            school.latitude = form.lat
+            school.longitude = form.lng
             school.save()
 
             messages.success(request, 'You have updated the details for your school or club successfully.')

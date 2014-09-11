@@ -13,6 +13,9 @@ def generate_details():
 
 generate_details.next_id = 1
 
+def generate_email(name):
+    return name.replace(' ','_') + '@codeforlife.com'
+
 def create_class_directly(teacher_email):
     name, accesss_code = generate_details()
 
@@ -38,3 +41,21 @@ def create_class(page):
 
 def transfer_class(page, teacher_index):
     return page.transfer_class().select_teacher_by_index(teacher_index).move()
+
+def move_students(page, class_index):
+    return page.move_students().select_class_by_index(class_index).move().move()
+
+def dismiss_students(page):
+    page = page.dismiss_students()
+
+    emails = []
+
+    for name in page.get_list_of_students():
+        email = generate_email(name)
+        emails.append(email)
+        
+        page = page.enter_email(name, email)
+
+    page = page.dismiss()
+
+    return page, emails

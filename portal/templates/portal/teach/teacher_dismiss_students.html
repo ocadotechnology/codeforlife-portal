@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<div id='teach_dismiss_students_page'></div>
+
 <h1>Classes</h1><br>
 <h2>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h2><br>
 
@@ -26,7 +28,7 @@
 
         {{ formset.management_form }}
 
-        <table class='CSSTable alternate wide smaller'>
+        <table id='students_table' class='CSSTable alternate wide smaller'>
             <tr>
                 <th>Original Student Name</th>
                 <th>New Student Username</th>
@@ -49,10 +51,10 @@
 
         <div class='section group'>
             <div class='col span_1_of_3'>
-                <a class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
+                <a id='cancel_button' class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
             </div>
             <div class='col span_1_of_3 pull-right'>
-                <input type='submit' name='submit_dismiss' class='btn btn-danger wide' value='Remove'/>
+                <input id='dismiss_button' type='submit' name='submit_dismiss' class='btn btn-danger wide' value='Remove'/>
             </div>
         </div>
 

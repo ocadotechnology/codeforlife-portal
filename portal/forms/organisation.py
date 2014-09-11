@@ -1,7 +1,7 @@
 from django import forms
 
 from portal.models import School
-
+from portal.helpers.location import lookup_postcode
 
 class OrganisationCreationForm(forms.Form):
     name = forms.CharField(
@@ -32,16 +32,13 @@ class OrganisationCreationForm(forms.Form):
         postcode = self.cleaned_data.get('postcode', None)
 
         if postcode:
-            # NOT using PostCoder as getting issues with their website too frequently
-
-            # result = PostCoder().get(postcode)
-            # if result:
-            #     self.postcode_data = result
-
             # Basic postcode check for now
             if (not (len(postcode) >= 5 and len(postcode) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
+
+            # as we passed that, lookup the position but don't throw an error
+            _, self.town, self.lat, self.lng = lookup_postcode(postcode)
 
         return postcode
 
@@ -88,15 +85,13 @@ class OrganisationEditForm(forms.Form):
         postcode = self.cleaned_data.get('postcode', None)
 
         if postcode:
-            # NOT using this anymore due to unreliability of PostCoder webservice
-            # result = PostCoder().get(postcode)
-            # if result:
-            #     self.postcode_data = result
-
             # Basic postcode check for now
             if (not (len(postcode) >= 5 and len(postcode) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
+
+            # as we passed that, lookup the position but don't throw an error
+            _, self.town, self.lat, self.lng = lookup_postcode(postcode)
 
         return postcode
 

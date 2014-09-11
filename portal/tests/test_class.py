@@ -111,7 +111,7 @@ class TestClass(BaseTest):
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         page = page.transfer_class()
-        assert page.get_tranfer_list_length() == 0
+        assert page.get_list_length() == 0
         page = page.cancel()
         assert page.__class__.__name__ == 'TeachClassPage'
 
