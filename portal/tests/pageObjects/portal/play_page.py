@@ -6,6 +6,20 @@ class PlayPage(BasePage):
 
         assert self.on_correct_page('play_page')
 
+    def school_login(self, name, access_code, password):
+        self.show_school_login()
+
+        self.browser.find_element_by_id('id_login-name').send_keys(name)
+        self.browser.find_element_by_id('id_login-access_code').send_keys(access_code)
+        self.browser.find_element_by_id('id_login-password').send_keys(password)
+
+        self.browser.find_element_by_name('school_login').click()
+
+        if self.on_correct_page('play_dashboard_page'):
+            return pageObjects.portal.play.dashboard_page.PlayDashboardPage(self.browser)
+        else:
+            return self
+
     def go_to_teacher_login(self):
         if self.browser.find_element_by_id('school-login').is_displayed():
             self.browser.find_element_by_id('teacherLogin_school_button').click()
@@ -48,3 +62,4 @@ class PlayPage(BasePage):
 
 import teach_page
 import pageObjects.registration.student_password_reset_form_page
+import pageObjects.portal.play.dashboard_page
