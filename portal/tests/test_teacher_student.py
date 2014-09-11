@@ -6,7 +6,7 @@ from utils.organisation import create_organisation_directly
 from utils.classes import create_class_directly
 from utils.student import create_school_student, create_many_school_students, create_school_student_directly
 
-class TestSchoolStudent(BaseTest):
+class TestTeacherStudent(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
