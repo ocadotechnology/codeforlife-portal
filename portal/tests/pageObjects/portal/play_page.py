@@ -6,6 +6,68 @@ class PlayPage(BasePage):
 
         assert self.on_correct_page('play_page')
 
+    def school_login(self, name, access_code, password):
+        self.show_school_login()
+
+        self.browser.find_element_by_id('id_login-name').clear()
+        self.browser.find_element_by_id('id_login-access_code').clear()
+        self.browser.find_element_by_id('id_login-password').clear()
+
+        self.browser.find_element_by_id('id_login-name').send_keys(name)
+        self.browser.find_element_by_id('id_login-access_code').send_keys(access_code)
+        self.browser.find_element_by_id('id_login-password').send_keys(password)
+
+        self.browser.find_element_by_name('school_login').click()
+
+        if self.on_correct_page('play_dashboard_page'):
+            return pageObjects.portal.play.dashboard_page.PlayDashboardPage(self.browser)
+        else:
+            return self
+
+    def has_school_login_failed(self):
+        errorlist = self.browser.find_element_by_id('school_login_form').find_element_by_class_name('errorlist').text
+        error = 'Invalid name, class access code or password'
+        return (error in errorlist)
+
+    def solo_signup(self, name, username, email_address, password, confirm_password):
+        self.show_signup()
+
+        self.browser.find_element_by_id('id_signup-name').clear()
+        self.browser.find_element_by_id('id_signup-username').clear()
+        self.browser.find_element_by_id('id_signup-email').clear()
+        self.browser.find_element_by_id('id_signup-password').clear()
+        self.browser.find_element_by_id('id_signup-confirm_password').clear()
+
+        self.browser.find_element_by_id('id_signup-name').send_keys(name)
+        self.browser.find_element_by_id('id_signup-username').send_keys(username)
+        self.browser.find_element_by_id('id_signup-email').send_keys(email_address)
+        self.browser.find_element_by_id('id_signup-password').send_keys(password)
+        self.browser.find_element_by_id('id_signup-confirm_password').send_keys(confirm_password)
+
+        self.browser.find_element_by_name('signup').click()
+        return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+
+    def solo_login(self, username, password):
+        self.show_solo_login()
+
+        self.browser.find_element_by_id('id_solo-username').clear()
+        self.browser.find_element_by_id('id_solo-password').clear()
+
+        self.browser.find_element_by_id('id_solo-username').send_keys(username)
+        self.browser.find_element_by_id('id_solo-password').send_keys(password)
+
+        self.browser.find_element_by_name('solo_login').click()
+
+        if self.on_correct_page('play_dashboard_page'):
+            return pageObjects.portal.play.dashboard_page.PlayDashboardPage(self.browser)
+        else:
+            return self
+
+    def has_solo_login_failed(self):
+        errorlist = self.browser.find_element_by_id('solo_login_form').find_element_by_class_name('errorlist').text
+        error = 'Incorrect username or password'
+        return (error in errorlist)
+
     def go_to_teacher_login(self):
         if self.browser.find_element_by_id('school-login').is_displayed():
             self.browser.find_element_by_id('teacherLogin_school_button').click()
@@ -47,4 +109,7 @@ class PlayPage(BasePage):
                self.browser.find_element_by_id('signup-warning').is_displayed() != showing
 
 import teach_page
+import email_verification_needed_page
 import pageObjects.registration.student_password_reset_form_page
+import pageObjects.portal.play.dashboard_page
+

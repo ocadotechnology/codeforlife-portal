@@ -15,6 +15,8 @@ var PASSWORD_TYPE = 'STUDENT';
 
 {% block content %}
 
+<div id='play_account_page'></div>
+
 <h1>{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</h1><br>
 
 {% if user.userprofile.student.class_field %}
@@ -79,10 +81,10 @@ var PASSWORD_TYPE = 'STUDENT';
 
                 <div class='section group'>
                     <div class='col span_1_of_2'>
-                        <a class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
+                        <a id='cancel_button' class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
                     </div>
                     <div class='col span_1_of_2'>
-                        <input type='submit' class='btn btn-primary wide' value='Update'/>
+                        <input id='update_button' type='submit' class='btn btn-primary wide' value='Update'/>
                     </div>
                 </div>
 
