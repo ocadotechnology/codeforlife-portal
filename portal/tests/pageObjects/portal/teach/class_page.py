@@ -45,7 +45,7 @@ class TeachClassPage(TeachBasePage):
         self.browser.find_element_by_name('new_students').click()
 
         if self.on_correct_page('teach_new_students_page'):
-            return new_students.TeachNewStudentsPage(self.browser)
+            return new_students_page.TeachNewStudentsPage(self.browser)
         else:
             return self
 
@@ -69,7 +69,14 @@ class TeachClassPage(TeachBasePage):
     def move_students(self):
         self.browser.find_element_by_id('moveSelectedStudents').click()
         if self.on_correct_page('teach_move_students_page'):
-            return move_students.TeachMoveStudentsPage(self.browser)
+            return move_students_page.TeachMoveStudentsPage(self.browser)
+        else:
+            return self
+
+    def dismiss_students(self):
+        self.browser.find_element_by_id('dismissSelectedStudents').click()
+        if self.on_correct_page('teach_dismiss_students_page'):
+            return dismiss_students_page.TeachDismissStudentsPage(self.browser)
         else:
             return self
 
@@ -79,5 +86,6 @@ class TeachClassPage(TeachBasePage):
 
 import classes_page
 import class_settings_page
-import new_students
-import move_students
+import new_students_page
+import move_students_page
+import dismiss_students_page

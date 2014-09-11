@@ -3,7 +3,7 @@ from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly, join_teacher_to_organisation
-from utils.classes import create_class_directly, move_students
+from utils.classes import create_class_directly, move_students, dismiss_students
 from utils.student import create_school_student, create_many_school_students, create_school_student_directly
 
 class TestTeacherStudent(BaseTest):
@@ -170,3 +170,33 @@ class TestTeacherStudent(BaseTest):
         assert page.have_students()
         assert page.does_student_exist(student_name_1)
         assert not page.does_student_exist(student_name_2)
+
+    def test_dismiss(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        class_name, access_code = create_class_directly(email)
+        student_name_1, student_password_1 = create_school_student_directly(access_code)
+        student_name_2, student_password_2 = create_school_student_directly(access_code)
+
+        self.browser.get(self.home_url)
+        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = page.go_to_classes_page().go_to_class_page(class_name)
+        assert page.have_students()
+        assert page.does_student_exist(student_name_1)
+        assert page.does_student_exist(student_name_2)
+
+        page = page.dismiss_students()
+        assert page.__class__.__name__ == 'TeachClassPage'
+
+        page = page.toggle_select_student(student_name_1).dismiss_students()
+        assert page.__class__.__name__ == 'TeachDismissStudentsPage'
+        page = page.cancel()
+        assert page.have_students()
+        assert page.does_student_exist(student_name_1)
+        assert page.does_student_exist(student_name_2)
+
+        page = page.toggle_select_student(student_name_1)
+        page, emails = dismiss_students(page)
+        assert page.have_students()
+        assert not page.does_student_exist(student_name_1)
+        assert page.does_student_exist(student_name_2)
