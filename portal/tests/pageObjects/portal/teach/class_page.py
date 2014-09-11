@@ -66,6 +66,13 @@ class TeachClassPage(TeachBasePage):
         self.browser.find_element_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]/../..//input".format(name)).click()
         return self
 
+    def move_students(self):
+        self.browser.find_element_by_id('moveSelectedStudents').click()
+        if self.on_correct_page('teach_move_students_page'):
+            return move_students.TeachMoveStudentsPage(self.browser)
+        else:
+            return self
+
     def delete_students(self):
         self.browser.find_element_by_id('deleteSelectedStudents').click()
         return self
@@ -73,3 +80,4 @@ class TeachClassPage(TeachBasePage):
 import classes_page
 import class_settings_page
 import new_students
+import move_students

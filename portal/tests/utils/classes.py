@@ -38,3 +38,6 @@ def create_class(page):
 
 def transfer_class(page, teacher_index):
     return page.transfer_class().select_teacher_by_index(teacher_index).move()
+
+def move_students(page, class_index):
+    return page.move_students().select_class_by_index(class_index).move().move()
