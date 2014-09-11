@@ -53,7 +53,7 @@ class StudentLoginForm(forms.Form):
 
 class StudentEditAccountForm(forms.Form):
     name = forms.CharField(
-        label='Name', max_length=100,
+        label='Name', max_length=100, required=False,
         widget=forms.TextInput(attrs={'placeholder': "Name"}))
     email = forms.EmailField(
         label='Change email address (optional)', required=False,

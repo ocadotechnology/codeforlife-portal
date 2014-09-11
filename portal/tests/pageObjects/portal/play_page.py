@@ -9,6 +9,10 @@ class PlayPage(BasePage):
     def school_login(self, name, access_code, password):
         self.show_school_login()
 
+        self.browser.find_element_by_id('id_login-name').clear()
+        self.browser.find_element_by_id('id_login-access_code').clear()
+        self.browser.find_element_by_id('id_login-password').clear()
+
         self.browser.find_element_by_id('id_login-name').send_keys(name)
         self.browser.find_element_by_id('id_login-access_code').send_keys(access_code)
         self.browser.find_element_by_id('id_login-password').send_keys(password)
@@ -19,6 +23,11 @@ class PlayPage(BasePage):
             return pageObjects.portal.play.dashboard_page.PlayDashboardPage(self.browser)
         else:
             return self
+
+    def has_login_failed(self):
+        errorlist = self.browser.find_element_by_id('school_login_form').find_element_by_class_name('errorlist').text
+        error = 'Invalid name, class access code or password'
+        return (error in errorlist)
 
     def go_to_teacher_login(self):
         if self.browser.find_element_by_id('school-login').is_displayed():

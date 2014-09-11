@@ -80,7 +80,7 @@
                 <h3>School or club student sign in</h3><br>
 
                 <p>Signed up independently? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
-                <form method='post'>
+                <form id='school_login_form' method='post'>
 
                     {% csrf_token %}
 
@@ -117,7 +117,7 @@
 
                 <p>Part of a school or club? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
 
-                <form method='post'>
+                <form id='solo_login_form' method='post'>
 
                     {% csrf_token %}
 
