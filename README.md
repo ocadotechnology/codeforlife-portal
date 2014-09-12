@@ -1,6 +1,6 @@
 # cfl-deploy
 
-A django package to wrap up and deploy all Code for Life apps and backend. This package has all of the other apps (currently portal and ocargo) as requirements and allows some of them to depend on each other.
+A django package to wrap up and deploy all Code for Life apps and backend. This package has all of the other apps (currently portal and ocargo) as requirements and allows them to depend on each other.
 
 To run any of the subprojects it is currently necessary to download all of them and run the server from this deploy app. To make this as easy as possible (on unix like systems at least) there is a script in this project called local-setup.sh which handles installing all the dependencies and setting up the other respositories for development work. This script will clone the ocargo and portal repositories if they are not already present into the same directory as where you cloned the deploy repository, create a virtual environment for all the python packages, install all dependencies and set up symbolic links from the virtual env to the other repositories. These symbolic links, while perhaps unusual, allow you to make changes to the other repositories without having to reinstall them with pip after each change.
 
@@ -8,19 +8,26 @@ To run any of the subprojects it is currently necessary to download all of them 
 
 ## FAQ:
 - ###### Where do I commit from
-You should commit code from the repository it comes from in the normal way.
+You should commit code from the repository it comes from in the normal way. They are completely separate repositories and you will need to commit / pull / push each one separately.
+
+- ###### How many virtualenvs should I have
+You should only have one and it should be in the deploy directory. You should have this activated at all times, which you can do by running "source VIRTUALENV/bin/activate" in the deploy directory or "source ../codeforlife-deploy/VIRTUALENV/bin/activate" from one of the other repos.
 
 - ###### How do I run the server
-First run "source VIRTUALENV/bin/activate" in the deploy directory
+We use the default django operations or migrate, collectstatic and runserver. To run any of these you will need to have your virtualenv activated which is explained above.
 
-You run all manage.py commands from the deploy directory (apart from makemigrations, explained next),
-  - to migrate / sync the database - python manage.py migrate
-  - to collect static - python manage.py collectstatic [--noinput]
-  - to run the server - python manage.py runserver
+The structure of all of the commands is python [path/to/]manage.py [command]. If you're running form the deploy repo (as you should be) the you can just use manage.py but from another repo you can use ../codeforlife-deploy/manage.py
+
+The basic operations are
+  - to migrate / sync / create the database      - python manage.py migrate
+  - to collect static files                      - python manage.py collectstatic [--noinput]
+  - to run the server                            - python manage.py runserver [0.0.0.0:8000]
   - (There is a nice alias for these called rs which performs all of the above which local-setup.sh should add to your ~/.bashrc file, mac users can add this to ~/.profile manually if they wish to use it.)
 
-- ###### Making migrations
-You should make migrations from the repository where you've changed the models, this will make sure that the migration file is created in the correct place in the correct repository. If you run makemigrations from the deploy directory the migration file may be created in the virtualenv and be lost.
+- ###### Making migrations, ie: changes to the models
+Running makemigrations is slightly more complicated, but not much! The workflow is: you make your changes to the models, you run python manage.py makemigrations, you run python manage.py migrate.
+
+If you are using the local-setup.sh script and hence have symlinks setup in your virtualenv then you can run makemigrations from the deploy directory and it will all work. If you are not using symlinks (windows users?) then you should run it from the repo where you made the changes using python ../codeforlife-deploy/manage.py makemigrations. The danger is that migrations may be created within the virtualenv and be lost.
 
 - ###### Connect to local server from IPad using a Wifi hotspot
 Start the server using 'python manage.py runserver 0.0.0.0:8000' to allow connections from places other than localhost. Use ifconfig to find the ip address of your hotspot.
