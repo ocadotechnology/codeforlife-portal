@@ -3,6 +3,7 @@ from functools import partial
 from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.http import urlsafe_base64_decode
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login
