@@ -33,7 +33,7 @@ class OrganisationCreationForm(forms.Form):
 
         if postcode:
             # Basic postcode check for now
-            if (not (len(postcode) >= 5 and len(postcode) <= 8) or
+            if (not (len(postcode.replace(' ', '')) >= 5 and len(postcode.replace(' ', '')) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
 
@@ -86,7 +86,7 @@ class OrganisationEditForm(forms.Form):
 
         if postcode:
             # Basic postcode check for now
-            if (not (len(postcode) >= 5 and len(postcode) <= 8) or
+            if (not (len(postcode.replace(' ', '')) >= 5 and len(postcode.replace(' ', '')) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
 
