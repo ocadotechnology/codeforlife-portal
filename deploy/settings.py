@@ -98,9 +98,9 @@ LOGIN_URL = '/'
 
 LOGOUT_URL = '/logout/'
 
-LOGIN_URL = reverse_lazy('portal.views.teach')
-LOGOUT_URL = reverse_lazy('portal.views.logout_view')
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_home')
+LOGIN_URL = reverse_lazy('portal.views.home.teach')
+LOGOUT_URL = reverse_lazy('portal.views.home.logout_view')
+LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teach.teacher_home')
 
 
 # Required for admindocs
