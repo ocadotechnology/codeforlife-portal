@@ -84,7 +84,8 @@ urlpatterns = patterns('',
     url(r'^user/password/reset/student/$', student_password_reset, {'post_reset_redirect': '/user/password/reset/done/'}, name="student_password_reset"),
     url(r'^user/password/reset/teacher/$', teacher_password_reset, {'post_reset_redirect': '/user/password/reset/done/'}, name="teacher_password_reset"),
     url(r'^user/password/reset/done/$', 'django.contrib.auth.views.password_reset_done'),
-    url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_check_and_confirm, {'post_reset_redirect' : '/user/password/done/'}),
+    url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_check_and_confirm, \
+            {'post_reset_redirect' : '/user/password/done/'}, name='password_reset_check_and_confirm'),
     url(r'^user/password/done/$', 'django.contrib.auth.views.password_reset_complete'),
 
     url(r'^', include(two_factor_patterns, 'two_factor')),
