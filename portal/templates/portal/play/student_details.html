@@ -23,7 +23,7 @@
               <p style="text-align: center">
               <img style='width: 75%' src="{% static 'portal/img/RR_logo_blank.png' %}" /><br>
               Are you ready to play?<br><br>
-              <a class='btn btn-primary' href="{% url 'game.views.levels' %}">Play now!</a>
+              <a class='btn btn-primary' href="{% url 'game.views.level_selection.levels' %}">Play now!</a>
               </p>
        </div>
 
@@ -36,11 +36,11 @@
              <td>Links and Resources</td>
            </tr>
             <tr>
-              <td><a href="{% url 'game.views.levels' %}">Play Rapid Router</a></td>
+              <td><a href="{% url 'game.views.level_selection.levels' %}">Play Rapid Router</a></td>
             </tr>
             {% if user.userprofile.student.class_field %}
             <tr>
-              <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
+              <td><a href="{% url 'game.views.scoreboard.scoreboard' %}">Rapid Router Scoreboard</a></td>
             </tr>
             {% endif %}
             <tr>

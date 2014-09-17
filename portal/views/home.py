@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from two_factor.utils import default_device
 from recaptcha import RecaptchaClient
@@ -282,6 +282,7 @@ def contact(request):
     response.count = increment_count
     return response
 
+
 def fill_in_missing_school_locations(request):
     schools = School.objects.filter(town='0')
 
@@ -308,6 +309,7 @@ def fill_in_missing_school_locations(request):
     messages.info(request, 'There were %d errors: %s' % (len(failures), str(failures)))
     messages.info(request, '%d school have no town' % town0)
 
+
 @user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
 def schools_map(request):
     fill_in_missing_school_locations(request)
@@ -315,6 +317,7 @@ def schools_map(request):
     return render(request, 'portal/map.html', {
         'schools': School.objects.all()
     })
+
 
 def current_user(request):
     if not hasattr(request.user, 'userprofile'):

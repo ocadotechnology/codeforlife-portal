@@ -9,8 +9,8 @@ from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from models import Student, Teacher
-from forms import password_strength_test
+from portal.models import Student, Teacher
+import password_strength_test
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
