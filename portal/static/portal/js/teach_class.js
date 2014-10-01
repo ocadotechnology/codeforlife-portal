@@ -17,6 +17,13 @@ $(function() {
         return false;
     });
 
+    $("#resetSelectedStudents").click(function() {
+        runIfStudentsSelected(function() {
+            openConfirmationBox('resetStudents');
+        });
+        return false;
+    });
+
     $('#selectedStudentsListToggle').click(function() {
         var students = $('.student');
         var selectedStudents = [];
