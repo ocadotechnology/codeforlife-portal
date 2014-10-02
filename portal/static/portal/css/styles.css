@@ -685,6 +685,14 @@ background-color: #FFCCBA;
   overflow: hidden;
 }
 
+.login-card.warning {
+  background-color: #FEEFB3;
+}
+
+.login-card p:last-child {
+  padding-bottom: 0;
+}
+
 .login-card h3
 {
   margin:0;

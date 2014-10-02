@@ -21,7 +21,8 @@ from portal.views.teach import teacher_home, teacher_lesson_plans, teacher_class
     teacher_move_class, teacher_move_students, teacher_move_students_to_class, \
     teacher_delete_students, teacher_dismiss_students, teacher_edit_class, teacher_delete_class, \
     teacher_student_reset, teacher_edit_student, teacher_edit_account, teacher_disable_2FA, \
-    teacher_print_reminder_cards, teacher_accept_student_request, teacher_reject_student_request
+    teacher_print_reminder_cards, teacher_accept_student_request, teacher_reject_student_request, \
+    teacher_class_password_reset
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -77,6 +78,8 @@ urlpatterns = patterns(
 
     url(r'^teach/classes/$', teacher_classes, name='teacher_classes'),
     url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='teacher_class'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset$', teacher_class_password_reset, \
+            name='teacher_class_password_reset'),
     url(r'^teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class,
         name='teacher_move_class'),
     url(r'^teach/class/edit/(?P<access_code>[A-Z0-9]+)/$', teacher_edit_class,
