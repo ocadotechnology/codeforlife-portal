@@ -10,8 +10,10 @@
 <h1>Classes</h1><br>
 <h2>Students' passwords reset for class {{ class.name }} ({{ class.access_code }})</h2><br>
 
-<p>The following students have had their passwords reset. You should print these passwords out as you will not be able to access them again. You will be able to reset these students' passwords at any time.</p>
-
+<p>The following students have had their passwords reset. </p>
+<div class='login-card warning'>
+  <b>You should save and print these passwords for your records as you will not be able to access them again.  Also, please print the reminder cards to give to your students.  </b><br/>
+</div><br/>
 <div class='section group'>
     <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
 </div>
@@ -31,7 +33,7 @@
     </table>
     <br>
     <br>
-    <form method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+    <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
         {% csrf_token %}
         <input type='hidden' name='data' value='{{ query_data }}'/>
         <div class='section group'>

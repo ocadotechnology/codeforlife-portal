@@ -26,7 +26,7 @@ var CONFIRMATION_DATA = {
         options: {
             title: 'Reset student passwords',
         },
-        html: '<p>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure?</p>',
+        html: '<p>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p>',
         confirm: function() { postSelectedStudents(RESET_STUDENTS_URL); },
     },
     'deleteClass': {
@@ -54,18 +54,16 @@ var CONFIRMATION_DATA = {
     <div class="col span_1_of_2">
         <div class="section group">
             <h3 class='col'>Current students</h3>
-        {% if students %}
-            <a class='col btn btn-primary pull-right' href="{% url 'teacher_print_reminder_cards' class.access_code %}">Print Reminder Cards</a>
-        {% endif %}
         </div>
 
         {% if students %}
             <p>See what students are in the class below. You can tell who's logged in by the red and green lights.</p>
-            <p>Select a student's name to change their details, including their name and password.</p>
-            <p>Select mulitple students using the checkboxes to move students to another class, release them from your school and make them an independent Code for Life user, or delete them permanently.</p>
+            <p>Select an individual student to change their details, including their name and password.</p>
+            <p>Select mulitple students using the checkboxes to reset their passwords, move them to another class, release them from your school and make them an independent Code for Life user, or delete them permanently. </p>
+            <p>You can also select all the students in the class by using the checkbox at the top of the table.</p>
             <table id='student_table' class='CSSTable wide alternate smaller'>
                 <tr>
-                    <th style='text-align: center'><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></th>
+                  <th style='text-align: center'><div>Select All</div><input type='checkbox' id='selectedStudentsListToggle' name='selectedStudentsListToggle' value='1'></th>
                     <th style='padding-left: 30px'>Student Name</th>
                 </tr>
                 {% for student in students %}
