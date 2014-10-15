@@ -4,14 +4,19 @@ A django package to wrap up and deploy all Code for Life apps and backend. This 
 
 To run any of the subprojects it is currently necessary to download all of them and run the server from this deploy app. To make this as easy as possible (on unix like systems at least) there is a script in this project called local-setup.sh which handles installing all the dependencies and setting up the other respositories for development work. This script will clone the ocargo and portal repositories if they are not already present into the same directory as where you cloned the deploy repository, create a virtual environment for all the python packages, install all dependencies and set up symbolic links from the virtual env to the other repositories. These symbolic links, while perhaps unusual, allow you to make changes to the other repositories without having to reinstall them with pip after each change.
 
-**So, to reiterate, to get all of the site running locally, simply clone this repository and run ./local-setup.sh**
+**So, to reiterate, to get all of the site code, simply clone this repository and run ./local-setup.sh**
+
+Then:
+
+* Activate your VIRTUALENV by running "source VIRTUALENV/bin/activate" in the deploy directory (or "source ../codeforlife-deploy/VIRTUALENV/bin/activate" from one of the other repos.)
+* Sync the database (See below)
+* Collect static files (See below)
+* Run the server (See below)
+
 
 ## FAQ:
 ###### Where do I commit from
 You should commit code from the repository it comes from in the normal way. They are completely separate repositories and you will need to commit / pull / push each one separately.
-
-###### How many virtualenvs should I have
-You should only have one and it should be in the deploy directory. You should have this activated at all times, which you can do by running "source VIRTUALENV/bin/activate" in the deploy directory or "source ../codeforlife-deploy/VIRTUALENV/bin/activate" from one of the other repos.
 
 ###### How do I run the server
 We use the default django operations or migrate, collectstatic and runserver. To run any of these you will need to have your virtualenv activated which is explained above.
