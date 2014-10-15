@@ -14,6 +14,10 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots\.txt
 
+- url: /apple-touch-icon\.png
+  static_files: static/apple-touch-icon.png
+  upload: static/apple-touch-icon\.png
+
 - url: /static
   static_dir: static
   application_readable: true
