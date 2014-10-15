@@ -8,6 +8,9 @@
 <head>
 
 <title>{% block title %}Code for Life{% endblock %}</title>
+
+    <meta name="msapplication-config" content="none"/>
+
 {% block head %}
 {% endblock head %}
 
@@ -20,7 +23,6 @@
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
-<noscript><link rel="stylesheet" type="text/css" href="portal/css/noJS.css" /></noscript>
 {% endcache %}
 {% endblock css %}
 
@@ -29,6 +31,7 @@
 <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
+<script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
 {% endcache %}
 <script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
 <script>
@@ -57,7 +60,7 @@
                     <li>{% block nav_teach %}<a id="teach_button" href="{% url 'teach' %}">TEACH</a>{% endblock nav_teach %}</li>
                     <li>{% block nav_play %}<a id="play_button" href="{% url 'play' %}">PLAY</a>{% endblock nav_play %}</li>
                     {% if user|is_logged_in %}
-                        <li>{{ user|make_into_username|truncate:20 }} | <a id="logout_button" href="{% url 'logout' %}">LOGOUT</a></li>
+                        <li>{{ user|make_into_username|truncate:20 }} | <a id="logout_button" href="{% url 'logout' %}" onclick="deleteAllLocalStorageWorkspaces();">LOGOUT</a></li>
                     {% else %}
                         <li><a href="{% url 'play' %}">LOGIN</a></li>
                     {% endif %}
