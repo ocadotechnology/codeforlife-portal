@@ -18,6 +18,22 @@ handlers:
   static_files: static/apple-touch-icon.png
   upload: static/apple-touch-icon\.png
 
+- url: /apple-touch-icon-76x76\.png
+  static_files: static/apple-touch-icon-76x76.png
+  upload: static/apple-touch-icon-76x76\.png
+
+- url: /apple-touch-icon-120x120\.png
+  static_files: static/apple-touch-icon-120x120.png
+  upload: static/apple-touch-icon-120x120\.png
+
+- url: /apple-touch-icon-152x152\.png
+  static_files: static/apple-touch-icon-152x152.png
+  upload: static/apple-touch-icon-152x152\.png
+
+- url: /apple-touch-icon-180x180\.png
+  static_files: static/apple-touch-icon-180x180.png
+  upload: static/apple-touch-icon-180x180\.png
+
 - url: /static
   static_dir: static
   application_readable: true
