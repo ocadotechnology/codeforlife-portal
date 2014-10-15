@@ -73,7 +73,7 @@
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
                 <a href="{% url 'current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
-                <a href="{% url 'logout' %}" class='wide btn btn-default'>Logout</a>
+                <a href="{% url 'logout' %}" class='wide btn btn-default' onclick="deleteAllLocalStorageWorkspaces();">Logout</a>
             </div>
         {% else %}
             <div id="school-login" class="login-card">
@@ -104,7 +104,7 @@
                         {{ school_login_form.recaptcha|safe }}
                     {% endif %}
 
-                    <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in'/>
+                    <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in' onclick="deleteAllLocalStorageWorkspaces();"/>
                 </form>
                 <div class="login-help">
                     Are you a teacher? <a id="teacherLogin_school_button" href="{% url 'teach' %}">Log in</a>.
