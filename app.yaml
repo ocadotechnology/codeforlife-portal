@@ -54,6 +54,3 @@ libraries:
   version: latest
 - name: ssl
   version: latest
-
-automatic_scaling:
-  max_pending_latency: 30ms
