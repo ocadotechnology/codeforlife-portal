@@ -16,15 +16,20 @@ class TeacherSignupForm(forms.Form):
         label='Title', choices=choices,
         widget=forms.Select(attrs={'class': 'wide'}))
     first_name = forms.CharField(
-        label='First name', max_length=100)
+        label='First name', max_length=100,
+        widget=forms.TextInput())
     last_name = forms.CharField(
-        label='Last name', max_length=100)
+        label='Last name', max_length=100,
+        widget=forms.TextInput())
     email = forms.EmailField(
-        label='Email address', max_length=100)
+        label='Email address',
+        widget=forms.EmailInput())
     password = forms.CharField(
-        label='Password')
+        label='Password',
+        widget=forms.PasswordInput())
     confirm_password = forms.CharField(
-        label='Confirm Password')
+        label='Confirm Password',
+        widget=forms.PasswordInput())
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
