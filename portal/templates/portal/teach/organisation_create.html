@@ -62,7 +62,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
 
                 {% for field in create_form %}
                     {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ field.name }}">{{ field.label }}</label>
                     {{ field }}
                 {% endfor %}
 

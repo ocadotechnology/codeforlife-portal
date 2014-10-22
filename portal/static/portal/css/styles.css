@@ -664,6 +664,7 @@ background-color: #FFCCBA;
 }
 
 #form-reg-teacher .ieLabels,
+#create_form .ieLabels,
 .ie7 .ieLabels,
 .ie8 .ieLabels {
     display: block;
