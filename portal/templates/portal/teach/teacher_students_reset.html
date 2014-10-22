@@ -1,0 +1,51 @@
+{% extends 'portal/teach/base.html' %}
+{% load static %}
+
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+
+{% block content %}
+
+<div id='teach_new_students_page'></div>
+
+<h1>Classes</h1><br>
+<h2>Students' passwords reset for class {{ class.name }} ({{ class.access_code }})</h2><br>
+
+<p>The following students have had their passwords reset. </p>
+<div class='login-card warning'>
+  <b>You should save and print these passwords for your records as you will not be able to access them again.  Also, please print the reminder cards to give to your students.  </b><br/>
+</div><br/>
+<div class='section group'>
+    <p>The Class Access Code for this class is: <b>{{ class.access_code }}</b></p>
+</div>
+
+<div class='span_1_of_2'>
+    <table id='students_table' class='CSSTable alternate smaller wide'>
+        <tr>
+            <th>Name</th>
+            <th>Password</th>
+        </tr>
+        {% for name_token in name_tokens %}
+            <tr>
+                <td>{{ name_token.name }}</td>
+                <td>{{ name_token.password }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <br>
+    <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+        {% csrf_token %}
+        <input type='hidden' name='data' value='{{ query_data }}'/>
+        <div class='section group'>
+            <div class='col span_1_of_2'>
+                <a id='return_button' class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Return to class</a>
+            </div>
+            <div class='col span_1_of_2'>
+                <input id='print_reminder_cards_button' class='btn btn-primary wide' type='submit' value='Print Reminder Cards'/>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

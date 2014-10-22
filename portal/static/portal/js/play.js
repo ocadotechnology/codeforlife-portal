@@ -1,50 +1,55 @@
 function init() {
   $('#switchToSolo').click(function() {
-    $('#school-login').hide()
-    $('#solo-login').show()
+    $('#school-login').hide();
+    $('#solo-login').show();
+    return false;
   });
 
   $('#switchToSchool').click(function() {
-    $('#solo-login').hide()
-    $('#school-login').show()
+    $('#solo-login').hide();
+    $('#school-login').show();
+    return false;
   });
 
   $('#signupShow').click(function() {
-    $('#signup-warning').hide()
-    $('#signup-form').show()
+    $('#signup-warning').hide();
+    $('#signup-form').show();
+    return false;
   });
 
   $('#register-link').click(function() {
     // TODO test if logged in and show popup box saying logged in, please log out first, etc.
-    $('#signup-warning').hide()
-    $('#signup-form').show()
+    $('#signup-warning').hide();
+    $('#signup-form').show();
+    return false;
   });
 
   $('#solo-login-link').click(function() {
     // TODO test if logged in and show popup box saying logged in, please log out first, etc.
-    $('#switchToSolo').click()
+    $('#switchToSolo').click();
+    return false;
   });
 
   $('#school-login-link').click(function() {
     // TODO test if logged in and show popup box saying logged in, please log out first, etc.
-    $('#switchToSchool').click()
+    $('#switchToSchool').click();
+    return false;
   });
 
 };
 
-$( document ).ready(function() {
+$(function() {
     init();
     if (!SIGNUP_VIEW) {
-      $('#signup-form').hide()
+      $('#signup-form').hide();
     }
     else {
-      $('#signup-warning').hide()
+      $('#signup-warning').hide();
     }
     if (SOLO_VIEW) {
-      $('#switchToSolo').click()
+      $('#switchToSolo').click();
     }
     else {
-      $('#switchToSchool').click()
+      $('#switchToSchool').click();
     }
-
 });

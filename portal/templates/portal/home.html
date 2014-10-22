@@ -61,6 +61,8 @@ $(document).ready(function(){
 
 {% block content %}
 
+<div id="home_page"></div>
+
 <div class="section group">
     <div class="col span_2_of_3">
            
@@ -123,7 +125,7 @@ $(document).ready(function(){
 
         <div class="col span_1_of_3">
 
-            <a href="{% url 'portal.views.teach' %}" class="btn btn-primary wide">Teacher sign up</a>
+            <a id="teacherSignUp_button" href="{% url 'teach' %}" class="btn btn-primary wide">Teacher sign up</a>
 
             <div class="news">
                 <div class='section group'>

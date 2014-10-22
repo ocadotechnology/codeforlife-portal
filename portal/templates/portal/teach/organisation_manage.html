@@ -2,7 +2,7 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a href="{% url 'portal.views.organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block scripts %}
 {{block.super}}
@@ -14,11 +14,14 @@ var CONFIRMATION_DATA = {};
 
 {% block content %}
 
+<div id="teach_organisation_manage_page"></div>
+
 <div class='section group'>
     <h1>School | Club</h1><br>
     <h2>Manage my school or club ({{ teacher.school.name }})</h2><br>
 
     {% if is_admin %}
+        <div id="admin_view"></div>
         <p>As an administrator of your school or club, you can select other teachers to whom you can provide or revoke administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers joining your organisation.</p>
     {% else %}
         <p>You can see which other teachers in your school or club are registered here. Should you need to leave the school or club, you can do so below.</p>
@@ -38,7 +41,7 @@ var CONFIRMATION_DATA = {};
         <p>You can also manage administrator rights by clicking the 'Make non-admin' and 'Make admin' buttons.</p>
     {% endif %}
 
-    <table class='CSSTable smaller alternate wide'>
+    <table id="coworker_table" class='CSSTable smaller alternate wide'>
         <tr>
             <th>Name</th>
             <th>Administrator Status</th>
@@ -52,9 +55,9 @@ var CONFIRMATION_DATA = {};
                 <td>{{ coworker.title }} {{ coworker.user.user.first_name }} {{ coworker.user.user.last_name }} {% if coworker.user.user == user %}<b>(you)</b>{% endif %}</td>
                 <td>{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.user.user.email|emaildomain }}){% endif %}</td>
                 {% if coworker.user.user != user and is_admin %}
-                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'portal.views.organisation_kick' coworker.id %}', '{{ coworker.user.user.first_name }}')">Remove</button></td>
-                    <td>{% if coworker.is_admin %}<a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.organisation_toggle_admin' coworker.id %}">Make non-admin</a>{% else %}<button class='btn btn-default btn-small no-margin' onclick="showToggleAdminConfirmation('{% url 'portal.views.organisation_toggle_admin' coworker.id %}', '{{ coworker.user.user.first_name }}')">Make admin</button>{% endif %}</td>
-                    <td>{% if coworker.user.user|has_2FA %}<button class='btn btn-default btn-small no-margin' onclick="showDisable2FAConfirmation('{% url 'portal.views.teacher_disable_2FA' coworker.id %}', '{{ coworker.user.user.first_name }}')">Disable 2FA</button>{% endif %}</td>
+                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.user.user.first_name }}')">Remove</button></td>
+                    <td>{% if coworker.is_admin %}<a class='btn btn-default btn-small no-margin' href="{% url 'organisation_toggle_admin' coworker.id %}">Make non-admin</a>{% else %}<button class='btn btn-default btn-small no-margin' onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.user.user.first_name }}')">Make admin</button>{% endif %}</td>
+                    <td>{% if coworker.user.user|has_2FA %}<button class='btn btn-default btn-small no-margin' onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.user.user.first_name }}')">Disable 2FA</button>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
@@ -77,7 +80,7 @@ var CONFIRMATION_DATA = {};
 
     {% if join_requests %}
         <p>The following teachers have requested to join your school or club. Use the email address to verify their identity, selecting the 'Allow' button to join your organisation or 'Deny' button to reject their request. Do not accept requests that you were not expecting, or that are from an unknown source.</p>
-        <table class='CSSTable alternate smaller wide'>
+        <table id="request_table" class='CSSTable alternate smaller wide'>
             <tr>
                 <th>Name</th>
                 <th>Email address</th>
@@ -88,8 +91,8 @@ var CONFIRMATION_DATA = {};
                 <tr>
                     <td>{{ join_request.title }} {{ join_request.user.user.first_name }} {{ join_request.user.user.last_name }}</td>
                     <td>{{ join_request.user.user.email }}</td>
-                    <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.organisation_allow_join' join_request.id %}">Allow</a></td>
-                    <td><a class='btn btn-default btn-small no-margin' href="{% url 'portal.views.organisation_deny_join' join_request.id %}">Deny</a></td>
+                    <td><a class='btn btn-default btn-small no-margin' href="{% url 'organisation_allow_join' join_request.id %}">Allow</a></td>
+                    <td><a class='btn btn-default btn-small no-margin' href="{% url 'organisation_deny_join' join_request.id %}">Deny</a></td>
                 </tr>
             {% endfor %}
         </table>
@@ -110,7 +113,7 @@ var CONFIRMATION_DATA = {};
             <p>Update your school or club's name and/or postcode.</p>
             <p>These details are used to allow other teachers to join your team.</p>
 
-            <form method='post'>
+            <form id="edit_form" method='post'>
 
                 {% csrf_token %}
 
@@ -122,7 +125,7 @@ var CONFIRMATION_DATA = {};
                     {{ field }}
                 {% endfor %}
                 <div class='section group'>
-                    <input type='submit' class='btn btn-primary wide' value='Change'/>
+                    <input id="update_details_button" type='submit' class='btn btn-primary wide' value='Change'/>
                 </div>
 
             </form>
@@ -137,7 +140,7 @@ var CONFIRMATION_DATA = {};
         <div class='login-card'>
             <h4>Leave {{ user.userprofile.teacher.school.name }}</h4><br>
             <p>Time to go? As a teacher with non-administrative responsibilites, you may leave this school or club and transfer students or classes to other teachers within your organisation.</p>
-            <a class='btn btn-danger wide' href="{% url 'portal.views.organisation_leave' %}">Leave school or club</a>
+            <a class='btn btn-danger wide' href="{% url 'organisation_leave' %}">Leave school or club</a>
         </div>
     </div>
 </div>

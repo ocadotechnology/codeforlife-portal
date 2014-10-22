@@ -23,11 +23,13 @@ $( document ).ready(function() {
 
 {% block content %}
 
+<div id="help_page"></div>
+
 <h1>Help &amp; support</h1><br>
 
 <h3>Browser Support</h3>
 <p>
-The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8 is not supported. Please upgrade to Internet Explorer 9 or above, or use an alternative browser if you are currently using Internet Explorer 8.
+The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8 and Internet Explorer 9 are not supported. Please upgrade to Internet Explorer 10 or above, or use an alternative browser if you are currently using these browsers.
 </p>
 <p>Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please <a href="{% url 'contact' %}">contact us</a> for assistance.</p>
 
@@ -43,13 +45,21 @@ The Code for Life website and the Rapid Router app should be supported by all mo
 	<div>
 		<h4>I am a teacher and have forgotten my password. How do I reset it?</h4>
 		<div>
-			<p>Go to the <a href="{% url 'portal.views.teach' %}">Teach</a> page and select the forgotten password link at the bottom of the log in box to be sent a link to reset your password.</p>
+			<p>Go to the <a href="{% url 'teach' %}">Teach</a> page and select the forgotten password link at the bottom of the log in box to be sent a link to reset your password.</p>
 		</div>
 	</div>
 	<div>
 		<h4>I am an independent student and have forgotten my password. How do I reset it?</h4>
 		<div>
-			<p>Go to the <a href="{% url 'portal.views.play' %}">Play</a> page, go to the independent students' login box and select the forgotten password link at the bottom of the log in box to be sent a link to reset your password.</p>
+			<p>Go to the <a href="{% url 'play' %}">Play</a> page, go to the independent students' login box and select the forgotten password link at the bottom of the log in box to be sent a link to reset your password.</p>
+		</div>
+	</div>
+	<div>
+		<h4>I'm having problems choosing an acceptable password for my account. What am I missing?</h4>
+		<div>
+			<p>Passwords for Teachers must be at least 8 characters long and contain numbers and both lowercase and uppercase letters.
+			<br>Passwords for Students can use any combination of characters but must be at least 6 characters long.</p>
+			<p>If you are having any difficulties with setting your password, please do not hesitate to <a href="{% url 'contact' %}">contact us</a> for support.</p>
 		</div>
 	</div>
 	<div>
@@ -101,13 +111,13 @@ The Code for Life website and the Rapid Router app should be supported by all mo
 	<div>
 		<h4>What do I need to do to allow an independent student to join my class or school?</h4>
 		<div>
-			<p>You need to decide which class they should join, enable external requests for that class for an appropriate time period in that class's settings, and then give them the class access code for that class. Provided they submit their request from their account settings while your class is set to permit requests, you will receive a notification when they send the request, and will be able to accept or decline it on your <a href="{% url 'portal.views.teacher_classes' %}">classes</a> page</p>
+			<p>You need to decide which class they should join, enable external requests for that class for an appropriate time period in that class's settings, and then give them the class access code for that class. Provided they submit their request from their account settings while your class is set to permit requests, you will receive a notification when they send the request, and will be able to accept or decline it on your <a href="{% url 'teacher_classes' %}">classes</a> page</p>
 		</div>
 	</div>
 	<div>
 		<h4>I've set up my students. How do they log in?</h4>
 		<div>
-			<p>School students log in via the <a href="{% url 'portal.views.play' %}">Play</a> page, using their name, class access code, and password to sign in.</p>
+			<p>School students log in via the <a href="{% url 'play' %}">Play</a> page, using their name, class access code, and password to sign in.</p>
 		</div>
 	</div>
 	<div>

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django import template
 from django.template.defaultfilters import stringfilter
 from two_factor.utils import default_device
@@ -17,10 +18,14 @@ def has_2FA(u):
 def is_logged_in(u):
     return u.is_authenticated() and (not default_device(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
+@register.filter(name='is_developer')
+def is_developer(u): 
+    return not u.is_anonymous() and u.userprofile.developer
+
 @register.filter(name='make_into_username')
 def make_into_username(u):
+    username = ''
     if hasattr(u, 'userprofile'):
-        username = ''
         if hasattr(u.userprofile, 'teacher'):
             username = u.userprofile.teacher.title + ' ' + u.last_name
         if hasattr(u.userprofile, 'student'):
@@ -66,3 +71,8 @@ def get_user_status(u):
     else:
         return 'UNTRACKED'
     return 'UNTRACKED'
+
+@register.filter(name='cloud_storage')
+@stringfilter
+def cloud_storage(e):
+    return settings.CLOUD_STORAGE_PREFIX + e

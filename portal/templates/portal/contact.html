@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<div id="contact_page"></div>
+
 <div class='span_2_of_3'>
     <h2>Contact Us</h2>
     <p>If you've run into problems, please look to our  <a href="{% url 'help' %}">Help and Support</a> page for a list of FAQs for advice to commonly asked questions. If you still can't find the answers, please contact us using the form below. One of the Code for Life team will get back to you and resolve your issues.</p>
@@ -37,6 +39,16 @@
                 {{ form.message }}
             </div>
 
+            {{ form.browser }}
+
+            {% if form.recaptcha %}
+                <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
+                <div class="col no-margin">
+                    {{ form.recaptcha.errors }}
+                    {{ form.recaptcha|safe }}
+                </div>
+            {% endif %}
+
             <input type="submit" name="submit" value="Submit" class="btn btn-primary" />
         </form>
         
@@ -44,5 +56,9 @@
         
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#browserField').val(navigator.userAgent);
+</script>
 
 {% endblock content %}

@@ -1,5 +1,6 @@
 import time
 from bisect import bisect_left
+import hashlib
 
 from django.core.cache import cache
 
@@ -8,15 +9,20 @@ from ratelimit.backends import BaseBackend
 CACHE_PREFIX = 'rl:'
 MAX_LIFETIME = 60 * 60 * 24
 
+def make_safe(s):
+    h = hashlib.md5()
+    h.update(s)
+    return h.hexdigest()
+
 class CacheBackend(BaseBackend):
 
     def increment(self, name, periods):
-        name = CACHE_PREFIX + name
+        name = make_safe(CACHE_PREFIX + name)
         lifetime = max(periods)
         cache.set(name, cache.get(name, []) + [time.time()], lifetime)
 
     def limits(self, name, periods):
-        name = CACHE_PREFIX + name
+        name = make_safe(CACHE_PREFIX + name)
         timestamps = cache.get(name, [])
         lifetime = max(periods)
 

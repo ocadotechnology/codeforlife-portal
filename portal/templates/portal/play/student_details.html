@@ -2,9 +2,11 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_student_dashboard %}<b><a href="{% url 'portal.views.student_details' %}">Dashboard</a></b>{% endblock nav_student_dashboard %}
+{% block nav_student_dashboard %}<b><a href="{% url 'student_details' %}">Dashboard</a></b>{% endblock nav_student_dashboard %}
 
 {% block content %}
+
+<div id='play_dashboard_page'></div>
 
 <h2>Welcome, {{ user|make_into_username }}</h2><br>
 <div class="section group">
@@ -21,7 +23,7 @@
               <p style="text-align: center">
               <img style='width: 75%' src="{% static 'portal/img/RR_logo_blank.png' %}" /><br>
               Are you ready to play?<br><br>
-              <a class='btn btn-primary' href="{% url 'game.views.levels' %}">Play now!</a>
+              <a class='btn btn-primary' href="{% url 'game.views.level_selection.levels' %}">Play now!</a>
               </p>
        </div>
 
@@ -34,17 +36,19 @@
              <td>Links and Resources</td>
            </tr>
             <tr>
-              <td><a href="{% url 'game.views.levels' %}">Play Rapid Router</a></td>
+              <td><a href="{% url 'game.views.level_selection.levels' %}">Play Rapid Router</a></td>
             </tr>
+            {% if user.userprofile.student.class_field %}
             <tr>
-              <td><a href="{% url 'game.views.scoreboard' %}">Rapid Router Scoreboard</a></td>
+              <td><a href="{% url 'game.views.scoreboard.scoreboard' %}">Rapid Router Scoreboard</a></td>
             </tr>
+            {% endif %}
             <tr>
-              <td><a href="{% url 'portal.views.student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
+              <td><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
             </tr>
             {% if not user.userprofile.student.class_field %}
             <tr>
-              <td><a href="{% url 'portal.views.student_join_organisation' %}">Join a school or club</a></td>
+              <td><a href="{% url 'student_join_organisation' %}">Join a school or club</a></td>
             </tr>
             {% endif %}
          </table>
@@ -57,17 +61,17 @@
 
 <div class="section group characters">
     <div class="col span_1_of_3a">
-      <img src="{% static 'portal/img/kirsty.png' %}" />
+      <img src="{% static 'portal/img/kirsty_hi_res.png' %}" />
         <h4>Kirsty</h4><br>
        <p>Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world! Kirsty is not impressed that she hasn&#8217;t been born into the royal family, so she is trying to train an army of frogs to take the crown by force.</p> 
     </div>
     <div class="col span_1_of_3a">
-        <img src="{% static 'portal/img/nigel.png' %}" />
+        <img src="{% static 'portal/img/nigel_hi_res.png' %}" />
             <h4>Nigel</h4><br>
            <p>Nigel is the tallest kid in his class, and he's growing taller by the day. Sometimes this makes him feel a bit out of place, but he doesn't mind too much as it allows him to keep an eye out for the playground monitor when Nigel and his friends are up to playful mischief at lunchtime.</p> 
     </div>
     <div class="col span_1_of_3a">
-       <img src="{% static 'portal/img/dee_red_box.png' %}" />
+       <img src="{% static 'portal/img/dee_hi_res.png' %}" />
          <h4>Dee</h4><br>
            <p>Dee is a Mark II DeliviBot. She&#8217;s super friendly and her wire hair sparks when she laughs. Dee is strong enough to juggle elephants, which makes delivering groceries a doddle.</p> 
     </div>
@@ -77,12 +81,12 @@
 
 <div class="section group characters">
     <div class="col span_1_of_2">
-        <img src="{% static 'portal/img/phil.png' %}" />
+        <img src="{% static 'portal/img/phil_hi_res.png' %}" />
         <h4>Phil</h4><br>
            <p>Phil is a Boarsnark, the scariest monster of all monsters. Phil, however, is different to most Boarsnarks because he&#8217;s very kind, and very gentle, so he&#8217;s just not that good at scaring people. While other young Boarsnarks are hiding out in the woods practicing their fearsome roars, Phil can be found munching beetles, and playing computer games.</p> 
     </div>
     <div class="col span_1_of_2">
-    <img src="{% static 'portal/img/wes.png' %}" />
+    <img src="{% static 'portal/img/wes_hi_res.png' %}" />
     <h4>Wes</h4><br>
        <p>Wes is as cunning as a fox, which is weird, because he's actually a wolf. He graduated from the fabulous foxy school for the fantastically gifted, with almost perfect grades in Crafty. Wes would be a genius, if only he stayed at home and studied a bit more. He&#8217;s such a party animal.</p> 
     </div>

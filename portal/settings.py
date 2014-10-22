@@ -59,6 +59,8 @@ MIDDLEWARE_CLASSES = [
     'django_otp.middleware.OTPMiddleware',
 ]
 
+CLOUD_STORAGE_PREFIX = 'http://storage.googleapis.com/codeforlife-assets/'
+
 ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'
@@ -66,9 +68,9 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_DOMAIN = 'numeric-incline-526.appspotmail.com'
 
-LOGIN_URL = reverse_lazy('portal.views.teach')
-LOGOUT_URL = reverse_lazy('portal.views.logout_view')
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher_home')
+LOGIN_URL = reverse_lazy('teach')
+LOGOUT_URL = reverse_lazy('logout')
+LOGIN_REDIRECT_URL = reverse_lazy('teacher_home')
 
 RECAPTCHA_PUBLIC_KEY = '6LfdOfgSAAAAADDdLN40FtToVvE3moMgOUhGU7oq'
 RECAPTCHA_PRIVATE_KEY = '6LfdOfgSAAAAAFwSXYu9BVD2lCCXEypoFYIJM_tp'

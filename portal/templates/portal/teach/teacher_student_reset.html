@@ -1,14 +1,14 @@
 {% extends 'portal/teach/base.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a href="{% url 'portal.views.teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
 
 {% block content %}
 
 <h1>Classes</h1><br>
 <h2>Student Password Changed for {{ student.user.user.first_name }} in class {{ class.name }} ({{ class.access_code }})</h2><br>
 
-<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of the password to prevent having to reset and issue another password. Alternatively print a reminder cardd which populates these details and can be given to the student.</p>
+<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of the password to prevent having to reset and issue another password. Alternatively print a reminder card which populates these details and can be given to the student.</p>
 
 <p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
 <p>The new password for the above student is: <b>{{ password }}</b></p>
@@ -16,10 +16,10 @@
 
 <div class='span_1_of_2'>
 	<div class='col span_1_of_2'>
-		<a class='btn btn-default wide' href="{% url 'portal.views.teacher_edit_student' student.id %}">Return</a>
+		<a class='btn btn-default wide' href="{% url 'teacher_edit_student' student.id %}">Return</a>
 	</div>
 	<div class='col span_1_of_2'>
-		<form method='post' action="{% url 'portal.views.teacher_print_reminder_cards' class.access_code %}">
+		<form method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
 		    {% csrf_token %}
 		    <input type='hidden' name='data' value='{{ query_data }}'/>
 		    <input class='btn btn-primary wide'type='submit' value='Print Reminder Card'/>

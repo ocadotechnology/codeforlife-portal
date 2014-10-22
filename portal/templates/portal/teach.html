@@ -16,18 +16,20 @@
 {% block content %}
 {{block.super}}
 
+<div id="teach_page"></div>
+
 <div class="section group">
     <div class="col span_2_of_3">
         <h3>Resources</h3>
         <p>
         Once you&#8217;ve registered your personal details and logged in, you&#8217;ll be able to create your school or club, or join other teachers at your institution. Sign up your class, track each pupil&#8217;s progress, download free teaching packs, which includes session plans, pupil resources and assessment tools. There&#8217;s even videos to help you and your class understand what you&#8217;ll be learning next.
         </p>
-        <img src="{% static 'portal/img/nigel.png' %}" style="float:right; margin-left:20px;" />
+        <img width="25%" src="{% static 'portal/img/nigel_hi_res.png' %}" style="float:right; margin-left:20px;" />
         <h3>
         School Curriculum 
         </h3>
         <p>
-        Rapid Router has been created to teach the first principles of computer programming that are covered in the new Computing curriculum. See how the app relates to both Key Stage 1 and Lower Key Stage 2 of the computer science strand <a href="#">here</a>.
+        Rapid Router has been created to teach the first principles of computer programming that are covered in the new Computing curriculum. See how the app relates to both Key Stage 1 and Lower Key Stage 2 of the computer science strand <a href="{{ 'general_resources/introduction_to_coding.pdf'|cloud_storage }}">here</a>.
       </p>
         
       <h3>
@@ -42,14 +44,14 @@
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
-                <a href="{% url 'portal.views.current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
-                <a href="{% url 'portal.views.logout_view' %}" class='wide btn btn-default'>Logout</a>
+                <a href="{% url 'current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
+                <a href="{% url 'logout' %}" class='wide btn btn-default' onclick="deleteAllLocalStorageWorkspaces();">Logout</a>
             </div>
         {% else %}
             <div class="login-card">
                 <h3>Teacher sign in</h3><br>
 
-                <form method='post'>
+                <form id='login_form' method='post'>
 
                     {% csrf_token %}
 
@@ -69,11 +71,12 @@
                         {{ login_form.recaptcha|safe }}
                     {% endif %}
 
-                    <input type="submit" name="login" class="btn btn-primary wide" value="Sign in">
+                    <input type="submit" name="login" class="btn btn-primary wide" value="Sign in" onclick="deleteAllLocalStorageWorkspaces();">
                 </form>
                             
                 <div class="login-help">
-                    <a href="{% url 'teacher_password_reset' %}">Forgotten Password?</a>
+                    <a id="forgottenPassword_button" href="{% url 'teacher_password_reset' %}">Forgotten Password?</a><br>
+                    Are you a student? <a id="studentLogin_button" href="{% url 'play' %}">Log in</a>.
                 </div>
             </div>
 

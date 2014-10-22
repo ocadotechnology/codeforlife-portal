@@ -1,6 +1,6 @@
 {% extends "portal/teach/base.html" %}
 
-{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+{% block nav_teacher_account %}<b><a href="{% url 'teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
 
 {% block content %}
     <h1>Backup Tokens</h1>
@@ -25,7 +25,7 @@
     {% endif %}
 
     <form method="post">{% csrf_token %}{{ form }}
-        <a href="{% url 'portal.views.teacher_edit_account'%}"
+        <a href="{% url 'teacher_edit_account'%}"
              class="btn btn-default">Back to my account</a>
         <button class="btn btn-primary" type="submit">Generate Tokens</button>
     </form>

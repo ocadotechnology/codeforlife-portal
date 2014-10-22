@@ -1,6 +1,6 @@
 {% extends "portal/teach/base.html" %}
 
-{% block nav_teacher_account %}<b><a href="{% url 'portal.views.teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+{% block nav_teacher_account %}<b><a href="{% url 'teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
 
 {% block content %}
 <div class='span_centered_half'>
@@ -22,7 +22,7 @@
             </div>
 
             <div class='pull-right'>
-                <a href="{% url 'portal.views.teacher_edit_account'%}" class="btn btn-default" style='margin-right: 10px'>Cancel</a>
+                <a href="{% url 'teacher_edit_account'%}" class="btn btn-default" style='margin-right: 10px'>Cancel</a>
                 <button class="btn btn-danger" type="submit">Disable</button>
             </div>
         </form>

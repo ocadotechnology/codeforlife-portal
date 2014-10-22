@@ -20,6 +20,8 @@
 {% block content %}
 {{block.super}}
 
+<div id="play_page"></div>
+
 <div class="warningIE">In order to play, please <a href="http://browsehappy.com/">update your browser</a></div>
 
 <div class="section group">
@@ -29,7 +31,7 @@
         Anyone can learn how to code. Rapid Router will help you learn how. It&#8217;s fun, free and easy. Once you know how, you can build just about anything.
         </p>
 
-        <iframe width="600" height="400" src="//www.youtube.com/embed/PQFyF3R6Xts" frameborder="0" allowfullscreen class="video"></iframe>
+        <iframe max-width="600" width="95%" height="400" src="//www.youtube.com/embed/PQFyF3R6Xts?rel=0" frameborder="0" allowfullscreen class="video"></iframe>
         {% if not user|is_logged_in %}
             <p>
             If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, <a href="#" id="school-login-link">login</a> to continue playing. 
@@ -59,7 +61,7 @@
                     <p>
                     Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
                     </p>
-                    <a class="btn btn-primary" href="{% url 'game.views.levels' %}">Play Now</a>
+                    <a class="btn btn-primary" href="{% url 'game.views.level_selection.levels' %}">Play Now</a>
                  </div>
              </div>
         </div>
@@ -70,15 +72,15 @@
             <div class="login-card">
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
-                <a href="{% url 'portal.views.current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
-                <a href="{% url 'portal.views.logout_view' %}" class='wide btn btn-default'>Logout</a>
+                <a href="{% url 'current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
+                <a href="{% url 'logout' %}" class='wide btn btn-default' onclick="deleteAllLocalStorageWorkspaces();">Logout</a>
             </div>
         {% else %}
             <div id="school-login" class="login-card">
                 <h3>School or club student sign in</h3><br>
 
                 <p>Signed up independently? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
-                <form method='post'>
+                <form id='school_login_form' method='post'>
 
                     {% csrf_token %}
 
@@ -102,8 +104,12 @@
                         {{ school_login_form.recaptcha|safe }}
                     {% endif %}
 
-                    <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in'/>
+                    <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in' onclick="deleteAllLocalStorageWorkspaces();"/>
                 </form>
+                <div class="login-help">
+                    Are you a teacher? <a id="teacherLogin_school_button" href="{% url 'teach' %}">Log in</a>.
+                </div>
+
             </div>
 
             <div id="solo-login" class="login-card">
@@ -111,7 +117,7 @@
 
                 <p>Part of a school or club? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
 
-                <form method='post'>
+                <form id='solo_login_form' method='post'>
 
                     {% csrf_token %}
 
@@ -135,7 +141,8 @@
                 </form>
 
                 <div class="login-help">
-                    <a href="{% url 'student_password_reset' %}">Forgotten Password?</a>
+                    <a id="forgottenPassword_button" href="{% url 'student_password_reset' %}">Forgotten Password?</a><br>
+                    Are you a teacher? <a id="teacherLogin_solo_button" href="{% url 'teach' %}">Log in</a>.
                 </div>
             </div>
 

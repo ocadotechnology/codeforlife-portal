@@ -1,4 +1,5 @@
 '''Portal autoconfig'''
+import os
 
 SETTINGS = {
     'INSTALLED_APPS': [
@@ -29,9 +30,13 @@ SETTINGS = {
         'django_otp.middleware.OTPMiddleware',
     ],
 
-    'RECAPTCHA_PUBLIC_KEY': '6LcGkPgSAAAAAMXqgeeiDsp2XJ0EBlTOHMZavp8t',
-    'RECAPTCHA_PRIVATE_KEY': '6LcGkPgSAAAAACEZHXbIjB6IqEtXy4ljDptHnQej',
-    
+    'CODEFORLIFE_WEBSITE': 'www.codeforlife.education',
+
+    'CLOUD_STORAGE_PREFIX': 'http://storage.googleapis.com/codeforlife-assets/',
+
+    'RECAPTCHA_PUBLIC_KEY': os.getenv('RECAPTCHA_PUBLIC_KEY', None),
+    'RECAPTCHA_PRIVATE_KEY': os.getenv('RECAPTCHA_PRIVATE_KEY', None),
+
     'LOGGING': {
         'version': 1,
         'disable_existing_loggers': False,
