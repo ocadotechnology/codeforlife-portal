@@ -659,19 +659,23 @@ background-color: #FFCCBA;
 
 /************** login box **************/
 
-.ieLabels
-{
-  display:none;
+.ieLabels {
+    display: none;
 }
-.ie7 .ieLabels, .ie8 .ieLabels
-{
-  display:block;
+
+#form-reg-teacher .ieLabels,
+#create_form .ieLabels,
+.ie7 .ieLabels,
+.ie8 .ieLabels {
+    display: block;
+}
+
+.ieLabels {
   font-size:1.2rem;
   color:#666;
   clear:both;
   padding-top:10px;
   text-align:left;
-  width:200px;
 }
 
 
@@ -708,7 +712,7 @@ background-color: #FFCCBA;
   text-align: center;
 }*/
 
-.login-card input[type=text], input[type=password], input[type=number] {
+.login-card input[type=text], input[type=password], input[type=number], input[type=email] {
   height: 44px;
   line-height: 44px;
   font-size: 1.4rem;
@@ -846,11 +850,11 @@ background-color: #FFCCBA;
 {
   margin-left:115px;
 }
+
 label {
   float: left;
   text-align: right;
   margin-right: 15px;
-  width: 100px;
   padding-top: 5px;
 }
 
