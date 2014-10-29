@@ -9,7 +9,7 @@ from portal.helpers.password import password_strength_test
 
 
 class TeacherSignupForm(forms.Form):
-    choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'),
+    choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
                ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
     title = forms.ChoiceField(
