@@ -87,20 +87,20 @@
                     {{ school_login_form.non_field_errors }}
 
                     {{ school_login_form.name.errors }}
-                    <label class="ieLabels">{{ school_login_form.name.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
                     {{ school_login_form.name }}
 
                     {{ school_login_form.access_code.errors }}
-                    <label class="ieLabels">{{ school_login_form.access_code.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
                     {{ school_login_form.access_code }}
 
                     {{ school_login_form.password.errors }}
-                    <label class="ieLabels">{{ school_login_form.password.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
                     {{ school_login_form.password }}
 
                     {% if school_login_form.recaptcha %}
                         {{ school_login_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ school_login_form.recaptcha.html_name }}</label>
+                        <label class="ieLabels" for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
                         {{ school_login_form.recaptcha|safe }}
                     {% endif %}
 
