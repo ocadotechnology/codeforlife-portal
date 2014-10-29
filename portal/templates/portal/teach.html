@@ -51,23 +51,23 @@
             <div class="login-card">
                 <h3>Teacher sign in</h3><br>
 
-                <form id='login_form' method='post'>
+                <form id='form-login-teacher' method='post'>
 
                     {% csrf_token %}
 
                     {{ login_form.non_field_errors }}
 
                     {{ login_form.email.errors }}
-                    <label class="ieLabels">{{ login_form.email.label }}</label>
+                    <label class="ieLabels" for="id_{{ login_form.email.html_name }}">{{ login_form.email.label }}</label>
                     {{ login_form.email }}
 
                     {{ login_form.password.errors }}
-                    <label class="ieLabels">{{ login_form.password.label }}</label>
+                    <label class="ieLabels" for="id_{{ login_form.password.html_name }}">{{ login_form.password.label }}</label>
                     {{ login_form.password }}
 
                     {% if login_form.recaptcha %}
                         {{ login_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ login_form.recaptcha.label }}</label>
+                        <label class="ieLabels"for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
                         {{ login_form.recaptcha|safe }}
                     {% endif %}
 

@@ -132,10 +132,10 @@ class TeacherEditAccountForm(forms.Form):
 class TeacherLoginForm(forms.Form):
     email = forms.EmailField(
         label='Email address',
-        widget=forms.TextInput(attrs={'placeholder': "Email Address"}))
+        widget=forms.TextInput(attrs={'placeholder': "my.email@address.com"}))
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput)
 
     def clean(self):
         email = self.cleaned_data.get('email', None)

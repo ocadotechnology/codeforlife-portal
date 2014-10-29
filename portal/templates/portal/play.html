@@ -80,27 +80,27 @@
                 <h3>School or club student sign in</h3><br>
 
                 <p>Signed up independently? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
-                <form id='school_login_form' method='post'>
+                <form id='form-login-school' method='post'>
 
                     {% csrf_token %}
 
                     {{ school_login_form.non_field_errors }}
 
                     {{ school_login_form.name.errors }}
-                    <label class="ieLabels">{{ school_login_form.name.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
                     {{ school_login_form.name }}
 
                     {{ school_login_form.access_code.errors }}
-                    <label class="ieLabels">{{ school_login_form.access_code.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
                     {{ school_login_form.access_code }}
 
                     {{ school_login_form.password.errors }}
-                    <label class="ieLabels">{{ school_login_form.password.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
                     {{ school_login_form.password }}
 
                     {% if school_login_form.recaptcha %}
                         {{ school_login_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ school_login_form.recaptcha.html_name }}</label>
+                        <label class="ieLabels" for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
                         {{ school_login_form.recaptcha|safe }}
                     {% endif %}
 
@@ -148,27 +148,27 @@
 
         <br>
 
-        <div id="signup" class="login-card">
+        <div id="form-signup" class="login-card">
             <h3>Register to track your performance</h3><br>
 
             <p id='signup-warning' >If you're not part of a school or club who are signed up to Code for Life, <a href='#' id='signupShow'>click here</a> to sign up independently.</p>
 
-            <form id="signup-form" method='post'>
+            <form id="form-signup-student" method='post'>
 
                 {% csrf_token %}
 
                 {{ signup_form.non_field_errors }}
 
                 {{ signup_form.name.errors }}
-                <label class="ieLabels">{{ signup_form.name.html_name }}</label>
+                <label class="ieLabels" for="id_{{ signup_form.name.html_name }}">{{ signup_form.name.label }}</label>
                 {{ signup_form.name }}
 
                 {{ signup_form.username.errors }}
-                <label class="ieLabels">{{ signup_form.username.html_name }}</label>
+                <label class="ieLabels" for="id_{{ signup_form.username.html_name }}">{{ signup_form.username.label }}</label>
                 {{ signup_form.username }}
 
                 {{ signup_form.email.errors }}
-                <label class="ieLabels">{{ signup_form.email.html_name }}</label>
+                <label class="ieLabels" for="id_{{ signup_form.email.html_name }}">{{ signup_form.email.label }}</label>
                 {{ signup_form.email }}
 
                 <div class='section group'>
@@ -179,11 +179,11 @@
                 </div>
 
                 {{ signup_form.password.errors }}
-                <label class="ieLabels">{{ signup_form.password.html_name }}</label>
+                <label class="ieLabels" for="id_{{ signup_form.password.html_name }}">{{ signup_form.password.label }}</label>
                 {{ signup_form.password }}
 
                 {{ signup_form.confirm_password.errors }}
-                <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
+                <label class="ieLabels" for="id_{{ signup_form.confirm_password.html_name }}">{{ signup_form.confirm_password.label }}</label>
                 {{ signup_form.confirm_password }}
 
                 <input type='submit' name='signup' class="btn btn-primary wide" value='Register'/>
