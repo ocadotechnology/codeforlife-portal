@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware'
 ]
 
 BASICAUTH_USERNAME = 'trial'
