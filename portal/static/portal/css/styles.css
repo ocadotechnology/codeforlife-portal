@@ -667,8 +667,8 @@ background-color: #FFCCBA;
 #form-reg-teacher .ieLabels,
 #form-login-teacher .ieLabels,
 #form-signup-student .ieLabels,
-#school_login_form .ieLabels,
-#create_form .ieLabels,
+#form-login-school .ieLabels,
+#form-create-organisation .ieLabels,
 .ie7 .ieLabels,
 .ie8 .ieLabels {
     display: block;
