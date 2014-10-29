@@ -8,9 +8,11 @@ from portal.models import Student, Teacher, stripStudentName
 from portal.helpers.password import password_strength_test
 
 
+choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
+           ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
+
+
 class TeacherSignupForm(forms.Form):
-    choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
-               ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
     title = forms.ChoiceField(
         label='Title', choices=choices,
@@ -63,8 +65,6 @@ class TeacherSignupForm(forms.Form):
 
 
 class TeacherEditAccountForm(forms.Form):
-    choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'),
-               ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
     title = forms.ChoiceField(
         label='Title', choices=choices,
