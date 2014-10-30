@@ -8,28 +8,30 @@ from portal.models import Student, Teacher, stripStudentName
 from portal.helpers.password import password_strength_test
 
 
+choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
+           ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
+
+
 class TeacherSignupForm(forms.Form):
-    choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'),
-               ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
     title = forms.ChoiceField(
         label='Title', choices=choices,
-        widget=forms.Select(attrs={'placeholder': "Title", 'class': 'wide'}))
+        widget=forms.Select(attrs={'class': 'wide'}))
     first_name = forms.CharField(
         label='First name', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "First name"}))
+        widget=forms.TextInput())
     last_name = forms.CharField(
         label='Last name', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "Last name"}))
+        widget=forms.TextInput())
     email = forms.EmailField(
         label='Email address',
-        widget=forms.TextInput(attrs={'placeholder': "Professional Email Address"}))
+        widget=forms.EmailInput())
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput())
     confirm_password = forms.CharField(
         label='Confirm Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Confirm password"}))
+        widget=forms.PasswordInput())
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
@@ -63,8 +65,6 @@ class TeacherSignupForm(forms.Form):
 
 
 class TeacherEditAccountForm(forms.Form):
-    choices = [('Mr', 'Mr'), ('Master', 'Master'), ('Mrs', 'Mrs'), ('Miss', 'Miss'), ('Ms', 'Ms'),
-               ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
     title = forms.ChoiceField(
         label='Title', choices=choices,
@@ -77,16 +77,16 @@ class TeacherEditAccountForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': "Last name", 'class': 'lName'}))
     email = forms.EmailField(
         label='Change email address (optional)', required=False,
-        widget=forms.TextInput(attrs={'placeholder': "Change email address (optional)"}))
+        widget=forms.TextInput(attrs={'placeholder': "new.email@address.com"}))
     password = forms.CharField(
         label='New password (optional)', required=False,
-        widget=forms.PasswordInput(attrs={'placeholder': "New password (optional)"}))
+        widget=forms.PasswordInput)
     confirm_password = forms.CharField(
         label='Confirm new password', required=False,
-        widget=forms.PasswordInput(attrs={'placeholder': "Confirm new password"}))
+        widget=forms.PasswordInput)
     current_password = forms.CharField(
         label='Current password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Current password"}))
+        widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -132,10 +132,10 @@ class TeacherEditAccountForm(forms.Form):
 class TeacherLoginForm(forms.Form):
     email = forms.EmailField(
         label='Email address',
-        widget=forms.TextInput(attrs={'placeholder': "Email Address"}))
+        widget=forms.TextInput(attrs={'placeholder': "my.email@address.com"}))
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput)
 
     def clean(self):
         email = self.cleaned_data.get('email', None)

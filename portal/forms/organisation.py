@@ -6,13 +6,13 @@ from portal.helpers.location import lookup_postcode
 class OrganisationCreationForm(forms.Form):
     name = forms.CharField(
         label='Name of your school or club',
-        widget=forms.TextInput(attrs={'placeholder': "Name of your school or club"}))
+        widget=forms.TextInput(attrs={'autocomplete': "off"}))
     postcode = forms.CharField(
         label="Postcode",
-        widget=forms.TextInput(attrs={'placeholder': "Postcode"}))
+        widget=forms.TextInput(attrs={'autocomplete': "off"}))
     current_password = forms.CharField(
-        label='Confirm your password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Confirm your password"}))
+        label='Enter your password',
+        widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)

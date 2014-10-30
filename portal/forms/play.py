@@ -12,13 +12,13 @@ from portal.helpers.password import password_strength_test
 class StudentLoginForm(forms.Form):
     name = forms.CharField(
         label='Name',
-        widget=forms.TextInput(attrs={'placeholder': "Name"}))
+        widget=forms.TextInput(attrs={'placeholder': "Jane Smith"}))
     access_code = forms.CharField(
         label='Class Access Code',
-        widget=forms.TextInput(attrs={'placeholder': "Class Access Code"}))
+        widget=forms.TextInput(attrs={'placeholder': "AB123"}))
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput)
 
     def clean(self):
         name = self.cleaned_data.get('name', None)
@@ -105,19 +105,19 @@ class StudentEditAccountForm(forms.Form):
 class StudentSignupForm(forms.Form):
     name = forms.CharField(
         label='Name', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "Name"}))
+        widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"}))
     username = forms.CharField(
         label='Username', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "Username"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
     email = forms.EmailField(
         label='Email address',
-        widget=forms.TextInput(attrs={'placeholder': "Email Address"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"}))
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput)
     confirm_password = forms.CharField(
         label='Confirm Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Confirm password"}))
+        widget=forms.PasswordInput)
 
     def clean_username(self):
         username = self.cleaned_data.get('username', None)

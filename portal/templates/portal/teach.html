@@ -36,7 +36,7 @@
         Other Resources
         </h3>
         <p>
-        Our friends at <a href="http://www.barefootcas.org.uk" target="_blank">Barefoot Computing</a> and <a href="http://www.computingatschool.org.uk/" target="_blank">Computing at School</a> provide free resources, workshops and advice specifically for teachers in England, while Europe&#8217;s largest collection of working computers at <a href="http://www.tnmoc.org/" target="_blank">The National Museum of Computer Science</a> is a fantastic venue to explore, learn and play. </p>
+        Our friends at <a href="http://www.barefootcas.org.uk" target="_blank">Barefoot Computing</a> and <a href="http://www.computingatschool.org.uk/" target="_blank">Computing at School</a> provide free resources, workshops and advice specifically for teachers in England, while Europe&#8217;s largest collection of working computers at <a href="http://www.tnmoc.org/" target="_blank">The National Museum of Computing</a> is a fantastic venue to explore, learn and play. </p>
     </div>
 
     <div class="col span_1_of_3">
@@ -51,23 +51,23 @@
             <div class="login-card">
                 <h3>Teacher sign in</h3><br>
 
-                <form id='login_form' method='post'>
+                <form id='form-login-teacher' method='post'>
 
                     {% csrf_token %}
 
                     {{ login_form.non_field_errors }}
 
                     {{ login_form.email.errors }}
-                    <label class="ieLabels">{{ login_form.email.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ login_form.email.html_name }}">{{ login_form.email.label }}</label>
                     {{ login_form.email }}
 
                     {{ login_form.password.errors }}
-                    <label class="ieLabels">{{ login_form.password.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ login_form.password.html_name }}">{{ login_form.password.label }}</label>
                     {{ login_form.password }}
 
                     {% if login_form.recaptcha %}
                         {{ login_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ login_form.recaptcha.html_name }}</label>
+                        <label class="ieLabels"for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
                         {{ login_form.recaptcha|safe }}
                     {% endif %}
 
@@ -85,7 +85,7 @@
             <div class="login-card">
                 <h3>Teacher Registration</h3><br>
 
-                <form method='post'>
+                <form method='post' id="form-reg-teacher">
 
                     {% csrf_token %}
 
@@ -99,22 +99,22 @@
                         </tr>
                         <tr>
                             <td class='title'>
-                                <label class="ieLabels">{{ signup_form.title.html_name }}</label>
+                                <label class="ieLabels" for="id_signup-title">{{ signup_form.title.label }}</label>
                                 {{ signup_form.title }}
                             </td>
                             <td class='fName'>
-                                <label class="ieLabels">{{ signup_form.first_name.html_name }}</label>
+                                <label class="ieLabels" for="id_signup-first_name">{{ signup_form.first_name.label }}</label>
                                 {{ signup_form.first_name }}
                             </td>
                             <td class='lName'>
-                                <label class="ieLabels">{{ signup_form.last_name.html_name }}</label>
+                                <label class="ieLabels" for="id_signup-last_name">{{ signup_form.last_name.label }}</label>
                                 {{ signup_form.last_name }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan='3'>
                                 {{ signup_form.email.errors }}
-                                <label class="ieLabels">{{ signup_form.email.html_name }}</label>
+                                <label class="ieLabels" for="id_signup-email">{{ signup_form.email.label }}</label>
                                 {{ signup_form.email }}
                             </td>
                         </tr>
@@ -127,14 +127,14 @@
                         <tr>
                             <td colspan='3'>
                                 {{ signup_form.password.errors }}
-                                <label class="ieLabels">{{ signup_form.password.html_name }}</label>
+                                <label class="ieLabels" for="id_signup-password">{{ signup_form.password.label }}</label>
                                 {{ signup_form.password }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan='3'>
                                 {{ signup_form.confirm_password.errors }}
-                                <label class="ieLabels">{{ signup_form.confirm_password.html_name }}</label>
+                                <label class="ieLabels" for="id_signup-confirm_password">{{ signup_form.confirm_password.label }}</label>
                                 {{ signup_form.confirm_password }}
                             </td>
                         </tr>

@@ -54,7 +54,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
             <p><b>Please note:</b> As the first person from your school or club to register for Code for Life, by default, you become the organisation's administrator. As administrator you have the authority to give and revoke administrative powers to other teachers within your organisation, allow or deny requests from other teachers who wish to join your organisation and remove teachers from your organisation.</p>
             <p>The administrator is responsible and accountable for ensuring the overall safety of your school or club, and should only accept insitutional address when requesting to join.</p>
 
-            <form id="create_form" method='post'>
+            <form id="form-create-organisation" method='post'>
 
                 {% csrf_token %}
 
@@ -62,7 +62,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
 
                 {% for field in create_form %}
                     {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
+                    <label class="ieLabels" for="id_{{ field.name }}">{{ field.label }}</label>
                     {{ field }}
                 {% endfor %}
 

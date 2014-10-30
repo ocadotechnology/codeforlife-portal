@@ -27,7 +27,7 @@ var PASSWORD_TYPE = 'TEACHER';
         <div class='login-card'>
             <h4> Update details</h4><br>
 
-            <form method='post'>
+            <form method='post' id="form-edit-teacher">
 
                 {% csrf_token %}
 
@@ -41,22 +41,22 @@ var PASSWORD_TYPE = 'TEACHER';
                     </tr>
                     <tr>
                         <td class='title'>
-                            <label class="ieLabels">{{ form.title.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.title.html_name }}">{{ form.title.label }}</label>
                             {{ form.title }}
                         </td>
                         <td class='fName'>
-                            <label class="ieLabels">{{ form.first_name.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.first_name.html_name }}">{{ form.first_name.label }}</label>
                             {{ form.first_name }}
                         </td>
                         <td class='lName'>
-                            <label class="ieLabels">{{ form.last_name.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.last_name.html_name }}">{{ form.last_name.label }}</label>
                             {{ form.last_name }}
                         </td>
                     </tr>
                     <tr>
                         <td colspan='3'>
                             {{ form.email.errors }}
-                            <label class="ieLabels">{{ form.email.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.email.html_name }}">{{ form.email.label }}</label>
                             {{ form.email }}
                         </td>
                     </tr>
@@ -69,21 +69,21 @@ var PASSWORD_TYPE = 'TEACHER';
                     <tr>
                         <td colspan='3'>
                             {{ form.password.errors }}
-                            <label class="ieLabels">{{ form.password.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
                             {{ form.password }}
                         </td>
                     </tr>
                     <tr>
                         <td colspan='3'>
                             {{ form.confirm_password.errors }}
-                            <label class="ieLabels">{{ form.confirm_password.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.confirm_password.html_name }}">{{ form.confirm_password.label }}</label>
                             {{ form.confirm_password }}
                         </td>
                     </tr>
                     <tr>
                         <td colspan='3'>
                             {{ form.current_password.errors }}
-                            <label class="ieLabels">{{ form.current_password.html_name }}</label>
+                            <label class="ieLabels" for="id_{{ form.current_password.html_name }}">{{ form.current_password.label }}</label>
                             {{ form.current_password }}
                         </td>
                     </tr>
