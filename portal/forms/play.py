@@ -12,7 +12,7 @@ from portal.helpers.password import password_strength_test
 class StudentLoginForm(forms.Form):
     name = forms.CharField(
         label='Name',
-        widget=forms.TextInput(attrs={'placeholder': "Jane Smith"}))
+        widget=forms.TextInput(attrs={'placeholder': "Jane"}))
     access_code = forms.CharField(
         label='Class Access Code',
         widget=forms.TextInput(attrs={'placeholder': "AB123"}))
