@@ -57,7 +57,7 @@ class StudentEditAccountForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': "Name"}))
     email = forms.EmailField(
         label='Change email address (optional)', required=False,
-        widget=forms.TextInput(attrs={'placeholder': "Change email address (optional)"}))
+        widget=forms.EmailInput(attrs={'placeholder': "Change email address (optional)"}))
     password = forms.CharField(
         label='New password (optional)', required=False,
         widget=forms.PasswordInput(attrs={'placeholder': "New password (optional)"}))
@@ -111,7 +111,7 @@ class StudentSignupForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
     email = forms.EmailField(
         label='Email address',
-        widget=forms.TextInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"}))
+        widget=forms.EmailInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"}))
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput)
