@@ -110,10 +110,10 @@ class StudentPasswordResetForm(forms.Form):
 
 class TeacherPasswordResetForm(forms.Form):
     email = forms.EmailField(
-        label='Email',
+        label='Email address',
         max_length=254,
-        widget=forms.TextInput(
-            attrs={'placeholder': 'Email'}
+        widget=forms.EmailInput(
+            attrs={'placeholder': 'my.email@address.com'}
         )
     )
 
