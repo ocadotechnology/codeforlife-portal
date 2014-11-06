@@ -15,23 +15,48 @@ choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
 class TeacherSignupForm(forms.Form):
 
     title = forms.ChoiceField(
-        label='Title', choices=choices,
-        widget=forms.Select(attrs={'class': 'wide'}))
+        label='Title',
+        choices=choices,
+        widget=forms.Select(
+            attrs={
+                'class': 'wide'
+            }
+        )
+    )
     first_name = forms.CharField(
-        label='First name', max_length=100,
-        widget=forms.TextInput())
+        label='First name',
+        max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Grace'
+            }
+        )
+    )
     last_name = forms.CharField(
-        label='Last name', max_length=100,
-        widget=forms.TextInput())
+        label='Last name',
+        max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Hopper'
+            }
+        )
+    )
     email = forms.EmailField(
         label='Email address',
-        widget=forms.EmailInput())
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'grace.hopper@navy.mil'
+            }
+        )
+    )
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput())
+        widget=forms.PasswordInput()
+    )
     confirm_password = forms.CharField(
         label='Confirm Password',
-        widget=forms.PasswordInput())
+        widget=forms.PasswordInput()
+    )
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
@@ -77,7 +102,7 @@ class TeacherEditAccountForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': "Last name", 'class': 'lName'}))
     email = forms.EmailField(
         label='Change email address (optional)', required=False,
-        widget=forms.TextInput(attrs={'placeholder': "new.email@address.com"}))
+        widget=forms.EmailInput(attrs={'placeholder': "new.email@address.com"}))
     password = forms.CharField(
         label='New password (optional)', required=False,
         widget=forms.PasswordInput)
@@ -132,7 +157,7 @@ class TeacherEditAccountForm(forms.Form):
 class TeacherLoginForm(forms.Form):
     email = forms.EmailField(
         label='Email address',
-        widget=forms.TextInput(attrs={'placeholder': "my.email@address.com"}))
+        widget=forms.EmailInput(attrs={'placeholder': "my.email@address.com"}))
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput)
@@ -382,10 +407,10 @@ class TeacherDismissStudentsForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'New Name', 'style': 'margin : 0px'}))
     email = forms.EmailField(
         label='Email',
-        widget=forms.TextInput(attrs={'placeholder': 'Email Address', 'style': 'margin : 0px'}))
+        widget=forms.EmailInput(attrs={'placeholder': 'Email Address', 'style': 'margin : 0px'}))
     confirm_email = forms.EmailField(
         label='Confirm Email',
-        widget=forms.TextInput(
+        widget=forms.EmailInput(
             attrs={'placeholder': 'Confirm Email Address', 'style': 'margin : 0px'}))
 
     def clean_name(self):

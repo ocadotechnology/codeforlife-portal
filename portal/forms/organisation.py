@@ -52,7 +52,7 @@ class OrganisationJoinForm(forms.Form):
     fuzzy_name = forms.CharField(
         label="Search for school or club by name or postcode",
         widget=forms.TextInput(
-            attrs={'placeholder': "Search for school or club by name or postcode"}))
+            attrs={'placeholder': "Enrico Fermi High School"}))
 
     # Note: the reason this is a CharField rather than a ChoiceField is to avoid having to
     # provide choices which was problematic given that the options are dynamically generated.
