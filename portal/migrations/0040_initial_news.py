@@ -80,7 +80,7 @@ def insert_news(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-            ('portal', '0038_frontpagenews'),
+            ('portal', '0039_auto_20141109_1827'),
     ]
 
     operations = [

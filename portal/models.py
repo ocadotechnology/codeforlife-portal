@@ -153,7 +153,7 @@ class EmailVerification (models.Model):
 class FrontPageNews(models.Model):
     title = models.CharField(max_length=200)
     text = models.CharField(max_length=1000)
-    link = models.CharField(max_length=200)
+    link = models.CharField(max_length=500)
     link_text = models.CharField(max_length=200)
     added_dstamp = models.DateTimeField()
 
