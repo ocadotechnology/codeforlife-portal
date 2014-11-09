@@ -1,6 +1,7 @@
 from functools import partial
 from time import sleep
 
+from django.core.cache import cache
 from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -337,8 +338,15 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home'))
 
+
 def get_news():
-    return FrontPageNews.objects.order_by('-added_dstamp')
+    key = "front_page_cache"
+    results = cache.get(key)
+    if results is None:
+        results = FrontPageNews.objects.order_by('-added_dstamp')
+        cache.set(key, results, 600)
+    return results
+
 
 def home_view(request):
     return render(request, 'portal/home.html', {'news': get_news()})
