@@ -15,7 +15,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from deploy.permissions import is_authorised_to_view_aggregated_data
 
-from portal.models import School, Teacher, Student
+from portal.models import School, Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
@@ -336,3 +336,9 @@ def current_user(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home'))
+
+def get_news():
+    return FrontPageNews.objects.order_by('-added_dstamp')
+
+def home_view(request):
+    return render(request, 'portal/home.html', {'news': get_news()})

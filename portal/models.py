@@ -148,3 +148,12 @@ class EmailVerification (models.Model):
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()
     used = models.BooleanField(default=False)
+
+
+class FrontPageNews(models.Model):
+    title = models.CharField(max_length=200)
+    text = models.CharField(max_length=1000)
+    link = models.CharField(max_length=200)
+    link_text = models.CharField(max_length=200)
+    added_dstamp = models.DateTimeField()
+

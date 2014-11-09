@@ -10,7 +10,7 @@ from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, S
 from portal.permissions import teacher_verified
 
 from portal.views.email import verify_email
-from portal.views.home import teach, play, contact, schools_map, current_user, logout_view
+from portal.views.home import teach, play, contact, schools_map, current_user, logout_view, home_view
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
     organisation_leave, organisation_kick, organisation_toggle_admin, organisation_allow_join, \
     organisation_deny_join
@@ -44,7 +44,7 @@ urlpatterns = patterns(
     '',
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico')),
 
-    url(r'^$', TemplateView.as_view(template_name='portal/home.html'), name='home'),
+    url(r'^$', home_view, name='home'),
     url(r'^teach/$', teach, name='teach'),
     url(r'^play/$', play, name='play'),
     url(r'^about/$', TemplateView.as_view(template_name='portal/about.html'), name='about'),
