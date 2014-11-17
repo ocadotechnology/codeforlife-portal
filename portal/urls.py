@@ -1,8 +1,6 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
-admin.autodiscover()
 
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
     ProfileView, QRGeneratorView
