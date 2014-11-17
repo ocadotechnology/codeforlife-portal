@@ -87,20 +87,20 @@
                     {{ school_login_form.non_field_errors }}
 
                     {{ school_login_form.name.errors }}
-                    <label class="ieLabels" for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
+                    <label for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
                     {{ school_login_form.name }}
 
                     {{ school_login_form.access_code.errors }}
-                    <label class="ieLabels" for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
+                    <label for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
                     {{ school_login_form.access_code }}
 
                     {{ school_login_form.password.errors }}
-                    <label class="ieLabels" for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
+                    <label for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
                     {{ school_login_form.password }}
 
                     {% if school_login_form.recaptcha %}
                         {{ school_login_form.recaptcha.errors }}
-                        <label class="ieLabels" for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
+                        <label for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
                         {{ school_login_form.recaptcha|safe }}
                     {% endif %}
 
@@ -160,15 +160,15 @@
                 {{ signup_form.non_field_errors }}
 
                 {{ signup_form.name.errors }}
-                <label class="ieLabels" for="id_{{ signup_form.name.html_name }}">{{ signup_form.name.label }}</label>
+                <label for="id_{{ signup_form.name.html_name }}">{{ signup_form.name.label }}</label>
                 {{ signup_form.name }}
 
                 {{ signup_form.username.errors }}
-                <label class="ieLabels" for="id_{{ signup_form.username.html_name }}">{{ signup_form.username.label }}</label>
+                <label for="id_{{ signup_form.username.html_name }}">{{ signup_form.username.label }}</label>
                 {{ signup_form.username }}
 
                 {{ signup_form.email.errors }}
-                <label class="ieLabels" for="id_{{ signup_form.email.html_name }}">{{ signup_form.email.label }}</label>
+                <label for="id_{{ signup_form.email.html_name }}">{{ signup_form.email.label }}</label>
                 {{ signup_form.email }}
 
                 <div class='section group'>
@@ -179,11 +179,11 @@
                 </div>
 
                 {{ signup_form.password.errors }}
-                <label class="ieLabels" for="id_{{ signup_form.password.html_name }}">{{ signup_form.password.label }}</label>
+                <label for="id_{{ signup_form.password.html_name }}">{{ signup_form.password.label }}</label>
                 {{ signup_form.password }}
 
                 {{ signup_form.confirm_password.errors }}
-                <label class="ieLabels" for="id_{{ signup_form.confirm_password.html_name }}">{{ signup_form.confirm_password.label }}</label>
+                <label for="id_{{ signup_form.confirm_password.html_name }}">{{ signup_form.confirm_password.label }}</label>
                 {{ signup_form.confirm_password }}
 
                 <input type='submit' name='signup' class="btn btn-primary wide" value='Register'/>

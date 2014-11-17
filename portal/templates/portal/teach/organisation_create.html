@@ -62,7 +62,7 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
 
                 {% for field in create_form %}
                     {{ field.errors }}
-                    <label class="ieLabels" for="id_{{ field.name }}">{{ field.label }}</label>
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
                     {{ field }}
                 {% endfor %}
 
@@ -82,23 +82,23 @@ var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
             <p>You can verify that you are joining the desired school or club through its postcode and the email address shown.</p>
             <p>A request will be sent to the school or club's administrator for processing.</p>
 
-            <form id="join_form" method='post'>
+            <form id="form-join-organisation" method='post'>
 
                 {% csrf_token %}
 
                 {{ join_form.non_field_errors }}
 
                 {{ join_form.fuzzy_name.errors }}
-                <label class="ieLabels">{{ join_form.fuzzy_name.html_name }}</label>
+                <label for="id_{{ join_form.fuzzy_name.html_name }}">{{ join_form.fuzzy_name.label }}</label>
                 {{ join_form.fuzzy_name }}
 
                 {{ join_form.chosen_org.errors }}
-                <label class="ieLabels">{{ join_form.chosen_org.html_name }}</label>
+                <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
                 {{ join_form.chosen_org }}
 
                 {% if join_form.recaptcha %}
                     {{ join_form.recaptcha.errors }}
-                    <label class="ieLabels">{{ join_form.recaptcha.html_name }}</label>
+                    <label for="id_{{ join_form.recaptcha.html_name }}">{{ join_form.recaptcha.label }}</label>
                     {{ join_form.recaptcha|safe }}
                 {% endif %}
 
