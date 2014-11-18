@@ -37,4 +37,7 @@ def generate_access_code():
 
 
 def generate_password(length):
-    return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
+    chars = set(string.ascii_lowercase + string.digits)
+    chars.remove('l')
+    chars.remove('0')
+    return ''.join(random.choice(list(chars)) for _ in range(length))
