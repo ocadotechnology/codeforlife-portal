@@ -54,3 +54,6 @@ libraries:
   version: latest
 - name: ssl
   version: latest
+
+builtins:
+- appstats: on
