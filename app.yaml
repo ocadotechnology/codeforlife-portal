@@ -39,6 +39,10 @@ handlers:
   application_readable: true
   secure: always
 
+- url: /_ah/stats.*
+  script: google.appengine.ext.appstats.ui.app
+  secure: always
+
 - url: /.*
   script: main.application
   secure: always
