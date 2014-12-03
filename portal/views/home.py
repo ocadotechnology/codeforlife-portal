@@ -1,6 +1,7 @@
 from functools import partial
 from time import sleep
 
+from django.core.cache import cache
 from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -15,7 +16,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from deploy.permissions import is_authorised_to_view_aggregated_data
 
-from portal.models import School, Teacher, Student
+from portal.models import School, Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
@@ -135,16 +136,17 @@ def play_name_labeller(request):
     return ''
 
 
-@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('ip', periods=['2m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req,
            res: hasattr(res, 'count') and res.count)
 def play(request):
     invalid_form = False
     limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
-    captcha_limit = 5
+    ip_captcha_limit = 30
+    name_captcha_limit = 5
 
-    using_captcha = (limits['ip'][0] > captcha_limit or limits['name'][0] >= captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['name'][0] >= captcha_limit)
+    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
 
     StudentLoginFormWithCaptcha = partial(
         create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
@@ -336,3 +338,16 @@ def current_user(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home'))
+
+
+def get_news():
+    key = "front_page_cache"
+    results = cache.get(key)
+    if results is None:
+        results = FrontPageNews.objects.order_by('-added_dstamp')
+        cache.set(key, results, 600)
+    return results
+
+
+def home_view(request):
+    return render(request, 'portal/home.html', {'news': get_news()})
