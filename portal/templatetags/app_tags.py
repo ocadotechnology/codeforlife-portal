@@ -2,6 +2,7 @@ from django.conf import settings
 from django import template
 from django.template.defaultfilters import stringfilter
 from two_factor.utils import default_device
+from portal import beta
 
 register = template.Library()
 
@@ -18,9 +19,13 @@ def has_2FA(u):
 def is_logged_in(u):
     return u.is_authenticated() and (not default_device(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
-@register.filter(name='is_developer')
+@register.filter
 def is_developer(u): 
     return not u.is_anonymous() and u.userprofile.developer
+
+@register.filter
+def has_beta_access(request): 
+    return beta.has_beta_access(request)
 
 @register.filter(name='make_into_username')
 def make_into_username(u):
