@@ -136,16 +136,17 @@ def play_name_labeller(request):
     return ''
 
 
-@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('ip', periods=['2m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req,
            res: hasattr(res, 'count') and res.count)
 def play(request):
     invalid_form = False
     limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
-    captcha_limit = 5
+    ip_captcha_limit = 30
+    name_captcha_limit = 5
 
-    using_captcha = (limits['ip'][0] > captcha_limit or limits['name'][0] >= captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['name'][0] >= captcha_limit)
+    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
 
     StudentLoginFormWithCaptcha = partial(
         create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)

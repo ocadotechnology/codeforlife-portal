@@ -17,9 +17,9 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwags):
         super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwags)
         self.fields['new_password1'].label = "Enter your new password"
-        self.fields['new_password1'].widget.attrs['placeholder'] = "Enter your new password"
+        self.fields['new_password1'].widget.attrs['placeholder'] = "Try for least 8 characters, upper and lower case letters, and numbers"
         self.fields['new_password2'].label = "Confirm your new password"
-        self.fields['new_password2'].widget.attrs['placeholder'] = "Confirm your new password"
+        self.fields['new_password2'].widget.attrs['placeholder'] = "Please repeat your new password"
 
     def clean_new_password1(self):
         new_password1 = self.cleaned_data.get('new_password1', None)
