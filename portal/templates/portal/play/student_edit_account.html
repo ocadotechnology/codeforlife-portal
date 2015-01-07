@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block scripts %}
-{{ block.super }}
-<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-<script>
-var PASSWORD_FIELD_ID = '{{ form.password.auto_id }}';
-var PASSWORD_TYPE = 'STUDENT';
-</script>
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+    <script>
+        var PASSWORD_FIELD_ID = '{{ form.password.auto_id }}';
+        var PASSWORD_TYPE = 'STUDENT';
+    </script>
 {% endblock scripts %}
 
 {% block nav_student_account %}<b><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
@@ -15,97 +15,97 @@ var PASSWORD_TYPE = 'STUDENT';
 
 {% block content %}
 
-<div id='play_account_page'></div>
+    <div id='play_account_page'></div>
 
-<h1>{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</h1><br>
+    <h1>{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</h1><br>
 
-{% if user.userprofile.student.class_field %}
-    <h2>Update my password</h2><br>
-    <p>Change your password here to something memorable.</p>
-{% else %}
-    <h2>Edit my details</h2><br>
-    <p>You may edit your account details below, including your name, email and password.</p>
-{% endif %}
+    {% if user.userprofile.student.class_field %}
+        <h2>Update my password</h2><br>
+        <p>Change your password here to something memorable.</p>
+    {% else %}
+        <h2>Edit my details</h2><br>
+        <p>You may edit your account details below, including your name, email and password.</p>
+    {% endif %}
 
-<div class='section group'>
+    <div class='section group'>
 
-    <div class='span_1_of_2'>
+        <div class='span_1_of_2'>
 
-        <div class='login-card'>
-            <h4>{% if user.userprofile.student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
+            <div class='login-card'>
+                <h4>{% if user.userprofile.student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
 
-            {% if user.userprofile.student.class_field %}
-                <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
-                <p>If you have any problems, ask a teacher to help you.</p>
-            {% else %}
-                <p>You may edit your account details below, including your name, password, and registered email address. If you change your email address, you will have to verify it belongs to you, or your parent or guardian by following the instructions on the verification email.</p>
-                <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
-            {% endif %}
-
-            <form method='post'>
-
-                {% csrf_token %}
-
-                {{ form.non_field_errors }}
-
-                {% if not user.userprofile.student.class_field %}
-
-                    {{ form.name.errors }}
-                    <label class="ieLabels">{{ form.name.html_name }}</label>
-                    {{ form.name }}
-
-                    {{ form.email.errors }}
-                    <label class="ieLabels">{{ form.email.html_name }}</label>
-                    {{ form.email }}
-
+                {% if user.userprofile.student.class_field %}
+                    <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
+                    <p>If you have any problems, ask a teacher to help you.</p>
+                {% else %}
+                    <p>You may edit your account details below, including your name, password, and registered email address. If you change your email address, you will have to verify it belongs to you, or your parent or guardian by following the instructions on the verification email.</p>
+                    <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
                 {% endif %}
 
-                <div class='section group'>
-                    <div class='col span_2_of_3 password-strength-bar-container'>
-                        <div class='password-strength-bar'></div>
+                <form method='post'>
+
+                    {% csrf_token %}
+
+                    {{ form.non_field_errors }}
+
+                    {% if not user.userprofile.student.class_field %}
+
+                        {{ form.name.errors }}
+                        <label for="{{ form.name.html_name }}">{{ form.name.label }}</label>
+                        {{ form.name }}
+
+                        {{ form.email.errors }}
+                        <label for="{{ form.name.html_name }}">{{ form.email.label }}</label>
+                        {{ form.email }}
+
+                    {% endif %}
+
+                    <div class='section group'>
+                        <div class='col span_2_of_3 password-strength-bar-container'>
+                            <div class='password-strength-bar'></div>
+                        </div>
+                        <div class='col span_1_of_3 password-strength-text'></div>
                     </div>
-                    <div class='col span_1_of_3 password-strength-text'></div>
-                </div>
 
-                {{ form.password.errors }}
-                <label class="ieLabels">{{ form.password.html_name }}</label>
-                {{ form.password }}
+                    {{ form.password.errors }}
+                    <label for="{{ form.password.html_name }}">{{ form.password.label }}</label>
+                    {{ form.password }}
 
-                {{ form.confirm_password.errors }}
-                <label class="ieLabels">{{ form.confirm_password.html_name }}</label>
-                {{ form.confirm_password }}
+                    {{ form.confirm_password.errors }}
+                    <label for="{{ form.confirm_password.html_name }}">{{ form.confirm_password.label }}</label>
+                    {{ form.confirm_password }}
 
-                {{ form.current_password.errors }}
-                <label class="ieLabels">{{ form.current_password.html_name }}</label>
-                {{ form.current_password }}
+                    {{ form.current_password.errors }}
+                    <label for="{{ form.current_password.html_name }}">{{ form.current_password.label }}</label>
+                    {{ form.current_password }}
 
-                <div class='section group'>
-                    <div class='col span_1_of_2'>
-                        <a id='cancel_button' class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
+                    <div class='section group'>
+                        <div class='col span_1_of_2'>
+                            <a id='cancel_button' class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
+                        </div>
+                        <div class='col span_1_of_2'>
+                            <input id='update_button' type='submit' class='btn btn-primary wide' value='Update'/>
+                        </div>
                     </div>
-                    <div class='col span_1_of_2'>
-                        <input id='update_button' type='submit' class='btn btn-primary wide' value='Update'/>
-                    </div>
-                </div>
 
-            </form>
-        </div>
-        {% if not user.userprofile.student.class_field %}
-        <br>
-        <div class='login-card'>
-            <h4>Join a school or club</h4><br>
-            <div class='section group'>
-                <div class='col span_2_of_3'>
-                    <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
-                </div>
-                <div class='col span_1_of_3'>
-                    <a class='btn btn-default wide' href="{% url 'student_join_organisation' %}">Join</a>
-                </div>
+                </form>
             </div>
-        </div>
-        {% endif %}
+            {% if not user.userprofile.student.class_field %}
+                <br>
+                <div class='login-card'>
+                    <h4>Join a school or club</h4><br>
+                    <div class='section group'>
+                        <div class='col span_2_of_3'>
+                            <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
+                        </div>
+                        <div class='col span_1_of_3'>
+                            <a class='btn btn-default wide' href="{% url 'student_join_organisation' %}">Join</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
+        </div>
     </div>
-</div>
 
 {% endblock %}
