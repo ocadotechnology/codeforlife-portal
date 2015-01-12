@@ -56,17 +56,17 @@ class StudentEditAccountForm(forms.Form):
         label='Name', max_length=100, required=False,
         widget=forms.TextInput(attrs={'placeholder': "Name"}))
     email = forms.EmailField(
-        label='Change email address (optional)', required=False,
-        widget=forms.EmailInput(attrs={'placeholder': "Change email address (optional)"}))
+        label='New email address (optional)', required=False,
+        widget=forms.EmailInput(attrs={'placeholder': "new.address@myemail.com"}))
     password = forms.CharField(
         label='New password (optional)', required=False,
-        widget=forms.PasswordInput(attrs={'placeholder': "New password (optional)"}))
+        widget=forms.PasswordInput)
     confirm_password = forms.CharField(
         label='Confirm new password', required=False,
-        widget=forms.PasswordInput(attrs={'placeholder': "Confirm new password"}))
+        widget=forms.PasswordInput)
     current_password = forms.CharField(
         label='Current password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Current password"}))
+        widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
