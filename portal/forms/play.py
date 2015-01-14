@@ -178,7 +178,7 @@ class StudentSoloLoginForm(forms.Form):
 class StudentJoinOrganisationForm(forms.Form):
     access_code = forms.CharField(
         label='Class Access Code',
-        widget=forms.TextInput(attrs={'placeholder': "Class Access Code"}))
+        widget=forms.TextInput(attrs={'placeholder': "AB123"}))
 
     def clean(self):
         access_code = self.cleaned_data.get('access_code', None)
