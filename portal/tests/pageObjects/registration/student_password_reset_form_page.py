@@ -5,7 +5,7 @@ class StudentPasswordResetFormPage(BasePage):
         super(StudentPasswordResetFormPage, self).__init__(browser)
 
         self.browser.find_element_by_id('studentPasswordResetForm_page')
-        assert self.browser.find_element_by_id('id_username').get_attribute('placeholder') == 'Username'
+        assert self.browser.find_element_by_id('id_username').get_attribute('placeholder') == 'rosie_f'
 
     def cancel(self):
         self.browser.find_element_by_id('cancel_button').click()
