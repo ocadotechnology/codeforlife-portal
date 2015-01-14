@@ -121,7 +121,7 @@ var CONFIRMATION_DATA = {};
 
                 {% for field in form %}
                     {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
+                    <label for="id_{{ field.html_name }}">{{ field.label }}</label>
                     {{ field }}
                 {% endfor %}
                 <div class='section group'>
