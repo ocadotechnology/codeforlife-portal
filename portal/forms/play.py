@@ -149,10 +149,10 @@ class StudentSignupForm(forms.Form):
 class StudentSoloLoginForm(forms.Form):
     username = forms.CharField(
         label='Username',
-        widget=forms.TextInput(attrs={'placeholder': "Username"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput())
 
     def clean(self):
         username = self.cleaned_data.get('username', None)
