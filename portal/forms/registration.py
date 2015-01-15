@@ -39,7 +39,7 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
 class StudentPasswordResetForm(forms.Form):
     username = forms.CharField(
         label='Username',
-        widget=forms.TextInput(attrs={'placeholder': "Username"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
 
     def clean_username(self):
         username = self.cleaned_data.get('username', None)

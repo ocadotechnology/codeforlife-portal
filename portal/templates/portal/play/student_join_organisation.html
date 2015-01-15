@@ -52,7 +52,7 @@
             <div class='login-card'>
                 <h4>Request to join a school or club</h4><br>
 
-                <p>If you want to link your Code For Life account with a school or club, ask a teacher enable external requests and provide you with the Class Access Code for the class you want to join. Simply add the Class Access Code to the form below and submit.</p>
+                <p>If you want to link your Code For Life account with a school or club, ask a teacher to enable external requests and provide you with the Class Access Code for the class you want to join. Simply add the Class Access Code to the form below and submit.</p>
 
                 <p><b>Warning:</b> once the teacher accepts you to their class, that teacher and the school or club will manage your account.</p>
 
@@ -65,12 +65,12 @@
                     {{ request_form.non_field_errors }}
 
                     {{ request_form.access_code.errors }}
-                    <label class="ieLabels">{{ request_form.access_code.html_name }}</label>
+                    <label for="id_{{ request_form.access_code.html_name }}">{{ request_form.access_code.label }}</label>
                     {{ request_form.access_code }}
 
                     {% if request_form.recaptcha %}
                         {{ request_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ request_form.recaptcha.html_name }}</label>
+                        <label for="id_{{ request_form.access_code.html_name }}">{{ request_form.recaptcha.label }}</label>
                         {{ request_form.recaptcha|safe }}
                     {% endif %}
 

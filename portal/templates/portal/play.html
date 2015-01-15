@@ -124,16 +124,16 @@
                     {{ solo_login_form.non_field_errors }}
 
                     {{ solo_login_form.username.errors }}
-                    <label class="ieLabels">{{ solo_login_form.username.html_name }}</label>
+                    <label for="id_{{ solo_login_form.username.html_name }}">{{ solo_login_form.username.label }}</label>
                     {{ solo_login_form.username }}
 
                     {{ solo_login_form.password.errors }}
-                    <label class="ieLabels">{{ solo_login_form.password.html_name }}</label>
+                    <label for="id_{{ solo_login_form.password.html_name }}">{{ solo_login_form.password.label }}</label>
                     {{ solo_login_form.password }}
 
                     {% if solo_login_form.recaptcha %}
                         {{ solo_login_form.recaptcha.errors }}
-                        <label class="ieLabels">{{ solo_login_form.recaptcha.html_name }}</label>
+                        <label for="id_{{ solo_login_form.recaptcha.html_name }}">{{ solo_login_form.recaptcha.label }}</label>
                         {{ solo_login_form.recaptcha|safe }}
                     {% endif %}
 

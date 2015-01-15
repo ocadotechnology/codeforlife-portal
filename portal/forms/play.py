@@ -149,10 +149,10 @@ class StudentSignupForm(forms.Form):
 class StudentSoloLoginForm(forms.Form):
     username = forms.CharField(
         label='Username',
-        widget=forms.TextInput(attrs={'placeholder': "Username"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+        widget=forms.PasswordInput())
 
     def clean(self):
         username = self.cleaned_data.get('username', None)
@@ -178,7 +178,7 @@ class StudentSoloLoginForm(forms.Form):
 class StudentJoinOrganisationForm(forms.Form):
     access_code = forms.CharField(
         label='Class Access Code',
-        widget=forms.TextInput(attrs={'placeholder': "Class Access Code"}))
+        widget=forms.TextInput(attrs={'placeholder': "AB123"}))
 
     def clean(self):
         access_code = self.cleaned_data.get('access_code', None)
