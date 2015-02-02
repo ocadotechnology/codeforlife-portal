@@ -1092,4 +1092,60 @@ div.resource_table div.table_row > :last-child {
   padding-right: 0px;
 }
 
+/**** Teaching packs nav *****/
+
+  
+ ul.packsNav, 
+ ul.packsNav li
+ {
+   list-style:none;
+   list-style-type:none;
+   margin:0;
+   padding:0;
+ }
+  ul.packsNav li
+  {
+    float:left;
+    display:block;
+  }
+ul.packsNav li a
+{
+-webkit-border-top-left-radius: 10px;
+-webkit-border-top-right-radius: 10px;
+-moz-border-radius-topleft: 10px;
+-moz-border-radius-topright: 10px;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+border:1px solid #ccc;
+border-bottom:0;
+height:50px;
+padding:14px 14px;
+background-color:#ccc;
+display:block;
+}
+ul.packsNav li a h2
+{
+  color:#666;
+}
+ul.packsNav li a:hover, 
+ul.packsNav li a:hover h2
+{
+  background-color:#999;
+  color:#FFF;
+  text-decoration:none;
+}
+ul.packsNav li.tabSelected a, 
+ul.packsNav li.tabSelected h2,
+ul.packsNav li.tabSelected a:hover, 
+ul.packsNav li.tabSelected a:hover h2
+{
+  background-color:#8EAECA;
+  color:#333;
+}
+
 /********** End teacher resource page ************/
+
+h4#python
+{
+	margin-bottom:10px;
+}

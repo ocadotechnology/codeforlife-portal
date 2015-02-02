@@ -36,7 +36,25 @@ $(document).ready(function(){
     });
 
 });
+
+$(function() {
+   $("#accordion").accordion({ 
+	   header: "h3", 
+	   collapsible: true, 
+	   active: false, 
+	   heightStyle: "content",
+       autoHeight: false,
+       clearStyle: true  
+       
+	   
+	   });
+  });
+
+
+
 </script>
+
+
 
 <script type="text/javascript" src='{% static "portal/js/lib/jquery.easy-ticker.js" %}'></script>
 
@@ -121,7 +139,60 @@ $(document).ready(function(){
              </div>
         </div>
 
-    </div>
+
+<h3 id="intro" style="margin-top:40px;">Python</h3>
+
+<h4 id="python">Upper Key Stage 2</h4>
+<p>
+After Blockly, Rapid Router moves onto coding in Python &#8211; an easy language that&#8217;s perfect for beginners but also used by organisations such as NASA and Google.
+</p>
+<p>
+Students will quickly pick up how to write clear, simple lines of code, plus learn the importance of accuracy and correct syntax &#8211; critical for all programming languages.
+</p>
+
+<div id="accordion" style="margin-bottom:20px; height:auto;" >
+    <h3>Code for Life and the curriculum</h3>
+        <div>
+            <p>As part of the Key Stage 2 curriculum, pupils are required to:</p>
+            <ul>
+            <li>Design, write and debug programs that accomplish specific goals, including controlling or simulating physical systems; solve problems by decomposing them into smaller parts.</li>
+            <li>Use sequence, selection, and repetition in programs; work with variables and various forms of input and output.</li>
+            <li>Use logical reasoning to explain how some simple algorithms work and to detect and correct errors in algorithms and programs.*</li>
+            </ul>
+            <p>Using Rapid Router, students will learn&#8230;</p>
+            <ul>
+            <li>Sequencing &#8211; they will direct the van using movement instructions.</li>
+            <li>Repetition &#8211; they will use loops to repeat the same code.</li>
+            <li>Selection &#8211; they will use the if, else and elif statements.</li>
+            <li>How to define new procedures or functions.</li>
+            <li>How to create a variable, storing a numeric or text-based value.</li>
+            <li>New functions which are already part of Python &#8211; for example: <span style="font-family: Consolas, monaco, monospace;">print()</span></li>
+            <li>Debugging syntax errors and program solutions.</li>
+            </ul>
+            <p style="font-size:11px;">*From gov.co.uk</p>
+    	</div>
+</div>
+
+
+
+
+
+
+<h4 id="python">Step 1 &#8211; Introduction to Python</h4>
+<p>
+The students start by solving the game levels with Blockly, which is then converted to Python. There are 12 levels to reinforce concepts.
+</p>
+
+<h4 id="python">Step 2 &#8211; Bye-bye Blockly</h4>
+<p>
+Blockly is hidden away altogether and students have to use Python instead. There are 18 levels, giving the students plenty of scope to explore and practise their skills.
+</p>
+
+<a id="teacherSignUp_button" href="{% url 'teach' %}" class="btn btn-primary" style="width:350px;">Log in to download the teaching pack</a>
+
+
+
+  </div>
 
         <div class="col span_1_of_3">
 
@@ -152,6 +223,10 @@ $(document).ready(function(){
                 </div>
             </div>
        </div>
+       
+       
+  
+       
  </div>
 
 <script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>

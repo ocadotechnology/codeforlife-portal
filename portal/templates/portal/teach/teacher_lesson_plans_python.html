@@ -1,0 +1,233 @@
+{% extends 'portal/teach/base.html' %}
+{% load app_tags %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/colorbox.css" %}'>
+{% endblock css %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    //Examples of how to assign the Colorbox event to elements
+
+    $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
+
+    $(".callbacks").colorbox({
+        onOpen:function(){ alert('onOpen: colorbox is about to open'); },
+        onLoad:function(){ alert('onLoad: colorbox has started to load the targeted content'); },
+        onComplete:function(){ alert('onComplete: colorbox has displayed the loaded content'); },
+        onCleanup:function(){ alert('onCleanup: colorbox has begun the close process'); },
+        onClosed:function(){ alert('onClosed: colorbox has completely closed'); }
+    });
+
+    $('.non-retina').colorbox({rel:'group5', transition:'none'});
+    $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
+    
+    //Example of preserving a JavaScript event for inline calls.
+    $("#click").click(function(){ 
+        $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
+        return false;
+    });
+});
+</script>
+{% endblock scripts %}
+
+{% block content %}   	
+
+<h2>Teaching Packs</h2>
+<div class="section group">
+
+<ul class="packsNav">
+<li><a href="/teach/lesson_plans/"><h2>Key Stage 1 and Lower Key Stage 2</h2></a></li>
+<li class="tabSelected"><a href="/teach/lesson_plans_python/"><h2>Upper Key Stage 2 - Python</h2></a></li>
+</ul>
+
+
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td>General Resources</td>
+    </tr>
+    <tr>
+      <td width="40%"><a href="{{ 'general_resources/UKS2-Intro_to_Python.pdf'|cloud_storage }}">Introduction to Python in Rapid Router<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'general_resources/UKS2-levels-guide.pdf'|cloud_storage }}">Levels Guide <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'general_resources/UKS2-Python_Phrasebook.pdf'|cloud_storage }}">Blockly - Python Phrasebook<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+    </tr>
+    </table>
+  
+  <br>
+
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="2">Upper Key Stage 2</td>
+    </tr>
+    <tr>
+      <td width="280px"><a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}">Download complete UKS2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/UKS2-AS-Activity-Set.pdf'|cloud_storage }}">Activity Set <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/program_solutions/UKS2-PST-Program-Solutions-Table.pdf'|cloud_storage }}">Program Solutions <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+     <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}">Download all Resource Sheets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td>
+      <div class="table resource_table">
+          <div class="table_row">
+          <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S1-1_1.pdf'|cloud_storage }}" class="resource_list">UKS2-S1-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+          </div>
+          <div class="table_row">
+            <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S2-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S2-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+            <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S2-2.pdf'|cloud_storage }}" class="resource_list">UKS2-S2-2<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+          	
+          </div>
+          <div class="table_row">
+            <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S3-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S3-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S3-2.pdf'|cloud_storage }}" class="resource_list">UKS2-S3-2<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+           </div>
+           <div class="table_row">
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S4-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S4-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+           </div>
+           <div class="table_row">
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S5-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S5-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S5-2.pdf'|cloud_storage }}" class="resource_list">UKS2-S5-2<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S5-3.pdf'|cloud_storage }}" class="resource_list">UKS2-S5-3<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+           </div>
+           <div class="table_row">
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S6-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S6-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S6-2.pdf'|cloud_storage }}" class="resource_list">UKS2-S6-2<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+           </div>
+           <div class="table_row">
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S7-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S7-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+             <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S7-2.pdf'|cloud_storage }}" class="resource_list">UKS2-S7-2<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+            </div>
+            <div class="table_row">
+              <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S8-1.pdf'|cloud_storage }}" class="resource_list">UKS2-S8-1<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+              <div class="table_cell"><a href="{{ 'python/resource_sheets/UKS2-S8-2.pdf'|cloud_storage }}" class="resource_list">UKS2-S8-2<img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+            </div>  
+          </div>
+          </td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}">Download all Assessments <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
+      <td>
+        <div class="table" style="width: 100%">
+          <div class="table_row">
+            <div class="table_cell"><a href="{{ 'python/assessment/UKS2-A-Assessment-tech.pdf'|cloud_storage }}" class="resource_list">Assessment Sheet (UKS2-A) <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+            <div class="table_cell"><a href="{{ 'python/assessment/UKS2-SA-Self-Assessment-Sheet.pdf'|cloud_storage }}" class="resource_list">Self Assessment (UKS2-SA) <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+            <div class="table_cell"><a href="{{ 'python/assessment/UKS2-TRS.pdf'|cloud_storage }}" class="resource_list">Teacher  Record Sheet (UKS2-TRS) <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+
+  </table>
+  
+  <br>
+  
+  <table class="CSSTable ResourceTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="160">Upper Key Stage 2 Sessions</td>
+      <td>Descriptions</td>
+      <td width="280">Videos</td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S1.pdf'|cloud_storage }}">Session 1 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>What do we already know? (Recap the Blockly commands previously encountered) </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S2.pdf'|cloud_storage }}">Session 2 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Breaking down the problem in chunks (understanding procedures) </td>
+      <td><strong>Video 6:</strong> Ed Armitage explains functions/procedures <br><a class="pull-left" href="https://www.youtube.com/embed/zsWwscJrEhs?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><a class="pull-right" href="http://storage.googleapis.com/codeforlife-assets/videos/UKS2_Ed_Armitage_explains_functions_procedures.mp4">Download Video</a></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S3.pdf'|cloud_storage }}">Session 3 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Switching from Blockly to Python </td>
+      <td><strong>Video 7:</strong> Kenny Macmillan introduces Python <br>
+        <a class="pull-left" href="https://www.youtube.com/embed/5atj2caRjyA?rel=0&amp;wmode=transparent" class="youtube">Play Video</a><a class="pull-right" href="https://console.developers.google.com/m/cloudstorage/b/codeforlife-assets/o/videos/UKS2_Kenny_introduces_real_programming_language_Python.mp4">Download Video</a></td>
+      </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S4.pdf'|cloud_storage }}">Session 4 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Understanding more Python commands (while, if&#8230;elif&#8230;else)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S5.pdf'|cloud_storage }}">Session 5 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Writing basic code directly in Python (forwards, turn, print, repetition)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S6.pdf'|cloud_storage }}">Session 6 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Flying Solo with Python! Programming independently using selection, defining procedures/functions </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S7.pdf'|cloud_storage }}">Session 7 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Increase the challenge - creating new Python variables, incrementing variables </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><a href="{{ 'python/lesson_plans/UKS2-S8.pdf'|cloud_storage }}">Session 8 <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></td>
+      <td>Assessment session - applying your coding knowledge to create a game challenge for a partner </td>
+      <td></td>
+    </tr>
+  </table>
+
+  <br>
+  
+  <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="2">UKS2 Assets</td>
+    </tr>
+    <tr>
+      <td width="280px"><a href="{{ 'python/UK_S2_Assets.zip'|cloud_storage }}">Download all UKS2 Assets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td>
+        <div class="table" style="width: 100%">
+          <div class="table_row">
+            <div class="table_cell"><a href="{{ 'python/UKS2-Assets.pdf'|cloud_storage }}" class="resource_list">Assets <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+            <div class="table_cell"><a href="{{ 'python/UKS2-Code_Wall_Cards.pdf'|cloud_storage }}" class="resource_list">Code wall cards <img src="{% static 'portal/img/pdfsmall.png' %}" /></a></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+  <br>
+  <br>
+  <br>
+  
+
+
+</div>
+
+<script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+        disableOn: 700,
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        removalDelay: 160,
+        preloader: false,
+
+        fixedContentPos: false
+    });
+});
+</script>
+
+{% endblock content %}     
