@@ -408,3 +408,32 @@
 	filter: Alpha(Opacity=20);
 	border-radius: 5px;
 }
+
+
+
+/*******   Accordion styles ********/
+
+#accordion,
+#accordion div,
+#accordion .ui-widget-content
+{   
+    background:none;
+	background-color:#FFF;
+	
+}
+#accordion h3
+{
+	color:#333;
+	text-align:left;
+	text-shadow:none;
+}
+#accordion p
+{
+	font-weight:bold;
+	margin:10px 0;
+	padding:0;
+}
+#accordion li
+{
+	margin-left:15px;
+}
