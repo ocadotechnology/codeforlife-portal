@@ -195,9 +195,10 @@ class ClassCreationForm(forms.Form):
     classmate_choices = [('True', 'Yes'), ('False', 'No')]
     name = forms.CharField(
         label='Class Name',
-        widget=forms.TextInput(attrs={'placeholder': 'Class Name'}))
+        widget=forms.TextInput(attrs={'placeholder': 'Lower KS2'}))
     classmate_progress = forms.ChoiceField(
-        label="Allow students to see their classmates' progress?", choices=classmate_choices,
+        label="Allow students to see their classmates' progress?",
+        choices=classmate_choices,
         widget=forms.Select(attrs={'class': 'wide'}))
 
 
