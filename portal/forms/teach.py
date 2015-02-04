@@ -323,7 +323,7 @@ class TeacherAddExternalStudentForm(forms.Form):
 
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
-    new_class = forms.ChoiceField(label='Classes', widget=forms.Select(attrs={'class': 'wide'}))
+    new_class = forms.ChoiceField(label='Choose a new class from the drop down menu for the selected students.', widget=forms.Select(attrs={'class': 'wide'}))
 
     def __init__(self, classes, *args, **kwargs):
         self.classes = classes
