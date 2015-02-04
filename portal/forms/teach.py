@@ -229,7 +229,7 @@ class ClassEditForm(forms.Form):
         label="Allow students to see their classmates' progress?",
         choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
     external_requests = forms.ChoiceField(
-        label="Setup external requests to this class", required=False, choices=join_choices,
+        label="Set up external requests to this class", required=False, choices=join_choices,
         widget=forms.Select(attrs={'class': 'wide'}))
 
 
