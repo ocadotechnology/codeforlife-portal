@@ -299,7 +299,9 @@ class TeacherSetStudentPass(forms.Form):
 
 
 class TeacherAddExternalStudentForm(forms.Form):
-    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    name = forms.CharField(
+        label='Student name',
+        widget=forms.TextInput(attrs={'placeholder': 'Name'}))
 
     def __init__(self, klass, *args, **kwargs):
         self.klass = klass
