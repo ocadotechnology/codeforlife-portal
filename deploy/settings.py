@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'casper',
     'deploy',
     'portal',
+    'reports',
     'game',
     'django.contrib.admin',
     'django.contrib.admindocs',
