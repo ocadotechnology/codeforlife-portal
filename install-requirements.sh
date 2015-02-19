@@ -1,3 +1,4 @@
+#!/bin/bash
 # find out where we are
 DEPLOY_PATH=`pwd`
 cd ..
@@ -39,4 +40,5 @@ chmod +x pre-push
 rm -rf VIRTUALENV/lib/python2.7/site-packages/{game,portal}
 ln -sv ${PROJECT_PATH}/ocargo/game VIRTUALENV/lib/python2.7/site-packages/game
 ln -sv ${PROJECT_PATH}/portal/portal VIRTUALENV/lib/python2.7/site-packages/portal
+ln -sv ${PROJECT_PATH}/portal/reports VIRTUALENV/lib/python2.7/site-packages/reports
 ln -sv ${PROJECT_PATH}/portal/ratelimit VIRTUALENV/lib/python2.7/site-packages/ratelimit
