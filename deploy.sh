@@ -1,11 +1,5 @@
 #!/bin/bash
-pip install -r /opt/codeforlife-deploy/requirements.txt
-pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
-ssh-agent /opt/codeforlife-deploy/install-portal.sh
-ssh-agent /opt/codeforlife-deploy/install-rapid-router.sh
-echo "Following packages present:"
-pip freeze
-echo "--------------------------------------------------------------------------------"
+./build.sh
 ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | grep -v PIL | xargs -i cp -R {} /opt/codeforlife-deploy/
 # To be used to docker deployment environment
 cd /opt/codeforlife-deploy/
