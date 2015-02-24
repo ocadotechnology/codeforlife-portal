@@ -8,13 +8,13 @@ from utils.messages import is_email_verified_message_showing, is_teacher_details
 
 class TestTeacher(BaseTest):
     def test_signup(self):
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
         page, _, _ = signup_teacher(page)
         assert is_email_verified_message_showing(self.browser)
 
     def test_login_failure(self):
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
         page = page.go_to_teach_page()
         page = page.login('Non-existant-email@codeforlife.com', 'Incorrect password')
@@ -22,7 +22,7 @@ class TestTeacher(BaseTest):
         assert page.has_login_failed()
 
     def test_login_success(self):
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
         page, email, password = signup_teacher(page)
         page = page.login(email, password)
@@ -38,7 +38,7 @@ class TestTeacher(BaseTest):
     def test_edit_details(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
@@ -61,7 +61,7 @@ class TestTeacher(BaseTest):
     def test_change_email(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
@@ -88,7 +88,7 @@ class TestTeacher(BaseTest):
     def test_change_password(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
