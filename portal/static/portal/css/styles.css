@@ -658,25 +658,6 @@ background-color: #FFCCBA;
 
 
 /************** login box **************/
-
-.ieLabels {
-    display: none;
-}
-
-.ie7 .ieLabels,
-.ie8 .ieLabels {
-    display: block;
-}
-
-.ieLabels {
-  font-size:1.2rem;
-  color:#666;
-  clear:both;
-  padding-top:10px;
-  text-align:left;
-}
-
-
 .login-card {
   padding: 20px;
   width: 100%;
@@ -764,7 +745,6 @@ background-color: #FFCCBA;
   line-height: 44px;
   vertical-align: middle;
   margin-bottom: 10px;
-  -webkit-appearance: none;
   background: #fff;
   border: 1px solid #d9d9d9;
   border-top: 1px solid #c0c0c0;

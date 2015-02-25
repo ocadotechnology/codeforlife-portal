@@ -17,7 +17,7 @@
         <div class='login-card'>
             <h4>Select destination class</h4><br>
 
-            <p>Choose a new class from the drop down menu in which to transfer selected students.</p>
+
 
             <form method='post' action="{% url 'teacher_move_students_to_class' old_class.access_code %}">
 
@@ -27,7 +27,7 @@
 
                 {% for field in form %}
                     {{ field.errors }}
-                    <label class="ieLabels">{{ field.html_name }}</label>
+                    <label for="id_{{ field.html_name }}">{{ field.label }}</label>
                     {{ field }}
                 {% endfor %}
 

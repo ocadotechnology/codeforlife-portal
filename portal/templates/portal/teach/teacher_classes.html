@@ -48,25 +48,18 @@
                 {{ form.non_field_errors }}
 
                 <div class="section group">
-                    <div class="col span_2_of_3">
-                        {{ form.name.errors }}
-                        <label class="ieLabels">{{ form.name.html_name }}</label>
-                        {{ form.name }}
-                        <div class="section group">
-                            <div class='col span_2_of_3'>
-                                <p>Allow students to see their classmates' progress?</p>
-                            </div>
-                            <div class='col span_1_of_3'>
-                                {{ form.classmate_progress.errors }}
-                                <label class="ieLabels">{{ form.classmate_progress.html_name }}</label>
-                                {{ form.classmate_progress }}
-                            </div>
-                        </div>
-                    </div>
 
+                    <label for="id_{{ form.name.html_name }}">{{ form.name.label }}</label>
+                    {{ form.name.errors }}
+                    {{ form.name }}
                     <div class="col span_1_of_3">
-                        <input id="create_class_button" type='submit' class='btn btn-primary wide' value='Create'/>
+                        <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
+                        {{ form.classmate_progress.errors }}
                     </div>
+                    <div class="col span_1_of_3">
+                        {{ form.classmate_progress }}
+                    </div>
+                    <input id="create_class_button" type='submit' class='btn btn-primary wide' value='Create'/>
                 </div>
             </form>
         </div>

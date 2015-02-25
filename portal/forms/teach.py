@@ -195,9 +195,10 @@ class ClassCreationForm(forms.Form):
     classmate_choices = [('True', 'Yes'), ('False', 'No')]
     name = forms.CharField(
         label='Class Name',
-        widget=forms.TextInput(attrs={'placeholder': 'Class Name'}))
+        widget=forms.TextInput(attrs={'placeholder': 'Lower KS2'}))
     classmate_progress = forms.ChoiceField(
-        label="Allow students to see their classmates' progress?", choices=classmate_choices,
+        label="Allow students to see their classmates' progress?",
+        choices=classmate_choices,
         widget=forms.Select(attrs={'class': 'wide'}))
 
 
@@ -228,7 +229,7 @@ class ClassEditForm(forms.Form):
         label="Allow students to see their classmates' progress?",
         choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
     external_requests = forms.ChoiceField(
-        label="Setup external requests to this class", required=False, choices=join_choices,
+        label="Set up external requests to this class", required=False, choices=join_choices,
         widget=forms.Select(attrs={'class': 'wide'}))
 
 
@@ -298,7 +299,9 @@ class TeacherSetStudentPass(forms.Form):
 
 
 class TeacherAddExternalStudentForm(forms.Form):
-    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+    name = forms.CharField(
+        label='Student name',
+        widget=forms.TextInput(attrs={'placeholder': 'Name'}))
 
     def __init__(self, klass, *args, **kwargs):
         self.klass = klass
@@ -320,7 +323,7 @@ class TeacherAddExternalStudentForm(forms.Form):
 
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
-    new_class = forms.ChoiceField(label='Classes', widget=forms.Select(attrs={'class': 'wide'}))
+    new_class = forms.ChoiceField(label='Choose a new class from the drop down menu for the selected students.', widget=forms.Select(attrs={'class': 'wide'}))
 
     def __init__(self, classes, *args, **kwargs):
         self.classes = classes

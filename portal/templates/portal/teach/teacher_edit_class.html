@@ -22,16 +22,15 @@
 
             {{ form.name.errors }}
             <h4>Class details</h4><br>
-            <label class="ieLabels">{{ form.name.html_name }}</label>
+            <label for="id_{{ form.name.html_name }}">{{ form.name.label }}</label>
             {{ form.name }}
 
             <div class='section group'>
                 <div class='col span_2_of_3'>
-                    <p>Allow students to see their classmates' progress?</p>
+                    <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
                 </div>
                 <div class='col span_1_of_3'>
                     {{ form.classmate_progress.errors }}
-                    <label class="ieLabels">{{ form.classmate_progress.html_name }}</label>
                     {{ form.classmate_progress }}
                 </div>
             </div>
@@ -41,7 +40,7 @@
 
             <p>{{ external_requests_message }}</p>
             {{ form.external_requests.errors }}
-            <label class="ieLabels">{{ form.external_requests.html_name }}</label>
+            <label for="id_{{ form.external_requests.html_name }}">{{ form.external_requests.label }}</label>
             {{ form.external_requests }}
 
 
