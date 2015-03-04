@@ -2,6 +2,7 @@ from functools import partial
 import json
 
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
@@ -32,28 +33,22 @@ def organisation_fuzzy_lookup(request):
     # So it is an intersection of unions.
 
     if fuzzy_name and len(fuzzy_name) > 2:
-        schools = None
+        schools = School.objects.all()
         for part in fuzzy_name.split():
-            regex = r'.*'+part+'.*'
-            name_part = School.objects.filter(name__iregex=regex)
-            postcode_part = School.objects.filter(postcode__iregex=regex)
-
-            if schools:
-                schools = schools & (name_part | postcode_part)
-            else:
-                schools = name_part | postcode_part
+            schools = schools.filter(Q(name__icontains=part) | Q(postcode__icontains=part))
 
         for school in schools:
             admins = Teacher.objects.filter(school=school, is_admin=True)
-            anAdmin = admins[0]
-            email = anAdmin.user.user.email
-            adminDomain = '*********' + email[email.find('@'):]
-            school_data.append({
-                'id': school.id,
-                'name': school.name,
-                'postcode': school.postcode,
-                'admin_domain': adminDomain
-            })
+            admin = admins.first()
+            if admin:
+                email = admin.user.user.email
+                admin_domain = '*********' + email[email.find('@'):]
+                school_data.append({
+                    'id': school.id,
+                    'name': school.name,
+                    'postcode': school.postcode,
+                    'admin_domain': admin_domain
+                })
 
     return HttpResponse(json.dumps(school_data), content_type="application/json")
 
