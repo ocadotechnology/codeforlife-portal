@@ -9,9 +9,10 @@ from ratelimit.backends import BaseBackend
 CACHE_PREFIX = 'rl:'
 MAX_LIFETIME = 60 * 60 * 24
 
-def make_safe(s):
+def make_safe(unicode_string):
     h = hashlib.md5()
-    h.update(s)
+    bytes_string = unicode_string.encode('utf_8')
+    h.update(bytes_string)
     return h.hexdigest()
 
 class CacheBackend(BaseBackend):
