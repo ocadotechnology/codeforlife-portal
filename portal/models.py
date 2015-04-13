@@ -24,6 +24,7 @@ class School (models.Model):
     town = models.CharField(max_length=200)
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
+    country = models.CharField(max_length=200, null=True, blank=True)
 
     def __unicode__(self):
         return self.name
