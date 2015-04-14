@@ -10,6 +10,9 @@ class OrganisationCreationForm(forms.Form):
     postcode = forms.CharField(
         label="Postcode",
         widget=forms.TextInput(attrs={'autocomplete': "off"}))
+    country = forms.CharField(
+        label="Country",
+        widget=forms.TextInput(attrs={'autocomplete':"off"}))
     current_password = forms.CharField(
         label='Enter your password',
         widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
