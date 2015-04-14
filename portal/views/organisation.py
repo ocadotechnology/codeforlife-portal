@@ -155,6 +155,7 @@ def organisation_teacher_view(request, is_admin):
             school.town = form.town
             school.latitude = form.lat
             school.longitude = form.lng
+            school.country = data['country']
             school.save()
 
             messages.success(request, 'You have updated the details for your school or club successfully.')
