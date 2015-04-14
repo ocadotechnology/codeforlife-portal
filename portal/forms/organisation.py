@@ -76,6 +76,10 @@ class OrganisationEditForm(forms.Form):
     postcode = forms.CharField(
         label="Postcode",
         widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
+    country = forms.CharField(
+        label="Country",
+        widget=forms.TextInput(attrs={'placeholder':'Country'})
+    )
 
     def __init__(self, *args, **kwargs):
         self.current_school = kwargs.pop('current_school', None)

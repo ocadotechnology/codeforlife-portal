@@ -143,6 +143,7 @@ def organisation_teacher_view(request, is_admin):
     form = OrganisationEditForm()
     form.fields['name'].initial = school.name
     form.fields['postcode'].initial = school.postcode
+    form.fields['country'].initial = school.country
 
     if request.method == 'POST' and is_admin:
         form = OrganisationEditForm(request.POST, current_school=school)
