@@ -83,7 +83,8 @@ def organisation_create(request):
                     postcode=data['postcode'],
                     town=create_form.town,
                     latitude=create_form.lat,
-                    longitude=create_form.lng)
+                    longitude=create_form.lng,
+                    country=data['country'])
 
                 teacher.school = school
                 teacher.is_admin = True
