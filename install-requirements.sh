@@ -11,7 +11,7 @@ virtualenv VIRTUALENV
 source VIRTUALENV/bin/activate
 
 pip install -r requirements.txt
-pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
+pip install https://www.reportlab.com/pypi/packages/reportlab-3.1.47.tar.gz
 
 pip install -r ../ocargo/requirements.txt
 pip install -r ../portal/requirements.txt
