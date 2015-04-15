@@ -23,8 +23,6 @@ from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
 
-PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + settings.EMAIL_ADDRESS + '>'
-
 @ratelimit('def', periods=['1m'])
 def custom_2FA_login(request):
     block_limit = 5
