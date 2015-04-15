@@ -179,6 +179,10 @@ else:
         }
     }
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    SOCIAL_AUTH_PANDASSO_KEY = 'code-for-life'
+    SOCIAL_AUTH_PANDASSO_SECRET = 'UsDPk7PRZmdEJdQgOEtkbPHgJDmfA8uS07mHZ9aHWwepIX7M0'
+    SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = False
+    PANDASSO_URL = 'https://login.cit.lastmile.com/pandasso/oauth2'
 
 EMAIL_ADDRESS = 'no-reply@codeforlife.education'
 
