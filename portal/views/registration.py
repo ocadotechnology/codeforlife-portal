@@ -23,8 +23,6 @@ from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
 
-PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + settings.EMAIL_ADDRESS + '>'
-
 @ratelimit('def', periods=['1m'])
 def custom_2FA_login(request):
     block_limit = 5
@@ -43,11 +41,10 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None, post_rese
         user = UserModel._default_manager.get(pk=uid)
     except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None
-    if user != None:
-        if hasattr(user.userprofile, 'student'):
-            usertype = 'STUDENT'
-        elif hasattr(user.userprofile, 'teacher'):
-            usertype = 'TEACHER'
+    if user and hasattr(user.userprofile, 'student'):
+        usertype = 'STUDENT'
+    else:
+        usertype = 'TEACHER'
     return password_reset_confirm(request, set_password_form=PasswordResetSetPasswordForm, uidb64=uidb64, token=token, post_reset_redirect=post_reset_redirect, extra_context= { 'usertype': usertype })
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))

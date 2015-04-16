@@ -47,9 +47,8 @@
 </head>
 
 <body>
-
 {% block contentWrapper %}
-<div id='contentWrapper'>
+<div {% block pageID %}id='contentWrapper'{% endblock %}>
     {% block topBar %}
         <div class='topBar'>
             <div class="content">

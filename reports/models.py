@@ -9,3 +9,9 @@ class Event(models.Model):
     session = models.CharField(max_length=100, null=True)
     event_type = models.CharField(max_length=100)
     details = models.CharField(max_length=1000, null=True)
+
+class HitsPerLevelPerDay(models.Model):
+    date = models.DateField()
+    level = models.CharField(max_length=1000, null=False)
+    hits = models.IntegerField(null=False)
+    updated_dstamp = models.DateTimeField(auto_now=False)

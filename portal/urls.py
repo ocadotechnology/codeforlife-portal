@@ -29,7 +29,7 @@ js_info_dict = {
 two_factor_patterns = [
     url(r'^account/login/$', custom_2FA_login, name='login'),
     url(r'^account/two_factor/setup/$', SetupView.as_view(), name='setup'),
-    url(r'^account/two_factor/qrcode$', QRGeneratorView.as_view(), name='qr'),
+    url(r'^account/two_factor/qrcode/$', QRGeneratorView.as_view(), name='qr'),
     url(r'^account/two_factor/setup/complete/$', SetupCompleteView.as_view(),
         name='setup_complete'),
     url(r'^account/two_factor/backup/tokens/$', teacher_verified(BackupTokensView.as_view()),
@@ -63,7 +63,7 @@ urlpatterns = patterns(
     url(r'^teach/account/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA,
         name='teacher_disable_2FA'),
 
-    url(r'^teach/school/fuzzy_lookup$', organisation_fuzzy_lookup,
+    url(r'^teach/school/fuzzy_lookup/$', organisation_fuzzy_lookup,
         name='organisation_fuzzy_lookup'),
     url(r'^teach/school/manage/$', organisation_manage, name='organisation_manage'),
     url(r'^teach/school/leave/$', organisation_leave, name='organisation_leave'),
@@ -77,8 +77,8 @@ urlpatterns = patterns(
 
     url(r'^teach/classes/$', teacher_classes, name='teacher_classes'),
     url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='teacher_class'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset$', teacher_class_password_reset, \
-            name='teacher_class_password_reset'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$', teacher_class_password_reset,
+        name='teacher_class_password_reset'),
     url(r'^teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class,
         name='teacher_move_class'),
     url(r'^teach/class/edit/(?P<access_code>[A-Z0-9]+)/$', teacher_edit_class,

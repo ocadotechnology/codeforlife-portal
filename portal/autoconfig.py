@@ -12,6 +12,7 @@ SETTINGS = {
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django_pandasso',
         'rest_framework',
         'jquery',
         'django_otp',
