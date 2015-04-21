@@ -18,5 +18,6 @@ setup(name='portal',
         'django-two-factor-auth==1.0.0-beta3',
         'selenium==2.42.1',
         'urllib3==1.9',
+        'reportlab==3.1.44',
       ],
 )
