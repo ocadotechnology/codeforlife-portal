@@ -19,6 +19,6 @@ urlpatterns = patterns('',
 
 try:
     import django_pandasso
-    urlpatterns = urlpatterns + url(r'^django-pandasso/', include('django_pandasso.urls')),
+    urlpatterns = urlpatterns + patterns(url(r'^django-pandasso/', include('django_pandasso.urls')))
 except ImportError:
     pass
