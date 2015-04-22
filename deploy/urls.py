@@ -11,9 +11,14 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^administration/', include(admin.site.urls)),
     url(r'^', include('portal.urls')),
-    url(r'^django-pandasso/', include('django_pandasso.urls')),
     url(r'^rapidrouter/', include('game.urls')),
     url(r'^reports/', include('reports.urls')),
     url(r'admin/data/$', aggregated_data),
     url(r'admin/login/$', admin_login, name='admin_login'),
 )
+
+try:
+    import django_pandasso
+    urlpatterns = urlpatterns + url(r'^django-pandasso/', include('django_pandasso.urls')),
+except ImportError:
+    pass
