@@ -12,7 +12,6 @@ SETTINGS = {
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
-        'django_pandasso',
         'rest_framework',
         'jquery',
         'django_otp',
@@ -55,3 +54,6 @@ SETTINGS = {
         }
     },
 }
+
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
+    SETTINGS['INSTALLED_APPS'].append('django_pandasso')
