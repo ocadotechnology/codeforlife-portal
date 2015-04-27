@@ -3,6 +3,9 @@ from django import forms
 from portal.models import School
 from portal.helpers.location import lookup_postcode
 
+from django_countries import countries
+from django_countries.widgets import CountrySelectWidget
+
 class OrganisationCreationForm(forms.Form):
     name = forms.CharField(
         label='Name of your school or club',
@@ -72,17 +75,21 @@ class OrganisationJoinForm(forms.Form):
         return chosen_org
 
 
-class OrganisationEditForm(forms.Form):
-    name = forms.CharField(
-        label="Name of your school or club",
-        widget=forms.TextInput(attrs={'placeholder': 'Name of your school or club'}))
-    postcode = forms.CharField(
-        label="Postcode",
-        widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
-    country = forms.CharField(
-        label="Country",
-        widget=forms.TextInput(attrs={'placeholder':'Country'})
-    )
+class OrganisationEditForm(forms.ModelForm):
+
+    class Meta:
+         model = School
+         fields = ['name', 'postcode', 'country']
+         labels = {
+             'name' : "Name of your school or club",
+             'postcode' : 'Name of your school or club',
+         }
+         widgets = {
+             'name' : forms.TextInput(attrs={'placeholder': 'Name of your school or club'}),
+             'postcode' : forms.TextInput(attrs={'placeholder': 'Postcode'}),
+             #'country' : CountrySelectWidget()
+         }
+
 
     def __init__(self, *args, **kwargs):
         self.current_school = kwargs.pop('current_school', None)

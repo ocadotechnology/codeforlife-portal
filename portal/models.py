@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.db import models
 from django.utils import timezone
+from django_countries.fields import CountryField
 
 
 class UserProfile (models.Model):
@@ -24,7 +25,8 @@ class School (models.Model):
     town = models.CharField(max_length=200)
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
-    country = models.CharField(max_length=200, null=True, blank=True)
+    country = CountryField(blank_label='(select country)', null=True, blank=True)
+
 
     def __unicode__(self):
         return self.name
