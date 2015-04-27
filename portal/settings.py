@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django_countries',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
