@@ -1,6 +1,7 @@
 django==1.7
 django-appconf==0.6
 django-casper==0.0.2
+django-countries==3.3
 djangorestframework==2.3.9
 django-jquery==1.9.1
 unittest2==0.5.1
@@ -13,3 +14,4 @@ postcodes==0.1
 django-two-factor-auth==1.2.0
 selenium==2.42.1
 urllib3==1.9
+
