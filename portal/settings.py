@@ -38,10 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django_countries',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
     'rest_framework',
     'jquery',
     'django_otp',
@@ -182,3 +182,4 @@ LOCALE_PATHS = (
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + \
      ('django.core.context_processors.i18n',)
+
