@@ -25,7 +25,7 @@ class School (models.Model):
     town = models.CharField(max_length=200)
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
-    country = CountryField(blank_label='(select country)', null=True, blank=True)
+    country = CountryField(blank_label='(select country)')
 
 
     def __unicode__(self):

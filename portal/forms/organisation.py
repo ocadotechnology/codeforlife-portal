@@ -6,19 +6,33 @@ from portal.helpers.location import lookup_postcode
 from django_countries import countries
 from django_countries.widgets import CountrySelectWidget
 
-class OrganisationCreationForm(forms.Form):
-    name = forms.CharField(
-        label='Name of your school or club',
-        widget=forms.TextInput(attrs={'autocomplete': "off"}))
-    postcode = forms.CharField(
-        label="Postcode",
-        widget=forms.TextInput(attrs={'autocomplete': "off"}))
-    country = forms.CharField(
-        label="Country",
-        widget=forms.TextInput(attrs={'autocomplete':"off"}))
+class OrganisationCreationForm(forms.ModelForm):
+    # name = forms.CharField(
+    #     label='Name of your school or club',
+    #     widget=forms.TextInput(attrs={'autocomplete': "off"}))
+    # postcode = forms.CharField(
+    #     label="Postcode",
+    #     widget=forms.TextInput(attrs={'autocomplete': "off"}))
+    # country = forms.CharField(
+    #     label="Country",
+    #     widget=forms.TextInput(attrs={'autocomplete':"off"}))
     current_password = forms.CharField(
         label='Enter your password',
         widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
+
+    class Meta:
+        model = School
+        fields = ['name', 'postcode', 'country']
+        labels = {
+            'name' : "Name of your school or club",
+            'postcode' : 'Postcode',
+            'country' : 'Country',
+        }
+        widgets = {
+            'name' : forms.TextInput(attrs={'autocomplete': "off"}),
+            'postcode' : forms.TextInput(attrs={'autocomplete': "off"}),
+            'country' : CountrySelectWidget(attrs={'class': 'wide'}),
+        }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -82,12 +96,13 @@ class OrganisationEditForm(forms.ModelForm):
          fields = ['name', 'postcode', 'country']
          labels = {
              'name' : "Name of your school or club",
-             'postcode' : 'Name of your school or club',
+             'postcode' : 'Postcode',
+             'country' : 'Country'
          }
          widgets = {
              'name' : forms.TextInput(attrs={'placeholder': 'Name of your school or club'}),
              'postcode' : forms.TextInput(attrs={'placeholder': 'Postcode'}),
-             #'country' : CountrySelectWidget()
+             'country' : CountrySelectWidget(attrs={'class': 'wide'})
          }
 
 
