@@ -29,7 +29,7 @@ def extract_location_data(results):
 
 # Uses Google Maps API to lookup postcode + country(ISO 3166-1 alpha-2) and returns location data
 # By using country, it can return a more accurate location as the same postcode may exist in multiple countries
-# Coordinates of the country will be returned if postcode is invalid
+# Coordinates of the country will be returned if postcode is invalid in that country
 # Return format is:
 #     error, town, latitude, longitude
 # If error is None then all went well,

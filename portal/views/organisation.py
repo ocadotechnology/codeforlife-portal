@@ -79,12 +79,14 @@ def organisation_create(request):
             if create_form.is_valid():
                 data = create_form.cleaned_data
 
+                error, town, lat, lng = lookup_postcode(data['postcode'], data['country'])
+
                 school = School.objects.create(
                     name=data['name'],
                     postcode=data['postcode'],
-                    town=create_form.town,
-                    latitude=create_form.lat,
-                    longitude=create_form.lng,
+                    town = town,
+                    latitude = lat,
+                    longitude = lng,
                     country=data['country'])
 
                 teacher.school = school
@@ -156,7 +158,6 @@ def organisation_teacher_view(request, is_admin):
             school.postcode = data['postcode']
             school.country = data['country']
 
-            # as we passed that, lookup the position but don't throw an error
             error, town, lat, lng = lookup_postcode(data['postcode'], data['country'])
             school.town = town
             school.latitude = lat
