@@ -19,13 +19,18 @@ def extract_locality(components):
 def extract_location_data(results):
     for result in results:
         for component in result['address_components']:
-
             locality = extract_locality(result['address_components'])
-
             location = result['geometry']['location']
             return locality, location['lat'], location['lng']
 
     return None, None, None
+
+def extract_country(results):
+    for result in results:
+        for component in result['address_components']:
+            if 'country' in component['types']:
+                return component['short_name']
+    return 'UK'
 
 # Uses Google Maps API to lookup postcode + country(ISO 3166-1 alpha-2) and returns location data
 # By using country, it can return a more accurate location as the same postcode may exist in multiple countries
@@ -53,3 +58,25 @@ def lookup_postcode(postcode, country):
         return 'No town', '0', lat, lng
 
     return None, town, lat, lng
+
+# Determining country using postcode
+def lookup_country(postcode):
+    default = 'UK'
+    res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
+                       fields={'address': postcode})
+    print postcode
+    data = json.loads(res.data)
+    print data
+
+    if not res.status == 200:
+        return 'Request error: %s' % res.status, default
+
+    if not (data.get('status', '') == 'OK' and len(data.get('results', [])) > 0):
+        return 'API error: %s' % data.get('status', 'No status'), default
+
+    country = extract_country(data['results'])
+
+    if country is None:
+        return 'Cannot determine country', default
+
+    return None, country
