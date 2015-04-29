@@ -19,25 +19,28 @@ def extract_locality(components):
 def extract_location_data(results):
     for result in results:
         for component in result['address_components']:
-            if is_GB(component):
-                locality = extract_locality(result['address_components'])
 
-                if locality is not None:
-                    location = result['geometry']['location']
-                    return locality, location['lat'], location['lng']
+            locality = extract_locality(result['address_components'])
+
+            location = result['geometry']['location']
+            return locality, location['lat'], location['lng']
 
     return None, None, None
 
-# Uses Google Maps API to lookup a postcode and returns location data
+# Uses Google Maps API to lookup postcode + country(ISO 3166-1 alpha-2) and returns location data
+# By using country, it can return a more accurate location as the same postcode may exist in multiple countries
+# Coordinates of the country will be returned if postcode is invalid
 # Return format is:
 #     error, town, latitude, longitude
 # If error is None then all went well,
 # else error is not None and town, lat, lng = '0'
-def lookup_postcode(postcode):
+def lookup_postcode(postcode, country):
+
     res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
-                       fields={'address': postcode})
+                      fields={'address': postcode, 'components': 'country:' + country})
 
     data = json.loads(res.data)
+
     if not res.status == 200:
         return 'Request error: %s' % res.status, '0', '0', '0'
 
@@ -47,6 +50,6 @@ def lookup_postcode(postcode):
     town, lat, lng = extract_location_data(data['results'])
 
     if town is None:
-        return 'No town', '0', '0', '0'
+        return 'No town', '0', lat, lng
 
     return None, town, lat, lng
