@@ -1,21 +1,10 @@
 from django import forms
 
 from portal.models import School
-from portal.helpers.location import lookup_postcode
 
-from django_countries import countries
 from django_countries.widgets import CountrySelectWidget
 
 class OrganisationCreationForm(forms.ModelForm):
-    # name = forms.CharField(
-    #     label='Name of your school or club',
-    #     widget=forms.TextInput(attrs={'autocomplete': "off"}))
-    # postcode = forms.CharField(
-    #     label="Postcode",
-    #     widget=forms.TextInput(attrs={'autocomplete': "off"}))
-    # country = forms.CharField(
-    #     label="Country",
-    #     widget=forms.TextInput(attrs={'autocomplete':"off"}))
     current_password = forms.CharField(
         label='Enter your password',
         widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
@@ -56,9 +45,6 @@ class OrganisationCreationForm(forms.ModelForm):
             if (not (len(postcode.replace(' ', '')) >= 5 and len(postcode.replace(' ', '')) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
-
-            # as we passed that, lookup the position but don't throw an error
-            _, self.town, self.lat, self.lng = lookup_postcode(postcode)
 
         return postcode
 
@@ -118,9 +104,6 @@ class OrganisationEditForm(forms.ModelForm):
             if (not (len(postcode.replace(' ', '')) >= 5 and len(postcode.replace(' ', '')) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
-
-            # as we passed that, lookup the position but don't throw an error
-            _, self.town, self.lat, self.lng = lookup_postcode(postcode)
 
         return postcode
 

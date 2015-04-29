@@ -17,6 +17,7 @@ from portal.models import UserProfile, School, Teacher, Class
 from portal.forms.organisation import OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
+from portal.helpers.location import lookup_postcode
 from portal import emailMessages
 
 from ratelimit.decorators import ratelimit
@@ -153,10 +154,14 @@ def organisation_teacher_view(request, is_admin):
 
             school.name = data['name']
             school.postcode = data['postcode']
-            school.town = form.town
-            school.latitude = form.lat
-            school.longitude = form.lng
             school.country = data['country']
+
+            # as we passed that, lookup the position but don't throw an error
+            error, town, lat, lng = lookup_postcode(data['postcode'], data['country'])
+            school.town = town
+            school.latitude = lat
+            school.longitude = lng
+
             school.save()
 
             messages.success(request, 'You have updated the details for your school or club successfully.')
