@@ -17,7 +17,7 @@ from portal.models import UserProfile, School, Teacher, Class
 from portal.forms.organisation import OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
-from portal.helpers.location import lookup_postcode
+from portal.helpers.location import lookup_coord
 from portal import emailMessages
 
 from ratelimit.decorators import ratelimit
@@ -79,7 +79,7 @@ def organisation_create(request):
             if create_form.is_valid():
                 data = create_form.cleaned_data
 
-                error, town, lat, lng = lookup_postcode(data['postcode'], data['country'])
+                error, town, lat, lng = lookup_coord(data['postcode'], data['country'])
 
                 school = School.objects.create(
                     name=data['name'],
@@ -158,7 +158,7 @@ def organisation_teacher_view(request, is_admin):
             school.postcode = data['postcode']
             school.country = data['country']
 
-            error, town, lat, lng = lookup_postcode(data['postcode'], data['country'])
+            error, town, lat, lng = lookup_coord(data['postcode'], data['country'])
             school.town = town
             school.latitude = lat
             school.longitude = lng
