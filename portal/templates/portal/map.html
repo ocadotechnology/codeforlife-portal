@@ -31,10 +31,12 @@
     var markers = [];
     {% for school in schools %}
 
-        markers.push(new google.maps.Marker({
-            position: new google.maps.LatLng({{ school.latitude }}, {{ school.longitude }}),
-            map: map,
-        }));
+        {% if school.latitude and school.longitude %}
+            markers.push(new google.maps.Marker({
+                position: new google.maps.LatLng({{ school.latitude }}, {{ school.longitude }}),
+                map: map,
+            }));
+        {% endif %}
     {% endfor %}
 
     var bounds = new google.maps.LatLngBounds();
