@@ -35,6 +35,7 @@
             markers.push(new google.maps.Marker({
                 position: new google.maps.LatLng({{ school.latitude }}, {{ school.longitude }}),
                 map: map,
+                animation: google.maps.Animation.DROP,
             }));
         {% endif %}
     {% endfor %}
