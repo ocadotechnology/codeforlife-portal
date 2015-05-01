@@ -2,12 +2,12 @@ from django.core import mail
 
 from portal.models import Teacher
 
-def generate_details():
-    title = 'Mr'
-    first_name = 'Test'
-    last_name = 'Teacher'
-    email_address = 'testteacher%d@codeforlife.com' % generate_details.next_id
-    password = 'Password1'
+def generate_details(**kwargs):
+    title = kwargs.get('title','Mr')
+    first_name = kwargs.get('first_name', 'Test')
+    last_name = kwargs.get('last_name', 'Teacher')
+    email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % generate_details.next_id)
+    password = kwargs.get('password', 'Password1')
 
     generate_details.next_id += 1
 
@@ -15,8 +15,8 @@ def generate_details():
 
 generate_details.next_id = 1
 
-def signup_teacher_directly():
-    title, first_name, last_name, email_address, password = generate_details()
+def signup_teacher_directly(**kwargs):
+    title, first_name, last_name, email_address, password = generate_details(**kwargs)
     teacher = Teacher.objects.factory(title, first_name, last_name, email_address, password)
     teacher.user.awaiting_email_verification = False
     teacher.user.save()
@@ -35,4 +35,4 @@ def signup_teacher(page):
 
     return page, email_address, password
 
-import email
+#import email
