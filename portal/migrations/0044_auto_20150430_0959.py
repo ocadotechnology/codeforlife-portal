@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
 
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
+            sleep(0.5)  # so we execute a bit less than 5/sec
             error, country = location.lookup_country(school.postcode)
             school.country = "%s" % country
             error, town, lat, lng = location.lookup_coord(school.postcode, country)
