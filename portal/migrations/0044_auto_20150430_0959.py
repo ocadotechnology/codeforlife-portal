@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
-            print school.name
             error, country = location.lookup_country(school.postcode)
             school.country = "%s" % country
             error, town, lat, lng = location.lookup_coord(school.postcode, country)
@@ -18,15 +17,11 @@ class Migration(migrations.Migration):
             school.lat = lat
             school.lng = lng
             school.save()
-            print school.postcode
-            print school.country.name + ' ' + school.town + ' ' + str(school.lat) + ' ' + str(school.lng)
 
     def reset_country(apps, schema_editor):
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
-            print school.name
             school.country = ''
-            print school.country
             school.save()
 
     dependencies = [
