@@ -294,7 +294,7 @@ def fill_in_missing_school_locations(request):
 
     for school in schools:
         requests += 1
-        sleep(0.11)  # so we execute a bit less than 10/sec
+        sleep(0.2)  # so we execute a bit less than 5/sec
 
         error, school.town, school.latitude, school.longitude = lookup_coord(school.postcode, school.country.code)
 
