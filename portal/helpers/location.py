@@ -45,14 +45,16 @@ def lookup_coord(postcode, country):
                       fields={'address': postcode, 'components': 'country:' + country})
 
     data = json.loads(res.data)
+    status = data.get('status', 'No status')
+    results = data.get('results', [])
 
     if not res.status == 200:
-        return 'Request error: %s' % res.status, '0', '0', '0'
+        return 'Request error: %s' % status, '0', '0', '0'
 
-    if not (data.get('status', '') == 'OK' and len(data.get('results', [])) > 0):
-        return 'API error: %s' % data.get('status', 'No status'), '0', '0', '0'
+    if not (status == 'OK' and len(results) > 0):
+        return 'API error: %s' % , '0', '0', '0'
 
-    town, lat, lng = extract_location_data(data['results'])
+    town, lat, lng = extract_location_data(results)
 
     if town is None:
         return 'No town', '0', lat, lng
@@ -66,14 +68,16 @@ def lookup_country(postcode):
     res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
                        fields={'address': postcode})
     data = json.loads(res.data)
+    status = data.get('status', 'No status')
+    results = data.get('results', [])
 
     if not res.status == 200:
         return 'Request error: %s' % res.status, default
 
-    if not (data.get('status', '') == 'OK' and len(data.get('results', [])) > 0):
-        return 'API error: %s' % data.get('status', 'No status'), default
+    if not (status == 'OK' and len(results) > 0):
+        return 'API error: %s' % status, default
 
-    country = extract_country(data['results'])
+    country = extract_country(results)
 
     if country is None:
         return 'Cannot determine country', default
