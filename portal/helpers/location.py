@@ -49,10 +49,10 @@ def lookup_coord(postcode, country):
     results = data.get('results', [])
 
     if not res.status == 200:
-        return 'Request error: %s' % status, '0', '0', '0'
+        return 'Request error: %s' % res.status, '0', '0', '0'
 
     if not (status == 'OK' and len(results) > 0):
-        return 'API error: %s' % , '0', '0', '0'
+        return 'API error: %s' % status, '0', '0', '0'
 
     town, lat, lng = extract_location_data(results)
 
