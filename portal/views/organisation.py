@@ -14,7 +14,7 @@ from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.models import UserProfile, School, Teacher, Class
-from portal.forms.organisation import OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm
+from portal.forms.organisation import OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, OrganisationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
@@ -70,24 +70,27 @@ def organisation_create(request):
 
     teacher = request.user.userprofile.teacher
 
-    create_form = OrganisationCreationForm()
+    create_form = OrganisationForm()
     join_form = OutputOrganisationJoinForm()
 
     if request.method == 'POST':
         if 'create_organisation' in request.POST:
-            create_form = OrganisationCreationForm(request.POST, user=request.user)
+            create_form = OrganisationForm(request.POST, user=request.user)
             if create_form.is_valid():
                 data = create_form.cleaned_data
+                name = data.get('name', '')
+                postcode = data.get('postcode', '')
+                country = data.get('country', '')
 
-                error, town, lat, lng = lookup_coord(data['postcode'], data['country'])
+                error, town, lat, lng = '', '0', '0', '0' #lookup_coord(postcode, country)
 
                 school = School.objects.create(
-                    name=data['name'],
-                    postcode=data['postcode'],
+                    name=name,
+                    postcode=postcode, 
                     town = town,
                     latitude = lat,
                     longitude = lng,
-                    country=data['country'])
+                    country=country)
 
                 teacher.school = school
                 teacher.is_admin = True
@@ -144,21 +147,24 @@ def organisation_teacher_view(request, is_admin):
 
     join_requests = Teacher.objects.filter(pending_join_request=school).order_by('user__user__last_name', 'user__user__first_name')
 
-    form = OrganisationEditForm()
+    form = OrganisationForm()
     form.fields['name'].initial = school.name
     form.fields['postcode'].initial = school.postcode
     form.fields['country'].initial = school.country
 
     if request.method == 'POST' and is_admin:
-        form = OrganisationEditForm(request.POST, current_school=school)
+        form = OrganisationForm(request.POST, user=request.user, current_school=school)
         if form.is_valid():
             data = form.cleaned_data
+            name = data.get('name', '')
+            postcode = data.get('postcode', '')
+            country = data.get('country', '')
 
-            school.name = data['name']
-            school.postcode = data['postcode']
-            school.country = data['country']
+            school.name = name
+            school.postcode = postcode
+            school.country = country
 
-            error, town, lat, lng = lookup_coord(data['postcode'], data['country'])
+            error, town, lat, lng = lookup_coord(postcode, country)
             school.town = town
             school.latitude = lat
             school.longitude = lng
@@ -289,7 +295,7 @@ def organisation_toggle_admin(request, pk):
         messages.success(request, 'Administrator status has been given successfully.')
         emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
     else:
-        messages.success(request, 'Administractor status has been revoked successfully.')
+        messages.success(request, 'Administrator status has been revoked successfully.')
         emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
 
     send_email(NOTIFICATION_EMAIL, [teacher.user.user.email], emailMessage['subject'], emailMessage['message'])
