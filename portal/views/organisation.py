@@ -14,7 +14,7 @@ from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.models import UserProfile, School, Teacher, Class
-from portal.forms.organisation import OrganisationCreationForm, OrganisationJoinForm, OrganisationEditForm, OrganisationForm
+from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
@@ -86,7 +86,7 @@ def organisation_create(request):
 
                 school = School.objects.create(
                     name=name,
-                    postcode=postcode, 
+                    postcode=postcode,
                     town = town,
                     latitude = lat,
                     longitude = lng,
@@ -168,7 +168,6 @@ def organisation_teacher_view(request, is_admin):
             school.town = town
             school.latitude = lat
             school.longitude = lng
-
             school.save()
 
             messages.success(request, 'You have updated the details for your school or club successfully.')

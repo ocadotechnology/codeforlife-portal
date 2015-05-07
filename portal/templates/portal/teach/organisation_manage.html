@@ -2,8 +2,6 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
-
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
@@ -11,6 +9,8 @@
 var CONFIRMATION_DATA = {};
 </script>
 {% endblock %}
+
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
 

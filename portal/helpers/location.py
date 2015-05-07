@@ -41,8 +41,12 @@ def extract_country(results):
 # else error is not None and town, lat, lng = '0'
 def lookup_coord(postcode, country):
 
-    res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
-                      fields={'address': postcode, 'components': 'country:' + country})
+    # Catch error when there is a problem connecting to external API
+    try:
+        res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
+                             fields={'address': postcode, 'components': 'country:' + country})
+    except urllib3.exceptions.HTTPError:
+        return 'Http error', '0', '0', '0'
 
     data = json.loads(res.data)
     status = data.get('status', 'No status')
@@ -65,8 +69,14 @@ def lookup_coord(postcode, country):
 # Returns error (if any) and country code (ISO 3166-1 alpha-2)
 def lookup_country(postcode):
     default = 'UK'
-    res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
-                       fields={'address': postcode})
+
+    # Catch error when there is a problem connecting to external API
+    try:
+        res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
+                            fields={'address': postcode})
+    except urllib3.exceptions.HTTPError:
+        return 'Http Error', default
+
     data = json.loads(res.data)
     status = data.get('status', 'No status')
     results = data.get('results', [])
