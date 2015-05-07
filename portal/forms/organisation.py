@@ -8,6 +8,10 @@ from  django.core.exceptions import ObjectDoesNotExist
 
 class OrganisationForm(forms.ModelForm):
 
+    current_password = forms.CharField(
+        label='Enter your password',
+        widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
+
     class Meta:
         model = School
         fields = ['name', 'postcode', 'country']
@@ -25,12 +29,10 @@ class OrganisationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         self.current_school = kwargs.pop('current_school', None)
-        if not self.current_school:
-            current_password = forms.CharField(
-                label='Enter your password',
-                widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
-
+        print self.current_school
         super(OrganisationForm, self).__init__(*args, **kwargs)
+        if self.current_school:
+            del self.fields['current_password']
 
     def clean(self):
         name = self.cleaned_data.get('name', None)
