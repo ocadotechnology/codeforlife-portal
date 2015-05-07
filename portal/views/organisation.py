@@ -70,7 +70,7 @@ def organisation_create(request):
 
     teacher = request.user.userprofile.teacher
 
-    create_form = OrganisationForm()
+    create_form = OrganisationForm(user=request.user)
     join_form = OutputOrganisationJoinForm()
 
     if request.method == 'POST':
@@ -147,7 +147,7 @@ def organisation_teacher_view(request, is_admin):
 
     join_requests = Teacher.objects.filter(pending_join_request=school).order_by('user__user__last_name', 'user__user__first_name')
 
-    form = OrganisationForm()
+    form = OrganisationForm(user=request.user, current_school=school)
     form.fields['name'].initial = school.name
     form.fields['postcode'].initial = school.postcode
     form.fields['country'].initial = school.country
