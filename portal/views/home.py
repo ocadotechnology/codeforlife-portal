@@ -286,7 +286,7 @@ def contact(request):
 
 
 def fill_in_missing_school_locations(request):
-    schools = School.objects.filter(town='0')
+    schools = School.objects.filter(latitude='0', longitude='0')
 
     requests = 0
     failures = []
