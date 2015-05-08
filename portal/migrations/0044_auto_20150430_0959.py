@@ -12,10 +12,8 @@ class Migration(migrations.Migration):
 
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
-            sleep(0.5)  # so we execute a bit less than 5/sec
-            error, country = location.lookup_country(school.postcode)
+            error, country, town, lat, lng = location.lookup_country(school.postcode)
             school.country = str(country)
-            error, town, lat, lng = location.lookup_coord(school.postcode, country)
             school.town = town
             school.lat = lat
             school.lng = lng
@@ -25,6 +23,9 @@ class Migration(migrations.Migration):
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
             school.country = ''
+            school.town = '0'
+            school.lat = '0'
+            school.lng = '0'
             school.save()
 
     dependencies = [

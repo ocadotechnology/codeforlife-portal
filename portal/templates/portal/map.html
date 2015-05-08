@@ -25,7 +25,9 @@
   google.maps.event.addDomListener(window, 'load', function() {
     var map = new google.maps.Map(document.getElementById("map-canvas"), {
       center: new google.maps.LatLng(53.830115, -3.80127),
-      zoom: 6
+      zoom: 6,
+      minZoom: 2,
+      maxZoom: 10,
     });
 
     var markers = [];
@@ -51,6 +53,8 @@
     if(map.getZoom()> 15){
       map.setZoom(15);
     }
+
+
   });
 </script>
 
