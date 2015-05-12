@@ -1,7 +1,5 @@
-import urllib3
-import json
-
-http = urllib3.PoolManager()
+import requests
+import exceptions
 
 def is_GB(component):
     return 'country' in component['types'] and component['short_name'] == 'GB'
@@ -41,19 +39,24 @@ def lookup_coord(postcode, country):
 
     # Catch error when there is a problem connecting to external API
     try:
-        res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
-                            fields={'address': postcode, 'components': 'country:' + country})
-    except urllib3.exceptions.HTTPError:
-        return 'Http error', '0', '0', '0'
+        payload = {'address': postcode, 'components': 'country:' + country}
+        res = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
+                            params=payload)
+    except requests.exceptions.RequestException as e:
+        return 'Connection error: %s' % e, '0', '0', '0'
 
-    data = json.loads(res.data)
+    # Make sure status_code is 200 before deserialising json
+    if not res.status_code == requests.codes.ok:
+        return 'Request error: %s' % res.reason, '0', '0', '0'
+
+    try:
+        data = res.json()
+    except exceptions.ValueError as e:
+        return 'Value error: %s' % e, '0', '0', '0'
+
     status = data.get('status', 'No status')
     results = data.get('results', [])
 
-    if not res.status == 200:
-        return 'Request error: %s' % res.status, '0', '0', '0'
-
-    #
     if not (status == 'OK' and len(results) > 0):
         return 'API error: %s' % status, '0', '0', '0'
 
@@ -70,29 +73,28 @@ def lookup_country(postcode):
     # default location is UK and the coordinates of UK
     default_country = 'GB'
     default_town = '0'
-    default_lat = '55.378051'
-    default_lng = '-3.435973'
+    default_lat = 55.378051
+    default_lng = -3.435973
 
     # Catch error when there is a problem connecting to external API
     try:
-        res = http.request('GET', 'http://maps.googleapis.com/maps/api/geocode/json',
-                            fields={'components': 'postal_code:' + postcode})
-    except urllib3.exceptions.HTTPError:
-        return 'Http Error', default_country, default_town, default_lat, default_lng
+        payload = {'components': 'postal_code:' + postcode}
+        res = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
+                            params=payload)
+    except requests.exceptions.RequestException:
+        return 'Connection error', default_country, default_town, default_lat, default_lng
 
-    data = json.loads(res.data)
+    # Make sure status_code is 200 before deserialising json
+    if not res.status_code == requests.codes.ok:
+        return 'Request error: %s' % res.reason, default_country, default_town, default_lat, default_lng
+
+    data = res.json()
     status = data.get('status', 'No status')
     results = data.get('results', [])
-
-    if not res.status == 200:
-        return 'Request error: %s' % res.status, default_country, default_town, default_lat, default_lng
 
     if not (status == 'OK' and len(results) > 0):
         return 'API error: %s' % status, default_country, default_town, default_lat, default_lng
 
     town, lat, lng, country = extract_location_data(results)
-
-    if country is None:
-        return 'Cannot determine country', default_country, default_town, default_lat, default_lng
 
     return None, country, town, lat, lng

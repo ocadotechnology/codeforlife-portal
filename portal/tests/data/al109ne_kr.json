@@ -1,0 +1,45 @@
+{
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "South Korea",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "South Korea",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.6169152,
+            "lng" : 130.9232178
+          },
+          "southwest" : {
+            "lat" : 33.1061096,
+            "lng" : 124.608139
+          }
+        },
+        "location" : {
+          "lat" : 35.907757,
+          "lng" : 127.766922
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.6169152,
+            "lng" : 129.584671
+          },
+          "southwest" : {
+            "lat" : 33.1061096,
+            "lng" : 124.608139
+          }
+        }
+      },
+      "partial_match" : true,
+      "place_id" : "ChIJm7oRy-tVZDURS9uIugCbJJE",
+      "types" : [ "country", "political" ]
+    }
+  ],
+  "status" : "OK"
+}
