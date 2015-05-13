@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from portal.helpers import location
-from time import sleep
 
 class Migration(migrations.Migration):
 
