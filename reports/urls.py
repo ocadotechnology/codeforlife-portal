@@ -3,6 +3,7 @@ from rest_framework import status
 from django.http import HttpResponse
 from models import Event
 from datetime import datetime
+from django_pandasso.decorators import panda_users_only
 import json
 import logging
 
@@ -34,6 +35,11 @@ def event(request):
         logger.info("Invalid method.")
         return HttpResponse("Wrong method", content_type='text/plain', status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+@panda_users_only
+def test_panda(request):
+    return HttpResponse("Success", content_type='text/plain', status=status.HTTP_200_OK)
+
 urlpatterns = patterns('',
     url(r'^event$', event, name='post_event'),
+    url(r'^test$', test_panda, name='test_panda'),
 )
