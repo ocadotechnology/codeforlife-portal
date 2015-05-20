@@ -1,29 +1,15 @@
-{% extends "portal/teach/base.html" %}
+{# Overriden the original "two_factor" template to direct us somewhere more sensible #}
 
-{% block nav_teacher_account %}<b><a href="{% url 'teacher_edit_account' %}">Account</a></b>{% endblock nav_teacher_account %}
+
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n future %}
 
 {% block content %}
-<div class='span_centered_half'>
-    <div class='login-card'>
-        <h1>Enable Two Factor Authentication</h1><br/>
+<h1>{% block title %}{% trans "Enable Two-Factor Authentication" %}{% endblock %}</h1>
 
-        <p>Congratulations, you've successfully enabled two factor
-                authentication on your Code for Life account.</p>
+<p>{% blocktrans %}Congratulations, you've successfully enabled two-factor
+    authentication.{% endblocktrans %}
 
-        <p>It is recommended that you set up some backup tokens. Should you ever be without your smartphone or tablet, these will allow you to log on.</p>
-
-        <p>It is strongly recommended if you are an administrator of a school or club that you ensure there is a second administrator to be able to assist you in case of account access problems.</p>
-
-        <div class='section group'>
-            <div class='col span_1_of_2'>
-                <a href="{% url 'teacher_edit_account' %}"
-                        class="btn btn-default wide">Back to my account</a>
-            </div>
-            <div class='col span_1_of_2'>
-                <a href="{% url 'two_factor:backup_tokens' %}"
-                        class="btn btn-primary wide">Setup backup tokens</a>
-            </div>
-        </div>
-    </div>
-</div>
+<p><a href="{% url 'teach' %}"
+      class="btn btn-block btn-default">{% trans "OK" %}</a></p>
 {% endblock %}

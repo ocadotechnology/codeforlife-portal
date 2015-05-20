@@ -10,6 +10,6 @@ docutils==0.11
 django-recaptcha-field==1.0b2
 reportlab==3.1.44
 postcodes==0.1
-django-two-factor-auth==1.0.0-beta3
+django-two-factor-auth==1.2.0
 selenium==2.42.1
 urllib3==1.9

@@ -27,6 +27,7 @@ js_info_dict = {
 }
 
 two_factor_patterns = [
+    url(r'', include('two_factor.urls', 'two_factor')),
     url(r'^account/login/$', custom_2FA_login, name='login'),
     url(r'^account/two_factor/setup/$', SetupView.as_view(), name='setup'),
     url(r'^account/two_factor/qrcode/$', QRGeneratorView.as_view(), name='qr'),
