@@ -167,7 +167,7 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     MIDDLEWARE_CLASSES.append('deploy.middleware.basicauth.BasicAuthMiddleware')
     SOCIAL_AUTH_PANDASSO_KEY = 'code-for-life'
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv('PANDASSO_SECRET')
-    SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = False
+    SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = True
     PANDASSO_URL = os.getenv('PANDASSO_URL')
 else:
     DATABASES = {
