@@ -24,7 +24,7 @@ def extract_location_data(results):
     for result in results:
         town, country = extract_locality(result['address_components'])
         location = result['geometry']['location']
-        return town, location['lat'], location['lng'], country
+        return country, town, location['lat'], location['lng']
 
     return None, None, None, None
 
@@ -37,50 +37,33 @@ def extract_location_data(results):
 # else error is not None and town, lat, lng = '0'
 def lookup_coord(postcode, country):
 
-    # Catch error when there is a problem connecting to external API
-    try:
-        payload = {'address': postcode, 'components': 'country:' + country}
-        res = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
-                            params=payload)
-    except requests.exceptions.RequestException as e:
-        return 'Connection error: %s' % e, '0', '0', '0'
+    payload = {'address': postcode, 'components': 'country:' + country}
 
-    # Make sure status_code is 200 before deserialising json
-    if not res.status_code == requests.codes.ok:
-        return 'Request error: %s' % res.reason, '0', '0', '0'
-
-    try:
-        data = res.json()
-    except exceptions.ValueError as e:
-        return 'Value error: %s' % e, '0', '0', '0'
-
-    status = data.get('status', 'No status')
-    results = data.get('results', [])
-
-    if not (status == 'OK' and len(results) > 0):
-        return 'API error: %s' % status, '0', '0', '0'
-
-    town, lat, lng, country = extract_location_data(results)
-
-    if town is None:
-        return 'No town', '0', lat, lng
-
-    return None, town, lat, lng
+    return get_location_from_api(payload)
 
 # Using the Google Map API, lookup country using postcode
 # Returns error (if any) and country code (ISO 3166-1 alpha-2)
 def lookup_country(postcode):
+
+    payload = {'components': 'postal_code:' + postcode}
+
+    return get_location_from_api(payload)
+
+def get_location_from_api(payload):
     # default location is UK and the coordinates of UK
     default_country = 'GB'
-    default_town = '0'
+    default_town = 0
     default_lat = 55.378051
     default_lng = -3.435973
 
+    if 'country' in payload.get('components'):
+        default_country = payload.get('components', 'GB').rpartition(':')[2]
+        default_town = default_lat = default_lng = 0
+
     # Catch error when there is a problem connecting to external API
     try:
-        payload = {'components': 'postal_code:' + postcode}
         res = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
-                            params=payload)
+                           params=payload)
     except requests.exceptions.RequestException:
         return 'Connection error', default_country, default_town, default_lat, default_lng
 
@@ -88,13 +71,17 @@ def lookup_country(postcode):
     if not res.status_code == requests.codes.ok:
         return 'Request error: %s' % res.reason, default_country, default_town, default_lat, default_lng
 
-    data = res.json()
+    try:
+        data = res.json()
+    except exceptions.ValueError as e:
+        return 'Value error: %s' % e, default_country, default_town, default_lat, default_lng
+
     status = data.get('status', 'No status')
     results = data.get('results', [])
 
     if not (status == 'OK' and len(results) > 0):
         return 'API error: %s' % status, default_country, default_town, default_lat, default_lng
 
-    town, lat, lng, country = extract_location_data(results)
+    country, town, lat, lng = extract_location_data(results)
 
-    return None, country, town, lat, lng
+    return None, country or default_country, town or default_town, lat or default_lat, lng or default_lng

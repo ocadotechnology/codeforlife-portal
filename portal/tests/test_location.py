@@ -28,11 +28,11 @@ class TestLocation(TestCase):
 
     def assert_default_coord(self, town, lat, lng):
         # default values returned when error occurs in lookup_coord()
-        self.assertEqual((town, lat, lng), ('0', '0', '0'))
+        self.assertEqual((town, lat, lng), (0, 0, 0))
 
     def assert_default_country_and_coord(self, country, town, lat, lng):
         # default values returned when error occurs in lookup_country()
-        self.assertEqual((country, town, lat, lng), ('GB', '0', 55.378051, -3.435973))
+        self.assertEqual((country, town, lat, lng), ('GB', 0, 55.378051, -3.435973))
 
     @responses.activate
     def test_lookup_coord_call_api_once(self):
@@ -62,7 +62,7 @@ class TestLocation(TestCase):
                       match_querystring=True,
                       content_type='application/json')
         result = lookup_coord('SW72AZ', 'GB')
-        self.assertEqual(result, (None, 'London', 51.5005046, -0.1782187))
+        self.assertEqual(result, (None, 'GB', 'London', 51.5005046, -0.1782187))
 
     @responses.activate
     def test_lookup_coord_valid_postcode_country_gb2(self):
@@ -72,8 +72,9 @@ class TestLocation(TestCase):
                       match_querystring=True,
                       content_type='application/json')
         result = lookup_coord('AL10 9NE', 'GB')
-        self.assertEqual(result, (None, 'Hatfield', 51.7623259, -0.2438929))
+        self.assertEqual(result, (None, 'GB', 'Hatfield', 51.7623259, -0.2438929))
 
+    # Default to coordinates of country
     @responses.activate
     def test_lookup_coord_invalid_postcode_country_gb(self):
         responses.add(responses.GET,
@@ -82,7 +83,7 @@ class TestLocation(TestCase):
                       match_querystring=True,
                       content_type='application/json')
         result = lookup_coord('10000', 'GB')
-        self.assertEqual(result, ('No town', '0', 55.378051, -3.435973))
+        self.assertEqual(result, (None, 'GB', 0, 55.378051, -3.435973))
 
     @responses.activate
     def test_lookup_coord_invalid_postcode_country_kr(self):
@@ -91,14 +92,13 @@ class TestLocation(TestCase):
                       body=read_json_from_file(datafile('al109ne_kr.json')),
                       match_querystring=True,
                       content_type='application/json')
-        error, town, lat, lng = lookup_coord('AL109NE', 'GB')
         result = lookup_coord('AL109NE', 'KR')
-        self.assertEqual(result, ('No town', '0', 35.907757, 127.766922))
+        self.assertEqual(result, (None, 'KR', 0, 35.907757, 127.766922))
 
 
     @responses.activate
     def test_lookup_coord_connection_error(self):
-        error, town, lat, lng = lookup_coord('AL109NE', 'GB')
+        error, country, town, lat, lng = lookup_coord('AL109NE', 'GB')
         assert 'Connection error' in error
         self.assert_default_coord(town, lat, lng)
 
@@ -109,7 +109,7 @@ class TestLocation(TestCase):
                       body='',
                       match_querystring=True,
                       content_type='application/json')
-        error, town, lat, lng = lookup_coord('AL109NE', 'GB')
+        error, country, town, lat, lng = lookup_coord('AL109NE', 'GB')
         assert 'Value error' in error
         self.assert_default_coord(town, lat, lng)
 
@@ -121,7 +121,7 @@ class TestLocation(TestCase):
                       status=requests.codes.not_found,
                       match_querystring=True,
                       content_type='application/json')
-        error, town, lat, lng = lookup_coord('AL109NE', 'GB')
+        error, country, town, lat, lng = lookup_coord('AL109NE', 'GB')
         assert 'Request error' in error
         self.assert_default_coord(town, lat, lng)
 
@@ -132,7 +132,7 @@ class TestLocation(TestCase):
                       body='{"status":"OK"}',
                       match_querystring=True,
                       content_type='application/json')
-        error, town, lat, lng = lookup_coord('AL109NE', 'GB')
+        error, country, town, lat, lng = lookup_coord('AL109NE', 'GB')
         assert 'API error' in error
         self.assert_default_coord(town, lat, lng)
 
