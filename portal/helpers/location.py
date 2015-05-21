@@ -37,10 +37,6 @@ def extract_location_data(results):
 # Uses Google Maps API to lookup location data using postcode + country(ISO 3166-1 alpha-2)
 # By using country, it can return a more accurate location as the same postcode may exist in multiple countries
 # Coordinates of the country will be returned if postcode is invalid in that country
-# Return format is:
-#     error, town, latitude, longitude
-# If error is None then all went well,
-# else error is not None and town, lat, lng = '0'
 def lookup_coord(postcode, country):
 
     payload = {'address': postcode, 'components': 'country:' + country}
@@ -48,13 +44,17 @@ def lookup_coord(postcode, country):
     return get_location_from_api(payload)
 
 # Using the Google Map API, lookup country using postcode
-# Returns error (if any) and country code (ISO 3166-1 alpha-2)
 def lookup_country(postcode):
 
     payload = {'components': 'postal_code:' + postcode}
 
     return get_location_from_api(payload)
 
+# Takes in payload as argument and use it when calling API
+# Catches any error and return an error message as first element in the tuple
+# Coordinates of GB is used if country is not specified, otherwise default to original country and 0 for coordinates
+# Return format is:
+#     error, country, town, latitude, longitude
 def get_location_from_api(payload):
     # default location is UK and the coordinates of UK
     default_country = 'GB'
@@ -73,7 +73,6 @@ def get_location_from_api(payload):
 
         # Make sure status_code is 200 before deserialising json
         if not res.status_code == requests.codes.ok:
-            print res.reason
             raise RequestException(res.reason)
 
         data = res.json()
@@ -89,13 +88,15 @@ def get_location_from_api(payload):
         return None, country or default_country, town or default_town, lat or default_lat, lng or default_lng
 
     except requests.exceptions.RequestException:
-        return 'Connection error', default_country, default_town, default_lat, default_lng
+        error = 'Connection error'
 
     except RequestException as e:
-        return 'Request error: %s' % e, default_country, default_town, default_lat, default_lng
+        error = 'Request error: %s' % e
 
     except exceptions.ValueError as e:
-        return 'Value error: %s' % e, default_country, default_town, default_lat, default_lng
+        error = 'Value error: %s' % e
 
     except ApiException as e:
-        return 'API error: %s' % e, default_country, default_town, default_lat, default_lng
+        error = 'API error: %s' % e
+
+    return error, default_country, default_town, default_lat, default_lng
