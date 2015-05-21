@@ -1,6 +1,12 @@
 import requests
 import exceptions
 
+class RequestException(exceptions.Exception):
+    pass
+
+class ApiException(exceptions.Exception):
+    pass
+
 def is_GB(component):
     return 'country' in component['types'] and component['short_name'] == 'GB'
 
@@ -64,24 +70,32 @@ def get_location_from_api(payload):
     try:
         res = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
                            params=payload)
+
+        # Make sure status_code is 200 before deserialising json
+        if not res.status_code == requests.codes.ok:
+            print res.reason
+            raise RequestException(res.reason)
+
+        data = res.json()
+
+        status = data.get('status', 'No status')
+        results = data.get('results', [])
+
+        if not (status == 'OK' and len(results) > 0):
+            raise ApiException(status)
+
+        country, town, lat, lng = extract_location_data(results)
+
+        return None, country or default_country, town or default_town, lat or default_lat, lng or default_lng
+
     except requests.exceptions.RequestException:
         return 'Connection error', default_country, default_town, default_lat, default_lng
 
-    # Make sure status_code is 200 before deserialising json
-    if not res.status_code == requests.codes.ok:
-        return 'Request error: %s' % res.reason, default_country, default_town, default_lat, default_lng
+    except RequestException as e:
+        return 'Request error: %s' % e, default_country, default_town, default_lat, default_lng
 
-    try:
-        data = res.json()
     except exceptions.ValueError as e:
         return 'Value error: %s' % e, default_country, default_town, default_lat, default_lng
 
-    status = data.get('status', 'No status')
-    results = data.get('results', [])
-
-    if not (status == 'OK' and len(results) > 0):
-        return 'API error: %s' % status, default_country, default_town, default_lat, default_lng
-
-    country, town, lat, lng = extract_location_data(results)
-
-    return None, country or default_country, town or default_town, lat or default_lat, lng or default_lng
+    except ApiException as e:
+        return 'API error: %s' % e, default_country, default_town, default_lat, default_lng

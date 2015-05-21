@@ -128,11 +128,11 @@ class TestLocation(TestCase):
     @responses.activate
     def test_lookup_coord_zero_results(self):
         responses.add(responses.GET,
-                      MAPS_API_GEOCODE_JSON + 'address=AL109NE&components=country:GB',
-                      body='{"status":"OK"}',
+                      MAPS_API_GEOCODE_JSON + 'address=AL109NE&components=country:AB',
+                      body=read_json_from_file(datafile('al109ne_ab.json')),
                       match_querystring=True,
                       content_type='application/json')
-        error, country, town, lat, lng = lookup_coord('AL109NE', 'GB')
+        error, country, town, lat, lng = lookup_coord('AL109NE', 'AB')
         assert 'API error' in error
         self.assert_default_coord(town, lat, lng)
 
