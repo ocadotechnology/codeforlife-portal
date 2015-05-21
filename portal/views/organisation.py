@@ -164,7 +164,7 @@ def organisation_teacher_view(request, is_admin):
             school.postcode = postcode
             school.country = country
 
-            error, town, lat, lng = lookup_coord(postcode, country)
+            error, country, town, lat, lng = lookup_coord(postcode, country)
             school.town = town
             school.latitude = lat
             school.longitude = lng

@@ -296,7 +296,7 @@ def fill_in_missing_school_locations(request):
         requests += 1
         sleep(0.2)  # so we execute a bit less than 5/sec
 
-        error, school.town, school.latitude, school.longitude = lookup_coord(school.postcode, school.country.code)
+        error, school.country, school.town, school.latitude, school.longitude = lookup_coord(school.postcode, school.country.code)
 
         if error is None:
             school.save()
