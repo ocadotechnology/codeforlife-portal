@@ -18,6 +18,7 @@ SETTINGS = {
         'django_otp.plugins.otp_static',
         'django_otp.plugins.otp_totp',
         'two_factor',
+        'social.apps.django_app.default',
     ],
     'MIDDLEWARE_CLASSES': [
         'django.contrib.sessions.middleware.SessionMiddleware',
