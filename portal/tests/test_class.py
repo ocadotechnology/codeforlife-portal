@@ -12,7 +12,7 @@ class TestClass(BaseTest):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_classes_page()
 
         assert not page.have_classes()
@@ -38,7 +38,7 @@ class TestClass(BaseTest):
         org_name, postcode = create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
@@ -65,7 +65,7 @@ class TestClass(BaseTest):
         org_name, postcode = create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert not page.have_students()
@@ -86,7 +86,7 @@ class TestClass(BaseTest):
         class_name, access_code = create_class_directly(email)
         student_name = create_school_student_directly(access_code)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.have_students()
@@ -106,7 +106,7 @@ class TestClass(BaseTest):
         org_name, postcode = create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
@@ -123,7 +123,7 @@ class TestClass(BaseTest):
         class_name, access_code = create_class_directly(email_1)
         student_name, student_password = create_school_student_directly(access_code)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 

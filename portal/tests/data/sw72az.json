@@ -1,0 +1,69 @@
+{
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "SW7 2AZ",
+          "short_name" : "SW7 2AZ",
+          "types" : [ "postal_code" ]
+        },
+        {
+          "long_name" : "Kensington",
+          "short_name" : "Kensington",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "postal_town" ]
+        },
+        {
+          "long_name" : "Greater London",
+          "short_name" : "Gt Lon",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "United Kingdom",
+          "short_name" : "GB",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "Kensington, London SW7 2AZ, UK",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 51.5009395,
+            "lng" : -0.1771577
+          },
+          "southwest" : {
+            "lat" : 51.500021,
+            "lng" : -0.178645
+          }
+        },
+        "location" : {
+          "lat" : 51.5005046,
+          "lng" : -0.1782187
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 51.5018292302915,
+            "lng" : -0.176552369708498
+          },
+          "southwest" : {
+            "lat" : 51.4991312697085,
+            "lng" : -0.179250330291502
+          }
+        }
+      },
+      "place_id" : "ChIJMTIoE1sFdkgRij58ESc7yps",
+      "types" : [ "postal_code" ]
+    }
+  ],
+  "status" : "OK"
+}

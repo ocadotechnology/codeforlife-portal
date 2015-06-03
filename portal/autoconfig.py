@@ -18,6 +18,7 @@ SETTINGS = {
         'django_otp.plugins.otp_static',
         'django_otp.plugins.otp_totp',
         'two_factor',
+        'social.apps.django_app.default',
     ],
     'MIDDLEWARE_CLASSES': [
         'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,3 +55,6 @@ SETTINGS = {
         }
     },
 }
+
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
+    SETTINGS['INSTALLED_APPS'].append('django_pandasso')

@@ -1,0 +1,46 @@
+{
+  "exclude_from_slo" : true,
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "United Kingdom",
+          "short_name" : "GB",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "United Kingdom",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 60.8606697,
+            "lng" : 33.916555
+          },
+          "southwest" : {
+            "lat" : 34.5626034,
+            "lng" : -8.649357199999999
+          }
+        },
+        "location" : {
+          "lat" : 55.378051,
+          "lng" : -3.435973
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 60.856553,
+            "lng" : 1.7627096
+          },
+          "southwest" : {
+            "lat" : 49.8669688,
+            "lng" : -8.649357199999999
+          }
+        }
+      },
+      "partial_match" : true,
+      "place_id" : "ChIJqZHHQhE7WgIReiWIMkOg-MQ",
+      "types" : [ "country", "political" ]
+    }
+  ],
+  "status" : "OK"
+}

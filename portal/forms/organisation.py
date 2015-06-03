@@ -1,30 +1,52 @@
 from django import forms
 
 from portal.models import School
-from portal.helpers.location import lookup_postcode
 
-class OrganisationCreationForm(forms.Form):
-    name = forms.CharField(
-        label='Name of your school or club',
-        widget=forms.TextInput(attrs={'autocomplete': "off"}))
-    postcode = forms.CharField(
-        label="Postcode",
-        widget=forms.TextInput(attrs={'autocomplete': "off"}))
+from django_countries.widgets import CountrySelectWidget
+from  django.core.exceptions import ObjectDoesNotExist
+
+
+class OrganisationForm(forms.ModelForm):
+
     current_password = forms.CharField(
         label='Enter your password',
         widget=forms.PasswordInput(attrs={'autocomplete': "off"}))
 
+    class Meta:
+        model = School
+        fields = ['name', 'postcode', 'country']
+        labels = {
+            'name' : "Name of your school or club",
+            'postcode' : 'Postcode',
+            'country' : 'Country',
+            }
+        widgets = {
+            'name' : forms.TextInput(attrs={'autocomplete': "off", 'placeholder': 'Name of your school or club'}),
+            'postcode' : forms.TextInput(attrs={'autocomplete': "off", 'placeholder': 'Postcode'}),
+            'country' : CountrySelectWidget(attrs={'class': 'wide'}),
+            }
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
-        super(OrganisationCreationForm, self).__init__(*args, **kwargs)
+        self.current_school = kwargs.pop('current_school', None)
+        print self.current_school
+        super(OrganisationForm, self).__init__(*args, **kwargs)
+        if self.current_school:
+            del self.fields['current_password']
 
     def clean(self):
         name = self.cleaned_data.get('name', None)
         postcode = self.cleaned_data.get('postcode', None)
 
-        if name and postcode and School.objects.filter(name=name, postcode=postcode).exists():
-            raise forms.ValidationError(
-                "There is already a school or club registered with that name and postcode")
+        if name and postcode:
+            try:
+                school = School.objects.get(name=name, postcode=postcode)
+            except ObjectDoesNotExist:
+                return self.cleaned_data
+
+            if not self.current_school or self.current_school.id != school.id:
+                raise forms.ValidationError(
+                    "There is already a school or club registered with that name and postcode")
 
         return self.cleaned_data
 
@@ -36,9 +58,6 @@ class OrganisationCreationForm(forms.Form):
             if (not (len(postcode.replace(' ', '')) >= 5 and len(postcode.replace(' ', '')) <= 8) or
                     not postcode.replace(' ', '').isalnum()):
                 raise forms.ValidationError("That postcode was not recognised")
-
-            # as we passed that, lookup the position but don't throw an error
-            _, self.town, self.lat, self.lng = lookup_postcode(postcode)
 
         return postcode
 
@@ -68,41 +87,3 @@ class OrganisationJoinForm(forms.Form):
 
         return chosen_org
 
-
-class OrganisationEditForm(forms.Form):
-    name = forms.CharField(
-        label="Name of your school or club",
-        widget=forms.TextInput(attrs={'placeholder': 'Name of your school or club'}))
-    postcode = forms.CharField(
-        label="Postcode",
-        widget=forms.TextInput(attrs={'placeholder': 'Postcode'}))
-
-    def __init__(self, *args, **kwargs):
-        self.current_school = kwargs.pop('current_school', None)
-        super(OrganisationEditForm, self).__init__(*args, **kwargs)
-
-    def clean_postcode(self):
-        postcode = self.cleaned_data.get('postcode', None)
-
-        if postcode:
-            # Basic postcode check for now
-            if (not (len(postcode.replace(' ', '')) >= 5 and len(postcode.replace(' ', '')) <= 8) or
-                    not postcode.replace(' ', '').isalnum()):
-                raise forms.ValidationError("That postcode was not recognised")
-
-            # as we passed that, lookup the position but don't throw an error
-            _, self.town, self.lat, self.lng = lookup_postcode(postcode)
-
-        return postcode
-
-    def clean(self):
-        name = self.cleaned_data.get('name', None)
-        postcode = self.cleaned_data.get('postcode', None)
-
-        if name and postcode:
-            schools = School.objects.filter(name=name)
-            if schools.exists() and schools[0].id != self.current_school.id:
-                raise forms.ValidationError(
-                    "There is already a school or club registered with that name and postcode")
-
-        return self.cleaned_data

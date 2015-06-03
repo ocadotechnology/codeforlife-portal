@@ -13,7 +13,7 @@ class TestSchoolStudent(BaseTest):
         class_name, access_code = create_class_directly(email)
         student_name, student_password = create_school_student_directly(access_code)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_play_page().school_login(student_name, access_code, student_password)
         assert page.__class__.__name__ == 'PlayDashboardPage'
 
@@ -23,7 +23,7 @@ class TestSchoolStudent(BaseTest):
         class_name, access_code = create_class_directly(email)
         student_name, student_password = create_school_student_directly(access_code)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_play_page().school_login(student_name, access_code, 'some other password')
         assert page.__class__.__name__ == 'PlayPage'
         assert page.has_school_login_failed()
@@ -34,7 +34,7 @@ class TestSchoolStudent(BaseTest):
         class_name, access_code = create_class_directly(email)
         student_name, student_password = create_school_student_directly(access_code)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_play_page().school_login(student_name, access_code, student_password).go_to_account_page()
 
         new_password = 'new ' + student_password

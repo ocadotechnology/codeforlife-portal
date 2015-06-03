@@ -2,8 +2,6 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
-
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
@@ -11,6 +9,8 @@
 var CONFIRMATION_DATA = {};
 </script>
 {% endblock %}
+
+{% block nav_teacher_school %}<b><a id="teacher_organisation_button" href="{% url 'organisation_manage' %}">School | Club</a></b>{% endblock nav_teacher_school %}
 
 {% block content %}
 
@@ -139,7 +139,7 @@ var CONFIRMATION_DATA = {};
     <div class='span_1_of_2'>
         <div class='login-card'>
             <h4>Leave {{ user.userprofile.teacher.school.name }}</h4><br>
-            <p>Time to go? As a teacher with non-administrative responsibilites, you may leave this school or club and transfer students or classes to other teachers within your organisation.</p>
+            <p>Time to go? As a teacher with non-administrative responsibilities, you may leave this school or club and transfer students or classes to other teachers within your organisation.</p>
             <a class='btn btn-danger wide' href="{% url 'organisation_leave' %}">Leave school or club</a>
         </div>
     </div>

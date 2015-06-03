@@ -26,8 +26,6 @@ table.CSSTable th, .CSSTable tr:first-child td{
 	border-bottom:1px solid #e0e0e0;
 
 	background: #8EAECA;
-
-	font-weight:bold;
 }
 table.CSSTable tr:first-child th:first-child{
 	-moz-border-radius-topleft:3px;
