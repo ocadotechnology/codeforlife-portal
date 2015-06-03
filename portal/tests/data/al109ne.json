@@ -1,0 +1,65 @@
+{
+  "exclude_from_slo" : true,
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "AL10 9NE",
+          "short_name" : "AL10 9NE",
+          "types" : [ "postal_code" ]
+        },
+        {
+          "long_name" : "Hatfield",
+          "short_name" : "Hatfield",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Hatfield",
+          "short_name" : "Hatfield",
+          "types" : [ "postal_town" ]
+        },
+        {
+          "long_name" : "Hertfordshire",
+          "short_name" : "Hertfordshire",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "United Kingdom",
+          "short_name" : "GB",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "Hatfield, Hatfield, Hertfordshire AL10 9NE, UK",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 51.763791,
+            "lng" : -0.2429283
+          },
+          "southwest" : {
+            "lat" : 51.7611581,
+            "lng" : -0.2469702
+          }
+        },
+        "location" : {
+          "lat" : 51.7623259,
+          "lng" : -0.2438929
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 51.7638235302915,
+            "lng" : -0.2429283
+          },
+          "southwest" : {
+            "lat" : 51.7611255697085,
+            "lng" : -0.2469702
+          }
+        }
+      },
+      "place_id" : "ChIJbZiQ5ns8dkgRp6Ia1xAeHVk",
+      "types" : [ "postal_code" ]
+    }
+  ],
+  "status" : "OK"
+}

@@ -21,7 +21,7 @@ from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
-from portal.helpers.location import lookup_postcode
+from portal.helpers.location import lookup_coord
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
 
@@ -286,7 +286,7 @@ def contact(request):
 
 
 def fill_in_missing_school_locations(request):
-    schools = School.objects.filter(town='0')
+    schools = School.objects.filter(latitude='0', longitude='0')
 
     requests = 0
     failures = []
@@ -294,9 +294,9 @@ def fill_in_missing_school_locations(request):
 
     for school in schools:
         requests += 1
-        sleep(0.11)  # so we execute a bit less than 10/sec
+        sleep(0.2)  # so we execute a bit less than 5/sec
 
-        error, school.town, school.latitude, school.longitude = lookup_postcode(school.postcode)
+        error, school.country, school.town, school.latitude, school.longitude = lookup_coord(school.postcode, school.country.code)
 
         if error is None:
             school.save()

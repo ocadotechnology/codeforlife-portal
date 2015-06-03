@@ -54,3 +54,6 @@ SETTINGS = {
         }
     },
 }
+
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
+    SETTINGS['INSTALLED_APPS'].append('django_pandasso')

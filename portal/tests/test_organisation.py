@@ -9,7 +9,7 @@ class TestOrganisation(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
 
         page, name, postcode = create_organisation(page, password)
@@ -28,7 +28,7 @@ class TestOrganisation(BaseTest):
         email, password = signup_teacher_directly()
         name, postcode = create_organisation_directly(email)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_organisation_page()
         assert page.check_organisation_details({
             'name': name,
@@ -52,7 +52,7 @@ class TestOrganisation(BaseTest):
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
         page = page.create_organisation(name, postcode, password_2)
         assert page.has_creation_failed()
@@ -63,7 +63,7 @@ class TestOrganisation(BaseTest):
         name_1, postcode_1 = create_organisation_directly(email_1)
         name_2, postcode_2 = create_organisation_directly(email_2)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
 
         assert not page.check_organisation_details({
@@ -83,7 +83,7 @@ class TestOrganisation(BaseTest):
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
         page = page.join_organisation(name)
         assert page.__class__.__name__ == 'TeachOrganisationRevokePage'
@@ -97,7 +97,7 @@ class TestOrganisation(BaseTest):
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
         page = page.join_organisation(name)
 
@@ -129,7 +129,7 @@ class TestOrganisation(BaseTest):
 
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.home_url)
+        self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_organisation_page()
         page = page.join_organisation(names[n-1])
         assert page.__class__.__name__ == 'TeachOrganisationRevokePage'

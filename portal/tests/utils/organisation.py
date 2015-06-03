@@ -1,8 +1,8 @@
 from portal.models import Teacher, School
 
-def generate_details():
-    name = 'School %d' % generate_details.next_id
-    postcode = 'Al10 9NE'
+def generate_details(**kwargs):
+    name = kwargs.get('name', 'School %d' % generate_details.next_id)
+    postcode = kwargs.get('postcode', 'Al10 9NE')
 
     generate_details.next_id += 1
 
@@ -10,8 +10,8 @@ def generate_details():
 
 generate_details.next_id = 1
 
-def create_organisation_directly(teacher_email):
-    name, postcode = generate_details()
+def create_organisation_directly(teacher_email, **kwargs):
+    name, postcode = generate_details(**kwargs)
 
     school = School.objects.create(
         name = name,
