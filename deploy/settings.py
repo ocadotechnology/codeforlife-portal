@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     
     #CMS
     'cms',  # django CMS itself
+    'treebeard',
     'mptt',  # utilities for implementing a tree
     'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
