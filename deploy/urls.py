@@ -17,3 +17,9 @@ urlpatterns = patterns('',
     url(r'admin/login/$', admin_login, name='admin_login'),
     url(r'^', include('cms.urls')),
 )
+
+try:
+    import django_pandasso
+    urlpatterns = urlpatterns + patterns(url(r'^django-pandasso/', include('django_pandasso.urls')))
+except ImportError:
+    pass

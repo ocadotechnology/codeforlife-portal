@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_countries',
     'rest_framework',
     
     #CMS
@@ -139,6 +140,7 @@ SITE_ID = 1
 
 # Deployment
 
+import os
 if os.getenv('DEPLOYMENT', None):
     DATABASES = {
         'default': {
@@ -189,6 +191,10 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     EMAIL_QUEUE_NAME = 'default'
     MIDDLEWARE_CLASSES.insert(0, 'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware')
     MIDDLEWARE_CLASSES.append('deploy.middleware.basicauth.BasicAuthMiddleware')
+    SOCIAL_AUTH_PANDASSO_KEY = 'code-for-life'
+    SOCIAL_AUTH_PANDASSO_SECRET = os.getenv('PANDASSO_SECRET')
+    SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = True
+    PANDASSO_URL = os.getenv('PANDASSO_URL')
 else:
     DATABASES = {
         'default': {
@@ -203,6 +209,10 @@ else:
         }
     }
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    SOCIAL_AUTH_PANDASSO_KEY = 'code-for-life'
+    SOCIAL_AUTH_PANDASSO_SECRET = 'UsDPk7PRZmdEJdQgOEtkbPHgJDmfA8uS07mHZ9aHWwepIX7M0'
+    SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = False
+    PANDASSO_URL = 'https://login.cit.lastmile.com/pandasso/oauth2'
 
 EMAIL_ADDRESS = 'no-reply@codeforlife.education'
 

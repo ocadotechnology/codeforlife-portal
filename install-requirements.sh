@@ -11,7 +11,6 @@ virtualenv VIRTUALENV
 source VIRTUALENV/bin/activate
 
 pip install -r requirements.txt
-pip install https://bitbucket.org/rptlab/reportlab/get/tip.zip
 
 pip install -r ../ocargo/requirements.txt
 pip install -r ../portal/requirements.txt
