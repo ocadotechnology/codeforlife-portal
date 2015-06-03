@@ -34,7 +34,6 @@ $(document).ready(function(){
         $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
         return false;
     });
-
 });
 
 $(function() {
@@ -45,16 +44,9 @@ $(function() {
 	   heightStyle: "content",
        autoHeight: false,
        clearStyle: true  
-       
-	   
 	   });
   });
-
-
-
 </script>
-
-
 
 <script type="text/javascript" src='{% static "portal/js/lib/jquery.easy-ticker.js" %}'></script>
 
@@ -80,6 +72,7 @@ $(document).ready(function(){
 {% block pageID %}id='homeWrapper'{% endblock %}
 
 {% block content %}
+{{ block.super }}
 
 <div id="home_page"></div>
 
