@@ -44,7 +44,28 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
+    
+    #CMS
+    'cms',  # django CMS itself
+    'mptt',  # utilities for implementing a tree
+    'menus',  # helper for model independent hierarchical website navigation
+    'sekizai',  # for javascript and css management
+    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
+    
+    #CMS Plugins
+#     'djangocms_file',
+#     'djangocms_flash',
+#     'djangocms_googlemap',
+#     'djangocms_inherit',
+#     'djangocms_picture',
+#     'djangocms_teaser',
+#     'djangocms_video',
+#     'djangocms_link',
+#     'djangocms_snippet',
+    'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
+#     'reversion'
 )
 
 MIDDLEWARE_CLASSES = [
@@ -55,7 +76,11 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware'
+    'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
 BASICAUTH_USERNAME = 'trial'
@@ -114,7 +139,6 @@ SITE_ID = 1
 
 # Deployment
 
-import os
 if os.getenv('DEPLOYMENT', None):
     DATABASES = {
         'default': {
@@ -188,7 +212,42 @@ LOCALE_PATHS = (
 
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + \
-     ('django.core.context_processors.i18n',)
+     (
+      'django.core.context_processors.i18n',
+      'sekizai.context_processors.sekizai',
+      'cms.context_processors.cms_settings',
+      )
+     
+TEMPLATE_DIRS = (
+    # The docs say it should be absolute path: BASE_DIR is precisely one.
+    # Life is wonderful!
+    os.path.join(BASE_DIR, "templates"),
+)
+
+CMS_TEMPLATES = (
+    ('portal/base.html', 'Template One'),
+)
+
+LANGUAGES = [
+    ('en-gb', 'English'),
+]
+
+MIGRATION_MODULES = {
+    'cms': 'cms.migrations_django',
+    'menus': 'menus.migrations_django',
+
+    # Add also the following modules if you're using these plugins:
+#     'djangocms_file': 'djangocms_file.migrations_django',
+#     'djangocms_flash': 'djangocms_flash.migrations_django',
+#     'djangocms_googlemap': 'djangocms_googlemap.migrations_django',
+#     'djangocms_inherit': 'djangocms_inherit.migrations_django',
+#     'djangocms_link': 'djangocms_link.migrations_django',
+#     'djangocms_picture': 'djangocms_picture.migrations_django',
+#     'djangocms_snippet': 'djangocms_snippet.migrations_django',
+#     'djangocms_teaser': 'djangocms_teaser.migrations_django',
+#     'djangocms_video': 'djangocms_video.migrations_django',
+    'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
+}
 
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings

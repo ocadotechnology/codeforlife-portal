@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^reports/', include('reports.urls')),
     url(r'admin/data/$', aggregated_data),
     url(r'admin/login/$', admin_login, name='admin_login'),
+    url(r'^', include('cms.urls')),
 )

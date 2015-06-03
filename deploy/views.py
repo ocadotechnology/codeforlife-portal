@@ -9,8 +9,8 @@ from game.models import Level, Attempt
 from ratelimit.decorators import ratelimit
 from deploy.permissions import is_authorised_to_view_aggregated_data
 
-
 from two_factor.utils import default_device
+
 
 def csrf_failure(request, reason=""):
     return render(request, 'deploy/csrf_failure.html')
@@ -63,12 +63,6 @@ def aggregated_data(request):
     table_data.append(["Number of teachers not in a school", Teacher.objects.filter(school=None).count(), ""])
     table_data.append(["Number of teachers with request pending to join a school", Teacher.objects.exclude(pending_join_request=None).count(), ""])
     table_data.append(["Number of teachers with unverified email address", Teacher.objects.filter(user__awaiting_email_verification=True).count(), ""])
-    teachers = Teacher.objects.all()
-    two_factor_teachers = 0
-    for teacher in teachers:
-        if default_device(teacher.user.user):
-            two_factor_teachers += 1
-    table_data.append(["Number of teachers setup with 2FA", two_factor_teachers, ""])
     num_of_classes_per_teacher = Teacher.objects.annotate(num_classes=Count('class_teacher'))
     stats_classes_per_teacher = num_of_classes_per_teacher.aggregate(Avg('num_classes'))
     num_of_classes_per_active_teacher = num_of_classes_per_teacher.exclude(school=None)

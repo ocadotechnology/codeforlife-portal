@@ -1,0 +1,8 @@
+djangocms-text-ckeditor
+djangocms-link
+djangocms-snippet
+djangocms-style
+djangocms-column
+djangocms-grid
+djangocms-oembed
+djangocms-table
