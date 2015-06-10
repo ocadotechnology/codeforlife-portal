@@ -21,4 +21,6 @@ ADD . /opt/codeforlife-deploy/
 ENV TMPDIR /pip
 RUN mkdir -p $TMPDIR
 RUN /bin/echo -e "Host *\n  StrictHostKeyChecking no" | tee /etc/ssh/ssh_config
-CMD ["/opt/codeforlife-deploy/deploy.sh"]
+WORKDIR /opt/codeforlife-deploy/
+CMD ["./deploy.sh"]
+  
