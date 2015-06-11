@@ -8,4 +8,4 @@ if (( ! $ON_GOOGLE )); then
   pip install -U -t lib django-pandasso-1.7.1.tar.gz
   cd -
 fi
-pip install -U -t lib -r submodules/codeforlife-portal/requirements.txt
+pip install -U -t lib -r submodules/portal/requirements.txt
