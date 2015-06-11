@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /opt/codeforlife-deploy/
 ./build.sh
-./manage.py test game.tests.passing
+./manage.py test game
+./manage.py test portal
