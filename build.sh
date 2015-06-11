@@ -3,5 +3,5 @@ pip install -U -t lib -r requirements.txt
 ./install-portal.sh
 ./install-rapid-router.sh
 echo "Following packages present:"
-pip freeze
+ls -ltr lib | grep -v info
 echo "--------------------------------------------------------------------------------"
