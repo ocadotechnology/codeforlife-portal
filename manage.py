@@ -19,7 +19,7 @@ def add_other_packages(other_folder):
 
 def do_site_packages():
     add_other_packages('lib')
-    add_other_packages('submodules/codeforlife-portal')
+    add_other_packages('submodules/portal')
     add_other_packages('submodules/ocargo')
 
 if __name__ == "__main__":
