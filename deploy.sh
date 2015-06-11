@@ -1,7 +1,5 @@
 #!/bin/bash
-cd /opt/codeforlife-deploy/
 ./build.sh
-ls -d /usr/local/lib/python2.7/dist-packages/* | grep -v info | grep -v PIL | xargs -i cp -R {} /opt/codeforlife-deploy/
 # To be used to docker deployment environment
 export DEPLOYMENT=1
 ./manage.py collectstatic --noinput
