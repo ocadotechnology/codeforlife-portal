@@ -12,6 +12,14 @@ sys.path.append(os.path.dirname(__file__))
 #### Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
 
+
+def chromedriver_path():
+    for system_path in os.environ["PATH"].split(os.pathsep):
+        path = os.path.join(system_path, 'chromedriver')
+        if (os.path.isfile(path)):
+            return path
+    raise LookupError("Could not find chromedriver in PATH")
+
 #### Uncomment to use Chrome
 if os.getenv('SELENIUM_HUB', None):
     driver = webdriver.Remote(
@@ -19,9 +27,10 @@ if os.getenv('SELENIUM_HUB', None):
             desired_capabilities=DesiredCapabilities.CHROME)
     master_browser = driver
 else:
-    chromedriver = os.path.join(os.path.dirname(__file__), 'chromedriver')
+    chromedriver = chromedriver_path()
     os.environ['webdriver.chrome.driver'] = chromedriver
     master_browser = webdriver.Chrome(chromedriver)
+
 
 #### Uncomment to use PhantomJS
 # master_browser = webdriver.PhantomJS()
