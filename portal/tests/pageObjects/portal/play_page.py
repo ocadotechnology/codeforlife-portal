@@ -24,8 +24,8 @@ class PlayPage(BasePage):
         else:
             return self
 
-    def has_school_login_failed(self):
-        errorlist = self.browser.find_element_by_id('school_login_form').find_element_by_class_name('errorlist').text
+    def school_login_has_failed(self):
+        errorlist = self.browser.find_element_by_id('form-login-school').find_element_by_class_name('errorlist').text
         error = 'Invalid name, class access code or password'
         return (error in errorlist)
 
