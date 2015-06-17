@@ -22,7 +22,6 @@ class TestNavigation(BaseTest):
     def test_play(self):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
-        page = HomePage(self.browser)
         page = page.go_to_play_page()
 
         page = page.go_to_teacher_login().go_to_play_page()

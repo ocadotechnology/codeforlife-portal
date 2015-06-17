@@ -105,7 +105,7 @@ class PlayPage(BasePage):
         return self
 
     def is_correct_signup_state(self, showing):
-        return self.browser.find_element_by_id('signup-form').is_displayed() == showing and \
+        return self.browser.find_element_by_id('form-signup-solo-student').is_displayed() == showing and \
                self.browser.find_element_by_id('signup-warning').is_displayed() != showing
 
 import teach_page

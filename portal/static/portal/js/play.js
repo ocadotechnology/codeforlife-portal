@@ -13,14 +13,14 @@ function init() {
 
   $('#signupShow').click(function() {
     $('#signup-warning').hide();
-    $('#signup-form').show();
+    $('#form-signup-solo-student').show();
     return false;
   });
 
   $('#register-link').click(function() {
     // TODO test if logged in and show popup box saying logged in, please log out first, etc.
     $('#signup-warning').hide();
-    $('#signup-form').show();
+    $('#form-signup-solo-student').show();
     return false;
   });
 

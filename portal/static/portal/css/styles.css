@@ -1129,3 +1129,7 @@ h4#python
 {
 	margin-bottom:10px;
 }
+
+#form-signup-solo-student {
+    display: none;
+}
