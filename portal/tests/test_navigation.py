@@ -25,39 +25,39 @@ class TestNavigation(BaseTest):
         page = page.go_to_play_page()
 
         page = page.go_to_teacher_login().go_to_play_page()
-        page.show_solo_login()
+        page.show_independent_student_login()
         page = page.go_to_teacher_login().go_to_play_page()
         page.show_school_login()
 
-        assert page.is_correct_login_state('school')
-        assert page.is_correct_signup_state(False)
+        assert page.is_in_school_login_state()
+        assert page.not_showing_intependent_student_signup_form()
 
-        page.show_solo_login()
+        page.show_independent_student_login()
 
-        assert page.is_correct_login_state('solo')
-        assert page.is_correct_signup_state(False)
-
-        page.show_school_login()
-
-        assert page.is_correct_login_state('school')
-        assert page.is_correct_signup_state(False)
-
-        page.show_signup()
-
-        assert page.is_correct_login_state('school')
-        assert page.is_correct_signup_state(True)
-
-        page.show_solo_login()
-
-        assert page.is_correct_login_state('solo')
-        assert page.is_correct_signup_state(True)
+        assert page.is_in_independent_student_login_state()
+        assert page.not_showing_intependent_student_signup_form()
 
         page.show_school_login()
 
-        assert page.is_correct_login_state('school')
-        assert page.is_correct_signup_state(True)
+        assert page.is_in_school_login_state()
+        assert page.not_showing_intependent_student_signup_form()
 
-        page.show_solo_login()
+        page.show_independent_student_signup()
+
+        assert page.is_in_school_login_state()
+        assert page.showing_intependent_student_signup_form()
+
+        page.show_independent_student_login()
+
+        assert page.is_in_independent_student_login_state()
+        assert page.showing_intependent_student_signup_form()
+
+        page.show_school_login()
+
+        assert page.is_in_school_login_state()
+        assert page.showing_intependent_student_signup_form()
+
+        page.show_independent_student_login()
         page = page.go_to_forgotten_password_page().cancel().go_to_play_page()
 
 
