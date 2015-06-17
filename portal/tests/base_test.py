@@ -14,6 +14,11 @@ sys.path.append(os.path.dirname(__file__))
 
 
 def chromedriver_path():
+    if os.environ.has_key("CHROMEDRIVER_PATH"):
+        path_from_environment = os.environ["CHROMEDRIVER_PATH"]
+        if os.path.isfile(os.environ["CHROMEDRIVER_PATH"]):
+            return path_from_environment
+
     for system_path in os.environ["PATH"].split(os.pathsep):
         path = os.path.join(system_path, 'chromedriver')
         if (os.path.isfile(path)):
