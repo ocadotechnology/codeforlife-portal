@@ -54,7 +54,7 @@ class TestOrganisation(BaseTest):
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
-        page = page.create_organisation(name, postcode, password_2)
+        page = page.create_organisation(name, password_2, postcode)
         assert page.has_creation_failed()
 
     def test_edit_clash(self):

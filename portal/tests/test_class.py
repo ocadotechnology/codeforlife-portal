@@ -10,7 +10,7 @@ from utils.messages import is_class_created_message_showing, is_class_nonempty_m
 class TestClass(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_classes_page()
@@ -35,7 +35,7 @@ class TestClass(BaseTest):
 
     def test_edit(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
@@ -62,7 +62,7 @@ class TestClass(BaseTest):
 
     def test_delete_empty(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
@@ -82,7 +82,7 @@ class TestClass(BaseTest):
 
     def test_delete_nonempty(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
         student_name = create_school_student_directly(access_code)
 
@@ -103,7 +103,7 @@ class TestClass(BaseTest):
 
     def test_transfer_cancel(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
