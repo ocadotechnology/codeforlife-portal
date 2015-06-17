@@ -15,10 +15,10 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
 
         page, student_name, student_password = create_school_student(page)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
     def test_create_multiple(self):
@@ -29,11 +29,11 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
 
         page, student_names, student_passwords = create_many_school_students(page, 12)
 
-        assert page.have_students()
+        assert page.has_students()
         for student_name in student_names:
             assert page.does_student_exist(student_name)
 
@@ -46,14 +46,14 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
         page = page.type_student_name(student_name).create_students()
-        assert page.__class__.__name__ == 'TeachClassPage'
-        assert page.did_add_fail()
+        assert self.is_class_page(page)
+        assert page.adding_students_failed()
         assert page.student_already_existed(student_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
     def test_create_duplicate(self):
@@ -66,14 +66,14 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
         assert not page.does_student_exist(student_name)
 
         page = page.type_student_name(student_name).type_student_name(student_name).create_students()
-        assert page.__class__.__name__ == 'TeachClassPage'
-        assert page.did_add_fail()
+        assert self.is_class_page(page)
+        assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
-        assert not page.have_students()
+        assert not page.has_students()
         assert not page.does_student_exist(student_name)
 
     def test_delete(self):
@@ -85,20 +85,20 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
         page = page.toggle_select_student(student_name).delete_students()
         assert page.is_dialog_showing()
         page = page.cancel_dialog()
         assert not page.is_dialog_showing()
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
         page = page.delete_students()
         assert page.is_dialog_showing()
         page = page.confirm_dialog()
-        assert not page.have_students()
+        assert not page.has_students()
         assert not page.does_student_exist(student_name)
 
     def test_move_cancel(self):
@@ -110,11 +110,11 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
         page = page.move_students()
-        assert page.__class__.__name__ == 'TeachClassPage'
+        assert self.is_class_page(page)
 
         page = page.toggle_select_student(student_name).move_students()
         assert page.__class__.__name__ == 'TeachMoveStudentsPage'
@@ -134,12 +134,12 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
         page = page.go_to_classes_page().go_to_class_page(class_name_1)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
         page = page.toggle_select_student(student_name)
         page = page.move_students().select_class_by_index(0).move().cancel()
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
 
     def test_move(self):
@@ -155,19 +155,19 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
         page = page.go_to_classes_page().go_to_class_page(class_name_1)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name_1)
         assert page.does_student_exist(student_name_2)
 
         page = page.toggle_select_student(student_name_1)
         page = move_students(page, 0)
-        assert page.have_students()
+        assert page.has_students()
         assert not page.does_student_exist(student_name_1)
         assert page.does_student_exist(student_name_2)
 
         page = page.logout().go_to_teach_page().login(email_2, password_2)
         page = page.go_to_classes_page().go_to_class_page(class_name_2)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name_1)
         assert not page.does_student_exist(student_name_2)
 
@@ -181,22 +181,26 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name_1)
         assert page.does_student_exist(student_name_2)
 
         page = page.dismiss_students()
-        assert page.__class__.__name__ == 'TeachClassPage'
+        assert self.is_class_page(page)
 
         page = page.toggle_select_student(student_name_1).dismiss_students()
         assert page.__class__.__name__ == 'TeachDismissStudentsPage'
         page = page.cancel()
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name_1)
         assert page.does_student_exist(student_name_2)
 
         page = page.toggle_select_student(student_name_1)
         page, emails = dismiss_students(page)
-        assert page.have_students()
+        assert page.has_students()
         assert not page.does_student_exist(student_name_1)
         assert page.does_student_exist(student_name_2)
+
+    def is_class_page(self, page):
+        return page.__class__.__name__ == 'TeachClassPage'
+

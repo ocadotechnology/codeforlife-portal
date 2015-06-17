@@ -25,7 +25,7 @@ class TestClass(BaseTest):
         assert page.does_class_exist(class_name, access_code)
 
         page = page.go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
 
         page = page.go_to_class_settings_page()
         assert page.check_class_details({
@@ -68,7 +68,7 @@ class TestClass(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
 
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -89,7 +89,7 @@ class TestClass(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
 
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -134,5 +134,5 @@ class TestClass(BaseTest):
         assert page.have_classes()
         assert page.does_class_exist(class_name, access_code)
         page = page.go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)
