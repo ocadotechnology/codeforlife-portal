@@ -27,11 +27,13 @@ def chromedriver_path():
 
 #### Uncomment to use Chrome
 if os.getenv('SELENIUM_HUB', None) and not os.getenv('SELENIUM_LOCAL', None):
+    print "Running against Selenium"
     driver = webdriver.Remote(
             command_executor='http://' + os.getenv('SELENIUM_HUB', None) + ':4444/wd/hub',
             desired_capabilities=DesiredCapabilities.CHROME)
     master_browser = driver
 else:
+    print "Running against local Chrome"
     chromedriver = chromedriver_path()
     os.environ['webdriver.chrome.driver'] = chromedriver
     master_browser = webdriver.Chrome(chromedriver)
