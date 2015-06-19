@@ -49,4 +49,4 @@ class BaseTest(LiveServerTestCase):
         if not os.getenv('SERVER_URL', None):
             return super(BaseTest, self).live_server_url
         else:
-            return 'http://%s:%s' % (os.getenv('SERVER_URL'), 8081)
+            return 'http://%s' % (os.getenv('SERVER_URL'))
