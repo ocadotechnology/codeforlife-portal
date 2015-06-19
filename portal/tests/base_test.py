@@ -26,7 +26,7 @@ def chromedriver_path():
     raise LookupError("Could not find chromedriver in PATH")
 
 #### Uncomment to use Chrome
-if os.getenv('SELENIUM_HUB', None):
+if os.getenv('SELENIUM_HUB', None) and not os.getenv('SELENIUM_LOCAL', None):
     driver = webdriver.Remote(
             command_executor='http://' + os.getenv('SELENIUM_HUB', None) + ':4444/wd/hub',
             desired_capabilities=DesiredCapabilities.CHROME)
@@ -43,3 +43,10 @@ else:
 
 class BaseTest(LiveServerTestCase):
     browser = master_browser
+
+    @property
+    def live_server_url(self):
+        if not os.getenv('SERVER_URL', None):
+            return super(BaseTest, self).live_server_url
+        else:
+            return 'http://%s:%s' % (os.getenv('SERVER_URL'), 8081)
