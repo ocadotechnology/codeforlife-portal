@@ -22,4 +22,3 @@ RUN mkdir -p $TMPDIR
 RUN /bin/echo -e "Host *\n  StrictHostKeyChecking no" | tee /etc/ssh/ssh_config
 VOLUME /opt/codeforlife-deploy/
 WORKDIR /opt/codeforlife-deploy/
-CMD ["./deploy.sh"]
