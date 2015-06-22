@@ -58,7 +58,7 @@ a:hover
     max-width: 1200px;
 
    margin:0 auto;
-     padding: 10px 20px 20px;
+     padding: 20px;
      clear:both;
 }
 
@@ -135,7 +135,7 @@ ul.resources li
 ul.topNav
 {
 	float:right;
-	padding:0;
+	padding:7px 0px 0px;
 	margin:0;
 	overflow:hidden;
 }
