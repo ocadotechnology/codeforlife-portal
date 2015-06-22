@@ -10,7 +10,7 @@ from utils.messages import is_class_created_message_showing, is_class_nonempty_m
 class TestClass(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_classes_page()
@@ -25,7 +25,7 @@ class TestClass(BaseTest):
         assert page.does_class_exist(class_name, access_code)
 
         page = page.go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
 
         page = page.go_to_class_settings_page()
         assert page.check_class_details({
@@ -35,7 +35,7 @@ class TestClass(BaseTest):
 
     def test_edit(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
@@ -62,13 +62,13 @@ class TestClass(BaseTest):
 
     def test_delete_empty(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.have_students()
+        assert not page.has_students()
 
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -82,14 +82,14 @@ class TestClass(BaseTest):
 
     def test_delete_nonempty(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
         student_name = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
 
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -103,7 +103,7 @@ class TestClass(BaseTest):
 
     def test_transfer_cancel(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
@@ -134,5 +134,5 @@ class TestClass(BaseTest):
         assert page.have_classes()
         assert page.does_class_exist(class_name, access_code)
         page = page.go_to_class_page(class_name)
-        assert page.have_students()
+        assert page.has_students()
         assert page.does_student_exist(student_name)

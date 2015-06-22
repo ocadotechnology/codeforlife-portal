@@ -9,33 +9,40 @@ from utils.student import create_school_student_directly
 class TestSchoolStudent(BaseTest):
     def test_login(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
         student_name, student_password = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page().school_login(student_name, access_code, student_password)
-        assert page.__class__.__name__ == 'PlayDashboardPage'
+        page = HomePage(self.browser)\
+            .go_to_play_page()\
+            .school_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
 
     def test_login_failure(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
         student_name, student_password = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page().school_login(student_name, access_code, 'some other password')
+        page = HomePage(self.browser)\
+            .go_to_play_page()\
+            .school_login(student_name, access_code, 'some other password')
+
         assert page.__class__.__name__ == 'PlayPage'
-        assert page.has_school_login_failed()
+        assert page.school_login_has_failed()
 
     def test_change_password(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
         student_name, student_password = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page().school_login(student_name, access_code, student_password).go_to_account_page()
+        page = HomePage(self.browser).go_to_play_page()\
+            .school_login(student_name, access_code, student_password)\
+            .go_to_account_page()
 
         new_password = 'new ' + student_password
         page = page.change_details({
@@ -44,7 +51,13 @@ class TestSchoolStudent(BaseTest):
             'current_password': student_password
         })
 
-        page = page.logout().go_to_play_page().school_login(student_name, access_code, student_password)
-        assert page.has_school_login_failed()
+        page = page.logout()\
+            .go_to_play_page()\
+            .school_login(student_name, access_code, student_password)
+
+        assert page.school_login_has_failed()
         page = page.school_login(student_name, access_code, new_password)
-        assert page.__class__.__name__ == 'PlayDashboardPage'
+        assert self.is_dashboard(page)
+
+    def is_dashboard(self, page):
+        return page.__class__.__name__ == 'PlayDashboardPage'

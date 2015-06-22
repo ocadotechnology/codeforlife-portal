@@ -1,6 +1,10 @@
 from selenium.webdriver.support.ui import Select
 
 from base_page import BasePage
+import play_page
+import email_verification_needed_page
+import pageObjects.registration.teacher_password_reset_form_page
+import teach.dashboard_page
 
 class TeachPage(BasePage):
     def __init__(self, browser):
@@ -39,11 +43,6 @@ class TeachPage(BasePage):
             return self
 
     def has_login_failed(self):
-        errorlist = self.browser.find_element_by_id('login_form').find_element_by_class_name('errorlist').text
+        errorlist = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
         error = 'Incorrect email address or password'
         return (error in errorlist)
-
-import play_page
-import email_verification_needed_page
-import pageObjects.registration.teacher_password_reset_form_page
-import teach.dashboard_page

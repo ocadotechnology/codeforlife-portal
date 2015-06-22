@@ -16,6 +16,7 @@ def create_organisation_directly(teacher_email, **kwargs):
     school = School.objects.create(
         name = name,
         postcode = postcode,
+        country = 'GB',
         town = '',
         latitude = '',
         longitude = '')
@@ -39,6 +40,6 @@ def create_organisation(page, password):
     page = page.go_to_organisation_page()
     
     name, postcode = generate_details()
-    page = page.create_organisation(name, postcode, password)
+    page = page.create_organisation(name, password, postcode)
 
     return page, name, postcode

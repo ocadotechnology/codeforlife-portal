@@ -24,13 +24,13 @@ class PlayPage(BasePage):
         else:
             return self
 
-    def has_school_login_failed(self):
-        errorlist = self.browser.find_element_by_id('school_login_form').find_element_by_class_name('errorlist').text
+    def school_login_has_failed(self):
+        errorlist = self.browser.find_element_by_id('form-login-school').find_element_by_class_name('errorlist').text
         error = 'Invalid name, class access code or password'
         return (error in errorlist)
 
     def solo_signup(self, name, username, email_address, password, confirm_password):
-        self.show_signup()
+        self.show_independent_student_signup()
 
         self.browser.find_element_by_id('id_signup-name').clear()
         self.browser.find_element_by_id('id_signup-username').clear()
@@ -48,7 +48,7 @@ class PlayPage(BasePage):
         return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
 
     def solo_login(self, username, password):
-        self.show_solo_login()
+        self.show_independent_student_login()
 
         self.browser.find_element_by_id('id_solo-username').clear()
         self.browser.find_element_by_id('id_solo-password').clear()
@@ -69,7 +69,7 @@ class PlayPage(BasePage):
         return (error in errorlist)
 
     def go_to_teacher_login(self):
-        if self.browser.find_element_by_id('school-login').is_displayed():
+        if self.school_student_login_is_displayed():
             self.browser.find_element_by_id('teacherLogin_school_button').click()
         else:
             self.browser.find_element_by_id('teacherLogin_solo_button').click()
@@ -86,27 +86,42 @@ class PlayPage(BasePage):
             self.wait_for_element_by_id('switchToSolo')
         return self
 
-    def show_solo_login(self):
+    def show_independent_student_login(self):
         button = self.browser.find_element_by_id('switchToSolo')
         if button.is_displayed():
             button.click()
             self.wait_for_element_by_id('switchToSchool')
         return self
 
-    def is_correct_login_state(self, state):
-        isSolo = (state == 'solo')
-        return self.browser.find_element_by_id('solo-login').is_displayed() == isSolo and \
-               self.browser.find_element_by_id('school-login').is_displayed() != isSolo
+    def school_student_login_is_displayed(self): return self.browser.find_element_by_id('school-login').is_displayed()
 
-    def show_signup(self):
+    def independent_student_login_form_is_displayed(self): return self.browser.find_element_by_id('solo-login').is_displayed()
+
+    def is_in_school_login_state(self):
+        return not self.independent_student_login_form_is_displayed() and self.school_student_login_is_displayed()
+
+    def is_in_independent_student_login_state(self):
+        return self.independent_student_login_form_is_displayed() and not self.school_student_login_is_displayed()
+
+    def show_independent_student_signup(self):
         button = self.browser.find_element_by_id('signupShow')
         if button.is_displayed():
             button.click()
         return self
 
-    def is_correct_signup_state(self, showing):
-        return self.browser.find_element_by_id('signup-form').is_displayed() == showing and \
-               self.browser.find_element_by_id('signup-warning').is_displayed() != showing
+    def independent_student_signup_message_is_displayed(self):
+        return self.browser.find_element_by_id('signup-warning').is_displayed()
+
+    def independent_student_signup_form_is_displayed(self):
+        return self.browser.find_element_by_id('form-signup-solo-student').is_displayed()
+
+    def showing_intependent_student_signup_form(self):
+        return self.independent_student_signup_form_is_displayed() and \
+               not self.independent_student_signup_message_is_displayed()
+
+    def not_showing_intependent_student_signup_form(self):
+        return not self.independent_student_signup_form_is_displayed() and \
+               self.independent_student_signup_message_is_displayed()
 
 import teach_page
 import email_verification_needed_page

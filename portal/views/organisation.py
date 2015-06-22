@@ -4,7 +4,7 @@ import json
 from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login

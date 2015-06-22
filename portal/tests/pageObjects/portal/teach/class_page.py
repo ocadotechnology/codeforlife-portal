@@ -1,7 +1,9 @@
-from selenium.webdriver.support.ui import Select
+import string
+
 from selenium.common.exceptions import NoSuchElementException
 
 from teach_base_page import TeachBasePage
+
 
 class TeachClassPage(TeachBasePage):
     def __init__(self, browser):
@@ -31,7 +33,7 @@ class TeachClassPage(TeachBasePage):
     def is_dialog_showing(self):
         return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
 
-    def have_students(self):
+    def has_students(self):
         return self.element_exists_by_id('student_table')
 
     def does_student_exist(self, name):
@@ -49,8 +51,17 @@ class TeachClassPage(TeachBasePage):
         else:
             return self
 
-    def did_add_fail(self):
-        return self.element_exists_by_xpath("//form[@id='add_form']//ul[@class='errorlist']")
+    def adding_students_failed(self):
+        browser = self.browser
+        try:
+            error_list = browser.find_element_by_id('add_form').find_element_by_class_name('errorlist')
+        except NoSuchElementException:
+            return False
+
+        if error_list.text:
+            return True
+        else:
+            return False
 
     def student_already_existed(self, name):
         errorlist = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text

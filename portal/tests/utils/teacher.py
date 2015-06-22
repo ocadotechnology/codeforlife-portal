@@ -35,4 +35,4 @@ def signup_teacher(page):
 
     return page, email_address, password
 
-#import email
+import email

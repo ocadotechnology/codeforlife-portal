@@ -15,12 +15,13 @@ from portal.views.organisation import organisation_fuzzy_lookup, organisation_ma
 from portal.views.play import student_details, student_edit_account, student_join_organisation
 from portal.views.registration import custom_2FA_login, password_reset_check_and_confirm, \
     student_password_reset, teacher_password_reset
-from portal.views.teach import teacher_home, teacher_lesson_plans, teacher_lesson_plans_python, teacher_classes, teacher_class, \
+from portal.views.teacher.teach import teacher_lesson_plans, teacher_lesson_plans_python, teacher_classes, teacher_class, \
     teacher_move_class, teacher_move_students, teacher_move_students_to_class, \
     teacher_delete_students, teacher_dismiss_students, teacher_edit_class, teacher_delete_class, \
     teacher_student_reset, teacher_edit_student, teacher_edit_account, teacher_disable_2FA, \
     teacher_print_reminder_cards, teacher_accept_student_request, teacher_reject_student_request, \
     teacher_class_password_reset
+from portal.views.teacher.home import teacher_home
 
 js_info_dict = {
     'packages': ('conf.locale',),
