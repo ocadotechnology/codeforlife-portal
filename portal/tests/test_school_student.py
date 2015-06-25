@@ -11,7 +11,7 @@ class TestSchoolStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
-        student_name, student_password = create_school_student_directly(access_code)
+        student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)\
@@ -23,7 +23,7 @@ class TestSchoolStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
-        student_name, student_password = create_school_student_directly(access_code)
+        student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)\
@@ -37,7 +37,7 @@ class TestSchoolStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
-        student_name, student_password = create_school_student_directly(access_code)
+        student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_play_page()\
