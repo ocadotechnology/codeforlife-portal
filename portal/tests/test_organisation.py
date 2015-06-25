@@ -1,6 +1,6 @@
 from base_test import BaseTest
 
-from pageObjects.portal.home_page import HomePage
+from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation, create_organisation_directly
 from utils.messages import is_organisation_created_message_showing

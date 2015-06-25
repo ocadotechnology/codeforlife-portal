@@ -1,6 +1,6 @@
 from base_test import BaseTest
 
-from pageObjects.portal.home_page import HomePage
+from portal.tests.pageObjects.portal.home_page import HomePage
 
 class TestNavigation(BaseTest):
     def test_base(self):

@@ -1,13 +1,8 @@
-from django.conf import settings
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import socket
 
-# This means that however nested the file is you can do
-# import pageObjects/.../... or whatever
-import os, sys
-sys.path.append(os.path.dirname(__file__))
+import os
 
 #### Uncomment to use FireFox
 # master_browser = webdriver.Firefox()

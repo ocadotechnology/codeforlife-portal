@@ -11,10 +11,8 @@ def follow_verify_email_link(page, email):
 
     page.browser.get(message[i:j])
 
-    if page.on_correct_page('teach_page'):
-        return pageObjects.portal.teach_page.TeachPage(page.browser)
-    else:
-        return pageObjects.portal.play_page.PlayPage(page.browser)
+    return go_to_teach_or_play(page)
+
 
 def follow_change_email_link(page, email):
     message = str(email.message())
@@ -27,10 +25,22 @@ def follow_change_email_link(page, email):
 
     page.browser.get(message[i:j])
 
-    if page.on_correct_page('teach_page'):
-        return pageObjects.portal.teach_page.TeachPage(page.browser)
-    else:
-        return pageObjects.portal.play_page.PlayPage(page.browser)
+    return go_to_teach_or_play(page)
 
-import pageObjects.portal.teach_page
-import pageObjects.portal.play_page
+def go_to_teach_or_play(page):
+    if page.on_correct_page('teach_page'):
+        return go_to_teach_page(page.browser)
+    else:
+        return go_to_play_page(page.browser)
+
+def go_to_play_page(browser):
+    from portal.tests.pageObjects.portal.play_page import PlayPage
+
+    return PlayPage(browser)
+
+
+def go_to_teach_page(browser):
+    from portal.tests.pageObjects.portal.teach_page import TeachPage
+
+    return TeachPage(browser)
+

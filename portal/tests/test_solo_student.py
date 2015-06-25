@@ -1,6 +1,6 @@
 from base_test import BaseTest
 
-from pageObjects.portal.home_page import HomePage
+from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.student import create_solo_student
 from utils.messages import is_email_verified_message_showing
 

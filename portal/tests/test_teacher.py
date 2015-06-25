@@ -2,7 +2,7 @@ from django.core import mail
 
 from base_test import BaseTest
 
-from pageObjects.portal.home_page import HomePage
+from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher, signup_teacher_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
 from utils import email as email_utils
