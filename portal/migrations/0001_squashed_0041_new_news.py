@@ -50,7 +50,7 @@ def insert_users(apps, schema_editor):
         first_name='Albert',
         last_name='Einstein',
         email='alberteinstein@codeforlife.com',
-        password='Password1')
+        password=make_password('Password1'))
 
     teacher2_user = User.objects.create(
         username='test teacher2',
