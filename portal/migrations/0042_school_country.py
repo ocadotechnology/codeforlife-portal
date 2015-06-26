@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('portal', '0041_new_news'),
+        ('portal', '0001_squashed_0041_new_news'),
     ]
 
     operations = [

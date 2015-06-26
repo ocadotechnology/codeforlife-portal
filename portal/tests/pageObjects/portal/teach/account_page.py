@@ -1,5 +1,4 @@
 from selenium.webdriver.support.ui import Select
-
 from teach_base_page import TeachBasePage
 
 class TeachAccountPage(TeachBasePage):
@@ -20,9 +19,12 @@ class TeachAccountPage(TeachBasePage):
         self.browser.find_element_by_id('update_button').click()
 
         if self.on_correct_page('teach_dashboard_page'):
-            return dashboard_page.TeachDashboardPage(self.browser)
+            from dashboard_page import TeachDashboardPage
+            return TeachDashboardPage(self.browser)
         elif self.on_correct_page('emailVerificationNeeded_page'):
-            return pageObjects.portal.email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+            from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
+
+            return EmailVerificationNeededPage(self.browser)
         else:
             return self
 
@@ -37,6 +39,3 @@ class TeachAccountPage(TeachBasePage):
             correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
 
         return correct
-
-import dashboard_page
-import pageObjects.portal.email_verification_needed_page

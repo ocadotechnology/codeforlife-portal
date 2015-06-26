@@ -1,6 +1,6 @@
 from base_test import BaseTest
 
-from pageObjects.portal.home_page import HomePage
+from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from utils.classes import create_class, create_class_directly, transfer_class
@@ -84,7 +84,7 @@ class TestClass(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         class_name, access_code = create_class_directly(email)
-        student_name = create_school_student_directly(access_code)
+        create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
@@ -121,7 +121,7 @@ class TestClass(BaseTest):
         org_name, postcode = create_organisation_directly(email_1)
         join_teacher_to_organisation(email_2, org_name, postcode)
         class_name, access_code = create_class_directly(email_1)
-        student_name, student_password = create_school_student_directly(access_code)
+        student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)

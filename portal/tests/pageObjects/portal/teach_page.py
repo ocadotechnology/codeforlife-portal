@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import Select
 from base_page import BasePage
 import play_page
 import email_verification_needed_page
-import pageObjects.registration.teacher_password_reset_form_page
+from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
 import teach.dashboard_page
 
 class TeachPage(BasePage):
@@ -18,7 +18,7 @@ class TeachPage(BasePage):
 
     def go_to_forgotten_password_page(self):
         self.browser.find_element_by_id('forgottenPassword_button').click()
-        return pageObjects.registration.teacher_password_reset_form_page.TeacherPasswordResetFormPage(self.browser)
+        return TeacherPasswordResetFormPage(self.browser)
 
     def signup(self, title, first_name, last_name, email, password, confirm_password):
         Select(self.browser.find_element_by_id('id_signup-title')).select_by_value(title)
