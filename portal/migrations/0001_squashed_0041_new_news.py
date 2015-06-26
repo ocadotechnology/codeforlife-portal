@@ -50,7 +50,7 @@ def insert_users(apps, schema_editor):
         first_name='Albert',
         last_name='Einstein',
         email='alberteinstein@codeforlife.com',
-        password=make_password('Password1'))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
 
     teacher2_user = User.objects.create(
         username='test teacher2',
@@ -72,21 +72,21 @@ def insert_users(apps, schema_editor):
         first_name='Leonardo',
         last_name='DaVinci',
         email='leonardodavinci@codeforlife.com',
-        password='Password1')
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
 
     student2_user = User.objects.create(
         username='test student2',
         first_name='Galileo',
         last_name='Galilei',
         email='galileogalilei@codeforlife.com',
-        password='Password1')
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
 
     student3_user = User.objects.create(
         username='Issac',
         first_name='Isaac',
         last_name='Newton',
         email='isaacnewton@codeforlife.com',
-        password='Password1')
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
 
     student4_user = User.objects.create(
         username='test student4',
@@ -315,7 +315,7 @@ def insert_users(apps, schema_editor):
         first_name='DATA',
         last_name='AGGREGATE',
         email='aggregator@codeforlife.com',
-        password=os.getenv('DATA_AGGREGATE_PASSWORD', 'Password1'))
+        password=make_password(os.getenv('DATA_AGGREGATE_PASSWORD', 'Password1')))
 
     user_profile = UserProfile.objects.create(
         user=user,
