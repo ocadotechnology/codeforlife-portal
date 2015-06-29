@@ -167,6 +167,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': rel('dbfile'),
+            'TEST': {
+                'NAME': (rel('testdbfile')),
+            }
         }
     }
     CACHES = {
