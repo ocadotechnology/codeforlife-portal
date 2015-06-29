@@ -12,6 +12,7 @@ local_settings.py
 .pydevproject
 .idea
 dbfile
+testdbfile
 *.orig
 .sass-cache
 *.DS_Store

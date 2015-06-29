@@ -125,7 +125,7 @@ if os.getenv('DEPLOYMENT', None):
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
             'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
-            'OPTIONS':  {
+            'OPTIONS': {
                 'ssl': {
                     'ca': 'server-ca.pem',
                     'cert': 'client-cert.pem',
@@ -176,6 +176,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': rel('dbfile'),
+            'TEST': {
+                'NAME': (rel('testdbfile')),
+            }
         }
     }
     CACHES = {
@@ -197,9 +200,11 @@ LOCALE_PATHS = (
 )
 
 from django.conf import global_settings
+
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + \
      ('django.core.context_processors.i18n',)
 
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings
+
 configure_settings(globals())
