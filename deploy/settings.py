@@ -60,9 +60,6 @@ MIDDLEWARE_CLASSES = [
     'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware'
 ]
 
-BASICAUTH_USERNAME = 'trial'
-BASICAUTH_PASSWORD = 'cabbage'
-
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
@@ -117,6 +114,15 @@ SITE_ID = 1
 # Deployment
 
 import os
+if os.getenv('PRODUCTION', None):
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+    ALLOWED_HOSTS = ['.appspot.com', '.codeforlife.education']
+else:
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = []
+
 if os.getenv('DEPLOYMENT', None):
     DATABASES = {
         'default': {
@@ -166,7 +172,11 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     # Specify a queue name for the async. email backend.
     EMAIL_QUEUE_NAME = 'default'
     MIDDLEWARE_CLASSES.insert(0, 'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware')
-    MIDDLEWARE_CLASSES.append('deploy.middleware.basicauth.BasicAuthMiddleware')
+    if not os.getenv('PRODUCTION', None):
+        BASICAUTH_USERNAME = 'trial'
+        BASICAUTH_PASSWORD = 'cabbage'
+        MIDDLEWARE_CLASSES.append('deploy.middleware.basicauth.BasicAuthMiddleware')
+
     SOCIAL_AUTH_PANDASSO_KEY = 'code-for-life'
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv('PANDASSO_SECRET')
     SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = True
