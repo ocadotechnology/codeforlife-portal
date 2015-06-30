@@ -17,3 +17,4 @@ testdbfile
 .sass-cache
 *.DS_Store
 *.jshintrc
+submodules*
