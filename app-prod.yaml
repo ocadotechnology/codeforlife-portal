@@ -1,9 +1,10 @@
-application: numeric-incline-526
-version: 1
+application: decent-digit-629
+version: willbereplaced
 runtime: python27
 instance_class: F4
 api_version: 1
 threadsafe: true
+module: default
 
 handlers:
 - url: /favicon\.ico
@@ -49,15 +50,26 @@ handlers:
 
 env_variables:
   DJANGO_SETTINGS_MODULE: 'deploy.settings'
-  DATABASE_NAME: 'deploy'
+  DATABASE_NAME: 'cfl_prod'
   CACHE_PREFIX: 'prod-'
   HTTPS: 'on'
+  PRODUCTION: 'true'
 
 libraries:
 - name: MySQLdb
   version: latest
 - name: ssl
   version: latest
+- name: PIL
+  version: latest
+
+skip_files:
+- ^(.*/)?.*\.scss$
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
 
 builtins:
 - appstats: on
