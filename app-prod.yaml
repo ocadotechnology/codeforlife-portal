@@ -1,5 +1,5 @@
 application: decent-digit-629
-version: will_be_replaced
+version: willbereplaced
 runtime: python27
 instance_class: F4
 api_version: 1
