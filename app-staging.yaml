@@ -1,5 +1,5 @@
 application: decent-digit-629
-version: 1
+version: will_be_replaced
 runtime: python27
 api_version: 1
 threadsafe: true

@@ -1,9 +1,10 @@
 application: decent-digit-629
-version: xxx
+version: will_be_replaced
 runtime: python27
 instance_class: F4
 api_version: 1
 threadsafe: true
+module: prod
 
 handlers:
 - url: /favicon\.ico
