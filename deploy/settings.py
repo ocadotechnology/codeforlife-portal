@@ -237,20 +237,32 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ()
 }
 
-from django.conf import global_settings
-
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + \
-     (
-      'django.core.context_processors.i18n',
-      'sekizai.context_processors.sekizai',
-      'cms.context_processors.cms_settings',
-      )
-     
-TEMPLATE_DIRS = (
-    # The docs say it should be absolute path: BASE_DIR is precisely one.
-    # Life is wonderful!
-    os.path.join(BASE_DIR, "templates"),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+            os.path.join(BASE_DIR, "templates"),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'sekizai.context_processors.sekizai',
+                'cms.context_processors.cms_settings',
+            ],
+        },
+    },
+]
 
 CMS_TEMPLATES = (
     ('portal/base.html', 'Template One'),
