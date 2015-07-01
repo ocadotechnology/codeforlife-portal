@@ -1,7 +1,7 @@
 #!/bin/bash
-pip install -r /opt/codeforlife-deploy/requirements.txt
-ssh-agent /opt/codeforlife-deploy/install-portal.sh
-ssh-agent /opt/codeforlife-deploy/install-rapid-router.sh
+pip install -U -t lib -r requirements.txt
+./install-portal.sh
+./install-rapid-router.sh
 echo "Following packages present:"
-pip freeze
+ls -ltr lib | grep -v info
 echo "--------------------------------------------------------------------------------"

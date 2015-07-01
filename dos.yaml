@@ -1,0 +1,3 @@
+blacklist:
+- subnet: 188.95.44.234
+  description: DOS on 06/02/2015

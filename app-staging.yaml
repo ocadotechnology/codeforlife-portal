@@ -1,9 +1,9 @@
-application: numeric-incline-526
-version: 1
+application: decent-digit-629
+version: willbereplaced
 runtime: python27
-instance_class: F4
 api_version: 1
 threadsafe: true
+module: staging
 
 handlers:
 - url: /favicon\.ico
@@ -39,25 +39,27 @@ handlers:
   application_readable: true
   secure: always
 
-- url: /_ah/stats.*
-  script: google.appengine.ext.appstats.ui.app
-  secure: always
-
 - url: /.*
   script: main.application
   secure: always
 
 env_variables:
   DJANGO_SETTINGS_MODULE: 'deploy.settings'
-  DATABASE_NAME: 'deploy'
-  CACHE_PREFIX: 'prod-'
-  HTTPS: 'on'
+  DATABASE_NAME: 'cfl_staging'
+  CACHE_PREFIX: 'staging-'
 
 libraries:
 - name: MySQLdb
   version: latest
+- name: PIL
+  version: latest
 - name: ssl
   version: latest
 
-builtins:
-- appstats: on
+skip_files:
+- ^(.*/)?.*\.scss$
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
