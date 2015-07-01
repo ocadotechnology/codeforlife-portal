@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django_otp',
     'django_otp.plugins.otp_static',
     'django_otp.plugins.otp_totp',
+    'django.contrib.formtools',
     'two_factor',
 )
 
@@ -166,6 +167,9 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': rel('dbfile'),
+            'TEST': {
+                'NAME': (rel('testdbfile')),
+            }
         }
     }
     CACHES = {

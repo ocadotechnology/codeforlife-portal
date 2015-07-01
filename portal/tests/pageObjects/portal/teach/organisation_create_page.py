@@ -1,5 +1,6 @@
 from time import sleep
 
+from selenium.webdriver.support.ui import Select
 from teach_base_page import TeachBasePage
 
 class TeachOrganisationCreatePage(TeachBasePage):
@@ -8,10 +9,14 @@ class TeachOrganisationCreatePage(TeachBasePage):
 
         assert self.on_correct_page('teach_organisation_create_page')
 
-    def create_organisation(self, name, postcode, password):
+    def create_organisation(self, name, password, postcode, country = 'GB'):
         self.browser.find_element_by_id('id_name').send_keys(name)
         self.browser.find_element_by_id('id_postcode').send_keys(postcode)
         self.browser.find_element_by_id('id_current_password').send_keys(password)
+
+        country_element = self.browser.find_element_by_id('id_country')
+        select = Select(country_element)
+        select.select_by_value(country)
 
         self.browser.find_element_by_name('create_organisation').click()
 
@@ -21,7 +26,7 @@ class TeachOrganisationCreatePage(TeachBasePage):
             return self
 
     def has_creation_failed(self):
-        errorlist = self.browser.find_element_by_id('create_form').find_element_by_class_name('errorlist').text
+        errorlist = self.browser.find_element_by_id('form-create-organisation').find_element_by_class_name('errorlist').text
         error = 'There is already a school or club registered with that name and postcode'
         return (error in errorlist)
 

@@ -14,7 +14,8 @@ class PlayAccountPage(PlayBasePage):
         self.browser.find_element_by_id('update_button').click()
 
         if self.on_correct_page('play_dashboard_page'):
-            return dashboard_page.PlayDashboardPage(self.browser)
+            from dashboard_page import PlayDashboardPage
+            return PlayDashboardPage(self.browser)
         else:
             return self
 
@@ -26,4 +27,3 @@ class PlayAccountPage(PlayBasePage):
 
         return correct
 
-import dashboard_page

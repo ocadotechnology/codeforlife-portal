@@ -1,6 +1,10 @@
 from selenium.webdriver.support.ui import Select
 
 from base_page import BasePage
+import play_page
+import email_verification_needed_page
+from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
+import teach.dashboard_page
 
 class TeachPage(BasePage):
     def __init__(self, browser):
@@ -14,7 +18,7 @@ class TeachPage(BasePage):
 
     def go_to_forgotten_password_page(self):
         self.browser.find_element_by_id('forgottenPassword_button').click()
-        return pageObjects.registration.teacher_password_reset_form_page.TeacherPasswordResetFormPage(self.browser)
+        return TeacherPasswordResetFormPage(self.browser)
 
     def signup(self, title, first_name, last_name, email, password, confirm_password):
         Select(self.browser.find_element_by_id('id_signup-title')).select_by_value(title)
@@ -39,11 +43,6 @@ class TeachPage(BasePage):
             return self
 
     def has_login_failed(self):
-        errorlist = self.browser.find_element_by_id('login_form').find_element_by_class_name('errorlist').text
+        errorlist = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
         error = 'Incorrect email address or password'
         return (error in errorlist)
-
-import play_page
-import email_verification_needed_page
-import pageObjects.registration.teacher_password_reset_form_page
-import teach.dashboard_page

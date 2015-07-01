@@ -1,7 +1,7 @@
 from django.core import mail
 
 from portal.models import Class, Student
-from portal.helpers.generators import generate_password
+
 
 def generate_school_details():
     name = 'Student %d' % generate_school_details.next_id
@@ -19,7 +19,7 @@ def create_school_student_directly(access_code):
     klass = Class.objects.get(access_code=access_code)
     student = Student.objects.schoolFactory(klass, name, password)
 
-    return name, password
+    return name, password, student
 
 def create_school_student(page):
     name, _ = generate_school_details()

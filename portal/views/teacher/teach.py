@@ -6,15 +6,13 @@ from datetime import timedelta
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth import login, logout, update_session_auth_hash
-from django.contrib.auth.models import User
+from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles import finders
 from django.forms.formsets import formset_factory
 from django.utils import timezone
-from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, white
@@ -22,51 +20,14 @@ from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
 from two_factor.utils import default_device
-from recaptcha import RecaptchaClient
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import UserProfile, School, Teacher, Class, Student
+from portal.models import Teacher, Class, Student
 from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet, StudentCreationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import get_random_username, generate_new_student_name, generate_access_code, generate_password
 from portal.helpers.email import send_email, send_verification_email, NOTIFICATION_EMAIL
 from portal import emailMessages
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
-def teacher_home(request):
-    teacher = request.user.userprofile.teacher
-    num_classes = len(Class.objects.filter(teacher=teacher))
-
-    if Student.objects.filter(pending_class_request__teacher=teacher).exists():
-        link = reverse('teacher_classes')
-        messages.info(request, 'You have pending requests from students wanting to join your classes. Please go to the <a href="' + link + '">classes</a> page to review these requests.', extra_tags='safe')
-
-    if teacher.is_admin and Teacher.objects.filter(pending_join_request=teacher.school).exists():
-        link = reverse('organisation_manage')
-        messages.info(request, 'You have pending requests from teachers wanting to join your school or club. Please go to the <a href="' + link + '">school|club</a> page to review these requests.', extra_tags='safe')
-
-    # For teachers using 2FA, warn if they don't have any backup tokens set, and warn solo-admins to set up another admin
-    if default_device(request.user):
-        # check backup tokens
-        try:
-            backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
-        except Exception:
-            backup_tokens = 0
-        if not backup_tokens > 0:
-            link = reverse('two_factor:profile')
-            messages.warning(request, 'You do not have any backup tokens set up for two factor authentication, so could lose access to your account if you have problems with your smartphone or tablet. <a href="' + link + '">Set up backup tokens now</a>.', extra_tags='safe')
-        # check admin
-        if teacher.is_admin:
-            admins = Teacher.objects.filter(school=teacher.school, is_admin=True)
-            manageSchoolLink = reverse('organisation_manage')
-            if len(admins) == 1:
-                messages.warning(request, 'You are the only administrator in your school and are using Two Factor Authentication (2FA). We recommend you <a href="' + manageSchoolLink + '">set up another administrator</a> who will be able to disable your 2FA should you have problems with your smartphone or tablet.', extra_tags='safe')
-
-    return render(request, 'portal/teach/teacher_home.html', {
-        'teacher': teacher,
-        'num_classes': num_classes,
-    })
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -90,17 +51,10 @@ def teacher_classes(request):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
         if form.is_valid():
-            classmate_progress = False
-            if form.cleaned_data['classmate_progress']=='True':
-                classmate_progress = True
-            klass = Class.objects.create(
-                name=form.cleaned_data['name'],
-                teacher=teacher,
-                access_code=generate_access_code(),
-                classmates_data_viewable=classmate_progress)
-
-            messages.success(request, "The class '" + klass.name + "' has been created successfully.")
-            return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={ 'access_code': klass.access_code }))
+            created_class = create_class(form, teacher)
+            messages.success(request, "The class '{className}' has been created successfully."
+                             .format(className = created_class.name))
+        return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={ 'access_code': created_class.access_code }))
     else:
         form = ClassCreationForm(initial={ 'classmate_progress' : 'False' })
 
@@ -111,6 +65,19 @@ def teacher_classes(request):
         'requests': requests,
         'classes': classes,
     })
+
+
+def create_class(form, teacher):
+    classmate_progress = False
+    if form.cleaned_data['classmate_progress'] == 'True':
+        classmate_progress = True
+    klass = Class.objects.create(
+        name=form.cleaned_data['name'],
+        teacher=teacher,
+        access_code=generate_access_code(),
+        classmates_data_viewable=classmate_progress)
+    return klass
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))

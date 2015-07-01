@@ -1,4 +1,4 @@
-from pageObjects.portal.base_page import BasePage
+from portal.tests.pageObjects.portal.base_page import BasePage
 
 class StudentPasswordResetFormPage(BasePage):
     def __init__(self, browser):
@@ -9,6 +9,7 @@ class StudentPasswordResetFormPage(BasePage):
 
     def cancel(self):
         self.browser.find_element_by_id('cancel_button').click()
-        return pageObjects.portal.home_page.HomePage(self.browser)
+        from portal.tests.pageObjects.portal.home_page import HomePage
 
-import pageObjects.portal.home_page
+        return HomePage(self.browser)
+
