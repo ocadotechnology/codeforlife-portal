@@ -1,1 +1,25 @@
-django==1.7
+django==1.7.1
+
+# Django CMS
+django-cms
+
+django-mptt
+django-classy-tags
+django-treebeard
+django-sekizai
+html5lib
+djangocms-admin-style
+
+djangocms-text-ckeditor
+djangocms-link
+djangocms-snippet
+djangocms-style
+djangocms-column
+djangocms-grid
+djangocms-oembed
+djangocms-table
+
+Pillow
+django-filer
+cmsplugin-filer
+django-reversion

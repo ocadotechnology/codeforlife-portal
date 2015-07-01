@@ -141,7 +141,6 @@ SITE_ID = 1
 
 # Deployment
 
-import os
 if os.getenv('DEPLOYMENT', None):
     DATABASES = {
         'default': {
@@ -244,7 +243,6 @@ LANGUAGES = [
 ]
 
 MIGRATION_MODULES = {
-    'cms': 'cms.migrations_django',
     'menus': 'menus.migrations_django',
 
     # Add also the following modules if you're using these plugins:
