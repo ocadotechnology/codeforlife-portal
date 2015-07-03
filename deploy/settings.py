@@ -285,7 +285,7 @@ MIGRATION_MODULES = {
 #     'djangocms_snippet': 'djangocms_snippet.migrations_django',
 #     'djangocms_teaser': 'djangocms_teaser.migrations_django',
 #     'djangocms_video': 'djangocms_video.migrations_django',
-    'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
+#     'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
 }
 
 # Keep this at the bottom
