@@ -1,26 +1,26 @@
 django==1.8.2
 
 # Django CMS
-django-cms
+#django-cms
 
-django-mptt
-django-classy-tags
-django-treebeard
-django-sekizai
-html5lib
+#django-mptt
+#django-classy-tags
+#django-treebeard
+#django-sekizai
+#html5lib
 #djangocms-admin-style
 
-djangocms-text-ckeditor
+#djangocms-text-ckeditor
 #djangocms-link
 #djangocms-snippet
-djangocms-style
+#djangocms-style
 #djangocms-column
 #djangocms-grid
 #djangocms-oembed
 #djangocms-table
 
 
-Pillow
+#Pillow
 #django-filer
 #cmsplugin-filer
 #django-reversion
