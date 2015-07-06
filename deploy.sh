@@ -1,7 +1,12 @@
 #!/bin/bash
 # To be used to docker deployment environment
 export DEPLOYMENT=1
-
+./manage.py migrate
+MIGRATERESULT=$?
+if [ $MIGRATERESULT -ne 0 ]; then
+  echo "Migrations failed"
+  exit 1
+fi
 # flush memcache
 echo "from django.core.cache import cache; cache.clear()" | ./manage.py shell
 appcfg.py update --authenticate_service_account \
