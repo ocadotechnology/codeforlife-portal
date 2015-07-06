@@ -3,13 +3,13 @@
 {% load cache %}
 
 {# CMS #}
-{# {% load cms_tags sekizai_tags %} #}
+{% load cms_tags sekizai_tags %}
 
 <!DOCTYPE html>
 <html>
 <head>
 {# CMS #}
-{# {% render_block "css" %} #}
+{% render_block "css" %}
 
 <title>{% block title %}Code for Life{% endblock %}</title>
     <meta name="msapplication-config" content="none"/>
@@ -51,8 +51,8 @@
 
 <body>
 {# CMS #}
-{#{% cms_toolbar %}#}
-{#{% render_block "js" %}#}
+{% cms_toolbar %}
+{% render_block "js" %}
 
 {% block contentWrapper %}
 <div {% block pageID %}id='contentWrapper'{% endblock %}>
@@ -118,7 +118,7 @@
 
         {% block content %}
         {# CMS #}
-{#        {% placeholder template_1_content %}#}
+        {% placeholder template_1_content %}
         {% block base_content %}{% endblock %}
         {% endblock content %}
 
