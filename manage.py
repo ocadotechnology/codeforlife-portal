@@ -19,7 +19,6 @@ def add_other_packages(other_folder):
 
 def do_site_packages():
     add_other_packages('lib')
-    add_other_packages('lib.zip')
     add_other_packages('submodules/portal')
     add_other_packages('submodules/ocargo')
 
