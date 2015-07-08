@@ -36,7 +36,7 @@ class TestClass(BaseTest):
     def test_edit(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
@@ -63,7 +63,7 @@ class TestClass(BaseTest):
     def test_delete_empty(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
@@ -83,7 +83,7 @@ class TestClass(BaseTest):
     def test_delete_nonempty(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
@@ -104,7 +104,7 @@ class TestClass(BaseTest):
     def test_transfer_cancel(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
@@ -120,7 +120,7 @@ class TestClass(BaseTest):
         email_2, password_2 = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email_1)
         join_teacher_to_organisation(email_2, org_name, postcode)
-        class_name, access_code = create_class_directly(email_1)
+        _, class_name, access_code = create_class_directly(email_1)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)

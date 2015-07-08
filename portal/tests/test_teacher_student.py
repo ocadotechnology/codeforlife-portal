@@ -10,7 +10,7 @@ class TestTeacherStudent(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
@@ -24,7 +24,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
@@ -40,7 +40,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_already_exists(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
@@ -59,7 +59,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_duplicate(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
 
         student_name = 'bob'
 
@@ -79,7 +79,7 @@ class TestTeacherStudent(BaseTest):
     def test_delete(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
@@ -104,7 +104,7 @@ class TestTeacherStudent(BaseTest):
     def test_move_cancel(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
@@ -127,8 +127,8 @@ class TestTeacherStudent(BaseTest):
         email_2, password_2 = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email_1)
         join_teacher_to_organisation(email_2, org_name, postcode)
-        class_name_1, access_code_1 = create_class_directly(email_1)
-        class_name_2, access_code_2 = create_class_directly(email_2)
+        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        _, class_name_2, access_code_2 = create_class_directly(email_2)
         student_name, student_password, _ = create_school_student_directly(access_code_1)
 
         self.browser.get(self.live_server_url)
@@ -147,8 +147,8 @@ class TestTeacherStudent(BaseTest):
         email_2, password_2 = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email_1)
         join_teacher_to_organisation(email_2, org_name, postcode)
-        class_name_1, access_code_1 = create_class_directly(email_1)
-        class_name_2, access_code_2 = create_class_directly(email_2)
+        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        _, class_name_2, access_code_2 = create_class_directly(email_2)
         student_name_1, student_password_1, _ = create_school_student_directly(access_code_1)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code_1)
 
@@ -174,7 +174,7 @@ class TestTeacherStudent(BaseTest):
     def test_dismiss(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name_1, student_password_1, _ = create_school_student_directly(access_code)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code)
 

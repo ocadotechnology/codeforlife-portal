@@ -10,7 +10,7 @@ class TestSchoolStudent(BaseTest):
     def test_login(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
@@ -22,7 +22,7 @@ class TestSchoolStudent(BaseTest):
     def test_login_failure(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
@@ -36,7 +36,7 @@ class TestSchoolStudent(BaseTest):
     def test_change_password(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        class_name, access_code = create_class_directly(email)
+        _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
