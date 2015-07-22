@@ -10,17 +10,17 @@ class BasePage(object):
         self.browser = browser
 
     def wait_for_element(self, method):
-        WebDriverWait(self.browser, 2).until(
+        WebDriverWait(self.browser, 1).until(
             EC.presence_of_element_located(method)
         )
 
     def wait_for_element_by_id(self, name):
-        WebDriverWait(self.browser, 2).until(
+        WebDriverWait(self.browser, 1).until(
             EC.presence_of_element_located((By.ID, name))
         )
 
     def wait_for_element_by_xpath(self, name):
-        WebDriverWait(self.browser, 2).until(
+        WebDriverWait(self.browser, 1).until(
             EC.presence_of_element_located((By.XPATH, name))
         )
 

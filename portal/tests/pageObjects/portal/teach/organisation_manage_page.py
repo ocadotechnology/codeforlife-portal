@@ -18,13 +18,11 @@ class TeachOrganisationManagePage(TeachBasePage):
         correct = True
 
         for field, value in details.items():
-            self.wait_for_element_by_id('id_' + field)
             correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
 
         return correct
 
     def has_edit_failed(self):
-        self.wait_for_element_by_id('edit_form')
         errorlist = self.browser.find_element_by_id('edit_form').find_element_by_class_name('errorlist').text
         error = 'There is already a school or club registered with that name and postcode'
         return (error in errorlist)
@@ -37,7 +35,6 @@ class TeachOrganisationManagePage(TeachBasePage):
         return self
 
     def have_join_request(self, email):
-        self.wait_for_element_by_id('request_table')
         return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
 
     def number_of_members(self):
