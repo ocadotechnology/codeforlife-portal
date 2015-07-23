@@ -17,8 +17,10 @@ class TeachOrganisationManagePage(TeachBasePage):
     def check_organisation_details(self, details):
         correct = True
 
+        first_field = details.items()[0][0]
+        self.wait_for_element_by_id('id_' + first_field)
+
         for field, value in details.items():
-            self.wait_for_element_by_id('id_' + field)
             correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
 
         return correct
@@ -37,7 +39,6 @@ class TeachOrganisationManagePage(TeachBasePage):
         return self
 
     def have_join_request(self, email):
-        self.wait_for_element_by_id('request_table')
         return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
 
     def number_of_members(self):

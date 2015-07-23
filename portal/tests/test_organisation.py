@@ -1,11 +1,13 @@
 from base_test import BaseTest
+from portal.tests.pageObjects.portal.base_page import BasePage
+from selenium.webdriver.support.ui import WebDriverWait
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation, create_organisation_directly
 from utils.messages import is_organisation_created_message_showing
 
-class TestOrganisation(BaseTest):
+class TestOrganisation(BaseTest, BasePage):
     def test_create(self):
         email, password = signup_teacher_directly()
 
@@ -104,6 +106,9 @@ class TestOrganisation(BaseTest):
         page = page.logout().go_to_teach_page().login(email_1, password_1).go_to_organisation_page()
         assert page.have_join_request(email_2)
         page = page.accept_join_request(email_2)
+
+        WebDriverWait(self.browser, 2).until_not(lambda driver: self.element_exists_by_id('request_table'))
+
         assert not page.have_join_request(email_2)
         assert page.number_of_members() == 2
         assert page.number_of_admins() == 1
@@ -138,6 +143,9 @@ class TestOrganisation(BaseTest):
         page = page.logout().go_to_teach_page().login(emails[n-1], passwords[n-1]).go_to_organisation_page()
         assert page.have_join_request(email)
         page = page.accept_join_request(email)
+
+        WebDriverWait(self.browser, 2).until_not(lambda driver: self.element_exists_by_id('request_table'))
+
         assert not page.have_join_request(email)
         assert page.number_of_members() == 2
         assert page.number_of_admins() == 1
