@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django_countries',
     'rest_framework',
-    
+
     #CMS
     # 'cms',  # django CMS itself
     # 'treebeard',
@@ -55,7 +55,7 @@ INSTALLED_APPS = (
     # 'menus',  # helper for model independent hierarchical website navigation
     # 'sekizai',  # for javascript and css management
     # 'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
-    
+
     #CMS Plugins
 #     'djangocms_file',
 #     'djangocms_flash',

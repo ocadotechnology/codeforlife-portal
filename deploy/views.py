@@ -1,15 +1,13 @@
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.db.models import Avg, Count, Sum
-from portal.models import UserProfile, Teacher, School, Class, Student
-from game.models import Level, Attempt
-from ratelimit.decorators import ratelimit
-from deploy.permissions import is_authorised_to_view_aggregated_data
-
+from django.db.models import Avg, Count
 from two_factor.utils import default_device
+
+from portal.models import UserProfile, Teacher, School, Class, Student
+from ratelimit.decorators import ratelimit
 
 
 def csrf_failure(request, reason=""):
@@ -25,8 +23,8 @@ def admin_login(request):
 
     return auth_views.login(request)
 
-
-@user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
+@login_required(login_url=reverse_lazy('admin_login'))
+@permission_required('portal.view_aggregated_data', raise_exception=True)
 def aggregated_data(request):
 
     tables = []
@@ -127,7 +125,7 @@ def aggregated_data(request):
     table_data.append(["Number of independent students who have started RR", independent_students_with_attempts.count(), ""])
 
     # TODO revisit this once episodes have been restructured, as this doesn't work because of episode being a PROPERTY of level...
-    
+
     # Need to filter out so we're only looking at attempts on levels that could be relevant, and don't look at null scores
     # default_level_attempts = Attempt.objects.filter(level__default=True).exclude(level__episode=None).exclude(level__episode__in_development=True).exclude(score=None)
     # table_data.append(["Average score recorded on default RR levels", default_level_attempts.aggregate(Avg('score'))['score__avg'], ""])
