@@ -31,3 +31,4 @@ def teacher_verified(view_func):
         return view_func(request, *args, **kwargs)
 
     return wrapped
+

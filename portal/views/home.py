@@ -8,13 +8,11 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.forms import AuthenticationForm
 from two_factor.utils import default_device
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
-
-from deploy.permissions import is_authorised_to_view_aggregated_data
 
 from portal.models import School, Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
@@ -24,8 +22,6 @@ from portal.helpers.email import send_email, send_verification_email, CONTACT_EM
 from portal.helpers.location import lookup_coord
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
-
-
 from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
@@ -312,7 +308,8 @@ def fill_in_missing_school_locations(request):
     messages.info(request, '%d school have no town' % town0)
 
 
-@user_passes_test(is_authorised_to_view_aggregated_data, login_url=reverse_lazy('admin_login'))
+@login_required(login_url=reverse_lazy('admin_login'))
+@permission_required('portal.view_map_data', raise_exception=True)
 def schools_map(request):
     fill_in_missing_school_locations(request)
 

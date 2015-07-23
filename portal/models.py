@@ -27,6 +27,11 @@ class School (models.Model):
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label='(select country)')
 
+    class Meta:
+        permissions = (
+            ('view_aggregated_data', "Can see available aggregated data"),
+            ('view_map_data', "Can see schools' location displayed on map")
+        )
 
     def __unicode__(self):
         return self.name

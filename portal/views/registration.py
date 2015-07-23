@@ -32,6 +32,7 @@ def custom_2FA_login(request):
 
     return LoginView.as_view()(request)
 
+
 @user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
 def password_reset_check_and_confirm(request, uidb64=None, token=None, post_reset_redirect=None):
     # Customised standard django auth view with customised form to incorporate checking the password set is strong enough
