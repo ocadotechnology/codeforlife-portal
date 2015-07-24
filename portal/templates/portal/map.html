@@ -1,4 +1,4 @@
-{% extends 'portal/base.html' %}
+{% extends 'portal/base_admin.html' %}
 
 {% block head %}
 
@@ -18,6 +18,7 @@
     }
 </style>
 
+{% block script %}
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
 <script type="text/javascript">
@@ -57,6 +58,7 @@
 
   });
 </script>
+{% endblock script %}
 
 {% endblock head %}
 
