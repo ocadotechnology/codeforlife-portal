@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from deploy.views import aggregated_data, admin_login
+from views import aggregated_data, admin_login
 from django.contrib import admin
 
 js_info_dict = {
