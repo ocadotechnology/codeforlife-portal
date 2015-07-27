@@ -28,7 +28,7 @@ Occasionally changes need to be deployed quickly. Going through the usual deploy
     Use the commit id to create a new branch for the corresponding repository:
       1. Navigate to the local repository (codeforlife-deploy, codeforlife-portal or ocargo)
       1. Use the commit id to switch to the relevant state of that repository: $ git checkout [commit id]
-      1. Create a new branch (the name of the branch is not important but the name of the new branches on each repository must be the same): $ git checkout -b <new-branch-name>
+      1. Create a new branch (the name of the branch is not important but the name of the new branches on each repository must be the same): $ git checkout -b [new-branch-name]
       1. Push the new branch to the remote repository: $ git push
         
     1. Commit and push the ad-hoc changes to created branch.        
