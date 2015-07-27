@@ -1,4 +1,4 @@
-Current build / deployment process:
+## Current build / deployment process:
 
 1. Changes pushed to ocargo, codeforlife-portal and codeforlife-deploy trigger Publish Ocargo Files, Publish Portal Files and Publish Deploy Files respectively.
 1. Each of "Publish <X> files" builds publishes all of the files of its repository and triggers Create Distribution.
@@ -9,7 +9,7 @@ This is used by all subsequent builds (tests and deploy), so we can be sure that
 1. Create Distribution triggers Run Portal Tests and Run Ocargo Tests and when they complete successfuly, Deploy to Dev is triggered.
 1. Deploy to Staging and Deploy to Prod are manually triggered and take the number of the distribution build that gets deployed (defaults to last successful).
 
-Making ad-hoc changes to production:
+## Making ad-hoc changes to production:
 
 1. Create a branch of production code:
 
