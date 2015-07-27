@@ -1,5 +1,4 @@
 from functools import partial
-from time import sleep
 
 from django.core.cache import cache
 from django.conf import settings
@@ -8,18 +7,16 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.forms import AuthenticationForm
 from two_factor.utils import default_device
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import School, Teacher, Student, FrontPageNews
+from portal.models import Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
-from portal.helpers.location import lookup_coord
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
 from ratelimit.decorators import ratelimit
@@ -279,43 +276,6 @@ def contact(request):
 
     response.count = increment_count
     return response
-
-
-def fill_in_missing_school_locations(request):
-    schools = School.objects.filter(latitude='0', longitude='0')
-
-    requests = 0
-    failures = []
-    town0 = 0
-
-    for school in schools:
-        requests += 1
-        sleep(0.2)  # so we execute a bit less than 5/sec
-
-        error, school.country, school.town, school.latitude, school.longitude = lookup_coord(school.postcode, school.country.code)
-
-        if error is None:
-            school.save()
-
-        if error is not None:
-            failures += [(school.id, school.postcode, error)]
-
-        if school.town == '0':
-            town0 += 1
-
-    messages.info(request, 'Made %d requests' % requests)
-    messages.info(request, 'There were %d errors: %s' % (len(failures), str(failures)))
-    messages.info(request, '%d school have no town' % town0)
-
-
-@login_required(login_url=reverse_lazy('admin_login'))
-@permission_required('portal.view_map_data', raise_exception=True)
-def schools_map(request):
-    fill_in_missing_school_locations(request)
-
-    return render(request, 'portal/map.html', {
-        'schools': School.objects.all()
-    })
 
 
 def current_user(request):
