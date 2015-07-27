@@ -1,15 +1,28 @@
 from time import sleep
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework.reverse import reverse_lazy
 
 from django.db.models import Avg, Count
 from two_factor.utils import default_device
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import permission_required, login_required
 
 from django.contrib import messages as messages
 
 from portal.helpers.location import lookup_coord
 from portal.models import UserProfile, Teacher, School, Class, Student
+from ratelimit.decorators import ratelimit
+
+
+@ratelimit('def', periods=['1m'])
+def admin_login(request):
+    block_limit = 5
+
+    if getattr(request, 'limits', { 'def' : [0] })['def'][0] >= block_limit:
+        return HttpResponseRedirect(reverse_lazy('locked_out'))
+
+    return auth_views.login(request)
 
 
 @login_required(login_url=reverse_lazy('admin_login'))
@@ -202,7 +215,7 @@ def aggregated_data(request):
 
     tables.append({'title': "Rapid Router Levels", 'description': "", 'header': table_head, 'data': table_data})
 
-    return render(request, 'portal/aggregated_data.html', {
+    return render(request, 'portal/admin/aggregated_data.html', {
         'tables': tables,
     })
 
@@ -239,7 +252,7 @@ def fill_in_missing_school_locations(request):
 def schools_map(request):
     fill_in_missing_school_locations(request)
 
-    return render(request, 'portal/map.html', {
+    return render(request, 'portal/admin/map.html', {
         'schools': School.objects.all()
     })
 
