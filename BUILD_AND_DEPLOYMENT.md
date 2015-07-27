@@ -1,6 +1,6 @@
 ## Current build / deployment process:
 
-The build/deployment process takes place on Jenkins which is accessed here: [http://build.codeforlife.education].
+The build/deployment process takes place on Jenkins which is accessed here: http://build.codeforlife.education.
 
 1. Changes pushed to the ocargo, codeforlife-portal and codeforlife-deploy github repositories trigger the Publish Ocargo Files, Publish Portal Files and Publish Deploy Files builds on Jenkins respectively.
 1. Each of "Publish X files" builds publishes all of the files of its repository and triggers Create Distribution.
