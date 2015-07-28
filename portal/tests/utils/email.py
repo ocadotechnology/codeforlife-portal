@@ -1,4 +1,5 @@
 import string
+import re
 
 def follow_verify_email_link(page, email):
     message = str(email.message())
@@ -13,6 +14,15 @@ def follow_verify_email_link(page, email):
 
     return go_to_teach_or_play(page)
 
+def follow_reset_email_link(browser, email):
+    message = str(email.body)
+
+    link = re.search("http.+/", message).group(0)
+
+    browser.get(link)
+
+    from portal.tests.pageObjects.registration.password_reset_form_page import PasswordResetPage
+    return PasswordResetPage(browser)
 
 def follow_change_email_link(page, email):
     message = str(email.message())

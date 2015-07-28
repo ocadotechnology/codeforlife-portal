@@ -6,7 +6,6 @@ class TeacherPasswordResetFormPage(BasePage):
 
         self.wait_for_element_by_id('teacherPasswordResetForm_page')
 
-        #self.browser.find_element_by_id('teacherPasswordResetForm_page')
         assert self.browser.find_element_by_id('id_email').get_attribute('placeholder') == 'my.email@address.com'
 
     def cancel(self):
@@ -15,3 +14,10 @@ class TeacherPasswordResetFormPage(BasePage):
         self.browser.find_element_by_id('cancel_button').click()
         return HomePage(self.browser)
 
+    def reset_email_submit(self, email):
+        self.browser.find_element_by_id('id_email').send_keys(email)
+
+        self.wait_for_element_by_id('reset_button')
+
+        self.browser.find_element_by_id('reset_button').click()
+        return self

@@ -1,11 +1,12 @@
 from django.core import mail
 
 from base_test import BaseTest
-
 from portal.tests.pageObjects.portal.home_page import HomePage
+from selenium.webdriver.support.wait import WebDriverWait
 from utils.teacher import signup_teacher, signup_teacher_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
 from utils import email as email_utils
+
 
 class TestTeacher(BaseTest):
     def test_signup(self):
@@ -104,6 +105,31 @@ class TestTeacher(BaseTest):
 
         page = page.logout().go_to_teach_page().login(email, new_password)
         assert self.is_teacher_dashboard(page)
+
+    def test_reset_password(self):
+        email, password = signup_teacher_directly()
+
+        self.browser.get(self.live_server_url)
+        HomePage(self.browser)\
+            .go_to_teach_page()\
+            .go_to_forgotten_password_page()\
+            .reset_email_submit(email)
+
+        self.wait_for_email()
+
+        page = email_utils.follow_reset_email_link(self.browser, mail.outbox[0])
+
+
+        new_password = 'AnotherPassword12'
+
+        page.change_details({'new_password1': new_password, 'new_password2': new_password})
+
+        self.browser.get(self.live_server_url)
+        page = HomePage(self.browser).go_to_teach_page().login(email, new_password)
+        assert self.is_teacher_dashboard(page)
+
+    def wait_for_email(self):
+        WebDriverWait(self.browser, 2).until(lambda driver: len(mail.outbox) == 1)
 
     def is_teacher_dashboard(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
