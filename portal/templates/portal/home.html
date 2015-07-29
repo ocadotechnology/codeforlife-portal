@@ -1,5 +1,6 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
+{% load app_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -183,15 +184,20 @@ The students start by solving the game levels with Blockly, which is then conver
 Blockly is hidden away altogether and students have to use Python instead. There are 18 levels, giving the students plenty of scope to explore and practise their skills.
 </p>
 
-<a id="teacherSignUp_button" href="{% url 'teach' %}" class="btn btn-primary" style="width:350px;">Log in to download the teaching pack</a>
+{% if user|is_logged_in_as_teacher %}
+    <a href="{% url 'teacher_lesson_plans' %}" class="btn btn-primary" style="width:350px;">Download the teaching pack</a>
+{% elif not user|is_logged_in %}
+    <a href="{% url 'teach' %}" class="btn btn-primary" style="width:350px;">Log in to download the teaching pack</a>
+{% endif %}
 
 
 
   </div>
 
         <div class="col span_1_of_3">
-
-            <a id="teacherSignUp_button" href="{% url 'teach' %}" class="btn btn-primary wide">Teacher sign up</a>
+            {% if not user|is_logged_in %}
+                <a id="teacherSignUp_button" href="{% url 'teach' %}" class="btn btn-primary wide">Teacher sign up</a>
+            {% endif %}
 
             <div class="news">
                 <div class='section group'>
