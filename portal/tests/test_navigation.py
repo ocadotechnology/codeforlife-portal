@@ -60,7 +60,6 @@ class TestNavigation(BaseTest):
         page.show_independent_student_login()
         page = page.go_to_forgotten_password_page().cancel().go_to_play_page()
 
-
     def test_teach(self):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)

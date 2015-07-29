@@ -14,12 +14,14 @@ from portal.helpers.location import lookup_coord
 from portal.models import UserProfile, Teacher, School, Class, Student
 from ratelimit.decorators import ratelimit
 
+block_limit = 5
 
-@ratelimit('def', periods=['1m'])
+def is_post_request(request, response):
+    return request.method == 'POST'
+
+@ratelimit('def', periods=['1m'], increment=is_post_request)
 def admin_login(request):
-    block_limit = 5
-
-    if getattr(request, 'limits', { 'def' : [0] })['def'][0] >= block_limit:
+    if getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit:
         return HttpResponseRedirect(reverse_lazy('locked_out'))
 
     return auth_views.login(request)

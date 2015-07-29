@@ -68,6 +68,19 @@ class BasePage(object):
         self.browser.find_element_by_id('terms_button').click()
         return terms_page.TermsPage(self.browser)
 
+    def is_on_admin_login_page(self):
+        return self.on_correct_page('admin_login')
+
+    def is_on_admin_data_page(self):
+        return self.on_correct_page('admin_data')
+
+    def is_on_admin_map_page(self):
+        return self.on_correct_page('admin_map')
+
+    def is_on_403_forbidden(self):
+        return self.on_correct_page('403_forbidden')
+
+
 import about_page
 import contact_page
 import help_and_support_page
