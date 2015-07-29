@@ -49,7 +49,7 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None, post_rese
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
 def student_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect)
+    return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect, is_admin_site=True)
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
 def teacher_password_reset(request, post_reset_redirect):
