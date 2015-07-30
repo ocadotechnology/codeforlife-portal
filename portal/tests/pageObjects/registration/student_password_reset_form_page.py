@@ -14,3 +14,9 @@ class StudentPasswordResetFormPage(BasePage):
 
         return HomePage(self.browser)
 
+    def reset_username_submit(self, username):
+        self.browser.find_element_by_id('id_username').send_keys(username)
+
+        self.browser.find_element_by_id('reset_button').click()
+
+        return self

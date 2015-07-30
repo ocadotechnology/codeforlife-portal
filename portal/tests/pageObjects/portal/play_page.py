@@ -1,6 +1,6 @@
 from base_page import BasePage
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
-from portal.tests.pageObjects.registration.student_password_reset_form_page import StudentPasswordResetFormPage
+
 
 class PlayPage(BasePage):
     def __init__(self, browser):
@@ -83,7 +83,13 @@ class PlayPage(BasePage):
 
     def go_to_forgotten_password_page(self):
         self.browser.find_element_by_id('forgottenPassword_button').click()
+        from portal.tests.pageObjects.registration.student_password_reset_form_page import StudentPasswordResetFormPage
         return StudentPasswordResetFormPage(self.browser)
+
+    def go_to_indy_form(self):
+        self.browser.find_element_by_id('switchToSolo').click()
+        from portal.tests.pageObjects.registration.solo_login_form_page import SoloStudentLoginFormPage
+        return SoloStudentLoginFormPage(self.browser)
 
     def show_school_login(self):
         button = self.browser.find_element_by_id('switchToSchool')

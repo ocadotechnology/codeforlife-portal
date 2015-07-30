@@ -1,4 +1,5 @@
 from django.core import mail
+import re
 
 from base_test import BaseTest
 from portal.tests.pageObjects.portal.home_page import HomePage
@@ -109,16 +110,13 @@ class TestTeacher(BaseTest):
     def test_reset_password(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.live_server_url)
-        HomePage(self.browser)\
-            .go_to_teach_page()\
-            .go_to_forgotten_password_page()\
-            .reset_email_submit(email)
+        page = self.get_to_forgotten_password_page()
+
+        page.reset_email_submit(email)
 
         self.wait_for_email()
 
         page = email_utils.follow_reset_email_link(self.browser, mail.outbox[0])
-
 
         new_password = 'AnotherPassword12'
 
@@ -128,6 +126,21 @@ class TestTeacher(BaseTest):
         page = HomePage(self.browser).go_to_teach_page().login(email, new_password)
         assert self.is_teacher_dashboard(page)
 
+    def test_reset_password_fail(self):
+        page = self.get_to_forgotten_password_page()
+        fake_email = "fake_email@fakeemail.com"
+        page.reset_email_submit(fake_email)
+
+        WebDriverWait(self.browser, 2).until(lambda driver: self.browser_text_find("Cannot find an account with that email"))
+        self.assertIn("Cannot find an account with that email", self.browser.page_source)
+
+    def get_to_forgotten_password_page(self):
+        self.browser.get(self.live_server_url)
+        page = HomePage(self.browser) \
+            .go_to_teach_page()\
+            .go_to_forgotten_password_page()
+        return page
+
     def wait_for_email(self):
         WebDriverWait(self.browser, 2).until(lambda driver: len(mail.outbox) == 1)
 
@@ -136,3 +149,11 @@ class TestTeacher(BaseTest):
 
     def is_teach_page(self, page):
         return page.__class__.__name__ == 'TeachPage'
+
+    def browser_text_find(self, text_to_find):
+        text = self.browser.page_source
+        result = re.search(text_to_find, text)
+        if result is not None:
+            return True
+        else:
+            return False
