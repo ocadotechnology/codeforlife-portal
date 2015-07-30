@@ -86,7 +86,7 @@ class PlayPage(BasePage):
         from portal.tests.pageObjects.registration.student_password_reset_form_page import StudentPasswordResetFormPage
         return StudentPasswordResetFormPage(self.browser)
 
-    def go_to_indy_form(self):
+    def go_to_independent_form(self):
         self.browser.find_element_by_id('switchToSolo').click()
         from portal.tests.pageObjects.registration.solo_login_form_page import SoloStudentLoginFormPage
         return SoloStudentLoginFormPage(self.browser)

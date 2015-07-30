@@ -61,7 +61,7 @@ def generate_solo_details():
 
 generate_solo_details.next_id = 1
 
-def create_solo_student(page):
+def create_independent_student(page):
     page = page.go_to_play_page()
 
     name, username, email_address, password = generate_solo_details()
