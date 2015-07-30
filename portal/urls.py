@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
+from portal.views.admin import aggregated_data, schools_map, admin_login
 
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
     ProfileView, QRGeneratorView
@@ -8,7 +9,7 @@ from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, S
 from portal.permissions import teacher_verified
 
 from portal.views.email import verify_email
-from portal.views.home import teach, play, contact, schools_map, current_user, logout_view, home_view
+from portal.views.home import teach, play, contact, current_user, logout_view, home_view
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
     organisation_leave, organisation_kick, organisation_toggle_admin, organisation_allow_join, \
     organisation_deny_join
@@ -52,7 +53,9 @@ urlpatterns = patterns(
         name='help'),
     url(r'^contact/$', contact, name='contact'),
     url(r'^terms/$', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
+    url(r'admin/login/$', admin_login, name='admin_login'),
     url(r'^admin/map/$', schools_map, name='map'),
+    url(r'admin/data/$', aggregated_data),
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),
     url(r'^logout/$', logout_view, name='logout'),

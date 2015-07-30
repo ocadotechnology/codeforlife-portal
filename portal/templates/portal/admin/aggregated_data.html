@@ -1,0 +1,38 @@
+{% extends 'portal/base_no_userprofile.html' %}
+
+{% load table_tags %}
+
+{% block subNav %}
+{% endblock subNav %}
+
+{% block content %}
+<div id="admin_data"></div>
+<h1>Aggregated Data from CFL</h1><br>
+
+{% for table in tables %}
+
+<h2>{{ table.title }}</h2>
+
+<p>{{ table.description }}</p>
+
+<table class="CSSTable alternate smaller">
+    <tr>
+        {% for head in table.header %}
+        <th>{{ head }}</th>
+        {% endfor %}
+    </tr>
+    {% for data in table.data %}
+    <tr>
+        {% for entry in data %}
+        <td>{{ entry|tableformat }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</table>
+<br>
+<br>
+
+{% endfor %}
+
+{% endblock content %}

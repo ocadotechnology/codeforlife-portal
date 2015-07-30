@@ -6,6 +6,7 @@ import os
 
 #### Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
+from portal.tests.pageObjects.portal.home_page import HomePage
 
 
 def chromedriver_path():
@@ -47,3 +48,7 @@ class BaseTest(LiveServerTestCase):
             return super(BaseTest, self).live_server_url
         else:
             return 'http://%s' % (os.getenv('SERVER_URL'))
+
+    def navigate_to_homepage(self):
+        self.browser.get(self.live_server_url)
+        return HomePage(self.browser)
