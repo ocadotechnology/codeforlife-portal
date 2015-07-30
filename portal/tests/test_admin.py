@@ -44,7 +44,6 @@ class TestAdmin(BaseTest):
         self.assertTrue(page.is_on_admin_map_page())
 
     # Check user with view_map_data permission can access to /admin/map but not /admin/data
-    @unittest.skip("Skipping the test because 403 cannot be caught yet")
     def test_view_map_data_permission_access(self):
         username = 'user'
         password = 'abc123'
@@ -57,7 +56,6 @@ class TestAdmin(BaseTest):
         self.assertTrue(page.is_on_403_forbidden())
 
     # Check user with view_aggregated_data permission can access to /admin/data but not /admin/map
-    @unittest.skip("Skipping the test because 403 cannot be caught yet")
     def test_view_aggregated_data_permission_access(self):
         username = 'user'
         password = 'abc123'
@@ -69,16 +67,18 @@ class TestAdmin(BaseTest):
         page = page.go_to_admin_map_page()
         self.assertTrue(page.is_on_403_forbidden())
 
-    @unittest.skip("Skipping the test because 403 cannot be caught yet")
-    def test_no_permission_access(self):
+    def test_no_view_aggregated_data_permission_access(self):
         username = 'user'
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_data()
-
-        page = page.login(username, password)
+        page = self.navigate_to_admin_data().login(username, password)
         self.assertTrue(page.is_on_403_forbidden())
-        page = page.go_to_admin_map_page()
+
+    def test_no_view_map_data_permission_access(self):
+        username = 'user'
+        password = 'abc123'
+        user = User.objects.create_user(username=username, password=password)
+        page = self.navigate_to_admin_map().login(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_wrong_username(self):
