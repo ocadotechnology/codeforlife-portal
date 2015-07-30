@@ -6,7 +6,9 @@ from portal.views import admin
 
 
 class TestAdmin(BaseTest):
-    def setup(self):
+    @classmethod
+    def setUpClass(cls):
+        super(TestAdmin, cls).setUpClass()
         admin.block_limit = 100
 
     # NB: Users are not expected to navigate to admin login page directly
