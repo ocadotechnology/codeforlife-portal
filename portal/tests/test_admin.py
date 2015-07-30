@@ -1,10 +1,14 @@
 from django.contrib.auth.models import User, Permission
-from django.utils import unittest
+
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
 from portal.tests.base_test import BaseTest
+from portal.views import admin
 
 
 class TestAdmin(BaseTest):
+    def setup(self):
+        admin.block_limit = 100
+
     # NB: Users are not expected to navigate to admin login page directly
     def navigate_to_admin_login(self):
         url = (self.live_server_url + '/admin/login/')
