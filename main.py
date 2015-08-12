@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import django.core.handlers.wsgi
 import django
 
