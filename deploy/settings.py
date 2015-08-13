@@ -49,25 +49,26 @@ INSTALLED_APPS = (
     'rest_framework',
 
     #CMS
-    # 'cms',  # django CMS itself
-    # 'treebeard',
-    # 'mptt',  # utilities for implementing a tree
-    # 'menus',  # helper for model independent hierarchical website navigation
-    # 'sekizai',  # for javascript and css management
-    # 'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
+
+    'cms',  # django CMS itself
+    'treebeard',
+    'mptt',  # utilities for implementing a tree
+    'menus',  # helper for model independent hierarchical website navigation
+    'sekizai',  # for javascript and css management
+    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
 
     #CMS Plugins
-#     'djangocms_file',
-#     'djangocms_flash',
-#     'djangocms_googlemap',
-#     'djangocms_inherit',
-#     'djangocms_picture',
-#     'djangocms_teaser',
-#     'djangocms_video',
-#     'djangocms_link',
-#     'djangocms_snippet',
-#     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
-#     'reversion'
+    'djangocms_file',
+    'djangocms_flash',
+    'djangocms_googlemap',
+    'djangocms_inherit',
+    'djangocms_picture',
+    'djangocms_teaser',
+    'djangocms_video',
+    'djangocms_link',
+    'djangocms_snippet',
+    'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
+    'reversion'
 )
 
 MIDDLEWARE_CLASSES = [
@@ -79,10 +80,10 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
-    # 'cms.middleware.user.CurrentUserMiddleware',
-    # 'cms.middleware.page.CurrentPageMiddleware',
-    # 'cms.middleware.toolbar.ToolbarMiddleware',
-    # 'cms.middleware.language.LanguageCookieMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
@@ -237,43 +238,43 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ()
 }
 
-# TEMPLATES = [
-#     {
-#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         'DIRS': [
-#             # insert your TEMPLATE_DIRS here
-#             os.path.join(BASE_DIR, "templates"),
-#         ],
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             'context_processors': [
-#                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
-#                 # list if you haven't customized them:
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.i18n',
-#                 'django.template.context_processors.media',
-#                 'django.template.context_processors.request',
-#                 'django.template.context_processors.static',
-#                 'django.template.context_processors.tz',
-#                 'django.contrib.messages.context_processors.messages',
-#                 'sekizai.context_processors.sekizai',
-#                 'cms.context_processors.cms_settings',
-#             ],
-#         },
-#     },
-# ]
-#
-# CMS_TEMPLATES = (
-#     ('portal/base.html', 'Template One'),
-# )
-#
-# LANGUAGES = [
-#     ('en-gb', 'English'),
-# ]
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+            os.path.join(BASE_DIR, "templates"),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'sekizai.context_processors.sekizai',
+                'cms.context_processors.cms_settings',
+            ],
+        },
+    },
+]
 
-# MIGRATION_MODULES = {
-#     'menus': 'menus.migrations_django',
+CMS_TEMPLATES = (
+    ('portal/base.html', 'Template One'),
+)
+
+LANGUAGES = [
+    ('en-gb', 'English'),
+]
+
+MIGRATION_MODULES = {
+    'menus': 'menus.migrations_django',
 
     # Add also the following modules if you're using these plugins:
 #     'djangocms_file': 'djangocms_file.migrations_django',
@@ -286,7 +287,7 @@ REST_FRAMEWORK = {
 #     'djangocms_teaser': 'djangocms_teaser.migrations_django',
 #     'djangocms_video': 'djangocms_video.migrations_django',
 #     'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
-# }
+}
 
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings
