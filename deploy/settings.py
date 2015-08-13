@@ -56,18 +56,18 @@ INSTALLED_APPS = (
     'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
 
-    #CMS Plugins
-    # 'djangocms_file',
-    # 'djangocms_flash',
-    # 'djangocms_googlemap',
-    # 'djangocms_inherit',
-    # 'djangocms_picture',
-    # 'djangocms_teaser',
-    # 'djangocms_video',
-    # 'djangocms_link',
-    # 'djangocms_snippet',
-    # 'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
-    # 'reversion'
+    # CMS Plugins
+    'djangocms_file',
+    'djangocms_flash',
+    'djangocms_googlemap',
+    'djangocms_inherit',
+    'djangocms_picture',
+    'djangocms_teaser',
+    'djangocms_video',
+    'djangocms_link',
+    'djangocms_snippet',
+    'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
+    'reversion'
 )
 
 MIDDLEWARE_CLASSES = [
@@ -276,16 +276,15 @@ MIGRATION_MODULES = {
     'menus': 'menus.migrations_django',
 
     # Add also the following modules if you're using these plugins:
-#     'djangocms_file': 'djangocms_file.migrations_django',
-#     'djangocms_flash': 'djangocms_flash.migrations_django',
-#     'djangocms_googlemap': 'djangocms_googlemap.migrations_django',
-#     'djangocms_inherit': 'djangocms_inherit.migrations_django',
-#     'djangocms_link': 'djangocms_link.migrations_django',
-#     'djangocms_picture': 'djangocms_picture.migrations_django',
-#     'djangocms_snippet': 'djangocms_snippet.migrations_django',
-#     'djangocms_teaser': 'djangocms_teaser.migrations_django',
-#     'djangocms_video': 'djangocms_video.migrations_django',
-#     'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
+    'djangocms_file': 'djangocms_file.migrations_django',
+    'djangocms_flash': 'djangocms_flash.migrations_django',
+    'djangocms_googlemap': 'djangocms_googlemap.migrations_django',
+    'djangocms_inherit': 'djangocms_inherit.migrations_django',
+    'djangocms_link': 'djangocms_link.migrations_django',
+    'djangocms_picture': 'djangocms_picture.migrations_django',
+    'djangocms_snippet': 'djangocms_snippet.migrations_django',
+    'djangocms_teaser': 'djangocms_teaser.migrations_django',
+    'djangocms_video': 'djangocms_video.migrations_django',
 }
 
 # Keep this at the bottom
