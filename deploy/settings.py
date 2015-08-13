@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'portal',
     'reports',
     'game',
+    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
@@ -49,26 +50,24 @@ INSTALLED_APPS = (
     'rest_framework',
 
     #CMS
-
     'cms',  # django CMS itself
     'treebeard',
     'mptt',  # utilities for implementing a tree
     'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
-    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
 
     #CMS Plugins
-    'djangocms_file',
-    'djangocms_flash',
-    'djangocms_googlemap',
-    'djangocms_inherit',
-    'djangocms_picture',
-    'djangocms_teaser',
-    'djangocms_video',
-    'djangocms_link',
-    'djangocms_snippet',
-    'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
-    'reversion'
+    # 'djangocms_file',
+    # 'djangocms_flash',
+    # 'djangocms_googlemap',
+    # 'djangocms_inherit',
+    # 'djangocms_picture',
+    # 'djangocms_teaser',
+    # 'djangocms_video',
+    # 'djangocms_link',
+    # 'djangocms_snippet',
+    # 'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
+    # 'reversion'
 )
 
 MIDDLEWARE_CLASSES = [
