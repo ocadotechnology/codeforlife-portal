@@ -63,6 +63,9 @@ libraries:
 - name: PIL
   version: latest
 
+builtins:
+- appstats: on
+
 skip_files:
 - ^(.*/)?.*\.scss$
 - ^(.*/)?#.*#$
@@ -70,6 +73,5 @@ skip_files:
 - ^(.*/)?.*\.py[co]$
 - ^(.*/)?.*/RCS/.*$
 - ^(.*/)?\..*$
-
-builtins:
-- appstats: on
+- ^lib\/.*info$
+- ^lib\/PIL
