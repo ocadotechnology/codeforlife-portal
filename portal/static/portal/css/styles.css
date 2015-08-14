@@ -691,7 +691,7 @@ background-color: #FFCCBA;
   text-align: center;
 }*/
 
-.login-card input[type=text], input[type=password], input[type=number], input[type=email] {
+.login-card input[type=text], .login-card input[type=password], .login-card input[type=number], .login-card input[type=email] {
   height: 44px;
   line-height: 44px;
   font-size: 1.4rem;
