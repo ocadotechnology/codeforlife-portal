@@ -1,0 +1,15 @@
+Process to be followed with each release to keep everyone in the team in the loop
+
+1. Code review with another member of the team
+2. Commit and push to relevant directory. This will kick off the Jenkins processes here:
+ https://build.codeforlife.education
+3. Supposing the tests all pass the commit will be deployed to Dev. This can be accessed from the Google App Engine
+ Portal via Compute>Versions>'dev' from the drop down menu here:
+ https://console.developers.google.com/project/decent-digit-629
+4. Manually test in Dev to double check any issues
+5. Once happy, run 'Deploy to Prod' build in Jenkins using the build number from the correct 'Deploy to Dev' build.
+6. Once this completes switch to prod by choosing 'default' from the dropdown menu on the Google App Engine
+'Versions' screen, ticking the box next to the new prod version and clicking 'Make default'.
+7. Close the issue on git hub and change the position of the corresponding post-it on the Canban board.
+8. Send an email to the Code for Life community to update everyone of the changes: coding-for-life-dev-xd@ocado.com.
+Refer to the git hub issue number in this email to make it easy for the team to understand what has changed.
