@@ -24,7 +24,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET', 'NOT A SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+template_debug = True
 
 ALLOWED_HOSTS = []
 
@@ -140,11 +140,11 @@ SITE_ID = 1
 
 if os.getenv('PRODUCTION', None):
     DEBUG = False
-    TEMPLATE_DEBUG = False
+    template_debug = False
     ALLOWED_HOSTS = ['.appspot.com', '.codeforlife.education']
 else:
     DEBUG = True
-    TEMPLATE_DEBUG = True
+    template_debug = True
     ALLOWED_HOSTS = []
 
 if os.getenv('DEPLOYMENT', None):
@@ -246,6 +246,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug' : template_debug,
             'context_processors': [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
