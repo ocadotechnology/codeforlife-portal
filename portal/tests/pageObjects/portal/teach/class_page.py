@@ -37,6 +37,7 @@
 import string
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
 
 from teach_base_page import TeachBasePage
 
@@ -56,11 +57,13 @@ class TeachClassPage(TeachBasePage):
         return self
 
     def cancel_dialog(self):
-        self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
+        self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
         return self
 
     def confirm_dialog(self):
-        self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
+        self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
         if self.on_correct_page('teach_classes_page'):
             return classes_page.TeachClassesPage(self.browser)
         else:
@@ -81,6 +84,11 @@ class TeachClassPage(TeachBasePage):
 
     def create_students(self):
         self.browser.find_element_by_name('new_students').click()
+
+        WebDriverWait(self.browser, 3).until(OrFunction(
+            lambda driver: driver.find_element_by_class_name('errorlist'),
+            lambda driver: driver.find_element_by_id('teach_new_students_page')
+        ))
 
         if self.on_correct_page('teach_new_students_page'):
             return new_students_page.TeachNewStudentsPage(self.browser)
@@ -110,7 +118,8 @@ class TeachClassPage(TeachBasePage):
         return (error in errorlist)
 
     def toggle_select_student(self, name):
-        self.browser.find_element_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]/../..//input".format(name)).click()
+        self.browser.find_element_by_xpath(
+            "//table[@id='student_table']//a[contains(text(),'{0}')]/../..//input".format(name)).click()
         return self
 
     def move_students(self):
@@ -130,6 +139,21 @@ class TeachClassPage(TeachBasePage):
     def delete_students(self):
         self.browser.find_element_by_id('deleteSelectedStudents').click()
         return self
+
+
+class OrFunction:
+    def __init__(self, *functions):
+        self.functions = functions
+
+    def __call__(self, driver):
+        for function in self.functions:
+            try:
+                return function(driver)
+            except NoSuchElementException:
+                pass
+        raise NoSuchElementException()
+
+
 
 import classes_page
 import class_settings_page

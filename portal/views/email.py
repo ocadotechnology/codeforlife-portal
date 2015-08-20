@@ -36,7 +36,6 @@
 # identified as the original program.
 from datetime import timedelta
 
-from django.conf import settings
 from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponseRedirect

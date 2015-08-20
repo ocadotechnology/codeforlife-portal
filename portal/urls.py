@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.conf.urls import patterns, include, url
+from django.contrib.auth.views import password_reset_complete, password_reset_done
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
 from portal.views.admin import aggregated_data, schools_map, admin_login
@@ -79,7 +80,7 @@ two_factor_patterns = [
 
 urlpatterns = patterns(
     '',
-    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
     url(r'^$', home_view, name='home'),
     url(r'^teach/$', teach, name='teach'),
@@ -156,11 +157,12 @@ urlpatterns = patterns(
         {'post_reset_redirect': '/user/password/reset/done/'}, name="student_password_reset"),
     url(r'^user/password/reset/teacher/$', teacher_password_reset,
         {'post_reset_redirect': '/user/password/reset/done/'}, name="teacher_password_reset"),
-    url(r'^user/password/reset/done/$', 'django.contrib.auth.views.password_reset_done'),
+    url(r'^user/password/reset/done/$', password_reset_done),
+
     url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         password_reset_check_and_confirm,
         {'post_reset_redirect': '/user/password/done/'}, name='password_reset_check_and_confirm'),
-    url(r'^user/password/done/$', 'django.contrib.auth.views.password_reset_complete'),
+    url(r'^user/password/done/$', password_reset_complete),
 
     url(r'^', include(two_factor_patterns, 'two_factor')),
 
