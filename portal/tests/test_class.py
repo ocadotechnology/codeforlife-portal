@@ -48,11 +48,13 @@ class TestClass(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_classes_page()
+        page = self.go_to_homepage()\
+            .go_to_teach_page()\
+            .login(email, password)\
+            .go_to_classes_page()
 
         assert not page.have_classes()
-        
+
         page, class_name, access_code = create_class(page)
         assert is_class_created_message_showing(self.browser, class_name)
 
@@ -74,8 +76,9 @@ class TestClass(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = self.go_to_homepage()\
+            .go_to_teach_page()\
+            .login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         new_class_name = 'new ' + class_name
@@ -101,8 +104,7 @@ class TestClass(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = self.go_to_homepage().go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert not page.has_students()
 
@@ -122,8 +124,7 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = self.go_to_homepage().go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.has_students()
 
@@ -142,8 +143,7 @@ class TestClass(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        page = self.go_to_homepage().go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         page = page.transfer_class()
@@ -159,8 +159,7 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email_1)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
+        page = self.go_to_homepage().go_to_teach_page().login(email_1, password_1)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         page = transfer_class(page, 0)
