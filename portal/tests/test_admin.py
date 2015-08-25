@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import uuid
 from django.contrib.auth.models import User, Permission
 
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
@@ -77,7 +78,7 @@ class TestAdmin(BaseTest):
 
     # Check superuser access to each admin pages
     def test_superuser_access(self):
-        username = 'superuser'
+        username = self.randomId()
         password = 'abc123'
         User.objects.create_superuser(username=username, password=password, email='')
         page = self.navigate_to_admin_data().login(username, password)
@@ -87,7 +88,7 @@ class TestAdmin(BaseTest):
 
     # Check user with view_map_data permission can access to /admin/map but not /admin/data
     def test_view_map_data_permission_access(self):
-        username = 'user'
+        username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
         permission = Permission.objects.get(codename='view_map_data')
@@ -99,7 +100,7 @@ class TestAdmin(BaseTest):
 
     # Check user with view_aggregated_data permission can access to /admin/data but not /admin/map
     def test_view_aggregated_data_permission_access(self):
-        username = 'user'
+        username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
         permission = Permission.objects.get(codename='view_aggregated_data')
@@ -110,21 +111,21 @@ class TestAdmin(BaseTest):
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_no_view_aggregated_data_permission_access(self):
-        username = 'user'
+        username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_data().login(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_no_view_map_data_permission_access(self):
-        username = 'user'
+        username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_map().login(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_wrong_username(self):
-        username = 'user'
+        username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_data().login('user123', password)
@@ -133,10 +134,13 @@ class TestAdmin(BaseTest):
                       self.browser.page_source)
 
     def test_wrong_username(self):
-        username = 'user'
+        username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_data().login(username, '123')
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
                       self.browser.page_source)
+
+    def randomId(self):
+        return str(uuid.uuid4())
