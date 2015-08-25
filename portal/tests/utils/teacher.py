@@ -34,7 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import random
 from django.core import mail
+import sys
 
 from portal.models import Teacher
 
@@ -42,14 +44,11 @@ def generate_details(**kwargs):
     title = kwargs.get('title','Mr')
     first_name = kwargs.get('first_name', 'Test')
     last_name = kwargs.get('last_name', 'Teacher')
-    email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % generate_details.next_id)
+    email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % random.randint(1, sys.maxint))
     password = kwargs.get('password', 'Password1')
-
-    generate_details.next_id += 1
 
     return title, first_name, last_name, email_address, password
 
-generate_details.next_id = 1
 
 def signup_teacher_directly(**kwargs):
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
