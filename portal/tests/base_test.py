@@ -85,6 +85,9 @@ class BaseTest(LiveServerTestCase):
         else:
             return 'http://%s' % (os.getenv('SERVER_URL'))
 
-    def navigate_to_homepage(self):
+    def go_to_homepage(self):
         self.browser.get(self.live_server_url)
         return HomePage(self.browser)
+
+    # def _fixture_teardown(self):
+    #     pass
