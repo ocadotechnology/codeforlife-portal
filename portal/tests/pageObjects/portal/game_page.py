@@ -36,11 +36,10 @@
 # identified as the original program.
 
 from hamcrest import assert_that, equal_to
+from selenium.webdriver.common.by import By
+
 from portal.tests.pageObjects.portal.base_page import BasePage
 
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
 class GamePage(BasePage):
     def __init__(self, browser):
@@ -51,9 +50,9 @@ class GamePage(BasePage):
         self._dismiss_initial_dialog()
 
     def _dismiss_initial_dialog(self):
-        self.wait_for_element_by_id_to_be_clickable("play_button")
+        self.wait_for_element_to_be_clickable((By.ID, "play_button"))
         self.browser.find_element_by_id("play_button").click()
-        self.wait_for_element_by_id_to_be_invisible("play_button")
+        self.wait_for_element_to_be_invisible((By.ID, "play_button"))
         return self
 
     def load_solution(self, workspace_id):
@@ -81,20 +80,3 @@ class GamePage(BasePage):
     def assert_algorithm_score(self, score):
         return self._assert_score("algorithmScore", score)
 
-    def wait_for_element_by_id(self, name, time=2):
-        WebDriverWait(self.browser, time).until(
-            EC.presence_of_element_located((By.ID, name))
-        )
-
-    def wait_for_element_by_id_to_be_clickable(self, name, time=5):
-        self.wait_for_element_to_be_clickable((By.ID, name), time)
-
-    def wait_for_element_to_be_clickable(self, locator, time=3):
-        WebDriverWait(self.browser, time).until(
-            EC.element_to_be_clickable(locator)
-        )
-
-    def wait_for_element_by_id_to_be_invisible(self, name):
-        WebDriverWait(self.browser, 3).until(
-            EC.invisibility_of_element_located((By.ID, name))
-        )

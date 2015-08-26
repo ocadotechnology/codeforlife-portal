@@ -42,8 +42,6 @@ from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly
 from game.models import Workspace
 
-BLOCKLY_SOLUTIONS_DIR = os.path.join(os.path.dirname(__file__), 'data/blockly_solutions')
-
 class EndToEndTest(BaseTest):
 
     already_logged_on = False
@@ -105,8 +103,10 @@ class EndToEndTest(BaseTest):
 
         return EndToEndTest.user_profile
 
+    BLOCKLY_SOLUTIONS_DIR = os.path.join(os.path.dirname(__file__), 'data/blockly_solutions')
+
     def datafile(self, filename):
-        return os.path.join(BLOCKLY_SOLUTIONS_DIR, filename)
+        return os.path.join(EndToEndTest.BLOCKLY_SOLUTIONS_DIR, filename)
 
     def read_solution(self, level):
         filename = self.datafile("level_" + str(level) + ".xml")

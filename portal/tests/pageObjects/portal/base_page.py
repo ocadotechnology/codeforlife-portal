@@ -42,27 +42,32 @@ from selenium.webdriver.support import expected_conditions as EC
 class BasePage(object):
     browser = None
 
+    DEFAULT_WAIT_SECONDS = 5
+
     def __init__(self, browser):
         self.browser = browser
 
-    def wait_for_element(self, method):
-        WebDriverWait(self.browser, 2).until(
-            EC.presence_of_element_located(method)
-        )
+    def wait_for_element_by_id(self, id, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait_for_presence((By.ID, id), wait_seconds)
 
-    def wait_for_element_by_id(self, name):
-        WebDriverWait(self.browser, 2).until(
-            EC.presence_of_element_located((By.ID, name))
-        )
+    def wait_for_element_by_xpath(self, xpath, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait_for_presence((By.XPATH, xpath), wait_seconds)
 
-    def wait_for_element_by_xpath(self, name):
-        WebDriverWait(self.browser, 2).until(
-            EC.presence_of_element_located((By.XPATH, name))
-        )
+    def wait_for_element_to_be_clickable(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait(EC.element_to_be_clickable(locator), wait_seconds)
 
-    def element_exists(self, method):
+    def wait_for_element_to_be_invisible(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait(EC.invisibility_of_element_located(locator), wait_seconds)
+
+    def wait_for_presence(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait(EC.presence_of_element_located(locator), wait_seconds)
+
+    def wait(self, method, wait_seconds=DEFAULT_WAIT_SECONDS):
+        WebDriverWait(self.browser, wait_seconds).until(method)
+
+    def element_exists(self, locator):
         try:
-            self.wait_for_element(method)
+            self.wait_for_presence(locator)
             return True
         except TimeoutException:
             return False
