@@ -42,6 +42,7 @@ import os
 
 #### Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
+from portal.tests.pageObjects.portal.game_page import GamePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 
 
@@ -88,6 +89,11 @@ class BaseTest(LiveServerTestCase):
     def go_to_homepage(self):
         self.browser.get(self.live_server_url)
         return HomePage(self.browser)
+
+    def go_to_level(self, level):
+        self.browser.get(self.live_server_url + "/rapidrouter/" + str(level))
+
+        return GamePage(self.browser)
 
     # def _fixture_teardown(self):
     #     pass

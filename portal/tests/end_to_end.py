@@ -35,17 +35,16 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import os
-from django.contrib.auth.models import User
+
 from hamcrest import assert_that, equal_to
-
 from selenium.webdriver.support.wait import WebDriverWait
-from base_test import BaseTest
-from portal.models import Teacher, UserProfile
-
-from utils.teacher import signup_teacher_directly
-from utils.organisation import create_organisation_directly
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
+from base_test import BaseTest
+from portal.models import UserProfile
+from utils.teacher import signup_teacher_directly
+from utils.organisation import create_organisation_directly
 from game.models import Workspace
 
 BLOCKLY_SOLUTIONS_DIR = os.path.join(os.path.dirname(__file__), 'data/blockly_solutions')
@@ -63,46 +62,13 @@ class EndToEndTest(BaseTest):
 
         self.go_to_homepage().go_to_teach_page().login(email, password)
 
-        self.browser.get(self.live_server_url + "/rapidrouter/1")
+        self\
+            .go_to_level(1)\
+            .load_solution(workspace_id)\
+            .run_program()\
+            .assert_route_score("10/10")\
+            .assert_algorithm_score("10/10")
 
-        self.wait_for_element_by_id_to_be_clickable("play_button")
-        self.browser.find_element_by_id("play_button").click()
-        self.wait_for_element_by_id_to_be_invisible("play_button")
-
-        self.browser.find_element_by_id("load_tab").click()
-        selector = "#loadWorkspaceTable tr[value=\'" + str(workspace_id) + "\']"
-        self.wait_for_element_to_be_clickable((By.CSS_SELECTOR, selector))
-        self.browser.find_element_by_css_selector(selector).click()
-        self.browser.find_element_by_id("loadWorkspace").click()
-
-        self.browser.find_element_by_id("play_tab").click()
-
-        self.wait_for_element_by_id_to_be_clickable("myModal", 30)
-
-        element = self.browser.find_element_by_id("routeScore")
-        route_score = element.text
-        assert_that(route_score, equal_to("10/10"))
-
-        algorithm_score = self.browser.find_element_by_id("algorithmScore").text
-        assert_that(algorithm_score, equal_to("10/10"))
-
-    def wait_for_element_by_id(self, name, time=2):
-        WebDriverWait(self.browser, time).until(
-            EC.presence_of_element_located((By.ID, name))
-        )
-
-    def wait_for_element_by_id_to_be_clickable(self, name, time=3):
-        self.wait_for_element_to_be_clickable((By.ID, name), time)
-
-    def wait_for_element_to_be_clickable(self, locator, time=3):
-        WebDriverWait(self.browser, time).until(
-            EC.element_to_be_clickable(locator)
-        )
-
-    def wait_for_element_by_id_to_be_invisible(self, name):
-        WebDriverWait(self.browser, 3).until(
-            EC.invisibility_of_element_located((By.ID, name))
-        )
 
     def datafile(self, filename):
         return os.path.join(BLOCKLY_SOLUTIONS_DIR, filename)
