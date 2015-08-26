@@ -54,6 +54,27 @@ class EndToEndTest(BaseTest):
     def test_level2(self):
         self.run_level_test(2)
 
+    def test_level3(self):
+        self.run_level_test(3)
+
+    def test_level4(self):
+        self.run_level_test(4)
+
+    def test_level5(self):
+        self.run_level_test(5)
+
+    def test_level6(self):
+        self.run_level_test(6)
+
+    def test_level7(self):
+        self.run_level_test(7)
+
+    def test_level8(self):
+        self.run_level_test(8)
+
+    def test_level9(self):
+        self.run_level_test(9)
+
     def run_level_test(self, level):
         user_profile = self.login_once()
 
