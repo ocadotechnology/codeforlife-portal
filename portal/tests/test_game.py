@@ -73,6 +73,24 @@ class TestGame(BaseTest):
     def test_level9(self):
         self.run_level_test(9)
 
+    def test_level10(self):
+        self.run_level_test(10)
+
+    def test_level11(self):
+        self.run_level_test(11)
+
+    def test_level12(self):
+        self.run_level_test(12)
+
+    def test_level13(self):
+        self.run_level_test(13)
+
+    def test_level14(self):
+        self.run_level_test(14)
+
+    def test_level15(self):
+        self.run_level_test(15)
+
     def run_level_test(self, level):
         user_profile = self.login_once()
 
