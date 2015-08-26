@@ -42,7 +42,7 @@ from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly
 from game.models import Workspace
 
-class EndToEndTest(BaseTest):
+class TestGame(BaseTest):
 
     already_logged_on = False
 
@@ -92,21 +92,21 @@ class EndToEndTest(BaseTest):
         return workspace_id
 
     def login_once(self):
-        if not EndToEndTest.already_logged_on:
+        if not TestGame.already_logged_on:
             email, password = signup_teacher_directly()
             create_organisation_directly(email)
             self.go_to_homepage().go_to_teach_page().login(email, password)
             email = email
-            EndToEndTest.user_profile = UserProfile.objects.get(user__email=email)
+            TestGame.user_profile = UserProfile.objects.get(user__email=email)
 
-            EndToEndTest.already_logged_on = True
+            TestGame.already_logged_on = True
 
-        return EndToEndTest.user_profile
+        return TestGame.user_profile
 
     BLOCKLY_SOLUTIONS_DIR = os.path.join(os.path.dirname(__file__), 'data/blockly_solutions')
 
     def datafile(self, filename):
-        return os.path.join(EndToEndTest.BLOCKLY_SOLUTIONS_DIR, filename)
+        return os.path.join(TestGame.BLOCKLY_SOLUTIONS_DIR, filename)
 
     def read_solution(self, level):
         filename = self.datafile("level_" + str(level) + ".xml")
