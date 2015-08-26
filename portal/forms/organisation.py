@@ -65,7 +65,6 @@ class OrganisationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         self.current_school = kwargs.pop('current_school', None)
-        print self.current_school
         super(OrganisationForm, self).__init__(*args, **kwargs)
         if self.current_school:
             del self.fields['current_password']
