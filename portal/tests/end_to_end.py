@@ -36,11 +36,6 @@
 # identified as the original program.
 import os
 
-from hamcrest import assert_that, equal_to
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-
 from base_test import BaseTest
 from portal.models import UserProfile
 from utils.teacher import signup_teacher_directly
@@ -50,25 +45,44 @@ from game.models import Workspace
 BLOCKLY_SOLUTIONS_DIR = os.path.join(os.path.dirname(__file__), 'data/blockly_solutions')
 
 class EndToEndTest(BaseTest):
-    def test_create(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
 
-        solution = self.read_solution(1)
-        workspace_name = "Level 1"
+    already_logged_on = False
 
-        user_profile = UserProfile.objects.get(user__email=email)
-        workspace_id = Workspace.objects.create(name=workspace_name, owner=user_profile, contents=solution).id
+    def test_level1(self):
+        self.run_level_test(1)
 
-        self.go_to_homepage().go_to_teach_page().login(email, password)
+    def test_level2(self):
+        self.run_level_test(2)
 
-        self\
-            .go_to_level(1)\
-            .load_solution(workspace_id)\
-            .run_program()\
-            .assert_route_score("10/10")\
+    def run_level_test(self, level):
+        user_profile = self.login_once()
+
+        workspace_id = self.persist_workspace(level, user_profile)
+
+        self \
+            .go_to_level(level) \
+            .load_solution(workspace_id) \
+            .run_program() \
+            .assert_route_score("10/10") \
             .assert_algorithm_score("10/10")
 
+    def persist_workspace(self, level, user_profile):
+        solution = self.read_solution(level)
+        workspace_name = "Level " + str(level)
+        workspace_id = Workspace.objects.create(name=workspace_name, owner=user_profile, contents=solution).id
+        return workspace_id
+
+    def login_once(self):
+        if not EndToEndTest.already_logged_on:
+            email, password = signup_teacher_directly()
+            create_organisation_directly(email)
+            self.go_to_homepage().go_to_teach_page().login(email, password)
+            email = email
+            EndToEndTest.user_profile = UserProfile.objects.get(user__email=email)
+
+            EndToEndTest.already_logged_on = True
+
+        return EndToEndTest.user_profile
 
     def datafile(self, filename):
         return os.path.join(BLOCKLY_SOLUTIONS_DIR, filename)
@@ -81,3 +95,6 @@ class EndToEndTest(BaseTest):
             f.close()
 
         return data
+
+    def _fixture_teardown(self):
+        pass

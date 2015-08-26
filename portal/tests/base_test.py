@@ -94,6 +94,3 @@ class BaseTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + "/rapidrouter/" + str(level))
 
         return GamePage(self.browser)
-
-    # def _fixture_teardown(self):
-    #     pass
