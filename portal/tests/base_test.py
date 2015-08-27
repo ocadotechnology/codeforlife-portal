@@ -58,12 +58,18 @@ def chromedriver_path():
             return path
     raise LookupError("Could not find chromedriver in PATH")
 
+
 #### Uncomment to use Chrome
-if os.getenv('SELENIUM_HUB', None) and not os.getenv('SELENIUM_LOCAL', None):
+selenium_host = os.getenv('SELENIUM_HUB', None)
+if selenium_host and not os.getenv('SELENIUM_LOCAL', None):
     print "Running against Selenium"
+    port = os.getenv('SELENIUM_PORT', 4444)
+    selenium_address = 'http://{0}:{1}/wd/hub'.format(selenium_host, port)
+
     driver = webdriver.Remote(
-            command_executor='http://' + os.getenv('SELENIUM_HUB', None) + ':4444/wd/hub',
-            desired_capabilities=DesiredCapabilities.CHROME)
+        command_executor=selenium_address,
+        desired_capabilities=DesiredCapabilities.CHROME)
+
     master_browser = driver
 else:
     print "Running against local Chrome"
