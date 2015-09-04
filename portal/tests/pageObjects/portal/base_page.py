@@ -75,6 +75,9 @@ class BasePage(object):
     def element_exists_by_id(self, name):
         return self.element_exists((By.ID, name))
 
+    def element_exists_by_css(self, name):
+        return self.element_exists((By.CSS_SELECTOR, name))
+
     def element_exists_by_xpath(self, path):
         return self.element_exists((By.XPATH, path))
 

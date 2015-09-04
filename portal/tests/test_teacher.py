@@ -56,9 +56,8 @@ class TestTeacher(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
         page = page.go_to_teach_page()
-        page = page.login('non-existent-email@codeforlife.com', 'Incorrect password')
+        page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
         assert self.is_teach_page(page)
-        assert page.has_login_failed()
 
     def test_login_success(self):
         self.browser.get(self.live_server_url)

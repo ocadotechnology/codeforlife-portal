@@ -62,12 +62,9 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        HomePage(self.browser)\
             .go_to_play_page()\
-            .school_login(student_name, access_code, 'some other password')
-
-        assert page.__class__.__name__ == 'PlayPage'
-        assert page.school_login_has_failed()
+            .school_login_incorrect(student_name, access_code, 'some other password')
 
     def test_change_password(self):
         email, password = signup_teacher_directly()
@@ -89,9 +86,8 @@ class TestSchoolStudent(BaseTest):
 
         page = page.logout()\
             .go_to_play_page()\
-            .school_login(student_name, access_code, student_password)
+            .school_login_incorrect(student_name, access_code, student_password)
 
-        assert page.school_login_has_failed()
         page = page.school_login(student_name, access_code, new_password)
         assert self.is_dashboard(page)
 
