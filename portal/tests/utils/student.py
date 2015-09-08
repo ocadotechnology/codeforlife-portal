@@ -85,23 +85,23 @@ def create_many_school_students(page, n):
 
     return page, names, passwords
 
-def generate_solo_details():
-    name = 'Student %d' % generate_solo_details.next_id
-    username = 'Student user %d' % generate_solo_details.next_id
-    email_address = 'Student%d@codeforlife.com' % generate_solo_details.next_id
+def generate_independent_student_details():
+    name = 'Student %d' % generate_independent_student_details.next_id
+    username = 'Student user %d' % generate_independent_student_details.next_id
+    email_address = 'Student%d@codeforlife.com' % generate_independent_student_details.next_id
     password = 'Password1'
 
-    generate_solo_details.next_id += 1
+    generate_independent_student_details.next_id += 1
 
     return name, username, email_address, password
 
-generate_solo_details.next_id = 1
+generate_independent_student_details.next_id = 1
 
 def create_independent_student(page):
     page = page.go_to_play_page()
 
-    name, username, email_address, password = generate_solo_details()
-    page = page.solo_signup(name, username, email_address, password, password)
+    name, username, email_address, password = generate_independent_student_details()
+    page = page.independent_student_signup(name, username, email_address, password, password)
     
     page = page.return_to_home_page()
 

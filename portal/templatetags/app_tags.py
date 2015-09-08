@@ -108,7 +108,7 @@ def get_user_status(u):
         else:
             return 'SCHOOL_STUDENT'
     elif is_logged_in(u):
-        return 'SOLO_STUDENT'
+        return 'INDEPENDENT_STUDENT'
     else:
         return 'UNTRACKED'
     return 'UNTRACKED'

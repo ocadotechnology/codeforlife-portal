@@ -70,12 +70,10 @@ class TeachPage(BasePage):
     def login(self, email, password):
         self._login(email, password)
 
-        assert self.on_correct_page('teach_dashboard_page')
         return teach.dashboard_page.TeachDashboardPage(self.browser)
 
     def login_failure(self, email, password):
         self._login(email, password)
-        assert self._has_login_failed()
         return self
 
     def _login(self, email, password):
@@ -83,8 +81,10 @@ class TeachPage(BasePage):
         self.browser.find_element_by_id('id_login-password').send_keys(password)
         self.browser.find_element_by_name('login').click()
 
-    def _has_login_failed(self):
-        assert self.element_exists_by_css('.errorlist')
-        errorlist = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
+    def has_login_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
         error = 'Incorrect email address or password'
-        return (error in errorlist)
+        return error in errors

@@ -147,7 +147,7 @@ class StudentModelManager(models.Manager):
         userProfile = UserProfile.objects.create(user=user)
         return Student.objects.create(class_field=klass, user=userProfile)
 
-    def soloFactory(self, username, name, email, password):
+    def independentStudentFactory(self, username, name, email, password):
         user = User.objects.create_user(
             username=username,
             email=email,

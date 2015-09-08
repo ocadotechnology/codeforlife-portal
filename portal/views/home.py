@@ -51,7 +51,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 from portal.models import Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
-from portal.forms.play import StudentLoginForm, StudentSoloLoginForm, StudentSignupForm
+from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal import emailMessages
@@ -159,8 +159,8 @@ def play_name_labeller(request):
         if 'school_login' in request.POST:
             return request.POST['login-name'] + ':' + request.POST['login-access_code']
 
-        if 'solo_login' in request.POST:
-            return request.POST['solo-username']
+        if 'independent_student_login' in request.POST:
+            return request.POST['independent_student-username']
 
     return ''
 
@@ -182,16 +182,16 @@ def play(request):
     InputStudentLoginForm = StudentLoginFormWithCaptcha if using_captcha else StudentLoginForm
     OutputStudentLoginForm = StudentLoginFormWithCaptcha if should_use_captcha else StudentLoginForm
 
-    SoloLoginFormWithCaptcha = partial(
-        create_form_subclass_with_recaptcha(StudentSoloLoginForm, recaptcha_client), request)
-    InputSoloLoginForm = SoloLoginFormWithCaptcha if using_captcha else StudentSoloLoginForm
-    OutputSoloLoginForm = SoloLoginFormWithCaptcha if should_use_captcha else StudentSoloLoginForm
+    IndependentStudentLoginFormWithCaptcha = partial(
+        create_form_subclass_with_recaptcha(IndependentStudentLoginForm, recaptcha_client), request)
+    InputIndependentStudentLoginForm = IndependentStudentLoginFormWithCaptcha if using_captcha else IndependentStudentLoginForm
+    OutputIndependentStudentLoginForm = IndependentStudentLoginFormWithCaptcha if should_use_captcha else IndependentStudentLoginForm
 
     school_login_form = OutputStudentLoginForm(prefix='login')
-    solo_login_form = StudentSoloLoginForm(prefix='solo')
+    independent_student_login_form = IndependentStudentLoginForm(prefix='independent_student')
     signup_form = StudentSignupForm(prefix='signup')
 
-    solo_view = False
+    independent_student_view = False
     signup_view = False
     if request.method == 'POST':
         if 'school_login' in request.POST:
@@ -209,16 +209,16 @@ def play(request):
                 school_login_form = OutputStudentLoginForm(request.POST, prefix='login')
                 invalid_form = True
 
-        elif 'solo_login' in request.POST:
-            solo_login_form = InputSoloLoginForm(request.POST, prefix='solo')
-            if solo_login_form.is_valid():
-                userProfile = solo_login_form.user.userprofile
+        elif 'independent_student_login' in request.POST:
+            independent_student_login_form = InputIndependentStudentLoginForm(request.POST, prefix='independent_student')
+            if independent_student_login_form.is_valid():
+                userProfile = independent_student_login_form.user.userprofile
                 if userProfile.awaiting_email_verification:
                     send_verification_email(request, userProfile)
                     return render(request, 'portal/email_verification_needed.html',
                                   {'userprofile': userProfile})
 
-                login(request, solo_login_form.user)
+                login(request, independent_student_login_form.user)
 
                 next_url = request.GET.get('next', None)
                 if next_url:
@@ -226,8 +226,8 @@ def play(request):
 
                 return HttpResponseRedirect(reverse_lazy('student_details'))
             else:
-                solo_view = True
-                solo_login_form = OutputSoloLoginForm(request.POST, prefix='solo')
+                independent_student_view = True
+                independent_student_login_form = OutputIndependentStudentLoginForm(request.POST, prefix='independent_student')
                 school_login_form = StudentLoginForm(prefix='login')
                 invalid_form = True
 
@@ -236,7 +236,7 @@ def play(request):
             if signup_form.is_valid():
                 data = signup_form.cleaned_data
 
-                student = Student.objects.soloFactory(
+                student = Student.objects.independentStudentFactory(
                     username=data['username'],
                     name=data['name'],
                     email=data['email'],
@@ -257,9 +257,9 @@ def play(request):
 
     res = render(request, 'portal/play.html', {
         'school_login_form': school_login_form,
-        'solo_login_form': solo_login_form,
+        'independent_student_login_form': independent_student_login_form,
         'signup_form': signup_form,
-        'solo_view': solo_view,
+        'independent_student_view': independent_student_view,
         'signup_view': signup_view,
     })
 

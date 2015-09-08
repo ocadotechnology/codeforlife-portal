@@ -182,7 +182,7 @@ class StudentSignupForm(forms.Form):
         return self.cleaned_data
 
 
-class StudentSoloLoginForm(forms.Form):
+class IndependentStudentLoginForm(forms.Form):
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))

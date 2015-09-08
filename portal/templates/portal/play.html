@@ -11,7 +11,7 @@
     <script>
     var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
     var PASSWORD_TYPE = 'STUDENT';
-    var SOLO_VIEW = {% if solo_view %}true{% else %}false{% endif %};
+    var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
     var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
     </script>
     {% endif %}
@@ -37,7 +37,7 @@
             If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, <a href="#" id="school-login-link">login</a> to continue playing. 
             </p>
             <p>
-            If you&#8217;ve signed up independently, <a href="#" id="solo-login-link">login</a> to continue your Rapid Router journey.
+            If you&#8217;ve signed up independently, <a href="#" id="independent-student-login-link">login</a> to continue your Rapid Router journey.
             </p>
             <p>
             Not signed up yet? <a href="#" id="register-link">Register now</a> to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
@@ -79,7 +79,7 @@
             <div id="school-login" class="login-card">
                 <h3>School or club student sign in</h3><br>
 
-                <p>Signed up independently? <a href='#' id='switchToSolo'>Click here</a> to sign in.</p>
+                <p>Signed up independently? <a href='#' id='switchToIndependentStudent'>Click here</a> to sign in.</p>
                 <form id='form-login-school' method='post'>
 
                     {% csrf_token %}
@@ -112,37 +112,37 @@
 
             </div>
 
-            <div id="solo-login" class="login-card">
+            <div id="independent-student-login" class="login-card">
                 <h3>Independent student sign in</h3><br>
 
                 <p>Part of a school or club? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
 
-                <form id='solo_login_form' method='post'>
+                <form id='independent_student_login_form' method='post'>
 
                     {% csrf_token %}
 
-                    {{ solo_login_form.non_field_errors }}
+                    {{ independent_student_login_form.non_field_errors }}
 
-                    {{ solo_login_form.username.errors }}
-                    <label for="id_{{ solo_login_form.username.html_name }}">{{ solo_login_form.username.label }}</label>
-                    {{ solo_login_form.username }}
+                    {{ independent_student_login_form.username.errors }}
+                    <label for="id_{{ independent_student_login_form.username.html_name }}">{{ independent_student_login_form.username.label }}</label>
+                    {{ independent_student_login_form.username }}
 
-                    {{ solo_login_form.password.errors }}
-                    <label for="id_{{ solo_login_form.password.html_name }}">{{ solo_login_form.password.label }}</label>
-                    {{ solo_login_form.password }}
+                    {{ independent_student_login_form.password.errors }}
+                    <label for="id_{{ independent_student_login_form.password.html_name }}">{{ independent_student_login_form.password.label }}</label>
+                    {{ independent_student_login_form.password }}
 
-                    {% if solo_login_form.recaptcha %}
-                        {{ solo_login_form.recaptcha.errors }}
-                        <label for="id_{{ solo_login_form.recaptcha.html_name }}">{{ solo_login_form.recaptcha.label }}</label>
-                        {{ solo_login_form.recaptcha|safe }}
+                    {% if independent_student_login_form.recaptcha %}
+                        {{ independent_student_login_form.recaptcha.errors }}
+                        <label for="id_{{ independent_student_login_form.recaptcha.html_name }}">{{ independent_student_login_form.recaptcha.label }}</label>
+                        {{ independent_student_login_form.recaptcha|safe }}
                     {% endif %}
 
-                    <input type='submit' name='solo_login' class="btn btn-primary wide" value='Log in'/>
+                    <input type='submit' name='independent_student_login' class="btn btn-primary wide" value='Log in'/>
                 </form>
 
                 <div class="login-help">
                     <a id="forgottenPassword_button" href="{% url 'student_password_reset' %}">Forgotten Password?</a><br>
-                    Are you a teacher? <a id="teacherLogin_solo_button" href="{% url 'teach' %}">Log in</a>.
+                    Are you a teacher? <a id="teacherLogin_button" href="{% url 'teach' %}">Log in</a>.
                 </div>
             </div>
 
@@ -153,7 +153,7 @@
 
             <p id='signup-warning' >If you're not part of a school or club who are signed up to Code for Life, <a href='#' id='signupShow'>click here</a> to sign up independently.</p>
 
-            <form id="form-signup-solo-student" method='post'>
+            <form id="form-signup-independent-student" method='post'>
 
                 {% csrf_token %}
 

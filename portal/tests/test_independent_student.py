@@ -56,15 +56,15 @@ class TestIndependentStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
         page = page.go_to_play_page()
-        page = page.solo_login('Non existant username', 'Incorrect password')
-        assert page.__class__.__name__ == 'PlayPage'
-        assert page.has_solo_login_failed()
+        page = page.independent_student_login_failure('Non existant username', 'Incorrect password')
+
+        assert page.has_independent_student_login_failed()
 
     def test_login_success(self):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser)
         page, name, username, email, password = create_independent_student(page)
-        page = page.solo_login(username, password)
+        page = page.independent_student_login(username, password)
         assert page.__class__.__name__ == 'PlayDashboardPage'
 
         page = page.go_to_account_page()
@@ -91,7 +91,7 @@ class TestIndependentStudent(BaseTest):
         page.change_details({'new_password1': new_password, 'new_password2': new_password})
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page().go_to_independent_form().solo_login(username, new_password)
+        page = HomePage(self.browser).go_to_play_page().go_to_independent_form().independent_student_login(username, new_password)
         assert self.is_independent_student_details(page)
 
     def test_reset_password_fail(self):

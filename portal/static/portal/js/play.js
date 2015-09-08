@@ -36,34 +36,34 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 function init() {
-  $('#switchToSolo').click(function() {
+  $('#switchToIndependentStudent').click(function() {
     $('#school-login').hide();
-    $('#solo-login').show();
+    $('#independent-student-login').show();
     return false;
   });
 
   $('#switchToSchool').click(function() {
-    $('#solo-login').hide();
+    $('#independent-student-login').hide();
     $('#school-login').show();
     return false;
   });
 
   $('#signupShow').click(function() {
     $('#signup-warning').hide();
-    $('#form-signup-solo-student').show();
+    $('#form-signup-independent-student').show();
     return false;
   });
 
   $('#register-link').click(function() {
     // TODO test if logged in and show popup box saying logged in, please log out first, etc.
     $('#signup-warning').hide();
-    $('#form-signup-solo-student').show();
+    $('#form-signup-independent-student').show();
     return false;
   });
 
-  $('#solo-login-link').click(function() {
+  $('#independent-student-login-link').click(function() {
     // TODO test if logged in and show popup box saying logged in, please log out first, etc.
-    $('#switchToSolo').click();
+    $('#switchToIndependentStudent').click();
     return false;
   });
 
@@ -83,8 +83,8 @@ $(function() {
     else {
       $('#signup-warning').hide();
     }
-    if (SOLO_VIEW) {
-      $('#switchToSolo').click();
+    if (INDEPENDENT_STUDENT_VIEW) {
+      $('#switchToIndependentStudent').click();
     }
     else {
       $('#switchToSchool').click();

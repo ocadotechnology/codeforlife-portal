@@ -73,7 +73,7 @@ class PlayPage(BasePage):
         error = 'Invalid name, class access code or password'
         return error in errorlist
 
-    def solo_signup(self, name, username, email_address, password, confirm_password):
+    def independent_student_signup(self, name, username, email_address, password, confirm_password):
         self.show_independent_student_signup()
 
         self.browser.find_element_by_id('id_signup-name').clear()
@@ -93,32 +93,39 @@ class PlayPage(BasePage):
 
         return EmailVerificationNeededPage(self.browser)
 
-    def solo_login(self, username, password):
+    def independent_student_login(self, username, password):
+        self._independent_student_login(username, password)
+
+        return PlayDashboardPage(self.browser)
+
+    def independent_student_login_failure(self, username, password):
+        self._independent_student_login(username, password)
+
+        return self
+
+    def _independent_student_login(self, username, password):
         self.show_independent_student_login()
+        self.browser.find_element_by_id('id_independent_student-username').clear()
+        self.browser.find_element_by_id('id_independent_student-password').clear()
 
-        self.browser.find_element_by_id('id_solo-username').clear()
-        self.browser.find_element_by_id('id_solo-password').clear()
+        self.browser.find_element_by_id('id_independent_student-username').send_keys(username)
+        self.browser.find_element_by_id('id_independent_student-password').send_keys(password)
 
-        self.browser.find_element_by_id('id_solo-username').send_keys(username)
-        self.browser.find_element_by_id('id_solo-password').send_keys(password)
+        self.browser.find_element_by_name('independent_student_login').click()
 
-        self.browser.find_element_by_name('solo_login').click()
+    def has_independent_student_login_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
 
-        if self.on_correct_page('play_dashboard_page'):
-            return PlayDashboardPage(self.browser)
-        else:
-            return self
-
-    def has_solo_login_failed(self):
-        errorlist = self.browser.find_element_by_id('solo_login_form').find_element_by_class_name('errorlist').text
+        errors = self.browser.find_element_by_id('independent_student_login_form').find_element_by_class_name('errorlist').text
         error = 'Incorrect username or password'
-        return (error in errorlist)
+        return error in errors
 
     def go_to_teacher_login(self):
         if self.school_student_login_is_displayed():
             self.browser.find_element_by_id('teacherLogin_school_button').click()
         else:
-            self.browser.find_element_by_id('teacherLogin_solo_button').click()
+            self.browser.find_element_by_id('teacherLogin_button').click()
         from teach_page import TeachPage
 
         return TeachPage(self.browser)
@@ -129,19 +136,19 @@ class PlayPage(BasePage):
         return StudentPasswordResetFormPage(self.browser)
 
     def go_to_independent_form(self):
-        self.browser.find_element_by_id('switchToSolo').click()
-        from portal.tests.pageObjects.registration.solo_login_form_page import SoloStudentLoginFormPage
-        return SoloStudentLoginFormPage(self.browser)
+        self.browser.find_element_by_id('switchToIndependentStudent').click()
+        from portal.tests.pageObjects.registration.independent_student_login_form_page import IndependentStudentLoginFormPage
+        return IndependentStudentLoginFormPage(self.browser)
 
     def show_school_login(self):
         button = self.browser.find_element_by_id('switchToSchool')
         if button.is_displayed():
             button.click()
-            self.wait_for_element_by_id('switchToSolo')
+            self.wait_for_element_by_id('switchToIndependentStudent')
         return self
 
     def show_independent_student_login(self):
-        button = self.browser.find_element_by_id('switchToSolo')
+        button = self.browser.find_element_by_id('switchToIndependentStudent')
         if button.is_displayed():
             button.click()
             self.wait_for_element_by_id('switchToSchool')
@@ -151,7 +158,7 @@ class PlayPage(BasePage):
         return self.browser.find_element_by_id('school-login').is_displayed()
 
     def independent_student_login_form_is_displayed(self):
-        return self.browser.find_element_by_id('solo-login').is_displayed()
+        return self.browser.find_element_by_id('independent-student-login').is_displayed()
 
     def is_in_school_login_state(self):
         return not self.independent_student_login_form_is_displayed() and self.school_student_login_is_displayed()
@@ -169,7 +176,7 @@ class PlayPage(BasePage):
         return self.browser.find_element_by_id('signup-warning').is_displayed()
 
     def independent_student_signup_form_is_displayed(self):
-        return self.browser.find_element_by_id('form-signup-solo-student').is_displayed()
+        return self.browser.find_element_by_id('form-signup-independent-student').is_displayed()
 
     def showing_intependent_student_signup_form(self):
         return self.independent_student_signup_form_is_displayed() and \

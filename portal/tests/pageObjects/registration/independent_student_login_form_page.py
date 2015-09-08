@@ -38,13 +38,13 @@ from portal.tests.pageObjects.portal.play_page import PlayPage
 
 __author__ = 'isabel.richards'
 
-class SoloStudentLoginFormPage(PlayPage):
+class IndependentStudentLoginFormPage(PlayPage):
     def __init__(self, browser):
-        super(SoloStudentLoginFormPage, self).__init__(browser)
+        super(IndependentStudentLoginFormPage, self).__init__(browser)
 
-        self.wait_for_element_by_id('solo_login_form')
+        self.wait_for_element_by_id('independent_student_login_form')
 
-        assert self.browser.find_element_by_id('id_solo-username').get_attribute('placeholder') == 'rosie_f'
+        assert self.browser.find_element_by_id('id_independent_student-username').get_attribute('placeholder') == 'rosie_f'
 
     def cancel(self):
         self.browser.find_element_by_id('cancel_button').click()
