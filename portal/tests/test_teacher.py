@@ -81,7 +81,7 @@ class TestTeacher(BaseTest):
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
-        page = page.change_details({
+        page = page.change_teacher_details({
             'title': 'Mrs',
             'first_name': 'Paulina',
             'last_name': 'Koch',
@@ -105,10 +105,7 @@ class TestTeacher(BaseTest):
 
         page = page.go_to_account_page()
         new_email = 'another-email@codeforlife.com'
-        page = page.change_details({
-            'email': new_email,
-            'current_password': password,
-        })
+        page = page.change_email(new_email, password)
         assert page.__class__.__name__ == 'EmailVerificationNeededPage'
         assert is_teacher_email_updated_message_showing(self.browser)
 
@@ -132,7 +129,7 @@ class TestTeacher(BaseTest):
 
         page = page.go_to_account_page()
         new_password = 'AnotherPassword1'
-        page = page.change_details({
+        page = page.change_teacher_details({
             'password': new_password,
             'confirm_password': new_password,
             'current_password': password,

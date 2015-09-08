@@ -43,26 +43,29 @@ class TeachAccountPage(TeachBasePage):
 
         assert self.on_correct_page('teach_account_page')
 
-    def change_details(self, details):
+    def change_teacher_details(self, details):
+        self._change_details(details)
+
+        from dashboard_page import TeachDashboardPage
+        return TeachDashboardPage(self.browser)
+
+    def change_email(self, new_email, password):
+        self._change_details({
+            'email': new_email,
+            'current_password': password,
+        })
+
+        from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
+        return EmailVerificationNeededPage(self.browser)
+
+    def _change_details(self, details):
         if 'title' in details:
             Select(self.browser.find_element_by_id('id_title')).select_by_value(details['title'])
             del details['title']
-
         for field, value in details.items():
             self.browser.find_element_by_id('id_' + field).clear()
             self.browser.find_element_by_id('id_' + field).send_keys(value)
-
         self.browser.find_element_by_id('update_button').click()
-
-        if self.on_correct_page('teach_dashboard_page'):
-            from dashboard_page import TeachDashboardPage
-            return TeachDashboardPage(self.browser)
-        elif self.on_correct_page('emailVerificationNeeded_page'):
-            from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
-
-            return EmailVerificationNeededPage(self.browser)
-        else:
-            return self
 
     def check_account_details(self, details):
         correct = True

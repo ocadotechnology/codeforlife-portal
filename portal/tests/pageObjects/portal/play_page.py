@@ -46,12 +46,10 @@ class PlayPage(BasePage):
 
     def school_login(self, name, access_code, password):
         self._school_login(name, access_code, password)
-        assert self.on_correct_page('play_dashboard_page')
         return PlayDashboardPage(self.browser)
 
     def school_login_incorrect(self, name, access_code, password):
         self._school_login(name, access_code, password)
-        assert self._school_login_has_failed()
         return self
 
     def _school_login(self, name, access_code, password):
@@ -67,11 +65,13 @@ class PlayPage(BasePage):
 
         self.browser.find_element_by_name('school_login').click()
 
-    def _school_login_has_failed(self):
-        assert self.element_exists_by_css('.errorlist')
-        errorlist = self.browser.find_element_by_id('form-login-school').find_element_by_class_name('errorlist').text
+    def school_login_has_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('form-login-school').find_element_by_class_name('errorlist').text
         error = 'Invalid name, class access code or password'
-        return error in errorlist
+        return error in errors
 
     def independent_student_signup(self, name, username, email_address, password, confirm_password):
         self.show_independent_student_signup()
