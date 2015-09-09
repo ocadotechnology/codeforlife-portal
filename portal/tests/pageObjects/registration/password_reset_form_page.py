@@ -45,14 +45,17 @@ class PasswordResetPage(BasePage):
 
         assert self.on_correct_page('password_reset_form_page')
 
-    def change_details(self, details):
-        for field, value in details.items():
-            self.browser.find_element_by_id('id_' + field).clear()
-            self.browser.find_element_by_id('id_' + field).send_keys(value)
+    def reset_password(self, new_password):
+        self.clear_and_fill('new_password1', new_password)
+        self.clear_and_fill('new_password2', new_password)
 
         self.browser.find_element_by_id('update_button').click()
 
         self.wait_for_element_by_id('password_reset_complete_page')
 
         return self
+
+    def clear_and_fill(self, field, value):
+        self.browser.find_element_by_id('id_' + field).clear()
+        self.browser.find_element_by_id('id_' + field).send_keys(value)
 

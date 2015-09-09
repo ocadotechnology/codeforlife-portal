@@ -43,6 +43,7 @@ from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation, create_organisation_directly
 from utils.messages import is_organisation_created_message_showing
 
+
 class TestOrganisation(BaseTest, BasePage):
     def test_create(self):
         email, password = signup_teacher_directly()
@@ -53,7 +54,7 @@ class TestOrganisation(BaseTest, BasePage):
         page, name, postcode = create_organisation(page, password)
         assert is_organisation_created_message_showing(self.browser, name)
 
-        page = page.go_to_organisation_page()
+        page = page.go_to_organisation_manage_page()
         assert page.is_admin_view()
         assert page.number_of_members() == 1
         assert page.number_of_admins() == 1
@@ -67,7 +68,11 @@ class TestOrganisation(BaseTest, BasePage):
         name, postcode = create_organisation_directly(email)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_organisation_page()
+        page = HomePage(self.browser)\
+            .go_to_teach_page()\
+            .login(email, password)\
+            .go_to_organisation_manage_page()
+
         assert page.check_organisation_details({
             'name': name,
             'postcode': postcode
@@ -91,8 +96,12 @@ class TestOrganisation(BaseTest, BasePage):
         name, postcode = create_organisation_directly(email_1)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
-        page = page.create_organisation(name, password_2, postcode)
+        page = HomePage(self.browser)\
+            .go_to_teach_page()\
+            .login(email_2, password_2)\
+            .go_to_organisation_create_or_join_page()\
+            .create_organisation_failure(name, password_2, postcode)
+
         assert page.has_creation_failed()
 
     def test_edit_clash(self):
@@ -102,7 +111,7 @@ class TestOrganisation(BaseTest, BasePage):
         name_2, postcode_2 = create_organisation_directly(email_2)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
+        page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_manage_page()
 
         assert not page.check_organisation_details({
             'name': name_1,
@@ -113,7 +122,7 @@ class TestOrganisation(BaseTest, BasePage):
             'name': name_1,
             'postcode': postcode_1
         })
-        
+
         assert page.has_edit_failed()
 
     def test_revoke(self):
@@ -122,7 +131,10 @@ class TestOrganisation(BaseTest, BasePage):
         name, postcode = create_organisation_directly(email_1)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
+        page = HomePage(self.browser)\
+            .go_to_teach_page()\
+            .login(email_2, password_2)\
+            .go_to_organisation_create_or_join_page()
         page = page.join_organisation(name)
         assert page.__class__.__name__ == 'TeachOrganisationRevokePage'
         assert page.check_organisation_name(name, postcode)
@@ -136,10 +148,18 @@ class TestOrganisation(BaseTest, BasePage):
         name, postcode = create_organisation_directly(email_1)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
-        page = page.join_organisation(name)
+        page = HomePage(self.browser)\
+            .go_to_teach_page()\
+            .login(email_2, password_2)\
+            .go_to_organisation_create_or_join_page()\
+            .join_organisation(name)
 
-        page = page.logout().go_to_teach_page().login(email_1, password_1).go_to_organisation_page()
+        page = page\
+            .logout()\
+            .go_to_teach_page()\
+            .login(email_1, password_1)\
+            .go_to_organisation_manage_page()
+
         assert page.have_join_request(email_2)
         page = page.accept_join_request(email_2)
 
@@ -149,7 +169,12 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.number_of_members() == 2
         assert page.number_of_admins() == 1
 
-        page = page.logout().go_to_teach_page().login(email_2, password_2).go_to_organisation_page()
+        page = page\
+            .logout()\
+            .go_to_teach_page()\
+            .login(email_2, password_2)\
+            .go_to_organisation_manage_page()
+
         assert page.check_organisation_name(name)
         assert not page.is_admin_view()
 
@@ -170,22 +195,32 @@ class TestOrganisation(BaseTest, BasePage):
 
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password).go_to_organisation_page()
-        page = page.join_organisation(names[n-1])
-        assert page.__class__.__name__ == 'TeachOrganisationRevokePage'
-        assert page.check_organisation_name(names[n-1], postcodes[n-1])
+        page = self.go_to_homepage()\
+            .go_to_teach_page()\
+            .login(email, password)\
+            .go_to_organisation_create_or_join_page()
 
-        page = page.logout().go_to_teach_page().login(emails[n-1], passwords[n-1]).go_to_organisation_page()
+        page = page.join_organisation(names[n - 1])
+        assert page.__class__.__name__ == 'TeachOrganisationRevokePage'
+        assert page.check_organisation_name(names[n - 1], postcodes[n - 1])
+
+        page = page.logout()\
+            .go_to_teach_page()\
+            .login(emails[n - 1], passwords[n - 1])\
+            .go_to_organisation_manage_page()
+
         assert page.have_join_request(email)
         page = page.accept_join_request(email)
 
-        WebDriverWait(self.browser, 2).until_not(lambda driver: self.element_exists_by_id('request_table'))
+        assert page.has_no_join_requests()
 
-        assert not page.have_join_request(email)
         assert page.number_of_members() == 2
         assert page.number_of_admins() == 1
 
-        page = page.logout().go_to_teach_page().login(email, password).go_to_organisation_page()
-        assert page.check_organisation_name(names[n-1])
-        assert not page.is_admin_view()
+        page = page\
+            .logout()\
+            .go_to_teach_page()\
+            .login(email, password)\
+            .go_to_organisation_manage_page()
+        assert page.check_organisation_name(names[n - 1])
+        assert page.is_not_admin_view()

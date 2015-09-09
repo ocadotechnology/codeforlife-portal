@@ -62,8 +62,14 @@ class BasePage(object):
     def wait_for_presence(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait(EC.presence_of_element_located(locator), wait_seconds)
 
+    def wait_for_absence(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait_until_not(EC.presence_of_element_located(locator), wait_seconds)
+
     def wait(self, method, wait_seconds=DEFAULT_WAIT_SECONDS):
         WebDriverWait(self.browser, wait_seconds).until(method)
+
+    def wait_until_not(self, method, wait_seconds=DEFAULT_WAIT_SECONDS):
+        WebDriverWait(self.browser, wait_seconds).until_not(method)
 
     def element_exists(self, locator):
         try:
@@ -71,6 +77,16 @@ class BasePage(object):
             return True
         except TimeoutException:
             return False
+
+    def element_does_not_exist(self, locator):
+        try:
+            self.wait_for_absence(locator)
+            return True
+        except TimeoutException:
+            return False
+
+    def element_does_not_exist_by_id(self, name):
+        return self.element_does_not_exist((By.ID, name))
 
     def element_exists_by_id(self, name):
         return self.element_exists((By.ID, name))

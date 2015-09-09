@@ -64,15 +64,20 @@ class TeachBasePage(BasePage):
 
         return TeachAccountPage(self.browser)
 
-    def go_to_organisation_page(self):
+    def go_to_organisation_create_or_join_page(self):
+        self._click_school_club_button()
+
+        from organisation_create_page import TeachOrganisationCreatePage
+
+        return TeachOrganisationCreatePage(self.browser)
+
+    def go_to_organisation_manage_page(self):
+        self._click_school_club_button()
+
+        from organisation_manage_page import TeachOrganisationManagePage
+
+        return TeachOrganisationManagePage(self.browser)
+
+    def _click_school_club_button(self):
         self.browser.find_element_by_id('teacher_organisation_button').click()
-
-        if self.on_correct_page('teach_organisation_create_page'):
-            from organisation_create_page import TeachOrganisationCreatePage
-
-            return TeachOrganisationCreatePage(self.browser)
-        else:
-            from organisation_manage_page import TeachOrganisationManagePage
-
-            return TeachOrganisationManagePage(self.browser)
 

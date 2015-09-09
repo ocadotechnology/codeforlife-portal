@@ -55,6 +55,9 @@ class TeachClassesPage(TeachBasePage):
     def have_classes(self):
         return self.element_exists_by_id('classes_table')
 
+    def does_not_have_classes(self):
+        return self.element_does_not_exist_by_id('classes_table')
+
     def does_class_exist(self, name, access_code):
         return self.have_classes() and \
                (name in self.browser.find_element_by_id('classes_table').text) and \

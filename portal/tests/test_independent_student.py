@@ -39,11 +39,11 @@ from base_test import BaseTest
 from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
-
 from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.student import create_independent_student
 from utils.messages import is_email_verified_message_showing
 from utils import email as email_utils
+
 
 class TestIndependentStudent(BaseTest):
     def test_signup(self):
@@ -88,10 +88,11 @@ class TestIndependentStudent(BaseTest):
 
         new_password = 'AnotherPassword12'
 
-        page.change_details({'new_password1': new_password, 'new_password2': new_password})
+        page.reset_password(new_password)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page().go_to_independent_form().independent_student_login(username, new_password)
+        page = HomePage(self.browser).go_to_play_page().go_to_independent_form().independent_student_login(username,
+                                                                                                           new_password)
         assert self.is_independent_student_details(page)
 
     def test_reset_password_fail(self):
@@ -100,7 +101,8 @@ class TestIndependentStudent(BaseTest):
         fake_username = "fake_username"
         page.reset_username_submit(fake_username)
 
-        WebDriverWait(self.browser, 2).until(lambda driver: self.browser_text_find("Cannot find an account with that username"))
+        WebDriverWait(self.browser, 2).until(
+            lambda driver: self.browser_text_find("Cannot find an account with that username"))
         self.assertIn("Cannot find an account with that username", self.browser.page_source)
 
     def browser_text_find(self, text_to_find):

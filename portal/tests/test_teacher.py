@@ -153,7 +153,7 @@ class TestTeacher(BaseTest):
 
         new_password = 'AnotherPassword12'
 
-        page.change_details({'new_password1': new_password, 'new_password2': new_password})
+        page.reset_password(new_password)
 
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, new_password)

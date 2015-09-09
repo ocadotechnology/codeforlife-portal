@@ -65,10 +65,13 @@ class TeachOrganisationManagePage(TeachBasePage):
         self.wait_for_element_by_id('edit_form')
         errorlist = self.browser.find_element_by_id('edit_form').find_element_by_class_name('errorlist').text
         error = 'There is already a school or club registered with that name and postcode'
-        return (error in errorlist)
+        return error in errorlist
 
     def is_admin_view(self):
         return self.element_exists_by_id('admin_view')
+
+    def is_not_admin_view(self):
+        return self.element_does_not_exist_by_id('admin_view')
 
     def accept_join_request(self, email):
         self.browser.find_element_by_xpath("//table[@id='request_table']//td[contains(text(),'%s')]/..//td//a[contains(text(),'Allow')]" % email).click()
@@ -76,6 +79,9 @@ class TeachOrganisationManagePage(TeachBasePage):
 
     def have_join_request(self, email):
         return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
+
+    def has_no_join_requests(self):
+        return self.element_does_not_exist_by_id('request_table')
 
     def number_of_members(self):
         return len(self.browser.find_elements_by_xpath("//table[@id='coworker_table']//tr")) - 1
@@ -85,4 +91,4 @@ class TeachOrganisationManagePage(TeachBasePage):
 
     def check_organisation_name(self, name):
         text = 'Manage my school or club (%s)' % name
-        return (text in self.browser.find_element_by_tag_name('body').text)
+        return text in self.browser.find_element_by_tag_name('body').text

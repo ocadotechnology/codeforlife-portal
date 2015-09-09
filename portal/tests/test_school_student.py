@@ -80,7 +80,7 @@ class TestSchoolStudent(BaseTest):
             .go_to_account_page()
 
         new_password = 'new ' + student_password
-        page = page.change_details({
+        page = page.change_account_details({
             'password': new_password,
             'confirm_password': new_password,
             'current_password': student_password

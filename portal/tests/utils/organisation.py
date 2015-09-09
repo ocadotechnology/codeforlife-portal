@@ -73,7 +73,7 @@ def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=Fal
     teacher.save()
 
 def create_organisation(page, password):
-    page = page.go_to_organisation_page()
+    page = page.go_to_organisation_create_or_join_page()
     
     name, postcode = generate_details()
     page = page.create_organisation(name, password, postcode)

@@ -42,18 +42,15 @@ class PlayAccountPage(PlayBasePage):
 
         assert self.on_correct_page('play_account_page')
 
-    def change_details(self, details):
+    def change_account_details(self, details):
         for field, value in details.items():
             self.browser.find_element_by_id('id_' + field).clear()
             self.browser.find_element_by_id('id_' + field).send_keys(value)
 
         self.browser.find_element_by_id('update_button').click()
 
-        if self.on_correct_page('play_dashboard_page'):
-            from dashboard_page import PlayDashboardPage
-            return PlayDashboardPage(self.browser)
-        else:
-            return self
+        from dashboard_page import PlayDashboardPage
+        return PlayDashboardPage(self.browser)
 
     def check_account_details(self, details):
         correct = True

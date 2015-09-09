@@ -62,18 +62,30 @@ class TeachClassPage(TeachBasePage):
         return self
 
     def confirm_dialog(self):
+        self._click_confirm()
+
+        return classes_page.TeachClassesPage(self.browser)
+
+    def wait_for_messages(self):
+        self.wait_for_element_by_id('messages')
+
+    def confirm_dialog_expect_error(self):
+        self._click_confirm()
+
+        return self
+
+    def _click_confirm(self):
         self.browser.find_element_by_xpath(
             "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
-        if self.on_correct_page('teach_classes_page'):
-            return classes_page.TeachClassesPage(self.browser)
-        else:
-            return self
 
     def is_dialog_showing(self):
         return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
 
     def has_students(self):
         return self.element_exists_by_id('student_table')
+
+    def does_not_have_students(self):
+        return self.element_does_not_exist_by_id('student_table')
 
     def does_student_exist(self, name):
         return self.element_exists_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]".format(name))

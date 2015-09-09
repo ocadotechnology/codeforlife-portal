@@ -53,7 +53,7 @@ class TestClass(BaseTest):
             .login(email, password)\
             .go_to_classes_page()
 
-        assert not page.have_classes()
+        assert page.does_not_have_classes()
 
         page, class_name, access_code = create_class(page)
         assert is_class_created_message_showing(self.browser, class_name)
@@ -63,7 +63,7 @@ class TestClass(BaseTest):
         assert page.does_class_exist(class_name, access_code)
 
         page = page.go_to_class_page(class_name)
-        assert not page.has_students()
+        assert page.does_not_have_students()
 
         page = page.go_to_class_settings_page()
         assert page.check_class_details({
@@ -106,7 +106,7 @@ class TestClass(BaseTest):
 
         page = self.go_to_homepage().go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.has_students()
+        assert page.does_not_have_students()
 
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -116,7 +116,7 @@ class TestClass(BaseTest):
         assert page.is_dialog_showing()
         page = page.confirm_dialog()
         assert page.__class__.__name__ == 'TeachClassesPage'
-        assert not page.have_classes()
+        assert page.does_not_have_classes()
 
     def test_delete_nonempty(self):
         email, password = signup_teacher_directly()
@@ -134,8 +134,9 @@ class TestClass(BaseTest):
         assert not page.is_dialog_showing()
         page = page.delete_class()
         assert page.is_dialog_showing()
-        page = page.confirm_dialog()
+        page = page.confirm_dialog_expect_error()
         assert page.__class__.__name__ == 'TeachClassPage'
+        page.wait_for_messages()
         assert is_class_nonempty_message_showing(self.browser)
 
     def test_transfer_cancel(self):
@@ -163,7 +164,7 @@ class TestClass(BaseTest):
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 
         page = transfer_class(page, 0)
-        assert not page.have_classes()
+        assert page.does_not_have_classes()
 
         page = page.logout().go_to_teach_page().login(email_2, password_2).go_to_classes_page()
         assert page.have_classes()
