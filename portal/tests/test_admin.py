@@ -81,7 +81,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         User.objects.create_superuser(username=username, password=password, email='')
-        page = self.navigate_to_admin_data().login(username, password)
+        page = self.navigate_to_admin_data().login_to_data(username, password)
         self.assertTrue(page.is_on_admin_data_page())
         page = page.go_to_admin_map_page()
         self.assertTrue(page.is_on_admin_map_page())
@@ -93,9 +93,9 @@ class TestAdmin(BaseTest):
         user = User.objects.create_user(username=username, password=password)
         permission = Permission.objects.get(codename='view_map_data')
         user.user_permissions.add(permission)
-        page = self.navigate_to_admin_map().login(username, password)
+        page = self.navigate_to_admin_map().login_to_map(username, password)
         self.assertTrue(page.is_on_admin_map_page())
-        page = page.go_to_admin_data_page()
+        page = page.go_to_admin_data_page_failure()
         self.assertTrue(page.is_on_403_forbidden())
 
     # Check user with view_aggregated_data permission can access to /admin/data but not /admin/map
@@ -105,30 +105,30 @@ class TestAdmin(BaseTest):
         user = User.objects.create_user(username=username, password=password)
         permission = Permission.objects.get(codename='view_aggregated_data')
         user.user_permissions.add(permission)
-        page = self.navigate_to_admin_data().login(username, password)
+        page = self.navigate_to_admin_data().login_to_data(username, password)
         self.assertTrue(page.is_on_admin_data_page())
-        page = page.go_to_admin_map_page()
+        page = page.go_to_admin_map_page_failure()
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_no_view_aggregated_data_permission_access(self):
         username = self.randomId()
         password = 'abc123'
-        user = User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_data().login(username, password)
+        User.objects.create_user(username=username, password=password)
+        page = self.navigate_to_admin_data().login_to_forbidden(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_no_view_map_data_permission_access(self):
         username = self.randomId()
         password = 'abc123'
-        user = User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_map().login(username, password)
+        User.objects.create_user(username=username, password=password)
+        page = self.navigate_to_admin_map().login_to_forbidden(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_wrong_username(self):
         username = self.randomId()
         password = 'abc123'
-        user = User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_data().login('user123', password)
+        User.objects.create_user(username=username, password=password)
+        page = self.navigate_to_admin_data().login_failure('user123', password)
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
                       self.browser.page_source)
@@ -137,7 +137,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_data().login(username, '123')
+        page = self.navigate_to_admin_data().login_failure(username, '123')
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
                       self.browser.page_source)

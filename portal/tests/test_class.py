@@ -43,14 +43,15 @@ from utils.classes import create_class, create_class_directly, transfer_class
 from utils.student import create_school_student_directly
 from utils.messages import is_class_created_message_showing, is_class_nonempty_message_showing
 
+
 class TestClass(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
 
-        page = self.go_to_homepage()\
-            .go_to_teach_page()\
-            .login(email, password)\
+        page = self.go_to_homepage() \
+            .go_to_teach_page() \
+            .login(email, password) \
             .go_to_classes_page()
 
         assert page.does_not_have_classes()
@@ -76,8 +77,8 @@ class TestClass(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        page = self.go_to_homepage()\
-            .go_to_teach_page()\
+        page = self.go_to_homepage() \
+            .go_to_teach_page() \
             .login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name).go_to_class_settings_page()
 

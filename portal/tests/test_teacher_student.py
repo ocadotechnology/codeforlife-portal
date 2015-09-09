@@ -51,7 +51,7 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.has_students()
+        assert page.does_not_have_students()
 
         page, student_name, student_password = create_school_student(page)
         assert page.has_students()
@@ -65,7 +65,7 @@ class TestTeacherStudent(BaseTest):
         self.browser.get(self.live_server_url)
         page = HomePage(self.browser).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert not page.has_students()
+        assert page.does_not_have_students()
 
         page, student_names, student_passwords = create_many_school_students(page, 12)
 

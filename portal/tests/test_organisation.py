@@ -160,12 +160,10 @@ class TestOrganisation(BaseTest, BasePage):
             .login(email_1, password_1)\
             .go_to_organisation_manage_page()
 
-        assert page.have_join_request(email_2)
+        assert page.has_join_request(email_2)
         page = page.accept_join_request(email_2)
 
-        WebDriverWait(self.browser, 2).until_not(lambda driver: self.element_exists_by_id('request_table'))
-
-        assert not page.have_join_request(email_2)
+        assert page.has_no_join_requests()
         assert page.number_of_members() == 2
         assert page.number_of_admins() == 1
 
@@ -176,7 +174,7 @@ class TestOrganisation(BaseTest, BasePage):
             .go_to_organisation_manage_page()
 
         assert page.check_organisation_name(name)
-        assert not page.is_admin_view()
+        assert page.is_not_admin_view()
 
     def test_multiple_schools(self):
         # There was a bug where join requests to school 35 say would go to school 3,
@@ -209,7 +207,7 @@ class TestOrganisation(BaseTest, BasePage):
             .login(emails[n - 1], passwords[n - 1])\
             .go_to_organisation_manage_page()
 
-        assert page.have_join_request(email)
+        assert page.has_join_request(email)
         page = page.accept_join_request(email)
 
         assert page.has_no_join_requests()

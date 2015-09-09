@@ -77,7 +77,7 @@ class TeachOrganisationManagePage(TeachBasePage):
         self.browser.find_element_by_xpath("//table[@id='request_table']//td[contains(text(),'%s')]/..//td//a[contains(text(),'Allow')]" % email).click()
         return self
 
-    def have_join_request(self, email):
+    def has_join_request(self, email):
         return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
 
     def has_no_join_requests(self):
