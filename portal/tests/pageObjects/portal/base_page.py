@@ -97,6 +97,9 @@ class BasePage(object):
     def element_exists_by_xpath(self, path):
         return self.element_exists((By.XPATH, path))
 
+    def element_does_not_exist_by_xpath(self, path):
+        return self.element_does_not_exist((By.XPATH, path))
+
     def on_correct_page(self, pageName):
         return self.element_exists_by_id(pageName)
 

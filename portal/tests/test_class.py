@@ -171,4 +171,4 @@ class TestClass(BaseTest):
         assert page.does_class_exist(class_name, access_code)
         page = page.go_to_class_page(class_name)
         assert page.has_students()
-        assert page.does_student_exist(student_name)
+        assert page.student_exists(student_name)

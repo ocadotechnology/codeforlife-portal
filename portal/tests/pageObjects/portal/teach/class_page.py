@@ -87,8 +87,11 @@ class TeachClassPage(TeachBasePage):
     def does_not_have_students(self):
         return self.element_does_not_exist_by_id('student_table')
 
-    def does_student_exist(self, name):
+    def student_exists(self, name):
         return self.element_exists_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]".format(name))
+
+    def student_does_not_exist(self, name):
+        return self.element_does_not_exist_by_xpath("//table[@id='student_table']//a[contains(text(),'{0}')]".format(name))
 
     def type_student_name(self, name):
         self.browser.find_element_by_id('id_names').send_keys(name + '\n')
