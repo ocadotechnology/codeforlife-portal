@@ -65,7 +65,7 @@ def signup_teacher(page):
     
     page = page.return_to_home_page()
 
-    page = email.follow_verify_email_link(page, mail.outbox[0])
+    page = email.follow_verify_email_link_to_teach(page, mail.outbox[0])
     mail.outbox = []
 
     return page, email_address, password

@@ -109,7 +109,7 @@ class TestTeacher(BaseTest):
         assert page.__class__.__name__ == 'EmailVerificationNeededPage'
         assert is_teacher_email_updated_message_showing(self.browser)
 
-        page = email_utils.follow_change_email_link(page, mail.outbox[0])
+        page = email_utils.follow_change_email_link_to_teach(page, mail.outbox[0])
         mail.outbox = []
 
         page = page.login(new_email, password)

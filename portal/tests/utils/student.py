@@ -97,6 +97,7 @@ def generate_independent_student_details():
 
 generate_independent_student_details.next_id = 1
 
+
 def create_independent_student(page):
     page = page.go_to_play_page()
 
@@ -105,7 +106,7 @@ def create_independent_student(page):
     
     page = page.return_to_home_page()
 
-    page = email.follow_verify_email_link(page, mail.outbox[0])
+    page = email.follow_verify_email_link_to_play(page, mail.outbox[0])
     mail.outbox = []
 
     return page, name, username, email_address, password

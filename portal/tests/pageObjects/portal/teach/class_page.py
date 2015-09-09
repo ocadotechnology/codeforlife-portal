@@ -101,24 +101,23 @@ class TeachClassPage(TeachBasePage):
         return self
 
     def create_students(self):
+        self._click_create_students()
+
+        return new_students_page.TeachNewStudentsPage(self.browser)
+
+    def create_students_failure(self):
+        self._click_create_students()
+
+        return self
+
+    def _click_create_students(self):
         self.browser.find_element_by_name('new_students').click()
 
-        WebDriverWait(self.browser, 3).until(OrFunction(
-            lambda driver: driver.find_element_by_class_name('errorlist'),
-            lambda driver: driver.find_element_by_id('teach_new_students_page')
-        ))
-
-        if self.on_correct_page('teach_new_students_page'):
-            return new_students_page.TeachNewStudentsPage(self.browser)
-        else:
-            return self
-
     def adding_students_failed(self):
-        browser = self.browser
-        try:
-            error_list = browser.find_element_by_id('add_form').find_element_by_class_name('errorlist')
-        except NoSuchElementException:
+        if not self.element_exists_by_css('.errorlist'):
             return False
+
+        error_list = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist')
 
         if error_list.text:
             return True
@@ -126,14 +125,20 @@ class TeachClassPage(TeachBasePage):
             return False
 
     def student_already_existed(self, name):
-        errorlist = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
         error = "There is already a student called '{0}' in this class".format(name)
-        return (error in errorlist)
+        return error in errors
 
     def duplicate_students(self, name):
-        errorlist = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
         error = "You cannot add more than one student called '{0}'".format(name)
-        return (error in errorlist)
+        return error in errors
 
     def toggle_select_student(self, name):
         self.browser.find_element_by_xpath(
@@ -142,17 +147,26 @@ class TeachClassPage(TeachBasePage):
 
     def move_students(self):
         self.browser.find_element_by_id('moveSelectedStudents').click()
-        if self.on_correct_page('teach_move_students_page'):
-            return move_students_page.TeachMoveStudentsPage(self.browser)
-        else:
-            return self
+
+        return move_students_page.TeachMoveStudentsPage(self.browser)
+
+    def move_students_none_selected(self):
+        self.browser.find_element_by_id('moveSelectedStudents').click()
+
+        return self
 
     def dismiss_students(self):
+        self._dismiss_students()
+
+        return dismiss_students_page.TeachDismissStudentsPage(self.browser)
+
+    def dismiss_students_none_selected(self):
+        self._dismiss_students()
+
+        return self
+
+    def _dismiss_students(self):
         self.browser.find_element_by_id('dismissSelectedStudents').click()
-        if self.on_correct_page('teach_dismiss_students_page'):
-            return dismiss_students_page.TeachDismissStudentsPage(self.browser)
-        else:
-            return self
 
     def delete_students(self):
         self.browser.find_element_by_id('deleteSelectedStudents').click()
@@ -170,7 +184,6 @@ class OrFunction:
             except NoSuchElementException:
                 pass
         raise NoSuchElementException()
-
 
 
 import classes_page

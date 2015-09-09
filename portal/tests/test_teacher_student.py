@@ -85,7 +85,7 @@ class TestTeacherStudent(BaseTest):
         assert page.has_students()
         assert page.student_exists(student_name)
 
-        page = page.type_student_name(student_name).create_students()
+        page = page.type_student_name(student_name).create_students_failure()
         assert self.is_class_page(page)
         assert page.adding_students_failed()
         assert page.student_already_existed(student_name)
@@ -105,7 +105,7 @@ class TestTeacherStudent(BaseTest):
         assert page.does_not_have_students()
         assert page.student_does_not_exist(student_name)
 
-        page = page.type_student_name(student_name).type_student_name(student_name).create_students()
+        page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
         assert self.is_class_page(page)
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
@@ -149,7 +149,7 @@ class TestTeacherStudent(BaseTest):
         assert page.has_students()
         assert page.student_exists(student_name)
 
-        page = page.move_students()
+        page = page.move_students_none_selected()
         assert self.is_class_page(page)
 
         page = page.toggle_select_student(student_name).move_students()
@@ -221,7 +221,7 @@ class TestTeacherStudent(BaseTest):
         assert page.student_exists(student_name_1)
         assert page.student_exists(student_name_2)
 
-        page = page.dismiss_students()
+        page = page.dismiss_students_none_selected()
         assert self.is_class_page(page)
 
         page = page.toggle_select_student(student_name_1).dismiss_students()

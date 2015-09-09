@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import unittest
 from django.test import TestCase
 from portal.helpers.location import lookup_coord, lookup_country
 import json
@@ -60,7 +61,7 @@ def datafile(filename):
 
 MAPS_API_GEOCODE_JSON = 'https://maps.googleapis.com/maps/api/geocode/json?'
 
-class TestLocation(TestCase):
+class TestLocation(unittest.TestCase):
 
     def assert_default_coord(self, town, lat, lng):
         # default values returned when error occurs in lookup_coord()
