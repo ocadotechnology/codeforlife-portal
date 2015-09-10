@@ -35,7 +35,6 @@ djangocms-column==1.5
 djangocms-grid==1.2
 djangocms-oembed==0.5
 djangocms-table==1.2
-django-formtools==1.0
 djangocms-file==0.1
 djangocms_flash==0.2.0
 djangocms_googlemap==0.3
