@@ -1,0 +1,12 @@
+1. Read this page http://wiki.ocado.com/wiki/index.php/SSH_Jump_Service and request access as it instructs
+2. Run ls -la in the command line to see hidden files in your home directory - you should find .ssh
+3. Navigate to .ssh and run vim config to create a new configuration file.
+4. Add the contents as indicated here: http://wiki.ocado.com/wiki/index.php/SSH_Jump_Service but delete reference to amazon_aws because we won't need it
+5. Copy the id_rsa file (the private key file) with the new name 'id_google_compute_engine' by running: cp id_rsa id_google_compute_engine
+6. Add this private key to your keychain: ssh-add -K ~/.ssh/id_google_compute_engine
+7. Copy the contents of id_rsa.pub and paste it a) in the 'Manage Your SSH Key' section of the Linux Self Service portal
+b) At https://console.developers.google.com/project/decent-digit-629 under Compute Engine > Metadata > SSH Keys
+8. Run ssh jump ssh <remote_user>@<remote_host>. Where <remote_user> is your Ocado User name (most likely, depends what you specified when you created an SSH Key) and <remote_host> is the Jenkins server: 173.194.107.205
+9. When prompted for a password use: 3Iu35t3e067t43c
+10. Add the necessary certificates by running: cp /var/lib/jenkins/server-ca.pem . && cp /var/lib/jenkins/client-cert.pem . && cp /var/lib/jenkins/client-key.pem .
+11. Launch the database by running: mysql -uroot -p -h 173.194.107.205 --ssl_ca=server-ca.pem --ssl_cert=client-cert.pem --ssl_key=client-key.pem

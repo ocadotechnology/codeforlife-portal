@@ -1,0 +1,31 @@
+Install python (downloaded msi from website: https://www.python.org/downloads/release/python-2710/)
+        , ruby (ruby installer: http://rubyinstaller.org/downloads/)
+
+add C:\Python27 and C:\Python27\Scripts to environment variables
+> python -m ensurepip (to install pip)
+
+Using VIRTUALENV (the old way):
+> python -m pip install virtualenv
+manually activate virtualenv
+> VIRTUALENV\Scripts\activate.bat
+Install requirements
+> install-win.bat
+manually add symlinks as shown in install-requirements.sh (Using Link Shell Extension and drop link source as symbolic links)
+Pick link source        | Drop as symbolic link
+../ocargo/game            VIRTUALENV/lib/python2.7/site-packages/game
+../portal/portal          VIRTUALENV/lib/python2.7/site-packages/portal
+../portal/reports         VIRTUALENV/lib/python2.7/site-packages/reports
+../portal/ratelimit       VIRTUALENV/lib/python2.7/site-packages/ratelimit
+
+Or simply (the new way, installs packages in /lib):
+add the following symlinks:
+Pick link source | Drop as symbolic link
+../ocargo          submodules/ocargo
+../portal          submodules/portal
+> build.sh
+
+To start the server:
+> python manage.py migrate
+> python manage.py collectstatic
+> python manage.py runserver
+

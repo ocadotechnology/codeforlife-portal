@@ -1,0 +1,16 @@
+1) Install Python with Pip via Homebrew by following instructions here: http://docs.python-guide.org/en/latest/starting/install/osx/
+2) Install Java here: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+3) Install Sass: sudo gem install sass -v 3.3.4
+4) Get added to Ocado Technology Git Hub repositories
+5) Clone repositories: codeforlife-deploy; codeforlife-portal and ocargo
+6) Within codeforlife-delpoy/submodules create symbolic links to codeforlife-portal and ocargo names 'portal' and 'ocargo' respectively. Do this by running the folloing in the command line: $ln -s ../../codeforlife-portal portal then $ln -s ../../ocargo ocargo
+7) Within codeforlife-deploy run ./build.sh
+8) Within codeforlife-deploy run ./manage.py migrate
+9) Run: ./manage.py collectstatic
+10) Within codeforlife-deploy run ./manage.py runserver
+
+
+
+
+
+
