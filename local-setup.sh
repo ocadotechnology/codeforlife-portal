@@ -17,13 +17,9 @@ if [ ! -d ocargo ]; then
     git clone https://github.com/ocadotechnology/ocargo ocargo
 fi
 
-if [ ! -d portal ]; then
-    git clone https://github.com/ocadotechnology/codeforlife-portal portal
-fi
-
 # create virtualenv and install requirements
 cd ${DEPLOY_PATH}
-./install-requirements.sh
+./scripts/install-requirements.sh
 
 # install sass, (to be able to switch to and from prod requirements.txt)
 sudo gem install sass --version "3.3.4"
