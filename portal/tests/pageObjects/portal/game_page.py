@@ -65,7 +65,7 @@ class GamePage(BasePage):
 
     def run_program(self):
         self.browser.find_element_by_id("fast_tab").click()
-        self.wait_for_element_to_be_clickable((By.ID, "routeScore"), 30)
+        self.wait_for_element_to_be_clickable((By.ID, "routeScore"), 45)
 
         return self
 
