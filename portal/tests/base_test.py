@@ -68,7 +68,8 @@ if selenium_host and not os.getenv('SELENIUM_LOCAL', None):
 
     driver = webdriver.Remote(
         command_executor=selenium_address,
-        desired_capabilities=DesiredCapabilities.CHROME)
+        desired_capabilities=DesiredCapabilities.CHROME,
+        keep_alive=True)
 
     master_browser = driver
 else:
