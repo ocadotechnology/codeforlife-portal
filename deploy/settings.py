@@ -122,7 +122,7 @@ MEDIA_ROOT = rel('static')+'/email_media/'
 
 LOGIN_URL = '/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher.teacher_home')
+LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher.teach.teacher_home')
 
 
 # Required for admindocs
