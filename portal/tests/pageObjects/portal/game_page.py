@@ -34,11 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import os
 
 from hamcrest import assert_that, equal_to
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.base_page import BasePage
+from selenium.common.exceptions import TimeoutException
 
 
 class GamePage(BasePage):
@@ -65,7 +67,16 @@ class GamePage(BasePage):
 
     def run_program(self):
         self.browser.find_element_by_id("fast_tab").click()
-        self.wait_for_element_to_be_clickable((By.ID, "myModal-title"), 45)
+
+        try:
+            self.wait_for_element_to_be_clickable((By.ID, "myModal-title"), 45)
+        except TimeoutException as e:
+            import time
+            millis = int(round(time.time() * 1000))
+            screenshot_filename = '/tmp/game_tests_%s-%s.png' % (os.getenv("BUILD_NUMBER", "nonumber"), str(millis))
+            print "Saved screenshot to " + screenshot_filename
+            self.browser.get_screenshot_as_file(screenshot_filename)
+            raise e
 
         return self
 
@@ -79,4 +90,3 @@ class GamePage(BasePage):
 
     def assert_algorithm_score(self, score):
         return self._assert_score("algorithmScore", score)
-
