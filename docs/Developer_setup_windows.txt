@@ -3,8 +3,10 @@ Install python (downloaded msi from website: https://www.python.org/downloads/re
 
 add C:\Python27 and C:\Python27\Scripts to environment variables
 > python -m ensurepip (to install pip)
+Clone repositories: codeforlife-portal (rename to portal for simplicity) and ocargo
 
-Using VIRTUALENV (the old way):
+Using VIRTUALENV:
+go to portal,
 > python -m pip install virtualenv
 manually activate virtualenv
 > VIRTUALENV\Scripts\activate.bat
@@ -13,15 +15,14 @@ Install requirements
 manually add symlinks as shown in install-requirements.sh (Using Link Shell Extension and drop link source as symbolic links)
 Pick link source        | Drop as symbolic link
 ../ocargo/game            VIRTUALENV/lib/python2.7/site-packages/game
-../portal/portal          VIRTUALENV/lib/python2.7/site-packages/portal
-../portal/reports         VIRTUALENV/lib/python2.7/site-packages/reports
-../portal/ratelimit       VIRTUALENV/lib/python2.7/site-packages/ratelimit
+portal                    VIRTUALENV/lib/python2.7/site-packages/portal
+reports                   VIRTUALENV/lib/python2.7/site-packages/reports
+ratelimit                 VIRTUALENV/lib/python2.7/site-packages/ratelimit
 
-Or simply (the new way, installs packages in /lib):
-add the following symlinks:
+Or install packages in /lib:
+In portal, add the following symlinks:
 Pick link source | Drop as symbolic link
 ../ocargo          submodules/ocargo
-../portal          submodules/portal
 > build.sh
 
 To start the server:
