@@ -85,6 +85,16 @@ class OrganisationForm(forms.ModelForm):
 
         return self.cleaned_data
 
+    def clean_postcode(self):
+        postcode = self.cleaned_data.get('postcode', None)
+
+        if postcode:
+            # Basic postcode check for now
+            if not len(postcode.replace(' ', '')) > 0:
+                raise forms.ValidationError("That postcode was not recognised")
+
+        return postcode
+
     def clean_current_password(self):
         current_password = self.cleaned_data.get('current_password', None)
         if not self.user.check_password(current_password):
