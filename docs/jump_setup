@@ -6,7 +6,7 @@
 6. Add this private key to your keychain: ssh-add -K ~/.ssh/id_google_compute_engine
 7. Copy the contents of id_rsa.pub and paste it a) in the 'Manage Your SSH Key' section of the Linux Self Service portal
 b) At https://console.developers.google.com/project/decent-digit-629 under Compute Engine > Metadata > SSH Keys
-8. Run ssh jump ssh <remote_user>@<remote_host>. Where <remote_user> is your Ocado User name (most likely, depends what you specified when you created an SSH Key) and <remote_host> is the Jenkins server: 173.194.107.205
+8. Run ssh jump ssh <remote_user>@<remote_host>. Where <remote_user> is your Ocado User name (most likely, depends what you specified when you created an SSH Key) and <remote_host> is the Jenkins server: 104.155.38.9
 9. When prompted for a password use: 3Iu35t3e067t43c
 10. Add the necessary certificates by running: cp /var/lib/jenkins/server-ca.pem . && cp /var/lib/jenkins/client-cert.pem . && cp /var/lib/jenkins/client-key.pem .
 11. Launch the database by running: mysql -uroot -p -h 173.194.107.205 --ssl_ca=server-ca.pem --ssl_cert=client-cert.pem --ssl_key=client-key.pem
