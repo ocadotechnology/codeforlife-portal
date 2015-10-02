@@ -35,11 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import re
-from base_test import BaseTest
+
 from django.core import mail
+
 from selenium.webdriver.support.wait import WebDriverWait
 
-from portal.tests.pageObjects.portal.home_page import HomePage
+from base_test import BaseTest
 from utils.student import create_independent_student
 from utils.messages import is_email_verified_message_showing
 from utils import email as email_utils
@@ -47,22 +48,19 @@ from utils import email as email_utils
 
 class TestIndependentStudent(BaseTest):
     def test_signup(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.browser)
 
     def test_login_failure(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        page = self.go_to_homepage()
         page = page.go_to_play_page()
         page = page.independent_student_login_failure('Non existant username', 'Incorrect password')
 
         assert page.has_independent_student_login_failed()
 
     def test_login_success(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        page = self.go_to_homepage()
         page, name, username, email, password = create_independent_student(page)
         page = page.independent_student_login(username, password)
         assert page.__class__.__name__ == 'PlayDashboardPage'
@@ -74,8 +72,7 @@ class TestIndependentStudent(BaseTest):
 
     def test_reset_password(self):
 
-        self.browser.get(self.live_server_url)
-        homepage = HomePage(self.browser)
+        homepage = self.go_to_homepage()
 
         username = create_independent_student(homepage)[2]
         page = self.get_to_forgotten_password_page()
@@ -91,8 +88,12 @@ class TestIndependentStudent(BaseTest):
         page.reset_password(new_password)
 
         self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page().go_to_independent_form().independent_student_login(username,
-                                                                                                           new_password)
+        page = self \
+            .go_to_homepage() \
+            .go_to_play_page() \
+            .go_to_independent_form() \
+            .independent_student_login(username, new_password)
+
         assert self.is_independent_student_details(page)
 
     def test_reset_password_fail(self):
@@ -114,8 +115,7 @@ class TestIndependentStudent(BaseTest):
             return False
 
     def get_to_forgotten_password_page(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser) \
+        page = self.go_to_homepage() \
             .go_to_play_page() \
             .go_to_independent_form() \
             .go_to_forgotten_password_page()

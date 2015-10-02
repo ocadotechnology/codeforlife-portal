@@ -34,19 +34,42 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from play_base_page import PlayBasePage
-from portal.tests.pageObjects.portal.play.join_school_or_club_page import JoinSchoolOrClubPage
+
+from django.core import mail
+from selenium.webdriver.support.wait import WebDriverWait
+
+from base_test import BaseTest
+from portal.tests.utils.classes import create_class_directly
+from portal.tests.utils.organisation import create_organisation_directly
+from portal.tests.utils.teacher import signup_teacher_directly
+from utils.student import create_independent_student
 
 
-class PlayDashboardPage(PlayBasePage):
-    def __init__(self, browser):
-        super(PlayDashboardPage, self).__init__(browser)
+class TestAddIndependentStudent(BaseTest):
+    def test_join_class(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        organisation_name, postcode = create_organisation_directly(teacher_email)
+        klass, class_name, accesss_code = create_class_directly(teacher_email)
+        klass.always_accept_requests = True
+        klass.save()
 
-        assert self.on_correct_page('play_dashboard_page')
+        homepage = self.go_to_homepage()
 
-    def go_to_join_a_school_or_club_page(self):
-        self.browser.find_element_by_id('join_a_school_or_club').click()
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
 
-        return JoinSchoolOrClubPage(self.browser)
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_join_a_school_or_club_page() \
+            .join_a_school_or_club(accesss_code)
 
+        logged_out_homepage = page.logout()
 
+        classes_page = logged_out_homepage \
+            .go_to_teach_page() \
+            .login(teacher_email, teacher_password) \
+            .go_to_classes_page() \
+            .accept_join_request(student_email) \
+            .save() \
+            .return_to_classes()
+
+        assert classes_page.student_exists(student_name)

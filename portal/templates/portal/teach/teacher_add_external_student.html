@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<div id="add_independent_student_to_class"></div>
+
 <h1>Classes</h1><br>
 <h2>Add external student to class {{ class.name }} ({{ class.access_code }})</h2><br>
 
@@ -55,7 +57,7 @@
                     </div>
 
                     <div class='col span_1_of_2'>
-                        <input type='submit' class='btn btn-primary wide' value='Save'/>
+                        <input id="save_student_name_button" type='submit' class='btn btn-primary wide' value='Save'/>
                     </div>
                 </div>
                 

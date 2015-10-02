@@ -5,6 +5,8 @@
 
 {% block content %}
 
+<div id="added_independent_student_to_class"></div>
+
 <h1>Classes</h1><br>
 <h2>External student added to class {{ class.name }} ({{ class.access_code }})</h2><br>
 
@@ -18,7 +20,7 @@
     </div>
 
 <div class='section group'>
-    <a class='btn btn-primary' href="{% url 'teacher_class' class.access_code %}">Return</a>
+    <a id="return_button" class='btn btn-primary' href="{% url 'teacher_class' class.access_code %}">Return</a>
 </div>
 
 {% endblock %}

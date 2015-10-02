@@ -35,8 +35,10 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from selenium.webdriver.support.ui import Select
+from portal.tests.pageObjects.portal.teach.add_independent_student_to_class_page import AddIndependentStudentToClassPage
 
 from teach_base_page import TeachBasePage
+
 
 class TeachClassesPage(TeachBasePage):
     def __init__(self, browser):
@@ -66,5 +68,9 @@ class TeachClassesPage(TeachBasePage):
     def go_to_class_page(self, name):
         self.browser.find_element_by_xpath("//table[@id='classes_table']//a[contains(text(),'%s')]" % name).click()
         return class_page.TeachClassPage(self.browser)
+
+    def accept_join_request(self, email):
+        self.browser.find_element_by_xpath("//table[@id='join_request_table']//td[contains(text(),'%s')]/..//td//a[contains(text(),'Accept')]" % email).click()
+        return AddIndependentStudentToClassPage(self.browser)
 
 import class_page

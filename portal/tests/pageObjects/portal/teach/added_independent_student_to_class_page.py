@@ -34,19 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from play_base_page import PlayBasePage
-from portal.tests.pageObjects.portal.play.join_school_or_club_page import JoinSchoolOrClubPage
+from portal.tests.pageObjects.portal.teach.class_page import TeachClassPage
+from portal.tests.pageObjects.portal.teach.teach_base_page import TeachBasePage
 
 
-class PlayDashboardPage(PlayBasePage):
+class AddedIndependentStudentToClassPage(TeachBasePage):
     def __init__(self, browser):
-        super(PlayDashboardPage, self).__init__(browser)
+        super(AddedIndependentStudentToClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('play_dashboard_page')
+        assert self.on_correct_page('added_independent_student_to_class')
 
-    def go_to_join_a_school_or_club_page(self):
-        self.browser.find_element_by_id('join_a_school_or_club').click()
+    def return_to_classes(self):
+        self.browser.find_element_by_id('return_button').click()
 
-        return JoinSchoolOrClubPage(self.browser)
-
-
+        return TeachClassPage(self.browser)
