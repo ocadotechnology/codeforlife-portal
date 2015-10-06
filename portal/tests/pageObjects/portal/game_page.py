@@ -65,11 +65,11 @@ class GamePage(BasePage):
         self.browser.find_element_by_id("loadWorkspace").click()
         return self
 
-    def run_program(self, score_element_id):
+    def run_program(self, wait_for_element_id):
         self.browser.find_element_by_id("fast_tab").click()
 
         try:
-            self.wait_for_element_to_be_clickable((By.ID, score_element_id), 45)
+            self.wait_for_element_to_be_clickable((By.ID, wait_for_element_id), 45)
         except TimeoutException as e:
             import time
             millis = int(round(time.time() * 1000))
@@ -79,6 +79,10 @@ class GamePage(BasePage):
             raise e
 
         return self
+
+    def run_crashing_program(self):
+        self.run_program('try_again_button')
+        self.element_exists_by_xpath("//*[@id='myModal-lead' and contains(text(),'What went wrong')]")
 
     def _assert_score(self, element_id, score):
         route_score = self.browser.find_element_by_id(element_id).text
