@@ -81,8 +81,14 @@ class GamePage(BasePage):
         return self
 
     def run_crashing_program(self):
+        self._run_failing_program("What went wrong")
+
+    def run_program_that_runs_out_of_instructions(self):
+        self._run_failing_program("The van ran out of instructions before it reached a destination.")
+
+    def _run_failing_program(self, text):
         self.run_program('try_again_button')
-        self.element_exists_by_xpath("//*[@id='myModal-lead' and contains(text(),'What went wrong')]")
+        self.element_exists_by_xpath("//*[@id='myModal-lead' and contains(text(),'%s')]" % text)
 
     def _assert_score(self, element_id, score):
         route_score = self.browser.find_element_by_id(element_id).text
