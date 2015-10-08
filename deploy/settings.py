@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django_countries',
     'rest_framework',
+    'online_status',
 
     #CMS
     'cms',  # django CMS itself
@@ -76,6 +77,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'online_status.middleware.OnlineStatusMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',

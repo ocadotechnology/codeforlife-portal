@@ -37,11 +37,11 @@
 import re
 
 from django.contrib.auth.models import User
-from django.contrib.sessions.models import Session
 from django.db import models
-from django.utils import timezone
 from django_countries.fields import CountryField
+from django.core.cache import cache
 
+from online_status.status import CACHE_USERS
 
 class UserProfile (models.Model):
     user = models.OneToOneField(User)
@@ -119,17 +119,15 @@ class Class (models.Model):
         return self.name
 
     def get_logged_in_students(self):
-        """This gets all the students who are logged in."""
-        sessions = Session.objects.filter(expire_date__gte=timezone.now())
-        uid_list = []
+        ONLINE = 1
 
-        # Build a list of user ids from that query
-        for session in sessions:
-            data = session.get_decoded()
-            uid_list.append(data.get('_auth_user_id', None))
+        """This gets all the students who are logged in."""
+        users_status = cache.get(CACHE_USERS)
+        online_users_status = filter(lambda status: status.status == ONLINE, users_status)
+        online_user_ids = map(lambda status: status.user.id, online_users_status)
 
         # Query all logged in users based on id list
-        return Student.objects.filter(class_field=self).filter(user__user__id__in=uid_list)
+        return Student.objects.filter(class_field=self).filter(user__user__id__in=online_user_ids)
 
     class Meta:
         verbose_name_plural = "classes"

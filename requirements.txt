@@ -43,6 +43,8 @@ djangocms_inherit==0.1
 djangocms_picture==0.1
 djangocms_teaser==0.1
 djangocms_video==0.1
+django-online-status==0.1.0
+
 
 Pillow==2.9.0
 django-filer==0.9.5
