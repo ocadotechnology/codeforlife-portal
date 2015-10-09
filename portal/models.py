@@ -43,7 +43,8 @@ from django.core.cache import cache
 
 from online_status.status import CACHE_USERS
 
-class UserProfile (models.Model):
+
+class UserProfile(models.Model):
     user = models.OneToOneField(User)
     avatar = models.ImageField(upload_to='static/portal/img/avatars/', null=True, blank=True,
                                default='static/portal/img/avatars/default-avatar.jpeg')
@@ -55,7 +56,7 @@ class UserProfile (models.Model):
         return self.user.username
 
 
-class School (models.Model):
+class School(models.Model):
     name = models.CharField(max_length=200)
     postcode = models.CharField(max_length=10)
     town = models.CharField(max_length=200)
@@ -89,7 +90,7 @@ class TeacherModelManager(models.Manager):
         return Teacher.objects.create(user=userProfile, title=title)
 
 
-class Teacher (models.Model):
+class Teacher(models.Model):
     title = models.CharField(max_length=35)
     user = models.OneToOneField(UserProfile)
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
@@ -107,7 +108,7 @@ class Teacher (models.Model):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
 
 
-class Class (models.Model):
+class Class(models.Model):
     name = models.CharField(max_length=200)
     teacher = models.ForeignKey(Teacher, related_name='class_teacher')
     access_code = models.CharField(max_length=5)
@@ -157,7 +158,7 @@ class StudentModelManager(models.Manager):
         return Student.objects.create(user=userProfile)
 
 
-class Student (models.Model):
+class Student(models.Model):
     class_field = models.ForeignKey(Class, related_name='students', null=True)
     user = models.OneToOneField(UserProfile)
     pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
@@ -172,10 +173,10 @@ class Student (models.Model):
 
 
 def stripStudentName(name):
-        return re.sub('[ \t]+', ' ', name.strip())
+    return re.sub('[ \t]+', ' ', name.strip())
 
 
-class Guardian (models.Model):
+class Guardian(models.Model):
     name = models.CharField(max_length=200)
     children = models.ManyToManyField(Student)
     user = models.OneToOneField(UserProfile)
@@ -184,7 +185,7 @@ class Guardian (models.Model):
         return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
 
 
-class EmailVerification (models.Model):
+class EmailVerification(models.Model):
     user = models.ForeignKey(UserProfile, related_name='email_verifications')
     token = models.CharField(max_length=30)
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
@@ -198,4 +199,3 @@ class FrontPageNews(models.Model):
     link = models.CharField(max_length=500)
     link_text = models.CharField(max_length=200)
     added_dstamp = models.DateTimeField()
-
