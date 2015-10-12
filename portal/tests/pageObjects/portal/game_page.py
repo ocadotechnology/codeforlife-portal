@@ -52,10 +52,13 @@ class GamePage(BasePage):
         self._dismiss_initial_dialog()
 
     def _dismiss_initial_dialog(self):
-        self.wait_for_element_to_be_clickable((By.ID, "play_button"))
-        self.browser.find_element_by_id("play_button").click()
-        self.wait_for_element_to_be_invisible((By.ID, "play_button"))
+        self.dismiss_dialog("play_button")
         return self
+
+    def dismiss_dialog(self, button_id):
+        self.wait_for_element_to_be_clickable((By.ID, button_id))
+        self.browser.find_element_by_id(button_id).click()
+        self.wait_for_element_to_be_invisible((By.ID, button_id))
 
     def load_solution(self, workspace_id):
         self.browser.find_element_by_id("load_tab").click()
@@ -65,7 +68,15 @@ class GamePage(BasePage):
         self.browser.find_element_by_id("loadWorkspace").click()
         return self
 
-    def run_program(self, wait_for_element_id):
+    def clear(self):
+        self.browser.find_element_by_id("clear_tab").click()
+        return self
+
+    def try_again(self):
+        self.dismiss_dialog("try_again_button")
+        return self
+
+    def run_program(self, wait_for_element_id="algorithmScore"):
         self.browser.find_element_by_id("fast_tab").click()
 
         try:
@@ -81,18 +92,19 @@ class GamePage(BasePage):
         return self
 
     def run_crashing_program(self):
-        self._run_failing_program("What went wrong")
+        return self._run_failing_program("What went wrong")
 
     def run_cow_crashing_program(self):
-        self._run_failing_program("You ran into a cow!")
+        return self._run_failing_program("You ran into a cow!")
 
     def run_program_that_runs_out_of_instructions(self):
-        self._run_failing_program("The van ran out of instructions before it reached a destination.")
+        return self._run_failing_program("The van ran out of instructions before it reached a destination.")
 
     def _run_failing_program(self, text):
         self.run_program('try_again_button')
         error_message = self.browser.find_element_by_id('myModal-lead').text
         assert_that(error_message, contains_string(text))
+        return self
 
     def _assert_score(self, element_id, score):
         route_score = self.browser.find_element_by_id(element_id).text
