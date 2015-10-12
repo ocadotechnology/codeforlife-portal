@@ -101,3 +101,8 @@ class BaseTest(LiveServerTestCase):
         self.browser.get(self.live_server_url + "/rapidrouter/" + str(level))
 
         return GamePage(self.browser)
+
+    def go_to_custom_level(self, level):
+        self.browser.get(self.live_server_url + "/rapidrouter/custom/" + str(level.id))
+
+        return GamePage(self.browser)

@@ -36,7 +36,7 @@
 # identified as the original program.
 import os
 
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, contains_string
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.base_page import BasePage
@@ -83,12 +83,16 @@ class GamePage(BasePage):
     def run_crashing_program(self):
         self._run_failing_program("What went wrong")
 
+    def run_cow_crashing_program(self):
+        self._run_failing_program("You ran into a cow!")
+
     def run_program_that_runs_out_of_instructions(self):
         self._run_failing_program("The van ran out of instructions before it reached a destination.")
 
     def _run_failing_program(self, text):
         self.run_program('try_again_button')
-        self.element_exists_by_xpath("//*[@id='myModal-lead' and contains(text(),'%s')]" % text)
+        error_message = self.browser.find_element_by_id('myModal-lead').text
+        assert_that(error_message, contains_string(text))
 
     def _assert_score(self, element_id, score):
         route_score = self.browser.find_element_by_id(element_id).text
