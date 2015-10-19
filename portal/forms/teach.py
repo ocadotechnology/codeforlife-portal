@@ -198,6 +198,12 @@ class TeacherLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
+    def generic_captcha_error(self):
+        return self.is_recaptcha() and (not self.is_valid())
+
+    def is_recaptcha(self):
+        return 'recaptcha' in self.fields
+
     def clean(self):
         email = self.cleaned_data.get('email', None)
         password = self.cleaned_data.get('password', None)
@@ -219,6 +225,7 @@ class TeacherLoginForm(forms.Form):
 
             if user is None:
                 raise forms.ValidationError('Incorrect email address or password')
+
             if not user.is_active:
                 raise forms.ValidationError('User account has been deactivated')
 
