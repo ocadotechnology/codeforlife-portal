@@ -84,7 +84,13 @@
 
                     {% csrf_token %}
 
-                    {{ school_login_form.non_field_errors }}
+                    {% if school_login_form.generic_captcha_error %}
+                        <ul class="errorlist nonfield">
+                            <li>Incorrect email address, password or captcha</li>
+                        </ul>
+                    {%  else %}
+                        {{ school_login_form.non_field_errors }}
+                    {% endif %}
 
                     {{ school_login_form.name.errors }}
                     <label for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
@@ -121,7 +127,13 @@
 
                     {% csrf_token %}
 
-                    {{ independent_student_login_form.non_field_errors }}
+                    {% if independent_student_login_form.generic_captcha_error %}
+                        <ul class="errorlist nonfield">
+                            <li>Incorrect email address, password or captcha</li>
+                        </ul>
+                    {%  else %}
+                        {{ independent_student_login_form.non_field_errors }}
+                    {% endif %}
 
                     {{ independent_student_login_form.username.errors }}
                     <label for="id_{{ independent_student_login_form.username.html_name }}">{{ independent_student_login_form.username.label }}</label>

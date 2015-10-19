@@ -56,6 +56,12 @@ class StudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
+    def generic_captcha_error(self):
+        return self.is_recaptcha() and (not self.is_valid())
+
+    def is_recaptcha(self):
+        return 'recaptcha' in self.fields
+
     def clean(self):
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
@@ -189,6 +195,12 @@ class IndependentStudentLoginForm(forms.Form):
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput())
+
+    def generic_captcha_error(self):
+        return self.is_recaptcha() and (not self.is_valid())
+
+    def is_recaptcha(self):
+        return 'recaptcha' in self.fields
 
     def clean(self):
         username = self.cleaned_data.get('username', None)
