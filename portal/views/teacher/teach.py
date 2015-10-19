@@ -41,7 +41,7 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
@@ -150,7 +150,6 @@ def teacher_class(request, access_code):
                 'name_tokens': name_tokens,
                 'query_data': json.dumps(name_tokens),
             })
-
     else:
         new_students_form = StudentCreationForm(klass)
 
