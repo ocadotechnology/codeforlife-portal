@@ -56,13 +56,10 @@ class StudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
-    def generic_captcha_error(self):
-        return self.is_recaptcha() and (not self.is_valid())
-
-    def is_recaptcha(self):
-        return 'recaptcha' in self.fields
-
     def clean(self):
+        if self.has_error('recaptcha'):
+            raise forms.ValidationError("Invalid name, class access code, password or captcha")
+
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
         password = self.cleaned_data.get('password', None)
@@ -196,13 +193,10 @@ class IndependentStudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput())
 
-    def generic_captcha_error(self):
-        return self.is_recaptcha() and (not self.is_valid())
-
-    def is_recaptcha(self):
-        return 'recaptcha' in self.fields
-
     def clean(self):
+        if self.has_error('recaptcha'):
+            raise forms.ValidationError("Incorrect username, password or captcha")
+
         username = self.cleaned_data.get('username', None)
         password = self.cleaned_data.get('password', None)
 

@@ -55,13 +55,7 @@
 
                     {% csrf_token %}
 
-                    {% if login_form.generic_captcha_error %}
-                        <ul class="errorlist nonfield">
-                            <li>Incorrect email address, password or captcha</li>
-                        </ul>
-                    {%  else %}
-                        {{ login_form.non_field_errors }}
-                    {% endif %}
+                    {{ login_form.non_field_errors }}
 
                     {{ login_form.email.errors }}
                     <label for="id_{{ login_form.email.html_name }}">{{ login_form.email.label }}</label>

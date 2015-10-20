@@ -198,13 +198,10 @@ class TeacherLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
-    def generic_captcha_error(self):
-        return self.is_recaptcha() and (not self.is_valid())
-
-    def is_recaptcha(self):
-        return 'recaptcha' in self.fields
-
     def clean(self):
+        if self.has_error('recaptcha'):
+            raise forms.ValidationError('Incorrect email address, password or captcha')
+
         email = self.cleaned_data.get('email', None)
         password = self.cleaned_data.get('password', None)
 
