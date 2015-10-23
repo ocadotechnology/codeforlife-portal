@@ -35,32 +35,41 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from time import sleep
-from django.http import HttpResponseRedirect
+
 from django.shortcuts import render
 from rest_framework.reverse import reverse_lazy
-
 from django.db.models import Avg, Count
 from two_factor.utils import default_device
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import permission_required, login_required
-
 from django.contrib import messages as messages
+from django_recaptcha_field import create_form_subclass_with_recaptcha
 
+from recaptcha import RecaptchaClient
+
+from deploy import settings
+from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
 from portal.models import UserProfile, Teacher, School, Class, Student
 from ratelimit.decorators import ratelimit
 
 block_limit = 5
 
+recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
+
+
 def is_post_request(request, response):
     return request.method == 'POST'
 
+
 @ratelimit('def', periods=['1m'], increment=is_post_request)
 def admin_login(request):
-    if getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit:
-        return HttpResponseRedirect(reverse_lazy('locked_out'))
+    show_captcha = getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit
 
-    return auth_views.login(request)
+    authentication_form = create_form_subclass_with_recaptcha(AdminLoginForm, recaptcha_client) if show_captcha \
+        else AdminLoginForm
+
+    return auth_views.login(request, authentication_form=authentication_form)
 
 
 @login_required(login_url=reverse_lazy('admin_login'))

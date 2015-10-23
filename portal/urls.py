@@ -90,9 +90,12 @@ urlpatterns = patterns(
         name='help'),
     url(r'^contact/$', contact, name='contact'),
     url(r'^terms/$', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
-    url(r'admin/login/$', admin_login, name='admin_login'),
+
+    url(r'^administration/login/$', admin_login, name='administration_login'),
+    url(r'^admin/login/$', admin_login, name='admin_login'),
     url(r'^admin/map/$', schools_map, name='map'),
-    url(r'admin/data/$', aggregated_data),
+    url(r'^admin/data/$', aggregated_data, name='aggregated_data'),
+
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),
     url(r'^logout/$', logout_view, name='logout'),
@@ -169,3 +172,4 @@ urlpatterns = patterns(
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )
+

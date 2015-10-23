@@ -3,7 +3,7 @@
 
 {% block content %}
 <div id="admin_login"></div>
-<div class='span_centered_third'>
+<div class='span_centered_half'>
     <div class="login-card">
         <h3>Admin login</h3><br/>
         <p>This is for site admins to log in, if you are not part of the codeforlife development team then this is not the login form you are looking for.</p>
@@ -31,6 +31,13 @@
                     <td>{{ form.password }}</td>
                 </tr>
             </table>
+
+
+            {% if form.recaptcha %}
+                {{ form.recaptcha.errors }}
+                <label for="id_{{ form.recaptcha.html_name }}">{{ form.recaptcha.label }}</label>
+                {{ form.recaptcha|safe }}
+            {% endif %}
 
             <input type="submit" name="login" class="btn btn-primary wide" value="Log in">
             <input type="hidden" name="next" value="{{ next }}" />
