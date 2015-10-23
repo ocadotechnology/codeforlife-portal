@@ -85,6 +85,7 @@ MIDDLEWARE_CLASSES = [
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
+    'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
