@@ -34,24 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import partial
 
 from django.conf import settings
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.utils.http import urlsafe_base64_decode
 from django.core.urlresolvers import reverse_lazy
-from django.contrib import messages as messages
-from django.contrib.auth import login
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth import get_user_model
 from two_factor.views import LoginView
 from recaptcha import RecaptchaClient
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import UserProfile, Teacher, Class, Student
 from portal.forms.registration import PasswordResetSetPasswordForm, StudentPasswordResetForm, TeacherPasswordResetForm
 from portal.permissions import not_logged_in
 from portal.helpers.email import PASSWORD_RESET_EMAIL

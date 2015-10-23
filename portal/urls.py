@@ -38,13 +38,11 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import password_reset_complete, password_reset_done
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
-from portal.views.admin import aggregated_data, schools_map, admin_login
-
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
     ProfileView, QRGeneratorView
 
+from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.permissions import teacher_verified
-
 from portal.views.email import verify_email
 from portal.views.home import teach, play, contact, current_user, logout_view, home_view
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
@@ -66,8 +64,8 @@ js_info_dict = {
 }
 
 two_factor_patterns = [
-    url(r'', include('two_factor.urls', 'two_factor')),
     url(r'^account/login/$', custom_2FA_login, name='login'),
+    url(r'', include('two_factor.urls', 'two_factor')),
     url(r'^account/two_factor/setup/$', SetupView.as_view(), name='setup'),
     url(r'^account/two_factor/qrcode/$', QRGeneratorView.as_view(), name='qr'),
     url(r'^account/two_factor/setup/complete/$', SetupCompleteView.as_view(),
