@@ -36,6 +36,7 @@
 # identified as the original program.
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import password_reset_complete, password_reset_done
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
@@ -76,6 +77,7 @@ two_factor_patterns = [
     url(r'^account/two_factor/disable/$', teacher_verified(DisableView.as_view()), name='disable'),
 ]
 
+
 urlpatterns = patterns(
     '',
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
@@ -90,6 +92,7 @@ urlpatterns = patterns(
     url(r'^terms/$', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
 
     url(r'^administration/login/$', admin_login, name='administration_login'),
+    url(r'^admin/$', RedirectView.as_view(url=reverse_lazy('aggregated_data'), permanent=True)),
     url(r'^admin/login/$', admin_login, name='admin_login'),
     url(r'^admin/map/$', schools_map, name='map'),
     url(r'^admin/data/$', aggregated_data, name='aggregated_data'),
@@ -170,4 +173,3 @@ urlpatterns = patterns(
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )
-
