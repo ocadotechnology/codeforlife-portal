@@ -44,6 +44,8 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth import get_user_model
 from two_factor.views import LoginView
 from recaptcha import RecaptchaClient
+from django_recaptcha_field import create_form_subclass_with_recaptcha
+from deploy.captcha import CAPTCHA_ENABLED
 
 from portal.forms.registration import PasswordResetSetPasswordForm, StudentPasswordResetForm, TeacherPasswordResetForm
 from portal.permissions import not_logged_in
@@ -77,10 +79,27 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None, post_rese
         usertype = 'TEACHER'
     return password_reset_confirm(request, set_password_form=PasswordResetSetPasswordForm, uidb64=uidb64, token=token, post_reset_redirect=post_reset_redirect, extra_context= { 'usertype': usertype })
 
+
 @user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
 def student_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/student_password_reset_form.html', password_reset_form=StudentPasswordResetForm, post_reset_redirect=post_reset_redirect, is_admin_site=True)
+    form = StudentPasswordResetForm if not CAPTCHA_ENABLED else decorate_with_captcha(StudentPasswordResetForm, request,
+                                                                                   recaptcha_client)
+    return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/student_password_reset_form.html', password_reset_form=form, post_reset_redirect=post_reset_redirect, is_admin_site=True)
+
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
 def teacher_password_reset(request, post_reset_redirect):
-    return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/teacher_password_reset_form.html', password_reset_form=TeacherPasswordResetForm, post_reset_redirect=post_reset_redirect, is_admin_site=True)
+    form = TeacherPasswordResetForm if not CAPTCHA_ENABLED else decorate_with_captcha(TeacherPasswordResetForm, request,
+                                                                                   recaptcha_client)
+    return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/teacher_password_reset_form.html', password_reset_form=form, post_reset_redirect=post_reset_redirect, is_admin_site=True)
+
+
+def decorate_with_captcha(base_class, request, recaptcha_client):
+    form_with_captcha_class = create_form_subclass_with_recaptcha(base_class, recaptcha_client)
+
+    class FormWithCaptcha(form_with_captcha_class):
+
+        def __init__(self, *args, **kwargs):
+            super(FormWithCaptcha, self).__init__(request, *args, **kwargs)
+
+    return FormWithCaptcha

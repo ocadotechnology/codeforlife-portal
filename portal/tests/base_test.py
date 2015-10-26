@@ -34,16 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import os
+
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-import os
 
 #### Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
 from portal.tests.pageObjects.portal.game_page import GamePage
 from portal.tests.pageObjects.portal.home_page import HomePage
+from deploy import captcha
 
 
 def chromedriver_path():
@@ -85,6 +87,11 @@ else:
 
 class BaseTest(LiveServerTestCase):
     browser = master_browser
+
+    @classmethod
+    def setUpClass(cls):
+        captcha.CAPTCHA_ENABLED = False
+        super(BaseTest, cls).setUpClass()
 
     @property
     def live_server_url(self):
