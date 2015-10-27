@@ -9,7 +9,7 @@ if [ $MIGRATERESULT -ne 0 ]; then
 fi
 # flush memcache
 echo "from django.core.cache import cache; cache.clear()" | ./manage.py shell
-appcfg.py update --authenticate_service_account \
+appcfg.py update --noisy --verbose --authenticate_service_account \
   -E DJANGO_SECRET:$DJANGO_SECRET \
   -E RECAPTCHA_PRIVATE_KEY:$RECAPTCHA_PRIVATE_KEY \
   -E RECAPTCHA_PUBLIC_KEY:$RECAPTCHA_PUBLIC_KEY \
