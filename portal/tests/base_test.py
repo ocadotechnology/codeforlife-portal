@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import os
+from django.core.urlresolvers import reverse
 
 from django.test import LiveServerTestCase
 from selenium import webdriver
@@ -104,12 +105,24 @@ class BaseTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
         return HomePage(self.browser)
 
-    def go_to_level(self, level):
-        self.browser.get(self.live_server_url + "/rapidrouter/" + str(level))
+    def go_to_level(self, level_name):
+        path = reverse('play_default_level', kwargs={'levelName': str(level_name)})
+        self._go_to_path(path)
 
         return GamePage(self.browser)
 
     def go_to_custom_level(self, level):
-        self.browser.get(self.live_server_url + "/rapidrouter/custom/" + str(level.id))
+        path = reverse('play_custom_level', kwargs={'levelId': str(level.id)})
+        self._go_to_path(path)
 
         return GamePage(self.browser)
+
+    def go_to_episode(self, episodeId):
+        path = reverse('start_episode', kwargs={'episodeId': str(episodeId)})
+        self._go_to_path(path)
+
+        return GamePage(self.browser)
+
+    def _go_to_path(self, path):
+        self.browser.get(self.live_server_url + path)
+
