@@ -199,3 +199,6 @@ class FrontPageNews(models.Model):
     link = models.CharField(max_length=500)
     link_text = models.CharField(max_length=200)
     added_dstamp = models.DateTimeField()
+
+    def __unicode__(self):
+        return self.title
