@@ -89,6 +89,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_AGE = 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
 
