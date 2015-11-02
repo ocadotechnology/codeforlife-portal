@@ -51,6 +51,7 @@ env_variables:
   DJANGO_SETTINGS_MODULE: 'deploy.settings'
   DATABASE_NAME: 'cfl_dev'
   CACHE_PREFIX: 'dev-'
+  HTTPS: 'on'
 
 libraries:
 - name: MySQLdb
