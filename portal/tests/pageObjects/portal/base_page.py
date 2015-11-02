@@ -50,6 +50,9 @@ class BasePage(object):
     def wait_for_element_by_id(self, id, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait_for_presence((By.ID, id), wait_seconds)
 
+    def wait_for_element_by_css(self, css, wait_seconds=DEFAULT_WAIT_SECONDS):
+        self.wait_for_presence((By.CSS_SELECTOR, css), wait_seconds)
+
     def wait_for_element_by_xpath(self, xpath, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait_for_presence((By.XPATH, xpath), wait_seconds)
 
