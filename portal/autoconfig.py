@@ -130,6 +130,8 @@ SETTINGS = {
             }
         }
     },
+
+    'RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME': 'portal.beta.has_beta_access',
 }
 
 RELATIONSHIPS = [
