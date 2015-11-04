@@ -43,12 +43,12 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
 
 from portal.models import EmailVerification
-from portal import emailMessages
+from portal import app_settings, emailMessages
 
-NOTIFICATION_EMAIL = 'Code For Life Notification <' + settings.EMAIL_ADDRESS + '>'
-VERIFICATION_EMAIL = 'Code For Life Verification <' + settings.EMAIL_ADDRESS + '>'
-PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + settings.EMAIL_ADDRESS + '>'
-CONTACT_EMAIL = 'Code For Life Contact <' + settings.EMAIL_ADDRESS + '>'
+NOTIFICATION_EMAIL = 'Code For Life Notification <' + app_settings.EMAIL_ADDRESS + '>'
+VERIFICATION_EMAIL = 'Code For Life Verification <' + app_settings.EMAIL_ADDRESS + '>'
+PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + app_settings.EMAIL_ADDRESS + '>'
+CONTACT_EMAIL = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
 
 
 def send_email(sender, recipients, subject, text_content, html_content=None,
