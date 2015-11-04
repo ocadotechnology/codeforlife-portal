@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
+import versioneer
 
-setup(name='portal',
-      version='1.0',
+setup(name='codeforlife-portal',
+      cmdclass=versioneer.get_cmdclass(),
+      version=versioneer.get_version(),
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
