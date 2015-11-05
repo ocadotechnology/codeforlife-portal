@@ -76,6 +76,21 @@ class GamePage(BasePage):
         self.dismiss_dialog("try_again_button")
         return self
 
+    def step(self):
+        self.browser.find_element_by_id("step_tab").click()
+        return self
+
+    def assert_is_green_light(self, traffic_light_index):
+        self._assert_light_is_on(traffic_light_index, "green")
+
+    def assert_is_red_light(self, traffic_light_index):
+        self._assert_light_is_on(traffic_light_index, "red")
+
+    def _assert_light_is_on(self, traffic_light_index, colour):
+        image = self.browser.find_element_by_id("trafficLight_%s_%s" % (traffic_light_index, colour))
+
+        assert_that(image.get_attribute("opacity"), equal_to("1"))
+
     def run_program(self, wait_for_element_id="algorithmScore"):
         self.browser.find_element_by_id("fast_tab").click()
 
