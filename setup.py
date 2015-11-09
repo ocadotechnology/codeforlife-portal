@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
+import versioneer
 
-setup(name='portal',
-      version='1.0',
+setup(name='codeforlife-portal',
+      cmdclass=versioneer.get_cmdclass(),
+      version=versioneer.get_version(),
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
@@ -10,6 +12,7 @@ setup(name='portal',
           'django-appconf==0.6',
           'django-casper==0.0.2',
           'django-countries==3.3',
+          'django-online-status==0.1.0',
           'djangorestframework==2.3.9',
           'unittest2==0.5.1',
           'pyyaml==3.11',

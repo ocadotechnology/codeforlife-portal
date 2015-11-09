@@ -1,3 +1,5 @@
 include README.md
 recursive-include portal/static *
 recursive-include portal/templates *
+include portal/_version.py
+include versioneer.py
