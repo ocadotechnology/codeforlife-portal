@@ -195,10 +195,6 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
     # Specify a queue name for the async. email backend.
     EMAIL_QUEUE_NAME = 'default'
     MIDDLEWARE_CLASSES.insert(0, 'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware')
-    if not os.getenv('PRODUCTION', None):
-        BASICAUTH_USERNAME = 'trial'
-        BASICAUTH_PASSWORD = 'cabbage'
-        MIDDLEWARE_CLASSES.append('deploy.middleware.basicauth.BasicAuthMiddleware')
 
     SOCIAL_AUTH_PANDASSO_KEY = 'code-for-life'
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv('PANDASSO_SECRET')
