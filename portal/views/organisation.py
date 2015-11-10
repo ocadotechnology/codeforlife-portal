@@ -37,7 +37,6 @@
 from functools import partial
 import json
 
-from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -54,11 +53,11 @@ from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
-from portal import emailMessages
+from portal import app_settings, emailMessages
 
 from ratelimit.decorators import ratelimit
 
-recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
+recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 def organisation_fuzzy_lookup(request):
     fuzzy_name = request.GET.get('fuzzy_name', None)

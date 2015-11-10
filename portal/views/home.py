@@ -37,7 +37,6 @@
 from functools import partial
 
 from django.core.cache import cache
-from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -54,10 +53,10 @@ from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
-from portal import emailMessages
+from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 
-recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
+recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 def teach_email_labeller(request):
