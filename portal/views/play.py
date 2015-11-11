@@ -37,20 +37,22 @@
 from functools import partial
 
 from django.conf import settings
-from django.db import transaction
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth import logout, update_session_auth_hash
+from django.contrib.auth import login, logout, update_session_auth_hash
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.forms.play import StudentEditAccountForm, StudentJoinOrganisationForm
+from portal.models import UserProfile, School, Teacher, Class, Student
+from portal.forms.play import StudentLoginForm, StudentEditAccountForm, StudentSignupForm, IndependentStudentLoginForm, StudentJoinOrganisationForm
 from portal.permissions import logged_in_as_student
 from portal.helpers.email import send_email, send_verification_email, NOTIFICATION_EMAIL
 from portal import emailMessages
+
 from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
@@ -106,8 +108,6 @@ def student_edit_account(request):
 def username_labeller(request):
     return request.user.username
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('play'))
 @ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)

@@ -38,22 +38,24 @@ from functools import partial
 import json
 
 from django.conf import settings
-from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import School, Teacher, Class
+from portal.models import UserProfile, School, Teacher, Class
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
 from portal import emailMessages
+
 from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
@@ -224,8 +226,6 @@ def organisation_manage(request):
     else:
         return organisation_create(request)
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def organisation_leave(request):
@@ -263,8 +263,6 @@ def organisation_leave(request):
 
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def organisation_kick(request, pk):
@@ -311,8 +309,6 @@ def organisation_kick(request, pk):
 
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def organisation_toggle_admin(request, pk):
@@ -341,8 +337,6 @@ def organisation_toggle_admin(request, pk):
 
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def organisation_allow_join(request, pk):
@@ -365,8 +359,6 @@ def organisation_allow_join(request, pk):
 
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def organisation_deny_join(request, pk):

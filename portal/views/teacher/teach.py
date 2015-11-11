@@ -40,7 +40,6 @@ import json
 from datetime import timedelta
 
 from django.conf import settings
-from django.db import transaction
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse_lazy
@@ -187,8 +186,6 @@ def teacher_class_password_reset(request, access_code):
         'query_data': json.dumps(name_tokens),
     })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_move_class(request, access_code):
@@ -213,8 +210,6 @@ def teacher_move_class(request, access_code):
         form = ClassMoveForm(teachers)
     return render(request, 'portal/teach/teacher_move_class.html', { 'form': form, 'class': klass })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_move_students(request, access_code):
@@ -236,8 +231,6 @@ def teacher_move_students(request, access_code):
 
     return render(request, 'portal/teach/teacher_move_students.html', {'transfer_students': transfer_students, 'old_class': klass, 'form': form})
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_move_students_to_class(request, access_code):
@@ -291,8 +284,6 @@ def teacher_move_students_to_class(request, access_code):
         'transfer_students': transfer_students
     })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_delete_students(request, access_code):
@@ -312,8 +303,6 @@ def teacher_delete_students(request, access_code):
 
     return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code }))
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_dismiss_students(request, access_code):
@@ -361,8 +350,6 @@ def teacher_dismiss_students(request, access_code):
         'students': students,
     })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_edit_class(request, access_code):
@@ -424,8 +411,6 @@ def teacher_edit_class(request, access_code):
         'external_requests_message' : external_requests_message,
     })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_delete_class(request, access_code):
@@ -443,8 +428,6 @@ def teacher_delete_class(request, access_code):
 
     return HttpResponseRedirect(reverse_lazy('teacher_classes'))
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_student_reset(request, pk):
@@ -461,8 +444,6 @@ def teacher_student_reset(request, pk):
 
     return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password, 'query_data': json.dumps(name_pass) })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_edit_student(request, pk):
@@ -730,8 +711,6 @@ def teacher_print_reminder_cards(request, access_code):
     p.save()
     return response
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_accept_student_request(request, pk):
@@ -765,8 +744,6 @@ def teacher_accept_student_request(request, pk):
 
     return render(request, 'portal/teach/teacher_add_external_student.html', { 'students': students, 'class': student.pending_class_request, 'student': student, 'form':form })
 
-
-@transaction.atomic
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_reject_student_request(request, pk):
