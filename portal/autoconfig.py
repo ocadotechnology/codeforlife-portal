@@ -39,6 +39,7 @@ import os
 
 SETTINGS = {
     'INSTALLED_APPS': [
+        'cms',
         'portal',
         'ratelimit',
         'django.contrib.admin',
@@ -47,12 +48,15 @@ SETTINGS = {
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.messages',
+        'django.contrib.sites',
         'django.contrib.staticfiles',
         'rest_framework',
         'jquery',
         'django_otp',
         'django_otp.plugins.otp_static',
         'django_otp.plugins.otp_totp',
+        'sekizai',  # for javascript and css management
+        'treebeard',
         'two_factor',
     ],
     'MIDDLEWARE_CLASSES': [
@@ -64,6 +68,20 @@ SETTINGS = {
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'django_otp.middleware.OTPMiddleware',
+    ],
+
+    'TEMPLATES': [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.request',
+                    'sekizai.context_processors.sekizai',
+                ]
+            }
+        }
     ],
 
     'CODEFORLIFE_WEBSITE': 'www.codeforlife.education',
@@ -94,4 +112,3 @@ try:
     SETTINGS['INSTALLED_APPS'].append('social.apps.django_app.default')
 except ImportError:
     pass
-
