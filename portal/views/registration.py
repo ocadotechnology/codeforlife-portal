@@ -35,7 +35,6 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.http import urlsafe_base64_decode
 from django.core.urlresolvers import reverse_lazy
@@ -50,9 +49,10 @@ from deploy.captcha import CAPTCHA_ENABLED
 from portal.forms.registration import PasswordResetSetPasswordForm, StudentPasswordResetForm, TeacherPasswordResetForm
 from portal.permissions import not_logged_in
 from portal.helpers.email import PASSWORD_RESET_EMAIL
+from portal import app_settings
 from ratelimit.decorators import ratelimit
 
-recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
+recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 @ratelimit('def', periods=['1m'])
 def custom_2FA_login(request):

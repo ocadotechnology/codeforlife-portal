@@ -47,7 +47,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from recaptcha import RecaptchaClient
 
-from deploy import settings
+from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
 from portal.models import UserProfile, Teacher, School, Class, Student
@@ -55,7 +55,7 @@ from ratelimit.decorators import ratelimit
 
 block_limit = 5
 
-recaptcha_client = RecaptchaClient(settings.RECAPTCHA_PRIVATE_KEY, settings.RECAPTCHA_PUBLIC_KEY)
+recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 def is_post_request(request, response):

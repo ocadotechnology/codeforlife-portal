@@ -35,5 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.conf import settings
+import os
 
 CONTACT_FORM_EMAILS = getattr(settings, 'PORTAL_CONTACT_FORM_EMAIL', ('codeforlife@ocado.com',))
+
+#: Email address to source notifications from
+EMAIL_ADDRESS = getattr(settings, 'EMAIL_ADDRESS', 'no-reply@codeforlife.education')
+
+#: Private key for Recaptcha
+RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', os.getenv('RECAPTCHA_PRIVATE_KEY', None))
+
+#: Public key for Recaptcha
+RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', os.getenv('RECAPTCHA_PUBLIC_KEY', None))
