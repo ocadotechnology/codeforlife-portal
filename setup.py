@@ -13,7 +13,7 @@ setup(name='codeforlife-portal',
         'django-countries==3.4.1',
         'djangorestframework==3.1.3',
         'django-jquery==1.9.1',
-        'django-autoconfig==0.3.5',
+        'django-autoconfig==0.3.6',
 
         'pyyaml==3.10',
         'six==1.9.0',
