@@ -21,9 +21,6 @@ rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET', 'NOT A SECRET')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 template_debug = True
 
 ALLOWED_HOSTS = []
@@ -160,7 +157,7 @@ if os.getenv('DEPLOYMENT', None):
                     'cert': 'client-cert.pem',
                     'key': 'client-key.pem'
                 }
-            }
+            },
         }
     }
     COMPRESS_OFFLINE = True
@@ -174,6 +171,7 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
             'HOST': '/cloudsql/decent-digit-629:db',
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
+            'ATOMIC_REQUESTS': True
         }
     }
     CACHES = {
@@ -209,7 +207,8 @@ else:
             'NAME': rel('dbfile'),
             'TEST': {
                 'NAME': (rel('testdbfile')),
-            }
+            },
+            'ATOMIC_REQUESTS': True
         }
     }
     CACHES = {
