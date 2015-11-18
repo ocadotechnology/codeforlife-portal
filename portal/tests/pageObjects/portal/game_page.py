@@ -41,6 +41,7 @@ from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.base_page import BasePage
 from selenium.common.exceptions import TimeoutException
+import time
 
 
 class GamePage(BasePage):
@@ -66,6 +67,7 @@ class GamePage(BasePage):
         self.wait_for_element_to_be_clickable((By.CSS_SELECTOR, selector))
         self.browser.find_element_by_css_selector(selector).click()
         self.browser.find_element_by_id("loadWorkspace").click()
+        time.sleep(1)
         return self
 
     def clear(self):
