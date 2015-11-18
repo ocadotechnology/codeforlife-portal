@@ -102,7 +102,8 @@ class BaseTest(LiveServerTestCase):
             return 'http://%s' % (os.getenv('SERVER_URL'))
 
     def go_to_homepage(self):
-        self.browser.get(self.live_server_url)
+        path = reverse('home')
+        self._go_to_path(path)
         return HomePage(self.browser)
 
     def go_to_level(self, level_name):
