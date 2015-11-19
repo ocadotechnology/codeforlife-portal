@@ -163,9 +163,6 @@ if os.getenv('DEPLOYMENT', None):
             }
         }
     }
-    COMPRESS_OFFLINE = True
-    COMPRESS_ROOT = STATIC_ROOT
-    COMPRESS_URL = STATIC_URL
 elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
@@ -182,9 +179,6 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
             'KEY_PREFIX': os.getenv('CACHE_PREFIX'),
         }
     }
-    COMPRESS_OFFLINE = True
-    COMPRESS_ROOT = STATIC_ROOT
-    COMPRESS_URL = STATIC_URL
     # inject the lib folder into the python path
     import sys
     lib_path = os.path.join(os.path.dirname(__file__), 'lib')
@@ -223,6 +217,7 @@ else:
     SOCIAL_AUTH_PANDASSO_SECRET = 'UsDPk7PRZmdEJdQgOEtkbPHgJDmfA8uS07mHZ9aHWwepIX7M0'
     SOCIAL_AUTH_PANDASSO_REDIRECT_IS_HTTPS = False
     PANDASSO_URL = 'https://login.cit.lastmile.com/pandasso/oauth2'
+    PIPELINE_ENABLED = False
 
 EMAIL_ADDRESS = 'no-reply@codeforlife.education'
 

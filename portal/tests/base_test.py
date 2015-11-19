@@ -37,7 +37,7 @@
 import os
 from django.core.urlresolvers import reverse
 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
@@ -86,7 +86,7 @@ else:
 # master_browser = webdriver.PhantomJS()
 # master_browser.set_window_size(1000, 500)
 
-class BaseTest(LiveServerTestCase):
+class BaseTest(StaticLiveServerTestCase):
     browser = master_browser
 
     @classmethod
@@ -126,4 +126,3 @@ class BaseTest(LiveServerTestCase):
 
     def _go_to_path(self, path):
         self.browser.get(self.live_server_url + path)
-

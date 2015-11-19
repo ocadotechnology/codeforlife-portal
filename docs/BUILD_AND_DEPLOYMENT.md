@@ -4,9 +4,9 @@ The build/deployment process takes place on Jenkins which is accessed here: http
 
 1. Changes pushed to the ocargo, codeforlife-portal and codeforlife-deploy github repositories trigger the Publish Ocargo Files, Publish Portal Files and Publish Deploy Files builds on Jenkins respectively.
 1. Each of "Publish X files" builds publishes all of the files of its repository and triggers Create Distribution.
-1. Create Distribution puts the the three projects into the distribution package structure 
-(deploy as the root directory, ocargo and portal directories copied as directories in submodules directory), 
-collects static files and compresses them. The resulting artifact is distribution.tar.gz. 
+1. Create Distribution puts the the three projects into the distribution package structure
+(deploy as the root directory, ocargo and portal directories copied as directories in submodules directory),
+and collects static files. The resulting artifact is distribution.tar.gz. 
 This is used by all subsequent builds (tests and deploy), so we can be sure that what we deploy is what we tested.
 1. Create Distribution triggers Run Portal Tests and Run Ocargo Tests and when they complete successfuly, Deploy to Dev is triggered.
 1. Deploy to Staging and Deploy to Prod can be manually triggered:
@@ -17,12 +17,12 @@ This is used by all subsequent builds (tests and deploy), so we can be sure that
 
 ## Making ad-hoc changes to production:
 
-Occasionally changes need to be deployed quickly. Going through the usual deployment process requires testing of all changes that various team members have made and therefore can be slow. The ad-hoc deployment process has been put in place to bypass these obstacles when a need arises. 
+Occasionally changes need to be deployed quickly. Going through the usual deployment process requires testing of all changes that various team members have made and therefore can be slow. The ad-hoc deployment process has been put in place to bypass these obstacles when a need arises.
 
 1. For each repository do the following:
 
   1. Create branch:
-  
+
     Every Create Distribution and “Deploy to X” (Dev, Staging, Prod) build publishes commit.txt on Jenkins which contains a commit id for each project / repository, in a form of a hash (like this '24b0852d52c5a35a280be01d6ee420a120fd1318'). This identifies the state of the corresponding git hub repository which was used to build the deployed distribution artifact.
 
     Use the commit id to create a new branch for the corresponding repository:
@@ -30,9 +30,9 @@ Occasionally changes need to be deployed quickly. Going through the usual deploy
       1. Use the commit id to switch to the relevant state of that repository: $ git checkout [commit id]
       1. Create a new branch (the name of the branch is not important but the name of the new branches on each repository must be the same): $ git checkout -b [new-branch-name]
       1. Push the new branch to the remote repository: $ git push
-        
-    1. Commit and push the ad-hoc changes to created branch.        
-        
+
+    1. Commit and push the ad-hoc changes to created branch.
+
   1. To ensure these changes are not lost with subsequent deployments via the usual process we need to integrate the ad-hoc changes back to the master:
     1. Copy the relevant commit id from the log: $ git log
     1. Switch to master branch: $ git checkout master
@@ -48,4 +48,3 @@ Occasionally changes need to be deployed quickly. Going through the usual deploy
 1. Deploy the created distribution and Test on Dev or Staging.
 
 1. Deploy to prod.
-

@@ -37,7 +37,17 @@
 '''Portal autoconfig'''
 import os
 
+DEFAULT_SETTINGS = {
+    'LANGUAGE_CODE': 'en-gb',
+    'SITE_ID': 1,
+}
+
 SETTINGS = {
+    'AUTOCONFIG_DISABLED_APPS': [
+        'django_otp',
+        'django_otp.plugins.otp_static',
+        'django_otp.plugins.otp_totp',
+    ],
     'INSTALLED_APPS': [
         'cms',
         'portal',
@@ -58,6 +68,9 @@ SETTINGS = {
         'sekizai',  # for javascript and css management
         'treebeard',
         'two_factor',
+    ],
+    'LANGUAGES': [
+        ('en-gb', 'English'),
     ],
     'MIDDLEWARE_CLASSES': [
         'django.contrib.sessions.middleware.SessionMiddleware',
