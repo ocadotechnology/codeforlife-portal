@@ -163,6 +163,7 @@ if os.getenv('DEPLOYMENT', None):
             }
         }
     }
+    PIPELINE_ENABLED = True
 elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.getenv('APPLICATION_ID', None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
@@ -179,6 +180,7 @@ elif os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine') or os.gete
             'KEY_PREFIX': os.getenv('CACHE_PREFIX'),
         }
     }
+    PIPELINE_ENABLED = True
     # inject the lib folder into the python path
     import sys
     lib_path = os.path.join(os.path.dirname(__file__), 'lib')
