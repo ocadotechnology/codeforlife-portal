@@ -16,6 +16,7 @@ setup(name='codeforlife-portal',
         'django-autoconfig==0.3.6',
 
         'pyyaml==3.10',
+        'rapid-router >= 1.0.0.post.dev1',
         'six==1.9.0',
         'docutils==0.12',
         'django-recaptcha-field==1.0b2',
