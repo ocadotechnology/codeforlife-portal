@@ -45,7 +45,7 @@
                 <h3>Welcome, {{ user|make_into_username }}</h3><br>
                 <p>You are already logged in.</p>
                 <a href="{% url 'current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
-                <a href="{% url 'logout' %}" class='wide btn btn-default' onclick="deleteAllLocalStorageWorkspaces();">Logout</a>
+                <a href="{% url 'portal/logout' %}" class='wide btn btn-default' onclick="deleteAllLocalStorageWorkspaces();">Logout</a>
             </div>
         {% else %}
             <div class="login-card">

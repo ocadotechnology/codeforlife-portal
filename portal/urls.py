@@ -99,7 +99,7 @@ urlpatterns = patterns(
 
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),
-    url(r'^logout/$', logout_view, name='logout'),
+    url(r'^logout/$', logout_view, name='portal/logout'),
     url(r'^user/$', current_user, name='current_user'),
 
     url(r'^teach/home/$', teacher_home, name='teacher_home'),
