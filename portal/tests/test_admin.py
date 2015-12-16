@@ -36,6 +36,7 @@
 # identified as the original program.
 import uuid
 from django.contrib.auth.models import User, Permission
+from django.core.urlresolvers import reverse
 
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
 from portal.tests.base_test import BaseTest
@@ -50,18 +51,18 @@ class TestAdmin(BaseTest):
 
     # NB: Users are not expected to navigate to admin login page directly
     def navigate_to_admin_login(self):
-        url = (self.live_server_url + '/admin/login/')
+        url = (self.live_server_url + reverse('admin_login'))
         self.browser.get(url)
         return AdminLoginPage(self.browser, self.live_server_url)
 
     def navigate_to_admin_data(self):
-        url = (self.live_server_url + '/admin/data/')
+        url = (self.live_server_url + reverse('aggregated_data'))
         self.browser.get(url)
         # gets redirected to login page when not logged in
         return AdminLoginPage(self.browser, self.live_server_url)
 
     def navigate_to_admin_map(self):
-        url = (self.live_server_url + '/admin/map/')
+        url = (self.live_server_url + reverse('map'))
         self.browser.get(url)
         # gets redirected to login page when not logged in
         return AdminLoginPage(self.browser, self.live_server_url)

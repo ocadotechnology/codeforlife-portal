@@ -34,6 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+
+from django.core.urlresolvers import reverse
+
 from portal.tests.pageObjects.portal.forbidden_page import ForbiddenPage
 from portal.tests.pageObjects.portal.base_page import BasePage
 
@@ -43,13 +46,13 @@ class AdminBasePage(BasePage):
         self.live_server_url = live_server_url
 
     def go_to_admin_data_page_failure(self):
-        url = (self.live_server_url + '/admin/data/')
+        url = (self.live_server_url + reverse('aggregated_data'))
         self.browser.get(url)
 
         return ForbiddenPage(self.browser)
 
     def go_to_admin_data_page(self):
-        url = (self.live_server_url + '/admin/data/')
+        url = (self.live_server_url + reverse('aggregated_data'))
         self.browser.get(url)
 
         from portal.tests.pageObjects.portal.admin.admin_data_page import AdminDataPage
@@ -66,5 +69,5 @@ class AdminBasePage(BasePage):
         return AdminMapPage(self.browser, self.live_server_url)
 
     def _go_to_admin_map_page(self):
-        url = (self.live_server_url + '/admin/map/')
+        url = (self.live_server_url + reverse('map'))
         self.browser.get(url)
