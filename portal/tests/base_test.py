@@ -38,8 +38,8 @@ import os
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from django_selenium_clean import selenium, SeleniumTestCase
+from unittest import skipUnless
 
 
 #### Uncomment to use FireFox
@@ -48,81 +48,36 @@ from portal.tests.pageObjects.portal.game_page import GamePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from deploy import captcha
 
-
-def chromedriver_path():
-    if os.environ.has_key("CHROMEDRIVER_PATH"):
-        path_from_environment = os.environ["CHROMEDRIVER_PATH"]
-        if os.path.isfile(os.environ["CHROMEDRIVER_PATH"]):
-            return path_from_environment
-
-    for system_path in os.environ["PATH"].split(os.pathsep):
-        path = os.path.join(system_path, 'chromedriver')
-        if (os.path.isfile(path)):
-            return path
-    raise LookupError("Could not find chromedriver in PATH")
-
-
-#### Uncomment to use Chrome
-selenium_host = os.getenv('SELENIUM_HUB', None)
-if selenium_host and not os.getenv('SELENIUM_LOCAL', None):
-    print "Running against Selenium"
-    port = os.getenv('SELENIUM_PORT', 4444)
-    selenium_address = 'http://{0}:{1}/wd/hub'.format(selenium_host, port)
-
-    driver = webdriver.Remote(
-        command_executor=selenium_address,
-        desired_capabilities=DesiredCapabilities.CHROME,
-        keep_alive=True)
-
-    master_browser = driver
-else:
-    print "Running against local Chrome"
-    chromedriver = chromedriver_path()
-    os.environ['webdriver.chrome.driver'] = chromedriver
-    master_browser = webdriver.Chrome(chromedriver)
-
-
-#### Uncomment to use PhantomJS
-# master_browser = webdriver.PhantomJS()
-# master_browser.set_window_size(1000, 500)
-
-class BaseTest(StaticLiveServerTestCase):
-    browser = master_browser
+@skipUnless(selenium, "Selenium is unconfigured")
+class BaseTest(SeleniumTestCase):
 
     @classmethod
     def setUpClass(cls):
         captcha.CAPTCHA_ENABLED = False
         super(BaseTest, cls).setUpClass()
 
-    @property
-    def live_server_url(self):
-        if not os.getenv('SERVER_URL', None):
-            return super(BaseTest, self).live_server_url
-        else:
-            return 'http://%s' % (os.getenv('SERVER_URL'))
-
     def go_to_homepage(self):
         path = reverse('home')
         self._go_to_path(path)
-        return HomePage(self.browser)
+        return HomePage(selenium)
 
     def go_to_level(self, level_name):
         path = reverse('play_default_level', kwargs={'levelName': str(level_name)})
         self._go_to_path(path)
 
-        return GamePage(self.browser)
+        return GamePage(selenium)
 
     def go_to_custom_level(self, level):
         path = reverse('play_custom_level', kwargs={'levelId': str(level.id)})
         self._go_to_path(path)
 
-        return GamePage(self.browser)
+        return GamePage(selenium)
 
     def go_to_episode(self, episodeId):
         path = reverse('start_episode', kwargs={'episodeId': str(episodeId)})
         self._go_to_path(path)
 
-        return GamePage(self.browser)
+        return GamePage(selenium)
 
     def _go_to_path(self, path):
-        self.browser.get(self.live_server_url + path)
+        selenium.get(self.live_server_url + path)

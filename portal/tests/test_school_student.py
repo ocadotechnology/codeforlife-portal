@@ -42,6 +42,8 @@ from utils.organisation import create_organisation_directly
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
 
+from django_selenium_clean import selenium
+
 class TestSchoolStudent(BaseTest):
     def test_login(self):
         email, password = signup_teacher_directly()
@@ -49,8 +51,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)\
             .go_to_play_page()\
             .school_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -61,8 +63,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)\
             .go_to_play_page()\
             .school_login_incorrect(student_name, access_code, 'some other password')
 
@@ -74,8 +76,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_play_page()\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_play_page()\
             .school_login(student_name, access_code, student_password)\
             .go_to_account_page()
 

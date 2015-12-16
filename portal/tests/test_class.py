@@ -43,6 +43,7 @@ from utils.classes import create_class, create_class_directly, transfer_class
 from utils.student import create_school_student_directly
 from utils.messages import is_class_created_message_showing, is_class_nonempty_message_showing
 
+from django_selenium_clean import selenium
 
 class TestClass(BaseTest):
     def test_create(self):
@@ -57,7 +58,7 @@ class TestClass(BaseTest):
         assert page.does_not_have_classes()
 
         page, class_name, access_code = create_class(page)
-        assert is_class_created_message_showing(self.browser, class_name)
+        assert is_class_created_message_showing(selenium, class_name)
 
         page = page.go_to_classes_page()
         assert page.have_classes()
@@ -138,7 +139,7 @@ class TestClass(BaseTest):
         page = page.confirm_dialog_expect_error()
         assert page.__class__.__name__ == 'TeachClassPage'
         page.wait_for_messages()
-        assert is_class_nonempty_message_showing(self.browser)
+        assert is_class_nonempty_message_showing(selenium)
 
     def test_transfer_cancel(self):
         email, password = signup_teacher_directly()

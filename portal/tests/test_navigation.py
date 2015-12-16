@@ -38,10 +38,12 @@ from base_test import BaseTest
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 
+from django_selenium_clean import selenium
+
 class TestNavigation(BaseTest):
     def test_base(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
         page = page.go_to_about_page()
         page = page.go_to_contact_page()
         page = page.go_to_terms_page()
@@ -50,14 +52,14 @@ class TestNavigation(BaseTest):
         page = page.go_to_teach_page()
 
     def test_home(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
 
         page = page.go_to_teacher_sign_up().go_to_home_page()
 
     def test_play(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
         page = page.go_to_play_page()
 
         page = page.go_to_teacher_login().go_to_play_page()
@@ -97,8 +99,8 @@ class TestNavigation(BaseTest):
         page = page.go_to_forgotten_password_page().cancel().go_to_play_page()
 
     def test_teach(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
         page = page.go_to_teach_page()
 
         page = page.go_to_student_login_page().go_to_teach_page()

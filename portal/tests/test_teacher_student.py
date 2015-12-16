@@ -42,14 +42,16 @@ from utils.organisation import create_organisation_directly, join_teacher_to_org
 from utils.classes import create_class_directly, move_students, dismiss_students
 from utils.student import create_school_student, create_many_school_students, create_school_student_directly
 
+from django_selenium_clean import selenium
+
 class TestTeacherStudent(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.does_not_have_students()
 
@@ -62,8 +64,8 @@ class TestTeacherStudent(BaseTest):
         org_name, postcode = create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.does_not_have_students()
 
@@ -79,8 +81,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -99,8 +101,8 @@ class TestTeacherStudent(BaseTest):
 
         student_name = 'bob'
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.does_not_have_students()
         assert page.student_does_not_exist(student_name)
@@ -118,8 +120,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -143,8 +145,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -167,8 +169,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         student_name, student_password, _ = create_school_student_directly(access_code_1)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email_1, password_1)
         page = page.go_to_classes_page().go_to_class_page(class_name_1)
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -188,8 +190,8 @@ class TestTeacherStudent(BaseTest):
         student_name_1, student_password_1, _ = create_school_student_directly(access_code_1)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code_1)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_1, password_1)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email_1, password_1)
         page = page.go_to_classes_page().go_to_class_page(class_name_1)
         assert page.has_students()
         assert page.student_exists(student_name_1)
@@ -214,8 +216,8 @@ class TestTeacherStudent(BaseTest):
         student_name_1, student_password_1, _ = create_school_student_directly(access_code)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
         page = page.go_to_classes_page().go_to_class_page(class_name)
         assert page.has_students()
         assert page.student_exists(student_name_1)

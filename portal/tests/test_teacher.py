@@ -44,25 +44,26 @@ from utils.teacher import signup_teacher, signup_teacher_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
 from utils import email as email_utils
 
+from django_selenium_clean import selenium
 
 class TestTeacher(BaseTest):
     def test_signup(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
         page, _, _ = signup_teacher(page)
-        assert is_email_verified_message_showing(self.browser)
+        assert is_email_verified_message_showing(selenium)
 
     def test_login_failure(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
         page = page.go_to_teach_page()
         page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
         assert page.has_login_failed()
         assert self.is_teach_page(page)
 
     def test_login_success(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
         page, email, password = signup_teacher(page)
         page = page.login(email, password)
         assert self.is_teacher_dashboard(page)
@@ -77,8 +78,8 @@ class TestTeacher(BaseTest):
     def test_edit_details(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
         page = page.change_teacher_details({
@@ -88,7 +89,7 @@ class TestTeacher(BaseTest):
             'current_password': 'Password1',
         })
         assert self.is_teacher_dashboard(page)
-        assert is_teacher_details_updated_message_showing(self.browser)
+        assert is_teacher_details_updated_message_showing(selenium)
 
         page = page.go_to_account_page()
         assert page.check_account_details({
@@ -100,14 +101,14 @@ class TestTeacher(BaseTest):
     def test_change_email(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
         new_email = 'another-email@codeforlife.com'
         page = page.change_email(new_email, password)
         assert page.__class__.__name__ == 'EmailVerificationNeededPage'
-        assert is_teacher_email_updated_message_showing(self.browser)
+        assert is_teacher_email_updated_message_showing(selenium)
 
         page = email_utils.follow_change_email_link_to_teach(page, mail.outbox[0])
         mail.outbox = []
@@ -124,8 +125,8 @@ class TestTeacher(BaseTest):
     def test_change_password(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
 
         page = page.go_to_account_page()
         new_password = 'AnotherPassword1'
@@ -135,7 +136,7 @@ class TestTeacher(BaseTest):
             'current_password': password,
         })
         assert self.is_teacher_dashboard(page)
-        assert is_teacher_details_updated_message_showing(self.browser)
+        assert is_teacher_details_updated_message_showing(selenium)
 
         page = page.logout().go_to_teach_page().login(email, new_password)
         assert self.is_teacher_dashboard(page)
@@ -149,14 +150,14 @@ class TestTeacher(BaseTest):
 
         self.wait_for_email()
 
-        page = email_utils.follow_reset_email_link(self.browser, mail.outbox[0])
+        page = email_utils.follow_reset_email_link(selenium, mail.outbox[0])
 
         new_password = 'AnotherPassword12'
 
         page.reset_password(new_password)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, new_password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, new_password)
         assert self.is_teacher_dashboard(page)
 
     def test_reset_password_fail(self):
@@ -164,18 +165,18 @@ class TestTeacher(BaseTest):
         fake_email = "fake_email@fakeemail.com"
         page.reset_email_submit(fake_email)
 
-        WebDriverWait(self.browser, 2).until(lambda driver: self.browser_text_find("Cannot find an account with that email"))
-        self.assertIn("Cannot find an account with that email", self.browser.page_source)
+        WebDriverWait(selenium, 2).until(lambda driver: self.browser_text_find("Cannot find an account with that email"))
+        self.assertIn("Cannot find an account with that email", selenium.page_source)
 
     def get_to_forgotten_password_page(self):
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser) \
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
             .go_to_teach_page()\
             .go_to_forgotten_password_page()
         return page
 
     def wait_for_email(self):
-        WebDriverWait(self.browser, 2).until(lambda driver: len(mail.outbox) == 1)
+        WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
     def is_teacher_dashboard(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
@@ -184,7 +185,7 @@ class TestTeacher(BaseTest):
         return page.__class__.__name__ == 'TeachPage'
 
     def browser_text_find(self, text_to_find):
-        text = self.browser.page_source
+        text = selenium.page_source
         result = re.search(text_to_find, text)
         if result is not None:
             return True
