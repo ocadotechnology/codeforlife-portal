@@ -1,20 +1,14 @@
-# cfl-deploy
+## Development
 
-A django package to wrap up and deploy all Code for Life apps and backend. This package has all of the other apps (currently portal and ocargo) as requirements and allows them to depend on each other.
-
-For information on Rapid Router, see https://github.com/ocadotechnology/ocargo.
-
-To run any of the subprojects it is currently necessary to download all of them and run the server from this deploy app. To make this as easy as possible (on Unix-like systems at least) there is a script in this project called local-setup.sh which handles installing all the dependencies and setting up the other respositories for development work. This script will clone the ocargo and portal repositories if they are not already present into the same directory as where you cloned the deploy repository, create a virtual environment for all the python packages, install all dependencies and set up symbolic links from the virtual env to the other repositories. These symbolic links, while perhaps unusual, allow you to make changes to the other repositories without having to reinstall them with pip after each change.
-
-**So, to reiterate, to get all of the site code, simply clone this repository and run ./local-setup.sh**
-
-Then:
-
-* Activate your VIRTUALENV by running "source VIRTUALENV/bin/activate" in the deploy directory (or "source ../codeforlife-deploy/VIRTUALENV/bin/activate" from one of the other repos.)
-* Sync the database (See below)
-* Collect static files (See below)
-* Run the server (See below)
-
+* Clone the repo
+* Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
+    * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal -i codeforlife-portal`
+    * and thereafter `workon codeforlife-portal`
+* `./run` - This will:
+    * install all of the dependencies using pip
+    * sync the database
+    * collect the static files
+    * run the server
 
 ## FAQ:
 ###### Where do I commit from

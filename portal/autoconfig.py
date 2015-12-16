@@ -37,7 +37,11 @@
 '''Portal autoconfig'''
 import os
 
+from django_autoconfig.autoconfig import OrderingRelationship
+
+
 DEFAULT_SETTINGS = {
+    'AUTOCONFIG_INDEX_VIEW': 'home',
     'LANGUAGE_CODE': 'en-gb',
     'SITE_ID': 1,
 }
@@ -50,6 +54,7 @@ SETTINGS = {
     ],
     'INSTALLED_APPS': [
         'cms',
+        'game',
         'portal',
         'ratelimit',
         'django.contrib.admin',
@@ -125,6 +130,25 @@ SETTINGS = {
         }
     },
 }
+
+RELATIONSHIPS = [
+    OrderingRelationship(
+        'MIDDLEWARE_CLASSES',
+        'cms.middleware.toolbar.ToolbarMiddleware',
+        after=[
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+        ],
+        add_missing=False,
+    ),
+    OrderingRelationship(
+        'MIDDLEWARE_CLASSES',
+        'online_status.middleware.OnlineStatusMiddleware',
+        after=[
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+        ],
+        add_missing=False,
+    ),
+]
 
 try:
     import django_pandasso
