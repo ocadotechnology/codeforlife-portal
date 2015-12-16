@@ -1,5 +1,4 @@
-## Development
-
+## Running Locally
 * Clone the repo
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
     * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal -i codeforlife-portal`
@@ -10,35 +9,6 @@
     * collect the static files
     * run the server
 
-## FAQ:
-###### Where do I commit from
-You should commit code from the repository it comes from in the normal way. They are completely separate repositories and you will need to commit / pull / push each one separately.
-
-###### How do I run the server
-We use the default django operations or migrate, collectstatic and runserver. To run any of these you will need to have your virtualenv activated which is explained above.
-
-The structure of all of the commands is python [path/to/]manage.py [command]. If you're running form the deploy repo (as you should be) the you can just use manage.py but from another repo you can use ../codeforlife-deploy/manage.py
-
-The basic operations are
-  - to migrate / sync / create the database      - python manage.py migrate
-  - to collect static files                      - python manage.py collectstatic [--noinput]
-  - to run the server                            - python manage.py runserver [0.0.0.0:8000]
-  - (There is a nice alias for these called rs which performs all of the above which local-setup.sh should add to your ~/.bashrc file, mac users can add this to ~/.profile manually if they wish to use it.)
-
-###### Making migrations, ie: changes to the models
-Running makemigrations is slightly more complicated, but not much! The workflow is: you make your changes to the models, you run python manage.py makemigrations, you run python manage.py migrate.
-
-If you are using the local-setup.sh script and hence have symlinks setup in your virtualenv then you can run makemigrations from the deploy directory and it will all work. If you are not using symlinks (windows users?) then you should run it from the repo where you made the changes using python ../codeforlife-deploy/manage.py makemigrations. The danger is that migrations may be created within the virtualenv and be lost.
-
-###### Connect to local server from IPad using a Wifi hotspot
-Start the server using 'python manage.py runserver 0.0.0.0:8000' to allow connections from places other than localhost. Use ifconfig to find the ip address of your hotspot.
-
-## Common problems:
-###### Errors about clashing models, particularly userprofile, etc...
-You probably have an old copy of ocargo, please pull the latest changes and try migrating and running the server again.
-
-###### Errors about django not being installed
-It's possible you're running the system copy of python rather than virtualenv's copy, try using VIRTUALENV/bin/python and see if that fixes the problem.
-
-###### Unapplied migrations on first run
-Some migrations were changed and you may have .pyc files left over of the old versions which confuses things, try clearing them all out of ocargo by running rm game/migrations/*.pyc from the ocargo repository.
+## Common Problems
+### Unapplied migrations on first run
+It may be that some migrations were changed and you have .pyc files from the old ones. Try removing all .pyc migrations by running `rm migrations/*.pyc` from the ocargo repository.
