@@ -45,11 +45,12 @@ def emailBodySignOff(request):
     return '\n\nThanks,\n\nThe Code for Life team.\n' + request.build_absolute_uri(reverse('home'))
 
 
-def emailVerificationNeededEmail(request, token):
+def emailVerificationNeededEmail(request, token, expiry):
     return {
         'subject': emailSubjectPrefix() + " : Email address verification needed",
         'message': ("Please go to "
                     + request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))
+                    + " before {:%d, %b %Y at %H:%M}".format(expiry)
                     + " to verify your email address" + emailBodySignOff(request)),
     }
 
