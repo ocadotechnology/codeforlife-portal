@@ -158,15 +158,15 @@ urlpatterns = patterns(
     url(r'^user/verify_email/(?P<token>[0-9a-f]+)/$', verify_email, name='verify_email'),
 
     url(r'^user/password/reset/student/$', student_password_reset,
-        {'post_reset_redirect': '/user/password/reset/done/'}, name="student_password_reset"),
+        {'post_reset_redirect': 'portal/password-reset-done'}, name="student_password_reset"),
     url(r'^user/password/reset/teacher/$', teacher_password_reset,
-        {'post_reset_redirect': '/user/password/reset/done/'}, name="teacher_password_reset"),
-    url(r'^user/password/reset/done/$', password_reset_done),
+        {'post_reset_redirect': 'portal/password-reset-done'}, name="teacher_password_reset"),
+    url(r'^user/password/reset/done/$', password_reset_done, name='portal/password-reset-done'),
 
     url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         password_reset_check_and_confirm,
-        {'post_reset_redirect': '/user/password/done/'}, name='password_reset_check_and_confirm'),
-    url(r'^user/password/done/$', password_reset_complete),
+        {'post_reset_redirect': 'portal/password-reset-complete'}, name='password_reset_check_and_confirm'),
+    url(r'^user/password/done/$', password_reset_complete, name='portal/password-reset-complete'),
 
     url(r'^', include(two_factor_patterns, 'two_factor')),
 
