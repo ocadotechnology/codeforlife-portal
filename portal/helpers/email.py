@@ -94,7 +94,7 @@ def send_verification_email(request, userProfile, new_email=None):
         expiry=timezone.now() + timedelta(hours=1))
 
     if new_email:
-        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token, verification.expiry)
+        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
         send_email(VERIFICATION_EMAIL, [new_email], emailMessage['subject'],
                    emailMessage['message'])
 
@@ -103,7 +103,7 @@ def send_verification_email(request, userProfile, new_email=None):
                    emailMessage['message'])
 
     else:
-        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token, verification.expiry)
+        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
 
         send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'],
                    emailMessage['message'])
