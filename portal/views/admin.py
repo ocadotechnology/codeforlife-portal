@@ -38,8 +38,8 @@ from time import sleep
 
 from django.shortcuts import render
 from rest_framework.reverse import reverse_lazy
-from django.db.models import Avg, Count
-from two_factor.utils import default_device
+from django.db.models import Avg, Count, Q
+from django_otp import device_classes
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib import messages as messages
@@ -85,7 +85,10 @@ def aggregated_data(request):
     Overall statistics
     """
 
-    table_data.append(["Number of users", Teacher.objects.count()+Student.objects.count(), "Number of teachers + Number of students"])
+    teacher_count = Teacher.objects.count()
+    student_count = Student.objects.count()
+
+    table_data.append(["Number of users", teacher_count+student_count, "Number of teachers + Number of students"])
 
     tables.append({'title': "Overall Statistics", 'description': "CFL site overall statistics", 'header': table_head, 'data': table_data})
 
@@ -105,15 +108,15 @@ def aggregated_data(request):
     Teacher statistics
     """
     table_data = []
-    table_data.append(["Number of teachers signed up", Teacher.objects.count(), ""])
+    table_data.append(["Number of teachers signed up", teacher_count, ""])
     table_data.append(["Number of teachers not in a school", Teacher.objects.filter(school=None).count(), ""])
     table_data.append(["Number of teachers with request pending to join a school", Teacher.objects.exclude(pending_join_request=None).count(), ""])
     table_data.append(["Number of teachers with unverified email address", Teacher.objects.filter(user__awaiting_email_verification=True).count(), ""])
-    teachers = Teacher.objects.all()
-    two_factor_teachers = 0
-    for teacher in teachers:
-        if default_device(teacher.user.user):
-            two_factor_teachers += 1
+    otp_model_names = [model._meta.model_name for model in device_classes()]
+    otp_query = Q()
+    for model_name in otp_model_names:
+        otp_query = otp_query | Q(**{"user__user__%s__name" % model_name: 'default'})
+    two_factor_teachers = Teacher.objects.filter(otp_query).distinct().count()
     table_data.append(["Number of teachers setup with 2FA", two_factor_teachers, ""])
     num_of_classes_per_teacher = Teacher.objects.annotate(num_classes=Count('class_teacher'))
     stats_classes_per_teacher = num_of_classes_per_teacher.aggregate(Avg('num_classes'))
@@ -146,7 +149,7 @@ def aggregated_data(request):
     Student statistics
     """
     table_data = []
-    table_data.append(["Number of students", Student.objects.count(), ""])
+    table_data.append(["Number of students", student_count, ""])
 
     independent_students = Student.objects.filter(class_field=None)
     table_data.append(["Number of independent students", independent_students.count(), ""])
