@@ -43,16 +43,17 @@ from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation, create_organisation_directly
 from utils.messages import is_organisation_created_message_showing
 
+from django_selenium_clean import selenium
 
 class TestOrganisation(BaseTest, BasePage):
     def test_create(self):
         email, password = signup_teacher_directly()
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email, password)
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email, password)
 
         page, name, postcode = create_organisation(page, password)
-        assert is_organisation_created_message_showing(self.browser, name)
+        assert is_organisation_created_message_showing(selenium, name)
 
         page = page.go_to_organisation_manage_page()
         assert page.is_admin_view()
@@ -67,8 +68,8 @@ class TestOrganisation(BaseTest, BasePage):
         email, password = signup_teacher_directly()
         name, postcode = create_organisation_directly(email)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)\
             .go_to_teach_page()\
             .login(email, password)\
             .go_to_organisation_manage_page()
@@ -95,8 +96,8 @@ class TestOrganisation(BaseTest, BasePage):
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)\
             .go_to_teach_page()\
             .login(email_2, password_2)\
             .go_to_organisation_create_or_join_page()\
@@ -110,8 +111,8 @@ class TestOrganisation(BaseTest, BasePage):
         name_1, postcode_1 = create_organisation_directly(email_1)
         name_2, postcode_2 = create_organisation_directly(email_2)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser).go_to_teach_page().login(email_2, password_2).go_to_organisation_manage_page()
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_teach_page().login(email_2, password_2).go_to_organisation_manage_page()
 
         assert not page.check_organisation_details({
             'name': name_1,
@@ -130,8 +131,8 @@ class TestOrganisation(BaseTest, BasePage):
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)\
             .go_to_teach_page()\
             .login(email_2, password_2)\
             .go_to_organisation_create_or_join_page()
@@ -147,8 +148,8 @@ class TestOrganisation(BaseTest, BasePage):
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
-        self.browser.get(self.live_server_url)
-        page = HomePage(self.browser)\
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)\
             .go_to_teach_page()\
             .login(email_2, password_2)\
             .go_to_organisation_create_or_join_page()\

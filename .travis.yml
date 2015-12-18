@@ -1,0 +1,53 @@
+language: python
+python:
+  - 2.7
+env:
+  matrix:
+    - SELENIUM_WEBDRIVER=default
+matrix:
+  allow_failures:
+    - python: 3.3
+      env: SELENIUM_WEBDRIVER=default
+    - python: 3.4
+      env: SELENIUM_WEBDRIVER=default
+    - python: 3.5
+      env: SELENIUM_WEBDRIVER=default
+    - python: pypy
+      env: SELENIUM_WEBDRIVER=default
+    - python: pypy3
+      env: SELENIUM_WEBDRIVER=default
+  include:
+    - python: 3.3
+      env: SELENIUM_WEBDRIVER=default
+    - python: 3.4
+      env: SELENIUM_WEBDRIVER=default
+    - python: 3.5
+      env: SELENIUM_WEBDRIVER=default
+    - python: pypy
+      env: SELENIUM_WEBDRIVER=default
+    - python: pypy3
+      env: SELENIUM_WEBDRIVER=default
+  fast_finish: true
+before_install:
+  - gem install sass
+install:
+  - pip install -e .
+  - pip install coveralls
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
+script:
+  - python setup.py test
+after_success:
+  - coveralls
+git:
+  depth: 9999999 # Building untagged builds needs enough depth to get the latest tag
+deploy:
+  provider: pypi
+  user: ocadotechnology
+  password:
+    secure: L+TqwiWZAeId3bDMil4dkDds0oBxiLAJUXYAd79/KtEmpAy/0Alp3hdClUZuLQjX8uvUKL2Huloq9SiZHWEtlxlxb0SBO5sLToNm0WOv9pzz0vV1iiQoKqXA951+CHY2tvsV+I1L79npHcGYNnhsNhtpPUlcroUpuCB0fqz/AbEaTcsNvq+opGLaPxjbuhgpCzwG5bMiBGz7In6XtMjGP1lF3B6VYv3oLVzwYMkB+VdK4C6rtsOw73nrJheLpIQnWZ2jSU+Oba3/49/Fkufw/myGdPDcOxu50L9cKoOstK9jjSGb5YzvwtAieH4yRmiBGr+94J0VpY0Q6gSlqxSxK6DYHPMN4HJh2fFmjsbgwWUcnTXqorOF2yXEQGAiszcv1yn3TrXexIbzT3ZxInIIYW3aKx0texz0j/AkXF1+F25MQgRbrirH5efCZ4fDhErhTfc/EqzDSd7bZKaZ2W3AsoAJ1CFdFVOytyblVzAvL3XsLOVfgLfg80hSIrhCG1vlJruQ9Z4jx62E+WWnWw39ogyskWkEWpR1w0G7vkJ4kkevuVcV+bU6OYU9eGYNnIu9Xz+yj0tf68egRgLLJc5+Jyy6vQyxKgHoFOe9UG8I6Z1LudAU3PDSpSCuRBczOUTnt5lRBR56BSkFWajwryTA2k1dGkBpVyG9uc5Bg30hvgw=
+  distributions: "bdist_wheel sdist"
+  on:
+    repo: ocadotechnology/codeforlife-portal

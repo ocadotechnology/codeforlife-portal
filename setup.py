@@ -29,11 +29,9 @@ setup(name='codeforlife-portal',
 
         'django-cms==3.1.2',
 
-        'django-mptt==0.7.4',
         'django-classy-tags==0.6.1',
         'django-treebeard==3.0',
         'django-sekizai==0.8.2',
-        'html5lib==0.9999999',
         'djangocms-admin-style==0.2.8',
 
         'djangocms-text-ckeditor==2.6.0',
@@ -55,8 +53,13 @@ setup(name='codeforlife-portal',
 
 
         'Pillow==2.9.0',
-        'django-filer==0.9.5',
-        'cmsplugin-filer==0.9.1',
         'django-reversion==1.9.3',
       ],
+    tests_require=[
+        'django-setuptest',
+        'django-selenium-clean==0.2.1',
+        'responses==0.4.0',
+        'selenium==2.48.0',
+    ],
+    test_suite='setuptest.setuptest.SetupTestSuite',
       )

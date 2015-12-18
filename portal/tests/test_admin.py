@@ -36,11 +36,13 @@
 # identified as the original program.
 import uuid
 from django.contrib.auth.models import User, Permission
+from django.core.urlresolvers import reverse
 
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
 from portal.tests.base_test import BaseTest
 from portal.views import admin
 
+from django_selenium_clean import selenium
 
 class TestAdmin(BaseTest):
     @classmethod
@@ -50,21 +52,21 @@ class TestAdmin(BaseTest):
 
     # NB: Users are not expected to navigate to admin login page directly
     def navigate_to_admin_login(self):
-        url = (self.live_server_url + '/admin/login/')
-        self.browser.get(url)
-        return AdminLoginPage(self.browser, self.live_server_url)
+        url = (self.live_server_url + reverse('admin_login'))
+        selenium.get(url)
+        return AdminLoginPage(selenium, self.live_server_url)
 
     def navigate_to_admin_data(self):
-        url = (self.live_server_url + '/admin/data/')
-        self.browser.get(url)
+        url = (self.live_server_url + reverse('aggregated_data'))
+        selenium.get(url)
         # gets redirected to login page when not logged in
-        return AdminLoginPage(self.browser, self.live_server_url)
+        return AdminLoginPage(selenium, self.live_server_url)
 
     def navigate_to_admin_map(self):
-        url = (self.live_server_url + '/admin/map/')
-        self.browser.get(url)
+        url = (self.live_server_url + reverse('map'))
+        selenium.get(url)
         # gets redirected to login page when not logged in
-        return AdminLoginPage(self.browser, self.live_server_url)
+        return AdminLoginPage(selenium, self.live_server_url)
 
     # Checks all admin pages goes to admin_login when user is not logged in
     def test_navigate_to_admin_login(self):
@@ -131,7 +133,7 @@ class TestAdmin(BaseTest):
         page = self.navigate_to_admin_data().login_failure('user123', password)
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
-                      self.browser.page_source)
+                      selenium.page_source)
 
     def test_wrong_username(self):
         username = self.randomId()
@@ -140,7 +142,7 @@ class TestAdmin(BaseTest):
         page = self.navigate_to_admin_data().login_failure(username, '123')
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
-                      self.browser.page_source)
+                      selenium.page_source)
 
     def randomId(self):
         return str(uuid.uuid4())

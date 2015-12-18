@@ -103,6 +103,7 @@ SETTINGS = {
                 'context_processors': [
                     'django.contrib.auth.context_processors.auth',
                     'django.template.context_processors.request',
+                    'django.contrib.messages.context_processors.messages',
                     'sekizai.context_processors.sekizai',
                 ]
             }
@@ -143,6 +144,14 @@ RELATIONSHIPS = [
     OrderingRelationship(
         'MIDDLEWARE_CLASSES',
         'online_status.middleware.OnlineStatusMiddleware',
+        after=[
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+        ],
+        add_missing=False,
+    ),
+    OrderingRelationship(
+        'MIDDLEWARE_CLASSES',
+        'django_otp.middleware.OTPMiddleware',
         after=[
             'django.contrib.auth.middleware.AuthenticationMiddleware',
         ],

@@ -45,12 +45,13 @@ from utils.student import create_independent_student
 from utils.messages import is_email_verified_message_showing
 from utils import email as email_utils
 
+from django_selenium_clean import selenium
 
 class TestIndependentStudent(BaseTest):
     def test_signup(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
-        assert is_email_verified_message_showing(self.browser)
+        assert is_email_verified_message_showing(selenium)
 
     def test_login_failure(self):
         page = self.go_to_homepage()
@@ -81,13 +82,13 @@ class TestIndependentStudent(BaseTest):
 
         self.wait_for_email()
 
-        page = email_utils.follow_reset_email_link(self.browser, mail.outbox[0])
+        page = email_utils.follow_reset_email_link(selenium, mail.outbox[0])
 
         new_password = 'AnotherPassword12'
 
         page.reset_password(new_password)
 
-        self.browser.get(self.live_server_url)
+        selenium.get(self.live_server_url)
         page = self \
             .go_to_homepage() \
             .go_to_play_page() \
@@ -102,12 +103,12 @@ class TestIndependentStudent(BaseTest):
         fake_username = "fake_username"
         page.reset_username_submit(fake_username)
 
-        WebDriverWait(self.browser, 2).until(
+        WebDriverWait(selenium, 2).until(
             lambda driver: self.browser_text_find("Cannot find an account with that username"))
-        self.assertIn("Cannot find an account with that username", self.browser.page_source)
+        self.assertIn("Cannot find an account with that username", selenium.page_source)
 
     def browser_text_find(self, text_to_find):
-        text = self.browser.page_source
+        text = selenium.page_source
         result = re.search(text_to_find, text)
         if result is not None:
             return True
@@ -125,4 +126,4 @@ class TestIndependentStudent(BaseTest):
         return page.__class__.__name__ == 'PlayDashboardPage'
 
     def wait_for_email(self):
-        WebDriverWait(self.browser, 2).until(lambda driver: len(mail.outbox) == 1)
+        WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
