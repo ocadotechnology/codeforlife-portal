@@ -46,8 +46,6 @@ from online_status.status import CACHE_USERS
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    avatar = models.ImageField(upload_to='static/portal/img/avatars/', null=True, blank=True,
-                               default='static/portal/img/avatars/default-avatar.jpeg')
     awaiting_email_verification = models.BooleanField(default=False)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
