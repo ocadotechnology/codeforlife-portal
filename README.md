@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/ocadotechnology/codeforlife-portal.svg?branch=master)](https://travis-ci.org/ocadotechnology/codeforlife-portal)
 [![Coverage Status](https://coveralls.io/repos/ocadotechnology/codeforlife-portal/badge.svg?branch=master&service=github)](https://coveralls.io/github/ocadotechnology/codeforlife-portal?branch=master)
+[![Code Climate](https://codeclimate.com/github/ocadotechnology/codeforlife-portal/badges/gpa.svg)](https://codeclimate.com/github/ocadotechnology/codeforlife-portal)
 
 ## Running Locally
 * Clone the repo
