@@ -62,4 +62,5 @@ setup(name='codeforlife-portal',
         'selenium==2.48.0',
     ],
     test_suite='setuptest.setuptest.SetupTestSuite',
+    zip_safe=False,
       )
