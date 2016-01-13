@@ -5,7 +5,7 @@
 ## Running Locally
 * Clone the repo
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
-    * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal -i codeforlife-portal`
+    * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
     * and thereafter `workon codeforlife-portal`
 * `./run` - This will:
     * install all of the dependencies using pip
