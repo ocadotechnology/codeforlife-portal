@@ -34,36 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import wraps
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
 
-from portal.utils import using_two_factor
+from two_factor.utils import default_device
 
-
-def logged_in_as_teacher(u):
-    if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
-        return False
-
-    return u.is_verified() or not using_two_factor(u)
-
-
-def logged_in_as_student(u):
-    return hasattr(u, 'userprofile') and hasattr(u.userprofile, 'student')
-
-
-def not_logged_in(u):
-    return not hasattr(u, 'userprofile')
-
-
-def teacher_verified(view_func):
-    @wraps(view_func)
-    def wrapped(request, *args, **kwargs):
-        u = request.user
-        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
-                (not u.is_verified() and using_two_factor(u))):
-            return HttpResponseRedirect(reverse_lazy('teach'))
-
-        return view_func(request, *args, **kwargs)
-
-    return wrapped
+def using_two_factor(user):
+    '''Returns whether the user is using 2fa or not.'''
+    return default_device(user)

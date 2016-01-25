@@ -38,7 +38,7 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from two_factor.utils import default_device
+from portal.utils import using_two_factor
 
 from portal.models import Teacher, Class, Student
 from portal.permissions import logged_in_as_teacher
@@ -79,7 +79,7 @@ def pending_student_request_warning(request, teacher):
 
 def two_form_authentication_warnings(request, teacher):
     # For teachers using 2FA, warn if they don't have any backup tokens set, and warn solo-admins to set up another admin
-    if default_device(request.user):
+    if using_two_factor(request.user):
         # check backup tokens
         try:
             backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()

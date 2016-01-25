@@ -55,7 +55,7 @@ from reportlab.lib.colors import black, white
 from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
-from two_factor.utils import default_device
+from portal.utils import using_two_factor
 
 from portal.models import Teacher, Class, Student
 from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet, StudentCreationForm
@@ -220,7 +220,7 @@ def teacher_move_students(request, access_code):
         raise Http404
 
     transfer_students = request.POST.get('transfer_students', '[]')
-    
+
     # get teachers in the same school
     teachers = Teacher.objects.filter(school=klass.teacher.school)
 
@@ -237,7 +237,7 @@ def teacher_move_students_to_class(request, access_code):
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get('new_class', None)
     new_class = get_object_or_404(Class, id=new_class_id)
-    
+
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != old_class.teacher:
         raise Http404
@@ -247,7 +247,7 @@ def teacher_move_students_to_class(request, access_code):
         raise Http404
 
     transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
-    
+
     # get student objects for students to be transferred, confirming they are in the old class still
     transfer_students = [get_object_or_404(Student, id=i, class_field=old_class) for i in transfer_students_ids]
 
@@ -292,7 +292,7 @@ def teacher_delete_students(request, access_code):
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
         raise Http404
-    
+
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
@@ -311,7 +311,7 @@ def teacher_dismiss_students(request, access_code):
     # check user is authorised to deal with class
     if request.user.userprofile.teacher != klass.teacher:
         raise Http404
-    
+
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
@@ -495,7 +495,7 @@ def teacher_edit_account(request):
 
     backup_tokens = 0
     # For teachers using 2FA, find out how many backup tokens they have
-    if default_device(request.user):
+    if using_two_factor(request.user):
         try:
             backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
         except Exception:
@@ -583,7 +583,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     CARD_INNER_WIDTH = CARD_WIDTH - CARD_PADDING * 2
     CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2 - HEADER_HEIGHT - FOOTER_HEIGHT
-    
+
     CARD_IMAGE_WIDTH = CARD_INNER_WIDTH * 0.25
 
     CORNER_RADIUS = CARD_WIDTH / 32
