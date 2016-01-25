@@ -36,34 +36,15 @@
 # identified as the original program.
 
 from django.core.cache import cache
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
+from django_otp.models import Device
 
-from two_factor.utils import default_device
-
-
-def two_factor_cache_key(user):
-    '''Cache key for using_two_factor.'''
-    return 'using-two-factor-%s' % user.pk
+from portal.utils import two_factor_cache_key
 
 
-def _using_two_factor(user):
-    '''Returns whether the user is using 2fa or not.'''
-    return default_device(user)
-
-
-def using_two_factor(user):
-    '''Returns whether the user is using 2fa or not (Cached).'''
-    if hasattr(user, 'using_two_factor_cache'):
-        # First try local memory, as we call this a lot in one request
-        return user.using_two_factor_cache
-    cache_key = two_factor_cache_key(user)
-    val = cache.get(cache_key)
-    if val is not None:
-        # If local memory failed, but we got it from memcache, set local memory
-        user.using_two_factor_cache = val
-        return val
-    val = bool(_using_two_factor(user))
-
-    # We didn't find it in the cache, so set it there and local memory
-    cache.set(cache_key, val, None)  # Cache forever
-    user.using_two_factor_cache = val
-    return val
+@receiver([post_save, pre_delete])
+def clear_two_factor_cache(sender, **kwargs):
+    if issubclass(sender, Device):
+        user = instance.user
+        cache.delete(two_factor_cache_key(user))
