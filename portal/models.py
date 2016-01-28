@@ -198,5 +198,8 @@ class FrontPageNews(models.Model):
     link_text = models.CharField(max_length=200)
     added_dstamp = models.DateTimeField()
 
+    class Meta:
+        verbose_name_plural = "front page news"
+
     def __unicode__(self):
         return self.title
