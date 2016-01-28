@@ -111,4 +111,12 @@ def create_independent_student(page):
 
     return page, name, username, email_address, password
 
+
+def submit_independent_student_signup_form(page, password='test'):
+    page = page.go_to_play_page()
+
+    name, username, email_address, _ = generate_independent_student_details()
+    return page.independent_student_signup(name, username, email_address, password, password, success=False)
+
+
 import email

@@ -42,6 +42,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test import BaseTest
 from utils.student import create_independent_student
+from utils.student import submit_independent_student_signup_form
 from utils.messages import is_email_verified_message_showing
 from utils import email as email_utils
 
@@ -52,6 +53,12 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(selenium)
+
+    def test_failed_signup_155(self):
+        '''Test that a failed signup show the errors. Regression test for #155'''
+        page = self.go_to_homepage()
+        page = submit_independent_student_signup_form(page, password='test')
+        assert page.has_independent_student_signup_failed()
 
     def test_login_failure(self):
         page = self.go_to_homepage()

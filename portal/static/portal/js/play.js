@@ -77,11 +77,8 @@ function init() {
 
 $(function() {
     init();
-    if (!SIGNUP_VIEW) {
-      $('#signup-form').hide();
-    }
-    else {
-      $('#signup-warning').hide();
+    if (SIGNUP_VIEW) {
+      $('#signupShow').click();
     }
     if (INDEPENDENT_STUDENT_VIEW) {
       $('#switchToIndependentStudent').click();
