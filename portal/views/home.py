@@ -43,7 +43,6 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from two_factor.utils import default_device
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
@@ -53,6 +52,7 @@ from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
+from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 
@@ -97,7 +97,7 @@ def teach(request):
 
                 login(request, login_form.user)
 
-                if default_device(request.user):
+                if using_two_factor(request.user):
                     return render(request, 'portal/2FA_redirect.html', {
                         'form': AuthenticationForm(),
                         'username': request.user.username,
@@ -141,7 +141,7 @@ def teach(request):
 
     logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
         hasattr(request.user.userprofile, 'teacher') and \
-        (request.user.is_verified() or not default_device(request.user))
+        (request.user.is_verified() or not using_two_factor(request.user))
 
     res = render(request, 'portal/teach.html', {
         'login_form': login_form,

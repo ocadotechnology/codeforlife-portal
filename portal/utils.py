@@ -34,36 +34,36 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import wraps
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
 
-from portal.utils import using_two_factor
+from django.core.cache import cache
 
-
-def logged_in_as_teacher(u):
-    if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
-        return False
-
-    return u.is_verified() or not using_two_factor(u)
+from two_factor.utils import default_device
 
 
-def logged_in_as_student(u):
-    return hasattr(u, 'userprofile') and hasattr(u.userprofile, 'student')
+def two_factor_cache_key(user):
+    '''Cache key for using_two_factor.'''
+    return 'using-two-factor-%s' % user.pk
 
 
-def not_logged_in(u):
-    return not hasattr(u, 'userprofile')
+def _using_two_factor(user):
+    '''Returns whether the user is using 2fa or not.'''
+    return default_device(user)
 
 
-def teacher_verified(view_func):
-    @wraps(view_func)
-    def wrapped(request, *args, **kwargs):
-        u = request.user
-        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
-                (not u.is_verified() and using_two_factor(u))):
-            return HttpResponseRedirect(reverse_lazy('teach'))
+def using_two_factor(user):
+    '''Returns whether the user is using 2fa or not (Cached).'''
+    if hasattr(user, 'using_two_factor_cache'):
+        # First try local memory, as we call this a lot in one request
+        return user.using_two_factor_cache
+    cache_key = two_factor_cache_key(user)
+    val = cache.get(cache_key)
+    if val is not None:
+        # If local memory failed, but we got it from memcache, set local memory
+        user.using_two_factor_cache = val
+        return val
+    val = bool(_using_two_factor(user))
 
-        return view_func(request, *args, **kwargs)
-
-    return wrapped
+    # We didn't find it in the cache, so set it there and local memory
+    cache.set(cache_key, val, None)  # Cache forever
+    user.using_two_factor_cache = val
+    return val

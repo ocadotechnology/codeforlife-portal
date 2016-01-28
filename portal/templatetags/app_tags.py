@@ -37,7 +37,7 @@
 from django.conf import settings
 from django import template
 from django.template.defaultfilters import stringfilter
-from two_factor.utils import default_device
+from portal.utils import using_two_factor
 from portal import beta
 
 register = template.Library()
@@ -49,11 +49,11 @@ def emaildomain(email):
 
 @register.filter(name='has_2FA')
 def has_2FA(u):
-    return default_device(u)
+    return using_two_factor(u)
 
 @register.filter(name='is_logged_in')
 def is_logged_in(u):
-    return u.is_authenticated() and (not default_device(u) or (hasattr(u, 'is_verified') and u.is_verified()))
+    return u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
 @register.filter
 def is_developer(u):

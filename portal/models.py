@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
+
 import re
 
 from django.contrib.auth.models import User
@@ -203,3 +205,6 @@ class FrontPageNews(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+from . import handlers  # noqa
