@@ -73,7 +73,7 @@ class PlayPage(BasePage):
         error = 'Invalid name, class access code or password'
         return error in errors
 
-    def independent_student_signup(self, name, username, email_address, password, confirm_password):
+    def independent_student_signup(self, name, username, email_address, password, confirm_password, success=True):
         self.show_independent_student_signup()
 
         self.browser.find_element_by_id('id_signup-name').clear()
@@ -89,9 +89,19 @@ class PlayPage(BasePage):
         self.browser.find_element_by_id('id_signup-confirm_password').send_keys(confirm_password)
 
         self.browser.find_element_by_name('signup').click()
-        from email_verification_needed_page import EmailVerificationNeededPage
+        if success:
+            from email_verification_needed_page import EmailVerificationNeededPage
+            return EmailVerificationNeededPage(self.browser)
+        else:
+            return self
 
-        return EmailVerificationNeededPage(self.browser)
+    def has_independent_student_signup_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('form-signup-independent-student').find_element_by_class_name('errorlist').text
+        error = 'Password not strong enough, consider using at least 6 characters'
+        return error in errors
 
     def independent_student_login(self, username, password):
         self._independent_student_login(username, password)
