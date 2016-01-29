@@ -42,7 +42,7 @@ from django.views.generic import RedirectView
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
     ProfileView, QRGeneratorView
 
-from portal.views.admin import aggregated_data, schools_map, admin_login
+from portal.views.admin import aggregated_data, schools_map, admin_login, versions
 from portal.permissions import teacher_verified
 from portal.views.email import verify_email
 from portal.views.home import teach, play, contact, current_user, logout_view, home_view
@@ -96,6 +96,7 @@ urlpatterns = patterns(
     url(r'^admin/login/$', admin_login, name='admin_login'),
     url(r'^admin/map/$', schools_map, name='map'),
     url(r'^admin/data/$', aggregated_data, name='aggregated_data'),
+    url(r'^admin/versions/$', versions, name='versions'),
 
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),
