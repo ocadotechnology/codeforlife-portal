@@ -39,6 +39,7 @@ from time import sleep
 from django.shortcuts import render
 from rest_framework.reverse import reverse_lazy
 from django.db.models import Avg, Count, Q
+from django.http import JsonResponse
 from django_otp import device_classes
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import permission_required, login_required
@@ -47,6 +48,8 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from recaptcha import RecaptchaClient
 
+import game._version
+import portal._version
 from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
@@ -287,3 +290,10 @@ def schools_map(request):
         'schools': School.objects.all()
     })
 
+
+def versions(_request):
+    '''Return json containing the installed versions of the main packages.'''
+    return JsonResponse({
+        'codeforlife-portal': portal._version.get_versions()['full-revisionid'],
+        'rapid-router': game._version.get_versions()['full-revisionid'],
+    })
