@@ -46,7 +46,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.staticfiles import finders
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.utils import timezone
 from reportlab.pdfgen import canvas
@@ -593,7 +593,7 @@ def teacher_print_reminder_cards(request, access_code):
     CHARACTERS = []
 
     for character_file in CHARACTER_FILES:
-        character_image = ImageReader(finders.find(character_file))
+        character_image = ImageReader(staticfiles_storage.path(character_file))
         character_height = CARD_INNER_HEIGHT
         character_width = CARD_IMAGE_WIDTH
         character_height = character_width * character_image.getSize()[1] / character_image.getSize()[0]
