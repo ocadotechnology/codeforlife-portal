@@ -46,5 +46,5 @@ from portal.utils import two_factor_cache_key
 @receiver([post_save, pre_delete])
 def clear_two_factor_cache(sender, **kwargs):
     if issubclass(sender, Device):
-        user = instance.user
+        user = kwargs['instance'].user
         cache.delete(two_factor_cache_key(user))
