@@ -37,11 +37,13 @@
 from __future__ import absolute_import
 
 import re
+import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
 from django_countries.fields import CountryField
 from django.core.cache import cache
+from django.utils import timezone
 
 from online_status.status import CACHE_USERS
 
@@ -54,6 +56,10 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def joined_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=7) <= self.user.date_joined
 
 
 class School(models.Model):
