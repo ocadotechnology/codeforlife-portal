@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from time import sleep
+from datetime import timedelta
 
 from django.shortcuts import render
 from rest_framework.reverse import reverse_lazy
@@ -44,6 +45,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib import messages as messages
 from django_recaptcha_field import create_form_subclass_with_recaptcha
+from django.utils import timezone
 
 from recaptcha import RecaptchaClient
 
@@ -87,8 +89,10 @@ def aggregated_data(request):
 
     teacher_count = Teacher.objects.count()
     student_count = Student.objects.count()
+    new_profiles_count = UserProfile.objects.filter(user__date_joined__gte=timezone.now() - timedelta(days=7)).count()
 
     table_data.append(["Number of users", teacher_count+student_count, "Number of teachers + Number of students"])
+    table_data.append(["Number of new users (past week)", new_profiles_count, "Number of user profiles"])
 
     tables.append({'title': "Overall Statistics", 'description': "CFL site overall statistics", 'header': table_head, 'data': table_data})
 

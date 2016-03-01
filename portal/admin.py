@@ -35,6 +35,10 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+
+
 from portal.models import Class, Student, Guardian, Teacher, School, UserProfile, FrontPageNews
 
 
@@ -54,7 +58,13 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    search_fields = ['user__first_name', 'user__last_name', 'user__username']
+    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'user__date_joined']
+    list_filter = ['user__date_joined']
+    list_display = ['user', 'joined_recently']
+
+
+UserAdmin.list_display += ('date_joined',)
+UserAdmin.list_filter += ('date_joined',)
 
 
 admin.site.register(Class, ClassAdmin)
@@ -62,5 +72,7 @@ admin.site.register(Student, StudentAdmin)
 admin.site.register(Guardian)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(School)
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(FrontPageNews)
