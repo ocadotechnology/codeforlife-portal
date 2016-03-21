@@ -59,6 +59,7 @@ from portal.views.teacher.teach import teacher_lesson_plans, teacher_lesson_plan
     teacher_print_reminder_cards, teacher_accept_student_request, teacher_reject_student_request, \
     teacher_class_password_reset
 from portal.views.teacher.home import teacher_home
+from portal.views.email import send_new_users_report
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -96,6 +97,8 @@ urlpatterns = patterns(
     url(r'^admin/login/$', admin_login, name='admin_login'),
     url(r'^admin/map/$', schools_map, name='map'),
     url(r'^admin/data/$', aggregated_data, name='aggregated_data'),
+
+    url(r'^mail/weekly', send_new_users_report, name='send_new_users_report'),
 
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),
