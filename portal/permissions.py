@@ -56,6 +56,10 @@ def not_logged_in(u):
     return not hasattr(u, 'userprofile')
 
 
+def not_fully_logged_in(u):
+    return not_logged_in(u) or (not logged_in_as_student(u) and not logged_in_as_teacher(u))
+
+
 def teacher_verified(view_func):
     @wraps(view_func)
     def wrapped(request, *args, **kwargs):
