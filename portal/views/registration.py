@@ -47,7 +47,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 from deploy.captcha import CAPTCHA_ENABLED
 
 from portal.forms.registration import PasswordResetSetPasswordForm, StudentPasswordResetForm, TeacherPasswordResetForm
-from portal.permissions import not_logged_in
+from portal.permissions import not_logged_in, not_fully_logged_in
 from portal.helpers.email import PASSWORD_RESET_EMAIL
 from portal import app_settings
 from ratelimit.decorators import ratelimit
@@ -64,7 +64,7 @@ def custom_2FA_login(request):
     return LoginView.as_view()(request)
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy('current_user'))
 def password_reset_check_and_confirm(request, uidb64=None, token=None, post_reset_redirect=None):
     # Customised standard django auth view with customised form to incorporate checking the password set is strong enough
     UserModel = get_user_model()
@@ -87,7 +87,7 @@ def student_password_reset(request, post_reset_redirect):
     return password_reset(request, from_email=PASSWORD_RESET_EMAIL, template_name='registration/student_password_reset_form.html', password_reset_form=form, post_reset_redirect=post_reset_redirect, is_admin_site=True)
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy('current_user'))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy('current_user'))
 def teacher_password_reset(request, post_reset_redirect):
     form = TeacherPasswordResetForm if not CAPTCHA_ENABLED else decorate_with_captcha(TeacherPasswordResetForm, request,
                                                                                    recaptcha_client)
