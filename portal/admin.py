@@ -47,6 +47,11 @@ class ClassAdmin(admin.ModelAdmin):
     list_filter = ['teacher']
 
 
+class SchoolAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'country', 'postcode', 'town']
+    list_filter = ['postcode', 'country']
+
+
 class StudentAdmin(admin.ModelAdmin):
     search_fields = ['user__user__first_name', 'user__user__last_name']
     list_filter = ['class_field', 'class_field__teacher']
@@ -71,7 +76,7 @@ admin.site.register(Class, ClassAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Guardian)
 admin.site.register(Teacher, TeacherAdmin)
-admin.site.register(School)
+admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
