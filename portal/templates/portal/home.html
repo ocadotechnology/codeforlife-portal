@@ -29,22 +29,22 @@ $(document).ready(function(){
 
     $('.non-retina').colorbox({rel:'group5', transition:'none'})
     $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
-    
+
     //Example of preserving a JavaScript event for inline calls.
-    $("#click").click(function(){ 
+    $("#click").click(function(){
         $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
         return false;
     });
 });
 
 $(function() {
-   $("#accordion").accordion({ 
-	   header: "h3", 
-	   collapsible: true, 
-	   active: false, 
+   $("#accordion").accordion({
+	   header: "h3",
+	   collapsible: true,
+	   active: false,
 	   heightStyle: "content",
        autoHeight: false,
-       clearStyle: true  
+       clearStyle: true
 	   });
   });
 </script>
@@ -56,7 +56,7 @@ $(document).ready(function(){
     var dd = $('.newsTicker').easyTicker({
         direction: 'up',
         speed: 'slow',
-        interval: 3000,
+        interval: 8000,
         height: 'auto',
         visible: 1,
         mousePause: 1,
@@ -79,54 +79,54 @@ $(document).ready(function(){
 
 <div class="section group">
     <div class="col span_2_of_3">
-           
+
         <div class="description">
             <h3 id="intro">An Introduction</h3>
             <p>
             In September 2014, the UK became the first country in the world to put Computing at the heart of the school curriculum.
             </p>
             <p>
-            Ocado Technology's Code for Life initiative has been developed to help teachers deliver the new curriculum, so they can inspire the next generation of computer scientists. But this is just the beginning. Over the next couple of years, this initiative will be expanded to support pupils throughout their school career, from age five to 16, and beyond. 
+            Ocado Technology's Code for Life initiative has been developed to help teachers deliver the new curriculum, so they can inspire the next generation of computer scientists. But this is just the beginning. Over the next couple of years, this initiative will be expanded to support pupils throughout their school career, from age five to 16, and beyond.
             </p>
             <h3>Rapid Router - Our first app</h3>
             <p>
             Rapid Router marks the first step in this journey. It is a free, comprehensive Key Stage 1 and lower Key Stage 2 teaching resource and web application, designed for, and tested by, primary school teachers.
             </p>
       </div>
-      
-           
+
+
     </div>
-           
+
     <div class="col span_1_of_3">
-           
+
         <h3 id="intro">Take the journey</h3>
-       
+
        <div class="video">
             <a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">
                 <img alt="Watch Video" src="{% static 'portal/img/video_still.png' %}">
             </a>
         </div>
-                                    
+
     </div>
 </div>
 
 <div class="section group">
      <div class="col span_2_of_3">
-  
+
         <div class="gameBox">
-        
+
             <div class="section group">
                  <div class="col span_1_of_3">
                  <img src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
-                
-                 
+
+
                  </div>
-                 
+
                  <div class="col span_2_of_3">
-                 
+
                    <br>
                     <p>
-                    Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. 
+                    Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming.
                     </p>
                     <p>
                     Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
@@ -224,10 +224,10 @@ Blockly is hidden away altogether and students have to use Python instead. There
                 </div>
             </div>
        </div>
-       
-       
-  
-       
+
+
+
+
  </div>
 
 <script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
