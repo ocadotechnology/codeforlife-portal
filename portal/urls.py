@@ -98,7 +98,7 @@ urlpatterns = patterns(
     url(r'^admin/map/$', schools_map, name='map'),
     url(r'^admin/data/$', aggregated_data, name='aggregated_data'),
 
-    url(r'^mail/weekly', send_new_users_report, name='send_new_users_report'),
+    url(r'^mail/weekly/', send_new_users_report, name='send_new_users_report'),
 
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),

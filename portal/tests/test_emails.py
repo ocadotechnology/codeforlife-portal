@@ -34,16 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.test import Client
-from unittest import TestCase
+
 from django.core.urlresolvers import reverse
 from django.core import mail
 
+from base_test import BaseTest
+from django_selenium_clean import selenium
 
-class EmailTest(TestCase):
+
+class EmailTest(BaseTest):
     def test_send_new_users_numbers_email(self):
-        client = Client()
-        response = client.get(reverse('send_new_users_report'))
-        self.assertEqual(response.status_code, 200)
+        selenium.get(self.live_server_url + reverse('send_new_users_report'))
         self.assertEqual(len(mail.outbox), 1)
-        mail.outbox = []
