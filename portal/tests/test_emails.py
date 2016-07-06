@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.test import Client
-from unittest import TestCase
+from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
 
@@ -46,4 +46,3 @@ class EmailTest(TestCase):
         response = client.get(reverse('send_new_users_report'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
-        mail.outbox = []
