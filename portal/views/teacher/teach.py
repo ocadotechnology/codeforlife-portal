@@ -36,7 +36,6 @@
 # identified as the original program.
 import json
 from functools import partial, wraps
-import json
 from datetime import timedelta
 
 from django.conf import settings
@@ -55,6 +54,7 @@ from reportlab.lib.colors import black, white
 from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
+from two_factor.utils import devices_for_user
 from portal.utils import using_two_factor
 
 from portal.models import Teacher, Class, Student
