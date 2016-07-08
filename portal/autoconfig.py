@@ -77,6 +77,7 @@ SETTINGS = {
     'LANGUAGES': [
         ('en-gb', 'English'),
     ],
+    'MESSAGE_STORAGE': 'django.contrib.messages.storage.session.SessionStorage',
     'MIDDLEWARE_CLASSES': [
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
