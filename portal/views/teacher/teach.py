@@ -70,10 +70,12 @@ from portal import emailMessages
 def teacher_lesson_plans(request):
     return render(request, 'portal/teach/teacher_lesson_plans.html')
 
+
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_lesson_plans_python(request):
     return render(request, 'portal/teach/teacher_lesson_plans_python.html')
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -89,18 +91,17 @@ def teacher_classes(request):
         if form.is_valid():
             created_class = create_class(form, teacher)
             messages.success(request, "The class '{className}' has been created successfully."
-                             .format(className = created_class.name))
-        return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={ 'access_code': created_class.access_code }))
+                             .format(className=created_class.name))
+        return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': created_class.access_code}))
     else:
-        form = ClassCreationForm(initial={ 'classmate_progress' : 'False' })
+        form = ClassCreationForm(initial={'classmate_progress': 'False'})
 
     classes = Class.objects.filter(teacher=teacher)
 
-    return render(request, 'portal/teach/teacher_classes.html', {
-        'form': form,
-        'requests': requests,
-        'classes': classes,
-    })
+    return render(request, 'portal/teach/teacher_classes.html',
+                  {'form': form,
+                   'requests': requests,
+                   'classes': classes})
 
 
 def create_class(form, teacher):
@@ -145,20 +146,19 @@ def teacher_class(request, access_code):
                     name=name,
                     password=password)
 
-            return render(request, 'portal/teach/teacher_new_students.html', {
-                'class': klass,
-                'name_tokens': name_tokens,
-                'query_data': json.dumps(name_tokens),
-            })
+            return render(request, 'portal/teach/teacher_new_students.html',
+                          {'class': klass,
+                           'name_tokens': name_tokens,
+                           'query_data': json.dumps(name_tokens)})
     else:
         new_students_form = StudentCreationForm(klass)
 
-    return render(request, 'portal/teach/teacher_class.html', {
-        'new_students_form': new_students_form,
-        'class': klass,
-        'students': students,
-        'num_students': len(students),
-    })
+    return render(request, 'portal/teach/teacher_class.html',
+                  {'new_students_form': new_students_form,
+                   'class': klass,
+                   'students': students,
+                   'num_students': len(students)})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -180,11 +180,11 @@ def teacher_class_password_reset(request, access_code):
         student.user.user.set_password(password)
         student.user.user.save()
 
-    return render(request, 'portal/teach/teacher_students_reset.html', {
-        'class': klass,
-        'name_tokens': name_tokens,
-        'query_data': json.dumps(name_tokens),
-    })
+    return render(request, 'portal/teach/teacher_students_reset.html',
+                  {'class': klass,
+                   'name_tokens': name_tokens,
+                   'query_data': json.dumps(name_tokens)})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -208,7 +208,10 @@ def teacher_move_class(request, access_code):
             return HttpResponseRedirect(reverse_lazy('teacher_classes'))
     else:
         form = ClassMoveForm(teachers)
-    return render(request, 'portal/teach/teacher_move_class.html', { 'form': form, 'class': klass })
+    return render(request, 'portal/teach/teacher_move_class.html',
+                  {'form': form,
+                   'class': klass})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -229,7 +232,11 @@ def teacher_move_students(request, access_code):
 
     form = TeacherMoveStudentsDestinationForm(classes)
 
-    return render(request, 'portal/teach/teacher_move_students.html', {'transfer_students': transfer_students, 'old_class': klass, 'form': form})
+    return render(request, 'portal/teach/teacher_move_students.html',
+                  {'transfer_students': transfer_students,
+                   'old_class': klass,
+                   'form': form})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -267,22 +274,22 @@ def teacher_move_students_to_class(request, access_code):
                 student.user.user.save()
 
             messages.success(request, 'The students have been transferred successfully.')
-            return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': old_class.access_code }))
+            return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': old_class.access_code}))
     else:
         # format the students for the form
-        initial_data = [{'orig_name' : student.user.user.first_name,
-                         'name' : student.user.user.first_name
-                        } for student in transfer_students]
+        initial_data = [{'orig_name': student.user.user.first_name,
+                         'name': student.user.user.first_name}
+                        for student in transfer_students]
 
         formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
 
-    return render(request, 'portal/teach/teacher_move_students_to_class.html', {
-        'formset': formset,
-        'old_class': old_class,
-        'new_class': new_class,
-        'new_class_students': new_class_students,
-        'transfer_students': transfer_students
-    })
+    return render(request, 'portal/teach/teacher_move_students_to_class.html',
+                  {'formset': formset,
+                   'old_class': old_class,
+                   'new_class': new_class,
+                   'new_class_students': new_class_students,
+                   'transfer_students': transfer_students})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -301,7 +308,8 @@ def teacher_delete_students(request, access_code):
     for student in students:
         student.user.user.delete()
 
-    return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code }))
+    return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code}))
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -324,31 +332,29 @@ def teacher_dismiss_students(request, access_code):
             for data in formset.cleaned_data:
                 student = get_object_or_404(Student, class_field=klass, user__user__first_name__iexact=data['orig_name'])
                 student.class_field = None
-                student.user.awaiting_email_verification = True
                 student.user.user.first_name = data['name']
                 student.user.user.username = data['name']
                 student.user.user.email = data['email']
                 student.save()
-                student.user.save()
                 student.user.user.save()
 
-                send_verification_email(request, student.user)
+                send_verification_email(request, student.user.user)
 
             messages.success(request, 'The students have been removed successfully from the class.')
-            return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code }))
+            return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code}))
     else:
-        initial_data = [{'orig_name' : student.user.user.first_name,
-                         'name' : generate_new_student_name(student.user.user.first_name),
-                         'email' : '',
-                        } for student in students]
+        initial_data = [{'orig_name': student.user.user.first_name,
+                         'name': generate_new_student_name(student.user.user.first_name),
+                         'email': ''}
+                        for student in students]
 
         formset = TeacherDismissStudentsFormSet(initial=initial_data)
 
-    return render(request, 'portal/teach/teacher_dismiss_students.html', {
-        'formset': formset,
-        'class': klass,
-        'students': students,
-    })
+    return render(request, 'portal/teach/teacher_dismiss_students.html',
+                  {'formset': formset,
+                   'class': klass,
+                   'students': students})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -361,7 +367,7 @@ def teacher_edit_class(request, access_code):
 
     if klass.always_accept_requests:
         external_requests_message = 'This class is currently set to always accept requests.'
-    elif klass.accept_requests_until != None and (klass.accept_requests_until - timezone.now()) >= timedelta():
+    elif klass.accept_requests_until is not None and (klass.accept_requests_until - timezone.now()) >= timedelta():
         external_requests_message = 'This class is accepting external requests until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
     else:
         external_requests_message = 'This class is not currently accepting external requests.'
@@ -370,10 +376,10 @@ def teacher_edit_class(request, access_code):
         if form.is_valid():
             name = form.cleaned_data['name']
             classmate_progress = False
-            if form.cleaned_data['classmate_progress']=='True':
+            if form.cleaned_data['classmate_progress'] == 'True':
                 classmate_progress = True
             external_requests_setting = form.cleaned_data['external_requests']
-            if external_requests_setting!='':
+            if external_requests_setting != '':
                 # Change submitted for external requests
                 hours = int(external_requests_setting)
                 if hours == 0:
@@ -405,11 +411,11 @@ def teacher_edit_class(request, access_code):
             'classmate_progress': klass.classmates_data_viewable,
         })
 
-    return render(request, 'portal/teach/teacher_edit_class.html', {
-        'form': form,
-        'class': klass,
-        'external_requests_message' : external_requests_message,
-    })
+    return render(request, 'portal/teach/teacher_edit_class.html',
+                  {'form': form,
+                   'class': klass,
+                   'external_requests_message': external_requests_message})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -428,6 +434,7 @@ def teacher_delete_class(request, access_code):
 
     return HttpResponseRedirect(reverse_lazy('teacher_classes'))
 
+
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_student_reset(request, pk):
@@ -442,7 +449,12 @@ def teacher_student_reset(request, pk):
     student.user.user.save()
     name_pass = [{'name': student.user.user.first_name, 'password': new_password}]
 
-    return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password, 'query_data': json.dumps(name_pass) })
+    return render(request, 'portal/teach/teacher_student_reset.html',
+                  {'student': student,
+                   'class': student.class_field,
+                   'password': new_password,
+                   'query_data': json.dumps(name_pass)})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -479,7 +491,11 @@ def teacher_edit_student(request, pk):
                     student.user.user.set_password(new_password)
                     student.user.user.save()
                     name_pass = [{'name': student.user.user.first_name, 'password': new_password}]
-                    return render(request, 'portal/teach/teacher_student_reset.html', { 'student': student, 'class': student.class_field, 'password': new_password, 'query_data': json.dumps(name_pass) })
+                    return render(request, 'portal/teach/teacher_student_reset.html',
+                                  {'student': student,
+                                   'class': student.class_field,
+                                   'password': new_password,
+                                   'query_data': json.dumps(name_pass)})
 
     return render(request, 'portal/teach/teacher_edit_student.html', {
         'name_form': name_form,
@@ -487,6 +503,7 @@ def teacher_edit_student(request, pk):
         'student': student,
         'class': student.class_field,
     })
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -505,7 +522,7 @@ def teacher_edit_account(request):
         form = TeacherEditAccountForm(request.user, request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            changing_email=False
+            changing_email = False
 
             # check not default value for CharField
             if (data['password'] != ''):
@@ -519,8 +536,8 @@ def teacher_edit_account(request):
             new_email = data['email']
             if new_email != '' and new_email != teacher.user.user.email:
                     # new email to set and verify
-                    changing_email=True
-                    send_verification_email(request, teacher.user, new_email)
+                    changing_email = True
+                    send_verification_email(request, teacher.user.user, new_email)
 
             teacher.save()
             teacher.user.user.save()
@@ -528,20 +545,25 @@ def teacher_edit_account(request):
             if changing_email:
                 logout(request)
                 messages.success(request, 'Your account details have been successfully changed. Your email will be changed once you have verified it, until then you can still log in with your old email.')
-                return render(request, 'portal/email_verification_needed.html', { 'userprofile': teacher.user, 'email': new_email })
+                return render(request, 'portal/email_verification_needed.html',
+                              {'userprofile': teacher.user,
+                               'email': new_email})
 
             messages.success(request, 'Your account details have been successfully changed.')
 
             return HttpResponseRedirect(reverse_lazy('teacher_home'))
     else:
         form = TeacherEditAccountForm(request.user, initial={
-            'title' : teacher.title,
+            'title': teacher.title,
             'first_name': teacher.user.user.first_name,
             'last_name': teacher.user.user.last_name,
             'school': teacher.school,
         })
 
-    return render(request, 'portal/teach/teacher_edit_account.html', { 'form': form, 'backup_tokens': backup_tokens })
+    return render(request, 'portal/teach/teacher_edit_account.html',
+                  {'form': form,
+                   'backup_tokens': backup_tokens})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -557,6 +579,7 @@ def teacher_disable_2FA(request, pk):
         device.delete()
 
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
@@ -600,14 +623,13 @@ def teacher_print_reminder_cards(request, access_code):
         if character_height > CARD_INNER_HEIGHT:
             character_height = CARD_INNER_HEIGHT
             character_width = character_height * character_image.getSize()[0] / character_image.getSize()[1]
-        character = { 'image': character_image, 'height': character_height, 'width': character_width }
+        character = {'image': character_image, 'height': character_height, 'width': character_width}
         CHARACTERS.append(character)
 
     klass = Class.objects.get_object_or_404(access_code=access_code)
     # Check auth
     if klass.Teacher != request.user:
         raise Http404
-
 
     COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
 
@@ -683,7 +705,7 @@ def teacher_print_reminder_cards(request, access_code):
 
         # footer text
         p.setFont('Helvetica', 10)
-        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, footer_bottom + FOOTER_HEIGHT * 0.32 , settings.CODEFORLIFE_WEBSITE)
+        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, footer_bottom + FOOTER_HEIGHT * 0.32, settings.CODEFORLIFE_WEBSITE)
 
         # left hand side writing
         p.setFillColor(black)
@@ -714,6 +736,7 @@ def teacher_print_reminder_cards(request, access_code):
     p.save()
     return response
 
+
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_accept_student_request(request, pk):
@@ -741,11 +764,18 @@ def teacher_accept_student_request(request, pk):
             student.user.user.email = ''
             student.save()
             student.user.user.save()
-            return render(request, 'portal/teach/teacher_added_external_student.html', { 'student': student, 'class': student.class_field })
+            return render(request, 'portal/teach/teacher_added_external_student.html',
+                          {'student': student,
+                           'class': student.class_field})
     else:
-        form = TeacherAddExternalStudentForm(student.pending_class_request, initial={ 'name': student.user.user.first_name })
+        form = TeacherAddExternalStudentForm(student.pending_class_request, initial={'name': student.user.user.first_name})
 
-    return render(request, 'portal/teach/teacher_add_external_student.html', { 'students': students, 'class': student.pending_class_request, 'student': student, 'form':form })
+    return render(request, 'portal/teach/teacher_add_external_student.html',
+                  {'students': students,
+                   'class': student.pending_class_request,
+                   'student': student,
+                   'form': form})
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))

@@ -37,16 +37,14 @@
 import re
 
 from django.core import mail
-
+from django_selenium_clean import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test import BaseTest
-from utils.student import create_independent_student
-from utils.student import submit_independent_student_signup_form
+from utils.student import create_independent_student, submit_independent_student_signup_form
 from utils.messages import is_email_verified_message_showing
 from utils import email as email_utils
 
-from django_selenium_clean import selenium
 
 class TestIndependentStudent(BaseTest):
     def test_signup(self):
@@ -79,7 +77,6 @@ class TestIndependentStudent(BaseTest):
         })
 
     def test_reset_password(self):
-
         homepage = self.go_to_homepage()
 
         username = create_independent_student(homepage)[2]
