@@ -34,17 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.core import mail
 import re
 
-from base_test import BaseTest
-from portal.tests.pageObjects.portal.home_page import HomePage
+from django.core import mail
+from django_selenium_clean import selenium
 from selenium.webdriver.support.wait import WebDriverWait
+
+from base_test import BaseTest
+from pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher, signup_teacher_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
 from utils import email as email_utils
 
-from django_selenium_clean import selenium
 
 class TestTeacher(BaseTest):
     def test_signup(self):

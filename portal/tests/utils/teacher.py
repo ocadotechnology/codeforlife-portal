@@ -39,6 +39,8 @@ from django.core import mail
 import sys
 
 from portal.models import Teacher
+from portal.helpers.email import generate_token
+
 
 def generate_details(**kwargs):
     title = kwargs.get('title','Mr')
@@ -53,16 +55,17 @@ def generate_details(**kwargs):
 def signup_teacher_directly(**kwargs):
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
     teacher = Teacher.objects.factory(title, first_name, last_name, email_address, password)
-    teacher.user.awaiting_email_verification = False
+    generate_token(teacher.user.user, preverified=True)
     teacher.user.save()
     return email_address, password
+
 
 def signup_teacher(page):
     page = page.go_to_teach_page()
 
     title, first_name, last_name, email_address, password = generate_details()
     page = page.signup(title, first_name, last_name, email_address, password, password)
-    
+
     page = page.return_to_home_page()
 
     page = email.follow_verify_email_link_to_teach(page, mail.outbox[0])

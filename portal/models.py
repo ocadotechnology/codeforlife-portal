@@ -50,9 +50,10 @@ from online_status.status import CACHE_USERS
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    awaiting_email_verification = models.BooleanField(default=False)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
+
+    awaiting_email_verification = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
@@ -91,7 +92,7 @@ class TeacherModelManager(models.Manager):
             first_name=first_name,
             last_name=last_name)
 
-        userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+        userProfile = UserProfile.objects.create(user=user)
 
         return Teacher.objects.create(user=userProfile, title=title)
 
@@ -159,7 +160,7 @@ class StudentModelManager(models.Manager):
             password=password,
             first_name=name)
 
-        userProfile = UserProfile.objects.create(user=user, awaiting_email_verification=True)
+        userProfile = UserProfile.objects.create(user=user)
 
         return Student.objects.create(user=userProfile)
 
@@ -193,10 +194,12 @@ class Guardian(models.Model):
 
 class EmailVerification(models.Model):
     user = models.ForeignKey(UserProfile, related_name='email_verifications')
+    new_user = models.ForeignKey(User, related_name='email_verifications_old', null=True, blank=True)
     token = models.CharField(max_length=30)
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()
     used = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False)
 
 
 class FrontPageNews(models.Model):

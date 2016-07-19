@@ -41,8 +41,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
+from django.contrib.auth.models import User
 
-from portal.models import EmailVerification, UserProfile
+from portal.models import EmailVerification
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
 
@@ -55,25 +56,25 @@ def verify_email(request, token):
 
     verification = verifications[0]
 
-    if verification.used or (verification.expiry - timezone.now()) < timedelta():
+    if verification.verified or (verification.expiry - timezone.now()) < timedelta():
         return render(request, 'portal/email_verification_failed.html')
 
-    verification.used = True
+    verification.verified = True
     verification.save()
 
-    user = verification.user
-    user.awaiting_email_verification = False
-    user.save()
+    user = verification.new_user
 
-    if verification.email:
-        user.user.email = verification.email
-        user.user.save()
+    if verification.email:  # verifying change of email address
+        user.email = verification.email
+        user.save()
+
+        user.email_verifications_old.exclude(email=user.email).delete()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
-    if hasattr(user, 'student'):
+    if hasattr(user.userprofile, 'student'):
         return HttpResponseRedirect(reverse_lazy('play'))
-    elif hasattr(user, 'teacher'):
+    if hasattr(user.userprofile, 'teacher'):
         return HttpResponseRedirect(reverse_lazy('teach'))
 
     # default to homepage if something goes wrong
@@ -81,7 +82,7 @@ def verify_email(request, token):
 
 
 def send_new_users_report(request):
-    new_profiles_count = UserProfile.objects.filter(user__date_joined__gte=timezone.now() - timedelta(days=7)).count()
+    new_profiles_count = User.objects.filter(date_joined__gte=timezone.now() - timedelta(days=7)).count()
     send_email(NOTIFICATION_EMAIL, CONTACT_FORM_EMAILS, "new users",
                "There are %d new users this week!" % new_profiles_count)
     return HttpResponse('success')

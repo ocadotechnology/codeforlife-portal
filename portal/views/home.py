@@ -50,7 +50,7 @@ from portal.models import Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.email import send_email, send_verification_email, CONTACT_EMAIL
+from portal.helpers.email import send_email, send_verification_email, is_verified, CONTACT_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
@@ -89,11 +89,11 @@ def teach(request):
         if 'login' in request.POST:
             login_form = InputLoginForm(request.POST, prefix='login')
             if login_form.is_valid():
-                userProfile = login_form.user.userprofile
-                if userProfile.awaiting_email_verification:
-                    send_verification_email(request, userProfile)
+                user = login_form.user
+                if not is_verified(user):
+                    send_verification_email(request, user)
                     return render(request, 'portal/email_verification_needed.html',
-                                  {'userprofile': userProfile})
+                                  {'user': user})
 
                 login(request, login_form.user)
 
@@ -134,10 +134,10 @@ def teach(request):
                     email=data['email'],
                     password=data['password'])
 
-                send_verification_email(request, teacher.user)
+                send_verification_email(request, teacher.user.user)
 
                 return render(request, 'portal/email_verification_needed.html',
-                              {'userprofile': teacher.user})
+                              {'user': teacher.user.user})
 
     logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
         hasattr(request.user.userprofile, 'teacher') and \
@@ -211,11 +211,11 @@ def play(request):
         elif 'independent_student_login' in request.POST:
             independent_student_login_form = InputIndependentStudentLoginForm(request.POST, prefix='independent_student')
             if independent_student_login_form.is_valid():
-                userProfile = independent_student_login_form.user.userprofile
-                if userProfile.awaiting_email_verification:
-                    send_verification_email(request, userProfile)
+                user = independent_student_login_form.user
+                if not is_verified(user):
+                    send_verification_email(request, user)
                     return render(request, 'portal/email_verification_needed.html',
-                                  {'userprofile': userProfile})
+                                  {'user': user})
 
                 login(request, independent_student_login_form.user)
 
@@ -243,10 +243,10 @@ def play(request):
 
                 email_supplied = (data['email'] != '')
                 if (email_supplied):
-                    send_verification_email(request, student.user)
+                    send_verification_email(request, student.user.user)
                     return render(request, 'portal/email_verification_needed.html',
-                                  {'userprofile': student.user})
-                else:
+                                  {'user': student.user.user})
+                else:  # dead code - frontend ensures email supplied.
                     auth_user = authenticate(username=data['username'], password=data['password'])
                     login(request, auth_user)
 

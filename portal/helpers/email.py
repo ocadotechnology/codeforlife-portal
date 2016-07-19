@@ -43,7 +43,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
 
 from portal.models import EmailVerification
-from portal import app_settings, emailMessages
+from portal import app_settings
+from portal.emailMessages import emailVerificationNeededEmail
+from portal.emailMessages import emailChangeNotificationEmail
+from portal.emailMessages import emailChangeVerificationEmail
 
 NOTIFICATION_EMAIL = 'Code For Life Notification <' + app_settings.EMAIL_ADDRESS + '>'
 VERIFICATION_EMAIL = 'Code For Life Verification <' + app_settings.EMAIL_ADDRESS + '>'
@@ -86,24 +89,48 @@ def send_email(sender, recipients, subject, text_content, html_content=None,
     message.send()
 
 
-def send_verification_email(request, userProfile, new_email=None):
-    verification = EmailVerification.objects.create(
-        user=userProfile,
-        email=new_email,
+def generate_token(user, email="", preverified=False):
+    return EmailVerification.objects.create(
+        user=user.userprofile,
+        new_user=user,
+        email=email,
         token=uuid4().hex[:30],
-        expiry=timezone.now() + timedelta(hours=1))
+        expiry=timezone.now() + timedelta(hours=1),
+        verified=preverified
+    )
 
-    if new_email:
-        emailMessage = emailMessages.emailChangeVerificationEmail(request, verification.token)
-        send_email(VERIFICATION_EMAIL, [new_email], emailMessage['subject'],
-                   emailMessage['message'])
 
-        emailMessage = emailMessages.emailChangeNotificationEmail(request, new_email)
-        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'],
-                   emailMessage['message'])
+def send_verification_email(request, user, new_email=None):
+    """Send an email prompting the user to verify their email address."""
 
-    else:
-        emailMessage = emailMessages.emailVerificationNeededEmail(request, verification.token)
+    if not new_email:  # verifying first email address
+        user.email_verifications_old.all().delete()
 
-        send_email(VERIFICATION_EMAIL, [userProfile.user.email], emailMessage['subject'],
-                   emailMessage['message'])
+        verification = generate_token(user)
+
+        message = emailVerificationNeededEmail(request, verification.token)
+        send_email(VERIFICATION_EMAIL,
+                   [user.email],
+                   message['subject'],
+                   message['message'])
+
+    else:  # verifying change of email address.
+        verification = generate_token(user, new_email)
+
+        message = emailChangeVerificationEmail(request, verification.token)
+        send_email(VERIFICATION_EMAIL,
+                   [new_email],
+                   message['subject'],
+                   message['message'])
+
+        message = emailChangeNotificationEmail(request, new_email)
+        send_email(VERIFICATION_EMAIL,
+                   [user.email],
+                   message['subject'],
+                   message['message'])
+
+
+def is_verified(user):
+    """Check that a user has verified their email address."""
+    verifications = user.email_verifications_old.filter(verified=True)
+    return len(verifications) != 0
