@@ -54,6 +54,7 @@ setup(name='codeforlife-portal',
 
         'Pillow==2.9.0',
         'django-reversion==1.9.3',
+        'sqlparse',
       ],
     tests_require=[
         'django-setuptest',
