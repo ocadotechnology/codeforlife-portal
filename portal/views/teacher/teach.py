@@ -64,6 +64,16 @@ from portal.helpers.generators import get_random_username, generate_new_student_
 from portal.helpers.email import send_email, send_verification_email, NOTIFICATION_EMAIL
 from portal import emailMessages
 
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def default_solution(request, levelName):
+    return render(request, 'portal/teach/solutions/'+levelName+'.html')
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def teacher_level_solutions(request):
+    return render(request, 'portal/teach/teacher_level_solutions.html')
+
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
