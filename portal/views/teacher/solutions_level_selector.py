@@ -36,15 +36,10 @@
 # identified as the original program.
 from __future__ import division
 import game.messages as messages
-import game.level_management as level_management
-
-from django.shortcuts import render
 from django.template import RequestContext
 from django.utils.safestring import mark_safe
-from django.db.models import Max
-from game import random_road
-from game.cache import cached_episode
-from game.models import Attempt, Episode
+
+from game.models import Episode
 from django.core.cache import cache
 from game import app_settings
 from portal.permissions import logged_in_as_teacher
