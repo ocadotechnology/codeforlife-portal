@@ -194,7 +194,6 @@ class Guardian(models.Model):
 
 class EmailVerification(models.Model):
     user = models.ForeignKey(User, related_name='email_verifications', null=True, blank=True)
-    new_user = models.ForeignKey(User, related_name='email_verifications_old', null=True, blank=True)
     token = models.CharField(max_length=30)
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()
