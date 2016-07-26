@@ -1,0 +1,52 @@
+
+	{% extends 'portal/teach/base.html' %}
+	{% load static %}
+	{% load app_tags %}
+
+	{% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
+
+
+
+	{% block content %}
+	<style>
+	    .imgs{
+	        max-width: 100%;
+	        height: auto;
+
+	    }
+
+	    table, td{
+	        border: 1px dashed black;
+	        align: top;
+	        border-collapse: collapse;
+	        padding: 5px;
+	    }
+
+	</style>
+
+	<div id="teach_dashboard_page"></div>
+
+	<table width="100%">
+	    <tr>
+	        <td width="65%">
+	            <h1>Level 78</h1>
+	        </td>
+	        <td width="35%" >
+	        </td>
+	    </tr>
+	    <tr>
+	        <td width="65%">
+	            <img src="{% static 'portal/img/levels/level_078.png' %}" class="imgs"/>
+	        </td>
+	        <td width="35%">
+	            <img src="{% static 'portal/img/solutions/solution_078.png' %}" class="imgs"/>
+	        </td>
+	    </tr>
+	</table>
+
+
+
+
+	{% endblock %}
+
+	
