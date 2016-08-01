@@ -71,7 +71,7 @@ $(document).ready(function(){
       <td colspan="2">Upper Key Stage 2</td>
     </tr>
     <tr>
-      <td width="280px"><a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}">Download complete UKS2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td width="280px"><a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}" onclick='send_event("python/UKS2_Python.zip","Downloaded");'>Download complete UKS2 <img src="{% static 'portal/img/zip.png' %}" /></a></td>
      <td></td>
     </tr>
     <tr>
@@ -83,7 +83,7 @@ $(document).ready(function(){
      <td></td>
     </tr>
     <tr>
-      <td><a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}">Download all Resource Sheets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td><a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}" onclick='send_event("python/UKS2_Resource_sheets.zip","Downloaded");'>Download all Resource Sheets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
       <td>
       <div class="table resource_table">
           <div class="table_row">
@@ -122,7 +122,7 @@ $(document).ready(function(){
           </td>
     </tr>
     <tr>
-      <td><a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}">Download all Assessments <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
+      <td><a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}" onclick='send_event("python/UKS2-Assessment.zip","Downloaded");'>Download all Assessments <img src="{% static 'portal/img/zip.png' %}" /></a><span></span></td>
       <td>
         <div class="table" style="width: 100%">
           <div class="table_row">
@@ -194,7 +194,7 @@ $(document).ready(function(){
       <td colspan="2">UKS2 Assets</td>
     </tr>
     <tr>
-      <td width="280px"><a href="{{ 'python/UK_S2_Assets.zip'|cloud_storage }}">Download all UKS2 Assets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
+      <td width="280px"><a href="{{ 'python/UK_S2_Assets.zip'|cloud_storage }}" onclick='send_event("python/UKS2-Assessment.zip","Downloaded");'>Download all UKS2 Assets <img src="{% static 'portal/img/zip.png' %}" /></a></td>
       <td>
         <div class="table" style="width: 100%">
           <div class="table_row">
