@@ -39,7 +39,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
 
-from portal.models import Class, Student, Guardian, Teacher, School, UserProfile, FrontPageNews
+from portal.models import Class, Student, Guardian, Teacher, School, UserProfile, FrontPageNews, EmailVerification
 
 
 class ClassAdmin(admin.ModelAdmin):
@@ -68,6 +68,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'joined_recently']
 
 
+class EmailVerificationAdmin(admin.ModelAdmin):
+    search_fields = ['new_user']
+
+
 UserAdmin.list_display += ('date_joined',)
 UserAdmin.list_filter += ('date_joined',)
 
@@ -81,3 +85,4 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(FrontPageNews)
+admin.site.register(EmailVerification, EmailVerificationAdmin)
