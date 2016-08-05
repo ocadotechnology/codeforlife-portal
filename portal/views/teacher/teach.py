@@ -124,7 +124,7 @@ def materials_viewer(request, pdf_name):
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def default_solution(request, levelName):
-    return render(request, 'portal/teach/solutions/'+levelName+'.html')
+    return render(request, 'portal/teach/teacher_solution.html', {'levelName':levelName})
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
