@@ -17,11 +17,14 @@
         level = "0"+level;
     }
 
+    var level_int  = parseInt(level);
+
     window.onload = function () {
         document.getElementById('lvl_img').src = "{% static 'portal/img/levels/level_"+level+".png' %}";
         document.getElementById('sol_img').src = "{% static 'portal/img/solutions/solution_"+level+".png' %}";
         document.getElementById('sol_imgPY').src = "{% static 'portal/img/solutions/solutionPY_"+level+".png' %}";
-        document.getElementById('lvl_header').innerHTML = "Level "+parseInt(level);
+        document.getElementById('lvl_header').innerHTML = "Level "+level_int;
+        document.getElementById('lvl_link').href = "https://www.codeforlife.education/rapidrouter/"+level_int;
     };
 
 
@@ -48,7 +51,8 @@
 <table width="100%">
     <tr>
         <td width="55%">
-            <h1>Level 91</h1>
+            <h1 id="lvl_header"></h1>
+            <a id="lvl_link">Go to Level</a>
         </td>
         <td width="22.5%" >
         </td>
