@@ -91,8 +91,7 @@ def send_email(sender, recipients, subject, text_content, html_content=None,
 
 def generate_token(user, email="", preverified=False):
     return EmailVerification.objects.create(
-        user=user.userprofile,
-        new_user=user,
+        user=user,
         email=email,
         token=uuid4().hex[:30],
         expiry=timezone.now() + timedelta(hours=1),
@@ -104,7 +103,7 @@ def send_verification_email(request, user, new_email=None):
     """Send an email prompting the user to verify their email address."""
 
     if not new_email:  # verifying first email address
-        user.email_verifications_old.all().delete()
+        user.email_verifications.all().delete()
 
         verification = generate_token(user)
 
@@ -132,5 +131,5 @@ def send_verification_email(request, user, new_email=None):
 
 def is_verified(user):
     """Check that a user has verified their email address."""
-    verifications = user.email_verifications_old.filter(verified=True)
+    verifications = user.email_verifications.filter(verified=True)
     return len(verifications) != 0

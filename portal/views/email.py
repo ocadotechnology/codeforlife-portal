@@ -62,13 +62,13 @@ def verify_email(request, token):
     verification.verified = True
     verification.save()
 
-    user = verification.new_user
+    user = verification.user
 
     if verification.email:  # verifying change of email address
         user.email = verification.email
         user.save()
 
-        user.email_verifications_old.exclude(email=user.email).delete()
+        user.email_verifications.exclude(email=user.email).delete()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
