@@ -16,7 +16,7 @@
     else if(level <100){
         level = "0"+level;
     }
-    console.log(level)
+
     window.onload = function () {
         document.getElementById('lvl_img').src = "{% static 'portal/img/levels/level_"+level+".png' %}";
         document.getElementById('sol_img').src = "{% static 'portal/img/solutions/solution_"+level+".png' %}";
