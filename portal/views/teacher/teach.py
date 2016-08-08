@@ -67,7 +67,10 @@ from portal import emailMessages
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def default_solution(request, levelName):
-    return render(request, 'portal/teach/teacher_solution.html', {'levelName':levelName})
+    if(int(levelName)>=80 and int(levelName)<=91):
+        return render(request, 'portal/teach/teacher_solutionPY.html', {'levelName':levelName})
+    else:
+        return render(request, 'portal/teach/teacher_solution.html', {'levelName':levelName})
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))

@@ -1,0 +1,76 @@
+
+{% extends 'portal/teach/base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
+
+
+{% block content %}
+<script>
+    var level = {{levelName}};
+
+    if(level < 10){
+        level = "00"+level;
+    }
+    else if(level <100){
+        level = "0"+level;
+    }
+    console.log(level)
+    window.onload = function () {
+        document.getElementById('lvl_img').src = "{% static 'portal/img/levels/level_"+level+".png' %}";
+        document.getElementById('sol_img').src = "{% static 'portal/img/solutions/solution_"+level+".png' %}";
+        document.getElementById('sol_imgPY').src = "{% static 'portal/img/solutions/solutionPY_"+level+".png' %}";
+        document.getElementById('lvl_header').innerHTML = "Level "+parseInt(level);
+    };
+
+
+</script>
+
+<style>
+    .imgs{
+        max-width: 100%;
+        height: auto;
+
+    }
+
+    table, td{
+        border: 1px dashed black;
+        align: top;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+</style>
+
+<div id="teach_dashboard_page"></div>
+
+<table width="100%">
+    <tr>
+        <td width="55%">
+            <h1>Level 91</h1>
+        </td>
+        <td width="22.5%" >
+        </td>
+        <td width="22.5%" >
+        </td>
+    </tr>
+    <tr>
+        <td width="55%">
+            <img id='lvl_img' class="imgs"/>
+        </td>
+        <td width="22.5%">
+            <img id='sol_img' class="imgs"/>
+        </td>
+        <td width="22.5%">
+            <img id='sol_imgPY' class="imgs"/>
+        </td>
+    </tr>
+</table>
+
+
+
+
+{% endblock %}
+
+	
