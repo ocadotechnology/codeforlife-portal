@@ -20,11 +20,11 @@
     var level_int  = parseInt(level);
 
     window.onload = function () {
-        document.getElementById('lvl_img').src = "{% static 'portal/img/levels/level_"+level+".png' %}";
-        document.getElementById('sol_img').src = "{% static 'portal/img/solutions/solution_"+level+".png' %}";
-        document.getElementById('sol_imgPY').src = "{% static 'portal/img/solutions/solutionPY_"+level+".png' %}";
-        document.getElementById('lvl_header').innerHTML = "Level "+level_int;
-        document.getElementById('lvl_link').href = "https://www.codeforlife.education/rapidrouter/"+level_int;
+        $('#lvl_img').attr('src',"{% static 'portal/img/levels/level_"+level+".png' %}");
+        $('#sol_img').attr('src',"{% static 'portal/img/solutions/solution_"+level+".png' %}");
+        $('#sol_imgPY').attr('src',"{% static 'portal/img/solutions/solutionPY_"+level+".png' %}");
+        $('#lvl_header').text("Level "+level_int);
+        $('#lvl_link').attr('href',"{% url 'play_default_level' levelName %}");
     };
 
 
