@@ -55,20 +55,7 @@ def fetch_episode_data_from_database(early_access):
         if episode.in_development and not early_access:
             break
 
-        levels = []
-        minName = None
-        maxName = None
-        for level in episode.levels:
-            level_name = int(level.name)
-            if not maxName or level_name > maxName:
-                maxName = level_name
-            if not minName or level_name < minName:
-                minName = level_name
-
-            levels.append({
-                "id": level.id,
-                "name": level_name,
-                "title": get_level_title(level_name)})
+        levels, minName, maxName = min_max_levels(episode.levels)
 
         e = {"id": episode.id,
              "name": episode.name,
@@ -80,6 +67,26 @@ def fetch_episode_data_from_database(early_access):
         episode_data.append(e)
         episode = episode.next_episode
     return episode_data
+
+
+def min_max_levels(episode_levels):
+    levels = []
+    minName = 1000
+    maxName = 0
+
+    for level in episode_levels:
+        level_name = int(level.name)
+        if level_name > maxName:
+            maxName = level_name
+        if level_name < minName:
+            minName = level_name
+
+        levels.append({
+            "id": level.id,
+            "name": level_name,
+            "title": get_level_title(level_name)})
+
+    return levels, minName, maxName
 
 
 def fetch_episode_data(early_access):
