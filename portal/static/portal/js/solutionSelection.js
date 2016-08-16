@@ -33,7 +33,6 @@ $(function() {
     var minOpacity = 0.1;
     var maxOpacity = 0.7;
     var numEpisodes = normalEpisodes.length;
-    var background = $('body').css('background-color');
     var bg = {'r':236, 'g':234, 'b':238};
     var baseColor = {'r': 70, 'g':44, 'b': 213};
     for (var i=0; i < numEpisodes; i++) {
