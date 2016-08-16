@@ -175,7 +175,7 @@ urlpatterns = patterns(
     url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         password_reset_check_and_confirm,
         {'post_reset_redirect': 'portal/password-reset-complete'}, name='password_reset_check_and_confirm'),
-    url(r'^user/password/done/$', password_reset_complete, name='portal/passworFd-reset-complete'),
+    url(r'^user/password/done/$', password_reset_complete, name='portal/password-reset-complete'),
 
     url(r'^', include(two_factor_patterns, 'two_factor')),
 
