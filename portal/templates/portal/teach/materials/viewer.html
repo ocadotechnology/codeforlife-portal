@@ -1,0 +1,37 @@
+{% extends 'portal/teach/materials/base.html' %}
+
+{% load app_tags %}
+{% load static %}
+
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block content %}
+{{ block.super }}
+
+<section class="viewer">
+	<h2>{{ title }}</h2>
+	<div class="description-download">
+		<p>{{ description }}</p>
+   		<a href="{{ url }}" download class='btn btn-primary'>Download PDF</a>
+   	</div>
+</section>
+
+<section class="viewer">
+	<iframe src="http://docs.google.com/gview?url={{ url }}&embedded=true"></iframe>
+</section>
+
+{% if links %}
+	<section class="viewer">
+		<h3>Related documents</h3>
+		<div class="related-documents-links">
+			{% for link, title in links %}
+				<a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a>
+			{% endfor %}
+		</div>
+	</section>
+{% endif %}
+
+{% endblock content %}

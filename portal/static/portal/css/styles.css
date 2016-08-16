@@ -564,6 +564,7 @@ padding-top:50%;
   line-height:40px;
   text-decoration:none;
   text-align:center;
+  white-space: nowrap;
 }
 .btn:hover {
   text-decoration:none;
@@ -622,6 +623,15 @@ padding-top:50%;
   line-height: 30px;
   font-size: 1.4rem;
   padding: 0px 20px;
+}
+
+.btn-secondary {
+  height: 30px;
+  line-height: 30px;
+  font-size: 1.4rem;
+  padding: 0px 20px;
+  border: 2px solid #979599;
+
 }
 
 

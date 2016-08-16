@@ -1,0 +1,186 @@
+/*
+Code for Life
+
+Copyright (C) 2016, Ocado Innovation Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ADDITIONAL TERMS – Section 7 GNU General Public Licence
+
+This licence does not grant any right, title or interest in any “Ocado” logos,
+trade names or the trademark “Ocado” or any other trademarks or domain names
+owned by Ocado Innovation Limited or the Ocado group of companies or any other
+distinctive brand features of “Ocado” as may be secured from time to time. You
+must not distribute any modification of this program using the trademark
+“Ocado” or claim any affiliation or association with Ocado or its employees.
+
+You are not authorised to use the name Ocado (or any of its trade names) or
+the names of any author or contributor in advertising or for publicity purposes
+pertaining to the distribution of this program, without the prior written
+authorisation of Ocado.
+
+Any propagation, distribution or conveyance of this program must include this
+copyright notice and these terms. You must not misrepresent the origins of this
+program; modified versions of the program must be marked as such and not
+identified as the original program.
+*/
+
+
+/**** Materials base.html ****/
+
+.side-nav
+{
+  padding-top: 20px;
+  position: absolute;
+  width: 180px;
+}
+
+.sticky
+{
+  position: fixed;
+  top: 0;
+}
+
+.side-nav li
+{
+  margin-left: 10px;
+  padding: 2px;
+}
+
+ol > li
+{
+  list-style: none;
+}
+
+/**** end base.html ****/
+
+
+/**** materials home.html ****/
+
+.home
+{
+  border-bottom: solid black 1px;
+  margin-left: 200px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.overview-container
+{
+  display: flex;
+  justify-content: space-around;
+  padding-top: 40px;
+}
+
+img
+{
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.overview-lks2
+{
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.overview-title
+{
+  text-align: center;
+}
+
+.resource-links-container
+{
+  display: flex;
+  justify-content: flex-start;
+}
+
+li
+{
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+.extras
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.extras > div
+{
+  display: flex;
+  flex-basis: calc(50% - 40px);
+  /*justify-content: center;*/
+  flex-direction: column;
+}
+
+.resource-links
+{
+  padding-right: 50px;
+}
+
+.main li
+{
+  border-bottom: solid black 1px;
+}
+
+.main
+{
+  padding-bottom: 20px;
+}
+
+.activity-set
+{
+  padding-right: 50px;
+}
+
+/**** end home.html ****/
+
+/**** materials viewer.html ****/
+
+.viewer
+{
+  display: flex;
+  flex-direction: column;
+  margin-left: 200px;
+  padding-top: 20px;
+}
+
+.description-download
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn
+{
+  width: 250px;
+}
+
+iframe
+{
+  height: 800px;
+  width: 100%;
+}
+
+.related-documents-links
+{
+  display: flex;
+  justify-content: flex-start;
+}
+
+/**** end viewer.html ****/

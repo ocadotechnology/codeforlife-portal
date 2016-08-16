@@ -1,0 +1,63 @@
+{% extends 'portal/teach/base.html' %}
+{% load app_tags %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/materials.css" %}'>
+{% endblock css %}
+
+
+{% block scripts %}
+{{ block.super }}
+
+<script>
+  $(document).scroll(function() {
+
+    //console.log($(window).scrollTop())
+    if ($(this).scrollTop() > 172) {
+      $('nav').addClass("sticky");
+    }
+    else {
+      $('nav').removeClass("sticky");
+    }
+  });
+</script>
+
+{% endblock scripts %}
+
+{% block content %}
+
+  <h1>Teaching Resources</h1>
+  <nav class="side-nav">
+    <ol>
+      	<li><a onclick="scroll_to('.user_guide');">User Guide</a></li>
+      	<li><a>Key stage 1</a>
+      		<ol>
+      			<li><a>Lesson Plans</a></li>
+      			<li><a>Resource Sheets</a></li>
+      			<li><a>Assets</a></li>
+      			<li><a href= "{% url 'materials_viewer' pdf_name='program_solutions_1-28' %}">Program Solutions</a></li>
+      		</ol>
+      	</li>
+
+      	<li><a>Lower Key Stage 2</a>
+      		<ol>
+      			<li><a>Lesson Plans</a></li>
+      			<li><a>Resource Sheets</a></li>
+      			<li><a>Assets</a></li>
+      			<li><a href= "{% url 'materials_viewer' pdf_name='program_solutions_29-50' %}">Program Solutions</a></li>
+      		</ol>
+      	</li>
+      	<li><a>Upper Key Stage 2</a>
+      		<ol>
+      			<li><a>Lesson Plans</a></li>
+      			<li><a>Resource Sheets</a></li>
+      			<li><a>Assets</a></li>
+      			<li><a href= "{% url 'materials_viewer' pdf_name='program_solutions_51-109' %}">Program Solutions</a></li>
+      		</ol>
+      	</li>
+      	<li><a href="{% url 'materials_home' %}">Home</a></li>
+    </ol>
+  </nav>
+{% endblock content %}
