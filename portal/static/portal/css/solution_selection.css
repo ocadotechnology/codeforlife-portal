@@ -35,65 +35,38 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+
+
 #episodes .ui-accordion-header {
-    color: #000;
-    background: rgba(70, 44, 213, 0.9);
-    margin-bottom: 5px;
-    text-align: left;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  background: rgba(70, 44, 213, .9);
+  color: #000;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  text-align: left;
 }
 
 #episodes .ui-state-default {
-    border: none;
-    text-shadow: none;
-    box-shadow: none;
-    font-weight: normal;
-    filter: none;
-}
+  border: 0;
+  box-shadow: none;
+  filter: none;
+  font-weight: normal;
+  text-shadow: none;
 
-#episodes .customLevelsEpisode {
-    background: #8EAECA;
 }
 
 .episode_range_text {
-    font-size: 10pt;
-    text-align: right;
-    margin-right: 2.2em;
-    float: right;
-    width: 98px;
+  float: right;
+  font-size: 10pt;
+  margin-right: 2.2em;
+  text-align: right;
+  width: 98px;
 }
 
 .ui-widget-content p {
-    padding-bottom: 15px;
+  padding-bottom: 15px;
 }
 
 .ui-widget-content a {
-    line-height: 25px;
+  line-height: 25px;
 }
-
-.score_text {
-    float: right;
-    text-align: right;
-    width: 100px;
-    line-height: 25px;
-}
-
-.coin_image {
-    float: right;
-    right: 30px;
-}
-
-.episode_image.coin_image {
-    width: 30px;
-    height: 30px;
-    margin-top: -6px;
-}
-
-.level_image.coin_image {
-    width: 25px;
-    height: 25px;
-    margin-right: 2.5px;
-}
-
-

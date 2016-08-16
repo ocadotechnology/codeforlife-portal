@@ -7,28 +7,6 @@
 
 
 {% block content %}
-<script>
-    var level = {{levelName}};
-
-    if(level < 10){
-        level = "00"+level;
-    }
-    else if(level <100){
-        level = "0"+level;
-    }
-
-    var level_int  = parseInt(level);
-
-    window.onload = function () {
-        $('#lvl_img').attr('src',"{% static 'portal/img/levels/level_"+level+".png' %}");
-        $('#sol_img').attr('src',"{% static 'portal/img/solutions/solution_"+level+".png' %}");
-        $('#sol_imgPY').attr('src',"{% static 'portal/img/solutions/solutionPY_"+level+".png' %}");
-        $('#lvl_header').text("Level "+level_int);
-        $('#lvl_link').attr('href',"{% url 'play_default_level' levelName %}");
-    };
-
-
-</script>
 
 <style>
     .imgs{
@@ -47,12 +25,12 @@
 </style>
 
 <div id="teach_dashboard_page"></div>
-
+{% with levelName|add:0|stringformat:"03d" as level_number %}
 <table width="100%">
     <tr>
         <td width="55%">
-            <h1 id="lvl_header"></h1>
-            <a id="lvl_link">Go to Level</a>
+            <h1 id="lvl_header">Level {{levelName}}</h1>
+            <a id="lvl_link" href="{% url 'play_default_level' levelName %}">Go to Level</a>
         </td>
         <td width="22.5%" >
         </td>
@@ -61,17 +39,17 @@
     </tr>
     <tr>
         <td width="55%">
-            <img id='lvl_img' class="imgs"/>
+            <img id='lvl_img' src="{% static 'portal/img/levels/level_'|add:level_number|add:'.png' %}" class="imgs"/>
         </td>
         <td width="22.5%">
-            <img id='sol_img' class="imgs"/>
+            <img id='sol_img' src="{% static 'portal/img/solutions/solution_'|add:level_number|add:'.png' %}" class="imgs"/>
         </td>
         <td width="22.5%">
-            <img id='sol_imgPY' class="imgs"/>
+            <img id='sol_imgPY'src="{% static 'portal/img/solutions/solutionPY_'|add:level_number|add:'.png' %}" class="imgs"/>
         </td>
     </tr>
 </table>
-
+{% endwith %}
 
 
 
