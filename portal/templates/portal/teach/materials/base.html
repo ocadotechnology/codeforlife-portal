@@ -29,6 +29,7 @@
 {% block content %}
 
   <h1>Teaching Resources</h1>
+  <p>We’ve created a comprehensive set of teaching materials to give you the confidence and resources to use the Rapid Router game to help you teach children the UK National Computing Curriculum right through their primary education.</p>
   <nav class="side-nav">
     <ol>
       	<li><a onclick="scroll_to('.user_guide');">User Guide</a></li>
@@ -59,5 +60,9 @@
       	</li>
       	<li><a href="{% url 'materials_home' %}">Home</a></li>
     </ol>
+    <div class="to-top-button">
+        <a href="#" class='btn btn-secondary'>Back to top</a>
+    </div>
   </nav>
+
 {% endblock content %}

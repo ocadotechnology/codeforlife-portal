@@ -13,119 +13,126 @@
 {{ block.super }}
 
 <section class="home overview-container">
-	<div class="overview-ks1">
-		<img class="icon" src="{% static 'portal/img/Blockly-icon.png' %}">
-		<h2 class="overview-title">Key Stage 1</h2>
-		<p>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repitition commands in a visual programming language.</p>
-	</div>
-	<div class="overview-lks2">
-		<img class="icon" src="{% static 'portal/img/Blockly-icon.png' %}">
-		<h2 class="overview-title">Lower Key Stage 2</h2>
-		<p>Children will develop their understanding of programming principals by learning how to use repeat loops, <i>if</i> statements and respond to changes in variables in a visual programming language.</p>
-	</div>
-	<div class="overview-uks2">
-		<img class="icon" src="{% static 'portal/img/Python-icon.png' %}">
-		<h2 class="overview-title">Upper Key Stage 2</h2>
-		<p>Children will revise their skills in the Blockly visual programming language and learn the basics of the text-based language: Python. Throughout, they will be designing, creating and debugging their own programs.</p>
-	</div>
+    <div class="overview-ks1">
+        <img src="{% static 'portal/img/Blockly-icon.png' %}" class="icon-overview" >
+        <h2 class="overview-title">Key Stage 1</h2>
+        <p>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repitition commands in a visual programming language.</p>
+    </div>
+    <div class="overview-lks2">
+        <img src="{% static 'portal/img/Blockly-icon.png' %}" class="icon-overview">
+        <h2 class="overview-title">Lower Key Stage 2</h2>
+        <p>Children will develop their understanding of programming principals by learning how to use repeat loops, <i>if</i> statements and respond to changes in variables in a visual programming language.</p>
+    </div>
+    <div class="overview-uks2">
+        <img src="{% static 'portal/img/Python-icon.png' %}" class="icon-overview" >
+        <h2 class="overview-title">Upper Key Stage 2</h2>
+        <p>Children will revise their skills in the Blockly visual programming language and learn the basics of the text-based language: Python. Throughout, they will be designing, creating and debugging their own programs.</p>
+    </div>
 </section>
 
 <section class="home user-guide">
-	<h2>User Guide</h2>
-	<div class="resource-links-container">
-		<div class="resource-links">
-			<h3>General Resources:<br> Key Stage 1, and Lower Key Stage 2</h3>
-				<ol>
-					<li><a href= "{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></li>
-					<li><a href= "{% url 'materials_viewer' pdf_name='levels_guide_1-50' %}">Levels Guide (1-50)</a></li>
-					<li><a href= "{% url 'materials_viewer' pdf_name='glossary' %}">Glossary</a></li>
-				</ol>
-		</div>
+    <h2>User Guide</h2>
+    <div class="resource-links-container">
+        <div class="resource-links">
+            <h3>Key Stage 1, and Lower Key Stage 2</h3>
+                <ol>
+                    <li><a href= "{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></li>
+                    <li><a href= "{% url 'materials_viewer' pdf_name='levels_guide_1-50' %}">Levels Guide (1-50)</a></li>
+                    <li><a href= "{% url 'materials_viewer' pdf_name='glossary' %}">Glossary</a></li>
+                </ol>
+        </div>
 
-		<div class="resource-links">
-			<h3>General Resources:<br> Upper Key Stage 2</h3>
-				<ol>
-					<li><a href= "{% url 'materials_viewer' pdf_name='introduction_to_python' %}">Introduction to Python in Rapid Router</a></li>
-					<li><a href= "{% url 'materials_viewer' pdf_name='levels_guide_51-109' %}">Levels Guide (50-109)</a></li>
-					<li><a href= "{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}">Blockly - Python Phrasebook</a></li>
-				</ol>
-		</div>
-	</div>
+        <div class="resource-links">
+            <h3>Upper Key Stage 2</h3>
+                <ol>
+                    <li><a href= "{% url 'materials_viewer' pdf_name='introduction_to_python' %}">Introduction to Python in Rapid Router</a></li>
+                    <li><a href= "{% url 'materials_viewer' pdf_name='levels_guide_51-109' %}">Levels Guide (50-109)</a></li>
+                    <li><a href= "{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}">Blockly - Python Phrasebook</a></li>
+                </ol>
+        </div>
+    </div>
 </section>
 
 <section class="home keystage">
-	<h2> Key Stage 1 </h2>
-	<button class='btn btn-primary wide'>Download all KS1 resources</button>
 
-	<div class="main">
-		<h3>Sessions</h3>
-		<p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activites and guidance on share and review following the session.</p>
-		<ol class="sessions">
-			<li>Session 1 <a href=""></a></li>
-			<li>Session 2 <a href=""></a></li>
-			<li>Session 3 <a href=""></a></li>
-			<li>Session 4 <a href=""></a></li>
-			<li>Session 5 <a href=""></a></li>
-			<li>Session 6 <a href=""></a></li>
-			<li>Session 7 <a href=""></a></li>
-			<li>Session 8 <a href=""></a></li>
-			<li>Session 9 <a href=""></a></li>
-			<li>Session 10 <a href=""></a></li>
-		</ol>
-	</div>
+    <div class="head">
+        <div class="title-and-button">
+            <h2> Key Stage 1 </h2>
+            <a class='btn btn-primary wide'>Download all </a>
+        </div>
+        <img src="{% static 'portal/img/Blockly-icon.png' %}" class="icon-keystage">
 
-	<div class="main">
-		<h3>Resource Sheets</h3>
-		<p>Reasource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="">download the whole set</a> (zip file), or view and download them individually below.</p>
-		<ol class="resource-sheets">
-			<li>Session 1 <a href=""></a></li>
-			<li>Session 2 <a href=""></a></li>
-			<li>Session 3 <a href=""></a></li>
-			<li>Session 4 <a href=""></a></li>
-			<li>Session 5 <a href=""></a></li>
-			<li>Session 6 <a href=""></a></li>
-			<li>Session 7 <a href=""></a></li>
-			<li>Session 8 <a href=""></a></li>
-			<li>Session 9 <a href=""></a></li>
-		</ol>
-	</div>
+    </div>
 
-	<div class="extras">
+    <div class="main">
+        <h3>Sessions</h3>
+        <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activites and guidance on share and review following the session.</p>
+        <ol class="sessions">
+            <li>Session 1 <a href=""></a></li>
+            <li>Session 2 <a href=""></a></li>
+            <li>Session 3 <a href=""></a></li>
+            <li>Session 4 <a href=""></a></li>
+            <li>Session 5 <a href=""></a></li>
+            <li>Session 6 <a href=""></a></li>
+            <li>Session 7 <a href=""></a></li>
+            <li>Session 8 <a href=""></a></li>
+            <li>Session 9 <a href=""></a></li>
+            <li>Session 10 <a href=""></a></li>
+        </ol>
+    </div>
 
-		<div class="extra program-solutions">
-			<h3>Program Solutions</h3>
-			<p>This sheet gives the best solutions to levels 1 to 28 of Rapid Router.</p>
-			<a class='btn btn-secondary small'>View program solutions</a>
-		</div>
+    <div class="main">
+        <h3>Resource Sheets</h3>
+        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="">download the whole set</a> (zip file), or view and download them individually below.</p>
+        <ol class="resource-sheets">
+            <li>Session 1 <a href=""></a></li>
+            <li>Session 2 <a href=""></a></li>
+            <li>Session 3 <a href=""></a></li>
+            <li>Session 4 <a href=""></a></li>
+            <li>Session 5 <a href=""></a></li>
+            <li>Session 6 <a href=""></a></li>
+            <li>Session 7 <a href=""></a></li>
+            <li>Session 8 <a href=""></a></li>
+            <li>Session 9 <a href=""></a></li>
+        </ol>
+    </div>
 
-		<div class="extra activity-set">
-			<h3>Activity Set</h3>
-			<p>This activity set gives you an overview if the Key Stage 1 module. It covers the resources that will be useful, learning expectatins and teacher preparation.</p>
-			<a class='btn btn-secondary small'>View activity set</a>
-		</div>
+    <div class="extras">
 
-		<div class="extra assets">
-			<h3>Assets</h3>
-			<p>Printable sheets with all the game assets from direction arrows to scenery for offline class activites.</p>
+        <div class="extra program-solutions">
+            <h3>Program Solutions</h3>
+            <p>This sheet gives the best solutions to levels 1 to 28 of Rapid Router.</p>
+            <a class='btn btn-secondary'>View program solutions</a>
+        </div>
 
-			<ol>
-				<li><a href="">Assets</a></li>
-				<li><a href="">Code wall cards</a></li>
-			</ol>
-		</div>
+        <div class="extra activity-set">
+            <h3>Activity Set</h3>
+            <p>This activity set gives you an overview if the Key Stage 1 module. It covers the resources that will be useful, learning expectatins and teacher preparation.</p>
+            <a class='btn btn-secondary'>View activity set</a>
+        </div>
 
-		<div class="extra assessments">
-			<h3>Assessments</h3>
-			<p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a reocd sheet for pupils you can <a href=""> download the whole set</a> (zip file), or view and download them individually below.</p>
+        <div class="extra assets">
+            <h3>Assets</h3>
+            <p>Printable sheets with all the game assets from direction arrows to scenery for offline class activites.</p>
 
-			<ol>
-				<li><a href="">Assessment Sheet</a></li>
-				<li><a href="">Self Assessment Sheet</a></li>
-				<li><a href="">Teacher Record Sheet</a></li>
-			</ol>
-		</div>
+            <ol>
+                <li><a href="">Assets</a></li>
+                <li><a href="">Code wall cards</a></li>
+            </ol>
+        </div>
 
-	</div>
+        <div class="extra assessments">
+            <h3>Assessments</h3>
+            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a reocd sheet for pupils you can <a href=""> download the whole set</a> (zip file), or view and download them individually below.</p>
+
+            <ol>
+                <li><a href="">Assessment Sheet</a></li>
+                <li><a href="">Self Assessment Sheet</a></li>
+                <li><a href="">Teacher Record Sheet</a></li>
+            </ol>
+        </div>
+
+    </div>
 
 </section>
 {% endblock content %}
