@@ -13,7 +13,7 @@
 	"font-faces": false,
 	"font-sizes": false,
 	"gradients": false,
-	"ids": false,
+	"ids": true,
 	"import": false,
 	"important": false,
 	"known-properties": false,
