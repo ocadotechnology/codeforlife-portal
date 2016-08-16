@@ -123,5 +123,3 @@ def levels(request):
         'episodeData': episode_data,
     })
     return render(request, 'portal/teach/teacher_level_solutions.html', context_instance=context)
-
-
