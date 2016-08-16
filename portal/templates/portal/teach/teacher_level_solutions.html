@@ -18,17 +18,20 @@
     {% endfor %}
 
 </script>
-<script src="{% static "game/js/levelSelection.js" %}"></script>
+<script src="{% static "portal/js/solutionSelection.js" %}"></script>
 
 {% endblock %}
+
 {% block css %}
 {{block.super}}
-<link href="{% static 'game/css/level_selection.css' %}" rel="stylesheet" type="text/css">
-        {% endblock %}
+<link href="{% static 'portal/css/solution_selection.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
 
 
 
 {% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
+
+
 
 
 
@@ -38,6 +41,7 @@
         <img class="wide rounded" src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
         </div>
         <div class="col span_2_of_3_strict">
+                <h1>Level Solutions</h1>
         <div id="episodes">
             {% for episode in episodeData %}
                 <h3 id='episode{{episode.id}}'>

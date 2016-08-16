@@ -63,6 +63,8 @@ from portal.views.teacher.solutions_level_selector import levels
 
 from portal.views.email import send_new_users_report
 
+from game.views.level import play_default_level
+
 js_info_dict = {
     'packages': ('conf.locale',),
 }
@@ -181,6 +183,7 @@ urlpatterns = patterns(
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
 
-    url(r'^(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
+    url(r'^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
+    url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
 
 )
