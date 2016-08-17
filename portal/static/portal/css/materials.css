@@ -66,6 +66,7 @@ ol > li
 .to-top-button a
 {
     width: 110px;
+    position: absolute;
 }
 /**** end base.html ****/
 
@@ -96,7 +97,6 @@ ol > li
 
 .icon-keystage
 {
-
 }
 .title.button
 {
@@ -149,8 +149,8 @@ li
   display: flex;
   flex-basis: calc(50% - 40px);
   flex-direction: column;
-  padding-right: 30px;
   padding-bottom: 30px;
+  padding-right: 30px;
 }
 
 .resource-links
@@ -166,6 +166,17 @@ li
 .main
 {
   padding-bottom: 30px;
+}
+
+.resource-table.row
+{
+  border-bottom: solid black 1px;
+  padding: 5px;
+}
+
+.header-tag {
+  padding: 10px;
+  background-color: grey;
 }
 
 /**** end home.html ****/

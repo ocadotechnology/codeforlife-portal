@@ -7,6 +7,25 @@
 {% block scripts %}
 {{ block.super }}
 
+    <script type="text/javascript">
+        $(document).ready(function(){
+      $('a[href*=#]').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+        && location.hostname == this.hostname) {
+          var $target = $(this.hash);
+          $target = $target.length && $target
+          || $('[name=' + this.hash.slice(1) +']');
+          if ($target.length) {
+            var targetOffset = $target.offset().top;
+            $('html,body')
+            .animate({scrollTop: targetOffset}, 500);
+           return false;
+          }
+        }
+      });
+    });
+</script>
+
 {% endblock scripts %}
 
 {% block content %}
@@ -30,7 +49,7 @@
     </div>
 </section>
 
-<section class="home user-guide">
+<section class="home user-guide" id="user">
     <h2>User Guide</h2>
     <div class="resource-links-container">
         <div class="resource-links">
@@ -53,35 +72,51 @@
     </div>
 </section>
 
-<section class="home keystage">
+<section class="home keystage" id="ks1">
 
     <div class="head">
         <div class="title-and-button">
             <h2> Key Stage 1 </h2>
-            <a class='btn btn-primary wide'>Download all </a>
+            <a class='btn btn-primary wide'>Download all KS1 resources</a>
         </div>
         <img src="{% static 'portal/img/Blockly-icon.png' %}" class="icon-keystage">
 
     </div>
 
-    <div class="main">
+    <div class="main" id="ks1-sessions">
         <h3>Sessions</h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activites and guidance on share and review following the session.</p>
-        <ol class="sessions">
-            <li>Session 1 <a href=""></a></li>
-            <li>Session 2 <a href=""></a></li>
-            <li>Session 3 <a href=""></a></li>
-            <li>Session 4 <a href=""></a></li>
-            <li>Session 5 <a href=""></a></li>
-            <li>Session 6 <a href=""></a></li>
-            <li>Session 7 <a href=""></a></li>
-            <li>Session 8 <a href=""></a></li>
-            <li>Session 9 <a href=""></a></li>
-            <li>Session 10 <a href=""></a></li>
-        </ol>
+
+        <table class="resource-table">
+            <tr class="row">
+                <th>Session 1</th>
+                <td><a href="">Unplugged algorithms for moving along a route</a></td>
+            </tr>
+            <tr class="row">
+                <th>Session 2</th>
+                <td><a href="">Starting off on-screen with the app</a></td>
+            </tr>
+            <tr class="row">
+                <th>Session 3</th>
+                <td><a href="">Creating simple algorithms to reach a single destination</a></td>
+            </tr>
+        </table>
+
+        <!-- <ol class="sessions">
+            <li>Session 1 <a href="">Unplugged algorithms for moving along a route</a></li>
+            <li>Session 2 <a href="">Starting off on-screen with the app</a></li>
+            <li>Session 3 <a href="">Creating simple algorithms to reach a single destination</a></li>
+            <li>Session 4 <a href="">Creating simple algorithms to reach a single destination along the shortest route</a></li>
+            <li>Session 5 <a href="">Create a more complex algorithm to deliver one or more packages on the way</a></li>
+            <li>Session 6 <a href="">Delivering several packages in a sensible sequence (extension activity)</a></li>
+            <li>Session 7 <a href="">Introducing the repeat code</a></li>
+            <li>Session 8 <a href="">Follow-on and extension work on multiple repeat loops and nested repeats</a></li>
+            <li>Session 9 <a href="">Children create their own routes</a></li>
+            <li>Session 10 <a href="">Try out a partners route</a></li>
+        </ol> -->
     </div>
 
-    <div class="main">
+    <div class="main" id="ks1-resource-sheets">
         <h3>Resource Sheets</h3>
         <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="">download the whole set</a> (zip file), or view and download them individually below.</p>
         <ol class="resource-sheets">
@@ -99,19 +134,19 @@
 
     <div class="extras">
 
-        <div class="extra program-solutions">
+        <div class="extra program-solutions" id="ks1-solutions">
             <h3>Program Solutions</h3>
             <p>This sheet gives the best solutions to levels 1 to 28 of Rapid Router.</p>
             <a class='btn btn-secondary'>View program solutions</a>
         </div>
 
-        <div class="extra activity-set">
+        <div class="extra activity-set" id="ks1-activity">
             <h3>Activity Set</h3>
             <p>This activity set gives you an overview if the Key Stage 1 module. It covers the resources that will be useful, learning expectatins and teacher preparation.</p>
             <a class='btn btn-secondary'>View activity set</a>
         </div>
 
-        <div class="extra assets">
+        <div class="extra assets" id="ks1-assets">
             <h3>Assets</h3>
             <p>Printable sheets with all the game assets from direction arrows to scenery for offline class activites.</p>
 
@@ -121,7 +156,7 @@
             </ol>
         </div>
 
-        <div class="extra assessments">
+        <div class="extra assessments" id="ks1-assessments">
             <h3>Assessments</h3>
             <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a reocd sheet for pupils you can <a href=""> download the whole set</a> (zip file), or view and download them individually below.</p>
 
@@ -135,4 +170,5 @@
     </div>
 
 </section>
+
 {% endblock content %}
