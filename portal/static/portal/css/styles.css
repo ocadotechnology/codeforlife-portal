@@ -626,11 +626,24 @@ padding-top:50%;
 }
 
 .btn-secondary {
-  height: 30px;
-  line-height: 30px;
-  font-size: 1.4rem;
-  padding: 0px 20px;
-  border: 2px solid #979599;
+  background-color:#E2DFDF;
+  border:1px solid #979599;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #e8eafc;
+  -moz-box-shadow:inset 0px 1px 0px 0px #e8eafc;
+  box-shadow:inset 0px 1px 0px 0px #e8eafc;
+  color: #000000;
+  font-weight: normal;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 2px;
+  height: 24px;
+  line-height: 20px;
+}
+.btn-secondary:hover {
+  background-color:#E4E5E9;
+}
+.btn-secondary:active {
+  background-color:#BFC0C5;
 }
 
 

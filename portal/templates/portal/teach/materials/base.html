@@ -10,25 +10,12 @@
 
 {% block scripts %}
 {{ block.super }}
-
-<script>
-  $(document).scroll(function() {
-
-    //console.log($(window).scrollTop())
-    if ($(this).scrollTop() > 172) {
-      $('nav').addClass("sticky");
-    }
-    else {
-      $('nav').removeClass("sticky");
-    }
-  });
-</script>
-
+<script type='text/javascript' src='{% static "portal/js/teach_browser.js" %}'></script>
 {% endblock scripts %}
 
 {% block content %}
 
-<h1>Teaching Resources</h1>
+<h1 id="top">Teaching Resources</h1>
 <p>We’ve created a comprehensive set of teaching materials to give you the confidence and resources to use the <i>Rapid Router</i> game to help you teach children the UK National Computing Curriculum right through their primary education.</p>
 <nav class="side-nav">
 <ol>
@@ -67,10 +54,10 @@
   	<li><a href="{% url 'materials_home' %}">Home</a></li>
 </ol>
 
-<div class="to-top-button">
-    <a href="#" class='btn btn-secondary'>Back to top</a>
-</div>
-
 </nav>
+
+<div class="floating-banner">
+    <a href="#contentWrapper" class='btn btn-secondary small'>Back to top</a>
+</div>
 
 {% endblock content %}

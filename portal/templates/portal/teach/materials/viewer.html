@@ -26,12 +26,17 @@
 {% if links %}
 	<section class="viewer">
 		<h3>Related documents</h3>
-		<div class="related-documents-links">
+		<div class="related-document-links">
 			{% for link, title in links %}
 				<a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a>
 			{% endfor %}
 		</div>
 	</section>
 {% endif %}
+
+<div class="back-button">
+    <a href="{% url 'materials_home' %}" class='btn btn-secondary'>Back</a>
+</div>
+
 
 {% endblock content %}

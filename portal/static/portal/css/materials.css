@@ -63,10 +63,16 @@ ol > li
   list-style: none;
 }
 
-.to-top-button a
+.floating-banner
 {
-    width: 110px;
-    position: absolute;
+  align-items: center;
+  background-color: rgba(0,0,0,0.3);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left:0;
+  position: fixed;
+  width: 100%;
 }
 /**** end base.html ****/
 
@@ -77,8 +83,14 @@ ol > li
 {
   border-bottom: solid black 1px;
   margin-left: 200px;
-  padding-bottom: 20px;
+  padding-bottom: 40px;
   padding-top: 40px;
+}
+
+.home h2
+{
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .overview-container
@@ -88,20 +100,44 @@ ol > li
   padding-top: 40px;
 }
 
-.icon-overview
+.overview-ks1::before, .overview-lks2::before
 {
+  background-image: url("images/Blockly-icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-position: top;
   display: block;
-  margin: 0 auto;
-  padding-bottom: 20px;
+  height: 110px;
+  content: "";
+
 }
 
-.icon-keystage
+.overview-uks2::before
 {
+  background-image: url("images/Python-icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
+  height: 110px;
+  content: "";
 }
+
+.title-and-button
+{
+  background-image: url("images/Blockly-icon.png");
+  background-position: top;
+  background-position: right;
+  background-repeat: no-repeat;
+  content: "";
+  display: inline-block;
+  height: 140px;
+  width: 100%;
+}
+
 .title.button
 {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .overview-lks2
@@ -142,6 +178,8 @@ li
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding-bottom: 20px;
+  padding-top: 40px;
 }
 
 .extras > div
@@ -165,20 +203,41 @@ li
 
 .main
 {
-  padding-bottom: 30px;
+  padding-bottom: 20px;
+  padding-top: 40px;
 }
 
-.resource-table.row
+.ks-tag
+{
+  background-color: #BFC0C5;
+  padding: 2px;
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.resource-table
+{
+    width: 100%;
+}
+
+.resource-table tr
 {
   border-bottom: solid black 1px;
-  padding: 5px;
+  display: block;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
-.header-tag {
-  padding: 10px;
-  background-color: grey;
+.resource-table td
+{
+  padding-left: 30px;
+  vertical-align: baseline;
 }
 
+.resource-table
+{
+  white-space: nowrap;
+}
 /**** end home.html ****/
 
 /**** materials viewer.html ****/
@@ -197,9 +256,9 @@ li
   justify-content: space-between;
 }
 
-.btn
+.btn-primary.small
 {
-  width: 250px;
+  width: 260px;
 }
 
 iframe
@@ -208,10 +267,14 @@ iframe
   width: 100%;
 }
 
-.related-documents-links
+.related-document-links
 {
   display: flex;
   justify-content: flex-start;
 }
 
+.back-button
+{
+  margin-left: 200px;
+}
 /**** end viewer.html ****/
