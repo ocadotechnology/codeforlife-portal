@@ -41,7 +41,7 @@ identified as the original program.
 
 .side-nav
 {
-  padding-top: 40px;
+  margin-top: 40px;
   position: absolute;
   width: 180px;
 }
@@ -52,16 +52,64 @@ identified as the original program.
   top: 0;
 }
 
-.side-nav li
-{
-  margin-left: 10px;
-  padding: 2px;
-}
-
-ol > li
+ol
 {
   list-style: none;
 }
+
+.side-nav a
+{
+  color: white;
+  text-decoration: none;
+  display:block;
+  padding: 10px;
+}
+
+.side-nav a:hover
+{
+  background-color: #ffffff;
+  color:#999999;
+}
+
+.side-nav a:active
+{
+  background-color: #ffffff;
+  color:#999999;
+}
+
+a.active
+{
+  background-color: #ffffff;
+  color:#999999;
+}
+
+.side-nav
+{
+  background-color: #CCCCCC;
+  position: center;
+
+}
+
+.nav-section
+{
+  background-color: #999999;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.nav-head
+{
+  background-image: url("images/Menu-arrow-down.png");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background
+  content: "";
+  display: inline-block;
+  font-size: 14px;
+}
+
 
 .floating-banner
 {
@@ -74,6 +122,8 @@ ol > li
   position: fixed;
   width: 100%;
 }
+
+
 /**** end base.html ****/
 
 
@@ -98,6 +148,7 @@ ol > li
   display: flex;
   justify-content: space-around;
   padding-top: 40px;
+  text-align: center;
 }
 
 .overview-ks1::before, .overview-lks2::before
@@ -134,11 +185,6 @@ ol > li
   width: 100%;
 }
 
-.title.button
-{
-  display: flex;
-  flex-direction: column;
-}
 
 .overview-lks2
 {
@@ -146,10 +192,6 @@ ol > li
   padding-right: 60px;
 }
 
-.overview-title
-{
-  text-align: center;
-}
 
 .resource-links-container
 {
@@ -167,7 +209,7 @@ ol > li
     flex-direction: column;
 }
 
-li
+.home li
 {
   padding-bottom: 6px;
   padding-top: 6px;
@@ -209,10 +251,10 @@ li
 
 .ks-tag
 {
-  background-color: #BFC0C5;
-  padding: 2px;
+  background-color:#CCCCCC;
+  padding: 5px;
   font-weight: normal;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .resource-table

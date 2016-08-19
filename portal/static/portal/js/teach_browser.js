@@ -48,9 +48,34 @@ $(document).scroll(function() {
 
 $(document).ready(function(){
     targetOffset = getTargetOffset();
-
+    setActive();
+    expandList();
 });
 
+function expandList() {
+    $('ol.collapsible-list').hide();
+
+    $('a.nav-head.ks1').click(function(){
+        console.log("function called");
+        $('ol.collapsible-list.ks1').toggle();
+    });
+
+    $('a.nav-head.lks2').click(function(){
+        console.log("function called");
+        $('ol.collapsible-list.lks2').toggle();
+    });
+
+    $('a.nav-head.uks2').click(function(){
+        $('ol.collapsible-list.uks2').toggle();
+    });
+}
+
+function setActive() {
+    $('a[href*=#]').click(function(){
+       $('a[href*=#]').removeClass('active');
+       $(this).addClass('active');
+    });
+}
 
 function getTargetOffset() {
     $('a[href*=#]').click(function() {
