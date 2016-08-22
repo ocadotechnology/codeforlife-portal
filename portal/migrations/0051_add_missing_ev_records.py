@@ -16,6 +16,7 @@ def add_missing_ev_records(apps, schema_editor):
     )
 
     for user in verified_users_without_ev:
+        print 'Generating EV record for {}.'.format(user)
         generate_token(user, email=user.email, preverified=True)
 
 
