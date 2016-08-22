@@ -24,7 +24,7 @@
           	    <li><a class="nav-head user" href="{% url 'materials_home' %}#user-guide">User Guide</a></li>
             </div>
             <div class="nav-section">
-              	<li><a class="nav-head ks1">Key stage 1</a>
+              	<li><a class="nav-head-collapse ks1">Key stage 1</a>
                     <ol class="collapsible-list ks1">
               			<li><a href="{% url 'materials_home' %}#ks1-sessions">Sessions</a></li>
               			<li><a href="{% url 'materials_home' %}#ks1-resource-sheets">Resource Sheets</a></li>
@@ -37,28 +37,28 @@
             </div>
 
             <div class="nav-section">
-              	<li><a class="nav-head lks2">Lower Key Stage 2</a>
+              	<li><a class="nav-head-collapse lks2">Lower Key Stage 2</a>
 
               		<ol class="collapsible-list lks2">
-              			<li><a>Sessions</a></li>
-                        <li><a>Resource Sheets</a></li>
-                        <li><a href= "{% url 'materials_viewer' pdf_name='program_solutions_29-50' %}">Program Solutions</a></li>
-                        <li><a>Activity Set</a></li>
-                        <li><a>Assets</a></li>
-                        <li><a>Assessments</a></li>
+              			<li><a href="{% url 'materials_home' %}#lks2-sessions">Sessions</a></li>
+                        <li><a href="{% url 'materials_home' %}#lks2-resource-sheets">Resource Sheets</a></li>
+                        <li><a href="{% url 'materials_home' %}#lks2-solutions">Program Solutions</a></li>
+                        <li><a href="{% url 'materials_home' %}#lks2-activity">Activity Set</a></li>
+                        <li><a href="{% url 'materials_home' %}#lks2-assets">Assets</a></li>
+                        <li><a href="{% url 'materials_home' %}#lks2-assessments">Assessments</a></li>
               		</ol>
               	</li>
             </div>
 
             <div class="nav-section">
-              	<li><a class="nav-head uks2">Upper Key Stage 2</a>
+              	<li><a class="nav-head-collapse uks2">Upper Key Stage 2</a>
               		<ol class="collapsible-list uks2">
-                        <li><a>Sessions</a></li>
-                        <li><a>Resource Sheets</a></li>
-                        <li><a href= "{% url 'materials_viewer' pdf_name='program_solutions_51-109' %}">Program Solutions</a></li>
-                        <li><a>Activity Set</a></li>
-                        <li><a>Assets</a></li>
-                        <li><a>Assessments</a></li>
+                        <li><a href="{% url 'materials_home' %}#uks2-sessions">Sessions</a></li>
+                        <li><a href="{% url 'materials_home' %}#uks2-resource-sheets">Resource Sheets</a></li>
+                        <li><a href="{% url 'materials_home' %}#uks2-solutions">Program Solutions</a></li>
+                        <li><a href="{% url 'materials_home' %}#uks2-activity">Activity Set</a></li>
+                        <li><a href="{% url 'materials_home' %}#uks2-assets">Assets</a></li>
+                        <li><a href="{% url 'materials_home' %}#uks2-assessments">Assessments</a></li>
               		</ol>
               	</li>
             </div>

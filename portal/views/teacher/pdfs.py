@@ -1,4 +1,5 @@
 PDF_DATA = {
+############################.........User Guide........#######################################
     "introduction_to_coding": {
         "title": "Introduction to Coding",
         "description": "This document shows how the progrssion through rapid router levels cover each stage of the computing curriculum for key stages one and two.",
@@ -40,7 +41,7 @@ PDF_DATA = {
         "links": None,
         "url": "general_resources/UKS2-Python_Phrasebook.pdf"
     },
-
+###################..............Program Solutions..................#########################
     "program_solutions_1-28": {
         "title": "Program Solutions 1 - 28",
         "description": "A table showing the best solutions to levels 1 to 28 of Rapid Router.",
@@ -60,5 +61,23 @@ PDF_DATA = {
         "description": "A table showing the best solutions to levels 51 to 109 of Rapid Router.",
         "links": ["program_solutions_1-28", "program_solutions_29-50"],
         "url": "python/program_solutions/UKS2-PST-Program-Solutions-Table.pdf"
+    },
+
+####################.........KS1 sessions...........############################
+    "ks1_session_1":{
+        "title": "KS1 - Session 1",
+        "description": "Unplugged algorithms for moving along a route.",
+        "links": ["program_solutions_1-28", "program_solutions_29-50"],
+        "url": "KS1/lesson_plans/s1.pdf"
+    },
+
+    "ks1_session_2":{
+        "title": "KS1 - Session 2",
+        "description": "Starting off on-screen with the app.",
+        "links": ["program_solutions_1-28", "program_solutions_29-50"],
+        "url": "KS1/lesson_plans/s2.pdf",
+        "video": "videos/KS1_2_Introduction_to_Rapid_Router_with_Matt_and_Chris.mp4",
+        "video_description": "Introduction to Rapid Router with Matt and Chris",
+        "video_screenshot_link": "/static/portal/img/video_still.png"
     }
 }

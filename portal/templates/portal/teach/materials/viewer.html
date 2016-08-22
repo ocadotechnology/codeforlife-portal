@@ -11,20 +11,44 @@
 {% block content %}
 {{ block.super }}
 
-<section class="viewer">
-	<h2>{{ title }}</h2>
-	<div class="description-download">
-		<p>{{ description }}</p>
-   		<a href="{{ url }}" download class='btn btn-primary'>Download PDF</a>
-   	</div>
-</section>
+
+{% if not video_link %}
+    <section class="viewer no-video">
+        <div class="title-back">
+            <h2>{{ title }}</h2>
+            <a id="back" class='btn btn-secondary'>Back to resources</a>
+        </div>
+
+        <div class="description-download">
+            <p>{{ description }}</p>
+            <a href="{{ url }}" download class='btn btn-primary'>Download PDF</a>
+        </div>
+    </section>
+{% else %}
+    <section class="viewer video">
+        <div class="title-back">
+            <h2>{{ title }}</h2>
+            <a id="back" class='btn btn-secondary'>Back to resources</a>
+        </div>
+
+        <p>{{ description }}</p>
+        <a href="{{ video_link }}" class="youtube cboxElement">
+            <img src="{{ video_screenshot_link }}">
+        </a>
+        <div class="download-buttons">
+            <p>Video: {{ video_description }} </p>
+            <a href="{{ video_link }}" download class='btn btn-primary video'>Download Video</a>
+            <a href="{{ url }}" download class='btn btn-primary'>Download PDF</a>
+        </div>
+    </section>
+{% endif %}
 
 <section class="viewer">
 	<iframe src="http://docs.google.com/gview?url={{ url }}&embedded=true"></iframe>
 </section>
 
 {% if links %}
-	<section class="viewer">
+	<section class="viewer related-docs">
 		<h3>Related documents</h3>
 		<div class="related-document-links">
 			{% for link, title in links %}
@@ -33,10 +57,6 @@
 		</div>
 	</section>
 {% endif %}
-
-<div class="back-button">
-    <a href="{% url 'materials_home' %}" class='btn btn-secondary'>Back</a>
-</div>
 
 
 {% endblock content %}

@@ -36,6 +36,13 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 
+$(document).ready(function(){
+    targetOffset = getTargetOffset();
+    setActive();
+    expandList();
+    backButton();
+});
+
 $(document).scroll(function() {
     //console.log($(window).scrollTop())
     if ($(this).scrollTop() > 172) {
@@ -46,26 +53,31 @@ $(document).scroll(function() {
     }
 });
 
-$(document).ready(function(){
-    targetOffset = getTargetOffset();
-    setActive();
-    expandList();
-});
+function backButton() {
+    $('#back').click(function(){
+        parent.history.back();
+        return false;
+    });
+}
 
 function expandList() {
     $('ol.collapsible-list').hide();
 
-    $('a.nav-head.ks1').click(function(){
-        console.log("function called");
+    $('a.nav-head-collapse.ks1').click(function(){
+        $('ol.collapsible-list.uks2').hide();
+        $('ol.collapsible-list.lks2').hide();
         $('ol.collapsible-list.ks1').toggle();
     });
 
-    $('a.nav-head.lks2').click(function(){
-        console.log("function called");
+    $('a.nav-head-collapse.lks2').click(function(){
+        $('ol.collapsible-list.ks1').hide();
+        $('ol.collapsible-list.uks2').hide();
         $('ol.collapsible-list.lks2').toggle();
     });
 
-    $('a.nav-head.uks2').click(function(){
+    $('a.nav-head-collapse.uks2').click(function(){
+        $('ol.collapsible-list.ks1').hide();
+        $('ol.collapsible-list.lks2').hide();
         $('ol.collapsible-list.uks2').toggle();
     });
 }

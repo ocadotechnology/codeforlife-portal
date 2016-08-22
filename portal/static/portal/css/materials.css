@@ -41,9 +41,9 @@ identified as the original program.
 
 .side-nav
 {
-  margin-top: 40px;
+  margin-top: 30px;
   position: absolute;
-  width: 180px;
+  width: 200px;
 }
 
 .sticky
@@ -77,7 +77,7 @@ ol
   color:#999999;
 }
 
-a.active
+.side-nav a.active
 {
   background-color: #ffffff;
   color:#999999;
@@ -99,7 +99,7 @@ a.active
   margin-bottom: 20px;
 }
 
-.nav-head
+.nav-head-collapse
 {
   background-image: url("images/Menu-arrow-down.png");
   background-repeat: no-repeat;
@@ -132,9 +132,9 @@ a.active
 .home
 {
   border-bottom: solid black 1px;
-  margin-left: 200px;
+  margin-left: 220px;
   padding-bottom: 40px;
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 .home h2
@@ -151,7 +151,21 @@ a.active
   text-align: center;
 }
 
-.overview-ks1::before, .overview-lks2::before
+.overview
+{
+  color: #000;
+  display: block;
+  text-decoration: none;
+}
+
+.overview:hover
+{
+  color: #000;
+  display: block;
+  text-decoration: none;
+  background-color: #d9d9d9;
+}
+.overview.ks1::before, .overview.lks2::before
 {
   background-image: url("images/Blockly-icon.png");
   background-repeat: no-repeat;
@@ -163,7 +177,7 @@ a.active
 
 }
 
-.overview-uks2::before
+.overview.uks2::before
 {
   background-image: url("images/Python-icon.png");
   background-repeat: no-repeat;
@@ -173,7 +187,7 @@ a.active
   content: "";
 }
 
-.title-and-button
+.title-and-button.blockly
 {
   background-image: url("images/Blockly-icon.png");
   background-position: top;
@@ -185,11 +199,23 @@ a.active
   width: 100%;
 }
 
-
-.overview-lks2
+.title-and-button.python
 {
-  padding-left: 60px;
-  padding-right: 60px;
+  background-image: url("images/Python-icon.png");
+  background-position: top;
+  background-position: right;
+  background-repeat: no-repeat;
+  content: "";
+  display: inline-block;
+  height: 140px;
+  width: 100%;
+}
+
+
+.overview.lks2
+{
+  margin-left: 60px;
+  margin-right: 60px;
 }
 
 
@@ -209,6 +235,7 @@ a.active
     flex-direction: column;
 }
 
+
 .home li
 {
   padding-bottom: 6px;
@@ -221,7 +248,7 @@ a.active
   flex-direction: row;
   flex-wrap: wrap;
   padding-bottom: 20px;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .extras > div
@@ -229,7 +256,7 @@ a.active
   display: flex;
   flex-basis: calc(50% - 40px);
   flex-direction: column;
-  padding-bottom: 30px;
+  padding-top: 30px;
   padding-right: 30px;
 }
 
@@ -255,6 +282,7 @@ a.active
   padding: 5px;
   font-weight: normal;
   font-size: 13px;
+  color: #808080;
 }
 
 .resource-table
@@ -288,8 +316,14 @@ a.active
 {
   display: flex;
   flex-direction: column;
-  margin-left: 200px;
-  padding-top: 20px;
+  margin-left: 220px;
+  padding-top: 30px;
+}
+
+.title-back
+{
+  display: flex;
+  justify-content: space-between;
 }
 
 .description-download
@@ -298,9 +332,19 @@ a.active
   justify-content: space-between;
 }
 
-.btn-primary.small
+.download-buttons
 {
-  width: 260px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.btn.btn-primary.video
+{
+  background-color: #AC00E6;
+  color: white;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #d966ff;
+
 }
 
 iframe
