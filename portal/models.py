@@ -86,7 +86,7 @@ class TeacherModelManager(models.Manager):
         from portal.helpers.generators import get_random_username
 
         user = User.objects.create_user(
-            username=get_random_username(),
+            username=email,
             email=email,
             password=password,
             first_name=first_name,

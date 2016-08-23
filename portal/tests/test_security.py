@@ -51,7 +51,7 @@ class SecurityTestCase(TestCase):
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        c.login(email=email2, password=pass2)
+        assert c.login(username=email2, password=pass2)
         page = reverse(view_name, args=[access_code])
         self.assertNotEqual(c.get(page).status_code, 200)
 
@@ -61,7 +61,7 @@ class SecurityTestCase(TestCase):
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        c.login(email=email2, password=pass2)
+        assert c.login(username=email2, password=pass2)
 
         invalid_page = reverse(view_name, args=[access_code])
         invalid_login_code = c.get(invalid_page).status_code

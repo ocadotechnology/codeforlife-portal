@@ -44,7 +44,6 @@ from portal.utils import using_two_factor
 def logged_in_as_teacher(u):
     if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
         return False
-
     return u.is_verified() or not using_two_factor(u)
 
 
