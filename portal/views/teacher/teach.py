@@ -626,9 +626,9 @@ def teacher_print_reminder_cards(request, access_code):
         character = {'image': character_image, 'height': character_height, 'width': character_width}
         CHARACTERS.append(character)
 
-    klass = Class.objects.get_object_or_404(access_code=access_code)
+    klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
-    if klass.Teacher != request.user:
+    if klass.teacher.user.user != request.user:
         raise Http404
 
     COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
