@@ -97,13 +97,11 @@ def materials_viewer(request, pdf_name):
         links = None
 
     if 'video' in PDF_DATA[pdf_name]:
-        video_link = cloud_storage(PDF_DATA[pdf_name]['video'])
-        video_description = PDF_DATA[pdf_name]['video_description']
-        video_screenshot_link = PDF_DATA[pdf_name]['video_screenshot_link']
+        video_link = PDF_DATA[pdf_name]['video']
+        video_download_link = cloud_storage(PDF_DATA[pdf_name]['video_download_link'])
     else:
         video_link = None
-        video_description = None
-        video_screenshot_link = None
+        video_download_link = None
 
     return render(request, 'portal/teach/materials/viewer.html',
                 {'title': title,
@@ -111,8 +109,7 @@ def materials_viewer(request, pdf_name):
                 'url': url,
                 'links': links,
                 'video_link': video_link,
-                'video_description': video_description,
-                'video_screenshot_link': video_screenshot_link})
+                'video_download_link': video_download_link })
 
 
 @login_required(login_url=reverse_lazy('teach'))

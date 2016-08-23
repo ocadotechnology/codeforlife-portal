@@ -51,6 +51,13 @@ $(document).scroll(function() {
     else {
         $('nav').removeClass("sticky");
     }
+
+    if ($(this).scrollTop() > 5222) {
+        $('floating-banner').addClass("sticky-banner");
+    }
+    else {
+        $('floating-banner').removeClass("sticky-banner");
+    }
 });
 
 function backButton() {

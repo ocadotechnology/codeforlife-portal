@@ -104,7 +104,6 @@ ol
   background-image: url("images/Menu-arrow-down.png");
   background-repeat: no-repeat;
   background-position: right 10px center;
-  background
   content: "";
   display: inline-block;
   font-size: 14px;
@@ -115,12 +114,20 @@ ol
 {
   align-items: center;
   background-color: rgba(0,0,0,0.3);
-  bottom: 0;
+  bottom: 0px;
   display: flex;
   justify-content: center;
   left:0;
+  padding-top: 10px;
   position: fixed;
   width: 100%;
+}
+
+.sticky-banner
+{
+  position: relative;
+  background-color: rgba(0,0,0,1.0);
+  padding-top: 40px;
 }
 
 
@@ -147,7 +154,7 @@ ol
 {
   display: flex;
   justify-content: space-around;
-  padding-top: 40px;
+  padding-top: 30px;
   text-align: center;
 }
 
@@ -320,10 +327,20 @@ ol
   padding-top: 30px;
 }
 
+.viewer.pdf
+{
+  padding-top: 0px;
+}
+
 .title-back
 {
   display: flex;
   justify-content: space-between;
+}
+
+.description
+{
+  padding-right: 20px;
 }
 
 .description-download
@@ -336,7 +353,7 @@ ol
 {
   display: flex;
   justify-content: space-between;
-  padding-top: 20px;
+  margin-top: 15px;
 }
 
 .btn.btn-primary.video
@@ -344,23 +361,32 @@ ol
   background-color: #AC00E6;
   color: white;
   -webkit-box-shadow:inset 0px 1px 0px 0px #d966ff;
-
 }
 
-iframe
+.video-frame
+{
+  width: 100%;
+  height: 450px;
+}
+
+.viewer-frame
 {
   height: 800px;
   width: 100%;
 }
 
+.related-docs
+{
+  position: relative;
+  top:0;
+  width: 200px;
+  padding: 10px;
+}
 .related-document-links
 {
   display: flex;
   justify-content: flex-start;
+  flex-direction: column;
 }
 
-.back-button
-{
-  margin-left: 200px;
-}
 /**** end viewer.html ****/
