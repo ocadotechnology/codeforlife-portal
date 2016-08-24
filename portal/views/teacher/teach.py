@@ -104,12 +104,12 @@ def materials_viewer(request, pdf_name):
         video_download_link = None
 
     return render(request, 'portal/teach/materials/viewer.html',
-                {'title': title,
-                'description': description,
-                'url': url,
-                'links': links,
-                'video_link': video_link,
-                'video_download_link': video_download_link })
+                 {'title': title,
+                  'description': description,
+                  'url': url,
+                  'links': links,
+                  'video_link': video_link,
+                  'video_download_link': video_download_link})
 
 
 @login_required(login_url=reverse_lazy('teach'))
