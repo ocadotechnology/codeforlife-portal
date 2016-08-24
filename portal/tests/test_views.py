@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2016, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,39 +34,26 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import wraps
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
 
-from portal.utils import using_two_factor
-
-
-def logged_in_as_teacher(u):
-    if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
-        return False
-    return u.is_verified() or not using_two_factor(u)
+from django.core.urlresolvers import reverse
+from django.test import TestCase, Client
+from utils.teacher import signup_teacher_directly
+from utils.classes import create_class_directly
 
 
-def logged_in_as_student(u):
-    return hasattr(u, 'userprofile') and hasattr(u.userprofile, 'student')
+class TestTeacherViews(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email, cls.password = signup_teacher_directly()
+        _, _, cls.class_access_code = create_class_directly(cls.email)
 
+    def login(self):
+        c = Client()
+        assert c.login(username=self.email, password=self.password)
+        return c
 
-def not_logged_in(u):
-    return not hasattr(u, 'userprofile')
-
-
-def not_fully_logged_in(u):
-    return not_logged_in(u) or (not logged_in_as_student(u) and not logged_in_as_teacher(u))
-
-
-def teacher_verified(view_func):
-    @wraps(view_func)
-    def wrapped(request, *args, **kwargs):
-        u = request.user
-        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
-                (not u.is_verified() and using_two_factor(u))):
-            return HttpResponseRedirect(reverse_lazy('teach'))
-
-        return view_func(request, *args, **kwargs)
-
-    return wrapped
+    def test_reminder_cards(self):
+        c = self.login()
+        url = reverse('teacher_print_reminder_cards', args=[self.class_access_code])
+        response = c.get(url)
+        self.assertEqual(response.status_code, 200)
