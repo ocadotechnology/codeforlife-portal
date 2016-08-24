@@ -15,9 +15,13 @@ engines:
     enabled: true
   scss-lint:
     enabled: true
+    exclude_paths:
+    - "**/*.css"
 exclude_paths:
-  - "portal/_version.py"
-  - "versioneer.py"
+- portal/_version.py
+- versioneer.py
+- example_project/example_project/static/**
+- .eggs
 ratings:
   paths:
   - "**.css"
