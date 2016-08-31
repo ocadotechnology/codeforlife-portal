@@ -20,52 +20,43 @@
 <nav class="side-nav">
     <div class="list-container">
         <ol>
-            <div class="nav-section">
-          	    <li><a class="nav-head user" href="{% url 'materials_home' %}#user-guide">User Guide</a></li>
-            </div>
-            <div class="nav-section">
-              	<li><a class="nav-head-collapse ks1">Key stage 1</a>
-                    <ol class="collapsible-list ks1">
-              			<li><a href="{% url 'materials_home' %}#ks1-sessions">Sessions</a></li>
-              			<li><a href="{% url 'materials_home' %}#ks1-resource-sheets">Resource Sheets</a></li>
-                        <li><a href="{% url 'materials_home' %}#ks1-solutions">Program Solutions</a></li>
-                        <li><a href="{% url 'materials_home' %}#ks1-activity">Activity Set</a></li>
-              			<li><a href="{% url 'materials_home' %}#ks1-assets">Assets</a></li>
-                        <li><a href="{% url 'materials_home' %}#ks1-assessments">Assessments</a></li>
-              		</ol>
-              	</li>
-            </div>
+      	    <li class="nav-section"><a class="nav-head user" href="{% url 'materials_home' %}#user-guide">User Guide</a></li>
 
-            <div class="nav-section">
-              	<li><a class="nav-head-collapse lks2">Lower Key Stage 2</a>
+          	<li class="nav-section"><a class="nav-head-collapse ks1">Key stage 1</a>
+                <ol class="collapsible-list ks1">
+          			<li><a href="{% url 'materials_home' %}#ks1-sessions">Sessions</a></li>
+          			<li><a href="{% url 'materials_home' %}#ks1-resource-sheets">Resource Sheets</a></li>
+                    <li><a href="{% url 'materials_home' %}#ks1-solutions">Program Solutions</a></li>
+                    <li><a href="{% url 'materials_home' %}#ks1-activity">Activity Set</a></li>
+          			<li><a href="{% url 'materials_home' %}#ks1-assets">Assets</a></li>
+                    <li><a href="{% url 'materials_home' %}#ks1-assessments">Assessments</a></li>
+          		</ol>
+          	</li>
 
-              		<ol class="collapsible-list lks2">
-              			<li><a href="{% url 'materials_home' %}#lks2-sessions">Sessions</a></li>
-                        <li><a href="{% url 'materials_home' %}#lks2-resource-sheets">Resource Sheets</a></li>
-                        <li><a href="{% url 'materials_home' %}#lks2-solutions">Program Solutions</a></li>
-                        <li><a href="{% url 'materials_home' %}#lks2-activity">Activity Set</a></li>
-                        <li><a href="{% url 'materials_home' %}#lks2-assets">Assets</a></li>
-                        <li><a href="{% url 'materials_home' %}#lks2-assessments">Assessments</a></li>
-              		</ol>
-              	</li>
-            </div>
+          	<li class="nav-section"><a class="nav-head-collapse lks2">Lower Key Stage 2</a>
+          		<ol class="collapsible-list lks2">
+          			<li><a href="{% url 'materials_home' %}#lks2-sessions">Sessions</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-resource-sheets">Resource Sheets</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-solutions">Program Solutions</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-activity">Activity Set</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-assets">Assets</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-assessments">Assessments</a></li>
+          		</ol>
+          	</li>
 
-            <div class="nav-section">
-              	<li><a class="nav-head-collapse uks2">Upper Key Stage 2</a>
-              		<ol class="collapsible-list uks2">
-                        <li><a href="{% url 'materials_home' %}#uks2-sessions">Sessions</a></li>
-                        <li><a href="{% url 'materials_home' %}#uks2-resource-sheets">Resource Sheets</a></li>
-                        <li><a href="{% url 'materials_home' %}#uks2-solutions">Program Solutions</a></li>
-                        <li><a href="{% url 'materials_home' %}#uks2-activity">Activity Set</a></li>
-                        <li><a href="{% url 'materials_home' %}#uks2-assets">Assets</a></li>
-                        <li><a href="{% url 'materials_home' %}#uks2-assessments">Assessments</a></li>
-              		</ol>
-              	</li>
-            </div>
-          	<li><a href="{% url 'materials_home' %}">Home</a></li>
+          	<li class="nav-section"><a class="nav-head-collapse uks2">Upper Key Stage 2</a>
+          		<ol class="collapsible-list uks2">
+                    <li><a href="{% url 'materials_home' %}#uks2-sessions">Sessions</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-resource-sheets">Resource Sheets</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-solutions">Program Solutions</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-activity">Activity Set</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-assets">Assets</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-assessments">Assessments</a></li>
+          		</ol>
+          	</li>
         </ol>
     </div>
+    {% block below_nav %}{% endblock %}
 </nav>
-
 
 {% endblock content %}

@@ -55,8 +55,7 @@
 
     <div class="title-and-button blockly">
         <h2> Key Stage 1 </h2>
-        <a href="{{ 'KS1.zip'|cloud_storage }}" class='btn btn-primary small'>Download all KS1 resources</a>
-        <span class="blockly-icon"></span>
+        <a href="{{ 'KS1.zip'|cloud_storage }}" class='btn btn-primary small download'>Download all KS1 resources</a>
     </div>
 
     <div class="main" id="ks1-sessions">
@@ -109,7 +108,7 @@
 
     <div class="main" id="ks1-resource-sheets">
         <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
-        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="{{ 'KS1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download them individually below.</p>
+        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a class="download" href="{{ 'KS1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download them individually below.</p>
 
          <table class="resource-table">
             <tr>
@@ -186,7 +185,7 @@
 
         <div class="extra assessments" id="ks1-assessments">
             <h3>Assessments <span class="ks-tag">KS1</span></h3>
-            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a record sheet for pupils you can <a href="{{ 'KS1/assessment.zip'|cloud_storage }}"> download the whole set</a> (zip file), or view and download them individually below.</p>
+            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a record sheet for pupils you can <a class="download" href="{{ 'KS1/assessment.zip'|cloud_storage }}"> download the whole set</a> (zip file), or view and download them individually below.</p>
 
             <ol>
                 <li><a href="{% url 'materials_viewer' pdf_name='ks1_assessment_guide' %}">Assessment Guide</a></li>
@@ -203,8 +202,7 @@
 
     <div class="title-and-button blockly">
         <h2> Lower Key Stage 2 </h2>
-        <a href="{{ 'KS2.zip'|cloud_storage }}" class='btn btn-primary'>Download all Lower KS2 resources</a>
-        <span class="blockly-icon"></span>
+        <a href="{{ 'KS2.zip'|cloud_storage }}" class='btn btn-primary download '>Download all Lower KS2 resources</a>
     </div>
 
     <div class="main" id="lks2-sessions">
@@ -249,7 +247,7 @@
 
     <div class="main" id="lks2-resource-sheets">
         <h3>Resource Sheets <span class="ks-tag">Lower KS2</span></h3>
-        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="{{ 'KS2/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download them individually below.</p>
+        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a class="download" href="{{ 'KS2/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download them individually below.</p>
 
          <table class="resource-table">
             <tr>
@@ -314,7 +312,7 @@
 
         <div class="extra assessments" id="lks2-assessments">
             <h3>Assessments <span class="ks-tag">Lower KS2</span></h3>
-            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a record sheet for pupils you can <a href="{{ 'KS2/assessment.zip'|cloud_storage }}"> download the whole set</a> (zip file), or view and download them individually below.</p>
+            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a record sheet for pupils you can <a class="download" href="{{ 'KS2/assessment.zip'|cloud_storage }}"> download the whole set</a> (zip file), or view and download them individually below.</p>
 
             <ol>
                 <li><a href="{% url 'materials_viewer' pdf_name='lks2_assessment_guide' %}">Assessment Guide</a></li>
@@ -331,8 +329,7 @@
 
     <div class="title-and-button python">
         <h2> Upper Key Stage 2 </h2>
-        <a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}" class='btn btn-primary'>Download all Upper KS2 resources</a>
-        <span class="blockly-icon"></span>
+        <a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}" class='btn btn-primary download'>Download all Upper KS2 resources</a>
     </div>
 
     <div class="main" id="uks2-sessions">
@@ -377,7 +374,7 @@
 
     <div class="main" id="uks2-resource-sheets">
         <h3>Resource Sheets <span class="ks-tag">Upper KS2</span></h3>
-        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download them individually below.</p>
+        <p>Resource sheets are made to be used along side the lesson plans. They help you teach coding concepts offline in the classroom. You can <a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}" class="download">download the whole set</a> (zip file), or view and download them individually below.</p>
 
          <table class="resource-table">
             <tr>
@@ -448,7 +445,7 @@
 
         <div class="extra assessments" id="uks2-assessments">
             <h3>Assessments <span class="ks-tag">Upper KS2</span></h3>
-            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a record sheet for pupils you can <a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}"> download the whole set</a> (zip file), or view and download them individually below.</p>
+            <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil led self-assessment sheets, along with a record sheet for pupils you can <a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}" class="download"> download the whole set</a> (zip file), or view and download them individually below.</p>
 
             <ol>
                 <li><a href="{% url 'materials_viewer' pdf_name='uks2_assessment_guide' %}">Assessment Guide</a></li>
@@ -461,7 +458,8 @@
 
 </section>
 
-<div class="floating-banner">
+<div id="banner" class="banner">
     <a href="#contentWrapper" class='btn btn-secondary small'>Back to top</a>
 </div>
+
 {% endblock content %}

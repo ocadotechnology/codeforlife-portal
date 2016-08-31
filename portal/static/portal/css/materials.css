@@ -41,9 +41,9 @@ identified as the original program.
 
 .side-nav
 {
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  width: 200px;
 }
 
 .sticky
@@ -57,80 +57,91 @@ ol
   list-style: none;
 }
 
-.side-nav a
+.list-container
 {
-  color: white;
-  text-decoration: none;
-  display:block;
+  margin-top: 30px;
+  position: absolute;
+  width: 200px;
+  z-index: 1;
+}
+
+.list-container a
+{
+  color: #fff;
+  display: block;
   padding: 10px;
+  text-decoration: none;
 }
 
-.side-nav a:hover
+.list-container a:hover
 {
-  background-color: #ffffff;
-  color:#999999;
+  background-color: #fff;
+  color: #999999;
 }
 
-.side-nav a:active
+.list-container a:active,
+.list-container .active
 {
-  background-color: #ffffff;
-  color:#999999;
+  background-color: #fff;
+  color: #999999;
 }
 
-.side-nav a.active
-{
-  background-color: #ffffff;
-  color:#999999;
-}
-
-.side-nav
+.list-container
 {
   background-color: #CCCCCC;
-  position: center;
-
 }
 
 .nav-section
 {
   background-color: #999999;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 10px 20px 10px;
 }
 
 .nav-head-collapse
 {
   background-image: url("images/Menu-arrow-down.png");
-  background-repeat: no-repeat;
   background-position: right 10px center;
-  content: "";
+  background-repeat: no-repeat;
+  content: '';
   display: inline-block;
   font-size: 14px;
 }
 
+.nav-head-collapse:hover
+{
+  cursor: pointer;
+}
+
+.banner
+{
+  align-items: center;
+  background-color: gray;
+  background-color: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  left: 0;
+  padding-top: 10px;
+  width: 100%;
+}
 
 .floating-banner
 {
-  align-items: center;
-  background-color: rgba(0,0,0,0.3);
-  bottom: 0px;
-  display: flex;
-  justify-content: center;
-  left:0;
-  padding-top: 10px;
+  bottom: 0;
   position: fixed;
-  width: 100%;
+  z-index: 2;
 }
 
 .sticky-banner
 {
-  position: relative;
-  background-color: rgba(0,0,0,1.0);
-  padding-top: 40px;
+  margin-top: -24px;
+  position: absolute;
 }
 
-
+.banner-button
+{
+  margin-left: 10px;
+  margin-right: 10px;
+}
 /**** end base.html ****/
 
 
@@ -146,8 +157,13 @@ ol
 
 .home h2
 {
-  padding-top: 20px;
   padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.home:nth-of-type(5)
+{
+  border-bottom: none;
 }
 
 .overview-container
@@ -160,6 +176,7 @@ ol
 
 .overview
 {
+  border-radius: 25px;
   color: #000;
   display: block;
   text-decoration: none;
@@ -167,57 +184,59 @@ ol
 
 .overview:hover
 {
+  background-color: #d9d9d9;
   color: #000;
   display: block;
   text-decoration: none;
-  background-color: #d9d9d9;
 }
-.overview.ks1::before, .overview.lks2::before
+
+.overview:before,
+.title-and-button:before
 {
-  background-image: url("images/Blockly-icon.png");
+  background-image: url('images/KS-level-sprite.png');
   background-repeat: no-repeat;
-  background-position: center;
-  background-position: top;
+}
+
+.overview:before
+{
+  content: '';
   display: block;
   height: 110px;
-  content: "";
-
+  margin: 0 auto;
 }
 
-.overview.uks2::before
+.ks1::before,
+.lks2::before
 {
-  background-image: url("images/Python-icon.png");
-  background-repeat: no-repeat;
-  background-position: center;
+  background-position: right;
+  width: 104px;
+}
+
+.uks2::before
+{
+  background-position: left;
+  width: 104px;
+}
+
+.title-and-button:before
+{
+  content: '';
   display: block;
-  height: 110px;
-  content: "";
+  height: 104px;
+  position: absolute;
+  right: 10%;
+  width: 104px;
 }
 
-.title-and-button.blockly
+.blockly:before
 {
-  background-image: url("images/Blockly-icon.png");
-  background-position: top;
   background-position: right;
-  background-repeat: no-repeat;
-  content: "";
-  display: inline-block;
-  height: 140px;
-  width: 100%;
 }
 
-.title-and-button.python
+.python:before
 {
-  background-image: url("images/Python-icon.png");
-  background-position: top;
-  background-position: right;
-  background-repeat: no-repeat;
-  content: "";
-  display: inline-block;
-  height: 140px;
-  width: 100%;
+  background-position: left;
 }
-
 
 .overview.lks2
 {
@@ -233,15 +252,9 @@ ol
 }
 
 .head {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
-
-.title-and-button {
-    display: flex;
-    flex-direction: column;
-}
-
 
 .home li
 {
@@ -263,8 +276,8 @@ ol
   display: flex;
   flex-basis: calc(50% - 40px);
   flex-direction: column;
-  padding-top: 30px;
   padding-right: 30px;
+  padding-top: 30px;
 }
 
 .resource-links
@@ -285,36 +298,39 @@ ol
 
 .ks-tag
 {
-  background-color:#CCCCCC;
-  padding: 5px;
-  font-weight: normal;
-  font-size: 13px;
+  background-color: #CCCCCC;
   color: #808080;
+  font-size: 13px;
+  font-weight: normal;
+  padding: 5px;
 }
 
 .resource-table
 {
+    text-align: right;
+    white-space: nowrap;
     width: 100%;
+}
+
+.resource-table th
+{
+  column-width: 75px;
+  text-align: left;
 }
 
 .resource-table tr
 {
   border-bottom: solid black 1px;
   display: block;
-  padding-top: 3px;
   padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 .resource-table td
 {
-  padding-left: 30px;
-  vertical-align: baseline;
+  padding-left: 20px;
 }
 
-.resource-table
-{
-  white-space: nowrap;
-}
 /**** end home.html ****/
 
 /**** materials viewer.html ****/
@@ -327,9 +343,9 @@ ol
   padding-top: 30px;
 }
 
-.viewer.pdf
+.pdf
 {
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .title-back
@@ -356,37 +372,45 @@ ol
   margin-top: 15px;
 }
 
-.btn.btn-primary.video
+.btn-primary.video
 {
   background-color: #AC00E6;
+  -webkit-box-shadow:inset 0 1px 0 0 #d966ff;
+  -moz-box-shadow:inset 0 1px 0 0 #d966ff;
   color: white;
-  -webkit-box-shadow:inset 0px 1px 0px 0px #d966ff;
+}
+
+.btn-primary.video:hover {
+  background-color: #BF00FF;
 }
 
 .video-frame
 {
-  width: 100%;
   height: 450px;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .viewer-frame
 {
   height: 800px;
+  margin-bottom: 40px;
   width: 100%;
 }
 
 .related-docs
 {
   position: relative;
-  top:0;
+  top: 300px;
   width: 200px;
-  padding: 10px;
+  z-index: 0;
 }
+
 .related-document-links
 {
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
+  justify-content: flex-start;
 }
 
 /**** end viewer.html ****/

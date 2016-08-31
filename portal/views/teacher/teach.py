@@ -82,6 +82,7 @@ def materials_viewer(request, pdf_name):
         title = PDF_DATA[pdf_name]['title']
         description = PDF_DATA[pdf_name]['description']
         url = cloud_storage(PDF_DATA[pdf_name]['url'])
+        page_origin = PDF_DATA[pdf_name]['page_origin']
 
     except KeyError:
         raise Http404
@@ -90,7 +91,12 @@ def materials_viewer(request, pdf_name):
         links = PDF_DATA[pdf_name]['links']
         link_titles = []
         for link in links:
-            link_titles.append(link.replace('_', ' ').title())
+            link = link.replace('_', ' ').title()
+
+            if (link[0] == 'K') | (link[1] == 'k'):
+                link = link[:4].upper() + link[4:]
+
+            link_titles.append(link)
 
         links = zip(links, link_titles)
     else:
@@ -104,12 +110,13 @@ def materials_viewer(request, pdf_name):
         video_download_link = None
 
     return render(request, 'portal/teach/materials/viewer.html',
-                 {'title': title,
-                  'description': description,
-                  'url': url,
-                  'links': links,
-                  'video_link': video_link,
-                  'video_download_link': video_download_link})
+                  {'title': title,
+                   'description': description,
+                   'url': url,
+                   'links': links,
+                   'video_link': video_link,
+                   'video_download_link': video_download_link,
+                   'page_origin': page_origin})
 
 
 @login_required(login_url=reverse_lazy('teach'))
