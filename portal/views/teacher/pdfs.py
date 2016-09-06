@@ -107,7 +107,7 @@ PDF_DATA = {
     "ks1_session_3": {
         "title": "KS1 - Session 3",
         "description": "Creating simple algorithms to reach a single destination.",
-        "links": ["KS1_S2_1"],
+        "links": ["KS1_S3_1"],
         "url": "KS1/lesson_plans/s3.pdf",
         "page_origin": "#ks1-sessions"
     },

@@ -35,7 +35,6 @@
         <iframe src= "{{ video_link }}" allowfullscreen class="video-frame"></iframe>
 
         <div class="download-buttons">
-            <!-- <p>Video: {{ video_description }} </p> -->
             <a href="{{ video_download_link }}" download class='btn btn-primary video download'>Download Video</a>
             <a id="download pdf-button" href="{{ url }}" download class='btn btn-primary download'>Download PDF</a>
         </div>
@@ -43,7 +42,7 @@
 {% endif %}
 
 <section class="viewer pdf">
-	<iframe src="http://docs.google.com/gview?url={{ url }}&embedded=true" class="viewer-frame"></iframe>
+    <iframe src="{{ url }}" class="viewer-frame" scrolling="auto"></iframe>
 </section>
 
 <div id="banner" class="banner">

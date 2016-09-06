@@ -78,16 +78,7 @@ def materials_home(request):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def materials_viewer(request, pdf_name):
 
-    try:
-        title = PDF_DATA[pdf_name]['title']
-        description = PDF_DATA[pdf_name]['description']
-        url = cloud_storage(PDF_DATA[pdf_name]['url'])
-        page_origin = PDF_DATA[pdf_name]['page_origin']
-
-    except KeyError:
-        raise Http404
-
-    if PDF_DATA[pdf_name]['links'] is not None:
+    def _getLinks():
         links = PDF_DATA[pdf_name]['links']
         link_titles = []
         for link in links:
@@ -98,7 +89,19 @@ def materials_viewer(request, pdf_name):
 
             link_titles.append(link)
 
-        links = zip(links, link_titles)
+        return zip(links, link_titles)
+
+    try:
+        title = PDF_DATA[pdf_name]['title']
+        description = PDF_DATA[pdf_name]['description']
+        url = cloud_storage(PDF_DATA[pdf_name]['url'])
+        page_origin = PDF_DATA[pdf_name]['page_origin']
+
+    except KeyError:
+        raise Http404
+
+    if PDF_DATA[pdf_name]['links'] is not None:
+        links = _getLinks()
     else:
         links = None
 

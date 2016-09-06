@@ -377,6 +377,7 @@ ol
   background-color: #AC00E6;
   -webkit-box-shadow:inset 0 1px 0 0 #d966ff;
   -moz-box-shadow:inset 0 1px 0 0 #d966ff;
+  box-shadow:inset 0 1px 0 0 #d966ff;
   color: white;
 }
 

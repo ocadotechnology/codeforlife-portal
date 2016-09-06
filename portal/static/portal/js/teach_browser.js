@@ -74,7 +74,7 @@ function expandList() {
 
     $('nav.side-nav').on("click", ".nav-head-collapse", function(){
         var $next = $(this).next();
-        var $hideTarget = $('ol.collapsible-list').not($next).hide();
+        $('ol.collapsible-list').not($next).hide();
         $next.toggle();
     });
 }
@@ -120,7 +120,7 @@ function getFileName(href) {
 
     if (fileExtension === "zip" || fileExtension === "mp4") {
         return href.split("/").pop();
-    }else{
+    } else{
         return window.location.pathname.split("/").pop();
     }
 }
@@ -133,21 +133,3 @@ function send_download_event(name_of_file){
     eventLabel: name_of_file
     });
 }
-
-
-
-// $(document).ready(function(){
-// $('a[href*=#]').click(function() {
-//     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
-//     && location.hostname == this.hostname) {
-//       var $target = $(this.hash);
-//       $target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
-//       if ($target.length) {
-//         var targetOffset = $target.offset().top;
-//         $('html,body')
-//         .animate({scrollTop: targetOffset}, 500);
-//        return false;
-//       }
-//     }
-//   });
-// });

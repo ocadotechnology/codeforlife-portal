@@ -28,9 +28,9 @@ $(document).ready(function(){
 
     $('.non-retina').colorbox({rel:'group5', transition:'none'});
     $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
-    
+
     //Example of preserving a JavaScript event for inline calls.
-    $("#click").click(function(){ 
+    $("#click").click(function(){
         $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
         return false;
     });
@@ -38,7 +38,7 @@ $(document).ready(function(){
 </script>
 {% endblock scripts %}
 
-{% block content %}   	
+{% block content %}
 
 <h2>Teaching Packs</h2>
 <div class="section group">
@@ -64,7 +64,7 @@ $(document).ready(function(){
     </tr>
 
   </table>
-  
+
   <br>
 
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -138,9 +138,9 @@ $(document).ready(function(){
     </tr>
 
   </table>
-  
+
   <br>
-  
+
   <table class="CSSTable ResourceTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td width="160px">KS1 Sessions</td>
@@ -200,7 +200,7 @@ $(document).ready(function(){
   </table>
 
   <br>
-  
+
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td colspan="2">KS1 Assets</td>
@@ -217,7 +217,7 @@ $(document).ready(function(){
       </td>
     </tr>
   </table>
-  
+
   <br>
 
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -283,9 +283,9 @@ $(document).ready(function(){
     </tr>
 
   </table>
-  
+
   <br>
-  
+
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td width="160px">KS2 Sessions</td>
@@ -335,7 +335,7 @@ $(document).ready(function(){
   </table>
 
   <br>
-  
+
   <table class="CSSTable" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td colspan="2">KS2 Assets</td>
@@ -371,4 +371,4 @@ $(document).ready(function() {
 });
 </script>
 
-{% endblock content %}     
+{% endblock content %}
