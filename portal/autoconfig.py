@@ -113,7 +113,7 @@ SETTINGS = {
 
     'CODEFORLIFE_WEBSITE': 'www.codeforlife.education',
 
-    'CLOUD_STORAGE_PREFIX': 'http://storage.googleapis.com/codeforlife-assets/',
+    'CLOUD_STORAGE_PREFIX': '//storage.googleapis.com/codeforlife-assets/',
 
     'LOGGING': {
         'version': 1,
