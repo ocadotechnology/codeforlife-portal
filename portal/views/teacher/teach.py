@@ -48,6 +48,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.utils import timezone
+
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import black, white
@@ -63,6 +64,62 @@ from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import get_random_username, generate_new_student_name, generate_access_code, generate_password
 from portal.helpers.email import send_email, send_verification_email, NOTIFICATION_EMAIL
 from portal import emailMessages
+from portal.views.teacher.pdfs import PDF_DATA
+from portal.templatetags.app_tags import cloud_storage
+
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def materials_home(request):
+    return render(request, 'portal/teach/materials/home.html')
+
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def materials_viewer(request, pdf_name):
+
+    def _getLinks():
+        links = PDF_DATA[pdf_name]['links']
+        link_titles = []
+        for link in links:
+            link = link.replace('_', ' ').title()
+
+            if (link[0] == 'K') | (link[1] == 'k'):
+                link = link[:4].upper() + link[4:]
+
+            link_titles.append(link)
+
+        return zip(links, link_titles)
+
+    try:
+        title = PDF_DATA[pdf_name]['title']
+        description = PDF_DATA[pdf_name]['description']
+        url = cloud_storage(PDF_DATA[pdf_name]['url'])
+        page_origin = PDF_DATA[pdf_name]['page_origin']
+
+    except KeyError:
+        raise Http404
+
+    if PDF_DATA[pdf_name]['links'] is not None:
+        links = _getLinks()
+    else:
+        links = None
+
+    if 'video' in PDF_DATA[pdf_name]:
+        video_link = PDF_DATA[pdf_name]['video']
+        video_download_link = cloud_storage(PDF_DATA[pdf_name]['video_download_link'])
+    else:
+        video_link = None
+        video_download_link = None
+
+    return render(request, 'portal/teach/materials/viewer.html',
+                  {'title': title,
+                   'description': description,
+                   'url': url,
+                   'links': links,
+                   'video_link': video_link,
+                   'video_download_link': video_download_link,
+                   'page_origin': page_origin})
 
 
 @login_required(login_url=reverse_lazy('teach'))

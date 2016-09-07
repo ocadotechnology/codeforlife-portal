@@ -57,7 +57,7 @@ from portal.views.teacher.teach import teacher_lesson_plans, teacher_lesson_plan
     teacher_delete_students, teacher_dismiss_students, teacher_edit_class, teacher_delete_class, \
     teacher_student_reset, teacher_edit_student, teacher_edit_account, teacher_disable_2FA, \
     teacher_print_reminder_cards, teacher_accept_student_request, teacher_reject_student_request, \
-    teacher_class_password_reset
+    teacher_class_password_reset, materials_home, materials_viewer
 from portal.views.teacher.home import teacher_home
 from portal.views.email import send_new_users_report
 
@@ -104,6 +104,9 @@ urlpatterns = patterns(
         name='locked_out'),
     url(r'^logout/$', logout_view, name='portal/logout'),
     url(r'^user/$', current_user, name='current_user'),
+
+    url(r'^teach/materials/$', materials_home, name='materials_home'),
+    url(r'^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer, name='materials_viewer'),
 
     url(r'^teach/home/$', teacher_home, name='teacher_home'),
     url(r'^teach/lesson_plans/$', teacher_lesson_plans, name='teacher_lesson_plans'),

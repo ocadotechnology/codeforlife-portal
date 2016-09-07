@@ -1,0 +1,417 @@
+/*
+Code for Life
+
+Copyright (C) 2016, Ocado Innovation Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ADDITIONAL TERMS – Section 7 GNU General Public Licence
+
+This licence does not grant any right, title or interest in any “Ocado” logos,
+trade names or the trademark “Ocado” or any other trademarks or domain names
+owned by Ocado Innovation Limited or the Ocado group of companies or any other
+distinctive brand features of “Ocado” as may be secured from time to time. You
+must not distribute any modification of this program using the trademark
+“Ocado” or claim any affiliation or association with Ocado or its employees.
+
+You are not authorised to use the name Ocado (or any of its trade names) or
+the names of any author or contributor in advertising or for publicity purposes
+pertaining to the distribution of this program, without the prior written
+authorisation of Ocado.
+
+Any propagation, distribution or conveyance of this program must include this
+copyright notice and these terms. You must not misrepresent the origins of this
+program; modified versions of the program must be marked as such and not
+identified as the original program.
+*/
+
+
+/**** Materials base.html ****/
+
+.side-nav
+{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+}
+
+.sticky
+{
+  position: fixed;
+  top: 0;
+}
+
+ol
+{
+  list-style: none;
+}
+
+.list-container
+{
+  margin-top: 30px;
+  position: absolute;
+  width: 200px;
+  z-index: 1;
+}
+
+.list-container a
+{
+  color: #fff;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.list-container a:hover
+{
+  background-color: #fff;
+  color: #999999;
+}
+
+.list-container a:active,
+.list-container .active
+{
+  background-color: #fff;
+  color: #999999;
+}
+
+.list-container
+{
+  background-color: #CCCCCC;
+}
+
+.nav-section
+{
+  background-color: #999999;
+  margin: 20px 10px 20px 10px;
+}
+
+.nav-head-collapse
+{
+  background-image: url("images/Menu-arrow-down.png");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  content: '';
+  display: inline-block;
+  font-size: 14px;
+}
+
+.nav-head-collapse:hover
+{
+  cursor: pointer;
+}
+
+.banner
+{
+  align-items: center;
+  background-color: gray;
+  background-color: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  left: 0;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.floating-banner
+{
+  bottom: 0;
+  position: fixed;
+  z-index: 2;
+}
+
+.sticky-banner
+{
+  margin-top: -24px;
+  position: absolute;
+}
+
+.banner-button
+{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/**** end base.html ****/
+
+
+/**** materials home.html ****/
+
+.home
+{
+  border-bottom: solid black 1px;
+  margin-left: 220px;
+  padding-bottom: 40px;
+  padding-top: 30px;
+}
+
+.home h2
+{
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.home:nth-of-type(5)
+{
+  border-bottom: none;
+}
+
+.overview-container
+{
+  display: flex;
+  justify-content: space-around;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.overview
+{
+  border-radius: 25px;
+  color: #000;
+  display: block;
+  text-decoration: none;
+}
+
+.overview:hover
+{
+  background-color: #d9d9d9;
+  color: #000;
+  display: block;
+  text-decoration: none;
+}
+
+.overview:before,
+.title-and-button:before
+{
+  background-image: url('images/KS-level-sprite.png');
+  background-repeat: no-repeat;
+}
+
+.overview:before
+{
+  content: '';
+  display: block;
+  height: 110px;
+  margin: 0 auto;
+}
+
+.ks1::before,
+.lks2::before
+{
+  background-position: right;
+  width: 104px;
+}
+
+.uks2::before
+{
+  background-position: left;
+  width: 104px;
+}
+
+.title-and-button:before
+{
+  content: '';
+  display: block;
+  height: 104px;
+  position: absolute;
+  right: 10%;
+  width: 104px;
+}
+
+.blockly:before
+{
+  background-position: right;
+}
+
+.python:before
+{
+  background-position: left;
+}
+
+.overview.lks2
+{
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+
+.resource-links-container
+{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home li
+{
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+.extras
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.extras > div
+{
+  display: flex;
+  flex-basis: calc(50% - 40px);
+  flex-direction: column;
+  padding-right: 30px;
+  padding-top: 30px;
+}
+
+.resource-links
+{
+  padding-right: 50px;
+}
+
+.main li
+{
+  border-bottom: solid black 1px;
+}
+
+.main
+{
+  padding-bottom: 20px;
+  padding-top: 40px;
+}
+
+.ks-tag
+{
+  background-color: #CCCCCC;
+  color: #808080;
+  font-size: 13px;
+  font-weight: normal;
+  padding: 5px;
+}
+
+.resource-table
+{
+    text-align: right;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.resource-table th
+{
+  column-width: 75px;
+  text-align: left;
+}
+
+.resource-table tr
+{
+  border-bottom: solid black 1px;
+  display: block;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+.resource-table td
+{
+  padding-left: 20px;
+}
+
+/**** end home.html ****/
+
+/**** materials viewer.html ****/
+
+.viewer
+{
+  display: flex;
+  flex-direction: column;
+  margin-left: 220px;
+  padding-top: 30px;
+}
+
+.pdf
+{
+  padding-top: 0;
+}
+
+.title-back
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.description
+{
+  padding-right: 20px;
+}
+
+.description-download
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.download-buttons
+{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn-primary.video
+{
+  background-color: #AC00E6;
+  -webkit-box-shadow:inset 0 1px 0 0 #d966ff;
+  -moz-box-shadow:inset 0 1px 0 0 #d966ff;
+  box-shadow:inset 0 1px 0 0 #d966ff;
+  color: white;
+}
+
+.btn-primary.video:hover {
+  background-color: #BF00FF;
+}
+
+.video-frame
+{
+  height: 450px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.viewer-frame
+{
+  height: 800px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.related-docs
+{
+  position: relative;
+  top: 300px;
+  width: 200px;
+  z-index: 0;
+}
+
+.related-document-links
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/**** end viewer.html ****/

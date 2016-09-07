@@ -1,0 +1,63 @@
+{% extends 'portal/teach/base.html' %}
+{% load app_tags %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/materials.css" %}'>
+{% endblock css %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script type='text/javascript' src='{% static "portal/js/teach_browser.js" %}'></script>
+{% endblock scripts %}
+
+{% block content %}
+
+<h1 id="top">Teaching Resources</h1>
+<p>We’ve created a comprehensive set of teaching materials to give you the confidence and resources to use the <i>Rapid Router</i> game to help you teach children the UK National Computing Curriculum right through their primary education.</p>
+<nav class="side-nav">
+    <div class="list-container">
+        <ol>
+      	    <li class="nav-section"><a class="nav-head user" href="{% url 'materials_home' %}#user-guide">User Guide</a></li>
+
+          	<li class="nav-section"><a class="nav-head-collapse ks1">Key stage 1</a>
+                <ol class="collapsible-list ks1">
+          			<li><a href="{% url 'materials_home' %}#ks1-sessions">Sessions</a></li>
+          			<li><a href="{% url 'materials_home' %}#ks1-resource-sheets">Resource Sheets</a></li>
+                    <li><a href="{% url 'materials_home' %}#ks1-solutions">Program Solutions</a></li>
+                    <li><a href="{% url 'materials_home' %}#ks1-activity">Activity Set</a></li>
+          			<li><a href="{% url 'materials_home' %}#ks1-assets">Assets</a></li>
+                    <li><a href="{% url 'materials_home' %}#ks1-assessments">Assessments</a></li>
+          		</ol>
+          	</li>
+
+          	<li class="nav-section"><a class="nav-head-collapse lks2">Lower Key Stage 2</a>
+          		<ol class="collapsible-list lks2">
+          			<li><a href="{% url 'materials_home' %}#lks2-sessions">Sessions</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-resource-sheets">Resource Sheets</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-solutions">Program Solutions</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-activity">Activity Set</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-assets">Assets</a></li>
+                    <li><a href="{% url 'materials_home' %}#lks2-assessments">Assessments</a></li>
+          		</ol>
+          	</li>
+
+          	<li class="nav-section"><a class="nav-head-collapse uks2">Upper Key Stage 2</a>
+          		<ol class="collapsible-list uks2">
+                    <li><a href="{% url 'materials_home' %}#uks2-sessions">Sessions</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-resource-sheets">Resource Sheets</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-solutions">Program Solutions</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-activity">Activity Set</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-assets">Assets</a></li>
+                    <li><a href="{% url 'materials_home' %}#uks2-assessments">Assessments</a></li>
+          		</ol>
+          	</li>
+        </ol>
+    </div>
+    {% block below_nav %}{% endblock %}
+</nav>
+
+
+{% endblock content %}

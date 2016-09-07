@@ -1,0 +1,70 @@
+{% extends 'portal/teach/materials/base.html' %}
+
+{% load app_tags %}
+{% load static %}
+
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block content %}
+{{ block.super }}
+
+
+{% if not video_link %}
+    <section class="viewer no-video">
+        <div class="title-back">
+            <h2>{{ title }}</h2>
+            <a href="{% url 'materials_home' %}{{page_origin}}" class='btn btn-secondary'>Back to resources</a>
+        </div>
+
+        <div class="description-download">
+            <p class="description">{{ description }}</p>
+            <a href="{{ url }}" download class='btn btn-primary download'>Download PDF</a>
+        </div>
+    </section>
+{% else %}
+    <section class="viewer video">
+        <div class="title-back">
+            <h2>{{ title }}</h2>
+            <a href="{% url 'materials_home' %}{{page_origin}}" class='btn btn-secondary'>Back to resources</a>
+        </div>
+
+        <p class="description">{{ description }}</p>
+        <iframe src= "{{ video_link }}" allowfullscreen class="video-frame"></iframe>
+
+        <div class="download-buttons">
+            <a href="{{ video_download_link }}" download class='btn btn-primary video download'>Download Video</a>
+            <a id="download pdf-button" href="{{ url }}" download class='btn btn-primary download'>Download PDF</a>
+        </div>
+    </section>
+{% endif %}
+
+<section class="viewer pdf">
+    <iframe src="{{ url }}" class="viewer-frame" scrolling="auto"></iframe>
+</section>
+
+<div id="banner" class="banner">
+    <a href="{% url 'materials_home' %}{{page_origin}}" class='btn btn-secondary banner-button'>Back to resources</a>
+    <a href="#contentWrapper" class='btn btn-secondary banner-button'>Back to top</a>
+</div>
+
+
+{% endblock content %}
+
+
+{% block below_nav %}
+
+    {% if links %}
+        <section class="related-docs">
+            <h3>Related document(s)</h3>
+            <div class="related-document-links">
+                {% for link, title in links %}
+                    <a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}
