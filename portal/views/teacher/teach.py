@@ -124,6 +124,36 @@ def materials_viewer(request, pdf_name):
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def default_solution(request, levelName):
+    if(int(levelName) >= 80 and int(levelName) <= 91):
+        return render(request, 'portal/teach/teacher_solutionPY.html', {'levelName': levelName})
+    else:
+        return render(request, 'portal/teach/teacher_solution.html', {'levelName': levelName})
+
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def teacher_level_solutions(request):
+    return render(request, 'portal/teach/teacher_level_solutions.html')
+
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def default_solution(request, levelName):
+    if(int(levelName) >= 80 and int(levelName) <= 91):
+        return render(request, 'portal/teach/teacher_solutionPY.html', {'levelName': levelName})
+    else:
+        return render(request, 'portal/teach/teacher_solution.html', {'levelName': levelName})
+
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+def teacher_level_solutions(request):
+    return render(request, 'portal/teach/teacher_level_solutions.html')
+
+
+@login_required(login_url=reverse_lazy('teach'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_lesson_plans(request):
     return render(request, 'portal/teach/teacher_lesson_plans.html')
 

@@ -49,8 +49,8 @@ DATABASES = {
 
 USE_I18N = True
 USE_L10N = True
-
 TIME_ZONE = 'Europe/London'
+
 LANGUAGE_CODE = 'en-gb'
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
 STATIC_URL = '/static/'
