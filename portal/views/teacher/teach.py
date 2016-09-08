@@ -139,33 +139,6 @@ def teacher_level_solutions(request):
 
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
-def default_solution(request, levelName):
-    if(int(levelName) >= 80 and int(levelName) <= 91):
-        return render(request, 'portal/teach/teacher_solutionPY.html', {'levelName': levelName})
-    else:
-        return render(request, 'portal/teach/teacher_solution.html', {'levelName': levelName})
-
-
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
-def teacher_level_solutions(request):
-    return render(request, 'portal/teach/teacher_level_solutions.html')
-
-
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
-def teacher_lesson_plans(request):
-    return render(request, 'portal/teach/teacher_lesson_plans.html')
-
-
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
-def teacher_lesson_plans_python(request):
-    return render(request, 'portal/teach/teacher_lesson_plans_python.html')
-
-
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_classes(request):
     teacher = request.user.userprofile.teacher
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
