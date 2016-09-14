@@ -109,8 +109,10 @@ urlpatterns = patterns(
     url(r'^logout/$', logout_view, name='portal/logout'),
     url(r'^user/$', current_user, name='current_user'),
 
-    url(r'^teach/lesson_plans/$', RedirectView.as_view(pattern_name='materials_home', permanent=True)),
-    url(r'^teach/lesson_plans_python/$', RedirectView.as_view(pattern_name='materials_home', permanent=True)),
+    url(r'^teach/lesson_plans/$', RedirectView.as_view(pattern_name='materials_home', permanent=True),
+        name='teacher_lesson_plans'),
+    url(r'^teach/lesson_plans_python/$', RedirectView.as_view(pattern_name='materials_home', permanent=True),
+        name='teacher_lesson_plans_python'),
 
     url(r'^teach/materials/$', materials_home, name='materials_home'),
     url(r'^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer, name='materials_viewer'),
