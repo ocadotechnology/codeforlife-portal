@@ -139,12 +139,12 @@ def aggregated_data(request):
                        Teacher.objects.exclude(pending_join_request=None).count(), ""])
 
     table_data.append(["Number of teachers with unverified email address",
-                      Teacher.objects.exclude(user__user__email_verifications__verified=True).count(), ""])
+                      Teacher.objects.exclude(new_user__email_verifications__verified=True).count(), ""])
 
     otp_model_names = [model._meta.model_name for model in device_classes()]
     otp_query = Q()
     for model_name in otp_model_names:
-        otp_query = otp_query | Q(**{"user__user__%s__name" % model_name: 'default'})
+        otp_query = otp_query | Q(**{"new_user__%s__name" % model_name: 'default'})
     two_factor_teachers = Teacher.objects.filter(otp_query).distinct().count()
     table_data.append(["Number of teachers setup with 2FA", two_factor_teachers, ""])
     num_of_classes_per_teacher = Teacher.objects.annotate(num_classes=Count('class_teacher'))
@@ -209,7 +209,7 @@ def aggregated_data(request):
                        independent_students.count(), ""])
 
     table_data.append(["Number of independent students with unverified email address",
-                       Student.objects.exclude(user__user__email_verifications__verified=True).count(), ""])
+                       Student.objects.exclude(new_user__email_verifications__verified=True).count(), ""])
 
     table_data.append(["Number of school students",
                        Student.objects.exclude(class_field=None).count(), ""])

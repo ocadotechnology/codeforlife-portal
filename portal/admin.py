@@ -43,7 +43,7 @@ from portal.models import Class, Student, Guardian, Teacher, School, UserProfile
 
 
 class ClassAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'teacher__user__user__first_name', 'teacher__user__user__last_name']
+    search_fields = ['name', 'teacher__new_user__first_name', 'teacher__new_user__last_name']
     list_filter = ['teacher']
 
 
@@ -53,17 +53,17 @@ class SchoolAdmin(admin.ModelAdmin):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    search_fields = ['user__user__first_name', 'user__user__last_name']
+    search_fields = ['new_user__first_name', 'new_user__last_name']
     list_filter = ['class_field', 'class_field__teacher']
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    search_fields = ['user__user__first_name', 'user__user__last_name']
+    search_fields = ['new_user__first_name', 'new_user__last_name']
     list_filter = ['school']
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'user__date_joined']
+    search_fields = ['user__first_name', 'user__last_name', 'new_username', 'user__date_joined']
     list_filter = ['user__date_joined']
     list_display = ['user', 'joined_recently']
 

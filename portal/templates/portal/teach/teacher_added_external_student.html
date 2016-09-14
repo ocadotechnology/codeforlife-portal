@@ -14,9 +14,9 @@
         <p>The student has been successfully added to the class {{ class.name }}.</p>
         <p>Please provide the student with their new login details:</p>
         <p><b>Class Access Code:</b> {{ class.access_code }}</p>
-        <p><b>Name:</b> {{ student.user.user.first_name }}</p>
-        <p>{{ student.user.user.first_name }} should now login using the school login box on the <a href="{% url 'play' %}">Play</a> page with these details.</p>
-        <p>{{ student.user.user.first_name }}'s password is unchanged. You may manage this student, including changing their name and password, as with other students.</p>
+        <p><b>Name:</b> {{ student.new_user.first_name }}</p>
+        <p>{{ student.new_user.first_name }} should now login using the school login box on the <a href="{% url 'play' %}">Play</a> page with these details.</p>
+        <p>{{ student.new_user.first_name }}'s password is unchanged. You may manage this student, including changing their name and password, as with other students.</p>
     </div>
 
 <div class='section group'>

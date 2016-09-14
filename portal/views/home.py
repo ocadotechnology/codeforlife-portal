@@ -134,13 +134,13 @@ def teach(request):
                     email=data['email'],
                     password=data['password'])
 
-                send_verification_email(request, teacher.user.user)
+                send_verification_email(request, teacher.new_user)
 
                 return render(request, 'portal/email_verification_needed.html',
-                              {'user': teacher.user.user})
+                              {'user': teacher.new_user})
 
     logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
-        hasattr(request.user.userprofile, 'teacher') and \
+        hasattr(request.user, 'teacher') and \
         (request.user.is_verified() or not using_two_factor(request.user))
 
     res = render(request, 'portal/teach.html', {
@@ -243,9 +243,9 @@ def play(request):
 
                 email_supplied = (data['email'] != '')
                 if (email_supplied):
-                    send_verification_email(request, student.user.user)
+                    send_verification_email(request, student.new_user)
                     return render(request, 'portal/email_verification_needed.html',
-                                  {'user': student.user.user})
+                                  {'user': student.new_user})
                 else:  # dead code - frontend ensures email supplied.
                     auth_user = authenticate(username=data['username'], password=data['password'])
                     login(request, auth_user)
@@ -316,10 +316,10 @@ def contact(request):
 def current_user(request):
     if not hasattr(request.user, 'userprofile'):
         return HttpResponseRedirect(reverse_lazy('home'))
-    u = request.user.userprofile
-    if hasattr(u, 'student'):
+    u = request.user
+    if hasattr(request.user, 'new_student'):
         return HttpResponseRedirect(reverse_lazy('student_details'))
-    elif hasattr(u, 'teacher'):
+    elif hasattr(request.user, 'new_teacher'):
         return HttpResponseRedirect(reverse_lazy('teacher_home'))
     else:
         # default to homepage and logout if something goes wrong

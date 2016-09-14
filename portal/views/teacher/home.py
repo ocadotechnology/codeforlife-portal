@@ -46,7 +46,7 @@ from portal.permissions import logged_in_as_teacher
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_home(request):
-    teacher = request.user.userprofile.teacher
+    teacher = request.user.new_teacher
     num_classes = len(Class.objects.filter(teacher=teacher))
 
     pending_student_request_warning(request, teacher)

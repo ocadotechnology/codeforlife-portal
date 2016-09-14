@@ -15,8 +15,8 @@
     <div class="col span_2_of_3">
 
 
-		{% if user.userprofile.student.class_field %}
-		<p>You are logged in as a member of class {{ user.userprofile.student.class_field.name }} in school or club {{ user.userprofile.student.class_field.teacher.school.name }}.</p>
+		{% if user.new_student.class_field %}
+		<p>You are logged in as a member of class {{ user.new_student.class_field.name }} in school or club {{ user.new_student.class_field.teacher.school.name }}.</p>
 		{% endif %}
 
       <div class="section group">
@@ -38,15 +38,15 @@
             <tr>
               <td><a href="{% url 'game.views.level_selection.levels' %}">Play Rapid Router</a></td>
             </tr>
-            {% if user.userprofile.student.class_field %}
+            {% if user.new_student.class_field %}
             <tr>
               <td><a href="{% url 'game.views.scoreboard.scoreboard' %}">Rapid Router Scoreboard</a></td>
             </tr>
             {% endif %}
             <tr>
-              <td><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
+              <td><a href="{% url 'student_edit_account' %}">{% if user.new_student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
             </tr>
-            {% if not user.userprofile.student.class_field %}
+            {% if not user.new_student.class_field %}
             <tr>
               <td><a id="join_a_school_or_club" href="{% url 'student_join_organisation' %}">Join a school or club</a></td>
             </tr>

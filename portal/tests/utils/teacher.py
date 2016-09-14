@@ -55,7 +55,7 @@ def generate_details(**kwargs):
 def signup_teacher_directly(**kwargs):
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
     teacher = Teacher.objects.factory(title, first_name, last_name, email_address, password)
-    generate_token(teacher.user.user, preverified=True)
+    generate_token(teacher.new_user, preverified=True)
     teacher.user.save()
     return email_address, password
 
