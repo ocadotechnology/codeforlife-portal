@@ -58,7 +58,7 @@ def generate_email(name):
 def create_class_directly(teacher_email):
     name, accesss_code = generate_details()
 
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
+    teacher = Teacher.objects.get(user__email=teacher_email)
 
     klass = Class.objects.create(
         name=name,

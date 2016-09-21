@@ -83,9 +83,10 @@ class SecurityTestCase(TestCase):
         c = Client()
         t_email, t_pass = signup_teacher_directly()
         c.login(email=t_email, password=t_pass)
-        profile = UserProfile(user=User.objects.create_user('test'))
+        user = User.objects.create_user('test')
+        profile = UserProfile(user=user)
         profile.save()
-        stu = Student(user=profile)
+        stu = Student(user=user)
         stu.save()
 
         self.assertEqual(

@@ -140,7 +140,7 @@ def teacher_level_solutions(request):
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_classes(request):
-    teacher = request.user.new_teacher
+    teacher = request.user.teacher
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     if not teacher.school:
@@ -180,7 +180,7 @@ def create_class(form, teacher):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
+    students = Student.objects.filter(class_field=klass).order_by('user__first_name')
     # Check which students are logged in
     logged_in_students = klass.get_logged_in_students()
     for student in students:
@@ -190,7 +190,7 @@ def teacher_class(request, access_code):
             student.logged_in = False
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     if request.method == 'POST':
@@ -224,10 +224,10 @@ def teacher_class(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_class_password_reset(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
+    students = Student.objects.filter(class_field=klass).order_by('user__first_name')
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     student_ids = json.loads(request.POST.get('transfer_students', '[]'))
@@ -236,9 +236,9 @@ def teacher_class_password_reset(request, access_code):
     name_tokens = []
     for student in students:
         password = generate_password(6)
-        name_tokens.append({'name': student.new_user.first_name, 'password': password})
-        student.new_user.set_password(password)
-        student.new_user.save()
+        name_tokens.append({'name': student.user.first_name, 'password': password})
+        student.user.set_password(password)
+        student.user.save()
 
     return render(request, 'portal/teach/teacher_students_reset.html',
                   {'class': klass,
@@ -253,7 +253,7 @@ def teacher_move_class(request, access_code):
     teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(user=klass.teacher.user)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     if request.method == 'POST':
@@ -279,7 +279,7 @@ def teacher_move_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     transfer_students = request.POST.get('transfer_students', '[]')
@@ -306,11 +306,11 @@ def teacher_move_students_to_class(request, access_code):
     new_class = get_object_or_404(Class, id=new_class_id)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != old_class.teacher:
+    if request.user.teacher != old_class.teacher:
         raise Http404
 
     # check teacher authorised to transfer to new class
-    if request.user.new_teacher.school != new_class.teacher.school:
+    if request.user.teacher.school != new_class.teacher.school:
         raise Http404
 
     transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
@@ -319,7 +319,7 @@ def teacher_move_students_to_class(request, access_code):
     transfer_students = [get_object_or_404(Student, id=i, class_field=old_class) for i in transfer_students_ids]
 
     # get new class' students
-    new_class_students = Student.objects.filter(class_field=new_class).order_by('new_user__first_name')
+    new_class_students = Student.objects.filter(class_field=new_class).order_by('user__first_name')
 
     TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
 
@@ -327,18 +327,18 @@ def teacher_move_students_to_class(request, access_code):
         formset = TeacherMoveStudentDisambiguationFormSet(new_class, request.POST)
         if formset.is_valid():
             for name_update in formset.cleaned_data:
-                student = get_object_or_404(Student, class_field=old_class, new_user__first_name__iexact=name_update['orig_name'])
+                student = get_object_or_404(Student, class_field=old_class, user__first_name__iexact=name_update['orig_name'])
                 student.class_field = new_class
-                student.new_user.first_name = name_update['name']
+                student.user.first_name = name_update['name']
                 student.save()
-                student.new_user.save()
+                student.user.save()
 
             messages.success(request, 'The students have been transferred successfully.')
             return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': old_class.access_code}))
     else:
         # format the students for the form
-        initial_data = [{'orig_name': student.new_user.first_name,
-                         'name': student.new_user.first_name}
+        initial_data = [{'orig_name': student.user.first_name,
+                         'name': student.user.first_name}
                         for student in transfer_students]
 
         formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
@@ -357,7 +357,7 @@ def teacher_delete_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     # get student objects for students to be deleted, confirming they are in the class
@@ -366,7 +366,7 @@ def teacher_delete_students(request, access_code):
 
     # Delete all of the students
     for student in students:
-        student.new_user.delete()
+        student.user.delete()
 
     return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code}))
 
@@ -377,7 +377,7 @@ def teacher_dismiss_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     # get student objects for students to be deleted, confirming they are in the class
@@ -390,21 +390,21 @@ def teacher_dismiss_students(request, access_code):
         formset = TeacherDismissStudentsFormSet(request.POST)
         if formset.is_valid():
             for data in formset.cleaned_data:
-                student = get_object_or_404(Student, class_field=klass, new_user__first_name__iexact=data['orig_name'])
+                student = get_object_or_404(Student, class_field=klass, user__first_name__iexact=data['orig_name'])
                 student.class_field = None
-                student.new_user.first_name = data['name']
-                student.new_user.username = data['name']
-                student.new_user.email = data['email']
+                student.user.first_name = data['name']
+                student.user.username = data['name']
+                student.user.email = data['email']
                 student.save()
-                student.new_user.save()
+                student.user.save()
 
-                send_verification_email(request, student.new_user)
+                send_verification_email(request, student.user)
 
             messages.success(request, 'The students have been removed successfully from the class.')
             return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': access_code}))
     else:
-        initial_data = [{'orig_name': student.new_user.first_name,
-                         'name': generate_new_student_name(student.new_user.first_name),
+        initial_data = [{'orig_name': student.user.first_name,
+                         'name': generate_new_student_name(student.user.first_name),
                          'email': ''}
                         for student in students]
 
@@ -422,7 +422,7 @@ def teacher_edit_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     if klass.always_accept_requests:
@@ -483,7 +483,7 @@ def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.teacher != klass.teacher:
         raise Http404
 
     if Student.objects.filter(class_field=klass).exists():
@@ -501,13 +501,13 @@ def teacher_student_reset(request, pk):
     student = get_object_or_404(Student, id=pk)
 
     # check user is authorised to edit student
-    if request.user.new_teacher != student.class_field.teacher:
+    if request.user.teacher != student.class_field.teacher:
         raise Http404
 
     new_password = generate_password(6)
-    student.new_user.set_password(new_password)
-    student.new_user.save()
-    name_pass = [{'name': student.new_user.first_name, 'password': new_password}]
+    student.user.set_password(new_password)
+    student.user.save()
+    name_pass = [{'name': student.user.first_name, 'password': new_password}]
 
     return render(request, 'portal/teach/teacher_student_reset.html',
                   {'student': student,
@@ -522,11 +522,11 @@ def teacher_edit_student(request, pk):
     student = get_object_or_404(Student, id=pk)
 
     # check user is authorised to edit student
-    if request.user.new_teacher != student.class_field.teacher:
+    if request.user.teacher != student.class_field.teacher:
         raise Http404
 
     name_form = TeacherEditStudentForm(student, initial={
-        'name': student.new_user.first_name
+        'name': student.user.first_name
     })
 
     password_form = TeacherSetStudentPass()
@@ -536,8 +536,8 @@ def teacher_edit_student(request, pk):
             name_form = TeacherEditStudentForm(student, request.POST)
             if name_form.is_valid():
                 name = name_form.cleaned_data['name']
-                student.new_user.first_name = name
-                student.new_user.save()
+                student.user.first_name = name
+                student.user.save()
                 student.save()
 
                 messages.success(request, "The student's details have been changed successfully.")
@@ -548,9 +548,9 @@ def teacher_edit_student(request, pk):
                 # check not default value for CharField
                 new_password = password_form.cleaned_data['password']
                 if (new_password != ''):
-                    student.new_user.set_password(new_password)
-                    student.new_user.save()
-                    name_pass = [{'name': student.new_user.first_name, 'password': new_password}]
+                    student.user.set_password(new_password)
+                    student.user.save()
+                    name_pass = [{'name': student.user.first_name, 'password': new_password}]
                     return render(request, 'portal/teach/teacher_student_reset.html',
                                   {'student': student,
                                    'class': student.class_field,
@@ -568,7 +568,7 @@ def teacher_edit_student(request, pk):
 @login_required(login_url=reverse_lazy('teach'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_edit_account(request):
-    teacher = request.user.new_teacher
+    teacher = request.user.teacher
 
     backup_tokens = 0
     # For teachers using 2FA, find out how many backup tokens they have
@@ -586,21 +586,21 @@ def teacher_edit_account(request):
 
             # check not default value for CharField
             if (data['password'] != ''):
-                teacher.new_user.set_password(data['password'])
-                teacher.new_user.save()
+                teacher.user.set_password(data['password'])
+                teacher.user.save()
                 update_session_auth_hash(request, form.user)
 
             teacher.title = data['title']
-            teacher.new_user.first_name = data['first_name']
-            teacher.new_user.last_name = data['last_name']
+            teacher.user.first_name = data['first_name']
+            teacher.user.last_name = data['last_name']
             new_email = data['email']
-            if new_email != '' and new_email != teacher.new_user.email:
+            if new_email != '' and new_email != teacher.user.email:
                     # new email to set and verify
                     changing_email = True
-                    send_verification_email(request, teacher.new_user, new_email)
+                    send_verification_email(request, teacher.user, new_email)
 
             teacher.save()
-            teacher.new_user.save()
+            teacher.user.save()
 
             if changing_email:
                 logout(request)
@@ -615,8 +615,8 @@ def teacher_edit_account(request):
     else:
         form = TeacherEditAccountForm(request.user, initial={
             'title': teacher.title,
-            'first_name': teacher.new_user.first_name,
-            'last_name': teacher.new_user.last_name,
+            'first_name': teacher.user.first_name,
+            'last_name': teacher.user.last_name,
             'school': teacher.school,
         })
 
@@ -629,13 +629,13 @@ def teacher_edit_account(request):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
 def teacher_disable_2FA(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
+    user = request.user.teacher
 
     # check user has authority to change
     if teacher.school != user.school or not user.is_admin:
         raise Http404
 
-    for device in devices_for_user(teacher.new_user):
+    for device in devices_for_user(teacher.user):
         device.delete()
 
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
@@ -688,7 +688,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
-    if klass.teacher.new_user != request.user:
+    if klass.teacher.user != request.user:
         raise Http404
 
     COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
@@ -705,7 +705,7 @@ def teacher_print_reminder_cards(request, access_code):
 
         for student in students:
             student_data.append({
-                'name': student.new_user.first_name,
+                'name': student.user.first_name,
                 'password': '__________',
             })
 
@@ -807,10 +807,10 @@ def teacher_accept_student_request(request, pk):
         raise Http404
 
     # check user (teacher) has authority to accept student
-    if request.user.new_teacher != student.pending_class_request.teacher:
+    if request.user.teacher != student.pending_class_request.teacher:
         raise Http404
 
-    students = Student.objects.filter(class_field=student.pending_class_request).order_by('new_user__first_name')
+    students = Student.objects.filter(class_field=student.pending_class_request).order_by('user__first_name')
 
     if request.method == 'POST':
         form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
@@ -818,17 +818,17 @@ def teacher_accept_student_request(request, pk):
             data = form.cleaned_data
             student.class_field = student.pending_class_request
             student.pending_class_request = None
-            student.new_user.username = get_random_username()
-            student.new_user.first_name = data['name']
-            student.new_user.last_name = ''
-            student.new_user.email = ''
+            student.user.username = get_random_username()
+            student.user.first_name = data['name']
+            student.user.last_name = ''
+            student.user.email = ''
             student.save()
-            student.new_user.save()
+            student.user.save()
             return render(request, 'portal/teach/teacher_added_external_student.html',
                           {'student': student,
                            'class': student.class_field})
     else:
-        form = TeacherAddExternalStudentForm(student.pending_class_request, initial={'name': student.new_user.first_name})
+        form = TeacherAddExternalStudentForm(student.pending_class_request, initial={'name': student.user.first_name})
 
     return render(request, 'portal/teach/teacher_add_external_student.html',
                   {'students': students,
@@ -847,11 +847,11 @@ def teacher_reject_student_request(request, pk):
         raise Http404
 
     # check user (teacher) has authority to reject student
-    if request.user.new_teacher != student.pending_class_request.teacher:
+    if request.user.teacher != student.pending_class_request.teacher:
         raise Http404
 
     emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
-    send_email(NOTIFICATION_EMAIL, [student.new_user.email], emailMessage['subject'], emailMessage['message'])
+    send_email(NOTIFICATION_EMAIL, [student.user.email], emailMessage['subject'], emailMessage['message'])
 
     student.pending_class_request = None
     student.save()

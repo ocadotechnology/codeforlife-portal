@@ -84,7 +84,7 @@ class StudentPasswordResetForm(forms.Form):
         if not user_filter.exists():
             raise forms.ValidationError("Cannot find an account with that username")
         # Check such a username is not in use by a student part of a class/school
-        if not Student.objects.filter(class_field=None, new_user__username=username).exists():
+        if not Student.objects.filter(class_field=None, user__username=username).exists():
             raise forms.ValidationError("Cannot find an account with that username")
         return username
 
@@ -158,11 +158,11 @@ class TeacherPasswordResetForm(forms.Form):
         # Check such an email exists
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("Cannot find an account with that email")
-        teacher = Teacher.objects.filter(new_user__email=email)
+        teacher = Teacher.objects.filter(user__email=email)
         # Check such an email is associated with a teacher
         if not teacher.exists():
             raise forms.ValidationError("Cannot find an account with that email")
-        self.username = teacher[0].new_user.username
+        self.username = teacher[0].user.username
         return email
 
     def send_mail(self, subject_template_name, email_template_name,

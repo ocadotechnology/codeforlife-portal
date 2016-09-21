@@ -74,7 +74,7 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None, post_rese
         user = UserModel._default_manager.get(pk=uid)
     except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None
-    if user and hasattr(user, 'new_student'):
+    if user and hasattr(user, 'student'):
         usertype = 'STUDENT'
     else:
         usertype = 'TEACHER'

@@ -66,11 +66,10 @@ def has_beta_access(request):
 @register.filter(name='make_into_username')
 def make_into_username(u):
     username = ''
-    if hasattr(u, 'userprofile'):
-        if hasattr(u.userprofile, 'student'):
-            username = u.first_name
-        elif hasattr(u.userprofile, 'teacher'):
-            username = u.userprofile.teacher.title + ' ' + u.last_name
+    if hasattr(u, 'student'):
+        username = u.first_name
+    elif hasattr(u, 'teacher'):
+        username = u.teacher.title + ' ' + u.last_name
 
     return username
 
@@ -82,15 +81,15 @@ def truncate(s, max_length=20):
 
 @register.filter(name='is_logged_in_as_teacher')
 def is_logged_in_as_teacher(u):
-    return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
+    return is_logged_in(u) and hasattr(u, 'teacher')
 
 @register.filter(name='is_logged_in_as_student')
 def is_logged_in_as_student(u):
-    return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'student')
+    return is_logged_in(u) and hasattr(u, 'student')
 
 @register.filter(name='is_logged_in_as_school_user')
 def is_logged_in_as_school_user(u):
-    return is_logged_in(u) and u.userprofile and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
+    return is_logged_in(u) and ((hasattr(u, 'student') and u.student.class_field != None) or hasattr(u, 'teacher'))
 
 @register.filter(name='make_title_caps')
 def make_title_caps(s):

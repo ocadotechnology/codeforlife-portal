@@ -74,9 +74,9 @@ def verify_email(request, token):
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
-    if hasattr(user, 'new_student'):
+    if hasattr(user, 'student'):
         return HttpResponseRedirect(reverse_lazy('play'))
-    if hasattr(user, 'new_teacher'):
+    if hasattr(user, 'teacher'):
         return HttpResponseRedirect(reverse_lazy('teach'))
 
     # default to homepage if something goes wrong

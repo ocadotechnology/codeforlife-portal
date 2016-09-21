@@ -52,12 +52,12 @@ var CONFIRMATION_DATA = {};
 
         {% for coworker in coworkers %}
             <tr>
-                <td>{{ coworker.title }} {{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }} {% if coworker.new_user == user %}<b>(you)</b>{% endif %}</td>
-                <td>{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.new_user.email|emaildomain }}){% endif %}</td>
-                {% if coworker.new_user != user and is_admin %}
-                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name }}')">Remove</button></td>
-                    <td>{% if coworker.is_admin %}<a class='btn btn-default btn-small no-margin' href="{% url 'organisation_toggle_admin' coworker.id %}">Make non-admin</a>{% else %}<button class='btn btn-default btn-small no-margin' onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name }}')">Make admin</button>{% endif %}</td>
-                    <td>{% if coworker.new_user|has_2FA %}<button class='btn btn-default btn-small no-margin' onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.new_user.first_name }}')">Disable 2FA</button>{% endif %}</td>
+                <td>{{ coworker.title }} {{ coworker.user.first_name }} {{ coworker.user.last_name }} {% if coworker.user == user %}<b>(you)</b>{% endif %}</td>
+                <td>{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %} ({{ coworker.user.email|emaildomain }}){% endif %}</td>
+                {% if coworker.user != user and is_admin %}
+                    <td><button class='btn btn-danger btn-small no-margin' onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.user.first_name }}')">Remove</button></td>
+                    <td>{% if coworker.is_admin %}<a class='btn btn-default btn-small no-margin' href="{% url 'organisation_toggle_admin' coworker.id %}">Make non-admin</a>{% else %}<button class='btn btn-default btn-small no-margin' onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.user.first_name }}')">Make admin</button>{% endif %}</td>
+                    <td>{% if coworker.user|has_2FA %}<button class='btn btn-default btn-small no-margin' onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.user.first_name }}')">Disable 2FA</button>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
@@ -89,8 +89,8 @@ var CONFIRMATION_DATA = {};
 
             {% for join_request in join_requests %}
                 <tr>
-                    <td>{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</td>
-                    <td>{{ join_request.new_user.email }}</td>
+                    <td>{{ join_request.title }} {{ join_request.user.first_name }} {{ join_request.user.last_name }}</td>
+                    <td>{{ join_request.user.email }}</td>
                     <td><a class='btn btn-default btn-small no-margin' href="{% url 'organisation_allow_join' join_request.id %}">Allow</a></td>
                     <td><a class='btn btn-default btn-small no-margin' href="{% url 'organisation_deny_join' join_request.id %}">Deny</a></td>
                 </tr>
@@ -138,7 +138,7 @@ var CONFIRMATION_DATA = {};
 <div class='section group'>
     <div class='span_1_of_2'>
         <div class='login-card'>
-            <h4>Leave {{ user.new_teacher.school.name }}</h4><br>
+            <h4>Leave {{ user.teacher.school.name }}</h4><br>
             <p>Time to go? As a teacher with non-administrative responsibilities, you may leave this school or club and transfer students or classes to other teachers within your organisation.</p>
             <a class='btn btn-danger wide' href="{% url 'organisation_leave' %}">Leave school or club</a>
         </div>
