@@ -47,6 +47,7 @@ from django_countries import countries
 
 from portal.models import EmailVerification, School, Teacher, Student
 from portal.helpers.email import send_email, NOTIFICATION_EMAIL
+from portal.helpers.location import get_uk_locations
 from portal.app_settings import CONTACT_FORM_EMAILS
 
 
@@ -91,13 +92,16 @@ def send_new_users_report(request):
     student_count = Student.objects.count()
     schools_countries = School.objects.values('country').annotate(nb_countries=Count('id')).order_by('-nb_countries')
     countries_count = "\n".join('{}: {}'.format(dict(countries)[k["country"]], k["nb_countries"]) for k in schools_countries)
+    uk_schools_postcodes = [v['postcode'] for v in School.objects.filter(country='GB').values('postcode')]
+    uk_towns_count = "\n".join('{}: {}'.format(key, value) for key, value in get_uk_locations(uk_schools_postcodes))
     send_email(NOTIFICATION_EMAIL, CONTACT_FORM_EMAILS, "new users",
                'There are {new_users} new users this week!\n'
                'The total number of registered users is now: {users}\n'
                'Current number of schools: {schools}\n'
                'Current number of teachers: {teachers}\n'
-               'Current number of students: {students}\n'
-               'Schools per country:\n{countries_counter}'
+               'Current number of students: {students}\n\n'
+               'Schools per country:\n{countries_counter}\n\n'
+               'Schools per UK District:\n{uk_towns_counter}\n'
                .format(new_users=new_users_count, users=users_count, schools=school_count, teachers=teacher_count,
-                       students=student_count, countries_counter=countries_count))
+                       students=student_count, countries_counter=countries_count, uk_towns_counter=uk_towns_count))
     return HttpResponse('success')

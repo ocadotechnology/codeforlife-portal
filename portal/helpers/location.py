@@ -35,16 +35,22 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import requests
+import json
 import exceptions
+from collections import Counter
+
 
 class RequestException(exceptions.Exception):
     pass
 
+
 class ApiException(exceptions.Exception):
     pass
 
+
 def is_GB(component):
     return 'country' in component['types'] and component['short_name'] == 'GB'
+
 
 def extract_locality(components):
     town = None
@@ -62,6 +68,7 @@ def extract_locality(components):
     
     return town, country
 
+
 def extract_location_data(results):
     for result in results:
         town, country = extract_locality(result['address_components'])
@@ -69,6 +76,7 @@ def extract_location_data(results):
         return country, town, location['lat'], location['lng']
 
     return None, None, None, None
+
 
 # Uses Google Maps API to lookup location data using postcode + country(ISO 3166-1 alpha-2)
 # By using country, it can return a more accurate location as the same postcode may exist in multiple countries
@@ -79,12 +87,14 @@ def lookup_coord(postcode, country):
 
     return get_location_from_api(payload)
 
+
 # Using the Google Map API, lookup country using postcode
 def lookup_country(postcode):
 
     payload = {'components': 'postal_code:' + postcode}
 
     return get_location_from_api(payload)
+
 
 # Takes in payload as argument and use it when calling API
 # Catches any error and return an error message as first element in the tuple
@@ -136,3 +146,21 @@ def get_location_from_api(payload):
         error = 'API error: %s' % e
 
     return error, default_country, default_town, default_lat, default_lng
+
+
+def get_uk_locations(postcodes):
+    payload = {'postcodes': postcodes}
+    headers = {'content-type': 'application/json'}
+    res = requests.post('http://api.postcodes.io/postcodes', data=json.dumps(payload), headers=headers)
+
+    if not res.status_code == requests.codes.ok:
+        return []
+
+    data = res.json()
+    status = data.get('status', 404)
+    result = data.get('result', [])
+
+    if not (status == 200 and len(result) > 0):
+        return []
+
+    return Counter([location['result']['admin_district']for location in result]).most_common()
