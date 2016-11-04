@@ -44,6 +44,7 @@ DEFAULT_SETTINGS = {
     'AUTOCONFIG_INDEX_VIEW': 'home',
     'LANGUAGE_CODE': 'en-gb',
     'SITE_ID': 1,
+    'MEDIA_ROOT': os.path.join(os.path.join(os.path.dirname(__file__), 'static'), 'email_media/')
 }
 
 SETTINGS = {

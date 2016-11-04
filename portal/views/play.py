@@ -49,7 +49,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 from portal.models import UserProfile, School, Teacher, Class, Student
 from portal.forms.play import StudentLoginForm, StudentEditAccountForm, StudentSignupForm, IndependentStudentLoginForm, StudentJoinOrganisationForm
 from portal.permissions import logged_in_as_student
-from portal.helpers.email import send_email, send_verification_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import send_email, send_verification_email, NOTIFICATION_EMAIL
 from portal import app_settings, emailMessages
 
 from ratelimit.decorators import ratelimit

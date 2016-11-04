@@ -39,7 +39,7 @@ from django.core import mail
 import sys
 
 from portal.models import Teacher
-from portal.helpers.email import generate_token
+from portal.helpers.emails import generate_token
 
 
 def generate_details(**kwargs):
