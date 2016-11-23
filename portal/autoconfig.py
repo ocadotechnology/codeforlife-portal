@@ -53,9 +53,22 @@ SETTINGS = {
         'django_otp.plugins.otp_static',
         'django_otp.plugins.otp_totp',
     ],
+    'PIPELINE_COMPILERS': (
+        'pipeline.compilers.sass.SASSCompiler',
+    ),
+    'PIPELINE_CSS': {
+        'css': {
+            'source_filenames': (
+                'portal/sass/*.scss',
+            ),
+            'output_filename': 'portal.css',
+        },
+    },
+    'PIPELINE_CSS_COMPRESSOR': None,
     'INSTALLED_APPS': [
         'cms',
         'game',
+        'pipeline',
         'portal',
         'ratelimit',
         'django.contrib.admin',
@@ -78,6 +91,10 @@ SETTINGS = {
     'LANGUAGES': [
         ('en-gb', 'English'),
     ],
+    'STATICFILES_FINDERS': [
+        'pipeline.finders.PipelineFinder',
+    ],
+    'STATICFILES_STORAGE': 'pipeline.storage.PipelineStorage',
     'MESSAGE_STORAGE': 'django.contrib.messages.storage.session.SessionStorage',
     'MIDDLEWARE_CLASSES': [
         'django.contrib.sessions.middleware.SessionMiddleware',
