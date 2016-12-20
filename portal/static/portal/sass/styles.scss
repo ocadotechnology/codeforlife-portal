@@ -151,7 +151,7 @@ img {
 }
 
 .homepage-info img {
-  @include _padding(0, 0, 15px, 0);
+  @include _padding(0px, 0px, 15px, 0px);
 }
 
 h4,
@@ -193,7 +193,7 @@ a[class^='button']:visited {
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
-  @include _margin(50px, 0, 0, 0);
+  @include _margin(50px, 0px, 0px, 0px);
 }
 
 .button--big {
@@ -214,8 +214,8 @@ a[class^='button']:visited {
 }
 
 .button--menu {
-  @include _padding(10px, 0, 21px, 0);
-  @include _margin(0, 40px, 0, 40px);
+  @include _padding(10px, 0px, 21px, 0px);
+  @include _margin(0px, 40px, 0px, 40px);
   background-color: transparent;
   border-radius: 0;
 }
@@ -308,7 +308,7 @@ a[class^='button']:visited {
 }
 
 .background {
-  @include _padding(40px, 0, 40px, 0);
+  @include _padding(40px, 0px, 40px, 0px);
 }
 
 .background--primary {
@@ -328,15 +328,15 @@ a[class^='button']:visited {
 }
 
 .row--small {
-  @include _padding(25px, 0, 0, 0);
+  @include _padding(25px, 0px, 0px, 0px);
 }
 
 .row--regular {
-  @include _padding(50px, 0, 50px, 0);
+  @include _padding(50px, 0px, 50px, 0px);
 }
 
 .row--under {
-  @include _padding(0, 0, 20px, 0);
+  @include _padding(0px, 0px, 20px, 0px);
 }
 
 .image-row {
@@ -344,7 +344,7 @@ a[class^='button']:visited {
   vertical-align: bottom;
 
   img {
-    @include _padding(0, 20px, 0, 20px);
+    @include _padding(0px, 20px, 0px, 20px);
     vertical-align: bottom;
   }
 }
@@ -379,15 +379,15 @@ section {
   text-align: center;
 
   button {
-    @include _margin(0, 10px, 0, 10px);
+    @include _margin(0px, 10px, 0px, 10px);
   }
 
   h4 {
-    @include _padding(10px, 0, 30px, 0);
+    @include _padding(10px, 0px, 30px, 0px);
   }
 
   .youtube img {
-    @include _margin(30px, 0, 30px, 0);
+    @include _margin(30px, 0px, 30px, 0px);
   }
 }
 
@@ -464,7 +464,7 @@ section {
 }
 
 a .glyphicon {
-  @include _margin(10px, 0, 0, 0);
+  @include _margin(10px, 0px, 0px, 0px);
 }
 
 .tab {
@@ -507,12 +507,12 @@ a .glyphicon {
 }
 
 .tabcontent {
-  @include _padding(6px, 0, 6px, 0);
+  @include _padding(6px, 0px, 6px, 0px);
   display: none;
   width: 100%;
 
   .body-text {
-    @include _padding(0, 0, 20px, 0);
+    @include _padding(0px, 0px, 20px, 0px);
   }
 
 }
@@ -520,18 +520,18 @@ a .glyphicon {
 form {
   @include _font-size(20px);
   @include _line-height(25px);
-  @include _padding(20px, 0, 30px, 0);
+  @include _padding(20px, 0px, 30px, 0px);
 
   button {
-    @include _margin(20px, 0, 10px, 0);
+    @include _margin(20px, 0px, 10px, 0px);
   }
 
   input[type=text],
   input[type=password],
   select {
     @include _font-size(20px);
-    @include _margin(10px, 0, 10px, 0);
-    @include _padding(0, 0, 0, 10px);
+    @include _margin(10px, 0px, 10px, 0px);
+    @include _padding(0px, 0px, 0px, 10px);
     background-color: $color-background-secondary;
     height: 50px;
     width: 100%;
@@ -543,15 +543,15 @@ form {
 
   textarea {
     @include _font-size(20px);
-    @include _margin(30px, 0, 10px, 0);
-    @include _padding(10px, 0, 0, 10px);
+    @include _margin(30px, 0px, 10px, 0px);
+    @include _padding(10px, 0px, 0px, 10px);
     width: 100%;
   }
 
 }
 
 .form--register {
-  @include _padding(30px, 0, 30px, 0);
+  @include _padding(30px, 0px, 30px, 0px);
   text-align: center;
 
   h1,
@@ -566,7 +566,7 @@ form {
   }
 
   .no-password {
-    @include _padding(15px, 0, 30px, 0);
+    @include _padding(15px, 0px, 30px, 0px);
     text-align: center;
   }
 
@@ -581,7 +581,7 @@ form {
 }
 
 .form__choice {
-  @include _margin(40px, 0, 0, 37px);
+  @include _margin(40px, 0px, 0px, 37px);
   background-color: $color-background-secondary;
   border-radius: 50%;
   height: 75px;
@@ -589,7 +589,7 @@ form {
   width: 75px;
 
   h3 {
-    @include _padding(15px, 0, 0, 0);
+    @include _padding(15px, 0px, 0px, 0px);
     color: $color-text-tertiary;
   }
 }
@@ -624,21 +624,21 @@ form {
   }
 
   .row {
-    @include _padding(0, 0, 30px, 0);
+    @include _padding(0px, 0px, 30px, 0px);
   }
 
   .small-text {
-    @include _padding(20px, 0, 8px, 0);
+    @include _padding(20px, 0px, 8px, 0px);
   }
 
 }
 
 .banner--homepage {
-  @include _padding(100px, 0, 100px, 10px);
+  @include _padding(100px, 0px, 100px, 10px);
   text-align: center;
 
   p {
-    @include _padding(0, 0, 60px, 10px);
+    @include _padding(0px, 0px, 60px, 10px);
   }
 
   .body-text {
@@ -650,7 +650,7 @@ form {
 .banner--homepage__text {
   @include _font-size(140px);
   @include _line-height(120px);
-  @include _padding(0, 0, 50px, 0);
+  @include _padding(0px, 0px, 50px, 0px);
   background-color: transparent;
   color: $color-text-secondary;
 }
@@ -683,15 +683,15 @@ form {
 
 .banner--teacher,
 .banner--student {
-  @include _padding(80px, 0, 30px, 0);
+  @include _padding(80px, 0px, 30px, 0px);
   height: 343px; //TO BE CHANGED!
 
   h1 {
-    @include _padding(50px, 0, 0, 0);
+    @include _padding(50px, 0px, 0px, 0px);
   }
 
   .banner__text--center {
-    @include _padding(97.5px, 0, 97.5px, 0);
+    @include _padding(97.5px, 0px, 97.5px, 0px);
   }
 
 }
@@ -702,7 +702,7 @@ form {
 }
 
 .banner--teacher--plain {
-  @include _padding(100px, 0, 50px, 0);
+  @include _padding(100px, 0px, 50px, 0px);
   background-color: $color-background-teach;
   background-image: none;
 
@@ -713,7 +713,7 @@ form {
 }
 
 .banner--rapid-router {
-  @include _padding(150px, 0, 100px, 0);
+  @include _padding(150px, 0px, 100px, 0px);
   background-image: url('../img_new/rapid-router-landing-hero.png');
   background-position: center center;
   background-repeat: no-repeat;
@@ -725,7 +725,7 @@ form {
 }
 
 .sub-nav--warning {
-  @include _padding(15px, 0, 0, 0);
+  @include _padding(15px, 0px, 0px, 0px);
   background-color: $color-background-warning;
 
   * {
@@ -733,7 +733,7 @@ form {
   }
 
   p {
-    @include _padding(0, 20px, 0, 20px);
+    @include _padding(0px, 20px, 0px, 20px);
     text-align: left;
   }
 
@@ -752,11 +752,11 @@ form {
 }
 
 .arrows {
-  @include _padding(20px, 0, 0, 0);
+  @include _padding(20px, 0px, 0px, 0px);
 }
 
 .progress-arrow {
-  @include _margin(0, -10px, 0, 0);
+  @include _margin(0px, -10px, 0px, 0px);
   display: inline-block;
 
   img {
@@ -770,11 +770,11 @@ form {
 }
 
 .progress-arrow__back {
-  @include _margin(0, -3px, 0, 0);
+  @include _margin(0px, -3px, 0px, 0px);
 }
 
 .progress-arrow__body {
-  @include _margin(0, -3px, 0, 0);
+  @include _margin(0px, -3px, 0px, 0px);
   @include _padding(5px, 10px, 17px, 15px);
   height: 50px;
   text-align: left;
@@ -785,7 +785,7 @@ form {
   }
 
   p {
-    @include _padding(0, 0, 0, 10px);
+    @include _padding(0px, 0px, 0px, 10px);
   }
 
 }
@@ -850,7 +850,7 @@ form {
     padding: 0;
 
     p {
-      @include _padding(0, 15px, 0, 15px);
+      @include _padding(0px, 15px, 0px, 15px);
       display: inline;
     }
   }
@@ -872,8 +872,8 @@ form {
 
   input {
     @include _font-size(20px);
-    @include _margin(0, -3px, 0, 5px);
-    @include _padding(0, 0, 0, 15px);
+    @include _margin(0px, -3px, 0px, 5px);
+    @include _padding(0px, 0px, 0px, 15px);
     border: 0;
     height: 50px;
     vertical-align: middle;
@@ -886,7 +886,7 @@ form {
   }
 
   .input-button {
-    @include _padding(2px, 0, 0, 13px);
+    @include _padding(2px, 0px, 0px, 13px);
     background-color: $color-background-secondary;
     display: inline-block;
     height: 50px;
@@ -937,7 +937,7 @@ td {
   @include _padding(10px, 10px, 10px, 10px);
 
   p {
-    @include _padding(0, 20px, 0, 0);
+    @include _padding(0px, 20px, 0px, 0px);
     display: inline-block;
     vertical-align: middle;
   }
@@ -1023,7 +1023,7 @@ td {
   background-color: $color-background-tint-quinary;
 
   button {
-    @include _margin(0, 19px, 0, 19px);
+    @include _margin(0px, 19px, 0px, 19px);
     float: left;
   }
 
@@ -1052,13 +1052,13 @@ td {
 }
 
 .sub-nav {
-  @include _margin(-4px, 0, 0, 0);
+  @include _margin(-4px, 0px, 0px, 0px);
   height: 80px;
   text-align: center;
   z-index: 2;
 
   a[class^='button'] {
-    @include _margin(0, 16px, 0, 16px);
+    @include _margin(0px, 16px, 0px, 16px);
   }
 
 }
@@ -1096,7 +1096,7 @@ td {
   }
 
   .menu {
-    @include _padding(10px, 0, 0, 0);
+    @include _padding(10px, 0px, 0px, 0px);
     background-color: $color-background-secondary;
     border-bottom: 1px solid $color-background-tertiary;
     height: 80px;
@@ -1110,11 +1110,11 @@ td {
     }
 
     .button--menu--primary {
-      @include _padding(10px, 0, 16px, 0);
+      @include _padding(10px, 0px, 16px, 0px);
     }
 
     .button--menu--secondary {
-      @include _padding(10px, 0, 18px, 0);
+      @include _padding(10px, 0px, 18px, 0px);
     }
 
     .button--menu--enabled {
@@ -1131,7 +1131,7 @@ td {
     }
 
     .button--secondary--dark {
-      @include _margin(0, 0, 0, 30px);
+      @include _margin(0px, 0px, 0px, 30px);
     }
 
   }
@@ -1152,11 +1152,11 @@ td {
   }
 
   .menu {
-    @include _padding(0, 0, 15px, 0);
+    @include _padding(0px, 0px, 15px, 0px);
     background-color: $color-background-tertiary;
 
     .hamburger {
-      @include _margin(15px, 0, 0, 15px);
+      @include _margin(15px, 0px, 0px, 15px);
       background-color: transparent;
       background-image: url('../img_new/hamburger.png');
       border-radius: 0;
@@ -1165,8 +1165,8 @@ td {
     }
 
     .logo {
-      @include _margin(0, 40px, 0, 0);
-      @include _padding(0, 0, 10px, 15px);
+      @include _margin(0px, 40px, 0px, 0px);
+      @include _padding(0px, 0px, 10px, 15px);
       content: url('../img_new/logo-horizontal.png');
       position: relative;
       width: 40%;
@@ -1174,7 +1174,7 @@ td {
     }
 
     button {
-      @include _margin(15px, 5px, 0, 5px);
+      @include _margin(15px, 5px, 0px, 5px);
     }
 
     .button--menu,
@@ -1201,7 +1201,7 @@ td {
   }
 
   .banner--homepage {
-    @include _padding(50px, 0, 50px, 10px);
+    @include _padding(50px, 0px, 50px, 10px);
   }
 
   .banner__item {
@@ -1220,21 +1220,21 @@ td {
 
   .button--banner__item {
     @include _font-size(30px);
-    @include _margin(30px, 0, 0, 0);
+    @include _margin(30px, 0px, 0px, 0px);
     font-weight: 500;
     width: 50%;
   }
 
   .button--menu__item__sub {
     @include _font-size(30px);
-    @include _padding(0, 0, 0, 50px);
+    @include _padding(0px, 0px, 0px, 50px);
     background-color: $color-background-teach;
     font-weight: 500;
     text-align: left;
   }
 
   .banner {
-    @include _padding(80px, 0, 0, 0);
+    @include _padding(80px, 0px, 0px, 0px);
     text-align: center;
 
     p a {
@@ -1255,7 +1255,7 @@ td {
   }
 
   .banner--rapid-router {
-    @include _padding(50px, 0, 150px, 0);
+    @include _padding(50px, 0px, 150px, 0px);
 
     button {
       margin-left: -97.5px;
@@ -1277,7 +1277,7 @@ td {
       padding: 0;
 
       p {
-        @include _padding(0, 15px, 0, 15px);
+        @include _padding(0px, 15px, 0px, 15px);
         display: inline-block;
       }
 
