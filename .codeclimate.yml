@@ -19,7 +19,7 @@ engines:
     - "**/*.css"
 exclude_paths:
 - portal/_version.py
-- portal/static/portal/css/bootstrap.*
+- portal/static/portal/sass/bootstrap.*
 - portal/static/portal/js/bootstrap.js
 - versioneer.py
 - example_project/example_project/static/**
