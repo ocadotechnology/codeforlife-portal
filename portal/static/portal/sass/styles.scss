@@ -68,6 +68,10 @@ $color-background-tint-quinary: #d8d8d8;
   margin: calculate-rem($margin-top) calculate-rem($margin-right) calculate-rem($margin-bottom) calculate-rem($margin-left);
 }
 
+body {
+  color: #4a4a4a;
+}
+
 h1 {
   @include _font-size(55px);
   @include _line-height(60px);
@@ -111,6 +115,24 @@ h4 {
   @include _line-height(26px);
 }
 
+a {
+  color: #4a4a4a;
+}
+
+a:hover,
+a:focus {
+  color: #4a4a4a;;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+blockquote {
+  border-left: 0;
+}
+
 blockquote p {
   @include _font-size(20px);
   @include _line-height(25px);
@@ -152,6 +174,14 @@ img {
 
 .homepage-info img {
   @include _padding(0px, 0px, 15px, 0px);
+}
+
+.homepage-info div[class^="col-"] {
+  @include _padding(0px, 30px, 0px, 30px);
+}
+
+[class^="col-"] {
+  padding-left: 0;
 }
 
 h4,
@@ -325,6 +355,10 @@ a[class^='button']:visited {
 
 .background--quaternary {
   background-color: $color-background-tint-quaternary;
+}
+
+.row {
+  margin: 0;
 }
 
 .row--small {
