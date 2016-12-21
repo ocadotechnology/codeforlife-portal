@@ -157,8 +157,8 @@ class TeacherEditAccountForm(forms.Form):
         email = self.cleaned_data.get('email', None)
         if email:
             teachers = Teacher.objects.filter(new_user__email=email)
-            if ((len(teachers) == 1 and teachers[0].new_user != self.user)
-                    or len(teachers) > 1):
+            if ((len(teachers) == 1 and teachers[0].new_user != self.user) or
+                len(teachers) > 1):
                 raise forms.ValidationError("That email address is already in use")
 
         return email
@@ -402,8 +402,8 @@ def validateStudentNames(klass, names):
         students = Student.objects.filter(class_field=klass)
         clashes_found = []
         for name in names:
-            if (students.filter(new_user__first_name__iexact=name).exists()
-                    and name not in clashes_found):
+            if (students.filter(new_user__first_name__iexact=name).exists() and
+                name not in clashes_found):
                 validationErrors.append(forms.ValidationError("There is already a student called '"
                                                               + name + "' in this class"))
                 clashes_found.append(name)
