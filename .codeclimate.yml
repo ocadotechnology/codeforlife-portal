@@ -11,8 +11,6 @@ engines:
     checks:
       E501:
         enabled: false
-      W503:
-        enabled: false
   radon:
     enabled: true
   scss-lint:
