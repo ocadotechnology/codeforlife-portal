@@ -58,7 +58,7 @@ CONTACT_EMAIL = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
 def send_email(sender, recipients, subject, text_content, html_content=None,
                plaintext_template='email.txt', html_template='email.html'):
     # setup template images library, make into attachments
-    images = [['cfllogo.png', 'cfllogo']]
+    images = [['logo_c4l_hexa.png', 'cfllogo']]
     # add in template for templates to message
 
     # setup templates
