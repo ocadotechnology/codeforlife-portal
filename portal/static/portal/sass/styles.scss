@@ -176,11 +176,11 @@ img {
   @include _padding(0px, 0px, 15px, 0px);
 }
 
-.homepage-info div[class^="col-"] {
+.homepage-info div[class*="col-"] {
   @include _padding(0px, 30px, 0px, 30px);
 }
 
-[class^="col-"] {
+.row [class*="col-"] {
   padding-left: 0;
 }
 
