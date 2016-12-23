@@ -410,7 +410,7 @@ def validateStudentNames(klass, names):
 
     # Also report if a student appears twice in the list to be added.
     # But again only report each name once.
-    lower_names = map(lambda x: x.lower(), names)
+    lower_names = [name.lower() for name in names]
     duplicates_found = []
     for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
         if duplicate not in duplicates_found:
