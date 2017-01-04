@@ -92,14 +92,15 @@ class TeacherModelManager(models.Manager):
             first_name=first_name,
             last_name=last_name)
 
-        userProfile = UserProfile.objects.create(user=user)
+        user_profile = UserProfile.objects.create(user=user)
 
-        return Teacher.objects.create(user=userProfile, title=title)
+        return Teacher.objects.create(user=user_profile, new_user=user, title=title)
 
 
 class Teacher(models.Model):
     title = models.CharField(max_length=35)
     user = models.OneToOneField(UserProfile)
+    new_user = models.OneToOneField(User, related_name='new_teacher', null=True, blank=True)
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
     is_admin = models.BooleanField(default=False)
     pending_join_request = models.ForeignKey(School, related_name='join_request', null=True)
@@ -112,7 +113,7 @@ class Teacher(models.Model):
             return not student.is_independent() and student.class_field.teacher == self
 
     def __unicode__(self):
-        return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+        return '%s %s' % (self.user.first_name, self.user.last_name)
 
 
 class Class(models.Model):
@@ -135,7 +136,7 @@ class Class(models.Model):
         online_user_ids = map(lambda status: status.user.id, online_users_status)
 
         # Query all logged in users based on id list
-        return Student.objects.filter(class_field=self).filter(user__user__id__in=online_user_ids)
+        return Student.objects.filter(class_field=self).filter(new_user__id__in=online_user_ids)
 
     class Meta:
         verbose_name_plural = "classes"
@@ -150,8 +151,8 @@ class StudentModelManager(models.Manager):
             password=password,
             first_name=name)
 
-        userProfile = UserProfile.objects.create(user=user)
-        return Student.objects.create(class_field=klass, user=userProfile)
+        user_profile = UserProfile.objects.create(user=user)
+        return Student.objects.create(class_field=klass, user=user_profile, new_user=user)
 
     def independentStudentFactory(self, username, name, email, password):
         user = User.objects.create_user(
@@ -160,14 +161,15 @@ class StudentModelManager(models.Manager):
             password=password,
             first_name=name)
 
-        userProfile = UserProfile.objects.create(user=user)
+        user_profile = UserProfile.objects.create(user=user)
 
-        return Student.objects.create(user=userProfile)
+        return Student.objects.create(user=user_profile, new_user=user)
 
 
 class Student(models.Model):
     class_field = models.ForeignKey(Class, related_name='students', null=True)
     user = models.OneToOneField(UserProfile)
+    new_user = models.OneToOneField(User, related_name='new_student', null=True, blank=True)
     pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
 
     objects = StudentModelManager()
@@ -176,7 +178,7 @@ class Student(models.Model):
         return not self.class_field
 
     def __unicode__(self):
-        return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
 
 def stripStudentName(name):
@@ -187,9 +189,10 @@ class Guardian(models.Model):
     name = models.CharField(max_length=200)
     children = models.ManyToManyField(Student)
     user = models.OneToOneField(UserProfile)
+    new_user = models.OneToOneField(User, related_name='new_guardian', null=True, blank=True)
 
     def __unicode__(self):
-        return '%s %s' % (self.user.user.first_name, self.user.user.last_name)
+        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
 
 class EmailVerification(models.Model):

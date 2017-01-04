@@ -10,16 +10,16 @@
     </script>
 {% endblock scripts %}
 
-{% block nav_student_account %}<b><a href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
+{% block nav_student_account %}<b><a href="{% url 'student_edit_account' %}">{% if user.new_student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
 
 
 {% block content %}
 
     <div id='play_account_page'></div>
 
-    <h1>{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</h1><br>
+    <h1>{% if user.new_student.class_field %}Password{% else %}Account{% endif %}</h1><br>
 
-    {% if user.userprofile.student.class_field %}
+    {% if user.new_student.class_field %}
         <h2>Update my password</h2><br>
         <p>Change your password here to something memorable.</p>
     {% else %}
@@ -32,9 +32,9 @@
         <div class='span_1_of_2'>
 
             <div class='login-card'>
-                <h4>{% if user.userprofile.student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
+                <h4>{% if user.new_student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
 
-                {% if user.userprofile.student.class_field %}
+                {% if user.new_student.class_field %}
                     <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
                     <p>If you have any problems, ask a teacher to help you.</p>
                 {% else %}
@@ -48,7 +48,7 @@
 
                     {{ form.non_field_errors }}
 
-                    {% if not user.userprofile.student.class_field %}
+                    {% if not user.new_student.class_field %}
 
                         {{ form.name.errors }}
                         <label for="{{ form.name.html_name }}">{{ form.name.label }}</label>
@@ -90,7 +90,7 @@
 
                 </form>
             </div>
-            {% if not user.userprofile.student.class_field %}
+            {% if not user.new_student.class_field %}
                 <br>
                 <div class='login-card'>
                     <h4>Join a school or club</h4><br>

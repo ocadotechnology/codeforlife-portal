@@ -53,7 +53,7 @@ setup(name='codeforlife-portal',
         'django-online-status==0.1.0',
 
 
-        'Pillow==2.9.0',
+        'Pillow>=2.9.0',
         'django-reversion==1.9.3',
         'sqlparse',
         'libsass',

@@ -8,7 +8,7 @@
 <div id="teach_classes_page"></div>
 
 <h1>Classes</h1><br>
-<h2>{{ user|make_into_username }}, {{ user.userprofile.teacher.school.name }}</h2><br>
+<h2>{{ user|make_into_username }}, {{ user.new_teacher.school.name }}</h2><br>
 
 <p>Here is a list of all the classes you teach. Add a class using the 'New Class' box, or manage a particular class by clicking on the class name or access code. You can also accept or deny requests from indpendent students wanting to join one of your classes.</p>
 
@@ -87,9 +87,9 @@
         </tr>
         {% for join_request in requests %}
             <tr>
-                <td>{{ join_request.user.user.username }}</td>
-                <td>{{ join_request.user.user.first_name }}</td>
-                <td>{{ join_request.user.user.email }}</td>
+                <td>{{ join_request.new_user.username }}</td>
+                <td>{{ join_request.new_user.first_name }}</td>
+                <td>{{ join_request.new_user.email }}</td>
                 <td>{{ join_request.pending_class_request.name }} ({{ join_request.pending_class_request.access_code }})</td>
                 <td><a class='btn btn-default btn-small no-margin' href="{% url 'teacher_accept_student_request' join_request.id %}">Accept</a></td>
                 <td><a class='btn btn-default btn-small no-margin' href="{% url 'teacher_reject_student_request' join_request.id %}">Reject</a></td>

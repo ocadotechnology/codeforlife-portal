@@ -16,19 +16,19 @@
             <h4>Students currently in class</h4><br>
 
             {% if students %}
-                <p>{{ student.user.user.username }}, the new external student, will be joining students in the class {{ class.name }} ({{ class.access_code }}).</p>
+                <p>{{ student.new_user.username }}, the new external student, will be joining students in the class {{ class.name }} ({{ class.access_code }}).</p>
                 <table class="CSSTable smaller alternate wide">
                     <tr>
                         <th>Student Name</th>
                     </tr>
                     {% for currentstudent in students %}
                         <tr>
-                            <td>{{ currentstudent.user.user.first_name }}</td>
+                            <td>{{ currentstudent.new_user.first_name }}</td>
                         </tr>
                     {% endfor %}
                 </table>
             {% else %}
-                <p>The new external student {{ student.user.user.username }} is joining the class {{ class.name }} ({{ class.access_code }}) in which there are currently no other students.</p>
+                <p>The new external student {{ student.new_user.username }} is joining the class {{ class.name }} ({{ class.access_code }}) in which there are currently no other students.</p>
             {% endif %}
         </div>
     </div>

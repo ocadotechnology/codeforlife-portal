@@ -112,7 +112,7 @@
                 <ul>
                     {% if user|is_logged_in_as_student %}
                         <li>{% block nav_student_dashboard %}<a id="student_dashboard_button" href="{% url 'student_details' %}">Dashboard</a>{% endblock nav_student_dashboard %}</li>
-                        <li>{% block nav_student_account %}<a id="student_account_button" href="{% url 'student_edit_account' %}">{% if user.userprofile.student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
+                        <li>{% block nav_student_account %}<a id="student_account_button" href="{% url 'student_edit_account' %}">{% if user.new_student.class_field %}Password{% else %}Account{% endif %}</a>{% endblock nav_student_account %}</li>
                     {% endif %}
                     {% if user|is_logged_in_as_teacher %}
                         <li>{% block nav_teacher_dashboard %}<a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a>{% endblock nav_teacher_dashboard %}</li>

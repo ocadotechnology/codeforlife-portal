@@ -59,12 +59,12 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
 
     def clean_new_password1(self):
         new_password1 = self.cleaned_data.get('new_password1', None)
-        if hasattr(self.user.userprofile, 'teacher'):
+        if hasattr(self.user, 'teacher'):
             if not password_strength_test(new_password1):
                 raise forms.ValidationError(
                     "Password not strong enough, consider using at least 8 characters, upper and "
                     + "lower case letters, and numbers")
-        elif hasattr(self.user.userprofile, 'student'):
+        elif hasattr(self.user, 'student'):
             if not password_strength_test(new_password1, length=6, upper=False, lower=False,
                                           numbers=False):
                 raise forms.ValidationError(
@@ -84,7 +84,7 @@ class StudentPasswordResetForm(forms.Form):
         if not user_filter.exists():
             raise forms.ValidationError("Cannot find an account with that username")
         # Check such a username is not in use by a student part of a class/school
-        if not Student.objects.filter(class_field=None, user__user__username=username).exists():
+        if not Student.objects.filter(class_field=None, new_user__username=username).exists():
             raise forms.ValidationError("Cannot find an account with that username")
         return username
 
@@ -158,11 +158,11 @@ class TeacherPasswordResetForm(forms.Form):
         # Check such an email exists
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("Cannot find an account with that email")
-        teacher = Teacher.objects.filter(user__user__email=email)
+        teacher = Teacher.objects.filter(new_user__email=email)
         # Check such an email is associated with a teacher
         if not teacher.exists():
             raise forms.ValidationError("Cannot find an account with that email")
-        self.username = teacher[0].user.user.username
+        self.username = teacher[0].new_user.username
         return email
 
     def send_mail(self, subject_template_name, email_template_name,

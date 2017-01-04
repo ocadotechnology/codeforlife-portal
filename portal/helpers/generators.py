@@ -51,13 +51,13 @@ def get_random_username():
 
 
 def generate_new_student_name(orig_name):
-    if not Student.objects.filter(user__user__username=orig_name).exists():
+    if not Student.objects.filter(new_user__username=orig_name).exists():
         return orig_name
 
     i = 1
     while True:
         new_name = orig_name + unicode(i)
-        if not Student.objects.filter(user__user__username=new_name).exists():
+        if not Student.objects.filter(new_user__username=new_name).exists():
             return new_name
         i += 1
 

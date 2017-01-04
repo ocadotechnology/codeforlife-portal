@@ -97,7 +97,7 @@ class TeacherSignupForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
 
-        if email and Teacher.objects.filter(user__user__email=email).exists():
+        if email and Teacher.objects.filter(new_user__email=email).exists():
             raise forms.ValidationError("That email address is already in use")
 
         return email
@@ -156,9 +156,9 @@ class TeacherEditAccountForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
         if email:
-            teachers = Teacher.objects.filter(user__user__email=email)
-            if (not (len(teachers) == 0 or
-                    (len(teachers) == 1 and teachers[0].user.user == self.user))):
+            teachers = Teacher.objects.filter(new_user__email=email)
+            if ((len(teachers) == 1 and teachers[0].new_user != self.user) or
+                    len(teachers) > 1):
                 raise forms.ValidationError("That email address is already in use")
 
         return email
@@ -280,8 +280,8 @@ class ClassMoveForm(forms.Form):
         self.teachers = teachers
         teacher_choices = []
         for teacher in teachers:
-            teacher_choices.append((teacher.id, teacher.user.user.first_name + ' '
-                                    + teacher.user.user.last_name))
+            teacher_choices.append((teacher.id, teacher.new_user.first_name + ' '
+                                    + teacher.new_user.last_name))
         super(ClassMoveForm, self).__init__(*args, **kwargs)
         self.fields['new_teacher'].choices = teacher_choices
 
@@ -302,7 +302,7 @@ class TeacherEditStudentForm(forms.Form):
                                         + "' is not a valid name")
 
         students = Student.objects.filter(class_field=self.klass,
-                                          user__user__first_name__iexact=name)
+                                          new_user__first_name__iexact=name)
         if students.exists() and students[0] != self.student:
             raise forms.ValidationError("There is already a student called '" + name
                                         + "' in this class")
@@ -355,7 +355,7 @@ class TeacherAddExternalStudentForm(forms.Form):
                                         + "' is not a valid name")
 
         if Student.objects.filter(
-                class_field=self.klass, user__user__first_name__iexact=name).exists():
+                class_field=self.klass, new_user__first_name__iexact=name).exists():
             raise forms.ValidationError("There is already a student called '" + name
                                         + "' in this class")
 
@@ -370,8 +370,8 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
         class_choices = []
         for klass in classes:
             class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), '
-                                  + klass.teacher.user.user.first_name + ' '
-                                  + klass.teacher.user.user.last_name))
+                                  + klass.teacher.new_user.first_name + ' '
+                                  + klass.teacher.new_user.last_name))
         super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
         self.fields['new_class'].choices = class_choices
 
@@ -402,18 +402,18 @@ def validateStudentNames(klass, names):
         students = Student.objects.filter(class_field=klass)
         clashes_found = []
         for name in names:
-            if (students.filter(user__user__first_name__iexact=name).exists() and
-                    not name in clashes_found):
+            if (students.filter(new_user__first_name__iexact=name).exists() and
+                    name not in clashes_found):
                 validationErrors.append(forms.ValidationError("There is already a student called '"
                                                               + name + "' in this class"))
                 clashes_found.append(name)
 
     # Also report if a student appears twice in the list to be added.
     # But again only report each name once.
-    lower_names = map(lambda x: x.lower(), names)
+    lower_names = [name.lower() for name in names]
     duplicates_found = []
     for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
-        if not duplicate in duplicates_found:
+        if duplicate not in duplicates_found:
             validationErrors.append(forms.ValidationError(
                 "You cannot add more than one student called '" + duplicate + "'"))
             duplicates_found.append(duplicate)
