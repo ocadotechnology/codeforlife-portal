@@ -1,0 +1,54 @@
+{% extends 'redesign/base_popup.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+    <div class="row popup is-flex">
+        <div class="form--register form--register--teacher col-sm-6">
+            <div class="form col-sm-7 col-sm-offset-3">
+                <h1>Log in as a teacher</h1>
+                <form>
+                    <p class="small-text">Email address</p>
+                    <input type="text" name="FirstName" value="" placeholder="grace.hopper@navy.mil">
+                    <p class="small-text">Password</p>
+                    <input type="password" name="ConfirmPassword" value=""><br><br>
+                    <a href="{% url 'dashboard' %}" class="button--regular button--primary--general-educate">Log in</a>
+                </form>
+                <p class="body-text"><b>Forgotten your password?</b></p>
+                <p class="body-text">Don't worry, you can <a>reset your password</a>.</p>
+            </div>
+            <!--<div class="col-sm-1 col-sm-offset-1">-->
+            <!--<div class="form__choice"><h3>or</h3></div>-->
+            <!--</div>-->
+        </div>
+        <div class="form--register form--register--student col-sm-6">
+            <div class="form col-sm-7 col-sm-offset-2">
+                <h1>Log in as a student</h1>
+                <form>
+                    <p class="small-text">User name</p>
+                    <input type="text" name="FirstName" value="" placeholder="EG: Rosie Florido">
+                    <p class="small-text">Class access code</p>
+                    <input type="text" name="ConfirmPassword" value="" placeholder="EG: AX256"><br><br>
+                    <a href="" class="button--regular button--primary--general-play">Log in</a>
+                </form>
+                <p class="body-text"><b>Can't remember your user name or class access code?</b></p>
+                <p class="body-text">Don't worry, just ask your school or club teacher who will have these details.</p>
+                <br><br>
+                <p class="body-text">Are your registered as an independent student who is not part of a school or club?<br>If so, <a>log in here</a>.</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,89 @@
+{% extends 'redesign/teach_new/base_registering.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows col-sm-offset-1">
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Join a school</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_white_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--in-progress">
+                <img src='{% static "portal/img_new/step_in_progress.png" %}'>
+                <p class="body-text">Classes</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_white_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Add students</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+    </div>
+</div>
+
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        <h3>Create a class</h3>
+        <form>
+            <p class="body-text">When you set up a new class, a unique class access code will automatically be generated, with you being identified as the
+                teacher for that class.</p>
+            <input type="text" name="FirstName" value="" placeholder="Enter a class name">
+            <div class="row">
+                <p class="small-text col-sm-7">Allow students to see their classmates&rsquo; progress?</p>
+                <input class="col-sm-1" type="checkbox" name="vehicle" value="">
+            </div>
+        </form>
+        <a href="{% url 'onboarding3' %}" class="button--regular button-primary button--primary--general-play">Create class</a>
+    </div>
+</div>
+
+{% endblock content %}

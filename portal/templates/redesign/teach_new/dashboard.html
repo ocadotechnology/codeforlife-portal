@@ -1,0 +1,289 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<script type="text/javascript">
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= 343) {
+            $('.sub-nav--hidden').css({
+                'display': 'block'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+</script>
+
+<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+</div>
+
+<section class="banner banner--teacher row">
+    <h1 class="col-sm-8 col-sm-offset-2 banner__text--primary">Welcome back, Mr. Technical</h1>
+</section>
+<div class="sub-nav sub-nav--teacher row--small">
+    <div class="col-sm-12">
+        <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
+        <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
+        <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+    </div>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Overview</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Curriculum</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Assessment</button>
+</div>
+<div class="sub-nav sub-nav--warning">
+    <img src='{% static "portal/img_new/warning.png" %}'>
+    <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
+</div>
+
+<div id="school">
+    <section class="background">
+        <h2>Your school: St Cuthbert's Primary</h2>
+        <h4 class="col-sm-6 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke adminsitrative rights. You can also remove teachers
+            from your school or club if they leave, and respond to requests from new teachers joining your organisation.</h4>
+        <button class="button--regular button--primary--general-play">Invite a teacher</button>
+        <button class="button--regular button--secondary button--secondary--dark">Delete this school</button>
+    </section>
+
+    <div class="background col-sm-7 col-center">
+        <h3>These teachers are already part of your school or club</h3>
+        <table class="header-primary data-primary">
+            <tr>
+                <th><p class="body-text">Name</p></th>
+                <th><p class="body-text">Administrator status</p></th>
+                <th colspan="3"><p class="body-text">Status actions</p></th>
+            </tr>
+            <tr>
+                <td><p class="small-text">Mr James Holland (you)</p></td>
+                <td><p class="small-text">Administrator (**********@gmail.com)</p></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--navigation">Make admin</button></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--setup">Disable 2FA</button></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Ms Naomie Noobie</p></td>
+                <td><p class="small-text">Standard teacher (**********@gmail.com)</p></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--navigation">Make admin</button></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--setup">Disable 2FA</button></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Mrs Omya Overloaded</p></td>
+                <td><p class="small-text">Standard teacher (**********@gmail.com)</p></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
+                <td class="cell-center"><button class="button--small button-primary button--primary--navigation">Make admin</button></td>
+                <td></td>
+            </tr>
+        </table>
+        <p class="body-text">Select &lsquo;Remove&rsquo; to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
+            teacher to other teachers in your school or club.</p>
+        <p class="body-text">If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting &lsquo;Disable 2FA&rsquo;.
+            We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
+            with their smartphone or tablet.</p>
+    </div>
+
+    <div id="requests">
+        <div class="background col-sm-7 col-center">
+            <h3>These teachers have requested to join your school or club</h3>
+            <table class="header-primary data-primary">
+                <tr>
+                    <th><p class="body-text">Name</p></th>
+                    <th><p class="body-text">Email address</p></th>
+                    <th colspan="2"><p class="body-text">Actions</p></th>
+                </tr>
+                <tr>
+                    <td><p class="small-text">Rev Florian Aucomte</p></td>
+                    <td><p class="small-text">**********@gmail.com</p></td>
+                    <td class="cell-center"><button class="button--small button-primary button--primary--positive">Allow</button></td>
+                    <td class="cell-center"><button class="button--small button-primary button--primary--danger">Deny</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="background background--primary">
+        <div class="col-sm-7 col-center">
+            <h3>Change details of your school or club</h3>
+            <p class="body-text">Update your school or club&rsquo;s name and/or postcode.<br>
+            <b>These details are used to allow other teachers to join your team.</b></p>
+            <form>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <p class="body-text">Name of your school or club</p>
+                        <input type="text" placeholder="A School">
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="body-text">Postcode</p>
+                        <input type="text" placeholder="HP99 1BB">
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="body-text">Country</p>
+                        <input type="text" placeholder="United Kingdom">
+                    </div>
+                </div>
+            </form>
+            <button class="button--regular button--primary--general-play">Change</button>
+        </div>
+    </div>
+</div>
+
+<div id="classes">
+    <div class="background col-sm-6 col-center">
+        <section>
+            <h2>Classes</h2>
+            <h4>Here is a list of all the classes you teach. Add a classing using the &lsquo;New Class&rsquo; box, or manage a particular class by clicking on the class
+                name or access code. You can accept or deny requests from independent students wanting to join one of your classes.</h4>
+        </section>
+    </div>
+    <div class="col-sm-7 col-center">
+        <div class="row">
+            <div class="col-sm-5">
+                <h3>Current classes</h3>
+                <table class="header-tertiary data-quaternary">
+                    <tr>
+                        <th><p class="body-text">Class name</p></th>
+                        <th><p class="body-text">Access code</p></th>
+                        <th><p class="body-text">Action</p></th>
+                    </tr>
+                    <tr>
+                        <td><p class="small-text">Test class 1</p></td>
+                        <td><p class="small-text">EU184</p></td>
+                        <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
+                    </tr>
+                    <tr>
+                        <td><p class="small-text">Test class 2</p></td>
+                        <td><p class="small-text">EU185</p></td>
+                        <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
+                    </tr>
+                    <tr>
+                        <td><p class="small-text">Test class 3</p></td>
+                        <td><p class="small-text">EU186</p></td>
+                        <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-6 col-sm-offset-1">
+                <h3>External requests to join your classes</h3>
+                <p class="body-text">External, or independent students may request to join your classes, if the student has been given a Class Access Code, and provided you
+                    have enabled external requests for that class.</p>
+                <p class="body-text"><b>No students have currently requested to join your classes.</b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="background background--quaternary">
+        <div class="col-sm-7 col-center">
+            <h3>Create a new class</h3>
+            <p class="body-text">When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
+                class.</p>
+            <form>
+                <div class="row row--under">
+                    <div class="col-sm-6">
+                        <input type="text" name="FirstName" value="" placeholder="Enter a class name">
+                        <div class="row">
+                            <p class="small-text col-sm-8">Allow students to see their classmates&rsquo; progress?</p>
+                            <input class="col-sm-1" type="checkbox" name="vehicle" value="">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <button class="button--regular button--primary--positive">Create class</button>
+        </div>
+    </div>
+</div>
+
+<div id="account">
+    <section class="background col-sm-6 col-center">
+        <h2>Your account</h2>
+        <h4>You may update your account details here, including your name, password and email address. Should you update your email address, verification will be required.</h4>
+        <button class="button--regular button--secondary button--secondary--dark">Delete my account</button>
+    </section>
+
+    <div class="background background--tertiary">
+        <div class="col-sm-7 col-center">
+            <h3>Update details</h3>
+            <form>
+                <div class="row row--under">
+                    <div class="col-sm-2">
+                        <p class="body-text">Title</p>
+                        <input type="text">
+                    </div>
+                    <div class="col-sm-5">
+                        <p class="body-text">First name</p>
+                        <input type="text">
+                    </div>
+                    <div class="col-sm-5">
+                        <p class="body-text">Last name</p>
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="row row--under">
+                    <div class="col-sm-6">
+                        <p class="body-text">Change email address (optional)</p>
+                        <input type="text">
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="body-text">New password (optional)</p>
+                        <input type="password">
+                    </div>
+                </div>
+                <div class="row row--under">
+                    <div class="col-sm-6">
+                        <p class="body-text">Confirm new password</p>
+                        <input type="password">
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="body-text">Current password</p>
+                        <input type="password">
+                    </div>
+                </div>
+            </form>
+            <button class="button--regular button--primary--negative">Update my details</button>
+        </div>
+    </div>
+
+    <div class="background col-sm-7 col-center">
+        <h3>Two Factor Authentication</h3>
+        <p class="body-text">Use your smartphone or tablet to enhance your account&rsquo;s security.</p>
+        <div class="row row--regular">
+            <div class="col-sm-5">
+                <h4>Backup tokens</h4>
+                <p class="body-text">If you don&rsquo;t have your smartphone or tablet with you, you can access your account using backup tokens. You have 10 backup tokens
+                    remaining.</p><br>
+                <p class="body-text">View and create backup tokens for your account.</p><br>
+                <button class="button--regular button--primary--negative">Manage backup tokens</button>
+            </div>
+            <div class="col-sm-6 col-sm-offset-1">
+                <h4>Disable Two Factor Authentication</h4>
+                <p class="body-text">We recommend you to continue using Two Factor Authentication, however you can disable two factor authentication for your account.</p><br>
+                <button class="button--regular button--secondary button--secondary--dark">Disable Two-Factor Authentication</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
