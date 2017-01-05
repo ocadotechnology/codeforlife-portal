@@ -1,0 +1,14 @@
+{% extends 'redesign/base_new.html' %}
+
+{% block menuButtons %}
+    <a class="button--menu button--menu--primary"><b>Teacher</b></a>
+    {% block secondaryButtons %}
+    {% block dashboard %}<a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>{% endblock dashboard %}
+    {% block levels %}<a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>{% endblock levels %}
+    {% block materials %}<a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>{% endblock materials %}
+    {% endblock secondaryButtons %}
+    <button class="button--regular button--secondary button--secondary--dark col-sm-offset-3">Ms Noobie <div class="glyphicon glyphicon-user"></div></button>
+{% endblock menuButtons %}
+
+{% block content %}
+{% endblock content %}
