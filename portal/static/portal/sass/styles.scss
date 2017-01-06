@@ -1,0 +1,1343 @@
+//*******COLORS*******
+//Text
+$color-text-primary: #000;
+$color-text-secondary: #fff;
+$color-text-tertiary: #4a4a4a;
+//Quotes
+$color-quote-text: #0c52a3;
+$color-quote-name: #4a4a4a;
+//Buttons
+$color-button-primary-action-general-play: #0c52a3;
+$color-button-primary-action-general-educate: #f37300;
+$color-button-primary-action-positive: #7ed321;
+$color-button-primary-action-negative: #ff637d;
+$color-button-primary-action-danger: #f00;
+$color-button-primary-action-navigation: #4a4a4a;
+$color-button-primary-action-setup: #fab300;
+$color-button-secondary-border-light: #fff;
+$color-button-secondary-border-dark: #4a4a4a;
+$color-button-border-teacher: #0c52a3;
+$color-button-border-student: #f37300;
+$color-button-disabled: #d8d8d8;
+//Tabs
+$color-tab-border: #0c52a3;
+$color-tab-selected-text: #fff;
+$color-tab-selected-background: #0c52a3;
+$color-tab-unselected-text: #0c52a3;
+$color-tab-unselected-background: #fff;
+//Tables
+$color-table-header-primary: #0c52a3;
+$color-table-header-secondary: #4a4a4a;
+$color-table-border: #9b9b9b;
+//Backgrounds
+$color-background-primary: #000;
+$color-background-secondary: #fff;
+$color-background-tertiary: #4a4a4a;
+$color-background-teach: #0c52a3;
+$color-background-play: #f37300;
+$color-background-warning: #fab300;
+$color-background-positive: #7ed321;
+$color-background-tint-primary: #d6e7ed;
+$color-background-tint-secondary: #f7ecc8;
+$color-background-tint-tertiary: #f8dfe5;
+$color-background-tint-quaternary: #e4eecd;
+$color-background-tint-quinary: #d8d8d8;
+
+@function calculate-rem($size) {
+  $rem-size: $size / 10px;
+  @return #{$rem-size}rem;
+}
+
+@mixin _font-size($size) {
+  //font-size: $size; //Fallback in px
+  font-size: calculate-rem($size);
+}
+
+@mixin _line-height($height) {
+  //line-height: $height; //Fallback in px
+  line-height: calculate-rem($height);
+}
+
+@mixin _padding($padding-top, $padding-right, $padding-bottom, $padding-left) {
+  //padding: $padding-top $padding-right $padding-bottom $padding-left; //Fallback in px
+  padding: calculate-rem($padding-top) calculate-rem($padding-right) calculate-rem($padding-bottom) calculate-rem($padding-left);
+}
+
+@mixin _margin($margin-top, $margin-right, $margin-bottom, $margin-left) {
+  //margin: $margin-top $margin-right $margin-bottom $margin-left; //Fallback in px
+  margin: calculate-rem($margin-top) calculate-rem($margin-right) calculate-rem($margin-bottom) calculate-rem($margin-left);
+}
+
+body {
+  color: #4a4a4a;
+}
+
+h1 {
+  @include _font-size(55px);
+  @include _line-height(60px);
+  font-family: 'Baloo', serif;
+  font-weight: 500;
+}
+
+:not(h1) {
+  font-family: 'Source Sans Pro', serif;
+
+  :not(.footer p) {
+    color: $color-text-tertiary;
+  }
+
+}
+
+h2 {
+  @include _font-size(45px);
+  @include _line-height(50px);
+  font-weight: 600;
+}
+
+h3 {
+  @include _font-size(35px);
+  @include _line-height(40px);
+  font-weight: 600;
+}
+
+h4 {
+  @include _font-size(30px);
+  @include _line-height(35px);
+}
+
+.body-text {
+  @include _font-size(20px);
+  @include _line-height(30px);
+}
+
+.small-text {
+  @include _font-size(16px);
+  @include _line-height(26px);
+}
+
+a {
+  color: #4a4a4a;
+}
+
+a:hover,
+a:focus {
+  color: #4a4a4a;;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+blockquote {
+  border-left: 0;
+}
+
+blockquote p {
+  @include _font-size(20px);
+  @include _line-height(25px);
+  display: block;
+  font-weight: lighter;
+  text-align: right;
+}
+
+blockquote p.says {
+  @include _font-size(25px);
+  @include _line-height(30px);
+  color: $color-quote-text;
+  padding: 0 0 0 2.5rem;
+  position: relative;
+  text-align: left;
+}
+
+blockquote p.says:before,
+blockquote p.says:after {
+  @include _font-size(48px);
+  color: $color-quote-text;
+  content: '”';
+  font-weight: bold;
+  line-height: 150%;
+  vertical-align: top;
+}
+
+blockquote p.says:before {
+  content: '“';
+  left: 0;
+  position: absolute;
+  top: -2px;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.homepage-info img {
+  @include _padding(0px, 0px, 15px, 0px);
+}
+
+.homepage-info div[class*="col-"] {
+  @include _padding(0px, 30px, 0px, 30px);
+}
+
+.row [class*="col-"] {
+  padding-left: 0;
+}
+
+h4,
+p {
+
+  a,
+  a:visited,
+  a:active {
+    border-bottom: 1px dotted $color-text-tertiary;
+    color: $color-text-tertiary;
+    text-decoration: none;
+  }
+
+  a:hover {
+    border-bottom: 1px solid $color-text-tertiary;
+    color: $color-text-tertiary;
+    text-decoration: none;
+  }
+
+}
+
+button {
+  border: 0;
+}
+
+button,
+a[class^='button'] {
+  @include _padding(10px, 15px, 10px, 15px);
+  border-radius: .8rem;
+}
+
+a[class^='button'],
+a[class^='button']:hover,
+a[class^='button']:active,
+a[class^='button']:visited {
+  text-decoration: none;
+}
+
+.button--jumbo {
+  @include _font-size(38px);
+  @include _line-height(38px);
+  @include _margin(50px, 0px, 0px, 0px);
+}
+
+.button--big {
+  @include _font-size(28px);
+  @include _line-height(28px);
+  @include _padding(15px, 20px, 15px, 20px);
+}
+
+.button--regular {
+  @include _font-size(20px);
+  @include _line-height(25px);
+}
+
+.button--small {
+  @include _font-size(16px);
+  @include _line-height(25px);
+  @include _padding(2px, 10px, 2px, 10px);
+}
+
+.button--menu {
+  @include _padding(10px, 0px, 21px, 0px);
+  @include _margin(0px, 40px, 0px, 40px);
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.button--menu--disabled {
+  color: $color-button-disabled;
+}
+
+.button--menu--primary {
+  @include _font-size(30px);
+  @include _line-height(25px);
+}
+
+.button--menu--secondary {
+  @include _font-size(22px);
+  @include _line-height(20px);
+}
+
+.button--menu--teacher--active {
+  border-bottom: 6px solid $color-button-border-teacher;
+}
+
+.button--menu--student--active {
+  border-bottom: 6px solid $color-button-border-student;
+}
+
+.button--primary--general-play {
+  background: $color-button-primary-action-general-play;
+  color: $color-text-secondary;
+}
+
+.button--primary--general-educate {
+  background: $color-button-primary-action-general-educate;
+  color: $color-text-secondary;
+}
+
+.button--primary--positive {
+  background: $color-button-primary-action-positive;
+  color: $color-text-primary;
+}
+
+.button--primary--negative {
+  background: $color-button-primary-action-negative;
+  color: $color-text-secondary;
+}
+
+.button--primary--danger {
+  background: $color-button-primary-action-danger;
+  color: $color-text-secondary;
+}
+
+.button--primary--navigation {
+  background: $color-button-primary-action-navigation;
+  color: $color-text-secondary;
+}
+
+.button--primary--setup {
+  background: $color-button-primary-action-setup;
+  color: $color-text-primary;
+}
+
+.button--secondary {
+  background-color: transparent;
+  border: 1px solid;
+}
+
+.button--secondary--light {
+  border-color: $color-button-secondary-border-light;
+  color: $color-text-secondary;
+}
+
+.button--secondary--dark  {
+  border-color: $color-button-secondary-border-dark;
+  color: $color-text-tertiary;
+
+  .glyphicon {
+    @include _font-size(20px);
+  }
+}
+
+.button--secondary--no-border {
+  border-color: transparent;
+  color: $color-text-tertiary;
+}
+
+.button--secondary--background-light {
+  background-color: $color-background-secondary;
+  border-color: transparent;
+  color: $color-text-primary;
+}
+
+.background {
+  @include _padding(40px, 0px, 40px, 0px);
+}
+
+.background--primary {
+  background-color: $color-background-tint-primary;
+}
+
+.background--secondary {
+  background-color: $color-background-tint-secondary;
+}
+
+.background--tertiary {
+  background-color: $color-background-tint-tertiary;
+}
+
+.background--quaternary {
+  background-color: $color-background-tint-quaternary;
+}
+
+.row {
+  margin: 0;
+}
+
+.row--small {
+  @include _padding(25px, 0px, 0px, 0px);
+}
+
+.row--regular {
+  @include _padding(50px, 0px, 50px, 0px);
+}
+
+.row--under {
+  @include _padding(0px, 0px, 20px, 0px);
+}
+
+.image-row {
+  display: table-cell;
+  vertical-align: bottom;
+
+  img {
+    @include _padding(0px, 20px, 0px, 20px);
+    vertical-align: bottom;
+  }
+}
+
+.row.is-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  [class*='col-'] {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.popup {
+  padding: 0;
+}
+
+section {
+  text-align: center;
+
+  button {
+    @include _margin(0px, 10px, 0px, 10px);
+  }
+
+  h4 {
+    @include _padding(10px, 0px, 30px, 0px);
+  }
+
+  .youtube img {
+    @include _margin(30px, 0px, 30px, 0px);
+  }
+}
+
+.col-center {
+  float: none;
+  margin: auto;
+}
+
+.img-circle {
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+}
+
+.hexagon {
+  height: 270px;
+  margin: -7px auto 0;
+  overflow: hidden;
+  -moz-transform: rotate(120deg);
+  -ms-transform: rotate(120deg);
+  -o-transform: rotate(120deg);
+  -webkit-transform: rotate(120deg);
+  transform: rotate(120deg);
+  visibility: hidden;
+  width: 310px;
+}
+
+.hexagon-in1 {
+  height: 100%;
+  overflow: hidden;
+  -moz-transform: rotate(-60deg);
+  -ms-transform: rotate(-60deg);
+  -o-transform: rotate(-60deg);
+  -webkit-transform: rotate(-60deg);
+  transform: rotate(-60deg);
+  width: 100%;
+}
+
+.hexagon-in2 {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  height: 100%;
+  -moz-transform: rotate(-60deg);
+  -ms-transform: rotate(-60deg);
+  -o-transform: rotate(-60deg);
+  -webkit-transform: rotate(-60deg);
+  transform: rotate(-60deg);
+  visibility: visible;
+  width: 100%;
+}
+
+.hexagon-in2--educate {
+  background-image: url('../img_new/home-educate-hero.jpg');
+}
+
+.hexagon-in2--play {
+  background-image: url('../img_new/home-play-hero.jpg');
+}
+
+.hexagon-in2--about {
+  background-image: url('../img_new/about-us-hero.jpg');
+}
+
+.logo {
+  content: url('../img_new/logo.png');
+  position: fixed;
+  top: 10px;
+  z-index: 3;
+}
+
+.glyphicon {
+  @include _font-size(30px);
+  font-weight: 500;
+}
+
+a .glyphicon {
+  @include _margin(10px, 0px, 0px, 0px);
+}
+
+.tab {
+  list-style-type: none;
+  margin: auto;
+  overflow: hidden;
+  padding: 0;
+  width: auto;
+
+  li {
+    float: left;
+    width: 50%;
+
+    a {
+      @include _font-size(20px);
+      @include _padding(10px, 16px, 10px, 16px);
+      background-color: $color-tab-unselected-background;
+      border: 1px solid $color-tab-unselected-text;
+      color: $color-tab-unselected-text;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      transition: .3s;
+      width: 100%;
+    }
+
+    img {
+      display: block;
+      margin: auto;
+      position: relative;
+    }
+
+    .active {
+      background-color: $color-tab-selected-background;
+      color: $color-tab-selected-text;
+    }
+
+  }
+
+}
+
+.tabcontent {
+  @include _padding(6px, 0px, 6px, 0px);
+  display: none;
+  width: 100%;
+
+  .body-text {
+    @include _padding(0px, 0px, 20px, 0px);
+  }
+
+}
+
+form {
+  @include _font-size(20px);
+  @include _line-height(25px);
+  @include _padding(20px, 0px, 30px, 0px);
+
+  button {
+    @include _margin(20px, 0px, 10px, 0px);
+  }
+
+  input[type=text],
+  input[type=password],
+  select {
+    @include _font-size(20px);
+    @include _margin(10px, 0px, 10px, 0px);
+    @include _padding(0px, 0px, 0px, 10px);
+    background-color: $color-background-secondary;
+    height: 50px;
+    width: 100%;
+  }
+
+  input[type=checkbox] {
+    height: 20px;
+  }
+
+  textarea {
+    @include _font-size(20px);
+    @include _margin(30px, 0px, 10px, 0px);
+    @include _padding(10px, 0px, 0px, 10px);
+    width: 100%;
+  }
+
+}
+
+.form--register {
+  @include _padding(30px, 0px, 30px, 0px);
+  text-align: center;
+
+  h1,
+  .body-text {
+    color: $color-text-secondary;
+    text-align: center;
+  }
+
+  p {
+    color: $color-text-secondary;
+    text-align: left;
+  }
+
+  .no-password {
+    @include _padding(15px, 0px, 30px, 0px);
+    text-align: center;
+  }
+
+}
+
+.form--register--teacher {
+  background-color: $color-background-teach;
+}
+
+.form--register--student {
+  background-color: $color-background-play;
+}
+
+.form__choice {
+  @include _margin(40px, 0px, 0px, 37px);
+  background-color: $color-background-secondary;
+  border-radius: 50%;
+  height: 75px;
+  text-align: center;
+  width: 75px;
+
+  h3 {
+    @include _padding(15px, 0px, 0px, 0px);
+    color: $color-text-tertiary;
+  }
+}
+
+.form--register,
+.banner {
+
+  p {
+
+    a,
+    a:visited,
+    a:active {
+      border-bottom: 1px dotted $color-text-secondary;
+      color: $color-text-secondary;
+      text-decoration: none;
+    }
+
+    a:hover {
+      border-bottom: 1px solid $color-text-secondary;
+      color: $color-text-secondary;
+      text-decoration: none;
+    }
+
+  }
+
+}
+
+.banner {
+
+  * {
+    color: $color-text-secondary;
+  }
+
+  .row {
+    @include _padding(0px, 0px, 30px, 0px);
+  }
+
+  .small-text {
+    @include _padding(20px, 0px, 8px, 0px);
+  }
+
+}
+
+.banner--homepage {
+  @include _padding(100px, 0px, 100px, 10px);
+  text-align: center;
+
+  p {
+    @include _padding(0px, 0px, 60px, 10px);
+  }
+
+  .body-text {
+    @include _font-size(24px);
+  }
+}
+
+
+.banner--homepage__text {
+  @include _font-size(140px);
+  @include _line-height(120px);
+  @include _padding(0px, 0px, 50px, 0px);
+  background-color: transparent;
+  color: $color-text-secondary;
+}
+
+.banner__text--primary,
+.banner__text--secondary {
+  @include _font-size(72px);
+  @include _line-height(75px);
+}
+
+.banner__text--primary {
+  color: $color-text-secondary;
+}
+
+.banner__text--secondary {
+  color: $color-text-primary;
+}
+
+.banner--homepage--teacher,
+.banner--teacher {
+  background-image: url('../img_new/background-blue-new.png');
+  background-position: top right;
+}
+
+.banner--homepage--student,
+.banner--student {
+  background-image: url('../img_new/background-orange-new.png');
+  background-position: top left;
+}
+
+.banner--teacher,
+.banner--student {
+  @include _padding(80px, 0px, 30px, 0px);
+  height: 343px; //TO BE CHANGED!
+
+  h1 {
+    @include _padding(50px, 0px, 0px, 0px);
+  }
+
+  .banner__text--center {
+    @include _padding(97.5px, 0px, 97.5px, 0px);
+  }
+
+}
+
+.banner--student--plain {
+  background-color: $color-background-play;
+  background-image: none;
+}
+
+.banner--teacher--plain {
+  @include _padding(100px, 0px, 50px, 0px);
+  background-color: $color-background-teach;
+  background-image: none;
+
+  .progress-arrow__body--in-progress p {
+    color: $color-background-tertiary;
+  }
+
+}
+
+.banner--rapid-router {
+  @include _padding(150px, 0px, 100px, 0px);
+  background-image: url('../img_new/rapid-router-landing-hero.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.youtube img {
+  border: 1px solid $color-background-secondary;
+}
+
+.sub-nav--warning {
+  @include _padding(15px, 0px, 0px, 0px);
+  background-color: $color-background-warning;
+
+  * {
+    display: inline-block;
+  }
+
+  p {
+    @include _padding(0px, 20px, 0px, 20px);
+    text-align: left;
+  }
+
+  a[class^='button'],
+  button,
+  img {
+    vertical-align: text-bottom;
+  }
+
+  p,
+  a,
+  a:hover,
+  a:visited {
+    color: $color-text-primary;
+  }
+}
+
+.arrows {
+  @include _padding(20px, 0px, 0px, 0px);
+}
+
+.progress-arrow {
+  @include _margin(0px, -10px, 0px, 0px);
+  display: inline-block;
+
+  img {
+    max-width: none;
+  }
+
+  * {
+    display: inline-block;
+  }
+
+}
+
+.progress-arrow__back {
+  @include _margin(0px, -3px, 0px, 0px);
+}
+
+.progress-arrow__body {
+  @include _margin(0px, -3px, 0px, 0px);
+  @include _padding(5px, 10px, 17px, 15px);
+  height: 50px;
+  text-align: left;
+  width: 215px;
+
+  * {
+    display: inline-block;
+  }
+
+  p {
+    @include _padding(0px, 0px, 0px, 10px);
+  }
+
+}
+
+.progress-arrow__body--undone {
+  background-color: $color-background-tertiary;
+  border-bottom: 1px solid $color-background-tertiary;
+  border-top: 1px solid $color-background-tertiary;
+
+  p {
+    color: $color-text-secondary;
+  }
+
+}
+
+.progress-arrow__body--in-progress {
+  background-color: $color-background-secondary;
+  border-bottom: 1px solid $color-background-secondary;
+  border-top: 1px solid $color-background-secondary;
+
+  p {
+    color: $color-text-tertiary;
+  }
+}
+
+.progress-arrow__body--done {
+  background-color: $color-background-teach;
+  border-bottom: 1px solid $color-background-secondary;
+  border-top: 1px solid $color-background-secondary;
+
+  p {
+    color: $color-text-secondary;
+  }
+
+}
+
+.footer {
+  background-color: $color-background-tertiary;
+  text-align: center;
+
+  p {
+    color: $color-text-secondary;
+
+    a,
+    a:visited,
+    a:active {
+      border-bottom: 1px dotted $color-text-secondary;
+      text-decoration: none;
+    }
+
+    a:hover {
+      border-bottom: 1px solid $color-text-secondary;
+      text-decoration: none;
+    }
+
+    a {
+      color: $color-text-secondary;
+    }
+  }
+
+  .row {
+    padding: 0;
+
+    p {
+      @include _padding(0px, 15px, 0px, 15px);
+      display: inline;
+    }
+  }
+
+  img {
+    @include _padding(25px, 15px, 25px, 15px);
+    float: none;
+  }
+
+  .no-padding {
+    padding: 0;
+  }
+
+  .back-to-top,
+  .social-media a,
+  .social-media a:hover {
+    border-bottom: none;
+  }
+
+  input {
+    @include _font-size(20px);
+    @include _margin(0px, -3px, 0px, 5px);
+    @include _padding(0px, 0px, 0px, 15px);
+    border: 0;
+    height: 50px;
+    vertical-align: middle;
+    width: 20%;
+  }
+
+  input:focus {
+    border: 0;
+    outline: none;
+  }
+
+  .input-button {
+    @include _padding(2px, 0px, 0px, 13px);
+    background-color: $color-background-secondary;
+    display: inline-block;
+    height: 50px;
+    vertical-align: middle;
+    width: 6%;
+  }
+
+}
+
+table {
+  @include _margin(20px, auto, 40px, auto);
+  width: 100%;
+
+  button {
+    @include _font-size(16px);
+    @include _padding(2px, 10px, 2px, 10px);
+  }
+
+}
+
+.table--resources {
+  border: 0;
+  border-top: 1px solid $color-table-border;
+
+  tr {
+    border: 0;
+    border-bottom: 1px solid $color-table-border;
+    display: block;
+  }
+
+  td {
+    padding: 0;
+  }
+
+}
+
+th {
+  @include _padding(5px, 10px, 5px, 10px);
+  font-weight: 500;
+
+  .body-text {
+    color: $color-text-secondary;
+  }
+
+}
+
+td {
+  @include _padding(10px, 10px, 10px, 10px);
+
+  p {
+    @include _padding(0px, 20px, 0px, 0px);
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .button--primary--positive {
+    float: right;
+  }
+}
+
+table,
+th,
+td {
+  border: 2px solid $color-text-secondary;
+}
+
+.header-primary {
+  th {
+    background-color: $color-table-header-primary;
+  }
+}
+
+.header-secondary {
+  width: 500px;
+
+  th {
+    background-color: $color-table-header-secondary;
+
+    p {
+      color: $color-text-secondary;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    .small-text {
+      @include _font-size(12px);
+    }
+
+  }
+}
+
+.header-tertiary {
+  th {
+    background-color: $color-background-positive;
+  }
+}
+
+.data-primary {
+  td {
+    background-color: $color-background-tint-primary;
+  }
+}
+
+.data-secondary {
+  td {
+    background-color: $color-background-tint-secondary;
+  }
+}
+
+.data-tertiary {
+  td {
+    background-color: $color-background-tint-tertiary;
+  }
+}
+
+.data-quaternary {
+  td {
+    background-color: $color-background-tint-quaternary;
+  }
+}
+
+.data-quinary {
+  td {
+    background-color: $color-background-tint-quinary;
+  }
+}
+
+.cell-center {
+  text-align: center;
+}
+
+.table-footer {
+
+  background-color: $color-background-tint-quinary;
+
+  button {
+    @include _margin(0px, 19px, 0px, 19px);
+    float: left;
+  }
+
+}
+
+.circle {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: block;
+  height: 10px;
+  margin: auto;
+  width: 10px;
+}
+
+.circle--red {
+  background: $color-button-primary-action-danger;
+}
+
+.circle--green {
+  background: $color-button-primary-action-positive;
+}
+
+.step {
+  padding-top: 30px;
+}
+
+.sub-nav {
+  @include _margin(-4px, 0px, 0px, 0px);
+  height: 80px;
+  text-align: center;
+  z-index: 2;
+
+  a[class^='button'] {
+    @include _margin(0px, 16px, 0px, 16px);
+  }
+
+}
+
+.sub-nav--hidden {
+  display: none;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sub-nav--fixed {
+  margin: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.sub-nav--teacher {
+  background-color: $color-background-teach;
+}
+
+.sub-nav--student {
+  background-color: $color-background-play;
+
+  .button--secondary--background-light {
+    color: $color-background-play;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .hamburger {
+    display: none;
+  }
+
+  .menu {
+    @include _padding(10px, 0px, 0px, 0px);
+    background-color: $color-background-secondary;
+    border-bottom: 1px solid $color-background-tertiary;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    a[class^='button'] {
+      border-radius: 0;
+    }
+
+    .button--menu--primary {
+      @include _padding(10px, 0px, 16px, 0px);
+    }
+
+    .button--menu--secondary {
+      @include _padding(10px, 0px, 18px, 0px);
+    }
+
+    .button--menu--enabled {
+      color: $color-text-tertiary;
+    }
+
+    .button--menu--disabled {
+      color: $color-button-disabled;
+    }
+
+    .button--secondary--no-border {
+      @include _font-size(30px);
+      font-weight: 500;
+    }
+
+    .button--secondary--dark {
+      @include _margin(0px, 0px, 0px, 30px);
+    }
+
+  }
+
+  .button--menu__item,
+  .button--menu__item__sub,
+  .banner__item,
+  .button--banner__item {
+    display: none;
+  }
+
+}
+
+@media (max-width: 630px) {
+
+  .col-sm-3 {
+    width: 50%;
+  }
+
+  .menu {
+    @include _padding(0px, 0px, 15px, 0px);
+    background-color: $color-background-tertiary;
+
+    .hamburger {
+      @include _margin(15px, 0px, 0px, 15px);
+      background-color: transparent;
+      background-image: url('../img_new/hamburger.png');
+      border-radius: 0;
+      height: 38px;
+      width: 46px;
+    }
+
+    .logo {
+      @include _margin(0px, 40px, 0px, 0px);
+      @include _padding(0px, 0px, 10px, 15px);
+      content: url('../img_new/logo-horizontal.png');
+      position: relative;
+      width: 40%;
+      z-index: 1;
+    }
+
+    button {
+      @include _margin(15px, 5px, 0px, 5px);
+    }
+
+    .button--menu,
+    .home--icon {
+      display: none;
+    }
+
+    .button--secondary--dark {
+      background-color: $color-background-secondary;
+    }
+
+  }
+
+  .button--menu__item {
+    @include _font-size(40px);
+    background-color: $color-background-tertiary;
+    border-radius: 0;
+    border-top: 1px solid $color-text-secondary;
+    color: $color-text-secondary;
+    font-weight: 600;
+    height: 120px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .banner--homepage {
+    @include _padding(50px, 0px, 50px, 10px);
+  }
+
+  .banner__item {
+    height: 120px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .banner__item--teacher {
+    background-color: $color-background-teach;
+  }
+
+  .banner__item--student {
+    background-color: $color-background-play;
+  }
+
+  .button--banner__item {
+    @include _font-size(30px);
+    @include _margin(30px, 0px, 0px, 0px);
+    font-weight: 500;
+    width: 50%;
+  }
+
+  .button--menu__item__sub {
+    @include _font-size(30px);
+    @include _padding(0px, 0px, 0px, 50px);
+    background-color: $color-background-teach;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .banner {
+    @include _padding(80px, 0px, 0px, 0px);
+    text-align: center;
+
+    p a {
+      color: $color-text-secondary;
+    }
+  }
+
+  .col-sm-3 {
+    float: none;
+    margin: auto;
+  }
+
+  .banner .col-sm-6 .hexagon,
+  .sub-nav--teacher,
+  .sub-nav--student,
+  .form__choice {
+    display: none;
+  }
+
+  .banner--rapid-router {
+    @include _padding(50px, 0px, 150px, 0px);
+
+    button {
+      margin-left: -97.5px;
+      position: absolute;
+      top: 250%;
+    }
+
+  }
+
+  .footer {
+    background-color: $color-background-tertiary;
+    text-align: center;
+
+    p {
+      color: $color-text-secondary;
+    }
+
+    .row {
+      padding: 0;
+
+      p {
+        @include _padding(0px, 15px, 0px, 15px);
+        display: inline-block;
+      }
+
+    }
+
+    img {
+      @include _padding(25px, 15px, 25px, 15px);
+      float: none;
+    }
+
+    .no-padding {
+      padding: 0;
+    }
+
+    a {
+      color: $color-text-secondary;
+    }
+
+    input,
+    button,
+    b,
+    .input-button,
+    .social-media p {
+      display: none;
+    }
+
+  }
+
+}

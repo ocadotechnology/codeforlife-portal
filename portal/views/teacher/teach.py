@@ -62,7 +62,7 @@ from portal.models import Teacher, Class, Student
 from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet, StudentCreationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import get_random_username, generate_new_student_name, generate_access_code, generate_password
-from portal.helpers.email import send_email, send_verification_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import send_email, send_verification_email, NOTIFICATION_EMAIL
 from portal import emailMessages
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage

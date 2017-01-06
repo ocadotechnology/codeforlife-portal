@@ -48,7 +48,7 @@ from deploy import captcha
 
 from portal.forms.registration import PasswordResetSetPasswordForm, StudentPasswordResetForm, TeacherPasswordResetForm
 from portal.permissions import not_logged_in, not_fully_logged_in
-from portal.helpers.email import PASSWORD_RESET_EMAIL
+from portal.helpers.emails import PASSWORD_RESET_EMAIL
 from portal import app_settings
 from ratelimit.decorators import ratelimit
 

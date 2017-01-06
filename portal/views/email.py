@@ -46,7 +46,7 @@ from django.db.models import Count
 from django_countries import countries
 
 from portal.models import EmailVerification, School, Teacher, Student
-from portal.helpers.email import send_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
 
 

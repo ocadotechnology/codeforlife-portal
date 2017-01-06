@@ -50,7 +50,7 @@ from portal import app_settings, emailMessages
 from portal.models import School, Teacher, Class
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from portal.permissions import logged_in_as_teacher
-from portal.helpers.email import send_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
 
 from ratelimit.decorators import ratelimit

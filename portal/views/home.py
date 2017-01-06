@@ -50,7 +50,7 @@ from portal.models import Teacher, Student, FrontPageNews
 from portal.forms.home import ContactForm
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.email import send_email, send_verification_email, is_verified, CONTACT_EMAIL
+from portal.helpers.emails import send_email, send_verification_email, is_verified, CONTACT_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.utils import using_two_factor
 from portal import app_settings, emailMessages

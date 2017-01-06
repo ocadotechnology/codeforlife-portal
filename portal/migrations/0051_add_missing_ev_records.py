@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.db import migrations
 from django.utils import timezone
 
-from portal.helpers.email import generate_token
+from portal.helpers.emails import generate_token
 from portal.models import EmailVerification
 
 

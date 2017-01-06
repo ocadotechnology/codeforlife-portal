@@ -156,9 +156,9 @@ class TeacherEditAccountForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
         if email:
-            teachers = Teacher.objects.filter(user__email=email)
-            if ((len(teachers) == 1 and teachers[0].user != self.user)
-                    or len(teachers) > 1):
+            teachers = Teacher.objects.filter(new_user__email=email)
+            if ((len(teachers) == 1 and teachers[0].new_user != self.user) or
+                    len(teachers) > 1):
                 raise forms.ValidationError("That email address is already in use")
 
         return email
@@ -402,15 +402,15 @@ def validateStudentNames(klass, names):
         students = Student.objects.filter(class_field=klass)
         clashes_found = []
         for name in names:
-            if (students.filter(user__first_name__iexact=name).exists()
-                    and name not in clashes_found):
+            if (students.filter(new_user__first_name__iexact=name).exists() and
+                    name not in clashes_found):
                 validationErrors.append(forms.ValidationError("There is already a student called '"
                                                               + name + "' in this class"))
                 clashes_found.append(name)
 
     # Also report if a student appears twice in the list to be added.
     # But again only report each name once.
-    lower_names = map(lambda x: x.lower(), names)
+    lower_names = [name.lower() for name in names]
     duplicates_found = []
     for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
         if duplicate not in duplicates_found:

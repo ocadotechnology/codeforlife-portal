@@ -54,6 +54,7 @@ TIME_ZONE = 'Europe/London'
 LANGUAGE_CODE = 'en-gb'
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'email_media/')
 SECRET_KEY = 'not-a-secret'
 
 ROOT_URLCONF = 'django_autoconfig.autourlconf'
