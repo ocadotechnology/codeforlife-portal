@@ -140,7 +140,7 @@ def teach(request):
                               {'user': teacher.user})
 
     logged_in_as_teacher = (
-        hasattr(request.user, 'teacher') and 
+        hasattr(request.user, 'teacher') and
         (request.user.is_verified() or not using_two_factor(request.user))
     )
 
