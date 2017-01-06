@@ -502,6 +502,10 @@ section {
   @include _padding(0px, 0px, 14px, 0px);
 }
 
+a .glyphicon {
+  @include _margin(10px, 0px, 0px, 0px);
+}
+
 .tab {
   list-style-type: none;
   margin: auto;
