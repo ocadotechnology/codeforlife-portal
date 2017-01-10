@@ -66,6 +66,7 @@ from portal.views.email import send_new_users_report
 from game.views.level import play_default_level
 
 from portal.views.home_new import login_view, register_view
+from portal.views.organisation_new import organisation_manage_new
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -201,7 +202,7 @@ urlpatterns = patterns(
     url(r'^redesign/login_form', login_view, name='login_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
-    url(r'^redesign/teach/onboarding1/$', TemplateView.as_view(template_name='redesign/teach_new/onboarding_school.html'), name='onboarding1'),
+    url(r'^redesign/teach/onboarding1/$', organisation_manage_new, name='onboarding1'),
     url(r'^redesign/teach/onboarding1-join', TemplateView.as_view(template_name='redesign/teach_new/onboarding_join_pending.html'), name='onboarding1-join'),
     url(r'^redesign/teach/onboarding2', TemplateView.as_view(template_name='redesign/teach_new/onboarding_classes.html'), name='onboarding2'),
     url(r'^redesign/teach/onboarding3', TemplateView.as_view(template_name='redesign/teach_new/onboarding_students.html'), name='onboarding3'),

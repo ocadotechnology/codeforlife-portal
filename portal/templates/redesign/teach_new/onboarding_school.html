@@ -85,28 +85,50 @@
             </li>
         </ul>
         <div id="Create" class="tabcontent">
-            <form>
-                <p class="body-text">As the first person from your school to register for Code for Life, by default, you become the organisation&rsquo;s administrator.</p>
-                <p class="small-text">Name of your school or club</p>
-                <input type="text" name="FirstName" value="">
-                <p class="small-text">Country</p>
-                <input type="text" name="LastName" value="">
-                <p class="small-text">Postcode</p>
-                <input type="text" name="FirstName" value="">
-                <p class="small-text">Password</p>
-                <input type="password" name="LastName" value=""><br/>
+            <form id="form-create-organisation" method='post'>
+
+                {% csrf_token %}
+
+                {{ create_form.non_field_errors }}
+
+                {% for field in create_form %}
+                {{ field.errors }}
+                <label for="id_{{ field.name }}">{{ field.label }}</label>
+                {{ field }}
+                {% endfor %}
+
+                <div class='section group'>
+                    <button type='submit' class='button--regular button-primary button--primary--general-play' name='create_organisation'>Create school or club</button>
+                </div>
+
             </form>
-            <a href="{% url 'onboarding2' %}" class="button--regular button-primary button--primary--general-play">Create school or club</a>
         </div>
         <div id="Join" class="tabcontent">
-            <form>
-                <p class="body-text">You can search for your school or club, by name and/or postcode below. A request will be sent to the school or club&rsquo;s administrator for processing.</p>
-                <p class="small-text">Search for school or club by name or postcode</p>
-                <input type="text" name="FirstName" value="">
-                <p class="small-text">Select school or club</p>
-                <input type="text" name="LastName" value="">
+            <form id="form-join-organisation" method='post'>
+
+                {% csrf_token %}
+
+                {{ join_form.non_field_errors }}
+
+                {{ join_form.fuzzy_name.errors }}
+                <label for="id_{{ join_form.fuzzy_name.html_name }}">{{ join_form.fuzzy_name.label }}</label>
+                {{ join_form.fuzzy_name }}
+
+                {{ join_form.chosen_org.errors }}
+                <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
+                {{ join_form.chosen_org }}
+
+                {% if join_form.recaptcha %}
+                {{ join_form.recaptcha.errors }}
+                <label for="id_{{ join_form.recaptcha.html_name }}">{{ join_form.recaptcha.label }}</label>
+                {{ join_form.recaptcha|safe }}
+                {% endif %}
+
+                <div class='section group'>
+                    <button type='submit' class='button--regular button-primary button--primary--general-play' name='join_organisation'>Join school or club</button>
+                </div>
+
             </form>
-            <a href="{% url 'onboarding1-join' %}" class="button--regular button-primary button--primary--general-play">Join school or club</a>
         </div>
     </div>
 </div>
