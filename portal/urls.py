@@ -67,6 +67,7 @@ from game.views.level import play_default_level
 
 from portal.views.home_new import login_view, register_view
 from portal.views.organisation_new import organisation_manage_new
+from portal.views.teacher.teach_new import teacher_classes_new
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -204,7 +205,7 @@ urlpatterns = patterns(
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
     url(r'^redesign/teach/onboarding1/$', organisation_manage_new, name='onboarding1'),
     url(r'^redesign/teach/onboarding1-join', TemplateView.as_view(template_name='redesign/teach_new/onboarding_join_pending.html'), name='onboarding1-join'),
-    url(r'^redesign/teach/onboarding2', TemplateView.as_view(template_name='redesign/teach_new/onboarding_classes.html'), name='onboarding2'),
+    url(r'^redesign/teach/onboarding2', teacher_classes_new, name='onboarding2'),
     url(r'^redesign/teach/onboarding3', TemplateView.as_view(template_name='redesign/teach_new/onboarding_students.html'), name='onboarding3'),
     url(r'^redesign/teach/onboarding4', TemplateView.as_view(template_name='redesign/teach_new/onboarding_print.html'), name='onboarding4'),
     url(r'^redesign/teach/onboarding5', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding5'),
