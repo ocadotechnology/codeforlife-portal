@@ -16,7 +16,7 @@
 {{ block.super }}
 
 <div class="banner banner--teacher--plain">
-    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
     <div class="arrows col-sm-offset-1">
         <div class="progress-arrow">
@@ -72,16 +72,29 @@
 
 <div class="background background--primary col-sm-12">
     <div class="form col-sm-4 col-sm-offset-4">
-        <h3>Add students to a class</h3>
-        <form>
-            <p class="body-text">Add the students&rsquo; names to the box with one student name per line. Students&rsquo; names will be used in their login details, and so
-                each name should be unique.</p>
-            <p class="body-text">You have the option the use the students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
-                are required to sign in.</p>
-            <button class="button--regular button--secondary button--secondary--dark">Import .CSV file</button>
-            <textarea rows="10" cols="40" placeholder="You can import names from a .CSV file, or copy and paste them from a spreadsheet directly into this box"></textarea>
+        <h4>{{ user.new_teacher.school.name }}</h4>
+        {% if classes %}
+            {% for class in classes %}
+                <h3>Add students to class: {{ class.name }}</h3>
+            {% endfor %}
+        {% else %}
+        <p>It doesn't look like you have any classes assigned to you. To create a class, use the 'New Class' box on the right.</p>
+        {% endif %}
+        <p class="body-text">Add the students&rsquo; names to the box with one student name per line. Students&rsquo; names will be used in their login details, and so
+            each name should be unique.</p><br>
+        <p class="body-text">You have the option the use the students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
+            are required to sign in.</p>
+        <form id='add_form' method='POST'>
+
+            {% csrf_token %}
+
+            {{ new_students_form.non_field_errors }}
+
+            {{ new_students_form.names.errors }}
+            {{ new_students_form.names }}
+
+            <button type='submit' class='button--regular button-primary button--primary--general-play' name='new_students' value='Add students'>Add students</button>
         </form>
-        <a href="{% url 'onboarding4' %}" class="button--regular button-primary button--primary--general-play">Add students</a>
     </div>
 </div>
 

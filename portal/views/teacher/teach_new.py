@@ -152,16 +152,13 @@ def teacher_classes_new(request):
             created_class = create_class_new(form, teacher)
             messages.success(request, "The class '{className}' has been created successfully."
                              .format(className=created_class.name))
-        return HttpResponseRedirect(reverse_lazy('onboarding3'))
+        return HttpResponseRedirect(reverse_lazy('onboarding3', kwargs={'access_code': created_class.access_code}))
     else:
         form = ClassCreationForm(initial={'classmate_progress': 'False'})
 
-    classes = Class.objects.filter(teacher=teacher)
-
     return render(request, 'redesign/teach_new/onboarding_classes.html',
                   {'form': form,
-                   'requests': requests,
-                   'classes': classes})
+                   'requests': requests})
 
 
 def create_class_new(form, teacher):
@@ -176,10 +173,11 @@ def create_class_new(form, teacher):
     return klass
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
-def teacher_class(request, access_code):
+@login_required(login_url=reverse_lazy('home_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
+def teacher_class_new(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
+    teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
     # Check which students are logged in
     logged_in_students = klass.get_logged_in_students()
@@ -206,16 +204,35 @@ def teacher_class(request, access_code):
                     name=name,
                     password=password)
 
-            return render(request, 'portal/teach/teacher_new_students.html',
+            return render(request, 'redesign/teach_new/onboarding_print.html',
                           {'class': klass,
                            'name_tokens': name_tokens,
                            'query_data': json.dumps(name_tokens)})
     else:
         new_students_form = StudentCreationForm(klass)
 
-    return render(request, 'portal/teach/teacher_class.html',
+    classes = Class.objects.filter(teacher=teacher)
+
+    return render(request, 'redesign/teach_new/onboarding_students.html',
                   {'new_students_form': new_students_form,
                    'class': klass,
+                   'classes': classes,
+                   'students': students,
+                   'num_students': len(students)})
+
+
+@login_required(login_url=reverse_lazy('home_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
+def teacher_class_students(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
+
+    # check user authorised to see class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
+
+    return render(request, 'redesign/teach_new/onboarding_print.html',
+                  {'class': klass,
                    'students': students,
                    'num_students': len(students)})
 
