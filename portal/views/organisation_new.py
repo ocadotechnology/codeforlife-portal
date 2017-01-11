@@ -155,6 +155,10 @@ def organisation_create_new(request):
 
                 messages.success(request, 'Your request to join the school or club has been sent successfully.')
 
+                return render(request, 'redesign/teach_new/onboarding_join_pending.html',
+                              {'school': school,
+                               'teacher': teacher})
+
             else:
                 join_form = OutputOrganisationJoinForm(request.POST)
 
@@ -163,6 +167,8 @@ def organisation_create_new(request):
             teacher.save()
 
             messages.success(request, 'Your request to join the school or club has been revoked successfully.')
+
+            return HttpResponseRedirect(reverse_lazy('onboarding1'))
 
     res = render(request, 'redesign/teach_new/onboarding_school.html', {
         'create_form': create_form,
@@ -223,10 +229,10 @@ def organisation_teacher_view(request, is_admin):
 def organisation_manage_new(request):
     teacher = request.user.new_teacher
 
-    # if teacher.school:
-    #     return organisation_teacher_view(request, teacher.is_admin)
-    # else:
-    return organisation_create_new(request)
+    if teacher.school:
+        return organisation_teacher_view(request, teacher.is_admin)
+    else:
+        return organisation_create_new(request)
 
 
 @login_required(login_url=reverse_lazy('teach'))

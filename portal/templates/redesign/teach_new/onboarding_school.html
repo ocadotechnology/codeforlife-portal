@@ -15,6 +15,13 @@
 {% block content %}
 {{ block.super }}
 
+<script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
+<script>
+    var FUZZY_NAME_FIELD_ID = '{{ join_form.fuzzy_name.auto_id }}';
+    var CHOSEN_ORG_FIELD_ID = '{{ join_form.chosen_org.auto_id }}';
+    var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup_new' %}";
+</script>
+
 <div id="onboarding_organisation_page"></div>
 
 <div class="banner banner--teacher--plain">
