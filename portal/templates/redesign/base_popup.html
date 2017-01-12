@@ -107,6 +107,11 @@
 <div id="confirmation-dialog" title=""></div>
 
 {% block scripts %}
+<script>
+    $(function() {
+        $('input, textarea').placeholder();
+    });
+</script>
 {% endblock scripts %}
 
 </body>

@@ -31,8 +31,8 @@
     <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
-    <script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
     {% endcache %}
+    <script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
 
     {% block check_user_status %}
@@ -140,9 +140,6 @@
         <p class="body-text"><a href="{% url 'terms_new' %}">Terms of use</a></p>
     </div>
     <div class="row social-media"><br>
-        <p class="body-text"><b>Sign up to our newsletter</b></p>
-        <input type="text">
-        <div class="input-button"><button class="button--regular button--primary--general-play">Sign up</button></div>
         <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img_new/twitter.png" %}'></a>
         <a target="_blank" href="https://www.facebook.com/OcadoTechnology/"><img src='{% static "portal/img_new/facebook.png" %}'></a>
         <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img_new/google+.png" %}'></a>
@@ -157,6 +154,10 @@
 
 {% block scripts %}
 <script>
+    $(function() {
+        $('input, textarea').placeholder();
+    });
+
     function animateScroll() {
         $('a[href*=#]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
