@@ -1,0 +1,211 @@
+{% load staticfiles %}
+{% load app_tags %}
+{% load cache %}
+
+{# CMS #}
+{% load cms_tags sekizai_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {# CMS #}
+    {% render_block "css" %}
+
+    <title>{% block title %}Code for Life{% endblock %}</title>
+    <meta name="msapplication-config" content="none"/>
+
+    {% block head %}
+    {% endblock head %}
+
+    {% block css %}
+    {% cache 3600 fragment-base_new-css %}
+    <link href='{% static "portal.css" %}' type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    {% endcache %}
+    {% endblock css %}
+
+    {% cache 3600 fragment-base_new-javascript %}
+    <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
+    {% endcache %}
+    <script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
+
+    {% block check_user_status %}
+    <script>
+        // Set to 'TEACHER', 'SCHOOL_STUDENT', 'INDEPENDENT_STUDENT', or 'UNTRACKED'
+        USER_STATUS = '{{ user|get_user_status }}';
+        DEVELOPER = '{{ user|is_developer }}' === 'True';
+        BETA = '{{ request|has_beta_access }}' === 'True';
+    </script>
+    {% endblock check_user_status %}
+
+    {% block google_analytics %}
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+        ga('create', 'UA-49883146-1', 'auto');
+        ga('send', 'pageview');
+
+        function send_event(name_of_file, action){
+            ga('send', {
+                hitType: 'event',
+                eventCategory: 'PDFs',
+                eventAction: action,
+                eventLabel: name_of_file
+            });
+        }
+    </script>
+
+    <script src="/static/portal/js/riveted.min.js"></script>
+    <script>riveted.init();</script>
+    {% endblock google_analytics %}
+</head>
+
+<body id="top">
+{# CMS #}
+{% cms_toolbar %}
+{% render_block "js" %}
+{% include 'portal/mouseflow.html' %}
+
+{% block contentWrapper %}
+<div {% block pageID %}id='contentWrapper'{% endblock %}>
+    {% block topBar %}
+    <a href="{% url 'home_new' %}"><img class="logo col-sm-offset-1"></a>
+    <div class="menu">
+        <a href="{% url 'home_new' %}" class="button--regular button--secondary button--secondary--no-border col-sm-offset-2 home-icon"><div class="glyphicon glyphicon-home"></div></a>
+        {% block menuButtons %}
+        {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+        {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary button--menu--enabled">Students</a>{% endblock nav_play %}
+        <button class="button--regular button--primary--general-play col-sm-offset-3 register">Register now</button>
+        <button class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></button>
+        {% endblock menuButtons %}
+    </div>
+    {% endblock topBar %}
+    {% block subNav %}
+    {% endblock subNav %}
+
+    {% block contentDiv %}
+    <div class="content">
+
+        <div id='messages'>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <!--[if lt IE 10]>
+        <ul class="messages">
+            <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
+        </ul>
+        <![endif]-->
+
+        {% block content %}
+        {# CMS #}
+        {% placeholder template_1_content %}
+        {% block base_new_content %}{% endblock %}
+        {% endblock content %}
+
+    </div>
+    {% endblock contentDiv %}
+
+    <div class="push"></div>
+</div>
+{% endblock contentWrapper %}
+
+{% block footer %}
+{% cache 3600 fragment-base_new-footer %}
+<div class="footer">
+    <a class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img_new/footer_arrow.png" %}'></a>
+    <p class="small-text"><a href="#top">BACK TO TOP</a></p>
+    <img class="col-sm-3" src='{% static "portal/img_new/logo_c4l_horizontal.png" %}'>
+    <div class="row">
+        <p class="body-text"><a href="{% url 'about_new' %}">About us</a></p>
+        <p class="body-text"><a href="{% url 'teach_new' %}">Teachers</a></p>
+        <p class="body-text"><a href="{% url 'play_new' %}">Students</a></p>
+        <p class="body-text"><a href="{% url 'help_new' %}">Help and support</a></p>
+        <p class="body-text"><a href="{% url 'help_new' %}#contact">Contact us</a></p>
+        <p class="body-text"><a href="{% url 'terms_new' %}">Terms of use</a></p>
+    </div>
+    <div class="row social-media"><br>
+        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img_new/twitter.png" %}'></a>
+        <a target="_blank" href="https://www.facebook.com/OcadoTechnology/"><img src='{% static "portal/img_new/facebook.png" %}'></a>
+        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img_new/google+.png" %}'></a>
+    </div>
+    <img src='{% static "portal/img_new/logo_ocado.png" %}'>
+    <p class="small-text">&copy; Ocado Technology 2016</p>
+</div>
+{% endcache %}
+{% endblock footer %}
+
+<div id="confirmation-dialog" title=""></div>
+
+{% block scripts %}
+<script>
+    $(function() {
+        $('input, textarea').placeholder();
+    });
+
+    function animateScroll() {
+        $('a[href*=#]').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                history.pushState({}, "", this.href);
+                var $target = getTarget(this);
+                if ($target.length) {
+                    animate($target.offset().top - 50);
+                    return false;
+                }
+            }
+        });
+    }
+
+    function getTarget(clickTarget) {
+        var $target = $(clickTarget.hash);
+        $target = $target.length && $target || $('[name=' + clickTarget.hash.slice(1) +']');
+        return $target;
+    }
+
+    function animate(targetOffset) {
+        $('html,body').animate({scrollTop: targetOffset}, 1000);
+    }
+
+    function invokeColorbox(buttonID, href, innerWidth, innerHeight) {
+        $(buttonID).colorbox({
+            href: href,
+            innerWidth: innerWidth,
+            innerHeight: innerHeight,
+            transition: 'fade',
+            closeButton: false
+        });
+    }
+
+    $(document).ready(function() {
+        invokeColorbox(
+                ".register",
+                "{% url 'register_popup' %}",
+                1600, 1363);
+
+        invokeColorbox(
+                ".login",
+                "{% url 'login_popup' %}",
+                1600, 1043);
+
+        animateScroll();
+    })
+</script>
+{% endblock scripts %}
+
+</body>
+</html>

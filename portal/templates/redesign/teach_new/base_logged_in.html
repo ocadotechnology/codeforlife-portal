@@ -1,0 +1,14 @@
+{% extends 'redesign/teach_new/base_registering.html' %}
+
+{% block dashboard %}
+    <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+{% block levels %}
+    <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+{% endblock levels %}
+{% block materials %}
+    <a href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+{% endblock materials %}
+
+{% block content %}
+{% endblock content %}
