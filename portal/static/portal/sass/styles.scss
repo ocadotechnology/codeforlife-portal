@@ -551,6 +551,7 @@ form {
   }
 
   input[type=text],
+  input[type=email],
   input[type=password],
   select {
     @include _font-size(20px);
@@ -586,6 +587,13 @@ form {
   .body-text {
     color: $color-text-secondary;
     text-align: center;
+  }
+
+  label {
+    color: $color-text-secondary;
+    display: block;
+    font-weight: 200;
+    text-align: left;
   }
 
   p {
