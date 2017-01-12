@@ -464,19 +464,19 @@ section {
 }
 
 .banner--picture--educate {
-  background-image: url('../img_new/home-educate-hero.jpg');
+  background-image: url('../img_new/home_educate_hero.jpg');
 }
 
 .banner--picture--play {
-  background-image: url('../img_new/home-play-hero.jpg');
+  background-image: url('../img_new/home_play_hero.jpg');
 }
 
 .banner--picture--about {
-  background-image: url('../img_new/about-us-hero.jpg');
+  background-image: url('../img_new/about_us_hero.jpg');
 }
 
 .logo {
-  content: url('../img_new/logo.png');
+  content: url('../img_new/logo_c4l_hexa.png');
   position: fixed;
   top: 10px;
   z-index: 3;
@@ -699,13 +699,13 @@ form {
 
 .banner--homepage--teacher,
 .banner--teacher {
-  background-image: url('../img_new/background-blue-new.png');
+  background-image: url('../img_new/background_blue.png');
   background-position: top right;
 }
 
 .banner--homepage--student,
 .banner--student {
-  background-image: url('../img_new/background-orange-new.png');
+  background-image: url('../img_new/background_orange.png');
   background-position: top left;
 }
 
@@ -742,7 +742,7 @@ form {
 
 .banner--rapid-router {
   @include _padding(150px, 0px, 100px, 0px);
-  background-image: url('../img_new/rapid-router-landing-hero.png');
+  background-image: url('../img_new/rapid_router_landing_hero.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1195,7 +1195,7 @@ td {
     .logo {
       @include _margin(0px, 40px, 0px, 0px);
       @include _padding(0px, 0px, 10px, 15px);
-      content: url('../img_new/logo-horizontal.png');
+      content: url('../img_new/logo_c4l_horizontal.png');
       position: relative;
       width: 40%;
       z-index: 1;
