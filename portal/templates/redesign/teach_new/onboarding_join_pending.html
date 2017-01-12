@@ -1,0 +1,92 @@
+{% extends 'redesign/teach_new/base_registering.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, {{v1}}</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows col-sm-offset-1">
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_white_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--in-progress">
+                <img src='{% static "portal/img_new/step_in_progress.png" %}'>
+                <p class="body-text">Join a school</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_white_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Classes</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Add students</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+    </div>
+</div>
+<div class="sub-nav sub-nav--warning">
+    <div class="row">
+        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+        <p class="body-text"><i>Your request to join Test school 1 has been submitted</i></p>
+    </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <section>
+        <h2>Join a school</h2>
+    </section>
+    <h4>You have a pending request to join <strong>Test school 1, HP1 2BY</strong>.Once the administrator of your school or club has approved your request you will be able
+        to continue.</h4>
+</div>
+<div class="background col-sm-6 col-center">
+    <p class="body-text">Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
+        your pending request first.</p>
+    <a href="{% url 'onboarding1' %}" class="button--regular button--secondary button--secondary--dark">Revoke request to Test school 1</a>
+</div>
+
+{% endblock content %}

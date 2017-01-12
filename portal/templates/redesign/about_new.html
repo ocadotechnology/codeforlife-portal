@@ -1,0 +1,138 @@
+{% extends 'redesign/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher row">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">About Code for Life</h1>
+        <h4>Code For Life gives everyone the ability to shape technology&rsquo;s future</h4>
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--about"></div></div></div>
+    </div>
+</div>
+
+<div class="background">
+    <section>
+        <div class="col-sm-6 col-center">
+            <h4>Code For Life is a non profit initiative that delivers free, open-source games that help all students learn computing.</h4>
+        </div>
+        <div class="col-sm-8 col-center">
+            <div class="row row--regular homepage-info">
+                <div class="col-sm-4">
+                    <h1>13%</h1>
+                    <p class="body-text col-sm-11 col-center">of university computer science graduates in the UK are women*. We want both boys and girls to feel inspired and
+                        confident about technology from a young age.</p>
+                </div>
+                <div class="col-sm-4">
+                    <h1>70,000</h1>
+                    <p class="body-text col-sm-11 col-center">Registered users across the world, and growing everyday.</p>
+                </div>
+                <div class="col-sm-4">
+                    <h1>2014</h1>
+                    <p class="body-text col-sm-11 col-center">The year that computing was added to the UK curriculum. We&rsquo;ve been supporting teachers and students ever since.</p>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <div class="col-sm-8 col-center">
+        <div class="row row--regular">
+            <div class="col-sm-6">
+                <h3>Ocado Technology</h3>
+                <p class="body-text"><a target="_blank" href="http://www.ocadotechnology.com/">Ocado Technology</a> develops the innovative software and hardware that
+                    powers the online retail platforms of <a target="_blank" href="https://www.ocado.com/webshop/startWebshop.do">Ocado.com</a>
+                    (the world&rsquo;s largest online-only grocery retailer) and
+                    <a target="_blank" href="https://groceries.morrisons.com/webshop/startWebshop.do">Morrisons</a> (the UK's fourth largest supermarket chain).</p>
+                <p class="body-text">Our technology estate is very broad and deep, covering real-time control systems and robotics, computer vision systems, machine
+                    learning and AI, simulation, data science, forecasting and routing systems, inference engines, cloud, IoT, big data and more.</p>
+            </div>
+            <div class="col-sm-6">
+                <h3>In partnership with teachers</h3>
+                <p class="body-text">The Ocado Technology Code for Life resources are designed for, and tested by, primary school teachers.</p>
+                <p class="body-text">Our aim is to teach children the basic principles of coding, to help them flourish in an increasingly digital world. And in the coming
+                    years, we&rsquo;ll extend our resources to support pupils throughout their school career and beyond.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="background background--primary">
+    <section>
+        <h2>We couldn&rsquo;t do it without you!</h2>
+    </section>
+    <div class="row row--regular">
+        <div class="col-sm-8 col-center">
+            <div class="col-sm-6">
+                <h3>Our team and volunteers</h3>
+                <p class="body-text">The Code for Life site and Rapid Router app would not have been possible without the time and skills volunteered by our talented
+                    developers and creatives.</p>
+                <p class="body-text"><i><strong>Thank you,</strong> Ana Crisan, Anders Schuller, Andre Gomes, Andreia Silva Cabecinhas, Andrew Miller, Angela Brownsey,
+                    Anne Marie Neatham, Aparbek Smailov, Ashley Marshall, Barry Parker, Ben Cardy, Blazej Strozewski, Bree King, Celine Boudier, Cherie Pun, Chris Leach,
+                    Chris Mukherjee, Chris Pavli, Christopher Brett, Cliford Bailey, Daniel Palma, Daniela Ortner, Dawid Chodura, Duncan Russell, Edd Armitage, Felix
+                    Stephenson, Florian Aucomte, Helen Mead, Isabel Richards, Jacq Train, James Dimmock, James Holland, James Smyth, Javi Carretero, Joe Slade,
+                    Joseph Zammit, Josh Blake, Katarzyna Zych, Kenny MacMillan, Kristian Brugts, Lloyd Allen, Lukasz Brzezowski, Maciej Zywiol, Mahana Clutha,
+                    Marcin Zieba, Maria Skrzypek, Mateusz Gizycki, Matt Whelan, Matthew Daggitt, Menelik Collymore, Michael Storey, Miguel Trigueira, Mike Bryant,
+                    Nel Sui, Niket Shah, Oliver Cartz, Oliver Jeeves, Patricia Botta, Paul Clarke, Paul Heideman, Paul Wright, Paulina Koch, Peter Hancock, Piotr
+                    &lsquo;Kru&rsquo; Kaczmar, Piotr Repetowski, Rachel Lord, Rafal Wawryk, Robert Brignull, Ruth Wall, Shubham Jain, Sophie Whelan, Steph Lovis,
+                    Stephen Kennedy, Thomas Cassany, Tricy Dino, Varadh Kalidasan, Wael Al Jeshi, Will Peck, Yongji Zhou.</i></p>
+            </div>
+            <div class="col-sm-6">
+                <h3>Want to get involved?</h3>
+                <p class="body-text">We are open source, so anyone can ask to contribute. You can play with game-running JavaScript, Python/Django, animation
+                    using SGV and Raphael, and a lot more. We&rsquo;d like input from all sorts of backgrounds, whether you&rsquo;re: a programmer looking for a
+                    creative outlet; a teacher hoping to shape the resources;
+                    <a target="_blank" href="https://crowdin.com/project/code-for-life/invite/public?show_welcome&d=876e8507d82d9e07a09b4696a88c0c02479434">
+                        a polyglot who&rsquo;d like to help with translation</a>;
+                    or even a pupil putting your skills to the test.</p>
+                <h4>Developers</h4>
+                <p class="body-text">To contribute, head over to <a target="_blank" href="https://github.com/ocadotechnology/codeforlife-portal">GitHub</a>,
+                    check out the issue tracker, and get started. There you can suggest new features or assign yourself an issue to develop (you&rsquo;ll find
+                    more info about how to do this on GitHub).</p>
+                <h4>Teachers, parents, and creatives</h4>
+                <p class="body-text">Please get in touch through our <a href="{% url 'help_new' %}">contact</a> form and let us know how you would like to get involved.</p>
+            </div>
+        </div>
+    </div>
+    <section class="col-sm-7 col-center">
+        <h3>We would like to thank our friends who have contributed to this initiative</h3>
+        <div class="row row--regular image-row">
+            <img title="10x" alt="10x logo" src='{% static "portal/img_new/10x_logo.png" %}'>
+            <img title="BCS" alt="BCS logo" src='{% static "portal/img_new/bcs_logo.png" %}'>
+            <img title="ICL" alt="Imperial logo" src='{% static "portal/img_new/icl_logo.png" %}'>
+            <img title="Barefoot" alt="Barefoot logo" src='{% static "portal/img_new/barefoot_logo.png" %}'>
+            <img title="MC Saatchi" alt="MC Saatchi logo" src='{% static "portal/img_new/mc_saatchi_logo.png" %}'>
+            <img title="HOPE" alt="HOPE logo" src='{% static "portal/img_new/hope_logo.png" %}'>
+            <img title="GLA" alt="GLA logo" src='{% static "portal/img_new/gla_logo.png" %}'>
+            <img title="Pressure Cooker" alt="Pressure Cooker logo" src='{% static "portal/img_new/pressure_cooker_logo.png" %}'>
+        </div>
+        <p class="small-text">10X, BCS Academy of Computing, Barefoot Computing, Computing at School, The National Museum of Computing, Imperial College London,
+            M&C Saatchi, Alvaro Ramirez, Jason Fingland, Ramneet Loyall, Sharon Harrison, Keith Avery, Dale Coan, Rob Whitehouse, Mandy Nash, Tanya
+            Nothard, Matt Trevor, Moy El-Bushra, Richard Siwiak, Peter Tondrow, Liz Pratt, Pressure Cooker Studios, GAL Education, Hope Education.</p>
+    </section>
+</div>
+
+<section class="background col-sm-5 col-center">
+    <h3>Dedicated to Sharon Harrison</h3>
+    <img title="Sharon Harrison" alt="Sharon Harrison portrait" class="portrait" src='{% static "portal/img_new/sharon_harrison.jpg" %}'>
+    <h4>1956 &mdash; 2015</h4>
+    <p class="body-text">Sharon was instrumental in helping to create Code for Life. At the beginning of 2014 she was recruited to act as our Educational Consultant.
+        The project drew on her previous skills as a pioneering computing teacher and education consultant.</p>
+    <p class="body-text">Sharon has left a lasting legacy by creating something which will help teach STEM skills to the next generation of computer scientists across
+        the world.</p>
+</section>
+
+{% endblock content %}

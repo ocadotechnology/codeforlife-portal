@@ -1,0 +1,87 @@
+{% extends 'redesign/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher row">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">Help and support</h1>
+        <p class="body-text">If you&rsquo;ve run into problems, please look at our <a href="#faqs">FAQs</a> below for advice to commonly asked questions. If you still can&rsquo;t
+            find the answers, please <a href="#contact">contact us</a>. One of the Code for Life team will get back to you and resolve your issues.</p>
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--about"></div></div></div>
+    </div>
+</div>
+
+<div class="background col-sm-8 col-center">
+    <h3>Browser support</h3>
+    <p class="body-text">The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8
+        and Internet Explorer 9 are not supported. Please upgrade to Internet Explorer 10 or above, or use an alternative browser if you are currently using these
+        browsers.</p>
+    <p class="body-text">Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please
+        <a href="#contact">contact us</a> for assistance.</p>
+</div>
+<div id="faqs">
+    <div class="background col-sm-8 col-center">
+        <h3>FAQs</h3>
+        <p class="body-text"><strong>+ I am a school student and have forgotten my password. How do I reset it?</strong></p>
+        <p class="body-text"><strong>+ I am a teacher and have forgotten my password. How do I reset it?</strong></p>
+        <p class="body-text"><strong>+ I am an independent student and have forgotten my password. How do I reset it?</strong></p>
+        <p class="body-text"><strong>+ I'm having problems choosing an acceptable password for my account. What am I missing?</strong></p>
+        <p class="body-text"><strong>+ How do I choose a secure and memorable password for my account?</strong></p>
+        <p class="body-text"><strong>+ What is two factor authentication? Do I need it?</strong></p>
+        <p class="body-text"><strong>+ What if I teach at more than one school? Can I sign up with one email address?</strong></p>
+        <p class="body-text"><strong>+ I want to sign up as a Teacher. Why am I asked for my 'professional' email address when registering?</strong></p>
+        <p class="body-text"><strong>+ What should I do when my students leave my school or club?</strong></p>
+        <p class="body-text"><strong>+ What is an independent student?</strong></p>
+        <p class="body-text"><strong>+ What if a student moves to another school? Can they keep their progress?</strong></p>
+        <p class="body-text"><strong>+ What do I need to do to allow an independent student to join my class or school?</strong></p>
+        <p class="body-text"><strong>+ I've set up my students. How do they log in?</strong></p>
+        <p class="body-text"><strong>+ As a student in a school or club, who can I share my custom created levels with?</strong></p>
+        <p class="body-text"><strong>+ As a teacher, who can I share my custom created levels with?</strong></p>
+        <p class="body-text"><strong>+ How can I control the levels my students create?</strong></p>
+        <p class="body-text"><strong>+ I am an independent student. Why can't I share my custom created levels?</strong></p>
+    </div>
+</div>
+
+<div id="contact">
+    <div class="background background--primary">
+        <div class="col-sm-8 col-center">
+            <h3>Contact us</h3>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="small-text">Your name</p>
+                        <input type="text" placeholder="Firstname Lastname">
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="small-text">Telephone number</p>
+                        <input type="text" placeholder="+44 (0)1234 567890">
+                    </div>
+                </div>
+                <p class="small-text">Email address</p>
+                <input type="text" placeholder="your.name@domain.com">
+                <p class="small-text">Message</p>
+                <textarea rows="10" cols="40" placeholder="Message"></textarea>
+            </form>
+        </div>
+        <section>
+            <button class="button--regular button--primary--general-play">Submit</button>
+        </section>
+    </div>
+</div>
+
+{% endblock content %}

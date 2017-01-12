@@ -1,0 +1,69 @@
+{% extends 'redesign/base_popup.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="row popup is-flex">
+    <div class="form--register form--register--teacher col-sm-6">
+        <div class="form col-sm-8 col-sm-offset-2">
+            <h1>Register as a teacher</h1>
+            <form id="register-form">
+                <p class="body-text">Once you&rsquo;ve registered your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.<br/></p>
+                <p class="small-text">Title</p>
+                <select>
+                    <option value="default">Please select</option>
+                    <option value="mr">Mr</option>
+                    <option value="ms">Ms</option>
+                    <option value="miss">Miss</option>
+                    <option value="mrs">Mrs</option>
+                </select>
+                <p class="small-text">First name</p>
+                <input type="text" name="FirstName" value="" placeholder="Grace">
+                <p class="small-text">Last name</p>
+                <input type="text" name="LastName" value="" placeholder="Hopper">
+                <p class="small-text">Email address</p>
+                <input type="text" name="Email" value="" placeholder="grace.hopper@navy.mil"><br/>
+                <p class="small-text">Create a password</p>
+                <input type="password" name="Password" value=""><br/>
+                <p class="small-text">Confirm password</p>
+                <input type="password" name="ConfirmPassword" value=""><br/>
+                <p class="small-text no-password"><i>No password</i></p>
+                <a href="{% url 'onboarding1' %}" class="button--regular button--primary--general-educate">Register</a>
+            </form>
+        </div>
+    </div>
+    <div class="form--register form--register--student col-sm-6">
+        <div class="form col-sm-8 col-sm-offset-2">
+            <h1>Register as a student</h1>
+            <form>
+                <p class="body-text">Are you part of a school or club? If so, please <a target="_blank" href="home_new.html">log-in</a> or speak to your teacher. If you want to register as an <strong>independent student</strong>, please register below:</p>
+                <p class="small-text">Name</p>
+                <input type="text" name="Name" value="" placeholder="Rosaslind Franklin">
+                <p class="small-text">User name</p>
+                <input type="text" name="Username" value="" placeholder="Rosie_f">
+                <p class="small-text">Email address</p>
+                <input type="text" name="Email" value="" placeholder="rosalind.franklin@cambridge.ac.uk">
+                <p class="small-text">Create a password</p>
+                <input type="password" name="Password" value=""><br/>
+                <p class="small-text">Confirm password</p>
+                <input type="password" name="ConfirmPassword" value=""><br/>
+                <p class="small-text no-password"><i>No password</i></p>
+                <a class="button--regular button--primary--general-play">Register</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

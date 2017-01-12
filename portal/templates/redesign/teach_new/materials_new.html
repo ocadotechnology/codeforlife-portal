@@ -1,0 +1,518 @@
+{% extends 'redesign/teach_new/base_materials.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<script type="text/javascript">
+    var fixmeTop = 343;
+
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= fixmeTop) {
+            $('.sub-nav--hidden').css({
+                'display': 'block'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+</script>
+
+<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="#uks2" class="button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+</div>
+
+<div class="banner banner--teacher row">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">Teaching Resources</h1>
+        <p class="body-text">We've created a comprehensive set of teaching materials to give you the confidence and resources to use the Rapid Router game to help you teach children the UK
+            National Computing Curriculum right through their primary education.</p>
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
+    </div>
+</div>
+<div class="sub-nav sub-nav--teacher row--small">
+    <a href="#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="#uks2" class="button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">User guide</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Key Stage 1</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Lower Key Stage 2</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Upper Key Stage 2</button>
+</div>
+
+<div id="user_guide">
+    <div class="background background--primary">
+        <div class="col-sm-6 col-center">
+            <section>
+                <h2>User Guide</h2>
+            </section>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Key Stage 1, and Lower Key Stage 2</h4>
+                    <p class="body-text"><a>Introduction to Coding Guide</a></p>
+                    <p class="body-text"><a>Levels Guide (1-50)</a></p>
+                    <p class="body-text"><a>Glossary</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h4>Upper Key Stage 2</h4>
+                    <p class="body-text"><a>Introduction to Python in Rapid Router</a></p>
+                    <p class="body-text"><a>Levels Guide (51-109)</a></p>
+                    <p class="body-text"><a>Blockly - Python Phrasebook</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ks1">
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h2>Key Stage 1</h2>
+            <img title="KS1" alt="KS1 icon" src='{% static "portal/img_new/stage_icon_ks1.png" %}'>
+            <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
+                commands in a visual programming language.</h4>
+            <button class="button--regular button--primary--positive">Download all KS1 resources</button>
+        </section>
+        <h3>Sessions</h3>
+        <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
+            review following the session.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a>Unplugged algorithms for moving along a route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text"><a>Starting off on-screen with the app</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a>Creating simple algorithms to reach a single destination</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a>Creating simple algorithms to reach a single destination along the shortest route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a>Create a more complex algorithm to deliver one or more packages on the way</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a>Delivering several packages in a sensible sequence</a> (extension activity)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a>Introduction the repeat code</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a>Follow-on and extension work on multiple repeat loops and nested repeats</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a>Children create their own routes</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 10</strong></p></td>
+                <td><p class="body-text"><a>Try out a partners route</a></p></td>
+            </tr>
+        </table>
+        <h3>Resource Sheets</h3>
+        <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom. You can download the whole set (zip file), or view and download
+            them individually below.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a>KS1-S1-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-3</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a>KS1-S3-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a>KS1-S4-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-3</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a>KS1-S5-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a>KS1-S6-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S6-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a>KS1-S7-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S7-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S7-3</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a>KS1-S8-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S8-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a>KS1-S9-1</a></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="background background--quaternary">
+        <div class="col-sm-8 col-center">
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Program Solutions</h3>
+                    <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
+                    <p class="body-text"><a>View programme solutions</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Activity Set</h3>
+                    <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
+                        expectations and teacher preparation.</p>
+                    <p class="body-text"><a>View activity set</a></p>
+                </div>
+            </div>
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Assets</h3>
+                    <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
+                    <p class="body-text"><a>Assets</a></p>
+                    <p class="body-text"><a>Code wall cards</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Assessments</h3>
+                    <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
+                        a record sheet for pupils. You can download the whole set (zip file), or view and download them individually below.</p>
+                    <p class="body-text"><a>Assessment Sheet</a></p>
+                    <p class="body-text"><a>Self Assessment Sheet</a></p>
+                    <p class="body-text"><a>Teacher Record Sheet</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="lks2">
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h2>Lower Key Stage 2</h2>
+            <img title="LKS2" alt="LKS2 icon" src='{% static "portal/img_new/stage_icon_lks2.png" %}'>
+            <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
+                commands in a visual programming language.</h4>
+            <button class="button--regular button--primary--setup">Download all Lower KS2 resources</button>
+        </section>
+        <h3>Sessions</h3>
+        <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
+            review following the session.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a>Unplugged algorithms for moving along a route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text"><a>Starting off on-screen with the app</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a>Creating simple algorithms to reach a single destination</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a>Creating simple algorithms to reach a single destination along the shortest route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a>Create a more complex algorithm to deliver one or more packages on the way</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a>Delivering several packages in a sensible sequence</a> (extension activity)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a>Introduction the repeat code</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a>Follow-on and extension work on multiple repeat loops and nested repeats</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a>Children create their own routes</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 10</strong></p></td>
+                <td><p class="body-text"><a>Try out a partners route</a></p></td>
+            </tr>
+        </table>
+        <h3>Resource Sheets</h3>
+        <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom. You can download the whole set (zip file), or view and download
+            them individually below.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a>KS1-S1-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-3</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a>KS1-S3-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a>KS1-S4-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-3</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a>KS1-S5-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a>KS1-S6-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S6-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a>KS1-S7-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S7-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S7-3</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a>KS1-S8-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S8-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a>KS1-S9-1</a></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="background background--secondary">
+        <div class="col-sm-8 col-center">
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Program Solutions</h3>
+                    <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
+                    <p class="body-text"><a>View programme solutions</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Activity Set</h3>
+                    <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
+                        expectations and teacher preperation.</p>
+                    <p class="body-text"><a>View activity set</a></p>
+                </div>
+            </div>
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Assets</h3>
+                    <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
+                    <p class="body-text"><a>Assets</a></p>
+                    <p class="body-text"><a>Code wall cards</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Assessments</h3>
+                    <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
+                        a record sheet for pupils. You can download the whole set (zip file), or view and download them individually below.</p>
+                    <p class="body-text"><a>Assessment Sheet</a></p>
+                    <p class="body-text"><a>Self Assessment Sheet</a></p>
+                    <p class="body-text"><a>Teacher Record Sheet</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="uks2">
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h2>Upper Key Stage 2</h2>
+            <img title="UKS2" alt="UKS2 icon" src='{% static "portal/img_new/stage_icon_uks2.png" %}'>
+            <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
+                commands in a visual programming language.</h4>
+            <button class="button--regular button--primary--negative">Download all Upper KS2 resources</button>
+        </section>
+        <h3>Sessions</h3>
+        <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
+            review following the session.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a>Unplugged algorithms for moving along a route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text"><a>Starting off on-screen with the app</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a>Creating simple algorithms to reach a single destination</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a>Creating simple algorithms to reach a single destination along the shortest route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a>Create a more complex algorithm to deliver one or more packages on the way</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a>Delivering several packages in a sensible sequence</a> (extension activity)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a>Introduction the repeat code</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a>Follow-on and extension work on multiple repeat loops and nested repeats</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a>Children create their own routes</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 10</strong></p></td>
+                <td><p class="body-text"><a>Try out a partners route</a></p></td>
+            </tr>
+        </table>
+        <h3>Resource Sheets</h3>
+        <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom. You can download the whole set (zip file), or view and download
+            them individually below.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a>KS1-S1-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-3</a></p></td>
+                <td><p class="body-text"><a>KS1-S1-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a>KS1-S3-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a>KS1-S4-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-3</a></p></td>
+                <td><p class="body-text"><a>KS1-S4-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a>KS1-S5-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a>KS1-S6-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S6-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a>KS1-S7-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S7-2</a></p></td>
+                <td><p class="body-text"><a>KS1-S7-3</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a>KS1-S8-1</a></p></td>
+                <td><p class="body-text"><a>KS1-S8-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a>KS1-S9-1</a></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="background background--tertiary">
+        <div class="col-sm-8 col-center">
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Program Solutions</h3>
+                    <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
+                    <p class="body-text"><a>View programme solutions</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Activity Set</h3>
+                    <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
+                        expectations and teacher preparation.</p>
+                    <p class="body-text"><a>View activity set</a></p>
+                </div>
+            </div>
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Assets</h3>
+                    <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
+                    <p class="body-text"><a>Assets</a></p>
+                    <p class="body-text"><a>Code wall cards</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Assessments</h3>
+                    <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
+                        a record sheet for pupils. You can download the whole set (zip file), or view and download them individually below.</p>
+                    <p class="body-text"><a>Assessment Sheet</a></p>
+                    <p class="body-text"><a>Self Assessment Sheet</a></p>
+                    <p class="body-text"><a>Teacher Record Sheet</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

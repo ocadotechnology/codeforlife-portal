@@ -1,0 +1,115 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows col-sm-offset-1">
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Join a school</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Classes</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Students added</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_white_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--in-progress">
+                <img src='{% static "portal/img_new/step_in_progress.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_white_front.png" %}'>
+        </div>
+    </div>
+</div>
+
+<div class="background">
+    <section>
+        <h2>Congratulations! Your setup is now complete</h2>
+    </section>
+    <div class="row row--regular homepage-info">
+        <div class="col-sm-9 col-center is-flex">
+            <div class="col-sm-4">
+                <img title="Teaching resources" alt="Resources image" src='{% static "portal/img_new/teaching-resources.png" %}'>
+                <h3>Teaching resources</h3>
+                <p class="body-text">We&rsquo;ve designed a comprehensive range of teaching resources including session plans, pupil resources and assessment tools.</p>
+                <p class="body-text">There are also videos to help you and your class understand what you and your class will be learning next.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Rapid Router" alt="Rapid Router" src='{% static "portal/img_new/rapid-router.png" %}'>
+                <h3>Rapid Router</h3>
+                <p class="body-text">Get stuck in! Have a go at Rapid Router yourself, this can help you familiarise yourself with the game before letting the students loose.</p>
+                <p class="body-text">When you&rsquo;re logged in as a teacher you can also moderate and find solutions to the levels.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Dashboard" alt="Dashboard screenshot" src='{% static "portal/img_new/teacher-dashboard.png" %}'>
+                <h3>Teacher dashboard</h3>
+                <p class="body-text">Need to add more classes, add more students or invite other teachers to join your school? No problem, our teacher dashboard helps you to
+                    administrate your school or club.</p>
+                <p class="body-text">If you are the school administrator you can invite other teachers to join your school.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row row--under homepage-info">
+        <div class="col-sm-9 col-center is-flex">
+            <div class="col-sm-4">
+                <a href="{% url 'materials_new' %}" class="button--regular button--secondary button--secondary--dark">View resources</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button--regular button--secondary button--secondary--dark">Play Rapid Router</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'dashboard' %}" class="button--regular button--secondary button--secondary--dark">Go to my dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

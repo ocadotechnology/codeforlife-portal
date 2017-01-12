@@ -1,0 +1,145 @@
+{% extends 'redesign/teach_new/base_registering.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, {{v1}}</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows col-sm-offset-1">
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_white_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--in-progress">
+                <img src='{% static "portal/img_new/step_in_progress.png" %}'>
+                <p class="body-text">Join a school</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_white_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Classes</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Add students</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+    </div>
+</div>
+
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        <ul class="tab">
+            <li>
+                <a href="javascript:void(0)" class="tablinks" id="defaultOpen" onclick="openForm(event, 'Create')">Create a school or club</a>
+                <img id="left-arrow" src='{% static "portal/img_new/form-chooser-arrow.png" %}'>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="tablinks" onclick="openForm(event, 'Join')">Join a school or club</a>
+                <img id="right-arrow" src='{% static "portal/img_new/form-chooser-arrow.png" %}'>
+            </li>
+        </ul>
+        <div id="Create" class="tabcontent">
+            <form>
+                <p class="body-text">As the first person from your school to register for Code for Life, by default, you become the organisation&rsquo;s administrator.</p>
+                <p class="small-text">Name of your school or club</p>
+                <input type="text" name="FirstName" value="">
+                <p class="small-text">Country</p>
+                <input type="text" name="LastName" value="">
+                <p class="small-text">Postcode</p>
+                <input type="text" name="FirstName" value="">
+                <p class="small-text">Password</p>
+                <input type="password" name="LastName" value=""><br/>
+            </form>
+            <a href="{% url 'onboarding2' %}" class="button--regular button-primary button--primary--general-play">Create school or club</a>
+        </div>
+        <div id="Join" class="tabcontent">
+            <form>
+                <p class="body-text">You can search for your school or club, by name and/or postcode below. A request will be sent to the school or club&rsquo;s administrator for processing.</p>
+                <p class="small-text">Search for school or club by name or postcode</p>
+                <input type="text" name="FirstName" value="">
+                <p class="small-text">Select school or club</p>
+                <input type="text" name="LastName" value="">
+            </form>
+            <a href="{% url 'onboarding1-join' %}" class="button--regular button-primary button--primary--general-play">Join school or club</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("defaultOpen").click()
+
+    function openForm(evt, formName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the link that opened the tab
+        document.getElementById(formName).style.display = "block";
+        evt.currentTarget.className += " active";
+
+        if (formName == "Create" )  {
+            document.getElementById("left-arrow").style.display = "block";
+            document.getElementById("right-arrow").style.display = "none";
+        } else {
+            document.getElementById("left-arrow").style.display = "none";
+            document.getElementById("right-arrow").style.display = "block";
+        }
+    }
+</script>
+
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% extends 'redesign/play_new/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block content %}
+{{block.super}}
+
+<div class="banner banner--rapid-router row">
+    <div class="col-sm-2 col-sm-offset-2">
+        <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
+        <a href="{% url 'game.views.level_selection.levels' %}" class="button--jumbo button-primary button--primary--general-educate">Play now</a>
+    </div>
+    <div class="col-sm-4 col-sm-offset-2">
+        <a href="https://www.youtube.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
+            <img title="Watch Video" alt="Watch Video" src='{% static "portal/img_new/thumbnail_intro_rr.jpg" %}'>
+        </a>
+    </div>
+</div>
+
+<div class="background">
+    <section>
+        <h1>Anyone can code, you can too!</h1>
+        <h4 class="col-sm-6 col-sm-offset-3">Whether you&rsquo;re a teacher or a student, Rapid Router guides you, and makes learning to code easy and great fun. Using Blockly you can advance through the levels
+            to become an Ocado delivery hero.</h4>
+    </section>
+    <div class="row row--small homepage-info">
+        <div class="col-sm-9 col-center">
+            <div class="col-sm-4">
+                <img title="Teaching Tools" alt="Teaching Tools" src='{% static "portal/img_new/teaching_tools.png" %}'>
+                <h3>Free teaching tools</h3>
+                <p class="body-text">Free teaching resources, lesson plans and much more. You can even track your student&rsquo;s progress with our class tracker.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Fun game" alt="Fun game" src='{% static "portal/img_new/fun_game.png" %}'>
+                <h3>A fun game for students</h3>
+                <p class="body-text">You can learn to become a coding superhero, amaze your friends with your high scores.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Blockly" alt="Blocky code" src='{% static "portal/img_new/about_blockly.png" %}'>
+                <h3>About Blockly</h3>
+                <p class="body-text">Built on &lsquo;Blockly&rsquo;, an easy-to-use visual programming language that&rsquo;s similar to Scratch, so you don&rsquo;t need
+                    to worry about syntax.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row row--under homepage-info">
+        <div class="col-sm-9 col-center">
+            <div class="col-sm-4">
+                <a href="{% url 'teach_new' %}" class="button--regular button--secondary button--secondary--dark">Learn more</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button--regular button--secondary button--secondary--dark">Play now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="background background--quaternary">
+    <h2>Meet the characters</h2>
+    <div class="row row--regular">
+        <div class="col-sm-10 col-sm-offset-1 image-row">
+            <img title="Wes" alt="Wes image" src='{% static "portal/img_new/wes.png" %}'>
+            <img title="Kirsty" alt="Kirsty image" src='{% static "portal/img_new/kirsty.png" %}'>
+            <img title="Dee" alt="Dee image" src='{% static "portal/img_new/dee.png" %}'>
+            <img title="Nigel" alt="Nigel image" src='{% static "portal/img_new/nigel.png" %}'>
+            <img title="Phil" alt="Phil image" src='{% static "portal/img_new/phil.png" %}'>
+        </div>
+    </div>
+    <section class="row row--under">
+        <div class="col-sm-10 col-sm-offset-1">
+            <p class="col-sm-2 col-sm-offset-1 body-text">Wes is as cunning as a fox, which is weird, because he&rsquo;s actually a wolf.</p>
+            <p class="col-sm-2 body-text">Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world!</p>
+            <p class="col-sm-2 body-text">Dee is a Mark II DeliviBot. She&rsquo;s super friendly and her wire hair sparks when she laughs.</p>
+            <p class="col-sm-2 body-text">Nigel is the tallest kid in his class, and he&rsquo;s growing taller by the day.</p>
+            <p class="col-sm-2 body-text">Phil is a Boarsnark, however, he is different to most Boarsnarks because he&rsquo;s very kind, and very gentle.</p>
+        </div>
+    </section>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        invokeColorboxYoutube();
+    });
+</script>
+
+{% endblock content %}

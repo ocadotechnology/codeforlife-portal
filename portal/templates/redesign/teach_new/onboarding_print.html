@@ -1,0 +1,137 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows col-sm-offset-1">
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Join a school</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Classes</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--done">
+                <img src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Students added</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_white_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--in-progress">
+                <img src='{% static "portal/img_new/step_in_progress.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_white_front.png" %}'>
+        </div>
+        <div class="progress-arrow">
+            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
+            <div class="progress-arrow__body progress-arrow__body--undone">
+                <img src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
+            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
+        </div>
+    </div>
+</div>
+<div class="sub-nav sub-nav--warning">
+    <div class="row">
+        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format reminder cards that populate these details which can
+            be given to the students.</i></p>
+        <button class="button--regular button-primary button--primary--navigation">Print reminder cards</button>
+        <a href="{% url 'onboarding5' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+    </div>
+</div>
+
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        <h3>New students created in class Starlings KS1 (IV690)</h3>
+        <p class="body-text">The following students have been created for your class. When they log in for the first time, you may want students to change their
+            passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p>
+        <p class="body-text">The Class Access Code for this class is: IV690.</p>
+        <table class="header-primary data-quinary">
+            <tr>
+                <th><p class="body-text">Name</p></th>
+                <th><p class="body-text">Password</p></th>
+            </tr>
+            <tr>
+                <td><p class="small-text">Charles Brown</p></td>
+                <td><p class="small-text">b9tav1</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Kirk Douglas</p></td>
+                <td><p class="small-text">b1x4h2</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Shirley Temple</p></td>
+                <td><p class="small-text">qw683a</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Charles Brown</p></td>
+                <td><p class="small-text">b9tav1</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Kirk Douglas</p></td>
+                <td><p class="small-text">b1x4h2</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Shirley Temple</p></td>
+                <td><p class="small-text">qw683a</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Charles Brown</p></td>
+                <td><p class="small-text">b9tav1</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Kirk Douglas</p></td>
+                <td><p class="small-text">b1x4h2</p></td>
+            </tr>
+            <tr>
+                <td><p class="small-text">Shirley Temple</p></td>
+                <td><p class="small-text">qw683a</p></td>
+            </tr>
+        </table>
+        <section>
+            <button class="button--regular button-primary button--primary--navigation">Print reminder cards</button>
+            <a href="{% url 'onboarding5' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+        </section>
+    </div>
+</div>
+
+{% endblock content %}

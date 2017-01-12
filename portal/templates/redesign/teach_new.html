@@ -1,0 +1,131 @@
+{% extends 'redesign/teach_new/base_new.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{block.super}}
+{% endblock scripts %}
+
+{% block content %}
+{{block.super}}
+
+<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="#overview" class="button--regular button--secondary button--secondary--light">Overview</a>
+    <a href="#curriculum" class="button--regular button--secondary button--secondary--light">Curriculum</a>
+    <a href="#assessment" class="button--regular button--secondary button--secondary--light">Assessment</a>
+</div>
+
+<div class="banner banner--teacher row row--regular">
+    <div class="col-sm-4 col-sm-offset-2">
+        <h1 class="banner__text--primary">Educate</h1>
+        <h4>Get ready to teach the next generation of computer scientists</h4>
+    </div>
+    <div class="col-sm-6">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
+    </div>
+</div>
+<div class="sub-nav sub-nav--teacher row--small">
+    <a href="#overview" class="button--regular button--secondary button--secondary--light">Overview</a>
+    <a href="#curriculum" class="button--regular button--secondary button--secondary--light">Curriculum</a>
+    <a href="#assessment" class="button--regular button--secondary button--secondary--light">Assessment</a>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Overview</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Curriculum</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Assessment</button>
+</div>
+
+<div id="overview">
+    <section class="background">
+        <h3>We&rsquo;re with you every step of the way</h3>
+        <div class="row row--regular homepage-info">
+            <div class="col-sm-9 col-center">
+                <div class="col-sm-4">
+                    <img title="Laptop" alt="Laptop image" src='{% static "portal/img_new/icon_laptop.png" %}'>
+                    <p class="body-text col-sm-11 col-center"><strong>Rapid Router is aligned to the UK Computing Curriculum</strong>, so you can gain the knowledge and confidence you need.</p>
+                </div>
+                <div class="col-sm-4">
+                    <img title="Footsteps" alt="Footsteps" src='{% static "portal/img_new/icon_steps.png" %}'>
+                    <p class="body-text col-sm-11 col-center">The step-by-step nature of Rapid Router makes it <strong>simple for you and your students</strong> to gain exerience quickly.</p>
+                </div>
+                <div class="col-sm-4">
+                    <img title="Graph" alt="Graph" src='{% static "portal/img_new/icon_graph.png" %}'>
+                    <p class="body-text col-sm-11 col-center">Easy to use teacher dashboard includes scores to <strong>track student progress</strong> as well as <strong>comprehensive teaching resources</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="curriculum">
+    <div class="background--primary">
+        <div class="row row--regular">
+            <div class="col-sm-4 col-sm-offset-2">
+                <h3>Aligned to the curriculum</h3>
+                <p class="body-text">Rapid Router has been created to teach the first principles of computer programming that are covered in the new Computing curriculum.</p>
+
+                <p class="body-text">Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming.
+                    Built on &lsquo;Blockly&rsquo;, an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage
+                    individual pupil progress and identify where more support is required.</p>
+
+                <p class="body-text"><a>See how the app relates to both Key Stage 1 and Lower Key Stage 2 of the computer science strand here</a>.</p>
+            </div>
+            <section class="col-sm-4">
+                <a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;autoplay=1" class="youtube">
+                    <img title="Watch Video" alt="Watch Video" src='{% static "portal/img_new/thumbnail_intro_c4l.jpg" %}'>
+                </a>
+                <a href="{% url 'play_new' %}" class="button--regular button-primary button--primary--general-educate">Play Rapid Router</a>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div id="assessment">
+    <div>
+        <div class="row row--regular">
+            <div class="col-sm-4 col-sm-offset-2">
+                <h3>Resources and scoring</h3>
+                <p class="body-text">Once you&rsquo;ve <a>registered</a> your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.</p>
+
+                <p class="body-text"><strong>Sign up your class, track each pupil&rsquo;s progress, download free teaching packs</strong>, which include sessions plans, pupil resources and
+                    assessment tools. There are even videos to help you and your class understand what you&rsquo;ll be learning next.</p>
+
+                <section><button class="button--regular button-primary button--primary--general-play register">Register now</button></section>
+            </div>
+            <img title="Teaching Resources" alt="Resources image" src='{% static "portal/img_new/resources_image.png" %}'>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        invokeColorboxYoutube();
+        invokeColorbox(
+                ".register",
+                "{% url 'register_popup' %}",
+                1600, 1363);
+    });
+
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= 343) {
+            $('.sub-nav--hidden').css({
+                'display': 'block'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+</script>
+
+{% endblock content %}

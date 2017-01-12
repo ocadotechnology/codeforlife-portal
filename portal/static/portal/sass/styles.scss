@@ -97,6 +97,7 @@ h2 {
 h3 {
   @include _font-size(35px);
   @include _line-height(40px);
+  @include _padding(0px, 0px, 20px, 0px);
   font-weight: 600;
 }
 
@@ -126,6 +127,7 @@ a:focus {
 }
 
 p {
+  @include _padding(10px, 0px, 10px, 0px);
   margin: 0;
 }
 
@@ -430,58 +432,46 @@ section {
   margin: auto;
 }
 
-.img-circle {
+.portrait {
   border-radius: 50%;
   display: block;
   margin: auto;
 }
 
-.hexagon {
+.banner--picture {
   height: 270px;
   margin: -7px auto 0;
   overflow: hidden;
-  -moz-transform: rotate(120deg);
-  -ms-transform: rotate(120deg);
-  -o-transform: rotate(120deg);
-  -webkit-transform: rotate(120deg);
   transform: rotate(120deg);
   visibility: hidden;
   width: 310px;
 }
 
-.hexagon-in1 {
+.banner--picture__inside1 {
   height: 100%;
   overflow: hidden;
-  -moz-transform: rotate(-60deg);
-  -ms-transform: rotate(-60deg);
-  -o-transform: rotate(-60deg);
-  -webkit-transform: rotate(-60deg);
   transform: rotate(-60deg);
   width: 100%;
 }
 
-.hexagon-in2 {
+.banner--picture__inside2 {
   background-position: 50%;
   background-repeat: no-repeat;
   height: 100%;
-  -moz-transform: rotate(-60deg);
-  -ms-transform: rotate(-60deg);
-  -o-transform: rotate(-60deg);
-  -webkit-transform: rotate(-60deg);
   transform: rotate(-60deg);
   visibility: visible;
   width: 100%;
 }
 
-.hexagon-in2--educate {
+.banner--picture--educate {
   background-image: url('../img_new/home-educate-hero.jpg');
 }
 
-.hexagon-in2--play {
+.banner--picture--play {
   background-image: url('../img_new/home-play-hero.jpg');
 }
 
-.hexagon-in2--about {
+.banner--picture--about {
   background-image: url('../img_new/about-us-hero.jpg');
 }
 
@@ -573,6 +563,10 @@ form {
 
   input[type=checkbox] {
     height: 20px;
+  }
+
+  p {
+    padding: 0;
   }
 
   textarea {
@@ -1063,7 +1057,7 @@ td {
 
 }
 
-.circle {
+.student-status {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -1073,11 +1067,11 @@ td {
   width: 10px;
 }
 
-.circle--red {
+.student-status--offline {
   background: $color-button-primary-action-danger;
 }
 
-.circle--green {
+.student-status--online {
   background: $color-button-primary-action-positive;
 }
 
@@ -1281,7 +1275,7 @@ td {
     margin: auto;
   }
 
-  .banner .col-sm-6 .hexagon,
+  .banner .col-sm-6 .banner--picture,
   .sub-nav--teacher,
   .sub-nav--student,
   .form__choice {

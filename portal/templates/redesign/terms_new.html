@@ -1,0 +1,291 @@
+{% extends 'redesign/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<script type="text/javascript">
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= 343) {
+            $('.sub-nav--hidden').css({
+                'display': 'block'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+</script>
+
+<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="#introduction" class="button--regular button--secondary button--secondary--light">Introduction</a>
+    <a href="#terms" class="button--regular button--secondary button--secondary--light">Terms of use</a>
+    <a href="#privacy" class="button--regular button--secondary button--secondary--light">Privacy policy</a>
+</div>
+
+<div class="banner banner--teacher row row--regular">
+    <div class="col-sm-4 col-sm-offset-2">
+        <h1 class="banner__text--primary">Terms of use</h1>
+    </div>
+    <div class="col-sm-6">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
+    </div>
+</div>
+<div class="sub-nav sub-nav--teacher row--small">
+    <a href="#introduction" class="button--regular button--secondary button--secondary--light">Introduction</a>
+    <a href="#terms" class="button--regular button--secondary button--secondary--light">Terms of use</a>
+    <a href="#privacy" class="button--regular button--secondary button--secondary--light">Privacy policy</a>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Introduction</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Terms of use</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Privacy policy</button>
+</div>
+
+<div class="col-sm-8 col-center">
+    <div id="introduction"></div>
+    <div class="background">
+        <section>
+            <h2>Introduction</h2>
+        </section>
+        <p class="body-text">Ocado Technology, the division that powers Ocado.com, the world&rsquo;s largest online-only grocery retailer, has launched Code for Life.
+            Code for Life is a nationwide corporate social responsibility initiative to help support primary school teachers deliver the new computer science curriculum.
+            The aim of the initiative is to equip every child in the country with the “coding survival skills” that will enable them to flourish in an increasingly digital
+            world.</p>
+        <p class="body-text">Ocado Technology is committed to protecting any data that we collect concerning you. By using our services you agree to the use of the data
+            that we collect in accordance with this Privacy Policy. Ocado Technology is committed to providing a valuable source of supporting materials for teachers to
+            deliver the current primary school curriculum, as well as a fun, educational web application from which students can learn. This Agreement is a legal document
+            which sets out your rights and obligations, and those of Ocado Innovation Limited, a company registered in England under registration number 8813912
+            ("Ocado Technology", "we" or "us"), in relation to this site and the games and other products and services ofered by Ocado Technology through it
+            (collectively, "Code for Life").</p>
+    </div>
+
+    <div id="terms"></div>
+    <div class="background">
+        <section>
+            <h2>Terms of Use</h2>
+        </section>
+        <p class="body-text"><strong>Important:</strong> If you are under 13 years of age you must have your parent, guardian or carer&rsquo;s consent to register for a Code for Life
+            account, and to use their email address. If you are using this at school, you must first have your teacher&rsquo;s permission to use this site.</p>
+        <p class="body-text">Code for Life includes all versions of "Rapid Router", and any other online platforms released by Ocado Technology from time to time, including
+            all Code for Life websites used to play the games that we make available. Rapid Router and its logo are trademarks of Ocado Technology. You must take the time to
+            read and understand this Agreement before registering for Code for Life. By registering, you accept that you are entering into a contract with us on the terms of
+            this Agreement. Visitors to the Code for Life portal who do not register to become a User similarly affirm that they are bound by this Agreement each time
+            they access the Code for Life site.</p>
+        <p class="body-text">You should be aware that this Agreement may change from time to time. <strong>Important:</strong> You must ensure that the email address we hold for
+            you is kept up-to-date and that you have full access to it. Important notifications are sent to the email address you&rsquo;ve provided. Failure to keep this
+            information updated can result in your account being deleted.</p>
+    </div>
+
+    <div class="background">
+        <h3>Registration and Types of Membership</h3>
+        <p class="body-text"><strong>Membership falls into the following categories under the Agreement outlined in this policy:</strong></p>
+        <ul>
+            <li><p class="body-text">Administrators: person or persons assigned responsibility for the management and security of membership by other Users;</p></li>
+            <li><p class="body-text">Users: any person using the Code for Life site or Rapid Router application regardless of membership;</p></li>
+            <li><p class="body-text">Students: Users who are provided with login information for Code for Life by your teacher, parent, guardian or carer;</p></li>
+            <li><p class="body-text">Teachers;</p></li>
+            <li><p class="body-text">Guardian, parents, carers;</p></li>
+        </ul>
+        <p class="body-text">Many features of Code for Life require you to register as a User. Certain resources will be restricted to non-registered Users and Users
+            who are not part of a participating school. Parents, guardians or carers of students registered through their school or club, should contact the child’s
+            teacher directly to request copies of the teaching resources, to assist with homework or progression in learning how to program. Teachers should provide
+            a valid and professional email address when registering on the Code for Life site.</p>
+        <p class="body-text">If you register a school or club, you will automatically become the responsible &lsquo;Administrator&rsquo;. You should provide a valid and
+            professional email address when registering as a teacher. If you create a school on the Code for Life site, you, by default become an &lsquo;Administrator&rsquo;
+            for your school.</p>
+        <p class="body-text"><strong>As an Administrator, you warrant that:</strong></p>
+        <ul>
+            <li><p class="body-text">you are responsible and accountable for ensuring the online safety of the school or club for whom you are acting and that only
+                legitimate institutional addresses should be accepted at sign up;</p></li>
+            <li><p class="body-text">all registration information you submit is accurate and truthful;</p></li>
+            <li><p class="body-text">you will maintain the accuracy of such information;</p></li>
+            <li><p class="body-text">if you are accepting this Agreement on behalf of a school or club, you have the authority to bind that institution, company or
+                legal entity to this Agreement.</p></li>
+        </ul>
+        <p class="body-text">As a User, you further warrant that you will only grant access codes to teachers, staff members and students who are current employees or
+            students known to your school or club. Upon termination of a teacher or other staff member&rsquo;s employment with you, you will ensure they assign over all
+            existing classes and/or students to another teacher within your school or club. If at any time you become aware of a User who falsely claims to be affiliated
+            with your school or club, you are obliged to notify the Code for Life team immediately.</p>
+        <p class="body-text">A Code for Life User must not choose a username or institution name that could potentially infringe anyone&rsquo;s rights, which is intended to
+            confuse, or which is offensive, hurtful or otherwise inappropriate, as reasonably determined by us. We reserve the right to change a username if we think it
+            offends this Agreement. Users who are provided with login information for Code for Life by your teacher, parent, guardian or carer, are "Students". Students
+            are divided between those who are registered by a teacher through a school or club, or set up as an independent student using a parent, guardian, or carer
+            email address.</p>
+        <p class="body-text">Please note that we are not an internet service provider. All Users of Code for Life must have internet access and the necessary software
+            for email and web usage.</p>
+        <p class="body-text">Code for Life&rsquo;s Privacy Policy forms part of this Agreement, and your acceptance of this agreement constitutes consent to the way we may
+            handle your personal data as detailed in that policy.</p>
+    </div>
+
+    <div class="background">
+        <h3>Misuse of Code for Life site</h3>
+        <p class="body-text">We reserve the right (a) to suspend or terminate any User&rsquo;s access to Code for Life, or parts of it, and/or (b) to remove, or require the
+            User to remove, material posted on Code for Life, if the User or material appears to us, or to someone who has complained to us, to be in breach of any
+            provision of this Agreement.</p>
+        <p class="body-text">Any person whose access has been suspended or terminated may not re-register for, or re-access, the Code for Life portal without our prior
+            consent. You are responsible for everything which is done on or through the Code for Life portal through your registered email address(es) or whilst your
+            Users account is logged on to the Code for Life site. In addition, we reserve the right to suspend or terminate any User&rsquo;s access to Code for Life, or
+            parts of it, if the relevant User is abusive, discriminatory or threatening, or harasses or communicates offensive messages or images to another User;
+            irrespective of whether this is done through the Code for Life site.</p>
+        <p class="body-text"><strong>The Code for Life portal is intended to be used by its Users and Students for the purposes we describe in this Agreement. Accordingly,
+            Users and Students must not:</strong></p>
+        <ul>
+            <li><p class="body-text">place material on, or otherwise use, the Code for Life for any business or commercial purpose; or</p></li>
+            <li><p class="body-text">use their access to the Code for Life, or information gathered from it, in connection with the sending of unsolicited bulk email
+                (sometimes known as spam).</p></li>
+        </ul>
+    </div>
+
+    <div class="background">
+        <h3>Prohibitions</h3>
+        <p class="body-text">You must ensure that any activity and or communication through the Code for Life site, is not capable of (a) infringing the intellectual
+            property or other rights of any person or entity, (b) breaching any applicable law, whether criminal, tortuous or otherwise, (c) appearing to be offensive,
+            threatening, abusive, discriminatory, obscene, pornographic, false, libelous, defamatory, unreliable or misleading, or (d) being perceived as antisocial
+            or disruptive.</p>
+    </div>
+
+    <div class="background">
+        <h3>Alerting Cofe for Life</h3>
+        <p class="body-text">If you see anything on the Code for Life portal which appears to infringe this Agreement, then please inform us via the
+            <a href="{% url 'help_new' %}#contact">Contact Us</a> section of this site.</p>
+        <p class="body-text">Ocado Technology does not endorse or take responsibility for the content of any third party sites that link to or from Code for Life.</p>
+    </div>
+
+    <div class="background">
+        <h3>Intellectual Property</h3>
+        <p class="body-text">You acknowledge that all copyright, trademarks, and other intellectual property rights in and relating to Code for Life (including the
+            Rapid Router app, related software and other content that we make available) are owned by Ocado Technology. These rights protect all of the apps you see
+            on the Code for Life site, including the graphics of those games, their structure, gameplay and their "look and feel". It is easy to copy material which
+            appears on websites, but this does not mean it is legal. Therefore, no-one may copy, distribute, show in public or create any derivative work from the Code
+            for Life portal, or any part of the games or other material which is found on the Code for Life unless properly licensed to do so by us.</p>
+    </div>
+
+    <div id="privacy"></div>
+    <div class="background">
+        <section>
+            <h2>Code for Life Privacy Policy</h2>
+        </section>
+        <p class="body-text">Last Updated: 27 August 2014</p>
+        <ol>
+            <li><p class="body-text">We&rsquo;re deeply committed to creating a safe and secure online learning environment for you as teachers, parents, guardians, carers
+                and young people.</p></li>
+            <li><p class="body-text">We will never sell or share your personal information to third parties.</p></li>
+            <li><p class="body-text">We strive to provide you with access to and control over the personal information that you give us, and we take the protection of
+                your information very seriously.</p></li>
+            <li><p class="body-text">We take extra precautions for the safety and privacy of our younger learners by moderating online communications and not allowing
+                a child to post or disclose personal information.</p></li>
+            <li><p class="body-text">We do not accept third party advertisements on our website or within our lessons. We use your personal information only to
+                communicate with you and to provide you with a better learning experience.</p></li>
+        </ol>
+    </div>
+
+    <div class="background">
+        <h3>We are committed to protecting your privacy</h3>
+        <p class="body-text">We collect the minimum amount of information about you that is commensurate with providing you with a satisfactory service. This Policy
+            indicates the type of processes that may result in data being collected about you. Your use of this portal and our services gives us the right to collect
+            that information. This policy is meant to inform all Users about the use of their information by Ocado Technology, including our and the interaction with
+            Students.</p>
+    </div>
+
+    <div class="background">
+        <h3>Information collected by Ocado Technology, Code for Life, and its Use</h3>
+        <p class="body-text">The email address and full name collected at time of registration is used to identify a particular user in our system. This identifier
+            gives teachers access to course material, class and individual student management features, and customer support, while giving students access to the web
+            app in order to learn how to code within a supported environment (classroom), or independently (at home). We use the email address to notify the user of
+            their registration status and login information, as well as updates to our privacy practices, our app and portal features, upcoming events and maintenance
+            impacting User or Student accounts and for such other purposes as described in this Privacy Policy.</p>
+        <p class="body-text">Messages may be sent periodically to a user profile with these communications and to offer support. Users can also use the Contact Us form
+            to contact Ocado Technology staff directly for customer support. If you use the Contact Us form on the Code for Life portal and decide to disclose personally
+            identifiable information this information can be stored by Ocado Technology. Ocado Technology staff will never ask for personal information other than what
+            is required to locate a user in our system. Ocado Technology will never disclose user&rsquo;s personal information to a third party organisation. We strongly
+            encourage users not to disclose personal information (other than name, email address and contact phone number where applicable) through any communication to
+            Ocado Technology, and Ocado Technology is not responsible for the personally identifiable information you choose to communicate about yourself. The Contact
+            Us form is strictly for the purpose of user support. User initiated communication concerning topics other than those relating directly to the Code for Life
+            portal, including web apps, resources or user experience may not be answered.</p>
+    </div>
+
+    <div class="background">
+        <h3>Indirect Data Collection</h3>
+        <p class="body-text">Your Internet browser has the in-built facility for storing small files or ‘cookies’ that hold information such as your IP address or the
+            web browser being used, which allows a website to recognize your account. Our website employs this facility to enhance your experience and help us improve
+            the effectiveness of our site. You have the ability to adjust your settings to prevent your computer from accepting cookies although this will reduce certain
+            functionality on the website.</p>
+    </div>
+
+    <div class="background">
+        <h3>Additional use of Information Collected</h3>
+        <p class="body-text">In addition to the purposes described above, we may use collected email addresses and usernames to track and analyze site usage and to
+            ensure users are following the site&rsquo;s Terms of Use. We may also use an email address and username to limit a user temporarily or permanently from the
+            Code for Life portal if that user engages in inappropriate use of the site (e.g. giving other people access to their user account, malicious misuse of the
+            portal, including spam).</p>
+        <p class="body-text">In the unlikely event that we are required by law to disclose personally identifiable information, we will comply only to the extent
+            required by applicable law. We also may disclose this information in response to a law enforcement agency&rsquo;s or other pertinent agency&rsquo;s request
+            if we feel that such disclosure may prevent a crime, facilitate an investigation related to public or individual safety of someone using our site, protect
+            the security or integrity of our website, or enable us to take precautions against liability.</p>
+    </div>
+
+    <div class="background">
+        <h3>Third Parties</h3>
+        <p class="body-text">Ocado Technology does not allow third party advertising, or affiliation on our site. We will not share collected personally identifiable
+            information with any third party.</p>
+    </div>
+
+    <div class="background">
+        <h3>Security of Financial Information</h3>
+        <p class="body-text">Code for Life (including Rapid Router and all related teaching materials) is a free free online resource designed and managed by Ocado
+            Technology. At no time will we ask for billing information. You should contact the Code for Life team should you ever be asked for billing information
+            while accessing our services.</p>
+    </div>
+
+    <div class="background">
+        <h3>Making changes to your information</h3>
+        <p class="body-text">Please contact us if you would like to access or change the personal information that we have collected from you or your child through the
+            registration process. You may request that we delete all of your personal information from our system, however, this will also cause a deletion of your
+            user account.</p>
+        <p class="body-text">In order to protect the private information of our users, we will take reasonable steps to verify your identity and ownership of information
+            before giving you access or making changes to the personal information we have in our system on you.</p>
+    </div>
+
+    <div class="background">
+        <h3>Two Factor Authentication</h3>
+        <p class="body-text">We have introduced two factor authentication to the portal to further reinforce the safety of Teacher&rsquo;s accounts, using your smartphone or
+            tablet and your password. Your smartphone or tablet will generate a six digit token every time you login to your account, providing an additional layer of
+            security. Two factor authentication is not a requirement for signing up as a teacher on the Code for Life site, but we do recommend it.</p>
+    </div>
+
+    <div class="background">
+        <h3>Changes to the Privacy Policy</h3>
+        <p class="body-text">If changes are made to this privacy policy in the future, we will provide notice to you of these changes</p>
+    </div>
+
+    <div class="background">
+        <h3>Contact Us</h3>
+        <p class="body-text">If changes are made to this privacy policy in the future, we will provide notice to you of these changes.</p>
+    </div>
+
+    <div class="background">
+        <h3>Effective Date</h3>
+        <p class="body-text">The privacy policy set out above is effective as of 27 August 2014 and applies to any and all information previously obtained by Code for
+            Life. We reserve the right to change the privacy policy at our sole discretion.</p>
+    </div>
+</div>
+
+{% endblock content %}
