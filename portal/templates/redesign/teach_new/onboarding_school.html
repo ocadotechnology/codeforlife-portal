@@ -15,40 +15,6 @@
 {% block content %}
 {{ block.super }}
 
-<script type="text/javascript">
-    function openForm(evt, formName) {
-        // Declare all variables
-        var i, tabcontent, tablinks;
-
-        // Get all elements with class="tabcontent" and hide them
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        // Show the current tab, and add an "active" class to the link that opened the tab
-        document.getElementById(formName).style.display = "block";
-        evt.currentTarget.className += " active";
-
-        if (formName == "Create" )
-        {
-            document.getElementById("left-arrow").style.display = "block";
-            document.getElementById("right-arrow").style.display = "none";
-        }
-        else
-        {
-            document.getElementById("left-arrow").style.display = "none";
-            document.getElementById("right-arrow").style.display = "block";
-        }
-    }
-</script>
-
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{v1}}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
@@ -145,6 +111,35 @@
 
 <script>
     document.getElementById("defaultOpen").click()
+
+    function openForm(evt, formName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the link that opened the tab
+        document.getElementById(formName).style.display = "block";
+        evt.currentTarget.className += " active";
+
+        if (formName == "Create" )  {
+            document.getElementById("left-arrow").style.display = "block";
+            document.getElementById("right-arrow").style.display = "none";
+        } else {
+            document.getElementById("left-arrow").style.display = "none";
+            document.getElementById("right-arrow").style.display = "block";
+        }
+    }
 </script>
 
 {% endblock content %}

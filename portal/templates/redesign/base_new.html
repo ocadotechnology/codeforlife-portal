@@ -191,6 +191,16 @@
         });
     }
 
+    function invokeColorboxYoutube() {
+        $(".youtube").colorbox({
+            iframe:true,
+            innerWidth:640,
+            innerHeight:390,
+            transition: 'fade',
+            closeButton: false
+        });
+    }
+
     $(document).ready(function() {
         invokeColorbox(
                 ".register",

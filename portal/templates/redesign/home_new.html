@@ -18,7 +18,7 @@
 <div class="row row--regular">
     <section class="banner--homepage banner--homepage--teacher col-sm-6">
         <div class="banner col-sm-6 col-sm-offset-4">
-            <div class="hexagon"><div class="hexagon-in1"><div class="hexagon-in2 hexagon-in2--educate"></div></div></div>
+            <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
             <h1 class="banner__text--primary">Educate</h1>
             <p class="body-text">Code for Life has been developed to help teachers deliver the computing curriculum, do they can inspire the next generation of computer scientists.</p>
             <a href="{% url 'teach_new' %}" class="button--big button-primary button--primary--general-educate">Learn more</a>
@@ -26,7 +26,7 @@
     </section>
     <section class="banner--homepage banner--homepage--student col-sm-6">
         <div class="banner col-sm-6 col-sm-offset-2">
-            <div class="hexagon"><div class="hexagon-in1"><div class="hexagon-in2 hexagon-in2--play"></div></div></div>
+            <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--play"></div></div></div>
             <h1 class="banner__text--primary">Play</h1>
             <p class="body-text">Anyone can learn how to code. We will help you learn how. It's fun, free and easy. Once you know how, you can build just about anything.</p>
             <a href="{% url 'play_new' %}" class="button--big button-primary button--primary--general-play">Get started</a>
@@ -38,48 +38,48 @@
     <h3>Giving everyone the ability to shape technology's future</h3>
     <div class="row row--regular homepage-info">
         <div class="col-sm-2 col-sm-offset-2">
-            <img src='{% static "portal/img_new/icon_13.png" %}'>
-            <p class="body-text col-sm-11 col-center"><b>Just 13%</b> of computer scientists are women, we want to change that.</p>
+            <img title="13%" alt="13% graph" src='{% static "portal/img_new/icon_13.png" %}'>
+            <p class="body-text col-sm-11 col-center"><strong>Just 13%</strong> of computer scientists are women, we want to change that.</p>
         </div>
         <div class="col-sm-2">
-            <img src='{% static "portal/img_new/icon_game.png" %}'>
-            <p class="body-text col-sm-11 col-center">Gameification helps children <b>learn whilst having fun!</b></p>
+            <img title="Controller" alt="Controller image" src='{% static "portal/img_new/icon_game.png" %}'>
+            <p class="body-text col-sm-11 col-center">Gameification helps children <strong>learn whilst having fun!</strong></p>
         </div>
         <div class="col-sm-2">
-            <img src='{% static "portal/img_new/icon_free.png" %}'>
-            <p class="body-text col-sm-11 col-center">That's right, <b>free forever</b>, that's our gift to you! We're also
-                <b><a target="_blank" href="https://github.com/ocadotechnology/codeforlife-portal">Open Source</a></b>.</p>
+            <img title="Free" alt="Free image" src='{% static "portal/img_new/icon_free.png" %}'>
+            <p class="body-text col-sm-11 col-center">That's right, <strong>free forever</strong>, that's our gift to you! We're also
+                <strong><a target="_blank" href="https://github.com/ocadotechnology/codeforlife-portal">Open Source</a></strong>.</p>
         </div>
         <div class="col-sm-2">
-            <img src='{% static "portal/img_new/icon_globe.png" %}'>
-            <p class="body-text col-sm-11 col-center">Code for Life has over <b>70,000 users</b> across the world.</p>
+            <img title="Planet" alt="Planet image" src='{% static "portal/img_new/icon_globe.png" %}'>
+            <p class="body-text col-sm-11 col-center">Code for Life has over <strong>70,000 users</strong> across the world.</p>
         </div>
     </div>
-    <br>
+
 </section>
 
 <section class="background background--primary">
     <h3>Why you'll love Code for Life</h3>
     <h4 class="col-sm-6 col-sm-offset-3">Don't just take our word for it, here are some lovely quotes from our fabulous teacher friends:</h4>
-    <br>
+
     <div class="row row--regular">
         <div class="col-sm-9 col-center">
             <div class="col-sm-4">
-                <img class="img-circle" src='{% static "portal/img_new/teacher1.png" %}'>
+                <img title="Mandy" alt="Mandy portrait" class="portrait" src='{% static "portal/img_new/teacher1.png" %}'>
                 <blockquote>
                     <p class="says">The kids love it! They all want to move onto the next level, they want to be further on than anyone else.</p>
                     <p>Mandy, ICT Teacher</p>
                 </blockquote>
             </div>
             <div class="col-sm-4">
-                <img class="img-circle" src='{% static "portal/img_new/teacher2.png" %}'>
+                <img title="Rob" alt="Rob portrait" class="portrait" src='{% static "portal/img_new/teacher2.png" %}'>
                 <blockquote>
                     <p class="says">You can hit all of the computing curriculum, in a structured way. It is perfect for teachers who are struggling.</p>
                     <p>Rob, ICT Teacher</p>
                 </blockquote>
             </div>
             <div class="col-sm-4">
-                <img class="img-circle" src='{% static "portal/img_new/teacher3.png" %}'>
+                <img title="Dale" alt="Dale portrait" class="portrait" src='{% static "portal/img_new/teacher3.png" %}'>
                 <blockquote>
                     <p class="says">When I came across Code for Life, I thought, yeah, that fits in well, but to have the assessment, that's great!</p>
                     <p>Dale, IT Technician</p>
@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-    <br>
+
 </section>
 
 {% endblock content %}
