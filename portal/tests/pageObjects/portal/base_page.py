@@ -130,6 +130,10 @@ class BasePage(object):
         self.browser.find_element_by_id('teach_button').click()
         return teach_page.TeachPage(self.browser)
 
+    def go_to_login_page(self):
+        self.browser.find_element_by_id('login_button').click()
+        return login_page.LoginPage(self.browser)
+
     def go_to_terms_page(self):
         self.browser.find_element_by_id('terms_button').click()
         return terms_page.TermsPage(self.browser)
@@ -153,4 +157,5 @@ import help_and_support_page
 import home_page
 import play_page
 import teach_page
+import login_page
 import terms_page
