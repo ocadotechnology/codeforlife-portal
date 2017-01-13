@@ -90,8 +90,7 @@ def terms_new(request):
 
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req,
-           res: hasattr(res, 'count') and res.count)
+@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def render_forms(request, rendered_url):
     invalid_form = False
 
@@ -101,8 +100,7 @@ def render_forms(request, rendered_url):
     using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
 
-    LoginFormWithCaptcha = partial(
-        create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
+    LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
     InputLoginForm = LoginFormWithCaptcha if using_captcha else TeacherLoginForm
     OutputLoginForm = LoginFormWithCaptcha if should_use_captcha else TeacherLoginForm
 
@@ -112,34 +110,7 @@ def render_forms(request, rendered_url):
         if 'login' in request.POST:
             login_form = InputLoginForm(request.POST, prefix='login')
             if login_form.is_valid():
-                user = login_form.user
-                if not is_verified(user):
-                    send_verification_email(request, user)
-                    return render(request, 'portal/email_verification_needed.html',
-                                  {'user': user})
-
-                login(request, login_form.user)
-
-                if using_two_factor(request.user):
-                    return render(request, 'portal/2FA_redirect.html', {
-                        'form': AuthenticationForm(),
-                        'username': request.user.username,
-                        'password': login_form.cleaned_data['password'],
-                    })
-                else:
-                    link = reverse('two_factor:profile')
-                    messages.info(
-                        request, ("You are not currently set up with two-factor authentication. " +
-                                  "Use your phone or tablet to enhance your account's security. " +
-                                  "Click <a href='" + link + "'>here</a> to find out more and " +
-                                  "set it up or go to your account page at any time."),
-                        extra_tags='safe')
-
-                next_url = request.GET.get('next', None)
-                if next_url:
-                    return HttpResponseRedirect(next_url)
-
-                return HttpResponseRedirect(reverse_lazy('dashboard'))
+                return process_form(request, login_form)
 
             else:
                 login_form = OutputLoginForm(request.POST, prefix='login')
@@ -156,3 +127,33 @@ def render_forms(request, rendered_url):
 
     res.count = invalid_form
     return res
+
+
+def process_form(request, login_form):
+    user = login_form.user
+    if not is_verified(user):
+        send_verification_email(request, user)
+        return render(request, 'portal/email_verification_needed.html', {'user': user})
+
+    login(request, login_form.user)
+
+    if using_two_factor(request.user):
+        return render(request, 'portal/2FA_redirect.html', {
+            'form': AuthenticationForm(),
+            'username': request.user.username,
+            'password': login_form.cleaned_data['password'],
+        })
+    else:
+        link = reverse('two_factor:profile')
+        messages.info(
+            request, ("You are not currently set up with two-factor authentication. " +
+                      "Use your phone or tablet to enhance your account's security. " +
+                      "Click <a href='" + link + "'>here</a> to find out more and " +
+                      "set it up or go to your account page at any time."),
+            extra_tags='safe')
+
+    next_url = request.GET.get('next', None)
+    if next_url:
+        return HttpResponseRedirect(next_url)
+
+    return HttpResponseRedirect(reverse_lazy('dashboard'))
