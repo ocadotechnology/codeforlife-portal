@@ -30,6 +30,8 @@
     });
 </script>
 
+<div id="teach_dashboard_page_new"></div>
+
 <div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
     <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
     <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
@@ -37,7 +39,7 @@
 </div>
 
 <section class="banner banner--teacher row">
-    <h1 class="col-sm-8 col-sm-offset-2 banner__text--primary">Welcome back, Mr. Technical</h1>
+    <h1 class="col-sm-8 col-sm-offset-2 banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
 </section>
 <div class="sub-nav sub-nav--teacher row--small">
     <div class="col-sm-12">

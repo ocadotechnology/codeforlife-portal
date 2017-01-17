@@ -86,7 +86,7 @@
         {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
         {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary button--menu--enabled">Students</a>{% endblock nav_play %}
         <button class="button--regular button--primary--general-play col-sm-offset-3 register">Register now</button>
-        <button class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></button>
+        <button id="login-button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></button>
         {% endblock menuButtons %}
     </div>
     {% endblock topBar %}
