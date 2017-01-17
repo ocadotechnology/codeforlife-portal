@@ -83,6 +83,39 @@ def verify_email(request, token):
     return HttpResponseRedirect(reverse_lazy('home'))
 
 
+def verify_email_new(request, token):
+    verifications = EmailVerification.objects.filter(token=token)
+
+    if len(verifications) != 1:
+        return render(request, 'redesign/email_verification_failed_new.html')
+
+    verification = verifications[0]
+
+    if verification.verified or (verification.expiry - timezone.now()) < timedelta():
+        return render(request, 'redesign/email_verification_failed_new.html')
+
+    verification.verified = True
+    verification.save()
+
+    user = verification.user
+
+    if verification.email:  # verifying change of email address
+        user.email = verification.email
+        user.save()
+
+        user.email_verifications.exclude(email=user.email).delete()
+
+    messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    if hasattr(user.userprofile, 'student'):
+        return HttpResponseRedirect(reverse_lazy('play_new'))
+    if hasattr(user.userprofile, 'teacher'):
+        return HttpResponseRedirect(reverse_lazy('onboarding1'))
+
+    # default to homepage if something goes wrong
+    return HttpResponseRedirect(reverse_lazy('home_new'))
+
+
 def send_new_users_report(request):
     new_users_count = User.objects.filter(date_joined__gte=timezone.now() - timedelta(days=7)).count()
     users_count = User.objects.count()

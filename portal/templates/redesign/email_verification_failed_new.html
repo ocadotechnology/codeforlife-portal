@@ -1,0 +1,31 @@
+{% extends 'redesign/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="background form--register form--register--student col-sm-12">
+    <div class="background">
+        <div class="background">
+            <div class="background">
+                <h1>Your email address verification failed</h1><br>
+                <img src='{% static "portal/img_new/sadface.png" %}'>
+                <p class="body-text"><br>You used an invalid link, either you mistyped the URL or that link is expired.</p><br>
+                <p class="body-text">When you next attempt to log in, you will be sent a new verification email.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
