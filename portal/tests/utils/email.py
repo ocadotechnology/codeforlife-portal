@@ -44,6 +44,12 @@ def follow_verify_email_link_to_teach(page, email):
     return go_to_teach_page(page.browser)
 
 
+def follow_verify_email_link_to_onboarding(page, email):
+    _follow_verify_email_link(page, email)
+
+    return go_to_onboarding_page(page.browser)
+
+
 def follow_verify_email_link_to_play(page, email):
     _follow_verify_email_link(page, email)
 
@@ -101,3 +107,9 @@ def go_to_teach_page(browser):
     from portal.tests.pageObjects.portal.teach_page import TeachPage
 
     return TeachPage(browser)
+
+
+def go_to_onboarding_page(browser):
+    from portal.tests.pageObjects.portal.teach.onboarding_page import OnboardingPage
+
+    return OnboardingPage(browser)

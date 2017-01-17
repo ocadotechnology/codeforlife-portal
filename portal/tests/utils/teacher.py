@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import random
+import email
 from django.core import mail
 import sys
 
@@ -73,4 +74,16 @@ def signup_teacher(page):
 
     return page, email_address, password
 
-import email
+
+def signup_teacher_new(page):
+    page = page.go_to_signup_page()
+
+    title, first_name, last_name, email_address, password = generate_details()
+    page = page.signup(title, first_name, last_name, email_address, password, password)
+
+    page = page.return_to_home_page_new()
+
+    page = email.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
+    mail.outbox = []
+
+    return page, email_address, password
