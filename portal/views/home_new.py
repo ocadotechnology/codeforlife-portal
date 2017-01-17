@@ -107,7 +107,7 @@ def render_forms(request, rendered_url):
         if 'login' in request.POST:
             login_form = InputLoginForm(request.POST, prefix='login')
             if login_form.is_valid():
-                return process_form(request, login_form)
+                return process_login_form(request, login_form)
 
             else:
                 login_form = OutputLoginForm(request.POST, prefix='login')
@@ -142,7 +142,7 @@ def compute_output_login_form(LoginFormWithCaptcha, limits, captcha_limit):
     return OutputLoginForm
 
 
-def process_form(request, login_form):
+def process_login_form(request, login_form):
     user = login_form.user
     if not is_verified(user):
         send_verification_email(request, user)
