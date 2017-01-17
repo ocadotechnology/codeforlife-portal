@@ -86,13 +86,10 @@ def verify_email(request, token):
 def verify_email_new(request, token):
     verifications = EmailVerification.objects.filter(token=token)
 
-    if len(verifications) != 1:
+    if has_verification_failed(verifications):
         return render(request, 'redesign/email_verification_failed_new.html')
 
     verification = verifications[0]
-
-    if verification.verified or (verification.expiry - timezone.now()) < timedelta():
-        return render(request, 'redesign/email_verification_failed_new.html')
 
     verification.verified = True
     verification.save()
@@ -114,6 +111,10 @@ def verify_email_new(request, token):
 
     # default to homepage if something goes wrong
     return HttpResponseRedirect(reverse_lazy('home_new'))
+
+
+def has_verification_failed(verifications):
+    return len(verifications) != 1 or verifications[0].verified or (verifications[0].expiry - timezone.now()) < timedelta()
 
 
 def send_new_users_report(request):
