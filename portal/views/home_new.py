@@ -62,8 +62,8 @@ def teach_email_labeller(request):
     return ''
 
 
-def login_popup(request):
-    return render_forms(request, 'redesign/login_popup.html')
+def login_view(request):
+    return render_login_form(request)
 
 
 def logout_view(request):
@@ -71,37 +71,13 @@ def logout_view(request):
     return HttpResponseRedirect(reverse_lazy('home_new'))
 
 
-def register_popup(request):
-    return render_forms(request, 'redesign/register_popup.html')
-
-
-def home_new(request):
-    return render_forms(request, 'redesign/home_new.html')
-
-
-def teach_new(request):
-    return render_forms(request, 'redesign/teach_new.html')
-
-
-def play_new(request):
-    return render_forms(request, 'redesign/play_new.html')
-
-
-def about_new(request):
-    return render_forms(request, 'redesign/about_new.html')
-
-
-def help_and_support_new(request):
-    return render_forms(request, 'redesign/help-and-support_new.html')
-
-
-def terms_new(request):
-    return render_forms(request, 'redesign/terms_new.html')
+def register_view(request):
+    return render_signup_form(request)
 
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def render_forms(request, rendered_url):
+def render_login_form(request):
     invalid_form = False
 
     limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
@@ -112,28 +88,40 @@ def render_forms(request, rendered_url):
     OutputLoginForm = compute_output_login_form(LoginFormWithCaptcha, limits, captcha_limit)
 
     login_form = OutputLoginForm(prefix='login')
+
+    if request.method == 'POST':
+        login_form = InputLoginForm(request.POST, prefix='login')
+        if login_form.is_valid():
+            return process_login_form(request, login_form)
+
+        else:
+            login_form = OutputLoginForm(request.POST, prefix='login')
+            invalid_form = True
+
+    res = render(request, 'redesign/login.html', {
+        'login_form': login_form,
+        'logged_in_as_teacher': is_logged_in_as_teacher(request),
+    })
+
+    res.count = invalid_form
+    return res
+
+
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+def render_signup_form(request):
+    invalid_form = False
+
     signup_form = TeacherSignupForm(prefix='signup')
 
     if request.method == 'POST':
-        if 'login' in request.POST:
-            login_form = InputLoginForm(request.POST, prefix='login')
-            if login_form.is_valid():
-                return process_login_form(request, login_form)
+        signup_form = TeacherSignupForm(request.POST, prefix='signup')
+        if signup_form.is_valid():
+            data = signup_form.cleaned_data
+            return process_signup_form(request, data)
 
-            else:
-                login_form = OutputLoginForm(request.POST, prefix='login')
-                invalid_form = True
-
-        elif 'signup' in request.POST:
-            signup_form = TeacherSignupForm(request.POST, prefix='signup')
-            if signup_form.is_valid():
-                data = signup_form.cleaned_data
-                return process_signup_form(request, data)
-
-    res = render(request, rendered_url, {
-        'login_form': login_form,
-        'signup_form': signup_form,
-        'logged_in_as_teacher': is_logged_in_as_teacher(request),
+    res = render(request, 'redesign/register.html', {
+        'signup_form': signup_form
     })
 
     res.count = invalid_form

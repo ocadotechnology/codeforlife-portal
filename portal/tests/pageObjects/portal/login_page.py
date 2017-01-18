@@ -41,7 +41,6 @@ import play_page
 import email_verification_needed_page
 from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
 import teach.dashboard_page_new
-import home_page_new
 
 
 class LoginPage(BasePage):
@@ -57,7 +56,7 @@ class LoginPage(BasePage):
 
     def login_failure(self, email, password):
         self._login(email, password)
-        return home_page_new.HomePage(self.browser)
+        return self
 
     def _login(self, email, password):
         self.browser.find_element_by_id('id_login-email').send_keys(email)
