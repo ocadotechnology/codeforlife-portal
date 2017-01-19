@@ -37,8 +37,8 @@
 from teach_base_page import TeachBasePage
 
 
-class TeachDashboardPageNew(TeachBasePage):
+class TeachDashboardPage(TeachBasePage):
     def __init__(self, browser):
-        super(TeachDashboardPageNew, self).__init__(browser)
+        super(TeachDashboardPage, self).__init__(browser)
 
         assert self.on_correct_page('teach_dashboard_page_new')

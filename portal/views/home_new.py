@@ -47,7 +47,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.models import Teacher
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
-from portal.helpers.emails import send_verification_email, send_verification_email_new, is_verified
+from portal.helpers.emails_new import send_verification_email, is_verified
 from portal.utils import using_two_factor
 from portal import app_settings
 from ratelimit.decorators import ratelimit
@@ -66,7 +66,7 @@ def login_popup(request):
     return render_forms(request, 'redesign/login_popup.html')
 
 
-def logout_view_new(request):
+def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home_new'))
 
@@ -198,7 +198,7 @@ def process_signup_form(request, data):
         email=data['email'],
         password=data['password'])
 
-    send_verification_email_new(request, teacher.user.user)
+    send_verification_email(request, teacher.user.user)
 
     return render(request, 'redesign/email_verification_needed_new.html', {'user': teacher.user.user})
 

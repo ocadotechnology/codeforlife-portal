@@ -73,17 +73,3 @@ def signup_teacher(page):
     mail.outbox = []
 
     return page, email_address, password
-
-
-def signup_teacher_new(page):
-    page = page.go_to_signup_page()
-
-    title, first_name, last_name, email_address, password = generate_details()
-    page = page.signup(title, first_name, last_name, email_address, password, password)
-
-    page = page.return_to_home_page_new()
-
-    page = email.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
-    mail.outbox = []
-
-    return page, email_address, password

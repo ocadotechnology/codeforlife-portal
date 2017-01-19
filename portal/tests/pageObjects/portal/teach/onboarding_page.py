@@ -41,4 +41,4 @@ class OnboardingPage(TeachBasePage):
     def __init__(self, browser):
         super(OnboardingPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding1_page')
+        assert self.on_correct_page('onboarding_organisation_page')

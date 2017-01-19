@@ -45,7 +45,7 @@ from django.template import Context, loader
 
 from portal.models import EmailVerification
 from portal import app_settings
-from portal.emailMessages import emailVerificationNeededEmail
+from portal.emailMessages_new import emailVerificationNeededEmail
 from portal.emailMessages import emailChangeNotificationEmail
 from portal.emailMessages import emailChangeVerificationEmail
 

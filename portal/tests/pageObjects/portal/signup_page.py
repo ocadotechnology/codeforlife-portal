@@ -57,4 +57,4 @@ class SignupPage(BasePage):
         self.browser.find_element_by_id('id_signup-confirm_password').send_keys(confirm_password)
 
         self.browser.find_element_by_name('signup').click()
-        return email_verification_needed_page_new.EmailVerificationNeededPageNew(self.browser)
+        return email_verification_needed_page_new.EmailVerificationNeededPage(self.browser)

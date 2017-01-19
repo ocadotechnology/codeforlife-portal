@@ -38,12 +38,12 @@ from base_page import BasePage
 import home_page_new
 
 
-class EmailVerificationNeededPageNew(BasePage):
+class EmailVerificationNeededPage(BasePage):
     def __init__(self, browser):
-        super(EmailVerificationNeededPageNew, self).__init__(browser)
+        super(EmailVerificationNeededPage, self).__init__(browser)
 
         assert self.on_correct_page('emailVerificationNeeded_page_new')
 
-    def return_to_home_page_new(self):
+    def return_to_home_page(self):
         self.browser.find_element_by_id('home-button').click()
-        return home_page_new.HomePageNew(self.browser)
+        return home_page_new.HomePage(self.browser)
