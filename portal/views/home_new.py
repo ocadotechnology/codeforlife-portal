@@ -45,8 +45,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.forms.teach import TeacherLoginForm
-from portal.helpers.emails import send_verification_email, is_verified
+from portal.models import Teacher
+from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
+from portal.helpers.emails_new import send_verification_email, is_verified
 from portal.utils import using_two_factor
 from portal import app_settings
 from ratelimit.decorators import ratelimit
@@ -63,6 +64,15 @@ def teach_email_labeller(request):
 
 def login_popup(request):
     return render_forms(request, 'redesign/login_popup.html')
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse_lazy('home_new'))
+
+
+def register_popup(request):
+    return render_forms(request, 'redesign/register_popup.html')
 
 
 def home_new(request):
@@ -102,6 +112,7 @@ def render_forms(request, rendered_url):
     OutputLoginForm = compute_output_login_form(LoginFormWithCaptcha, limits, captcha_limit)
 
     login_form = OutputLoginForm(prefix='login')
+    signup_form = TeacherSignupForm(prefix='signup')
 
     if request.method == 'POST':
         if 'login' in request.POST:
@@ -113,8 +124,15 @@ def render_forms(request, rendered_url):
                 login_form = OutputLoginForm(request.POST, prefix='login')
                 invalid_form = True
 
+        elif 'signup' in request.POST:
+            signup_form = TeacherSignupForm(request.POST, prefix='signup')
+            if signup_form.is_valid():
+                data = signup_form.cleaned_data
+                return process_signup_form(request, data)
+
     res = render(request, rendered_url, {
         'login_form': login_form,
+        'signup_form': signup_form,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
     })
 
@@ -172,8 +190,21 @@ def process_login_form(request, login_form):
     return HttpResponseRedirect(reverse_lazy('dashboard'))
 
 
+def process_signup_form(request, data):
+    teacher = Teacher.objects.factory(
+        title=data['title'],
+        first_name=data['first_name'],
+        last_name=data['last_name'],
+        email=data['email'],
+        password=data['password'])
+
+    send_verification_email(request, teacher.user.user)
+
+    return render(request, 'redesign/email_verification_needed_new.html', {'user': teacher.user.user})
+
+
 def is_logged_in_as_teacher(request):
     logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
-                           hasattr(request.user.userprofile, 'teacher') and \
-                           (request.user.is_verified() or not using_two_factor(request.user))
+        hasattr(request.user.userprofile, 'teacher') and \
+        (request.user.is_verified() or not using_two_factor(request.user))
     return logged_in_as_teacher

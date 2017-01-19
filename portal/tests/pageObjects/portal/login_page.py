@@ -53,11 +53,11 @@ class LoginPage(BasePage):
     def login(self, email, password):
         self._login(email, password)
 
-        return teach.dashboard_page_new.TeachDashboardPageNew(self.browser)
+        return teach.dashboard_page_new.TeachDashboardPage(self.browser)
 
     def login_failure(self, email, password):
         self._login(email, password)
-        return home_page_new.HomePageNew(self.browser)
+        return home_page_new.HomePage(self.browser)
 
     def _login(self, email, password):
         self.browser.find_element_by_id('id_login-email').send_keys(email)

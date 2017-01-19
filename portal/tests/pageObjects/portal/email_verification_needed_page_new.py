@@ -34,49 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import re
-import time
-
-from django.core import mail
-from django_selenium_clean import selenium
-from selenium.webdriver.support.wait import WebDriverWait
-
-from base_test import BaseTest
-from pageObjects.portal.home_page_new import HomePage
-from utils.teacher_new import signup_teacher, signup_teacher_directly
-from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
-from utils import email as email_utils
+from base_page import BasePage
+import home_page_new
 
 
-class TestTeacher(BaseTest):
+class EmailVerificationNeededPage(BasePage):
+    def __init__(self, browser):
+        super(EmailVerificationNeededPage, self).__init__(browser)
 
-    def test_signup(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, _, _ = signup_teacher(page)
-        assert is_email_verified_message_showing(selenium)
+        assert self.on_correct_page('emailVerificationNeeded_page_new')
 
-    def test_login_failure(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page = page.go_to_login_page()
-        time.sleep(1)
-        page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
-        assert self.is_home_page(page)
-
-    def test_login_success(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, email, password = signup_teacher(page)
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page = page.go_to_login_page()
-        time.sleep(1)
-        page = page.login(email, password)
-        assert self.is_teacher_dashboard(page)
-
-    def is_teacher_dashboard(self, page):
-        return page.__class__.__name__ == 'TeachDashboardPage'
-
-    def is_home_page(self, page):
-        return page.__class__.__name__ == 'HomePage'
+    def return_to_home_page(self):
+        self.browser.find_element_by_id('home-button').click()
+        return home_page_new.HomePage(self.browser)

@@ -44,7 +44,7 @@ from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, S
 
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.permissions import teacher_verified
-from portal.views.email import verify_email
+from portal.views.email import verify_email, verify_email_new
 from portal.views.home import teach, play, contact, current_user, logout_view, home_view
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
     organisation_leave, organisation_kick, organisation_toggle_admin, organisation_allow_join, \
@@ -65,7 +65,7 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.home_new import home_new, teach_new, play_new, about_new, help_and_support_new, terms_new, login_popup
+from portal.views.home_new import home_new, teach_new, play_new, about_new, help_and_support_new, terms_new, login_popup, register_popup
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -197,8 +197,9 @@ urlpatterns = patterns(
     url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
 
     url(r'^redesign/home', home_new, name='home_new'),
-    url(r'^redesign/register', TemplateView.as_view(template_name='redesign/register_popup.html'), name='register_popup'),
+    url(r'^redesign/register', register_popup, name='register_popup'),
     url(r'^redesign/login', login_popup, name='login_popup'),
+    url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
     url(r'^redesign/teach/$', teach_new, name='teach_new'),
     url(r'^redesign/teach/onboarding1/$', TemplateView.as_view(template_name='redesign/teach_new/onboarding_school.html'), name='onboarding1'),
     url(r'^redesign/teach/onboarding1-join', TemplateView.as_view(template_name='redesign/teach_new/onboarding_join_pending.html'), name='onboarding1-join'),

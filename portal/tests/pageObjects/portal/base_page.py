@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -134,6 +135,11 @@ class BasePage(object):
         self.browser.find_element_by_id('login-button').click()
         return login_page.LoginPage(self.browser)
 
+    def go_to_signup_page(self):
+        self.browser.find_element_by_id('signup-button').click()
+        time.sleep(2)
+        return signup_page.SignupPage(self.browser)
+
     def go_to_terms_page(self):
         self.browser.find_element_by_id('terms_button').click()
         return terms_page.TermsPage(self.browser)
@@ -158,4 +164,5 @@ import home_page
 import play_page
 import teach_page
 import login_page
+import signup_page
 import terms_page

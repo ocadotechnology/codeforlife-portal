@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import random
+import email
 from django.core import mail
 import sys
 
@@ -72,5 +73,3 @@ def signup_teacher(page):
     mail.outbox = []
 
     return page, email_address, password
-
-import email

@@ -1,0 +1,36 @@
+{% extends 'redesign/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="emailVerificationNeeded_page_new"></div>
+
+<div class="background form--register form--register--teacher col-sm-12">
+    <div class="background">
+        <div class="background">
+            <div class="background">
+                <h1>We need to verify your email address</h1><br>
+                <img src='{% static "portal/img_new/paper_plane.png" %}'>
+                <p class="body-text"><br>An email has been sent to the address you provided.<br>Please follow the link within the email to verify your details.</p><br>
+                <p class="body-text">If you don&rsquo;t receive the email within the next few minutes, check your spam folder.</p>
+            </div>
+            <section>
+                <a id="home-button" href="{% url 'home_new' %}" class="button--regular button--primary--general-educate">Back to homepage</a>
+            </section>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

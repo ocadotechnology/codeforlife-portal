@@ -38,9 +38,9 @@ import login_page
 from base_page import BasePage
 
 
-class HomePageNew(BasePage):
+class HomePage(BasePage):
     def __init__(self, browser):
-        super(HomePageNew, self).__init__(browser)
+        super(HomePage, self).__init__(browser)
         assert self.on_correct_page('home_page_new')
 
     def go_to_login_page(self):

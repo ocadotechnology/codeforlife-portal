@@ -34,49 +34,42 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import re
-import time
-
+import random
+import email
 from django.core import mail
-from django_selenium_clean import selenium
-from selenium.webdriver.support.wait import WebDriverWait
+import sys
 
-from base_test import BaseTest
-from pageObjects.portal.home_page_new import HomePage
-from utils.teacher_new import signup_teacher, signup_teacher_directly
-from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
-from utils import email as email_utils
+from portal.models import Teacher
+from portal.helpers.emails import generate_token
 
 
-class TestTeacher(BaseTest):
+def generate_details(**kwargs):
+    title = kwargs.get('title', 'Mr')
+    first_name = kwargs.get('first_name', 'Test')
+    last_name = kwargs.get('last_name', 'Teacher')
+    email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % random.randint(1, sys.maxint))
+    password = kwargs.get('password', 'Password1')
 
-    def test_signup(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, _, _ = signup_teacher(page)
-        assert is_email_verified_message_showing(selenium)
+    return title, first_name, last_name, email_address, password
 
-    def test_login_failure(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page = page.go_to_login_page()
-        time.sleep(1)
-        page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
-        assert self.is_home_page(page)
 
-    def test_login_success(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, email, password = signup_teacher(page)
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page = page.go_to_login_page()
-        time.sleep(1)
-        page = page.login(email, password)
-        assert self.is_teacher_dashboard(page)
+def signup_teacher_directly(**kwargs):
+    title, first_name, last_name, email_address, password = generate_details(**kwargs)
+    teacher = Teacher.objects.factory(title, first_name, last_name, email_address, password)
+    generate_token(teacher.new_user, preverified=True)
+    teacher.user.save()
+    return email_address, password
 
-    def is_teacher_dashboard(self, page):
-        return page.__class__.__name__ == 'TeachDashboardPage'
 
-    def is_home_page(self, page):
-        return page.__class__.__name__ == 'HomePage'
+def signup_teacher(page):
+    page = page.go_to_signup_page()
+
+    title, first_name, last_name, email_address, password = generate_details()
+    page = page.signup(title, first_name, last_name, email_address, password, password)
+
+    page = page.return_to_home_page()
+
+    page = email.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
+    mail.outbox = []
+
+    return page, email_address, password
