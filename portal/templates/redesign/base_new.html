@@ -256,5 +256,13 @@
 </script>
 {% endblock scripts %}
 
+<script type="text/javascript">
+    $('.logout').click(function(){
+        $(this).toggleClass("button--secondary");
+        $(this).toggleClass("button--secondary--dark");
+        $(this).toggleClass("button--logout");
+    })
+</script>
+
 </body>
 </html>
