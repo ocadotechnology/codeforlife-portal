@@ -601,6 +601,14 @@ form {
     text-align: left;
   }
 
+  ul {
+    color: yellow;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
   .no-password {
     @include _padding(15px, 0px, 30px, 0px);
     text-align: center;

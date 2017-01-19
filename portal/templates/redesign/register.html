@@ -28,34 +28,34 @@
 
                 {{ signup_form.non_field_errors }}
 
-                {{ signup_form.title.errors }}
                 <label for="id_signup-title">{{ signup_form.title.label }}</label>
                 {{ signup_form.title }}
+                {{ signup_form.title.errors }}
 
-                {{ signup_form.first_name.errors }}
                 <label for="id_signup-first_name">{{ signup_form.first_name.label }}</label>
                 {{ signup_form.first_name }}
+                {{ signup_form.first_name.errors }}
 
-                {{ signup_form.last_name.errors }}
                 <label for="id_signup-last_name">{{ signup_form.last_name.label }}</label>
                 {{ signup_form.last_name }}
+                {{ signup_form.last_name.errors }}
 
-                {{ signup_form.email.errors }}
                 <label for="id_signup-email">{{ signup_form.email.label }}</label>
                 {{ signup_form.email }}
+                {{ signup_form.email.errors }}
 
                 <div class='password-strength-bar-container'>
                     <div class='password-strength-bar'></div>
                     <div class='password-strength-text'></div>
                 </div>
 
-                {{ signup_form.password.errors }}
                 <label for="id_signup-password">{{ signup_form.password.label }}</label>
                 {{ signup_form.password }}
+                {{ signup_form.password.errors }}
 
-                {{ signup_form.confirm_password.errors }}
                 <label for="id_signup-confirm_password">{{ signup_form.confirm_password.label }}</label>
                 {{ signup_form.confirm_password }}
+                {{ signup_form.confirm_password.errors }}
 
                 <p class="small-text no-password"><i>No password</i></p>
 
