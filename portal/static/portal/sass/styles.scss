@@ -1135,6 +1135,10 @@ td {
 
 @media (min-width: 1200px) {
 
+  html {
+    font-size: 10px;
+  }
+
   .hamburger {
     display: none;
   }
@@ -1189,7 +1193,23 @@ td {
 
 }
 
-@media (max-width: 630px) {
+@media (min-width: 992px) and (max-width: 1200px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  html {
+    font-size: 7px;
+  }
 
   .col-sm-3 {
     width: 50%;
