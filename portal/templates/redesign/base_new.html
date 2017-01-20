@@ -85,8 +85,8 @@
         {% block menuButtons %}
         {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
         {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary button--menu--enabled">Students</a>{% endblock nav_play %}
-        <button id="signup-button" class="button--regular button--primary--general-play col-sm-offset-3 register">Register now</button>
-        <button id="login-button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></button>
+        <a href="{% url 'register_new' %}" id="signup-button" class="button--regular button--primary--general-play col-sm-offset-3 register">Register now</a>
+        <a href="{% url 'login_new' %}" id="login-button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
         {% endblock menuButtons %}
     </div>
     {% endblock topBar %}
@@ -181,17 +181,7 @@
         $('html,body').animate({scrollTop: targetOffset}, 1000);
     }
 
-    function invokeColorbox(buttonID, href, innerWidth, innerHeight) {
-        $(buttonID).colorbox({
-            href: href,
-            innerWidth: innerWidth,
-            innerHeight: innerHeight,
-            transition: 'fade',
-            closeButton: false
-        });
-    }
-
-    function invokeColorboxYoutube() {
+    function invokeColorbox() {
         $(".youtube").colorbox({
             iframe:true,
             innerWidth:640,
@@ -202,16 +192,6 @@
     }
 
     $(document).ready(function() {
-        invokeColorbox(
-                ".register",
-                "{% url 'register_popup' %}",
-                1600, 1363);
-
-        invokeColorbox(
-                ".login",
-                "{% url 'login_popup' %}",
-                1600, 1043);
-
         animateScroll();
     })
 </script>

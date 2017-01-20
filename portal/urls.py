@@ -65,7 +65,7 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.home_new import home_new, teach_new, play_new, about_new, help_and_support_new, terms_new, login_popup, register_popup
+from portal.views.home_new import login_view, register_view
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -196,21 +196,21 @@ urlpatterns = patterns(
     url(r'^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
     url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
 
-    url(r'^redesign/home', home_new, name='home_new'),
-    url(r'^redesign/register', register_popup, name='register_popup'),
-    url(r'^redesign/login', login_popup, name='login_popup'),
+    url(r'^redesign/home', TemplateView.as_view(template_name='redesign/home_new.html'), name='home_new'),
+    url(r'^redesign/register_form', register_view, name='register_new'),
+    url(r'^redesign/login_form', login_view, name='login_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
-    url(r'^redesign/teach/$', teach_new, name='teach_new'),
+    url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
     url(r'^redesign/teach/onboarding1/$', TemplateView.as_view(template_name='redesign/teach_new/onboarding_school.html'), name='onboarding1'),
     url(r'^redesign/teach/onboarding1-join', TemplateView.as_view(template_name='redesign/teach_new/onboarding_join_pending.html'), name='onboarding1-join'),
     url(r'^redesign/teach/onboarding2', TemplateView.as_view(template_name='redesign/teach_new/onboarding_classes.html'), name='onboarding2'),
     url(r'^redesign/teach/onboarding3', TemplateView.as_view(template_name='redesign/teach_new/onboarding_students.html'), name='onboarding3'),
     url(r'^redesign/teach/onboarding4', TemplateView.as_view(template_name='redesign/teach_new/onboarding_print.html'), name='onboarding4'),
     url(r'^redesign/teach/onboarding5', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding5'),
-    url(r'^redesign/play', play_new, name='play_new'),
-    url(r'^redesign/about', about_new, name='about_new'),
-    url(r'^redesign/help', help_and_support_new, name='help_new'),
-    url(r'^redesign/terms', terms_new, name='terms_new'),
+    url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
+    url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
+    url(r'^redesign/help', TemplateView.as_view(template_name='redesign/help-and-support_new.html'), name='help_new'),
+    url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
     url(r'^redesign/teach/materials', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
     url(r'^redesign/teach/dashboard', TemplateView.as_view(template_name='redesign/teach_new/dashboard.html'), name='dashboard'),
     url(r'^redesign/teach/class', TemplateView.as_view(template_name='redesign/teach_new/class_new.html'), name='class_new'),

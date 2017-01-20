@@ -580,7 +580,7 @@ form {
 }
 
 .form--register {
-  @include _padding(30px, 0px, 30px, 0px);
+  @include _padding(140px, 0px, 30px, 0px);
   text-align: center;
 
   h1,
@@ -598,6 +598,14 @@ form {
 
   p {
     color: $color-text-secondary;
+    text-align: left;
+  }
+
+  ul {
+    color: yellow;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
     text-align: left;
   }
 
@@ -1141,7 +1149,7 @@ td {
     width: 100%;
     z-index: 1;
 
-    a[class^='button'] {
+    a[class^='button--menu'] {
       border-radius: 0;
     }
 

@@ -60,9 +60,8 @@ class TestTeacher(BaseTest):
         selenium.get(self.live_server_url + "/portal/redesign/home")
         page = HomePage(selenium)
         page = page.go_to_login_page()
-        time.sleep(1)
         page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
-        assert self.is_home_page(page)
+        assert page.has_login_failed()
 
     def test_login_success(self):
         selenium.get(self.live_server_url + "/portal/redesign/home")
@@ -71,7 +70,6 @@ class TestTeacher(BaseTest):
         selenium.get(self.live_server_url + "/portal/redesign/home")
         page = HomePage(selenium)
         page = page.go_to_login_page()
-        time.sleep(1)
         page = page.login(email, password)
         assert self.is_teacher_dashboard(page)
 

@@ -137,7 +137,6 @@ class BasePage(object):
 
     def go_to_signup_page(self):
         self.browser.find_element_by_id('signup-button').click()
-        time.sleep(2)
         return signup_page.SignupPage(self.browser)
 
     def go_to_terms_page(self):

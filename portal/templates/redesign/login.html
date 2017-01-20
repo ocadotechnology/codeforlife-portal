@@ -1,4 +1,4 @@
-{% extends 'redesign/base_popup.html' %}
+{% extends 'redesign/base_new.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
@@ -27,18 +27,18 @@
 
                     {{ login_form.non_field_errors }}
 
-                    {{ login_form.email.errors }}
                     <label for="id_{{ login_form.email.html_name }}">{{ login_form.email.label }}</label>
                     {{ login_form.email }}
+                    {{ login_form.email.errors }}
 
-                    {{ login_form.password.errors }}
                     <label for="id_{{ login_form.password.html_name }}">{{ login_form.password.label }}</label>
                     {{ login_form.password }}
+                    {{ login_form.password.errors }}
 
                     {% if login_form.recaptcha %}
-                    {{ login_form.recaptcha.errors }}
                     <label for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
                     {{ login_form.recaptcha|safe }}
+                    {{ login_form.recaptcha.errors }}
                     {% endif %}
 
                     <button type="submit" name="login" class="button--regular button--primary--general-educate" value="Sign in"
