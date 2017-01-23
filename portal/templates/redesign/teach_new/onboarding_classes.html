@@ -76,7 +76,7 @@
         {% for class in classes %}
         <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
         <section class="background">
-            <a href="{% url 'onboarding3' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
+            <a href="{% url 'onboarding-class' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
         </section>
         {% endfor %}
     </div>

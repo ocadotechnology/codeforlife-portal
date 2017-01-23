@@ -107,7 +107,7 @@ def verify_email_new(request, token):
     if hasattr(user.userprofile, 'student'):
         return HttpResponseRedirect(reverse_lazy('play_new'))
     if hasattr(user.userprofile, 'teacher'):
-        return HttpResponseRedirect(reverse_lazy('onboarding1'))
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
     # default to homepage if something goes wrong
     return HttpResponseRedirect(reverse_lazy('home_new'))

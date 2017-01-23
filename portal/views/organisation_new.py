@@ -88,8 +88,8 @@ def organisation_fuzzy_lookup_new(request):
     return HttpResponse(json.dumps(school_data), content_type="application/json")
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def organisation_create_new(request):
     increment_count = False
@@ -134,7 +134,7 @@ def organisation_create_new(request):
 
                 messages.success(request, "The school or club '" + teacher.school.name + "' has been successfully added.")
 
-                return HttpResponseRedirect(reverse_lazy('onboarding2'))
+                return HttpResponseRedirect(reverse_lazy('onboarding-classes'))
 
         elif 'join_organisation' in request.POST:
             increment_count = True
@@ -168,7 +168,7 @@ def organisation_create_new(request):
 
             messages.success(request, 'Your request to join the school or club has been revoked successfully.')
 
-            return HttpResponseRedirect(reverse_lazy('onboarding1'))
+            return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
     res = render(request, 'redesign/teach_new/onboarding_school.html', {
         'create_form': create_form,
@@ -180,8 +180,8 @@ def organisation_create_new(request):
     return res
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
@@ -224,8 +224,8 @@ def organisation_teacher_view(request, is_admin):
     })
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_manage_new(request):
     teacher = request.user.new_teacher
 
@@ -235,8 +235,8 @@ def organisation_manage_new(request):
     return organisation_create_new(request)
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_leave(request):
     teacher = request.user.new_teacher
 
@@ -273,8 +273,8 @@ def organisation_leave(request):
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -320,8 +320,8 @@ def organisation_kick(request, pk):
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -349,8 +349,8 @@ def organisation_toggle_admin(request, pk):
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -372,8 +372,8 @@ def organisation_allow_join(request, pk):
     return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher

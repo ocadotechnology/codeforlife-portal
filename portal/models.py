@@ -112,6 +112,12 @@ class Teacher(models.Model):
             student = userprofile.student
             return not student.is_independent() and student.class_field.teacher == self
 
+    def has_school(self):
+        return self not in Teacher.objects.filter(school=None)
+
+    def has_class(self):
+        return self not in Teacher.objects.filter(class_teacher=None)
+
     def __unicode__(self):
         return '%s %s' % (self.user.first_name, self.user.last_name)
 
@@ -126,6 +132,9 @@ class Class(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def has_students(self):
+        return self not in Class.objects.filter(students=None)
 
     def get_logged_in_students(self):
         ONLINE = 1
