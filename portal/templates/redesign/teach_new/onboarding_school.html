@@ -78,7 +78,46 @@
         </div>
     </div>
 </div>
+{% if teacher.pending_join_request %}
+<div class="sub-nav sub-nav--warning">
+    <div class="row">
+        <img src='{% static "portal/img_new/warning.png" %}'>
+        <p class="body-text"><i>Your request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }} has been submitted</i></p>
+    </div>
+</div>
 
+<div class="background col-sm-6 col-center">
+    <section>
+        <h2>Join a school</h2><br>
+    </section>
+    <h4>You have a pending request to join <b>{{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}</b>.<br>Once the administrator of your school or club has approved your request you will be able
+        to continue.</h4>
+</div>
+<div class="background col-sm-6 col-center">
+    <p class="body-text">Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
+        your pending request first.</p><br>
+    <form id="revoke_form" method='post'>
+
+        {% csrf_token %}
+
+        <div class='section group'>
+            <button class='button--regular button--secondary button--secondary--dark' type='submit'
+                    name='revoke_join_request'>Revoke request to {{ teacher.pending_join_request.name }}</button>
+        </div>
+
+    </form>
+</div>
+{% else %}
+{% if teacher.school %}
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        <h3>It looks like you've already created your school ({{ user.new_teacher.school.name }})</h3>
+        <section class="background">
+            <a href="{% url 'onboarding2' %}" class='button--regular button-primary button--primary--general-play' >Add a class</a>
+        </section>
+    </div>
+</div>
+{% else %}
 <div class="background background--primary col-sm-12">
     <div class="form col-sm-4 col-sm-offset-4">
         <ul class="tab">
@@ -172,5 +211,7 @@
         }
     }
 </script>
+{% endif %}
+{% endif %}
 
 {% endblock content %}

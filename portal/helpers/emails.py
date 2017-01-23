@@ -45,7 +45,7 @@ from django.template import Context, loader
 
 from portal.models import EmailVerification
 from portal import app_settings
-from portal.emailMessages import emailVerificationNeededEmail, emailVerificationNeededEmailNew
+from portal.emailMessages import emailVerificationNeededEmail
 from portal.emailMessages import emailChangeNotificationEmail
 from portal.emailMessages import emailChangeVerificationEmail
 
@@ -109,36 +109,6 @@ def send_verification_email(request, user, new_email=None):
         verification = generate_token(user)
 
         message = emailVerificationNeededEmail(request, verification.token)
-        send_email(VERIFICATION_EMAIL,
-                   [user.email],
-                   message['subject'],
-                   message['message'])
-
-    else:  # verifying change of email address.
-        verification = generate_token(user, new_email)
-
-        message = emailChangeVerificationEmail(request, verification.token)
-        send_email(VERIFICATION_EMAIL,
-                   [new_email],
-                   message['subject'],
-                   message['message'])
-
-        message = emailChangeNotificationEmail(request, new_email)
-        send_email(VERIFICATION_EMAIL,
-                   [user.email],
-                   message['subject'],
-                   message['message'])
-
-
-def send_verification_email_new(request, user, new_email=None):
-    """Send an email prompting the user to verify their email address."""
-
-    if not new_email:  # verifying first email address
-        user.email_verifications.all().delete()
-
-        verification = generate_token(user)
-
-        message = emailVerificationNeededEmailNew(request, verification.token)
         send_email(VERIFICATION_EMAIL,
                    [user.email],
                    message['subject'],

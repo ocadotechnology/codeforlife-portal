@@ -16,7 +16,7 @@
 {{ block.super }}
 
 <div class="banner banner--teacher--plain">
-    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
     <div class="arrows col-sm-offset-1">
         <div class="progress-arrow">

@@ -70,6 +70,18 @@
     </div>
 </div>
 
+{% if classes %}
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        {% for class in classes %}
+        <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
+        <section class="background">
+            <a href="{% url 'onboarding3' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
+        </section>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
 <div class="background background--primary col-sm-12">
     <div class="form col-sm-4 col-sm-offset-4">
         <h4>{{ user.new_teacher.school.name }}</h4>
@@ -97,5 +109,6 @@
         </form>
     </div>
 </div>
+{% endif %}
 
 {% endblock content %}

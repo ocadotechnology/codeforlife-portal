@@ -54,15 +54,6 @@ def emailVerificationNeededEmail(request, token):
     }
 
 
-def emailVerificationNeededEmailNew(request, token):
-    return {
-        'subject': emailSubjectPrefix() + " : Email address verification needed",
-        'message': ("Please go to "
-                    + request.build_absolute_uri(reverse('verify_email_new', kwargs={'token': token}))
-                    + " to verify your email address" + emailBodySignOff(request)),
-    }
-
-
 def emailChangeVerificationEmail(request, token):
     return {
         'subject': emailSubjectPrefix() + " : Email address verification needed",

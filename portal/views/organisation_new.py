@@ -229,10 +229,10 @@ def organisation_teacher_view(request, is_admin):
 def organisation_manage_new(request):
     teacher = request.user.new_teacher
 
-    if teacher.school:
-        return organisation_teacher_view(request, teacher.is_admin)
-    else:
-        return organisation_create_new(request)
+    # if teacher.school:
+    #     return organisation_teacher_view(request, teacher.is_admin)
+    # else:
+    return organisation_create_new(request)
 
 
 @login_required(login_url=reverse_lazy('teach'))

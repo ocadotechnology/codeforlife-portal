@@ -156,8 +156,11 @@ def teacher_classes_new(request):
     else:
         form = ClassCreationForm(initial={'classmate_progress': 'False'})
 
+    classes = Class.objects.filter(teacher=teacher)
+
     return render(request, 'redesign/teach_new/onboarding_classes.html',
                   {'form': form,
+                   'classes': classes,
                    'requests': requests})
 
 
