@@ -34,57 +34,50 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
-
-from base_page import BasePage
-import play_page
-import email_verification_needed_page
-from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
-import teach.dashboard_page_new
-import teach.onboarding_organisation_page
-import teach.onboarding_classes_page
-import teach.onboarding_students_page
+from portal.tests.pageObjects.portal.base_page import BasePage
 
 
-class LoginPage(BasePage):
+class TeachBasePage(BasePage):
     def __init__(self, browser):
-        super(LoginPage, self).__init__(browser)
+        super(TeachBasePage, self).__init__(browser)
 
-        assert self.on_correct_page('login_page')
+    def logout(self):
+        self.browser.find_element_by_id('logout_button').click()
+        from portal.tests.pageObjects.portal.home_page_new import HomePage
 
-    def login(self, email, password):
-        self._login(email, password)
+        return HomePage(self.browser)
 
-        return teach.dashboard_page_new.TeachDashboardPage(self.browser)
+    def go_to_dashboard_page(self):
+        self.browser.find_element_by_id('teacher_dashboard_button').click()
+        from dashboard_page_new import TeachDashboardPage
 
-    def login_no_school(self, email, password):
-        self._login(email, password)
+        return TeachDashboardPage(self.browser)
 
-        return teach.onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
+    def go_to_classes_page(self):
+        self.browser.find_element_by_id('teacher_classes_button').click()
+        from classes_page import TeachClassesPage
 
-    def login_no_class(self, email, password):
-        self._login(email, password)
+        return TeachClassesPage(self.browser)
 
-        return teach.onboarding_classes_page.OnboardingClassesPage(self.browser)
+    def go_to_account_page(self):
+        self.browser.find_element_by_id('teacher_account_button').click()
+        from account_page import TeachAccountPage
 
-    def login_no_students(self, email, password):
-        self._login(email, password)
+        return TeachAccountPage(self.browser)
 
-        return teach.onboarding_students_page.OnboardingStudentsPage(self.browser)
+    def go_to_organisation_create_or_join_page(self):
+        self._click_school_club_button()
 
-    def login_failure(self, email, password):
-        self._login(email, password)
-        return self
+        from organisation_create_page import TeachOrganisationCreatePage
 
-    def _login(self, email, password):
-        self.browser.find_element_by_id('id_login-email').send_keys(email)
-        self.browser.find_element_by_id('id_login-password').send_keys(password)
-        self.browser.find_element_by_name('login').click()
+        return TeachOrganisationCreatePage(self.browser)
 
-    def has_login_failed(self):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
+    def go_to_organisation_manage_page(self):
+        self._click_school_club_button()
 
-        errors = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
-        error = 'Incorrect email address or password'
-        return error in errors
+        from organisation_manage_page import TeachOrganisationManagePage
+
+        return TeachOrganisationManagePage(self.browser)
+
+    def _click_school_club_button(self):
+        self.browser.find_element_by_id('teacher_organisation_button').click()

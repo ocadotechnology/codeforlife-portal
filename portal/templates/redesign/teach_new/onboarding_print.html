@@ -32,6 +32,8 @@
 {% block content %}
 {{ block.super }}
 
+<div id="onboarding_student_list_page"></div>
+
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
@@ -127,7 +129,7 @@
         <p class="body-text">The following students have been created for your class. When they log in for the first time, you may want students to change their
             passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p><br>
         <p class="body-text">The Class Access Code for this class is: {{ class.access_code }}.</p>
-        <table class="header-primary data-quinary">
+        <table id='student_table' class="header-primary data-quinary">
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Password</p></th>

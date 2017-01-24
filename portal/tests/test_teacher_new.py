@@ -41,9 +41,12 @@ from django.core import mail
 from django_selenium_clean import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 
-from base_test import BaseTest
+from base_test_new import BaseTest
 from pageObjects.portal.home_page_new import HomePage
 from utils.teacher_new import signup_teacher, signup_teacher_directly
+from utils.organisation_new import create_organisation_directly
+from utils.classes_new import create_class_directly
+from utils.student_new import create_school_student_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
 from utils import email as email_utils
 
@@ -64,17 +67,25 @@ class TestTeacher(BaseTest):
         assert page.has_login_failed()
 
     def test_login_success(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, email, password = signup_teacher(page)
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
         selenium.get(self.live_server_url + "/portal/redesign/home")
         page = HomePage(selenium)
         page = page.go_to_login_page()
         page = page.login(email, password)
-        assert self.is_teacher_dashboard(page)
+        assert self.is_dashboard_page(page)
 
-    def is_teacher_dashboard(self, page):
+    def test_signup_login_success(self):
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium)
+        page, email, password = signup_teacher(page)
+        page = page.login_no_school(email, password)
+        assert self.is_onboarding_page(page)
+
+    def is_dashboard_page(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
 
-    def is_home_page(self, page):
-        return page.__class__.__name__ == 'HomePage'
+    def is_onboarding_page(self, page):
+        return page.__class__.__name__ == 'OnboardingOrganisationPage'

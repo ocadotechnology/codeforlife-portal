@@ -15,6 +15,8 @@
 {% block content %}
 {{ block.super }}
 
+<div id="onboarding_classes_page"></div>
+
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
@@ -76,7 +78,7 @@
         {% for class in classes %}
         <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
         <section class="background">
-            <a href="{% url 'onboarding-class' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
+            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
         </section>
         {% endfor %}
     </div>
