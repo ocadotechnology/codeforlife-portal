@@ -73,19 +73,23 @@ def organisation_fuzzy_lookup_new(request):
             schools = schools.filter(Q(name__icontains=part) | Q(postcode__icontains=part))
 
         for school in schools:
-            admins = Teacher.objects.filter(school=school, is_admin=True)
-            admin = admins.first()
-            if admin:
-                email = admin.new_user.email
-                admin_domain = '*********' + email[email.find('@'):]
-                school_data.append({
-                    'id': school.id,
-                    'name': school.name,
-                    'postcode': school.postcode,
-                    'admin_domain': admin_domain
-                })
+            search_school(school, school_data)
 
     return HttpResponse(json.dumps(school_data), content_type="application/json")
+
+
+def search_school(school, school_data):
+    admins = Teacher.objects.filter(school=school, is_admin=True)
+    admin = admins.first()
+    if admin:
+        email = admin.new_user.email
+        admin_domain = '*********' + email[email.find('@'):]
+        school_data.append({
+            'id': school.id,
+            'name': school.name,
+            'postcode': school.postcode,
+            'admin_domain': admin_domain
+        })
 
 
 @login_required(login_url=reverse_lazy('login_new'))
@@ -100,8 +104,8 @@ def organisation_create_new(request):
     should_use_captcha = (limits['ip'][0] >= captcha_limit)
 
     OrganisationJoinFormWithCaptcha = partial(create_form_subclass_with_recaptcha(OrganisationJoinForm, recaptcha_client), request)
-    InputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
-    OutputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
+    InputOrganisationJoinForm = compute_input_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, using_captcha)
+    OutputOrganisationJoinForm = compute_output_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, should_use_captcha)
 
     teacher = request.user.new_teacher
 
@@ -138,37 +142,10 @@ def organisation_create_new(request):
 
         elif 'join_organisation' in request.POST:
             increment_count = True
-            join_form = InputOrganisationJoinForm(request.POST)
-            if join_form.is_valid():
-                school = get_object_or_404(School, id=join_form.cleaned_data['chosen_org'])
+            process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganisationJoinForm)
 
-                teacher.pending_join_request = school
-                teacher.save()
-
-                emailMessage = emailMessages.joinRequestPendingEmail(request, teacher.new_user.email)
-
-                for admin in Teacher.objects.filter(school=school, is_admin=True):
-                    send_email(NOTIFICATION_EMAIL, [admin.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-                emailMessage = emailMessages.joinRequestSentEmail(request, school.name)
-                send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-                messages.success(request, 'Your request to join the school or club has been sent successfully.')
-
-                return render(request, 'redesign/teach_new/onboarding_join_pending.html',
-                              {'school': school,
-                               'teacher': teacher})
-
-            else:
-                join_form = OutputOrganisationJoinForm(request.POST)
-
-        elif 'revoke_join_request' in request.POST:
-            teacher.pending_join_request = None
-            teacher.save()
-
-            messages.success(request, 'Your request to join the school or club has been revoked successfully.')
-
-            return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
+        else:
+            return process_revoke_request(request, teacher)
 
     res = render(request, 'redesign/teach_new/onboarding_school.html', {
         'create_form': create_form,
@@ -178,6 +155,56 @@ def organisation_create_new(request):
 
     res.count = increment_count
     return res
+
+
+def compute_input_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, using_captcha):
+    InputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
+    return InputOrganisationJoinForm
+
+
+def compute_output_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, should_use_captcha):
+    OutputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
+    return OutputOrganisationJoinForm
+
+
+def send_pending_requests_emails(school, email_message):
+    for admin in Teacher.objects.filter(school=school, is_admin=True):
+        send_email(NOTIFICATION_EMAIL, [admin.new_user.email], email_message['subject'], email_message['message'])
+
+
+def process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganisationJoinForm):
+    join_form = InputOrganisationJoinForm(request.POST)
+    if join_form.is_valid():
+        school = get_object_or_404(School, id=join_form.cleaned_data['chosen_org'])
+
+        teacher.pending_join_request = school
+        teacher.save()
+
+        email_message = emailMessages.joinRequestPendingEmail(request, teacher.new_user.email)
+
+        send_pending_requests_emails(school, email_message)
+
+        email_message = emailMessages.joinRequestSentEmail(request, school.name)
+        send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], email_message['subject'], email_message['message'])
+
+        messages.success(request, 'Your request to join the school or club has been sent successfully.')
+
+        return render(request, 'redesign/teach_new/onboarding_join_pending.html',
+                      {'school': school,
+                       'teacher': teacher})
+
+    else:
+        join_form = OutputOrganisationJoinForm(request.POST)
+
+
+def process_revoke_request(request, teacher):
+    if 'revoke_join_request' in request.POST:
+        teacher.pending_join_request = None
+        teacher.save()
+
+        messages.success(request, 'Your request to join the school or club has been revoked successfully.')
+
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
 
 @login_required(login_url=reverse_lazy('login_new'))
@@ -227,167 +254,4 @@ def organisation_teacher_view(request, is_admin):
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_manage_new(request):
-    teacher = request.user.new_teacher
-
-    # if teacher.school:
-    #     return organisation_teacher_view(request, teacher.is_admin)
-    # else:
     return organisation_create_new(request)
-
-
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_leave(request):
-    teacher = request.user.new_teacher
-
-    # check not admin
-    if teacher.is_admin:
-        raise Http404
-
-    if request.method == 'POST':
-        classes = Class.objects.filter(teacher=teacher)
-        for klass in classes:
-            teacher_id = request.POST.get(klass.access_code, None)
-            if teacher_id:
-                new_teacher = get_object_or_404(Teacher, id=teacher_id)
-                klass.teacher = new_teacher
-                klass.save()
-
-    classes = Class.objects.filter(teacher=teacher)
-    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
-
-    if classes.exists():
-        messages.info(request, 'You still have classes, you must first move them to another teacher within your school or club.')
-        return render(request, 'portal/teach/teacher_move_all_classes.html', {
-            'original_teacher': teacher,
-            'classes': classes,
-            'teachers': teachers,
-            'submit_button_text': 'Move classes and leave',
-        })
-
-    teacher.school = None
-    teacher.save()
-
-    messages.success(request, 'You have successfully left the school or club.')
-
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
-
-
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_kick(request, pk):
-    teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
-
-    # check not trying to kick self
-    if teacher == user:
-        raise Http404
-
-    # check authorised to kick teacher
-    if teacher.school != user.school or not user.is_admin:
-        raise Http404
-
-    if request.method == 'POST':
-        classes = Class.objects.filter(teacher=teacher)
-        for klass in classes:
-            teacher_id = request.POST.get(klass.access_code, None)
-            if teacher_id:
-                new_teacher = get_object_or_404(Teacher, id=teacher_id)
-                klass.teacher = new_teacher
-                klass.save()
-
-    classes = Class.objects.filter(teacher=teacher)
-    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
-
-    if classes.exists():
-        messages.info(request, 'This teacher still has classes assigned to them. You must first move them to another teacher in your school or club.')
-        return render(request, 'portal/teach/teacher_move_all_classes.html', {
-            'original_teacher': teacher,
-            'classes': classes,
-            'teachers': teachers,
-            'submit_button_text': 'Remove teacher',
-        })
-
-    teacher.school = None
-    teacher.save()
-
-    messages.success(request, 'The teacher has been successfully removed from your school or club.')
-
-    emailMessage = emailMessages.kickedEmail(request, user.school.name)
-
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
-
-
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_toggle_admin(request, pk):
-    teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
-
-    # check user has authority to change
-    if teacher.school != user.school or not user.is_admin:
-        raise Http404
-
-    # check not trying to change self
-    if user == teacher:
-        raise Http404
-
-    teacher.is_admin = not teacher.is_admin
-    teacher.save()
-
-    if teacher.is_admin:
-        messages.success(request, 'Administrator status has been given successfully.')
-        emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
-    else:
-        messages.success(request, 'Administrator status has been revoked successfully.')
-        emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
-
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
-
-
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_allow_join(request, pk):
-    teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
-
-    # check user has authority to accept teacher
-    if teacher.pending_join_request != user.school or not user.is_admin:
-        raise Http404
-
-    teacher.school = teacher.pending_join_request
-    teacher.pending_join_request = None
-    teacher.is_admin = False
-    teacher.save()
-
-    messages.success(request, 'The teacher has been added to your school or club.')
-
-    emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
-
-
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_deny_join(request, pk):
-    teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
-
-    # check user has authority to accept teacher
-    if teacher.pending_join_request != user.school or not user.is_admin:
-        raise Http404
-
-    teacher.pending_join_request = None
-    teacher.save()
-
-    messages.success(request, 'The request to join your school or club has been successfully denied.')
-
-    emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))

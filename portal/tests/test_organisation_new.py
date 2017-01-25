@@ -104,10 +104,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         n = 12
 
-        emails = ['' for i in range(n)]
-        passwords = ['' for i in range(n)]
-        names = ['' for i in range(n)]
-        postcodes = ['' for i in range(n)]
+        emails, passwords, names, postcodes = self.initialise_data(n)
 
         for i in range(n):
             emails[i], passwords[i] = signup_teacher_directly()
@@ -123,3 +120,11 @@ class TestOrganisation(BaseTest, BasePage):
         page = page.join_organisation(names[n - 1])
         assert page.__class__.__name__ == 'OnboardingRevokeRequestPage'
         assert page.check_organisation_name(names[n - 1], postcodes[n - 1])
+
+    def initialise_data(self, n):
+        emails = ['' for i in range(n)]
+        passwords = ['' for i in range(n)]
+        names = ['' for i in range(n)]
+        postcodes = ['' for i in range(n)]
+
+        return emails, passwords, names, postcodes

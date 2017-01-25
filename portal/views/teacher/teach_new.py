@@ -113,17 +113,10 @@ def teacher_class_new(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
-    # Check which students are logged in
-    logged_in_students = klass.get_logged_in_students()
-    for student in students:
-        if logged_in_students.filter(id=student.id).exists():
-            student.logged_in = True
-        else:
-            student.logged_in = False
 
-    # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_logged_in_students(klass, students)
+
+    check_user_is_authorised(request, klass)
 
     if request.method == 'POST':
         new_students_form = StudentCreationForm(klass, request.POST)
@@ -153,6 +146,22 @@ def teacher_class_new(request, access_code):
                    'classes': classes,
                    'students': students,
                    'num_students': len(students)})
+
+
+def check_logged_in_students(klass, students):
+    # Check which students are logged in
+    logged_in_students = klass.get_logged_in_students()
+    for student in students:
+        if logged_in_students.filter(id=student.id).exists():
+            student.logged_in = True
+        else:
+            student.logged_in = False
+
+
+def check_user_is_authorised(request, klass):
+    # check user authorised to see class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
 
 
 @login_required(login_url=reverse_lazy('home_new'))
@@ -227,17 +236,7 @@ def teacher_print_reminder_cards(request, access_code):
     # if given, else display everyone in the class without passwords
     student_data = []
 
-    if request.method == 'POST':
-        student_data = json.loads(request.POST.get('data', '[]'))
-
-    else:
-        students = Student.objects.filter(class_field=klass)
-
-        for student in students:
-            student_data.append({
-                'name': student.new_user.first_name,
-                'password': '__________',
-            })
+    student_data = get_student_data(request, klass, student_data)
 
     # Now draw everything
     x = 0
@@ -314,14 +313,35 @@ def teacher_print_reminder_cards(request, access_code):
         p.drawImage(character['image'], inner_left + CARD_INNER_WIDTH - character['width'], inner_bottom, character['width'], character['height'], mask='auto')
 
         x = (x + 1) % NUM_X
-        if x == 0:
-            y = (y + 1) % NUM_Y
-            if y == 0:
-                p.showPage()
+        compute_show_page(p, x, y, NUM_Y)
         current_student_count += 1
 
-    if x != 0 or y != 0:
-        p.showPage()
+    compute_show_page(p, x, y, NUM_Y)
 
     p.save()
     return response
+
+
+def get_student_data(request, klass, student_data):
+    if request.method == 'POST':
+        student_data = json.loads(request.POST.get('data', '[]'))
+
+    else:
+        students = Student.objects.filter(class_field=klass)
+
+        for student in students:
+            student_data.append({
+                'name': student.new_user.first_name,
+                'password': '__________',
+            })
+
+    return student_data
+
+
+def compute_show_page(p, x, y, NUM_Y):
+    if x == 0:
+        y = (y + 1) % NUM_Y
+        if y == 0:
+            p.showPage()
+    elif x != 0 or y != 0:
+        p.showPage()
