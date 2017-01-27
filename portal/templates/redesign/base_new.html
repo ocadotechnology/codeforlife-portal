@@ -13,7 +13,7 @@
 
     <title>{% block title %}Code for Life{% endblock %}</title>
     <meta name="msapplication-config" content="none"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     {% block head %}
     {% endblock head %}
@@ -29,6 +29,7 @@
     {% cache 3600 fragment-base_new-javascript %}
     <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
+    <script type='text/javascript' src='{% static "portal/js/bootstrap.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
     <script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
@@ -81,15 +82,36 @@
 <div {% block pageID %}id='contentWrapper'{% endblock %}>
     {% block topBar %}
     <a href="{% url 'home_new' %}"><img class="logo col-sm-offset-1"></a>
-    <div class="menu">
-        <a href="{% url 'home_new' %}" class="button--regular button--secondary button--secondary--no-border col-sm-offset-2 home-icon"><div class="glyphicon glyphicon-home"></div></a>
-        {% block menuButtons %}
-        {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
-        {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary button--menu--enabled">Students</a>{% endblock nav_play %}
-        <a href="{% url 'register_new' %}" id="signup-button" class="button--regular button--primary--general-play col-sm-offset-3 register">Register now</a>
-        <a href="{% url 'login_new' %}" id="login-button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
-        {% endblock menuButtons %}
+    <div class="menu col-sm-12">
+        <div class="menu__left-side col-sm-6 col-sm-offset-2">
+            <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
+            <a href="{% url 'home_new' %}"><img class="logo-horizontal" src='{% static "portal/img_new/logo-horizontal.png" %}'></a>
+            <a href="{% url 'home_new' %}" class="button--regular button--secondary button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
+            {% block leftMenuButtons %}
+            {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+            {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary button--menu--enabled">Students</a>{% endblock nav_play %}
+            {% endblock leftMenuButtons %}
+        </div>
+        <div class="menu__right-side col-sm-4">
+            {% block rightMenuButtons %}
+            <a href="{% url 'register_new' %}" id="signup-button" class="button--regular button--primary--general-play register">Register now</a>
+            <a href="{% url 'login_new' %}" id="login-button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            {% endblock rightMenuButtons %}
+        </div>
     </div>
+    <div id="menu-items" class="collapse">
+        <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+        <div id="teacher-tabs" class="collapse">
+            <button class="button--menu__item button--menu__item__sub">School / Club</button>
+            <button class="button--menu__item button--menu__item__sub">Rapid Router</button>
+            <button class="button--menu__item button--menu__item__sub">Resources</button>
+        </div>
+        <button class="button--menu__item">Student</button>
+        <button class="button--menu__item">About</button>
+        <button class="button--menu__item">Help and support</button>
+        <button class="button--menu__item">Terms of use</button>
+    </div>
+</div>
     {% endblock topBar %}
     {% block subNav %}
     {% endblock subNav %}
