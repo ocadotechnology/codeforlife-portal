@@ -44,11 +44,6 @@
                 {{ signup_form.email }}
                 {{ signup_form.email.errors }}
 
-                <div class='password-strength-bar-container'>
-                    <div class='password-strength-bar'></div>
-                    <div class='password-strength-text'></div>
-                </div>
-
                 <label for="id_signup-password">{{ signup_form.password.label }}</label>
                 {{ signup_form.password }}
                 {{ signup_form.password.errors }}
@@ -57,9 +52,14 @@
                 {{ signup_form.confirm_password }}
                 {{ signup_form.confirm_password.errors }}
 
-                <p class="small-text no-password"><i>No password</i></p>
+                <div class="row--under">
+                    <div class="password-strength-container">
+                        <div class='password-strength-sign'></div>
+                        <div class='password-strength-text'></div>
+                    </div>
+                </div>
 
-                <button class="button--regular button--primary--general-educate" type="submit" name="signup">Register</button>
+                <button class="button--big button--primary--general-educate" type="submit" name="signup">Register</button>
             </form>
 
         </div>
@@ -84,5 +84,11 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength_new.js' %}"></script>
+<script>
+    var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
+    var PASSWORD_TYPE = 'TEACHER';
+</script>
 
 {% endblock content %}
