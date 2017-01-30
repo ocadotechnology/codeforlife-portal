@@ -132,11 +132,11 @@ class BasePage(object):
         return teach_page.TeachPage(self.browser)
 
     def go_to_login_page(self):
-        self.browser.find_element_by_id('login-button').click()
+        self.browser.find_element_by_id('login_button').click()
         return login_page.LoginPage(self.browser)
 
     def go_to_signup_page(self):
-        self.browser.find_element_by_id('signup-button').click()
+        self.browser.find_element_by_id('signup_button').click()
         return signup_page.SignupPage(self.browser)
 
     def go_to_terms_page(self):
@@ -154,6 +154,16 @@ class BasePage(object):
 
     def is_on_403_forbidden(self):
         return self.on_correct_page('403_forbidden')
+
+    def was_form_empty(self, formID):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser \
+            .find_element_by_id(formID) \
+            .find_element_by_class_name('errorlist').text
+        error = 'This field is required'
+        return error in errors
 
 
 import about_page

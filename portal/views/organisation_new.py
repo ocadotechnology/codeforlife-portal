@@ -189,7 +189,7 @@ def process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganis
 
         messages.success(request, 'Your request to join the school or club has been sent successfully.')
 
-        return render(request, 'redesign/teach_new/onboarding_join_pending.html',
+        return render(request, 'redesign/teach_new/onboarding_school.html',
                       {'school': school,
                        'teacher': teacher})
 

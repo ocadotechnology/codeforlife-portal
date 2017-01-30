@@ -44,5 +44,5 @@ class HomePage(BasePage):
         assert self.on_correct_page('home_page_new')
 
     def go_to_login_page(self):
-        self.browser.find_element_by_id('login-button').click()
+        self.browser.find_element_by_id('login_button').click()
         return login_page.LoginPage(self.browser)

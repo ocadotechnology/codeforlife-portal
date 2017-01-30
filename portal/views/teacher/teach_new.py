@@ -83,7 +83,7 @@ def teacher_classes_new(request):
             created_class = create_class_new(form, teacher)
             messages.success(request, "The class '{className}' has been created successfully."
                              .format(className=created_class.name))
-        return HttpResponseRedirect(reverse_lazy('onboarding-class', kwargs={'access_code': created_class.access_code}))
+            return HttpResponseRedirect(reverse_lazy('onboarding-class', kwargs={'access_code': created_class.access_code}))
     else:
         form = ClassCreationForm(initial={'classmate_progress': 'False'})
 

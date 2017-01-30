@@ -34,47 +34,46 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+from datetime import timedelta
 
-import class_page
-import onboarding_students_page
+from django.utils import timezone
+from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages as messages
 
-from teach_base_page_new import TeachBasePage
+from portal.models import EmailVerification
 
 
-class OnboardingClassesPage(TeachBasePage):
-    def __init__(self, browser):
-        super(OnboardingClassesPage, self).__init__(browser)
+def verify_email_new(request, token):
+    verifications = EmailVerification.objects.filter(token=token)
 
-        assert self.on_correct_page('onboarding_classes_page')
+    if has_verification_failed(verifications):
+        return render(request, 'redesign/email_verification_failed_new.html')
 
-    def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_name').send_keys(name)
-        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
+    verification = verifications[0]
 
-        self._click_create_class_button()
+    verification.verified = True
+    verification.save()
 
-        return onboarding_students_page.OnboardingStudentsPage(self.browser)
+    user = verification.user
 
-    def create_class_empty(self):
-        self._click_create_class_button()
+    if verification.email:  # verifying change of email address
+        user.email = verification.email
+        user.save()
 
-        return self
+        user.email_verifications.exclude(email=user.email).delete()
 
-    def _click_create_class_button(self):
-        self.browser.find_element_by_id('create_class_button').click()
+    messages.success(request, 'Your email address was successfully verified, please log in.')
 
-    def have_classes(self):
-        return self.element_exists_by_id('add_students')
+    if hasattr(user.userprofile, 'student'):
+        return HttpResponseRedirect(reverse_lazy('play_new'))
+    if hasattr(user.userprofile, 'teacher'):
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
-    def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('add_students')
+    # default to homepage if something goes wrong
+    return HttpResponseRedirect(reverse_lazy('home_new'))
 
-    def does_class_exist(self, name, access_code):
-        return self.have_classes() and \
-               (name in self.browser.find_element_by_id('classes_table').text) and \
-               (access_code in self.browser.find_element_by_id('classes_table').text)
 
-    def go_to_class_page(self, name):
-        self.browser.find_element_by_xpath("//table[@id='classes_table']//a[contains(text(),'%s')]" % name).click()
-        return class_page.TeachClassPage(self.browser)
+def has_verification_failed(verifications):
+    return len(verifications) != 1 or verifications[0].verified or (verifications[0].expiry - timezone.now()) < timedelta()

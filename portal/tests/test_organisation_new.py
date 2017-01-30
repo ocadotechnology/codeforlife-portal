@@ -56,6 +56,26 @@ class TestOrganisation(BaseTest, BasePage):
         page, name, postcode = create_organisation(page, password)
         assert is_organisation_created_message_showing(selenium, name)
 
+    def test_create_empty(self):
+        email, password = signup_teacher_directly()
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login_no_school(email, password)
+
+        page = page.create_organisation_empty()
+        assert page.was_form_empty('form-create-organisation')
+
+    def test_join_empty(self):
+        email, password = signup_teacher_directly()
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .login_no_school(email, password) \
+            .join_empty_organisation()
+
+        assert page.__class__.__name__ == 'OnboardingOrganisationPage'
+
     def test_create_clash(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()

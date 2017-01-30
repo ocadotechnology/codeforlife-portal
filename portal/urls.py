@@ -44,7 +44,7 @@ from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, S
 
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.permissions import teacher_verified
-from portal.views.email import verify_email, verify_email_new
+from portal.views.email import verify_email
 from portal.views.home import teach, play, contact, current_user, logout_view, home_view
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
     organisation_leave, organisation_kick, organisation_toggle_admin, organisation_allow_join, \
@@ -65,6 +65,7 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
+from portal.views.email_new import verify_email_new
 from portal.views.home_new import login_view, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_class_students

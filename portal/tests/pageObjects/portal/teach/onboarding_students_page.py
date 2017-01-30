@@ -60,6 +60,11 @@ class OnboardingStudentsPage(TeachBasePage):
 
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
+    def create_students_empty(self):
+        self._click_create_students()
+
+        return self
+
     def create_students_failure(self):
         self._click_create_students()
 
@@ -72,7 +77,7 @@ class OnboardingStudentsPage(TeachBasePage):
         if not self.element_exists_by_css('.errorlist'):
             return False
 
-        error_list = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist')
+        error_list = self.browser.find_element_by_id('form-create-students').find_element_by_class_name('errorlist')
 
         if error_list.text:
             return True
@@ -83,7 +88,7 @@ class OnboardingStudentsPage(TeachBasePage):
         if not self.element_exists_by_css('.errorlist'):
             return False
 
-        errors = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
+        errors = self.browser.find_element_by_id('form-create-students').find_element_by_class_name('errorlist').text
         error = "There is already a student called '{0}' in this class".format(name)
         return error in errors
 
@@ -91,7 +96,7 @@ class OnboardingStudentsPage(TeachBasePage):
         if not self.element_exists_by_css('.errorlist'):
             return False
 
-        errors = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
+        errors = self.browser.find_element_by_id('form-create-students').find_element_by_class_name('errorlist').text
         error = "You cannot add more than one student called '{0}'".format(name)
         return error in errors
 

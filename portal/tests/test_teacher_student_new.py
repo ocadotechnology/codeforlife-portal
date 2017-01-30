@@ -57,6 +57,16 @@ class TestTeacherStudent(BaseTest):
         page, student_name = create_school_student(page)
         assert page.student_exists(student_name)
 
+    def test_create_empty(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password).create_students_empty()
+
+        assert page.was_form_empty('form-create-students')
+
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
@@ -69,3 +79,17 @@ class TestTeacherStudent(BaseTest):
 
         for student_name in student_names:
             assert page.student_exists(student_name)
+
+    def test_create_duplicate(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        student_name = 'bob'
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
+
+        page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
+        assert page.adding_students_failed()
+        assert page.duplicate_students(student_name)
