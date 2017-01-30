@@ -377,6 +377,10 @@ a[class^='button']:visited {
   @include _padding(0px, 0px, 20px, 0px);
 }
 
+.row--flex {
+  display: flex;
+}
+
 .image-row {
   display: table-cell;
   vertical-align: bottom;
@@ -1179,7 +1183,7 @@ td {
 @media (min-width: 768px) {
 
   .logo {
-    content: url('../img_new/logo.png');
+    content: url('../img_new/logo_c4l_hexa.png');
     position: fixed;
     top: 10px;
     z-index: 3;
@@ -1300,6 +1304,7 @@ td {
     }
 
     .button--secondary--dark {
+      @include _margin(0px, 0px, 0px, 30px);
       background-color: $color-background-secondary;
     }
 
@@ -1316,7 +1321,7 @@ td {
   }
 
   .menu__right-side {
-    @include _padding(0px, 0px, 10px, 0px);
+    @include _padding(10px, 0px, 10px, 0px);
     align-items: center;
     display: inline-flex;
     float: right;
