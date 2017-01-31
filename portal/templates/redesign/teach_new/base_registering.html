@@ -1,4 +1,6 @@
 {% extends 'redesign/base_new.html' %}
+{% load staticfiles %}
+{% load app_tags %}
 
 {% block secondaryButtons %}
 <a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>
@@ -7,4 +9,28 @@
 {% endblock secondaryButtons %}
 
 {% block content %}
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows">
+        <div class="onboarding__step onboarding__step--done">
+            <p class="body-text"><img src='{% static "portal/img_new/step_done.png" %}'>Account created</p>
+        </div>
+        <div class="onboarding__step onboarding__step--in-progress">
+            <p class="body-text"><img src='{% static "portal/img_new/step_in_progress.png" %}'>Create/Join a school</p>
+        </div>
+        <div class="onboarding__step onboarding__step--todo">
+            <p class="body-text"><img src='{% static "portal/img_new/step_undone.png" %}'>Create class</p>
+        </div>
+        <div class="onboarding__step onboarding__step--todo">
+            <p class="body-text"><img src='{% static "portal/img_new/step_undone.png" %}'>Add students</p>
+        </div>
+        <div class="onboarding__step onboarding__step--todo">
+            <p class="body-text"><img src='{% static "portal/img_new/step_undone.png" %}'>Print student IDs</p>
+        </div>
+        <div class="onboarding__step onboarding__step--todo">
+            <p class="body-text"><img src='{% static "portal/img_new/step_undone.png" %}'>Setup complete</p>
+        </div>
+    </div>
+</div>
 {% endblock content %}

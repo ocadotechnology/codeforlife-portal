@@ -1,4 +1,4 @@
-{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% extends 'redesign/teach_new/base_registering.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
@@ -38,60 +38,6 @@
 
 <div id="onboarding_student_list_page"></div>
 
-<div class="banner banner--teacher--plain">
-    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
-    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
-    <div class="arrows col-sm-offset-1">
-        <div class="progress-arrow">
-            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
-            <div class="progress-arrow__body progress-arrow__body--done">
-                <img src='{% static "portal/img_new/step_done.png" %}'>
-                <p class="body-text">Account created</p>
-            </div>
-            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
-        </div>
-        <div class="progress-arrow">
-            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
-            <div class="progress-arrow__body progress-arrow__body--done">
-                <img src='{% static "portal/img_new/step_done.png" %}'>
-                <p class="body-text">Join a school</p>
-            </div>
-            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
-        </div>
-        <div class="progress-arrow">
-            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
-            <div class="progress-arrow__body progress-arrow__body--done">
-                <img src='{% static "portal/img_new/step_done.png" %}'>
-                <p class="body-text">Classes</p>
-            </div>
-            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
-        </div>
-        <div class="progress-arrow">
-            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_blue_back.png" %}'>
-            <div class="progress-arrow__body progress-arrow__body--done">
-                <img src='{% static "portal/img_new/step_done.png" %}'>
-                <p class="body-text">Students added</p>
-            </div>
-            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_blue_front.png" %}'>
-        </div>
-        <div class="progress-arrow">
-            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_white_back.png" %}'>
-            <div class="progress-arrow__body progress-arrow__body--in-progress">
-                <img src='{% static "portal/img_new/step_in_progress.png" %}'>
-                <p class="body-text">Print student IDs</p>
-            </div>
-            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_white_front.png" %}'>
-        </div>
-        <div class="progress-arrow">
-            <img class="progress-arrow__back" src='{% static "portal/img_new/arrow_grey_back.png" %}'>
-            <div class="progress-arrow__body progress-arrow__body--undone">
-                <img src='{% static "portal/img_new/step_undone.png" %}'>
-                <p class="body-text">Setup complete</p>
-            </div>
-            <img class="progress-arrow__front" src='{% static "portal/img_new/arrow_grey_front.png" %}'>
-        </div>
-    </div>
-</div>
 <div class="sub-nav sub-nav--warning">
     <div class="row">
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>

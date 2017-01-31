@@ -896,73 +896,7 @@ form {
 
 .arrows {
   @include _padding(20px, 0px, 0px, 0px);
-}
-
-.progress-arrow {
-  @include _margin(0px, -10px, 0px, 0px);
-  display: inline-block;
-
-  img {
-    max-width: none;
-  }
-
-  * {
-    display: inline-block;
-  }
-
-}
-
-.progress-arrow__back {
-  @include _margin(0px, -3px, 0px, 0px);
-}
-
-.progress-arrow__body {
-  @include _margin(0px, -3px, 0px, 0px);
-  @include _padding(5px, 10px, 17px, 15px);
-  height: 50px;
-  text-align: left;
-  width: 215px;
-
-  * {
-    display: inline-block;
-  }
-
-  p {
-    @include _padding(0px, 0px, 0px, 10px);
-  }
-
-}
-
-.progress-arrow__body--undone {
-  background-color: $color-background-tertiary;
-  border-bottom: 1px solid $color-background-tertiary;
-  border-top: 1px solid $color-background-tertiary;
-
-  p {
-    color: $color-text-secondary;
-  }
-
-}
-
-.progress-arrow__body--in-progress {
-  background-color: $color-background-secondary;
-  border-bottom: 1px solid $color-background-secondary;
-  border-top: 1px solid $color-background-secondary;
-
-  p {
-    color: $color-text-tertiary;
-  }
-}
-
-.progress-arrow__body--done {
-  background-color: $color-background-teach;
-  border-bottom: 1px solid $color-background-secondary;
-  border-top: 1px solid $color-background-secondary;
-
-  p {
-    color: $color-text-secondary;
-  }
-
+  text-align: center;
 }
 
 .onboarding__step {
@@ -1016,7 +950,11 @@ form {
 
 .onboarding__step--in-progress {
   background: $color-onboarding-step-in-progress-background;
-  color: $color-onboarding-step-in-progress-text;
+
+  p {
+    color: $color-onboarding-step-in-progress-text;
+  }
+
 }
 
 .onboarding__step--in-progress:before {
