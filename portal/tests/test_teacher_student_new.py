@@ -38,9 +38,9 @@ from base_test_new import BaseTest
 
 from portal.tests.pageObjects.portal.home_page_new import HomePage
 from utils.teacher_new import signup_teacher_directly
-from utils.organisation_new import create_organisation_directly, join_teacher_to_organisation
-from utils.classes_new import create_class_directly, move_students, dismiss_students
-from utils.student_new import create_school_student, create_many_school_students, create_school_student_directly
+from utils.organisation_new import create_organisation_directly
+from utils.classes_new import create_class_directly
+from utils.student_new import create_school_student, create_many_school_students
 
 from django_selenium_clean import selenium
 

@@ -209,49 +209,5 @@ def process_revoke_request(request, teacher):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_teacher_view(request, is_admin):
-    teacher = request.user.new_teacher
-    school = teacher.school
-
-    coworkers = Teacher.objects.filter(school=school).order_by('new_user__last_name', 'new_user__first_name')
-
-    join_requests = Teacher.objects.filter(pending_join_request=school).order_by('new_user__last_name', 'new_user__first_name')
-
-    form = OrganisationForm(user=request.user, current_school=school)
-    form.fields['name'].initial = school.name
-    form.fields['postcode'].initial = school.postcode
-    form.fields['country'].initial = school.country
-
-    if request.method == 'POST' and is_admin:
-        form = OrganisationForm(request.POST, user=request.user, current_school=school)
-        if form.is_valid():
-            data = form.cleaned_data
-            name = data.get('name', '')
-            postcode = data.get('postcode', '')
-            country = data.get('country', '')
-
-            school.name = name
-            school.postcode = postcode
-            school.country = country
-
-            error, country, town, lat, lng = lookup_coord(postcode, country)
-            school.town = town
-            school.latitude = lat
-            school.longitude = lng
-            school.save()
-
-            messages.success(request, 'You have updated the details for your school or club successfully.')
-
-    return render(request, 'portal/teach/organisation_manage.html', {
-        'teacher': teacher,
-        'is_admin': is_admin,
-        'coworkers': coworkers,
-        'join_requests': join_requests,
-        'form': form,
-    })
-
-
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_manage_new(request):
     return organisation_create_new(request)

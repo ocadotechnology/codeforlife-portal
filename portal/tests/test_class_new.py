@@ -36,12 +36,10 @@
 # identified as the original program.
 from base_test_new import BaseTest
 
-from portal.tests.pageObjects.portal.home_page_new import HomePage
 from utils.teacher_new import signup_teacher_directly
-from utils.organisation_new import create_organisation_directly, join_teacher_to_organisation
-from utils.classes_new import create_class, create_class_directly, transfer_class
-from utils.student import create_school_student_directly
-from utils.messages import is_class_created_message_showing, is_class_nonempty_message_showing
+from utils.organisation_new import create_organisation_directly
+from utils.classes_new import create_class
+from utils.messages import is_class_created_message_showing
 
 from django_selenium_clean import selenium
 

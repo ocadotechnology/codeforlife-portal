@@ -34,12 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import re
-import time
 
-from django.core import mail
 from django_selenium_clean import selenium
-from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test_new import BaseTest
 from pageObjects.portal.home_page_new import HomePage
@@ -47,8 +43,7 @@ from utils.teacher_new import signup_teacher, signup_teacher_directly
 from utils.organisation_new import create_organisation_directly
 from utils.classes_new import create_class_directly
 from utils.student_new import create_school_student_directly
-from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
-from utils import email as email_utils
+from utils.messages import is_email_verified_message_showing
 
 
 class TestTeacher(BaseTest):

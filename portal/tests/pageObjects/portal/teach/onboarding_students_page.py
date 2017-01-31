@@ -84,14 +84,6 @@ class OnboardingStudentsPage(TeachBasePage):
         else:
             return False
 
-    def student_already_existed(self, name):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
-
-        errors = self.browser.find_element_by_id('form-create-students').find_element_by_class_name('errorlist').text
-        error = "There is already a student called '{0}' in this class".format(name)
-        return error in errors
-
     def duplicate_students(self, name):
         if not self.element_exists_by_css('.errorlist'):
             return False
@@ -103,16 +95,3 @@ class OnboardingStudentsPage(TeachBasePage):
     def type_student_name(self, name):
         self.browser.find_element_by_id('id_names').send_keys(name + '\n')
         return self
-
-
-class OrFunction:
-    def __init__(self, *functions):
-        self.functions = functions
-
-    def __call__(self, driver):
-        for function in self.functions:
-            try:
-                return function(driver)
-            except NoSuchElementException:
-                pass
-        raise NoSuchElementException()

@@ -45,20 +45,5 @@ class OnboardingStudentListPage(TeachBasePage):
 
         assert self.on_correct_page('onboarding_student_list_page')
 
-    def extract_password(self, name):
-        return self.browser.find_element_by_id('student_table').find_element_by_xpath("(//td[contains(text(),'{0}')]/..//td)[2]".format(name)).text
-
-    def has_students(self):
-        return self.element_exists_by_id('student_table')
-
-    def does_not_have_students(self):
-        return self.element_does_not_exist_by_id('student_table')
-
     def student_exists(self, name):
         return name in self.browser.find_element_by_id('student_table').text
-
-    def student_does_not_exist(self, name):
-        return self.element_does_not_exist_by_xpath(self.students_xpath(name))
-
-    def students_xpath(self, name):
-        return "//table[@id='student_table']//a[contains(text(),'{0}')]".format(name)

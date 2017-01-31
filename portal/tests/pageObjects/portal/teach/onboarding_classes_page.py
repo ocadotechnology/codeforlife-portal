@@ -64,17 +64,5 @@ class OnboardingClassesPage(TeachBasePage):
     def _click_create_class_button(self):
         self.browser.find_element_by_id('create_class_button').click()
 
-    def have_classes(self):
-        return self.element_exists_by_id('add_students')
-
     def does_not_have_classes(self):
         return self.element_does_not_exist_by_id('add_students')
-
-    def does_class_exist(self, name, access_code):
-        return self.have_classes() and \
-               (name in self.browser.find_element_by_id('classes_table').text) and \
-               (access_code in self.browser.find_element_by_id('classes_table').text)
-
-    def go_to_class_page(self, name):
-        self.browser.find_element_by_xpath("//table[@id='classes_table']//a[contains(text(),'%s')]" % name).click()
-        return class_page.TeachClassPage(self.browser)
