@@ -25,6 +25,13 @@ $color-tab-selected-text: #fff;
 $color-tab-selected-background: #0c52a3;
 $color-tab-unselected-text: #0c52a3;
 $color-tab-unselected-background: #fff;
+//Arrows
+$color-onboarding-step-done-background: #0c52a3;
+$color-onboarding-step-done-text: #fff;
+$color-onboarding-step-in-progress-background: #fff;
+$color-onboarding-step-in-progress-text: #4a4a4a;
+$color-onboarding-step-todo-background: #4a4a4a;
+$color-onboarding-step-todo-text: #fff;
 //Tables
 $color-table-header-primary: #0c52a3;
 $color-table-header-secondary: #4a4a4a;
@@ -956,6 +963,105 @@ form {
     color: $color-text-secondary;
   }
 
+}
+
+.onboarding__step {
+  @include _margin(0px, 12px, 0px, 12px);
+  display: inline-block;
+  height: 50px;
+  position: relative;
+  text-align: center;
+  width: 250px;
+
+  img {
+    @include _margin(0px, 10px, 5px, 25px);
+  }
+
+}
+
+.onboarding__step--done {
+  background: $color-onboarding-step-done-background;
+  border-bottom: 1px solid $color-background-secondary;
+  border-top: 1px solid $color-background-secondary;
+  color: $color-onboarding-step-done-text;
+}
+
+.onboarding__step--done:before {
+  background: transparent;
+  border-right: 1px solid $color-background-secondary;
+  border-top: 1px solid $color-background-secondary;
+  content: "";
+  height: 35px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: rotate(45deg);
+  transform-origin: 0 0;
+  width: 35px;
+}
+
+.onboarding__step--done:after {
+  background: transparent;
+  border-right: 1px solid $color-background-secondary;
+  border-top: 1px solid $color-background-secondary;
+  content: "";
+  height: 35px;
+  position: absolute;
+  right: -35px;
+  top: 0;
+  transform-origin: 0 0;
+  transform: rotate(45deg);
+  width: 35px;
+}
+
+.onboarding__step--in-progress {
+  background: $color-onboarding-step-in-progress-background;
+  color: $color-onboarding-step-in-progress-text;
+}
+
+.onboarding__step--in-progress:before {
+  border-bottom: 25px solid transparent;
+  border-left: 25px solid $color-background-teach;
+  border-top: 25px solid transparent;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.onboarding__step--in-progress:after {
+  border-bottom: 25px solid transparent;
+  border-left: 25px solid $color-onboarding-step-in-progress-background;
+  border-top: 25px solid transparent;
+  content: "";
+  position: absolute;
+  right: -25px;
+  top: 0;
+}
+
+.onboarding__step--todo {
+  background: $color-onboarding-step-todo-background;
+  color: $color-onboarding-step-todo-text;
+}
+
+.onboarding__step--todo:before {
+  border-bottom: 25px solid transparent;
+  border-left: 25px solid $color-background-teach;
+  border-top: 25px solid transparent;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.onboarding__step--todo:after {
+  border-bottom: 25px solid transparent;
+  border-left: 25px solid $color-onboarding-step-todo-background;
+  border-top: 25px solid transparent;
+  content: "";
+  position: absolute;
+  right: -25px;
+  top: 0;
 }
 
 .footer {
