@@ -895,14 +895,19 @@ form {
 }
 
 .arrows {
-  @include _padding(20px, 0px, 0px, 0px);
+  @include _padding(20px, 40px, 0px, 5px);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
   text-align: center;
 }
 
 .onboarding__step {
-  @include _margin(0px, 12px, 0px, 12px);
-  display: inline-block;
+  @include _margin(0px, 8px, 0px, 8px);
+  align-items: center;
+  display: inline-flex;
   height: 50px;
+  justify-content: center;
   position: relative;
   text-align: center;
   width: 250px;
@@ -911,6 +916,12 @@ form {
     @include _margin(0px, 10px, 5px, 25px);
   }
 
+}
+
+.onboarding__step__text {
+  align-items: center;
+  display: inline-flex;
+  justify-items: center;
 }
 
 .onboarding__step--done {
@@ -1267,6 +1278,72 @@ td {
   .button--secondary--background-light {
     color: $color-background-play;
   }
+}
+
+@media (max-width: 1570px) {
+
+  .onboarding__step {
+    height: 76px;
+
+    img {
+      @include _margin(0px, 10px, 5px, 10px);
+    }
+
+    p {
+      @include _margin(0px, 0px, 0px, 0px);
+    }
+
+  }
+
+  .onboarding__step__text {
+    @include _margin(0px, 0px, 0px, 40px);
+  }
+
+  .onboarding__step--done {
+
+    p {
+      @include _margin(0px, -10px, 0px, 0px);
+    }
+
+  }
+
+  .onboarding__step--done:before {
+    height: 53px;
+    width: 53px;
+  }
+
+  .onboarding__step--done:after {
+    height: 53px;
+    right: -53px;
+    width: 53px;
+  }
+
+  .onboarding__step--in-progress:before {
+    border-bottom: 38px solid transparent;
+    border-left: 38px solid $color-background-teach;
+    border-top: 38px solid transparent;
+  }
+
+  .onboarding__step--in-progress:after {
+    border-bottom: 38px solid transparent;
+    border-left: 38px solid $color-onboarding-step-in-progress-background;
+    border-top: 38px solid transparent;
+    right: -38px;
+  }
+
+  .onboarding__step--todo:before {
+    border-bottom: 38px solid transparent;
+    border-left: 38px solid $color-background-teach;
+    border-top: 38px solid transparent;
+  }
+
+  .onboarding__step--todo:after {
+    border-bottom: 38px solid transparent;
+    border-left: 38px solid $color-onboarding-step-todo-background;
+    border-top: 38px solid transparent;
+    right: -38px;
+  }
+
 }
 
 @media (min-width: 1400px) {

@@ -13,34 +13,52 @@
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
     <div class="arrows">
-        <div class="onboarding__step onboarding__step--done">
-            <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img_new/step_done.png" %}'>Account created</p>
-        </div>
-        {% block createJoinSchoolStep %}
-        <div class="onboarding__step onboarding__step--in-progress">
-            <p class="body-text"><img title="In progress" alt="Step in progress" src='{% static "portal/img_new/step_in_progress.png" %}'>Create/Join a school</p>
-        </div>
-        {% endblock createJoinSchoolStep %}
-        {% block createClassStep %}
-        <div class="onboarding__step onboarding__step--todo">
-            <p class="body-text"><img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>Create class</p>
-        </div>
-        {% endblock createClassStep %}
-        {% block addStudentsStep %}
-        <div class="onboarding__step onboarding__step--todo">
-            <p class="body-text"><img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>Add students</p>
-        </div>
-        {% endblock addStudentsStep %}
-        {% block printStudentCardsStep %}
-        <div class="onboarding__step onboarding__step--todo">
-            <p class="body-text"><img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>Print student IDs</p>
-        </div>
-        {% endblock printStudentCardsStep %}
         {% block setupCompleteStep %}
         <div class="onboarding__step onboarding__step--todo">
-            <p class="body-text"><img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>Setup complete</p>
+            <div class="onboarding__step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
         </div>
         {% endblock setupCompleteStep %}
+        {% block printStudentCardsStep %}
+        <div class="onboarding__step onboarding__step--todo">
+            <div class="onboarding__step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+        </div>
+        {% endblock printStudentCardsStep %}
+        {% block addStudentsStep %}
+        <div class="onboarding__step onboarding__step--todo">
+            <div class="onboarding__step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Add students</p>
+            </div>
+        </div>
+        {% endblock addStudentsStep %}
+        {% block createClassStep %}
+        <div class="onboarding__step onboarding__step--todo">
+            <div class="onboarding__step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img_new/step_undone.png" %}'>
+                <p class="body-text">Create class</p>
+            </div>
+        </div>
+        {% endblock createClassStep %}
+        {% block createJoinSchoolStep %}
+        <div class="onboarding__step onboarding__step--in-progress">
+            <div class="onboarding__step__text">
+                <img title="In progress" alt="Step in progress" src='{% static "portal/img_new/step_in_progress.png" %}'>
+                <p class="body-text">Create / Join school</p>
+            </div>
+        </div>
+        {% endblock createJoinSchoolStep %}
+        <div class="onboarding__step onboarding__step--done">
+            <div class="onboarding__step__text">
+                <img title="Done" alt="Step done" src='{% static "portal/img_new/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
