@@ -477,6 +477,22 @@ section {
   background-image: url('../img_new/about_us_hero.jpg');
 }
 
+.banner--picture--help {
+  background-image: url('../img_new/help_and_support_hero.jpg');
+}
+
+.banner--picture--terms,
+.banner--picture--tools {
+  background-image: url('../img_new/teaching_resources.jpg');
+}
+
+.logo {
+  content: url('../img_new/logo_c4l_hexa.png');
+  position: fixed;
+  top: 10px;
+  z-index: 3;
+}
+
 .glyphicon {
   @include _font-size(30px);
   font-weight: 500;
