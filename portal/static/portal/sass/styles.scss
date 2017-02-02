@@ -1290,13 +1290,15 @@ td {
     }
 
     p {
+      @include _line-height(20px);
       @include _margin(0px, 0px, 0px, 0px);
     }
 
   }
 
   .onboarding__step__text {
-    @include _margin(0px, 0px, 0px, 40px);
+    @include _margin(0px, 0px, 0px, 45px);
+    z-index: 1;
   }
 
   .onboarding__step--done {
@@ -1580,12 +1582,46 @@ td {
   }
 
   .banner {
-    @include _padding(80px, 0px, 0px, 0px);
+    @include _padding(10px, 0px, 50px, 0px);
     text-align: center;
 
     p a {
       color: $color-text-secondary;
     }
+  }
+
+  .arrows {
+    @include _padding(0px, 0px, 0px, 15px);
+    flex-direction: column-reverse;
+    text-align: left;
+    width: 95%;
+  }
+
+  .onboarding__step {
+    @include _margin(0px, 8px, 10px, 8px);
+    height: 40px;
+    justify-content: flex-start;
+    width: 100%;
+
+    img {
+      @include _margin(0px, 10px, 5px, 15px);
+      height: 20px;
+      width: 20px;
+    }
+
+  }
+
+  .onboarding__step__text {
+    margin: 0;
+  }
+
+  .onboarding__step--done {
+    border: 1px solid $color-background-secondary;
+  }
+
+  .onboarding__step--todo {
+    background: $color-onboarding-step-todo-background;
+    color: $color-onboarding-step-todo-text;
   }
 
   .col-sm-3 {
@@ -1596,7 +1632,13 @@ td {
   .banner .col-sm-6 .banner--picture,
   .sub-nav--teacher,
   .sub-nav--student,
-  .form__choice {
+  .form__choice,
+  .onboarding__step--done:before,
+  .onboarding__step--done:after,
+  .onboarding__step--in-progress:before,
+  .onboarding__step--in-progress:after,
+  .onboarding__step--todo:before,
+  .onboarding__step--todo:after {
     display: none;
   }
 
