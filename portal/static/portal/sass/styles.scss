@@ -377,10 +377,6 @@ a[class^='button']:visited {
   @include _padding(0px, 0px, 20px, 0px);
 }
 
-.row--flex {
-  display: flex;
-}
-
 .image-row {
   display: table-cell;
   vertical-align: bottom;
@@ -1162,11 +1158,7 @@ td {
 
 }
 
-@media (min-width: 768px) and (max-width: 1400px) {
-
-  .hamburger {
-    display: none;
-  }
+@media (min-width: 760px) and (max-width: 1400px) {
 
   .logo {
     margin-left: 1%;
@@ -1180,7 +1172,7 @@ td {
 
 }
 
-@media (min-width: 768px) {
+@media (min-width: 760px) {
 
   .logo {
     content: url('../img_new/logo_c4l_hexa.png');
@@ -1192,6 +1184,10 @@ td {
   .hamburger,
   .logo-horizontal {
     display: none;
+  }
+
+  .row--flex {
+    display: flex;
   }
 
   .menu {
@@ -1256,13 +1252,13 @@ td {
   }
 }
 
-@media (min-width: 768px) and (max-width: 992px) {
+@media (min-width: 760px) and (max-width: 992px) {
   html {
     font-size: 8px;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
 
   html {
     font-size: 7px;
