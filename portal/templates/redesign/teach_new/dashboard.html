@@ -72,53 +72,66 @@
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Administrator status</p></th>
-                <th colspan="3"><p class="body-text">Status actions</p></th>
+                {% if is_admin %}
+                    <th colspan="3"><p class="body-text">Status actions</p></th>
+                {% endif %}
             </tr>
+            {% for coworker in coworkers %}
             <tr>
-                <td><p class="small-text">Mr James Holland (you)</p></td>
-                <td><p class="small-text">Administrator (**********@gmail.com)</p></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--navigation">Make admin</button></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--setup">Disable 2FA</button></td>
+                <td><p class="small-text">{{ coworker.title }} {{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }}
+                    {% if coworker.new_user == user %}<b>(you)</b>{% endif %}</p></td>
+                <td><p class="small-text">{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
+                    ({{ coworker.new_user.email|emaildomain }}){% endif %}</p></td>
+                {% if coworker.new_user != user and is_admin %}
+                    <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
+                    <td class="cell-center">
+                        {% if coworker.is_admin %}
+                            <button class='button--small button-primary button--primary--navigation'>Make non-admin</button>
+                        {% else %}
+                            <button class="button--small button-primary button--primary--navigation">Make admin</button></td>
+                        {% endif %}
+                    <td class="cell-center">{% if coworker.new_user|has_2FA %}<button class="button--small button-primary button--primary--setup">Disable 2FA</button>{% endif %}</td>
+                {% else %}
+                    {% if is_admin %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% endif %}
+                {% endif %}
             </tr>
-            <tr>
-                <td><p class="small-text">Ms Naomie Noobie</p></td>
-                <td><p class="small-text">Standard teacher (**********@gmail.com)</p></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--navigation">Make admin</button></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--setup">Disable 2FA</button></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Mrs Omya Overloaded</p></td>
-                <td><p class="small-text">Standard teacher (**********@gmail.com)</p></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
-                <td class="cell-center"><button class="button--small button-primary button--primary--navigation">Make admin</button></td>
-                <td></td>
-            </tr>
+            {% endfor %}
         </table>
-        <p class="body-text">Select &lsquo;Remove&rsquo; to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
-            teacher to other teachers in your school or club.</p>
-        <p class="body-text">If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting &lsquo;Disable 2FA&rsquo;.
-            We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
-            with their smartphone or tablet.</p>
+        {% if is_admin %}
+            <p class="body-text">Select &lsquo;Remove&rsquo; to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
+                teacher to other teachers in your school or club.</p>
+            <p class="body-text">If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting &lsquo;Disable 2FA&rsquo;.
+                We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
+                with their smartphone or tablet.</p>
+        {% endif %}
     </div>
 
     <div id="requests">
         <div class="background col-sm-7 col-center">
             <h3>These teachers have requested to join your school or club</h3>
-            <table class="header-primary data-primary">
-                <tr>
-                    <th><p class="body-text">Name</p></th>
-                    <th><p class="body-text">Email address</p></th>
-                    <th colspan="2"><p class="body-text">Actions</p></th>
-                </tr>
-                <tr>
-                    <td><p class="small-text">Rev Florian Aucomte</p></td>
-                    <td><p class="small-text">**********@gmail.com</p></td>
-                    <td class="cell-center"><button class="button--small button-primary button--primary--positive">Allow</button></td>
-                    <td class="cell-center"><button class="button--small button-primary button--primary--danger">Deny</button></td>
-                </tr>
-            </table>
+            {% if join_requests %}
+                <table class="header-primary data-primary">
+                    <tr>
+                        <th><p class="body-text">Name</p></th>
+                        <th><p class="body-text">Email address</p></th>
+                        <th colspan="2"><p class="body-text">Actions</p></th>
+                    </tr>
+                    {% for join_request in join_requests %}
+                        <tr>
+                            <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
+                            <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
+                            <td class="cell-center"><button class="button--small button-primary button--primary--positive">Allow</button></td>
+                            <td class="cell-center"><button class="button--small button-primary button--primary--danger">Deny</button></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p class="body-text">No teachers have currently requested to join your school or club.</p>
+            {% endif %}
         </div>
     </div>
 
@@ -160,28 +173,24 @@
         <div class="row">
             <div class="col-sm-5">
                 <h3>Current classes</h3>
-                <table class="header-tertiary data-quaternary">
-                    <tr>
-                        <th><p class="body-text">Class name</p></th>
-                        <th><p class="body-text">Access code</p></th>
-                        <th><p class="body-text">Action</p></th>
-                    </tr>
-                    <tr>
-                        <td><p class="small-text">Test class 1</p></td>
-                        <td><p class="small-text">EU184</p></td>
-                        <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
-                    </tr>
-                    <tr>
-                        <td><p class="small-text">Test class 2</p></td>
-                        <td><p class="small-text">EU185</p></td>
-                        <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
-                    </tr>
-                    <tr>
-                        <td><p class="small-text">Test class 3</p></td>
-                        <td><p class="small-text">EU186</p></td>
-                        <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
-                    </tr>
-                </table>
+                {% if classes %}
+                    <table class="header-tertiary data-quaternary">
+                        <tr>
+                            <th><p class="body-text">Class name</p></th>
+                            <th><p class="body-text">Access code</p></th>
+                            <th><p class="body-text">Action</p></th>
+                        </tr>
+                        {% for class in classes %}
+                            <tr>
+                                <td><p class="small-text">{{ class.name }}</p></td>
+                                <td><p class="small-text">{{ class.access_code }}</p></td>
+                                <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p class="body-text">It doesn't look like you have any classes assigned to you. To create a class, use the 'New Class' box below.</p>
+                {% endif %}
             </div>
             <div class="col-sm-6 col-sm-offset-1">
                 <h3>External requests to join your classes</h3>
@@ -265,20 +274,30 @@
     <div class="background col-sm-7 col-center">
         <h3>Two Factor Authentication</h3>
         <p class="body-text">Use your smartphone or tablet to enhance your account&rsquo;s security.</p>
-        <div class="row row--regular">
-            <div class="col-sm-5">
-                <h4>Backup tokens</h4>
-                <p class="body-text">If you don&rsquo;t have your smartphone or tablet with you, you can access your account using backup tokens. You have 10 backup tokens
-                    remaining.</p>
-                <p class="body-text">View and create backup tokens for your account.</p>
-                <button class="button--regular button--primary--negative">Manage backup tokens</button>
+
+        {% if user|has_2FA %}
+            <div class="row row--regular">
+                <div class="col-sm-5">
+                    <h4>Backup tokens</h4>
+                    <p class="body-text">If you don&rsquo;t have your smartphone or tablet with you, you can access your account using backup tokens.
+                        {% if backup_tokens == 1 %}
+                        You have only one backup token remaining.
+                        {% else %}
+                        You have {{ backup_tokens }} backup tokens remaining.
+                        {% endif %}</p>
+                    <p class="body-text">View and create backup tokens for your account.</p>
+                    <button class="button--regular button--primary--negative">Manage backup tokens</button>
+                </div>
+                <div class="col-sm-6 col-sm-offset-1">
+                    <h4>Disable Two Factor Authentication</h4>
+                    <p class="body-text">We recommend you to continue using Two Factor Authentication, however you can disable two factor authentication for your account.</p>
+                    <button class="button--regular button--secondary button--secondary--dark">Disable Two-Factor Authentication</button>
+                </div>
             </div>
-            <div class="col-sm-6 col-sm-offset-1">
-                <h4>Disable Two Factor Authentication</h4>
-                <p class="body-text">We recommend you to continue using Two Factor Authentication, however you can disable two factor authentication for your account.</p>
-                <button class="button--regular button--secondary button--secondary--dark">Disable Two-Factor Authentication</button>
-            </div>
-        </div>
+        {% else %}
+            <p class="body-text">Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
+            <button class='button--regular button--primary--negative'>Setup Two Factor Authentication</button>
+        {% endif %}
     </div>
 </div>
 

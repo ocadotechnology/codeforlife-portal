@@ -63,6 +63,7 @@ recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_setti
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
+    classes = Class.objects.filter(teacher=teacher)
 
     coworkers = Teacher.objects.filter(school=school).order_by('new_user__last_name', 'new_user__first_name')
 
@@ -70,6 +71,7 @@ def dashboard_teacher_view(request, is_admin):
 
     return render(request, 'redesign/teach_new/dashboard.html', {
         'teacher': teacher,
+        'classes': classes,
         'is_admin': is_admin,
         'coworkers': coworkers,
         'join_requests': join_requests,
