@@ -69,6 +69,7 @@ from portal.views.email_new import verify_email_new
 from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_class_students
+from portal.views.teacher.dashboard import dashboard_manage
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -215,7 +216,7 @@ urlpatterns = patterns(
     url(r'^redesign/help', TemplateView.as_view(template_name='redesign/help-and-support_new.html'), name='help_new'),
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
     url(r'^redesign/teach/materials', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
-    url(r'^redesign/teach/dashboard', TemplateView.as_view(template_name='redesign/teach_new/dashboard.html'), name='dashboard'),
+    url(r'^redesign/teach/dashboard', dashboard_manage, name='dashboard'),
     url(r'^redesign/teach/class', TemplateView.as_view(template_name='redesign/teach_new/class_new.html'), name='class_new'),
 
 )

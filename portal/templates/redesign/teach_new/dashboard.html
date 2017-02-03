@@ -19,21 +19,6 @@
 {% block content %}
 {{ block.super }}
 
-<script type="text/javascript">
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 343) {
-            $('.sub-nav--hidden').css({
-                'display': 'block'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
-</script>
-
 <div id="teach_dashboard_page_new"></div>
 
 <div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
@@ -61,16 +46,24 @@
 <div class="banner__item banner__item--teacher">
     <button class="button--big button--secondary button--secondary--light button--banner__item">Assessment</button>
 </div>
-<div class="sub-nav sub-nav--warning">
-    <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
-    <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
-</div>
+{% if is_admin and join_requests %}
+    <div class="sub-nav sub-nav--warning">
+        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+        <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
+    </div>
+{% endif %}
 
 <div id="school">
     <section class="background">
-        <h2>Your school: St Cuthbert's Primary</h2>
-        <h4 class="col-sm-6 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke adminsitrative rights. You can also remove teachers
-            from your school or club if they leave, and respond to requests from new teachers joining your organisation.</h4>
+        <h2>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }}{% endif %}</h2>
+        {% if is_admin %}
+            <h4 class="col-sm-6 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
+                administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
+                joining your organisation.</h4>
+        {% else %}
+            <h4 class="col-sm-6 col-center">You can see which other teachers in your school or club are registered here. Should you need to leave the
+                school or club, you can do so below.</h4>
+        {% endif %}
     </section>
 
     <div class="background col-sm-7 col-center">
@@ -288,5 +281,20 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= 343) {
+            $('.sub-nav--hidden').css({
+                'display': 'block'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+</script>
 
 {% endblock content %}
