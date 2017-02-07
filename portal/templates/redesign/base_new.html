@@ -100,6 +100,10 @@
         </div>
     </div>
     <div id="menu-items" class="collapse">
+        <div class="menu__item">
+            <a href="{% url 'register_new' %}" class="button--regular button--primary--general-play register">Register now</a>
+            <a href="{% url 'login_new' %}" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+        </div>
         <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
         <div id="teacher-tabs" class="collapse">
             <button class="button--menu__item button--menu__item__sub">School / Club</button>
