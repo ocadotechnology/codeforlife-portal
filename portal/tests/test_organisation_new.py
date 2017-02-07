@@ -179,3 +179,58 @@ class TestOrganisation(BaseTest, BasePage):
             'name': new_name,
             'postcode': new_postcode
         })
+
+    def test_edit_clash(self):
+        email_1, password_1 = signup_teacher_directly()
+        email_2, password_2 = signup_teacher_directly()
+        school_name_1, postcode_1 = create_organisation_directly(email_1)
+        create_organisation_directly(email_2)
+        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        _, class_name_2, access_code_2 = create_class_directly(email_2)
+        create_school_student_directly(access_code_1)
+        create_school_student_directly(access_code_2)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email_2, password_2)
+
+        assert not page.check_organisation_details({
+            'name': school_name_1,
+            'postcode': postcode_1
+        })
+
+        page = page.change_organisation_details({
+            'name': school_name_1,
+            'postcode': postcode_1
+        })
+
+        time.sleep(5)
+
+        assert page.has_edit_failed()
+
+    def test_edit_details(self):
+        email, password = signup_teacher_directly()
+        school_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .login(email, password)
+
+        assert page.check_organisation_details({
+            'name': school_name,
+            'postcode': postcode
+        })
+
+        new_name = 'new ' + school_name
+        new_postcode = 'OX2 6LE'
+
+        page.change_organisation_details({
+            'name': new_name,
+            'postcode': new_postcode
+        })
+        assert page.check_organisation_details({
+            'name': new_name,
+            'postcode': new_postcode
+        })
