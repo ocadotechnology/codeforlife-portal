@@ -40,7 +40,7 @@ var PASSWORD_FIELD_ID = '';
 var password_field = '';
 
 $(function() {
-    var updateFunction = (PASSWORD_TYPE == 'STUDENT') ? updateStudentPasswordStrength : updateTeacherPasswordStrength;
+    var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateStudentPasswordStrength : updateTeacherPasswordStrength;
 
     password_field = $('#' + PASSWORD_FIELD_ID);
     password_field.on('keydown', updateFunction);

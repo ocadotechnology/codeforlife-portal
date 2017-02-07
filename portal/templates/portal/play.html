@@ -10,7 +10,7 @@
     <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
     <script>
     var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
-    var PASSWORD_TYPE = 'STUDENT';
+    var PASSWORD_TYPE = 'INDEPENDENT_STUDENT';
     var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
     var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
     </script>

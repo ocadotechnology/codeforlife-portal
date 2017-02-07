@@ -36,7 +36,7 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 $(function() {
-    var updateFunction = (PASSWORD_TYPE == 'STUDENT') ? updateStudentPasswordStrength : updateTeacherPasswordStrength;
+    var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateStudentPasswordStrength : updateTeacherPasswordStrength;
 
     password_field = $('#' + PASSWORD_FIELD_ID);
     password_field.on('keydown', updateFunction);
