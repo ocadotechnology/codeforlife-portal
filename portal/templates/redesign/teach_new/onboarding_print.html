@@ -91,7 +91,7 @@
 <div class="sub-nav sub-nav--warning">
     <div class="row">
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
-        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format reminder cards that populate these details which can
+        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
             be given to the students.</i></p>
         <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
             {% csrf_token %}

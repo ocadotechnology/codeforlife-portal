@@ -118,7 +118,7 @@ def organisation_create_new(request):
             if create_form.is_valid():
                 data = create_form.cleaned_data
                 name = data.get('name', '')
-                postcode = data.get('postcode', '')
+                postcode = data.get('postcode', '').upper()
                 country = data.get('country', '')
 
                 error, town, lat, lng = '', '0', '0', '0'  # lookup_coord(postcode, country)
