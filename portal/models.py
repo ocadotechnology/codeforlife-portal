@@ -117,10 +117,7 @@ class Teacher(models.Model):
 
     def has_class(self):
         classes = self.class_teacher.all()
-        if classes.count() == 0:
-            return False
-        else:
-            return True
+        return classes.count() != 0
 
     def __unicode__(self):
         return '%s %s' % (self.user.first_name, self.user.last_name)
@@ -139,10 +136,7 @@ class Class(models.Model):
 
     def has_students(self):
         students = self.students.all()
-        if students.count() == 0:
-            return False
-        else:
-            return True
+        return students.count() != 0
 
     def get_logged_in_students(self):
         ONLINE = 1
