@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2016, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,15 +34,26 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import login_page
-from base_page import BasePage
+
+from django.core.urlresolvers import reverse
+from django.test import TestCase, Client
+from utils.teacher_new import signup_teacher_directly
+from utils.classes_new import create_class_directly
 
 
-class HomePage(BasePage):
-    def __init__(self, browser):
-        super(HomePage, self).__init__(browser)
-        assert self.on_correct_page('home_page_new')
+class TestTeacherViews(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email, cls.password = signup_teacher_directly()
+        _, _, cls.class_access_code = create_class_directly(cls.email)
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
+    def login(self):
+        c = Client()
+        assert c.login(username=self.email, password=self.password)
+        return c
+
+    def test_reminder_cards(self):
+        c = self.login()
+        url = reverse('teacher_print_reminder_cards', args=[self.class_access_code])
+        response = c.get(url)
+        self.assertEqual(response.status_code, 200)

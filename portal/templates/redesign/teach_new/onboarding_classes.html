@@ -15,8 +15,10 @@
 {% block content %}
 {{ block.super }}
 
+<div id="onboarding_classes_page"></div>
+
 <div class="banner banner--teacher--plain">
-    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
     <div class="arrows col-sm-offset-1">
         <div class="progress-arrow">
@@ -70,20 +72,45 @@
     </div>
 </div>
 
+{% if classes %}
 <div class="background background--primary col-sm-12">
     <div class="form col-sm-4 col-sm-offset-4">
-        <h3>Create a class</h3>
-        <form>
-            <p class="body-text">When you set up a new class, a unique class access code will automatically be generated, with you being identified as the
-                teacher for that class.</p>
-            <input type="text" name="FirstName" value="" placeholder="Enter a class name">
-            <div class="row">
-                <p class="small-text col-sm-7">Allow students to see their classmates&rsquo; progress?</p>
-                <input class="col-sm-1" type="checkbox" name="vehicle" value="">
-            </div>
-        </form>
-        <a href="{% url 'onboarding3' %}" class="button--regular button-primary button--primary--general-play">Create class</a>
+        {% for class in classes %}
+        <h3>It looks like you&rsquo;ve already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
+        <section class="background">
+            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
+        </section>
+        {% endfor %}
     </div>
 </div>
+{% else %}
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        <h4>{{ user.new_teacher.school.name }}</h4>
+        <h3>Create a class</h3>
+        <form id="form-create-class" method='post'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="section group">
+
+                <label for="id_{{ form.name.html_name }}">{{ form.name.label }}</label>
+                {{ form.name.errors }}
+                {{ form.name }}
+                <div class="col span_1_of_3">
+                    <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
+                    {{ form.classmate_progress.errors }}
+                </div>
+                <div class="col span_1_of_3">
+                    {{ form.classmate_progress }}
+                </div>
+                <button id="create_class_button" type='submit' class='button--regular button-primary button--primary--general-play'>Create class</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
 
 {% endblock content %}

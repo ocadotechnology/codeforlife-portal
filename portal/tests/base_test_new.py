@@ -34,15 +34,57 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import login_page
-from base_page import BasePage
+import os
+from django.core.urlresolvers import reverse
+
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django_selenium_clean import selenium, SeleniumTestCase
+from unittest import skipUnless
 
 
-class HomePage(BasePage):
-    def __init__(self, browser):
-        super(HomePage, self).__init__(browser)
-        assert self.on_correct_page('home_page_new')
+# Uncomment to use FireFox
+# master_browser = webdriver.Firefox()
+from portal.tests.pageObjects.portal.game_page import GamePage
+from portal.tests.pageObjects.portal.home_page_new import HomePage
+from deploy import captcha
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
+
+@skipUnless(selenium, "Selenium is unconfigured")
+class BaseTest(SeleniumTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
+        captcha.CAPTCHA_ENABLED = False
+        super(BaseTest, cls).setUpClass()
+
+    @classmethod
+    def tearDownClass(cls):
+        captcha.CAPTCHA_ENABLED = cls.orig_captcha_enabled
+        super(BaseTest, cls).tearDownClass()
+
+    def go_to_homepage(self):
+        path = reverse('home_new')
+        self._go_to_path(path)
+        return HomePage(selenium)
+
+    def go_to_level(self, level_name):
+        path = reverse('play_default_level', kwargs={'levelName': str(level_name)})
+        self._go_to_path(path)
+
+        return GamePage(selenium)
+
+    def go_to_custom_level(self, level):
+        path = reverse('play_custom_level', kwargs={'levelId': str(level.id)})
+        self._go_to_path(path)
+
+        return GamePage(selenium)
+
+    def go_to_episode(self, episodeId):
+        path = reverse('start_episode', kwargs={'episodeId': str(episodeId)})
+        self._go_to_path(path)
+
+        return GamePage(selenium)
+
+    def _go_to_path(self, path):
+        selenium.get(self.live_server_url + path)

@@ -34,53 +34,62 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from base_test_new import BaseTest
+
+from portal.tests.pageObjects.portal.home_page_new import HomePage
+from utils.teacher_new import signup_teacher_directly
+from utils.organisation_new import create_organisation_directly
+from utils.classes_new import create_class_directly
+from utils.student_new import create_school_student, create_many_school_students
 
 from django_selenium_clean import selenium
 
-from base_test_new import BaseTest
-from pageObjects.portal.home_page_new import HomePage
-from utils.teacher_new import signup_teacher, signup_teacher_directly
-from utils.organisation_new import create_organisation_directly
-from utils.classes_new import create_class_directly
-from utils.student_new import create_school_student_directly
-from utils.messages import is_email_verified_message_showing
 
-
-class TestTeacher(BaseTest):
-
-    def test_signup(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, _, _ = signup_teacher(page)
-        assert is_email_verified_message_showing(selenium)
-
-    def test_login_failure(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page = page.go_to_login_page()
-        page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
-        assert page.has_login_failed()
-
-    def test_login_success(self):
+class TestTeacherStudent(BaseTest):
+    def test_create(self):
         email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        klass, name, access_code = create_class_directly(email)
-        create_school_student_directly(access_code)
+        org_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
         selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page = page.go_to_login_page()
-        page = page.login(email, password)
-        assert self.is_dashboard_page(page)
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
 
-    def test_signup_login_success(self):
+        page, student_name = create_school_student(page)
+        assert page.student_exists(student_name)
+
+    def test_create_empty(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
         selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium)
-        page, email, password = signup_teacher(page)
-        page = page.login_no_school(email, password)
-        assert self.is_onboarding_page(page)
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password).create_students_empty()
 
-    def is_dashboard_page(self, page):
-        return page.__class__.__name__ == 'TeachDashboardPage'
+        assert page.was_form_empty('form-create-students')
 
-    def is_onboarding_page(self, page):
-        return page.__class__.__name__ == 'OnboardingOrganisationPage'
+    def test_create_multiple(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
+
+        page, student_names = create_many_school_students(page, 12)
+
+        for student_name in student_names:
+            assert page.student_exists(student_name)
+
+    def test_create_duplicate(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        student_name = 'bob'
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
+
+        page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
+        assert page.adding_students_failed()
+        assert page.duplicate_students(student_name)

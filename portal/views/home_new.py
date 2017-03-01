@@ -45,7 +45,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import Teacher
+from portal.models import Teacher, Class
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.helpers.emails_new import send_verification_email, is_verified
 from portal.utils import using_two_factor
@@ -175,7 +175,9 @@ def process_login_form(request, login_form):
     if next_url:
         return HttpResponseRedirect(next_url)
 
-    return HttpResponseRedirect(reverse_lazy('dashboard'))
+    teacher = request.user.userprofile.teacher
+
+    return redirect_user_to_correct_page(teacher)
 
 
 def process_signup_form(request, data):
@@ -196,3 +198,19 @@ def is_logged_in_as_teacher(request):
         hasattr(request.user.userprofile, 'teacher') and \
         (request.user.is_verified() or not using_two_factor(request.user))
     return logged_in_as_teacher
+
+
+def redirect_user_to_correct_page(teacher):
+    if teacher.has_school():
+        if teacher.has_class():
+            classes = Class.objects.filter(teacher=teacher)
+            first_class = classes[0]
+
+            if first_class.has_students():
+                return HttpResponseRedirect(reverse_lazy('dashboard'))
+            else:
+                return HttpResponseRedirect(reverse_lazy('onboarding-class', kwargs={'access_code': first_class.access_code}))
+        else:
+            return HttpResponseRedirect(reverse_lazy('onboarding-classes'))
+    else:
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))

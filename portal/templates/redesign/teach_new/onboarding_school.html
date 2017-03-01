@@ -15,6 +15,13 @@
 {% block content %}
 {{ block.super }}
 
+<script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
+<script>
+    var FUZZY_NAME_FIELD_ID = '{{ join_form.fuzzy_name.auto_id }}';
+    var CHOSEN_ORG_FIELD_ID = '{{ join_form.chosen_org.auto_id }}';
+    var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup_new' %}";
+</script>
+
 <div id="onboarding_organisation_page"></div>
 
 <div class="banner banner--teacher--plain">
@@ -71,7 +78,48 @@
         </div>
     </div>
 </div>
+{% if teacher.pending_join_request %}
+<div id="onboarding_revoke_request_page"></div>
 
+<div class="sub-nav sub-nav--warning">
+    <div class="row">
+        <img src='{% static "portal/img_new/warning.png" %}'>
+        <p class="body-text"><i>Your request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }} has been submitted</i></p>
+    </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <section>
+        <h2>Join a school</h2><br>
+    </section>
+    <h4>You have a pending request to join <b>{{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}</b>.<br>Once the administrator of your school or club has approved your request you will be able
+        to continue.</h4>
+</div>
+<div class="background col-sm-6 col-center">
+    <p class="body-text">Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
+        your pending request first.</p><br>
+    <form id="revoke_form" method='post'>
+
+        {% csrf_token %}
+
+        <div class='section group'>
+            <button class='button--regular button--secondary button--secondary--dark' type='submit'
+                    name='revoke_join_request'>Revoke request to {{ teacher.pending_join_request.name }}</button>
+        </div>
+
+    </form>
+</div>
+{% else %}
+{% if teacher.school %}
+<div class="background background--primary col-sm-12">
+    <div class="form col-sm-4 col-sm-offset-4">
+        <h3>It looks like you&rsquo;ve already created your school ({{ user.new_teacher.school.name }})</h3>
+        <section class="background">
+            <a href="{% url 'onboarding-classes' %}" class='button--regular button-primary button--primary--general-play' >Add a class</a>
+        </section>
+    </div>
+</div>
+{% else %}
 <div class="background background--primary col-sm-12">
     <div class="form col-sm-4 col-sm-offset-4">
         <ul class="tab">
@@ -80,33 +128,55 @@
                 <img id="left-arrow" src='{% static "portal/img_new/form_chooser_arrow.png" %}'>
             </li>
             <li>
-                <a href="javascript:void(0)" class="tablinks" onclick="openForm(event, 'Join')">Join a school or club</a>
+                <a href="javascript:void(0)" class="tablinks" id="join-tab" onclick="openForm(event, 'Join')">Join a school or club</a>
                 <img id="right-arrow" src='{% static "portal/img_new/form_chooser_arrow.png" %}'>
             </li>
         </ul>
         <div id="Create" class="tabcontent">
-            <form>
-                <p class="body-text">As the first person from your school to register for Code for Life, by default, you become the organisation&rsquo;s administrator.</p>
-                <p class="small-text">Name of your school or club</p>
-                <input type="text" name="FirstName" value="">
-                <p class="small-text">Country</p>
-                <input type="text" name="LastName" value="">
-                <p class="small-text">Postcode</p>
-                <input type="text" name="FirstName" value="">
-                <p class="small-text">Password</p>
-                <input type="password" name="LastName" value=""><br/>
+            <form id="form-create-organisation" method='post'>
+
+                {% csrf_token %}
+
+                {{ create_form.non_field_errors }}
+
+                {% for field in create_form %}
+                {{ field.errors }}
+                <label for="id_{{ field.name }}">{{ field.label }}</label>
+                {{ field }}
+                {% endfor %}
+
+                <div class='section group'>
+                    <button type='submit' class='button--regular button-primary button--primary--general-play' name='create_organisation'>Create school or club</button>
+                </div>
+
             </form>
-            <a href="{% url 'onboarding2' %}" class="button--regular button-primary button--primary--general-play">Create school or club</a>
         </div>
         <div id="Join" class="tabcontent">
-            <form>
-                <p class="body-text">You can search for your school or club, by name and/or postcode below. A request will be sent to the school or club&rsquo;s administrator for processing.</p>
-                <p class="small-text">Search for school or club by name or postcode</p>
-                <input type="text" name="FirstName" value="">
-                <p class="small-text">Select school or club</p>
-                <input type="text" name="LastName" value="">
+            <form id="form-join-organisation" method='post'>
+
+                {% csrf_token %}
+
+                {{ join_form.non_field_errors }}
+
+                {{ join_form.fuzzy_name.errors }}
+                <label for="id_{{ join_form.fuzzy_name.html_name }}">{{ join_form.fuzzy_name.label }}</label>
+                {{ join_form.fuzzy_name }}
+
+                {{ join_form.chosen_org.errors }}
+                <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
+                {{ join_form.chosen_org }}
+
+                {% if join_form.recaptcha %}
+                {{ join_form.recaptcha.errors }}
+                <label for="id_{{ join_form.recaptcha.html_name }}">{{ join_form.recaptcha.label }}</label>
+                {{ join_form.recaptcha|safe }}
+                {% endif %}
+
+                <div class='section group'>
+                    <button type='submit' class='button--regular button-primary button--primary--general-play' name='join_organisation'>Join school or club</button>
+                </div>
+
             </form>
-            <a href="{% url 'onboarding1-join' %}" class="button--regular button-primary button--primary--general-play">Join school or club</a>
         </div>
     </div>
 </div>
@@ -143,5 +213,7 @@
         }
     }
 </script>
+{% endif %}
+{% endif %}
 
 {% endblock content %}

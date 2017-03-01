@@ -8,6 +8,23 @@
 
 {% block scripts %}
 {{ block.super }}
+
+<script type="text/javascript">
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= 268) {
+            $('.sub-nav--hidden').css({
+                'display': 'block',
+                'top': '80px'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+</script>
+
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -15,8 +32,10 @@
 {% block content %}
 {{ block.super }}
 
+<div id="onboarding_student_list_page"></div>
+
 <div class="banner banner--teacher--plain">
-    <h1 class="col-sm-offset-2">Welcome, Ms. Noobie</h1>
+    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
     <div class="arrows col-sm-offset-1">
         <div class="progress-arrow">
@@ -72,64 +91,66 @@
 <div class="sub-nav sub-nav--warning">
     <div class="row">
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
-        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format reminder cards that populate these details which can
+        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
             be given to the students.</i></p>
-        <button class="button--regular button-primary button--primary--navigation">Print reminder cards</button>
-        <a href="{% url 'onboarding5' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <div class='section'>
+                <button class='button--regular button-primary button--primary--navigation'
+                        type='submit'>Print reminder cards</button>
+                <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="sub-nav sub-nav--hidden sub-nav--warning">
+    <div class="row">
+        <img src='{% static "portal/img_new/warning.png" %}'>
+        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
+            be given to the students.</i></p>
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <div class='section'>
+                <button class='button--regular button-primary button--primary--navigation'
+                        type='submit'>Print reminder cards</button>
+                <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+            </div>
+        </form>
     </div>
 </div>
 
 <div class="background background--primary col-sm-12">
     <div class="form col-sm-4 col-sm-offset-4">
-        <h3>New students created in class Starlings KS1 (IV690)</h3>
+        <h4>{{ user.new_teacher.school.name }}</h4>
+        <h3>New students created in class: {{ class.name }} ({{ class.access_code }})</h3><br>
         <p class="body-text">The following students have been created for your class. When they log in for the first time, you may want students to change their
-            passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p>
-        <p class="body-text">The Class Access Code for this class is: IV690.</p>
-        <table class="header-primary data-quinary">
+            passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p><br>
+        <p class="body-text">The Class Access Code for this class is: {{ class.access_code }}.</p>
+        <table id='student_table' class="header-primary data-quinary">
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Password</p></th>
             </tr>
+            {% for name_token in name_tokens %}
             <tr>
-                <td><p class="small-text">Charles Brown</p></td>
-                <td><p class="small-text">b9tav1</p></td>
+                <td><p class="small-text">{{ name_token.name }}</p></td>
+                <td><p class="small-text">{{ name_token.password }}</p></td>
             </tr>
-            <tr>
-                <td><p class="small-text">Kirk Douglas</p></td>
-                <td><p class="small-text">b1x4h2</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Shirley Temple</p></td>
-                <td><p class="small-text">qw683a</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Charles Brown</p></td>
-                <td><p class="small-text">b9tav1</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Kirk Douglas</p></td>
-                <td><p class="small-text">b1x4h2</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Shirley Temple</p></td>
-                <td><p class="small-text">qw683a</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Charles Brown</p></td>
-                <td><p class="small-text">b9tav1</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Kirk Douglas</p></td>
-                <td><p class="small-text">b1x4h2</p></td>
-            </tr>
-            <tr>
-                <td><p class="small-text">Shirley Temple</p></td>
-                <td><p class="small-text">qw683a</p></td>
-            </tr>
+            {% endfor %}
         </table>
         <section>
-            <button class="button--regular button-primary button--primary--navigation">Print reminder cards</button>
-            <a href="{% url 'onboarding5' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+            <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+                {% csrf_token %}
+                <input type='hidden' name='data' value='{{ query_data }}'/>
+                <div class='section'>
+                    <button id="print_cards_button" class='button--regular button-primary button--primary--navigation'
+                            type='submit'>Print reminder cards</button>
+                    <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+                </div>
+            </form>
         </section>
     </div>
 </div>
