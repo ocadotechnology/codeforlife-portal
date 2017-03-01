@@ -77,8 +77,8 @@ class TeachPage(BasePage):
         return self
 
     def _login(self, email, password):
-        self.browser.find_element_by_id('id_login-email').send_keys(email)
-        self.browser.find_element_by_id('id_login-password').send_keys(password)
+        self.browser.find_element_by_id('id_login-teacher_email').send_keys(email)
+        self.browser.find_element_by_id('id_login-teacher_password').send_keys(password)
         self.browser.find_element_by_name('login').click()
 
     def has_login_failed(self):

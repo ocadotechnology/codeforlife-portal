@@ -57,13 +57,13 @@
 
                     {{ login_form.non_field_errors }}
 
-                    {{ login_form.email.errors }}
-                    <label for="id_{{ login_form.email.html_name }}">{{ login_form.email.label }}</label>
-                    {{ login_form.email }}
+                    {{ login_form.teacher_email.errors }}
+                    <label for="id_{{ login_form.teacher_email.html_name }}">{{ login_form.teacher_email.label }}</label>
+                    {{ login_form.teacher_email }}
 
-                    {{ login_form.password.errors }}
-                    <label for="id_{{ login_form.password.html_name }}">{{ login_form.password.label }}</label>
-                    {{ login_form.password }}
+                    {{ login_form.teacher_password.errors }}
+                    <label for="id_{{ login_form.teacher_password.html_name }}">{{ login_form.teacher_password.label }}</label>
+                    {{ login_form.teacher_password }}
 
                     {% if login_form.recaptcha %}
                         {{ login_form.recaptcha.errors }}
