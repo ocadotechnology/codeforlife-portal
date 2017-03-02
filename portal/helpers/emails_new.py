@@ -36,7 +36,6 @@
 # identified as the original program.
 from uuid import uuid4
 from datetime import timedelta
-from email.mime.image import MIMEImage
 
 from django.conf import settings
 from django.utils import timezone
@@ -57,8 +56,6 @@ CONTACT_EMAIL = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
 
 def send_email(sender, recipients, subject, text_content, html_content=None,
                plaintext_template='email.txt', html_template='email.html'):
-    # setup template images library, make into attachments
-    images = [['logo_c4l_hexa.png', 'cfllogo']]
     # add in template for templates to message
 
     # setup templates
@@ -76,16 +73,6 @@ def send_email(sender, recipients, subject, text_content, html_content=None,
     # make message using templates
     message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
     message.attach_alternative(html_body, "text/html")
-
-    # check if inline images work with Google AppEngine
-    for img in images:
-        fp = open(settings.MEDIA_ROOT+img[0], 'rb')
-        msg_image = MIMEImage(fp.read())
-        fp.close()
-        msg_image.add_header('Content-ID', '<'+img[1]+'>')
-        msg_image.add_header('Content-Disposition', 'inline', filename=img[0])
-        message.attach(msg_image)
-    message.mixed_subtype = 'related'
 
     message.send()
 
