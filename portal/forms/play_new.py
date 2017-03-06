@@ -135,3 +135,38 @@ class StudentSignupForm(forms.Form):
             raise forms.ValidationError("Your passwords do not match")
 
         return self.cleaned_data
+
+
+class IndependentStudentLoginForm(forms.Form):
+    username = forms.CharField(
+        label='Username',
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
+    password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput())
+
+    def clean(self):
+        if self.has_error('recaptcha'):
+            raise forms.ValidationError("Incorrect username, password or captcha")
+
+        username = self.cleaned_data.get('username', None)
+        password = self.cleaned_data.get('password', None)
+
+        if username and password:
+            students = Student.objects.filter(class_field=None, new_user__username=username)
+            if not students.exists():
+                raise forms.ValidationError("Incorrect username or password")
+
+            user = authenticate(username=username, password=password)
+
+            self.check_for_errors(user)
+
+            self.user = user
+
+        return self.cleaned_data
+
+    def check_for_errors(self, user):
+        if user is None:
+            raise forms.ValidationError("Incorrect username or password")
+        if not user.is_active:
+            raise forms.ValidationError("This user account has been deactivated")
