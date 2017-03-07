@@ -57,7 +57,8 @@ from reportlab.lib.styles import ParagraphStyle
 
 from portal.models import Teacher, Class, Student
 from portal.forms.teach_new import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, \
-    TeacherEditStudentForm, TeacherSetStudentPass, StudentCreationForm
+    TeacherEditStudentForm, TeacherSetStudentPass, TeacherMoveStudentsDestinationForm, \
+    TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, StudentCreationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password
 from portal.views.teacher.pdfs import PDF_DATA
