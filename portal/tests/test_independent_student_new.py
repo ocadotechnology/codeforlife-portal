@@ -55,3 +55,21 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='test')
         assert page.has_independent_student_signup_failed()
+
+    def test_login_failure(self):
+        page = self.go_to_homepage()
+        page = page.go_to_login_page()
+        page = page.independent_student_login_failure('Non existent username', 'Incorrect password')
+
+        assert page.has_independent_student_login_failed()
+
+    def test_login_success(self):
+        page = self.go_to_homepage()
+        page, name, username, email, password = create_independent_student(page)
+        page = page.independent_student_login(username, password)
+        assert page.__class__.__name__ == 'PlayDashboardPage'
+
+        page = page.go_to_account_page()
+        assert page.check_account_details({
+            'name': name
+        })
