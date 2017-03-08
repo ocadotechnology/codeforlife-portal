@@ -37,6 +37,7 @@
 from teach_base_page_new import TeachBasePage
 import dashboard_page_new
 import onboarding_student_list_page
+import dashboard_page_new
 
 
 class TeachClassPage(TeachBasePage):
