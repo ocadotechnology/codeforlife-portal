@@ -36,7 +36,6 @@
 # identified as the original program.
 from teach_base_page_new import TeachBasePage
 import dashboard_page_new
-import dashboard_page_new
 import class_settings_page_new
 import edit_student_page
 import onboarding_student_list_page
