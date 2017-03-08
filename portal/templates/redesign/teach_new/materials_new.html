@@ -1,6 +1,10 @@
-{% extends 'redesign/teach_new/base_materials.html' %}
+{% extends 'redesign/teach_new/base_logged_in.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+
+{% block materials %}
+<a href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+{% endblock materials %}
 
 {% block css %}
 {{ block.super }}

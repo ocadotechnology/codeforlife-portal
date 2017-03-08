@@ -84,6 +84,16 @@ def truncate(s, max_length=20):
 def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
 
+@register.filter(name='has_teacher_finished_onboarding')
+def has_teacher_finished_onboarding(u):
+    teacher = u.userprofile.teacher
+    teacher_has_class = teacher.has_school() and teacher.has_class()
+    if teacher_has_class:
+        klass = teacher.klass()
+        return is_logged_in_as_teacher(u) and teacher_has_class and klass.has_students()
+    else:
+        return False
+
 @register.filter(name='is_logged_in_as_student')
 def is_logged_in_as_student(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'student')

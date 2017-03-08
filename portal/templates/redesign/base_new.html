@@ -88,14 +88,46 @@
             <a href="{% url 'home_new' %}"><img class="logo-horizontal" src='{% static "portal/img_new/logo-horizontal.png" %}'></a>
             <a href="{% url 'home_new' %}" class="button--regular button--secondary button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
             {% block leftMenuButtons %}
-            {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
-            {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary button--menu--enabled">Students</a>{% endblock nav_play %}
+            {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                    <a class="button--menu button--menu--primary"><b>Teacher</b></a>
+                    {% block secondaryButtons %}
+                    {% if user|has_teacher_finished_onboarding %}
+                        <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                        <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                        <a href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+                    {% else %}
+                        <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                        <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                        <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                    {% endif %}
+                    {% endblock secondaryButtons %}
+                {% endif %}
+            {% else %}
+                {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+                {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
+            {% endif %}
             {% endblock leftMenuButtons %}
         </div>
         <div class="menu__right-side col-sm-4">
             {% block rightMenuButtons %}
-            <a href="{% url 'register_new' %}" id="signup_button" class="button--regular button--primary--general-play register">Register now</a>
-            <a href="{% url 'login_new' %}" id="login_button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                    <div class="dropdown">
+                        <button class="button--regular button--secondary button--secondary--dark logout"
+                                data-toggle="dropdown">{{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="button--regular button--logout" id="logout_button"
+                                   href="{% url 'logout_new' %}" onclick="deleteAllLocalStorageWorkspaces();">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'register_new' %}" id="signup_button" class="button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login_new' %}" id="login_button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            {% endif %}
             {% endblock rightMenuButtons %}
         </div>
     </div>
