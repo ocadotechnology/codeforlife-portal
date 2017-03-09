@@ -89,8 +89,8 @@ def has_teacher_finished_onboarding(u):
     teacher = u.userprofile.teacher
     teacher_has_class = teacher.has_school() and teacher.has_class()
     if teacher_has_class:
-        klass = teacher.klass()
-        return is_logged_in_as_teacher(u) and teacher_has_class and klass.has_students()
+        class_ = teacher.class_()
+        return is_logged_in_as_teacher(u) and teacher_has_class and class_.has_students()
     else:
         return False
 
