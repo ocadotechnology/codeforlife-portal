@@ -119,6 +119,12 @@ class Teacher(models.Model):
         classes = self.class_teacher.all()
         return classes.count() != 0
 
+    def class_(self):
+        if self.has_class():
+            classes = self.class_teacher.all()
+            return classes[0]
+        return None
+
     def __unicode__(self):
         return '%s %s' % (self.user.first_name, self.user.last_name)
 

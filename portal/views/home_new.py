@@ -66,7 +66,7 @@ def login_view(request):
     return render_login_form(request)
 
 
-def logout_view(request):
+def logout_view_new(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home_new'))
 

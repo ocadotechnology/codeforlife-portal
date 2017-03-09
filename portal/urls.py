@@ -66,7 +66,7 @@ from portal.views.email import send_new_users_report
 from game.views.level import play_default_level
 
 from portal.views.email_new import verify_email_new
-from portal.views.home_new import login_view, register_view
+from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_class_students
 
@@ -202,6 +202,7 @@ urlpatterns = patterns(
     url(r'^redesign/home', TemplateView.as_view(template_name='redesign/home_new.html'), name='home_new'),
     url(r'^redesign/register_form', register_view, name='register_new'),
     url(r'^redesign/login_form', login_view, name='login_new'),
+    url(r'^redesign/logout/$', logout_view_new, name='logout_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
     url(r'^redesign/teach/fuzzy_lookup/$', organisation_fuzzy_lookup_new, name='organisation_fuzzy_lookup_new'),

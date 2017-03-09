@@ -1,17 +1,10 @@
 {% extends 'redesign/base_new.html' %}
 
-{% block leftMenuButtons %}
-    <a class="button--menu button--menu--primary"><b>Teacher</b></a>
-    {% block secondaryButtons %}
-    {% block dashboard %}<a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>{% endblock dashboard %}
-    {% block levels %}<a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>{% endblock levels %}
-    {% block materials %}<a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>{% endblock materials %}
-    {% endblock secondaryButtons %}
-{% endblock leftMenuButtons %}
-
-{% block rightMenuButtons %}
-    <button class="button--regular button--secondary button--secondary--dark button--logout col-sm-offset-3">Ms Noobie <div class="glyphicon glyphicon-user"></div></button>
-{% endblock rightMenuButtons %}
+{% block secondaryButtons %}
+<a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>
+<a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+<a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+{% endblock secondaryButtons %}
 
 {% block content %}
 {% endblock content %}
