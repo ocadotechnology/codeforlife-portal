@@ -316,6 +316,9 @@ def teacher_edit_class_new(request, access_code):
                    'external_requests_message': external_requests_message})
 
 
+
+
+
 def process_edit_class_form(request, klass, form):
     name = form.cleaned_data['name']
     classmate_progress = False
