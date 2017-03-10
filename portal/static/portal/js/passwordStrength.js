@@ -36,7 +36,7 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 $(function() {
-    var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateStudentPasswordStrength : updateTeacherPasswordStrength;
+    var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateIndependentStudentPasswordStrength : updateTeacherPasswordStrength;
 
     password_field = $('#' + PASSWORD_FIELD_ID);
     password_field.on('keydown', updateFunction);
@@ -76,13 +76,13 @@ function updateTeacherPasswordStrength() {
     });
 }
 
-var student_password_strengths = [
+var independent_student_password_strengths = [
     { name: 'Password quality', colour: '' },
     { name: 'Not long enough', colour: '#DBA901' },
     { name: 'Good password', colour: '#088A08' }
 ];
 
-function updateStudentPasswordStrength() {
+function updateIndependentStudentPasswordStrength() {
     setTimeout(function() {
         var password = $('#' + PASSWORD_FIELD_ID).val();
 
@@ -95,7 +95,7 @@ function updateStudentPasswordStrength() {
         else { $('.password-strength-bar-container').show(); $('.password-strength-text').show(); }
 
         $('.password-strength-bar').css('width', strength / 2 * 100 + '%');
-        $('.password-strength-bar').css('background-color', student_password_strengths[strength].colour);
-        $('.password-strength-text').html(student_password_strengths[strength].name);
+        $('.password-strength-bar').css('background-color', independent_student_password_strengths[strength].colour);
+        $('.password-strength-text').html(independent_student_password_strengths[strength].name);
     });
 }
