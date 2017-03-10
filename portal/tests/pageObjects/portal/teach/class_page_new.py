@@ -39,6 +39,7 @@ import dashboard_page_new
 import class_settings_page_new
 import edit_student_page
 import onboarding_student_list_page
+import class_settings_page_new
 
 
 class TeachClassPage(TeachBasePage):
