@@ -43,17 +43,11 @@ $(function() {
     var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateIndependentStudentPasswordStrength : updateTeacherPasswordStrength;
 
     password_field = $('#' + PASSWORD_FIELD_ID);
-    password_field.on('keydown', updateFunction);
+    password_field.on('keyup', updateFunction);
     password_field.on('paste', updateFunction);
     password_field.on('cut', updateFunction);
     updateFunction();
 });
-
-var teacher_password_strengths = [
-    { name: 'No password!', colour: '#FF0000' },
-    { name: 'Password too weak', colour: '#DBA901' },
-    { name: 'Strong password', colour: '#088A08' }
-];
 
 function updateTeacherPasswordStrength() {
     // The reason for the timeout is that if we just got $('#...').val() we'd get the
@@ -61,6 +55,12 @@ function updateTeacherPasswordStrength() {
     // things this way, so maybe there is no better workaround.
 
     setTimeout(function() {
+        var teacher_password_strengths = [
+            { name: 'No password!', colour: '#FF0000' },
+            { name: 'Password too weak', colour: '#DBA901' },
+            { name: 'Strong password', colour: '#088A08' }
+        ];
+
         var password = $('#' + PASSWORD_FIELD_ID).val();
 
         var strength = 0;
@@ -72,14 +72,15 @@ function updateTeacherPasswordStrength() {
     });
 }
 
-var independent_student_password_strengths = [
-    { name: 'Password quality', colour: '' },
-    { name: 'Not long enough', colour: '#DBA901' },
-    { name: 'Good password', colour: '#088A08' }
-];
-
 function updateIndependentStudentPasswordStrength() {
+
     setTimeout(function() {
+        var independent_student_password_strengths = [
+            { name: 'Password quality', colour: '' },
+            { name: 'Not long enough', colour: '#DBA901' },
+            { name: 'Good password', colour: '#088A08' }
+        ];
+
         var password = $('#' + PASSWORD_FIELD_ID).val();
 
         var strength = 0;
