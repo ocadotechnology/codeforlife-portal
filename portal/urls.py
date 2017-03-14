@@ -70,7 +70,7 @@ from portal.views.email_new import verify_email_new, change_email
 from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_view_class, \
-    teacher_delete_class_new, teacher_edit_class_new, teacher_move_class_new, teacher_edit_student_new, \
+    teacher_edit_class_new, teacher_move_class_new, teacher_edit_student_new, \
     teacher_student_reset_new, materials_viewer_new, teacher_print_reminder_cards_new, teacher_delete_students_new, \
     teacher_delete_class_new
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
