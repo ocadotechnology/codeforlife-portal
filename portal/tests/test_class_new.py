@@ -84,6 +84,23 @@ class TestClass(BaseTest):
 
         assert is_class_created_message_showing(selenium, class_name)
 
+    def test_delete_empty(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
+
+        page = page.toggle_select_student().delete_students()
+        page = page.confirm_delete_student_dialog()
+        page = page.delete_class()
+        assert page.is_dialog_showing()
+        page = page.confirm_delete_class_dialog()
+        assert page.__class__.__name__ == 'TeachDashboardPage'
+        assert page.does_not_have_classes()
+
     def test_delete_nonempty(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

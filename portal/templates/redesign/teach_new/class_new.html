@@ -16,6 +16,19 @@
 <script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
+<script>
+    var DELETE_STUDENTS_URL = "{% url 'teacher_delete_students_new' class.access_code %}";
+
+    var CONFIRMATION_DATA = {
+        'deleteStudents': {
+            options: {
+                title: 'Delete students'
+            },
+            html: '<p>These students will be permanently deleted. Are you sure?</p>',
+            confirm: function() { postSelectedStudents(DELETE_STUDENTS_URL); }
+        }
+    };
+</script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -58,7 +71,7 @@
                     <th class="cell-center">
                         <p class="body-text">Select</p>
                         <div class="row--flex">
-                            <input type="checkbox" name="vehicle" value="">
+                            <input id='selectedStudentsListToggle' name='selectedStudentsListToggle' type="checkbox" value="">
                             <p class="small-text">Select all</p>
                         </div>
                     </th>
@@ -71,7 +84,7 @@
                 </tr>
                 {% for student in students %}
                 <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
+                    <td class="cell-center"><input id="student_checkbox" type="checkbox" class='student' name='{{ student.id }}' value=""></td>
                     <td>
                         <p class="small-text">{{ student.new_user.first_name }}</p>
                         <a id="edit_student_button" href="{% url 'teacher_edit_student_new' student.id %}" class="button button--small button--primary--positive">Edit</a>
@@ -84,10 +97,10 @@
                 {% endfor %}
                 <tr>
                     <td class="table-footer" colspan="3" rowspan="2">
-                        <p class="small-text">0/7 selected</p>
+                        <p class="small-text"><span id="num_students_selected">0</span>/{{ num_students }} selected</p>
                         <button class="button--small button--primary--navigation">Move</button>
                         <button class="button--small button--primary--navigation">Release</button>
-                        <button class="button--small button--primary--danger">Delete</button>
+                        <button id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
                         <button class="button--small button--primary--danger">Reset passwords</button>
                     </td>
                 </tr>
