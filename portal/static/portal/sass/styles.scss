@@ -313,7 +313,6 @@ button,
 .ui-dialog-buttonset button {
   @include _font-size(20px);
   @include _line-height(25px);
-  @include _padding(10px, 15px, 10px, 15px);
 }
 
 .button--small {
