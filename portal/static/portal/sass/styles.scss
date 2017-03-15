@@ -723,6 +723,27 @@ form {
 
 }
 
+.password-strength-container {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.password-strength-sign {
+  border: 1px solid white;
+  border-radius: 50%;
+  display: block;
+  height: 15px;
+  margin: auto;
+  width: 15px;
+}
+
+.password-strength-text {
+  @include _padding(0px, 0px, 0px, 10px);
+  color: $color-text-secondary;
+  font-style: italic;
+}
+
 .banner {
 
   * {

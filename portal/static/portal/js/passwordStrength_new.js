@@ -35,23 +35,19 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+var PASSWORD_TYPE = '';
+var PASSWORD_FIELD_ID = '';
+var password_field = '';
+
 $(function() {
     var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateIndependentStudentPasswordStrength : updateTeacherPasswordStrength;
 
     password_field = $('#' + PASSWORD_FIELD_ID);
-    password_field.on('keydown', updateFunction);
+    password_field.on('keyup', updateFunction);
     password_field.on('paste', updateFunction);
     password_field.on('cut', updateFunction);
     updateFunction();
 });
-
-var teacher_password_strengths = [
-    { name: 'Password quality', colour: '' },
-    { name: 'Poor quality', colour: '#FF0000' },
-    { name: 'Not quite', colour: '#DBA901' },
-    { name: 'Nearly there', colour: '#D7DF01' },
-    { name: 'Good password', colour: '#088A08' }
-];
 
 function updateTeacherPasswordStrength() {
     // The reason for the timeout is that if we just got $('#...').val() we'd get the
@@ -59,31 +55,32 @@ function updateTeacherPasswordStrength() {
     // things this way, so maybe there is no better workaround.
 
     setTimeout(function() {
+        var teacher_password_strengths = [
+            { name: 'No password!', colour: '#FF0000' },
+            { name: 'Password too weak', colour: '#DBA901' },
+            { name: 'Strong password', colour: '#088A08' }
+        ];
+
         var password = $('#' + PASSWORD_FIELD_ID).val();
 
-        var strength = 4;
-        if (password.length < 8) { strength--; }
-        if (password.search(/[A-Z]/) === -1) { strength--; }
-        if (password.search(/[a-z]/) === -1) { strength--; }
-        if (password.search(/[0-9]/) === -1) { strength--; }
+        var strength = 0;
+        if (password.length > 0) { strength++; }
+        if (password.length > 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)) { strength++; }
 
-        if (password == '') { $('.password-strength-bar-container').hide(); $('.password-strength-text').hide(); }
-        else { $('.password-strength-bar-container').show(); $('.password-strength-text').show(); }
-
-        $('.password-strength-bar').css('width', strength / 4 * 100 + '%');
-        $('.password-strength-bar').css('background-color', teacher_password_strengths[strength].colour);
+        $('.password-strength-sign').css('background-color', teacher_password_strengths[strength].colour);
         $('.password-strength-text').html(teacher_password_strengths[strength].name);
     });
 }
 
-var independent_student_password_strengths = [
-    { name: 'Password quality', colour: '' },
-    { name: 'Not long enough', colour: '#DBA901' },
-    { name: 'Good password', colour: '#088A08' }
-];
-
 function updateIndependentStudentPasswordStrength() {
+
     setTimeout(function() {
+        var independent_student_password_strengths = [
+            { name: 'Password quality', colour: '' },
+            { name: 'Not long enough', colour: '#DBA901' },
+            { name: 'Good password', colour: '#088A08' }
+        ];
+
         var password = $('#' + PASSWORD_FIELD_ID).val();
 
         var strength = 0;
