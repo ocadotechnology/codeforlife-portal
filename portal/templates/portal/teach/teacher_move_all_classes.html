@@ -8,9 +8,9 @@
 
 
 <h1>School | Club</h1><br>
-<h2>Move all classes for teacher {{ original_teacher.new_user|make_into_username }}</h2><br>
+<h2>Move all classes for teacher {{ original_teacher.user|make_into_username }}</h2><br>
 
-<p>Move all classes assigned to teacher {{ original_teacher.new_user.first_name }} {{ original_teacher.new_user.last_name }} to other teachers in {{ original_teacher.school.name }}.</p>
+<p>Move all classes assigned to teacher {{ original_teacher.user.first_name }} {{ original_teacher.user.last_name }} to other teachers in {{ original_teacher.school.name }}.</p>
 
 <div class='section group'>
 
@@ -36,7 +36,7 @@
                         <td>
                             <select class='wide' name='{{ class.access_code }}'>
                                 {% for teacher in teachers %}
-                                    <option value='{{ teacher.id }}'>{{ teacher.title }} {{ teacher.new_user.first_name }} {{ teacher.new_user.last_name }}</option>
+                                    <option value='{{ teacher.id }}'>{{ teacher.title }} {{ teacher.user.first_name }} {{ teacher.user.last_name }}</option>
                                 {% endfor %}
                             </select>
                         </td>

@@ -65,7 +65,7 @@ def student_details(request):
 @login_required(login_url=reverse_lazy('play'))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy('play'))
 def student_edit_account(request):
-    student = request.user.new_student
+    student = request.user.student
 
     if request.method == 'POST':
         form = StudentEditAccountForm(request.user, request.POST)
@@ -75,22 +75,22 @@ def student_edit_account(request):
 
             # check not default value for CharField
             if (data['password'] != ''):
-                student.new_user.set_password(data['password'])
-                student.new_user.save()
+                student.user.set_password(data['password'])
+                student.user.save()
                 update_session_auth_hash(request, form.user)
 
             # allow individual students to update more
             if not student.class_field:
                 new_email = data['email']
-                if new_email != '' and new_email != student.new_user.email:
+                if new_email != '' and new_email != student.user.email:
                     # new email to set and verify
                     changing_email = True
                     send_verification_email(request, student.user, new_email)
 
-                student.new_user.first_name = data['name']
+                student.user.first_name = data['name']
                 # save all tables
                 student.save()
-                student.new_user.save()
+                student.user.save()
 
             messages.success(request, 'Your account details have been changed successfully.')
 
@@ -101,7 +101,7 @@ def student_edit_account(request):
             return HttpResponseRedirect(reverse_lazy('student_details'))
     else:
         form = StudentEditAccountForm(request.user, initial={
-            'name': student.new_user.first_name})
+            'name': student.user.first_name})
 
     return render(request, 'portal/play/student_edit_account.html', {'form': form})
 
@@ -125,7 +125,7 @@ def student_join_organisation(request):
     InputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if using_captcha else StudentJoinOrganisationForm
     OutputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if should_use_captcha else StudentJoinOrganisationForm
 
-    student = request.user.new_student
+    student = request.user.student
     request_form = OutputStudentJoinOrganisationForm()
 
     # check student not managed by a school
@@ -141,10 +141,10 @@ def student_join_organisation(request):
                 student.save()
 
                 emailMessage = emailMessages.studentJoinRequestSentEmail(request, request_form.klass.teacher.school.name, request_form.klass.access_code)
-                send_email(NOTIFICATION_EMAIL, [student.new_user.email], emailMessage['subject'], emailMessage['message'])
+                send_email(NOTIFICATION_EMAIL, [student.user.email], emailMessage['subject'], emailMessage['message'])
 
-                emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.new_user.username, student.new_user.email, student.pending_class_request.access_code)
-                send_email(NOTIFICATION_EMAIL, [student.pending_class_request.teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
+                emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.user.username, student.user.email, student.pending_class_request.access_code)
+                send_email(NOTIFICATION_EMAIL, [student.pending_class_request.teacher.user.email], emailMessage['subject'], emailMessage['message'])
 
                 messages.success(request, 'Your request to join a school has been received successfully.')
 

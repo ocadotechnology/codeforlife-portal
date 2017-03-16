@@ -53,7 +53,7 @@ from recaptcha import RecaptchaClient
 from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
-from portal.models import UserProfile, Teacher, School, Class, Student
+from portal.models import Teacher, School, Class, Student
 from ratelimit.decorators import ratelimit
 
 block_limit = 5
@@ -92,8 +92,8 @@ def aggregated_data(request):
 
     teacher_count = Teacher.objects.count()
     student_count = Student.objects.count()
-    new_profiles_count = UserProfile.objects.filter(
-        user__date_joined__gte=timezone.now() - timedelta(days=7)
+    new_profiles_count = User.objects.filter(
+        date_joined__gte=timezone.now() - timedelta(days=7)
     ).count()
 
     table_data.append(["Number of users",
@@ -139,12 +139,12 @@ def aggregated_data(request):
                        Teacher.objects.exclude(pending_join_request=None).count(), ""])
 
     table_data.append(["Number of teachers with unverified email address",
-                      Teacher.objects.exclude(new_user__email_verifications__verified=True).count(), ""])
+                      Teacher.objects.exclude(user__email_verifications__verified=True).count(), ""])
 
     otp_model_names = [model._meta.model_name for model in device_classes()]
     otp_query = Q()
     for model_name in otp_model_names:
-        otp_query = otp_query | Q(**{"new_user__%s__name" % model_name: 'default'})
+        otp_query = otp_query | Q(**{"user__%s__name" % model_name: 'default'})
     two_factor_teachers = Teacher.objects.filter(otp_query).distinct().count()
     table_data.append(["Number of teachers setup with 2FA", two_factor_teachers, ""])
     num_of_classes_per_teacher = Teacher.objects.annotate(num_classes=Count('class_teacher'))
@@ -209,7 +209,7 @@ def aggregated_data(request):
                        independent_students.count(), ""])
 
     table_data.append(["Number of independent students with unverified email address",
-                       Student.objects.exclude(new_user__email_verifications__verified=True).count(), ""])
+                       Student.objects.exclude(user__email_verifications__verified=True).count(), ""])
 
     table_data.append(["Number of school students",
                        Student.objects.exclude(class_field=None).count(), ""])
@@ -246,8 +246,8 @@ def aggregated_data(request):
     Rapid Router Levels statistics
     """
     table_data = []
-    num_user_levels = UserProfile.objects.annotate(num_custom_levels=Count('levels')) \
-                                         .exclude(num_custom_levels=0)
+    num_user_levels = User.objects.annotate(num_custom_levels=Count('userprofile__levels')) \
+                                  .exclude(num_custom_levels=0)
     stats_user_levels = num_user_levels.aggregate(Avg('num_custom_levels'))
 
     table_data.append(["Number of users with custom levels",
@@ -301,8 +301,8 @@ def aggregated_data(request):
     Rapid Router Workspaces statistics
     """
     table_data = []
-    num_user_workspaces = UserProfile.objects.annotate(num_saved_workspaces=Count('workspaces')) \
-                                             .exclude(num_saved_workspaces=0)
+    num_user_workspaces = User.objects.annotate(num_saved_workspaces=Count('userprofile__workspaces')) \
+                                      .exclude(num_saved_workspaces=0)
     stats_user_workspaces = num_user_workspaces.aggregate(Avg('num_saved_workspaces'))
 
     table_data.append(["Number of users with saved workspaces",

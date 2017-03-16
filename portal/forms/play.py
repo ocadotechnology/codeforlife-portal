@@ -72,12 +72,12 @@ class StudentLoginForm(forms.Form):
             name = stripStudentName(name)
 
             students = Student.objects.filter(
-                new_user__first_name__iexact=name, class_field=classes[0])
+                user__first_name__iexact=name, class_field=classes[0])
             if len(students) != 1:
                 raise forms.ValidationError("Invalid name, class access code or password")
 
             student = students[0]
-            user = authenticate(username=student.new_user.username, password=password)
+            user = authenticate(username=student.user.username, password=password)
 
             if user is None:
                 raise forms.ValidationError("Invalid name, class access code or password")
@@ -113,7 +113,7 @@ class StudentEditAccountForm(forms.Form):
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name', None)
-        if not self.user.new_student.class_field and first_name == '':
+        if not self.user.student.class_field and first_name == '':
             raise forms.ValidationError("This field is required")
         return first_name
 
@@ -201,7 +201,7 @@ class IndependentStudentLoginForm(forms.Form):
         password = self.cleaned_data.get('password', None)
 
         if username and password:
-            students = Student.objects.filter(class_field=None, new_user__username=username)
+            students = Student.objects.filter(class_field=None, user__username=username)
             if not students.exists():
                 raise forms.ValidationError("Incorrect username or password")
 

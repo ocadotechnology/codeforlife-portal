@@ -134,14 +134,15 @@ def teach(request):
                     email=data['email'],
                     password=data['password'])
 
-                send_verification_email(request, teacher.new_user)
+                send_verification_email(request, teacher.user)
 
                 return render(request, 'portal/email_verification_needed.html',
-                              {'user': teacher.new_user})
+                              {'user': teacher.user})
 
-    logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
-        hasattr(request.user, 'teacher') and \
+    logged_in_as_teacher = (
+        hasattr(request.user, 'teacher') and
         (request.user.is_verified() or not using_two_factor(request.user))
+    )
 
     res = render(request, 'portal/teach.html', {
         'login_form': login_form,
@@ -243,9 +244,9 @@ def play(request):
 
                 email_supplied = (data['email'] != '')
                 if (email_supplied):
-                    send_verification_email(request, student.new_user)
+                    send_verification_email(request, student.user)
                     return render(request, 'portal/email_verification_needed.html',
-                                  {'user': student.new_user})
+                                  {'user': student.user})
                 else:  # dead code - frontend ensures email supplied.
                     auth_user = authenticate(username=data['username'], password=data['password'])
                     login(request, auth_user)
@@ -314,10 +315,8 @@ def contact(request):
 
 
 def current_user(request):
-    if not hasattr(request.user, 'userprofile'):
-        return HttpResponseRedirect(reverse_lazy('home'))
     u = request.user
-    if hasattr(request.user, 'new_student'):
+    if hasattr(request.user, 'student'):
         return HttpResponseRedirect(reverse_lazy('student_details'))
     elif hasattr(request.user, 'new_teacher'):
         return HttpResponseRedirect(reverse_lazy('teacher_home'))

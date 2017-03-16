@@ -42,13 +42,13 @@ from portal.utils import using_two_factor
 
 
 def logged_in_as_teacher(u):
-    if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
+    if not hasattr(u, 'teacher'):
         return False
     return u.is_verified() or not using_two_factor(u)
 
 
 def logged_in_as_student(u):
-    return hasattr(u, 'userprofile') and hasattr(u.userprofile, 'student')
+    return hasattr(u, 'student')
 
 
 def not_logged_in(u):
@@ -63,7 +63,7 @@ def teacher_verified(view_func):
     @wraps(view_func)
     def wrapped(request, *args, **kwargs):
         u = request.user
-        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
+        if (not hasattr(u, 'teacher') or
                 (not u.is_verified() and using_two_factor(u))):
             return HttpResponseRedirect(reverse_lazy('teach'))
 

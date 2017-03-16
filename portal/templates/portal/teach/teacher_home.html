@@ -8,7 +8,7 @@
 
 <div id="teach_dashboard_page"></div>
 
-<h3>Hello, {{ user|make_into_username }}{% if user.new_teacher.school %} ({{ user.new_teacher.school.name }}){% endif %}</h3>
+<h3>Hello, {{ user|make_into_username }}{% if user.teacher.school %} ({{ user.teacher.school.name }}){% endif %}</h3>
 <div class="section group">
 
   <div class="col span_2_of_3">
@@ -69,7 +69,7 @@
          <td>Manage classrooms</td>
        </tr>
        <tr>
-         <td><a href="{% url 'organisation_manage' %}">School or Club ({% if user.new_teacher.school %}{{ user.new_teacher.school.name }}{% else %}join/create{% endif %})</a></td>
+         <td><a href="{% url 'organisation_manage' %}">School or Club ({% if user.teacher.school %}{{ user.teacher.school.name }}{% else %}join/create{% endif %})</a></td>
        </tr>
        <tr>
          <td><a href="{% url 'teacher_classes' %}">Classes ({{ num_classes }})</a></td>
