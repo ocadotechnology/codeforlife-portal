@@ -1,40 +1,51 @@
 //*******COLORS*******
+//General Palette
+$color-teacher-blue: #0c52a3;
+$color-student-orange: #f37300;
+$color-text-grey: #4a4a4a;
 //Text
 $color-text-primary: #000;
 $color-text-secondary: #fff;
-$color-text-tertiary: #4a4a4a;
+$color-text-tertiary: $color-text-grey;
 //Quotes
-$color-quote-text: #0c52a3;
-$color-quote-name: #4a4a4a;
+$color-quote-text: $color-teacher-blue;
+$color-quote-name: $color-text-grey;
 //Buttons
-$color-button-primary-action-general-play: #0c52a3;
-$color-button-primary-action-general-educate: #f37300;
+$color-button-primary-action-general-play: $color-teacher-blue;
+$color-button-primary-action-general-educate: $color-student-orange;
 $color-button-primary-action-positive: #7ed321;
 $color-button-primary-action-negative: #ff637d;
 $color-button-primary-action-danger: #f00;
-$color-button-primary-action-navigation: #4a4a4a;
+$color-button-primary-action-navigation: $color-text-grey;
 $color-button-primary-action-setup: #fab300;
 $color-button-secondary-border-light: #fff;
-$color-button-secondary-border-dark: #4a4a4a;
-$color-button-border-teacher: #0c52a3;
-$color-button-border-student: #f37300;
+$color-button-secondary-border-dark: $color-text-grey;
+$color-button-border-teacher: $color-teacher-blue;
+$color-button-border-student: $color-student-orange;
 $color-button-disabled: #d8d8d8;
 //Tabs
-$color-tab-border: #0c52a3;
+$color-tab-border: $color-teacher-blue;
 $color-tab-selected-text: #fff;
-$color-tab-selected-background: #0c52a3;
-$color-tab-unselected-text: #0c52a3;
+$color-tab-selected-background: $color-teacher-blue;
+$color-tab-unselected-text: $color-teacher-blue;
 $color-tab-unselected-background: #fff;
+//Onboarding Arrows
+$color-onboarding-step-done-background: $color-teacher-blue;
+$color-onboarding-step-done-text: #fff;
+$color-onboarding-step-in-progress-background: #fff;
+$color-onboarding-step-in-progress-text: $color-text-grey;
+$color-onboarding-step-todo-background: $color-text-grey;
+$color-onboarding-step-todo-text: #fff;
 //Tables
-$color-table-header-primary: #0c52a3;
-$color-table-header-secondary: #4a4a4a;
+$color-table-header-primary: $color-teacher-blue;
+$color-table-header-secondary: $color-text-grey;
 $color-table-border: #9b9b9b;
 //Backgrounds
 $color-background-primary: #000;
 $color-background-secondary: #fff;
-$color-background-tertiary: #4a4a4a;
-$color-background-teach: #0c52a3;
-$color-background-play: #f37300;
+$color-background-tertiary: $color-text-grey;
+$color-background-teach: $color-teacher-blue;
+$color-background-play: $color-student-orange;
 $color-background-warning: #fab300;
 $color-background-positive: #7ed321;
 $color-background-tint-primary: #d6e7ed;
@@ -71,6 +82,66 @@ $color-background-tint-quinary: #d8d8d8;
 @mixin _border-radius($radius-top-left, $radius-top-right, $radius-bottom-right, $radius-bottom-left) {
   //border-radius: $radius-top-left $radius-top-right $radius-bottom-right $radius-bottom-left; //Fallback in px
   border-radius: calculate-rem($radius-top-left) calculate-rem($radius-top-right) calculate-rem($radius-bottom-right) calculate-rem($radius-bottom-left);
+}
+
+@mixin arrow_properties($height-onboarding-step) {
+  $height-onboarding-step-done: $height-onboarding-step*0.7;
+  $height-onboarding-step-progress: $height-onboarding-step/2;
+  $height-onboarding-step-todo: $height-onboarding-step/2;
+  $height-onboarding-step-offset: $height-onboarding-step-progress+3;
+
+  .onboarding-step--done {
+
+    &:before,
+    &:after {
+      height: $height-onboarding-step-done;
+      width: $height-onboarding-step-done;
+    }
+
+    &:after {
+      right: -$height-onboarding-step-done;
+    }
+
+  }
+
+  .onboarding-step--in-progress {
+
+    &:before,
+    &:after {
+      border-bottom-width: $height-onboarding-step-progress;
+      border-top-width: $height-onboarding-step-progress;
+    }
+
+    &:before {
+      border-left-width: $height-onboarding-step-progress;
+    }
+
+    &:after {
+      border-left-width: $height-onboarding-step-progress;
+      right: -$height-onboarding-step-offset;
+    }
+
+  }
+
+  .onboarding-step--todo {
+
+    &:before,
+    &:after {
+      border-bottom-width: $height-onboarding-step-todo;
+      border-top-width: $height-onboarding-step-todo;
+    }
+
+    &:before {
+      border-left-width: $height-onboarding-step-todo;
+    }
+
+    &:after {
+      border-left-width: $height-onboarding-step-todo;
+      right: -$height-onboarding-step-offset;
+    }
+
+  }
+
 }
 
 body {
@@ -888,72 +959,72 @@ form {
 }
 
 .arrows {
-  @include _padding(20px, 0px, 0px, 0px);
+  @include _padding(20px, 40px, 0px, 5px);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  text-align: center;
 }
 
-.progress-arrow {
-  @include _margin(0px, -10px, 0px, 0px);
-  display: inline-block;
+.onboarding-step {
+  @include _margin(0px, 8px, 0px, 8px);
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  width: 250px;
 
   img {
-    max-width: none;
-  }
-
-  * {
-    display: inline-block;
+    @include _margin(0px, 10px, 5px, 25px);
   }
 
 }
 
-.progress-arrow__back {
-  @include _margin(0px, -3px, 0px, 0px);
+.onboarding-step__text {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
 }
 
-.progress-arrow__body {
-  @include _margin(0px, -3px, 0px, 0px);
-  @include _padding(5px, 10px, 17px, 15px);
-  height: 50px;
-  text-align: left;
-  width: 215px;
-
-  * {
-    display: inline-block;
-  }
+.onboarding-step--in-progress {
+  background: $color-onboarding-step-in-progress-background;
 
   p {
-    @include _padding(0px, 0px, 0px, 10px);
+    color: $color-onboarding-step-in-progress-text;
+  }
+
+  &:before,
+  &:after {
+    border-color: transparent;
+    border-style: solid;
+  }
+
+  &:before {
+    border-left-color: $color-background-teach;
+  }
+
+  &:after {
+    border-left-color: $color-onboarding-step-in-progress-background;
   }
 
 }
 
-.progress-arrow__body--undone {
-  background-color: $color-background-tertiary;
-  border-bottom: 1px solid $color-background-tertiary;
-  border-top: 1px solid $color-background-tertiary;
+.onboarding-step--todo {
+  background: $color-onboarding-step-todo-background;
 
-  p {
-    color: $color-text-secondary;
+  &:before,
+  &:after {
+    border-color: transparent;
+    border-style: solid;
   }
 
-}
-
-.progress-arrow__body--in-progress {
-  background-color: $color-background-secondary;
-  border-bottom: 1px solid $color-background-secondary;
-  border-top: 1px solid $color-background-secondary;
-
-  p {
-    color: $color-text-tertiary;
+  &:before {
+    border-left-color: $color-background-teach;
   }
-}
 
-.progress-arrow__body--done {
-  background-color: $color-background-teach;
-  border-bottom: 1px solid $color-background-secondary;
-  border-top: 1px solid $color-background-secondary;
-
-  p {
-    color: $color-text-secondary;
+  &:after {
+    border-left-color: $color-onboarding-step-todo-background;
   }
 
 }
@@ -1225,6 +1296,51 @@ td {
   }
 }
 
+@media (min-width: 1570px) {
+
+  $height-onboarding-step: 50px;
+  @include arrow_properties($height-onboarding-step);
+
+  .onboarding-step {
+    height: $height-onboarding-step;
+  }
+
+}
+
+@media (max-width: 1570px) {
+
+  $height-onboarding-step: 76px;
+  @include arrow_properties($height-onboarding-step);
+
+  .onboarding-step {
+    height: $height-onboarding-step;
+
+    img {
+      @include _margin(0px, 10px, 5px, 10px);
+    }
+
+    p {
+      @include _line-height(20px);
+      @include _margin(0px, 0px, 0px, 0px);
+    }
+
+  }
+
+  .onboarding-step__text {
+    @include _margin(0px, 0px, 0px, 45px);
+    z-index: 1;
+  }
+
+  .onboarding-step--done {
+
+    p {
+      @include _margin(0px, -10px, 0px, 0px);
+    }
+
+  }
+
+}
+
 @media (min-width: 1400px) {
 
   html {
@@ -1323,6 +1439,62 @@ td {
   .banner__item,
   .button--banner__item {
     display: none;
+  }
+
+  .onboarding-step--done {
+    background: $color-onboarding-step-done-background;
+    border-bottom: 1px solid $color-background-secondary;
+    border-top: 1px solid $color-background-secondary;
+    color: $color-onboarding-step-done-text;
+
+    &:before,
+    &:after {
+      background: transparent;
+      border-right: 1px solid $color-background-secondary;
+      border-top: 1px solid $color-background-secondary;
+      content: "";
+      position: absolute;
+      top: 0;
+      transform: rotate(45deg);
+      transform-origin: 0 0;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+  }
+
+  .onboarding-step--in-progress {
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+  }
+
+  .onboarding-step--todo {
+    background: $color-onboarding-step-todo-background;
+    color: $color-onboarding-step-todo-text;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+    }
+
+    &:before {
+      left: 0;
+    }
+
   }
 
 }
@@ -1459,12 +1631,45 @@ td {
   }
 
   .banner {
-    @include _padding(80px, 0px, 0px, 0px);
+    @include _padding(10px, 0px, 50px, 0px);
     text-align: center;
 
     p a {
       color: $color-text-secondary;
     }
+  }
+
+  .arrows {
+    @include _padding(0px, 0px, 0px, 15px);
+    flex-direction: column-reverse;
+    text-align: left;
+    width: 95%;
+  }
+
+  .onboarding-step {
+    @include _margin(0px, 8px, 10px, 8px);
+    height: 40px;
+    justify-content: flex-start;
+    width: 100%;
+
+    img {
+      @include _margin(0px, 10px, 5px, 15px);
+      height: 20px;
+      width: 20px;
+    }
+
+  }
+
+  .onboarding-step__text {
+    margin: 0;
+  }
+
+  .onboarding-step--done {
+    border: 1px solid $color-background-secondary;
+  }
+
+  .onboarding-step--todo {
+    color: $color-onboarding-step-todo-text;
   }
 
   .col-sm-3 {
