@@ -39,7 +39,6 @@ install:
   - pip install coveralls
 before_script:
   - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-  - echo $PATH
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
   - export CHROME_BIN=chromium-browser
   - "export DISPLAY=:99.0"

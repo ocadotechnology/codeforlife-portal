@@ -52,7 +52,7 @@ from portal.tests.pageObjects.portal.home_page import HomePage
 from deploy import captcha
 
 
-custom_handler.monkey_patch()
+custom_handler.add_timeout()
 
 
 @skipUnless(selenium, "Selenium is unconfigured")

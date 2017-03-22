@@ -53,5 +53,5 @@ class RequestHandler(testcases.QuietWSGIRequestHandler):
             return
 
 
-def monkey_patch():
+def add_timeout():
     testcases.QuietWSGIRequestHandler = RequestHandler
