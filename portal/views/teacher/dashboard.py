@@ -85,3 +85,5 @@ def dashboard_manage(request):
 
     if teacher.school:
         return dashboard_teacher_view(request, teacher.is_admin)
+    else:
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
