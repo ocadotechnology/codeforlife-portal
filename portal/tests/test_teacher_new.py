@@ -35,7 +35,10 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+import time
+
 from django_selenium_clean import selenium
+from django.core import mail
 
 from base_test_new import BaseTest
 from pageObjects.portal.home_page_new import HomePage
@@ -43,7 +46,8 @@ from utils.teacher_new import signup_teacher, signup_teacher_directly
 from utils.organisation_new import create_organisation_directly
 from utils.classes_new import create_class_directly
 from utils.student_new import create_school_student_directly
-from utils.messages import is_email_verified_message_showing
+from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
+from utils import email as email_utils
 
 
 class TestTeacher(BaseTest):
@@ -78,6 +82,55 @@ class TestTeacher(BaseTest):
         page, email, password = signup_teacher(page)
         page = page.login_no_school(email, password)
         assert self.is_onboarding_page(page)
+
+    def test_edit_details(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+
+        page = page.change_teacher_details({
+            'title': 'Mrs',
+            'first_name': 'Paulina',
+            'last_name': 'Koch',
+            'current_password': 'Password1',
+        })
+        assert self.is_dashboard_page(page)
+        assert is_teacher_details_updated_message_showing(selenium)
+
+        assert page.check_account_details({
+            'title': 'Mrs',
+            'first_name': 'Paulina',
+            'last_name': 'Koch',
+        })
+
+    def test_change_email(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+
+        new_email = 'another-email@codeforlife.com'
+        page = page.change_email('Test', 'Teacher', new_email, password)
+        assert page.__class__.__name__ == 'EmailVerificationNeededPage'
+        assert is_teacher_email_updated_message_showing(selenium)
+
+        page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
+        mail.outbox = []
+
+        page = page.login(new_email, password)
+
+        assert page.check_account_details({
+            'title': 'Mr',
+            'first_name': 'Test',
+            'last_name': 'Teacher',
+        })
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'

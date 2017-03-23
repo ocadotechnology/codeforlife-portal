@@ -35,6 +35,9 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from teach_base_page_new import TeachBasePage
+from selenium.webdriver.support.ui import Select
+
+import time
 
 
 class TeachDashboardPage(TeachBasePage):
@@ -42,3 +45,73 @@ class TeachDashboardPage(TeachBasePage):
         super(TeachDashboardPage, self).__init__(browser)
 
         assert self.on_correct_page('teach_dashboard_page_new')
+
+    def check_organisation_details(self, details):
+        correct = True
+
+        first_field = details.items()[0][0]
+        self.wait_for_element_by_id('id_' + first_field)
+
+        for field, value in details.items():
+            correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
+
+        return correct
+
+    def change_organisation_details(self, details):
+        for field, value in details.items():
+            self.browser.find_element_by_id('id_' + field).clear()
+            self.browser.find_element_by_id('id_' + field).send_keys(value)
+
+        self.browser.find_element_by_id('update_details_button').click()
+        return self
+
+    def has_edit_failed(self):
+        self.wait_for_element_by_id('edit_form')
+        errorlist = self.browser.find_element_by_id('edit_form').find_element_by_class_name('errorlist').text
+        error = 'There is already a school or club registered with that name and postcode'
+        return error in errorlist
+
+    def create_class(self, name, classmate_progress):
+        self.browser.find_element_by_id('id_class_name').send_keys(name)
+        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
+
+        self.browser.find_element_by_id('create_class_button').click()
+
+        return self
+
+    def change_teacher_details(self, details):
+        self._change_details(details)
+
+        return self
+
+    def change_email(self, first_name, last_name, new_email, password):
+        self._change_details({
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': new_email,
+            'current_password': password,
+        })
+
+        from portal.tests.pageObjects.portal.email_verification_needed_page_new import EmailVerificationNeededPage
+        return EmailVerificationNeededPage(self.browser)
+
+    def _change_details(self, details):
+        if 'title' in details:
+            Select(self.browser.find_element_by_id('id_title')).select_by_value(details['title'])
+            del details['title']
+        for field, value in details.items():
+            self.browser.find_element_by_id('id_' + field).clear()
+            self.browser.find_element_by_id('id_' + field).send_keys(value)
+        self.browser.find_element_by_id('update_button').click()
+
+    def check_account_details(self, details):
+        correct = True
+
+        if 'title' in details:
+            correct &= (Select(self.browser.find_element_by_id('id_title')).first_selected_option.text == details['title'])
+            del details['title']
+
+        for field, value in details.items():
+            correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
+
+        return correct

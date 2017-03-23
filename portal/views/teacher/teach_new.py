@@ -35,18 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import json
-from functools import partial, wraps
-from datetime import timedelta
 
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.forms.formsets import formset_factory
 from django.utils import timezone
 
 from reportlab.pdfgen import canvas
@@ -55,17 +51,11 @@ from reportlab.lib.colors import black, white
 from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
-from two_factor.utils import devices_for_user
-from portal.utils import using_two_factor
 
-from portal.models import Teacher, Class, Student
-from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, TeacherEditStudentForm, TeacherSetStudentPass, TeacherAddExternalStudentForm, TeacherMoveStudentsDestinationForm, TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet, StudentCreationForm
+from portal.models import Class, Student
+from portal.forms.teach_new import ClassCreationForm, StudentCreationForm
 from portal.permissions import logged_in_as_teacher
-from portal.helpers.generators import get_random_username, generate_new_student_name, generate_access_code, generate_password
-from portal.helpers.emails import send_email, send_verification_email, NOTIFICATION_EMAIL
-from portal import emailMessages
-from portal.views.teacher.pdfs import PDF_DATA
-from portal.templatetags.app_tags import cloud_storage
+from portal.helpers.generators import generate_access_code, generate_password
 
 
 @login_required(login_url=reverse_lazy('home_new'))
@@ -100,7 +90,7 @@ def create_class_new(form, teacher):
     if form.cleaned_data['classmate_progress'] == 'True':
         classmate_progress = True
     klass = Class.objects.create(
-        name=form.cleaned_data['name'],
+        name=form.cleaned_data['class_name'],
         teacher=teacher,
         access_code=generate_access_code(),
         classmates_data_viewable=classmate_progress)
@@ -164,25 +154,9 @@ def check_user_is_authorised(request, klass):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
-def teacher_class_students(request, access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
-
-    # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
-
-    return render(request, 'redesign/teach_new/onboarding_print.html',
-                  {'class': klass,
-                   'students': students,
-                   'num_students': len(students)})
-
-
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
-def teacher_print_reminder_cards(request, access_code):
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_print_reminder_cards_new(request, access_code):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="student_reminder_cards.pdf"'
 

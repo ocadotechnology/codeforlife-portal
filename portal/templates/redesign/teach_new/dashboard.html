@@ -55,7 +55,7 @@
 
 <div id="school">
     <section class="background">
-        <h2>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }}{% endif %}</h2>
+        <h2>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h2>
         {% if is_admin %}
             <h4 class="col-sm-6 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
                 administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
@@ -140,23 +140,20 @@
             <h3>Change details of your school or club</h3>
             <p class="body-text">Update your school or club&rsquo;s name and/or postcode.
             <strong>These details are used to allow other teachers to join your team.</strong></p>
-            <form>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <p class="body-text">Name of your school or club</p>
-                        <input type="text" placeholder="A School">
-                    </div>
-                    <div class="col-sm-4">
-                        <p class="body-text">Postcode</p>
-                        <input type="text" placeholder="HP99 1BB">
-                    </div>
-                    <div class="col-sm-4">
-                        <p class="body-text">Country</p>
-                        <input type="text" placeholder="United Kingdom">
-                    </div>
+            <form id="edit_form" method='post'>
+                {% csrf_token %}
+
+                {{ update_school_form.non_field_errors }}
+
+                {% for field in update_school_form %}
+                <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+                {% endfor %}
+                <div class='section group'>
+                    <button id="update_details_button" type='submit' class='button--regular button--primary--general-play' name="update_school">Change</button>
                 </div>
             </form>
-            <button class="button--regular button--primary--general-play">Change</button>
         </div>
     </div>
 </div>
@@ -206,18 +203,27 @@
             <h3>Create a new class</h3>
             <p class="body-text">When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                 class.</p>
-            <form>
-                <div class="row row--under">
-                    <div class="col-sm-6">
-                        <input type="text" name="FirstName" value="" placeholder="Enter a class name">
-                        <div class="row">
-                            <p class="small-text col-sm-8">Allow students to see their classmates&rsquo; progress?</p>
-                            <input class="col-sm-1" type="checkbox" name="vehicle" value="">
-                        </div>
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ create_class_form.non_field_errors }}
+
+                <div class="section group">
+
+                    <label for="id_{{ form.class_name.html_name }}">{{ create_class_form.class_name.label }}</label>
+                    {{ create_class_form.class_name }}
+                    {{ create_class_form.class_name.errors }}
+                    <div class="col span_1_of_3">
+                        <label for="id_{{ form.classmate_progress.html_name }}">{{ create_class_form.classmate_progress.label }}</label>
                     </div>
+                    <div class="col span_1_of_3">
+                        {{ create_class_form.classmate_progress }}
+                        {{ create_class_form.classmate_progress.errors }}
+                    </div>
+                    <button id="create_class_button" type='submit' class='button--regular button--primary--positive' name="create_class">Create</button>
                 </div>
             </form>
-            <button class="button--regular button--primary--positive">Create class</button>
         </div>
     </div>
 </div>
@@ -231,43 +237,55 @@
     <div class="background background--tertiary">
         <div class="col-sm-7 col-center">
             <h3>Update details</h3>
-            <form>
+            <form method='post' id="form-edit-teacher">
+
+                {% csrf_token %}
+
+                {{ update_account_form.non_field_errors }}
+
                 <div class="row row--under">
                     <div class="col-sm-2">
-                        <p class="body-text">Title</p>
-                        <input type="text">
+                        <label for="id_{{ form.title.html_name }}">{{ update_account_form.title.label }}</label>
+                        {{ update_account_form.title }}
+                        {{ update_account_form.title.errors }}
                     </div>
                     <div class="col-sm-5">
-                        <p class="body-text">First name</p>
-                        <input type="text">
+                        <label for="id_{{ form.first_name.html_name }}">{{ update_account_form.first_name.label }}</label>
+                        {{ update_account_form.first_name }}
+                        {{ update_account_form.first_name.errors }}
                     </div>
                     <div class="col-sm-5">
-                        <p class="body-text">Last name</p>
-                        <input type="text">
+                        <label for="id_{{ form.last_name.html_name }}">{{ update_account_form.last_name.label }}</label>
+                        {{ update_account_form.last_name }}
+                        {{ update_account_form.last_name.errors }}
                     </div>
                 </div>
                 <div class="row row--under">
                     <div class="col-sm-6">
-                        <p class="body-text">Change email address (optional)</p>
-                        <input type="text">
+                        <label for="id_{{ form.email.html_name }}">{{ update_account_form.email.label }}</label>
+                        {{ update_account_form.email }}
+                        {{ update_account_form.email.errors }}
                     </div>
                     <div class="col-sm-6">
-                        <p class="body-text">New password (optional)</p>
-                        <input type="password">
+                        <label for="id_{{ form.password.html_name }}">{{ update_account_form.password.label }}</label>
+                        {{ update_account_form.password }}
+                        {{ update_account_form.password.errors }}
                     </div>
                 </div>
                 <div class="row row--under">
                     <div class="col-sm-6">
-                        <p class="body-text">Confirm new password</p>
-                        <input type="password">
+                        <label for="id_{{ form.confirm_password.html_name }}">{{ update_account_form.confirm_password.label }}</label>
+                        {{ update_account_form.confirm_password }}
+                        {{ update_account_form.confirm_password.errors }}
                     </div>
                     <div class="col-sm-6">
-                        <p class="body-text">Current password</p>
-                        <input type="password">
+                        <label for="id_{{ form.current_password.html_name }}">{{ update_account_form.current_password.label }}</label>
+                        {{ update_account_form.current_password }}
+                        {{ update_account_form.current_password.errors }}
                     </div>
                 </div>
+                <button id="update_button" type='submit' class='button--regular button--primary--negative' name="update_account">Update</button>
             </form>
-            <button class="button--regular button--primary--negative">Update my details</button>
         </div>
     </div>
 
