@@ -58,8 +58,56 @@ from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def materials_viewer_new(request, pdf_name):
+
+    def _getLinks():
+        links = PDF_DATA[pdf_name]['links']
+        link_titles = []
+        for link in links:
+            link = link.replace('_', ' ').title()
+
+            if (link[0] == 'K') | (link[1] == 'k'):
+                link = link[:4].upper() + link[4:]
+
+            link_titles.append(link)
+
+        return zip(links, link_titles)
+
+    try:
+        title = PDF_DATA[pdf_name]['title']
+        description = PDF_DATA[pdf_name]['description']
+        url = cloud_storage(PDF_DATA[pdf_name]['url'])
+        page_origin = PDF_DATA[pdf_name]['page_origin']
+
+    except KeyError:
+        raise Http404
+
+    if PDF_DATA[pdf_name]['links'] is not None:
+        links = _getLinks()
+    else:
+        links = None
+
+    if 'video' in PDF_DATA[pdf_name]:
+        video_link = PDF_DATA[pdf_name]['video']
+        video_download_link = cloud_storage(PDF_DATA[pdf_name]['video_download_link'])
+    else:
+        video_link = None
+        video_download_link = None
+
+    return render(request, 'redesign/teach_new/viewer_new.html',
+                  {'title': title,
+                   'description': description,
+                   'url': url,
+                   'links': links,
+                   'video_link': video_link,
+                   'video_download_link': video_download_link,
+                   'page_origin': page_origin})
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def teacher_classes_new(request):
     teacher = request.user.new_teacher
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
@@ -97,8 +145,8 @@ def create_class_new(form, teacher):
     return klass
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def teacher_class_new(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher

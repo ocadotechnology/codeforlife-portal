@@ -83,6 +83,26 @@ class TestTeacher(BaseTest):
         page = page.login_no_school(email, password)
         assert self.is_onboarding_page(page)
 
+    def test_view_resources(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium)
+        page = page.go_to_login_page()
+        page = page.login(email, password)
+
+        assert self.is_dashboard_page(page)
+
+        page = page.go_to_resources_page()
+
+        assert self.is_resources_page(page)
+
+        page = page.click_pdf_link()
+
+        assert self.is_pdf_viewer_page(page)
+
     def test_edit_details(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -134,6 +154,12 @@ class TestTeacher(BaseTest):
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
+
+    def is_resources_page(self, page):
+        return page.__class__.__name__ == 'ResourcesPage'
+
+    def is_pdf_viewer_page(self, page):
+        return page.__class__.__name__ == 'PDFViewerPage'
 
     def is_onboarding_page(self, page):
         return page.__class__.__name__ == 'OnboardingOrganisationPage'

@@ -143,6 +143,10 @@ class BasePage(object):
         self.browser.find_element_by_id('terms_button').click()
         return terms_page.TermsPage(self.browser)
 
+    def go_to_resources_page(self):
+        self.browser.find_element_by_id('resources_button').click()
+        return resources_page.ResourcesPage(self.browser)
+
     def is_on_admin_login_page(self):
         return self.on_correct_page('admin_login')
 
@@ -175,3 +179,4 @@ import teach_page
 import login_page
 import signup_page
 import terms_page
+import resources_page

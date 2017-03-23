@@ -34,21 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
-
-from teach_base_page_new import TeachBasePage
+from base_page import BasePage
 
 
-class OnboardingStudentListPage(TeachBasePage):
+class PDFViewerPage(BasePage):
     def __init__(self, browser):
-        super(OnboardingStudentListPage, self).__init__(browser)
+        super(PDFViewerPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding_student_list_page')
-
-    def student_exists(self, name):
-        return name in self.browser.find_element_by_id('student_table').text
-
-    def load_reminder_cards(self):
-        self.browser.find_element_by_id("print_cards_button").click()
-
-        return self
+        assert self.on_correct_page('pdf_viewer_page')

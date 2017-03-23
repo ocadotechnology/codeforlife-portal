@@ -928,6 +928,12 @@ form {
   background-size: cover;
 }
 
+.banner--resources {
+  @include _padding(0px, 0px, 30px, 0px);
+  background-image: url('../img_new/background_blue.png');
+  background-position: top right;
+}
+
 .youtube img {
   border: 1px solid $color-background-secondary;
 }
@@ -1122,6 +1128,30 @@ table {
     @include _padding(2px, 10px, 2px, 10px);
   }
 
+}
+
+iframe {
+  border: none;
+}
+
+.resource-video {
+  @include _margin(30px, 0px, 0px, 0px);
+  height: 250px;
+  width: 70%;
+}
+
+.resource-buttons {
+  @include _padding(40px, 0px, 0px, 0px);
+
+  a[class^='button'] {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
+}
+
+.viewer-frame {
+  margin-right: 30px;
+  height: 800px;
 }
 
 .table--resources {
