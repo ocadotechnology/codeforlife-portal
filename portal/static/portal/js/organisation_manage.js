@@ -35,6 +35,9 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+
+/* global post */
+
 function showRemoveConfirmation(path, name) {
     CONFIRMATION_DATA.remove = {
         options: {
