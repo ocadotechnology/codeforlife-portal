@@ -91,13 +91,13 @@ class BaseTest(SeleniumTestCase):
     def _go_to_path(self, path):
         socket.setdefaulttimeout(20)
         attempts = 0
-        while attempts < 3:
+        while attempts <= 3:
             try:
                 selenium.get(self.live_server_url + path)
             except socket.timeout:
-                attempts += 1
                 if attempts > 2:
                     raise
                 time.sleep(10)
-            finally:
+            else:
                 break
+            attempts += 1
