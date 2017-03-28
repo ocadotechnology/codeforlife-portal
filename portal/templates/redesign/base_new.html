@@ -94,12 +94,16 @@
         </div>
         <div class="menu__right-side col-sm-4">
             {% block rightMenuButtons %}
-            <a href="{% url 'register_new' %}" id="signup-button" class="button--regular button--primary--general-play register">Register now</a>
-            <a href="{% url 'login_new' %}" id="login-button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            <a href="{% url 'register_new' %}" id="signup_button" class="button--regular button--primary--general-play register">Register now</a>
+            <a href="{% url 'login_new' %}" id="login_button" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
             {% endblock rightMenuButtons %}
         </div>
     </div>
     <div id="menu-items" class="collapse">
+        <div class="menu__item">
+            <a href="{% url 'register_new' %}" class="button--regular button--primary--general-play register">Register now</a>
+            <a href="{% url 'login_new' %}" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+        </div>
         <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
         <div id="teacher-tabs" class="collapse">
             <button class="button--menu__item button--menu__item__sub">School / Club</button>
@@ -164,11 +168,11 @@
     </div>
     <div class="row social-media"><br>
         <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img_new/twitter.png" %}'></a>
-        <a target="_blank" href="https://www.facebook.com/OcadoTechnology/"><img src='{% static "portal/img_new/facebook.png" %}'></a>
+        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src='{% static "portal/img_new/facebook.png" %}'></a>
         <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img_new/google+.png" %}'></a>
     </div>
-    <img src='{% static "portal/img_new/logo_ocado.png" %}'>
-    <p class="small-text">&copy; Ocado Technology 2016</p>
+    <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img_new/logo_ocado.png" %}'></a>
+    <p class="small-text">&copy; Ocado Technology 2017</p>
 </div>
 {% endcache %}
 {% endblock footer %}

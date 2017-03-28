@@ -41,25 +41,17 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth.models import User
-from django.db.models import Count
-from django_countries import countries
 
-from portal.models import EmailVerification, School, Teacher, Student
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.app_settings import CONTACT_FORM_EMAILS
+from portal.models import EmailVerification
 
 
-def verify_email(request, token):
+def verify_email_new(request, token):
     verifications = EmailVerification.objects.filter(token=token)
 
-    if len(verifications) != 1:
-        return render(request, 'portal/email_verification_failed.html')
+    if has_verification_failed(verifications):
+        return render(request, 'redesign/email_verification_failed_new.html')
 
     verification = verifications[0]
-
-    if verification.verified or (verification.expiry - timezone.now()) < timedelta():
-        return render(request, 'portal/email_verification_failed.html')
 
     verification.verified = True
     verification.save()
@@ -74,30 +66,14 @@ def verify_email(request, token):
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
-    if hasattr(user, 'new_student'):
-        return HttpResponseRedirect(reverse_lazy('play'))
-    if hasattr(user, 'new_teacher'):
-        return HttpResponseRedirect(reverse_lazy('teach'))
+    if hasattr(user.userprofile, 'student'):
+        return HttpResponseRedirect(reverse_lazy('play_new'))
+    if hasattr(user.userprofile, 'teacher'):
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
     # default to homepage if something goes wrong
-    return HttpResponseRedirect(reverse_lazy('home'))
+    return HttpResponseRedirect(reverse_lazy('home_new'))
 
 
-def send_new_users_report(request):
-    new_users_count = User.objects.filter(date_joined__gte=timezone.now() - timedelta(days=7)).count()
-    users_count = User.objects.count()
-    school_count = School.objects.count()
-    teacher_count = Teacher.objects.count()
-    student_count = Student.objects.count()
-    schools_countries = School.objects.values('country').annotate(nb_countries=Count('id')).order_by('-nb_countries')
-    countries_count = "\n".join('{}: {}'.format(dict(countries)[k["country"]], k["nb_countries"]) for k in schools_countries)
-    send_email(NOTIFICATION_EMAIL, CONTACT_FORM_EMAILS, "new users",
-               'There are {new_users} new users this week!\n'
-               'The total number of registered users is now: {users}\n'
-               'Current number of schools: {schools}\n'
-               'Current number of teachers: {teachers}\n'
-               'Current number of students: {students}\n'
-               'Schools per country:\n{countries_counter}'
-               .format(new_users=new_users_count, users=users_count, schools=school_count, teachers=teacher_count,
-                       students=student_count, countries_counter=countries_count))
-    return HttpResponse('success')
+def has_verification_failed(verifications):
+    return len(verifications) != 1 or verifications[0].verified or (verifications[0].expiry - timezone.now()) < timedelta()

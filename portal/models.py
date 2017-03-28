@@ -112,6 +112,13 @@ class Teacher(models.Model):
             student = userprofile.student
             return not student.is_independent() and student.class_field.teacher == self
 
+    def has_school(self):
+        return self.school is not (None or "")
+
+    def has_class(self):
+        classes = self.class_teacher.all()
+        return classes.count() != 0
+
     def __unicode__(self):
         return '%s %s' % (self.user.first_name, self.user.last_name)
 
@@ -126,6 +133,10 @@ class Class(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def has_students(self):
+        students = self.students.all()
+        return students.count() != 0
 
     def get_logged_in_students(self):
         ONLINE = 1

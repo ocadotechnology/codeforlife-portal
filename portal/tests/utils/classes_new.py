@@ -34,15 +34,39 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import login_page
-from base_page import BasePage
+import re
+
+from portal.models import Teacher, Class
+from portal.helpers.generators import generate_access_code
 
 
-class HomePage(BasePage):
-    def __init__(self, browser):
-        super(HomePage, self).__init__(browser)
-        assert self.on_correct_page('home_page_new')
+def generate_details():
+    name = 'Class %d' % generate_details.next_id
+    accesss_code = generate_access_code()
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
+    generate_details.next_id += 1
+
+    return name, accesss_code
+
+generate_details.next_id = 1
+
+
+def create_class_directly(teacher_email):
+    name, accesss_code = generate_details()
+
+    teacher = Teacher.objects.get(new_user__email=teacher_email)
+
+    klass = Class.objects.create(
+        name=name,
+        access_code=accesss_code,
+        teacher=teacher)
+
+    return klass, name, accesss_code
+
+
+def create_class(page):
+    name, _ = generate_details()
+
+    page = page.create_class(name, 'False')
+
+    return page, name

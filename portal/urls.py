@@ -44,7 +44,7 @@ from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, S
 
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.permissions import teacher_verified
-from portal.views.email import verify_email, verify_email_new
+from portal.views.email import verify_email
 from portal.views.home import teach, play, contact, current_user, logout_view, home_view
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
     organisation_leave, organisation_kick, organisation_toggle_admin, organisation_allow_join, \
@@ -65,7 +65,10 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
+from portal.views.email_new import verify_email_new
 from portal.views.home_new import login_view, register_view
+from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
+from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_class_students
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -201,12 +204,11 @@ urlpatterns = patterns(
     url(r'^redesign/login_form', login_view, name='login_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
-    url(r'^redesign/teach/onboarding1/$', TemplateView.as_view(template_name='redesign/teach_new/onboarding_school.html'), name='onboarding1'),
-    url(r'^redesign/teach/onboarding1-join', TemplateView.as_view(template_name='redesign/teach_new/onboarding_join_pending.html'), name='onboarding1-join'),
-    url(r'^redesign/teach/onboarding2', TemplateView.as_view(template_name='redesign/teach_new/onboarding_classes.html'), name='onboarding2'),
-    url(r'^redesign/teach/onboarding3', TemplateView.as_view(template_name='redesign/teach_new/onboarding_students.html'), name='onboarding3'),
-    url(r'^redesign/teach/onboarding4', TemplateView.as_view(template_name='redesign/teach_new/onboarding_print.html'), name='onboarding4'),
-    url(r'^redesign/teach/onboarding5', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding5'),
+    url(r'^redesign/teach/fuzzy_lookup/$', organisation_fuzzy_lookup_new, name='organisation_fuzzy_lookup_new'),
+    url(r'^redesign/teach/onboarding-organisation/$', organisation_manage_new, name='onboarding-organisation'),
+    url(r'^redesign/teach/onboarding-classes', teacher_classes_new, name='onboarding-classes'),
+    url(r'^redesign/teach/onboarding-class/(?P<access_code>[A-Z0-9]+)', teacher_class_new, name='onboarding-class'),
+    url(r'^redesign/teach/onboarding-complete', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding-complete'),
     url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
     url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
     url(r'^redesign/help', TemplateView.as_view(template_name='redesign/help-and-support_new.html'), name='help_new'),

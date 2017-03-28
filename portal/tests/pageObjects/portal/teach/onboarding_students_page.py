@@ -34,57 +34,64 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+import string
 
-from base_page import BasePage
-import play_page
-import email_verification_needed_page
-from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
-import teach.dashboard_page_new
-import teach.onboarding_organisation_page
-import teach.onboarding_classes_page
-import teach.onboarding_students_page
+import classes_page
+import class_settings_page
+import new_students_page
+import onboarding_student_list_page
+import move_students_page
+import dismiss_students_page
+
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
+
+from teach_base_page_new import TeachBasePage
 
 
-class LoginPage(BasePage):
+class OnboardingStudentsPage(TeachBasePage):
     def __init__(self, browser):
-        super(LoginPage, self).__init__(browser)
+        super(OnboardingStudentsPage, self).__init__(browser)
 
-        assert self.on_correct_page('login_page')
+        assert self.on_correct_page('onboarding_students_page')
 
-    def login(self, email, password):
-        self._login(email, password)
+    def create_students(self):
+        self._click_create_students()
 
-        return teach.dashboard_page_new.TeachDashboardPage(self.browser)
+        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
-    def login_no_school(self, email, password):
-        self._login(email, password)
+    def create_students_empty(self):
+        self._click_create_students()
 
-        return teach.onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
-
-    def login_no_class(self, email, password):
-        self._login(email, password)
-
-        return teach.onboarding_classes_page.OnboardingClassesPage(self.browser)
-
-    def login_no_students(self, email, password):
-        self._login(email, password)
-
-        return teach.onboarding_students_page.OnboardingStudentsPage(self.browser)
-
-    def login_failure(self, email, password):
-        self._login(email, password)
         return self
 
-    def _login(self, email, password):
-        self.browser.find_element_by_id('id_login-email').send_keys(email)
-        self.browser.find_element_by_id('id_login-password').send_keys(password)
-        self.browser.find_element_by_name('login').click()
+    def create_students_failure(self):
+        self._click_create_students()
 
-    def has_login_failed(self):
+        return self
+
+    def _click_create_students(self):
+        self.browser.find_element_by_name('new_students').click()
+
+    def adding_students_failed(self):
         if not self.element_exists_by_css('.errorlist'):
             return False
 
-        errors = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
-        error = 'Incorrect email address or password'
+        error_list = self.browser.find_element_by_id('form-create-students').find_element_by_class_name('errorlist')
+
+        if error_list.text:
+            return True
+        else:
+            return False
+
+    def duplicate_students(self, name):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('form-create-students').find_element_by_class_name('errorlist').text
+        error = "You cannot add more than one student called '{0}'".format(name)
         return error in errors
+
+    def type_student_name(self, name):
+        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+        return self

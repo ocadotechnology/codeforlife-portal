@@ -34,15 +34,37 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import login_page
-from base_page import BasePage
+from base_test_new import BaseTest
+
+from utils.teacher_new import signup_teacher_directly
+from utils.organisation_new import create_organisation_directly
+from utils.classes_new import create_class
+from utils.messages import is_class_created_message_showing
+
+from django_selenium_clean import selenium
 
 
-class HomePage(BasePage):
-    def __init__(self, browser):
-        super(HomePage, self).__init__(browser)
-        assert self.on_correct_page('home_page_new')
+class TestClass(BaseTest):
+    def test_create(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
+        page = self.go_to_homepage() \
+            .go_to_login_page() \
+            .login_no_class(email, password)
+
+        assert page.does_not_have_classes()
+
+        page, class_name = create_class(page)
+        assert is_class_created_message_showing(selenium, class_name)
+
+    def test_create_empty(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+
+        page = self.go_to_homepage() \
+            .go_to_login_page() \
+            .login_no_class(email, password) \
+            .create_class_empty()
+
+        assert page.was_form_empty('form-create-class')

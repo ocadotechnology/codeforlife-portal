@@ -34,11 +34,48 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from teach_base_page import TeachBasePage
+from django.core import mail
+
+import email
+
+from portal.models import Class, Student
 
 
-class OnboardingPage(TeachBasePage):
-    def __init__(self, browser):
-        super(OnboardingPage, self).__init__(browser)
+def generate_school_details():
+    name = 'Student %d' % generate_school_details.next_id
+    password = 'Password1'
 
-        assert self.on_correct_page('onboarding_organisation_page')
+    generate_school_details.next_id += 1
+
+    return name, password
+
+generate_school_details.next_id = 1
+
+
+def create_school_student_directly(access_code):
+    name, password = generate_school_details()
+
+    klass = Class.objects.get(access_code=access_code)
+    student = Student.objects.schoolFactory(klass, name, password)
+
+    return name, password, student
+
+
+def create_school_student(page):
+    name, _ = generate_school_details()
+
+    page = page.type_student_name(name).create_students()
+
+    return page, name
+
+
+def create_many_school_students(page, n):
+    names = ['' for i in range(n)]
+
+    for i in range(n):
+        names[i], _ = generate_school_details()
+        page = page.type_student_name(names[i])
+
+    page = page.create_students()
+
+    return page, names

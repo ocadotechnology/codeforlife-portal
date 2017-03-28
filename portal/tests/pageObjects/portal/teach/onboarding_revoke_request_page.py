@@ -34,57 +34,21 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+import onboarding_organisation_page
 
-from base_page import BasePage
-import play_page
-import email_verification_needed_page
-from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
-import teach.dashboard_page_new
-import teach.onboarding_organisation_page
-import teach.onboarding_classes_page
-import teach.onboarding_students_page
+from teach_base_page_new import TeachBasePage
 
 
-class LoginPage(BasePage):
+class OnboardingRevokeRequestPage(TeachBasePage):
     def __init__(self, browser):
-        super(LoginPage, self).__init__(browser)
+        super(OnboardingRevokeRequestPage, self).__init__(browser)
 
-        assert self.on_correct_page('login_page')
+        assert self.on_correct_page('onboarding_revoke_request_page')
 
-    def login(self, email, password):
-        self._login(email, password)
+    def check_organisation_name(self, name, postcode):
+        text = 'Your request to join %s, %s has been submitted' % (name, postcode)
+        return (text in self.browser.find_element_by_tag_name('body').text)
 
-        return teach.dashboard_page_new.TeachDashboardPage(self.browser)
-
-    def login_no_school(self, email, password):
-        self._login(email, password)
-
-        return teach.onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
-
-    def login_no_class(self, email, password):
-        self._login(email, password)
-
-        return teach.onboarding_classes_page.OnboardingClassesPage(self.browser)
-
-    def login_no_students(self, email, password):
-        self._login(email, password)
-
-        return teach.onboarding_students_page.OnboardingStudentsPage(self.browser)
-
-    def login_failure(self, email, password):
-        self._login(email, password)
-        return self
-
-    def _login(self, email, password):
-        self.browser.find_element_by_id('id_login-email').send_keys(email)
-        self.browser.find_element_by_id('id_login-password').send_keys(password)
-        self.browser.find_element_by_name('login').click()
-
-    def has_login_failed(self):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
-
-        errors = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
-        error = 'Incorrect email address or password'
-        return error in errors
+    def revoke_join(self):
+        self.browser.find_element_by_name('revoke_join_request').click()
+        return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
