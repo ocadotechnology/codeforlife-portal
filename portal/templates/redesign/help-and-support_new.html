@@ -61,35 +61,44 @@
     <div class="background background--primary">
         <div class="col-sm-8 col-center">
             <h3>Contact us</h3>
-            <form>
+
+            <form method='post'>
+
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form.non_field_errors }}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="small-text">Your name</label>
-                        <input type="text" placeholder="Firstname Lastname">
+                        <input name="name" type="text" placeholder="Firstname Lastname">
                     </div>
                     <div class="col-sm-6">
                         <label class="small-text">Telephone number</label>
-                        <input type="text" placeholder="+44 (0)1234 567890">
+                        <input name="telephone" type="text" placeholder="+44 (0)1234 567890">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <label class="small-text">Email address</label>
-                        <input type="text" placeholder="your.name@domain.com">
+                        <input name="email" type="text" placeholder="your.name@domain.com">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <label class="small-text">Message</label>
-                        <textarea rows="10" cols="40" placeholder="Message"></textarea>
+                        <textarea name="message" rows="10" cols="40" placeholder="Message"></textarea>
                     </div>
                 </div>
-
+                <section>
+                    <button type="submit" name="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
+                </section>
             </form>
         </div>
-        <section>
-            <button class="button--regular button--primary--general-play">Submit</button>
-        </section>
+
     </div>
 </div>
 
