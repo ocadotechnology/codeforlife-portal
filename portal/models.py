@@ -126,7 +126,7 @@ class Teacher(models.Model):
         return None
 
     def __unicode__(self):
-        return '%s %s' % (self.user.first_name, self.user.last_name)
+        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
 
 class Class(models.Model):
