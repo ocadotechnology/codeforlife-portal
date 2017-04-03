@@ -35,6 +35,9 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+
+/* global post */
+
 function showRemoveConfirmation(path, name) {
     CONFIRMATION_DATA.remove = {
         options: {
@@ -52,7 +55,7 @@ function showToggleAdminConfirmation(path, name) {
             title: 'Set administrator permissions'
         },
         html: '<p>The teacher "'+name+'", will be made an administrator of this school or club. They will gain all of the powers that you currently have.</p><p>Are you sure?</p>',
-        confirm: function() { window.location.replace(path); }
+        confirm: function() { toggleAdmin(path); }
     };
     openConfirmationBox('remove');
 }
@@ -67,3 +70,10 @@ function showDisable2FAConfirmation(path, name) {
     };
     openConfirmationBox('remove');
 }
+
+function toggleAdmin(path) {
+    post(path, {
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    });
+}
+
