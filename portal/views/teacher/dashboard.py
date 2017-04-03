@@ -79,7 +79,9 @@ def dashboard_teacher_view(request, is_admin):
     update_school_form.fields['name'].initial = school.name
     update_school_form.fields['postcode'].initial = school.postcode
     update_school_form.fields['country'].initial = school.country
+
     create_class_form = ClassCreationForm()
+
     update_account_form = TeacherEditAccountForm(request.user)
     update_account_form.fields['title'].initial = teacher.title
     update_account_form.fields['first_name'].initial = request.user.first_name
