@@ -135,7 +135,7 @@
         </div>
     </div>
 
-    <div class="background background--primary">
+    <div id="school-details" class="background background--primary">
         <div class="col-sm-7 col-center">
             <h3>Change details of your school or club</h3>
             <p class="body-text">Update your school or club&rsquo;s name and/or postcode.
@@ -198,7 +198,7 @@
         </div>
     </div>
 
-    <div class="background background--quaternary">
+    <div id="new-class" class="background background--quaternary">
         <div class="col-sm-7 col-center">
             <h3>Create a new class</h3>
             <p class="body-text">When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
@@ -333,5 +333,13 @@
         }
     });
 </script>
+
+{% if anchor %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            window.location = '#{{anchor}}'
+        });
+    </script>
+{% endif %}
 
 {% endblock content %}

@@ -87,16 +87,21 @@ def dashboard_teacher_view(request, is_admin):
     update_account_form.fields['first_name'].initial = request.user.first_name
     update_account_form.fields['last_name'].initial = request.user.last_name
 
+    anchor = ''
+
     if can_process_forms(request, is_admin):
         if 'update_school' in request.POST:
+            anchor = 'school-details'
             update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
             process_update_school_form(request, school)
 
         elif 'create_class' in request.POST:
+            anchor = 'new-class'
             create_class_form = ClassCreationForm(request.POST)
             process_create_class_form(request, teacher)
 
         else:
+            anchor = 'account'
             update_account_form = TeacherEditAccountForm(request.user, request.POST)
             changing_email, new_email = process_update_account_form(request, teacher)
             if changing_email:
@@ -115,6 +120,7 @@ def dashboard_teacher_view(request, is_admin):
         'update_school_form': update_school_form,
         'create_class_form': create_class_form,
         'update_account_form': update_account_form,
+        'anchor': anchor,
     })
 
 
