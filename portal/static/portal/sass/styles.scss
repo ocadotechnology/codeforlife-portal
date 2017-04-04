@@ -7,6 +7,8 @@ $color-text-grey: #4a4a4a;
 $color-text-primary: #000;
 $color-text-secondary: #fff;
 $color-text-tertiary: $color-text-grey;
+$color-text-form-error: #f00;
+$color-text-login-error: #ff0;
 //Quotes
 $color-quote-text: $color-teacher-blue;
 $color-quote-name: $color-text-grey;
@@ -710,6 +712,14 @@ form {
     width: 100%;
   }
 
+  ul {
+    color: $color-text-form-error;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
 }
 
 .form--register {
@@ -735,7 +745,7 @@ form {
   }
 
   ul {
-    color: yellow;
+    color: $color-text-login-error;
     font-style: italic;
     list-style: none;
     padding: 0;

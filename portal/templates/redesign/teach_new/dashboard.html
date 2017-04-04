@@ -261,24 +261,24 @@
                     </div>
                 </div>
                 <div class="row row--under">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <label for="id_{{ form.email.html_name }}">{{ update_account_form.email.label }}</label>
                         {{ update_account_form.email }}
                         {{ update_account_form.email.errors }}
                     </div>
-                    <div class="col-sm-6">
+                </div>
+                <div class="row row--under">
+                    <div class="col-sm-4">
                         <label for="id_{{ form.password.html_name }}">{{ update_account_form.password.label }}</label>
                         {{ update_account_form.password }}
                         {{ update_account_form.password.errors }}
                     </div>
-                </div>
-                <div class="row row--under">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label for="id_{{ form.confirm_password.html_name }}">{{ update_account_form.confirm_password.label }}</label>
                         {{ update_account_form.confirm_password }}
                         {{ update_account_form.confirm_password.errors }}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label for="id_{{ form.current_password.html_name }}">{{ update_account_form.current_password.label }}</label>
                         {{ update_account_form.current_password }}
                         {{ update_account_form.current_password.errors }}
