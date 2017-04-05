@@ -15,6 +15,7 @@
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
     * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
     * and thereafter `workon codeforlife-portal`
+    * create settings file under `example_project/example_project/local_settings.py` with `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
 * `./run` - This will:
     * install all of the dependencies using pip
     * sync the database
