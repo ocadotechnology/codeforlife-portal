@@ -48,10 +48,12 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 from portal.models import Teacher, Class, Student
 from portal.forms.teach_new import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play_new import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.emails_new import send_verification_email, is_verified
+from portal.helpers.emails_new import send_verification_email, is_verified, send_email, CONTACT_EMAIL
+from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.utils import using_two_factor
-from portal import app_settings
+from portal import app_settings, emailMessages_new
 from ratelimit.decorators import ratelimit
+from portal.forms.home import ContactForm
 
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
@@ -343,3 +345,49 @@ def redirect_user_to_correct_page(teacher):
             return HttpResponseRedirect(reverse_lazy('onboarding-classes'))
     else:
         return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
+
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+def contact(request):
+    increment_count = False
+    limits = getattr(request, 'limits', {'ip': [0]})
+    captcha_limit = 5
+
+    using_captcha = (limits['ip'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+
+    ContactFormWithCaptcha = partial(
+        create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
+    InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
+    OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
+
+    if request.method == 'POST':
+        contact_form = InputContactForm(request.POST)
+        increment_count = True
+
+        if contact_form.is_valid():
+            emailMessage = emailMessages_new.contactEmail(
+                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
+                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
+                contact_form.cleaned_data['browser'])
+            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, emailMessage['subject'],
+                       emailMessage['message'])
+
+            confirmedEmailMessage = emailMessages_new.confirmationContactEmailMessage(
+                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
+                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']],
+                       confirmedEmailMessage['subject'], confirmedEmailMessage['message'])
+
+            messages.success(request, 'Your message was sent successfully.')
+            return HttpResponseRedirect('.')
+
+        else:
+            contact_form = OutputContactForm(request.POST)
+
+    else:
+        contact_form = OutputContactForm()
+
+    response = render(request, 'redesign/help-and-support_new.html', {'form': contact_form})
+
+    response.count = increment_count
+    return response

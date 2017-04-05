@@ -74,25 +74,38 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="small-text">Your name</label>
-                        <input name="name" type="text" placeholder="Firstname Lastname">
+                        {{ form.name.errors }}
+                        {{ form.name }}
                     </div>
                     <div class="col-sm-6">
                         <label class="small-text">Telephone number</label>
-                        <input name="telephone" type="text" placeholder="+44 (0)1234 567890">
+                        {{ form.telephone.errors }}
+                        {{ form.telephone }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <label class="small-text">Email address</label>
-                        <input name="email" type="text" placeholder="your.name@domain.com">
+                        {{ form.email.errors }}
+                        {{ form.email }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <label class="small-text">Message</label>
-                        <textarea name="message" rows="10" cols="40" placeholder="Message"></textarea>
+                        {{ form.message.errors }}
+                        {{ form.message }}
                     </div>
                 </div>
+                {{ form.browser }}
+
+                {% if form.recaptcha %}
+                    <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
+                    <div class="col no-margin">
+                        {{ form.recaptcha.errors }}
+                        {{ form.recaptcha|safe }}
+                    </div>
+                {% endif %}
                 <section>
                     <button type="submit" name="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
                 </section>
