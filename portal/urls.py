@@ -225,7 +225,7 @@ urlpatterns = patterns(
     url(r'^redesign/teach/onboarding-complete', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding-complete'),
     url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
     url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
-    url(r'^redesign/help', contact, name='help_new'),
+    url(r'^redesign/help/$', contact, name='help_new'),
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
     url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
     url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
