@@ -47,8 +47,3 @@ class OnboardingStudentListPage(TeachBasePage):
 
     def student_exists(self, name):
         return name in self.browser.find_element_by_id('student_table').text
-
-    def load_reminder_cards(self):
-        self.browser.find_element_by_id("print_cards_button").click()
-
-        return self

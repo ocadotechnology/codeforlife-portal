@@ -117,7 +117,7 @@
                 {% csrf_token %}
                 <input type='hidden' name='data' value='{{ query_data }}'/>
                 <div class='section'>
-                    <button id="print_cards_button" class='button--regular button-primary button--primary--navigation'
+                    <button class='button--regular button-primary button--primary--navigation'
                             type='submit'>Print reminder cards</button>
                     <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
                 </div>

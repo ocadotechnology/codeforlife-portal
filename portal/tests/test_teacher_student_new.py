@@ -95,18 +95,3 @@ class TestTeacherStudent(BaseTest):
         page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
-
-    def test_view_reminder_card(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-
-        selenium.get(self.live_server_url + "/portal/redesign/home")
-        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
-
-        page, student_name = create_school_student(page)
-        assert page.student_exists(student_name)
-
-        page = page.load_reminder_cards()
-
-        assert page.__class__.__name__ == 'OnboardingStudentListPage'

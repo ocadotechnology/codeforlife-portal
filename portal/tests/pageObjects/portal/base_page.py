@@ -54,9 +54,6 @@ class BasePage(object):
     def wait_for_element_by_css(self, css, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait_for_presence((By.CSS_SELECTOR, css), wait_seconds)
 
-    def wait_for_element_by_xpath(self, xpath, wait_seconds=DEFAULT_WAIT_SECONDS):
-        self.wait_for_presence((By.XPATH, xpath), wait_seconds)
-
     def wait_for_element_to_be_clickable(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait(EC.element_to_be_clickable(locator), wait_seconds)
 
@@ -130,10 +127,6 @@ class BasePage(object):
     def go_to_teach_page(self):
         self.browser.find_element_by_id('teach_button').click()
         return teach_page.TeachPage(self.browser)
-
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
 
     def go_to_signup_page(self):
         self.browser.find_element_by_id('signup_button').click()

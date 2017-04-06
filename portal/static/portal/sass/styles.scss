@@ -960,7 +960,7 @@ form {
     text-align: left;
   }
 
-  a[class^='button'],
+  .button--regular,
   button,
   img {
     vertical-align: text-bottom;
@@ -1143,7 +1143,7 @@ iframe {
 .resource-buttons {
   @include _padding(40px, 0px, 0px, 0px);
 
-  a[class^='button'] {
+  a {
     @include _margin(0px, 20px, 0px, 0px);
   }
 
@@ -1304,7 +1304,7 @@ td {
   text-align: center;
   z-index: 2;
 
-  a[class^='button'] {
+  .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
   }
 
@@ -1438,7 +1438,7 @@ td {
     width: 100%;
     z-index: 1;
 
-    a[class^='button--menu'] {
+    .button--menu {
       border-radius: 0;
     }
 

@@ -56,6 +56,8 @@ from portal.models import Class, Student
 from portal.forms.teach_new import ClassCreationForm, StudentCreationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password
+from portal.views.teacher.pdfs import PDF_DATA
+from portal.templatetags.app_tags import cloud_storage
 
 
 @login_required(login_url=reverse_lazy('login_new'))
