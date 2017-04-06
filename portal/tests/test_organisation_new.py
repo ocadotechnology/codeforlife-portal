@@ -45,7 +45,6 @@ from utils.student_new import create_school_student_directly
 from utils.messages import is_organisation_created_message_showing
 
 from django_selenium_clean import selenium
-import time
 
 
 class TestOrganisation(BaseTest, BasePage):
@@ -108,10 +107,12 @@ class TestOrganisation(BaseTest, BasePage):
         page = page.revoke_join()
         assert page.__class__.__name__ == 'OnboardingOrganisationPage'
 
-    def test_join(self):
+    def test_allow_join(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
+        _, class_name, access_code = create_class_directly(email_1)
+        create_school_student_directly(access_code)
 
         selenium.get(self.live_server_url + "/portal/redesign/home")
         page = HomePage(selenium)\
@@ -120,6 +121,55 @@ class TestOrganisation(BaseTest, BasePage):
             .join_organisation(name)
 
         assert page.__class__.__name__ == 'OnboardingRevokeRequestPage'
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login(email_1, password_1)
+
+        assert page.has_join_request(email_2)
+        page = page.accept_join_request()
+
+        assert not page.has_join_request(email_2)
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login_no_class(email_2, password_2)
+
+        assert page.__class__.__name__ == 'OnboardingClassesPage'
+
+    def test_deny_join(self):
+        email_1, password_1 = signup_teacher_directly()
+        email_2, password_2 = signup_teacher_directly()
+        name, postcode = create_organisation_directly(email_1)
+        _, class_name, access_code = create_class_directly(email_1)
+        create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .login_no_school(email_2, password_2) \
+            .join_organisation(name)
+
+        assert page.__class__.__name__ == 'OnboardingRevokeRequestPage'
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login(email_1, password_1)
+
+        assert page.has_join_request(email_2)
+        page = page.deny_join_request()
+
+        assert not page.has_join_request(email_2)
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login_no_school(email_2, password_2)
+
+        assert page.__class__.__name__ == 'OnboardingOrganisationPage'
 
     def test_multiple_schools(self):
         # There was a bug where join requests to school 35 say would go to school 3,
@@ -202,8 +252,6 @@ class TestOrganisation(BaseTest, BasePage):
             'name': school_name_1,
             'postcode': postcode_1
         })
-
-        time.sleep(5)
 
         assert page.has_edit_failed()
 

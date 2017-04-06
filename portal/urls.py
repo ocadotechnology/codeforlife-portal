@@ -69,8 +69,9 @@ from portal.views.email_new import verify_email_new, change_email
 from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, \
-    materials_viewer_new, teacher_print_reminder_cards_new
-from portal.views.teacher.dashboard import dashboard_manage
+    materials_viewer_new, teacher_print_reminder_cards_new, teacher_view_class
+from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
+    organisation_kick_new, organisation_toggle_admin_new, teacher_disable_2FA_new
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -220,7 +221,12 @@ urlpatterns = patterns(
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
     url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
     url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
-    url(r'^redesign/teach/dashboard', dashboard_manage, name='dashboard'),
-    url(r'^redesign/teach/class', TemplateView.as_view(template_name='redesign/teach_new/class_new.html'), name='class_new'),
+    url(r'^redesign/teach/dashboard/$', dashboard_manage, name='dashboard'),
+    url(r'^redesign/teach/dashboard/kick/(?P<pk>[0-9]+)/$', organisation_kick_new, name='organisation_kick_new'),
+    url(r'^redesign/teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$', organisation_toggle_admin_new, name='organisation_toggle_admin_new'),
+    url(r'^redesign/teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA_new, name='teacher_disable_2FA_new'),
+    url(r'^redesign/teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join_new, name='organisation_allow_join_new'),
+    url(r'^redesign/teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join_new, name='organisation_deny_join_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)', teacher_view_class, name='view_class'),
 
 )

@@ -46,7 +46,7 @@ from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal import app_settings, emailMessages
+from portal import app_settings, emailMessages_new
 from portal.models import School, Teacher, Class
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from portal.permissions import logged_in_as_teacher
@@ -180,11 +180,11 @@ def process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganis
         teacher.pending_join_request = school
         teacher.save()
 
-        email_message = emailMessages.joinRequestPendingEmail(request, teacher.new_user.email)
+        email_message = emailMessages_new.joinRequestPendingEmail_new(request, teacher.new_user.email)
 
         send_pending_requests_emails(school, email_message)
 
-        email_message = emailMessages.joinRequestSentEmail(request, school.name)
+        email_message = emailMessages_new.joinRequestSentEmail(request, school.name)
         send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], email_message['subject'], email_message['message'])
 
         messages.success(request, 'Your request to join the school or club has been sent successfully.')

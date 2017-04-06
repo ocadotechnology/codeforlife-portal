@@ -72,3 +72,39 @@ def emailChangeNotificationEmail(request, new_email):
                     request.build_absolute_uri(reverse('help_new')) + "#contact ." +
                     emailBodySignOff(request)),
     }
+
+
+def joinRequestPendingEmail_new(request, pendingAddress):
+    return {
+        'subject': emailSubjectPrefix() + " : School or club join request pending",
+        'message': ("Someone with the email address '" + pendingAddress +
+                    "' has asked to join your school or club, please go to " +
+                    request.build_absolute_uri(reverse('dashboard')) +
+                    " to view the pending join request." + emailBodySignOff(request)),
+    }
+
+
+def joinRequestSentEmail(request, schoolName):
+    return {
+        'subject': emailSubjectPrefix() + " : School or club join request sent",
+        'message': ("Your request to join the school or club '" + schoolName +
+                    "' has been sent. Someone will either accept or deny your request soon." +
+                    emailBodySignOff(request)),
+    }
+
+
+def joinRequestAcceptedEmail(request, schoolName):
+    return {
+        'subject': emailSubjectPrefix() + " : School or club join request accepted",
+        'message': ("Your request to join the school or club '" + schoolName +
+                    "' has been accepted." + emailBodySignOff(request)),
+    }
+
+
+def joinRequestDeniedEmail(request, schoolName):
+    return {
+        'subject': emailSubjectPrefix() + " : School or club join request denied",
+        'message': ("Your request to join the school or club '" + schoolName +
+                    "' has been denied. If you think this was in error you should speak to the " +
+                    "administrator of that school or club." + emailBodySignOff(request)),
+    }

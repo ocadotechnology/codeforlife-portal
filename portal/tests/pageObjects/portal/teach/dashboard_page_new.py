@@ -115,3 +115,17 @@ class TeachDashboardPage(TeachBasePage):
             correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
 
         return correct
+
+    def accept_join_request(self):
+        self.browser.find_element_by_id('allow_button').click()
+        return self
+
+    def deny_join_request(self):
+        self.browser.find_element_by_id('deny_button').click()
+        return self
+
+    def has_join_request(self, email):
+        return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
+
+    def has_no_join_requests(self):
+        return self.element_does_not_exist_by_id('request_table')
