@@ -928,6 +928,12 @@ form {
   background-size: cover;
 }
 
+.banner--resources {
+  @include _padding(0px, 0px, 30px, 0px);
+  background-image: url('../img_new/background_blue.png');
+  background-position: top right;
+}
+
 .youtube img {
   border: 1px solid $color-background-secondary;
 }
@@ -954,7 +960,7 @@ form {
     text-align: left;
   }
 
-  a[class^='button'],
+  .button--regular,
   button,
   img {
     vertical-align: text-bottom;
@@ -1124,6 +1130,30 @@ table {
 
 }
 
+iframe {
+  border: none;
+}
+
+.resource-video {
+  @include _margin(30px, 0px, 0px, 0px);
+  height: 250px;
+  width: 70%;
+}
+
+.resource-buttons {
+  @include _padding(40px, 0px, 0px, 0px);
+
+  a {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
+}
+
+.viewer-frame {
+  margin-right: 30px;
+  height: 800px;
+}
+
 .table--resources {
   border: 0;
   border-top: 1px solid $color-table-border;
@@ -1274,7 +1304,7 @@ td {
   text-align: center;
   z-index: 2;
 
-  a[class^='button'] {
+  .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
   }
 
@@ -1408,7 +1438,7 @@ td {
     width: 100%;
     z-index: 1;
 
-    a[class^='button--menu'] {
+    .button--menu {
       border-radius: 0;
     }
 

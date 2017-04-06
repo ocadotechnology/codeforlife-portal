@@ -3,7 +3,7 @@
 {% block secondaryButtons %}
 {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
 <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
-{% block materials %}<a href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
+{% block materials %}<a id="resources_button" href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
 {% endblock secondaryButtons %}
 
 {% block content %}
