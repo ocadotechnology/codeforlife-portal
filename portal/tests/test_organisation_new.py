@@ -40,9 +40,12 @@ from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page_new import HomePage
 from utils.teacher_new import signup_teacher_directly
 from utils.organisation_new import create_organisation, create_organisation_directly
+from utils.classes_new import create_class_directly
+from utils.student_new import create_school_student_directly
 from utils.messages import is_organisation_created_message_showing
 
 from django_selenium_clean import selenium
+import time
 
 
 class TestOrganisation(BaseTest, BasePage):
@@ -148,3 +151,31 @@ class TestOrganisation(BaseTest, BasePage):
         postcodes = ['' for i in range(n)]
 
         return emails, passwords, names, postcodes
+
+    def test_edit_details(self):
+        email, password = signup_teacher_directly()
+        school_name, postcode = create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .login(email, password)
+
+        assert page.check_organisation_details({
+            'name': school_name,
+            'postcode': postcode
+        })
+
+        new_name = 'new ' + school_name
+        new_postcode = 'OX2 6LE'
+
+        page.change_organisation_details({
+            'name': new_name,
+            'postcode': new_postcode
+        })
+        assert page.check_organisation_details({
+            'name': new_name,
+            'postcode': new_postcode
+        })

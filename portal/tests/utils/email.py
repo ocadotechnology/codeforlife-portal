@@ -82,6 +82,12 @@ def follow_change_email_link_to_teach(page, email):
     return go_to_teach_page(page.browser)
 
 
+def follow_change_email_link_to_dashboard(page, email):
+    _follow_change_email_link(page, email)
+
+    return go_to_login_page(page.browser)
+
+
 def follow_change_email_link_to_play(page, email):
     _follow_change_email_link(page, email)
 

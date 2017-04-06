@@ -57,6 +57,8 @@ class TestTeacherStudent(BaseTest):
         page, student_name = create_school_student(page)
         assert page.student_exists(student_name)
 
+        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+
     def test_create_empty(self):
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)

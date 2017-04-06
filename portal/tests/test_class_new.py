@@ -38,7 +38,8 @@ from base_test_new import BaseTest
 
 from utils.teacher_new import signup_teacher_directly
 from utils.organisation_new import create_organisation_directly
-from utils.classes_new import create_class
+from utils.classes_new import create_class, create_class_directly
+from utils.student_new import create_school_student_directly
 from utils.messages import is_class_created_message_showing
 
 from django_selenium_clean import selenium
@@ -68,3 +69,17 @@ class TestClass(BaseTest):
             .create_class_empty()
 
         assert page.was_form_empty('form-create-class')
+
+    def test_create_dashboard(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        page = self.go_to_homepage() \
+            .go_to_login_page() \
+            .login(email, password)
+
+        page, class_name = create_class(page)
+
+        assert is_class_created_message_showing(selenium, class_name)

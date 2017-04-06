@@ -49,7 +49,7 @@ class OnboardingClassesPage(TeachBasePage):
         assert self.on_correct_page('onboarding_classes_page')
 
     def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_name').send_keys(name)
+        self.browser.find_element_by_id('id_class_name').send_keys(name)
         Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
 
         self._click_create_class_button()
