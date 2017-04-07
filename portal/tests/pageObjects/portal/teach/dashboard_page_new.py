@@ -129,3 +129,41 @@ class TeachDashboardPage(TeachBasePage):
 
     def has_no_join_requests(self):
         return self.element_does_not_exist_by_id('request_table')
+
+    def is_teacher_in_school(self, name):
+        return name in self.browser.find_element_by_id('teachers_table').text
+
+    def is_not_teacher_in_school(self, name):
+        return name not in self.browser.find_element_by_id('teachers_table').text
+
+    def is_teacher_admin(self):
+        return "Make non-admin" in self.browser.find_element_by_id('teachers_table').text
+
+    def is_teacher_non_admin(self):
+        return "Make admin" in self.browser.find_element_by_id('teachers_table').text
+
+    def click_kick_button(self):
+        self.browser.find_element_by_id('kick_button').click()
+
+        return self
+
+    def click_make_admin_button(self):
+        self.browser.find_element_by_id('make_admin_button').click()
+
+        return self
+
+    def click_make_non_admin_button(self):
+        self.browser.find_element_by_id('make_non_admin_button').click()
+
+        return self
+
+    def is_dialog_showing(self):
+        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
+
+    def confirm_dialog(self):
+        self._click_confirm()
+
+        return self
+
+    def _click_confirm(self):
+        self.browser.find_element_by_xpath("//button[contains(text(),'Confirm')]").click()

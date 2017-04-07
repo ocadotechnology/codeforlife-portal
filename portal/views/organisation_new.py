@@ -180,7 +180,7 @@ def process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganis
         teacher.pending_join_request = school
         teacher.save()
 
-        email_message = emailMessages_new.joinRequestPendingEmail_new(request, teacher.new_user.email)
+        email_message = emailMessages_new.joinRequestPendingEmail(request, teacher.new_user.email)
 
         send_pending_requests_emails(school, email_message)
 

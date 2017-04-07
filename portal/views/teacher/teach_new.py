@@ -224,22 +224,6 @@ def teacher_view_class(request, access_code):
                    'num_students': len(students)})
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
-def teacher_class_students(request, access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
-
-    # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
-
-    return render(request, 'redesign/teach_new/onboarding_print.html',
-                  {'class': klass,
-                   'students': students,
-                   'num_students': len(students)})
-
-
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def teacher_print_reminder_cards_new(request, access_code):

@@ -42,7 +42,7 @@ def emailSubjectPrefix():
 
 
 def emailBodySignOff(request):
-    return '\n\nThanks,\n\nThe Code for Life team.\n' + request.build_absolute_uri(reverse('home'))
+    return '\n\nThanks,\n\nThe Code for Life team.\n' + request.build_absolute_uri(reverse('home_new'))
 
 
 def emailVerificationNeededEmail(request, token):
@@ -74,7 +74,7 @@ def emailChangeNotificationEmail(request, new_email):
     }
 
 
-def joinRequestPendingEmail_new(request, pendingAddress):
+def joinRequestPendingEmail(request, pendingAddress):
     return {
         'subject': emailSubjectPrefix() + " : School or club join request pending",
         'message': ("Someone with the email address '" + pendingAddress +
@@ -107,4 +107,31 @@ def joinRequestDeniedEmail(request, schoolName):
         'message': ("Your request to join the school or club '" + schoolName +
                     "' has been denied. If you think this was in error you should speak to the " +
                     "administrator of that school or club." + emailBodySignOff(request)),
+    }
+
+
+def kickedEmail(request, schoolName):
+    return {
+        'subject': emailSubjectPrefix() + " : You were removed from your school or club",
+        'message': ("You have been removed from the school or club '" + schoolName +
+                    "'. If you think this was in error, please contact the administrator of that school or club." +
+                    emailBodySignOff(request)),
+    }
+
+
+def adminGivenEmail(request, schoolName):
+    return {
+        'subject': emailSubjectPrefix() + " : You have been made a school or club administrator",
+        'message': ("Administrator control of the school or club '" + schoolName +
+                    "' has been given to you. Go to " + request.build_absolute_uri(reverse('dashboard')) +
+                    " to start managing your school or club." + emailBodySignOff(request)),
+    }
+
+
+def adminRevokedEmail(request, schoolName):
+    return {
+        'subject': emailSubjectPrefix() + " : You are no longer a school or club administrator",
+        'message': ("Your administrator control of the school or club '" + schoolName +
+                    "' has been revoked. If you think this is in error, please contact one of " +
+                    "the other administrators in your school or club." + emailBodySignOff(request)),
     }

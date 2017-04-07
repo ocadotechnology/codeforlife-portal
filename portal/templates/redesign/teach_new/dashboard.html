@@ -72,7 +72,7 @@
 
     <div class="background col-sm-7 col-center">
         <h3>These teachers are already part of your school or club</h3>
-        <table class="header-primary data-primary">
+        <table id="teachers_table" class="header-primary data-primary">
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Administrator status</p></th>
@@ -88,15 +88,16 @@
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</p></td>
                 {% if coworker.new_user != user and is_admin %}
                     <td class="cell-center">
-                        <button class="button--small button--primary--danger"
+                        <button id="kick_button" class="button--small button--primary--danger"
                                 onclick="showRemoveConfirmation('{% url 'organisation_kick_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
                             Remove</button>
                     </td>
                     <td class="cell-center">
                         {% if coworker.is_admin %}
-                            <a class='button--small button--primary--navigation' href="{% url 'organisation_toggle_admin_new' coworker.id %}">Make non-admin</a>
+                            <a id="make_non_admin_button" class='button--small button--primary--navigation'
+                               href="{% url 'organisation_toggle_admin_new' coworker.id %}">Make non-admin</a>
                         {% else %}
-                            <button class="button--small button--primary--navigation"
+                            <button id="make_admin_button" class="button--small button--primary--navigation"
                                     onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
                                 Make admin</button></td>
                         {% endif %}
