@@ -12,6 +12,10 @@
 
 {% block scripts %}
 {{ block.super }}
+<script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
+<script>
+    var CONFIRMATION_DATA = {};
+</script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -68,7 +72,7 @@
 
     <div class="background col-sm-7 col-center">
         <h3>These teachers are already part of your school or club</h3>
-        <table class="header-primary data-primary">
+        <table id="teachers_table" class="header-primary data-primary">
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Administrator status</p></th>
@@ -83,14 +87,24 @@
                 <td><p class="small-text">{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</p></td>
                 {% if coworker.new_user != user and is_admin %}
-                    <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
+                    <td class="cell-center">
+                        <button id="kick_button" class="button--small button--primary--danger"
+                                onclick="showRemoveConfirmation('{% url 'organisation_kick_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                            Remove</button>
+                    </td>
                     <td class="cell-center">
                         {% if coworker.is_admin %}
-                            <button class='button--small button-primary button--primary--navigation'>Make non-admin</button>
+                            <a id="make_non_admin_button" class='button--small button--primary--navigation'
+                               href="{% url 'organisation_toggle_admin_new' coworker.id %}">Make non-admin</a>
                         {% else %}
-                            <button class="button--small button-primary button--primary--navigation">Make admin</button></td>
+                            <button id="make_admin_button" class="button--small button--primary--navigation"
+                                    onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                                Make admin</button></td>
                         {% endif %}
-                    <td class="cell-center">{% if coworker.new_user|has_2FA %}<button class="button--small button-primary button--primary--setup">Disable 2FA</button>{% endif %}</td>
+                    <td class="cell-center">{% if coworker.new_user|has_2FA %}
+                        <button class="button--small button--primary--setup"
+                                onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                            Disable 2FA</button>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
@@ -114,7 +128,7 @@
         <div class="background col-sm-7 col-center">
             <h3>These teachers have requested to join your school or club</h3>
             {% if join_requests %}
-                <table class="header-primary data-primary">
+                <table id="request_table" class="header-primary data-primary">
                     <tr>
                         <th><p class="body-text">Name</p></th>
                         <th><p class="body-text">Email address</p></th>
@@ -124,8 +138,12 @@
                         <tr>
                             <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
                             <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
-                            <td class="cell-center"><button class="button--small button-primary button--primary--positive">Allow</button></td>
-                            <td class="cell-center"><button class="button--small button-primary button--primary--danger">Deny</button></td>
+                            <td class="cell-center">
+                                <a id="allow_button" class="button--small button-primary button--primary--positive"
+                                        href="{% url 'organisation_allow_join_new' join_request.id %}">Allow</a></td>
+                            <td class="cell-center">
+                                <a id="deny_button" class="button--small button-primary button--primary--danger"
+                                        href="{% url 'organisation_deny_join_new' join_request.id %}">Deny</a></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -181,7 +199,7 @@
                             <tr>
                                 <td><p class="small-text">{{ class.name }}</p></td>
                                 <td><p class="small-text">{{ class.access_code }}</p></td>
-                                <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
+                                <td class="cell-center"><a href="{% url 'view_class' class.access_code %}" class="button--small button--primary--positive">Edit class</a></td>
                             </tr>
                         {% endfor %}
                     </table>

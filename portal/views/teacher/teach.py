@@ -169,7 +169,7 @@ def create_class(form, teacher):
     if form.cleaned_data['classmate_progress'] == 'True':
         classmate_progress = True
     klass = Class.objects.create(
-        name=form.cleaned_data['name'],
+        name=form.cleaned_data['class_name'],
         teacher=teacher,
         access_code=generate_access_code(),
         classmates_data_viewable=classmate_progress)

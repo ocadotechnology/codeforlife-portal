@@ -233,7 +233,7 @@ class TeacherLoginForm(forms.Form):
 
 class ClassCreationForm(forms.Form):
     classmate_choices = [('True', 'Yes'), ('False', 'No')]
-    name = forms.CharField(
+    class_name = forms.CharField(
         label='Class Name',
         widget=forms.TextInput(attrs={'placeholder': 'Lower KS2'}))
     classmate_progress = forms.ChoiceField(

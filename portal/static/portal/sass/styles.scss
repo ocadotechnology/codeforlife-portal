@@ -50,6 +50,7 @@ $color-background-teach: $color-teacher-blue;
 $color-background-play: $color-student-orange;
 $color-background-warning: #fab300;
 $color-background-positive: #7ed321;
+$color-background-danger: #f00;
 $color-background-tint-primary: #d6e7ed;
 $color-background-tint-secondary: #f7ecc8;
 $color-background-tint-tertiary: #f8dfe5;
@@ -308,7 +309,8 @@ a[class^='button']:visited {
   @include _padding(15px, 20px, 15px, 20px);
 }
 
-.button--regular {
+.button--regular,
+.ui-dialog-buttonset button {
   @include _font-size(20px);
   @include _line-height(25px);
 }
@@ -366,6 +368,7 @@ a[class^='button']:visited {
 
   @include _border-radius(8px, 8px, 0px, 0px);
   background: $color-background-secondary;
+  border: 1px solid $color-text-tertiary;
   border-radius: .8rem;
   color: $color-text-tertiary;
 
@@ -395,7 +398,8 @@ a[class^='button']:visited {
   color: $color-text-secondary;
 }
 
-.button--primary--danger {
+.button--primary--danger,
+.ui-dialog-buttonset button {
   background: $color-button-primary-action-danger;
   color: $color-text-secondary;
 }
@@ -1334,6 +1338,48 @@ td {
   .button--secondary--background-light {
     color: $color-background-play;
   }
+}
+
+.ui-dialog-titlebar {
+  @include _padding(10px, 10px, 10px, 10px);
+  background: $color-background-danger !important;
+}
+
+.ui-dialog-title {
+  @include _font-size(30px);
+  color: $color-text-secondary !important;
+  font-weight: 800 !important;
+}
+
+.ui-dialog-titlebar-close {
+  float: right !important;
+}
+
+.ui-dialog {
+  background: $color-background-secondary;
+  left: 35% !important;
+  position: fixed !important;
+  top: 30% !important;
+  width: 30% !important;
+}
+
+.ui-dialog-buttonpane {
+  @include _padding(10px, 10px, 10px, 10px);
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ui-dialog-buttonset button {
+  @include _margin(0px, 10px, 0px, 10px);
+}
+
+.ui-dialog-content {
+  @include _padding(10px, 10px, 10px, 10px);
+}
+
+.ui-widget-overlay {
+  background: #666666 50% 50% repeat !important;
+  opacity: .8 !important;
 }
 
 @media (min-width: 1570px) {

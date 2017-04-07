@@ -16,7 +16,7 @@
 {{ block.super }}
 
 <section class="background">
-    <h2>Mr Holland, Test class 1 (EU184)</h2>
+    <h2>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h2>
     <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within each of your classes. We&rsquo;ve created reminder cards which includes each
         students login details for you to print out, meaning they won&rsquo;t forget and you don&rsquo;t have to remember this for them. You can add new students, transfer
         existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</h4>
@@ -45,54 +45,19 @@
                         <div class="student-status student-status--offline"></div><p class="small-text">Logged out</p>
                     </th>
                 </tr>
+                {% for student in students %}
                 <tr>
                     <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
                     <td>
-                        <p class="small-text">Ben Doorhandle</p>
+                        <p class="small-text">{{ student.new_user.first_name }}</p>
                         <button class="button--small button--primary--positive">Edit</button>
                     </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
                     <td>
-                        <p class="small-text">Clive Dishwasher</p>
-                        <button class="button--small button--primary--positive">Edit</button>
+                        {% if student.logged_in %}<div class="student-status student-status--online"></div>
+                        {% else %}<div class="student-status student-status--offline"></div>{% endif %}
                     </td>
-                    <td><div class="student-status student-status--offline"></div></td>
                 </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Dominique Fork</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--online"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Joanne Tumbledryer</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Shirley Teaspoon</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Terry Shoelace</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
+                {% endfor %}
                 <tr>
                     <td class="table-footer" colspan="3" rowspan="2">
                         <p class="small-text">0/7 selected</p>
