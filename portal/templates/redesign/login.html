@@ -27,13 +27,13 @@
 
                     {{ login_form.non_field_errors }}
 
-                    <label for="id_{{ login_form.email.html_name }}">{{ login_form.email.label }}</label>
-                    {{ login_form.email }}
-                    {{ login_form.email.errors }}
+                    <label for="id_{{ login_form.teacher_email.html_name }}">{{ login_form.teacher_email.label }}</label>
+                    {{ login_form.teacher_email }}
+                    {{ login_form.teacher_email.errors }}
 
-                    <label for="id_{{ login_form.password.html_name }}">{{ login_form.password.label }}</label>
-                    {{ login_form.password }}
-                    {{ login_form.password.errors }}
+                    <label for="id_{{ login_form.teacher_password.html_name }}">{{ login_form.teacher_password.label }}</label>
+                    {{ login_form.teacher_password }}
+                    {{ login_form.teacher_password.errors }}
 
                     {% if login_form.recaptcha %}
                     <label for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
@@ -41,7 +41,7 @@
                     {{ login_form.recaptcha.errors }}
                     {% endif %}
 
-                    <button type="submit" name="login" class="button--regular button--primary--general-educate" value="Sign in"
+                    <button type="submit" name="login" class="button--regular button--primary--general-educate"
                             onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
                 </form>
                 <p class="body-text"><strong>Forgotten your password?</strong></p>
@@ -51,16 +51,37 @@
         <div class="form--register form--register--student col-sm-6">
             <div class="form col-sm-7 col-sm-offset-2">
                 <h1>Log in as a student</h1>
-                <form>
-                    <p class="small-text">User name</p>
-                    <input type="text" name="FirstName" value="" placeholder="EG: Rosie Florido">
-                    <p class="small-text">Class access code</p>
-                    <input type="text" name="ConfirmPassword" value="" placeholder="EG: AX256">
+                <form id='form-login-school' method='post'>
+
+                    {% csrf_token %}
+
+                    {{ school_login_form.non_field_errors }}
+
+                    <label for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
+                    {{ school_login_form.name }}
+                    {{ school_login_form.name.errors }}
+
+                    <label for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
+                    {{ school_login_form.access_code }}
+                    {{ school_login_form.access_code.errors }}
+
+                    <label for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
+                    {{ school_login_form.password }}
+                    {{ school_login_form.password.errors }}
+
+                    {% if school_login_form.recaptcha %}
+                    {{ school_login_form.recaptcha.errors }}
+                    <label for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
+                    {{ school_login_form.recaptcha|safe }}
+                    {% endif %}
+
+                    <button type='submit' name='school_login' class="button--regular button--primary--general-play"
+                            onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
                 </form>
                 <p class="body-text"><strong>Can't remember your user name or class access code?</strong></p>
                 <p class="body-text">Don't worry, just ask your school or club teacher who will have these details.</p>
 
-                <p class="body-text">Are your registered as an independent student who is not part of a school or club?If so, <a>log in here</a>.</p>
+                <p class="body-text">Are you registered as an independent student who is not part of a school or club? If so, <a>log in here</a>.</p>
             </div>
         </div>
     </div>
