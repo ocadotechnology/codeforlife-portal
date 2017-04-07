@@ -46,7 +46,8 @@ from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.models import Teacher, Class
-from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
+from portal.forms.teach_new import TeacherSignupForm, TeacherLoginForm
+from portal.forms.play import StudentLoginForm
 from portal.helpers.emails_new import send_verification_email, is_verified
 from portal.utils import using_two_factor
 from portal import app_settings
@@ -57,7 +58,18 @@ recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_setti
 
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login' in request.POST:
-        return request.POST['login-email']
+        return request.POST['login-teacher_email']
+
+    return ''
+
+
+def play_name_labeller(request):
+    if request.method == 'POST':
+        if 'school_login' in request.POST:
+            return request.POST['login-name'] + ':' + request.POST['login-access_code']
+
+        if 'independent_student_login' in request.POST:
+            return request.POST['independent_student-username']
 
     return ''
 
@@ -77,29 +89,52 @@ def register_view(request):
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def render_login_form(request):
     invalid_form = False
 
-    limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
-    captcha_limit = 5
+    teacher_limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
+    teacher_captcha_limit = 5
 
     LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
-    InputLoginForm = compute_input_login_form(LoginFormWithCaptcha, limits, captcha_limit)
-    OutputLoginForm = compute_output_login_form(LoginFormWithCaptcha, limits, captcha_limit)
+    InputLoginForm = compute_teacher_input_login_form(LoginFormWithCaptcha, teacher_limits, teacher_captcha_limit)
+    OutputLoginForm = compute_teacher_output_login_form(LoginFormWithCaptcha, teacher_limits, teacher_captcha_limit)
 
     login_form = OutputLoginForm(prefix='login')
 
+    student_limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
+    student_captcha_limit = 30
+    student_name_captcha_limit = 5
+
+    StudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
+    InputStudentLoginForm = compute_student_input_login_form(StudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
+    OutputStudentLoginForm = compute_student_output_login_form(StudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
+
+    school_login_form = OutputStudentLoginForm(prefix='login')
+
     if request.method == 'POST':
-        login_form = InputLoginForm(request.POST, prefix='login')
-        if login_form.is_valid():
-            return process_login_form(request, login_form)
+        if 'school_login' in request.POST:
+            school_login_form = InputStudentLoginForm(request.POST, prefix='login')
+
+            if school_login_form.is_valid():
+                return process_student_login_form(request, school_login_form)
+
+            else:
+                school_login_form = OutputStudentLoginForm(request.POST, prefix='login')
+                invalid_form = True
 
         else:
-            login_form = OutputLoginForm(request.POST, prefix='login')
-            invalid_form = True
+            login_form = InputLoginForm(request.POST, prefix='login')
+            if login_form.is_valid():
+                return process_login_form(request, login_form)
+
+            else:
+                login_form = OutputLoginForm(request.POST, prefix='login')
+                invalid_form = True
 
     res = render(request, 'redesign/login.html', {
         'login_form': login_form,
+        'school_login_form': school_login_form,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
     })
 
@@ -128,24 +163,44 @@ def render_signup_form(request):
     return res
 
 
-def compute_use_captcha(limits, captcha_limit):
+def compute_teacher_use_captcha(limits, captcha_limit):
     using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
     return using_captcha
 
 
-def compute_should_use_captcha(limits, captcha_limit):
+def compute_teacher_should_use_captcha(limits, captcha_limit):
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
     return should_use_captcha
 
 
-def compute_input_login_form(LoginFormWithCaptcha, limits, captcha_limit):
-    InputLoginForm = LoginFormWithCaptcha if compute_use_captcha(limits, captcha_limit) else TeacherLoginForm
+def compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
+    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    return using_captcha
+
+
+def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
+    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    return should_use_captcha
+
+
+def compute_teacher_input_login_form(LoginFormWithCaptcha, limits, captcha_limit):
+    InputLoginForm = LoginFormWithCaptcha if compute_teacher_use_captcha(limits, captcha_limit) else TeacherLoginForm
     return InputLoginForm
 
 
-def compute_output_login_form(LoginFormWithCaptcha, limits, captcha_limit):
-    OutputLoginForm = LoginFormWithCaptcha if compute_should_use_captcha(limits, captcha_limit) else TeacherLoginForm
+def compute_teacher_output_login_form(LoginFormWithCaptcha, limits, captcha_limit):
+    OutputLoginForm = LoginFormWithCaptcha if compute_teacher_should_use_captcha(limits, captcha_limit) else TeacherLoginForm
     return OutputLoginForm
+
+
+def compute_student_input_login_form(StudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
+    InputStudentLoginForm = StudentLoginFormWithCaptcha if compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else StudentLoginForm
+    return InputStudentLoginForm
+
+
+def compute_student_output_login_form(StudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
+    OutputStudentLoginForm = StudentLoginFormWithCaptcha if compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else StudentLoginForm
+    return OutputStudentLoginForm
 
 
 def process_login_form(request, login_form):
@@ -178,6 +233,16 @@ def process_login_form(request, login_form):
     teacher = request.user.userprofile.teacher
 
     return redirect_user_to_correct_page(teacher)
+
+
+def process_student_login_form(request, school_login_form):
+    login(request, school_login_form.user)
+
+    next_url = request.GET.get('next', None)
+    if next_url:
+        return HttpResponseRedirect(next_url)
+
+    return HttpResponseRedirect(reverse_lazy('student_details'))
 
 
 def process_signup_form(request, data):
