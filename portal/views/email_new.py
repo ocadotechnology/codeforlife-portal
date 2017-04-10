@@ -67,7 +67,7 @@ def verify_email_new(request, token):
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
     if hasattr(user.userprofile, 'student'):
-        return HttpResponseRedirect(reverse_lazy('play'))
+        return HttpResponseRedirect(reverse_lazy('login_new'))
     if hasattr(user.userprofile, 'teacher'):
         return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
