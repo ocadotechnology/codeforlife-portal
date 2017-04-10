@@ -8,6 +8,10 @@
 
 {% block scripts %}
 {{ block.super }}
+<script type="text/javascript" src='{% static "portal/js/student_login.js" %}'></script>
+<script>
+    var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
+</script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -19,7 +23,7 @@
 
     <div class="row popup is-flex">
         <div class="form--register form--register--teacher col-sm-6">
-            <div class="form col-sm-7 col-sm-offset-3">
+            <div class="form col-sm-8 col-sm-offset-2">
                 <h1>Log in as a teacher</h1>
                 <form id='form-login-teacher' method='post'>
 
@@ -48,8 +52,8 @@
                 <p class="body-text">Don't worry, you can <a>reset your password</a>.</p>
             </div>
         </div>
-        <div class="form--register form--register--student col-sm-6">
-            <div class="form col-sm-7 col-sm-offset-2">
+        <div id="school-login" class="form--register form--register--student col-sm-6">
+            <div class="form col-sm-8 col-sm-offset-2">
                 <h1>Log in as a student</h1>
                 <form id='form-login-school' method='post'>
 
@@ -81,7 +85,36 @@
                 <p class="body-text"><strong>Can't remember your user name or class access code?</strong></p>
                 <p class="body-text">Don't worry, just ask your school or club teacher who will have these details.</p>
 
-                <p class="body-text">Are you registered as an independent student who is not part of a school or club? If so, <a>log in here</a>.</p>
+                <p class="body-text">Are you registered as an independent student who is not part of a school or club?
+                    If so, <a href='#' id='switchToIndependentStudent'>log in here</a>.</p>
+            </div>
+        </div>
+        <div id="independent-student-login" class="form--register form--register--indep-student col-sm-6">
+            <div class="form col-sm-8 col-sm-offset-2">
+                <h1>Log in as an independent student</h1>
+                <form id='independent_student_login_form' method='post'>
+
+                    {% csrf_token %}
+
+                    {{ independent_student_login_form.non_field_errors }}
+
+                    <label for="id_{{ independent_student_login_form.username.html_name }}">{{ independent_student_login_form.username.label }}</label>
+                    {{ independent_student_login_form.username }}
+                    {{ independent_student_login_form.username.errors }}
+
+                    <label for="id_{{ independent_student_login_form.password.html_name }}">{{ independent_student_login_form.password.label }}</label>
+                    {{ independent_student_login_form.password }}
+                    {{ independent_student_login_form.password.errors }}
+
+                    {% if independent_student_login_form.recaptcha %}
+                    {{ independent_student_login_form.recaptcha.errors }}
+                    <label for="id_{{ independent_student_login_form.recaptcha.html_name }}">{{ independent_student_login_form.recaptcha.label }}</label>
+                    {{ independent_student_login_form.recaptcha|safe }}
+                    {% endif %}
+
+                    <button type='submit' name='independent_student_login' class="button--regular button--primary--general-play">Log in</button>
+                </form>
+                <p class="body-text">Part of a school or club? <a href='#' id='switchToSchool'>Log in here</a>.</p>
             </div>
         </div>
     </div>

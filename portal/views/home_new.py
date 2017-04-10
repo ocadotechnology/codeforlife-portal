@@ -47,7 +47,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.models import Teacher, Class, Student
 from portal.forms.teach_new import TeacherSignupForm, TeacherLoginForm
-from portal.forms.play_new import StudentLoginForm, StudentSignupForm
+from portal.forms.play_new import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.emails_new import send_verification_email, is_verified
 from portal.utils import using_two_factor
 from portal import app_settings
@@ -112,31 +112,44 @@ def render_login_form(request):
 
     school_login_form = OutputStudentLoginForm(prefix='login')
 
-    if request.method == 'POST':
-        if 'school_login' in request.POST:
-            school_login_form = InputStudentLoginForm(request.POST, prefix='login')
+    IndependentStudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(IndependentStudentLoginForm, recaptcha_client), request)
+    InputIndependentStudentLoginForm = compute_indep_student_input_login_form(IndependentStudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
+    OutputIndependentStudentLoginForm = compute_indep_student_output_login_form(IndependentStudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
 
-            if school_login_form.is_valid():
-                return process_student_login_form(request, school_login_form)
+    independent_student_login_form = IndependentStudentLoginForm(prefix='independent_student')
+    independent_student_view = False
 
-            else:
-                school_login_form = OutputStudentLoginForm(request.POST, prefix='login')
-                invalid_form = True
-
-        else:
-            login_form = InputLoginForm(request.POST, prefix='login')
-            if login_form.is_valid():
-                return process_login_form(request, login_form)
-
-            else:
-                login_form = OutputLoginForm(request.POST, prefix='login')
-                invalid_form = True
-
-    res = render(request, 'redesign/login.html', {
+    render_dict = {
         'login_form': login_form,
         'school_login_form': school_login_form,
+        'independent_student_login_form': independent_student_login_form,
+        'independent_student_view': independent_student_view,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
-    })
+    }
+
+    if request.method == 'POST':
+        if 'school_login' in request.POST:
+            form = InputStudentLoginForm(request.POST, prefix="login")
+            process_form = process_student_login_form
+            render_dict['school_login_form'] = OutputStudentLoginForm(request.POST, prefix='login')
+
+        elif 'independent_student_login' in request.POST:
+            form = InputIndependentStudentLoginForm(request.POST, prefix='independent_student')
+            process_form = process_indep_student_login_form
+            render_dict['independent_student_login_form'] = OutputIndependentStudentLoginForm(request.POST, prefix='independent_student')
+            render_dict['independent_student_view'] = True
+
+        else:
+            form = InputLoginForm(request.POST, prefix='login')
+            process_form = process_login_form
+            render_dict['login_form'] = OutputLoginForm(request.POST, prefix='login')
+
+        if form.is_valid():
+            return process_form(request, form)
+        else:
+            invalid_form = True
+
+    res = render(request, 'redesign/login.html', render_dict)
 
     res.count = invalid_form
     return res
@@ -213,6 +226,16 @@ def compute_student_output_login_form(StudentLoginFormWithCaptcha, limits, ip_ca
     return OutputStudentLoginForm
 
 
+def compute_indep_student_input_login_form(IndependentStudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
+    InputIndependentStudentLoginForm = IndependentStudentLoginFormWithCaptcha if compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else IndependentStudentLoginForm
+    return InputIndependentStudentLoginForm
+
+
+def compute_indep_student_output_login_form(IndependentStudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
+    OutputIndependentStudentLoginForm = IndependentStudentLoginFormWithCaptcha if compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else IndependentStudentLoginForm
+    return OutputIndependentStudentLoginForm
+
+
 def process_login_form(request, login_form):
     user = login_form.user
     if not is_verified(user):
@@ -247,6 +270,22 @@ def process_login_form(request, login_form):
 
 def process_student_login_form(request, school_login_form):
     login(request, school_login_form.user)
+
+    next_url = request.GET.get('next', None)
+    if next_url:
+        return HttpResponseRedirect(next_url)
+
+    return HttpResponseRedirect(reverse_lazy('student_details'))
+
+
+def process_indep_student_login_form(request, independent_student_login_form):
+    user = independent_student_login_form.user
+    if not is_verified(user):
+        send_verification_email(request, user)
+        return render(request, 'redesign/email_verification_needed.html',
+                      {'user': user})
+
+    login(request, independent_student_login_form.user)
 
     next_url = request.GET.get('next', None)
     if next_url:
