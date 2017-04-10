@@ -50,7 +50,7 @@ choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
 
 class TeacherSignupForm(forms.Form):
 
-    title = forms.ChoiceField(
+    teacher_title = forms.ChoiceField(
         label='Title',
         choices=choices,
         widget=forms.Select(
@@ -59,7 +59,7 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    first_name = forms.CharField(
+    teacher_first_name = forms.CharField(
         label='First name',
         max_length=100,
         widget=forms.TextInput(
@@ -68,7 +68,7 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    last_name = forms.CharField(
+    teacher_last_name = forms.CharField(
         label='Last name',
         max_length=100,
         widget=forms.TextInput(
@@ -77,7 +77,7 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    email = forms.EmailField(
+    teacher_email = forms.EmailField(
         label='Email address',
         widget=forms.EmailInput(
             attrs={
@@ -85,17 +85,17 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    password = forms.CharField(
+    teacher_password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput()
     )
-    confirm_password = forms.CharField(
+    teacher_confirm_password = forms.CharField(
         label='Confirm Password',
         widget=forms.PasswordInput()
     )
 
     def clean_email(self):
-        email = self.cleaned_data.get('email', None)
+        email = self.cleaned_data.get('teacher_email', None)
 
         if email and Teacher.objects.filter(new_user__email=email).exists():
             raise forms.ValidationError("That email address is already in use")
@@ -103,7 +103,7 @@ class TeacherSignupForm(forms.Form):
         return email
 
     def clean_password(self):
-        password = self.cleaned_data.get('password', None)
+        password = self.cleaned_data.get('teacher_password', None)
 
         if password and not password_strength_test(password):
             raise forms.ValidationError(
@@ -115,8 +115,8 @@ class TeacherSignupForm(forms.Form):
         if any(self.errors):
             return
 
-        password = self.cleaned_data.get('password', None)
-        confirm_password = self.cleaned_data.get('confirm_password', None)
+        password = self.cleaned_data.get('teacher_password', None)
+        confirm_password = self.cleaned_data.get('teacher_confirm_password', None)
 
         if password and confirm_password and password != confirm_password:
             raise forms.ValidationError('Your passwords do not match')
@@ -156,8 +156,7 @@ class TeacherEditAccountForm(forms.Form):
         email = self.cleaned_data.get('email', None)
         if email:
             teachers = Teacher.objects.filter(new_user__email=email)
-            if ((len(teachers) == 1 and teachers[0].new_user != self.user) or
-                    len(teachers) > 1):
+            if (len(teachers) == 1 and teachers[0].new_user != self.user) or len(teachers) > 1:
                 raise forms.ValidationError("That email address is already in use")
 
         return email

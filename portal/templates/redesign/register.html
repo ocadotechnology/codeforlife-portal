@@ -26,31 +26,31 @@
 
                 {% csrf_token %}
 
-                {{ signup_form.non_field_errors }}
+                {{ teacher_signup_form.non_field_errors }}
 
-                <label for="id_signup-title">{{ signup_form.title.label }}</label>
-                {{ signup_form.title }}
-                {{ signup_form.title.errors }}
+                <label for="id_teacher_signup-teacher_title">{{ teacher_signup_form.teacher_title.label }}</label>
+                {{ teacher_signup_form.teacher_title }}
+                {{ teacher_signup_form.teacher_title.errors }}
 
-                <label for="id_signup-first_name">{{ signup_form.first_name.label }}</label>
-                {{ signup_form.first_name }}
-                {{ signup_form.first_name.errors }}
+                <label for="id_teacher_signup-teacher_first_name">{{ teacher_signup_form.teacher_first_name.label }}</label>
+                {{ teacher_signup_form.teacher_first_name }}
+                {{ teacher_signup_form.teacher_first_name.errors }}
 
-                <label for="id_signup-last_name">{{ signup_form.last_name.label }}</label>
-                {{ signup_form.last_name }}
-                {{ signup_form.last_name.errors }}
+                <label for="id_teacher_signup-teacher_last_name">{{ teacher_signup_form.teacher_last_name.label }}</label>
+                {{ teacher_signup_form.teacher_last_name }}
+                {{ teacher_signup_form.teacher_last_name.errors }}
 
-                <label for="id_signup-email">{{ signup_form.email.label }}</label>
-                {{ signup_form.email }}
-                {{ signup_form.email.errors }}
+                <label for="id_teacher_signup-teacher_email">{{ teacher_signup_form.teacher_email.label }}</label>
+                {{ teacher_signup_form.teacher_email }}
+                {{ teacher_signup_form.teacher_email.errors }}
 
-                <label for="id_signup-password">{{ signup_form.password.label }}</label>
-                {{ signup_form.password }}
-                {{ signup_form.password.errors }}
+                <label for="id_teacher_signup-teacher_password">{{ teacher_signup_form.teacher_password.label }}</label>
+                {{ teacher_signup_form.teacher_password }}
+                {{ teacher_signup_form.teacher_password.errors }}
 
-                <label for="id_signup-confirm_password">{{ signup_form.confirm_password.label }}</label>
-                {{ signup_form.confirm_password }}
-                {{ signup_form.confirm_password.errors }}
+                <label for="id_teacher_signup-teacher_confirm_password">{{ teacher_signup_form.teacher_confirm_password.label }}</label>
+                {{ teacher_signup_form.teacher_confirm_password }}
+                {{ teacher_signup_form.teacher_confirm_password.errors }}
 
                 <div class="row--under">
                     <div class="password-strength-container">
@@ -59,27 +59,42 @@
                     </div>
                 </div>
 
-                <button class="button--big button--primary--general-educate" type="submit" name="signup">Register</button>
+                <button class="button--big button--primary--general-educate" type="submit" name="teacher_signup">Register</button>
             </form>
 
         </div>
     </div>
-    <div class="form--register form--register--student col-sm-6">
+    <div class="form--register form--register--indep-student col-sm-6">
         <div class="form col-sm-8 col-sm-offset-2">
-            <h1>Register as a student</h1>
-            <form>
-                <p class="body-text">Are you part of a school or club? If so, please <a target="_blank" href="home_new.html">log-in</a> or speak to your teacher. If you want to register as an <strong>independent student</strong>, please register below:</p>
-                <p class="small-text">Name</p>
-                <input type="text" name="Name" value="" placeholder="Rosalind Franklin">
-                <p class="small-text">User name</p>
-                <input type="text" name="Username" value="" placeholder="Rosie_f">
-                <p class="small-text">Email address</p>
-                <input type="text" name="Email" value="" placeholder="rosalind.franklin@cambridge.ac.uk">
-                <p class="small-text">Create a password</p>
-                <input type="password" name="Password" value=""><br/>
-                <p class="small-text">Confirm password</p>
-                <input type="password" name="ConfirmPassword" value=""><br/>
-                <p class="small-text no-password"><i>No password</i></p>
+            <h1>Register as an independent student</h1>
+            <p class="body-text">Are you part of a school or club? If so, please <a href="{% url 'login_new' %}">log-in</a> or speak to your teacher. If you want to register as an <strong>independent student</strong>, please register below:</p>
+            <form id="form-signup-independent-student" method='post'>
+
+                {% csrf_token %}
+
+                {{ student_signup_form.non_field_errors }}
+
+                <label for="id_{{ student_signup_form.name.html_name }}">{{ student_signup_form.name.label }}</label>
+                {{ student_signup_form.name }}
+                {{ student_signup_form.name.errors }}
+
+                <label for="id_{{ student_signup_form.username.html_name }}">{{ student_signup_form.username.label }}</label>
+                {{ student_signup_form.username }}
+                {{ student_signup_form.username.errors }}
+
+                <label for="id_{{ student_signup_form.email.html_name }}">{{ student_signup_form.email.label }}</label>
+                {{ student_signup_form.email }}
+                {{ student_signup_form.email.errors }}
+
+                <label for="id_{{ student_signup_form.password.html_name }}">{{ student_signup_form.password.label }}</label>
+                {{ student_signup_form.password }}
+                {{ student_signup_form.password.errors }}
+
+                <label for="id_{{ student_signup_form.confirm_password.html_name }}">{{ student_signup_form.confirm_password.label }}</label>
+                {{ student_signup_form.confirm_password }}
+                {{ student_signup_form.confirm_password.errors }}
+
+                <button type='submit' name='student_signup' class="button--big button--primary--general-play" value='Register'>Register</button>
             </form>
         </div>
     </div>
@@ -87,7 +102,7 @@
 
 <script type="text/javascript" src="{% static 'portal/js/passwordStrength_new.js' %}"></script>
 <script>
-    var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
+    var PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
     var PASSWORD_TYPE = 'TEACHER';
 </script>
 

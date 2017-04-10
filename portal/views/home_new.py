@@ -45,9 +45,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
 
-from portal.models import Teacher, Class
+from portal.models import Teacher, Class, Student
 from portal.forms.teach_new import TeacherSignupForm, TeacherLoginForm
-from portal.forms.play import StudentLoginForm
+from portal.forms.play_new import StudentLoginForm, StudentSignupForm
 from portal.helpers.emails_new import send_verification_email, is_verified
 from portal.utils import using_two_factor
 from portal import app_settings
@@ -144,19 +144,29 @@ def render_login_form(request):
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def render_signup_form(request):
     invalid_form = False
 
-    signup_form = TeacherSignupForm(prefix='signup')
+    teacher_signup_form = TeacherSignupForm(prefix='teacher_signup')
+    student_signup_form = StudentSignupForm(prefix='student_signup')
 
     if request.method == 'POST':
-        signup_form = TeacherSignupForm(request.POST, prefix='signup')
-        if signup_form.is_valid():
-            data = signup_form.cleaned_data
-            return process_signup_form(request, data)
+        if 'teacher_signup' in request.POST:
+            teacher_signup_form = TeacherSignupForm(request.POST, prefix='teacher_signup')
+            if teacher_signup_form.is_valid():
+                data = teacher_signup_form.cleaned_data
+                return process_signup_form(request, data)
+
+        else:
+            student_signup_form = StudentSignupForm(request.POST, prefix='student_signup')
+            if student_signup_form.is_valid():
+                data = student_signup_form.cleaned_data
+                return process_student_signup_form(request, data)
 
     res = render(request, 'redesign/register.html', {
-        'signup_form': signup_form
+        'teacher_signup_form': teacher_signup_form,
+        'student_signup_form': student_signup_form,
     })
 
     res.count = invalid_form
@@ -247,15 +257,30 @@ def process_student_login_form(request, school_login_form):
 
 def process_signup_form(request, data):
     teacher = Teacher.objects.factory(
-        title=data['title'],
-        first_name=data['first_name'],
-        last_name=data['last_name'],
-        email=data['email'],
-        password=data['password'])
+        title=data['teacher_title'],
+        first_name=data['teacher_first_name'],
+        last_name=data['teacher_last_name'],
+        email=data['teacher_email'],
+        password=data['teacher_password'])
 
     send_verification_email(request, teacher.user.user)
 
     return render(request, 'redesign/email_verification_needed_new.html', {'user': teacher.user.user})
+
+
+def process_student_signup_form(request, data):
+    student = Student.objects.independentStudentFactory(
+        username=data['username'],
+        name=data['name'],
+        email=data['email'],
+        password=data['password'])
+
+    email_supplied = (data['email'] != '')
+    if email_supplied:
+        send_verification_email(request, student.new_user)
+        return render(request, 'redesign/email_verification_needed_new.html', {'user': student.new_user})
+
+    return render(request, 'portal/play/student_details.html')
 
 
 def is_logged_in_as_teacher(request):
