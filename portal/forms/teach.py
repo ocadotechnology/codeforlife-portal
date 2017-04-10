@@ -191,10 +191,10 @@ class TeacherEditAccountForm(forms.Form):
 
 
 class TeacherLoginForm(forms.Form):
-    email = forms.EmailField(
+    teacher_email = forms.EmailField(
         label='Email address',
         widget=forms.EmailInput(attrs={'placeholder': "my.email@address.com"}))
-    password = forms.CharField(
+    teacher_password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput)
 
@@ -202,11 +202,11 @@ class TeacherLoginForm(forms.Form):
         if self.has_error('recaptcha'):
             raise forms.ValidationError('Incorrect email address, password or captcha')
 
-        email = self.cleaned_data.get('email', None)
-        password = self.cleaned_data.get('password', None)
+        teacher_email = self.cleaned_data.get('teacher_email', None)
+        teacher_password = self.cleaned_data.get('teacher_password', None)
 
-        if email and password:
-            users = User.objects.filter(email=email)
+        if teacher_email and teacher_password:
+            users = User.objects.filter(email=teacher_email)
 
             # Check it's a teacher and not a student using the same email address
             user = None
@@ -218,7 +218,7 @@ class TeacherLoginForm(forms.Form):
             if user is None:
                 raise forms.ValidationError('Incorrect email address or password')
 
-            user = authenticate(username=user.username, password=password)
+            user = authenticate(username=user.username, password=teacher_password)
 
             if user is None:
                 raise forms.ValidationError('Incorrect email address or password')

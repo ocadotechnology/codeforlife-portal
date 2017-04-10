@@ -34,20 +34,24 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import login_page
-import signup_page
-from base_page import BasePage
+import re
+
+from django.core import mail
+from django_selenium_clean import selenium
+from selenium.webdriver.support.wait import WebDriverWait
+
+from base_test_new import BaseTest
+from utils.student_new import create_independent_student, submit_independent_student_signup_form
+from utils.messages import is_email_verified_message_showing
 
 
-class HomePage(BasePage):
-    def __init__(self, browser):
-        super(HomePage, self).__init__(browser)
-        assert self.on_correct_page('home_page_new')
+class TestIndependentStudent(BaseTest):
+    def test_signup(self):
+        page = self.go_to_homepage()
+        page, _, _, _, _ = create_independent_student(page)
+        assert is_email_verified_message_showing(selenium)
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
-
-    def go_to_signup_page(self):
-        self.browser.find_element_by_id('signup_button').click()
-        return signup_page.SignupPage(self.browser)
+    def test_failed_signup(self):
+        page = self.go_to_homepage()
+        page = submit_independent_student_signup_form(page, password='test')
+        assert page.has_independent_student_signup_failed()

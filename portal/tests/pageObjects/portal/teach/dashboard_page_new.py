@@ -37,8 +37,6 @@
 from teach_base_page_new import TeachBasePage
 from selenium.webdriver.support.ui import Select
 
-import time
-
 
 class TeachDashboardPage(TeachBasePage):
     def __init__(self, browser):

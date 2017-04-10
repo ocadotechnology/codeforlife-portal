@@ -79,3 +79,37 @@ def create_many_school_students(page, n):
     page = page.create_students()
 
     return page, names
+
+
+def generate_independent_student_details():
+    name = 'Student %d' % generate_independent_student_details.next_id
+    username = 'Student user %d' % generate_independent_student_details.next_id
+    email_address = 'Student%d@codeforlife.com' % generate_independent_student_details.next_id
+    password = 'Password1'
+
+    generate_independent_student_details.next_id += 1
+
+    return name, username, email_address, password
+
+generate_independent_student_details.next_id = 1
+
+
+def create_independent_student(page):
+    page = page.go_to_signup_page()
+
+    name, username, email_address, password = generate_independent_student_details()
+    page = page.independent_student_signup(name, username, email_address, password, password)
+
+    page = page.return_to_home_page()
+
+    page = email.follow_verify_email_link_to_play(page, mail.outbox[0])
+    mail.outbox = []
+
+    return page, name, username, email_address, password
+
+
+def submit_independent_student_signup_form(page, password='test'):
+    page = page.go_to_signup_page()
+
+    name, username, email_address, _ = generate_independent_student_details()
+    return page.independent_student_signup(name, username, email_address, password, password, success=False)
