@@ -119,45 +119,37 @@ def render_login_form(request):
     independent_student_login_form = IndependentStudentLoginForm(prefix='independent_student')
     independent_student_view = False
 
-    if request.method == 'POST':
-        if 'school_login' in request.POST:
-            school_login_form = InputStudentLoginForm(request.POST, prefix='login')
-
-            if school_login_form.is_valid():
-                return process_student_login_form(request, school_login_form)
-
-            else:
-                school_login_form = OutputStudentLoginForm(request.POST, prefix='login')
-                invalid_form = True
-
-        elif 'independent_student_login' in request.POST:
-            independent_student_login_form = InputIndependentStudentLoginForm(request.POST, prefix='independent_student')
-
-            if independent_student_login_form.is_valid():
-                return process_indep_student_login_form(request, independent_student_login_form)
-
-            else:
-                independent_student_view = True
-                independent_student_login_form = OutputIndependentStudentLoginForm(request.POST, prefix='independent_student')
-                school_login_form = StudentLoginForm(prefix='login')
-                invalid_form = True
-
-        else:
-            login_form = InputLoginForm(request.POST, prefix='login')
-            if login_form.is_valid():
-                return process_login_form(request, login_form)
-
-            else:
-                login_form = OutputLoginForm(request.POST, prefix='login')
-                invalid_form = True
-
-    res = render(request, 'redesign/login.html', {
+    render_dict = {
         'login_form': login_form,
         'school_login_form': school_login_form,
         'independent_student_login_form': independent_student_login_form,
         'independent_student_view': independent_student_view,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
-    })
+    }
+
+    if request.method == 'POST':
+        if 'school_login' in request.POST:
+            form = InputStudentLoginForm(request.POST, prefix="login")
+            process_form = process_student_login_form
+            render_dict['school_login_form'] = OutputStudentLoginForm(request.POST, prefix='login')
+
+        elif 'independent_student_login' in request.POST:
+            form = InputIndependentStudentLoginForm(request.POST, prefix='independent_student')
+            process_form = process_indep_student_login_form
+            render_dict['independent_student_login_form'] = OutputIndependentStudentLoginForm(request.POST, prefix='independent_student')
+            render_dict['independent_student_view'] = True
+
+        else:
+            form = InputLoginForm(request.POST, prefix='login')
+            process_form = process_login_form
+            render_dict['login_form'] = OutputLoginForm(request.POST, prefix='login')
+
+        if form.is_valid():
+            return process_form(request, form)
+        else:
+            invalid_form = True
+
+    res = render(request, 'redesign/login.html', render_dict)
 
     res.count = invalid_form
     return res
