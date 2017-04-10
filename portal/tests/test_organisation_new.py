@@ -51,8 +51,6 @@ from utils import email as email_utils
 
 from django_selenium_clean import selenium
 
-import time
-
 
 class TestOrganisation(BaseTest, BasePage):
 

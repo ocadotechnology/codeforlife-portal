@@ -54,8 +54,8 @@
 
                 <div class="row--under">
                     <div class="password-strength-container">
-                        <div class='password-strength-sign'></div>
-                        <div class='password-strength-text'></div>
+                        <div id="teacher-password-sign" class='password-strength-sign'></div>
+                        <div id="teacher-password-text" class='password-strength-text'></div>
                     </div>
                 </div>
 
@@ -94,6 +94,13 @@
                 {{ student_signup_form.confirm_password }}
                 {{ student_signup_form.confirm_password.errors }}
 
+                <div class="row--under">
+                    <div class="password-strength-container">
+                        <div id="student-password-sign" class='password-strength-sign'></div>
+                        <div id="student-password-text" class='password-strength-text'></div>
+                    </div>
+                </div>
+
                 <button type='submit' name='student_signup' class="button--big button--primary--general-play" value='Register'>Register</button>
             </form>
         </div>
@@ -102,8 +109,8 @@
 
 <script type="text/javascript" src="{% static 'portal/js/passwordStrength_new.js' %}"></script>
 <script>
-    var PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
-    var PASSWORD_TYPE = 'TEACHER';
+    var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ student_signup_form.password.auto_id }}';
 </script>
 
 {% endblock content %}
