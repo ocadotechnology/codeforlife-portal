@@ -25,7 +25,7 @@
 
 <div id="teach_dashboard_page_new"></div>
 
-<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
     <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
     <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
     <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
@@ -52,6 +52,11 @@
 </div>
 {% if is_admin and join_requests %}
     <div class="sub-nav sub-nav--warning">
+        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+        <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
+    </div>
+
+    <div class="sticky-warning sub-nav--hidden sub-nav sub-nav--warning">
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
         <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
     </div>
@@ -338,19 +343,9 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 343) {
-            $('.sub-nav--hidden').css({
-                'display': 'block'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
+<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
+<script>
+    var scrollToTop = 343;
 </script>
 
 {% if anchor %}

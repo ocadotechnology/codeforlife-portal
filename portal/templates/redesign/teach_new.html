@@ -15,7 +15,7 @@
 {% block content %}
 {{block.super}}
 
-<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
     <a href="#overview" class="button--regular button--secondary button--secondary--light">Overview</a>
     <a href="#curriculum" class="button--regular button--secondary button--secondary--light">Curriculum</a>
     <a href="#assessment" class="button--regular button--secondary button--secondary--light">Assessment</a>
@@ -111,19 +111,11 @@
     $(document).ready(function(){
         invokeColorbox();
     });
+</script>
 
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 343) {
-            $('.sub-nav--hidden').css({
-                'display': 'block'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
+<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
+<script>
+    var scrollToTop = 343;
 </script>
 
 {% endblock content %}

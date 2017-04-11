@@ -46,7 +46,7 @@
 <div id="onboarding_student_list_page"></div>
 
 {% if onboarding_done %}
-<div class="sub-nav sub-nav--hidden sub-nav--warning">
+<div class="sticky-warning sub-nav sub-nav--warning--fixed sub-nav--warning">
     <div class="row">
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
         <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<div class="sub-nav sub-nav--hidden sub-nav--warning">
+<div class="sticky-warning sub-nav sub-nav--hidden sub-nav--warning">
     <div class="row">
         <img src='{% static "portal/img_new/warning.png" %}'>
         <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
@@ -140,30 +140,13 @@
     </div>
 </div>
 
+<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
 <script type="text/javascript">
-
-    {% if onboarding_done %}
-    $(document).ready(function(){
-        $('.sub-nav--hidden').css({
-            'display': 'block',
-            'top': '80px'
-        });
-    });
-    {% else %}
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 268) {
-            $('.sub-nav--hidden').css({
-                'display': 'block',
-                'top': '80px'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
-    {% endif %}
+{% if onboarding_done %}
+    var scrollToTop = 0;
+{% else %}
+    var scrollToTop = 268;
+{% endif %}
 </script>
 
 {% endblock content %}

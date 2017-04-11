@@ -19,26 +19,9 @@
 {% block content %}
 {{ block.super }}
 
-<script type="text/javascript">
-    var fixmeTop = 343;
-
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= fixmeTop) {
-            $('.sub-nav--hidden').css({
-                'display': 'block'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
-</script>
-
 <div id="resources_page"></div>
 
-<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
     <a href="#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
     <a href="#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
     <a href="#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
@@ -524,5 +507,10 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
+<script>
+    var scrollToTop = 343;
+</script>
 
 {% endblock content %}
