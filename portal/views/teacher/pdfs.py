@@ -70,7 +70,7 @@ PDF_DATA = {
     },
 
     "levels_guide_51-109": {
-        "title": "Levels Guide 50 - 109",
+        "title": "Levels Guide 51 - 109",
         "description": "Road maps for levels 51 to 109 of Rapid Router.",
         "links": ["levels_guide_1-50"],
         "url": "general_resources/UKS2-levels-guide.pdf",
