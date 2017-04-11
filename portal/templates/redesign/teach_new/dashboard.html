@@ -199,7 +199,8 @@
                             <tr>
                                 <td><p class="small-text">{{ class.name }}</p></td>
                                 <td><p class="small-text">{{ class.access_code }}</p></td>
-                                <td class="cell-center"><a href="{% url 'view_class' class.access_code %}" class="button--small button--primary--positive">Edit class</a></td>
+                                <td class="cell-center">
+                                    <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button--small button--primary--positive">Edit class</a></td>
                             </tr>
                         {% endfor %}
                     </table>

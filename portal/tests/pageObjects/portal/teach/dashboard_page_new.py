@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from teach_base_page_new import TeachBasePage
+from class_page_new import TeachClassPage
 from selenium.webdriver.support.ui import Select
 
 
@@ -43,6 +44,10 @@ class TeachDashboardPage(TeachBasePage):
         super(TeachDashboardPage, self).__init__(browser)
 
         assert self.on_correct_page('teach_dashboard_page_new')
+
+    def go_to_class_page(self):
+        self.browser.find_element_by_id('class_button').click()
+        return TeachClassPage(self.browser)
 
     def check_organisation_details(self, details):
         correct = True

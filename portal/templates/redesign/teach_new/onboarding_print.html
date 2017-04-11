@@ -12,27 +12,11 @@
 
 {% block scripts %}
 {{ block.super }}
-
-<script type="text/javascript">
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 268) {
-            $('.sub-nav--hidden').css({
-                'display': 'block',
-                'top': '80px'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
-</script>
-
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
 
+{% if test %}{% else %}
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img_new/step_done.png" %}'>Create / Join school</p>
@@ -54,11 +38,31 @@
 </div>
 {% endblock printStudentCardsStep %}
 
+{% endif %}
+
 {% block content %}
 {{ block.super }}
 
 <div id="onboarding_student_list_page"></div>
 
+{% if onboarding_done %}
+<div class="sub-nav sub-nav--hidden sub-nav--warning">
+    <div class="row">
+        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
+            be given to the students.</i></p>
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <div class='section'>
+                <button class='button--regular button-primary button--primary--navigation'
+                        type='submit'>Print reminder cards</button>
+                <a href="{% url 'view_class' class.access_code %}" class="button--regular button--secondary button--secondary--dark">Back to class</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
 <div class="sub-nav sub-nav--warning">
     <div class="row">
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
@@ -92,8 +96,14 @@
         </form>
     </div>
 </div>
+{% endif %}
 
+{% if onboarding_done %}
+<div class="background background--quaternary col-sm-12">
+<div class="background"><div class="background"></div></div>
+{% else %}
 <div class="background background--primary col-sm-12">
+{% endif %}
     <div class="form col-sm-4 col-sm-offset-4">
         <h4>{{ user.new_teacher.school.name }}</h4>
         <h3>New students created in class: {{ class.name }} ({{ class.access_code }})</h3><br>
@@ -119,11 +129,41 @@
                 <div class='section'>
                     <button class='button--regular button-primary button--primary--navigation'
                             type='submit'>Print reminder cards</button>
-                    <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+                    {% if onboarding_done %}
+                        <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button--regular button--secondary button--secondary--dark">Back to class</a>
+                    {% else %}
+                        <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+                    {% endif %}
                 </div>
             </form>
         </section>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    {% if onboarding_done %}
+    $(document).ready(function(){
+        $('.sub-nav--hidden').css({
+            'display': 'block',
+            'top': '80px'
+        });
+    });
+    {% else %}
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= 268) {
+            $('.sub-nav--hidden').css({
+                'display': 'block',
+                'top': '80px'
+            });
+        } else {
+            $('.sub-nav--hidden').css({
+                'display': 'none'
+            });
+        }
+    });
+    {% endif %}
+</script>
 
 {% endblock content %}

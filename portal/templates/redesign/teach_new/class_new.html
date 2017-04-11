@@ -15,6 +15,8 @@
 {% block content %}
 {{ block.super }}
 
+<div id="teach_class_page"></div>
+
 <section class="background">
     <h2>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h2>
     <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within each of your classes. We&rsquo;ve created reminder cards which includes each
@@ -31,7 +33,7 @@
                 make them an independent Code for Life user, or delete them permanently.</p>
         </div>
         <div class="col-sm-6">
-            <table class="header-secondary data-quaternary">
+            <table id="student_table" class="header-secondary data-quaternary">
                 <tr>
                     <th class="cell-center">
                         <p class="body-text">Select</p>
@@ -82,13 +84,18 @@
                     details, and so each name should be unique.</p>
                 <p class="body-text">You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
                     are required to sign in.</p>
-                <button class="button--regular button--secondary button--secondary--dark">Import .CSV file</button>
             </div>
             <div class="col-sm-6">
-                <form>
-                    <textarea rows="10" cols="40"
-                              placeholder="You can import names from a .CSV file, or copy and paste them from a spreadsheet directly into this box"></textarea>
-                    <button class="button--regular button--primary--positive">Add students</button>
+                <form id='form-create-students' method='POST'>
+
+                    {% csrf_token %}
+
+                    {{ new_students_form.non_field_errors }}
+
+                    {{ new_students_form.names.errors }}
+                    {{ new_students_form.names }}
+
+                    <button type='submit' class='button--regular button--primary--positive' name='new_students' value='Add students'>Add students</button>
                 </form>
             </div>
         </div>

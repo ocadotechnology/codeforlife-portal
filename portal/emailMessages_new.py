@@ -84,16 +84,6 @@ def joinRequestPendingEmail(request, pendingAddress):
     }
 
 
-def joinRequestPendingEmail_new(request, pendingAddress):
-    return {
-        'subject': emailSubjectPrefix() + " : School or club join request pending",
-        'message': ("Someone with the email address '" + pendingAddress +
-                    "' has asked to join your school or club, please go to " +
-                    request.build_absolute_uri(reverse('dashboard')) +
-                    " to view the pending join request." + emailBodySignOff(request)),
-    }
-
-
 def joinRequestSentEmail(request, schoolName):
     return {
         'subject': emailSubjectPrefix() + " : School or club join request sent",
