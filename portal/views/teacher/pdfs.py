@@ -39,7 +39,7 @@ PDF_DATA = {
     # .........User Guide........#
     "introduction_to_coding": {
         "title": "Introduction to Coding",
-        "description": "This document shows how the progrssion through rapid router levels cover each stage of the computing curriculum for key stages one and two.",
+        "description": "This document shows how the progression through rapid router levels cover each stage of the computing curriculum for key stages one and two.",
         "links": None,
         "url": "general_resources/introduction_to_coding.pdf",
         "page_origin": "#user-guide"
