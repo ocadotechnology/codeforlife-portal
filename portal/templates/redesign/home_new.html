@@ -19,18 +19,18 @@
 
 <div class="row row--regular row--flex">
     <section class="banner--homepage banner--homepage--teacher col-sm-6">
-        <div class="banner col-sm-6 col-sm-offset-4">
+        <div class="banner col-sm-7 col-sm-offset-3">
             <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
             <h1 class="banner__text--primary">Educate</h1>
-            <p class="body-text">Code for Life has been developed to help teachers deliver the computing curriculum, do they can inspire the next generation of computer scientists.</p>
+            <p class="body-text">Helping teachers to inspire the next generation of computer scientists.</p>
             <a href="{% url 'teach_new' %}" class="button--big button-primary button--primary--general-educate">Learn more</a>
         </div>
     </section>
     <section class="banner--homepage banner--homepage--student col-sm-6">
-        <div class="banner col-sm-6 col-sm-offset-2">
+        <div class="banner col-sm-7 col-sm-offset-2">
             <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--play"></div></div></div>
             <h1 class="banner__text--primary">Play</h1>
-            <p class="body-text">Anyone can learn how to code. We will help you learn how. It's fun, free and easy. Once you know how, you can build just about anything.</p>
+            <p class="body-text">Anyone can learn how to code. We will help you learn how. It's fun, free and easy.</p>
             <a href="{% url 'play_new' %}" class="button--big button-primary button--primary--general-play">Get started</a>
         </div>
     </section>
@@ -56,6 +56,10 @@
             <img title="Planet" alt="Planet image" src='{% static "portal/img_new/icon_globe.png" %}'>
             <p class="body-text col-sm-11 col-center">Code for Life has over <strong>70,000 users</strong> across the world.</p>
         </div>
+    </div>
+
+    <div class="background">
+        <a class="button--big button--primary--navigation" href="{% url 'about_new' %}">Find out more about us</a>
     </div>
 
 </section>
