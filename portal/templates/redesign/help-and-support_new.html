@@ -15,6 +15,29 @@
 {% block content %}
 {{ block.super }}
 
+<script type="text/JavaScript"> // java code copied from the static h%s file
+    {% extends 'portal/base.html' %}
+    {% block scripts %}
+    {{ block.super }}
+    <script>
+    $( document ).ready(function() {
+        questions = $('.faqs').find('div').each(function() {
+            $( this ).children('h4').html('<span>+　</span>'+$( this ).children('h4').html())
+            $( this ).children('h4').click(function() {
+                $( this ).parent().children('div').toggle()
+                if ($( this ).children('span').text() == '+　') {
+                    $( this ).children('span').text('–　');
+                }
+                else {
+                    $( this ).children('span').text('+　');
+                }
+            });
+        });
+    });
+
+{% block content %}
+</script>
+
 <div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Help and support</h1>
