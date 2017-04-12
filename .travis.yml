@@ -1,6 +1,8 @@
+sudo: required
+dist: trusty
 language: python
 python:
-  - 2.7
+  - 2.7.12
 env:
   global:
     secure: yhZstk2BCizpt3zidJp6+MFXK41/zl4ODA7YexGvVfdtyLkvyi1CSuCiDu+EcZn6QD1SGLcDBxRRB7F4ZTW+I9DHzDNDziawdGkVuUIQowUReklQ9W41sJJKzBO6HYpvp8Wvm8bkDfzwJtVpnKphckUoj8k+OXGmhoAl6/DVCsKiCSuZnJ1BxP2GA9cON2RGjJnKpiARXpLR5Zb+R73ALoi1YGU2o3Go8Z+2s7doibqiDlyzLK3nfHdjG5XgKAeYvn14udVyCtLQuaQe24xwDnc1dIOgkfkLdzjrLxoSNeFwhSowEQuWTyeBHBeDyCtJCLk762HW4qlbIacbl1bH6nLHHLznkTSvfUt9yK0tSpPxqUi4ooQxnMT4XFw+5Mg0e3soTgJKNWgG+1WXQ4+F4AC+l0IJdch0vVlH5WSuibvO1fUNzB5brSyrj0hXXtvEGvB31fXT54E6lhxymuAdLyAXHw4cCCc+UNrW3skn0vj3/J5jecbbwcF0DcOK4bjhJ+xHZJucwWtq6ioXGpj6S0u1Fe1dw3AJNNgyjwWTxaEzt3VQP7Znk0OxKGYyViEeEsF+TvVJyhuaaPGSisGc45I4U0/1bopUa5IrZh3EDpPJ8E1HDf++s2z/iVxqmBmbqU0SRtzhRh+ZIsbe+Lea9wx/Zw7k0AKnF1WQXbHacsY=
@@ -36,6 +38,9 @@ install:
   - pip install -e .
   - pip install coveralls
 before_script:
+  - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
+  - export CHROME_BIN=chromium-browser
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3

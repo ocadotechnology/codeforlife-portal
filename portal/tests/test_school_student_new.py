@@ -34,35 +34,42 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+from base_test import BaseTest
 
-import class_page
-import onboarding_students_page
+from portal.tests.pageObjects.portal.home_page_new import HomePage
+from utils.teacher_new import signup_teacher_directly
+from utils.organisation import create_organisation_directly
+from utils.classes import create_class_directly
+from utils.student import create_school_student_directly
 
-from teach_base_page_new import TeachBasePage
+from django_selenium_clean import selenium
 
 
-class OnboardingClassesPage(TeachBasePage):
-    def __init__(self, browser):
-        super(OnboardingClassesPage, self).__init__(browser)
+class TestSchoolStudent(BaseTest):
+    def test_login(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
 
-        assert self.on_correct_page('onboarding_classes_page')
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium)\
+            .go_to_login_page()\
+            .student_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
 
-    def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_class_name').send_keys(name)
-        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
+    def test_login_failure(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
 
-        self._click_create_class_button()
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium)\
+            .go_to_login_page()\
+            .student_login_failure(student_name, access_code, 'some other password')
 
-        return onboarding_students_page.OnboardingStudentsPage(self.browser)
+        assert page.has_student_login_failed()
 
-    def create_class_empty(self):
-        self._click_create_class_button()
-
-        return self
-
-    def _click_create_class_button(self):
-        self.browser.find_element_by_id('create_class_button').click()
-
-    def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('add_students')
+    def is_dashboard(self, page):
+        return page.__class__.__name__ == 'PlayDashboardPage'

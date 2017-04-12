@@ -34,35 +34,42 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+import re
 
-import class_page
-import onboarding_students_page
+from django.core import mail
+from django_selenium_clean import selenium
+from selenium.webdriver.support.wait import WebDriverWait
 
-from teach_base_page_new import TeachBasePage
+from base_test_new import BaseTest
+from utils.student_new import create_independent_student, submit_independent_student_signup_form
+from utils.messages import is_email_verified_message_showing
 
 
-class OnboardingClassesPage(TeachBasePage):
-    def __init__(self, browser):
-        super(OnboardingClassesPage, self).__init__(browser)
+class TestIndependentStudent(BaseTest):
+    def test_signup(self):
+        page = self.go_to_homepage()
+        page, _, _, _, _ = create_independent_student(page)
+        assert is_email_verified_message_showing(selenium)
 
-        assert self.on_correct_page('onboarding_classes_page')
+    def test_failed_signup(self):
+        page = self.go_to_homepage()
+        page = submit_independent_student_signup_form(page, password='test')
+        assert page.has_independent_student_signup_failed()
 
-    def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_class_name').send_keys(name)
-        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
+    def test_login_failure(self):
+        page = self.go_to_homepage()
+        page = page.go_to_login_page()
+        page = page.independent_student_login_failure('Non existent username', 'Incorrect password')
 
-        self._click_create_class_button()
+        assert page.has_independent_student_login_failed()
 
-        return onboarding_students_page.OnboardingStudentsPage(self.browser)
+    def test_login_success(self):
+        page = self.go_to_homepage()
+        page, name, username, email, password = create_independent_student(page)
+        page = page.independent_student_login(username, password)
+        assert page.__class__.__name__ == 'PlayDashboardPage'
 
-    def create_class_empty(self):
-        self._click_create_class_button()
-
-        return self
-
-    def _click_create_class_button(self):
-        self.browser.find_element_by_id('create_class_button').click()
-
-    def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('add_students')
+        page = page.go_to_account_page()
+        assert page.check_account_details({
+            'name': name
+        })

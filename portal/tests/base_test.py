@@ -35,6 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import os
+import time
+import socket
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -44,9 +46,14 @@ from unittest import skipUnless
 
 #### Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
+from . import custom_handler
 from portal.tests.pageObjects.portal.game_page import GamePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from deploy import captcha
+
+
+custom_handler.add_timeout()
+
 
 @skipUnless(selenium, "Selenium is unconfigured")
 class BaseTest(SeleniumTestCase):
@@ -86,4 +93,15 @@ class BaseTest(SeleniumTestCase):
         return GamePage(selenium)
 
     def _go_to_path(self, path):
-        selenium.get(self.live_server_url + path)
+        socket.setdefaulttimeout(20)
+        attempts = 0
+        while attempts <= 3:
+            try:
+                selenium.get(self.live_server_url + path)
+            except socket.timeout:
+                if attempts > 2:
+                    raise
+                time.sleep(10)
+            else:
+                break
+            attempts += 1

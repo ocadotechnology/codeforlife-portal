@@ -54,9 +54,6 @@ class BasePage(object):
     def wait_for_element_by_css(self, css, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait_for_presence((By.CSS_SELECTOR, css), wait_seconds)
 
-    def wait_for_element_by_xpath(self, xpath, wait_seconds=DEFAULT_WAIT_SECONDS):
-        self.wait_for_presence((By.XPATH, xpath), wait_seconds)
-
     def wait_for_element_to_be_clickable(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait(EC.element_to_be_clickable(locator), wait_seconds)
 
@@ -131,10 +128,6 @@ class BasePage(object):
         self.browser.find_element_by_id('teach_button').click()
         return teach_page.TeachPage(self.browser)
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
-        return login_page.LoginPage(self.browser)
-
     def go_to_signup_page(self):
         self.browser.find_element_by_id('signup_button').click()
         return signup_page.SignupPage(self.browser)
@@ -142,6 +135,10 @@ class BasePage(object):
     def go_to_terms_page(self):
         self.browser.find_element_by_id('terms_button').click()
         return terms_page.TermsPage(self.browser)
+
+    def go_to_resources_page(self):
+        self.browser.find_element_by_id('resources_button').click()
+        return resources_page.ResourcesPage(self.browser)
 
     def is_on_admin_login_page(self):
         return self.on_correct_page('admin_login')
@@ -175,3 +172,4 @@ import teach_page
 import login_page
 import signup_page
 import terms_page
+import resources_page

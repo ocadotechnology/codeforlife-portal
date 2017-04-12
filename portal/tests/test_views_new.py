@@ -39,6 +39,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
 from utils.teacher_new import signup_teacher_directly
 from utils.classes_new import create_class_directly
+from utils.student_new import create_school_student_directly
 
 
 class TestTeacherViews(TestCase):
@@ -46,6 +47,7 @@ class TestTeacherViews(TestCase):
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
         _, _, cls.class_access_code = create_class_directly(cls.email)
+        create_school_student_directly(cls.class_access_code)
 
     def login(self):
         c = Client()
@@ -54,6 +56,6 @@ class TestTeacherViews(TestCase):
 
     def test_reminder_cards(self):
         c = self.login()
-        url = reverse('teacher_print_reminder_cards', args=[self.class_access_code])
+        url = reverse('teacher_print_reminder_cards_new', args=[self.class_access_code])
         response = c.get(url)
         self.assertEqual(response.status_code, 200)

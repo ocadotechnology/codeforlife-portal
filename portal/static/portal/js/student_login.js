@@ -35,45 +35,28 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+var INDEPENDENT_STUDENT_VIEW = false;
 
-/* global post */
+function init() {
+    $('#switchToIndependentStudent').click(function() {
+        $('#school-login').hide();
+        $('#independent-student-login').show();
+        return false;
+    });
 
-function showRemoveConfirmation(path, name) {
-    CONFIRMATION_DATA.remove = {
-        options: {
-            title: 'Remove teacher'
-        },
-        html: '<p>The teacher "'+name+'", will be removed from the school or club. If they have any classes you will be asked to move them to other teachers of this school or club.</p><p>Are you sure?</p>',
-        confirm: function() { window.location.replace(path); }
-    };
-    openConfirmationBox('remove');
-}
-
-function showToggleAdminConfirmation(path, name) {
-    CONFIRMATION_DATA.remove = {
-        options: {
-            title: 'Set administrator permissions'
-        },
-        html: '<p>The teacher "'+name+'", will be made an administrator of this school or club. They will gain all of the powers that you currently have.</p><p>Are you sure?</p>',
-        confirm: function() { toggleAdmin(path); }
-    };
-    openConfirmationBox('remove');
-}
-
-function showDisable2FAConfirmation(path, name) {
-    CONFIRMATION_DATA.remove = {
-        options: {
-            title: 'Disable 2FA for '+name
-        },
-        html: '<p>The teacher "'+name+'", will have their two factor authentication disabled. This will make their account less secure.</p><p>Are you sure?</p>',
-        confirm: function() { window.location.replace(path); }
-    };
-    openConfirmationBox('remove');
-}
-
-function toggleAdmin(path) {
-    post(path, {
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    $('#switchToSchool').click(function() {
+        $('#independent-student-login').hide();
+        $('#school-login').show();
+        return false;
     });
 }
 
+$(function() {
+    init();
+    if (INDEPENDENT_STUDENT_VIEW) {
+        $('#switchToIndependentStudent').click();
+    }
+    else {
+        $('#switchToSchool').click();
+    }
+});

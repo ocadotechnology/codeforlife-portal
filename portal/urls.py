@@ -65,10 +65,13 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.email_new import verify_email_new
+from portal.views.email_new import verify_email_new, change_email
 from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
-from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_class_students
+from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, \
+    materials_viewer_new, teacher_print_reminder_cards_new, teacher_view_class
+from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
+    organisation_kick_new, organisation_toggle_admin_new, teacher_disable_2FA_new
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -204,18 +207,26 @@ urlpatterns = patterns(
     url(r'^redesign/login_form', login_view, name='login_new'),
     url(r'^redesign/logout/$', logout_view_new, name='logout_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
+    url(r'^redesign/change_email/(?P<token>[0-9a-f]+)/$', change_email, name='change_email'),
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
     url(r'^redesign/teach/fuzzy_lookup/$', organisation_fuzzy_lookup_new, name='organisation_fuzzy_lookup_new'),
     url(r'^redesign/teach/onboarding-organisation/$', organisation_manage_new, name='onboarding-organisation'),
     url(r'^redesign/teach/onboarding-classes', teacher_classes_new, name='onboarding-classes'),
-    url(r'^redesign/teach/onboarding-class/(?P<access_code>[A-Z0-9]+)', teacher_class_new, name='onboarding-class'),
+    url(r'^redesign/teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$', teacher_class_new, name='onboarding-class'),
+    url(r'^redesign/teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$', teacher_print_reminder_cards_new, name='teacher_print_reminder_cards_new'),
     url(r'^redesign/teach/onboarding-complete', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding-complete'),
     url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
     url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
     url(r'^redesign/help', TemplateView.as_view(template_name='redesign/help-and-support_new.html'), name='help_new'),
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
-    url(r'^redesign/teach/materials', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
-    url(r'^redesign/teach/dashboard', TemplateView.as_view(template_name='redesign/teach_new/dashboard.html'), name='dashboard'),
-    url(r'^redesign/teach/class', TemplateView.as_view(template_name='redesign/teach_new/class_new.html'), name='class_new'),
+    url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
+    url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
+    url(r'^redesign/teach/dashboard/$', dashboard_manage, name='dashboard'),
+    url(r'^redesign/teach/dashboard/kick/(?P<pk>[0-9]+)/$', organisation_kick_new, name='organisation_kick_new'),
+    url(r'^redesign/teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$', organisation_toggle_admin_new, name='organisation_toggle_admin_new'),
+    url(r'^redesign/teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA_new, name='teacher_disable_2FA_new'),
+    url(r'^redesign/teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join_new, name='organisation_allow_join_new'),
+    url(r'^redesign/teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join_new, name='organisation_deny_join_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)', teacher_view_class, name='view_class'),
 
 )

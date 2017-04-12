@@ -34,35 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
-
-import class_page
-import onboarding_students_page
-
-from teach_base_page_new import TeachBasePage
+from base_page import BasePage
+import pdf_viewer_page
 
 
-class OnboardingClassesPage(TeachBasePage):
+class ResourcesPage(BasePage):
     def __init__(self, browser):
-        super(OnboardingClassesPage, self).__init__(browser)
+        super(ResourcesPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding_classes_page')
+        assert self.on_correct_page('resources_page')
 
-    def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_class_name').send_keys(name)
-        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
-
-        self._click_create_class_button()
-
-        return onboarding_students_page.OnboardingStudentsPage(self.browser)
-
-    def create_class_empty(self):
-        self._click_create_class_button()
-
-        return self
-
-    def _click_create_class_button(self):
-        self.browser.find_element_by_id('create_class_button').click()
-
-    def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('add_students')
+    def click_pdf_link(self):
+        self.browser.find_element_by_id('pdf_link').click()
+        return pdf_viewer_page.PDFViewerPage(self.browser)

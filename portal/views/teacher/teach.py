@@ -152,7 +152,7 @@ def teacher_classes(request):
             created_class = create_class(form, teacher)
             messages.success(request, "The class '{className}' has been created successfully."
                              .format(className=created_class.name))
-        return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': created_class.access_code}))
+            return HttpResponseRedirect(reverse_lazy('teacher_class', kwargs={'access_code': created_class.access_code}))
     else:
         form = ClassCreationForm(initial={'classmate_progress': 'False'})
 
@@ -169,7 +169,7 @@ def create_class(form, teacher):
     if form.cleaned_data['classmate_progress'] == 'True':
         classmate_progress = True
     klass = Class.objects.create(
-        name=form.cleaned_data['name'],
+        name=form.cleaned_data['class_name'],
         teacher=teacher,
         access_code=generate_access_code(),
         classmates_data_viewable=classmate_progress)

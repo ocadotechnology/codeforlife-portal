@@ -194,18 +194,18 @@ class TestOrganisation(BaseTest, BasePage):
 
         email, password = signup_teacher_directly()
 
-        page = self.go_to_homepage()\
-            .go_to_teach_page()\
-            .login(email, password)\
+        page = self.go_to_homepage() \
+            .go_to_teach_page() \
+            .login(email, password) \
             .go_to_organisation_create_or_join_page()
 
         page = page.join_organisation(names[n - 1])
         assert page.__class__.__name__ == 'TeachOrganisationRevokePage'
         assert page.check_organisation_name(names[n - 1], postcodes[n - 1])
 
-        page = page.logout()\
-            .go_to_teach_page()\
-            .login(emails[n - 1], passwords[n - 1])\
+        page = page.logout() \
+            .go_to_teach_page() \
+            .login(emails[n - 1], passwords[n - 1]) \
             .go_to_organisation_manage_page()
 
         assert page.has_join_request(email)
@@ -216,10 +216,10 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.number_of_members() == 2
         assert page.number_of_admins() == 1
 
-        page = page\
-            .logout()\
-            .go_to_teach_page()\
-            .login(email, password)\
+        page = page \
+            .logout() \
+            .go_to_teach_page() \
+            .login(email, password) \
             .go_to_organisation_manage_page()
         assert page.check_organisation_name(names[n - 1])
         assert page.is_not_admin_view()

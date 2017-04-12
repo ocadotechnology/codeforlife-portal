@@ -35,6 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import os
+import socket
+import time
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -87,4 +89,15 @@ class BaseTest(SeleniumTestCase):
         return GamePage(selenium)
 
     def _go_to_path(self, path):
-        selenium.get(self.live_server_url + path)
+        socket.setdefaulttimeout(20)
+        attempts = 0
+        while attempts <= 3:
+            try:
+                selenium.get(self.live_server_url + path)
+            except socket.timeout:
+                if attempts > 2:
+                    raise
+                time.sleep(10)
+            else:
+                break
+            attempts += 1

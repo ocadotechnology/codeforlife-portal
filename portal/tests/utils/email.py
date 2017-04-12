@@ -56,6 +56,12 @@ def follow_verify_email_link_to_play(page, email):
     return go_to_play_page(page.browser)
 
 
+def follow_verify_email_link_to_login(page, email):
+    _follow_verify_email_link(page, email)
+
+    return go_to_login_page(page.browser)
+
+
 def _follow_verify_email_link(page, email):
     message = str(email.message())
     prefix = '<p>Please go to <a href="'
@@ -80,6 +86,12 @@ def follow_change_email_link_to_teach(page, email):
     _follow_change_email_link(page, email)
 
     return go_to_teach_page(page.browser)
+
+
+def follow_change_email_link_to_dashboard(page, email):
+    _follow_change_email_link(page, email)
+
+    return go_to_login_page(page.browser)
 
 
 def follow_change_email_link_to_play(page, email):

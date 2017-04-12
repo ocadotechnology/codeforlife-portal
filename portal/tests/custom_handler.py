@@ -34,35 +34,24 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+import socket
 
-import class_page
-import onboarding_students_page
-
-from teach_base_page_new import TeachBasePage
+from django.test import testcases
 
 
-class OnboardingClassesPage(TeachBasePage):
-    def __init__(self, browser):
-        super(OnboardingClassesPage, self).__init__(browser)
+class RequestHandler(testcases.QuietWSGIRequestHandler):
 
-        assert self.on_correct_page('onboarding_classes_page')
+    def handle(self):
+        try:
+            super(RequestHandler, self).handle()
+        except socket.timeout:
+            print('timed out')
+            self.requestline = ''
+            self.request_version = ''
+            self.command = ''
+            self.send_error(408)
+            return
 
-    def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_class_name').send_keys(name)
-        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
 
-        self._click_create_class_button()
-
-        return onboarding_students_page.OnboardingStudentsPage(self.browser)
-
-    def create_class_empty(self):
-        self._click_create_class_button()
-
-        return self
-
-    def _click_create_class_button(self):
-        self.browser.find_element_by_id('create_class_button').click()
-
-    def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('add_students')
+def add_timeout():
+    testcases.QuietWSGIRequestHandler = RequestHandler

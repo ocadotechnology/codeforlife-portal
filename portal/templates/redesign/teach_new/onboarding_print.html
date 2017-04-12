@@ -64,7 +64,7 @@
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
         <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
             be given to the students.</i></p>
-        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
             {% csrf_token %}
             <input type='hidden' name='data' value='{{ query_data }}'/>
             <div class='section'>
@@ -81,7 +81,7 @@
         <img src='{% static "portal/img_new/warning.png" %}'>
         <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
             be given to the students.</i></p>
-        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
             {% csrf_token %}
             <input type='hidden' name='data' value='{{ query_data }}'/>
             <div class='section'>
@@ -113,11 +113,11 @@
             {% endfor %}
         </table>
         <section>
-            <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+            <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
                 {% csrf_token %}
                 <input type='hidden' name='data' value='{{ query_data }}'/>
                 <div class='section'>
-                    <button id="print_cards_button" class='button--regular button-primary button--primary--navigation'
+                    <button class='button--regular button-primary button--primary--navigation'
                             type='submit'>Print reminder cards</button>
                     <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
                 </div>

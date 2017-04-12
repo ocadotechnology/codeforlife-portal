@@ -61,7 +61,7 @@ recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_setti
 
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login' in request.POST:
-        return request.POST['login-email']
+        return request.POST['login-teacher_email']
 
     return ''
 

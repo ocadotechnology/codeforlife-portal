@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import login_page
+import signup_page
 from base_page import BasePage
 
 
@@ -46,3 +47,7 @@ class HomePage(BasePage):
     def go_to_login_page(self):
         self.browser.find_element_by_id('login_button').click()
         return login_page.LoginPage(self.browser)
+
+    def go_to_signup_page(self):
+        self.browser.find_element_by_id('signup_button').click()
+        return signup_page.SignupPage(self.browser)

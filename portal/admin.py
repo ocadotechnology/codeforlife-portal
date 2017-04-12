@@ -45,6 +45,7 @@ from portal.models import Class, Student, Guardian, Teacher, School, UserProfile
 class ClassAdmin(admin.ModelAdmin):
     search_fields = ['name', 'teacher__new_user__first_name', 'teacher__new_user__last_name']
     list_filter = ['teacher']
+    readonly_fields = ['teacher']
 
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -55,17 +56,22 @@ class SchoolAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     search_fields = ['new_user__first_name', 'new_user__last_name']
     list_filter = ['class_field', 'class_field__teacher']
+    readonly_fields = ['user', 'new_user']
+    raw_id_fields = ['class_field', 'pending_class_request']
 
 
 class TeacherAdmin(admin.ModelAdmin):
     search_fields = ['new_user__first_name', 'new_user__last_name']
     list_filter = ['school']
+    readonly_fields = ['user', 'new_user']
+    raw_id_fields = ['school', 'pending_join_request']
 
 
 class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ['user__first_name', 'user__last_name', 'new_username', 'user__date_joined']
     list_filter = ['user__date_joined']
     list_display = ['user', 'joined_recently']
+    readonly_fields = ['user']
 
 
 class EmailVerificationAdmin(admin.ModelAdmin):
