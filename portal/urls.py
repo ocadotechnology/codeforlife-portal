@@ -42,6 +42,7 @@ from django.views.generic import RedirectView
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
     ProfileView, QRGeneratorView
 
+from portal.views.api import registered_users, last_connected_since
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.permissions import teacher_verified
 from portal.views.email import verify_email
@@ -229,4 +230,8 @@ urlpatterns = patterns(
     url(r'^redesign/teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join_new, name='organisation_deny_join_new'),
     url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)', teacher_view_class, name='view_class'),
 
+    url(r'^api/', include([
+        url(r'^registered/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', registered_users, name="registered-users"),
+        url(r'^lastconnectedsince/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', last_connected_since, name="last-connected-since"),
+    ])),
 )
