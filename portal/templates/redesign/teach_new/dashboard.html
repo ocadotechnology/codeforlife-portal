@@ -343,17 +343,14 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
-<script>
-    var scrollToTop = 343;
-</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.banner').outerHeight());
 
-{% if anchor %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            window.location = '#{{anchor}}'
-        });
-    </script>
-{% endif %}
+        {% if anchor %}
+            window.location = '#{{anchor}}';
+        {% endif %}
+    });
+</script>
 
 {% endblock content %}

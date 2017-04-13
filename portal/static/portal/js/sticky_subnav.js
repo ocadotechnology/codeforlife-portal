@@ -27,16 +27,20 @@
  program; modified versions of the program must be marked as such and not
  identified as the original program.
  */
-var scrollToTop = 0;
 
-$(window).scroll(function() {
-    var currentScroll = $(window).scrollTop();
-    if (currentScroll >= scrollToTop) {
-        $('.sticky-warning').removeClass('sub-nav--hidden').addClass('sub-nav--warning--fixed');
-        $('.sticky-subnav').removeClass('sub-nav--hidden').addClass('sub-nav--fixed');
-    }
-    else {
-        $('.sticky-warning').removeClass('sub-nav--warning--fixed').addClass('sub-nav--hidden');
-        $('.sticky-subnav').removeClass('sub-nav--fixed').addClass('sub-nav--hidden');
-    }
-});
+function toggleStickySubnav(scrollToTop) {
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= scrollToTop) {
+            if (!$('.sticky-warning').hasClass('sub-nav--warning--fixed') ||
+                !$('.sticky-subnav').hasClass("sub-nav--fixed")) {
+                $('.sticky-warning').removeClass('sub-nav--hidden').addClass('sub-nav--warning--fixed');
+                $('.sticky-subnav').removeClass('sub-nav--hidden').addClass('sub-nav--fixed');
+            }
+        }
+        else {
+            $('.sticky-warning').removeClass('sub-nav--warning--fixed').addClass('sub-nav--hidden');
+            $('.sticky-subnav').removeClass('sub-nav--fixed').addClass('sub-nav--hidden');
+        }
+    });
+}

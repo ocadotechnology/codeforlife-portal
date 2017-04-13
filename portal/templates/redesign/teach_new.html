@@ -110,12 +110,8 @@
 <script type="text/javascript">
     $(document).ready(function(){
         invokeColorbox();
+        toggleStickySubnav($('.banner').outerHeight());
     });
-</script>
-
-<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
-<script>
-    var scrollToTop = 343;
 </script>
 
 {% endblock content %}

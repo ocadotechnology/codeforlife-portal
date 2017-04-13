@@ -16,7 +16,7 @@
 
 {% block pageID %}id='homeWrapper'{% endblock %}
 
-{% if test %}{% else %}
+{% if onboarding_done %}{% else %}
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img_new/step_done.png" %}'>Create / Join school</p>
@@ -140,13 +140,12 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
 <script type="text/javascript">
-{% if onboarding_done %}
-    var scrollToTop = 0;
-{% else %}
-    var scrollToTop = 268;
-{% endif %}
+    $(document).ready(function(){
+        {% if not onboarding_done %}
+            toggleStickySubnav($('.banner').outerHeight() - $('.menu').outerHeight());
+        {% endif %}
+    });
 </script>
 
 {% endblock content %}

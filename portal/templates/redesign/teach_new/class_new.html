@@ -128,9 +128,10 @@
     <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
-<script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
-<script>
-    var scrollToTop = 80;
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.menu').outerHeight());
+    });
 </script>
 
 {% endblock content %}
