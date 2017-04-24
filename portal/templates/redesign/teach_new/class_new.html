@@ -16,19 +16,6 @@
 <script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
-<script>
-    var CLASS_CODE = "{{ class.access_code }}";
-
-    var CONFIRMATION_DATA = {
-        'deleteClass': {
-            options: {
-                title: 'Delete class'
-            },
-            html: '<p class="body-text">This class will be permanently deleted. Are you sure?</p>',
-            confirm: function() { window.location.replace("{% url 'teacher_delete_class_new' class.access_code %}"); }
-        }
-    };
-</script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -142,7 +129,8 @@
         their classmates&rsquo; progress.</p>
     <div class="background">
         <button class="button--regular button--primary--positive">Edit settings</button>
-        <button id='deleteClass' class="button--regular button--primary--danger">Delete class</button>
+        <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class_new' class.access_code %}')"
+                id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
     </div>
     <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
