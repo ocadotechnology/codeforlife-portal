@@ -34,21 +34,26 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
-
 from teach_base_page_new import TeachBasePage
-import class_page_new
+import onboarding_student_list_page
 
 
-class OnboardingStudentListPage(TeachBasePage):
+class TeachClassPage(TeachBasePage):
     def __init__(self, browser):
-        super(OnboardingStudentListPage, self).__init__(browser)
+        super(TeachClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding_student_list_page')
+        assert self.on_correct_page('teach_class_page')
+
+    def type_student_name(self, name):
+        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+        return self
+
+    def create_students(self):
+        self._click_create_students()
+        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
+
+    def _click_create_students(self):
+        self.browser.find_element_by_name('new_students').click()
 
     def student_exists(self, name):
         return name in self.browser.find_element_by_id('student_table').text
-
-    def go_back_to_class(self):
-        self.browser.find_element_by_id("back_to_class_button").click()
-        return class_page_new.TeachClassPage(self.browser)

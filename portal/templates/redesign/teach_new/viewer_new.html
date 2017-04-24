@@ -14,37 +14,21 @@
 {% block content %}
 {{ block.super }}
 
-<script type="text/javascript">
-
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 80) {
-            $('.sub-nav--hidden').css({
-                'display': 'block'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
-    });
-</script>
-
 <div id="pdf_viewer_page"></div>
 
-<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
-    <a href="#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
-    <a href="#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
-    <a href="#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
-    <a href="#uks2" class="button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="{% url 'materials_new' %}#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="{% url 'materials_new' %}#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="{% url 'materials_new' %}#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="{% url 'materials_new' %}#uks2" class="button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
 </div>
 
 <div class="background"></div>
 <div class="sub-nav sub-nav--teacher row--small">
-    <a href="#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
-    <a href="#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
-    <a href="#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
-    <a href="#uks2" class="button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+    <a href="{% url 'materials_new' %}#user_guide" class="button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="{% url 'materials_new' %}#ks1" class="button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="{% url 'materials_new' %}#lks2" class="button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="{% url 'materials_new' %}#uks2" class="button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
 </div>
 
 <div class="banner banner--resources row">
@@ -80,5 +64,11 @@
         {% endif %}
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.menu').outerHeight());
+    });
+</script>
 
 {% endblock content %}

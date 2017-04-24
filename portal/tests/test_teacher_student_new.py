@@ -40,7 +40,7 @@ from portal.tests.pageObjects.portal.home_page_new import HomePage
 from utils.teacher_new import signup_teacher_directly
 from utils.organisation_new import create_organisation_directly
 from utils.classes_new import create_class_directly
-from utils.student_new import create_school_student, create_many_school_students
+from utils.student_new import create_school_student, create_many_school_students, create_school_student_directly
 
 from django_selenium_clean import selenium
 
@@ -48,7 +48,7 @@ from django_selenium_clean import selenium
 class TestTeacherStudent(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
         selenium.get(self.live_server_url + "/portal/redesign/home")
@@ -61,7 +61,7 @@ class TestTeacherStudent(BaseTest):
 
     def test_create_empty(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
         selenium.get(self.live_server_url + "/portal/redesign/home")
@@ -71,7 +71,7 @@ class TestTeacherStudent(BaseTest):
 
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
         selenium.get(self.live_server_url + "/portal/redesign/home")
@@ -84,7 +84,7 @@ class TestTeacherStudent(BaseTest):
 
     def test_create_duplicate(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
         student_name = 'bob'
@@ -95,3 +95,19 @@ class TestTeacherStudent(BaseTest):
         page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
+
+    def test_add_to_existing_class(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page()
+
+        page, new_student_name = create_school_student(page)
+        assert page.student_exists(new_student_name)
+
+        page = page.go_back_to_class()
+
+        assert page.student_exists(new_student_name)

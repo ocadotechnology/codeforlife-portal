@@ -214,12 +214,34 @@ def teacher_view_class(request, access_code):
 
     check_user_is_authorised(request, klass)
 
+    if request.method == 'POST':
+        new_students_form = StudentCreationForm(klass, request.POST)
+        if new_students_form.is_valid():
+            name_tokens = []
+            for name in new_students_form.strippedNames:
+                password = generate_password(6)
+                name_tokens.append({'name': name, 'password': password})
+
+                Student.objects.schoolFactory(
+                    klass=klass,
+                    name=name,
+                    password=password)
+
+            return render(request, 'redesign/teach_new/onboarding_print.html',
+                          {'class': klass,
+                           'name_tokens': name_tokens,
+                           'onboarding_done': True,
+                           'query_data': json.dumps(name_tokens)})
+    else:
+        new_students_form = StudentCreationForm(klass)
+
     classes = Class.objects.filter(teacher=teacher)
 
     return render(request, 'redesign/teach_new/class_new.html',
                   {'class': klass,
                    'classes': classes,
                    'students': students,
+                   'new_students_form': new_students_form,
                    'num_students': len(students)})
 
 

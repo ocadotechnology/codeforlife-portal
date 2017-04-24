@@ -491,6 +491,10 @@ a[class^='button']:visited {
   }
 }
 
+.top-element {
+  @include _margin(80px, 0px, 0px, 0px);
+}
+
 .dropdown-menu {
   border: none;
   border-radius: 0.8rem;
@@ -1308,7 +1312,6 @@ td {
 }
 
 .sub-nav {
-  @include _margin(-4px, 0px, 0px, 0px);
   height: 80px;
   text-align: center;
   z-index: 2;
@@ -1321,15 +1324,21 @@ td {
 
 .sub-nav--hidden {
   display: none;
+}
+
+.sub-nav--fixed {
+  display: block;
   margin: 0;
   position: fixed;
   top: 0;
   width: 100%;
 }
 
-.sub-nav--fixed {
+.sub-nav--warning--fixed {
+  display: block;
   margin: 0;
   position: fixed;
+  top: 80px;
   width: 100%;
 }
 
