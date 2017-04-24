@@ -105,7 +105,7 @@ rules:
   no-unreachable: 2
   no-unused-expressions: 0
   no-unused-vars:
-  - 2
+  - 0
   - vars: all
     args: after-used
   no-use-before-define: 0
