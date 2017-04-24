@@ -34,65 +34,30 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from selenium.webdriver.support.ui import Select
+import dashboard_page_new
+import class_page_new
+
 from teach_base_page_new import TeachBasePage
-import dashboard_page_new
-import onboarding_student_list_page
-import dashboard_page_new
-import class_settings_page_new
 
 
-class TeachClassPage(TeachBasePage):
+class TeachMoveClassPage(TeachBasePage):
     def __init__(self, browser):
-        super(TeachClassPage, self).__init__(browser)
+        super(TeachMoveClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('teach_class_page')
+        assert self.on_correct_page('teach_move_class_page')
 
-    def type_student_name(self, name):
-        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+    def get_list_length(self):
+        return len(self.browser.find_element_by_id('id_new_teacher').find_elements_by_tag_name('option'))
+
+    def select_teacher_by_index(self, teacher_index):
+        Select(self.browser.find_element_by_id('id_new_teacher')).select_by_index(teacher_index)
         return self
 
-    def create_students(self):
-        self._click_create_students()
-        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
+    def cancel(self):
+        self.browser.find_element_by_id('cancel_button').click()
+        return class_page_new.TeachClassPage(self.browser)
 
-    def _click_create_students(self):
-        self.browser.find_element_by_name('new_students').click()
-
-    def student_exists(self, name):
-        return name in self.browser.find_element_by_id('student_table').text
-
-    def delete_class(self):
-        self.browser.find_element_by_id('deleteClass').click()
-        return self
-
-    def cancel_dialog(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
-        return self
-
-    def confirm_dialog(self):
-        self._click_confirm()
-
+    def move(self):
+        self.browser.find_element_by_id('move_button').click()
         return dashboard_page_new.TeachDashboardPage(self.browser)
-
-    def is_dialog_showing(self):
-        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
-
-    def confirm_dialog_expect_error(self):
-        self._click_confirm()
-
-        return self
-
-    def _click_confirm(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
-
-    def wait_for_messages(self):
-        self.wait_for_element_by_id('messages')
-
-    def has_students(self):
-        return self.element_exists_by_id('student_table')
-
-    def go_to_class_settings_page(self):
-        self.browser.find_element_by_id('class_settings_button').click()
-        return class_settings_page_new.TeachClassSettingsPage(self.browser)

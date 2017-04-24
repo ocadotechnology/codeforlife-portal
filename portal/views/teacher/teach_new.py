@@ -36,6 +36,8 @@
 # identified as the original program.
 import json
 
+from datetime import timedelta
+
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -43,6 +45,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.utils import timezone
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -51,8 +54,8 @@ from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
 
-from portal.models import Class, Student
-from portal.forms.teach_new import ClassCreationForm, StudentCreationForm
+from portal.models import Class, Student, Teacher
+from portal.forms.teach_new import ClassCreationForm, StudentCreationForm, ClassMoveForm, ClassEditForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password
 from portal.views.teacher.pdfs import PDF_DATA
@@ -245,22 +248,6 @@ def teacher_view_class(request, access_code):
                    'num_students': len(students)})
 
 
-@login_required(login_url=reverse_lazy('home_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('home_new'))
-def teacher_class_students(request, access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
-
-    # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
-
-    return render(request, 'redesign/teach_new/onboarding_print.html',
-                  {'class': klass,
-                   'students': students,
-                   'num_students': len(students)})
-
-
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def teacher_delete_class_new(request, access_code):
@@ -281,20 +268,103 @@ def teacher_delete_class_new(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_delete_class_new(request, access_code):
+def teacher_edit_class_new(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
     if request.user.new_teacher != klass.teacher:
         raise Http404
 
-    if Student.objects.filter(class_field=klass).exists():
-        messages.info(request, 'This class still has students, please remove or delete them all before deleting the class.')
-        return HttpResponseRedirect(reverse_lazy('view_class', kwargs={'access_code': access_code}))
+    external_requests_message = get_requests_message(klass)
 
-    klass.delete()
+    if request.method == 'POST':
+        form = ClassEditForm(request.POST)
+        if form.is_valid():
+            return process_edit_class_form(request, klass, form)
 
-    return HttpResponseRedirect(reverse_lazy('dashboard'))
+    else:
+        form = ClassEditForm(initial={
+            'name': klass.name,
+            'classmate_progress': klass.classmates_data_viewable,
+        })
+
+    return render(request, 'redesign/teach_new/teacher_edit_class_new.html',
+                  {'form': form,
+                   'class': klass,
+                   'external_requests_message': external_requests_message})
+
+
+def get_requests_message(klass):
+    if klass.always_accept_requests:
+        external_requests_message = 'This class is currently set to always accept requests.'
+    elif klass.accept_requests_until is not None and (klass.accept_requests_until - timezone.now()) >= timedelta():
+        external_requests_message = 'This class is accepting external requests until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
+    else:
+        external_requests_message = 'This class is not currently accepting external requests.'
+
+    return external_requests_message
+
+
+def process_edit_class_form(request, klass, form):
+    name = form.cleaned_data['name']
+    classmate_progress = False
+
+    if form.cleaned_data['classmate_progress'] == 'True':
+        classmate_progress = True
+    external_requests_setting = form.cleaned_data['external_requests']
+    if external_requests_setting != '':
+        # Change submitted for external requests
+        hours = int(external_requests_setting)
+        if hours == 0:
+            # Setting to off
+            klass.always_accept_requests = False
+            klass.accept_requests_until = None
+            messages.info(request, 'Class set successfully to never receive requests from external students.')
+        elif hours < 1000:
+            # Setting to number of hours
+            klass.always_accept_requests = False
+            klass.accept_requests_until = timezone.now() + timedelta(hours=hours)
+            messages.info(request, 'Class set successfully to receive requests from external students until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name())
+        else:
+            # Setting to always on
+            klass.always_accept_requests = True
+            klass.accept_requests_until = None
+            messages.info(request, 'Class set successfully to always receive requests from external students (not recommended)')
+
+    klass.name = name
+    klass.classmates_data_viewable = classmate_progress
+    klass.save()
+
+    messages.success(request, "The class's settings have been changed successfully.")
+
+    return HttpResponseRedirect(reverse_lazy('view_class', kwargs={'access_code': klass.access_code}))
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_move_class_new(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+    teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(user=klass.teacher.user)
+
+    # check user authorised to see class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
+
+    if request.method == 'POST':
+        form = ClassMoveForm(teachers, request.POST)
+        if form.is_valid():
+            teacher = form.cleaned_data['new_teacher']
+            klass.teacher = get_object_or_404(Teacher, id=teacher)
+            klass.save()
+
+            messages.success(request, 'The class has been successfully assigned to a different teacher.')
+
+            return HttpResponseRedirect(reverse_lazy('dashboard'))
+    else:
+        form = ClassMoveForm(teachers)
+    return render(request, 'redesign/teach_new/teacher_move_class_new.html',
+                  {'form': form,
+                   'class': klass})
 
 
 @login_required(login_url=reverse_lazy('login_new'))

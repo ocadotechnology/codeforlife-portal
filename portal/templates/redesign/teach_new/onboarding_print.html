@@ -131,14 +131,14 @@
                             type='submit'>Print reminder cards</button>
                     {% if onboarding_done %}
                         <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button--regular button--secondary button--secondary--dark">Back to class</a>
-                        {% else %}
+                    {% else %}
                         <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
-                        {% endif %}
-                    </div>
-                </form>
-            </section>
-        </div>
+                    {% endif %}
+                </div>
+            </form>
+        </section>
     </div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -148,4 +148,4 @@
     });
 </script>
 
-    {% endblock content %}
+{% endblock content %}

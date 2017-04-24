@@ -262,13 +262,10 @@ class ClassEditForm(forms.Form):
     join_choices = [('', "Don't change my current setting"),
                     ('0', "Don't allow external requests to this class"),
                     ('1', "Allow external requests to this class for the next hour")]
-    for i in range(6):
-        hours = 4 * (i + 1)
-        join_choices.append((str(hours), "Allow external requests to this class for the next " + str(hours) + " hours"))
-    for i in range(4):
-        days = i + 2
-        hours = days * 24
-        join_choices.append((str(hours), "Allow external requests to this class for the next " + str(days) + " days"))
+    join_choices.extend([(str(hours), "Allow external requests to this class for the next " + str(hours) + " hours")
+                         for hours in range(4, 24, 4)])
+    join_choices.extend([(str(days*24), "Allow external requests to this class for the next " + str(days) + " days")
+                         for days in range(2, 5)])
     join_choices.append(('1000', "Always allow external requests to this class (not recommended)"))
     name = forms.CharField(
         label='Class Name',
@@ -279,6 +276,18 @@ class ClassEditForm(forms.Form):
     external_requests = forms.ChoiceField(
         label="Set up external requests to this class", required=False, choices=join_choices,
         widget=forms.Select(attrs={'class': 'wide'}))
+
+
+class ClassMoveForm(forms.Form):
+    new_teacher = forms.ChoiceField(label='Teachers', widget=forms.Select(attrs={'class': 'wide'}))
+
+    def __init__(self, teachers, *args, **kwargs):
+        self.teachers = teachers
+        teacher_choices = []
+        for teacher in teachers:
+            teacher_choices.append((teacher.id, teacher.new_user.first_name + ' ' + teacher.new_user.last_name))
+        super(ClassMoveForm, self).__init__(*args, **kwargs)
+        self.fields['new_teacher'].choices = teacher_choices
 
 
 def validateStudentNames(klass, names):
