@@ -40,7 +40,7 @@ from utils.teacher_new import signup_teacher_directly
 from utils.organisation_new import create_organisation_directly
 from utils.classes_new import create_class, create_class_directly
 from utils.student_new import create_school_student_directly
-from utils.messages import is_class_created_message_showing
+from utils.messages import is_class_created_message_showing, is_class_nonempty_message_showing
 
 from django_selenium_clean import selenium
 
@@ -83,3 +83,22 @@ class TestClass(BaseTest):
         page, class_name = create_class(page)
 
         assert is_class_created_message_showing(selenium, class_name)
+
+    def test_delete_nonempty(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
+
+        page = page.delete_class()
+        assert page.is_dialog_showing()
+        page = page.cancel_dialog()
+        assert not page.is_dialog_showing()
+        page = page.delete_class()
+        page = page.confirm_dialog_expect_error()
+        assert page.__class__.__name__ == 'TeachClassPage'
+        page.wait_for_messages()
+        assert is_class_nonempty_message_showing(selenium)

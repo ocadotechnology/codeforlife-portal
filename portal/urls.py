@@ -70,7 +70,7 @@ from portal.views.email_new import verify_email_new, change_email
 from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, \
-    materials_viewer_new, teacher_print_reminder_cards_new, teacher_view_class
+    materials_viewer_new, teacher_print_reminder_cards_new, teacher_view_class, teacher_delete_class_new
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
     organisation_kick_new, organisation_toggle_admin_new, teacher_disable_2FA_new
 
@@ -228,7 +228,8 @@ urlpatterns = patterns(
     url(r'^redesign/teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA_new, name='teacher_disable_2FA_new'),
     url(r'^redesign/teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join_new, name='organisation_allow_join_new'),
     url(r'^redesign/teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join_new, name='organisation_deny_join_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)', teacher_view_class, name='view_class'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_view_class, name='view_class'),
+    url(r'^redesign/teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class_new, name='teacher_delete_class_new'),
 
     url(r'^api/', include([
         url(r'^registered/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', registered_users, name="registered-users"),

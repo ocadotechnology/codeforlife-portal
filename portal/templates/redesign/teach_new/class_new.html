@@ -8,10 +8,14 @@
 
 {% block css %}
 {{ block.super }}
+<link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
 {% endblock css %}
 
 {% block scripts %}
 {{ block.super }}
+<script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -123,8 +127,11 @@
     <p class="body-text">Here you may change the name of the class, transfer the class to another teacher in the school or club, create permissions for the class to
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
         their classmates&rsquo; progress.</p>
-    <button class="button--regular button--primary--positive">Edit settings</button>
-    <button class="button--regular button--primary--danger">Delete class</button>
+    <div class="background">
+        <button class="button--regular button--primary--positive">Edit settings</button>
+        <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class_new' class.access_code %}')"
+                id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
+    </div>
     <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
