@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from teach_base_page_new import TeachBasePage
+import dashboard_page_new
 import onboarding_student_list_page
 
 
@@ -57,3 +58,35 @@ class TeachClassPage(TeachBasePage):
 
     def student_exists(self, name):
         return name in self.browser.find_element_by_id('student_table').text
+
+    def delete_class(self):
+        self.browser.find_element_by_id('deleteClass').click()
+        return self
+
+    def cancel_dialog(self):
+        self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
+        return self
+
+    def confirm_dialog(self):
+        self._click_confirm()
+
+        return dashboard_page_new.TeachDashboardPage(self.browser)
+
+    def is_dialog_showing(self):
+        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
+
+    def confirm_dialog_expect_error(self):
+        self._click_confirm()
+
+        return self
+
+    def _click_confirm(self):
+        self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
+
+    def wait_for_messages(self):
+        self.wait_for_element_by_id('messages')
+
+    def has_students(self):
+        return self.element_exists_by_id('student_table')

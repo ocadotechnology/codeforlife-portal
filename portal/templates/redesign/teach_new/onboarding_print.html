@@ -16,7 +16,7 @@
 
 {% block pageID %}id='homeWrapper'{% endblock %}
 
-{% if onboarding_done %}{% else %}
+{% if not onboarding_done %}
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img_new/step_done.png" %}'>Create / Join school</p>
@@ -131,14 +131,14 @@
                             type='submit'>Print reminder cards</button>
                     {% if onboarding_done %}
                         <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button--regular button--secondary button--secondary--dark">Back to class</a>
-                    {% else %}
+                        {% else %}
                         <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
-                    {% endif %}
-                </div>
-            </form>
-        </section>
+                        {% endif %}
+                    </div>
+                </form>
+            </section>
+        </div>
     </div>
-</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -148,4 +148,4 @@
     });
 </script>
 
-{% endblock content %}
+    {% endblock content %}

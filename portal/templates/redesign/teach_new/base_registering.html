@@ -14,7 +14,7 @@
 {% endblock secondaryButtons %}
 
 {% block content %}
-{% if onboarding_done %}{% else %}
+{% if not onboarding_done %}
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
