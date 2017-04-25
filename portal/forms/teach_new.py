@@ -252,6 +252,44 @@ class ClassCreationForm(forms.Form):
         widget=forms.Select(attrs={'class': 'wide'}))
 
 
+class ClassEditForm(forms.Form):
+    classmate_choices = [('True', 'Yes'), ('False', 'No')]
+    # select dropdown choices for potentially limiting time in which external students may join
+    # class
+    # 0 value = don't allow
+    # n value = allow for next n hours, n < 1000 hours
+    # o/w = allow forever
+    join_choices = [('', "Don't change my current setting"),
+                    ('0', "Don't allow external requests to this class"),
+                    ('1', "Allow external requests to this class for the next hour")]
+    join_choices.extend([(str(hours), "Allow external requests to this class for the next " + str(hours) + " hours")
+                         for hours in range(4, 24, 4)])
+    join_choices.extend([(str(days*24), "Allow external requests to this class for the next " + str(days) + " days")
+                         for days in range(2, 5)])
+    join_choices.append(('1000', "Always allow external requests to this class (not recommended)"))
+    name = forms.CharField(
+        label='Class Name',
+        widget=forms.TextInput(attrs={'placeholder': 'Class Name'}))
+    classmate_progress = forms.ChoiceField(
+        label="Allow students to see their classmates' progress?",
+        choices=classmate_choices, widget=forms.Select(attrs={'class': 'wide'}))
+    external_requests = forms.ChoiceField(
+        label="Set up external requests to this class", required=False, choices=join_choices,
+        widget=forms.Select(attrs={'class': 'wide'}))
+
+
+class ClassMoveForm(forms.Form):
+    new_teacher = forms.ChoiceField(label='Teachers', widget=forms.Select(attrs={'class': 'wide'}))
+
+    def __init__(self, teachers, *args, **kwargs):
+        self.teachers = teachers
+        teacher_choices = []
+        for teacher in teachers:
+            teacher_choices.append((teacher.id, teacher.new_user.first_name + ' ' + teacher.new_user.last_name))
+        super(ClassMoveForm, self).__init__(*args, **kwargs)
+        self.fields['new_teacher'].choices = teacher_choices
+
+
 def validateStudentNames(klass, names):
     validationErrors = []
 

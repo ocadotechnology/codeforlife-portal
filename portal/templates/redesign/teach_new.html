@@ -16,9 +16,9 @@
 {{block.super}}
 
 <div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
-    <a href="#overview" class="button--regular button--secondary button--secondary--light">Overview</a>
-    <a href="#curriculum" class="button--regular button--secondary button--secondary--light">Curriculum</a>
-    <a href="#assessment" class="button--regular button--secondary button--secondary--light">Assessment</a>
+    <a href="#overview" class="button button--regular button--secondary button--secondary--light">Overview</a>
+    <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
+    <a href="#assessment" class="button button--regular button--secondary button--secondary--light">Assessment</a>
 </div>
 
 <div class="banner banner--teacher row row--regular">
@@ -31,9 +31,9 @@
     </div>
 </div>
 <div class="sub-nav sub-nav--teacher row--small">
-    <a href="#overview" class="button--regular button--secondary button--secondary--light">Overview</a>
-    <a href="#curriculum" class="button--regular button--secondary button--secondary--light">Curriculum</a>
-    <a href="#assessment" class="button--regular button--secondary button--secondary--light">Assessment</a>
+    <a href="#overview" class="button button--regular button--secondary button--secondary--light">Overview</a>
+    <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
+    <a href="#assessment" class="button button--regular button--secondary button--secondary--light">Assessment</a>
 </div>
 <div class="banner__item banner__item--teacher">
     <button class="button--big button--secondary button--secondary--light button--banner__item">Overview</button>
@@ -84,7 +84,7 @@
                 <a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;autoplay=1" class="youtube">
                     <img title="Watch Video" alt="Watch Video" src='{% static "portal/img_new/thumbnail_intro_c4l.jpg" %}'>
                 </a>
-                <a href="{% url 'play_new' %}" class="button--regular button-primary button--primary--general-educate">Play Rapid Router</a>
+                <a href="{% url 'play_new' %}" class="button button--regular button-primary button--primary--general-educate">Play Rapid Router</a>
             </section>
         </div>
     </div>
@@ -95,12 +95,14 @@
         <div class="row row--regular">
             <div class="col-sm-4 col-sm-offset-2">
                 <h3>Resources and scoring</h3>
-                <p class="body-text">Once you&rsquo;ve <a>registered</a> your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.</p>
+                <p class="body-text">Once you&rsquo;ve <a href="{% url 'register_new' %}">registered</a> your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.</p>
 
                 <p class="body-text"><strong>Sign up your class, track each pupil&rsquo;s progress, download free teaching packs</strong>, which include sessions plans, pupil resources and
                     assessment tools. There are even videos to help you and your class understand what you&rsquo;ll be learning next.</p>
 
-                <section><button class="button--regular button-primary button--primary--general-play register">Register now</button></section>
+                <section class="background">
+                    <a href="{% url 'register_new' %}" class="button button--regular button--primary--general-play register">Register now</a>
+                </section>
             </div>
             <img title="Teaching Resources" alt="Resources image" src='{% static "portal/img_new/resources_image.png" %}'>
         </div>

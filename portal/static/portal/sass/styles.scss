@@ -286,15 +286,15 @@ button {
 }
 
 button,
-a[class^='button'] {
+.button {
   @include _padding(10px, 15px, 10px, 15px);
   border-radius: .8rem;
 }
 
-a[class^='button'],
-a[class^='button']:hover,
-a[class^='button']:active,
-a[class^='button']:visited {
+.button,
+.button:hover,
+.button:active,
+.button:visited {
   text-decoration: none;
 }
 
@@ -465,6 +465,10 @@ a[class^='button']:visited {
   background-color: $color-background-tint-quaternary;
 }
 
+.alternative-section {
+  border-top: 1px solid $color-text-tertiary;
+}
+
 .row {
   margin: 0;
 }
@@ -565,6 +569,15 @@ section {
 .col-center {
   float: none;
   margin: auto;
+}
+
+.button-group {
+
+  .button,
+  button {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
 }
 
 .portrait {

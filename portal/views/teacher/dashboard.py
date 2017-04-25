@@ -53,8 +53,7 @@ from portal import app_settings, emailMessages_new
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.models import School, Teacher, Class
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
-from portal.forms.teach import TeacherEditAccountForm
-from portal.forms.teach_new import ClassCreationForm
+from portal.forms.teach_new import ClassCreationForm, TeacherEditAccountForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.emails_new import send_verification_email
 from portal.helpers.generators import generate_access_code

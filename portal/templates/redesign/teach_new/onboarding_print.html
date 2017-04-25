@@ -55,9 +55,8 @@
             {% csrf_token %}
             <input type='hidden' name='data' value='{{ query_data }}'/>
             <div class='section'>
-                <button class='button--regular button-primary button--primary--navigation'
-                        type='submit'>Print reminder cards</button>
-                <a href="{% url 'view_class' class.access_code %}" class="button--regular button--secondary button--secondary--dark">Back to class</a>
+                <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
+                <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
             </div>
         </form>
     </div>
@@ -72,9 +71,8 @@
             {% csrf_token %}
             <input type='hidden' name='data' value='{{ query_data }}'/>
             <div class='section'>
-                <button class='button--regular button-primary button--primary--navigation'
-                        type='submit'>Print reminder cards</button>
-                <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+                <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
+                <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
             </div>
         </form>
     </div>
@@ -89,9 +87,8 @@
             {% csrf_token %}
             <input type='hidden' name='data' value='{{ query_data }}'/>
             <div class='section'>
-                <button class='button--regular button-primary button--primary--navigation'
-                        type='submit'>Print reminder cards</button>
-                <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
+                <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
+                <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
             </div>
         </form>
     </div>
@@ -127,18 +124,17 @@
                 {% csrf_token %}
                 <input type='hidden' name='data' value='{{ query_data }}'/>
                 <div class='section'>
-                    <button class='button--regular button-primary button--primary--navigation'
-                            type='submit'>Print reminder cards</button>
+                    <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
                     {% if onboarding_done %}
-                        <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button--regular button--secondary button--secondary--dark">Back to class</a>
-                        {% else %}
-                        <a href="{% url 'onboarding-complete' %}" class="button--regular button--secondary button--secondary--dark">Finish setup</a>
-                        {% endif %}
-                    </div>
-                </form>
-            </section>
-        </div>
+                        <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
+                    {% else %}
+                        <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
+                    {% endif %}
+                </div>
+            </form>
+        </section>
     </div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -148,4 +144,4 @@
     });
 </script>
 
-    {% endblock content %}
+{% endblock content %}
