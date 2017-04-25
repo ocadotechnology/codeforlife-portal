@@ -46,7 +46,7 @@ from django.db.models import Count
 from django_countries import countries
 
 from portal.models import EmailVerification, School, Teacher, Student
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import send_email, NOTIFICATION_EMAIL, add_to_salesforce
 from portal.app_settings import CONTACT_FORM_EMAILS
 
 
@@ -73,6 +73,9 @@ def verify_email(request, token):
         user.email_verifications.exclude(email=user.email).delete()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    # copy newly verified user to secure salesforce db
+    add_to_salesforce(user)
 
     if hasattr(user, 'new_student'):
         return HttpResponseRedirect(reverse_lazy('play'))

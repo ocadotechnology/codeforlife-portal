@@ -43,6 +43,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 
 from portal.models import EmailVerification
+from portal.helpers.emails_new import add_to_salesforce
 
 
 def verify_email_new(request, token):
@@ -65,6 +66,9 @@ def verify_email_new(request, token):
         user.email_verifications.exclude(email=user.email).delete()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    # copy newly verified user to secure salesforce db
+    add_to_salesforce(user)
 
     if hasattr(user.userprofile, 'student'):
         return HttpResponseRedirect(reverse_lazy('login_new'))
@@ -95,6 +99,9 @@ def change_email(request, token):
         user.email_verifications.exclude(email=user.email).delete()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    # copy newly verified user to secure salesforce db
+    add_to_salesforce(user)
 
     if hasattr(user.userprofile, 'teacher'):
         return HttpResponseRedirect(reverse_lazy('dashboard'))
