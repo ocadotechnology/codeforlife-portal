@@ -425,12 +425,8 @@ def teacher_edit_class(request, access_code):
     if request.user.new_teacher != klass.teacher:
         raise Http404
 
-    if klass.always_accept_requests:
-        external_requests_message = 'This class is currently set to always accept requests.'
-    elif klass.accept_requests_until is not None and (klass.accept_requests_until - timezone.now()) >= timedelta():
-        external_requests_message = 'This class is accepting external requests until ' + klass.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
-    else:
-        external_requests_message = 'This class is not currently accepting external requests.'
+    external_requests_message = klass.get_requests_message()
+
     if request.method == 'POST':
         form = ClassEditForm(request.POST)
         if form.is_valid():
