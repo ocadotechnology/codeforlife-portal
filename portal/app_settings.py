@@ -47,3 +47,12 @@ RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', os.getenv('RE
 
 #: Public key for Recaptcha
 RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', os.getenv('RECAPTCHA_PUBLIC_KEY', None))
+
+#: Salesforce URL for adding newly verified users
+SALESFORCE_URL = getattr(settings, 'SALESFORCE_URL', '')
+
+#: Salesforce oid for adding newly verified users
+SALESFORCE_OID = getattr(settings, 'SALESFORCE_OID', '')
+
+#: Salesforce record type for adding newly verified users
+SALESFORCE_RT = getattr(settings, 'SALESFORCE_RT', '')
