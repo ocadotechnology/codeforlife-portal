@@ -74,7 +74,7 @@
                     <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
                     <td>
                         <p class="small-text">{{ student.new_user.first_name }}</p>
-                        <button class="button--small button--primary--positive">Edit</button>
+                        <a id="edit_student_button" href="{% url 'teacher_edit_student_new' student.id %}" class="button button--small button--primary--positive">Edit</a>
                     </td>
                     <td>
                         {% if student.logged_in %}<div class="student-status student-status--online"></div>

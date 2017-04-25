@@ -111,3 +111,54 @@ class TestTeacherStudent(BaseTest):
         page = page.go_back_to_class()
 
         assert page.student_exists(new_student_name)
+
+    def test_update_student_name(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_name = "new name"
+
+        page = page.type_student_name(new_student_name)
+        page = page.click_update_button()
+
+        assert page.is_student_name(new_student_name)
+
+    def test_update_student_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_password = "new_password"
+
+        page = page.click_set_password_form_button().type_student_password(new_student_password)
+        page = page.click_set_password_button()
+
+        assert page.is_student_password(new_student_password)
+
+    def test_generate_random_student_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        page = page.click_generate_password_button()
+
+        assert page.__class__.__name__ == 'EditStudentPasswordPage'

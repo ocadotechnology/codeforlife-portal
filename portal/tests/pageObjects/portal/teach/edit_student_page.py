@@ -34,70 +34,43 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from selenium.webdriver.support.ui import Select
+import edit_student_password_page
+
 from teach_base_page_new import TeachBasePage
-import dashboard_page_new
-import dashboard_page_new
-import class_settings_page_new
-import edit_student_page
-import onboarding_student_list_page
 
 
-class TeachClassPage(TeachBasePage):
+class EditStudentPage(TeachBasePage):
     def __init__(self, browser):
-        super(TeachClassPage, self).__init__(browser)
+        super(EditStudentPage, self).__init__(browser)
 
-        assert self.on_correct_page('teach_class_page')
+        assert self.on_correct_page('edit_student_page')
 
     def type_student_name(self, name):
-        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+        self.browser.find_element_by_id('id_name').clear()
+        self.browser.find_element_by_id('id_name').send_keys(name)
         return self
 
-    def create_students(self):
-        self._click_create_students()
-        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
-
-    def _click_create_students(self):
-        self.browser.find_element_by_name('new_students').click()
-
-    def student_exists(self, name):
-        return name in self.browser.find_element_by_id('student_table').text
-
-    def delete_class(self):
-        self.browser.find_element_by_id('deleteClass').click()
+    def type_student_password(self, password):
+        self.browser.find_element_by_id('id_password').send_keys(password)
+        self.browser.find_element_by_id('id_confirm_password').send_keys(password)
         return self
 
-    def cancel_dialog(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
+    def click_update_button(self):
+        self.browser.find_element_by_id("update_name_button").click()
         return self
 
-    def confirm_dialog(self):
-        self._click_confirm()
-
-        return dashboard_page_new.TeachDashboardPage(self.browser)
-
-    def is_dialog_showing(self):
-        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
-
-    def confirm_dialog_expect_error(self):
-        self._click_confirm()
-
+    def click_set_password_form_button(self):
+        self.browser.find_element_by_id("request-password-setter").click()
         return self
 
-    def _click_confirm(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
+    def click_set_password_button(self):
+        self.browser.find_element_by_id("set_new_password_button").click()
+        return edit_student_password_page.EditStudentPasswordPage(self.browser)
 
-    def wait_for_messages(self):
-        self.wait_for_element_by_id('messages')
+    def click_generate_password_button(self):
+        self.browser.find_element_by_id("generate_password_button").click()
+        return edit_student_password_page.EditStudentPasswordPage(self.browser)
 
-    def has_students(self):
-        return self.element_exists_by_id('student_table')
-
-    def go_to_class_settings_page(self):
-        self.browser.find_element_by_id('class_settings_button').click()
-        return class_settings_page_new.TeachClassSettingsPage(self.browser)
-
-    def go_to_edit_student_page(self):
-        self.browser.find_element_by_id("edit_student_button").click()
-        return edit_student_page.EditStudentPage(self.browser)
+    def is_student_name(self, name):
+        return name in self.browser.find_element_by_id('student_details').text

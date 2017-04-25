@@ -69,9 +69,9 @@ from game.views.level import play_default_level
 from portal.views.email_new import verify_email_new, change_email
 from portal.views.home_new import login_view, logout_view_new, register_view
 from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
-from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, \
-    materials_viewer_new, teacher_print_reminder_cards_new, teacher_view_class, teacher_delete_class_new, \
-    teacher_edit_class_new, teacher_move_class_new
+from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_view_class, \
+    teacher_delete_class_new, teacher_edit_class_new, teacher_move_class_new, teacher_edit_student_new, \
+    teacher_student_reset_new, materials_viewer_new, teacher_print_reminder_cards_new
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
     organisation_kick_new, organisation_toggle_admin_new, teacher_disable_2FA_new
 
@@ -232,6 +232,8 @@ urlpatterns = patterns(
     url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_view_class, name='view_class'),
     url(r'^redesign/teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class_new, name='teacher_delete_class_new'),
     url(r'^redesign/teach/class/edit/(?P<access_code>[A-Z0-9]+)/$', teacher_edit_class_new, name='teacher_edit_class_new'),
+    url(r'^redesign/teach/class/student/edit/(?P<pk>[0-9]+)/$', teacher_edit_student_new, name='teacher_edit_student_new'),
+    url(r'^redesign/teach/class/student/reset/(?P<pk>[0-9]+)/$', teacher_student_reset_new, name='teacher_student_reset_new'),
     url(r'^redesign/teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class_new, name='teacher_move_class_new'),
 
     url(r'^api/', include([
