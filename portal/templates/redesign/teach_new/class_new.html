@@ -26,15 +26,15 @@
 <div id="teach_class_page" class="top-element"></div>
 
 <div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
-    <a href="{% url 'dashboard' %}#school" class="button--regular button--secondary button--secondary--light">Your school</a>
-    <a href="{% url 'dashboard' %}#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
-    <a href="{% url 'dashboard' %}#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+    <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
 </div>
 
 <div class="sub-nav sub-nav--teacher row--small">
-    <a href="{% url 'dashboard' %}#school" class="button--regular button--secondary button--secondary--light">Your school</a>
-    <a href="{% url 'dashboard' %}#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
-    <a href="{% url 'dashboard' %}#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+    <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
 </div>
 
 <section class="background">
@@ -130,7 +130,7 @@
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
         their classmates&rsquo; progress.</p>
     <div class="background button-group">
-        <a id="class_settings_button" href="{% url 'teacher_edit_class_new' class.access_code %}" class="button--regular button--primary--positive">Edit settings</a>
+        <a id="class_settings_button" href="{% url 'teacher_edit_class_new' class.access_code %}" class="button button--regular button--primary--positive">Edit settings</a>
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class_new' class.access_code %}')"
                 id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
     </div>

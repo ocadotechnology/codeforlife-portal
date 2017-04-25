@@ -26,9 +26,9 @@
 <div id="teach_dashboard_page_new"></div>
 
 <div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
-    <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
-    <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
-    <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+    <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
 </div>
 
 <section class="banner banner--teacher row">
@@ -36,9 +36,9 @@
 </section>
 <div class="sub-nav sub-nav--teacher row--small">
     <div class="col-sm-12">
-        <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
-        <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
-        <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+        <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+        <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+        <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
     </div>
 </div>
 <div class="banner__item banner__item--teacher">
@@ -99,7 +99,7 @@
                     </td>
                     <td class="cell-center">
                         {% if coworker.is_admin %}
-                            <a id="make_non_admin_button" class='button--small button--primary--navigation'
+                            <a id="make_non_admin_button" class='button button--small button--primary--navigation'
                                href="{% url 'organisation_toggle_admin_new' coworker.id %}">Make non-admin</a>
                         {% else %}
                             <button id="make_admin_button" class="button--small button--primary--navigation"
@@ -144,10 +144,10 @@
                             <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
                             <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
                             <td class="cell-center">
-                                <a id="allow_button" class="button--small button-primary button--primary--positive"
+                                <a id="allow_button" class="button button--small button-primary button--primary--positive"
                                         href="{% url 'organisation_allow_join_new' join_request.id %}">Allow</a></td>
                             <td class="cell-center">
-                                <a id="deny_button" class="button--small button-primary button--primary--danger"
+                                <a id="deny_button" class="button button--small button-primary button--primary--danger"
                                         href="{% url 'organisation_deny_join_new' join_request.id %}">Deny</a></td>
                         </tr>
                     {% endfor %}
@@ -205,7 +205,7 @@
                                 <td><p class="small-text">{{ class.name }}</p></td>
                                 <td><p class="small-text">{{ class.access_code }}</p></td>
                                 <td class="cell-center">
-                                    <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button--small button--primary--positive">Edit class</a></td>
+                                    <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button button--small button--primary--positive">Edit class</a></td>
                             </tr>
                         {% endfor %}
                     </table>
