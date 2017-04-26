@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,60 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.models import Teacher, School
+from selenium.webdriver.support.ui import Select
+
+from teach_base_page_new import TeachBasePage
 
 
-def generate_details(**kwargs):
-    name = kwargs.get('name', 'School %d' % generate_details.next_id)
-    postcode = kwargs.get('postcode', 'Al10 9NE')
+class EditStudentPasswordPage(TeachBasePage):
+    def __init__(self, browser):
+        super(EditStudentPasswordPage, self).__init__(browser)
 
-    generate_details.next_id += 1
+        assert self.on_correct_page('edit_student_password_page')
 
-    return name, postcode
-
-generate_details.next_id = 1
-
-
-def create_organisation_directly(teacher_email, **kwargs):
-    name, postcode = generate_details(**kwargs)
-
-    school = School.objects.create(
-        name=name,
-        postcode=postcode,
-        country='GB',
-        town='',
-        latitude='',
-        longitude='')
-
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-    teacher.school = school
-    teacher.is_admin = True
-    teacher.save()
-
-    return name, postcode
-
-
-def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-    school = School.objects.get(name=org_name, postcode=postcode)
-
-    teacher.school = school
-    teacher.is_admin = is_admin
-    teacher.save()
-
-
-def create_organisation(page, password):
-
-    name, postcode = generate_details()
-    page = page.create_organisation(name, password, postcode)
-
-    return page, name, postcode
-
-
-def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-    school = School.objects.get(name=org_name, postcode=postcode)
-
-    teacher.school = school
-    teacher.is_admin = is_admin
-    teacher.save()
+    def is_student_password(self, password):
+        return password in self.browser.find_element_by_id('password_text').text

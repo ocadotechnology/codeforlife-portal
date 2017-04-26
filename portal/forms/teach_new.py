@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -118,8 +118,7 @@ class TeacherSignupForm(forms.Form):
         password = self.cleaned_data.get('teacher_password', None)
         confirm_password = self.cleaned_data.get('teacher_confirm_password', None)
 
-        if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError('Your passwords do not match')
+        check_passwords(password, confirm_password)
 
         return self.cleaned_data
 
@@ -183,8 +182,7 @@ class TeacherEditAccountForm(forms.Form):
         return self.cleaned_data
 
     def check_password_errors(self, password, confirm_password, current_password):
-        if (password or confirm_password) and password != confirm_password:
-            raise forms.ValidationError('Your new passwords do not match')
+        check_passwords(password, confirm_password)
 
         if not self.user.check_password(current_password):
             raise forms.ValidationError('Your current password was incorrect')
@@ -290,6 +288,55 @@ class ClassMoveForm(forms.Form):
         self.fields['new_teacher'].choices = teacher_choices
 
 
+class TeacherEditStudentForm(forms.Form):
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+
+    def __init__(self, student, *args, **kwargs):
+        self.student = student
+        self.klass = student.class_field
+        super(TeacherEditStudentForm, self).__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        students = Student.objects.filter(class_field=self.klass,
+                                          new_user__first_name__iexact=name)
+        if students.exists() and students[0] != self.student:
+            raise forms.ValidationError("There is already a student called '" + name + "' in this class")
+
+        return name
+
+
+class TeacherSetStudentPass(forms.Form):
+    password = forms.CharField(
+        label='New password',
+        widget=forms.PasswordInput(attrs={'placeholder': "New password"}))
+    confirm_password = forms.CharField(
+        label='Confirm new password',
+        widget=forms.PasswordInput(attrs={'placeholder': "Confirm new password"}))
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password', None)
+
+        if password and not password_strength_test(password, length=6, upper=False, lower=False,
+                                                   numbers=False):
+            raise forms.ValidationError(
+                "Password not strong enough, consider using at least 6 characters")
+
+        return password
+
+    def clean(self):
+        password = self.cleaned_data.get('password', None)
+        confirm_password = self.cleaned_data.get('confirm_password', None)
+
+        check_passwords(password, confirm_password)
+
+        return self.cleaned_data
+
+
 def validateStudentNames(klass, names):
     validationErrors = []
 
@@ -322,6 +369,11 @@ def find_duplicates(names, lower_names, validationErrors):
             validationErrors.append(forms.ValidationError(
                 "You cannot add more than one student called '" + duplicate + "'"))
             duplicates_found.append(duplicate)
+
+
+def check_passwords(password, confirm_password):
+    if password is not None and (password or confirm_password) and password != confirm_password:
+        raise forms.ValidationError('The password and the confirmation password do not match')
 
 
 class StudentCreationForm(forms.Form):

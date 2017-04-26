@@ -1,0 +1,30 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block content %}
+
+<div id="edit_student_password_page" class="top-element"></div>
+
+<section class="background col-sm-6 col-center">
+    <h2>Student password changed for {{ student.new_user.first_name }} {{ student.new_user.last_name }} in class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h2>
+</section>
+
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h4>The Class Access Code for this student&rsquo;s class is: <strong>{{ student.class_field.access_code }}</strong></h4>
+        <h4 id="password_text">The new password for the above student is: <strong>{{ password }}</strong></h4>
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <div class='background button-group'>
+                <button class='button--regular button-primary button--primary--navigation' type='submit'>Print reminder cards</button>
+                <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

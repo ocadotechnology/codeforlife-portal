@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,60 +34,43 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.models import Teacher, School
+from selenium.webdriver.support.ui import Select
+import edit_student_password_page
+
+from teach_base_page_new import TeachBasePage
 
 
-def generate_details(**kwargs):
-    name = kwargs.get('name', 'School %d' % generate_details.next_id)
-    postcode = kwargs.get('postcode', 'Al10 9NE')
+class EditStudentPage(TeachBasePage):
+    def __init__(self, browser):
+        super(EditStudentPage, self).__init__(browser)
 
-    generate_details.next_id += 1
+        assert self.on_correct_page('edit_student_page')
 
-    return name, postcode
+    def type_student_name(self, name):
+        self.browser.find_element_by_id('id_name').clear()
+        self.browser.find_element_by_id('id_name').send_keys(name)
+        return self
 
-generate_details.next_id = 1
+    def type_student_password(self, password):
+        self.browser.find_element_by_id('id_password').send_keys(password)
+        self.browser.find_element_by_id('id_confirm_password').send_keys(password)
+        return self
 
+    def click_update_button(self):
+        self.browser.find_element_by_id("update_name_button").click()
+        return self
 
-def create_organisation_directly(teacher_email, **kwargs):
-    name, postcode = generate_details(**kwargs)
+    def click_set_password_form_button(self):
+        self.browser.find_element_by_id("request-password-setter").click()
+        return self
 
-    school = School.objects.create(
-        name=name,
-        postcode=postcode,
-        country='GB',
-        town='',
-        latitude='',
-        longitude='')
+    def click_set_password_button(self):
+        self.browser.find_element_by_id("set_new_password_button").click()
+        return edit_student_password_page.EditStudentPasswordPage(self.browser)
 
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-    teacher.school = school
-    teacher.is_admin = True
-    teacher.save()
+    def click_generate_password_button(self):
+        self.browser.find_element_by_id("generate_password_button").click()
+        return edit_student_password_page.EditStudentPasswordPage(self.browser)
 
-    return name, postcode
-
-
-def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-    school = School.objects.get(name=org_name, postcode=postcode)
-
-    teacher.school = school
-    teacher.is_admin = is_admin
-    teacher.save()
-
-
-def create_organisation(page, password):
-
-    name, postcode = generate_details()
-    page = page.create_organisation(name, password, postcode)
-
-    return page, name, postcode
-
-
-def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-    school = School.objects.get(name=org_name, postcode=postcode)
-
-    teacher.school = school
-    teacher.is_admin = is_admin
-    teacher.save()
+    def is_student_name(self, name):
+        return name in self.browser.find_element_by_id('student_details').text
