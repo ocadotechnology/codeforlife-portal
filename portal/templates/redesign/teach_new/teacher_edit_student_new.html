@@ -11,6 +11,11 @@
         $('#password-setter').hide();
         $('#request-password-setter').click(function(){$('#password-setter').show();});
         $('#cancel-password-setter').click(function(){$('#password-setter').hide();});
+
+        {%if set_password_mode%}
+        $('#password-setter').show();
+        window.location = '#set-password';
+        {%endif%}
     });
 </script>
 
@@ -40,7 +45,7 @@
 
         </form>
 
-        <h3>Set or reset password</h3>
+        <h3 id="set-password">Set or reset password</h3>
 
         <p class="body-text">You can either set this student&rsquo;s password by clicking &lsquo;Set password&rsquo;, or you can let us generate a random and
             secure password by clicking &lsquo;Generate random&rsquo;.</p>
@@ -67,7 +72,7 @@
                 {{ password_form.confirm_password.errors }}
                 <div class='background button-group'>
                     <button id="set_new_password_button" type='submit' name='set_password' class='button--regular button--primary--navigation'>Set</button>
-                    <button id='cancel-password-setter' class='button--regular button--secondary button--secondary--dark'>Cancel</button>
+                    <a id='cancel-password-setter' class='button button--regular button--secondary button--secondary--dark'>Cancel</a>
                 </div>
             </div>
         </form>

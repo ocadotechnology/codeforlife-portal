@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -118,8 +118,7 @@ class TeacherSignupForm(forms.Form):
         password = self.cleaned_data.get('teacher_password', None)
         confirm_password = self.cleaned_data.get('teacher_confirm_password', None)
 
-        if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError('Your passwords do not match')
+        check_passwords(password, confirm_password)
 
         return self.cleaned_data
 
@@ -183,8 +182,7 @@ class TeacherEditAccountForm(forms.Form):
         return self.cleaned_data
 
     def check_password_errors(self, password, confirm_password, current_password):
-        if (password or confirm_password) and password != confirm_password:
-            raise forms.ValidationError('Your new passwords do not match')
+        check_passwords(password, confirm_password)
 
         if not self.user.check_password(current_password):
             raise forms.ValidationError('Your current password was incorrect')
@@ -334,8 +332,7 @@ class TeacherSetStudentPass(forms.Form):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
 
-        if password is not None and (password or confirm_password) and password != confirm_password:
-            raise forms.ValidationError('The new passwords do not match')
+        check_passwords(password, confirm_password)
 
         return self.cleaned_data
 
@@ -372,6 +369,11 @@ def find_duplicates(names, lower_names, validationErrors):
             validationErrors.append(forms.ValidationError(
                 "You cannot add more than one student called '" + duplicate + "'"))
             duplicates_found.append(duplicate)
+
+
+def check_passwords(password, confirm_password):
+    if password is not None and (password or confirm_password) and password != confirm_password:
+        raise forms.ValidationError('The password and the confirmation password do not match')
 
 
 class StudentCreationForm(forms.Form):

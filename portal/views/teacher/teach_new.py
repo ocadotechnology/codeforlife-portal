@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -342,6 +342,7 @@ def teacher_edit_student_new(request, pk):
     })
 
     password_form = TeacherSetStudentPass()
+    set_password_mode = False
 
     if request.method == 'POST':
         if 'update_details' in request.POST:
@@ -358,19 +359,21 @@ def teacher_edit_student_new(request, pk):
             password_form = TeacherSetStudentPass(request.POST)
             if password_form.is_valid():
                 return process_reset_password_form(request, student, password_form)
+            set_password_mode = True
 
     return render(request, 'redesign/teach_new/teacher_edit_student_new.html', {
         'name_form': name_form,
         'password_form': password_form,
         'student': student,
         'class': student.class_field,
+        'set_password_mode': set_password_mode,
     })
 
 
 def process_reset_password_form(request, student, password_form):
     # check not default value for CharField
     new_password = password_form.cleaned_data['password']
-    if new_password != '':
+    if new_password:
         student.new_user.set_password(new_password)
         student.new_user.save()
         name_pass = [{'name': student.new_user.first_name, 'password': new_password}]
