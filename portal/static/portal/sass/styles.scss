@@ -287,7 +287,6 @@ button {
 
 button,
 .button {
-  @include _padding(10px, 15px, 10px, 15px);
   border-radius: .8rem;
 }
 
@@ -314,6 +313,7 @@ button,
 .ui-dialog-buttonset button {
   @include _font-size(20px);
   @include _line-height(25px);
+  @include _padding(10px, 15px, 10px, 15px);
 }
 
 .button--small {
@@ -1211,7 +1211,6 @@ td {
 
   p {
     @include _padding(0px, 20px, 0px, 0px);
-    display: inline-block;
     vertical-align: middle;
   }
 
@@ -1318,6 +1317,42 @@ td {
 
 .student-status--online {
   background: $color-button-primary-action-positive;
+}
+
+.student-table {
+
+  a[class^='button'] {
+    padding: auto;
+  }
+
+  input {
+    @include _margin(0px, 5px, 0px, 0px);
+  }
+
+}
+
+.student-table__header {
+
+  * {
+    padding: 0;
+  }
+
+  .student-status {
+    @include _margin(0px, 5px, 0px, 0px);
+  }
+
+  .student-table__cell {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+.student-table__cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .step {

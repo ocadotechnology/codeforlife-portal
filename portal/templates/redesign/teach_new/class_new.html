@@ -16,19 +16,6 @@
 <script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
-<script>
-    var DELETE_STUDENTS_URL = "{% url 'teacher_delete_students_new' class.access_code %}";
-
-    var CONFIRMATION_DATA = {
-        'deleteStudents': {
-            options: {
-                title: 'Delete students'
-            },
-            html: '<p>These students will be permanently deleted. Are you sure?</p>',
-            confirm: function() { postSelectedStudents(DELETE_STUDENTS_URL); }
-        }
-    };
-</script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -66,11 +53,11 @@
                 make them an independent Code for Life user, or delete them permanently.</p>
         </div>
         <div class="col-sm-6">
-            <table id="student_table" class="header-secondary data-quaternary">
-                <tr>
+            <table id="student_table" class="student-table header-secondary data-quaternary">
+                <tr class="student-table__header">
                     <th class="cell-center">
                         <p class="body-text">Select</p>
-                        <div class="row--flex">
+                        <div class="student-table__cell">
                             <input id='selectedStudentsListToggle' name='selectedStudentsListToggle' type="checkbox" value="">
                             <p class="small-text">Select all</p>
                         </div>
@@ -78,16 +65,18 @@
                     <th><p class="body-text">Student details</p></th>
                     <th>
                         <p class="body-text">Status</p>
-                        <div class="row--flex"><div class="student-status student-status--online"></div><p class="small-text">Logged in</p></div>
-                        <div class="row--flex"><div class="student-status student-status--offline"></div><p class="small-text">Logged out</p></div>
+                        <div class="student-table__cell"><div class="student-status student-status--online"></div><p class="small-text">Logged in</p></div>
+                        <div class="student-table__cell"><div class="student-status student-status--offline"></div><p class="small-text">Logged out</p></div>
                     </th>
                 </tr>
                 {% for student in students %}
                 <tr>
                     <td class="cell-center"><input id="student_checkbox" type="checkbox" class='student' name='{{ student.id }}' value=""></td>
                     <td>
-                        <p class="small-text">{{ student.new_user.first_name }}</p>
-                        <a id="edit_student_button" href="{% url 'teacher_edit_student_new' student.id %}" class="button button--small button--primary--positive">Edit</a>
+                        <div class="student-table__cell">
+                            <p class="small-text">{{ student.new_user.first_name }}</p>
+                            <a id="edit_student_button" href="{% url 'teacher_edit_student_new' student.id %}" class="button button--small button--primary--positive">Edit</a>
+                        </div>
                     </td>
                     <td>
                         {% if student.logged_in %}<div class="student-status student-status--online"></div>
@@ -100,7 +89,8 @@
                         <p class="small-text"><span id="num_students_selected">0</span>/{{ num_students }} selected</p>
                         <button class="button--small button--primary--navigation">Move</button>
                         <button class="button--small button--primary--navigation">Release</button>
-                        <button id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
+                        <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students_new' class.access_code %}')"
+                                id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
                         <button class="button--small button--primary--danger">Reset passwords</button>
                     </td>
                 </tr>
