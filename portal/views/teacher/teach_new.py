@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import json
-
+from functools import partial, wraps
 from datetime import timedelta
 
 from django.conf import settings
@@ -45,6 +45,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.forms.formsets import formset_factory
 from django.utils import timezone
 
 from reportlab.pdfgen import canvas
@@ -54,9 +55,9 @@ from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
 
-from portal.models import Class, Student, Teacher
-from portal.forms.teach_new import ClassCreationForm, StudentCreationForm, ClassMoveForm, ClassEditForm, \
-    TeacherEditStudentForm, TeacherSetStudentPass
+from portal.models import Teacher, Class, Student
+from portal.forms.teach_new import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, \
+    TeacherEditStudentForm, TeacherSetStudentPass, StudentCreationForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password
 from portal.views.teacher.pdfs import PDF_DATA
@@ -265,6 +266,26 @@ def teacher_delete_class_new(request, access_code):
     klass.delete()
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_delete_students_new(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    # check user is authorised to deal with class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
+
+    # get student objects for students to be deleted, confirming they are in the class
+    student_ids = json.loads(request.POST.get('transfer_students', '[]'))
+    students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
+
+    # Delete all of the students
+    for student in students:
+        student.new_user.delete()
+
+    return HttpResponseRedirect(reverse_lazy('view_class', kwargs={'access_code': access_code}))
 
 
 @login_required(login_url=reverse_lazy('login_new'))

@@ -129,6 +129,21 @@ function deleteClassConfirmation(path) {
     openConfirmationBox('delete');
 }
 
+function deleteStudentsConfirmation(path) {
+    runIfStudentsSelected(function() {
+        CONFIRMATION_DATA.deleteStudents = {
+            options: {
+                title: 'Delete students'
+            },
+            html: '<p class="body-text">These students will be permanently deleted. Are you sure?</p>',
+            confirm: function () {
+                postSelectedStudents(path);
+            }
+        };
+        openConfirmationBox('deleteStudents');
+    })
+}
+
 function postSelectedStudents(path) {
     runIfStudentsSelected(function(selectedStudents) {
         post(path, {
