@@ -128,7 +128,7 @@ def is_verified(user):
 def add_to_salesforce(user):
     url = app_settings.SALESFORCE_URL
     data = {"oid": app_settings.SALESFORCE_OID, "retURL": "http://", "recordType": app_settings.SALESFORCE_RT,
-            "lead_source": "Web", "first_name": user.first_name, "last_name": user.last_name,
+            "lead_source": "Code for Life", "first_name": user.first_name, "last_name": user.last_name,
             "email": user.email, "company": "Code for Life users"}
     try:
         post(url, data=data)
