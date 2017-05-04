@@ -179,3 +179,21 @@ class TestTeacherStudent(BaseTest):
         page = page.confirm_delete_student_dialog()
 
         assert not page.student_exists(student_name)
+
+    def test_reset_passwords(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
+        assert page.student_exists(student_name)
+
+        page = page.toggle_select_student().reset_passwords()
+        assert page.is_dialog_showing()
+        page = page.confirm_reset_student_dialog()
+
+        assert page.student_exists(student_name)
+        assert page.__class__.__name__ == 'OnboardingStudentListPage'
