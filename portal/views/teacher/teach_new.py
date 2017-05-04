@@ -357,7 +357,7 @@ def process_edit_class_form(request, klass, form):
 def teacher_edit_student_new(request, pk):
     student = get_object_or_404(Student, id=pk)
 
-    check_if_authorised(request, student)
+    check_if_reset_authorised(request, student)
 
     name_form = TeacherEditStudentForm(student, initial={
         'name': student.new_user.first_name
@@ -406,7 +406,7 @@ def process_reset_password_form(request, student, password_form):
                        'query_data': json.dumps(name_pass)})
 
 
-def check_if_authorised(request, student):
+def check_if_reset_authorised(request, student):
     # check user is authorised to edit student
     if request.user.new_teacher != student.class_field.teacher:
         raise Http404
@@ -486,6 +486,96 @@ def teacher_move_class_new(request, access_code):
     return render(request, 'redesign/teach_new/teacher_move_class_new.html',
                   {'form': form,
                    'class': klass})
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_move_students_new(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    # check user is authorised to deal with class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
+
+    transfer_students = request.POST.get('transfer_students', '[]')
+
+    # get teachers in the same school
+    teachers = Teacher.objects.filter(school=klass.teacher.school)
+
+    # get classes in same school
+    classes = [c for c in Class.objects.all() if ((c.teacher in teachers) and (c != klass))]
+
+    form = TeacherMoveStudentsDestinationForm(classes)
+
+    return render(request, 'redesign/teach_new/teacher_move_students_new.html',
+                  {'transfer_students': transfer_students,
+                   'old_class': klass,
+                   'form': form})
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_move_students_to_class_new(request, access_code):
+    old_class = get_object_or_404(Class, access_code=access_code)
+    new_class_id = request.POST.get('new_class', None)
+    new_class = get_object_or_404(Class, id=new_class_id)
+
+    check_if_move_authorised(request, old_class, new_class)
+
+    transfer_students_ids = json.loads(request.POST.get('transfer_students', '[]'))
+
+    # get student objects for students to be transferred, confirming they are in the old class still
+    transfer_students = [get_object_or_404(Student, id=i, class_field=old_class) for i in transfer_students_ids]
+
+    # get new class' students
+    new_class_students = Student.objects.filter(class_field=new_class).order_by('new_user__first_name')
+
+    TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
+
+    if is_right_form(request):
+        formset = TeacherMoveStudentDisambiguationFormSet(new_class, request.POST)
+        if formset.is_valid():
+            return process_move_students_form(request, formset, old_class, new_class)
+    else:
+        # format the students for the form
+        initial_data = [{'orig_name': student.new_user.first_name,
+                         'name': student.new_user.first_name}
+                        for student in transfer_students]
+
+        formset = TeacherMoveStudentDisambiguationFormSet(new_class, initial=initial_data)
+
+    return render(request, 'redesign/teach_new/teacher_move_students_to_class_new.html',
+                  {'formset': formset,
+                   'old_class': old_class,
+                   'new_class': new_class,
+                   'new_class_students': new_class_students,
+                   'transfer_students': transfer_students})
+
+
+def check_if_move_authorised(request, old_class, new_class):
+    # check user is authorised to deal with class
+    if request.user.new_teacher != old_class.teacher:
+        raise Http404
+
+    # check teacher authorised to transfer to new class
+    if request.user.new_teacher.school != new_class.teacher.school:
+        raise Http404
+
+
+def is_right_form(request):
+    return request.method == 'POST' and 'submit_disambiguation' in request.POST
+
+
+def process_move_students_form(request, formset, old_class, new_class):
+    for name_update in formset.cleaned_data:
+        student = get_object_or_404(Student, class_field=old_class, new_user__first_name__iexact=name_update['orig_name'])
+        student.class_field = new_class
+        student.new_user.first_name = name_update['name']
+        student.save()
+        student.new_user.save()
+
+    messages.success(request, 'The students have been transferred successfully.')
+    return HttpResponseRedirect(reverse_lazy('view_class', kwargs={'access_code': old_class.access_code}))
 
 
 @login_required(login_url=reverse_lazy('login_new'))

@@ -336,6 +336,7 @@ class TeacherSetStudentPass(forms.Form):
 
         return self.cleaned_data
 
+
 class TeacherMoveStudentsDestinationForm(forms.Form):
     new_class = forms.ChoiceField(label='Choose a new class from the drop down menu for the selected students.', widget=forms.Select(attrs={'class': 'wide'}))
 

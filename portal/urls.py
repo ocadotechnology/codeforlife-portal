@@ -72,7 +72,8 @@ from portal.views.organisation_new import organisation_fuzzy_lookup_new, organis
 from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_view_class, \
     teacher_edit_class_new, teacher_move_class_new, teacher_edit_student_new, \
     teacher_student_reset_new, materials_viewer_new, teacher_print_reminder_cards_new, teacher_delete_students_new, \
-    teacher_delete_class_new, teacher_class_password_reset_new
+    teacher_delete_class_new, teacher_class_password_reset_new, teacher_move_students_new, \
+    teacher_move_students_to_class_new
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
     organisation_kick_new, organisation_toggle_admin_new, teacher_disable_2FA_new
 
@@ -238,6 +239,8 @@ urlpatterns = patterns(
     url(r'^redesign/teach/class/student/reset/(?P<pk>[0-9]+)/$', teacher_student_reset_new, name='teacher_student_reset_new'),
     url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$', teacher_class_password_reset_new, name='teacher_class_password_reset_new'),
     url(r'^redesign/teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class_new, name='teacher_move_class_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$', teacher_move_students_new, name='teacher_move_students_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$', teacher_move_students_to_class_new, name='teacher_move_students_to_class_new'),
 
     url(r'^api/', include([
         url(r'^registered/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', registered_users, name="registered-users"),

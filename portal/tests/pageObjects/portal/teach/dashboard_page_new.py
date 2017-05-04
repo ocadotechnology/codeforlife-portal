@@ -38,6 +38,8 @@ from teach_base_page_new import TeachBasePage
 from class_page_new import TeachClassPage
 from selenium.webdriver.support.ui import Select
 
+import time
+
 
 class TeachDashboardPage(TeachBasePage):
     def __init__(self, browser):
@@ -48,6 +50,11 @@ class TeachDashboardPage(TeachBasePage):
     def go_to_class_page(self):
         self.browser.find_element_by_id('class_button').click()
         return TeachClassPage(self.browser)
+
+    def go_to_top(self):
+        self.browser.find_element_by_id("back_to_top_button").click()
+        time.sleep(3)
+        return self
 
     def check_organisation_details(self, details):
         correct = True
