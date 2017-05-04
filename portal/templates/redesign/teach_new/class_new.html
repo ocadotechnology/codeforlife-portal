@@ -42,9 +42,9 @@
 
 <section class="background">
     <h2>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h2>
-    <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within this class. You can add new students, transfer
+    <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within each of your classes. We&rsquo;ve created reminder cards which includes each
+        students login details for you to print out, meaning they won&rsquo;t forget and you don&rsquo;t have to remember this for them. You can add new students, transfer
         existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</h4>
-    <a href="#add_new_students" class="button button--regular button--secondary button--secondary--dark">Add students</a>
 </section>
 
 <div class="background col-sm-8 col-center">
@@ -106,7 +106,7 @@
     <p class="body-text"><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
-<div id="add_new_students" class="background background--quaternary">
+<div class="background background--quaternary">
     <div class="col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
