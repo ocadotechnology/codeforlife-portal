@@ -287,6 +287,7 @@ button {
 
 button,
 .button {
+  @include _padding(10px, 15px, 10px, 15px);
   border-radius: .8rem;
 }
 

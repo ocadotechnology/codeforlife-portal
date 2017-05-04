@@ -103,9 +103,14 @@
 {% endif %}
     <div class="form col-sm-4 col-sm-offset-4">
         <h4>{{ user.new_teacher.school.name }}</h4>
-        <h3>New students created in class: {{ class.name }} ({{ class.access_code }})</h3><br>
+        {% if passwords_reset %}
+        <h3>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h3>
+        <p class="body-text">The following students have had their passwords reset:</p><br>
+        {% else %}
+        <h3>New students created in class: {{ class.name }} ({{ class.access_code }})</h3>
         <p class="body-text">The following students have been created for your class. When they log in for the first time, you may want students to change their
             passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p><br>
+        {% endif %}
         <p class="body-text">The Class Access Code for this class is: {{ class.access_code }}.</p>
         <table id='student_table' class="header-primary data-quinary">
             <tr>
@@ -123,7 +128,7 @@
             <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
                 {% csrf_token %}
                 <input type='hidden' name='data' value='{{ query_data }}'/>
-                <div class='section'>
+                <div class='button-group'>
                     <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
                     {% if onboarding_done %}
                         <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>

@@ -13,7 +13,7 @@
 
 {% block scripts %}
 {{ block.super }}
-<script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/teach_class_new.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
 {% endblock scripts %}
@@ -91,7 +91,8 @@
                         <button class="button--small button--primary--navigation">Release</button>
                         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students_new' class.access_code %}')"
                                 id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
-                        <button class="button--small button--primary--danger">Reset passwords</button>
+                        <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset_new' class.access_code %}')"
+                                id="resetSelectedStudents" class="button--small button--primary--danger">Reset passwords</button>
                     </td>
                 </tr>
             </table>

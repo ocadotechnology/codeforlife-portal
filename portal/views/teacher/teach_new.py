@@ -434,6 +434,34 @@ def teacher_student_reset_new(request, pk):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_class_password_reset_new(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+    students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
+
+    # check user authorised to see class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
+
+    student_ids = json.loads(request.POST.get('transfer_students', '[]'))
+    students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
+
+    name_tokens = []
+    for student in students:
+        password = generate_password(6)
+        name_tokens.append({'name': student.new_user.first_name, 'password': password})
+        student.new_user.set_password(password)
+        student.new_user.save()
+
+    return render(request, 'redesign/teach_new/onboarding_print.html',
+                  {'class': klass,
+                   'onboarding_done': True,
+                   'passwords_reset': True,
+                   'name_tokens': name_tokens,
+                   'query_data': json.dumps(name_tokens)})
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def teacher_move_class_new(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(user=klass.teacher.user)

@@ -69,6 +69,10 @@ class TeachClassPage(TeachBasePage):
         self.browser.find_element_by_id('deleteSelectedStudents').click()
         return self
 
+    def reset_passwords(self):
+        self.browser.find_element_by_id('resetSelectedStudents').click()
+        return self
+
     def cancel_dialog(self):
         self.browser.find_element_by_xpath(
             "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
@@ -83,6 +87,11 @@ class TeachClassPage(TeachBasePage):
         self._click_confirm()
 
         return self
+
+    def confirm_reset_student_dialog(self):
+        self._click_confirm()
+
+        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def confirm_dialog_expect_error(self):
         self._click_confirm()
