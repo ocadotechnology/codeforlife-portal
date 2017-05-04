@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import json
+import re
 from functools import partial, wraps
 from datetime import timedelta
 
@@ -170,12 +171,13 @@ def teacher_class(request, access_code):
         if new_students_form.is_valid():
             name_tokens = []
             for name in new_students_form.strippedNames:
+                clean_name = re.sub('<[^<]+?>', '', name)
                 password = generate_password(6)
-                name_tokens.append({'name': name, 'password': password})
+                name_tokens.append({'name': clean_name, 'password': password})
 
                 Student.objects.schoolFactory(
                     klass=klass,
-                    name=name,
+                    name=clean_name,
                     password=password)
 
             return render(request, 'redesign/teach_new/onboarding_print.html',
@@ -227,12 +229,13 @@ def teacher_view_class(request, access_code):
         if new_students_form.is_valid():
             name_tokens = []
             for name in new_students_form.strippedNames:
+                clean_name = re.sub('<[^<]+?>', '', name)
                 password = generate_password(6)
-                name_tokens.append({'name': name, 'password': password})
+                name_tokens.append({'name': clean_name, 'password': password})
 
                 Student.objects.schoolFactory(
                     klass=klass,
-                    name=name,
+                    name=clean_name,
                     password=password)
 
             return render(request, 'redesign/teach_new/onboarding_print.html',
@@ -373,7 +376,8 @@ def teacher_edit_student(request, pk):
             name_form = TeacherEditStudentForm(student, request.POST)
             if name_form.is_valid():
                 name = name_form.cleaned_data['name']
-                student.new_user.first_name = name
+                clean_name = re.sub('<[^<]+?>', '', name)
+                student.new_user.first_name = clean_name
                 student.new_user.save()
                 student.save()
 
