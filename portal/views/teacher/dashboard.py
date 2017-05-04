@@ -100,7 +100,10 @@ def dashboard_teacher_view(request, is_admin):
         elif 'create_class' in request.POST:
             anchor = 'new-class'
             create_class_form = ClassCreationForm(request.POST)
-            process_create_class_form(request, teacher)
+            if create_class_form.is_valid():
+                created_class = create_class_new(create_class_form, teacher)
+                messages.success(request, "The class '{className}' has been created successfully.".format(className=created_class.name))
+                return HttpResponseRedirect(reverse_lazy('view_class', kwargs={'access_code': created_class.access_code}))
 
         else:
             anchor = 'account'
@@ -149,13 +152,6 @@ def process_update_school_form(request, school):
         school.save()
 
         messages.success(request, 'You have updated the details for your school or club successfully.')
-
-
-def process_create_class_form(request, teacher):
-    create_class_form = ClassCreationForm(request.POST)
-    if create_class_form.is_valid():
-        created_class = create_class_new(create_class_form, teacher)
-        messages.success(request, "The class '{className}' has been created successfully.".format(className=created_class.name))
 
 
 def create_class_new(form, teacher):
