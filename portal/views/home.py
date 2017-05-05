@@ -101,7 +101,7 @@ def teach(request):
                     return render(request, 'portal/2FA_redirect.html', {
                         'form': AuthenticationForm(),
                         'username': request.user.username,
-                        'password': login_form.cleaned_data['password'],
+                        'password': login_form.cleaned_data['teacher_password'],
                     })
                 else:
                     link = reverse('two_factor:profile')
