@@ -111,9 +111,6 @@ class GamePage(BasePage):
     def run_crashing_program(self):
         return self._run_failing_program("What went wrong")
 
-    def run_cow_crashing_program(self):
-        return self._run_failing_program("You ran into a cow!")
-
     def run_program_that_runs_out_of_instructions(self):
         return self._run_failing_program("The van ran out of instructions before it reached a destination.")
 
