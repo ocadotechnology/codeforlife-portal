@@ -267,7 +267,7 @@ def play(request):
 
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def contact_old(request):
+def contact(request):
     increment_count = False
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5

@@ -346,8 +346,9 @@ def redirect_user_to_correct_page(teacher):
     else:
         return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
+
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def contact(request):
+def contact_new(request):
     increment_count = False
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
