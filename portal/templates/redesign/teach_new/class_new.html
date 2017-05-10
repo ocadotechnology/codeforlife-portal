@@ -1,13 +1,21 @@
-{% extends 'redesign/teach_new/base_class_edit.html' %}
+{% extends 'redesign/teach_new/base_logged_in.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
 {% block css %}
 {{ block.super }}
+<link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
 {% endblock css %}
 
 {% block scripts %}
 {{ block.super }}
+<script type="text/javascript" src="{% static 'portal/js/teach_class_new.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -15,11 +23,25 @@
 {% block content %}
 {{ block.super }}
 
+<div id="teach_class_page" class="top-element"></div>
+
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
+</div>
+
+<div class="sub-nav sub-nav--teacher row--small">
+    <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
+</div>
+
 <section class="background">
-    <h2>Mr Holland, Test class 1 (EU184)</h2>
-    <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within each of your classes. We&rsquo;ve created reminder cards which includes each
-        students login details for you to print out, meaning they won&rsquo;t forget and you don&rsquo;t have to remember this for them. You can add new students, transfer
+    <h2>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h2>
+    <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within this class. You can add new students, transfer
         existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</h4>
+    <a href="#add_new_students" class="button button--regular button--secondary button--secondary--dark">Add students</a>
 </section>
 
 <div class="background col-sm-8 col-center">
@@ -31,75 +53,46 @@
                 make them an independent Code for Life user, or delete them permanently.</p>
         </div>
         <div class="col-sm-6">
-            <table class="header-secondary data-quaternary">
-                <tr>
+            <table id="student_table" class="student-table header-secondary data-quaternary">
+                <tr class="student-table__header">
                     <th class="cell-center">
                         <p class="body-text">Select</p>
-                        <input type="checkbox" name="vehicle" value="">
-                        <p class="small-text">Select all</p>
+                        <div class="student-table__cell">
+                            <input id='selectedStudentsListToggle' name='selectedStudentsListToggle' type="checkbox" value="">
+                            <p class="small-text">Select all</p>
+                        </div>
                     </th>
                     <th><p class="body-text">Student details</p></th>
                     <th>
                         <p class="body-text">Status</p>
-                        <div class="student-status student-status--online"></div><p class="small-text">Logged in</p>
-                        <div class="student-status student-status--offline"></div><p class="small-text">Logged out</p>
+                        <div class="student-table__cell"><div class="student-status student-status--online"></div><p class="small-text">Logged in</p></div>
+                        <div class="student-table__cell"><div class="student-status student-status--offline"></div><p class="small-text">Logged out</p></div>
                     </th>
                 </tr>
+                {% for student in students %}
                 <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
+                    <td class="cell-center"><input id="student_checkbox" type="checkbox" class='student' name='{{ student.id }}' value=""></td>
                     <td>
-                        <p class="small-text">Ben Doorhandle</p>
-                        <button class="button--small button--primary--positive">Edit</button>
+                        <div class="student-table__cell">
+                            <p class="small-text">{{ student.new_user.first_name }}</p>
+                            <a id="edit_student_button" href="{% url 'teacher_edit_student_new' student.id %}" class="button button--small button--primary--positive">Edit</a>
+                        </div>
                     </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
                     <td>
-                        <p class="small-text">Clive Dishwasher</p>
-                        <button class="button--small button--primary--positive">Edit</button>
+                        {% if student.logged_in %}<div class="student-status student-status--online"></div>
+                        {% else %}<div class="student-status student-status--offline"></div>{% endif %}
                     </td>
-                    <td><div class="student-status student-status--offline"></div></td>
                 </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Dominique Fork</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--online"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Joanne Tumbledryer</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Shirley Teaspoon</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
-                <tr>
-                    <td class="cell-center"><input type="checkbox" name="vehicle" value=""></td>
-                    <td>
-                        <p class="small-text">Terry Shoelace</p>
-                        <button class="button--small button--primary--positive">Edit</button>
-                    </td>
-                    <td><div class="student-status student-status--offline"></div></td>
-                </tr>
+                {% endfor %}
                 <tr>
                     <td class="table-footer" colspan="3" rowspan="2">
-                        <p class="small-text">0/7 selected</p>
+                        <p class="small-text"><span id="num_students_selected">0</span>/{{ num_students }} selected</p>
                         <button class="button--small button--primary--navigation">Move</button>
                         <button class="button--small button--primary--navigation">Release</button>
-                        <button class="button--small button--primary--danger">Delete</button>
-                        <button class="button--small button--primary--danger">Reset passwords</button>
+                        <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students_new' class.access_code %}')"
+                                id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
+                        <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset_new' class.access_code %}')"
+                                id="resetSelectedStudents" class="button--small button--primary--danger">Reset passwords</button>
                     </td>
                 </tr>
             </table>
@@ -108,7 +101,7 @@
     <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
-<div class="background background--quaternary">
+<div id="add_new_students" class="background background--quaternary">
     <div class="col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
@@ -117,13 +110,18 @@
                     details, and so each name should be unique.</p>
                 <p class="body-text">You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
                     are required to sign in.</p>
-                <button class="button--regular button--secondary button--secondary--dark">Import .CSV file</button>
             </div>
             <div class="col-sm-6">
-                <form>
-                    <textarea rows="10" cols="40"
-                              placeholder="You can import names from a .CSV file, or copy and paste them from a spreadsheet directly into this box"></textarea>
-                    <button class="button--regular button--primary--positive">Add students</button>
+                <form id='form-create-students' method='POST'>
+
+                    {% csrf_token %}
+
+                    {{ new_students_form.non_field_errors }}
+
+                    {{ new_students_form.names.errors }}
+                    {{ new_students_form.names }}
+
+                    <button type='submit' class='button--regular button--primary--positive' name='new_students' value='Add students'>Add students</button>
                 </form>
             </div>
         </div>
@@ -135,9 +133,18 @@
     <p class="body-text">Here you may change the name of the class, transfer the class to another teacher in the school or club, create permissions for the class to
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
         their classmates&rsquo; progress.</p>
-    <button class="button--regular button--primary--positive">Edit settings</button>
-    <button class="button--regular button--primary--danger">Delete class</button>
+    <div class="background button-group">
+        <a id="class_settings_button" href="{% url 'teacher_edit_class_new' class.access_code %}" class="button button--regular button--primary--positive">Edit settings</a>
+        <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class_new' class.access_code %}')"
+                id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
+    </div>
     <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.menu').outerHeight());
+    });
+</script>
 
 {% endblock content %}

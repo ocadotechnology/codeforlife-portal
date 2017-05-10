@@ -1,7 +1,7 @@
 /*
 Code for Life
 
-Copyright (C) 2016, Ocado Innovation Limited
+Copyright (C) 2017, Ocado Innovation Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -35,6 +35,11 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+
+/*exported deleteClassConfirmation() */
+
+var CONFIRMATION_DATA = {};
+
 $(function() {
 	$('#moveSelectedStudents').click(function() {
 		postSelectedStudents(MOVE_STUDENTS_URL);
@@ -74,7 +79,7 @@ $(function() {
             for (var i = 0; i < students.length; i++) {
                 students[i].checked = true
             }
-            $('#selectedStudentsListToggle')[0].checked = true
+            $('#selectedStudentsListToggle')[0].checked = true;
             $('#num_students_selected').text(students.length)
 
         }
@@ -83,7 +88,7 @@ $(function() {
             for (var i = 0; i < students.length; i++) {
                 students[i].checked = false
             }
-            $('#selectedStudentsListToggle')[0].checked = false
+            $('#selectedStudentsListToggle')[0].checked = false;
             $('#num_students_selected').text("0")
         }
     });
@@ -112,6 +117,32 @@ $(function() {
         return false;
     });
 });
+
+function deleteClassConfirmation(path) {
+    CONFIRMATION_DATA.delete = {
+        options: {
+            title: 'Delete class'
+        },
+        html: '<p class="body-text">This class will be permanently deleted. Are you sure?</p>',
+        confirm: function() { window.location.replace(path); }
+    };
+    openConfirmationBox('delete');
+}
+
+function deleteStudentsConfirmation(path) {
+    runIfStudentsSelected(function() {
+        CONFIRMATION_DATA.deleteStudents = {
+            options: {
+                title: 'Delete students'
+            },
+            html: '<p class="body-text">These students will be permanently deleted. Are you sure?</p>',
+            confirm: function () {
+                postSelectedStudents(path);
+            }
+        };
+        openConfirmationBox('deleteStudents');
+    })
+}
 
 function postSelectedStudents(path) {
     runIfStudentsSelected(function(selectedStudents) {

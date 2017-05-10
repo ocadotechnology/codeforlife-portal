@@ -12,6 +12,10 @@
 
 {% block scripts %}
 {{ block.super }}
+<script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
+<script>
+    var CONFIRMATION_DATA = {};
+</script>
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -21,10 +25,10 @@
 
 <div id="teach_dashboard_page_new"></div>
 
-<div class="sub-nav sub-nav--hidden sub-nav--teacher row--small">
-    <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
-    <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
-    <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
 </div>
 
 <section class="banner banner--teacher row">
@@ -32,9 +36,9 @@
 </section>
 <div class="sub-nav sub-nav--teacher row--small">
     <div class="col-sm-12">
-        <a href="#school" class="button--regular button--secondary button--secondary--light">Your school</a>
-        <a href="#classes" class="button--regular button--secondary button--secondary--light">Classes</a>
-        <a href="#account" class="button--regular button--secondary button--secondary--light">Your Account</a>
+        <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+        <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+        <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
     </div>
 </div>
 <div class="banner__item banner__item--teacher">
@@ -51,11 +55,16 @@
         <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
         <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
     </div>
+
+    <div class="sticky-warning sub-nav--hidden sub-nav sub-nav--warning">
+        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+        <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
+    </div>
 {% endif %}
 
 <div id="school">
     <section class="background">
-        <h2>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }}{% endif %}</h2>
+        <h2>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h2>
         {% if is_admin %}
             <h4 class="col-sm-6 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
                 administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
@@ -68,7 +77,7 @@
 
     <div class="background col-sm-7 col-center">
         <h3>These teachers are already part of your school or club</h3>
-        <table class="header-primary data-primary">
+        <table id="teachers_table" class="header-primary data-primary">
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Administrator status</p></th>
@@ -83,14 +92,24 @@
                 <td><p class="small-text">{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</p></td>
                 {% if coworker.new_user != user and is_admin %}
-                    <td class="cell-center"><button class="button--small button-primary button--primary--danger">Remove</button></td>
+                    <td class="cell-center">
+                        <button id="kick_button" class="button--small button--primary--danger"
+                                onclick="showRemoveConfirmation('{% url 'organisation_kick_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                            Remove</button>
+                    </td>
                     <td class="cell-center">
                         {% if coworker.is_admin %}
-                            <button class='button--small button-primary button--primary--navigation'>Make non-admin</button>
+                            <a id="make_non_admin_button" class='button button--small button--primary--navigation'
+                               href="{% url 'organisation_toggle_admin_new' coworker.id %}">Make non-admin</a>
                         {% else %}
-                            <button class="button--small button-primary button--primary--navigation">Make admin</button></td>
+                            <button id="make_admin_button" class="button--small button--primary--navigation"
+                                    onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                                Make admin</button></td>
                         {% endif %}
-                    <td class="cell-center">{% if coworker.new_user|has_2FA %}<button class="button--small button-primary button--primary--setup">Disable 2FA</button>{% endif %}</td>
+                    <td class="cell-center">{% if coworker.new_user|has_2FA %}
+                        <button class="button--small button--primary--setup"
+                                onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                            Disable 2FA</button>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
                         <td></td>
@@ -114,7 +133,7 @@
         <div class="background col-sm-7 col-center">
             <h3>These teachers have requested to join your school or club</h3>
             {% if join_requests %}
-                <table class="header-primary data-primary">
+                <table id="request_table" class="header-primary data-primary">
                     <tr>
                         <th><p class="body-text">Name</p></th>
                         <th><p class="body-text">Email address</p></th>
@@ -124,8 +143,12 @@
                         <tr>
                             <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
                             <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
-                            <td class="cell-center"><button class="button--small button-primary button--primary--positive">Allow</button></td>
-                            <td class="cell-center"><button class="button--small button-primary button--primary--danger">Deny</button></td>
+                            <td class="cell-center">
+                                <a id="allow_button" class="button button--small button-primary button--primary--positive"
+                                        href="{% url 'organisation_allow_join_new' join_request.id %}">Allow</a></td>
+                            <td class="cell-center">
+                                <a id="deny_button" class="button button--small button-primary button--primary--danger"
+                                        href="{% url 'organisation_deny_join_new' join_request.id %}">Deny</a></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -135,28 +158,25 @@
         </div>
     </div>
 
-    <div class="background background--primary">
+    <div id="school-details" class="background background--primary">
         <div class="col-sm-7 col-center">
             <h3>Change details of your school or club</h3>
             <p class="body-text">Update your school or club&rsquo;s name and/or postcode.
             <strong>These details are used to allow other teachers to join your team.</strong></p>
-            <form>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <p class="body-text">Name of your school or club</p>
-                        <input type="text" placeholder="A School">
-                    </div>
-                    <div class="col-sm-4">
-                        <p class="body-text">Postcode</p>
-                        <input type="text" placeholder="HP99 1BB">
-                    </div>
-                    <div class="col-sm-4">
-                        <p class="body-text">Country</p>
-                        <input type="text" placeholder="United Kingdom">
-                    </div>
+            <form id="edit_form" method='post'>
+                {% csrf_token %}
+
+                {{ update_school_form.non_field_errors }}
+
+                {% for field in update_school_form %}
+                <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+                {% endfor %}
+                <div class='section group'>
+                    <button id="update_details_button" type='submit' class='button--regular button--primary--general-play' name="update_school">Change</button>
                 </div>
             </form>
-            <button class="button--regular button--primary--general-play">Change</button>
         </div>
     </div>
 </div>
@@ -174,7 +194,7 @@
             <div class="col-sm-5">
                 <h3>Current classes</h3>
                 {% if classes %}
-                    <table class="header-tertiary data-quaternary">
+                    <table id="classes_table" class="header-tertiary data-quaternary">
                         <tr>
                             <th><p class="body-text">Class name</p></th>
                             <th><p class="body-text">Access code</p></th>
@@ -184,7 +204,8 @@
                             <tr>
                                 <td><p class="small-text">{{ class.name }}</p></td>
                                 <td><p class="small-text">{{ class.access_code }}</p></td>
-                                <td class="cell-center"><a href="{% url 'class_new' %}" class="button--small button-primary button--primary--positive">Edit class</a></td>
+                                <td class="cell-center">
+                                    <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button button--small button--primary--positive">Edit class</a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -201,23 +222,32 @@
         </div>
     </div>
 
-    <div class="background background--quaternary">
+    <div id="new-class" class="background background--quaternary">
         <div class="col-sm-7 col-center">
             <h3>Create a new class</h3>
             <p class="body-text">When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                 class.</p>
-            <form>
-                <div class="row row--under">
-                    <div class="col-sm-6">
-                        <input type="text" name="FirstName" value="" placeholder="Enter a class name">
-                        <div class="row">
-                            <p class="small-text col-sm-8">Allow students to see their classmates&rsquo; progress?</p>
-                            <input class="col-sm-1" type="checkbox" name="vehicle" value="">
-                        </div>
+            <form method='post'>
+
+                {% csrf_token %}
+
+                {{ create_class_form.non_field_errors }}
+
+                <div class="section group">
+
+                    <label for="id_{{ form.class_name.html_name }}">{{ create_class_form.class_name.label }}</label>
+                    {{ create_class_form.class_name }}
+                    {{ create_class_form.class_name.errors }}
+                    <div class="col span_1_of_3">
+                        <label for="id_{{ form.classmate_progress.html_name }}">{{ create_class_form.classmate_progress.label }}</label>
                     </div>
+                    <div class="col span_1_of_3">
+                        {{ create_class_form.classmate_progress }}
+                        {{ create_class_form.classmate_progress.errors }}
+                    </div>
+                    <button id="create_class_button" type='submit' class='button--regular button--primary--positive' name="create_class">Create</button>
                 </div>
             </form>
-            <button class="button--regular button--primary--positive">Create class</button>
         </div>
     </div>
 </div>
@@ -231,43 +261,55 @@
     <div class="background background--tertiary">
         <div class="col-sm-7 col-center">
             <h3>Update details</h3>
-            <form>
+            <form method='post' id="form-edit-teacher">
+
+                {% csrf_token %}
+
+                {{ update_account_form.non_field_errors }}
+
                 <div class="row row--under">
                     <div class="col-sm-2">
-                        <p class="body-text">Title</p>
-                        <input type="text">
+                        <label for="id_{{ form.title.html_name }}">{{ update_account_form.title.label }}</label>
+                        {{ update_account_form.title }}
+                        {{ update_account_form.title.errors }}
                     </div>
                     <div class="col-sm-5">
-                        <p class="body-text">First name</p>
-                        <input type="text">
+                        <label for="id_{{ form.first_name.html_name }}">{{ update_account_form.first_name.label }}</label>
+                        {{ update_account_form.first_name }}
+                        {{ update_account_form.first_name.errors }}
                     </div>
                     <div class="col-sm-5">
-                        <p class="body-text">Last name</p>
-                        <input type="text">
+                        <label for="id_{{ form.last_name.html_name }}">{{ update_account_form.last_name.label }}</label>
+                        {{ update_account_form.last_name }}
+                        {{ update_account_form.last_name.errors }}
                     </div>
                 </div>
                 <div class="row row--under">
-                    <div class="col-sm-6">
-                        <p class="body-text">Change email address (optional)</p>
-                        <input type="text">
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="body-text">New password (optional)</p>
-                        <input type="password">
+                    <div class="col-sm-12">
+                        <label for="id_{{ form.email.html_name }}">{{ update_account_form.email.label }}</label>
+                        {{ update_account_form.email }}
+                        {{ update_account_form.email.errors }}
                     </div>
                 </div>
                 <div class="row row--under">
-                    <div class="col-sm-6">
-                        <p class="body-text">Confirm new password</p>
-                        <input type="password">
+                    <div class="col-sm-4">
+                        <label for="id_{{ form.password.html_name }}">{{ update_account_form.password.label }}</label>
+                        {{ update_account_form.password }}
+                        {{ update_account_form.password.errors }}
                     </div>
-                    <div class="col-sm-6">
-                        <p class="body-text">Current password</p>
-                        <input type="password">
+                    <div class="col-sm-4">
+                        <label for="id_{{ form.confirm_password.html_name }}">{{ update_account_form.confirm_password.label }}</label>
+                        {{ update_account_form.confirm_password }}
+                        {{ update_account_form.confirm_password.errors }}
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="id_{{ form.current_password.html_name }}">{{ update_account_form.current_password.label }}</label>
+                        {{ update_account_form.current_password }}
+                        {{ update_account_form.current_password.errors }}
                     </div>
                 </div>
+                <button id="update_button" type='submit' class='button--regular button--primary--negative' name="update_account">Update</button>
             </form>
-            <button class="button--regular button--primary--negative">Update my details</button>
         </div>
     </div>
 
@@ -302,17 +344,12 @@
 </div>
 
 <script type="text/javascript">
-    $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= 343) {
-            $('.sub-nav--hidden').css({
-                'display': 'block'
-            });
-        } else {
-            $('.sub-nav--hidden').css({
-                'display': 'none'
-            });
-        }
+    $(document).ready(function(){
+        toggleStickySubnav($('.banner').outerHeight());
+
+        {% if anchor %}
+            window.location = '#{{anchor}}';
+        {% endif %}
     });
 </script>
 

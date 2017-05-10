@@ -61,7 +61,7 @@ recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_setti
 
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login' in request.POST:
-        return request.POST['login-email']
+        return request.POST['login-teacher_email']
 
     return ''
 
@@ -101,7 +101,7 @@ def teach(request):
                     return render(request, 'portal/2FA_redirect.html', {
                         'form': AuthenticationForm(),
                         'username': request.user.username,
-                        'password': login_form.cleaned_data['password'],
+                        'password': login_form.cleaned_data['teacher_password'],
                     })
                 else:
                     link = reverse('two_factor:profile')

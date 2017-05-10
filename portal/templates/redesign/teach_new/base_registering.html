@@ -4,11 +4,17 @@
 
 {% block secondaryButtons %}
 <a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>
+{% if onboarding_done %}
+<a class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+<a class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+{% else %}
 <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
 <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+{% endif %}
 {% endblock secondaryButtons %}
 
 {% block content %}
+{% if not onboarding_done %}
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
     <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
@@ -61,4 +67,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock content %}

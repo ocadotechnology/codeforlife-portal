@@ -49,12 +49,34 @@ class SignupPage(BasePage):
         assert self.on_correct_page('signup_page')
 
     def signup(self, title, first_name, last_name, email, password, confirm_password):
-        Select(self.browser.find_element_by_id('id_signup-title')).select_by_value(title)
-        self.browser.find_element_by_id('id_signup-first_name').send_keys(first_name)
-        self.browser.find_element_by_id('id_signup-last_name').send_keys(last_name)
-        self.browser.find_element_by_id('id_signup-email').send_keys(email)
-        self.browser.find_element_by_id('id_signup-password').send_keys(password)
-        self.browser.find_element_by_id('id_signup-confirm_password').send_keys(confirm_password)
+        Select(self.browser.find_element_by_id('id_teacher_signup-teacher_title')).select_by_value(title)
+        self.browser.find_element_by_id('id_teacher_signup-teacher_first_name').send_keys(first_name)
+        self.browser.find_element_by_id('id_teacher_signup-teacher_last_name').send_keys(last_name)
+        self.browser.find_element_by_id('id_teacher_signup-teacher_email').send_keys(email)
+        self.browser.find_element_by_id('id_teacher_signup-teacher_password').send_keys(password)
+        self.browser.find_element_by_id('id_teacher_signup-teacher_confirm_password').send_keys(confirm_password)
 
-        self.browser.find_element_by_name('signup').click()
+        self.browser.find_element_by_name('teacher_signup').click()
         return email_verification_needed_page_new.EmailVerificationNeededPage(self.browser)
+
+    def independent_student_signup(self, name, username, email_address, password, confirm_password, success=True):
+        self.browser.find_element_by_id('id_student_signup-name').send_keys(name)
+        self.browser.find_element_by_id('id_student_signup-username').send_keys(username)
+        self.browser.find_element_by_id('id_student_signup-email').send_keys(email_address)
+        self.browser.find_element_by_id('id_student_signup-password').send_keys(password)
+        self.browser.find_element_by_id('id_student_signup-confirm_password').send_keys(confirm_password)
+
+        self.browser.find_element_by_name('student_signup').click()
+        if success:
+            from email_verification_needed_page_new import EmailVerificationNeededPage
+            return EmailVerificationNeededPage(self.browser)
+        else:
+            return self
+
+    def has_independent_student_signup_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('form-signup-independent-student').find_element_by_class_name('errorlist').text
+        error = 'Password not strong enough, consider using at least 6 characters'
+        return error in errors

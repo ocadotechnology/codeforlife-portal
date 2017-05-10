@@ -1,0 +1,73 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+
+{% load app_tags %}
+{% load static %}
+
+{% block materials %}
+<a id="resources_button" href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+{% endblock materials %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="pdf_viewer_page" class="top-element"></div>
+
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
+    <a href="{% url 'materials_new' %}#user_guide" class="button button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="{% url 'materials_new' %}#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="{% url 'materials_new' %}#lks2" class="button button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="{% url 'materials_new' %}#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+</div>
+
+<div class="sub-nav sub-nav--teacher row--small">
+    <a href="{% url 'materials_new' %}#user_guide" class="button button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="{% url 'materials_new' %}#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="{% url 'materials_new' %}#lks2" class="button button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="{% url 'materials_new' %}#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+</div>
+
+<div class="banner banner--resources row">
+    <div class="col-sm-4 col-sm-offset-2">
+        <h3>{{ title }}</h3>
+        <h4>{{ description }}</h4>
+        <div class="resource-buttons">
+            <a href="{{ url }}" download class="button button--regular button--primary--general-educate">Download PDF</a>
+            {% if video_link %}
+            <a href="{{ url }}" download class="button button--regular button--primary--negative">Download Video</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-sm-5 col-sm-offset-1">
+        {% if video_link %}
+            <iframe class="resource-video" src="{{ video_link }}" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+</div>
+
+<div class="background">
+    <div class="row--flex">
+        <iframe src="{{ url }}" class="col-sm-7 col-sm-offset-2 viewer-frame" scrolling="auto"></iframe>
+        {% if links %}
+        <div class="col-sm-3">
+            <h4>Related document(s)</h4>
+            <div>
+                {% for link, title in links %}
+                <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name=link %}">{{title}}</a></p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.menu').innerHeight());
+    });
+</script>
+
+{% endblock content %}

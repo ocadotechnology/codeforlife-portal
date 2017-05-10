@@ -1,0 +1,85 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block content %}
+
+<script>
+    $( document ).ready(function() {
+        $('#password-setter').hide();
+        $('#request-password-setter').click(function(){$('#password-setter').show();});
+        $('#cancel-password-setter').click(function(){$('#password-setter').hide();});
+
+        {%if set_password_mode%}
+        $('#password-setter').show();
+        window.location = '#set-password';
+        {%endif%}
+    });
+</script>
+
+<div id="edit_student_page" class="top-element"></div>
+
+<section id="student_details" class="background col-sm-6 col-center">
+    <h2>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h2>
+    <h4>Edit this student&rsquo;s name and manage their password.</h4>
+</section>
+
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h3>Update name</h3>
+
+        <p class="body-text">Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
+
+        <form method='post'>
+
+            {% csrf_token %}
+
+            {{ name_form.non_field_errors }}
+
+            {{ name_form.name }}
+            {{ name_form.name.errors }}
+
+            <button id="update_name_button" type='submit' name='update_details' class='button--regular button--primary--navigation'>Update</button>
+
+        </form>
+
+        <h3 id="set-password">Set or reset password</h3>
+
+        <p class="body-text">You can either set this student&rsquo;s password by clicking &lsquo;Set password&rsquo;, or you can let us generate a random and
+            secure password by clicking &lsquo;Generate random&rsquo;.</p>
+
+        <div class="background button-group">
+            <a id="generate_password_button" class='button button--regular button--primary--navigation'
+               href="{% url 'teacher_student_reset_new' student.id %}">Generate random</a>
+            <button class="button--regular button--secondary button--secondary--dark" id="request-password-setter">Set password</button>
+        </div>
+
+        <form method='post'>
+
+            {% csrf_token %}
+
+            {{ password_form.non_field_errors }}
+
+            <div id="password-setter">
+                <p class="body-text">Enter and confirm the password in the boxes below. Try to prevent others from being able to guess the new
+                    password when making this decision.</p>
+                {{ password_form.password }}
+                {{ password_form.password.errors }}
+
+                {{ password_form.confirm_password }}
+                {{ password_form.confirm_password.errors }}
+                <div class='background button-group'>
+                    <button id="set_new_password_button" type='submit' name='set_password' class='button--regular button--primary--navigation'>Set</button>
+                    <a id='cancel-password-setter' class='button button--regular button--secondary button--secondary--dark'>Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+</div>
+{% endblock %}

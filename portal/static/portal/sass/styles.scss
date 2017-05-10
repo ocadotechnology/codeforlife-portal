@@ -7,6 +7,8 @@ $color-text-grey: #4a4a4a;
 $color-text-primary: #000;
 $color-text-secondary: #fff;
 $color-text-tertiary: $color-text-grey;
+$color-text-form-error: #f00;
+$color-text-login-error: #ff0;
 //Quotes
 $color-quote-text: $color-teacher-blue;
 $color-quote-name: $color-text-grey;
@@ -46,8 +48,10 @@ $color-background-secondary: #fff;
 $color-background-tertiary: $color-text-grey;
 $color-background-teach: $color-teacher-blue;
 $color-background-play: $color-student-orange;
+$color-background-play-indep: #ff637d;
 $color-background-warning: #fab300;
 $color-background-positive: #7ed321;
+$color-background-danger: #f00;
 $color-background-tint-primary: #d6e7ed;
 $color-background-tint-secondary: #f7ecc8;
 $color-background-tint-tertiary: #f8dfe5;
@@ -282,15 +286,15 @@ button {
 }
 
 button,
-a[class^='button'] {
+.button {
   @include _padding(10px, 15px, 10px, 15px);
   border-radius: .8rem;
 }
 
-a[class^='button'],
-a[class^='button']:hover,
-a[class^='button']:active,
-a[class^='button']:visited {
+.button,
+.button:hover,
+.button:active,
+.button:visited {
   text-decoration: none;
 }
 
@@ -306,7 +310,8 @@ a[class^='button']:visited {
   @include _padding(15px, 20px, 15px, 20px);
 }
 
-.button--regular {
+.button--regular,
+.ui-dialog-buttonset button {
   @include _font-size(20px);
   @include _line-height(25px);
 }
@@ -364,6 +369,7 @@ a[class^='button']:visited {
 
   @include _border-radius(8px, 8px, 0px, 0px);
   background: $color-background-secondary;
+  border: 1px solid $color-text-tertiary;
   border-radius: .8rem;
   color: $color-text-tertiary;
 
@@ -393,7 +399,8 @@ a[class^='button']:visited {
   color: $color-text-secondary;
 }
 
-.button--primary--danger {
+.button--primary--danger,
+.ui-dialog-buttonset button {
   background: $color-button-primary-action-danger;
   color: $color-text-secondary;
 }
@@ -439,7 +446,7 @@ a[class^='button']:visited {
 }
 
 .background {
-  @include _padding(40px, 0px, 40px, 0px);
+  @include _padding(40px, 0px, 80px, 0px);
 }
 
 .background--primary {
@@ -456,6 +463,10 @@ a[class^='button']:visited {
 
 .background--quaternary {
   background-color: $color-background-tint-quaternary;
+}
+
+.alternative-section {
+  border-top: 1px solid $color-text-tertiary;
 }
 
 .row {
@@ -482,6 +493,10 @@ a[class^='button']:visited {
     @include _padding(0px, 20px, 0px, 20px);
     vertical-align: bottom;
   }
+}
+
+.top-element {
+  @include _margin(80px, 0px, 0px, 0px);
 }
 
 .dropdown-menu {
@@ -554,6 +569,15 @@ section {
 .col-center {
   float: none;
   margin: auto;
+}
+
+.button-group {
+
+  .button,
+  button {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
 }
 
 .portrait {
@@ -710,6 +734,14 @@ form {
     width: 100%;
   }
 
+  ul {
+    color: $color-text-form-error;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
 }
 
 .form--register {
@@ -735,7 +767,7 @@ form {
   }
 
   ul {
-    color: yellow;
+    color: $color-text-login-error;
     font-style: italic;
     list-style: none;
     padding: 0;
@@ -755,6 +787,10 @@ form {
 
 .form--register--student {
   background-color: $color-background-play;
+}
+
+.form--register--indep-student {
+  background-color: $color-background-play-indep;
 }
 
 .form__choice {
@@ -918,6 +954,12 @@ form {
   background-size: cover;
 }
 
+.banner--resources {
+  @include _padding(0px, 0px, 30px, 0px);
+  background-image: url('../img_new/background_blue.png');
+  background-position: top right;
+}
+
 .youtube img {
   border: 1px solid $color-background-secondary;
 }
@@ -944,7 +986,7 @@ form {
     text-align: left;
   }
 
-  a[class^='button'],
+  .button--regular,
   button,
   img {
     vertical-align: text-bottom;
@@ -1114,6 +1156,30 @@ table {
 
 }
 
+iframe {
+  border: none;
+}
+
+.resource-video {
+  @include _margin(30px, 0px, 0px, 0px);
+  height: 250px;
+  width: 70%;
+}
+
+.resource-buttons {
+  @include _padding(40px, 0px, 0px, 0px);
+
+  a {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
+}
+
+.viewer-frame {
+  margin-right: 30px;
+  height: 800px;
+}
+
 .table--resources {
   border: 0;
   border-top: 1px solid $color-table-border;
@@ -1145,7 +1211,6 @@ td {
 
   p {
     @include _padding(0px, 20px, 0px, 0px);
-    display: inline-block;
     vertical-align: middle;
   }
 
@@ -1254,17 +1319,52 @@ td {
   background: $color-button-primary-action-positive;
 }
 
+.student-table {
+
+  a[class^='button'] {
+    padding: auto;
+  }
+
+  input {
+    @include _margin(0px, 5px, 0px, 0px);
+  }
+
+}
+
+.student-table__header {
+
+  * {
+    padding: 0;
+  }
+
+  .student-status {
+    @include _margin(0px, 5px, 0px, 0px);
+  }
+
+  .student-table__cell {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+.student-table__cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
 .step {
   padding-top: 30px;
 }
 
 .sub-nav {
-  @include _margin(-4px, 0px, 0px, 0px);
   height: 80px;
   text-align: center;
   z-index: 2;
 
-  a[class^='button'] {
+  .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
   }
 
@@ -1272,15 +1372,21 @@ td {
 
 .sub-nav--hidden {
   display: none;
+}
+
+.sub-nav--fixed {
+  display: block;
   margin: 0;
   position: fixed;
   top: 0;
   width: 100%;
 }
 
-.sub-nav--fixed {
+.sub-nav--warning--fixed {
+  display: block;
   margin: 0;
   position: fixed;
+  top: 80px;
   width: 100%;
 }
 
@@ -1294,6 +1400,48 @@ td {
   .button--secondary--background-light {
     color: $color-background-play;
   }
+}
+
+.ui-dialog-titlebar {
+  @include _padding(10px, 10px, 10px, 10px);
+  background: $color-background-danger !important;
+}
+
+.ui-dialog-title {
+  @include _font-size(30px);
+  color: $color-text-secondary !important;
+  font-weight: 800 !important;
+}
+
+.ui-dialog-titlebar-close {
+  float: right !important;
+}
+
+.ui-dialog {
+  background: $color-background-secondary;
+  left: 35% !important;
+  position: fixed !important;
+  top: 30% !important;
+  width: 30% !important;
+}
+
+.ui-dialog-buttonpane {
+  @include _padding(10px, 10px, 10px, 10px);
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ui-dialog-buttonset button {
+  @include _margin(0px, 10px, 0px, 10px);
+}
+
+.ui-dialog-content {
+  @include _padding(10px, 10px, 10px, 10px);
+}
+
+.ui-widget-overlay {
+  background: #666666 50% 50% repeat !important;
+  opacity: .8 !important;
 }
 
 @media (min-width: 1570px) {
@@ -1398,7 +1546,7 @@ td {
     width: 100%;
     z-index: 1;
 
-    a[class^='button--menu'] {
+    .button--menu {
       border-radius: 0;
     }
 

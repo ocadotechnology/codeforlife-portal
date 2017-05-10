@@ -38,6 +38,7 @@ from __future__ import absolute_import
 
 import re
 import datetime
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -126,7 +127,7 @@ class Teacher(models.Model):
         return None
 
     def __unicode__(self):
-        return '%s %s' % (self.user.first_name, self.user.last_name)
+        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
 
 class Class(models.Model):
@@ -154,6 +155,16 @@ class Class(models.Model):
 
         # Query all logged in users based on id list
         return Student.objects.filter(class_field=self).filter(new_user__id__in=online_user_ids)
+
+    def get_requests_message(self):
+        if self.always_accept_requests:
+            external_requests_message = 'This class is currently set to always accept requests.'
+        elif self.accept_requests_until is not None and (self.accept_requests_until - timezone.now()) >= timedelta():
+            external_requests_message = 'This class is accepting external requests until ' + self.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
+        else:
+            external_requests_message = 'This class is not currently accepting external requests.'
+
+        return external_requests_message
 
     class Meta:
         verbose_name_plural = "classes"

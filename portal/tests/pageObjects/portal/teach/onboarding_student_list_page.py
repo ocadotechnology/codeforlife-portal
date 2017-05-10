@@ -37,6 +37,7 @@
 from selenium.webdriver.support.ui import Select
 
 from teach_base_page_new import TeachBasePage
+import class_page_new
 
 
 class OnboardingStudentListPage(TeachBasePage):
@@ -47,3 +48,7 @@ class OnboardingStudentListPage(TeachBasePage):
 
     def student_exists(self, name):
         return name in self.browser.find_element_by_id('student_table').text
+
+    def go_back_to_class(self):
+        self.browser.find_element_by_id("back_to_class_button").click()
+        return class_page_new.TeachClassPage(self.browser)

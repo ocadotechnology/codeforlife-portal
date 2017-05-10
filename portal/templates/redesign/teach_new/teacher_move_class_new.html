@@ -1,0 +1,49 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% load static %}
+
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block content %}
+
+<div id='teach_move_class_page' class="top-element"></div>
+
+<section class="background col-sm-6 col-center">
+    <h2>Transfer class {{ class.name }} ({{ class.access_code }}) to another teacher</h2>
+    <h4>Transfer this class to another teacher in the school or club.</h4>
+</section>
+
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h3>New teacher to take over class</h3>
+
+        <p class="body-text">Select a new teacher from your school or club to take over the above class from the list below.</p>
+        <p class="body-text"><strong>Warning: The class will move immediately to the new teacher. Should you wish to undo this action,
+            please contact that teacher.</strong></p>
+
+        <form method='post'>
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class='section group'>
+                {{ form.new_teacher }}
+                {{ form.new_teacher.errors }}
+            </div>
+
+            <div class='background button-group'>
+                <button id='move_button' class='button--regular button--primary--navigation' type='submit'>Move</button>
+                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' class.access_code %}">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+</div>
+
+{% endblock %}

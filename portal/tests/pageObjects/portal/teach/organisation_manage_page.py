@@ -74,7 +74,7 @@ class TeachOrganisationManagePage(TeachBasePage):
         return self.element_does_not_exist_by_id('admin_view')
 
     def accept_join_request(self, email):
-        self.browser.find_element_by_xpath("//table[@id='request_table']//td[contains(text(),'%s')]/..//td//a[contains(text(),'Allow')]" % email).click()
+        self.browser.find_element_by_xpath("//table[@id='request_table']//td[contains(text(),'%s')]/..//td//button[contains(text(),'Allow')]" % email).click()
         return self
 
     def has_join_request(self, email):

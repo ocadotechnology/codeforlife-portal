@@ -247,24 +247,24 @@ def organisation_leave(request):
                 klass.teacher = new_teacher
                 klass.save()
 
-    classes = Class.objects.filter(teacher=teacher)
-    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+        classes = Class.objects.filter(teacher=teacher)
+        teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
 
-    if classes.exists():
-        messages.info(request, 'You still have classes, you must first move them to another teacher within your school or club.')
-        return render(request, 'portal/teach/teacher_move_all_classes.html', {
-            'original_teacher': teacher,
-            'classes': classes,
-            'teachers': teachers,
-            'submit_button_text': 'Move classes and leave',
-        })
+        if classes.exists():
+            messages.info(request, 'You still have classes, you must first move them to another teacher within your school or club.')
+            return render(request, 'portal/teach/teacher_move_all_classes.html', {
+                'original_teacher': teacher,
+                'classes': classes,
+                'teachers': teachers,
+                'submit_button_text': 'Move classes and leave',
+            })
 
-    teacher.school = None
-    teacher.save()
+        teacher.school = None
+        teacher.save()
 
-    messages.success(request, 'You have successfully left the school or club.')
+        messages.success(request, 'You have successfully left the school or club.')
 
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
+        return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
 @login_required(login_url=reverse_lazy('teach'))
@@ -320,6 +320,25 @@ def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
 
+    check_is_toggle_authorised(teacher, user)
+
+    if request.method == 'POST':
+        teacher.is_admin = not teacher.is_admin
+        teacher.save()
+
+        if teacher.is_admin:
+            messages.success(request, 'Administrator status has been given successfully.')
+            emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
+        else:
+            messages.success(request, 'Administrator status has been revoked successfully.')
+            emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
+
+        send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
+
+        return HttpResponseRedirect(reverse_lazy('organisation_manage'))
+
+
+def check_is_toggle_authorised(teacher, user):
     # check user has authority to change
     if teacher.school != user.school or not user.is_admin:
         raise Http404
@@ -327,20 +346,6 @@ def organisation_toggle_admin(request, pk):
     # check not trying to change self
     if user == teacher:
         raise Http404
-
-    teacher.is_admin = not teacher.is_admin
-    teacher.save()
-
-    if teacher.is_admin:
-        messages.success(request, 'Administrator status has been given successfully.')
-        emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
-    else:
-        messages.success(request, 'Administrator status has been revoked successfully.')
-        emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
-
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
-
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
 @login_required(login_url=reverse_lazy('teach'))
@@ -353,17 +358,18 @@ def organisation_allow_join(request, pk):
     if teacher.pending_join_request != user.school or not user.is_admin:
         raise Http404
 
-    teacher.school = teacher.pending_join_request
-    teacher.pending_join_request = None
-    teacher.is_admin = False
-    teacher.save()
+    if request.method == 'POST':
+        teacher.school = teacher.pending_join_request
+        teacher.pending_join_request = None
+        teacher.is_admin = False
+        teacher.save()
 
-    messages.success(request, 'The teacher has been added to your school or club.')
+        messages.success(request, 'The teacher has been added to your school or club.')
 
-    emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
+        emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
+        send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
+        return HttpResponseRedirect(reverse_lazy('organisation_manage'))
 
 
 @login_required(login_url=reverse_lazy('teach'))
@@ -376,12 +382,13 @@ def organisation_deny_join(request, pk):
     if teacher.pending_join_request != user.school or not user.is_admin:
         raise Http404
 
-    teacher.pending_join_request = None
-    teacher.save()
+    if request.method == 'POST':
+        teacher.pending_join_request = None
+        teacher.save()
 
-    messages.success(request, 'The request to join your school or club has been successfully denied.')
+        messages.success(request, 'The request to join your school or club has been successfully denied.')
 
-    emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
-    send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
+        emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
+        send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
-    return HttpResponseRedirect(reverse_lazy('organisation_manage'))
+        return HttpResponseRedirect(reverse_lazy('organisation_manage'))

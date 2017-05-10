@@ -36,6 +36,8 @@
 # identified as the original program.
 from uuid import uuid4
 from datetime import timedelta
+from requests import post
+from requests.exceptions import RequestException
 
 from django.conf import settings
 from django.utils import timezone
@@ -45,8 +47,8 @@ from django.template import Context, loader
 from portal.models import EmailVerification
 from portal import app_settings
 from portal.emailMessages_new import emailVerificationNeededEmail
-from portal.emailMessages import emailChangeNotificationEmail
-from portal.emailMessages import emailChangeVerificationEmail
+from portal.emailMessages_new import emailChangeNotificationEmail
+from portal.emailMessages_new import emailChangeVerificationEmail
 
 NOTIFICATION_EMAIL = 'Code For Life Notification <' + app_settings.EMAIL_ADDRESS + '>'
 VERIFICATION_EMAIL = 'Code For Life Verification <' + app_settings.EMAIL_ADDRESS + '>'
@@ -121,3 +123,14 @@ def is_verified(user):
     """Check that a user has verified their email address."""
     verifications = user.email_verifications.filter(verified=True)
     return len(verifications) != 0
+
+
+def add_to_salesforce(user):
+    url = app_settings.SALESFORCE_URL
+    data = {"oid": app_settings.SALESFORCE_OID, "retURL": "http://", "recordType": app_settings.SALESFORCE_RT,
+            "lead_source": "Code for Life", "first_name": user.first_name, "last_name": user.last_name,
+            "email": user.email, "company": "Code for Life users"}
+    try:
+        post(url, data=data)
+    except RequestException:
+        return
