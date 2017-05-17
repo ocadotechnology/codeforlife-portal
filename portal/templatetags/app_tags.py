@@ -87,7 +87,7 @@ def is_logged_in_as_teacher(u):
 @register.filter(name='has_teacher_finished_onboarding')
 def has_teacher_finished_onboarding(u):
     teacher = u.userprofile.teacher
-    class_ = teacher.class_()
+    class_ = teacher.first_class()
     return is_logged_in_as_teacher(u) and teacher.has_school() and class_ is not None and class_.has_students()
 
 @register.filter(name='is_logged_in_as_student')

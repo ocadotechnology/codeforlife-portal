@@ -78,7 +78,7 @@ def login_view(request):
     return render_login_form(request)
 
 
-def logout_view_new(request):
+def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home_new'))
 
@@ -331,9 +331,9 @@ def is_logged_in_as_teacher(request):
 
 def redirect_user_to_correct_page(teacher):
     if teacher.has_school():
-        if teacher.has_class():
-            classes = Class.objects.filter(teacher=teacher)
-            first_class = classes[0]
+        classes = teacher.class_teacher.all()
+        if classes:
+            first_class = teacher.first_class()
 
             if first_class.has_students():
                 return HttpResponseRedirect(reverse_lazy('dashboard'))

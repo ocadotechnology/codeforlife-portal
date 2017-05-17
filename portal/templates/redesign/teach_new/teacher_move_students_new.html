@@ -17,8 +17,6 @@
     <div class="col-sm-6 col-center">
         <h3>Select destination class</h3>
 
-        <p class="body-text">Choose a new class from the drop down menu for the selected students.</p>
-
         <form method='post' action="{% url 'teacher_move_students_to_class_new' old_class.access_code %}">
 
             {% csrf_token %}

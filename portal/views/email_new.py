@@ -46,7 +46,7 @@ from portal.models import EmailVerification
 from portal.helpers.emails_new import add_to_salesforce
 
 
-def verify_email_new(request, token):
+def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
 
     if has_verification_failed(verifications):

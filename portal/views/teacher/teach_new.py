@@ -67,7 +67,7 @@ from portal.templatetags.app_tags import cloud_storage
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def materials_viewer_new(request, pdf_name):
+def materials_viewer(request, pdf_name):
 
     def _getLinks():
         links = PDF_DATA[pdf_name]['links']
@@ -115,7 +115,7 @@ def materials_viewer_new(request, pdf_name):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_classes_new(request):
+def teacher_classes(request):
     teacher = request.user.new_teacher
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
@@ -125,7 +125,7 @@ def teacher_classes_new(request):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
         if form.is_valid():
-            created_class = create_class_new(form, teacher)
+            created_class = create_class(form, teacher)
             messages.success(request, "The class '{className}' has been created successfully."
                              .format(className=created_class.name))
             return HttpResponseRedirect(reverse_lazy('onboarding-class', kwargs={'access_code': created_class.access_code}))
@@ -140,7 +140,7 @@ def teacher_classes_new(request):
                    'requests': requests})
 
 
-def create_class_new(form, teacher):
+def create_class(form, teacher):
     classmate_progress = False
     if form.cleaned_data['classmate_progress'] == 'True':
         classmate_progress = True
@@ -154,7 +154,7 @@ def create_class_new(form, teacher):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_class_new(request, access_code):
+def teacher_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
@@ -253,7 +253,7 @@ def teacher_view_class(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_delete_class_new(request, access_code):
+def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
@@ -271,7 +271,7 @@ def teacher_delete_class_new(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_delete_students_new(request, access_code):
+def teacher_delete_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
@@ -291,7 +291,7 @@ def teacher_delete_students_new(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_edit_class_new(request, access_code):
+def teacher_edit_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
@@ -354,7 +354,7 @@ def process_edit_class_form(request, klass, form):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_edit_student_new(request, pk):
+def teacher_edit_student(request, pk):
     student = get_object_or_404(Student, id=pk)
 
     check_if_reset_authorised(request, student)
@@ -414,7 +414,7 @@ def check_if_reset_authorised(request, student):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_student_reset_new(request, pk):
+def teacher_student_reset(request, pk):
     student = get_object_or_404(Student, id=pk)
 
     # check user is authorised to edit student
@@ -435,7 +435,7 @@ def teacher_student_reset_new(request, pk):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_class_password_reset_new(request, access_code):
+def teacher_class_password_reset(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
 
@@ -463,7 +463,7 @@ def teacher_class_password_reset_new(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_move_class_new(request, access_code):
+def teacher_move_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(user=klass.teacher.user)
 
@@ -490,7 +490,7 @@ def teacher_move_class_new(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_move_students_new(request, access_code):
+def teacher_move_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
@@ -499,11 +499,11 @@ def teacher_move_students_new(request, access_code):
 
     transfer_students = request.POST.get('transfer_students', '[]')
 
-    # get teachers in the same school
-    teachers = Teacher.objects.filter(school=klass.teacher.school)
+    school = klass.teacher.school
 
     # get classes in same school
-    classes = [c for c in Class.objects.all() if ((c.teacher in teachers) and (c != klass))]
+    classes = school.classes()
+    classes.remove(klass)
 
     form = TeacherMoveStudentsDestinationForm(classes)
 
@@ -515,7 +515,7 @@ def teacher_move_students_new(request, access_code):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_move_students_to_class_new(request, access_code):
+def teacher_move_students_to_class(request, access_code):
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get('new_class', None)
     new_class = get_object_or_404(Class, id=new_class_id)
@@ -580,7 +580,7 @@ def process_move_students_form(request, formset, old_class, new_class):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_print_reminder_cards_new(request, access_code):
+def teacher_print_reminder_cards(request, access_code):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="student_reminder_cards.pdf"'
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -213,7 +213,6 @@ class TestTeacherStudent(BaseTest):
 
         page = page.toggle_select_student().move_students()
         assert page.__class__.__name__ == 'TeachMoveStudentsPage'
-        assert page.get_list_length() == 0
 
         page = page.cancel()
         assert page.__class__.__name__ == 'TeachClassPage'
