@@ -1887,5 +1887,29 @@ td {
     }
 
   }
-
 }
+
+// FAQ styles for Accordion like to show Answers
+
+/*FAQ styling */
+#faqs {
+  answer,input{
+    display: none;
+    margin-left: 8px;
+  }
+}
+// #faqs answer{
+//   display: none;
+// }
+#faqs input:checked + label:before{
+        content: '-';
+    }
+
+#faqs input:checked ~ answer{
+        display: block;
+    }
+#faqs input + label:before{
+        content: '+';
+}  
+
+

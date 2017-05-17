@@ -16,28 +16,7 @@
 {% block content %}
 {{ block.super }}
 
-<style>
-    input + label:before,
-    input + label:hover:before{
-        content: '+';
-    }
-    
-    input:checked + label:before,
-    input:checked + label:hover:before{
-        content: '-';
-    }
 
-    input:checked ~ answer{
-        display: block;
-    }
-
-
-    input, answer{
-        display: none;
-    }
-
-
-</style>
 
 <div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
@@ -62,7 +41,9 @@
 
 </div>
 
-<div id="faqs">
+
+
+<div id="faqs" >
     <div class="background col-sm-8 col-center">
         <h3>FAQs</h3>
 
@@ -242,8 +223,6 @@
 
     </div>
 </div>
-
-
 
 
 <div id="contact">
