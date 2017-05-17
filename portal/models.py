@@ -81,6 +81,16 @@ class School(models.Model):
     def __unicode__(self):
         return self.name
 
+    def classes(self):
+        teachers = self.teacher_school.all()
+        if teachers:
+            classes = []
+            for teacher in teachers:
+                if teacher.class_teacher.all():
+                    classes.extend(list(teacher.class_teacher.all()))
+            return classes
+        return None
+
 
 class TeacherModelManager(models.Manager):
     def factory(self, title, first_name, last_name, email, password):
@@ -116,13 +126,9 @@ class Teacher(models.Model):
     def has_school(self):
         return self.school is not (None or "")
 
-    def has_class(self):
+    def first_class(self):
         classes = self.class_teacher.all()
-        return classes.count() != 0
-
-    def class_(self):
-        if self.has_class():
-            classes = self.class_teacher.all()
+        if classes:
             return classes[0]
         return None
 
