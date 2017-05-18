@@ -35,12 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import random
-import email
+import email_new
 from django.core import mail
 import sys
 
 from portal.models import Teacher
-from portal.helpers.emails import generate_token
+from portal.helpers.emails_new import generate_token
 
 
 def generate_details(**kwargs):
@@ -69,7 +69,7 @@ def signup_teacher(page):
 
     page = page.return_to_home_page()
 
-    page = email.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
+    page = email_new.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
     mail.outbox = []
 
     return page, email_address, password
