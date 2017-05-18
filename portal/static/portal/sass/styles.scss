@@ -314,6 +314,7 @@ button,
 .ui-dialog-buttonset button {
   @include _font-size(20px);
   @include _line-height(25px);
+  @include _padding(10px, 15px, 10px, 15px);
 }
 
 .button--small {
@@ -1146,7 +1147,7 @@ form {
 }
 
 table {
-  @include _margin(20px, auto, 40px, auto);
+  margin: 20px auto 20px auto;
   width: 100%;
 
   button {
@@ -1353,6 +1354,19 @@ td {
   align-items: center;
   display: flex;
   justify-content: space-between;
+}
+
+.table--move {
+
+  td {
+    background-color: $color-background-secondary;
+    border: 2px solid $color-background-tint-quaternary;
+  }
+
+  input {
+    font-style: italic;
+  }
+
 }
 
 .step {
