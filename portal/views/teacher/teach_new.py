@@ -58,9 +58,11 @@ from reportlab.lib.styles import ParagraphStyle
 from portal.models import Teacher, Class, Student
 from portal.forms.teach_new import TeacherEditAccountForm, ClassCreationForm, ClassEditForm, ClassMoveForm, \
     TeacherEditStudentForm, TeacherSetStudentPass, TeacherMoveStudentsDestinationForm, \
-    TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, StudentCreationForm
+    TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, StudentCreationForm, \
+    TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet
 from portal.permissions import logged_in_as_teacher
-from portal.helpers.generators import generate_access_code, generate_password
+from portal.helpers.generators import generate_access_code, generate_password, generate_new_student_name
+from portal.helpers.emails_new import send_verification_email
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
 
@@ -435,6 +437,64 @@ def teacher_student_reset(request, pk):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_dismiss_students(request, access_code):
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    check_if_dismiss_authorised(request, klass)
+
+    # get student objects for students to be deleted, confirming they are in the class
+    student_ids = json.loads(request.POST.get('transfer_students', '[]'))
+    students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
+
+    TeacherDismissStudentsFormSet = formset_factory(wraps(TeacherDismissStudentsForm)(partial(TeacherDismissStudentsForm)), extra=0, formset=BaseTeacherDismissStudentsFormSet)
+
+    if is_right_dismiss_form(request):
+        formset = TeacherDismissStudentsFormSet(request.POST)
+        if formset.is_valid():
+            return process_dismiss_student_form(request, formset, klass, access_code)
+
+    else:
+        initial_data = [{'orig_name': student.new_user.first_name,
+                         'name': generate_new_student_name(student.new_user.first_name),
+                         'email': ''}
+                        for student in students]
+
+        formset = TeacherDismissStudentsFormSet(initial=initial_data)
+
+    return render(request, 'redesign/teach_new/teacher_dismiss_students_new.html',
+                  {'formset': formset,
+                   'class': klass,
+                   'students': students})
+
+
+def check_if_dismiss_authorised(request, klass):
+    # check user is authorised to deal with class
+    if request.user.new_teacher != klass.teacher:
+        raise Http404
+
+
+def is_right_dismiss_form(request):
+    return request.method == 'POST' and 'submit_dismiss' in request.POST
+
+
+def process_dismiss_student_form(request, formset, klass, access_code):
+    for data in formset.cleaned_data:
+        student = get_object_or_404(Student, class_field=klass, new_user__first_name__iexact=data['orig_name'])
+        student.class_field = None
+        student.new_user.first_name = data['name']
+        student.new_user.username = data['name']
+        student.new_user.email = data['email']
+        student.save()
+        student.new_user.save()
+
+        send_verification_email(request, student.new_user)
+
+    messages.success(request, 'The students have been removed successfully from the class.')
+    return HttpResponseRedirect(reverse_lazy('view_class', kwargs={'access_code': access_code}))
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def teacher_class_password_reset(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
     students = Student.objects.filter(class_field=klass).order_by('new_user__first_name')
@@ -532,7 +592,7 @@ def teacher_move_students_to_class(request, access_code):
 
     TeacherMoveStudentDisambiguationFormSet = formset_factory(wraps(TeacherMoveStudentDisambiguationForm)(partial(TeacherMoveStudentDisambiguationForm)), extra=0, formset=BaseTeacherMoveStudentsDisambiguationFormSet)
 
-    if is_right_form(request):
+    if is_right_move_form(request):
         formset = TeacherMoveStudentDisambiguationFormSet(new_class, request.POST)
         if formset.is_valid():
             return process_move_students_form(request, formset, old_class, new_class)
@@ -562,7 +622,7 @@ def check_if_move_authorised(request, old_class, new_class):
         raise Http404
 
 
-def is_right_form(request):
+def is_right_move_form(request):
     return request.method == 'POST' and 'submit_disambiguation' in request.POST
 
 
