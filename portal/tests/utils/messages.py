@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -65,3 +65,7 @@ def is_class_created_message_showing(browser, name):
 def is_class_nonempty_message_showing(browser):
     return is_message_showing(browser, "This class still has students, please remove or delete them all before "
                                        "deleting the class.")
+
+
+def is_contact_message_sent_message_showing(browser):
+    return is_message_showing(browser, "Your message was sent successfully.")

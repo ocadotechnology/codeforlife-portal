@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -66,15 +66,25 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.email_new import verify_email_new, change_email
-from portal.views.home_new import login_view, logout_view_new, register_view
-from portal.views.organisation_new import organisation_fuzzy_lookup_new, organisation_manage_new
-from portal.views.teacher.teach_new import teacher_classes_new, teacher_class_new, teacher_view_class, \
-    teacher_edit_class_new, teacher_move_class_new, teacher_edit_student_new, \
-    teacher_student_reset_new, materials_viewer_new, teacher_print_reminder_cards_new, teacher_delete_students_new, \
-    teacher_delete_class_new, teacher_class_password_reset_new
-from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join_new, organisation_deny_join_new, \
-    organisation_kick_new, organisation_toggle_admin_new, teacher_disable_2FA_new
+from portal.views.email_new import verify_email as verify_email_new, change_email
+from portal.views.home_new import login_view, logout_view as logout_view_new, register_view, contact as contact_new
+from portal.views.organisation_new import organisation_fuzzy_lookup as organisation_fuzzy_lookup_new, \
+    organisation_manage as organisation_manage_new
+from portal.views.teacher.teach_new import teacher_classes as teacher_classes_new, teacher_class as teacher_class_new, \
+    teacher_view_class, teacher_edit_class as teacher_edit_class_new, teacher_move_class as teacher_move_class_new, \
+    teacher_edit_student as teacher_edit_student_new, teacher_student_reset as teacher_student_reset_new, \
+    materials_viewer as materials_viewer_new, teacher_print_reminder_cards as teacher_print_reminder_cards_new, \
+    teacher_delete_students as teacher_delete_students_new, teacher_delete_class as teacher_delete_class_new, \
+    teacher_class_password_reset as teacher_class_password_reset_new, teacher_move_students as teacher_move_students_new, \
+    teacher_move_students_to_class as teacher_move_students_to_class_new,\
+    teacher_dismiss_students as teacher_dismiss_students_new
+from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join as organisation_allow_join_new, \
+    organisation_deny_join as organisation_deny_join_new, organisation_kick as organisation_kick_new, \
+    organisation_toggle_admin as organisation_toggle_admin_new, teacher_disable_2FA as teacher_disable_2FA_new
+from portal.views.registration_new import teacher_password_reset as teacher_password_reset_new, \
+    password_reset_done as password_reset_done_new, student_password_reset as student_password_reset_new, \
+    password_reset_check_and_confirm as password_reset_check_and_confirm_new
+
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -211,6 +221,11 @@ urlpatterns = patterns(
     url(r'^redesign/logout/$', logout_view_new, name='logout_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
     url(r'^redesign/change_email/(?P<token>[0-9a-f]+)/$', change_email, name='change_email'),
+    url(r'^redesign/user/password/reset/student/$', student_password_reset_new, name="student_password_reset_new"),
+    url(r'^redesign/user/password/reset/teacher/$', teacher_password_reset_new, name="teacher_password_reset_new"),
+    url(r'^redesign/user/password/reset/done/$', password_reset_done_new, name='reset_password_email_sent'),
+    url(r'^redesign/user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_check_and_confirm_new, name='password_reset_check_and_confirm_new'),
+    url(r'^redesign/teacher/password/reset/complete/$', TemplateView.as_view(template_name='redesign/reset_password_done.html'), name='password_reset_complete_new'),
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
     url(r'^redesign/teach/fuzzy_lookup/$', organisation_fuzzy_lookup_new, name='organisation_fuzzy_lookup_new'),
     url(r'^redesign/teach/onboarding-organisation/$', organisation_manage_new, name='onboarding-organisation'),
@@ -220,7 +235,7 @@ urlpatterns = patterns(
     url(r'^redesign/teach/onboarding-complete', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding-complete'),
     url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
     url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
-    url(r'^redesign/help', TemplateView.as_view(template_name='redesign/help-and-support_new.html'), name='help_new'),
+    url(r'^redesign/help/$', contact_new, name='help_new'),
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
     url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
     url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
@@ -237,7 +252,10 @@ urlpatterns = patterns(
     url(r'^redesign/teach/class/student/edit/(?P<pk>[0-9]+)/$', teacher_edit_student_new, name='teacher_edit_student_new'),
     url(r'^redesign/teach/class/student/reset/(?P<pk>[0-9]+)/$', teacher_student_reset_new, name='teacher_student_reset_new'),
     url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$', teacher_class_password_reset_new, name='teacher_class_password_reset_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/dismiss/$', teacher_dismiss_students_new, name='teacher_dismiss_students_new'),
     url(r'^redesign/teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class_new, name='teacher_move_class_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$', teacher_move_students_new, name='teacher_move_students_new'),
+    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$', teacher_move_students_to_class_new, name='teacher_move_students_to_class_new'),
 
     url(r'^api/', include([
         url(r'^registered/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', registered_users, name="registered-users"),

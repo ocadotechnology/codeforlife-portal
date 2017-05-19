@@ -16,20 +16,16 @@
 {% block content %}
 {{ block.super }}
 
-
+<div id="help_and_support_page_new"></div>
 
 <div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Help and support</h1>
-        <p class="body-text">If you&rsquo;ve run into problems, please look at our <a href="#faqs">FAQs</a> below for advice to commonly asked questions. If you still can&rsquo;t find the answers, please <a href="#contact">&nbsp;contact us</a>. One of the Code for Life team will get back to you and resolve your issues.</p>
-        <p>Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please <a href="{% url 'contact' %}">contact us</a> for assistance.</p>
+        <p class="body-text">If you&rsquo;ve run into problems, please look at our <a href="#faqs">FAQs</a> below for advice to commonly asked questions. If you still can&rsquo;t
+            find the answers, please <a href="#contact">contact us</a>. One of the Code for Life team will get back to you and resolve your issues.</p>
     </div>
     <div class="col-sm-5">
-        <div class="banner--picture">
-	        <div class="banner--picture__inside1">
-    		    <div class="banner--picture__inside2 banner--picture--help"></div>
-    		</div>
-    	</div>
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--help"></div></div></div>
     </div>
 </div>
 
@@ -38,7 +34,8 @@
     <p class="body-text">The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8
         and Internet Explorer 9 are not supported. Please upgrade to Internet Explorer 10 or above, or use an alternative browser if you are currently using these
         browsers.</p>
-
+    <p class="body-text">Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please
+        <a href="#contact">contact us</a> for assistance.</p>
 </div>
 
 
@@ -102,7 +99,7 @@
 		    <input id="FAQ-q6" type="checkbox" />
 		    <label for="FAQ-q6">
 		        <strong>What is two factor authentication? Do I need it?</strong>
-		    </label>        
+		    </label>
 		    <answer>
 		        <p>Two factor authentication can enhance the security of a Teacher&rsquo;s account, using your smartphone or tablet to add something you have to something you know (i.e. your password). Your smartphone or tablet will generate a six digit token everytime you login to your account, providing an additional layer of security.Two factor authentication is not a requirement for becoming a Teacher on Code for Life, however we do recommended it.</p>
 		    </answer>
@@ -122,7 +119,7 @@
 		    <input id="FAQ-q8" type="checkbox" />
 		    <label for="FAQ-q8">
 		        <strong>I want to sign up as a Teacher. Why am I asked for my &lsquo;professional&rsquo; email address when registering?</strong>
-		    </label>            
+		    </label>
 		    <answer>
 		        <p>We request that Teachers who have a &lsquo;professional&rsquo; email address (e.g. an email address given to you by your school) use it (as opposed to a personal email address) when registering for a Code for Life account. This helps other teachers in your school to identify that you are another teacher at that school.If you are in a school or are running a club which doesn&rsquo;t have such email facilities, it is completely fine to use another email address.</p>
 		    </answer>
@@ -229,28 +226,66 @@
     <div class="background background--primary">
         <div class="col-sm-8 col-center">
             <h3>Contact us</h3>
-            <form>
+
+            <form id="contact_form" method='post'>
+
+                {% csrf_token %}
+
                 <div class="row">
-                    <div class="col-sm-6">
-                        <p class="small-text">Your name</p>
-                        <input type="text" placeholder="Firstname Lastname">
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="small-text">Telephone number</p>
-                        <input type="text" placeholder="+44 (0)1234 567890">
+                    <div class="col-sm-12">
+                        {{ form.non_field_errors }}
                     </div>
                 </div>
-                <p class="small-text">Email address</p>
-                <input type="text" placeholder="your.name@domain.com">
-                <p class="small-text">Message</p>
-                <textarea rows="10" cols="40" placeholder="Message"></textarea>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="small-text">Your name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="small-text">Telephone number</label>
+                        {{ form.telephone }}
+                        {{ form.telephone.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="small-text">Email address</label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="small-text">Message</label>
+                        {{ form.message }}
+                        {{ form.message.errors }}
+                    </div>
+                </div>
+                {{ form.browser }}
+
+                {% if form.recaptcha %}
+                    <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
+                    <div class="col no-margin">
+                        {{ form.recaptcha|safe }}
+                        {{ form.recaptcha.errors }}
+                    </div>
+                {% endif %}
+                <section>
+                    <button type="submit" name="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
+                </section>
             </form>
         </div>
-        <section>
-            <button class="button--regular button--primary--general-play">Submit</button>
-        </section>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        {% if anchor %}
+        window.location = '#{{anchor}}';
+        {% endif %}
+    });
+</script>
 
 {% endblock content %}
 

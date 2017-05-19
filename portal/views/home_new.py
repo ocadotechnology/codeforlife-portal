@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -48,10 +48,12 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 from portal.models import Teacher, Class, Student
 from portal.forms.teach_new import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play_new import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.emails_new import send_verification_email, is_verified
+from portal.helpers.emails_new import send_verification_email, is_verified, send_email, CONTACT_EMAIL
+from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.utils import using_two_factor
-from portal import app_settings
+from portal import app_settings, emailMessages_new
 from ratelimit.decorators import ratelimit
+from portal.forms.home import ContactForm
 
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
@@ -78,7 +80,7 @@ def login_view(request):
     return render_login_form(request)
 
 
-def logout_view_new(request):
+def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('home_new'))
 
@@ -331,9 +333,9 @@ def is_logged_in_as_teacher(request):
 
 def redirect_user_to_correct_page(teacher):
     if teacher.has_school():
-        if teacher.has_class():
-            classes = Class.objects.filter(teacher=teacher)
-            first_class = classes[0]
+        classes = teacher.class_teacher.all()
+        if classes:
+            first_class = teacher.first_class()
 
             if first_class.has_students():
                 return HttpResponseRedirect(reverse_lazy('dashboard'))
@@ -343,3 +345,52 @@ def redirect_user_to_correct_page(teacher):
             return HttpResponseRedirect(reverse_lazy('onboarding-classes'))
     else:
         return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
+
+
+@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+def contact(request):
+    increment_count = False
+    limits = getattr(request, 'limits', {'ip': [0]})
+    captcha_limit = 5
+
+    using_captcha = (limits['ip'][0] > captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+
+    ContactFormWithCaptcha = partial(create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
+    InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
+    OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
+
+    anchor = ''
+
+    if request.method == 'POST':
+        contact_form = InputContactForm(request.POST)
+        increment_count = True
+
+        if contact_form.is_valid():
+            email_message = emailMessages_new.contactEmail(
+                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
+                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
+                contact_form.cleaned_data['browser'])
+            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
+
+            confirmed_email_message = emailMessages_new.confirmationContactEmailMessage(
+                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
+                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
+            send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']],
+                       confirmed_email_message['subject'], confirmed_email_message['message'])
+
+            messages.success(request, 'Your message was sent successfully.')
+            return HttpResponseRedirect('.')
+        else:
+            contact_form = OutputContactForm(request.POST)
+            anchor = "contact"
+
+    else:
+        contact_form = OutputContactForm()
+
+    response = render(request, 'redesign/help-and-support_new.html',
+                      {'form': contact_form,
+                       'anchor': anchor})
+
+    response.count = increment_count
+    return response

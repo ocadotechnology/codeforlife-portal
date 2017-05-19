@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,8 @@ import dashboard_page_new
 import class_settings_page_new
 import edit_student_page
 import onboarding_student_list_page
+import move_students_page_new
+import dismiss_students_page_new
 
 
 class TeachClassPage(TeachBasePage):
@@ -72,6 +74,21 @@ class TeachClassPage(TeachBasePage):
     def reset_passwords(self):
         self.browser.find_element_by_id('resetSelectedStudents').click()
         return self
+
+    def move_students(self):
+        self.browser.find_element_by_id('moveSelectedStudents').click()
+
+        return move_students_page_new.TeachMoveStudentsPage(self.browser)
+
+    def move_students_none_selected(self):
+        self.browser.find_element_by_id('moveSelectedStudents').click()
+
+        return self
+
+    def dismiss_students(self):
+        self.browser.find_element_by_id('dismissSelectedStudents').click()
+
+        return dismiss_students_page_new.TeachDismissStudentsPage(self.browser)
 
     def cancel_dialog(self):
         self.browser.find_element_by_xpath(
@@ -122,3 +139,7 @@ class TeachClassPage(TeachBasePage):
     def go_to_edit_student_page(self):
         self.browser.find_element_by_id("edit_student_button").click()
         return edit_student_page.EditStudentPage(self.browser)
+
+    def go_to_dashboard(self):
+        self.browser.find_element_by_id("return_to_classes_button").click()
+        return dashboard_page_new.TeachDashboardPage(self.browser)

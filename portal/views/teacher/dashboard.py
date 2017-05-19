@@ -210,7 +210,7 @@ def dashboard_manage(request):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_allow_join_new(request, pk):
+def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
 
@@ -233,7 +233,7 @@ def organisation_allow_join_new(request, pk):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_deny_join_new(request, pk):
+def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
 
@@ -259,7 +259,7 @@ def check_teacher_is_authorised(teacher, user):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_kick_new(request, pk):
+def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
 
@@ -300,7 +300,7 @@ def organisation_kick_new(request, pk):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_toggle_admin_new(request, pk):
+def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
 
@@ -323,7 +323,7 @@ def organisation_toggle_admin_new(request, pk):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def teacher_disable_2FA_new(request, pk):
+def teacher_disable_2FA(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
 

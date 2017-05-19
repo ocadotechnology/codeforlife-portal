@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,64 +34,30 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import string
-import re
+from selenium.webdriver.support.ui import Select
+import class_page_new
+import move_students_disambiguate_page_new
+
+from teach_base_page_new import TeachBasePage
 
 
-def follow_verify_email_link_to_teach(page, email):
-    _follow_verify_email_link(page, email)
+class TeachMoveStudentsPage(TeachBasePage):
+    def __init__(self, browser):
+        super(TeachMoveStudentsPage, self).__init__(browser)
 
-    return go_to_teach_page(page.browser)
+        assert self.on_correct_page('move_students_page')
 
+    def get_list_length(self):
+        return len(self.browser.find_element_by_id('id_new_class').find_elements_by_tag_name('option'))
 
-def follow_verify_email_link_to_play(page, email):
-    _follow_verify_email_link(page, email)
+    def select_class_by_index(self, teacher_index):
+        Select(self.browser.find_element_by_id('id_new_class')).select_by_index(teacher_index)
+        return self
 
-    return go_to_play_page(page.browser)
+    def cancel(self):
+        self.browser.find_element_by_id('cancel_button').click()
+        return class_page_new.TeachClassPage(self.browser)
 
-
-def _follow_verify_email_link(page, email):
-    message = str(email.message())
-    prefix = '<p>Please go to <a href="'
-    i = string.find(message, prefix) + len(prefix)
-    suffix = '" rel="nofollow">'
-    j = string.find(message, suffix, i)
-    page.browser.get(message[i:j])
-
-
-def follow_reset_email_link(browser, email):
-    message = str(email.body)
-
-    link = re.search("http.+/", message).group(0)
-
-    browser.get(link)
-
-    from portal.tests.pageObjects.registration.password_reset_form_page import PasswordResetPage
-    return PasswordResetPage(browser)
-
-
-def follow_change_email_link_to_teach(page, email):
-    _follow_change_email_link(page, email)
-
-    return go_to_teach_page(page.browser)
-
-
-def _follow_change_email_link(page, email):
-    message = str(email.message())
-    prefix = 'please go to '
-    i = string.find(message, prefix) + len(prefix)
-    suffix = ' to verify'
-    j = string.find(message, suffix, i)
-    page.browser.get(message[i:j])
-
-
-def go_to_play_page(browser):
-    from portal.tests.pageObjects.portal.play_page import PlayPage
-
-    return PlayPage(browser)
-
-
-def go_to_teach_page(browser):
-    from portal.tests.pageObjects.portal.teach_page import TeachPage
-
-    return TeachPage(browser)
+    def move(self):
+        self.browser.find_element_by_id('move_button').click()
+        return move_students_disambiguate_page_new.TeachMoveStudentsDisambiguatePage(self.browser)

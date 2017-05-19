@@ -1,0 +1,44 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block content %}
+
+<div id="move_students_page" class="top-element"></div>
+
+<section class="background col-sm-6 col-center">
+    <h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2>
+    <h4>Move students to another class.</h4>
+</section>
+
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h3>Select destination class</h3>
+
+        <form method='post' action="{% url 'teacher_move_students_to_class_new' old_class.access_code %}">
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+            <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+            {% endfor %}
+
+            <div class="background button-group">
+                <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
+                <button id='move_button' type='submit' class='button--regular button--primary--navigation'>Continue</button>
+                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' old_class.access_code %}">&#10229; Back to Class</a></p>
+</div>
+{% endblock %}

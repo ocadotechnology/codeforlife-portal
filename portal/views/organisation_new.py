@@ -58,7 +58,7 @@ from ratelimit.decorators import ratelimit
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
-def organisation_fuzzy_lookup_new(request):
+def organisation_fuzzy_lookup(request):
     fuzzy_name = request.GET.get('fuzzy_name', None)
     school_data = []
 
@@ -95,7 +95,7 @@ def search_school(school, school_data):
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def organisation_create_new(request):
+def organisation_create(request):
     increment_count = False
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
@@ -209,5 +209,5 @@ def process_revoke_request(request, teacher):
 
 @login_required(login_url=reverse_lazy('login_new'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
-def organisation_manage_new(request):
-    return organisation_create_new(request)
+def organisation_manage(request):
+    return organisation_create(request)

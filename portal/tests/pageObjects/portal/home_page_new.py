@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,6 +36,7 @@
 # identified as the original program.
 import login_page
 import signup_page
+import help_and_support_page_new
 from base_page import BasePage
 
 
@@ -51,3 +52,7 @@ class HomePage(BasePage):
     def go_to_signup_page(self):
         self.browser.find_element_by_id('signup_button').click()
         return signup_page.SignupPage(self.browser)
+
+    def go_to_help_and_support_page(self):
+        self.browser.find_element_by_id('help_and_support_button').click()
+        return help_and_support_page_new.HelpPage(self.browser)

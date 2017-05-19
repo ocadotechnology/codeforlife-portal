@@ -87,8 +87,10 @@
                 <tr>
                     <td class="table-footer" colspan="3" rowspan="2">
                         <p class="small-text"><span id="num_students_selected">0</span>/{{ num_students }} selected</p>
-                        <button class="button--small button--primary--navigation">Move</button>
-                        <button class="button--small button--primary--navigation">Release</button>
+                        <button onclick="postSelectedStudents('{% url 'teacher_move_students_new' class.access_code %}');"
+                                id='moveSelectedStudents' class="button--small button--primary--navigation">Move</button>
+                        <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students_new' class.access_code %}')"
+                                id='dismissSelectedStudents' class="button--small button--primary--navigation">Release</button>
                         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students_new' class.access_code %}')"
                                 id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
                         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset_new' class.access_code %}')"
@@ -98,7 +100,7 @@
             </table>
         </div>
     </div>
-    <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
+    <p class="body-text"><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
 <div id="add_new_students" class="background background--quaternary">
@@ -138,12 +140,12 @@
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class_new' class.access_code %}')"
                 id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
     </div>
-    <p class="body-text"><a href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
+    <p class="body-text"><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        toggleStickySubnav($('.menu').outerHeight());
+        toggleStickySubnav($('.menu').innerHeight());
     });
 </script>
 

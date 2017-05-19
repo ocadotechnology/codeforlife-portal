@@ -376,6 +376,103 @@ def check_passwords(password, confirm_password):
         raise forms.ValidationError('The password and the confirmation password do not match')
 
 
+class TeacherMoveStudentsDestinationForm(forms.Form):
+    new_class = forms.ChoiceField(label='Choose a new class from the drop down menu for the selected students.', widget=forms.Select(attrs={'class': 'wide'}))
+
+    def __init__(self, classes, *args, **kwargs):
+        self.classes = classes
+        class_choices = []
+        for klass in classes:
+            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.new_user.first_name + ' ' + klass.teacher.new_user.last_name))
+        super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
+        self.fields['new_class'].choices = class_choices
+
+
+class TeacherMoveStudentDisambiguationForm(forms.Form):
+    orig_name = forms.CharField(
+        label='Original Name',
+        widget=forms.TextInput(
+            attrs={'readonly': 'readonly', 'placeholder': 'Original Name', 'type': 'hidden'}))
+    name = forms.CharField(
+        label='Name',
+        widget=forms.TextInput(attrs={'placeholder': 'Name', 'style': 'margin : 0px'}))
+
+    def clean_name(self):
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+        return name
+
+
+class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
+    def __init__(self, destination, *args, **kwargs):
+        self.destination = destination
+        super(BaseTeacherMoveStudentsDisambiguationFormSet, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if any(self.errors):
+            return
+
+        names = [form.cleaned_data['name'] for form in self.forms]
+
+        validationErrors = validateStudentNames(self.destination, names)
+
+        if len(validationErrors) > 0:
+            raise forms.ValidationError(validationErrors)
+
+        self.strippedNames = names
+
+
+class TeacherDismissStudentsForm(forms.Form):
+    orig_name = forms.CharField(
+        label='Original Name',
+        widget=forms.TextInput(
+            attrs={'readonly': 'readonly', 'placeholder': 'Original Name', 'style': 'background-color: lightgray; margin: 0; border: 0'}))
+    name = forms.CharField(
+        label='New Name',
+        widget=forms.TextInput(attrs={'placeholder': 'New Name', 'style': 'margin : 0px'}))
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'placeholder': 'Email Address', 'style': 'margin : 0px'}))
+    confirm_email = forms.EmailField(
+        label='Confirm Email',
+        widget=forms.EmailInput(
+            attrs={'placeholder': 'Confirm Email Address', 'style': 'margin : 0px'}))
+
+    def clean_name(self):
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        if User.objects.filter(username=name).exists():
+            raise forms.ValidationError('That username is already in use')
+
+        return name
+
+    def clean(self):
+        email = self.cleaned_data.get('email', None)
+        confirm_email = self.cleaned_data.get('confirm_email', None)
+
+        if (email or confirm_email) and email != confirm_email:
+            raise forms.ValidationError('Your new emails do not match')
+
+        return self.cleaned_data
+
+
+class BaseTeacherDismissStudentsFormSet(forms.BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+
+        names = [form.cleaned_data['name'] for form in self.forms]
+
+        validationErrors = validateStudentNames(None, names)
+
+        if len(validationErrors) > 0:
+            raise forms.ValidationError(validationErrors)
+
+
 class StudentCreationForm(forms.Form):
     names = forms.CharField(label='names', widget=forms.Textarea)
 
