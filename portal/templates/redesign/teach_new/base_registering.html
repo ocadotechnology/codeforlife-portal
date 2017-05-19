@@ -13,7 +13,8 @@
 {% endif %}
 {% endblock secondaryButtons %}
 
-{% block content %}
+{% block subNav %}
+{{ block.super }}
 {% if not onboarding_done %}
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
@@ -68,4 +69,7 @@
     </div>
 </div>
 {% endif %}
+{% endblock subNav %}
+
+{% block content %}
 {% endblock content %}

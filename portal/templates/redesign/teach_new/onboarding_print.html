@@ -47,51 +47,45 @@
 
 {% if onboarding_done %}
 <div class="sticky-warning sub-nav sub-nav--warning--fixed sub-nav--warning">
-    <div class="row">
-        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
-        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
-            be given to the students.</i></p>
-        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
-            {% csrf_token %}
-            <input type='hidden' name='data' value='{{ query_data }}'/>
-            <div class='section'>
-                <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
-                <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
-            </div>
-        </form>
-    </div>
+    <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+    <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
+        be given to the students.</i></p>
+    <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+        {% csrf_token %}
+        <input type='hidden' name='data' value='{{ query_data }}'/>
+        <div class='section'>
+            <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
+            <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
+        </div>
+    </form>
 </div>
 {% else %}
 <div class="sub-nav sub-nav--warning">
-    <div class="row">
-        <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
-        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
-            be given to the students.</i></p>
-        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
-            {% csrf_token %}
-            <input type='hidden' name='data' value='{{ query_data }}'/>
-            <div class='section'>
-                <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
-                <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
-            </div>
-        </form>
-    </div>
+    <img title="Warning" alt="Warning sign" src='{% static "portal/img_new/warning.png" %}'>
+    <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
+        be given to the students.</i></p>
+    <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
+        {% csrf_token %}
+        <input type='hidden' name='data' value='{{ query_data }}'/>
+        <div class='section'>
+            <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
+            <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
+        </div>
+    </form>
 </div>
 
 <div class="sticky-warning sub-nav sub-nav--hidden sub-nav--warning">
-    <div class="row">
-        <img src='{% static "portal/img_new/warning.png" %}'>
-        <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
-            be given to the students.</i></p>
-        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
-            {% csrf_token %}
-            <input type='hidden' name='data' value='{{ query_data }}'/>
-            <div class='section'>
-                <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
-                <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
-            </div>
-        </form>
-    </div>
+    <img src='{% static "portal/img_new/warning.png" %}'>
+    <p class="small-text"><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
+        be given to the students.</i></p>
+    <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards_new' class.access_code %}">
+        {% csrf_token %}
+        <input type='hidden' name='data' value='{{ query_data }}'/>
+        <div class='section'>
+            <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
+            <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
+        </div>
+    </form>
 </div>
 {% endif %}
 

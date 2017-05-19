@@ -747,7 +747,7 @@ form {
 }
 
 .form--register {
-  @include _padding(140px, 0px, 30px, 0px);
+  @include _padding(100px, 0px, 30px, 0px);
   text-align: center;
 
   h1,
@@ -919,12 +919,10 @@ form {
 
 .banner--teacher,
 .banner--student {
-  @include _padding(80px, 0px, 30px, 0px);
+  @include _padding(80px, 0px, 0px, 0px);
+  align-items: center;
+  display: flex;
   height: 343px; //TO BE CHANGED!
-
-  h1 {
-    @include _padding(50px, 0px, 0px, 0px);
-  }
 
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);
@@ -967,33 +965,6 @@ form {
 }
 
 .sub-nav--warning {
-  @include _padding(15px, 0px, 0px, 0px);
-  background-color: $color-background-warning;
-
-  * {
-    display: inline-block;
-  }
-
-  form {
-    padding: 0;
-
-    button {
-      margin: 0;
-    }
-
-  }
-
-  p {
-    @include _padding(0px, 20px, 0px, 20px);
-    text-align: left;
-  }
-
-  .button--regular,
-  button,
-  img {
-    vertical-align: text-bottom;
-  }
-
   p,
   a,
   a:hover,
@@ -1375,12 +1346,34 @@ td {
 }
 
 .sub-nav {
+  align-items: center;
+  display: flex;
   height: 80px;
+  justify-content: center;
   text-align: center;
+  width: 100%;
   z-index: 2;
+
+  .x-icon {
+
+  }
 
   .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
+  }
+
+  form {
+    padding: 0;
+
+    button {
+      margin: 0;
+    }
+
+  }
+
+  p {
+    @include _padding(0px, 20px, 0px, 20px);
+    text-align: left;
   }
 
 }
@@ -1390,7 +1383,6 @@ td {
 }
 
 .sub-nav--fixed {
-  display: block;
   margin: 0;
   position: fixed;
   top: 0;
@@ -1398,11 +1390,18 @@ td {
 }
 
 .sub-nav--warning--fixed {
-  display: block;
   margin: 0;
   position: fixed;
   top: 80px;
   width: 100%;
+}
+
+.sub-nav--message--fixed {
+  margin: 0;
+  position: fixed;
+  top: 80px;
+  width: 100%;
+  z-index: 2;
 }
 
 .sub-nav--teacher {
@@ -1415,6 +1414,20 @@ td {
   .button--secondary--background-light {
     color: $color-background-play;
   }
+}
+
+.sub-nav--warning {
+  background-color: $color-background-warning;
+}
+
+.success {
+  background-color: $color-background-tint-quaternary;
+  border-bottom: 1px solid grey;
+}
+
+.safe, .info {
+  background-color: $color-background-tint-primary;
+  border-bottom: 1px solid grey;
 }
 
 .ui-dialog-titlebar {

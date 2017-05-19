@@ -151,25 +151,29 @@
     {% endblock topBar %}
     {% block subNav %}
     {% endblock subNav %}
+    <div id='messages'>
+        {% if messages %}
+        <div class="sub-nav--message">
+            {% for message in messages %}
+            <div class="sub-nav {{ message.tags }}">
+                <img title="Information" alt="Information sign" src='{% static "portal/img_new/icon_info.png" %}'>
+                <p class="body-text">
+                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
+                <a class="x-icon"><img title="Close" alt="Close sign" src='{% static "portal/img_new/icon_close.png" %}'></a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!--[if lt IE 10]>
+    <ul class="messages">
+        <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
+    </ul>
+    <![endif]-->
 
     {% block contentDiv %}
     <div class="content">
-
-        <div id='messages'>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        </div>
-
-        <!--[if lt IE 10]>
-        <ul class="messages">
-            <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
-        </ul>
-        <![endif]-->
 
         {% block content %}
         {# CMS #}

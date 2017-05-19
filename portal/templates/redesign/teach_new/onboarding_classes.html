@@ -34,7 +34,7 @@
         {% for class in classes %}
         <h3>It looks like you&rsquo;ve already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
         <section class="background">
-            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class='button--regular button-primary button--primary--general-play' >Add students</a>
+            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class='button button--regular button--primary--general-play' >Add students</a>
         </section>
         {% endfor %}
     </div>
@@ -67,6 +67,12 @@
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        toggleStickySubnav($('.banner').outerHeight());
+    });
+</script>
 {% endif %}
 
 {% endblock content %}

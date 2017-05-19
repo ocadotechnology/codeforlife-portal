@@ -44,3 +44,10 @@ function toggleStickySubnav(scrollToTop) {
         }
     });
 }
+
+$(function() {
+    $("a.x-icon").click(function() {
+        $(this).parent().remove();
+        return false;
+    });
+});
