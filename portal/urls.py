@@ -81,6 +81,10 @@ from portal.views.teacher.teach_new import teacher_classes as teacher_classes_ne
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join as organisation_allow_join_new, \
     organisation_deny_join as organisation_deny_join_new, organisation_kick as organisation_kick_new, \
     organisation_toggle_admin as organisation_toggle_admin_new, teacher_disable_2FA as teacher_disable_2FA_new
+from portal.views.registration_new import teacher_password_reset as teacher_password_reset_new, \
+    password_reset_done as password_reset_done_new, student_password_reset as student_password_reset_new, \
+    password_reset_check_and_confirm as password_reset_check_and_confirm_new
+
 
 js_info_dict = {
     'packages': ('conf.locale',),
@@ -217,6 +221,11 @@ urlpatterns = patterns(
     url(r'^redesign/logout/$', logout_view_new, name='logout_new'),
     url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
     url(r'^redesign/change_email/(?P<token>[0-9a-f]+)/$', change_email, name='change_email'),
+    url(r'^redesign/user/password/reset/student/$', student_password_reset_new, name="student_password_reset_new"),
+    url(r'^redesign/user/password/reset/teacher/$', teacher_password_reset_new, name="teacher_password_reset_new"),
+    url(r'^redesign/user/password/reset/done/$', password_reset_done_new, name='reset_password_email_sent'),
+    url(r'^redesign/user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_check_and_confirm_new, name='password_reset_check_and_confirm_new'),
+    url(r'^redesign/teacher/password/reset/complete/$', TemplateView.as_view(template_name='redesign/reset_password_done.html'), name='password_reset_complete_new'),
     url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
     url(r'^redesign/teach/fuzzy_lookup/$', organisation_fuzzy_lookup_new, name='organisation_fuzzy_lookup_new'),
     url(r'^redesign/teach/onboarding-organisation/$', organisation_manage_new, name='onboarding-organisation'),

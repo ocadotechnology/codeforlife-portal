@@ -35,14 +35,17 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import re
+import time
 
 from django.core import mail
 from django_selenium_clean import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test_new import BaseTest
+from pageObjects.portal.home_page_new import HomePage
 from utils.student_new import create_independent_student, submit_independent_student_signup_form
 from utils.messages import is_email_verified_message_showing
+from utils import email_new as email_utils
 
 
 class TestIndependentStudent(BaseTest):
@@ -73,3 +76,52 @@ class TestIndependentStudent(BaseTest):
         assert page.check_account_details({
             'name': name
         })
+
+    def test_reset_password(self):
+        page = self.go_to_homepage()
+
+        page, name, username, email, password = create_independent_student(page)
+        page = self.get_to_forgotten_password_page()
+
+        page.reset_username_submit(username)
+
+        self.wait_for_email()
+
+        page = email_utils.follow_reset_email_link(selenium, mail.outbox[0])
+
+        new_password = 'AnotherPassword12'
+
+        page.student_reset_password(new_password)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = self \
+            .go_to_homepage() \
+            .go_to_login_page() \
+            .independent_student_login(username, new_password)
+
+        assert page.__class__.__name__ == 'PlayDashboardPage'
+
+        page = page.go_to_account_page()
+        assert page.check_account_details({
+            'name': name
+        })
+
+    def test_reset_password_fail(self):
+        page = self.get_to_forgotten_password_page()
+
+        fake_username = "fake_username"
+        page.reset_username_submit(fake_username)
+
+        time.sleep(5)
+
+        assert len(mail.outbox) == 0
+
+    def get_to_forgotten_password_page(self):
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .go_to_indep_forgotten_password_page()
+        return page
+
+    def wait_for_email(self):
+        WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)

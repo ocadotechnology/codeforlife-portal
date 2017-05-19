@@ -39,7 +39,8 @@ from selenium.webdriver.support.ui import Select
 from base_page import BasePage
 import play_page
 import email_verification_needed_page
-from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
+from teacher_password_reset_form_page_new import TeacherPasswordResetFormPage
+from student_password_reset_form_page_new import StudentPasswordResetFormPage
 import teach.dashboard_page_new
 import teach.onboarding_organisation_page
 import teach.onboarding_classes_page
@@ -135,3 +136,13 @@ class LoginPage(BasePage):
         errors = self.browser.find_element_by_id('independent_student_login_form').find_element_by_class_name('errorlist').text
         error = 'Incorrect username or password'
         return error in errors
+
+    def go_to_teacher_forgotten_password_page(self):
+        self.browser.find_element_by_id('teacher_forgotten_password_button').click()
+        return TeacherPasswordResetFormPage(self.browser)
+
+    def go_to_indep_forgotten_password_page(self):
+        self.browser.find_element_by_id('switchToIndependentStudent').click()
+
+        self.browser.find_element_by_id('student_forgotten_password_button').click()
+        return StudentPasswordResetFormPage(self.browser)

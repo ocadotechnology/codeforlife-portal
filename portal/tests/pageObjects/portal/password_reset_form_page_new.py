@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,64 +34,35 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import string
-import re
+from base_page import BasePage
 
 
-def follow_verify_email_link_to_teach(page, email):
-    _follow_verify_email_link(page, email)
+class PasswordResetPage(BasePage):
+    def __init__(self, browser):
+        super(PasswordResetPage, self).__init__(browser)
 
-    return go_to_teach_page(page.browser)
+        assert self.on_correct_page('reset_password_form_page')
 
+    def teacher_reset_password(self, new_password):
+        self.clear_and_fill('new_password1', new_password)
+        self.clear_and_fill('new_password2', new_password)
 
-def follow_verify_email_link_to_play(page, email):
-    _follow_verify_email_link(page, email)
+        self.browser.find_element_by_id('teacher_update_button').click()
 
-    return go_to_play_page(page.browser)
+        self.wait_for_element_by_id('reset_password_done_page')
 
+        return self
 
-def _follow_verify_email_link(page, email):
-    message = str(email.message())
-    prefix = '<p>Please go to <a href="'
-    i = string.find(message, prefix) + len(prefix)
-    suffix = '" rel="nofollow">'
-    j = string.find(message, suffix, i)
-    page.browser.get(message[i:j])
+    def student_reset_password(self, new_password):
+        self.clear_and_fill('new_password1', new_password)
+        self.clear_and_fill('new_password2', new_password)
 
+        self.browser.find_element_by_id('student_update_button').click()
 
-def follow_reset_email_link(browser, email):
-    message = str(email.body)
+        self.wait_for_element_by_id('reset_password_done_page')
 
-    link = re.search("http.+/", message).group(0)
+        return self
 
-    browser.get(link)
-
-    from portal.tests.pageObjects.registration.password_reset_form_page import PasswordResetPage
-    return PasswordResetPage(browser)
-
-
-def follow_change_email_link_to_teach(page, email):
-    _follow_change_email_link(page, email)
-
-    return go_to_teach_page(page.browser)
-
-
-def _follow_change_email_link(page, email):
-    message = str(email.message())
-    prefix = 'please go to '
-    i = string.find(message, prefix) + len(prefix)
-    suffix = ' to verify'
-    j = string.find(message, suffix, i)
-    page.browser.get(message[i:j])
-
-
-def go_to_play_page(browser):
-    from portal.tests.pageObjects.portal.play_page import PlayPage
-
-    return PlayPage(browser)
-
-
-def go_to_teach_page(browser):
-    from portal.tests.pageObjects.portal.teach_page import TeachPage
-
-    return TeachPage(browser)
+    def clear_and_fill(self, field, value):
+        self.browser.find_element_by_id('id_' + field).clear()
+        self.browser.find_element_by_id('id_' + field).send_keys(value)

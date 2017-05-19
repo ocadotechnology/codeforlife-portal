@@ -37,6 +37,7 @@
 
 import time
 
+from selenium.webdriver.support.wait import WebDriverWait
 from django_selenium_clean import selenium
 from django.core import mail
 
@@ -47,7 +48,7 @@ from utils.organisation_new import create_organisation_directly
 from utils.classes_new import create_class_directly
 from utils.student_new import create_school_student_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, is_teacher_email_updated_message_showing
-from utils import email as email_utils
+from utils import email_new as email_utils
 
 
 class TestTeacher(BaseTest):
@@ -151,6 +152,47 @@ class TestTeacher(BaseTest):
             'first_name': 'Test',
             'last_name': 'Teacher',
         })
+
+    def test_reset_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        page = self.get_to_forgotten_password_page()
+
+        page.reset_email_submit(email)
+
+        self.wait_for_email()
+
+        page = email_utils.follow_reset_email_link(selenium, mail.outbox[0])
+
+        new_password = 'AnotherPassword12'
+
+        page.teacher_reset_password(new_password)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, new_password)
+        assert self.is_dashboard_page(page)
+
+    def test_reset_password_fail(self):
+        page = self.get_to_forgotten_password_page()
+        fake_email = "fake_email@fakeemail.com"
+        page.reset_email_submit(fake_email)
+
+        time.sleep(5)
+
+        assert len(mail.outbox) == 0
+
+    def get_to_forgotten_password_page(self):
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .go_to_teacher_forgotten_password_page()
+        return page
+
+    def wait_for_email(self):
+        WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
