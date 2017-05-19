@@ -731,7 +731,7 @@ form {
 
   textarea {
     @include _font-size(20px);
-    @include _margin(30px, 0px, 10px, 0px);
+    @include _margin(10px, 0px, 10px, 0px);
     @include _padding(10px, 0px, 0px, 10px);
     width: 100%;
   }

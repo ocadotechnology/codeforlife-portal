@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -134,4 +134,24 @@ def adminRevokedEmail(request, schoolName):
         'message': ("Your administrator control of the school or club '" + schoolName +
                     "' has been revoked. If you think this is in error, please contact one of " +
                     "the other administrators in your school or club." + emailBodySignOff(request)),
+    }
+
+
+def contactEmail(request, name, telephone, email, message, browser):
+    return {
+        'subject': emailSubjectPrefix() + " : Contact from Portal",
+        'message': (("The following message has been submitted on the Code for Life portal:" +
+                     "\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\nMessage:" +
+                     "\n{message}\n\nBrowser version data received:\n{browser}").format(
+            name=name, telephone=telephone, email=email, message=message, browser=browser)),
+    }
+
+
+def confirmationContactEmailMessage(request, name, telephone, email, message):
+    return {
+        'subject': emailSubjectPrefix() + " : Your message has been sent",
+        'message': ("Your message has been sent to our Code for Life team who will get back to you " +
+                    "as soon as possible.\n\nYour message is shown below." + emailBodySignOff(request) +
+                    ("\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\nMessage:" + "\n{message}").format(
+                        name=name, telephone=telephone, email=email, message=message)),
     }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,25 +34,28 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.conf import settings
-import os
+from django_selenium_clean import selenium
 
-CONTACT_FORM_EMAILS = getattr(settings, 'PORTAL_CONTACT_FORM_EMAIL', ('',))
+from base_test_new import BaseTest
+from pageObjects.portal.home_page_new import HomePage
+from utils.messages import is_contact_message_sent_message_showing
 
-#: Email address to source notifications from
-EMAIL_ADDRESS = getattr(settings, 'EMAIL_ADDRESS', 'no-reply@codeforlife.education')
 
-#: Private key for Recaptcha
-RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', os.getenv('RECAPTCHA_PRIVATE_KEY', None))
+class TestContact(BaseTest):
+    def test_contact(self):
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium)
+        page = page.go_to_help_and_support_page()
 
-#: Public key for Recaptcha
-RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', os.getenv('RECAPTCHA_PUBLIC_KEY', None))
+        page = page.send_message()
 
-#: Salesforce URL for adding newly verified users
-SALESFORCE_URL = getattr(settings, 'SALESFORCE_URL', '')
+        assert is_contact_message_sent_message_showing(selenium)
 
-#: Salesforce oid for adding newly verified users
-SALESFORCE_OID = getattr(settings, 'SALESFORCE_OID', '')
+    def test_contact_fail(self):
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium)
+        page = page.go_to_help_and_support_page()
 
-#: Salesforce record type for adding newly verified users
-SALESFORCE_RT = getattr(settings, 'SALESFORCE_RT', '')
+        page = page.send_empty_message()
+
+        assert page.was_form_empty("contact_form")

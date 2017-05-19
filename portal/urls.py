@@ -67,7 +67,7 @@ from portal.views.email import send_new_users_report
 from game.views.level import play_default_level
 
 from portal.views.email_new import verify_email as verify_email_new, change_email
-from portal.views.home_new import login_view, logout_view as logout_view_new, register_view
+from portal.views.home_new import login_view, logout_view as logout_view_new, register_view, contact as contact_new
 from portal.views.organisation_new import organisation_fuzzy_lookup as organisation_fuzzy_lookup_new, \
     organisation_manage as organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes as teacher_classes_new, teacher_class as teacher_class_new, \
@@ -235,7 +235,7 @@ urlpatterns = patterns(
     url(r'^redesign/teach/onboarding-complete', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding-complete'),
     url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
     url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
-    url(r'^redesign/help', TemplateView.as_view(template_name='redesign/help-and-support_new.html'), name='help_new'),
+    url(r'^redesign/help/$', contact_new, name='help_new'),
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
     url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
     url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
