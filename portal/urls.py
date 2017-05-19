@@ -66,8 +66,8 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.email_new import verify_email as verify_email_new, change_email, contact as contact_new
-from portal.views.home_new import login_view, logout_view as logout_view_new, register_view
+from portal.views.email_new import verify_email as verify_email_new, change_email
+from portal.views.home_new import login_view, logout_view as logout_view_new, register_view, contact as contact_new
 from portal.views.organisation_new import organisation_fuzzy_lookup as organisation_fuzzy_lookup_new, \
     organisation_manage as organisation_manage_new
 from portal.views.teacher.teach_new import teacher_classes as teacher_classes_new, teacher_class as teacher_class_new, \

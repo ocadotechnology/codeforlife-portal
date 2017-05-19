@@ -15,6 +15,8 @@
 {% block content %}
 {{ block.super }}
 
+<div id="help_and_support_page_new"></div>
+
 <div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Help and support</h1>
@@ -62,7 +64,7 @@
         <div class="col-sm-8 col-center">
             <h3>Contact us</h3>
 
-            <form method='post'>
+            <form id="contact_form" method='post'>
 
                 {% csrf_token %}
 
@@ -74,27 +76,27 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="small-text">Your name</label>
-                        {{ form.name.errors }}
                         {{ form.name }}
+                        {{ form.name.errors }}
                     </div>
                     <div class="col-sm-6">
                         <label class="small-text">Telephone number</label>
-                        {{ form.telephone.errors }}
                         {{ form.telephone }}
+                        {{ form.telephone.errors }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <label class="small-text">Email address</label>
-                        {{ form.email.errors }}
                         {{ form.email }}
+                        {{ form.email.errors }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <label class="small-text">Message</label>
-                        {{ form.message.errors }}
                         {{ form.message }}
+                        {{ form.message.errors }}
                     </div>
                 </div>
                 {{ form.browser }}
@@ -102,8 +104,8 @@
                 {% if form.recaptcha %}
                     <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
                     <div class="col no-margin">
-                        {{ form.recaptcha.errors }}
                         {{ form.recaptcha|safe }}
+                        {{ form.recaptcha.errors }}
                     </div>
                 {% endif %}
                 <section>
@@ -111,8 +113,15 @@
                 </section>
             </form>
         </div>
-
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        {% if anchor %}
+        window.location = '#{{anchor}}';
+        {% endif %}
+    });
+</script>
 
 {% endblock content %}

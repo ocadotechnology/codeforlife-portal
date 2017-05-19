@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,25 +34,28 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.conf import settings
-import os
+from base_page import BasePage
 
-CONTACT_FORM_EMAILS = getattr(settings, 'PORTAL_CONTACT_FORM_EMAIL', ('',))
 
-#: Email address to source notifications from
-EMAIL_ADDRESS = getattr(settings, 'EMAIL_ADDRESS', 'no-reply@codeforlife.education')
+class HelpPage(BasePage):
+    def __init__(self, browser):
+        super(HelpPage, self).__init__(browser)
 
-#: Private key for Recaptcha
-RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', os.getenv('RECAPTCHA_PRIVATE_KEY', None))
+        assert self.on_correct_page('help_and_support_page_new')
 
-#: Public key for Recaptcha
-RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', os.getenv('RECAPTCHA_PUBLIC_KEY', None))
+    def send_message(self):
+        self.browser.find_element_by_id('id_name').send_keys("Florian Aucomte")
+        self.browser.find_element_by_id('id_telephone').send_keys("0123456789")
+        self.browser.find_element_by_id('id_email').send_keys("florian@email.com")
+        self.browser.find_element_by_id('id_message').send_keys("Hello friends")
+        self.browser.find_element_by_name('submit').click()
 
-#: Salesforce URL for adding newly verified users
-SALESFORCE_URL = getattr(settings, 'SALESFORCE_URL', '')
+        return self
 
-#: Salesforce oid for adding newly verified users
-SALESFORCE_OID = getattr(settings, 'SALESFORCE_OID', '')
+    def send_empty_message(self):
+        self.browser.find_element_by_id('id_name').send_keys("Florian Aucomte")
+        self.browser.find_element_by_id('id_telephone').send_keys("0123456789")
+        self.browser.find_element_by_id('id_email').send_keys("florian@email.com")
+        self.browser.find_element_by_name('submit').click()
 
-#: Salesforce record type for adding newly verified users
-SALESFORCE_RT = getattr(settings, 'SALESFORCE_RT', '')
+        return self

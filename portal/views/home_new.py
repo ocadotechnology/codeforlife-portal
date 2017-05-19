@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -348,7 +348,7 @@ def redirect_user_to_correct_page(teacher):
 
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def contact_new(request):
+def contact(request):
     increment_count = False
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
@@ -356,39 +356,41 @@ def contact_new(request):
     using_captcha = (limits['ip'][0] > captcha_limit)
     should_use_captcha = (limits['ip'][0] >= captcha_limit)
 
-    ContactFormWithCaptcha = partial(
-        create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
+    ContactFormWithCaptcha = partial(create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
     InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
     OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
+
+    anchor = ''
 
     if request.method == 'POST':
         contact_form = InputContactForm(request.POST)
         increment_count = True
 
         if contact_form.is_valid():
-            emailMessage = emailMessages_new.contactEmail(
+            email_message = emailMessages_new.contactEmail(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
                 contact_form.cleaned_data['browser'])
-            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, emailMessage['subject'],
-                       emailMessage['message'])
+            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
 
-            confirmedEmailMessage = emailMessages_new.confirmationContactEmailMessage(
+            confirmed_email_message = emailMessages_new.confirmationContactEmailMessage(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']],
-                       confirmedEmailMessage['subject'], confirmedEmailMessage['message'])
+                       confirmed_email_message['subject'], confirmed_email_message['message'])
 
             messages.success(request, 'Your message was sent successfully.')
             return HttpResponseRedirect('.')
-
         else:
             contact_form = OutputContactForm(request.POST)
+            anchor = "contact"
 
     else:
         contact_form = OutputContactForm()
 
-    response = render(request, 'redesign/help-and-support_new.html', {'form': contact_form})
+    response = render(request, 'redesign/help-and-support_new.html',
+                      {'form': contact_form,
+                       'anchor': anchor})
 
     response.count = increment_count
     return response
