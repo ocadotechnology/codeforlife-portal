@@ -40,14 +40,8 @@ identified as the original program.
 /* global openConfirmationBox */
 
 var CONFIRMATION_DATA = {};
-var DISMISS_STUDENTS_URL = "";
 
 $(function() {
-    $('#dismissSelectedStudents').click(function() {
-        postSelectedStudents(DISMISS_STUDENTS_URL);
-        return false;
-    });
-
     $('#selectedStudentsListToggle').click(function() {
         var students = $('.student');
         var selectedStudents = [];

@@ -261,3 +261,23 @@ class TestTeacherStudent(BaseTest):
         page = page.go_to_top().logout().go_to_login_page().login(email_2, password_2)
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
+
+    def test_dismiss(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name_1, student_password_1, _ = create_school_student_directly(access_code)
+        student_name_2, student_password_2, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
+        assert page.student_exists(student_name_1)
+
+        page = page.toggle_select_student().dismiss_students()
+        assert page.__class__.__name__ == 'TeachDismissStudentsPage'
+        page = page.cancel()
+        assert page.__class__.__name__ == 'TeachClassPage'
+
+        page = page.toggle_select_student().dismiss_students().enter_email("student_email@gmail.com").dismiss()
+        assert not page.student_exists(student_name_1)
