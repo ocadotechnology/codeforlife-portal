@@ -264,7 +264,8 @@ img {
 }
 
 h4,
-p {
+p,
+label {
 
   a,
   a:visited,
@@ -277,6 +278,7 @@ p {
   a:hover {
     border-bottom: 1px solid $color-text-tertiary;
     color: $color-text-tertiary;
+    cursor: pointer;
     text-decoration: none;
   }
 
@@ -1902,5 +1904,23 @@ td {
     }
 
   }
-
 }
+
+#faqs {
+  answer,input{
+    display: none;
+    margin-left: 8px;
+  }
+}
+#faqs input:checked + label:before{
+        content: '-';
+    }
+
+#faqs input:checked ~ answer{
+        display: block;
+    }
+#faqs input + label:before{
+        content: '+';
+}  
+
+
