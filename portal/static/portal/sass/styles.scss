@@ -264,7 +264,8 @@ img {
 }
 
 h4,
-p {
+p,
+label {
 
   a,
   a:visited,
@@ -277,6 +278,7 @@ p {
   a:hover {
     border-bottom: 1px solid $color-text-tertiary;
     color: $color-text-tertiary;
+    cursor: pointer;
     text-decoration: none;
   }
 
@@ -1904,18 +1906,12 @@ td {
   }
 }
 
-// FAQ styles for Accordion like to show Answers
-
-/*FAQ styling */
 #faqs {
   answer,input{
     display: none;
     margin-left: 8px;
   }
 }
-// #faqs answer{
-//   display: none;
-// }
 #faqs input:checked + label:before{
         content: '-';
     }
