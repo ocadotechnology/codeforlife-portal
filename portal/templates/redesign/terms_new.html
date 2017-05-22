@@ -12,10 +12,9 @@
 
 {% block pageID %}id='homeWrapper'{% endblock %}
 
-{% block content %}
+{% block subNav %}
 {{ block.super }}
-
-<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher row--small">
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher">
     <a href="#introduction" class="button button--regular button--secondary button--secondary--light">Introduction</a>
     <a href="#terms" class="button button--regular button--secondary button--secondary--light">Terms of use</a>
     <a href="#privacy" class="button button--regular button--secondary button--secondary--light">Privacy policy</a>
@@ -29,7 +28,7 @@
         <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--terms"></div></div></div>
     </div>
 </div>
-<div class="sub-nav sub-nav--teacher row--small">
+<div class="sub-nav sub-nav--teacher">
     <a href="#introduction" class="button button--regular button--secondary button--secondary--light">Introduction</a>
     <a href="#terms" class="button button--regular button--secondary button--secondary--light">Terms of use</a>
     <a href="#privacy" class="button button--regular button--secondary button--secondary--light">Privacy policy</a>
@@ -43,7 +42,10 @@
 <div class="banner__item banner__item--teacher">
     <button class="button--big button--secondary button--secondary--light button--banner__item">Privacy policy</button>
 </div>
+{% endblock subNav %}
 
+{% block content %}
+{{ block.super }}
 <div class="col-sm-8 col-center">
     <div id="introduction"></div>
     <div class="background">

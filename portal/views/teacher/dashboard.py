@@ -95,7 +95,7 @@ def dashboard_teacher_view(request, is_admin):
         if 'update_school' in request.POST:
             anchor = 'school-details'
             update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
-            process_update_school_form(request, school)
+            anchor = process_update_school_form(request, school, anchor)
 
         elif 'create_class' in request.POST:
             anchor = 'new-class'
@@ -108,7 +108,7 @@ def dashboard_teacher_view(request, is_admin):
         else:
             anchor = 'account'
             update_account_form = TeacherEditAccountForm(request.user, request.POST)
-            changing_email, new_email = process_update_account_form(request, teacher)
+            changing_email, new_email, anchor = process_update_account_form(request, teacher, anchor)
             if changing_email:
                 logout(request)
                 messages.success(request, 'Your account details have been successfully changed. Your email will be changed once you have verified it, until then you can still log in with your old email.')
@@ -133,7 +133,7 @@ def can_process_forms(request, is_admin):
     return request.method == 'POST' and is_admin
 
 
-def process_update_school_form(request, school):
+def process_update_school_form(request, school, old_anchor):
     update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
     if update_school_form.is_valid():
         data = update_school_form.cleaned_data
@@ -151,7 +151,13 @@ def process_update_school_form(request, school):
         school.longitude = lng
         school.save()
 
+        anchor = '#'
+
         messages.success(request, 'You have updated the details for your school or club successfully.')
+    else:
+        anchor = old_anchor
+
+    return anchor
 
 
 def create_class_new(form, teacher):
@@ -166,7 +172,7 @@ def create_class_new(form, teacher):
     return klass
 
 
-def process_update_account_form(request, teacher):
+def process_update_account_form(request, teacher, old_anchor):
     update_account_form = TeacherEditAccountForm(request.user, request.POST)
     changing_email = False
     new_email = ""
@@ -192,9 +198,13 @@ def process_update_account_form(request, teacher):
         teacher.save()
         teacher.new_user.save()
 
-        messages.success(request, 'Your account details have been successfully changed.')
+        anchor = '#'
 
-    return changing_email, new_email
+        messages.success(request, 'Your account details have been successfully changed.')
+    else:
+        anchor = old_anchor
+
+    return changing_email, new_email, anchor
 
 
 @login_required(login_url=reverse_lazy('login_new'))

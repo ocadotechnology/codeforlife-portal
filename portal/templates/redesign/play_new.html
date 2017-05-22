@@ -12,9 +12,8 @@
 {{ block.super }}
 {% endblock scripts %}
 
-{% block content %}
-{{block.super}}
-
+{% block subNav %}
+{{ block.super }}
 <div class="banner banner--rapid-router row">
     <div class="col-sm-2 col-sm-offset-2">
         <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
@@ -26,6 +25,10 @@
         </a>
     </div>
 </div>
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
 
 <div class="background">
     <section>
