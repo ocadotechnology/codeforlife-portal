@@ -335,12 +335,12 @@ def redirect_user_to_correct_page(teacher):
     if teacher.has_school():
         classes = teacher.class_teacher.all()
         if classes:
-            first_class = teacher.first_class()
-
-            if first_class.has_students():
+            classes_count = classes.count()
+            if classes_count > 1 or classes[0].has_students():
                 return HttpResponseRedirect(reverse_lazy('dashboard'))
             else:
-                return HttpResponseRedirect(reverse_lazy('onboarding-class', kwargs={'access_code': first_class.access_code}))
+                return HttpResponseRedirect(reverse_lazy('onboarding-class',
+                                                         kwargs={'access_code': classes[0].access_code}))
         else:
             return HttpResponseRedirect(reverse_lazy('onboarding-classes'))
     else:

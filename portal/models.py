@@ -126,12 +126,6 @@ class Teacher(models.Model):
     def has_school(self):
         return self.school is not (None or "")
 
-    def first_class(self):
-        classes = self.class_teacher.all()
-        if classes:
-            return classes[0]
-        return None
-
     def __unicode__(self):
         return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
