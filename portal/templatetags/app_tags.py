@@ -42,26 +42,32 @@ from portal import beta
 
 register = template.Library()
 
+
 @register.filter(name='emaildomain')
 @stringfilter
 def emaildomain(email):
     return '*********' + email[email.find('@'):]
 
+
 @register.filter(name='has_2FA')
 def has_2FA(u):
     return using_two_factor(u)
+
 
 @register.filter(name='is_logged_in')
 def is_logged_in(u):
     return u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
+
 @register.filter
 def is_developer(u):
     return not u.is_anonymous() and u.userprofile.developer
 
+
 @register.filter
 def has_beta_access(request):
     return beta.has_beta_access(request)
+
 
 @register.filter(name='make_into_username')
 def make_into_username(u):
@@ -74,29 +80,36 @@ def make_into_username(u):
 
     return username
 
+
 @register.filter(name='truncate')
 def truncate(s, max_length=20):
     if len(s) > max_length:
         s = s[:max(0, max_length-3)] + '...'
     return s
 
+
 @register.filter(name='is_logged_in_as_teacher')
 def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
 
+
 @register.filter(name='has_teacher_finished_onboarding')
 def has_teacher_finished_onboarding(u):
     teacher = u.userprofile.teacher
-    class_ = teacher.first_class()
-    return is_logged_in_as_teacher(u) and teacher.has_school() and class_ is not None and class_.has_students()
+    classes = teacher.class_teacher.all()
+    return is_logged_in_as_teacher(u) and teacher.has_school() and classes and (classes.count() > 1 or
+                                                                                classes[0].has_students())
+
 
 @register.filter(name='is_logged_in_as_student')
 def is_logged_in_as_student(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'student')
 
+
 @register.filter(name='is_logged_in_as_school_user')
 def is_logged_in_as_school_user(u):
     return is_logged_in(u) and u.userprofile and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
+
 
 @register.filter(name='make_title_caps')
 def make_title_caps(s):
@@ -105,6 +118,7 @@ def make_title_caps(s):
     else:
         s = s[0].upper() + s[1:]
     return s
+
 
 @register.filter(name='get_user_status')
 def get_user_status(u):
@@ -118,6 +132,7 @@ def get_user_status(u):
     else:
         return 'UNTRACKED'
     return 'UNTRACKED'
+
 
 @register.filter(name='cloud_storage')
 @stringfilter
