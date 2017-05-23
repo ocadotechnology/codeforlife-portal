@@ -99,7 +99,7 @@
                 {% if coworker.new_user != user and is_admin %}
                     <td class="cell-center">
                         <button id="kick_button" class="button--small button--primary--danger"
-                                onclick="showRemoveConfirmation('{% url 'organisation_kick_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                                onclick="showRemoveConfirmation('{% url 'organisation_kick_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}')">
                             Remove</button>
                     </td>
                     <td class="cell-center">
@@ -108,12 +108,12 @@
                                href="{% url 'organisation_toggle_admin_new' coworker.id %}">Make non-admin</a>
                         {% else %}
                             <button id="make_admin_button" class="button--small button--primary--navigation"
-                                    onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                                    onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                                 Make admin</button></td>
                         {% endif %}
                     <td class="cell-center">{% if coworker.new_user|has_2FA %}
                         <button class="button--small button--primary--setup"
-                                onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags }}')">
+                                onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                             Disable 2FA</button>{% endif %}</td>
                 {% else %}
                     {% if is_admin %}
