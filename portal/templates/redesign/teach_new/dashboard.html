@@ -333,17 +333,26 @@
                         You have {{ backup_tokens }} backup tokens remaining.
                         {% endif %}</p>
                     <p class="body-text">View and create backup tokens for your account.</p>
-                    <button class="button--regular button--primary--negative">Manage backup tokens</button>
+                    <div class="background">
+                        <a class="button button--regular button--primary--negative"
+                           href="{% url 'two_factor:backup_tokens' %}">Manage backup tokens</a>
+                    </div>
                 </div>
                 <div class="col-sm-6 col-sm-offset-1">
                     <h4>Disable Two Factor Authentication</h4>
                     <p class="body-text">We recommend you to continue using Two Factor Authentication, however you can disable two factor authentication for your account.</p>
-                    <button class="button--regular button--secondary button--secondary--dark">Disable Two-Factor Authentication</button>
+                    <div class="background">
+                        <a class="button button--regular button--secondary button--secondary--dark"
+                           href="{% url 'two_factor:disable' %}">Disable Two-Factor Authentication</a>
+                    </div>
                 </div>
             </div>
         {% else %}
             <p class="body-text">Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
-            <button class='button--regular button--primary--negative'>Setup Two Factor Authentication</button>
+            <div class="background">
+                <a class='button button--regular button--primary--negative'
+                   href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
+            </div>
         {% endif %}
     </div>
 </div>
