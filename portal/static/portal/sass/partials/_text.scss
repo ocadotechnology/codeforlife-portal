@@ -1,0 +1,149 @@
+@import "base";
+
+body {
+  color: #4a4a4a;
+}
+
+h1 {
+  @include _font-size(55px);
+  @include _line-height(60px);
+  font-family: 'Baloo', serif;
+  font-weight: 500;
+}
+
+:not(h1) {
+  font-family: 'Source Sans Pro', serif;
+
+  :not(.footer p) {
+    color: $color-text-tertiary;
+  }
+
+}
+
+h2 {
+  @include _font-size(45px);
+  @include _line-height(50px);
+  font-weight: 600;
+}
+
+h3 {
+  @include _font-size(35px);
+  @include _line-height(40px);
+  @include _padding(0px, 0px, 20px, 0px);
+  font-weight: 600;
+}
+
+h4 {
+  @include _font-size(30px);
+  @include _line-height(35px);
+}
+
+.body-text {
+  @include _font-size(20px);
+  @include _line-height(30px);
+}
+
+.small-text {
+  @include _font-size(16px);
+  @include _line-height(26px);
+}
+
+a {
+  color: #4a4a4a;
+}
+
+a:hover,
+a:focus {
+  color: #4a4a4a;;
+  text-decoration: none;
+}
+
+p {
+  @include _padding(10px, 0px, 10px, 0px);
+  margin: 0;
+}
+
+blockquote {
+  border-left: 0;
+}
+
+blockquote p {
+  @include _font-size(20px);
+  @include _line-height(25px);
+  display: block;
+  font-weight: lighter;
+  text-align: right;
+}
+
+blockquote p.says {
+  @include _font-size(25px);
+  @include _line-height(30px);
+  color: $color-quote-text;
+  padding: 0 0 0 2.5rem;
+  position: relative;
+  text-align: left;
+}
+
+blockquote p.says:before,
+blockquote p.says:after {
+  @include _font-size(48px);
+  color: $color-quote-text;
+  content: '”';
+  font-weight: bold;
+  line-height: 150%;
+  vertical-align: top;
+}
+
+blockquote p.says:before {
+  content: '“';
+  left: 0;
+  position: absolute;
+  top: -2px;
+}
+
+h4,
+p,
+label {
+
+  a,
+  a:visited,
+  a:active {
+    border-bottom: 1px dotted $color-text-tertiary;
+    color: $color-text-tertiary;
+    text-decoration: none;
+  }
+
+  a:hover {
+    border-bottom: 1px solid $color-text-tertiary;
+    color: $color-text-tertiary;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+}
+
+@media (min-width: 1400px) {
+
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 992px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 760px) {
+
+  html {
+    font-size: 7px;
+  }
+}
