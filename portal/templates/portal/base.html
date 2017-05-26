@@ -26,12 +26,16 @@
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
 <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
+<link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 {% endcache %}
 {% endblock css %}
 
 {% cache 3600 fragment-base-javascript %}
+
 <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
+<script type='text/javascript' src='{% static "portal/js/bootstrap.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
 <script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
@@ -87,24 +91,76 @@
 {% block contentWrapper %}
 <div {% block pageID %}id='contentWrapper'{% endblock %}>
     {% block topBar %}
-        <div class='topBar'>
-            <div class="content">
-                <a id="home_button" href="{% url 'home' %}" class="logo">
-                    <span></span>
-                    <h1>Code for Life</h1>
-                </a>
-                <ul class="topNav">
-                    <li>{% block nav_teach %}<a id="teach_button" href="{% url 'teach' %}">TEACH</a>{% endblock nav_teach %}</li>
-                    <li>{% block nav_play %}<a id="play_button" href="{% url 'play' %}">PLAY</a>{% endblock nav_play %}</li>
-                    {% if user|is_logged_in %}
-                        <li>{{ user|make_into_username|truncate:20 }} | <a id="logout_button" href="{% url 'portal/logout' %}" onclick="deleteAllLocalStorageWorkspaces();">LOGOUT</a></li>
-                    {% else %}
-                        <li><a href="{% url 'play' %}">LOGIN</a></li>
-                    {% endif %}
-                </ul>
+    <div class="header">
+        <a href="{% url 'home_new' %}"><img class="logo col-sm-offset-1"></a>
+        <div class="menu col-sm-12">
+            <div class="menu__left-side col-sm-6 col-sm-offset-2">
+                <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
+                <a href="{% url 'home_new' %}"><img class="logo-horizontal" src='{% static "portal/img_new/logo-horizontal.png" %}'></a>
+                <a href="{% url 'home_new' %}" class="button--regular button--secondary button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
+                {% block leftMenuButtons %}
+                {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                <a class="button--menu button--menu--primary"><b>Teacher</b></a>
+                {% block secondaryButtons %}
+                {% if user|has_teacher_finished_onboarding %}
+                <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                <a href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+                {% else %}
+                <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                {% endif %}
+                {% endblock secondaryButtons %}
+                {% endif %}
+                {% else %}
+                {% block nav_teach %}<a href="{% url 'teach_new' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+                {% block nav_play %}<a href="{% url 'play_new' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
+                {% endif %}
+                {% endblock leftMenuButtons %}
+            </div>
+            <div class="menu__right-side col-sm-4">
+                {% block rightMenuButtons %}
+                {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                <div class="dropdown">
+                    <button id="logout_menu" class="button--regular button--secondary button--secondary--dark logout"
+                            data-toggle="dropdown">{{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="button--regular button--logout" id="logout_button"
+                               href="{% url 'logout_new' %}" onclick="deleteAllLocalStorageWorkspaces();">Log out</a>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'register_new' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login_new' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                {% endif %}
+                {% endblock rightMenuButtons %}
             </div>
         </div>
-    {% endblock topBar %}
+        <div id="menu-items" class="collapse">
+            <div class="menu__item">
+                <a href="{% url 'register_new' %}" class="button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login_new' %}" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            </div>
+            <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+            <div id="teacher-tabs" class="collapse">
+                <button class="button--menu__item button--menu__item__sub">School / Club</button>
+                <button class="button--menu__item button--menu__item__sub">Rapid Router</button>
+                <button class="button--menu__item button--menu__item__sub">Resources</button>
+            </div>
+            <button class="button--menu__item">Student</button>
+            <button class="button--menu__item">About</button>
+            <button class="button--menu__item">Help and support</button>
+            <button class="button--menu__item">Terms of use</button>
+        </div>
+    </div>
+</div>
+{% endblock topBar %}
     {% block subNav %}
         {% if user|is_logged_in %}
         <div class="subnavBar">
@@ -160,16 +216,27 @@
 {% endblock contentWrapper %}
 
 {% block footer %}
-{% cache 3600 fragment-base-footer %}
-    <div class="footer">
-        <ul>
-            <li><a id="about_button" href="{% url 'about' %}">About us</a></li>
-            <li><a id="contact_button" href="{% url 'contact' %}">Contact Us</a></li>
-            <li><a id="terms_button" href="{% url 'terms' %}">Terms of use</a></li>
-            <li><a id="help_button" href="{% url 'help' %}">Help &amp; Support</a></li>
-            <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy; 2017</li>
-        </ul>
+{% cache 3600 fragment-base_new-footer %}
+<div class="footer">
+    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img_new/footer_arrow.png" %}'></a>
+    <p class="small-text"><a href="#top">BACK TO TOP</a></p>
+    <img class="col-sm-3" src='{% static "portal/img_new/logo_c4l_horizontal.png" %}'>
+    <div class="row">
+        <p class="body-text"><a href="{% url 'about_new' %}">About us</a></p>
+        <p class="body-text"><a href="{% url 'teach_new' %}">Teachers</a></p>
+        <p class="body-text"><a href="{% url 'play_new' %}">Students</a></p>
+        <p class="body-text"><a id="help_and_support_button" href="{% url 'help_new' %}">Help and support</a></p>
+        <p class="body-text"><a href="{% url 'help_new' %}#contact">Contact us</a></p>
+        <p class="body-text"><a href="{% url 'terms_new' %}">Terms of use</a></p>
     </div>
+    <div class="row social-media"><br>
+        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img_new/twitter.png" %}'></a>
+        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src='{% static "portal/img_new/facebook.png" %}'></a>
+        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img_new/google+.png" %}'></a>
+    </div>
+    <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img_new/logo_ocado.png" %}'></a>
+    <p class="small-text">&copy; Ocado Technology 2017</p>
+</div>
 {% endcache %}
 {% endblock footer %}
 
@@ -179,6 +246,12 @@
 $(function() {
     $('input, textarea').placeholder();
 });
+
+$('.logout').click(function(){
+    $(this).toggleClass("button--secondary");
+    $(this).toggleClass("button--secondary--dark");
+    $(this).toggleClass("button--logout");
+})
 </script>
 
 </body>
