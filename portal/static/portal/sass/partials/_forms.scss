@@ -1,0 +1,186 @@
+@import "base";
+
+form {
+  @include _font-size(20px);
+  @include _line-height(25px);
+  @include _padding(20px, 0px, 30px, 0px);
+
+  button {
+    @include _margin(20px, 0px, 10px, 0px);
+  }
+
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  select {
+    @include _font-size(20px);
+    @include _margin(10px, 0px, 10px, 0px);
+    @include _padding(0px, 0px, 0px, 10px);
+    background-color: $color-background-secondary;
+    height: 50px;
+    width: 100%;
+  }
+
+  input[type=checkbox] {
+    height: 20px;
+  }
+
+  p {
+    padding: 0;
+  }
+
+  textarea {
+    @include _font-size(20px);
+    @include _margin(10px, 0px, 10px, 0px);
+    @include _padding(10px, 0px, 0px, 10px);
+    width: 100%;
+  }
+
+  ul {
+    color: $color-text-form-error;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
+}
+
+.form--register {
+  @include _padding(100px, 0px, 30px, 0px);
+  text-align: center;
+
+  h1,
+  .body-text {
+    color: $color-text-secondary;
+    text-align: center;
+  }
+
+  label {
+    color: $color-text-secondary;
+    display: block;
+    font-weight: 200;
+    text-align: left;
+  }
+
+  p {
+    color: $color-text-secondary;
+    text-align: left;
+  }
+
+  ul {
+    color: $color-text-login-error;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .no-password {
+    @include _padding(15px, 0px, 30px, 0px);
+    text-align: center;
+  }
+
+}
+
+.form--register--teacher {
+  background-color: $color-background-teach;
+}
+
+.form--register--student {
+  background-color: $color-background-play;
+}
+
+.form--register--indep-student {
+  background-color: $color-background-play-indep;
+}
+
+.form__choice {
+  @include _margin(40px, 0px, 0px, 37px);
+  background-color: $color-background-secondary;
+  border-radius: 50%;
+  height: 75px;
+  text-align: center;
+  width: 75px;
+
+  h3 {
+    @include _padding(15px, 0px, 0px, 0px);
+    color: $color-text-tertiary;
+  }
+}
+
+.form--register {
+
+  p {
+
+    a,
+    a:visited,
+    a:active {
+      border-bottom: 1px dotted $color-text-secondary;
+      color: $color-text-secondary;
+      text-decoration: none;
+    }
+
+    a:hover {
+      border-bottom: 1px solid $color-text-secondary;
+      color: $color-text-secondary;
+      text-decoration: none;
+    }
+
+  }
+
+}
+
+@media (max-width: 760px) {
+  .form__choice {
+    display: none;
+  }
+
+  .form--register {
+    @include _padding(40px, 0px, 30px, 0px);
+  }
+
+}
+
+@media (max-width: 760px) {
+  .footer {
+    background-color: $color-background-tertiary;
+    text-align: center;
+
+    p {
+      color: $color-text-secondary;
+    }
+
+    .row {
+      padding: 0;
+
+      p {
+        @include _padding(0px, 15px, 0px, 15px);
+        display: inline-block;
+      }
+
+    }
+
+    img {
+      @include _padding(25px, 15px, 25px, 15px);
+      float: none;
+    }
+
+    .no-padding {
+      padding: 0;
+    }
+
+    a {
+      color: $color-text-secondary;
+    }
+
+    input,
+    button,
+    b,
+    .input-button,
+    .social-media p {
+      display: none;
+    }
+
+  }
+}

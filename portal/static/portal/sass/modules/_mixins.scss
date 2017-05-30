@@ -1,0 +1,89 @@
+@function calculate-rem($size) {
+  $rem-size: $size / 10px;
+  @return #{$rem-size}rem;
+}
+
+@mixin _font-size($size) {
+  //font-size: $size; //Fallback in px
+  font-size: calculate-rem($size);
+}
+
+@mixin _line-height($height) {
+  //line-height: $height; //Fallback in px
+  line-height: calculate-rem($height);
+}
+
+@mixin _padding($padding-top, $padding-right, $padding-bottom, $padding-left) {
+  //padding: $padding-top $padding-right $padding-bottom $padding-left; //Fallback in px
+  padding: calculate-rem($padding-top) calculate-rem($padding-right) calculate-rem($padding-bottom) calculate-rem($padding-left);
+}
+
+@mixin _margin($margin-top, $margin-right, $margin-bottom, $margin-left) {
+  //margin: $margin-top $margin-right $margin-bottom $margin-left; //Fallback in px
+  margin: calculate-rem($margin-top) calculate-rem($margin-right) calculate-rem($margin-bottom) calculate-rem($margin-left);
+}
+
+@mixin _border-radius($radius-top-left, $radius-top-right, $radius-bottom-right, $radius-bottom-left) {
+  //border-radius: $radius-top-left $radius-top-right $radius-bottom-right $radius-bottom-left; //Fallback in px
+  border-radius: calculate-rem($radius-top-left) calculate-rem($radius-top-right) calculate-rem($radius-bottom-right) calculate-rem($radius-bottom-left);
+}
+
+@mixin arrow_properties($height-onboarding-step) {
+  $height-onboarding-step-done: $height-onboarding-step*0.7;
+  $height-onboarding-step-progress: $height-onboarding-step/2;
+  $height-onboarding-step-todo: $height-onboarding-step/2;
+  $height-onboarding-step-offset: $height-onboarding-step-progress+3;
+
+  .onboarding-step--done {
+
+    &:before,
+    &:after {
+      height: $height-onboarding-step-done;
+      width: $height-onboarding-step-done;
+    }
+
+    &:after {
+      right: -$height-onboarding-step-done;
+    }
+
+  }
+
+  .onboarding-step--in-progress {
+
+    &:before,
+    &:after {
+      border-bottom-width: $height-onboarding-step-progress;
+      border-top-width: $height-onboarding-step-progress;
+    }
+
+    &:before {
+      border-left-width: $height-onboarding-step-progress;
+    }
+
+    &:after {
+      border-left-width: $height-onboarding-step-progress;
+      right: -$height-onboarding-step-offset;
+    }
+
+  }
+
+  .onboarding-step--todo {
+
+    &:before,
+    &:after {
+      border-bottom-width: $height-onboarding-step-todo;
+      border-top-width: $height-onboarding-step-todo;
+    }
+
+    &:before {
+      border-left-width: $height-onboarding-step-todo;
+    }
+
+    &:after {
+      border-left-width: $height-onboarding-step-todo;
+      right: -$height-onboarding-step-offset;
+    }
+
+  }
+
+}

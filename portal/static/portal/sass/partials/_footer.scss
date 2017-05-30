@@ -1,0 +1,77 @@
+@import "base";
+
+.footer {
+  background-color: $color-background-tertiary;
+  text-align: center;
+
+  p {
+    color: $color-text-secondary;
+
+    a,
+    a:visited,
+    a:active {
+      border-bottom: 1px dotted $color-text-secondary;
+      text-decoration: none;
+      color: $color-text-secondary;
+    }
+
+    a:hover {
+      border-bottom: 1px solid $color-text-secondary;
+      text-decoration: none;
+      color: $color-text-secondary;
+    }
+
+    a {
+      color: $color-text-secondary;
+    }
+  }
+
+  .row {
+    padding: 0;
+
+    p {
+      @include _padding(0px, 15px, 0px, 15px);
+      display: inline;
+    }
+  }
+
+  img {
+    @include _padding(25px, 15px, 25px, 15px);
+    float: none;
+  }
+
+  .no-padding {
+    padding: 0;
+  }
+
+  .back-to-top,
+  .social-media a,
+  .social-media a:hover {
+    border-bottom: none;
+  }
+
+  input {
+    @include _font-size(20px);
+    @include _margin(0px, -3px, 0px, 5px);
+    @include _padding(0px, 0px, 0px, 15px);
+    border: 0;
+    height: 50px;
+    vertical-align: middle;
+    width: 20%;
+  }
+
+  input:focus {
+    border: 0;
+    outline: none;
+  }
+
+  .input-button {
+    @include _padding(2px, 0px, 0px, 13px);
+    background-color: $color-background-secondary;
+    display: inline-block;
+    height: 50px;
+    vertical-align: middle;
+    width: 6%;
+  }
+
+}

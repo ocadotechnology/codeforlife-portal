@@ -1,0 +1,216 @@
+@import "base";
+
+.arrows {
+  @include _padding(20px, 40px, 0px, 5px);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  text-align: center;
+}
+
+.onboarding-step {
+  @include _margin(0px, 8px, 0px, 8px);
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  width: 250px;
+
+  img {
+    @include _margin(0px, 10px, 5px, 25px);
+  }
+
+}
+
+.onboarding-step__text {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.onboarding-step--in-progress {
+  background: $color-onboarding-step-in-progress-background;
+
+  p {
+    color: $color-onboarding-step-in-progress-text;
+  }
+
+  &:before,
+  &:after {
+    border-color: transparent;
+    border-style: solid;
+  }
+
+  &:before {
+    border-left-color: $color-background-teach;
+  }
+
+  &:after {
+    border-left-color: $color-onboarding-step-in-progress-background;
+  }
+
+}
+
+.onboarding-step--todo {
+  background: $color-onboarding-step-todo-background;
+
+  &:before,
+  &:after {
+    border-color: transparent;
+    border-style: solid;
+  }
+
+  &:before {
+    border-left-color: $color-background-teach;
+  }
+
+  &:after {
+    border-left-color: $color-onboarding-step-todo-background;
+  }
+
+}
+
+.step {
+  padding-top: 30px;
+}
+
+@media (min-width: 1570px) {
+
+  $height-onboarding-step: 50px;
+  @include arrow_properties($height-onboarding-step);
+
+  .onboarding-step {
+    height: $height-onboarding-step;
+  }
+
+}
+
+@media (max-width: 1570px) {
+
+  $height-onboarding-step: 76px;
+  @include arrow_properties($height-onboarding-step);
+
+  .onboarding-step {
+    height: $height-onboarding-step;
+
+    img {
+      @include _margin(0px, 10px, 5px, 10px);
+    }
+
+    p {
+      @include _line-height(20px);
+      @include _margin(0px, 0px, 0px, 0px);
+    }
+
+  }
+
+  .onboarding-step__text {
+    @include _margin(0px, 0px, 0px, 45px);
+    z-index: 1;
+  }
+
+  .onboarding-step--done {
+
+    p {
+      @include _margin(0px, -10px, 0px, 0px);
+    }
+
+  }
+
+}
+
+@media (min-width: 760px) {
+  .onboarding-step--done {
+    background: $color-onboarding-step-done-background;
+    border-bottom: 1px solid $color-background-secondary;
+    border-top: 1px solid $color-background-secondary;
+    color: $color-onboarding-step-done-text;
+
+    &:before,
+    &:after {
+      background: transparent;
+      border-right: 1px solid $color-background-secondary;
+      border-top: 1px solid $color-background-secondary;
+      content: "";
+      position: absolute;
+      top: 0;
+      transform: rotate(45deg);
+      transform-origin: 0 0;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+  }
+
+  .onboarding-step--in-progress {
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+  }
+
+  .onboarding-step--todo {
+    background: $color-onboarding-step-todo-background;
+    color: $color-onboarding-step-todo-text;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+  }
+
+}
+
+@media (max-width: 760px) {
+  .arrows {
+    @include _padding(0px, 0px, 0px, 15px);
+    flex-direction: column-reverse;
+    text-align: left;
+    width: 95%;
+  }
+
+  .onboarding-step {
+    @include _margin(0px, 8px, 10px, 8px);
+    height: 40px;
+    justify-content: flex-start;
+    width: 100%;
+
+    img {
+      @include _margin(0px, 10px, 5px, 15px);
+      height: 20px;
+      width: 20px;
+    }
+
+  }
+
+  .onboarding-step__text {
+    margin: 0;
+  }
+
+  .onboarding-step--done {
+    border: 1px solid $color-background-secondary;
+  }
+
+  .onboarding-step--todo {
+    color: $color-onboarding-step-todo-text;
+  }
+
+}
