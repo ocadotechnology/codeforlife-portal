@@ -34,25 +34,21 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import partial
-import json
 from recaptcha import RecaptchaClient
 
-from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from two_factor.utils import devices_for_user
 
 from portal import app_settings, emailMessages_new
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.models import School, Teacher, Class
-from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
+from portal.models import Teacher, Class
+from portal.forms.organisation import OrganisationForm
 from portal.forms.teach_new import ClassCreationForm, TeacherEditAccountForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.emails_new import send_verification_email
@@ -60,9 +56,6 @@ from portal.helpers.generators import generate_access_code
 from portal.helpers.location import lookup_coord
 
 from portal.utils import using_two_factor
-
-
-from ratelimit.decorators import ratelimit
 
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
@@ -90,6 +83,8 @@ def dashboard_teacher_view(request, is_admin):
     update_account_form.fields['last_name'].initial = request.user.last_name
 
     anchor = ''
+
+    backup_tokens = check_backup_tokens(request)
 
     if can_process_forms(request, is_admin):
         if 'update_school' in request.POST:
@@ -126,11 +121,24 @@ def dashboard_teacher_view(request, is_admin):
         'create_class_form': create_class_form,
         'update_account_form': update_account_form,
         'anchor': anchor,
+        'backup_tokens': backup_tokens,
     })
 
 
 def can_process_forms(request, is_admin):
     return request.method == 'POST' and is_admin
+
+
+def check_backup_tokens(request):
+    backup_tokens = 0
+    # For teachers using 2FA, find out how many backup tokens they have
+    if using_two_factor(request.user):
+        try:
+            backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
+        except Exception:
+            backup_tokens = 0
+
+    return backup_tokens
 
 
 def process_update_school_form(request, school, old_anchor):
