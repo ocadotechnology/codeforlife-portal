@@ -213,6 +213,98 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.is_not_teacher_in_school(new_last_name)
 
+    def test_move_classes_and_kick(self):
+        email_1, password_1 = signup_teacher_directly()
+        name, postcode = create_organisation_directly(email_1)
+        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        create_school_student_directly(access_code_1)
+
+        title, first_name, last_name, email_2, password_2 = generate_details()
+
+        new_last_name = "New Teacher"
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_signup_page() \
+            .signup(title, first_name, new_last_name, email_2, password_2, password_2)
+
+        page = email_utils.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
+        mail.outbox = []
+
+        page = page.login_no_school(email_2, password_2).join_organisation(name)
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login(email_1, password_1)
+
+        page = page.accept_join_request()
+
+        assert page.is_teacher_in_school(new_last_name)
+
+        _, class_name_2, access_code_2 = create_class_directly(email_2)
+        create_school_student_directly(access_code_2)
+
+        page = page.click_kick_button().confirm_kick_with_students_dialog()
+
+        assert page.__class__.__name__ == 'TeachMoveClassesPage'
+
+        page = page.move_and_kick()
+
+        assert page.is_not_teacher_in_school(new_last_name)
+
+    def test_leave_organisation(self):
+        email_1, password_1 = signup_teacher_directly()
+        name, postcode = create_organisation_directly(email_1)
+        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        create_school_student_directly(access_code_1)
+
+        title, first_name, last_name, email_2, password_2 = generate_details()
+
+        new_last_name = "New Teacher"
+
+        selenium.get(self.live_server_url + "/portal/redesign/home")
+        page = HomePage(selenium) \
+            .go_to_signup_page() \
+            .signup(title, first_name, new_last_name, email_2, password_2, password_2)
+
+        page = email_utils.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
+        mail.outbox = []
+
+        page = page.login_no_school(email_2, password_2).join_organisation(name)
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login(email_1, password_1)
+
+        page = page.accept_join_request()
+
+        assert page.is_teacher_in_school(new_last_name)
+
+        _, class_name_2, access_code_2 = create_class_directly(email_2)
+        create_school_student_directly(access_code_2)
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login(email_2, password_2)
+
+        page = page.leave_organisation_with_students()
+
+        assert page.__class__.__name__ == 'TeachMoveClassesPage'
+
+        page = page.move_and_leave()
+
+        assert page.__class__.__name__ == 'OnboardingOrganisationPage'
+
+        page = page \
+            .logout() \
+            .go_to_login_page() \
+            .login(email_1, password_1)
+
+        assert page.is_not_teacher_in_school(new_last_name)
+
     def test_toggle_admin(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()

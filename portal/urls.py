@@ -69,7 +69,7 @@ from game.views.level import play_default_level
 from portal.views.email_new import verify_email as verify_email_new, change_email
 from portal.views.home_new import login_view, logout_view as logout_view_new, register_view, contact as contact_new
 from portal.views.organisation_new import organisation_fuzzy_lookup as organisation_fuzzy_lookup_new, \
-    organisation_manage as organisation_manage_new
+    organisation_manage as organisation_manage_new, organisation_leave as organisation_leave_new
 from portal.views.teacher.teach_new import teacher_classes as teacher_classes_new, teacher_class as teacher_class_new, \
     teacher_view_class, teacher_edit_class as teacher_edit_class_new, teacher_move_class as teacher_move_class_new, \
     teacher_edit_student as teacher_edit_student_new, teacher_student_reset as teacher_student_reset_new, \
@@ -245,6 +245,7 @@ urlpatterns = patterns(
     url(r'^redesign/teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA_new, name='teacher_disable_2FA_new'),
     url(r'^redesign/teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join_new, name='organisation_allow_join_new'),
     url(r'^redesign/teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join_new, name='organisation_deny_join_new'),
+    url(r'^redesign/teach/dashboard/school/leave/$', organisation_leave_new, name='organisation_leave_new'),
     url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_view_class, name='view_class'),
     url(r'^redesign/teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class_new, name='teacher_delete_class_new'),
     url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$', teacher_delete_students_new, name='teacher_delete_students_new'),

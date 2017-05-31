@@ -1216,10 +1216,23 @@ td {
   border: 2px solid $color-text-secondary;
 }
 
+.secondary-table {
+  table,
+  th,
+  td {
+    border: 2px solid $color-background-tint-primary;
+  }
+}
+
 .header-primary {
   th {
     background-color: $color-table-header-primary;
   }
+
+  td {
+    background-color: $color-background-secondary;
+  }
+
 }
 
 .header-secondary {
