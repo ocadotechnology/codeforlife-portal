@@ -59,9 +59,17 @@ SETTINGS = {
     'PIPELINE_CSS': {
         'css': {
             'source_filenames': (
-                'portal/sass/*.scss',
+                'portal/sass/bootstrap.scss',
+                'portal/sass/colorbox.scss',
+                'portal/sass/styles.scss',
             ),
             'output_filename': 'portal.css',
+        },
+        'base': {
+            'source_filenames': (
+                'portal/sass/old_styles.scss',
+            ),
+            'output_filename': 'base.css',
         },
     },
     'PIPELINE_CSS_COMPRESSOR': None,
