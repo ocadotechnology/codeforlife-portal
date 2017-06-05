@@ -198,6 +198,7 @@ h4 {
 
 a {
   color: #4a4a4a;
+  cursor: pointer;
 }
 
 a:hover,
@@ -278,7 +279,6 @@ label {
   a:hover {
     border-bottom: 1px solid $color-text-tertiary;
     color: $color-text-tertiary;
-    cursor: pointer;
     text-decoration: none;
   }
 
@@ -297,7 +297,9 @@ button,
 .button,
 .button:hover,
 .button:active,
-.button:visited {
+.button:visited,
+.button:focus {
+  color: $color-text-secondary;
   text-decoration: none;
 }
 
@@ -395,7 +397,7 @@ button,
 
 .button--primary--positive {
   background: $color-button-primary-action-positive;
-  color: $color-text-primary;
+  color: $color-text-secondary;
 }
 
 .button--primary--negative {
@@ -416,7 +418,7 @@ button,
 
 .button--primary--setup {
   background: $color-button-primary-action-setup;
-  color: $color-text-primary;
+  color: $color-text-secondary;
 }
 
 .button--secondary {
@@ -429,7 +431,11 @@ button,
   color: $color-text-secondary;
 }
 
-.button--secondary--dark  {
+.button--secondary--dark,
+.button--secondary--dark:hover,
+.button--secondary--dark:active,
+.button--secondary--dark:visited,
+.button--secondary--dark:focus {
   border-color: $color-button-secondary-border-dark;
   color: $color-text-tertiary;
 
@@ -1189,9 +1195,6 @@ td {
     vertical-align: middle;
   }
 
-  .button--primary--positive {
-    float: right;
-  }
 }
 
 table,
@@ -1376,6 +1379,11 @@ td {
   p {
     @include _padding(0px, 20px, 0px, 20px);
     text-align: left;
+  }
+
+  a:focus {
+    background-color: $color-background-secondary;
+    color: $color-teacher-blue;
   }
 
 }

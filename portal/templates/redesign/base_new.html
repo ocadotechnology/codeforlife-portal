@@ -90,7 +90,7 @@
             {% block leftMenuButtons %}
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
-                    <a class="button--menu button--menu--primary"><b>Teacher</b></a>
+                    <a href="{% url 'teach_new' %}" class="button--menu button--menu--primary"><b>Teacher</b></a>
                     {% block secondaryButtons %}
                     {% if user|has_teacher_finished_onboarding %}
                         <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
