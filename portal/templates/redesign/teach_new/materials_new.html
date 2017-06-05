@@ -28,7 +28,7 @@
 <div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Teaching Resources</h1>
-        <p class="body-text">We've created a comprehensive set of teaching materials to give you the confidence and resources to use the Rapid Router game to help you teach children the UK
+        <p class="body-text">We&rsquo;ve created a comprehensive set of teaching materials to give you the confidence and resources to use the Rapid Router game to help you teach children the UK
             National Computing Curriculum right through their primary education.</p>
     </div>
     <div class="col-sm-5">
@@ -68,7 +68,7 @@
             </section>
             <div class="row">
                 <div class="col-sm-6">
-                    <h4>Key Stage 1, and Lower Key Stage 2</h4>
+                    <h4>Key Stage 1, Lower Key Stage 2</h4>
                     <p class="body-text"><a id="pdf_link" href= "{% url 'materials_viewer_new' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></p>
                     <p class="body-text"><a href= "{% url 'materials_viewer_new' pdf_name='levels_guide_1-50' %}">Levels Guide (1-50)</a></p>
                     <p class="body-text"><a href= "{% url 'materials_viewer_new' pdf_name='glossary' %}">Glossary</a></p>
@@ -92,8 +92,9 @@
             <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
                 commands in a visual programming language.</h4>
             <a href="{{ 'KS1.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
+            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img_new/zip.png" %}'>
         </section>
-        <h3>Sessions</h3>
+        <h3>Sessions <span class="ks-tag">KS1</span></h3>
         <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
             review following the session.</p>
         <table class="table--resources">
@@ -148,7 +149,7 @@
                     <a href="{% url 'materials_viewer_new' pdf_name='ks1_session_10' %}">Try out a partners route</a></p></td>
             </tr>
         </table>
-        <h3>Resource Sheets</h3>
+        <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
         <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom.
             You can <a href="{{ 'KS1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
@@ -205,12 +206,12 @@
         <div class="col-sm-8 col-center">
             <div class="row row--under">
                 <div class="col-sm-6">
-                    <h3>Program Solutions</h3>
+                    <h3>Program Solutions <span class="ks-tag">KS1</span></h3>
                     <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='program_solutions_1-28' %}">View programme solutions</a></p>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Activity Set</h3>
+                    <h3>Activity Set <span class="ks-tag">KS1</span></h3>
                     <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='ks1_activity_set' %}">View activity set</a></p>
@@ -218,13 +219,13 @@
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
-                    <h3>Assets</h3>
+                    <h3>Assets <span class="ks-tag">KS1</span></h3>
                     <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='ks1_assets' %}">Assets</a></p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='ks1_code_wall_cards' %}">Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Assessments</h3>
+                    <h3>Assessments <span class="ks-tag">KS1</span></h3>
                     <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
                         a record sheet for pupils. You can <a href="{{ 'KS1/assessment.zip'|cloud_storage }}"> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
@@ -245,31 +246,32 @@
             <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
                 commands in a visual programming language.</h4>
             <a href="{{ 'KS2.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all Lower KS2 resources</a>
+            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img_new/zip.png" %}'>
         </section>
-        <h3>Sessions</h3>
+        <h3>Sessions <span class="ks-tag">Lower KS2</span></h3>
         <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
             review following the session.</p>
         <table class="table--resources">
             <tr>
                 <td><p class="body-text"><strong>Session 1</strong></p></td>
                 <td><p class="body-text">
-                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_1' %}">Recap on using a simple 'repeat' loop</a></p></td>
+                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_1' %}">Recap on using a simple &lsquo;repeat&rsquo; loop</a></p></td>
             </tr>
             <tr>
                 <td><p class="body-text"><strong>Session 2</strong></p></td>
                 <td><p class="body-text">
-                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_2' %}">Using repeat with a condition on a simple route: 'repeat until'</a></p></td>
+                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_2' %}">Using repeat with a condition on a simple route: &lsquo;repeat until&rsquo;</a></p></td>
             </tr>
             <tr>
                 <td><p class="body-text"><strong>Session 3</strong></p></td>
                 <td><p class="body-text">
-                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_3' %}">Using simple selections and repetition: Repeat until at destination 'if…do'</a>
+                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_3' %}">Using simple selections and repetition: &lsquo;repeat until&rsquo; &lsquo;at destination&rsquo; &lsquo;if…do&rsquo;</a>
                 </p></td>
             </tr>
             <tr>
                 <td><p class="body-text"><strong>Session 4</strong></p></td>
                 <td><p class="body-text">
-                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_4' %}">General solution using repeat until and if…do…(including else if for more able children)</a>
+                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_4' %}">General solution using &lsquo;repeat until&rsquo; and &lsquo;if…do&rsquo; (including else if for more able children)</a>
                 </p></td>
             </tr>
             <tr>
@@ -281,7 +283,7 @@
             <tr>
                 <td><p class="body-text"><strong>Session 6</strong></p></td>
                 <td><p class="body-text">
-                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_6' %}">Traffic lights: understanding variables and the if do…if else statements</a>
+                    <a href="{% url 'materials_viewer_new' pdf_name='lks2_session_6' %}">Traffic lights: understanding variables and the &lsquo;if do…if else&rsquo; statements</a>
                 </p></td>
             </tr>
             <tr>
@@ -297,7 +299,7 @@
                 </p></td>
             </tr>
         </table>
-        <h3>Resource Sheets</h3>
+        <h3>Resource Sheets <span class="ks-tag">Lower KS2</span></h3>
         <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom.
             You can <a href="{{ 'KS2/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
@@ -342,12 +344,12 @@
         <div class="col-sm-8 col-center">
             <div class="row row--under">
                 <div class="col-sm-6">
-                    <h3>Program Solutions</h3>
+                    <h3>Program Solutions <span class="ks-tag">Lower KS2</span></h3>
                     <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='program_solutions_29-50' %}">View programme solutions</a></p>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Activity Set</h3>
+                    <h3>Activity Set <span class="ks-tag">Lower KS2</span></h3>
                     <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
                         expectations and teacher preperation.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='lks2_activity_set' %}">View activity set</a></p>
@@ -355,13 +357,13 @@
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
-                    <h3>Assets</h3>
+                    <h3>Assets <span class="ks-tag">Lower KS2</span></h3>
                     <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='lks2_assets' %}">Assets</a></p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='lks2_code_wall_cards' %}">Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Assessments</h3>
+                    <h3>Assessments <span class="ks-tag">Lower KS2</span></h3>
                     <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
                         a record sheet for pupils. You can <a href="{{ 'KS2/assessment.zip'|cloud_storage }}"> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
@@ -382,8 +384,9 @@
             <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
                 commands in a visual programming language.</h4>
             <a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}" class="button button--regular button--primary--negative">Download all Upper KS2 resources</a>
+            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img_new/zip.png" %}'>
         </section>
-        <h3>Sessions</h3>
+        <h3>Sessions <span class="ks-tag">Upper KS2</span></h3>
         <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
             review following the session.</p>
         <table class="table--resources">
@@ -405,7 +408,7 @@
             <tr>
                 <td><p class="body-text"><strong>Session 4</strong></p></td>
                 <td><p class="body-text">
-                    <a href="{% url 'materials_viewer_new' pdf_name='uks2_session_4' %}">Understanding more Python commands (while, if…elif…else)</a></p></td>
+                    <a href="{% url 'materials_viewer_new' pdf_name='uks2_session_4' %}">Understanding more Python commands (&lsquo;while&rsquo;, &lsquo;if…elif…else&rsquo;)</a></p></td>
             </tr>
             <tr>
                 <td><p class="body-text"><strong>Session 5</strong></p></td>
@@ -428,7 +431,7 @@
                     <a href="{% url 'materials_viewer_new' pdf_name='uks2_session_8' %}">Assessment session - applying your coding knowledge to create a game challenge for a partner</a></p></td>
             </tr>
         </table>
-        <h3>Resource Sheets</h3>
+        <h3>Resource Sheets <span class="ks-tag">Upper KS2</span></h3>
         <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom.
             You can <a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
@@ -479,12 +482,12 @@
         <div class="col-sm-8 col-center">
             <div class="row row--under">
                 <div class="col-sm-6">
-                    <h3>Program Solutions</h3>
+                    <h3>Program Solutions <span class="ks-tag">Upper KS2</span></h3>
                     <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='program_solutions_51-109' %}">View programme solutions</a></p>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Activity Set</h3>
+                    <h3>Activity Set <span class="ks-tag">Upper KS2</span></h3>
                     <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='uks2_activity_set' %}">View activity set</a></p>
@@ -492,13 +495,13 @@
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
-                    <h3>Assets</h3>
+                    <h3>Assets <span class="ks-tag">Upper KS2</span></h3>
                     <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='uks2_assets' %}">Assets</a></p>
                     <p class="body-text"><a href="{% url 'materials_viewer_new' pdf_name='uks2_code_wall_cards' %}">Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Assessments</h3>
+                    <h3>Assessments <span class="ks-tag">Upper KS2</span></h3>
                     <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
                         a record sheet for pupils. You can <a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}" > download the 
                         whole set</a> (zip file), or view and download them individually below.</p>
