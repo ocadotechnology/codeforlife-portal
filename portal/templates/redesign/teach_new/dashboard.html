@@ -149,10 +149,10 @@
                             <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
                             <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
                             <td class="cell-center">
-                                <a id="allow_button" class="button button--small button-primary button--primary--positive"
+                                <a id="allow_button" class="button button--small button--primary--positive"
                                         href="{% url 'organisation_allow_join_new' join_request.id %}">Allow</a></td>
                             <td class="cell-center">
-                                <a id="deny_button" class="button button--small button-primary button--primary--danger"
+                                <a id="deny_button" class="button button--small button--primary--danger"
                                         href="{% url 'organisation_deny_join_new' join_request.id %}">Deny</a></td>
                         </tr>
                     {% endfor %}
