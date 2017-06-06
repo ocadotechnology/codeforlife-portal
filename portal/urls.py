@@ -237,6 +237,7 @@ urlpatterns = patterns(
     url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
     url(r'^redesign/help/$', contact_new, name='help_new'),
     url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
+    url(r'^redesign/teach/resources/$', TemplateView.as_view(template_name='redesign/teach_new/teacher_resources.html'), name='teaching_resources'),
     url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
     url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
     url(r'^redesign/teach/dashboard/$', dashboard_manage, name='dashboard'),

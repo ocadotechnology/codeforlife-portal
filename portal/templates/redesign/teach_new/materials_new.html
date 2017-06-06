@@ -3,7 +3,7 @@
 {% load app_tags %}
 
 {% block materials %}
-<a href="{% url 'materials_new' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+<a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
 {% endblock materials %}
 
 {% block css %}
@@ -27,7 +27,7 @@
 
 <div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
-        <h1 class="banner__text--primary">Teaching Resources</h1>
+        <h1 class="banner__text--primary">Teaching Packs</h1>
         <p class="body-text">We&rsquo;ve created a comprehensive set of teaching materials to give you the confidence and resources to use the Rapid Router game to help you teach children the UK
             National Computing Curriculum right through their primary education.</p>
     </div>
@@ -58,7 +58,7 @@
 {% block content %}
 {{ block.super }}
 
-<div id="resources_page"></div>
+<div id="materials_page"></div>
 
 <div id="user_guide">
     <div class="background background--primary">
