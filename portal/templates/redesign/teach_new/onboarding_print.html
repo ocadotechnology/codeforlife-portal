@@ -90,12 +90,12 @@
 {% endif %}
 
 {% if onboarding_done %}
-<div class="background background--quaternary col-sm-12">
+<div class="background background--quaternary">
 <div class="background"><div class="background"></div></div>
 {% else %}
-<div class="background background--primary col-sm-12">
+<div class="background background--primary">
 {% endif %}
-    <div class="form col-sm-4 col-sm-offset-4">
+    <div class="form col-sm-4 col-center">
         <h4>{{ user.new_teacher.school.name }}</h4>
         {% if passwords_reset %}
         <h3>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h3>
