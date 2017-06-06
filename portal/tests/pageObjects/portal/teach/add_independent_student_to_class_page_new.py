@@ -38,6 +38,9 @@ from portal.tests.pageObjects.portal.teach.added_independent_student_to_class_pa
     AddedIndependentStudentToClassPage
 from portal.tests.pageObjects.portal.teach.teach_base_page_new import TeachBasePage
 
+from selenium.webdriver.common.by import By
+import time
+
 
 class AddIndependentStudentToClassPage(TeachBasePage):
     def __init__(self, browser):
@@ -51,6 +54,8 @@ class AddIndependentStudentToClassPage(TeachBasePage):
 
     def save(self):
         self._rename()
+        self.wait_for_element_to_be_clickable((By.ID, 'save_student_name_button'))
         self.browser.find_element_by_id('save_student_name_button').click()
+        time.sleep(2)
 
         return AddedIndependentStudentToClassPage(self.browser)
