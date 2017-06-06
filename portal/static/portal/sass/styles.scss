@@ -253,7 +253,6 @@ blockquote p.says:before {
 }
 
 img {
-  @include _padding(15px, 15px, 15px, 15px);
   max-height: 100%;
   max-width: 100%;
 }
@@ -498,8 +497,13 @@ button,
 }
 
 .image-row {
-  display: table-cell;
-  vertical-align: bottom;
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+
+  div {
+    @include _padding(0px, 30px, 0px, 30px);
+  }
 
   img {
     @include _padding(0px, 20px, 0px, 20px);
@@ -944,6 +948,7 @@ form {
   align-items: center;
   display: flex;
   height: 343px; //TO BE CHANGED!
+  justify-content: space-between;
 
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);
@@ -969,10 +974,13 @@ form {
 
 .banner--rapid-router {
   @include _padding(150px, 0px, 100px, 0px);
+  align-items: center;
   background-image: url('../img_new/rapid_router_landing_hero.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  justify-content: space-between;
 }
 
 .banner--resources {
@@ -1470,6 +1478,7 @@ td {
 
 .ui-dialog {
   background: $color-background-secondary;
+  border: 1px solid grey;
   left: 35% !important;
   position: fixed !important;
   top: 30% !important;
@@ -1487,6 +1496,7 @@ td {
 }
 
 .ui-dialog-content {
+  @include _font-size(20px);
   @include _padding(10px, 10px, 10px, 10px);
 }
 
@@ -1552,6 +1562,22 @@ td {
     justify-content: center;
   }
 
+}
+
+@media (max-width: 1200px) {
+  .logo {
+    height: 60px;
+  }
+
+  .col-center {
+    width: 90%;
+  }
+
+  .banner {
+    .col-sm-offset-2 {
+      margin-left: 8.333%;
+    }
+  }
 }
 
 @media (min-width: 760px) and (max-width: 1400px) {
