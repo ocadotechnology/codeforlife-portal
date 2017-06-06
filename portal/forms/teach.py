@@ -493,3 +493,24 @@ class StudentCreationForm(forms.Form):
         self.strippedNames = names
 
         return self.cleaned_data
+
+
+class TeacherAddExternalStudentForm(forms.Form):
+    name = forms.CharField(
+        label='Student name',
+        widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+
+    def __init__(self, klass, *args, **kwargs):
+        self.klass = klass
+        super(TeacherAddExternalStudentForm, self).__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = stripStudentName(self.cleaned_data.get('name', ''))
+
+        if name == '':
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
+
+        if Student.objects.filter(class_field=self.klass, new_user__first_name__iexact=name).exists():
+            raise forms.ValidationError("There is already a student called '" + name + "' in this class")
+
+        return name

@@ -38,6 +38,7 @@ from teach_base_page import TeachBasePage
 from class_page import TeachClassPage
 from move_classes_page import TeachMoveClassesPage
 from onboarding_organisation_page import OnboardingOrganisationPage
+from add_independent_student_to_class_page_new import AddIndependentStudentToClassPage
 from selenium.webdriver.support.ui import Select
 
 import time
@@ -136,8 +137,22 @@ class TeachDashboardPage(TeachBasePage):
         self.browser.find_element_by_id('deny_button').click()
         return self
 
+    def accept_independent_join_request(self):
+        self.browser.find_element_by_id('allow_independent_button').click()
+        return AddIndependentStudentToClassPage(self.browser)
+
+    def deny_independent_join_request(self):
+        self.browser.find_element_by_id('deny_independent_button').click()
+        return self
+
     def has_join_request(self, email):
         return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
+
+    def has_independent_join_request(self, email):
+        return self.element_exists_by_id('independent_request_table') and (email in self.browser.find_element_by_id('independent_request_table').text)
+
+    def has_no_independent_join_requests(self):
+        return self.element_does_not_exist_by_id('independent_request_table')
 
     def is_teacher_in_school(self, name):
         return name in self.browser.find_element_by_id('teachers_table').text

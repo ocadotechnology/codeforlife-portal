@@ -1,0 +1,68 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% load static %}
+
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block content %}
+
+<div id="add_independent_student_to_class_new" class="top-element"></div>
+
+<section class="background col-sm-6 col-center">
+    <h2>Add external student to class {{ class.name }} ({{ class.access_code }})</h2>
+</section>
+
+<div class="col-sm-8 col-center">
+    <div class="row">
+        <div class="col-sm-5">
+            <h3>Students currently in class</h3>
+            {% if students %}
+                <p class="body-text">{{ student.new_user.username }}, the new external student, will be joining students in the class
+                    {{ class.name }} ({{ class.access_code }}).</p>
+                <table class="header-tertiary data-quaternary">
+                    <tr>
+                        <th><p class="body-text">Student Name</p></th>
+                    </tr>
+                    {% for currentstudent in students %}
+                    <tr>
+                        <td><p class="small-text">{{ currentstudent.new_user.first_name }}</p></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p class="body-text">The new external student {{ student.new_user.username }} is joining the class {{ class.name }}
+                    ({{ class.access_code }}) in which there are currently no other students.</p>
+            {% endif %}
+        </div>
+        <div class="col-sm-6 col-sm-offset-1 background--quaternary">
+            <h3>Add external student</h3>
+            <p class="body-text">Please confirm the name of the new external student joining your class. Their name will be used in their new
+                login details, so please ensure it is different from any other existing student in the class.</p>
+
+            <form method='POST'>
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                {% for field in form %}
+                <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+                {% endfor %}
+
+                <section class="background button-group">
+                    <a class='button button--regular button--secondary button--secondary--dark' href="{% url 'dashboard' %}#classes">Cancel</a>
+                    <button id="save_student_name_button" type='submit' class='button--regular button--primary--navigation'>Save</button>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="background col-sm-8 col-center">
+    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+</div>
+
+{% endblock %}
