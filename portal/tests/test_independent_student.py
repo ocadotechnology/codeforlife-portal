@@ -142,12 +142,15 @@ class TestIndependentStudent(BaseTest):
 
         page = self.go_to_homepage()
 
-        page = page \
-            .go_to_login_page() \
-            .login(teacher_email, teacher_password) \
-            .accept_independent_join_request() \
-            .save() \
-            .return_to_class()
+        page = page.go_to_login_page()
+        page = page.login(teacher_email, teacher_password)
+        print ("join-class-accept page.login - on page: {}".format(page.__class__.__name__))
+        page = page.accept_independent_join_request()
+        print ("join-class-accept page.join_request - on page: {}".format(page.__class__.__name__))
+        page = page.save()
+        print ("join-class-accept page.save - on page: {}".format(page.__class__.__name__))
+        page = page.return_to_class()
+        print ("join-class-accept page.return-to-class - on page: {}".format(page.__class__.__name__))
 
         assert page.student_exists(student_name)
 
