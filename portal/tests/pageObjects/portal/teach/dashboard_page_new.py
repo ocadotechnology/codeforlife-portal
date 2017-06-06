@@ -36,6 +36,8 @@
 # identified as the original program.
 from teach_base_page_new import TeachBasePage
 from class_page_new import TeachClassPage
+from move_classes_page_new import TeachMoveClassesPage
+from onboarding_organisation_page import OnboardingOrganisationPage
 from selenium.webdriver.support.ui import Select
 
 import time
@@ -163,17 +165,6 @@ class TeachDashboardPage(TeachBasePage):
     def is_teacher_non_admin(self):
         return "Make admin" in self.browser.find_element_by_id('teachers_table').text
 
-    def have_classes(self):
-        return self.element_exists_by_id('classes_table')
-
-    def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('classes_table')
-
-    def does_class_exist(self, name, access_code):
-        return self.have_classes() and \
-               (name in self.browser.find_element_by_id('classes_table').text) and \
-               (access_code in self.browser.find_element_by_id('classes_table').text)
-
     def click_kick_button(self):
         self.browser.find_element_by_id('kick_button').click()
 
@@ -189,6 +180,14 @@ class TeachDashboardPage(TeachBasePage):
 
         return self
 
+    def leave_organisation_with_students(self):
+        self._click_leave_button()
+
+        return TeachMoveClassesPage(self.browser)
+
+    def _click_leave_button(self):
+        self.browser.find_element_by_id('leave_organisation_button').click()
+
     def is_dialog_showing(self):
         return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
 
@@ -196,6 +195,11 @@ class TeachDashboardPage(TeachBasePage):
         self._click_confirm()
 
         return self
+
+    def confirm_kick_with_students_dialog(self):
+        self._click_confirm()
+
+        return TeachMoveClassesPage(self.browser)
 
     def _click_confirm(self):
         self.browser.find_element_by_xpath("//button[contains(text(),'Confirm')]").click()

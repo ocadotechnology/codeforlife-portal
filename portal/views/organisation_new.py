@@ -211,3 +211,44 @@ def process_revoke_request(request, teacher):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
 def organisation_manage(request):
     return organisation_create(request)
+
+
+@login_required(login_url=reverse_lazy('login_new'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def organisation_leave(request):
+    teacher = request.user.new_teacher
+
+    check_teacher_is_not_admin(teacher)
+
+    if request.method == 'POST':
+        classes = Class.objects.filter(teacher=teacher)
+        for klass in classes:
+            teacher_id = request.POST.get(klass.access_code, None)
+            if teacher_id:
+                new_teacher = get_object_or_404(Teacher, id=teacher_id)
+                klass.teacher = new_teacher
+                klass.save()
+
+        classes = Class.objects.filter(teacher=teacher)
+        teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+
+        if classes.exists():
+            messages.info(request, 'You still have classes, you must first move them to another teacher within your school or club.')
+            return render(request, 'redesign/teach_new/teacher_move_all_classes_new.html', {
+                'original_teacher': teacher,
+                'classes': classes,
+                'teachers': teachers,
+                'submit_button_text': 'Move classes and leave',
+            })
+
+        teacher.school = None
+        teacher.save()
+
+        messages.success(request, 'You have successfully left the school or club.')
+
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
+
+
+def check_teacher_is_not_admin(teacher):
+    if teacher.is_admin:
+        raise Http404

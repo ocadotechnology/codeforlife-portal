@@ -77,18 +77,22 @@
         {% else %}
             <h4 class="col-sm-6 col-center">You can see which other teachers in your school or club are registered here. Should you need to leave the
                 school or club, you can do so below.</h4>
+            <form method="post" action="{% url 'organisation_leave_new' %}">
+                {% csrf_token %}
+                <button id="leave_organisation_button" class="button--regular button--secondary button--secondary--dark"
+                        type="submit">Leave school or club</button>
+            </form>
         {% endif %}
     </section>
 
+    {% if is_admin %}
     <div class="background col-sm-7 col-center">
         <h3>These teachers are already part of your school or club</h3>
         <table id="teachers_table" class="header-primary data-primary">
             <tr>
                 <th><p class="body-text">Name</p></th>
                 <th><p class="body-text">Administrator status</p></th>
-                {% if is_admin %}
-                    <th colspan="3"><p class="body-text">Status actions</p></th>
-                {% endif %}
+                <th colspan="3"><p class="body-text">Status actions</p></th>
             </tr>
             {% for coworker in coworkers %}
             <tr>
@@ -96,7 +100,7 @@
                     {% if coworker.new_user == user %}<b>(you)</b>{% endif %}</p></td>
                 <td><p class="small-text">{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</p></td>
-                {% if coworker.new_user != user and is_admin %}
+                {% if coworker.new_user != user %}
                     <td class="cell-center">
                         <button id="kick_button" class="button--small button--primary--danger"
                                 onclick="showRemoveConfirmation('{% url 'organisation_kick_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}')">
@@ -116,52 +120,72 @@
                                 onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA_new' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                             Disable 2FA</button>{% endif %}</td>
                 {% else %}
-                    {% if is_admin %}
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    {% endif %}
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 {% endif %}
             </tr>
             {% endfor %}
         </table>
-        {% if is_admin %}
-            <p class="body-text">Select &lsquo;Remove&rsquo; to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
-                teacher to other teachers in your school or club.</p>
-            <p class="body-text">If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting &lsquo;Disable 2FA&rsquo;.
-                We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
-                with their smartphone or tablet.</p>
-        {% endif %}
+        <p class="body-text">Select &lsquo;Remove&rsquo; to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
+            teacher to other teachers in your school or club.</p>
+        <p class="body-text">If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting &lsquo;Disable 2FA&rsquo;.
+            We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
+            with their smartphone or tablet.</p>
     </div>
-
-    <div id="requests">
-        <div class="background col-sm-7 col-center">
-            <h3>These teachers have requested to join your school or club</h3>
-            {% if join_requests %}
-                <table id="request_table" class="header-primary data-primary">
-                    <tr>
-                        <th><p class="body-text">Name</p></th>
-                        <th><p class="body-text">Email address</p></th>
-                        <th colspan="2"><p class="body-text">Actions</p></th>
-                    </tr>
-                    {% for join_request in join_requests %}
-                        <tr>
-                            <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
-                            <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
-                            <td class="cell-center">
-                                <a id="allow_button" class="button button--small button--primary--positive"
-                                        href="{% url 'organisation_allow_join_new' join_request.id %}">Allow</a></td>
-                            <td class="cell-center">
-                                <a id="deny_button" class="button button--small button--primary--danger"
-                                        href="{% url 'organisation_deny_join_new' join_request.id %}">Deny</a></td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <p class="body-text">No teachers have currently requested to join your school or club.</p>
-            {% endif %}
+    {% else %}
+    <div class="background background--primary secondary-table">
+        <div class="col-sm-7 col-center">
+            <h3>These teachers are already part of your school or club</h3>
+            <table class="header-primary">
+                <tr>
+                    <th><p class="body-text">Name</p></th>
+                    <th><p class="body-text">Administrator status</p></th>
+                </tr>
+                {% for coworker in coworkers %}
+                <tr>
+                    <td><p class="small-text">{{ coworker.title }} {{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }}
+                        {% if coworker.new_user == user %}<b>(you)</b>{% endif %}</p></td>
+                    <td><p class="small-text">{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
+                        ({{ coworker.new_user.email|emaildomain }}){% endif %}</p></td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
+    {% endif %}
+
+    {% if is_admin %}
+        {% if join_requests %}
+        <div id="requests">
+            <div class="background col-sm-7 col-center">
+                <h3>These teachers have requested to join your school or club</h3>
+                {% if join_requests %}
+                    <table id="request_table" class="header-primary data-primary">
+                        <tr>
+                            <th><p class="body-text">Name</p></th>
+                            <th><p class="body-text">Email address</p></th>
+                            <th colspan="2"><p class="body-text">Actions</p></th>
+                        </tr>
+                        {% for join_request in join_requests %}
+                            <tr>
+                                <td><p class="small-text">{{ join_request.title }} {{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</p></td>
+                                <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
+                                <td class="cell-center">
+                                    <a id="allow_button" class="button button--small button-primary button--primary--positive"
+                                            href="{% url 'organisation_allow_join_new' join_request.id %}">Allow</a></td>
+                                <td class="cell-center">
+                                    <a id="deny_button" class="button button--small button-primary button--primary--danger"
+                                            href="{% url 'organisation_deny_join_new' join_request.id %}">Deny</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p class="body-text">No teachers have currently requested to join your school or club.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
 
     <div id="school-details" class="background background--primary">
         <div class="col-sm-7 col-center">
@@ -184,6 +208,7 @@
             </form>
         </div>
     </div>
+    {% endif %}
 </div>
 
 <div id="classes">

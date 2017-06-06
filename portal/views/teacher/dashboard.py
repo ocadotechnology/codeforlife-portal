@@ -297,7 +297,7 @@ def organisation_kick(request, pk):
 
     if classes.exists():
         messages.info(request, 'This teacher still has classes assigned to them. You must first move them to another teacher in your school or club.')
-        return render(request, 'redesign/teach/teacher_move_all_classes.html', {
+        return render(request, 'redesign/teach_new/teacher_move_all_classes_new.html', {
             'original_teacher': teacher,
             'classes': classes,
             'teachers': teachers,

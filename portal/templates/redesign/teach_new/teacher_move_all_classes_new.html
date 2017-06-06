@@ -1,0 +1,81 @@
+{% extends 'redesign/teach_new/base_logged_in.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher">
+    <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+    <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+    <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
+</div>
+
+<section class="banner banner--teacher row">
+    <h1 class="col-sm-8 col-sm-offset-2 banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
+</section>
+<div class="sub-nav sub-nav--teacher">
+    <div class="col-sm-12">
+        <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
+        <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+        <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
+    </div>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+
+<div id="move_all_classes_page"></div>
+
+<section class="background col-sm-6 col-center">
+    <h2>Move all classes for teacher {{ original_teacher.new_user|make_into_username }}</h2><br>
+
+    <h4>Move all classes assigned to teacher {{ original_teacher.new_user.first_name }}
+        {{ original_teacher.new_user.last_name }} to other teachers in {{ original_teacher.school.name }}.</h4>
+</section>
+
+<div class="background background--primary secondary-table">
+    <div class="col-sm-6 col-center">
+        <h4><strong>Move all classes</strong></h4>
+
+        <p class="body-text">Select teachers to take over the classes from the lists below.</p>
+
+        <form method='post'>
+            {% csrf_token %}
+            <table class="header-primary">
+                <tr>
+                    <th><p class="body-text">Class</p></th>
+                    <th><p class="body-text">New Teacher</p></th>
+                </tr>
+                {% for class in classes %}
+                <tr>
+                    <td><p class="small-text">{{ class.name }} ({{ class.access_code }})</p></td>
+                    <td>
+                        <select class='wide' name='{{ class.access_code }}'>
+                            {% for teacher in teachers %}
+                            <option value='{{ teacher.id }}'>{{ teacher.title }} {{ teacher.new_user.first_name }}
+                                {{ teacher.new_user.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="background button-group">
+                <a class="button button--regular button--secondary button--secondary--dark" href="{% url 'dashboard' %}">Cancel</a>
+                <button type='submit' id="move_classes_button" class="button--regular button--primary--navigation">{{ submit_button_text }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.banner').outerHeight());
+    });
+</script>
+
+{% endblock %}
