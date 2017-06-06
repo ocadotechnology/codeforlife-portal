@@ -96,9 +96,9 @@ class TestTeacher(BaseTest):
 
         assert self.is_dashboard_page(page)
 
-        page = page.go_to_resources_page()
+        page = page.go_to_resources_page().go_to_materials_page()
 
-        assert self.is_resources_page(page)
+        assert self.is_materials_page(page)
 
         page = page.click_pdf_link()
 
@@ -197,8 +197,8 @@ class TestTeacher(BaseTest):
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
 
-    def is_resources_page(self, page):
-        return page.__class__.__name__ == 'ResourcesPage'
+    def is_materials_page(self, page):
+        return page.__class__.__name__ == 'MaterialsPage'
 
     def is_pdf_viewer_page(self, page):
         return page.__class__.__name__ == 'PDFViewerPage'

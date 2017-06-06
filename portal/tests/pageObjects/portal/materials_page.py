@@ -35,15 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from base_page import BasePage
-import materials_page
+import pdf_viewer_page
 
 
-class ResourcesPage(BasePage):
+class MaterialsPage(BasePage):
     def __init__(self, browser):
-        super(ResourcesPage, self).__init__(browser)
+        super(MaterialsPage, self).__init__(browser)
 
-        assert self.on_correct_page('resources_page')
+        assert self.on_correct_page('materials_page')
 
-    def go_to_materials_page(self):
-        self.browser.find_element_by_id('materials_button').click()
-        return materials_page.MaterialsPage(self.browser)
+    def click_pdf_link(self):
+        self.browser.find_element_by_id('pdf_link').click()
+        return pdf_viewer_page.PDFViewerPage(self.browser)
