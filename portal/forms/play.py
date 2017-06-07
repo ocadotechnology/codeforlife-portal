@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -65,29 +65,34 @@ class StudentLoginForm(forms.Form):
         password = self.cleaned_data.get('password', None)
 
         if name and access_code and password:
-            classes = Class.objects.filter(access_code__iexact=access_code)
-            if len(classes) != 1:
-                raise forms.ValidationError("Invalid name, class access code or password")
 
-            name = stripStudentName(name)
-
-            students = Student.objects.filter(
-                new_user__first_name__iexact=name, class_field=classes[0])
-            if len(students) != 1:
-                raise forms.ValidationError("Invalid name, class access code or password")
-
-            student = students[0]
-            user = authenticate(username=student.new_user.username, password=password)
-
-            if user is None:
-                raise forms.ValidationError("Invalid name, class access code or password")
-            if not user.is_active:
-                raise forms.ValidationError("This user account has been deactivated")
+            student, user = self.check_for_errors(name, access_code, password)
 
             self.student = student
             self.user = user
 
         return self.cleaned_data
+
+    def check_for_errors(self, name, access_code, password):
+        classes = Class.objects.filter(access_code__iexact=access_code)
+        if len(classes) != 1:
+            raise forms.ValidationError("Invalid name, class access code or password")
+
+        name = stripStudentName(name)
+
+        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=classes[0])
+        if len(students) != 1:
+            raise forms.ValidationError("Invalid name, class access code or password")
+
+        student = students[0]
+        user = authenticate(username=student.new_user.username, password=password)
+
+        if user is None:
+            raise forms.ValidationError("Invalid name, class access code or password")
+        if not user.is_active:
+            raise forms.ValidationError("This user account has been deactivated")
+
+        return student, user
 
 
 class StudentEditAccountForm(forms.Form):
@@ -168,10 +173,8 @@ class StudentSignupForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
 
-        if password and not password_strength_test(password, length=6, upper=False, lower=False,
-                                                   numbers=False):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 6 characters")
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError("Password not strong enough, consider using at least 6 characters")
 
         return password
 
@@ -207,14 +210,17 @@ class IndependentStudentLoginForm(forms.Form):
 
             user = authenticate(username=username, password=password)
 
-            if user is None:
-                raise forms.ValidationError("Incorrect username or password")
-            if not user.is_active:
-                raise forms.ValidationError("This user account has been deactivated")
+            self.check_for_errors(user)
 
             self.user = user
 
         return self.cleaned_data
+
+    def check_for_errors(self, user):
+        if user is None:
+            raise forms.ValidationError("Incorrect username or password")
+        if not user.is_active:
+            raise forms.ValidationError("This user account has been deactivated")
 
 
 class StudentJoinOrganisationForm(forms.Form):

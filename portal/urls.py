@@ -35,7 +35,6 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.conf.urls import patterns, include, url
-from django.contrib.auth.views import password_reset_complete, password_reset_done
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
@@ -44,48 +43,25 @@ from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, S
 
 from portal.views.api import registered_users, last_connected_since
 from portal.views.admin import aggregated_data, schools_map, admin_login
-from portal.permissions import teacher_verified
-from portal.views.email import verify_email
-from portal.views.home import teach, play, contact, current_user, logout_view, home_view
-from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, \
-    organisation_leave, organisation_kick, organisation_toggle_admin, organisation_allow_join, \
-    organisation_deny_join
-from portal.views.play import student_details, student_edit_account, student_join_organisation
-from portal.views.registration import custom_2FA_login, password_reset_check_and_confirm, \
-    student_password_reset, teacher_password_reset
-from portal.views.teacher.teach import teacher_classes, teacher_class, \
-    teacher_move_class, teacher_move_students, teacher_move_students_to_class, \
-    teacher_delete_students, teacher_dismiss_students, teacher_edit_class, teacher_delete_class, \
-    teacher_student_reset, teacher_edit_student, teacher_edit_account, teacher_disable_2FA, \
-    teacher_print_reminder_cards, teacher_accept_student_request, teacher_reject_student_request, \
-    teacher_class_password_reset, materials_home, materials_viewer, teacher_level_solutions, default_solution
-from portal.views.teacher.home import teacher_home
 from portal.views.teacher.solutions_level_selector import levels
+from portal.permissions import teacher_verified
 
 from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.email_new import verify_email as verify_email_new, change_email
-from portal.views.home_new import login_view, logout_view as logout_view_new, register_view, contact as contact_new
-from portal.views.organisation_new import organisation_fuzzy_lookup as organisation_fuzzy_lookup_new, \
-    organisation_manage as organisation_manage_new, organisation_leave as organisation_leave_new
-from portal.views.teacher.teach_new import teacher_classes as teacher_classes_new, teacher_class as teacher_class_new, \
-    teacher_view_class, teacher_edit_class as teacher_edit_class_new, teacher_move_class as teacher_move_class_new, \
-    teacher_edit_student as teacher_edit_student_new, teacher_student_reset as teacher_student_reset_new, \
-    materials_viewer as materials_viewer_new, teacher_print_reminder_cards as teacher_print_reminder_cards_new, \
-    teacher_delete_students as teacher_delete_students_new, teacher_delete_class as teacher_delete_class_new, \
-    teacher_class_password_reset as teacher_class_password_reset_new, teacher_move_students as teacher_move_students_new, \
-    teacher_move_students_to_class as teacher_move_students_to_class_new,\
-    teacher_dismiss_students as teacher_dismiss_students_new
-from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join as organisation_allow_join_new, \
-    organisation_deny_join as organisation_deny_join_new, organisation_kick as organisation_kick_new, \
-    organisation_toggle_admin as organisation_toggle_admin_new, teacher_disable_2FA as teacher_disable_2FA_new
-from portal.views.registration_new import teacher_password_reset as teacher_password_reset_new, \
-    password_reset_done as password_reset_done_new, student_password_reset as student_password_reset_new, \
-    password_reset_check_and_confirm as password_reset_check_and_confirm_new
-
-
+from portal.views.email import verify_email, change_email
+from portal.views.home import login_view, logout_view, register_view, contact
+from portal.views.play import student_details, student_edit_account, student_join_organisation
+from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, organisation_leave
+from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
+    teacher_move_class, teacher_edit_student, teacher_student_reset, materials_viewer, teacher_print_reminder_cards,\
+    teacher_delete_students, teacher_delete_class, teacher_class_password_reset, teacher_move_students,\
+    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions
+from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join, organisation_deny_join, \
+    organisation_kick, organisation_toggle_admin, teacher_disable_2FA
+from portal.views.registration import teacher_password_reset, password_reset_done, student_password_reset, \
+    password_reset_check_and_confirm, custom_2FA_login
 js_info_dict = {
     'packages': ('conf.locale',),
 }
@@ -108,15 +84,6 @@ urlpatterns = patterns(
     '',
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
-    url(r'^$', home_view, name='home'),
-    url(r'^teach/$', teach, name='teach'),
-    url(r'^play/$', play, name='play'),
-    url(r'^about/$', TemplateView.as_view(template_name='portal/about.html'), name='about'),
-    url(r'^help/$', TemplateView.as_view(template_name='portal/help-and-support.html'),
-        name='help'),
-    url(r'^contact/$', contact, name='contact'),
-    url(r'^terms/$', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
-
     url(r'^administration/login/$', admin_login, name='administration_login'),
     url(r'^admin/$', RedirectView.as_view(url=reverse_lazy('aggregated_data'), permanent=True)),
     url(r'^admin/login/$', admin_login, name='admin_login'),
@@ -127,137 +94,63 @@ urlpatterns = patterns(
 
     url(r'^locked_out/$', TemplateView.as_view(template_name='portal/locked_out.html'),
         name='locked_out'),
-    url(r'^logout/$', logout_view, name='portal/logout'),
-    url(r'^user/$', current_user, name='current_user'),
-
-    url(r'^teach/lesson_plans/$', RedirectView.as_view(pattern_name='materials_home', permanent=True),
-        name='teacher_lesson_plans'),
-    url(r'^teach/lesson_plans_python/$', RedirectView.as_view(pattern_name='materials_home', permanent=True),
-        name='teacher_lesson_plans_python'),
-
-    url(r'^teach/materials/$', materials_home, name='materials_home'),
-    url(r'^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer, name='materials_viewer'),
-
-    url(r'^teach/home/$', teacher_home, name='teacher_home'),
-
-    url(r'^teach/level_solutions/$', teacher_level_solutions, name='teacher_level_solutions'),
-    url(r'^teach/solutions_navigation/$', levels, name='teacher_level_solutions'),
-
-    url(r'^teach/account/$', teacher_edit_account, name='teacher_edit_account'),
-    url(r'^teach/account/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA,
-        name='teacher_disable_2FA'),
-
-    url(r'^teach/school/fuzzy_lookup/$', organisation_fuzzy_lookup,
-        name='organisation_fuzzy_lookup'),
-    url(r'^teach/school/manage/$', organisation_manage, name='organisation_manage'),
-    url(r'^teach/school/leave/$', organisation_leave, name='organisation_leave'),
-    url(r'^teach/school/kick/(?P<pk>[0-9]+)/$', organisation_kick, name='organisation_kick'),
-    url(r'^teach/school/toggle_admin/(?P<pk>[0-9]+)/$', organisation_toggle_admin,
-        name='organisation_toggle_admin'),
-    url(r'^teach/school/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join,
-        name='organisation_allow_join'),
-    url(r'^teach/school/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join,
-        name='organisation_deny_join'),
-
-    url(r'^teach/classes/$', teacher_classes, name='teacher_classes'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='teacher_class'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$', teacher_class_password_reset,
-        name='teacher_class_password_reset'),
-    url(r'^teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class,
-        name='teacher_move_class'),
-    url(r'^teach/class/edit/(?P<access_code>[A-Z0-9]+)/$', teacher_edit_class,
-        name='teacher_edit_class'),
-    url(r'^teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class,
-        name='teacher_delete_class'),
-    url(r'^teach/class/student/reset/(?P<pk>[0-9]+)/$', teacher_student_reset,
-        name='teacher_student_reset'),
-    url(r'^teach/class/student/edit/(?P<pk>[0-9]+)/$', teacher_edit_student,
-        name='teacher_edit_student'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$',
-        teacher_print_reminder_cards, name='teacher_print_reminder_cards'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$', teacher_move_students,
-        name='teacher_move_students'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$',
-        teacher_move_students_to_class, name='teacher_move_students_to_class'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$', teacher_delete_students,
-        name='teacher_delete_students'),
-    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/dismiss/$', teacher_dismiss_students,
-        name='teacher_dismiss_students'),
-
-    url(r'^teach/student/accept/(?P<pk>[0-9]+)/$', teacher_accept_student_request,
-        name='teacher_accept_student_request'),
-    url(r'^teach/student/reject/(?P<pk>[0-9]+)/$', teacher_reject_student_request,
-        name='teacher_reject_student_request'),
-
-    url(r'^play/details/$', student_details, name='student_details'),
-    url(r'^play/account/$', student_edit_account, name='student_edit_account'),
-    url(r'^play/join/$', student_join_organisation, name='student_join_organisation'),
-
-    url(r'^user/verify_email/(?P<token>[0-9a-f]+)/$', verify_email, name='verify_email'),
-
-    url(r'^user/password/reset/student/$', student_password_reset,
-        {'post_reset_redirect': 'portal/password-reset-done'}, name="student_password_reset"),
-    url(r'^user/password/reset/teacher/$', teacher_password_reset,
-        {'post_reset_redirect': 'portal/password-reset-done'}, name="teacher_password_reset"),
-    url(r'^user/password/reset/done/$', password_reset_done, name='portal/password-reset-done'),
-
-    url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        password_reset_check_and_confirm,
-        {'post_reset_redirect': 'portal/password-reset-complete'}, name='password_reset_check_and_confirm'),
-    url(r'^user/password/done/$', password_reset_complete, name='portal/password-reset-complete'),
 
     url(r'^', include(two_factor_patterns, 'two_factor')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
-
+    url(r'^teach/level_solutions/$', teacher_level_solutions, name='teacher_level_solutions'),
+    url(r'^teach/solutions_navigation/$', levels, name='teacher_level_solutions'),
     url(r'^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
     url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
 
-    url(r'^redesign/home', TemplateView.as_view(template_name='redesign/home_new.html'), name='home_new'),
-    url(r'^redesign/register_form', register_view, name='register_new'),
-    url(r'^redesign/login_form', login_view, name='login_new'),
-    url(r'^redesign/logout/$', logout_view_new, name='logout_new'),
-    url(r'^redesign/verify_email/(?P<token>[0-9a-f]+)/$', verify_email_new, name='verify_email_new'),
-    url(r'^redesign/change_email/(?P<token>[0-9a-f]+)/$', change_email, name='change_email'),
-    url(r'^redesign/user/password/reset/student/$', student_password_reset_new, name="student_password_reset_new"),
-    url(r'^redesign/user/password/reset/teacher/$', teacher_password_reset_new, name="teacher_password_reset_new"),
-    url(r'^redesign/user/password/reset/done/$', password_reset_done_new, name='reset_password_email_sent'),
-    url(r'^redesign/user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_check_and_confirm_new, name='password_reset_check_and_confirm_new'),
-    url(r'^redesign/teacher/password/reset/complete/$', TemplateView.as_view(template_name='redesign/reset_password_done.html'), name='password_reset_complete_new'),
-    url(r'^redesign/teach/$', TemplateView.as_view(template_name='redesign/teach_new.html'), name='teach_new'),
-    url(r'^redesign/teach/fuzzy_lookup/$', organisation_fuzzy_lookup_new, name='organisation_fuzzy_lookup_new'),
-    url(r'^redesign/teach/onboarding-organisation/$', organisation_manage_new, name='onboarding-organisation'),
-    url(r'^redesign/teach/onboarding-classes', teacher_classes_new, name='onboarding-classes'),
-    url(r'^redesign/teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$', teacher_class_new, name='onboarding-class'),
-    url(r'^redesign/teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$', teacher_print_reminder_cards_new, name='teacher_print_reminder_cards_new'),
-    url(r'^redesign/teach/onboarding-complete', TemplateView.as_view(template_name='redesign/teach_new/onboarding_complete.html'), name='onboarding-complete'),
-    url(r'^redesign/play', TemplateView.as_view(template_name='redesign/play_new.html'), name='play_new'),
-    url(r'^redesign/about', TemplateView.as_view(template_name='redesign/about_new.html'), name='about_new'),
-    url(r'^redesign/help/$', contact_new, name='help_new'),
-    url(r'^redesign/terms', TemplateView.as_view(template_name='redesign/terms_new.html'), name='terms_new'),
-    url(r'^redesign/teach/resources/$', TemplateView.as_view(template_name='redesign/teach_new/teacher_resources.html'), name='teaching_resources'),
-    url(r'^redesign/teach/materials/$', TemplateView.as_view(template_name='redesign/teach_new/materials_new.html'), name='materials_new'),
-    url(r'^redesign/teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer_new, name='materials_viewer_new'),
-    url(r'^redesign/teach/dashboard/$', dashboard_manage, name='dashboard'),
-    url(r'^redesign/teach/dashboard/kick/(?P<pk>[0-9]+)/$', organisation_kick_new, name='organisation_kick_new'),
-    url(r'^redesign/teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$', organisation_toggle_admin_new, name='organisation_toggle_admin_new'),
-    url(r'^redesign/teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA_new, name='teacher_disable_2FA_new'),
-    url(r'^redesign/teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join_new, name='organisation_allow_join_new'),
-    url(r'^redesign/teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join_new, name='organisation_deny_join_new'),
-    url(r'^redesign/teach/dashboard/school/leave/$', organisation_leave_new, name='organisation_leave_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_view_class, name='view_class'),
-    url(r'^redesign/teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class_new, name='teacher_delete_class_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$', teacher_delete_students_new, name='teacher_delete_students_new'),
-    url(r'^redesign/teach/class/edit/(?P<access_code>[A-Z0-9]+)/$', teacher_edit_class_new, name='teacher_edit_class_new'),
-    url(r'^redesign/teach/class/student/edit/(?P<pk>[0-9]+)/$', teacher_edit_student_new, name='teacher_edit_student_new'),
-    url(r'^redesign/teach/class/student/reset/(?P<pk>[0-9]+)/$', teacher_student_reset_new, name='teacher_student_reset_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$', teacher_class_password_reset_new, name='teacher_class_password_reset_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/dismiss/$', teacher_dismiss_students_new, name='teacher_dismiss_students_new'),
-    url(r'^redesign/teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class_new, name='teacher_move_class_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$', teacher_move_students_new, name='teacher_move_students_new'),
-    url(r'^redesign/teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$', teacher_move_students_to_class_new, name='teacher_move_students_to_class_new'),
+    url(r'^home', TemplateView.as_view(template_name='portal/home.html'), name='home'),
+    url(r'^register_form', register_view, name='register'),
+    url(r'^login_form', login_view, name='login_view'),
+    url(r'^logout/$', logout_view, name='logout_view'),
+    url(r'^verify_email/(?P<token>[0-9a-f]+)/$', verify_email, name='verify_email'),
+    url(r'^change_email/(?P<token>[0-9a-f]+)/$', change_email, name='change_email'),
+    url(r'^user/password/reset/student/$', student_password_reset, name="student_password_reset"),
+    url(r'^user/password/reset/teacher/$', teacher_password_reset, name="teacher_password_reset"),
+    url(r'^user/password/reset/done/$', password_reset_done, name='reset_password_email_sent'),
+    url(r'^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_check_and_confirm, name='password_reset_check_and_confirm'),
+    url(r'^teacher/password/reset/complete/$', TemplateView.as_view(template_name='portal/reset_password_done.html'), name='password_reset_complete'),
+    url(r'^teach/$', TemplateView.as_view(template_name='portal/teach.html'), name='teach'),
+    url(r'^teach/fuzzy_lookup/$', organisation_fuzzy_lookup, name='organisation_fuzzy_lookup'),
+    url(r'^teach/onboarding-organisation/$', organisation_manage, name='onboarding-organisation'),
+    url(r'^teach/onboarding-classes', teacher_classes, name='onboarding-classes'),
+    url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='onboarding-class'),
+    url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$', teacher_print_reminder_cards, name='teacher_print_reminder_cards'),
+    url(r'^teach/onboarding-complete', TemplateView.as_view(template_name='portal/teach/onboarding_complete.html'), name='onboarding-complete'),
+    url(r'^play/$', TemplateView.as_view(template_name='portal/play.html'), name='play'),
+    url(r'^play/details/$', student_details, name='student_details'),
+    url(r'^play/account/$', student_edit_account, name='student_edit_account'),
+    url(r'^play/join/$', student_join_organisation, name='student_join_organisation'),
+    url(r'^about', TemplateView.as_view(template_name='portal/about.html'), name='about'),
+    url(r'^help/$', contact, name='help'),
+    url(r'^terms', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
+    url(r'^teach/materials/$', TemplateView.as_view(template_name='portal/teach/materials.html'), name='materials'),
+    url(r'^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer, name='materials_viewer'),
+    url(r'^teach/resources/$', TemplateView.as_view(template_name='portal/teach/teacher_resources.html'), name='teaching_resources'),
+    url(r'^teach/dashboard/$', dashboard_manage, name='dashboard'),
+    url(r'^teach/dashboard/kick/(?P<pk>[0-9]+)/$', organisation_kick, name='organisation_kick'),
+    url(r'^teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$', organisation_toggle_admin, name='organisation_toggle_admin'),
+    url(r'^teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$', teacher_disable_2FA, name='teacher_disable_2FA'),
+    url(r'^teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join, name='organisation_allow_join'),
+    url(r'^teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join, name='organisation_deny_join'),
+    url(r'^teach/dashboard/school/leave/$', organisation_leave, name='organisation_leave'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_view_class, name='view_class'),
+    url(r'^teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class, name='teacher_delete_class'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$', teacher_delete_students, name='teacher_delete_students'),
+    url(r'^teach/class/edit/(?P<access_code>[A-Z0-9]+)/$', teacher_edit_class, name='teacher_edit_class'),
+    url(r'^teach/class/student/edit/(?P<pk>[0-9]+)/$', teacher_edit_student, name='teacher_edit_student'),
+    url(r'^teach/class/student/reset/(?P<pk>[0-9]+)/$', teacher_student_reset, name='teacher_student_reset'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$', teacher_class_password_reset, name='teacher_class_password_reset'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/dismiss/$', teacher_dismiss_students, name='teacher_dismiss_students'),
+    url(r'^teach/class/move/(?P<access_code>[A-Z0-9]+)/$', teacher_move_class, name='teacher_move_class'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$', teacher_move_students, name='teacher_move_students'),
+    url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$', teacher_move_students_to_class, name='teacher_move_students_to_class'),
 
     url(r'^api/', include([
         url(r'^registered/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$', registered_users, name="registered-users"),

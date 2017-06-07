@@ -1,83 +1,81 @@
-{% extends 'portal/teach/base.html' %}
-{% load static %}
+{% extends 'portal/teach/base_logged_in.html' %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
-<div id='teach_move_students_disambiguate_page'></div>
+<div id="move_students_disambiguate_page"></div>
 
-<h1>Classes</h1><br>
-<h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2><br>
+<section class="background col-sm-6 col-center">
+    <h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2>
+    <h4>Move students to another class.</h4>
+</section>
 
-<div class='section group'>
-    <div class='col span_1_of_2'>
-        <div class='login-card'>
-            <h4>Students currently in destination class</h4><br>
-            {% if new_class_students %}
-                <p>The following students are in class {{ new_class.name }} ({{ new_class.access_code }}) into which you are about to move students from class {{ old_class.name }} ({{ old_class.access_code }}).</p>
-                <table class='CSSTable alternate smaller wide'>
-                    <tr>
-                        <th>Student Name</th>
-                    </tr>
-                        {% for student in new_class_students %}
-                            <tr>
-                                <td>{{ student.new_user.first_name }}</td>
-                            </tr>
-                        {% endfor %}
-                </table>
-            {% else %}
-                <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
-            {% endif %}
-        </div>
-    </div>
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h3>Students currently in destination class</h3>
 
-    <div class='col span_1_of_2'>
-        <div class='login-card'>
-            <h4>Students to transfer</h4><br>
+        {% if new_class_students %}
+            <p class="body-text">The following students are in class {{ new_class.name }} ({{ new_class.access_code }}) into which you
+                are about to move students from class {{ old_class.name }} ({{ old_class.access_code }}).</p>
+            <table class="student-table table--move header-secondary">
+                <tr>
+                    <th><p class="body-text">Student Name</p></th>
+                </tr>
+                {% for student in new_class_students %}
+                <tr>
+                    <td><p class="small-text">{{ student.new_user.first_name }}</p></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="body-text">There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
+        {% endif %}
 
-            <p>Please confirm the names of the following students being moved to class {{ new_class.name }} ({{ new_class.access_code }}) from class {{ old_class.name }} ({{ old_class.access_code }}). Their names will be used in their new login details, so please ensure it is different from any other existing students in the class.</p>
+        <h3>Students to transfer</h3>
 
-            <form method='POST'>
+        <p class="body-text">Please confirm the names of the following students being moved to class {{ new_class.name }} ({{ new_class.access_code }})
+            from class {{ old_class.name }} ({{ old_class.access_code }}). Their names will be used in their new login details, so please ensure it is
+            different from any other existing students in the class.</p>
 
-                {% csrf_token %}
+        <form method='POST'>
 
-                {{ formset.management_form }}
+            {% csrf_token %}
 
-                <table class='CSSTable alternate smaller wide'>
-                    <tr>
-                        <th>Original Student Name</th>
-                        <th>New Student Name</th>
-                    </tr>
-                        {{ formset.non_form_errors }}
-                        {% for dict in formset.errors %}
-                            {% for error in dict.values %}
-                                {{ error }}
-                            {% endfor %}
-                        {% endfor %}
-                        {% for form in formset %}
-                            <tr>
-                                <td>{{ form.orig_name.value }}{{ form.orig_name }}</td>
-                                <td>{{ form.name }}</td>
-                            </tr>
-                        {% endfor %}
-                </table>
-                <br>
+            {{ formset.management_form }}
 
-                <div class='section group'>
-                    <div class='col span_1_of_2'>
-                        <a id='cancel_button' class='btn btn-default wide' href="{% url 'teacher_class' old_class.access_code %}">Cancel</a>
-                    </div>
+            <table class="student-table table--move header-secondary">
+                <tr>
+                    <th><p class="body-text">Original Student Name</p></th>
+                    <th><p class="body-text">New Student Name</p></th>
+                </tr>
+                {{ formset.non_form_errors }}
+                {% for dict in formset.errors %}
+                {% for error in dict.values %}
+                {{ error }}
+                {% endfor %}
+                {% endfor %}
+                {% for form in formset %}
+                <tr>
+                    <td>{{ form.orig_name.value }}{{ form.orig_name }}</td>
+                    <td>{{ form.name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
 
-                    <div class='col span_1_of_2'>
-                        <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
-                        <input id='move_button' type='submit' name='submit_disambiguation' class='btn btn-primary wide' value='Save'/>
-                    </div>
-                </div>
+            <section class="background button-group">
+                <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
+                <button id='move_button' name='submit_disambiguation' type='submit' class='button--regular button--primary--navigation'>Save</button>
+                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+            </section>
 
-            </form>
-        </div>
+        </form>
     </div>
 </div>
 
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' old_class.access_code %}">&#10229; Back to Class</a></p>
+</div>
 {% endblock %}

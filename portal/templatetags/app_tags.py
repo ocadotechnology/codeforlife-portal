@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -81,13 +81,6 @@ def make_into_username(u):
     return username
 
 
-@register.filter(name='truncate')
-def truncate(s, max_length=20):
-    if len(s) > max_length:
-        s = s[:max(0, max_length-3)] + '...'
-    return s
-
-
 @register.filter(name='is_logged_in_as_teacher')
 def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
@@ -101,23 +94,9 @@ def has_teacher_finished_onboarding(u):
                                                                                 classes[0].has_students())
 
 
-@register.filter(name='is_logged_in_as_student')
-def is_logged_in_as_student(u):
-    return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'student')
-
-
 @register.filter(name='is_logged_in_as_school_user')
 def is_logged_in_as_school_user(u):
     return is_logged_in(u) and u.userprofile and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
-
-
-@register.filter(name='make_title_caps')
-def make_title_caps(s):
-    if len(s) <= 0:
-        return s
-    else:
-        s = s[0].upper() + s[1:]
-    return s
 
 
 @register.filter(name='get_user_status')

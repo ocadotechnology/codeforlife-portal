@@ -37,7 +37,7 @@
 from selenium.webdriver.support.ui import Select
 import edit_student_password_page
 
-from teach_base_page_new import TeachBasePage
+from teach_base_page import TeachBasePage
 
 
 class EditStudentPage(TeachBasePage):

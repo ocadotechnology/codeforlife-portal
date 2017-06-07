@@ -1,8 +1,8 @@
-{% extends "portal/base.html" %}
+{% extends "portal/base_old.html" %}
 {% load static %}
 
 {% block content %}
-<div id="admin_login"></div>
+<div id="admin_login">
 <div class='span_centered_half'>
     <div class="login-card">
         <h3>Admin login</h3><br/>
@@ -39,11 +39,12 @@
                 {{ form.recaptcha|safe }}
             {% endif %}
 
-            <input type="submit" name="login" class="btn btn-primary wide" value="Log in">
+            <input type="submit" name="login_view" class="btn btn-primary wide" value="Log in">
             <input type="hidden" name="next" value="{{ next }}" />
 
         </form>
     </div>
+</div>
 </div>
 
 {% endblock %}

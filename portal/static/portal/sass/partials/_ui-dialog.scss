@@ -1,0 +1,45 @@
+@import "base";
+
+.ui-dialog-titlebar {
+  @include _padding(10px, 10px, 10px, 10px);
+  background: $color-background-danger !important;
+}
+
+.ui-dialog-title {
+  @include _font-size(30px);
+  color: $color-text-secondary !important;
+  font-weight: 800 !important;
+}
+
+.ui-dialog-titlebar-close {
+  float: right !important;
+}
+
+.ui-dialog {
+  background: $color-background-secondary;
+  border: 1px solid grey;
+  left: 35% !important;
+  position: fixed !important;
+  top: 30% !important;
+  width: 30% !important;
+}
+
+.ui-dialog-buttonpane {
+  @include _padding(10px, 10px, 10px, 10px);
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ui-dialog-buttonset button {
+  @include _margin(0px, 10px, 0px, 10px);
+}
+
+.ui-dialog-content {
+  @include _font-size(20px);
+  @include _padding(10px, 10px, 10px, 10px);
+}
+
+.ui-widget-overlay {
+  background: #666666 50% 50% repeat !important;
+  opacity: .8 !important;
+}

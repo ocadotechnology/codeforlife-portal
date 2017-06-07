@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,21 +36,12 @@
 # identified as the original program.
 from play_base_page import PlayBasePage
 
+
 class PlayAccountPage(PlayBasePage):
     def __init__(self, browser):
         super(PlayAccountPage, self).__init__(browser)
 
         assert self.on_correct_page('play_account_page')
-
-    def change_account_details(self, details):
-        for field, value in details.items():
-            self.browser.find_element_by_id('id_' + field).clear()
-            self.browser.find_element_by_id('id_' + field).send_keys(value)
-
-        self.browser.find_element_by_id('update_button').click()
-
-        from dashboard_page import PlayDashboardPage
-        return PlayDashboardPage(self.browser)
 
     def check_account_details(self, details):
         correct = True

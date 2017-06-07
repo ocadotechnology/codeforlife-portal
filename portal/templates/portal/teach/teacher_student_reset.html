@@ -1,30 +1,30 @@
-{% extends 'portal/teach/base.html' %}
-{% load static %}
+{% extends 'portal/teach/base_logged_in.html' %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
-<h1>Classes</h1><br>
-<h2>Student Password Changed for {{ student.new_user.first_name }} in class {{ class.name }} ({{ class.access_code }})</h2><br>
+<div id="edit_student_password_page"></div>
 
-<p><b>Warning:</b> You will only see this screen once. Please print this page or make a note of the password to prevent having to reset and issue another password. Alternatively print a reminder card which populates these details and can be given to the student.</p>
+<section class="background col-sm-6 col-center">
+    <h2>Student password changed for {{ student.new_user.first_name }} {{ student.new_user.last_name }} in class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h2>
+</section>
 
-<p>The Class Access Code for this student's class is: <b>{{ class.access_code }}</b></p>
-<p>The new password for the above student is: <b>{{ password }}</b></p>
-
-
-<div class='span_1_of_2'>
-	<div class='col span_1_of_2'>
-		<a class='btn btn-default wide' href="{% url 'teacher_edit_student' student.id %}">Return</a>
-	</div>
-	<div class='col span_1_of_2'>
-		<form method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
-		    {% csrf_token %}
-		    <input type='hidden' name='data' value='{{ query_data }}'/>
-		    <input class='btn btn-primary wide'type='submit' value='Print Reminder Card'/>
-		</form>
-	</div>
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h4>The Class Access Code for this student&rsquo;s class is: <strong>{{ student.class_field.access_code }}</strong></h4>
+        <h4 id="password_text">The new password for the above student is: <strong>{{ password }}</strong></h4>
+        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+            {% csrf_token %}
+            <input type='hidden' name='data' value='{{ query_data }}'/>
+            <div class='background button-group'>
+                <button class='button--regular button-primary button--primary--navigation' type='submit'>Print reminder cards</button>
+                <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

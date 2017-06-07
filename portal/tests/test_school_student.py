@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,6 +44,7 @@ from utils.student import create_school_student_directly
 
 from django_selenium_clean import selenium
 
+
 class TestSchoolStudent(BaseTest):
     def test_login(self):
         email, password = signup_teacher_directly()
@@ -51,10 +52,10 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
+        selenium.get(self.live_server_url + "/portal/home")
         page = HomePage(selenium)\
-            .go_to_play_page()\
-            .school_login(student_name, access_code, student_password)
+            .go_to_login_page()\
+            .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
 
     def test_login_failure(self):
@@ -63,39 +64,12 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
+        selenium.get(self.live_server_url + "/portal/home")
         page = HomePage(selenium)\
-            .go_to_play_page()\
-            .school_login_incorrect(student_name, access_code, 'some other password')
+            .go_to_login_page()\
+            .student_login_failure(student_name, access_code, 'some other password')
 
-        assert page.school_login_has_failed()
-
-    def test_change_password(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-        student_name, student_password, _ = create_school_student_directly(access_code)
-
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_play_page()\
-            .school_login(student_name, access_code, student_password)\
-            .go_to_account_page()
-
-        new_password = 'new ' + student_password
-        page = page.change_account_details({
-            'password': new_password,
-            'confirm_password': new_password,
-            'current_password': student_password
-        })
-
-        page = page.logout()\
-            .go_to_play_page()\
-            .school_login_incorrect(student_name, access_code, student_password)
-
-        assert page.school_login_has_failed()
-
-        page = page.school_login(student_name, access_code, new_password)
-        assert self.is_dashboard(page)
+        assert page.has_student_login_failed()
 
     def is_dashboard(self, page):
         return page.__class__.__name__ == 'PlayDashboardPage'

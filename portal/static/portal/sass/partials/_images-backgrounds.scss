@@ -1,0 +1,112 @@
+@import "base";
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.homepage-info img {
+  @include _padding(0px, 0px, 15px, 0px);
+}
+
+.homepage-info div[class*="col-"] {
+  @include _padding(0px, 30px, 0px, 30px);
+}
+
+.background {
+  @include _padding(40px, 0px, 80px, 0px);
+}
+
+.background--primary {
+  background-color: $color-background-tint-primary;
+}
+
+.background--secondary {
+  background-color: $color-background-tint-secondary;
+}
+
+.background--tertiary {
+  background-color: $color-background-tint-tertiary;
+}
+
+.background--quaternary {
+  background-color: $color-background-tint-quaternary;
+}
+
+.image-row {
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+
+  div {
+    @include _padding(0px, 30px, 0px, 30px);
+  }
+
+  img {
+    @include _padding(0px, 20px, 0px, 20px);
+    vertical-align: bottom;
+  }
+}
+
+.portrait {
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+}
+
+.logo {
+  content: url('../img/logo_c4l_hexa.png');
+  position: fixed;
+  top: 10px;
+  z-index: 3;
+}
+
+.glyphicon {
+  @include _font-size(30px);
+  font-weight: 500;
+}
+
+.glyphicon-home {
+  @include _padding(0px, 0px, 14px, 0px);
+}
+
+.youtube img {
+  border: 1px solid $color-background-secondary;
+}
+
+@media (min-width: 760px) and (max-width: 1400px) {
+
+  .logo {
+    margin-left: 1%;
+  }
+
+}
+
+@media (max-width: 1200px) {
+  .logo {
+    height: 60px;
+  }
+}
+
+@media (min-width: 760px) {
+
+  .logo {
+    content: url('../img/logo_c4l_hexa.png');
+    position: fixed;
+    top: 10px;
+    z-index: 3;
+  }
+
+  .logo-horizontal {
+    display: none;
+  }
+
+}
+
+@media (max-width: 760px) {
+
+  .logo {
+    display: none;
+  }
+
+}

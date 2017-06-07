@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -38,8 +38,7 @@ from selenium.webdriver.support.ui import Select
 
 from base_page import BasePage
 import play_page
-import email_verification_needed_page_new
-from portal.tests.pageObjects.registration.teacher_password_reset_form_page import TeacherPasswordResetFormPage
+import email_verification_needed_page
 
 
 class SignupPage(BasePage):
@@ -57,7 +56,7 @@ class SignupPage(BasePage):
         self.browser.find_element_by_id('id_teacher_signup-teacher_confirm_password').send_keys(confirm_password)
 
         self.browser.find_element_by_name('teacher_signup').click()
-        return email_verification_needed_page_new.EmailVerificationNeededPage(self.browser)
+        return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
 
     def independent_student_signup(self, name, username, email_address, password, confirm_password, success=True):
         self.browser.find_element_by_id('id_student_signup-name').send_keys(name)
@@ -68,7 +67,7 @@ class SignupPage(BasePage):
 
         self.browser.find_element_by_name('student_signup').click()
         if success:
-            from email_verification_needed_page_new import EmailVerificationNeededPage
+            from email_verification_needed_page import EmailVerificationNeededPage
             return EmailVerificationNeededPage(self.browser)
         else:
             return self

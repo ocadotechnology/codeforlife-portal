@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,8 +36,26 @@
 # identified as the original program.
 from base_page import BasePage
 
+
 class HelpPage(BasePage):
     def __init__(self, browser):
         super(HelpPage, self).__init__(browser)
 
-        assert self.on_correct_page('help_page')
+        assert self.on_correct_page('help_and_support_page')
+
+    def send_message(self):
+        self.browser.find_element_by_id('id_name').send_keys("Florian Aucomte")
+        self.browser.find_element_by_id('id_telephone').send_keys("0123456789")
+        self.browser.find_element_by_id('id_email').send_keys("florian@email.com")
+        self.browser.find_element_by_id('id_message').send_keys("Hello friends")
+        self.browser.find_element_by_name('submit').click()
+
+        return self
+
+    def send_empty_message(self):
+        self.browser.find_element_by_id('id_name').send_keys("Florian Aucomte")
+        self.browser.find_element_by_id('id_telephone').send_keys("0123456789")
+        self.browser.find_element_by_id('id_email').send_keys("florian@email.com")
+        self.browser.find_element_by_name('submit').click()
+
+        return self

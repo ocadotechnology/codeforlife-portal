@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -50,13 +50,6 @@ class AdminBasePage(BasePage):
         self.browser.get(url)
 
         return ForbiddenPage(self.browser)
-
-    def go_to_admin_data_page(self):
-        url = (self.live_server_url + reverse('aggregated_data'))
-        self.browser.get(url)
-
-        from portal.tests.pageObjects.portal.admin.admin_data_page import AdminDataPage
-        return AdminDataPage(self.browser)
 
     def go_to_admin_map_page_failure(self):
         self._go_to_admin_map_page()

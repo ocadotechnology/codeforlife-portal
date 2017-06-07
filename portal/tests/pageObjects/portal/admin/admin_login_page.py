@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -67,7 +67,7 @@ class AdminLoginPage(AdminBasePage):
     def _login(self, username, password):
         id_username_field = self.browser.find_element_by_id('id_username')
         id_password_field = self.browser.find_element_by_id('id_password')
-        login_field = self.browser.find_element_by_name('login')
+        login_field = self.browser.find_element_by_name('login_view')
         id_username_field.clear()
         id_password_field.clear()
         id_username_field.send_keys(username)

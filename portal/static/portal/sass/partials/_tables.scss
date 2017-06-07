@@ -1,0 +1,196 @@
+@import "base";
+
+table {
+  margin: 20px auto 20px auto;
+  width: 100%;
+
+  button {
+    @include _font-size(16px);
+    @include _padding(2px, 10px, 2px, 10px);
+  }
+
+}
+
+.table--resources {
+  border: 0;
+  border-top: 1px solid $color-table-border;
+
+  tr {
+    border: 0;
+    border-bottom: 1px solid $color-table-border;
+    display: block;
+  }
+
+  td {
+    padding: 0;
+  }
+
+}
+
+th {
+  @include _padding(5px, 10px, 5px, 10px);
+  font-weight: 500;
+
+  .body-text {
+    color: $color-text-secondary;
+  }
+
+}
+
+td {
+  @include _padding(10px, 10px, 10px, 10px);
+
+  p {
+    @include _padding(0px, 20px, 0px, 0px);
+    vertical-align: middle;
+  }
+}
+
+table,
+th,
+td {
+  border: 2px solid $color-text-secondary;
+}
+
+.header-primary {
+  th {
+    background-color: $color-table-header-primary;
+  }
+}
+
+.header-secondary {
+  width: 500px;
+
+  th {
+    background-color: $color-table-header-secondary;
+
+    p {
+      color: $color-text-secondary;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    .small-text {
+      @include _font-size(12px);
+    }
+
+  }
+}
+
+.header-tertiary {
+  th {
+    background-color: $color-background-positive;
+  }
+}
+
+.data-primary {
+  td {
+    background-color: $color-background-tint-primary;
+  }
+}
+
+.data-secondary {
+  td {
+    background-color: $color-background-tint-secondary;
+  }
+}
+
+.data-tertiary {
+  td {
+    background-color: $color-background-tint-tertiary;
+  }
+}
+
+.data-quaternary {
+  td {
+    background-color: $color-background-tint-quaternary;
+  }
+}
+
+.data-quinary {
+  td {
+    background-color: $color-background-tint-quinary;
+  }
+}
+
+.cell-center {
+  text-align: center;
+}
+
+.table-footer {
+
+  background-color: $color-background-tint-quinary;
+
+  button {
+    @include _margin(0px, 19px, 0px, 19px);
+    float: left;
+  }
+
+}
+
+.student-status {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: block;
+  height: 10px;
+  margin: auto;
+  width: 10px;
+}
+
+.student-status--offline {
+  background: $color-button-primary-action-danger;
+}
+
+.student-status--online {
+  background: $color-button-primary-action-positive;
+}
+
+.student-table {
+
+  a[class^='button'] {
+    padding: auto;
+  }
+
+  input {
+    @include _margin(0px, 5px, 0px, 0px);
+  }
+
+}
+
+.student-table__header {
+
+  * {
+    padding: 0;
+  }
+
+  .student-status {
+    @include _margin(0px, 5px, 0px, 0px);
+  }
+
+  .student-table__cell {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+.student-table__cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.table--move {
+
+  td {
+    background-color: $color-background-secondary;
+    border: 2px solid $color-background-tint-quaternary;
+  }
+
+  input {
+    font-style: italic;
+  }
+
+}

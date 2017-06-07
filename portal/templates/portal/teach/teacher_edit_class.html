@@ -1,73 +1,67 @@
-{% extends 'portal/teach/base.html' %}
+{% extends 'portal/teach/base_logged_in.html' %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
 <div id='teach_edit_class_page'></div>
 
-<h1>Classes</h1><br>
+<section class="background col-sm-6 col-center">
+    <h2>Update settings for class {{ class.name }} ({{ class.access_code }})</h2>
+    <h4>You may change the name of the class, or change permissions to allow external requests from independent students to join this class. You may also
+        transfer the class to another teacher, or change permissions to allow pupils to see their classmates&rsquo; progress.</h4>
+</section>
 
-<h2>Update settings for class {{ class.name }} ({{ class.access_code }})</h2><br/>
-<p>You may change the name of the class, change permissions to allow external requests from independent students to join this class. You may also transfer the class to another teacher, or change permissions to allow pupils to see their classmates' progress.</p>
-<div class='span_1_of_2'>
-    <div class='login-card'>
-
-
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
         <form method='post'>
 
             {% csrf_token %}
 
             {{ form.non_field_errors }}
 
-            {{ form.name.errors }}
-            <h4>Class details</h4><br>
+            <h3>Class details</h3>
             <label for="id_{{ form.name.html_name }}">{{ form.name.label }}</label>
             {{ form.name }}
+            {{ form.name.errors }}
 
             <div class='section group'>
                 <div class='col span_2_of_3'>
                     <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
                 </div>
                 <div class='col span_1_of_3'>
-                    {{ form.classmate_progress.errors }}
                     {{ form.classmate_progress }}
+                    {{ form.classmate_progress.errors }}
                 </div>
             </div>
 
-            <h4>External requests setting</h4><br>
-            <p>You can set up permissions for this class allowing students to send requests asking to join your class from outside of your school or club.</p>
+            <div class="background">
+                <h3>External requests setting</h3>
+                <p class="body-text">You can set up permissions for this class allowing students to send requests asking to join your class from outside of your school or club.</p>
 
-            <p>{{ external_requests_message }}</p>
-            {{ form.external_requests.errors }}
-            <label for="id_{{ form.external_requests.html_name }}">{{ form.external_requests.label }}</label>
-            {{ form.external_requests }}
+                <p class="background body-text"><strong>{{ external_requests_message }}</strong></p>
+                <label for="id_{{ form.external_requests.html_name }}">{{ form.external_requests.label }}</label>
+                {{ form.external_requests }}
+                {{ form.external_requests.errors }}
+            </div>
 
-
-            <div class='section group'>
-                <div class='col span_1_of_2'>
-                    <a id='cancel_button' class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
-                </div>
-                
-                <div class='col span_1_of_2'>
-                    <input id='update_button' type='submit' class='btn btn-primary wide' value='Update'/>
-                </div>
+            <div class='button-group'>
+                <button id='update_button' type='submit' class='button--regular button--primary--navigation' value='Update'>Update</button>
+                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' class.access_code %}">Cancel</a>
             </div>
         </form>
 
-
-    </div>
-    <br>
-    <div class='login-card'>
-        <h4>Transfer class to another teacher</h4><br>
-        <div class='section group'>
-            <div class='col span_2_of_3'>
-                <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
-            </div>
-            <div class='col span_1_of_3'>
-                <a id='transfer_button' class='btn btn-default wide' href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
-            </div>
+        <div class="background alternative-section">
+            <h3>Transfer class to another teacher</h3>
+            <p class="body-text">To transfer this class to another teacher in your school or club, click 'Transfer'</p>
         </div>
+        <a id='transfer_button' class='button button--regular button--primary--navigation' href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
     </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

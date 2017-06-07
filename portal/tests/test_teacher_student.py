@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,126 +39,183 @@ from base_test import BaseTest
 from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly, join_teacher_to_organisation
-from utils.classes import create_class_directly, move_students, dismiss_students
+from utils.classes import create_class_directly
 from utils.student import create_school_student, create_many_school_students, create_school_student_directly
 
 from django_selenium_clean import selenium
 
+
 class TestTeacherStudent(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.does_not_have_students()
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
 
-        page, student_name, student_password = create_school_student(page)
-        assert page.has_students()
+        page, student_name = create_school_student(page)
         assert page.student_exists(student_name)
+
+        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+
+    def test_create_empty(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password).create_students_empty()
+
+        assert page.was_form_empty('form-create-students')
 
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.does_not_have_students()
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
 
-        page, student_names, student_passwords = create_many_school_students(page, 12)
+        page, student_names = create_many_school_students(page, 12)
 
-        assert page.has_students()
         for student_name in student_names:
             assert page.student_exists(student_name)
 
-    def test_create_already_exists(self):
-        email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-        student_name, student_password, _ = create_school_student_directly(access_code)
-
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.has_students()
-        assert page.student_exists(student_name)
-
-        page = page.type_student_name(student_name).create_students_failure()
-        assert self.is_class_page(page)
-        assert page.adding_students_failed()
-        assert page.student_already_existed(student_name)
-        assert page.has_students()
-        assert page.student_exists(student_name)
-
     def test_create_duplicate(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
         student_name = 'bob'
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.does_not_have_students()
-        assert page.student_does_not_exist(student_name)
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
 
         page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
-        assert self.is_class_page(page)
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
-        assert page.does_not_have_students()
-        assert page.student_does_not_exist(student_name)
+
+    def test_add_to_existing_class(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page()
+
+        page, new_student_name = create_school_student(page)
+        assert page.student_exists(new_student_name)
+
+        page = page.go_back_to_class()
+
+        assert page.student_exists(new_student_name)
+
+    def test_update_student_name(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_name = "new name"
+
+        page = page.type_student_name(new_student_name)
+        page = page.click_update_button()
+
+        assert page.is_student_name(new_student_name)
+
+    def test_update_student_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_password = "new_password"
+
+        page = page.click_set_password_form_button().type_student_password(new_student_password)
+        page = page.click_set_password_button()
+
+        assert page.is_student_password(new_student_password)
+
+    def test_generate_random_student_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        page = page.click_generate_password_button()
+
+        assert page.__class__.__name__ == 'EditStudentPasswordPage'
 
     def test_delete(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.has_students()
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
         assert page.student_exists(student_name)
 
-        page = page.toggle_select_student(student_name).delete_students()
+        page = page.toggle_select_student().delete_students()
         assert page.is_dialog_showing()
-        page = page.cancel_dialog()
-        assert not page.is_dialog_showing()
-        assert page.has_students()
+        page = page.confirm_delete_student_dialog()
+
+        assert not page.student_exists(student_name)
+
+    def test_reset_passwords(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
         assert page.student_exists(student_name)
 
-        page = page.delete_students()
+        page = page.toggle_select_student().reset_passwords()
         assert page.is_dialog_showing()
-        page = page.confirm_dialog_expect_error()
-        assert page.does_not_have_students()
-        assert page.student_does_not_exist(student_name)
+        page = page.confirm_reset_student_dialog()
+
+        assert page.student_exists(student_name)
+        assert page.__class__.__name__ == 'OnboardingStudentListPage'
 
     def test_move_cancel(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.has_students()
-        assert page.student_exists(student_name)
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
 
         page = page.move_students_none_selected()
-        assert self.is_class_page(page)
+        assert page.__class__.__name__ == 'TeachClassPage'
 
-        page = page.toggle_select_student(student_name).move_students()
+        page = page.toggle_select_student().move_students()
         assert page.__class__.__name__ == 'TeachMoveStudentsPage'
-        assert page.get_list_length() == 0
 
         page = page.cancel()
+        assert page.__class__.__name__ == 'TeachClassPage'
 
     def test_move_cancel_disambiguate(self):
         email_1, password_1 = signup_teacher_directly()
@@ -169,13 +226,13 @@ class TestTeacherStudent(BaseTest):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         student_name, student_password, _ = create_school_student_directly(access_code_1)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email_1, password_1)
-        page = page.go_to_classes_page().go_to_class_page(class_name_1)
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email_1, password_1)
+        page = page.go_to_class_page()
         assert page.has_students()
         assert page.student_exists(student_name)
 
-        page = page.toggle_select_student(student_name)
+        page = page.toggle_select_student()
         page = page.move_students().select_class_by_index(0).move().cancel()
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -190,55 +247,37 @@ class TestTeacherStudent(BaseTest):
         student_name_1, student_password_1, _ = create_school_student_directly(access_code_1)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code_1)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email_1, password_1)
-        page = page.go_to_classes_page().go_to_class_page(class_name_1)
-        assert page.has_students()
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email_1, password_1)
+        page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
         assert page.student_exists(student_name_2)
 
-        page = page.toggle_select_student(student_name_1)
-        page = move_students(page, 0)
-        assert page.has_students()
-        assert page.student_does_not_exist(student_name_1)
-        assert page.student_exists(student_name_2)
+        page = page.toggle_select_student()
+        page = page.move_students().select_class_by_index(0).move().move()
+        assert not page.student_exists(student_name_1)
 
-        page = page.logout().go_to_teach_page().login(email_2, password_2)
-        page = page.go_to_classes_page().go_to_class_page(class_name_2)
-        assert page.has_students()
+        page = page.go_to_dashboard()
+        page = page.go_to_top().logout().go_to_login_page().login(email_2, password_2)
+        page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
-        assert page.student_does_not_exist(student_name_2)
 
     def test_dismiss(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
         student_name_1, student_password_1, _ = create_school_student_directly(access_code)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_teach_page().login(email, password)
-        page = page.go_to_classes_page().go_to_class_page(class_name)
-        assert page.has_students()
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium).go_to_login_page().login(email, password)
+        page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
-        assert page.student_exists(student_name_2)
 
-        page = page.dismiss_students_none_selected()
-        assert self.is_class_page(page)
-
-        page = page.toggle_select_student(student_name_1).dismiss_students()
+        page = page.toggle_select_student().dismiss_students()
         assert page.__class__.__name__ == 'TeachDismissStudentsPage'
         page = page.cancel()
-        assert page.has_students()
-        assert page.student_exists(student_name_1)
-        assert page.student_exists(student_name_2)
+        assert page.__class__.__name__ == 'TeachClassPage'
 
-        page = page.toggle_select_student(student_name_1)
-        page, emails = dismiss_students(page)
-        assert page.has_students()
-        assert page.student_does_not_exist(student_name_1)
-        assert page.student_exists(student_name_2)
-
-    def is_class_page(self, page):
-        return page.__class__.__name__ == 'TeachClassPage'
-
+        page = page.toggle_select_student().dismiss_students().enter_email("student_email@gmail.com").dismiss()
+        assert not page.student_exists(student_name_1)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,14 +35,17 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from selenium.webdriver.support.ui import Select
+import class_page
+import move_students_disambiguate_page
 
 from teach_base_page import TeachBasePage
+
 
 class TeachMoveStudentsPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachMoveStudentsPage, self).__init__(browser)
 
-        assert self.on_correct_page('teach_move_students_page')
+        assert self.on_correct_page('move_students_page')
 
     def get_list_length(self):
         return len(self.browser.find_element_by_id('id_new_class').find_elements_by_tag_name('option'))
@@ -58,6 +61,3 @@ class TeachMoveStudentsPage(TeachBasePage):
     def move(self):
         self.browser.find_element_by_id('move_button').click()
         return move_students_disambiguate_page.TeachMoveStudentsDisambiguatePage(self.browser)
-
-import class_page
-import move_students_disambiguate_page

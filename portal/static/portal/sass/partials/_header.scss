@@ -1,0 +1,152 @@
+@import "base";
+
+.dropdown-menu {
+  border: none;
+  border-radius: 0.8rem;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  width: 100%;
+
+  li {
+
+    a,
+    a:hover,
+    a:focus {
+      @include _border-radius(0px, 0px, 8px, 8px);
+      @include _line-height(25px);
+      @include _padding(10px, 15px, 10px, 15px);
+      background: $color-background-tertiary;
+      color: $color-button-primary-action-general-educate;
+      text-decoration: underline;
+    }
+
+  }
+
+}
+
+@media (min-width: 1400px) {
+
+  .menu__right-side {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+@media (min-width: 760px) and (max-width: 1400px) {
+
+  .menu__right-side {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+}
+
+@media (min-width: 760px) {
+
+  .hamburger {
+    display: none;
+  }
+
+  .menu {
+    @include _padding(10px, 0px, 0px, 0px);
+    background-color: $color-background-secondary;
+    border-bottom: 1px solid $color-background-tertiary;
+    display: flex;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    .button--menu {
+      border-radius: 0;
+    }
+
+    .button--menu--primary {
+      @include _padding(10px, 0px, 16px, 0px);
+    }
+
+    .button--menu--secondary {
+      @include _padding(10px, 0px, 18px, 0px);
+    }
+
+    .button--menu--enabled {
+      color: $color-text-tertiary;
+    }
+
+    .button--menu--disabled {
+      color: $color-button-disabled;
+    }
+
+    .button--secondary--no-border {
+      @include _font-size(30px);
+      font-weight: 500;
+    }
+
+    .button--primary--general-play {
+      @include _margin(0px, 30px, 0px, 0px);
+    }
+
+  }
+
+  .menu__left-side {
+    align-items: flex-end;
+    display: flex;
+  }
+
+  .button--menu__item,
+  .button--menu__item__sub {
+    display: none;
+  }
+
+}
+
+@media (max-width: 760px) {
+
+  .menu {
+    @include _padding(0px, 0px, 15px, 0px);
+    background-color: $color-background-tertiary;
+
+    .hamburger {
+      @include _margin(15px, 0px, 0px, 15px);
+      background-color: transparent;
+      background-image: url('../img/hamburger.png');
+      border-radius: 0;
+      height: 30px;
+      width: 48px;
+    }
+
+    .logo-horizontal {
+      margin: 0;
+      @include _padding(0px, 0px, 10px, 15px);
+      content: url('../../img/logo_c4l_horizontal.png');
+      position: relative;
+      width: 80%;
+      z-index: 1;
+    }
+
+    button {
+      @include _margin(15px, 5px, 0px, 5px);
+    }
+
+    .button--menu,
+    .home-icon {
+      display: none;
+    }
+
+  }
+
+  .menu__right-side {
+    display: none;
+  }
+
+  .menu__left-side {
+    @include _padding(0px, 0px, 10px, 0px);
+    align-items: flex-end;
+    display: inline;
+  }
+}

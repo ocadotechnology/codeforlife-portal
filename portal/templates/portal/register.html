@@ -1,0 +1,116 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="signup_page"></div>
+
+<div class="row popup is-flex">
+    <div class="form--register form--register--teacher col-sm-6">
+        <div class="form col-sm-8 col-sm-offset-2">
+            <h1>Register as a teacher</h1>
+            <p class="body-text">Once you&rsquo;ve registered your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.<br/></p>
+            <form method='post' id="form-reg-teacher">
+
+                {% csrf_token %}
+
+                {{ teacher_signup_form.non_field_errors }}
+
+                <label for="id_teacher_signup-teacher_title">{{ teacher_signup_form.teacher_title.label }}</label>
+                {{ teacher_signup_form.teacher_title }}
+                {{ teacher_signup_form.teacher_title.errors }}
+
+                <label for="id_teacher_signup-teacher_first_name">{{ teacher_signup_form.teacher_first_name.label }}</label>
+                {{ teacher_signup_form.teacher_first_name }}
+                {{ teacher_signup_form.teacher_first_name.errors }}
+
+                <label for="id_teacher_signup-teacher_last_name">{{ teacher_signup_form.teacher_last_name.label }}</label>
+                {{ teacher_signup_form.teacher_last_name }}
+                {{ teacher_signup_form.teacher_last_name.errors }}
+
+                <label for="id_teacher_signup-teacher_email">{{ teacher_signup_form.teacher_email.label }}</label>
+                {{ teacher_signup_form.teacher_email }}
+                {{ teacher_signup_form.teacher_email.errors }}
+
+                <label for="id_teacher_signup-teacher_password">{{ teacher_signup_form.teacher_password.label }}</label>
+                {{ teacher_signup_form.teacher_password }}
+                {{ teacher_signup_form.teacher_password.errors }}
+
+                <label for="id_teacher_signup-teacher_confirm_password">{{ teacher_signup_form.teacher_confirm_password.label }}</label>
+                {{ teacher_signup_form.teacher_confirm_password }}
+                {{ teacher_signup_form.teacher_confirm_password.errors }}
+
+                <div class="row--under">
+                    <div class="password-strength-container">
+                        <div id="teacher-password-sign" class='password-strength-sign'></div>
+                        <div id="teacher-password-text" class='password-strength-text'></div>
+                    </div>
+                </div>
+
+                <button class="button--big button--primary--general-educate" type="submit" name="teacher_signup">Register</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="form--register form--register--indep-student col-sm-6">
+        <div class="form col-sm-8 col-sm-offset-2">
+            <h1>Register as an independent student</h1>
+            <p class="body-text">Are you part of a school or club? If so, please <a href="{% url 'login_view' %}">log-in</a> or speak to your teacher. If you want to register as an <strong>independent student</strong>, please register below:</p>
+            <form id="form-signup-independent-student" method='post'>
+
+                {% csrf_token %}
+
+                {{ student_signup_form.non_field_errors }}
+
+                <label for="id_{{ student_signup_form.name.html_name }}">{{ student_signup_form.name.label }}</label>
+                {{ student_signup_form.name }}
+                {{ student_signup_form.name.errors }}
+
+                <label for="id_{{ student_signup_form.username.html_name }}">{{ student_signup_form.username.label }}</label>
+                {{ student_signup_form.username }}
+                {{ student_signup_form.username.errors }}
+
+                <label for="id_{{ student_signup_form.email.html_name }}">{{ student_signup_form.email.label }}</label>
+                {{ student_signup_form.email }}
+                {{ student_signup_form.email.errors }}
+
+                <label for="id_{{ student_signup_form.password.html_name }}">{{ student_signup_form.password.label }}</label>
+                {{ student_signup_form.password }}
+                {{ student_signup_form.password.errors }}
+
+                <label for="id_{{ student_signup_form.confirm_password.html_name }}">{{ student_signup_form.confirm_password.label }}</label>
+                {{ student_signup_form.confirm_password }}
+                {{ student_signup_form.confirm_password.errors }}
+
+                <div class="row--under">
+                    <div class="password-strength-container">
+                        <div id="student-password-sign" class='password-strength-sign'></div>
+                        <div id="student-password-text" class='password-strength-text'></div>
+                    </div>
+                </div>
+
+                <button type='submit' name='student_signup' class="button--big button--primary--general-play" value='Register'>Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+<script>
+    var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ student_signup_form.password.auto_id }}';
+</script>
+
+{% endblock content %}

@@ -1,0 +1,314 @@
+@import "base";
+
+a {
+  cursor: pointer;
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:focus {
+  color: $color-text-tertiary;
+}
+
+button {
+  border: 0;
+}
+
+button,
+.button {
+  @include _padding(10px, 15px, 10px, 15px);
+  border-radius: .8rem;
+}
+
+.button,
+.button:hover,
+.button:active,
+.button:visited,
+.button:focus {
+  color: $color-text-secondary;
+  text-decoration: none;
+}
+
+.button--jumbo {
+  @include _font-size(38px);
+  @include _line-height(38px);
+  @include _margin(50px, 0px, 0px, 0px);
+}
+
+.button--big {
+  @include _font-size(28px);
+  @include _line-height(28px);
+  @include _padding(15px, 20px, 15px, 20px);
+}
+
+.button--regular,
+.ui-dialog-buttonset button {
+  @include _font-size(20px);
+  @include _line-height(25px);
+  @include _padding(10px, 15px, 10px, 15px);
+}
+
+.button--small {
+  @include _font-size(16px);
+  @include _line-height(25px);
+  @include _padding(2px, 10px, 2px, 10px);
+}
+
+.button--menu {
+  @include _padding(10px, 0px, 21px, 0px);
+  background-color: transparent;
+  border-bottom: 6px solid $color-background-secondary;
+  border-radius: 0;
+}
+
+.button--menu--enabled:hover {
+    font-weight: 600;
+}
+
+.button--menu--disabled {
+  color: $color-button-disabled;
+
+  &:hover {
+    cursor: default;
+  }
+}
+
+.button--menu--primary {
+  @include _font-size(30px);
+  @include _line-height(25px);
+  @include _margin(0px, 40px, 0px, 40px);
+
+  &:hover {
+    color: $color-text-tertiary;
+    text-decoration: underline;
+  }
+}
+
+.button--menu--secondary {
+  @include _font-size(22px);
+  @include _line-height(20px);
+  @include _margin(0px, 20px, 0px, 20px);
+}
+
+.button--menu--teacher--active {
+  border-bottom: 6px solid $color-button-border-teacher;
+
+  &:hover {
+    font-weight: 600;
+  }
+}
+
+.button--menu--student--active {
+  border-bottom: 6px solid $color-button-border-student;
+
+  &:hover {
+    font-weight: 600;
+  }
+}
+
+.logout[aria-expanded="true"] {
+
+  @include _border-radius(8px, 8px, 0px, 0px);
+  background: $color-background-tertiary;
+  color: $color-text-secondary;
+
+  .glyphicon {
+    @include _font-size(20px);
+  }
+
+}
+
+.logout[aria-expanded="false"] {
+
+  @include _border-radius(8px, 8px, 0px, 0px);
+  background: $color-background-secondary;
+  border: 1px solid $color-text-tertiary;
+  border-radius: .8rem;
+  color: $color-text-tertiary;
+
+  .glyphicon {
+    @include _font-size(20px);
+  }
+
+}
+
+.button--primary--general-play {
+  background: $color-button-primary-action-general-play;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-general-play-hover;
+  }
+}
+
+.button--primary--general-educate {
+  background: $color-button-primary-action-general-educate;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-general-educate-hover;
+  }
+}
+
+.button--primary--positive {
+  background: $color-button-primary-action-positive;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-positive-hover;
+  }
+}
+
+.button--primary--negative {
+  background: $color-button-primary-action-negative;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-negative-hover;
+  }
+}
+
+.button--primary--danger,
+.ui-dialog-buttonset button {
+  background: $color-button-primary-action-danger;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-danger-hover;
+  }
+}
+
+.button--primary--navigation {
+  background: $color-button-primary-action-navigation;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-navigation-hover;
+  }
+}
+
+.button--primary--setup {
+  background: $color-button-primary-action-setup;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-setup-hover;
+  }
+}
+
+.button--secondary {
+  background-color: transparent;
+  border: 1px solid;
+
+  &:hover {
+    border: 2px solid;
+  }
+}
+
+.button--secondary--light {
+  border-color: $color-button-secondary-border-light;
+  color: $color-text-secondary;
+}
+
+.button--secondary--dark  {
+  border-color: $color-button-secondary-border-dark;
+  color: $color-text-tertiary;
+
+  .glyphicon {
+    @include _font-size(20px);
+  }
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    color: $color-text-tertiary;
+  }
+}
+
+.button--secondary--no-border {
+  border-color: transparent;
+  color: $color-text-tertiary;
+}
+
+.button--secondary--background-light {
+  background-color: $color-background-secondary;
+  border-color: transparent;
+  color: $color-text-primary;
+}
+
+.home-icon:hover {
+  color: $color-background-primary;
+}
+
+.button-group {
+
+  .button,
+  button {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
+}
+
+.resource-buttons {
+  @include _padding(40px, 0px, 0px, 0px);
+
+  a {
+    @include _margin(0px, 20px, 0px, 0px);
+  }
+
+}
+
+@media (min-width: 760px) {
+  .menu__item {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+
+  .button--secondary--dark {
+    @include _margin(0px, 0px, 0px, 30px);
+    background-color: $color-background-secondary;
+  }
+
+  .button--menu__item {
+    @include _font-size(30px);
+    background-color: $color-background-tertiary;
+    border-radius: 0;
+    border-top: 1px solid $color-text-secondary;
+    color: $color-text-secondary;
+    font-weight: 600;
+    height: 60px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .menu__item {
+    @include _font-size(30px);
+    align-items: center;
+    background-color: #f0f0f0;
+    display: flex;
+    height: 60px;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .button--banner__item {
+    @include _font-size(30px);
+    @include _margin(30px, 0px, 0px, 0px);
+    font-weight: 500;
+    width: 50%;
+  }
+
+  .button--menu__item__sub {
+    @include _font-size(30px);
+    @include _padding(0px, 0px, 0px, 50px);
+    background-color: $color-background-teach;
+    font-weight: 500;
+    text-align: left;
+  }
+}

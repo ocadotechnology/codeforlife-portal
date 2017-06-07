@@ -1,0 +1,62 @@
+{% extends 'portal/teach/base_logged_in.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block materials %}
+<a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+{% endblock materials %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="banner banner--teacher row">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">Teaching Resources</h1>
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--terms"></div></div></div>
+    </div>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="resources_page"></div>
+
+<div class="background">
+    <div class="row row--regular homepage-info">
+        <div class="col-sm-9 col-center is-flex">
+            <div class="col-sm-4">
+                <img title="Teaching packs" alt="Packs image" src='{% static "portal/img/teaching_packs.jpg" %}'>
+                <h3>Teaching packs</h3>
+                <p class="body-text">We&rsquo;ve created a comprehensive set of teaching materials that are aligned to the curriculum.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Level Solutions" alt="Level Solutions" src='{% static "portal/img/teaching_tools.jpg" %}'>
+                <h3>Level Solutions</h3>
+                <p class="body-text">Need the answers? View the solutions for each level in Rapid Router.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Certificates" alt="Certificates" src='{% static "portal/img/certificates.jpg" %}'>
+                <h3>Student Certificates</h3>
+                <p class="body-text">Printable PDF certificates to reward student progress.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row row--under homepage-info">
+        <div class="col-sm-9 col-center is-flex">
+            <div class="col-sm-4">
+                <a id="materials_button" href="{% url 'materials' %}" class="button button--regular button--secondary button--secondary--dark">View teaching packs</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'teacher_level_solutions' %}" class="button button--regular button--secondary button--secondary--dark">View level solutions</a>
+            </div>
+            <div class="col-sm-4">
+                <p class="body-text"><a href="{{ 'general_resources/CFL_Pupil_Certificates_Colour.pdf'|cloud_storage }}">Colour</a></p>
+                <p class="body-text"><a href="{{ 'general_resources/CFL_Pupil_Certificates_Black_and_White.pdf'|cloud_storage }}">Black and white</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

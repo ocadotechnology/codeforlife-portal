@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -59,9 +59,17 @@ SETTINGS = {
     'PIPELINE_CSS': {
         'css': {
             'source_filenames': (
-                'portal/sass/*.scss',
+                'portal/sass/bootstrap.scss',
+                'portal/sass/colorbox.scss',
+                'portal/sass/styles.scss',
             ),
             'output_filename': 'portal.css',
+        },
+        'base': {
+            'source_filenames': (
+                'portal/sass/old_styles.scss',
+            ),
+            'output_filename': 'base.css',
         },
     },
     'PIPELINE_CSS_COMPRESSOR': None,

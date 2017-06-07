@@ -1,7 +1,12 @@
 {% extends 'portal/play/base.html' %}
 {% load static %}
 
-{% block nav_student_account %}<b><a href="{% url 'student_edit_account' %}">{% if user.new_student.class_field %}Password{% else %}Account{% endif %}</a></b>{% endblock nav_student_account %}
+{% block studentButtons %}
+<a href="{% url 'student_details' %}" id="student_dashboard_button"
+   class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
+<a href="{% url 'student_edit_account' %}" id="student_account_button"
+   class="button--menu button--menu--secondary button--menu--enabled  button--menu--student--active">Password</a>
+{% endblock studentButtons %}
 
 {% block content %}
 

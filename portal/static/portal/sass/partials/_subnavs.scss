@@ -1,0 +1,108 @@
+@import "base";
+
+.sub-nav--warning {
+  p,
+  a,
+  a:hover,
+  a:visited {
+    color: $color-text-primary;
+  }
+}
+
+.sub-nav {
+  align-items: center;
+  display: flex;
+  height: 80px;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+
+  .x-icon {
+
+  }
+
+  .button--regular {
+    @include _margin(0px, 16px, 0px, 16px);
+  }
+
+  form {
+    padding: 0;
+
+    button {
+      margin: 0;
+    }
+
+  }
+
+  p {
+    @include _padding(0px, 20px, 0px, 20px);
+    text-align: left;
+  }
+
+  a:focus {
+    background-color: $color-background-secondary;
+    color: $color-teacher-blue;
+  }
+
+}
+
+.sub-nav--hidden {
+  display: none;
+}
+
+.sub-nav--fixed {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sub-nav--warning--fixed {
+  margin: 0;
+  position: fixed;
+  top: 80px;
+  width: 100%;
+}
+
+.sub-nav--message--fixed {
+  margin: 0;
+  position: fixed;
+  top: 80px;
+  width: 100%;
+  z-index: 2;
+}
+
+.sub-nav--teacher {
+  background-color: $color-background-teach;
+}
+
+.sub-nav--student {
+  background-color: $color-background-play;
+
+  .button--secondary--background-light {
+    color: $color-background-play;
+  }
+}
+
+.sub-nav--warning {
+  background-color: $color-background-warning;
+}
+
+.success {
+  background-color: $color-background-tint-quaternary;
+  border-bottom: 1px solid grey;
+}
+
+.safe, .info {
+  background-color: $color-background-tint-primary;
+  border-bottom: 1px solid grey;
+}
+
+@media (max-width: 760px) {
+
+  .sub-nav--teacher,
+  .sub-nav--student {
+    display: none;
+  }
+}

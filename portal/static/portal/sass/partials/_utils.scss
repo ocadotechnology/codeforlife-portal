@@ -1,0 +1,207 @@
+@import "base";
+
+.alternative-section {
+  border-top: 1px solid $color-text-tertiary;
+}
+
+.row {
+  margin: 0;
+}
+
+.row--small {
+  @include _padding(25px, 0px, 0px, 0px);
+}
+
+.row--regular {
+  @include _padding(50px, 0px, 50px, 0px);
+}
+
+.row--under {
+  @include _padding(0px, 0px, 20px, 0px);
+}
+
+.top-element {
+  @include _margin(80px, 0px, 0px, 0px);
+}
+
+.row.is-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  [class*='col-'] {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    flex-direction: column;
+  }
+}
+
+.popup {
+  padding: 0;
+}
+
+.password-strength-container {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.password-strength-sign {
+  border: 1px solid white;
+  border-radius: 50%;
+  display: block;
+  height: 15px;
+  margin: auto;
+  width: 15px;
+}
+
+.password-strength-text {
+  @include _padding(0px, 0px, 0px, 10px);
+  color: $color-text-secondary;
+  font-style: italic;
+}
+
+section {
+  text-align: center;
+
+  button {
+    @include _margin(0px, 10px, 0px, 10px);
+  }
+
+  h4 {
+    @include _padding(10px, 0px, 30px, 0px);
+  }
+
+  .youtube img {
+    @include _margin(30px, 0px, 30px, 0px);
+  }
+}
+
+.col-center {
+  float: none;
+  margin: auto;
+}
+
+
+#faqs {
+  answer,
+  input {
+    display: none;
+    margin-left: 8px;
+  }
+
+  input:checked + label:before {
+    content: '-';
+  }
+
+  input:checked ~ answer {
+    display: block;
+  }
+  input + label:before {
+    content: '+';
+  }
+}
+
+
+
+.tab {
+  list-style-type: none;
+  margin: auto;
+  overflow: hidden;
+  padding: 0;
+  width: auto;
+
+  li {
+    float: left;
+    width: 50%;
+
+    a {
+      @include _font-size(20px);
+      @include _padding(10px, 16px, 10px, 16px);
+      background-color: $color-tab-unselected-background;
+      border: 1px solid $color-tab-unselected-text;
+      color: $color-tab-unselected-text;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      transition: .3s;
+      width: 100%;
+    }
+
+    img {
+      display: block;
+      margin: auto;
+      position: relative;
+    }
+
+    .active {
+      background-color: $color-tab-selected-background;
+      color: $color-tab-selected-text;
+    }
+
+  }
+
+}
+
+.tabcontent {
+  @include _padding(6px, 0px, 6px, 0px);
+  display: none;
+  width: 100%;
+
+  .body-text {
+    @include _padding(0px, 0px, 20px, 0px);
+  }
+
+}
+
+iframe {
+  border: none;
+}
+
+.viewer-frame {
+  margin-right: 30px;
+  height: 800px;
+}
+
+@media (max-width: 1200px) {
+  .col-center {
+    width: 90%;
+  }
+}
+
+@media (min-width: 760px) {
+
+  .row--flex {
+    display: flex;
+  }
+
+  .col-sm-3 {
+    width: 25%;
+  }
+
+}
+
+@media (max-width: 760px) {
+
+  .col-sm-3 {
+    float: none;
+    margin: auto;
+    width: 50%;
+  }
+
+  .row--regular {
+    padding: 0;
+  }
+
+}

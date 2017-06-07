@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,7 +44,7 @@ from portal.helpers.emails import generate_token
 
 
 def generate_details(**kwargs):
-    title = kwargs.get('title','Mr')
+    title = kwargs.get('title', 'Mr')
     first_name = kwargs.get('first_name', 'Test')
     last_name = kwargs.get('last_name', 'Teacher')
     email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % random.randint(1, sys.maxint))
@@ -62,14 +62,14 @@ def signup_teacher_directly(**kwargs):
 
 
 def signup_teacher(page):
-    page = page.go_to_teach_page()
+    page = page.go_to_signup_page()
 
     title, first_name, last_name, email_address, password = generate_details()
     page = page.signup(title, first_name, last_name, email_address, password, password)
 
     page = page.return_to_home_page()
 
-    page = email.follow_verify_email_link_to_teach(page, mail.outbox[0])
+    page = email.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
     mail.outbox = []
 
     return page, email_address, password

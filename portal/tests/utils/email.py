@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -38,16 +38,16 @@ import string
 import re
 
 
-def follow_verify_email_link_to_teach(page, email):
+def follow_verify_email_link_to_onboarding(page, email):
     _follow_verify_email_link(page, email)
 
-    return go_to_teach_page(page.browser)
+    return go_to_login_page(page.browser)
 
 
-def follow_verify_email_link_to_play(page, email):
+def follow_verify_email_link_to_login(page, email):
     _follow_verify_email_link(page, email)
 
-    return go_to_play_page(page.browser)
+    return go_to_login_page(page.browser)
 
 
 def _follow_verify_email_link(page, email):
@@ -66,14 +66,14 @@ def follow_reset_email_link(browser, email):
 
     browser.get(link)
 
-    from portal.tests.pageObjects.registration.password_reset_form_page import PasswordResetPage
+    from portal.tests.pageObjects.portal.password_reset_form_page import PasswordResetPage
     return PasswordResetPage(browser)
 
 
-def follow_change_email_link_to_teach(page, email):
+def follow_change_email_link_to_dashboard(page, email):
     _follow_change_email_link(page, email)
 
-    return go_to_teach_page(page.browser)
+    return go_to_login_page(page.browser)
 
 
 def _follow_change_email_link(page, email):
@@ -85,13 +85,7 @@ def _follow_change_email_link(page, email):
     page.browser.get(message[i:j])
 
 
-def go_to_play_page(browser):
-    from portal.tests.pageObjects.portal.play_page import PlayPage
+def go_to_login_page(browser):
+    from portal.tests.pageObjects.portal.login_page import LoginPage
 
-    return PlayPage(browser)
-
-
-def go_to_teach_page(browser):
-    from portal.tests.pageObjects.portal.teach_page import TeachPage
-
-    return TeachPage(browser)
+    return LoginPage(browser)

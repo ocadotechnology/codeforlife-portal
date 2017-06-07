@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,8 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import os
-import time
 import socket
+import time
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -44,15 +44,11 @@ from django_selenium_clean import selenium, SeleniumTestCase
 from unittest import skipUnless
 
 
-#### Uncomment to use FireFox
+# Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
-from . import custom_handler
 from portal.tests.pageObjects.portal.game_page import GamePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from deploy import captcha
-
-
-custom_handler.add_timeout()
 
 
 @skipUnless(selenium, "Selenium is unconfigured")
@@ -73,24 +69,6 @@ class BaseTest(SeleniumTestCase):
         path = reverse('home')
         self._go_to_path(path)
         return HomePage(selenium)
-
-    def go_to_level(self, level_name):
-        path = reverse('play_default_level', kwargs={'levelName': str(level_name)})
-        self._go_to_path(path)
-
-        return GamePage(selenium)
-
-    def go_to_custom_level(self, level):
-        path = reverse('play_custom_level', kwargs={'levelId': str(level.id)})
-        self._go_to_path(path)
-
-        return GamePage(selenium)
-
-    def go_to_episode(self, episodeId):
-        path = reverse('start_episode', kwargs={'episodeId': str(episodeId)})
-        self._go_to_path(path)
-
-        return GamePage(selenium)
 
     def _go_to_path(self, path):
         socket.setdefaulttimeout(20)

@@ -1,0 +1,243 @@
+@import "base";
+
+.banner {
+
+  p {
+
+    a,
+    a:visited,
+    a:active {
+      border-bottom: 1px dotted $color-text-secondary;
+      color: $color-text-secondary;
+      text-decoration: none;
+    }
+
+    a:hover {
+      border-bottom: 1px solid $color-text-secondary;
+      color: $color-text-secondary;
+      text-decoration: none;
+    }
+
+  }
+
+  * {
+    color: $color-text-secondary;
+  }
+
+  .row {
+    @include _padding(0px, 0px, 30px, 0px);
+  }
+
+  .small-text {
+    @include _padding(20px, 0px, 8px, 0px);
+  }
+
+}
+
+.banner--picture {
+  height: 270px;
+  margin: -7px auto 0;
+  overflow: hidden;
+  transform: rotate(120deg);
+  visibility: hidden;
+  width: 310px;
+}
+
+.banner--picture__inside1 {
+  height: 100%;
+  overflow: hidden;
+  transform: rotate(-60deg);
+  width: 100%;
+}
+
+.banner--picture__inside2 {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  height: 100%;
+  transform: rotate(-60deg);
+  visibility: visible;
+  width: 100%;
+}
+
+.banner--picture--educate {
+  background-image: url('../img/home_educate_hero.jpg');
+}
+
+.banner--picture--play {
+  background-image: url('../img/home_play_hero.jpg');
+}
+
+.banner--picture--about {
+  background-image: url('../img/about_us_hero.jpg');
+}
+
+.banner--picture--help {
+  background-image: url('../img/help_and_support_hero.jpg');
+}
+
+.banner--picture--terms,
+.banner--picture--tools {
+  background-image: url('../img/teaching_resources.jpg');
+}
+
+.banner--homepage {
+  @include _padding(100px, 0px, 100px, 10px);
+  text-align: center;
+
+  p {
+    @include _padding(0px, 0px, 60px, 10px);
+  }
+
+  .body-text {
+    @include _font-size(24px);
+  }
+}
+
+
+.banner--homepage__text {
+  @include _font-size(140px);
+  @include _line-height(120px);
+  @include _padding(0px, 0px, 50px, 0px);
+  background-color: transparent;
+  color: $color-text-secondary;
+}
+
+.banner__text--primary,
+.banner__text--secondary {
+  @include _font-size(72px);
+  @include _line-height(75px);
+}
+
+.banner__text--primary {
+  color: $color-text-secondary;
+}
+
+.banner__text--secondary {
+  color: $color-text-primary;
+}
+
+.banner--homepage--teacher,
+.banner--teacher {
+  background-image: url('../img/background_blue.png');
+  background-position: top right;
+}
+
+.banner--homepage--student,
+.banner--student {
+  background-image: url('../img/background_orange.png');
+  background-position: top left;
+}
+
+.banner--teacher,
+.banner--student {
+  align-items: center;
+  display: flex;
+  height: 263px; //TO BE CHANGED!
+  justify-content: space-between;
+
+  .banner__text--center {
+    @include _padding(97.5px, 0px, 97.5px, 0px);
+  }
+
+}
+
+.banner--student--plain {
+  background-color: $color-background-play;
+  background-image: none;
+}
+
+.banner--teacher--plain {
+  @include _padding(20px, 0px, 50px, 0px);
+  background-color: $color-background-teach;
+  background-image: none;
+
+  .progress-arrow__body--in-progress p {
+    color: $color-background-tertiary;
+  }
+
+}
+
+.banner--rapid-router {
+  @include _padding(70px, 0px, 100px, 0px);
+  align-items: center;
+  background-image: url('../img/rapid_router_landing_hero.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner--resources {
+  @include _padding(0px, 0px, 30px, 0px);
+  background-image: url('../img/background_blue.png');
+  background-position: top right;
+}
+
+@media (max-width: 1200px) {
+  .banner {
+    .col-sm-offset-2 {
+      margin-left: 8.333%;
+    }
+  }
+}
+
+@media (min-width: 760px) {
+  .banner__item,
+  .button--banner__item {
+    display: none;
+  }
+
+}
+
+@media (max-width: 760px) {
+  .banner--homepage {
+    @include _padding(50px, 0px, 50px, 10px);
+  }
+
+  .banner__item {
+    height: 120px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .banner__item--teacher {
+    background-color: $color-background-teach;
+  }
+
+  .banner__item--student {
+    background-color: $color-background-play;
+  }
+
+  .button--banner__item {
+    @include _font-size(30px);
+    @include _margin(30px, 0px, 0px, 0px);
+    font-weight: 500;
+    width: 50%;
+  }
+
+  .banner {
+    @include _padding(10px, 0px, 50px, 0px);
+    text-align: center;
+
+    p a {
+      color: $color-text-secondary;
+    }
+  }
+
+  .banner .col-sm-6 .banner--picture {
+    display: none;
+  }
+
+  .banner--rapid-router {
+    @include _padding(50px, 0px, 150px, 0px);
+
+    button {
+      margin-left: -97.5px;
+      position: absolute;
+      top: 250%;
+    }
+
+  }
+
+}

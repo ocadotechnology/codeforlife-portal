@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,9 +35,168 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from teach_base_page import TeachBasePage
+from class_page import TeachClassPage
+from move_classes_page import TeachMoveClassesPage
+from onboarding_organisation_page import OnboardingOrganisationPage
+from selenium.webdriver.support.ui import Select
+
+import time
+
 
 class TeachDashboardPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachDashboardPage, self).__init__(browser)
 
         assert self.on_correct_page('teach_dashboard_page')
+
+    def go_to_class_page(self):
+        self.browser.find_element_by_id('class_button').click()
+        return TeachClassPage(self.browser)
+
+    def go_to_top(self):
+        self.browser.find_element_by_id("back_to_top_button").click()
+        time.sleep(3)
+        return self
+
+    def check_organisation_details(self, details):
+        correct = True
+
+        first_field = details.items()[0][0]
+        self.wait_for_element_by_id('id_' + first_field)
+
+        for field, value in details.items():
+            correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
+
+        return correct
+
+    def change_organisation_details(self, details):
+        for field, value in details.items():
+            self.browser.find_element_by_id('id_' + field).clear()
+            self.browser.find_element_by_id('id_' + field).send_keys(value)
+
+        self.browser.find_element_by_id('update_details_button').click()
+        return self
+
+    def has_edit_failed(self):
+        self.wait_for_element_by_id('edit_form')
+        errorlist = self.browser.find_element_by_id('edit_form').find_element_by_class_name('errorlist').text
+        error = 'There is already a school or club registered with that name and postcode'
+        return error in errorlist
+
+    def create_class(self, name, classmate_progress):
+        self.browser.find_element_by_id('id_class_name').send_keys(name)
+        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
+
+        self.browser.find_element_by_id('create_class_button').click()
+
+        return self
+
+    def change_teacher_details(self, details):
+        self._change_details(details)
+
+        return self
+
+    def change_email(self, first_name, last_name, new_email, password):
+        self._change_details({
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': new_email,
+            'current_password': password,
+        })
+
+        from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
+        return EmailVerificationNeededPage(self.browser)
+
+    def _change_details(self, details):
+        if 'title' in details:
+            Select(self.browser.find_element_by_id('id_title')).select_by_value(details['title'])
+            del details['title']
+        for field, value in details.items():
+            self.browser.find_element_by_id('id_' + field).clear()
+            self.browser.find_element_by_id('id_' + field).send_keys(value)
+        self.browser.find_element_by_id('update_button').click()
+
+    def check_account_details(self, details):
+        correct = True
+
+        if 'title' in details:
+            correct &= (Select(self.browser.find_element_by_id('id_title')).first_selected_option.text == details['title'])
+            del details['title']
+
+        for field, value in details.items():
+            correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
+
+        return correct
+
+    def accept_join_request(self):
+        self.browser.find_element_by_id('allow_button').click()
+        return self
+
+    def deny_join_request(self):
+        self.browser.find_element_by_id('deny_button').click()
+        return self
+
+    def has_join_request(self, email):
+        return self.element_exists_by_id('request_table') and (email in self.browser.find_element_by_id('request_table').text)
+
+    def is_teacher_in_school(self, name):
+        return name in self.browser.find_element_by_id('teachers_table').text
+
+    def is_not_teacher_in_school(self, name):
+        return name not in self.browser.find_element_by_id('teachers_table').text
+
+    def is_teacher_admin(self):
+        return "Make non-admin" in self.browser.find_element_by_id('teachers_table').text
+
+    def have_classes(self):
+        return self.element_exists_by_id('classes_table')
+
+    def does_not_have_classes(self):
+        return self.element_does_not_exist_by_id('classes_table')
+
+    def does_class_exist(self, name, access_code):
+        return self.have_classes() and \
+               (name in self.browser.find_element_by_id('classes_table').text) and \
+               (access_code in self.browser.find_element_by_id('classes_table').text)
+
+    def is_teacher_non_admin(self):
+        return "Make admin" in self.browser.find_element_by_id('teachers_table').text
+
+    def click_kick_button(self):
+        self.browser.find_element_by_id('kick_button').click()
+
+        return self
+
+    def click_make_admin_button(self):
+        self.browser.find_element_by_id('make_admin_button').click()
+
+        return self
+
+    def click_make_non_admin_button(self):
+        self.browser.find_element_by_id('make_non_admin_button').click()
+
+        return self
+
+    def leave_organisation_with_students(self):
+        self._click_leave_button()
+
+        return TeachMoveClassesPage(self.browser)
+
+    def _click_leave_button(self):
+        self.browser.find_element_by_id('leave_organisation_button').click()
+
+    def is_dialog_showing(self):
+        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
+
+    def confirm_dialog(self):
+        self._click_confirm()
+
+        return self
+
+    def confirm_kick_with_students_dialog(self):
+        self._click_confirm()
+
+        return TeachMoveClassesPage(self.browser)
+
+    def _click_confirm(self):
+        self.browser.find_element_by_xpath("//button[contains(text(),'Confirm')]").click()

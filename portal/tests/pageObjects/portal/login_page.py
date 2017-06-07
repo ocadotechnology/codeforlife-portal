@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,12 +39,13 @@ from selenium.webdriver.support.ui import Select
 from base_page import BasePage
 import play_page
 import email_verification_needed_page
-from teacher_password_reset_form_page_new import TeacherPasswordResetFormPage
-from student_password_reset_form_page_new import StudentPasswordResetFormPage
-import teach.dashboard_page_new
+from teacher_password_reset_form_page import TeacherPasswordResetFormPage
+from student_password_reset_form_page import StudentPasswordResetFormPage
+import teach.dashboard_page
 import teach.onboarding_organisation_page
 import teach.onboarding_classes_page
 import teach.onboarding_students_page
+import play.dashboard_page
 
 
 class LoginPage(BasePage):
@@ -56,7 +57,7 @@ class LoginPage(BasePage):
     def login(self, email, password):
         self._login(email, password)
 
-        return teach.dashboard_page_new.TeachDashboardPage(self.browser)
+        return teach.dashboard_page.TeachDashboardPage(self.browser)
 
     def login_no_school(self, email, password):
         self._login(email, password)
@@ -76,12 +77,12 @@ class LoginPage(BasePage):
     def student_login(self, name, access_code, password):
         self._student_login(name, access_code, password)
 
-        return play_page.PlayDashboardPage(self.browser)
+        return play.dashboard_page.PlayDashboardPage(self.browser)
 
     def independent_student_login(self, username, password):
         self._independent_student_login(username, password)
 
-        return play_page.PlayDashboardPage(self.browser)
+        return play.dashboard_page.PlayDashboardPage(self.browser)
 
     def login_failure(self, email, password):
         self._login(email, password)
@@ -98,7 +99,7 @@ class LoginPage(BasePage):
     def _login(self, email, password):
         self.browser.find_element_by_id('id_login-teacher_email').send_keys(email)
         self.browser.find_element_by_id('id_login-teacher_password').send_keys(password)
-        self.browser.find_element_by_name('login').click()
+        self.browser.find_element_by_name('login_view').click()
 
     def _student_login(self, name, access_code, password):
         self.browser.find_element_by_id('id_login-name').send_keys(name)

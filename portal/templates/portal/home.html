@@ -4,70 +4,10 @@
 
 {% block css %}
 {{ block.super }}
-<link rel="stylesheet" type="text/css" href='{% static "portal/css/colorbox.css" %}'>
 {% endblock css %}
 
 {% block scripts %}
 {{ block.super }}
-
-<!-- <script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
- --><script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    //Examples of how to assign the Colorbox event to elements
-
-    $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
-
-    $(".callbacks").colorbox({
-        onOpen:function(){ alert('onOpen: colorbox is about to open'); },
-        onLoad:function(){ alert('onLoad: colorbox has started to load the targeted content'); },
-        onComplete:function(){ alert('onComplete: colorbox has displayed the loaded content'); },
-        onCleanup:function(){ alert('onCleanup: colorbox has begun the close process'); },
-        onClosed:function(){ alert('onClosed: colorbox has completely closed'); }
-    });
-
-    $('.non-retina').colorbox({rel:'group5', transition:'none'})
-    $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
-
-    //Example of preserving a JavaScript event for inline calls.
-    $("#click").click(function(){
-        $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
-        return false;
-    });
-});
-
-$(function() {
-   $("#accordion").accordion({
-	   header: "h3",
-	   collapsible: true,
-	   active: false,
-	   heightStyle: "content",
-       autoHeight: false,
-       clearStyle: true
-	   });
-  });
-</script>
-
-<script type="text/javascript" src='{% static "portal/js/lib/jquery.easy-ticker.js" %}'></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    var dd = $('.newsTicker').easyTicker({
-        direction: 'up',
-        speed: 'slow',
-        interval: 8000,
-        height: 'auto',
-        visible: 1,
-        mousePause: 1,
-        controls: {
-            up: '.newsTickerUp',
-            down: '.newsTickerDown',
-        }
-    }).data('easyTicker');
-});
-</script>
-
 {% endblock scripts %}
 
 {% block pageID %}id='homeWrapper'{% endblock %}
@@ -77,174 +17,85 @@ $(document).ready(function(){
 
 <div id="home_page"></div>
 
-<div class="section group">
-    <div class="col span_2_of_3">
-
-        <div class="description">
-            <h3 id="intro">An Introduction</h3>
-            <p>
-            In September 2014, the UK became the first country in the world to put Computing at the heart of the school curriculum.
-            </p>
-            <p>
-            Ocado Technology's Code for Life initiative has been developed to help teachers deliver the new curriculum, so they can inspire the next generation of computer scientists. But this is just the beginning. Over the next couple of years, this initiative will be expanded to support pupils throughout their school career, from age five to 16, and beyond.
-            </p>
-            <h3>Rapid Router - Our first app</h3>
-            <p>
-            Rapid Router marks the first step in this journey. It is a free, comprehensive Key Stage 1 and lower Key Stage 2 teaching resource and web application, designed for, and tested by, primary school teachers.
-            </p>
-      </div>
-
-
-    </div>
-
-    <div class="col span_1_of_3">
-
-        <h3 id="intro">Take the journey</h3>
-
-       <div class="video">
-            <a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;wmode=transparent" class="youtube">
-                <img alt="Watch Video" src="{% static 'portal/img/video_still.png' %}">
-            </a>
+<div class="row row--flex">
+    <section class="banner--homepage banner--homepage--teacher col-sm-6">
+        <div class="banner col-sm-7 col-sm-offset-3">
+            <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
+            <h1 class="banner__text--primary">Educate</h1>
+            <p class="body-text">Helping teachers to inspire the next generation of computer scientists.</p>
+            <a href="{% url 'teach' %}" class="button button--big button-primary button--primary--general-educate">Learn more</a>
         </div>
-
-    </div>
+    </section>
+    <section class="banner--homepage banner--homepage--student col-sm-6">
+        <div class="banner col-sm-7 col-sm-offset-2">
+            <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--play"></div></div></div>
+            <h1 class="banner__text--primary">Play</h1>
+            <p class="body-text">Anyone can learn how to code. We will help you learn how. It&rsquo;s fun, free and easy.</p>
+            <a href="{% url 'play' %}" class="button button--big button-primary button--primary--general-play">Get started</a>
+        </div>
+    </section>
 </div>
 
-<div class="section group">
-     <div class="col span_2_of_3">
-
-        <div class="gameBox">
-
-            <div class="section group">
-                 <div class="col span_1_of_3">
-                 <img src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
-
-
-                 </div>
-
-                 <div class="col span_2_of_3">
-
-                   <br>
-                    <p>
-                    Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming.
-                    </p>
-                    <p>
-                    Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
-                    </p>
-                 </div>
-             </div>
-        </div>
-
-
-<h3 id="intro" style="margin-top:40px;">Python</h3>
-
-<h4 id="python">Upper Key Stage 2</h4>
-<p>
-After Blockly, Rapid Router moves onto coding in Python &#8211; an easy language that&#8217;s perfect for beginners but also used by organisations such as NASA and Google.
-</p>
-<p>
-Students will quickly pick up how to write clear, simple lines of code, plus learn the importance of accuracy and correct syntax &#8211; critical for all programming languages.
-</p>
-
-<div id="accordion" style="margin-bottom:20px; height:auto;" >
-    <h3>Code for Life and the curriculum</h3>
-        <div>
-            <p>As part of the Key Stage 2 curriculum, pupils are required to:</p>
-            <ul>
-            <li>Design, write and debug programs that accomplish specific goals, including controlling or simulating physical systems; solve problems by decomposing them into smaller parts.</li>
-            <li>Use sequence, selection, and repetition in programs; work with variables and various forms of input and output.</li>
-            <li>Use logical reasoning to explain how some simple algorithms work and to detect and correct errors in algorithms and programs.*</li>
-            </ul>
-            <p>Using Rapid Router, students will learn&#8230;</p>
-            <ul>
-            <li>Sequencing &#8211; they will direct the van using movement instructions.</li>
-            <li>Repetition &#8211; they will use loops to repeat the same code.</li>
-            <li>Selection &#8211; they will use the if, else and elif statements.</li>
-            <li>How to define new procedures or functions.</li>
-            <li>How to create a variable, storing a numeric or text-based value.</li>
-            <li>New functions which are already part of Python &#8211; for example: <span style="font-family: Consolas, monaco, monospace;">print()</span></li>
-            <li>Debugging syntax errors and program solutions.</li>
-            </ul>
-            <p style="font-size:11px;">*From gov.uk</p>
-    	</div>
-</div>
-
-
-
-
-
-
-<h4 id="python">Step 1 &#8211; Introduction to Python</h4>
-<p>
-The students start by solving the game levels with Blockly, which is then converted to Python. There are 12 levels to reinforce concepts.
-</p>
-
-<h4 id="python">Step 2 &#8211; Bye-bye Blockly</h4>
-<p>
-Blockly is hidden away altogether and students have to use Python instead. There are 18 levels, giving the students plenty of scope to explore and practise their skills.
-</p>
-
-{% if user|is_logged_in_as_teacher %}
-    <a href="{% url 'teacher_lesson_plans' %}" class="btn btn-primary" style="width:350px;">Download the teaching pack</a>
-{% elif not user|is_logged_in %}
-    <a href="{% url 'teach' %}" class="btn btn-primary" style="width:350px;">Log in to download the teaching pack</a>
-{% endif %}
-
-
-
-  </div>
-
-        <div class="col span_1_of_3">
-            {% if not user|is_logged_in %}
-                <a id="teacherSignUp_button" href="{% url 'teach' %}" class="btn btn-primary wide">Teacher sign up</a>
-            {% endif %}
-
-            <div class="news">
-                <div class='section group'>
-                    <div class='col'>
-                        <h3>In the news</h3>
-                    </div>
-                    <div class='col pull-right driver'>
-                        <a href='' class='newsTickerDown'>Prev</a> | <a href='' class='newsTickerUp'>Next</a>
-                    </div>
-                </div>
-                <div class="newsTicker">
-                    <ul>
-                        {% for story in news %}
-                          <li>
-                            <h4>{{ story.title }}</h4>
-                            {{ story.text }}
-                            <br>
-                            <a target="_blank" href="{{ story.link }}">
-                              {{ story.link_text }}
-                            </a>
-                          </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+<section>
+    <h3>Giving everyone the ability to shape technology&rsquo;s future</h3>
+    <div class="col-sm-8 col-center">
+        <div class="row row--regular homepage-info">
+            <div class="col-sm-3">
+                <img title="13%" alt="13% graph" src='{% static "portal/img/icon_13.png" %}'>
+                <p class="body-text col-sm-11 col-center"><strong>Just 13%</strong> of computer scientists are women, we want to change that.</p>
             </div>
-       </div>
+            <div class="col-sm-3">
+                <img title="Controller" alt="Controller image" src='{% static "portal/img/icon_game.png" %}'>
+                <p class="body-text col-sm-11 col-center">Gamification helps children <strong>learn whilst having fun!</strong></p>
+            </div>
+            <div class="col-sm-3">
+                <img title="Free" alt="Free image" src='{% static "portal/img/icon_free.png" %}'>
+                <p class="body-text col-sm-11 col-center">That&rsquo;s right, <strong>free forever</strong>, that&rsquo;s our gift to you! We&rsquo;re also
+                    <strong><a target="_blank" href="https://github.com/ocadotechnology/codeforlife-portal">Open Source</a></strong>.</p>
+            </div>
+            <div class="col-sm-3">
+                <img title="Planet" alt="Planet image" src='{% static "portal/img/icon_globe.png" %}'>
+                <p class="body-text col-sm-11 col-center">Code for Life has over <strong>70,000 users</strong> across the world.</p>
+            </div>
+        </div>
+    </div>
 
+    <div class="background">
+        <a class="button button--big button--primary--navigation" href="{% url 'about' %}">Find out more about us</a>
+    </div>
 
+</section>
 
+<section class="background background--primary">
+    <h3>Why you'll love Code for Life</h3>
+    <h4 class="col-sm-6 col-center">Don&rsquo;t just take our word for it, here are some lovely quotes from our fabulous teacher friends:</h4>
 
- </div>
+    <div class="row row--regular">
+        <div class="col-sm-9 col-center">
+            <div class="col-sm-4">
+                <img title="Mandy" alt="Mandy portrait" class="portrait" src='{% static "portal/img/teacher1.png" %}'>
+                <blockquote>
+                    <p class="says">The kids love it! They all want to move onto the next level, they want to be further on than anyone else.</p>
+                    <p>Mandy, ICT Teacher</p>
+                </blockquote>
+            </div>
+            <div class="col-sm-4">
+                <img title="Rob" alt="Rob portrait" class="portrait" src='{% static "portal/img/teacher2.png" %}'>
+                <blockquote>
+                    <p class="says">You can hit all of the computing curriculum, in a structured way. It is perfect for teachers who are struggling.</p>
+                    <p>Rob, ICT Teacher</p>
+                </blockquote>
+            </div>
+            <div class="col-sm-4">
+                <img title="Dale" alt="Dale portrait" class="portrait" src='{% static "portal/img/teacher3.png" %}'>
+                <blockquote>
+                    <p class="says">When I came across Code for Life, I thought, yeah, that fits in well, but to have the assessment, that&rsquo;s great!</p>
+                    <p>Dale, IT Technician</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
 
-<script type="text/javascript" src='{% static "portal/js/lib/magnific.js" %}'></script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
-        disableOn: 700,
-        type: 'iframe',
-        mainClass: 'mfp-fade',
-        removalDelay: 160,
-        preloader: false,
-
-        fixedContentPos: false
-    });
-});
-</script>
-
+</section>
 
 {% endblock content %}

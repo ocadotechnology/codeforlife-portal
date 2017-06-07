@@ -1,0 +1,291 @@
+{% load staticfiles %}
+{% load app_tags %}
+{% load cache %}
+
+{# CMS #}
+{% load cms_tags sekizai_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {# CMS #}
+    {% render_block "css" %}
+
+    <title>{% block title %}Code for Life{% endblock %}</title>
+    <meta name="msapplication-config" content="none"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    {% block head %}
+    {% endblock head %}
+
+    {% block css %}
+    <link href='{% static "portal/css/common.css" %}' rel="stylesheet">
+    {% cache 3600 fragment-base-css %}
+    <link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
+    <link href='{% static "portal/css/jquery-ui.structure.css" %}' rel="stylesheet">
+    <link href='{% static "portal/css/jquery-ui.theme.css" %}' rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "base.css" %}'>
+    <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    {% endcache %}
+    {% endblock css %}
+
+    {% cache 3600 fragment-base_new-javascript %}
+    <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
+    <script type='text/javascript' src='{% static "portal/js/bootstrap.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
+    {% endcache %}
+    <script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
+    <script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
+    <script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
+    {% block check_user_status %}
+    <script>
+        // Set to 'TEACHER', 'SCHOOL_STUDENT', 'INDEPENDENT_STUDENT', or 'UNTRACKED'
+        USER_STATUS = '{{ user|get_user_status }}';
+        DEVELOPER = '{{ user|is_developer }}' === 'True';
+        BETA = '{{ request|has_beta_access }}' === 'True';
+    </script>
+    {% endblock check_user_status %}
+
+    {% block google_analytics %}
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+        ga('create', 'UA-49883146-1', 'auto');
+        ga('send', 'pageview');
+
+        function send_event(name_of_file, action){
+            ga('send', {
+                hitType: 'event',
+                eventCategory: 'PDFs',
+                eventAction: action,
+                eventLabel: name_of_file
+            });
+        }
+    </script>
+
+    <script src="/static/portal/js/riveted.min.js"></script>
+    <script>riveted.init();</script>
+    {% endblock google_analytics %}
+</head>
+
+<body id="top">
+{# CMS #}
+{% cms_toolbar %}
+{% render_block "js" %}
+{% include 'portal/mouseflow.html' %}
+
+{% block contentWrapper %}
+<div {% block pageID %}id='contentWrapper'{% endblock %}>
+    {% block topBar %}
+    <div class="header">
+        <a href="{% url 'home' %}"><img class="logo col-sm-offset-1"></a>
+        <div class="menu col-sm-12">
+            <div class="menu__left-side col-sm-6 col-sm-offset-2">
+                <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
+                <a href="{% url 'home' %}"><img class="logo-horizontal" src='{% static "portal/img/logo_c4l_horizontal.png" %}'></a>
+                <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
+                {% block leftMenuButtons %}
+                {% if user|is_logged_in %}
+                    {% if user|is_logged_in_as_teacher %}
+                        <a href="{% url 'teach' %}" class="button--menu button--menu--primary"><b>Teacher</b></a>
+                        {% block secondaryButtons %}
+                        {% if user|has_teacher_finished_onboarding %}
+                            <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                            {% block rapidRouter %}
+                            <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                            {% endblock rapidRouter %}
+                            {% block resources %}
+                            <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+                            {% endblock resources %}
+                        {% else %}
+                            <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                        {% endif %}
+                        {% endblock secondaryButtons %}
+                    {% else %}
+                        <a href="{% url 'play' %}" class="button--menu button--menu--primary"><b>Student</b></a>
+                        {% block studentButtons %}
+                        <a href="{% url 'student_details' %}" id="student_dashboard_button"
+                           class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
+                        <a href="{% url 'student_edit_account' %}" id="student_account_button"
+                           class="button--menu button--menu--secondary button--menu--enabled">Password</a>
+                        {% endblock studentButtons %}
+                    {% endif %}
+                {% else %}
+                    {% block nav_teach %}<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+                    {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
+                {% endif %}
+                {% endblock leftMenuButtons %}
+            </div>
+            <div class="menu__right-side col-sm-4">
+                {% block rightMenuButtons %}
+                {% if user|is_logged_in %}
+                    <div class="dropdown">
+                        <button id="logout_menu" class="button--regular button--secondary button--secondary--dark logout"
+                                data-toggle="dropdown">{{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="button--regular button--logout" id="logout_button"
+                                   href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
+                    <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                {% endif %}
+                {% endblock rightMenuButtons %}
+            </div>
+        </div>
+        <div id="menu-items" class="collapse">
+            <div class="menu__item">
+                <a href="{% url 'register' %}" class="button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login' %}" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            </div>
+            <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+            <div id="teacher-tabs" class="collapse">
+                <button class="button--menu__item button--menu__item__sub">School / Club</button>
+                <button class="button--menu__item button--menu__item__sub">Rapid Router</button>
+                <button class="button--menu__item button--menu__item__sub">Resources</button>
+            </div>
+            <button class="button--menu__item">Student</button>
+            <button class="button--menu__item">About</button>
+            <button class="button--menu__item">Help and support</button>
+            <button class="button--menu__item">Terms of use</button>
+        </div>
+    </div>
+</div>
+{% endblock topBar %}
+    {% block subNav %}
+    {% endblock subNav %}
+    <div id='messages'>
+        {% if messages %}
+        <div class="sub-nav--message">
+            {% for message in messages %}
+            <div class="sub-nav {{ message.tags }}">
+                <img title="Information" alt="Information sign" src='{% static "portal/img/icon_info.png" %}'>
+                <p class="body-text">
+                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
+                <a class="x-icon"><img title="Close" alt="Close sign" src='{% static "portal/img/icon_close.png" %}'></a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!--[if lt IE 10]>
+    <ul class="messages">
+        <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
+    </ul>
+    <![endif]-->
+
+    {% block contentDiv %}
+    <div class="content">
+
+        {% block content %}
+        {# CMS #}
+        {% placeholder template_1_content %}
+        {% block base_new_content %}{% endblock %}
+        {% endblock content %}
+
+    </div>
+    {% endblock contentDiv %}
+
+    <div class="push"></div>
+</div>
+{% endblock contentWrapper %}
+
+{% block footer %}
+{% cache 3600 fragment-base_new-footer %}
+<div class="footer">
+    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img/footer_arrow.png" %}'></a>
+    <p class="small-text"><a href="#top">BACK TO TOP</a></p>
+    <img class="col-sm-3" src='{% static "portal/img/logo_c4l_horizontal.png" %}'>
+    <div class="row">
+        <p class="body-text"><a href="{% url 'about' %}">About us</a></p>
+        <p class="body-text"><a href="{% url 'teach' %}">Teachers</a></p>
+        <p class="body-text"><a href="{% url 'play' %}">Students</a></p>
+        <p class="body-text"><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
+        <p class="body-text"><a href="{% url 'help' %}#contact">Contact us</a></p>
+        <p class="body-text"><a href="{% url 'terms' %}">Terms of use</a></p>
+    </div>
+    <div class="row social-media"><br>
+        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img/twitter.png" %}'></a>
+        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src='{% static "portal/img/facebook.png" %}'></a>
+        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img/google+.png" %}'></a>
+    </div>
+    <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img/logo_ocado.png" %}'></a>
+    <p class="small-text">&copy; Ocado Technology 2017</p>
+</div>
+{% endcache %}
+{% endblock footer %}
+
+<div id="confirmation-dialog" title=""></div>
+
+{% block scripts %}
+<script>
+    $(function() {
+        $('input, textarea').placeholder();
+    });
+
+    function animateScroll() {
+        $('a[href*=#]').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                history.pushState({}, "", this.href);
+                var $target = getTarget(this);
+                if ($target.length) {
+                    animate($target.offset().top - 50);
+                    return false;
+                }
+            }
+        });
+    }
+
+    function getTarget(clickTarget) {
+        var $target = $(clickTarget.hash);
+        $target = $target.length && $target || $('[name=' + clickTarget.hash.slice(1) +']');
+        return $target;
+    }
+
+    function animate(targetOffset) {
+        $('html,body').animate({scrollTop: targetOffset}, 1000);
+    }
+
+    function invokeColorbox() {
+        $(".youtube").colorbox({
+            iframe:true,
+            innerWidth:640,
+            innerHeight:390,
+            transition: 'fade',
+            closeButton: false
+        });
+    }
+
+    $(document).ready(function() {
+        animateScroll();
+    })
+</script>
+{% endblock scripts %}
+
+<script type="text/javascript">
+    $('.logout').click(function(){
+        $(this).toggleClass("button--secondary");
+        $(this).toggleClass("button--secondary--dark");
+        $(this).toggleClass("button--logout");
+    })
+</script>
+
+</body>
+</html>

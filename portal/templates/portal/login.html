@@ -1,0 +1,136 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src='{% static "portal/js/student_login.js" %}'></script>
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block subNav %}
+{{ block.super }}
+<div id="login_page"></div>
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+<div class="row popup is-flex">
+    <div class="form--register form--register--teacher col-sm-6">
+        <div class="form col-sm-8 col-sm-offset-2">
+            <h1>Log in as a teacher</h1>
+            <form id='form-login-teacher' method='post'>
+
+                {% csrf_token %}
+
+                {{ login_form.non_field_errors }}
+
+                <label for="id_{{ login_form.teacher_email.html_name }}">{{ login_form.teacher_email.label }}</label>
+                {{ login_form.teacher_email }}
+                {{ login_form.teacher_email.errors }}
+
+                <label for="id_{{ login_form.teacher_password.html_name }}">{{ login_form.teacher_password.label }}</label>
+                {{ login_form.teacher_password }}
+                {{ login_form.teacher_password.errors }}
+
+                {% if login_form.recaptcha %}
+                <label for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
+                {{ login_form.recaptcha|safe }}
+                {{ login_form.recaptcha.errors }}
+                {% endif %}
+
+                    <button type="submit" name="login_view" class="button--regular button--primary--general-educate"
+                            onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
+                </form>
+                <p class="body-text"><strong>Forgotten your password?</strong></p>
+                <p class="body-text">Don&rsquo;t worry, you can
+                    <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
+                </p>
+            </div>
+        </div>
+        <div id="school-login" class="form--register form--register--student col-sm-6">
+            <div class="form col-sm-8 col-sm-offset-2">
+                <h1>Log in as a student</h1>
+                <form id='form-login-school' method='post'>
+
+                {% csrf_token %}
+
+                {{ school_login_form.non_field_errors }}
+
+                <label for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
+                {{ school_login_form.name }}
+                {{ school_login_form.name.errors }}
+
+                <label for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
+                {{ school_login_form.access_code }}
+                {{ school_login_form.access_code.errors }}
+
+                <label for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
+                {{ school_login_form.password }}
+                {{ school_login_form.password.errors }}
+
+                {% if school_login_form.recaptcha %}
+                {{ school_login_form.recaptcha.errors }}
+                <label for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
+                {{ school_login_form.recaptcha|safe }}
+                {% endif %}
+
+                    <button type='submit' name='school_login' class="button--regular button--primary--general-play"
+                            onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
+                </form>
+                <p class="body-text"><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
+                <p class="body-text">Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
+
+            <p class="body-text">Are you registered as an independent student who is not part of a school or club?
+                If so, <a href='#' id='switchToIndependentStudent'>log in here</a>.</p>
+        </div>
+    </div>
+    <div id="independent-student-login" class="form--register form--register--indep-student col-sm-6">
+        <div class="form col-sm-8 col-sm-offset-2">
+            <h1>Log in as an independent student</h1>
+            <form id='independent_student_login_form' method='post'>
+
+                {% csrf_token %}
+
+                {{ independent_student_login_form.non_field_errors }}
+
+                <label for="id_{{ independent_student_login_form.username.html_name }}">{{ independent_student_login_form.username.label }}</label>
+                {{ independent_student_login_form.username }}
+                {{ independent_student_login_form.username.errors }}
+
+                <label for="id_{{ independent_student_login_form.password.html_name }}">{{ independent_student_login_form.password.label }}</label>
+                {{ independent_student_login_form.password }}
+                {{ independent_student_login_form.password.errors }}
+
+                {% if independent_student_login_form.recaptcha %}
+                {{ independent_student_login_form.recaptcha.errors }}
+                <label for="id_{{ independent_student_login_form.recaptcha.html_name }}">{{ independent_student_login_form.recaptcha.label }}</label>
+                {{ independent_student_login_form.recaptcha|safe }}
+                {% endif %}
+
+                    <button type='submit' name='independent_student_login' class="button--regular button--primary--general-play">Log in</button>
+                </form>
+                <p class="body-text"><strong>Forgotten your password?</strong></p>
+                <p class="body-text">Don&rsquo;t worry, you can
+                    <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
+                </p>
+                <p class="body-text">Part of a school or club? <a href='#' id='switchToSchool'>Log in here</a>.</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
+
+    $(document).ready(function(){
+        toggleStickySubnav($('.menu').outerHeight());
+        showCorrectLogin(INDEPENDENT_STUDENT_VIEW);
+    });
+</script>
+
+{% endblock content %}
