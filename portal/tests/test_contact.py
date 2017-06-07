@@ -43,7 +43,7 @@ from utils.messages import is_contact_message_sent_message_showing
 
 class TestContact(BaseTest):
     def test_contact(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page = page.go_to_help_and_support_page()
 
@@ -52,7 +52,7 @@ class TestContact(BaseTest):
         assert is_contact_message_sent_message_showing(selenium)
 
     def test_contact_fail(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page = page.go_to_help_and_support_page()
 

@@ -105,7 +105,7 @@ urlpatterns = patterns(
     url(r'^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
     url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
 
-    url(r'^home', TemplateView.as_view(template_name='portal/home.html'), name='home'),
+    url(r'^$', TemplateView.as_view(template_name='portal/home.html'), name='home'),
     url(r'^register_form', register_view, name='register'),
     url(r'^login_form', login_view, name='login_view'),
     url(r'^logout/$', logout_view, name='logout_view'),
