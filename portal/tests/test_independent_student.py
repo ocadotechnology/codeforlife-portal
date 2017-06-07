@@ -93,7 +93,7 @@ class TestIndependentStudent(BaseTest):
 
         page.student_reset_password(new_password)
 
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = self \
             .go_to_homepage() \
             .go_to_login_page() \
@@ -117,7 +117,7 @@ class TestIndependentStudent(BaseTest):
         assert len(mail.outbox) == 0
 
     def get_to_forgotten_password_page(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium) \
             .go_to_login_page() \
             .go_to_indep_forgotten_password_page()

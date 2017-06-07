@@ -52,7 +52,7 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)\
             .go_to_login_page()\
             .student_login(student_name, access_code, student_password)
@@ -64,7 +64,7 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)\
             .go_to_login_page()\
             .student_login_failure(student_name, access_code, 'some other password')

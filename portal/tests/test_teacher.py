@@ -54,13 +54,13 @@ from utils import email as email_utils
 class TestTeacher(BaseTest):
 
     def test_signup(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page, _, _ = signup_teacher(page)
         assert is_email_verified_message_showing(selenium)
 
     def test_login_failure(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page = page.go_to_login_page()
         page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
@@ -71,14 +71,14 @@ class TestTeacher(BaseTest):
         create_organisation_directly(email)
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page = page.go_to_login_page()
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
 
     def test_signup_login_success(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page, email, password = signup_teacher(page)
         page = page.login_no_school(email, password)
@@ -89,7 +89,7 @@ class TestTeacher(BaseTest):
         create_organisation_directly(email)
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page = page.go_to_login_page()
         page = page.login(email, password)
@@ -110,7 +110,7 @@ class TestTeacher(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium).go_to_login_page().login(email, password)
 
         page = page.change_teacher_details({
@@ -134,7 +134,7 @@ class TestTeacher(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium).go_to_login_page().login(email, password)
 
         new_email = 'another-email@codeforlife.com'
@@ -171,7 +171,7 @@ class TestTeacher(BaseTest):
 
         page.teacher_reset_password(new_password)
 
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium).go_to_login_page().login(email, new_password)
         assert self.is_dashboard_page(page)
 
@@ -185,7 +185,7 @@ class TestTeacher(BaseTest):
         assert len(mail.outbox) == 0
 
     def get_to_forgotten_password_page(self):
-        selenium.get(self.live_server_url + "/portal/home")
+        selenium.get(self.live_server_url)
         page = HomePage(selenium) \
             .go_to_login_page() \
             .go_to_teacher_forgotten_password_page()
