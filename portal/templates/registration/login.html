@@ -1,4 +1,4 @@
-{% extends "portal/base.html" %}
+{% extends "portal/base_old.html" %}
 {% load static %}
 
 {% block content %}
@@ -39,7 +39,7 @@
                 {{ form.recaptcha|safe }}
             {% endif %}
 
-            <input type="submit" name="login" class="btn btn-primary wide" value="Log in">
+            <input type="submit" name="login_view" class="btn btn-primary wide" value="Log in">
             <input type="hidden" name="next" value="{{ next }}" />
 
         </form>

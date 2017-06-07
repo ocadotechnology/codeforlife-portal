@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,7 @@ from datetime import timedelta
 from requests import post
 from requests.exceptions import RequestException
 
+from django.conf import settings
 from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader

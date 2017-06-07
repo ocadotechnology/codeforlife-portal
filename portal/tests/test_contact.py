@@ -36,14 +36,14 @@
 # identified as the original program.
 from django_selenium_clean import selenium
 
-from base_test_new import BaseTest
-from pageObjects.portal.home_page_new import HomePage
+from base_test import BaseTest
+from pageObjects.portal.home_page import HomePage
 from utils.messages import is_contact_message_sent_message_showing
 
 
 class TestContact(BaseTest):
     def test_contact(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
+        selenium.get(self.live_server_url + "/portal/home")
         page = HomePage(selenium)
         page = page.go_to_help_and_support_page()
 
@@ -52,7 +52,7 @@ class TestContact(BaseTest):
         assert is_contact_message_sent_message_showing(selenium)
 
     def test_contact_fail(self):
-        selenium.get(self.live_server_url + "/portal/redesign/home")
+        selenium.get(self.live_server_url + "/portal/home")
         page = HomePage(selenium)
         page = page.go_to_help_and_support_page()
 

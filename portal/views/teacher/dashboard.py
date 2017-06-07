@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -45,13 +45,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 from two_factor.utils import devices_for_user
 
-from portal import app_settings, emailMessages_new
+from portal import app_settings, emailMessages
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.models import Teacher, Class
 from portal.forms.organisation import OrganisationForm
-from portal.forms.teach_new import ClassCreationForm, TeacherEditAccountForm
+from portal.forms.teach import ClassCreationForm, TeacherEditAccountForm
 from portal.permissions import logged_in_as_teacher
-from portal.helpers.emails_new import send_verification_email
+from portal.helpers.emails import send_verification_email
 from portal.helpers.generators import generate_access_code
 from portal.helpers.location import lookup_coord
 
@@ -60,8 +60,8 @@ from portal.utils import using_two_factor
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
@@ -107,11 +107,11 @@ def dashboard_teacher_view(request, is_admin):
             if changing_email:
                 logout(request)
                 messages.success(request, 'Your account details have been successfully changed. Your email will be changed once you have verified it, until then you can still log in with your old email.')
-                return render(request, 'redesign/email_verification_needed_new.html', {'userprofile': teacher.user, 'email': new_email})
+                return render(request, 'portal/email_verification_needed.html', {'userprofile': teacher.user, 'email': new_email})
 
     classes = Class.objects.filter(teacher=teacher)
 
-    return render(request, 'redesign/teach_new/dashboard.html', {
+    return render(request, 'portal/teach/dashboard.html', {
         'teacher': teacher,
         'classes': classes,
         'is_admin': is_admin,
@@ -215,8 +215,8 @@ def process_update_account_form(request, teacher, old_anchor):
     return changing_email, new_email, anchor
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def dashboard_manage(request):
     teacher = request.user.new_teacher
 
@@ -226,8 +226,8 @@ def dashboard_manage(request):
         return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -243,14 +243,14 @@ def organisation_allow_join(request, pk):
 
     messages.success(request, 'The teacher has been added to your school or club.')
 
-    emailMessage = emailMessages_new.joinRequestAcceptedEmail(request, teacher.school.name)
+    emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -264,7 +264,7 @@ def organisation_deny_join(request, pk):
 
     messages.success(request, 'The request to join your school or club has been successfully denied.')
 
-    emailMessage = emailMessages_new.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
+    emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
@@ -275,8 +275,8 @@ def check_teacher_is_authorised(teacher, user):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -297,7 +297,7 @@ def organisation_kick(request, pk):
 
     if classes.exists():
         messages.info(request, 'This teacher still has classes assigned to them. You must first move them to another teacher in your school or club.')
-        return render(request, 'redesign/teach_new/teacher_move_all_classes_new.html', {
+        return render(request, 'portal/teach/teacher_move_all_classes.html', {
             'original_teacher': teacher,
             'classes': classes,
             'teachers': teachers,
@@ -309,15 +309,15 @@ def organisation_kick(request, pk):
 
     messages.success(request, 'The teacher has been successfully removed from your school or club.')
 
-    emailMessage = emailMessages_new.kickedEmail(request, user.school.name)
+    emailMessage = emailMessages.kickedEmail(request, user.school.name)
 
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -329,18 +329,18 @@ def organisation_toggle_admin(request, pk):
 
     if teacher.is_admin:
         messages.success(request, 'Administrator status has been given successfully.')
-        emailMessage = emailMessages_new.adminGivenEmail(request, teacher.school.name)
+        emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
     else:
         messages.success(request, 'Administrator status has been revoked successfully.')
-        emailMessage = emailMessages_new.adminRevokedEmail(request, teacher.school.name)
+        emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
 
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
 
 
-@login_required(login_url=reverse_lazy('login_new'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def teacher_disable_2FA(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher

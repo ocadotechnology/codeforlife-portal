@@ -22,7 +22,7 @@ DATABASES = {
 INSTALLED_APPS = ['portal']
 PIPELINE_ENABLED = False
 ROOT_URLCONF = 'django_autoconfig.autourlconf'
-STATIC_ROOT = '.tests_static/'
+STATIC_ROOT = 'portal/static'
 SECRET_KEY = 'bad_test_secret'
 
 from django_autoconfig.autoconfig import configure_settings

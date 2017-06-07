@@ -1,196 +1,103 @@
-{% extends 'portal/play/base.html' %}
+{% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
+{% block nav_play %}<a href="play.html" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
 
 {% block scripts %}
 {{ block.super }}
-    {% if not user|is_logged_in %}
-    <script type="text/javascript" src='{% static "portal/js/play.js" %}'></script>
-    <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-    <script>
-    var PASSWORD_FIELD_ID = '{{ signup_form.password.auto_id }}';
-    var PASSWORD_TYPE = 'INDEPENDENT_STUDENT';
-    var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
-    var SIGNUP_VIEW = {% if signup_view %}true{% else %}false{% endif %};
-    </script>
-    {% endif %}
 {% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="banner banner--rapid-router row">
+    <div class="col-sm-3">
+        <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
+        <a href="{% url 'game.views.level_selection.levels' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+    </div>
+    <div class="col-sm-4">
+        <a href="https://www.youtube.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
+            <img title="Watch Video" alt="Watch Video" src='{% static "portal/img/thumbnail_intro_rr.jpg" %}'>
+        </a>
+    </div>
+</div>
+{% endblock subNav %}
 
 {% block content %}
 {{block.super}}
 
-<div id="play_page"></div>
-
-<div class="warningIE">In order to play, please <a href="http://browsehappy.com/">update your browser</a></div>
-
-<div class="section group">
-    <div class="col span_2_of_3">
-        <h3>Play</h3>
-        <p>
-        Anyone can learn how to code. Rapid Router will help you learn how. It&#8217;s fun, free and easy. Once you know how, you can build just about anything.
-        </p>
-
-        <iframe max-width="600" width="95%" height="400" src="//www.youtube.com/embed/PQFyF3R6Xts?rel=0" frameborder="0" allowfullscreen class="video"></iframe>
-        {% if not user|is_logged_in %}
-            <p>
-            If you are a student or teacher, and you&#8217;ve signed up to Rapid Router with your school or club, <a href="#" id="school-login-link">login</a> to continue playing. 
-            </p>
-            <p>
-            If you&#8217;ve signed up independently, <a href="#" id="independent-student-login-link">login</a> to continue your Rapid Router journey.
-            </p>
-            <p>
-            Not signed up yet? <a href="#" id="register-link">Register now</a> to learn how to Code for Life, play the Rapid Router app, and to monitor and track your progress as you work your way through the levels of the game.
-            </p>
-            <p>
-            If you just want to try Rapid Router without logging in, use the Play Now button.
-            </p>
-        {% endif %}
-     
-        <div class="gameBoxPlay">
-            <h3>Rapid Router - Our first app</h3>
-
-            <div class="section group">
-                 <div class="col span_1_of_3">
-                     <div class="play">
-                         <img src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
-                     </div>
-                 </div>
-                 
-                 <div class="col span_2_of_3">
-                    <p>
-                    Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming. Built on 'Blockly', an easy-to-use visual programming language that's similar to Scratch, Rapid Router enables teachers to monitor and manage individual pupil progress and identify where more support is required.
-                    </p>
-                    <a class="btn btn-primary" href="{% url 'game.views.level_selection.levels' %}">Play Now</a>
-                 </div>
-             </div>
+<div class="background">
+    <section>
+        <h1>Anyone can code, you can too!</h1>
+        <h4 class="col-sm-6 col-center">Whether you&rsquo;re a teacher or a student, Rapid Router guides you, and makes learning to code easy and great fun. Using Blockly you can advance through the levels
+            to become an Ocado delivery hero.</h4>
+    </section>
+    <div class="row row--small homepage-info">
+        <div class="col-sm-9 col-center">
+            <div class="col-sm-4">
+                <img title="Teaching Tools" alt="Teaching Tools" src='{% static "portal/img/teaching_tools.jpg" %}'>
+                <h3>Free teaching tools</h3>
+                <p class="body-text">Free teaching resources, lesson plans and much more. You can even track your student&rsquo;s progress with our class tracker.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Fun game" alt="Fun game" src='{% static "portal/img/a_fun_game_for_students.jpg" %}'>
+                <h3>A fun game for students</h3>
+                <p class="body-text">You can learn to become a coding superhero, amaze your friends with your high scores.</p>
+            </div>
+            <div class="col-sm-4">
+                <img title="Blockly" alt="Blocky code" src='{% static "portal/img/about_blockly.png" %}'>
+                <h3>About Blockly</h3>
+                <p class="body-text">Built on &lsquo;Blockly&rsquo;, an easy-to-use visual programming language that&rsquo;s similar to Scratch, so you don&rsquo;t need
+                    to worry about syntax.</p>
+            </div>
         </div>
     </div>
-
-    <div class="col span_1_of_3">
-        {% if user|is_logged_in %}
-            <div class="login-card">
-                <h3>Welcome, {{ user|make_into_username }}</h3><br>
-                <p>You are already logged in.</p>
-                <a href="{% url 'current_user' %}" class='wide btn btn-primary'>Go to dashboard</a>
-                <a href="{% url 'portal/logout' %}" class='wide btn btn-default' onclick="deleteAllLocalStorageWorkspaces();">Logout</a>
+    <div class="row row--under homepage-info">
+        <div class="col-sm-9 col-center">
+            <div class="col-sm-4">
+                <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Learn more</a>
             </div>
-        {% else %}
-            <div id="school-login" class="login-card">
-                <h3>School or club student sign in</h3><br>
-
-                <p>Signed up independently? <a href='#' id='switchToIndependentStudent'>Click here</a> to sign in.</p>
-                <form id='form-login-school' method='post'>
-
-                    {% csrf_token %}
-
-                    {{ school_login_form.non_field_errors }}
-
-                    {{ school_login_form.name.errors }}
-                    <label for="id_{{ school_login_form.name.html_name }}">{{ school_login_form.name.label }}</label>
-                    {{ school_login_form.name }}
-
-                    {{ school_login_form.access_code.errors }}
-                    <label for="id_{{ school_login_form.access_code.html_name }}">{{ school_login_form.access_code.label }}</label>
-                    {{ school_login_form.access_code }}
-
-                    {{ school_login_form.password.errors }}
-                    <label for="id_{{ school_login_form.password.html_name }}">{{ school_login_form.password.label }}</label>
-                    {{ school_login_form.password }}
-
-                    {% if school_login_form.recaptcha %}
-                        {{ school_login_form.recaptcha.errors }}
-                        <label for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
-                        {{ school_login_form.recaptcha|safe }}
-                    {% endif %}
-
-                    <input type='submit' name='school_login' class="btn btn-primary wide" value='Log in' onclick="deleteAllLocalStorageWorkspaces();"/>
-                </form>
-                <div class="login-help">
-                    Are you a teacher? <a id="teacherLogin_school_button" href="{% url 'teach' %}">Log in</a>.
-                </div>
-
+            <div class="col-sm-4">
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Play now</a>
             </div>
-
-            <div id="independent-student-login" class="login-card">
-                <h3>Independent student sign in</h3><br>
-
-                <p>Part of a school or club? <a href='#'  id='switchToSchool'>Click here</a> to sign in.</p>
-
-                <form id='independent_student_login_form' method='post'>
-
-                    {% csrf_token %}
-
-                    {{ independent_student_login_form.non_field_errors }}
-
-                    {{ independent_student_login_form.username.errors }}
-                    <label for="id_{{ independent_student_login_form.username.html_name }}">{{ independent_student_login_form.username.label }}</label>
-                    {{ independent_student_login_form.username }}
-
-                    {{ independent_student_login_form.password.errors }}
-                    <label for="id_{{ independent_student_login_form.password.html_name }}">{{ independent_student_login_form.password.label }}</label>
-                    {{ independent_student_login_form.password }}
-
-                    {% if independent_student_login_form.recaptcha %}
-                        {{ independent_student_login_form.recaptcha.errors }}
-                        <label for="id_{{ independent_student_login_form.recaptcha.html_name }}">{{ independent_student_login_form.recaptcha.label }}</label>
-                        {{ independent_student_login_form.recaptcha|safe }}
-                    {% endif %}
-
-                    <input type='submit' name='independent_student_login' class="btn btn-primary wide" value='Log in'/>
-                </form>
-
-                <div class="login-help">
-                    <a id="forgottenPassword_button" href="{% url 'student_password_reset' %}">Forgotten Password?</a><br>
-                    Are you a teacher? <a id="teacherLogin_button" href="{% url 'teach' %}">Log in</a>.
-                </div>
-            </div>
-
-        <br>
-
-        <div id="form-signup" class="login-card">
-            <h3>Independent student</h3><br>
-
-            <p id='signup-warning' >If you're not part of a school or club who are signed up to Code for Life, <a href='#' id='signupShow'>click here</a> to sign up independently.</p>
-
-            <form id="form-signup-independent-student" method='post'>
-
-                {% csrf_token %}
-
-                {{ signup_form.non_field_errors }}
-
-                {{ signup_form.name.errors }}
-                <label for="id_{{ signup_form.name.html_name }}">{{ signup_form.name.label }}</label>
-                {{ signup_form.name }}
-
-                {{ signup_form.username.errors }}
-                <label for="id_{{ signup_form.username.html_name }}">{{ signup_form.username.label }}</label>
-                {{ signup_form.username }}
-
-                {{ signup_form.email.errors }}
-                <label for="id_{{ signup_form.email.html_name }}">{{ signup_form.email.label }}</label>
-                {{ signup_form.email }}
-
-                <div class='section group'>
-                    <div class='col span_2_of_3 password-strength-bar-container'>
-                        <div class='password-strength-bar'></div>
-                    </div>
-                    <div class='col span_1_of_3 password-strength-text'></div>
-                </div>
-
-                {{ signup_form.password.errors }}
-                <label for="id_{{ signup_form.password.html_name }}">{{ signup_form.password.label }}</label>
-                {{ signup_form.password }}
-
-                {{ signup_form.confirm_password.errors }}
-                <label for="id_{{ signup_form.confirm_password.html_name }}">{{ signup_form.confirm_password.label }}</label>
-                {{ signup_form.confirm_password }}
-
-                <input type='submit' name='signup' class="btn btn-primary wide" value='Register'/>
-            </form>
         </div>
-        {% endif %}
     </div>
 </div>
+
+<section class="background background--quaternary">
+    <h2>Meet the characters</h2>
+    <div class="col-sm-10 col-center image-row">
+        <div>
+            <img title="Wes" alt="Wes image" src='{% static "portal/img/wes.png" %}'>
+            <p class="body-text">Wes is as cunning as a fox, which is weird, because he&rsquo;s actually a wolf.</p>
+        </div>
+        <div>
+            <img title="Kirsty" alt="Kirsty image" src='{% static "portal/img/kirsty.png" %}'>
+            <p class="body-text">Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world!</p>
+        </div>
+        <div>
+            <img title="Dee" alt="Dee image" src='{% static "portal/img/dee.png" %}'>
+            <p class="body-text">Dee is a Mark II DeliviBot. She&rsquo;s super friendly and her wire hair sparks when she laughs.</p>
+        </div>
+        <div>
+            <img title="Nigel" alt="Nigel image" src='{% static "portal/img/nigel.png" %}'>
+            <p class="body-text">Nigel is the tallest kid in his class, and he&rsquo;s growing taller by the day.</p>
+        </div>
+        <div>
+            <img title="Phil" alt="Phil image" src='{% static "portal/img/phil.png" %}'>
+            <p class="body-text">Phil is a Boarsnark, however, he is different to most Boarsnarks because he&rsquo;s very kind, and very gentle.</p>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        invokeColorbox();
+    });
+</script>
 
 {% endblock content %}

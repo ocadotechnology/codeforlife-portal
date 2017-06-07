@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,22 +35,20 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from selenium.webdriver.support.ui import Select
+import class_page
 
 from teach_base_page import TeachBasePage
+
 
 class TeachDismissStudentsPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachDismissStudentsPage, self).__init__(browser)
 
-        assert self.on_correct_page('teach_dismiss_students_page')
+        assert self.on_correct_page('dismiss_students_page')
 
-    def get_list_of_students(self):
-        rows = self.browser.find_elements_by_xpath("//table[@id='students_table']//tr")
-        return [el.find_element_by_xpath("//td[1]//input").get_attribute('value') for el in rows[2::2]]
-
-    def enter_email(self, name, email):
-        self.browser.find_element_by_xpath("//table[@id='students_table']//td[contains(text(),'{0}')]/..//td[3]//input".format(name)).send_keys(email)
-        self.browser.find_element_by_xpath("//table[@id='students_table']//td[contains(text(),'{0}')]/..//td[4]//input".format(name)).send_keys(email)
+    def enter_email(self, email):
+        self.browser.find_element_by_id("id_form-0-email").send_keys(email)
+        self.browser.find_element_by_id("id_form-0-confirm_email").send_keys(email)
         return self
 
     def cancel(self):
@@ -60,6 +58,3 @@ class TeachDismissStudentsPage(TeachBasePage):
     def dismiss(self):
         self.browser.find_element_by_id('dismiss_button').click()
         return class_page.TeachClassPage(self.browser)
-
-import class_page
-import move_students_disambiguate_page

@@ -1,8 +1,12 @@
-{% extends 'portal/base.html' %}
+{% extends 'portal/base_old.html' %}
 
 {% block check_user_status %}
     {# remove script that checks user_status as admin accounts do not have userProfile #}
 {% endblock check_user_status %}
+
+{% block topBar %}
+{# remove topBar that checks user_status as admin accounts do not have userProfile #}
+{% endblock topBar %}
 
 {% block subNav %}
     {# remove subNav that checks user_status as admin accounts do not have userProfile #}

@@ -34,8 +34,13 @@ img {
 }
 
 .image-row {
-  display: table-cell;
-  vertical-align: bottom;
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+
+  div {
+    @include _padding(0px, 30px, 0px, 30px);
+  }
 
   img {
     @include _padding(0px, 20px, 0px, 20px);
@@ -50,7 +55,7 @@ img {
 }
 
 .logo {
-  content: url('../img_new/logo_c4l_hexa.png');
+  content: url('../img/logo_c4l_hexa.png');
   position: fixed;
   top: 10px;
   z-index: 3;
@@ -77,10 +82,16 @@ img {
 
 }
 
+@media (max-width: 1200px) {
+  .logo {
+    height: 60px;
+  }
+}
+
 @media (min-width: 760px) {
 
   .logo {
-    content: url('../img_new/logo_c4l_hexa.png');
+    content: url('../img/logo_c4l_hexa.png');
     position: fixed;
     top: 10px;
     z-index: 3;

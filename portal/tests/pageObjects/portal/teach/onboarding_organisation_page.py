@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -41,7 +41,7 @@ import onboarding_revoke_request_page
 
 from selenium.webdriver.support.ui import Select
 
-from teach_base_page_new import TeachBasePage
+from teach_base_page import TeachBasePage
 
 
 class OnboardingOrganisationPage(TeachBasePage):

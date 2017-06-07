@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,12 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import string
-
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.wait import WebDriverWait
-
 from teach_base_page import TeachBasePage
+import dashboard_page
+import class_settings_page
+import edit_student_page
+import onboarding_student_list_page
+import move_students_page
+import dismiss_students_page
 
 
 class TeachClassPage(TeachBasePage):
@@ -48,101 +49,30 @@ class TeachClassPage(TeachBasePage):
 
         assert self.on_correct_page('teach_class_page')
 
-    def go_to_class_settings_page(self):
-        self.browser.find_element_by_id('class_settings_button').click()
-        return class_settings_page.TeachClassSettingsPage(self.browser)
-
-    def delete_class(self):
-        self.browser.find_element_by_id('deleteClass').click()
-        return self
-
-    def cancel_dialog(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
-        return self
-
-    def confirm_dialog(self):
-        self._click_confirm()
-
-        return classes_page.TeachClassesPage(self.browser)
-
-    def wait_for_messages(self):
-        self.wait_for_element_by_id('messages')
-
-    def confirm_dialog_expect_error(self):
-        self._click_confirm()
-
-        return self
-
-    def _click_confirm(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
-
-    def is_dialog_showing(self):
-        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
-
-    def has_students(self):
-        return self.element_exists_by_id('student_table')
-
-    def does_not_have_students(self):
-        return self.element_does_not_exist_by_id('student_table')
-
-    def student_exists(self, name):
-        return self.element_exists_by_xpath(self.students_xpath(name))
-
-    def student_does_not_exist(self, name):
-        return self.element_does_not_exist_by_xpath(self.students_xpath(name))
-
-    def students_xpath(self, name):
-        return "//table[@id='student_table']//a[contains(text(),'{0}')]".format(name)
-
     def type_student_name(self, name):
         self.browser.find_element_by_id('id_names').send_keys(name + '\n')
         return self
 
     def create_students(self):
         self._click_create_students()
-
-        return new_students_page.TeachNewStudentsPage(self.browser)
-
-    def create_students_failure(self):
-        self._click_create_students()
-
-        return self
+        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def _click_create_students(self):
         self.browser.find_element_by_name('new_students').click()
 
-    def adding_students_failed(self):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
+    def student_exists(self, name):
+        return name in self.browser.find_element_by_id('student_table').text
 
-        error_list = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist')
+    def delete_class(self):
+        self.browser.find_element_by_id('deleteClass').click()
+        return self
 
-        if error_list.text:
-            return True
-        else:
-            return False
+    def delete_students(self):
+        self.browser.find_element_by_id('deleteSelectedStudents').click()
+        return self
 
-    def student_already_existed(self, name):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
-
-        errors = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
-        error = "There is already a student called '{0}' in this class".format(name)
-        return error in errors
-
-    def duplicate_students(self, name):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
-
-        errors = self.browser.find_element_by_id('add_form').find_element_by_class_name('errorlist').text
-        error = "You cannot add more than one student called '{0}'".format(name)
-        return error in errors
-
-    def toggle_select_student(self, name):
-        self.browser.find_element_by_xpath(
-            "//table[@id='student_table']//a[contains(text(),'{0}')]/../..//input".format(name)).click()
+    def reset_passwords(self):
+        self.browser.find_element_by_id('resetSelectedStudents').click()
         return self
 
     def move_students(self):
@@ -156,38 +86,60 @@ class TeachClassPage(TeachBasePage):
         return self
 
     def dismiss_students(self):
-        self._dismiss_students()
+        self.browser.find_element_by_id('dismissSelectedStudents').click()
 
         return dismiss_students_page.TeachDismissStudentsPage(self.browser)
 
-    def dismiss_students_none_selected(self):
-        self._dismiss_students()
+    def cancel_dialog(self):
+        self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
+        return self
+
+    def confirm_delete_class_dialog(self):
+        self._click_confirm()
+
+        return dashboard_page.TeachDashboardPage(self.browser)
+
+    def confirm_delete_student_dialog(self):
+        self._click_confirm()
 
         return self
 
-    def _dismiss_students(self):
-        self.browser.find_element_by_id('dismissSelectedStudents').click()
+    def confirm_reset_student_dialog(self):
+        self._click_confirm()
 
-    def delete_students(self):
-        self.browser.find_element_by_id('deleteSelectedStudents').click()
+        return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
+
+    def confirm_dialog_expect_error(self):
+        self._click_confirm()
+
         return self
 
+    def is_dialog_showing(self):
+        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
 
-class OrFunction:
-    def __init__(self, *functions):
-        self.functions = functions
+    def _click_confirm(self):
+        self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
 
-    def __call__(self, driver):
-        for function in self.functions:
-            try:
-                return function(driver)
-            except NoSuchElementException:
-                pass
-        raise NoSuchElementException()
+    def toggle_select_student(self):
+        self.browser.find_element_by_id("student_checkbox").click()
+        return self
 
+    def wait_for_messages(self):
+        self.wait_for_element_by_id('messages')
 
-import classes_page
-import class_settings_page
-import new_students_page
-import move_students_page
-import dismiss_students_page
+    def has_students(self):
+        return self.element_exists_by_id('student_table')
+
+    def go_to_class_settings_page(self):
+        self.browser.find_element_by_id('class_settings_button').click()
+        return class_settings_page.TeachClassSettingsPage(self.browser)
+
+    def go_to_edit_student_page(self):
+        self.browser.find_element_by_id("edit_student_button").click()
+        return edit_student_page.EditStudentPage(self.browser)
+
+    def go_to_dashboard(self):
+        self.browser.find_element_by_id("return_to_classes_button").click()
+        return dashboard_page.TeachDashboardPage(self.browser)

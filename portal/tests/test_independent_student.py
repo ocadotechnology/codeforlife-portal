@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,12 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import re
+import time
 
 from django.core import mail
 from django_selenium_clean import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test import BaseTest
+from pageObjects.portal.home_page import HomePage
 from utils.student import create_independent_student, submit_independent_student_signup_form
 from utils.messages import is_email_verified_message_showing
 from utils import email as email_utils
@@ -52,16 +54,15 @@ class TestIndependentStudent(BaseTest):
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(selenium)
 
-    def test_failed_signup_155(self):
-        '''Test that a failed signup show the errors. Regression test for #155'''
+    def test_failed_signup(self):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='test')
         assert page.has_independent_student_signup_failed()
 
     def test_login_failure(self):
         page = self.go_to_homepage()
-        page = page.go_to_play_page()
-        page = page.independent_student_login_failure('Non existant username', 'Incorrect password')
+        page = page.go_to_login_page()
+        page = page.independent_student_login_failure('Non existent username', 'Incorrect password')
 
         assert page.has_independent_student_login_failed()
 
@@ -77,9 +78,9 @@ class TestIndependentStudent(BaseTest):
         })
 
     def test_reset_password(self):
-        homepage = self.go_to_homepage()
+        page = self.go_to_homepage()
 
-        username = create_independent_student(homepage)[2]
+        page, name, username, email, password = create_independent_student(page)
         page = self.get_to_forgotten_password_page()
 
         page.reset_username_submit(username)
@@ -90,16 +91,20 @@ class TestIndependentStudent(BaseTest):
 
         new_password = 'AnotherPassword12'
 
-        page.reset_password(new_password)
+        page.student_reset_password(new_password)
 
-        selenium.get(self.live_server_url)
+        selenium.get(self.live_server_url + "/portal/home")
         page = self \
             .go_to_homepage() \
-            .go_to_play_page() \
-            .go_to_independent_form() \
+            .go_to_login_page() \
             .independent_student_login(username, new_password)
 
-        assert self.is_independent_student_details(page)
+        assert page.__class__.__name__ == 'PlayDashboardPage'
+
+        page = page.go_to_account_page()
+        assert page.check_account_details({
+            'name': name
+        })
 
     def test_reset_password_fail(self):
         page = self.get_to_forgotten_password_page()
@@ -107,27 +112,16 @@ class TestIndependentStudent(BaseTest):
         fake_username = "fake_username"
         page.reset_username_submit(fake_username)
 
-        WebDriverWait(selenium, 2).until(
-            lambda driver: self.browser_text_find("Cannot find an account with that username"))
-        self.assertIn("Cannot find an account with that username", selenium.page_source)
+        time.sleep(5)
 
-    def browser_text_find(self, text_to_find):
-        text = selenium.page_source
-        result = re.search(text_to_find, text)
-        if result is not None:
-            return True
-        else:
-            return False
+        assert len(mail.outbox) == 0
 
     def get_to_forgotten_password_page(self):
-        page = self.go_to_homepage() \
-            .go_to_play_page() \
-            .go_to_independent_form() \
-            .go_to_forgotten_password_page()
+        selenium.get(self.live_server_url + "/portal/home")
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .go_to_indep_forgotten_password_page()
         return page
-
-    def is_independent_student_details(self, page):
-        return page.__class__.__name__ == 'PlayDashboardPage'
 
     def wait_for_email(self):
         WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)

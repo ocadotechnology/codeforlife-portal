@@ -1,0 +1,524 @@
+{% extends 'portal/teach/base_logged_in.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block materials %}
+<a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+{% endblock materials %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher">
+    <a href="#user_guide" class="button button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="#lks2" class="button button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+</div>
+
+<div class="banner banner--teacher">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">Teaching Packs</h1>
+        <p class="body-text">We&rsquo;ve created a comprehensive set of teaching materials to give you the confidence and resources to use the Rapid Router game to help you teach children the UK
+            National Computing Curriculum right through their primary education.</p>
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--tools"></div></div></div>
+    </div>
+</div>
+<div class="sub-nav sub-nav--teacher">
+    <a href="#user_guide" class="button button--regular button--secondary button--secondary--light">User guide</a>
+    <a href="#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="#lks2" class="button button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
+    <a href="#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">User guide</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Key Stage 1</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Lower Key Stage 2</button>
+</div>
+<div class="banner__item banner__item--teacher">
+    <button class="button--big button--secondary button--secondary--light button--banner__item">Upper Key Stage 2</button>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="materials_page"></div>
+
+<div id="user_guide">
+    <div class="background background--primary">
+        <div class="col-sm-6 col-center">
+            <section>
+                <h2>User Guide</h2>
+            </section>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Key Stage 1, Lower Key Stage 2</h4>
+                    <p class="body-text"><a id="pdf_link" href= "{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></p>
+                    <p class="body-text"><a href= "{% url 'materials_viewer' pdf_name='levels_guide_1-50' %}">Levels Guide (1-50)</a></p>
+                    <p class="body-text"><a href= "{% url 'materials_viewer' pdf_name='glossary' %}">Glossary</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h4>Upper Key Stage 2</h4>
+                    <p class="body-text"><a href= "{% url 'materials_viewer' pdf_name='introduction_to_python' %}">Introduction to Python in Rapid Router</a></p>
+                    <p class="body-text"><a href= "{% url 'materials_viewer' pdf_name='levels_guide_51-109' %}">Levels Guide (51-109)</a></p>
+                    <p class="body-text"><a href= "{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}">Blockly - Python Phrasebook</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ks1">
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h2>Key Stage 1</h2>
+            <img title="KS1" alt="KS1 icon" src='{% static "portal/img/stage_icon_ks1.png" %}'>
+            <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
+                commands in a visual programming language.</h4>
+            <a href="{{ 'KS1.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
+            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/zip.png" %}'>
+        </section>
+        <h3>Sessions <span class="ks-tag">KS1</span></h3>
+        <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
+            review following the session.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_1' %}">Unplugged algorithms for moving along a route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_2' %}">Starting off on-screen with the app</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_3' %}">Creating simple algorithms to reach a single destination</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_4' %}">Creating simple algorithms to reach a single destination along the shortest route</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_5' %}">Create a more complex algorithm to deliver one or more packages on the way</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_6' %}">Delivering several packages in a sensible sequence</a> (extension activity)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_7' %}">Introduction the repeat code</a> (includes video)</p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_8' %}">Follow-on and extension work on multiple repeat loops and nested repeats</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_9' %}">Children create their own routes</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 10</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='ks1_session_10' %}">Try out a partners route</a></p></td>
+            </tr>
+        </table>
+        <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
+        <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom.
+            You can <a href="{{ 'KS1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            them individually below.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S1_1' %}">KS1-S1-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S1_2' %}">KS1-S1-2</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S1_3' %}">KS1-S1-3</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S1_4' %}">KS1-S1-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S3_1' %}">KS1-S3-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S4_1' %}">KS1-S4-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S4_2' %}">KS1-S4-2</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S4_3' %}">KS1-S4-3</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S4_4' %}">KS1-S4-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S5_1' %}">KS1-S5-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S6_1' %}">KS1-S6-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S6_2' %}">KS1-S6-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S7_1' %}">KS1-S7-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S7_2' %}">KS1-S7-2</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S7_3' %}">KS1-S7-3</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S8_1' %}">KS1-S8-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S8_2' %}">KS1-S8-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 9</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='KS1_S9_1' %}">KS1-S9-1</a></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="background background--quaternary">
+        <div class="col-sm-8 col-center">
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Program Solutions <span class="ks-tag">KS1</span></h3>
+                    <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='program_solutions_1-28' %}">View programme solutions</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Activity Set <span class="ks-tag">KS1</span></h3>
+                    <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
+                        expectations and teacher preparation.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='ks1_activity_set' %}">View activity set</a></p>
+                </div>
+            </div>
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Assets <span class="ks-tag">KS1</span></h3>
+                    <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='ks1_assets' %}">Assets</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='ks1_code_wall_cards' %}">Code wall cards</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Assessments <span class="ks-tag">KS1</span></h3>
+                    <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
+                        a record sheet for pupils. You can <a href="{{ 'KS1/assessment.zip'|cloud_storage }}"> download the
+                        whole set</a> (zip file), or view and download them individually below.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='ks1_assessment_guide' %}">Assessment Sheet</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='ks1_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='ks1_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="lks2">
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h2>Lower Key Stage 2</h2>
+            <img title="LKS2" alt="LKS2 icon" src='{% static "portal/img/stage_icon_lks2.png" %}'>
+            <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
+                commands in a visual programming language.</h4>
+            <a href="{{ 'KS2.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all Lower KS2 resources</a>
+            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/zip.png" %}'>
+        </section>
+        <h3>Sessions <span class="ks-tag">Lower KS2</span></h3>
+        <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
+            review following the session.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_1' %}">Recap on using a simple &lsquo;repeat&rsquo; loop</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_2' %}">Using repeat with a condition on a simple route: &lsquo;repeat until&rsquo;</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_3' %}">Using simple selections and repetition: &lsquo;repeat until&rsquo; &lsquo;at destination&rsquo; &lsquo;if…do&rsquo;</a>
+                </p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_4' %}">General solution using &lsquo;repeat until&rsquo; and &lsquo;if…do&rsquo; (including else if for more able children)</a>
+                </p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_5' %}">Extension group activity - Explain why the general program does not work for some more complex maps</a>
+                </p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_6' %}">Traffic lights: understanding variables and the &lsquo;if do…if else&rsquo; statements</a>
+                </p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_7' %}">Applying their programming knowledge to create a game challenge</a>
+                </p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='lks2_session_8' %}">Applying their programming knowledge to play and evaluate a game challenge</a>
+                </p></td>
+            </tr>
+        </table>
+        <h3>Resource Sheets <span class="ks-tag">Lower KS2</span></h3>
+        <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom.
+            You can <a href="{{ 'KS2/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            them individually below.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S1_1' %}">LKS2-S1-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S2_1' %}">LKS2-S2-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S2_2' %}">LKS2-S2-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S3_1' %}">LKS2-S3-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S4_1' %}">LKS2-S4-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S4_1' %}">LKS2-S4-2</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S4_1' %}">LKS2-S4-3</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S4_1' %}">LKS2-S4-4</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S5_1' %}">LKS2-S5-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S6_1' %}">LKS2-S6-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S7_1' %}">LKS2-S7-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='LKS2_S7_1' %}">LKS2-S7-2</a></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="background background--secondary">
+        <div class="col-sm-8 col-center">
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Program Solutions <span class="ks-tag">Lower KS2</span></h3>
+                    <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='program_solutions_29-50' %}">View programme solutions</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Activity Set <span class="ks-tag">Lower KS2</span></h3>
+                    <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
+                        expectations and teacher preperation.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='lks2_activity_set' %}">View activity set</a></p>
+                </div>
+            </div>
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Assets <span class="ks-tag">Lower KS2</span></h3>
+                    <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='lks2_assets' %}">Assets</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='lks2_code_wall_cards' %}">Code wall cards</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Assessments <span class="ks-tag">Lower KS2</span></h3>
+                    <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
+                        a record sheet for pupils. You can <a href="{{ 'KS2/assessment.zip'|cloud_storage }}"> download the
+                        whole set</a> (zip file), or view and download them individually below.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='lks2_assessment_guide' %}">Assessment Guide</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='lks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='lks2_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="uks2">
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h2>Upper Key Stage 2</h2>
+            <img title="UKS2" alt="UKS2 icon" src='{% static "portal/img/stage_icon_uks2.png" %}'>
+            <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
+                commands in a visual programming language.</h4>
+            <a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}" class="button button--regular button--primary--negative">Download all Upper KS2 resources</a>
+            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/zip.png" %}'>
+        </section>
+        <h3>Sessions <span class="ks-tag">Upper KS2</span></h3>
+        <p class="body-text">Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
+            review following the session.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_1' %}">What do we already know? (Recap the Blockly commands previously encountered)</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_2' %}">Breaking down the problem in chunks (understanding procedures)</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_3' %}">Switching from Blockly to Python</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_4' %}">Understanding more Python commands (&lsquo;while&rsquo;, &lsquo;if…elif…else&rsquo;)</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_5' %}">Writing basic code directly in Python (forwards, turn, print, repetition)</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_6' %}">Flying Solo with Python! Programming independently using selection, defining procedures/functions</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_7' %}">Increase the challenge - creating new Python variables, incrementing variables</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text">
+                    <a href="{% url 'materials_viewer' pdf_name='uks2_session_8' %}">Assessment session - applying your coding knowledge to create a game challenge for a partner</a></p></td>
+            </tr>
+        </table>
+        <h3>Resource Sheets <span class="ks-tag">Upper KS2</span></h3>
+        <p class="body-text">Resource sheets help you teach coding concepts offline in the classroom.
+            You can <a href="{{ 'python/UKS2_Resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            them individually below.</p>
+        <table class="table--resources">
+            <tr>
+                <td><p class="body-text"><strong>Session 1</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S1_1' %}">UKS2-S1-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 2</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S2_1' %}">UKS2-S2-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S2_2' %}">UKS2-S2-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 3</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S3_1' %}">UKS2-S3-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S3_2' %}">UKS2-S3-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 4</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S4_1' %}">UKS2-S4-1</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 5</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S5_1' %}">UKS2-S5-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S5_2' %}">UKS2-S5-2</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S5_3' %}">UKS2-S5-3</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 6</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S6_1' %}">UKS2-S6-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S6_2' %}">UKS2-S6-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 7</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S7_1' %}">UKS2-S7-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S7_2' %}">UKS2-S7-2</a></p></td>
+            </tr>
+            <tr>
+                <td><p class="body-text"><strong>Session 8</strong></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S8_1' %}">UKS2-S8-1</a></p></td>
+                <td><p class="body-text"><a href="{% url 'materials_viewer' pdf_name='UKS2_S8_2' %}">UKS2-S8-2</a></p></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="background background--tertiary">
+        <div class="col-sm-8 col-center">
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Program Solutions <span class="ks-tag">Upper KS2</span></h3>
+                    <p class="body-text">This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='program_solutions_51-109' %}">View programme solutions</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Activity Set <span class="ks-tag">Upper KS2</span></h3>
+                    <p class="body-text">This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
+                        expectations and teacher preparation.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='uks2_activity_set' %}">View activity set</a></p>
+                </div>
+            </div>
+            <div class="row row--under">
+                <div class="col-sm-6">
+                    <h3>Assets <span class="ks-tag">Upper KS2</span></h3>
+                    <p class="body-text">Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='uks2_assets' %}">Assets</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='uks2_code_wall_cards' %}">Code wall cards</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Assessments <span class="ks-tag">Upper KS2</span></h3>
+                    <p class="body-text">Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
+                        a record sheet for pupils. You can <a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}" > download the 
+                        whole set</a> (zip file), or view and download them individually below.</p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='uks2_assessment_guide' %}">Assessment Guide</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='uks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
+                    <p class="body-text"><a href="{% url 'materials_viewer' pdf_name='uks2_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        toggleStickySubnav($('.banner').outerHeight());
+    });
+</script>
+
+
+{% endblock content %}

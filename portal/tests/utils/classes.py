@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -51,10 +51,6 @@ def generate_details():
 generate_details.next_id = 1
 
 
-def generate_email(name):
-    return name.replace(' ', '_') + '@codeforlife.com'
-
-
 def create_class_directly(teacher_email, class_name=None):
     name, accesss_code = generate_details()
 
@@ -72,36 +68,12 @@ def create_class_directly(teacher_email, class_name=None):
 
 
 def create_class(page):
-    page = page.go_to_classes_page()
-
     name, _ = generate_details()
 
     page = page.create_class(name, 'False')
 
-    accesss_code = re.search('([A-Z]{2}[0-9]{3})\)$', page.browser.find_element_by_id('class_header').text).group(1)
-
-    return page, name, accesss_code
+    return page, name
 
 
 def transfer_class(page, teacher_index):
     return page.transfer_class().select_teacher_by_index(teacher_index).move()
-
-
-def move_students(page, class_index):
-    return page.move_students().select_class_by_index(class_index).move().move()
-
-
-def dismiss_students(page):
-    page = page.dismiss_students()
-
-    emails = []
-
-    for name in page.get_list_of_students():
-        email = generate_email(name)
-        emails.append(email)
-
-        page = page.enter_email(name, email)
-
-    page = page.dismiss()
-
-    return page, emails

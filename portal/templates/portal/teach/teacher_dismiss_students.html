@@ -1,64 +1,79 @@
-{% extends 'portal/teach/base.html' %}
+{% extends 'portal/teach/base_logged_in.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
-<div id='teach_dismiss_students_page'></div>
+<div id='dismiss_students_page'></div>
 
-<h1>Classes</h1><br>
-<h2>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h2><br>
+<section class="background col-sm-6 col-center">
+    <h2>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h2><br>
+    <h4>Convert students into independent students.</h4>
+</section>
 
-<p>Convert students into independent students.</p>
+<div class='background background--quaternary'>
+    <div class="col-sm-6 col-center">
+        <h3>Students to release from school</h3>
 
+        <p class="body-text">You are about to remove students from your class and set them up as independent students. Neither you nor your school will
+            be able to manage them once you have submitted this request.</p>
 
-<div class='login-card'>
-    <h4>Students to release from school</h4><br>
+        <p class="body-text">You may want to change the username for these students to something more memorable. The students will then log in with
+            these new usernames via the independent student login on the <a href="{% url 'play' %}">Play</a> page. Their passwords will stay the same.
+            Independent students do not need to provide a class access code.</p>
 
-    <p>You are about to remove students from your class and set them up as indepedent students. Neither you nor your school will be able to manage them once you have submitted this request.</p>
+        <p class="body-text">Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts.
+            If a student is too young to own an email address, a parent or guardian&rsquo;s email address will be required. These email addresses will
+            have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
 
-    <p>You may want to change the username for these students to something more memorable. The students will then log in with these new usernames via the independent student login on the <a href="{% url 'play' %}">Play</a> page. Their passwords will stay the same. Independent students do not need to provide a class access code.</p>
+        <form method='POST'>
 
-    <p>Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts. If a student is too young to own an email address, a parent or guardian's email address will be required. These email addresses will have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
+            {% csrf_token %}
 
-    <form method='POST'>
+            {{ formset.management_form }}
+            {{ formset.non_form_errors }}
 
-        {% csrf_token %}
-
-        {{ formset.management_form }}
-
-        <table id='students_table' class='CSSTable alternate wide smaller'>
-            <tr>
-                <th>Original Student Name</th>
-                <th>New Student Username</th>
-                <th>Email Address</th>
-                <th>Confirm Email Address</th>
-            </tr>
-                {{ formset.non_form_errors }}
-                {% for form in formset %}
-                    <tr>
-                        <td colspan='4'>{{ form.non_field_errors }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ form.orig_name.value }}{{ form.orig_name }}</td>
-                        <td>{{ form.name.errors }}{{ form.name }}</td>
-                        <td>{{ form.email.errors }}{{ form.email }}</td>
-                        <td>{{ form.email.confirm_errors }}{{ form.confirm_email }}</td>
-                    </tr>
-                {% endfor %}
-        </table>
-
-        <div class='section group'>
-            <div class='col span_1_of_3'>
-                <a id='cancel_button' class='btn btn-default wide' href="{% url 'teacher_class' class.access_code %}">Cancel</a>
+            {% for form in formset %}
+            <div class="background">
+                <div class="row row--under">
+                    <div class="col-sm-6">
+                        <p class="small-text">Original Student Name</p>
+                        {{ form.orig_name }}
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="small-text">New Student Username</p>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                    </div>
+                </div>
+                <div class="row row--under">
+                    <div class="col-sm-6">
+                        <p class="small-text">Email Address</p>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="small-text">Confirm Email Address</p>
+                        {{ form.confirm_email }}
+                        {{ form.email.confirm_errors }}
+                    </div>
+                </div>
             </div>
-            <div class='col span_1_of_3 pull-right'>
-                <input id='dismiss_button' type='submit' name='submit_dismiss' class='btn btn-danger wide' value='Remove'/>
-            </div>
-        </div>
+            {% endfor %}
 
-    </form>
+            <div class='button-group'>
+                <button id='dismiss_button' type='submit' name='submit_dismiss' class='button--regular button--primary--danger'>Remove student</button>
+                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' class.access_code %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}

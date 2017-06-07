@@ -2,7 +2,12 @@
 {% load static %}
 {% load app_tags %}
 
-{% block nav_student_dashboard %}<b><a href="{% url 'student_details' %}">Dashboard</a></b>{% endblock nav_student_dashboard %}
+{% block studentButtons %}
+<a href="{% url 'student_details' %}" id="student_dashboard_button"
+   class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">Dashboard</a>
+<a href="{% url 'student_edit_account' %}" id="student_account_button"
+   class="button--menu button--menu--secondary button--menu--enabled">Password</a>
+{% endblock studentButtons %}
 
 {% block content %}
 

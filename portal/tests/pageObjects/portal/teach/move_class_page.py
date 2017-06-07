@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,8 +35,11 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from selenium.webdriver.support.ui import Select
+import dashboard_page
+import class_page
 
 from teach_base_page import TeachBasePage
+
 
 class TeachMoveClassPage(TeachBasePage):
     def __init__(self, browser):
@@ -57,7 +60,4 @@ class TeachMoveClassPage(TeachBasePage):
 
     def move(self):
         self.browser.find_element_by_id('move_button').click()
-        return classes_page.TeachClassesPage(self.browser)
-
-import classes_page
-import class_page
+        return dashboard_page.TeachDashboardPage(self.browser)

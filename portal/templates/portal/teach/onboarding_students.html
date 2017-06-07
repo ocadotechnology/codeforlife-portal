@@ -1,0 +1,70 @@
+{% extends 'portal/teach/base_registering.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+{% block createJoinSchoolStep %}
+<div class="onboarding-step onboarding-step--done">
+    <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Create / Join school</p>
+</div>
+{% endblock createJoinSchoolStep %}
+{% block createClassStep %}
+<div class="onboarding-step onboarding-step--done">
+    <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Create class</p>
+</div>
+{% endblock createClassStep %}
+{% block addStudentsStep %}
+<div class="onboarding-step onboarding-step--in-progress">
+    <p class="body-text"><img title="In progress" alt="Step in progress" src='{% static "portal/img/step_in_progress.png" %}'>Add students</p>
+</div>
+{% endblock addStudentsStep %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="onboarding_students_page"></div>
+
+<div class="background background--primary">
+    <div class="form col-sm-4 col-center">
+        <h4>{{ user.new_teacher.school.name }}</h4>
+        {% if classes %}
+            {% for class in classes %}
+                <h3>Add students to class: {{ class.name }}</h3>
+            {% endfor %}
+        {% else %}
+        <p>It doesn&rsquo;t look like you have any classes assigned to you. To create a class, use the &lsquo;New Class&rsquo; box on the right.</p>
+        {% endif %}
+        <p class="body-text">Add the students&rsquo; names to the box with one student name per line. Students&rsquo; names will be used in their login details, and so
+            each name should be unique.</p><br>
+        <p class="body-text">You have the option the use the students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
+            are required to sign in.</p>
+        <form id='form-create-students' method='POST'>
+
+            {% csrf_token %}
+
+            {{ new_students_form.non_field_errors }}
+
+            {{ new_students_form.names.errors }}
+            {{ new_students_form.names }}
+
+            <button type='submit' class='button--regular button-primary button--primary--general-play' name='new_students' value='Add students'>Add students</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        toggleStickySubnav($('.banner').outerHeight());
+    });
+</script>
+
+{% endblock content %}

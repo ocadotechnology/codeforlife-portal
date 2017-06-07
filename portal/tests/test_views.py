@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Limited
+# Copyright (C) 2017, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
 from utils.teacher import signup_teacher_directly
 from utils.classes import create_class_directly
+from utils.student import create_school_student_directly
 
 
 class TestTeacherViews(TestCase):
@@ -46,6 +47,7 @@ class TestTeacherViews(TestCase):
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
         _, _, cls.class_access_code = create_class_directly(cls.email)
+        create_school_student_directly(cls.class_access_code)
 
     def login(self):
         c = Client()

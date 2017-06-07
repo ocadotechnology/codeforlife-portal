@@ -17,6 +17,7 @@
 
 .ui-dialog {
   background: $color-background-secondary;
+  border: 1px solid grey;
   left: 35% !important;
   position: fixed !important;
   top: 30% !important;
@@ -34,6 +35,7 @@
 }
 
 .ui-dialog-content {
+  @include _font-size(20px);
   @include _padding(10px, 10px, 10px, 10px);
 }
 

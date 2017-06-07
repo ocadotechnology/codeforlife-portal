@@ -1,7 +1,7 @@
 /*
 Code for Life
 
-Copyright (C) 2016, Ocado Innovation Limited
+Copyright (C) 2017, Ocado Innovation Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -35,23 +35,34 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
-$(function() {
-    var updateFunction = (PASSWORD_TYPE == 'INDEPENDENT_STUDENT') ? updateIndependentStudentPasswordStrength : updateTeacherPasswordStrength;
+var TEACHER_PASSWORD_FIELD_ID = '';
+var INDEP_STUDENT_PASSWORD_FIELD_ID = '';
+var teacher_password_field = '';
+var indep_student_password_field = '';
 
-    password_field = $('#' + PASSWORD_FIELD_ID);
-    password_field.on('keydown', updateFunction);
-    password_field.on('paste', updateFunction);
-    password_field.on('cut', updateFunction);
-    updateFunction();
+var password_strengths = [
+    { name: 'No password!', colour: '#FF0000' },
+    { name: 'Password too weak', colour: '#DBA901' },
+    { name: 'Strong password', colour: '#088A08' }
+];
+
+$(function() {
+
+    teacher_password_field = $('#' + TEACHER_PASSWORD_FIELD_ID);
+    indep_student_password_field = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID);
+
+    setUpDynamicUpdates(teacher_password_field, updateTeacherPasswordStrength);
+    setUpDynamicUpdates(indep_student_password_field, updateIndependentStudentPasswordStrength);
+
+    updateTeacherPasswordStrength();
+    updateIndependentStudentPasswordStrength();
 });
 
-var teacher_password_strengths = [
-    { name: 'Password quality', colour: '' },
-    { name: 'Poor quality', colour: '#FF0000' },
-    { name: 'Not quite', colour: '#DBA901' },
-    { name: 'Nearly there', colour: '#D7DF01' },
-    { name: 'Good password', colour: '#088A08' }
-];
+function setUpDynamicUpdates(password_field, update_function) {
+    password_field.on('keyup', update_function);
+    password_field.on('paste', update_function);
+    password_field.on('cut', update_function);
+}
 
 function updateTeacherPasswordStrength() {
     // The reason for the timeout is that if we just got $('#...').val() we'd get the
@@ -59,43 +70,32 @@ function updateTeacherPasswordStrength() {
     // things this way, so maybe there is no better workaround.
 
     setTimeout(function() {
-        var password = $('#' + PASSWORD_FIELD_ID).val();
 
-        var strength = 4;
-        if (password.length < 8) { strength--; }
-        if (password.search(/[A-Z]/) === -1) { strength--; }
-        if (password.search(/[a-z]/) === -1) { strength--; }
-        if (password.search(/[0-9]/) === -1) { strength--; }
+        var password = $('#' + TEACHER_PASSWORD_FIELD_ID).val();
 
-        if (password == '') { $('.password-strength-bar-container').hide(); $('.password-strength-text').hide(); }
-        else { $('.password-strength-bar-container').show(); $('.password-strength-text').show(); }
+        var strength = 0;
+        if (password.length > 0) { strength++; }
+        if (password.length > 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)) { strength++; }
 
-        $('.password-strength-bar').css('width', strength / 4 * 100 + '%');
-        $('.password-strength-bar').css('background-color', teacher_password_strengths[strength].colour);
-        $('.password-strength-text').html(teacher_password_strengths[strength].name);
+        updatePasswordCSS('#teacher-password-sign', '#teacher-password-text', strength);
     });
 }
 
-var independent_student_password_strengths = [
-    { name: 'Password quality', colour: '' },
-    { name: 'Not long enough', colour: '#DBA901' },
-    { name: 'Good password', colour: '#088A08' }
-];
-
 function updateIndependentStudentPasswordStrength() {
+
     setTimeout(function() {
-        var password = $('#' + PASSWORD_FIELD_ID).val();
+
+        var password = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID).val();
 
         var strength = 0;
-        if (password == '') { strength = 0; }
-        else if (password.length < 6) { strength = 1; }
-        else if (password.length >= 6) { strength = 2; }
+        if (password.length > 0) { strength++; }
+        if (password.length > 5) { strength++; }
 
-        if (password == '') { $('.password-strength-bar-container').hide(); $('.password-strength-text').hide(); }
-        else { $('.password-strength-bar-container').show(); $('.password-strength-text').show(); }
-
-        $('.password-strength-bar').css('width', strength / 2 * 100 + '%');
-        $('.password-strength-bar').css('background-color', independent_student_password_strengths[strength].colour);
-        $('.password-strength-text').html(independent_student_password_strengths[strength].name);
+        updatePasswordCSS('#student-password-sign', '#student-password-text', strength);
     });
+}
+
+function updatePasswordCSS(passwordStrengthSign, passwordStrengthText, strength) {
+    $(passwordStrengthSign).css('background-color', password_strengths[strength].colour);
+    $(passwordStrengthText).html(password_strengths[strength].name);
 }

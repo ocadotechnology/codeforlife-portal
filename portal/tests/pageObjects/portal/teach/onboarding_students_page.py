@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,19 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import string
-
-import classes_page
-import class_settings_page
-import new_students_page
 import onboarding_student_list_page
-import move_students_page
-import dismiss_students_page
 
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.wait import WebDriverWait
-
-from teach_base_page_new import TeachBasePage
+from teach_base_page import TeachBasePage
 
 
 class OnboardingStudentsPage(TeachBasePage):

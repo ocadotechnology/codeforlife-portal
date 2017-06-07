@@ -60,24 +60,24 @@
 }
 
 .banner--picture--educate {
-  background-image: url('../img_new/home_educate_hero.jpg');
+  background-image: url('../img/home_educate_hero.jpg');
 }
 
 .banner--picture--play {
-  background-image: url('../img_new/home_play_hero.jpg');
+  background-image: url('../img/home_play_hero.jpg');
 }
 
 .banner--picture--about {
-  background-image: url('../img_new/about_us_hero.jpg');
+  background-image: url('../img/about_us_hero.jpg');
 }
 
 .banner--picture--help {
-  background-image: url('../img_new/help_and_support_hero.jpg');
+  background-image: url('../img/help_and_support_hero.jpg');
 }
 
 .banner--picture--terms,
 .banner--picture--tools {
-  background-image: url('../img_new/teaching_resources.jpg');
+  background-image: url('../img/teaching_resources.jpg');
 }
 
 .banner--homepage {
@@ -118,22 +118,22 @@
 
 .banner--homepage--teacher,
 .banner--teacher {
-  background-image: url('../img_new/background_blue.png');
+  background-image: url('../img/background_blue.png');
   background-position: top right;
 }
 
 .banner--homepage--student,
 .banner--student {
-  background-image: url('../img_new/background_orange.png');
+  background-image: url('../img/background_orange.png');
   background-position: top left;
 }
 
 .banner--teacher,
 .banner--student {
-  @include _padding(80px, 0px, 0px, 0px);
   align-items: center;
   display: flex;
-  height: 343px; //TO BE CHANGED!
+  height: 263px; //TO BE CHANGED!
+  justify-content: space-between;
 
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);
@@ -147,7 +147,7 @@
 }
 
 .banner--teacher--plain {
-  @include _padding(100px, 0px, 50px, 0px);
+  @include _padding(20px, 0px, 50px, 0px);
   background-color: $color-background-teach;
   background-image: none;
 
@@ -158,17 +158,28 @@
 }
 
 .banner--rapid-router {
-  @include _padding(150px, 0px, 100px, 0px);
-  background-image: url('../img_new/rapid_router_landing_hero.png');
+  @include _padding(70px, 0px, 100px, 0px);
+  align-items: center;
+  background-image: url('../img/rapid_router_landing_hero.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  justify-content: space-between;
 }
 
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
-  background-image: url('../img_new/background_blue.png');
+  background-image: url('../img/background_blue.png');
   background-position: top right;
+}
+
+@media (max-width: 1200px) {
+  .banner {
+    .col-sm-offset-2 {
+      margin-left: 8.333%;
+    }
+  }
 }
 
 @media (min-width: 760px) {

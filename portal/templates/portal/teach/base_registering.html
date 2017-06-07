@@ -1,0 +1,75 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block secondaryButtons %}
+<a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>
+{% if onboarding_done %}
+<a class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+<a class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+{% else %}
+<a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+<a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+{% endif %}
+{% endblock secondaryButtons %}
+
+{% block subNav %}
+{{ block.super }}
+{% if not onboarding_done %}
+<div class="banner banner--teacher--plain">
+    <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
+    <h4 class="col-sm-offset-2">Everything you need to start coding with your class is here. Let&rsquo;s set you up.</h4>
+    <div class="arrows">
+        {% block setupCompleteStep %}
+        <div class="onboarding-step onboarding-step--todo">
+            <div class="onboarding-step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img/step_undone.png" %}'>
+                <p class="body-text">Setup complete</p>
+            </div>
+        </div>
+        {% endblock setupCompleteStep %}
+        {% block printStudentCardsStep %}
+        <div class="onboarding-step onboarding-step--todo">
+            <div class="onboarding-step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img/step_undone.png" %}'>
+                <p class="body-text">Print student IDs</p>
+            </div>
+        </div>
+        {% endblock printStudentCardsStep %}
+        {% block addStudentsStep %}
+        <div class="onboarding-step onboarding-step--todo">
+            <div class="onboarding-step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img/step_undone.png" %}'>
+                <p class="body-text">Add students</p>
+            </div>
+        </div>
+        {% endblock addStudentsStep %}
+        {% block createClassStep %}
+        <div class="onboarding-step onboarding-step--todo">
+            <div class="onboarding-step__text">
+                <img title="To do" alt="Step to do" src='{% static "portal/img/step_undone.png" %}'>
+                <p class="body-text">Create class</p>
+            </div>
+        </div>
+        {% endblock createClassStep %}
+        {% block createJoinSchoolStep %}
+        <div class="onboarding-step onboarding-step--in-progress">
+            <div class="onboarding-step__text">
+                <img title="In progress" alt="Step in progress" src='{% static "portal/img/step_in_progress.png" %}'>
+                <p class="body-text">Create / Join school</p>
+            </div>
+        </div>
+        {% endblock createJoinSchoolStep %}
+        <div class="onboarding-step onboarding-step--done">
+            <div class="onboarding-step__text">
+                <img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>
+                <p class="body-text">Account created</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock subNav %}
+
+{% block content %}
+{% endblock content %}

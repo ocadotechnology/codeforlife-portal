@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Limited
+# Copyright (C) 2017, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -77,7 +77,7 @@ class SecurityTestCase(TestCase):
 
     def test_class_page_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""
-        self._test_incorrect_teacher_no_info_leak('teacher_class')
+        self._test_incorrect_teacher_no_info_leak('onboarding-class')
 
     def test_student_edit_info_leak(self):
         c = Client()
@@ -99,4 +99,4 @@ class SecurityTestCase(TestCase):
 
     def test_class_page_wrong_teacher(self):
         """Try and view a class page without being the teacher for that class."""
-        self._test_incorrect_teacher_cannot_login('teacher_class')
+        self._test_incorrect_teacher_cannot_login('onboarding-class')

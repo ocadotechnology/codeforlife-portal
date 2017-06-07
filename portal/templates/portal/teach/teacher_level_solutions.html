@@ -1,4 +1,7 @@
-{% extends 'portal/teach/base.html' %}
+{% extends 'portal/base_old.html' %}
+{% block resources %}
+<a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+{% endblock resources %}
 
 {% load static %}
 {% load i18n %}

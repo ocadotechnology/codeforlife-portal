@@ -1,50 +1,44 @@
-{% extends 'portal/teach/base.html' %}
-{% load static %}
+{% extends 'portal/teach/base_logged_in.html' %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
-<div id='teach_move_students_page'></div>
+<div id="move_students_page"></div>
 
-<h1>Classes</h1><br>
-<h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2><br>
+<section class="background col-sm-6 col-center">
+    <h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2>
+    <h4>Move students to another class.</h4>
+</section>
 
-<div class='section group'>
+<div class="background background--quaternary">
+    <div class="col-sm-6 col-center">
+        <h3>Select destination class</h3>
 
-    <div class='span_1_of_2'>
+        <form method='post' action="{% url 'teacher_move_students_to_class' old_class.access_code %}">
 
-        <div class='login-card'>
-            <h4>Select destination class</h4><br>
+            {% csrf_token %}
 
+            {{ form.non_field_errors }}
 
+            {% for field in form %}
+            <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+            {% endfor %}
 
-            <form method='post' action="{% url 'teacher_move_students_to_class' old_class.access_code %}">
-
-                {% csrf_token %}
-
-                {{ form.non_field_errors }}
-
-                {% for field in form %}
-                    {{ field.errors }}
-                    <label for="id_{{ field.html_name }}">{{ field.label }}</label>
-                    {{ field }}
-                {% endfor %}
-
-                <div class='section group'>
-                    <div class='col span_1_of_2'>
-                        <a id='cancel_button' class='btn btn-default wide' href="{% url 'teacher_class' old_class.access_code %}">Cancel</a>
-                    </div>
-
-                    <div class='col span_1_of_2'>
-                        <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
-                        <input id='move_button' type='submit' class='btn btn-primary wide' value='Continue'/>
-                    </div>
-                </div>
-            </form>
-        </div>
-
+            <div class="background button-group">
+                <input type='hidden' name='transfer_students' value='{{ transfer_students }}'/>
+                <button id='move_button' type='submit' class='button--regular button--primary--navigation'>Continue</button>
+                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+            </div>
+        </form>
     </div>
 </div>
 
+<div class="background col-sm-6 col-center">
+    <p class="body-text"><a href="{% url 'view_class' old_class.access_code %}">&#10229; Back to Class</a></p>
+</div>
 {% endblock %}

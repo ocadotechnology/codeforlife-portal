@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -50,7 +50,7 @@ choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
 
 class TeacherSignupForm(forms.Form):
 
-    title = forms.ChoiceField(
+    teacher_title = forms.ChoiceField(
         label='Title',
         choices=choices,
         widget=forms.Select(
@@ -59,7 +59,7 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    first_name = forms.CharField(
+    teacher_first_name = forms.CharField(
         label='First name',
         max_length=100,
         widget=forms.TextInput(
@@ -68,7 +68,7 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    last_name = forms.CharField(
+    teacher_last_name = forms.CharField(
         label='Last name',
         max_length=100,
         widget=forms.TextInput(
@@ -77,7 +77,7 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    email = forms.EmailField(
+    teacher_email = forms.EmailField(
         label='Email address',
         widget=forms.EmailInput(
             attrs={
@@ -85,17 +85,17 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
-    password = forms.CharField(
+    teacher_password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput()
     )
-    confirm_password = forms.CharField(
+    teacher_confirm_password = forms.CharField(
         label='Confirm Password',
         widget=forms.PasswordInput()
     )
 
     def clean_email(self):
-        email = self.cleaned_data.get('email', None)
+        email = self.cleaned_data.get('teacher_email', None)
 
         if email and Teacher.objects.filter(new_user__email=email).exists():
             raise forms.ValidationError("That email address is already in use")
@@ -103,12 +103,11 @@ class TeacherSignupForm(forms.Form):
         return email
 
     def clean_password(self):
-        password = self.cleaned_data.get('password', None)
+        password = self.cleaned_data.get('teacher_password', None)
 
         if password and not password_strength_test(password):
             raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower "
-                + "case letters, and numbers")
+                "Password not strong enough, consider using at least 8 characters, upper and lower " + "case letters, and numbers")
 
         return password
 
@@ -116,11 +115,10 @@ class TeacherSignupForm(forms.Form):
         if any(self.errors):
             return
 
-        password = self.cleaned_data.get('password', None)
-        confirm_password = self.cleaned_data.get('confirm_password', None)
+        password = self.cleaned_data.get('teacher_password', None)
+        confirm_password = self.cleaned_data.get('teacher_confirm_password', None)
 
-        if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError('Your passwords do not match')
+        check_passwords(password, confirm_password)
 
         return self.cleaned_data
 
@@ -157,8 +155,7 @@ class TeacherEditAccountForm(forms.Form):
         email = self.cleaned_data.get('email', None)
         if email:
             teachers = Teacher.objects.filter(new_user__email=email)
-            if ((len(teachers) == 1 and teachers[0].new_user != self.user) or
-                    len(teachers) > 1):
+            if (len(teachers) == 1 and teachers[0].new_user != self.user) or len(teachers) > 1:
                 raise forms.ValidationError("That email address is already in use")
 
         return email
@@ -168,8 +165,7 @@ class TeacherEditAccountForm(forms.Form):
 
         if password and not password_strength_test(password):
             raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower "
-                + "case letters, and numbers")
+                "Password not strong enough, consider using at least 8 characters, upper and lower " + "case letters, and numbers")
 
         return password
 
@@ -181,13 +177,15 @@ class TeacherEditAccountForm(forms.Form):
         confirm_password = self.cleaned_data.get('confirm_password', None)
         current_password = self.cleaned_data.get('current_password', None)
 
-        if (password or confirm_password) and password != confirm_password:
-            raise forms.ValidationError('Your new passwords do not match')
+        self.check_password_errors(password, confirm_password, current_password)
+
+        return self.cleaned_data
+
+    def check_password_errors(self, password, confirm_password, current_password):
+        check_passwords(password, confirm_password)
 
         if not self.user.check_password(current_password):
             raise forms.ValidationError('Your current password was incorrect')
-
-        return self.cleaned_data
 
 
 class TeacherLoginForm(forms.Form):
@@ -202,33 +200,43 @@ class TeacherLoginForm(forms.Form):
         if self.has_error('recaptcha'):
             raise forms.ValidationError('Incorrect email address, password or captcha')
 
-        teacher_email = self.cleaned_data.get('teacher_email', None)
-        teacher_password = self.cleaned_data.get('teacher_password', None)
+        email = self.cleaned_data.get('teacher_email', None)
+        password = self.cleaned_data.get('teacher_password', None)
 
-        if teacher_email and teacher_password:
-            users = User.objects.filter(email=teacher_email)
+        if email and password:
 
             # Check it's a teacher and not a student using the same email address
             user = None
-            for result in users:
-                if hasattr(result, 'userprofile') and hasattr(result.userprofile, 'teacher'):
-                    user = result
-                    break
 
-            if user is None:
-                raise forms.ValidationError('Incorrect email address or password')
+            user = self.find_user(email, user)
 
-            user = authenticate(username=user.username, password=teacher_password)
+            user = authenticate(username=user.username, password=password)
 
-            if user is None:
-                raise forms.ValidationError('Incorrect email address or password')
-
-            if not user.is_active:
-                raise forms.ValidationError('User account has been deactivated')
+            self.check_email_erros(user)
 
             self.user = user
 
         return self.cleaned_data
+
+    def find_user(self, email, user):
+        users = User.objects.filter(email=email)
+
+        for result in users:
+            if hasattr(result, 'userprofile') and hasattr(result.userprofile, 'teacher'):
+                user = result
+                break
+
+        if user is None:
+            raise forms.ValidationError('Incorrect email address or password')
+
+        return user
+
+    def check_email_erros(self, user):
+        if user is None:
+            raise forms.ValidationError('Incorrect email address or password')
+
+        if not user.is_active:
+            raise forms.ValidationError('User account has been deactivated')
 
 
 class ClassCreationForm(forms.Form):
@@ -275,8 +283,7 @@ class ClassMoveForm(forms.Form):
         self.teachers = teachers
         teacher_choices = []
         for teacher in teachers:
-            teacher_choices.append((teacher.id, teacher.new_user.first_name + ' '
-                                    + teacher.new_user.last_name))
+            teacher_choices.append((teacher.id, teacher.new_user.first_name + ' ' + teacher.new_user.last_name))
         super(ClassMoveForm, self).__init__(*args, **kwargs)
         self.fields['new_teacher'].choices = teacher_choices
 
@@ -293,14 +300,12 @@ class TeacherEditStudentForm(forms.Form):
         name = stripStudentName(self.cleaned_data.get('name', ''))
 
         if name == '':
-            raise forms.ValidationError("'" + self.cleaned_data.get('name', '')
-                                        + "' is not a valid name")
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
         students = Student.objects.filter(class_field=self.klass,
                                           new_user__first_name__iexact=name)
         if students.exists() and students[0] != self.student:
-            raise forms.ValidationError("There is already a student called '" + name
-                                        + "' in this class")
+            raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
         return name
 
@@ -327,34 +332,48 @@ class TeacherSetStudentPass(forms.Form):
         password = self.cleaned_data.get('password', None)
         confirm_password = self.cleaned_data.get('confirm_password', None)
 
-        if password is not None and (password or confirm_password) and password != confirm_password:
-            raise forms.ValidationError('The new passwords do not match')
+        check_passwords(password, confirm_password)
 
         return self.cleaned_data
 
 
-class TeacherAddExternalStudentForm(forms.Form):
-    name = forms.CharField(
-        label='Student name',
-        widget=forms.TextInput(attrs={'placeholder': 'Name'}))
+def validateStudentNames(klass, names):
+    validationErrors = []
 
-    def __init__(self, klass, *args, **kwargs):
-        self.klass = klass
-        super(TeacherAddExternalStudentForm, self).__init__(*args, **kwargs)
+    if klass:
+        # We want to report if a student already exists with that name.
+        # But only report each name once if there are duplicates.
+        students = Student.objects.filter(class_field=klass)
+        clashes_found = []
+        find_clashes(names, students, clashes_found, validationErrors)
 
-    def clean_name(self):
-        name = stripStudentName(self.cleaned_data.get('name', ''))
+    # Also report if a student appears twice in the list to be added.
+    # But again only report each name once.
+    lower_names = [name.lower() for name in names]
+    find_duplicates(names, lower_names, validationErrors)
 
-        if name == '':
-            raise forms.ValidationError("'" + self.cleaned_data.get('name', '')
-                                        + "' is not a valid name")
+    return validationErrors
 
-        if Student.objects.filter(
-                class_field=self.klass, new_user__first_name__iexact=name).exists():
-            raise forms.ValidationError("There is already a student called '" + name
-                                        + "' in this class")
 
-        return name
+def find_clashes(names, students, clashes_found, validationErrors):
+    for name in names:
+        if (students.filter(new_user__first_name__iexact=name).exists() and name not in clashes_found):
+            validationErrors.append(forms.ValidationError("There is already a student called '" + name + "' in this class"))
+            clashes_found.append(name)
+
+
+def find_duplicates(names, lower_names, validationErrors):
+    duplicates_found = []
+    for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
+        if duplicate not in duplicates_found:
+            validationErrors.append(forms.ValidationError(
+                "You cannot add more than one student called '" + duplicate + "'"))
+            duplicates_found.append(duplicate)
+
+
+def check_passwords(password, confirm_password):
+    if password is not None and (password or confirm_password) and password != confirm_password:
+        raise forms.ValidationError('The password and the confirmation password do not match')
 
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
@@ -364,9 +383,7 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
         self.classes = classes
         class_choices = []
         for klass in classes:
-            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), '
-                                  + klass.teacher.new_user.first_name + ' '
-                                  + klass.teacher.new_user.last_name))
+            class_choices.append((klass.id, klass.name + ' (' + klass.access_code + '), ' + klass.teacher.new_user.first_name + ' ' + klass.teacher.new_user.last_name))
         super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
         self.fields['new_class'].choices = class_choices
 
@@ -383,37 +400,8 @@ class TeacherMoveStudentDisambiguationForm(forms.Form):
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get('name', ''))
         if name == '':
-            raise forms.ValidationError("'" + self.cleaned_data.get('name', '')
-                                        + "' is not a valid name")
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
         return name
-
-
-def validateStudentNames(klass, names):
-    validationErrors = []
-
-    if klass:
-        # We want to report if a student already exists with that name.
-        # But only report each name once if there are duplicates.
-        students = Student.objects.filter(class_field=klass)
-        clashes_found = []
-        for name in names:
-            if (students.filter(new_user__first_name__iexact=name).exists() and
-                    name not in clashes_found):
-                validationErrors.append(forms.ValidationError("There is already a student called '"
-                                                              + name + "' in this class"))
-                clashes_found.append(name)
-
-    # Also report if a student appears twice in the list to be added.
-    # But again only report each name once.
-    lower_names = [name.lower() for name in names]
-    duplicates_found = []
-    for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
-        if duplicate not in duplicates_found:
-            validationErrors.append(forms.ValidationError(
-                "You cannot add more than one student called '" + duplicate + "'"))
-            duplicates_found.append(duplicate)
-
-    return validationErrors
 
 
 class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
@@ -439,7 +427,7 @@ class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(
         label='Original Name',
         widget=forms.TextInput(
-            attrs={'readonly': 'readonly', 'placeholder': 'Original Name', 'type': 'hidden'}))
+            attrs={'readonly': 'readonly', 'placeholder': 'Original Name', 'style': 'background-color: lightgray; margin: 0; border: 0'}))
     name = forms.CharField(
         label='New Name',
         widget=forms.TextInput(attrs={'placeholder': 'New Name', 'style': 'margin : 0px'}))
@@ -455,8 +443,7 @@ class TeacherDismissStudentsForm(forms.Form):
         name = stripStudentName(self.cleaned_data.get('name', ''))
 
         if name == '':
-            raise forms.ValidationError("'" + self.cleaned_data.get('name', '')
-                                        + "' is not a valid name")
+            raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
         if User.objects.filter(username=name).exists():
             raise forms.ValidationError('That username is already in use')

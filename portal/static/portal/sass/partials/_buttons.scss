@@ -1,5 +1,17 @@
 @import "base";
 
+a {
+  cursor: pointer;
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:focus {
+  color: $color-text-tertiary;
+}
+
 button {
   border: 0;
 }
@@ -13,7 +25,9 @@ button,
 .button,
 .button:hover,
 .button:active,
-.button:visited {
+.button:visited,
+.button:focus {
+  color: $color-text-secondary;
   text-decoration: none;
 }
 
@@ -49,14 +63,27 @@ button,
   border-radius: 0;
 }
 
+.button--menu--enabled:hover {
+    font-weight: 600;
+}
+
 .button--menu--disabled {
   color: $color-button-disabled;
+
+  &:hover {
+    cursor: default;
+  }
 }
 
 .button--menu--primary {
   @include _font-size(30px);
   @include _line-height(25px);
   @include _margin(0px, 40px, 0px, 40px);
+
+  &:hover {
+    color: $color-text-tertiary;
+    text-decoration: underline;
+  }
 }
 
 .button--menu--secondary {
@@ -67,10 +94,18 @@ button,
 
 .button--menu--teacher--active {
   border-bottom: 6px solid $color-button-border-teacher;
+
+  &:hover {
+    font-weight: 600;
+  }
 }
 
 .button--menu--student--active {
   border-bottom: 6px solid $color-button-border-student;
+
+  &:hover {
+    font-weight: 600;
+  }
 }
 
 .logout[aria-expanded="true"] {
@@ -102,42 +137,74 @@ button,
 .button--primary--general-play {
   background: $color-button-primary-action-general-play;
   color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-general-play-hover;
+  }
 }
 
 .button--primary--general-educate {
   background: $color-button-primary-action-general-educate;
   color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-general-educate-hover;
+  }
 }
 
 .button--primary--positive {
   background: $color-button-primary-action-positive;
-  color: $color-text-primary;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-positive-hover;
+  }
 }
 
 .button--primary--negative {
   background: $color-button-primary-action-negative;
   color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-negative-hover;
+  }
 }
 
 .button--primary--danger,
 .ui-dialog-buttonset button {
   background: $color-button-primary-action-danger;
   color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-danger-hover;
+  }
 }
 
 .button--primary--navigation {
   background: $color-button-primary-action-navigation;
   color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-navigation-hover;
+  }
 }
 
 .button--primary--setup {
   background: $color-button-primary-action-setup;
-  color: $color-text-primary;
+  color: $color-text-secondary;
+
+  &:hover {
+    background: $color-button-primary-action-setup-hover;
+  }
 }
 
 .button--secondary {
   background-color: transparent;
   border: 1px solid;
+
+  &:hover {
+    border: 2px solid;
+  }
 }
 
 .button--secondary--light {
@@ -152,6 +219,13 @@ button,
   .glyphicon {
     @include _font-size(20px);
   }
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    color: $color-text-tertiary;
+  }
 }
 
 .button--secondary--no-border {
@@ -163,6 +237,10 @@ button,
   background-color: $color-background-secondary;
   border-color: transparent;
   color: $color-text-primary;
+}
+
+.home-icon:hover {
+  color: $color-background-primary;
 }
 
 .button-group {
@@ -181,6 +259,12 @@ button,
     @include _margin(0px, 20px, 0px, 0px);
   }
 
+}
+
+@media (min-width: 760px) {
+  .menu__item {
+    display: none;
+  }
 }
 
 @media (max-width: 760px) {

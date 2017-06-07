@@ -2,7 +2,7 @@
 /*
 Code for Life
 
-Copyright (C) 2016, Ocado Innovation Limited
+Copyright (C) 2017, Ocado Innovation Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -52,8 +52,8 @@ identified as the original program.
 
 
 
-html { font-family: Arial, Helvetica, sans-serif; font-size: 62.5%; overflow-y: scroll; }
-body { font-size: 14px; font-size: 1.4rem; } /* =14px */
+html { font-family: Arial, Helvetica, sans-serif; font-size: 62.5%; overflow-y: scroll; padding:0;}
+body { font-size: 14px; font-size: 1.4rem; padding-top: 160px;} /* =14px */
 h1   { font-size: 24px; font-size: 2.4rem; } /* =24px */
 p  {font-size: 16px; font-size: 1.6rem; margin:0; padding-bottom:20px; } /* =16px */
 h2   { font-size: 18px; font-size: 1.8rem; margin:0; padding-bottom:10px;  } /* =18px */
@@ -62,22 +62,14 @@ h4   { font-size: 16px; font-size: 1.6rem; margin:0; padding-bottom:0;  } /* =16
 
 html, body
 {
-  padding:0;
   margin:0;
   height: 100%;
 }
 
 a
 {
-  color: #0033cc;
   text-decoration: none;
 }
-
-a:hover
-{
-  text-decoration: underline;
-}
-
 
 #contentWrapper
 {
@@ -1154,151 +1146,16 @@ h4#python
   display: none;
 }
 
+h1 {
+  font-family: 'Baloo', serif;
+}
+
+:not(h1) {
+  font-family: 'Source Sans Pro', serif;
+}
+
+@import "bootstrap_partials/dropdown";
 @import "partials/header";
 @import "partials/footer";
 @import "partials/buttons";
 @import "partials/images-backgrounds";
-
-.menu {
-  font-family: 'Source Sans Pro', serif; }
-
-@media (min-width: 768px) {
-  .col-sm-3 {
-    width: 25%;
-  }
-}
-
-button {
-  font-family: 'Source Sans Pro', serif;
-  border: 0; }
-
-@media (min-width: 760px) {
-
-  .col-sm-offset-1 {
-    margin-left: 8.33333%;
-  }
-
-  .col-sm-offset-2 {
-    margin-left: 16.66667%;
-  }
-
-  .col-sm-4 {
-    width: 33.33333%;
-  }
-
-  .col-sm-6 {
-    width: 50%;
-  }
-}
-
-a {
-  color: #4a4a4a; }
-
-a:hover,
-a:focus {
-  color: #4a4a4a;
-  text-decoration: none; }
-
-@font-face {
-  font-family: 'Glyphicons Halflings';
-  src: url(../../portal/fonts/glyphicons-halflings-regular.eot);
-  src: url(../../portal/fonts/glyphicons-halflings-regular.eot?#iefix) format("embedded-opentype"), url(../../portal/fonts/glyphicons-halflings-regular.woff2) format("woff2"), url(../../portal/fonts/glyphicons-halflings-regular.woff) format("woff"), url(../../portal/fonts/glyphicons-halflings-regular.ttf) format("truetype"), url(../../portal/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format("svg"); }
-
-.glyphicon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.glyphicon-home:before {
-  content: "\e021"; }
-
-.glyphicon-home {
-  padding: 0rem 0rem 1.4rem 1.5rem; }
-
-.glyphicon-user:before {
-  content: "\e008"; }
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  display: none;
-  /*float: left;*/
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 2px 0 0;
-  font-size: 14px;
-  text-align: left;
-  list-style: none;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
-
-.dropdown-menu {
-  border: none;
-  border-radius: 0.8rem;
-  margin: 0;
-  min-width: 0;
-  padding: 0;
-  width: 100%; }
-.dropdown-menu li a,
-.dropdown-menu li a:hover,
-.dropdown-menu li a:focus {
-  border-radius: 0rem 0rem 0.8rem 0.8rem;
-  line-height: 2.5rem;
-  padding: 1rem 1.5rem 1rem 1.5rem;
-  background: #4a4a4a;
-  color: #f37300;
-  text-decoration: underline; }
-
-.open > .dropdown-menu {
-  display: block; }
-
-.dropdown-menu > li > a {
-  display: block;
-  clear: both;
-  font-weight: normal;
-  white-space: nowrap; }
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
-  color: #f37300;
-  text-decoration: none;
-  background-color: #4a4a4a; }
-
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus {
-  color: #fff;
-  text-decoration: none;
-  background-color: #337ab7;
-  outline: 0; }
-
-.dropdown-menu > .disabled > a,
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  color: #777; }
-
-.dropdown-menu > .disabled > a:hover,
-.dropdown-menu > .disabled > a:focus {
-  text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); }

@@ -40,6 +40,11 @@
     text-align: left;
   }
 
+  a:focus {
+    background-color: $color-background-secondary;
+    color: $color-teacher-blue;
+  }
+
 }
 
 .sub-nav--hidden {

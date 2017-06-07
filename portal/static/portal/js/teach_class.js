@@ -36,36 +36,12 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 
-/*exported deleteClassConfirmation() */
+/* global post */
+/* global openConfirmationBox */
 
 var CONFIRMATION_DATA = {};
 
 $(function() {
-	$('#moveSelectedStudents').click(function() {
-		postSelectedStudents(MOVE_STUDENTS_URL);
-        return false;
-	});
-
-    $('#dismissSelectedStudents').click(function() {
-        postSelectedStudents(DISMISS_STUDENTS_URL);
-        return false;
-    });
-
-    // Link to open the dialog
-    $("#deleteSelectedStudents").click(function() {
-        runIfStudentsSelected(function() {
-            openConfirmationBox('deleteStudents');
-        });
-        return false;
-    });
-
-    $("#resetSelectedStudents").click(function() {
-        runIfStudentsSelected(function() {
-            openConfirmationBox('resetStudents');
-        });
-        return false;
-    });
-
     $('#selectedStudentsListToggle').click(function() {
         var students = $('.student');
         var selectedStudents = [];
@@ -76,8 +52,8 @@ $(function() {
         }
         if (selectedStudents.length < students.length) {
             // select all students
-            for (var i = 0; i < students.length; i++) {
-                students[i].checked = true
+            for (var j = 0; j < students.length; j++) {
+                students[j].checked = true
             }
             $('#selectedStudentsListToggle')[0].checked = true;
             $('#num_students_selected').text(students.length)
@@ -85,8 +61,8 @@ $(function() {
         }
         else {
             // unselect all students
-            for (var i = 0; i < students.length; i++) {
-                students[i].checked = false
+            for (var k = 0; k < students.length; k++) {
+                students[k].checked = false
             }
             $('#selectedStudentsListToggle')[0].checked = false;
             $('#num_students_selected').text("0")
@@ -136,11 +112,22 @@ function deleteStudentsConfirmation(path) {
                 title: 'Delete students'
             },
             html: '<p class="body-text">These students will be permanently deleted. Are you sure?</p>',
-            confirm: function () {
-                postSelectedStudents(path);
-            }
+            confirm: function () { postSelectedStudents(path); }
         };
         openConfirmationBox('deleteStudents');
+    })
+}
+
+function resetStudentPasswords(path) {
+    runIfStudentsSelected(function() {
+        CONFIRMATION_DATA.resetPasswords = {
+            options: {
+                title: 'Reset student passwords'
+            },
+            html: '<p class="body-text">These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p>',
+            confirm: function() { postSelectedStudents(path); }
+        };
+        openConfirmationBox('resetPasswords');
     })
 }
 

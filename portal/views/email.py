@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -45,21 +45,18 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django_countries import countries
 
+from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.models import EmailVerification, School, Teacher, Student
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL, add_to_salesforce
-from portal.app_settings import CONTACT_FORM_EMAILS
 
 
 def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
 
-    if len(verifications) != 1:
+    if has_verification_failed(verifications):
         return render(request, 'portal/email_verification_failed.html')
 
     verification = verifications[0]
-
-    if verification.verified or (verification.expiry - timezone.now()) < timedelta():
-        return render(request, 'portal/email_verification_failed.html')
 
     verification.verified = True
     verification.save()
@@ -77,13 +74,48 @@ def verify_email(request, token):
     # copy newly verified user to secure salesforce db
     add_to_salesforce(user)
 
-    if hasattr(user, 'new_student'):
-        return HttpResponseRedirect(reverse_lazy('play'))
-    if hasattr(user, 'new_teacher'):
-        return HttpResponseRedirect(reverse_lazy('teach'))
+    if hasattr(user.userprofile, 'student'):
+        return HttpResponseRedirect(reverse_lazy('login_view'))
+    if hasattr(user.userprofile, 'teacher'):
+        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
 
     # default to homepage if something goes wrong
     return HttpResponseRedirect(reverse_lazy('home'))
+
+
+def change_email(request, token):
+    verifications = EmailVerification.objects.filter(token=token)
+
+    if has_verification_failed(verifications):
+        return render(request, 'portal/email_verification_failed.html')
+
+    verification = verifications[0]
+
+    verification.verified = True
+    verification.save()
+
+    user = verification.user
+
+    if verification.email:  # verifying change of email address
+        user.email = verification.email
+        user.save()
+
+        user.email_verifications.exclude(email=user.email).delete()
+
+    messages.success(request, 'Your email address was successfully verified, please log in.')
+
+    # copy newly verified user to secure salesforce db
+    add_to_salesforce(user)
+
+    if hasattr(user.userprofile, 'teacher'):
+        return HttpResponseRedirect(reverse_lazy('dashboard'))
+
+    # default to homepage if something goes wrong
+    return HttpResponseRedirect(reverse_lazy('home'))
+
+
+def has_verification_failed(verifications):
+    return len(verifications) != 1 or verifications[0].verified or (verifications[0].expiry - timezone.now()) < timedelta()
 
 
 def send_new_users_report(request):
@@ -104,7 +136,10 @@ def send_new_users_report(request):
                'Current number of students: {students}\n'
                'Number of users that last logged in during the last week: {active_users}\n'
                'Number of countries with registered schools: {countries}\n'
-               'Top 3 - schools per country:\n{countries_counter}'
-               .format(new_users=new_users_count, users=users_count, schools=school_count, teachers=teacher_count,
-                       students=student_count, countries=nb_countries, active_users=active_users, countries_counter=countries_count))
+               'Top 3 - schools per country:\n{countries_counter}'.format(new_users=new_users_count, users=users_count,
+                                                                          schools=school_count, teachers=teacher_count,
+                                                                          students=student_count,
+                                                                          countries=nb_countries,
+                                                                          active_users=active_users,
+                                                                          countries_counter=countries_count))
     return HttpResponse('success')

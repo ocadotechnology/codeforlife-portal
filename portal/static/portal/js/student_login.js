@@ -1,7 +1,7 @@
 /*
 Code for Life
 
-Copyright (C) 2016, Ocado Innovation Limited
+Copyright (C) 2017, Ocado Innovation Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -35,9 +35,8 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
-var INDEPENDENT_STUDENT_VIEW = false;
 
-function init() {
+function showCorrectLogin(INDEPENDENT_STUDENT_VIEW) {
     $('#switchToIndependentStudent').click(function() {
         $('#school-login').hide();
         $('#independent-student-login').show();
@@ -49,14 +48,11 @@ function init() {
         $('#school-login').show();
         return false;
     });
-}
 
-$(function() {
-    init();
     if (INDEPENDENT_STUDENT_VIEW) {
         $('#switchToIndependentStudent').click();
     }
     else {
         $('#switchToSchool').click();
     }
-});
+}
