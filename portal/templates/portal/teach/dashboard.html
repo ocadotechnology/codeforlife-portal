@@ -386,7 +386,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        toggleStickySubnav($('.banner').outerHeight());
+        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
 
         {% if anchor %}
             window.location = '#{{anchor}}';

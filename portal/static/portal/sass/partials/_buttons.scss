@@ -201,10 +201,6 @@ button,
 .button--secondary {
   background-color: transparent;
   border: 1px solid;
-
-  &:hover {
-    border: 2px solid;
-  }
 }
 
 .button--secondary--light {
@@ -223,8 +219,9 @@ button,
   &:hover,
   &:active,
   &:visited,
-  &:focus {
-    color: $color-text-tertiary;
+  &:focus{
+    background-color: $color-background-tertiary;
+    color: $color-text-secondary;
   }
 }
 

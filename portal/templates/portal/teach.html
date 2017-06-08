@@ -87,7 +87,7 @@
                 <a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;autoplay=1" class="youtube">
                     <img title="Watch Video" alt="Watch Video" src='{% static "portal/img/thumbnail_intro_c4l.jpg" %}'>
                 </a>
-                <a href="{% url 'play' %}" class="button button--regular button-primary button--primary--general-educate">Play Rapid Router</a>
+                <a href="{% url 'play' %}" class="button button--regular button-primary button--primary--general-educate">Get started</a>
             </section>
         </div>
     </div>
@@ -115,7 +115,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         invokeColorbox();
-        toggleStickySubnav($('.banner').outerHeight());
+        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });
 </script>
 

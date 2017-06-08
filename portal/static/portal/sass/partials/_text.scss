@@ -9,6 +9,17 @@ h1 {
   @include _line-height(60px);
   font-family: 'Baloo', serif;
   font-weight: 500;
+
+  a,
+  a:hover,
+  a:active,
+  a:visited,
+  a:focus {
+    color: $color-text-secondary;
+    font-family: 'Baloo', serif;
+    font-weight: 500;
+  }
+
 }
 
 :not(h1) {
