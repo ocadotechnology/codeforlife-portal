@@ -273,9 +273,9 @@
                         <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
                         <td><p class="small-text">{{ join_request.pending_class_request.name }} ({{ join_request.pending_class_request.access_code }})</p></td>
                         <td><a id="allow_independent_button" class='button button--small button--primary--positive'
-                               href="{% url 'teacher_accept_student_request_new' join_request.id %}">Accept</a></td>
+                               href="{% url 'teacher_accept_student_request' join_request.id %}">Accept</a></td>
                         <td><a id="deny_independent_button" class='button button--small button--primary--danger'
-                               href="{% url 'teacher_reject_student_request_new' join_request.id %}">Reject</a></td>
+                               href="{% url 'teacher_reject_student_request' join_request.id %}">Reject</a></td>
                     </tr>
                     {% endfor %}
                 </table>

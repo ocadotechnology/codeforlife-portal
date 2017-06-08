@@ -1,26 +1,38 @@
-{% extends 'portal/base_old.html' %}
+{% extends 'portal/teach/base_logged_in.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
 <div id="added_independent_student_to_class"></div>
 
-<h1>Classes</h1><br>
-<h2>External student added to class {{ class.name }} ({{ class.access_code }})</h2><br>
+<section class="background col-sm-6 col-center">
+    <h2>External student added to class {{ class.name }} ({{ class.access_code }})</h2>
+</section>
 
-<div class='section group'>
-        <p>The student has been successfully added to the class {{ class.name }}.</p>
-        <p>Please provide the student with their new login details:</p>
-        <p><b>Class Access Code:</b> {{ class.access_code }}</p>
-        <p><b>Name:</b> {{ student.new_user.first_name }}</p>
-        <p>{{ student.new_user.first_name }} should now login using the school login box on the <a href="{% url 'play' %}">Play</a> page with these details.</p>
-        <p>{{ student.new_user.first_name }}'s password is unchanged. You may manage this student, including changing their name and password, as with other students.</p>
+<div class="col-sm-8 col-center">
+    <p class="body-text">The student has been successfully added to the class {{ class.name }}.</p>
+    <p class="body-text">Please provide the student with their new login details:</p>
+</div>
+
+<div class="background--quaternary">
+    <div class="col-sm-8 col-center">
+        <p class="body-text"><strong>Class Access Code:</strong> {{ class.access_code }}</p>
+        <p class="body-text"><strong>Name:</strong> {{ student.new_user.first_name }}</p>
     </div>
+</div>
 
-<div class='section group'>
-    <a id="return_button" class='btn btn-primary' href="{% url 'teacher_class' class.access_code %}">Return</a>
+<div class="col-sm-8 col-center">
+    <p class="body-text">{{ student.new_user.first_name }} should now login as a student with these details.</p>
+    <p class="body-text">{{ student.new_user.first_name }}&rsquo;s password is unchanged. You may manage this student,
+        including changing their name and password, as with other students.</p>
+
+    <div class="background">
+        <p class="body-text"><a id="return_button" href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+    </div>
 </div>
 
 {% endblock %}

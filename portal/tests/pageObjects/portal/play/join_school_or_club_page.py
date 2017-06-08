@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# * coding: utf8 *
 # Code for Life
 #
 # Copyright (C) 2017, Ocado Innovation Limited
@@ -34,29 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.tests.pageObjects.portal.teach.added_independent_student_to_class_page_new import \
-    AddedIndependentStudentToClassPage
-from portal.tests.pageObjects.portal.teach.teach_base_page_new import TeachBasePage
-
-from selenium.webdriver.common.by import By
-import time
+from portal.tests.pageObjects.portal.play.play_base_page import PlayBasePage
 
 
-class AddIndependentStudentToClassPage(TeachBasePage):
+class JoinSchoolOrClubPage(PlayBasePage):
     def __init__(self, browser):
-        super(AddIndependentStudentToClassPage, self).__init__(browser)
+        super(JoinSchoolOrClubPage, self).__init__(browser)
 
-        assert self.on_correct_page('add_independent_student_to_class_new')
+        assert self.on_correct_page('play_join_organisation_page')
 
-    def _rename(self):
-        self.browser.find_element_by_id('id_name').clear()
-        self.browser.find_element_by_id('id_name').send_keys("Student 2")
-        time.sleep(3)
+    def join_a_school_or_club(self, access_code):
+        self.browser.find_element_by_id('id_access_code').send_keys(access_code)
+        self.browser.find_element_by_id('request_join_a_school_or_club_button').click()
+        assert self.element_exists_by_css('.success')
 
-    def save(self):
-        self._rename()
-        self.wait_for_element_to_be_clickable((By.ID, 'save_student_name_button'))
-        self.browser.find_element_by_id('save_student_name_button').click()
-        time.sleep(2)
-
-        return AddedIndependentStudentToClassPage(self.browser)
+        return self

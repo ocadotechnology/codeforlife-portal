@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2016, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -59,7 +59,7 @@ class TestIndependentStudent(BaseTest):
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(selenium)
 
-    def test_failed_signup(self):
+    def test_signup_failed(self):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='test')
         assert page.has_independent_student_signup_failed()
@@ -142,15 +142,12 @@ class TestIndependentStudent(BaseTest):
 
         page = self.go_to_homepage()
 
-        page = page.go_to_login_page()
-        page = page.login(teacher_email, teacher_password)
-        print ("join-class-accept page.login - on page: {}".format(page.__class__.__name__))
-        page = page.accept_independent_join_request()
-        print ("join-class-accept page.join_request - on page: {}".format(page.__class__.__name__))
-        page = page.save()
-        print ("join-class-accept page.save - on page: {}".format(page.__class__.__name__))
-        page = page.return_to_class()
-        print ("join-class-accept page.return-to-class - on page: {}".format(page.__class__.__name__))
+        page = page \
+            .go_to_login_page() \
+            .login(teacher_email, teacher_password) \
+            .accept_independent_join_request() \
+            .save() \
+            .return_to_class()
 
         assert page.student_exists(student_name)
 

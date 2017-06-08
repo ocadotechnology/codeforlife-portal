@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import time
 from portal.tests.pageObjects.portal.base_page import BasePage
 
 
@@ -41,11 +42,14 @@ class PlayBasePage(BasePage):
     def __init__(self, browser):
         super(PlayBasePage, self).__init__(browser)
 
-    # def logout(self):
-    #     self.browser.find_element_by_id('logout_button').click()
-    #     from portal.tests.pageObjects.portal.home_page import HomePage
-    #
-    #     return HomePage(self.browser)
+    def logout(self):
+        self.browser.find_element_by_id('logout_menu').click()
+
+        time.sleep(1)
+        self.browser.find_element_by_id('logout_button').click()
+        from portal.tests.pageObjects.portal.home_page import HomePage
+
+        return HomePage(self.browser)
 
     def go_to_account_page(self):
         self.browser.find_element_by_id('student_account_button').click()

@@ -34,15 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.tests.pageObjects.portal.teach.class_page_new import TeachClassPage
-from portal.tests.pageObjects.portal.teach.teach_base_page_new import TeachBasePage
+from portal.tests.pageObjects.portal.teach.class_page import TeachClassPage
+from portal.tests.pageObjects.portal.teach.teach_base_page import TeachBasePage
 
 
 class AddedIndependentStudentToClassPage(TeachBasePage):
     def __init__(self, browser):
         super(AddedIndependentStudentToClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('added_independent_student_to_class_new')
+        assert self.on_correct_page('added_independent_student_to_class')
 
     def return_to_class(self):
         self.browser.find_element_by_id('return_button').click()

@@ -1,43 +1,44 @@
-{% extends 'portal/base_old.html' %}
+{% extends 'portal/teach/base_logged_in.html' %}
 {% load static %}
 
-{% block nav_teacher_classes %}<b><a id="teacher_classes_button" href="{% url 'teacher_classes' %}">Classes</a></b>{% endblock nav_teacher_classes %}
+{% block dashboard %}
+<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
 
 {% block content %}
 
 <div id="add_independent_student_to_class"></div>
 
-<h1>Classes</h1><br>
-<h2>Add external student to class {{ class.name }} ({{ class.access_code }})</h2><br>
+<section class="background col-sm-6 col-center">
+    <h2>Add external student to class {{ class.name }} ({{ class.access_code }})</h2>
+</section>
 
-<div class='section group'>
-    <div class='col span_1_of_2'>
-        <div class='login-card'>
-            <h4>Students currently in class</h4><br>
-
+<div class="col-sm-8 col-center">
+    <div class="row">
+        <div class="col-sm-5">
+            <h3>Students currently in class</h3>
             {% if students %}
-                <p>{{ student.new_user.username }}, the new external student, will be joining students in the class {{ class.name }} ({{ class.access_code }}).</p>
-                <table class="CSSTable smaller alternate wide">
-                    <tr>
-                        <th>Student Name</th>
-                    </tr>
-                    {% for currentstudent in students %}
-                        <tr>
-                            <td>{{ currentstudent.new_user.first_name }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
+            <p class="body-text">{{ student.new_user.username }}, the new external student, will be joining students in the class
+                {{ class.name }} ({{ class.access_code }}).</p>
+            <table class="header-tertiary data-quaternary">
+                <tr>
+                    <th><p class="body-text">Student Name</p></th>
+                </tr>
+                {% for currentstudent in students %}
+                <tr>
+                    <td><p class="small-text">{{ currentstudent.new_user.first_name }}</p></td>
+                </tr>
+                {% endfor %}
+            </table>
             {% else %}
-                <p>The new external student {{ student.new_user.username }} is joining the class {{ class.name }} ({{ class.access_code }}) in which there are currently no other students.</p>
+            <p class="body-text">The new external student {{ student.new_user.username }} is joining the class {{ class.name }}
+                ({{ class.access_code }}) in which there are currently no other students.</p>
             {% endif %}
         </div>
-    </div>
-
-    <div class='col span_1_of_2'>
-        <div class='login-card'>
-            <h4>Add external student</h4><br>
-
-            <p>Please confirm the name of the new external student joining your class. Their name will be used in their new login details, so please ensure it is different from any other existing student in the class.</p>
+        <div class="col-sm-6 col-sm-offset-1 background--quaternary">
+            <h3>Add external student</h3>
+            <p class="body-text">Please confirm the name of the new external student joining your class. Their name will be used in their new
+                login details, so please ensure it is different from any other existing student in the class.</p>
 
             <form method='POST'>
 
@@ -46,24 +47,22 @@
                 {{ form.non_field_errors }}
 
                 {% for field in form %}
-                    {{ field.errors }}
-                    <label for="id_{{ field.html_name }}">{{ field.label }}</label>
-                    {{ field }}
+                <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
                 {% endfor %}
 
-                <div class='section group'>
-                    <div class='col span_1_of_2'>
-                        <a class='btn btn-default wide' href="{% url 'teacher_classes' %}">Cancel</a>
-                    </div>
-
-                    <div class='col span_1_of_2'>
-                        <input id="save_student_name_button" type='submit' class='btn btn-primary wide' value='Save'/>
-                    </div>
-                </div>
-                
+                <section class="background button-group">
+                    <a class='button button--regular button--secondary button--secondary--dark' href="{% url 'dashboard' %}#classes">Cancel</a>
+                    <button id="save_student_name_button" type='submit' class='button--regular button--primary--navigation'>Save</button>
+                </section>
             </form>
         </div>
     </div>
+</div>
+
+<div class="background col-sm-8 col-center">
+    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}
