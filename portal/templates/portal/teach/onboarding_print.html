@@ -137,7 +137,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         {% if not onboarding_done %}
-            toggleStickySubnav($('.banner').outerHeight());
+            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
         {% endif %}
     });
 </script>

@@ -40,11 +40,6 @@
     text-align: left;
   }
 
-  a:focus {
-    background-color: $color-background-secondary;
-    color: $color-teacher-blue;
-  }
-
 }
 
 .sub-nav--hidden {
@@ -75,6 +70,14 @@
 
 .sub-nav--teacher {
   background-color: $color-background-teach;
+
+  a:focus,
+  a:hover,
+  a:active,
+  a:visited {
+    background-color: $color-background-secondary;
+    color: $color-teacher-blue;
+  }
 }
 
 .sub-nav--student {
