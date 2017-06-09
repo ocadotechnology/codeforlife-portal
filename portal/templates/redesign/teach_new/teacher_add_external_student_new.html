@@ -18,21 +18,21 @@
         <div class="col-sm-5">
             <h3>Students currently in class</h3>
             {% if students %}
-            <p class="body-text">{{ student.new_user.username }}, the new external student, will be joining students in the class
-                {{ class.name }} ({{ class.access_code }}).</p>
-            <table class="header-tertiary data-quaternary">
-                <tr>
-                    <th><p class="body-text">Student Name</p></th>
-                </tr>
-                {% for currentstudent in students %}
-                <tr>
-                    <td><p class="small-text">{{ currentstudent.new_user.first_name }}</p></td>
-                </tr>
-                {% endfor %}
-            </table>
+                <p class="body-text">{{ student.new_user.username }}, the new external student, will be joining students in the class
+                    {{ class.name }} ({{ class.access_code }}).</p>
+                <table class="header-tertiary data-quaternary">
+                    <tr>
+                        <th><p class="body-text">Student Name</p></th>
+                    </tr>
+                    {% for currentstudent in students %}
+                    <tr>
+                        <td><p class="small-text">{{ currentstudent.new_user.first_name }}</p></td>
+                    </tr>
+                    {% endfor %}
+                </table>
             {% else %}
-            <p class="body-text">The new external student {{ student.new_user.username }} is joining the class {{ class.name }}
-                ({{ class.access_code }}) in which there are currently no other students.</p>
+                <p class="body-text">The new external student {{ student.new_user.username }} is joining the class {{ class.name }}
+                    ({{ class.access_code }}) in which there are currently no other students.</p>
             {% endif %}
         </div>
         <div class="col-sm-6 col-sm-offset-1 background--quaternary">

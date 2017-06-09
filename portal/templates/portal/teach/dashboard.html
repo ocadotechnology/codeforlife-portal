@@ -221,7 +221,7 @@
             <a href="#new-class" class="button button--regular button--secondary button--secondary--dark">Add class</a>
         </section>
     </div>
-    <div class="col-sm-7 col-center">
+    <div class="col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-5">
                 <h3>Current classes</h3>
@@ -249,7 +249,40 @@
                 <h3>External requests to join your classes</h3>
                 <p class="body-text">External, or independent students may request to join your classes, if the student has been given a Class Access Code, and provided you
                     have enabled external requests for that class.</p>
+                {% if requests %}
+                <p class="small-text">The following users have made requests to join your classes. If you accept a request, you will be able to choose a
+                    name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them
+                    like any other student.</p>
+                <p class="small-text">To conform to our security policy, the requested student&rsquo;s username and email will be deleted on acceptance.
+                    These details are displayed here to enable you to identify them as genuine.</p>
+                <p class="small-text">You should not accept a request from a student whose email and username you do not recognise, or if you weren&rsquo;t
+                    expecting such a request.</p>
+
+                <table id="independent_request_table" class="header-tertiary data-quaternary">
+                    <tr>
+                        <th><p class="body-text">Username</p></th>
+                        <th><p class="body-text">Name</p></th>
+                        <th><p class="body-text">Email</p></th>
+                        <th><p class="body-text">Class</p></th>
+                        <th colspan="2"></th>
+                    </tr>
+                    {% for join_request in requests %}
+                    <tr>
+                        <td><p class="small-text">{{ join_request.new_user.username }}</p></td>
+                        <td><p class="small-text">{{ join_request.new_user.first_name }}</p></td>
+                        <td><p class="small-text">{{ join_request.new_user.email }}</p></td>
+                        <td><p class="small-text">{{ join_request.pending_class_request.name }} ({{ join_request.pending_class_request.access_code }})</p></td>
+                        <td><a id="allow_independent_button" class='button button--small button--primary--positive'
+                               href="{% url 'teacher_accept_student_request' join_request.id %}">Accept</a></td>
+                        <td><a id="deny_independent_button" class='button button--small button--primary--danger'
+                               href="{% url 'teacher_reject_student_request' join_request.id %}">Reject</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <br>
+                {% else %}
                 <p class="body-text"><strong>No students have currently requested to join your classes.</strong></p>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# * coding: utf8 *
 # Code for Life
 #
 # Copyright (C) 2017, Ocado Innovation Limited
@@ -34,17 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from play_base_page import PlayBasePage
-from portal.tests.pageObjects.portal.play.join_school_or_club_page import JoinSchoolOrClubPage
+from portal.tests.pageObjects.portal.play.play_base_page import PlayBasePage
 
 
-class PlayDashboardPage(PlayBasePage):
+class JoinSchoolOrClubPage(PlayBasePage):
     def __init__(self, browser):
-        super(PlayDashboardPage, self).__init__(browser)
+        super(JoinSchoolOrClubPage, self).__init__(browser)
 
-        assert self.on_correct_page('play_dashboard_page')
+        assert self.on_correct_page('play_join_organisation_page')
 
-    def go_to_join_a_school_or_club_page(self):
-        self.browser.find_element_by_id('join_a_school_or_club').click()
+    def join_a_school_or_club(self, access_code):
+        self.browser.find_element_by_id('id_access_code').send_keys(access_code)
+        self.browser.find_element_by_id('request_join_a_school_or_club_button').click()
+        assert self.element_exists_by_css('.success')
 
-        return JoinSchoolOrClubPage(self.browser)
+        return self

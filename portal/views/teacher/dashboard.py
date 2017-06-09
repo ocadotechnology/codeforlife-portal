@@ -47,12 +47,12 @@ from two_factor.utils import devices_for_user
 
 from portal import app_settings, emailMessages
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.models import Teacher, Class
+from portal.models import Teacher, Class, Student
 from portal.forms.organisation import OrganisationForm
-from portal.forms.teach import ClassCreationForm, TeacherEditAccountForm
+from portal.forms.teach import ClassCreationForm, TeacherEditAccountForm, TeacherAddExternalStudentForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.emails import send_verification_email
-from portal.helpers.generators import generate_access_code
+from portal.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 
 from portal.utils import using_two_factor
@@ -69,6 +69,7 @@ def dashboard_teacher_view(request, is_admin):
     coworkers = Teacher.objects.filter(school=school).order_by('new_user__last_name', 'new_user__first_name')
 
     join_requests = Teacher.objects.filter(pending_join_request=school).order_by('new_user__last_name', 'new_user__first_name')
+    requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     update_school_form = OrganisationForm(user=request.user, current_school=school)
     update_school_form.fields['name'].initial = school.name
@@ -117,6 +118,7 @@ def dashboard_teacher_view(request, is_admin):
         'is_admin': is_admin,
         'coworkers': coworkers,
         'join_requests': join_requests,
+        'requests': requests,
         'update_school_form': update_school_form,
         'create_class_form': create_class_form,
         'update_account_form': update_account_form,
@@ -351,5 +353,69 @@ def teacher_disable_2FA(request, pk):
 
     for device in devices_for_user(teacher.new_user):
         device.delete()
+
+    return HttpResponseRedirect(reverse_lazy('dashboard'))
+
+
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_new'))
+def teacher_accept_student_request(request, pk):
+    student = get_object_or_404(Student, id=pk)
+
+    # check student is awaiting decision on request
+    if not student.pending_class_request:
+        raise Http404
+
+    # check user (teacher) has authority to accept student
+    if request.user.new_teacher != student.pending_class_request.teacher:
+        raise Http404
+
+    students = Student.objects.filter(class_field=student.pending_class_request).order_by('new_user__first_name')
+
+    if request.method == 'POST':
+        form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            student.class_field = student.pending_class_request
+            student.pending_class_request = None
+            student.new_user.username = get_random_username()
+            student.new_user.first_name = data['name']
+            student.new_user.last_name = ''
+            student.new_user.email = ''
+            student.save()
+            student.new_user.save()
+            return render(request, 'portal/teach/teacher_added_external_student.html',
+                          {'student': student,
+                           'class': student.class_field})
+    else:
+        form = TeacherAddExternalStudentForm(student.pending_class_request, initial={'name': student.new_user.first_name})
+
+    return render(request, 'portal/teach/teacher_add_external_student.html',
+                  {'students': students,
+                   'class': student.pending_class_request,
+                   'student': student,
+                   'form': form})
+
+
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
+def teacher_reject_student_request(request, pk):
+    student = get_object_or_404(Student, id=pk)
+
+    # check student is awaiting decision on request
+    if not student.pending_class_request:
+        raise Http404
+
+    # check user (teacher) has authority to reject student
+    if request.user.new_teacher != student.pending_class_request.teacher:
+        raise Http404
+
+    emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
+    send_email(NOTIFICATION_EMAIL, [student.new_user.email], emailMessage['subject'], emailMessage['message'])
+
+    student.pending_class_request = None
+    student.save()
+
+    messages.success(request, 'Request from external/independent student has been rejected successfully.')
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))

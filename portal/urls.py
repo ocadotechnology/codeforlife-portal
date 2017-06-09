@@ -59,7 +59,8 @@ from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_v
     teacher_delete_students, teacher_delete_class, teacher_class_password_reset, teacher_move_students,\
     teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join, organisation_deny_join, \
-    organisation_kick, organisation_toggle_admin, teacher_disable_2FA
+    organisation_kick, organisation_toggle_admin, teacher_disable_2FA, teacher_reject_student_request, \
+    teacher_accept_student_request
 from portal.views.registration import teacher_password_reset, password_reset_done, student_password_reset, \
     password_reset_check_and_confirm, custom_2FA_login
 js_info_dict = {
@@ -140,6 +141,8 @@ urlpatterns = patterns(
     url(r'^teach/dashboard/allow_join/(?P<pk>[0-9]+)/$', organisation_allow_join, name='organisation_allow_join'),
     url(r'^teach/dashboard/deny_join/(?P<pk>[0-9]+)/$', organisation_deny_join, name='organisation_deny_join'),
     url(r'^teach/dashboard/school/leave/$', organisation_leave, name='organisation_leave'),
+    url(r'^teach/dashboard/student/accept/(?P<pk>[0-9]+)/$', teacher_accept_student_request, name='teacher_accept_student_request'),
+    url(r'^teach/dashboard/student/reject/(?P<pk>[0-9]+)/$', teacher_reject_student_request, name='teacher_reject_student_request'),
     url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/$', teacher_view_class, name='view_class'),
     url(r'^teach/class/delete/(?P<access_code>[A-Z0-9]+)/$', teacher_delete_class, name='teacher_delete_class'),
     url(r'^teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$', teacher_delete_students, name='teacher_delete_students'),
