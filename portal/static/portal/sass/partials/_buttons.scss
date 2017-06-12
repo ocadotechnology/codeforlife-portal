@@ -7,7 +7,6 @@ a {
 a,
 a:hover,
 a:active,
-a:visited,
 a:focus {
   color: $color-text-tertiary;
 }
@@ -25,7 +24,6 @@ button,
 .button,
 .button:hover,
 .button:active,
-.button:visited,
 .button:focus {
   color: $color-text-secondary;
   text-decoration: none;
@@ -218,7 +216,6 @@ button,
 
   &:hover,
   &:active,
-  &:visited,
   &:focus{
     background-color: $color-background-tertiary;
     color: $color-text-secondary;
