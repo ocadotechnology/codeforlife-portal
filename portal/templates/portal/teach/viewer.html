@@ -30,8 +30,8 @@
     <a href="{% url 'materials' %}#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
 </div>
 
-<div class="banner banner--resources row">
-    <div class="col-sm-4 col-sm-offset-2">
+<div class="banner banner--resources">
+    <div class="col-sm-4">
         <h3>{{ title }}</h3>
         <h4>{{ description }}</h4>
         <div class="resource-buttons">
@@ -41,11 +41,9 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-sm-5 col-sm-offset-1">
-        {% if video_link %}
-            <iframe class="resource-video" src="{{ video_link }}" allowfullscreen></iframe>
-        {% endif %}
-    </div>
+    {% if video_link %}
+        <iframe class="resource-video" src="{{ video_link }}" allowfullscreen></iframe>
+    {% endif %}
 </div>
 
 <div class="background">

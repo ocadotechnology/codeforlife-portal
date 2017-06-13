@@ -250,7 +250,8 @@ button,
   @include _padding(40px, 0px, 0px, 0px);
 
   a {
-    @include _margin(0px, 20px, 0px, 0px);
+    @include _margin(0px, 20px, 20px, 0px);
+    display: inline-flex;
   }
 
 }
