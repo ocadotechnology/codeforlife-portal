@@ -110,7 +110,15 @@ def get_user_status(u):
         return 'INDEPENDENT_STUDENT'
     else:
         return 'UNTRACKED'
-    return 'UNTRACKED'
+
+
+@register.filter(name='make_title_caps')
+def make_title_caps(s):
+    if len(s) <= 0:
+        return s
+    else:
+        s = s[0].upper() + s[1:]
+    return s
 
 
 @register.filter(name='cloud_storage')
