@@ -474,7 +474,10 @@ class BaseTeacherDismissStudentsFormSet(forms.BaseFormSet):
 
 
 class StudentCreationForm(forms.Form):
-    names = forms.CharField(label='names', widget=forms.Textarea)
+    names = forms.CharField(label='names', widget=forms.Textarea(
+        attrs={
+            'placeholder': 'You may type students names or copy and paste them from a spreadsheet into this text box.'
+        }))
 
     def __init__(self, klass, *args, **kwargs):
         self.klass = klass
