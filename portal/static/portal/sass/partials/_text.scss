@@ -24,11 +24,6 @@ h1 {
 
 :not(h1) {
   font-family: 'Source Sans Pro', serif;
-
-  :not(.footer p) {
-    color: $color-text-tertiary;
-  }
-
 }
 
 h2 {
