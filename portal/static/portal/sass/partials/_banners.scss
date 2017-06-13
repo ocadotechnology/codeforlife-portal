@@ -174,7 +174,14 @@
   background-image: url('../img/background_blue.png');
   background-position: top right;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+
+  iframe {
+    @include _margin(30px, 30px, 0px, 0px);
+    height: 320px;
+    width: 560px;
+  }
+
 }
 
 @media (max-width: 1200px) {
