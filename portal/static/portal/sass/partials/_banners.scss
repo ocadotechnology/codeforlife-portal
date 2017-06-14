@@ -82,6 +82,8 @@
 
 .banner--homepage {
   @include _padding(100px, 0px, 100px, 10px);
+  display: flex;
+  justify-content: center;
   text-align: center;
 
   p {
@@ -181,6 +183,12 @@
   .banner {
     .col-sm-offset-2 {
       margin-left: 8.333%;
+    }
+  }
+
+  .banner--homepage {
+    .col-sm-7 {
+      width: 100%;
     }
   }
 }
