@@ -113,6 +113,18 @@ td {
   }
 }
 
+.secondary-table {
+  td {
+    background-color: $color-background-secondary;
+  }
+
+  th,
+  td {
+    border: 2px solid $color-background-tint-primary;
+  }
+
+}
+
 .cell-center {
   text-align: center;
 }
