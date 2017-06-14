@@ -131,6 +131,12 @@ form {
 
 }
 
+@media (max-width: 770px) {
+  .form--register {
+    width: 100%;
+  }
+}
+
 @media (max-width: 760px) {
   .form__choice {
     display: none;
