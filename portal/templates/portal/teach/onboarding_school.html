@@ -27,11 +27,6 @@
 {% if teacher.pending_join_request %}
 <div id="onboarding_revoke_request_page"></div>
 
-<div class="sub-nav sub-nav--warning">
-    <img src='{% static "portal/img/warning.png" %}'>
-    <p class="body-text"><i>Your request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }} has been submitted</i></p>
-</div>
-
 <div class="background background--primary">
     <div class="col-sm-6 col-center">
         <section>
