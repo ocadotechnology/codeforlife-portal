@@ -22,17 +22,10 @@
 
 {% block subNav %}
 {{ block.super }}
-
-<div class="sticky-subnav sub-nav sub-nav--hidden sub-nav--teacher">
-    <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
-    <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
-    <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
-</div>
-
 <section class="banner banner--teacher row">
     <h1 class="banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
 </section>
-<div class="sub-nav sub-nav--teacher">
+<div class="sticky-subnav sub-nav sub-nav--teacher">
     <div class="col-sm-12">
         <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
         <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
@@ -49,12 +42,7 @@
     <button class="button--big button--secondary button--secondary--light button--banner__item">Assessment</button>
 </div>
 {% if is_admin and join_requests %}
-<div class="sub-nav sub-nav--warning">
-    <img title="Warning" alt="Warning sign" src='{% static "portal/img/warning.png" %}'>
-    <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
-</div>
-
-<div class="sticky-warning sub-nav--hidden sub-nav sub-nav--warning">
+<div id="sticky-warning" class="sub-nav sub-nav--warning">
     <img title="Warning" alt="Warning sign" src='{% static "portal/img/warning.png" %}'>
     <p class="body-text"><i>You have pending requests from teachers wanting to join your school or club. <a href="#requests">View the requests</a></i></p>
 </div>
