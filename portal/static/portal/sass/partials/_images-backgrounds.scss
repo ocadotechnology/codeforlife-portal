@@ -74,6 +74,12 @@ img {
   border: 1px solid $color-background-secondary;
 }
 
+.error-page img {
+  position: absolute;
+  right: 15%;
+  top: 7%;
+}
+
 @media (min-width: 760px) and (max-width: 1400px) {
 
   .logo {

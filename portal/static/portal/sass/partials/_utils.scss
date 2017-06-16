@@ -175,6 +175,10 @@ iframe {
 }
 
 @media (max-width: 1200px) {
+  .col-sm-offset-2 {
+    margin-left: 8.333%;
+  }
+
   .col-center {
     width: 90%;
   }

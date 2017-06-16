@@ -44,6 +44,7 @@ from portal.views import admin
 
 from django_selenium_clean import selenium
 
+
 class TestAdmin(BaseTest):
     @classmethod
     def setUpClass(cls):
@@ -131,15 +132,6 @@ class TestAdmin(BaseTest):
         password = 'abc123'
         User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_data().login_failure('user123', password)
-        self.assertTrue(page.is_on_admin_login_page())
-        self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
-                      selenium.page_source)
-
-    def test_wrong_username(self):
-        username = self.randomId()
-        password = 'abc123'
-        user = User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_data().login_failure(username, '123')
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
                       selenium.page_source)

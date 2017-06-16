@@ -1,12 +1,22 @@
-{% extends 'portal/base_no_userprofile.html' %}
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
 
 {% block content %}
 
-<h2>
-Sorry, that page doesn't seem to exist.
-</h2>
-<p>
-    Please go back and try again.
-</p>
+<div class="error-page">
+    <div class="banner banner--error-page banner--homepage--teacher row">
+        <div class="col-sm-5 col-sm-offset-2">
+            <h1>Uh oh!</h1>
+            <h4>Sorry, Nigel can&rsquo;t find the page you were looking for.</h4>
+            <p class="body-text">This might be because you have entered a web address incorrectly or the page has moved.</p>
+        </div>
+    </div>
+
+    <div class="background col-sm-offset-2">
+        <a class="button button--regular button--primary--general-educate" href="{% url 'home' %}">Back to homepage</a>
+    </div>
+
+    <img title="Nigel" alt="Nigel" src='{% static "portal/img/nigel_hi_res.png" %}'/>
+</div>
 
 {% endblock content %}
