@@ -1,48 +1,135 @@
 {% load staticfiles %}
+{% load app_tags %}
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
 
     <title>Code For Life - there has been an error</title>
 
-    <link rel="stylesheet" type="text/css" href='{% static "portal/css/styles.css" %}'>
-    <link rel="stylesheet" type="text/css" href='{% static "portal/css/list.css" %}'>
-    <link rel="stylesheet" type="text/css" href='{% static "portal/css/tables.css" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "portal.css" %}'>
+    <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
 </head>
 <body>
 
 <div id="contentWrapper">
-    <div class="topBar">
-        <div class="content">
-            <a id="home_button" href="/" class="logo">
-                <span></span>
-                <h1>Code for Life</h1>
-            </a>
-            <ul class="topNav">
-                <li><a id="teach_button" href="/teach/">TEACH</a></li>
-                <li><a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a></li>
-                <li><a id="logout_button" href="/logout/">LOGOUT</a></li>
-            </ul>
+    <div class="header">
+        <a href="{% url 'home' %}"><img class="logo col-sm-offset-1"></a>
+        <div class="menu col-sm-12">
+            <div class="menu__left-side col-sm-6 col-sm-offset-2">
+                <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
+                <a href="{% url 'home' %}"><img class="logo-horizontal" src='{% static "portal/img/logo_c4l_horizontal.png" %}'></a>
+                <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
+                {% block leftMenuButtons %}
+                {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                <a href="{% url 'teach' %}" class="button--menu button--menu--primary"><b>Teacher</b></a>
+                {% block secondaryButtons %}
+                {% if user|has_teacher_finished_onboarding %}
+                <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
+                {% else %}
+                <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                {% endif %}
+                {% endblock secondaryButtons %}
+                {% else %}
+                <a href="{% url 'play' %}" class="button--menu button--menu--primary"><b>Student</b></a>
+                {% block studentButtons %}
+                <a href="{% url 'student_details' %}" id="student_dashboard_button"
+                   class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
+                <a href="{% url 'student_edit_account' %}" id="student_account_button"
+                   class="button--menu button--menu--secondary button--menu--enabled">Password</a>
+                {% endblock studentButtons %}
+                {% endif %}
+                {% else %}
+                {% block nav_teach %}<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+                {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
+                {% endif %}
+                {% endblock leftMenuButtons %}
+            </div>
+            <div class="menu__right-side col-sm-4">
+                {% block rightMenuButtons %}
+                {% if user|is_logged_in %}
+                <div class="dropdown">
+                    <button id="logout_menu" class="button--regular button--secondary button--secondary--dark logout"
+                            data-toggle="dropdown">{{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="button--regular button--logout" id="logout_button"
+                               href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">Log out</a>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                {% endif %}
+                {% endblock rightMenuButtons %}
+            </div>
+        </div>
+        <div id="menu-items" class="collapse">
+            <div class="menu__item">
+                <a href="{% url 'register' %}" class="button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login_view' %}" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+            </div>
+            <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+            <div id="teacher-tabs" class="collapse">
+                <button class="button--menu__item button--menu__item__sub">School / Club</button>
+                <button class="button--menu__item button--menu__item__sub">Rapid Router</button>
+                <button class="button--menu__item button--menu__item__sub">Resources</button>
+            </div>
+            <button class="button--menu__item">Student</button>
+            <button class="button--menu__item">About</button>
+            <button class="button--menu__item">Help and support</button>
+            <button class="button--menu__item">Terms of use</button>
         </div>
     </div>
 
     <div class="content">
-        <div class="topPadding"></div>
-        <h2>Oh dear! Something's gone wrong.</h2>
-        <p>Please go back and try again.</p>
+        <div class="error-page">
+            <div class="banner banner--error-page banner--homepage--teacher row">
+                <div class="col-sm-5 col-sm-offset-2">
+                    <h1>Zap!</h1>
+                    <h4>Oh dear! Something technical has gone wrong.</h4>
+                    <p class="body-text">Dee will attempt to fix this soon.</p>
+                </div>
+            </div>
+
+            <div class="background col-sm-offset-2">
+                <a class="button button--regular button--primary--general-educate" href="{% url 'home' %}">Back to homepage</a>
+            </div>
+
+            <img title="Dee" alt="Dee" src='{% static "portal/img/dee_hi_res.png" %}'/>
+        </div>
     </div>
 
     <div class="push"></div>
 </div>
 
 <div class="footer">
-    <ul>
-        <li><a href="/about/">About us</a></li>
-        <li><a href="/contact/">Contact Us</a></li>
-        <li><a href="/terms/">Terms of use</a></li>
-        <li><a href="/help/">Help &amp; Support</a></li>
-        <li><a href="http://www.ocadotechnology.com/">Ocado Technology</a> &copy; 2016</li>
-    </ul>
+    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img/footer_arrow.png" %}'></a>
+    <p class="small-text"><a href="#top">BACK TO TOP</a></p>
+    <img class="col-sm-3" src='{% static "portal/img/logo_c4l_horizontal.png" %}'>
+    <div class="row">
+        <p class="body-text"><a href="{% url 'about' %}">About us</a></p>
+        <p class="body-text"><a href="{% url 'teach' %}">Teachers</a></p>
+        <p class="body-text"><a href="{% url 'play' %}">Students</a></p>
+        <p class="body-text"><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
+        <p class="body-text"><a href="{% url 'help' %}#contact">Contact us</a></p>
+        <p class="body-text"><a href="{% url 'terms' %}">Terms of use</a></p>
+    </div>
+    <div class="row social-media"><br>
+        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img/twitter.png" %}'></a>
+        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src='{% static "portal/img/facebook.png" %}'></a>
+        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img/google+.png" %}'></a>
+    </div>
+    <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img/logo_ocado.png" %}'></a>
+    <p class="small-text">&copy; Ocado Technology 2017</p>
 </div>
 
-</body></html>
+</body>
+</html>
