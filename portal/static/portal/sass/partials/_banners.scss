@@ -32,6 +32,10 @@
     @include _padding(20px, 0px, 8px, 0px);
   }
 
+  div[class^="col-sm"] {
+    padding: 0;
+  }
+
 }
 
 .banner--picture {
@@ -195,6 +199,12 @@
 }
 
 @media (max-width: 1200px) {
+
+  .banner {
+    .col-sm-offset-2 {
+      margin-left: 0;
+    }
+  }
 
   .banner--homepage {
     .col-sm-7 {
