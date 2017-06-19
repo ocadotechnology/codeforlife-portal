@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block nav_play %}<a href="play.html" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
 
 {% block css %}
 {{block.super}}
