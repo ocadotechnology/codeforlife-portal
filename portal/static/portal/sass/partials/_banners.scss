@@ -139,7 +139,7 @@
   align-items: center;
   display: flex;
   height: 263px; //TO BE CHANGED!
-  justify-content: space-between;
+  justify-content: center;
 
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);
@@ -227,7 +227,10 @@
   }
 
   .banner__item {
+    align-items: center;
+    display: flex;
     height: 120px;
+    justify-content: center;
     text-align: center;
     width: 100%;
   }
@@ -240,15 +243,8 @@
     background-color: $color-background-play;
   }
 
-  .button--banner__item {
-    @include _font-size(30px);
-    @include _margin(30px, 0px, 0px, 0px);
-    font-weight: 500;
-    width: 50%;
-  }
-
   .banner {
-    @include _padding(10px, 0px, 50px, 0px);
+    @include _padding(10px, 10px, 50px, 10px);
     text-align: center;
 
     p a {
@@ -256,17 +252,16 @@
     }
   }
 
-  .banner .col-sm-6 .banner--picture {
+  .banner div .banner--picture {
     display: none;
   }
 
   .banner--rapid-router {
     @include _padding(50px, 0px, 150px, 0px);
+    flex-direction: column;
 
-    button {
-      margin-left: -97.5px;
-      position: absolute;
-      top: 250%;
+    .button {
+      margin-bottom: 50px;
     }
 
   }

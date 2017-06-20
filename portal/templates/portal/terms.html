@@ -15,7 +15,7 @@
 {% block subNav %}
 {{ block.super }}
 <div class="banner banner--teacher row">
-    <div class="col-sm-offset-2">
+    <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Terms of use</h1>
     </div>
     <div class="col-sm-5">
@@ -26,15 +26,6 @@
     <a href="#introduction" class="button button--regular button--secondary button--secondary--light">Introduction</a>
     <a href="#terms" class="button button--regular button--secondary button--secondary--light">Terms of use</a>
     <a href="#privacy" class="button button--regular button--secondary button--secondary--light">Privacy policy</a>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Introduction</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Terms of use</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Privacy policy</button>
 </div>
 {% endblock subNav %}
 
@@ -272,7 +263,9 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        }
     });
 </script>
 

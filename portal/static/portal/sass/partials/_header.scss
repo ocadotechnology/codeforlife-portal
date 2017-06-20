@@ -123,7 +123,7 @@
     .logo-horizontal {
       margin: 0;
       @include _padding(0px, 0px, 10px, 15px);
-      content: url('../../img/logo_c4l_horizontal.png');
+      content: url('../img/logo_c4l_horizontal.png');
       position: relative;
       width: 80%;
       z-index: 1;

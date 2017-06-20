@@ -123,7 +123,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         {% if not onboarding_done %}
-            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+            if($(window).width() > 760) {
+                toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+            }
         {% endif %}
     });
 </script>

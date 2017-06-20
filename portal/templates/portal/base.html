@@ -139,20 +139,32 @@
             </div>
         </div>
         <div id="menu-items" class="collapse">
-            <div class="menu__item">
-                <a href="{% url 'register' %}" class="button--regular button--primary--general-play register">Register now</a>
-                <a href="{% url 'login_view' %}" class="button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
-            </div>
-            <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
-            <div id="teacher-tabs" class="collapse">
-                <button class="button--menu__item button--menu__item__sub">School / Club</button>
-                <button class="button--menu__item button--menu__item__sub">Rapid Router</button>
-                <button class="button--menu__item button--menu__item__sub">Resources</button>
-            </div>
-            <button class="button--menu__item">Student</button>
-            <button class="button--menu__item">About</button>
-            <button class="button--menu__item">Help and support</button>
-            <button class="button--menu__item">Terms of use</button>
+            {% if user|is_logged_in %}
+                <div class="menu__item">
+                    <div class="button button--jumbo button--secondary button--secondary--dark">
+                        {{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></div>
+                </div>
+                <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+                <div id="teacher-tabs" class="collapse">
+                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'teach' %}">Educate</a>
+                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'dashboard' %}">School / Club</a>
+                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'game.views.level_selection.levels' %}">Rapid Router</a>
+                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'teaching_resources' %}">Resources</a>
+                </div>
+            {% else %}
+                <div class="menu__item">
+                    <a href="{% url 'register' %}" class="button button--jumbo button--primary--general-play register">Register now</a>
+                    <a href="{% url 'login_view' %}" class="button button--jumbo button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                </div>
+                <a class="button button--menu__item" href="{% url 'teach' %}">Teacher</a>
+            {% endif %}
+            <a class="button button--menu__item" href="{% url 'play' %}">Student</a>
+            <a class="button button--menu__item" href="{% url 'about' %}">About</a>
+            <a class="button button--menu__item" href="{% url 'help' %}">Help and support</a>
+            <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use</a>
+            {% if user|is_logged_in %}
+                <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout</a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -264,17 +276,15 @@
 
     $(document).ready(function() {
         animateScroll();
-    })
-</script>
-{% endblock scripts %}
+    });
 
-<script type="text/javascript">
     $('.logout').click(function(){
         $(this).toggleClass("button--secondary");
         $(this).toggleClass("button--secondary--dark");
         $(this).toggleClass("button--logout");
     })
 </script>
+{% endblock scripts %}
 
 </body>
 </html>

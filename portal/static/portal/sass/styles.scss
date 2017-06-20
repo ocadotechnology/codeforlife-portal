@@ -13,6 +13,8 @@
 @import "partials/ui-dialog";
 @import "partials/utils";
 
-body {
-  padding-top: 80px;
+@media (min-width: 760px) {
+  body {
+    padding-top: 80px;
+  }
 }

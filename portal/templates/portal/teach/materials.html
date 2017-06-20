@@ -34,18 +34,6 @@
     <a href="#lks2" class="button button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
     <a href="#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
 </div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">User guide</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Key Stage 1</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Lower Key Stage 2</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Upper Key Stage 2</button>
-</div>
 {% endblock subNav %}
 
 {% block content %}
@@ -509,7 +497,9 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        }
     });
 </script>
 

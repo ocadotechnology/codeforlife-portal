@@ -9,6 +9,7 @@
 }
 
 .sub-nav {
+  @include _padding(0px, 20px, 0px, 20px);
   align-items: center;
   display: flex;
   height: 80px;
@@ -16,10 +17,6 @@
   text-align: center;
   width: 100%;
   z-index: 2;
-
-  .x-icon {
-
-  }
 
   .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
