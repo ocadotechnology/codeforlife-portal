@@ -85,6 +85,7 @@ a
   max-width: 1200px;
 
   margin:0 auto;
+  margin-top: 80px;
   padding: 20px;
   clear:both;
 }
@@ -1151,6 +1152,12 @@ h1 {
 
 :not(h1) {
   font-family: 'Source Sans Pro', serif;
+}
+
+@media (max-width: 760px) {
+  body {
+    padding-top: 0;
+  }
 }
 
 @import "bootstrap_partials/dropdown";
