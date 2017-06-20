@@ -32,7 +32,6 @@ button,
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
-  @include _margin(50px, 0px, 0px, 0px);
 }
 
 .button--big {
@@ -271,16 +270,17 @@ button,
 @media (max-width: 760px) {
 
   .button--secondary--dark {
-    @include _margin(0px, 0px, 0px, 30px);
     background-color: $color-background-secondary;
   }
 
   .button--menu__item {
     @include _font-size(30px);
+    align-items: center;
     background-color: $color-background-tertiary;
     border-radius: 0;
     border-top: 1px solid $color-text-secondary;
     color: $color-text-secondary;
+    display: flex;
     font-weight: 600;
     height: 60px;
     text-align: left;
@@ -296,13 +296,28 @@ button,
     justify-content: center;
     text-align: center;
     width: 100%;
+
+    .button--secondary--dark {
+      @include _margin(0px, 0px, 0px, 30px);
+
+      .glyphicon {
+        @include _font-size(32px);
+      }
+    }
   }
 
   .button--banner__item {
     @include _font-size(30px);
-    @include _margin(30px, 0px, 0px, 0px);
     font-weight: 500;
     width: 50%;
+
+    &:focus,
+    &:hover,
+    &:active {
+      background-color: $color-background-secondary;
+      color: $color-teacher-blue;
+    }
+
   }
 
   .button--menu__item__sub {

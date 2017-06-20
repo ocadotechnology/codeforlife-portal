@@ -22,7 +22,7 @@
 {{ block.super }}
 <div class="row popup is-flex">
     <div class="form--register form--register--teacher col-sm-6">
-        <div class="form col-sm-8 col-sm-offset-2">
+        <div class="form col-sm-8 col-center">
             <h1>Log in as a teacher</h1>
             <form id='form-login-teacher' method='post'>
 
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div id="school-login" class="form--register form--register--student col-sm-6">
-            <div class="form col-sm-8 col-sm-offset-2">
+            <div class="form col-sm-8 col-center">
                 <h1>Log in as a student</h1>
                 <form id='form-login-school' method='post'>
 
@@ -128,7 +128,6 @@
     var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
 
     $(document).ready(function(){
-        toggleStickySubnav($('.menu').outerHeight());
         showCorrectLogin(INDEPENDENT_STUDENT_VIEW);
     });
 </script>

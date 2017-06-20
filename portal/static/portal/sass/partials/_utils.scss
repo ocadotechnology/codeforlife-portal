@@ -90,7 +90,8 @@ section {
 
 .col-center {
   float: none;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -198,10 +199,8 @@ iframe {
 
 @media (max-width: 760px) {
 
-  .col-sm-3 {
-    float: none;
-    margin: auto;
-    width: 50%;
+  .col-sm-offset-2 {
+    margin-left: 0;
   }
 
   .row--regular {

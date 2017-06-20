@@ -115,4 +115,13 @@ img {
     display: none;
   }
 
+  .image-row {
+    align-items: center;
+    flex-direction: column;
+
+    img {
+      @include _padding(10px, 0px, 10px, 0px);
+    }
+  }
+
 }

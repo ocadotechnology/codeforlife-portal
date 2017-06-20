@@ -142,7 +142,9 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        toggleStickySubnav($('.menu').innerHeight());
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.menu').innerHeight());
+        }
     });
 </script>
 

@@ -17,7 +17,9 @@
 <div class="banner banner--rapid-router row">
     <div class="col-sm-5">
         <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
-        <a href="{% url 'game.views.level_selection.levels' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+        <div class="background">
+            <a href="{% url 'game.views.level_selection.levels' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+        </div>
     </div>
     <div class="col-sm-4">
         <a href="https://www.youtube.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
@@ -42,27 +44,23 @@
                 <img title="Teaching Tools" alt="Teaching Tools" src='{% static "portal/img/teaching_tools.jpg" %}'>
                 <h3>Free teaching tools</h3>
                 <p class="body-text">Free teaching resources, lesson plans and much more. You can even track your student&rsquo;s progress with our class tracker.</p>
+                <div class="background">
+                    <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Learn more</a>
+                </div>
             </div>
             <div class="col-sm-4">
                 <img title="Fun game" alt="Fun game" src='{% static "portal/img/a_fun_game_for_students.jpg" %}'>
                 <h3>A fun game for students</h3>
                 <p class="body-text">You can learn to become a coding superhero, amaze your friends with your high scores.</p>
+                <div class="background">
+                    <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Play now</a>
+                </div>
             </div>
             <div class="col-sm-4">
                 <img title="Blockly" alt="Blocky code" src='{% static "portal/img/about_blockly.png" %}'>
                 <h3>About Blockly</h3>
                 <p class="body-text">Built on &lsquo;Blockly&rsquo;, an easy-to-use visual programming language that&rsquo;s similar to Scratch, so you don&rsquo;t need
                     to worry about syntax.</p>
-            </div>
-        </div>
-    </div>
-    <div class="row row--under homepage-info">
-        <div class="col-sm-9 col-center">
-            <div class="col-sm-4">
-                <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Learn more</a>
-            </div>
-            <div class="col-sm-4">
-                <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Play now</a>
             </div>
         </div>
     </div>

@@ -28,15 +28,6 @@
     <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
     <a href="#assessment" class="button button--regular button--secondary button--secondary--light">Assessment</a>
 </div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Overview</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Curriculum</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Assessment</button>
-</div>
 {% endblock subNav %}
 
 {% block content %}
@@ -109,7 +100,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         invokeColorbox();
-        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        }
     });
 </script>
 

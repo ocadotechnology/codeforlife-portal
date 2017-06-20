@@ -32,15 +32,6 @@
         <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
     </div>
 </div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Overview</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Curriculum</button>
-</div>
-<div class="banner__item banner__item--teacher">
-    <button class="button--big button--secondary button--secondary--light button--banner__item">Assessment</button>
-</div>
 {% if is_admin and join_requests %}
 <div id="sticky-warning" class="sub-nav sub-nav--warning">
     <img title="Warning" alt="Warning sign" src='{% static "portal/img/warning.png" %}'>
@@ -407,7 +398,9 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        }
 
         {% if anchor %}
             window.location = '#{{anchor}}';
