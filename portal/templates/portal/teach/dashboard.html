@@ -27,8 +27,8 @@
 </section>
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <div class="col-sm-12">
-        <a href="#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
-        <a href="#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
+        <a href="#school" class="button button--regular button--secondary button--secondary--light">Your School</a>
+        <a href="#classes" class="button button--regular button--secondary button--secondary--light">Manage Classes</a>
         <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
     </div>
 </div>
@@ -195,9 +195,15 @@
     <div class="background col-sm-6 col-center">
         <section>
             <h2>Classes</h2>
-            <h4>Here is a list of all the classes you teach. Add a classing using the &lsquo;New Class&rsquo; box, or manage a particular class by clicking on the class
-                name or access code. You can accept or deny requests from independent students wanting to join one of your classes.</h4>
-            <a href="#new-class" class="button button--regular button--secondary button--secondary--dark">Add class</a>
+            <div class="button-group background">
+                <a href="{% url 'game.views.scoreboard.scoreboard' %}"
+                   class="button button--regular button--secondary button--secondary--dark">Scoreboard</a>
+                <a href="#new-class" class="button button--regular button--secondary button--secondary--dark">Add class</a>
+                <a href="{% url 'game.views.level_moderation.level_moderation' %}"
+                   class="button button--regular button--secondary button--secondary--dark">Level moderation</a>
+            </div>
+            <h4>Below is a list of all the classes you teach. You can add a class or edit your existing classes. You can also accept or deny
+                requests from independent students wanting to join one of your classes.</h4>
         </section>
     </div>
     <div class="col-sm-8 col-center">
