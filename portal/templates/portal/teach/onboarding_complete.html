@@ -64,7 +64,10 @@
                 <img title="Rapid Router" alt="Rapid Router" src='{% static "portal/img/rapid_router.png" %}'>
                 <h3>Rapid Router</h3>
                 <p class="body-text">Get stuck in! Have a go at Rapid Router yourself, this can help you familiarise yourself with the game before letting the students loose.</p>
-                <p class="body-text">When you&rsquo;re logged in as a teacher you can also moderate and find solutions to the levels.</p>
+                <p class="body-text">When you&rsquo;re logged in as a teacher you can also
+                    <a href="{% url 'game.views.level_moderation.level_moderation' %}">moderate</a>, view
+                    <a href="{% url 'game.views.scoreboard.scoreboard' %}">scoreboards</a> and find
+                    <a href="{% url 'teacher_level_solutions' %}">solutions</a> to the levels.</p>
                 <div class="background">
                     <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Play Rapid Router</a>
                 </div>
