@@ -61,6 +61,20 @@ def signup_teacher_directly(**kwargs):
     return email_address, password
 
 
+def signup_duplicate_teacher_fail(page, duplicate_email):
+    page = page.go_to_signup_page()
+
+    title, first_name, last_name, email_address, password = generate_details()
+    page = page.signup(title, first_name, last_name, duplicate_email, password, password)
+
+    page = page.return_to_home_page()
+
+    page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0])
+    mail.outbox = []
+
+    return page, email_address, password
+
+
 def signup_teacher(page):
     page = page.go_to_signup_page()
 

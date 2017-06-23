@@ -50,7 +50,7 @@ def emailVerificationNeededEmail(request, token):
         'subject': emailSubjectPrefix() + " : Email address verification needed",
         'message': ("Please go to " +
                     request.build_absolute_uri(reverse('verify_email', kwargs={'token': token})) +
-                    " to verify your email address" + emailBodySignOff(request)),
+                    " to verify your email address." + emailBodySignOff(request)),
     }
 
 
@@ -70,6 +70,17 @@ def emailChangeNotificationEmail(request, new_email):
         'message': ("Someone has tried to change the email address of your account. If this was " +
                     "not you, please get in contact with us via " +
                     request.build_absolute_uri(reverse('help')) + "#contact ." +
+                    emailBodySignOff(request)),
+    }
+
+
+def userAlreadyRegisteredEmail(request, email):
+    return {
+        'subject': emailSubjectPrefix() + " : Duplicate account error",
+        'message': ("A user is already registered with this email address: " +
+                    email + ".\nIf you've already registered, please login: " +
+                    request.build_absolute_uri(reverse('login_view')) + ".\n" +
+                    "Otherwise please register with a different email address." +
                     emailBodySignOff(request)),
     }
 

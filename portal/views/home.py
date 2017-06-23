@@ -48,7 +48,7 @@ from django_recaptcha_field import create_form_subclass_with_recaptcha
 from portal.models import Teacher, Class, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL
+from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
@@ -289,16 +289,26 @@ def process_indep_student_login_form(request, independent_student_login_form):
 
 
 def process_signup_form(request, data):
-    teacher = Teacher.objects.factory(
-        title=data['teacher_title'],
-        first_name=data['teacher_first_name'],
-        last_name=data['teacher_last_name'],
-        email=data['teacher_email'],
-        password=data['teacher_password'])
+    email = data['teacher_email']
+    teacher = None
 
-    send_verification_email(request, teacher.user.user)
+    if email and Teacher.objects.filter(new_user__email=email).exists():
+        email_message = emailMessages.userAlreadyRegisteredEmail(request, email)
+        send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
+    else:
+        teacher = Teacher.objects.factory(
+            title=data['teacher_title'],
+            first_name=data['teacher_first_name'],
+            last_name=data['teacher_last_name'],
+            email=data['teacher_email'],
+            password=data['teacher_password'])
 
-    return render(request, 'portal/email_verification_needed.html', {'user': teacher.user.user})
+        send_verification_email(request, teacher.user.user)
+
+    if teacher:
+        return render(request, 'portal/email_verification_needed.html', {'user': teacher.user.user})
+    else:
+        return render(request, 'portal/email_verification_needed.html')
 
 
 def process_student_signup_form(request, data):

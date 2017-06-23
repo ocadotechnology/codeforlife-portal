@@ -107,7 +107,7 @@ class TeacherSignupForm(forms.Form):
 
         if password and not password_strength_test(password):
             raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower " + "case letters, and numbers")
+                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
 
         return password
 
