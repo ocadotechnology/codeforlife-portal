@@ -201,9 +201,6 @@ class TeacherLoginForm(forms.Form):
             if not self.view_options['is_recaptcha_valid']:
                 raise forms.ValidationError('Incorrect email address, password or captcha')
 
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError('Incorrect email address, password or captcha')
-
         email = self.cleaned_data.get('teacher_email', None)
         password = self.cleaned_data.get('teacher_password', None)
 
