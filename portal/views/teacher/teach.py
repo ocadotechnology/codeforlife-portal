@@ -687,6 +687,8 @@ def teacher_print_reminder_cards(request, access_code):
     CHARACTER_FILES = ["portal/img/dee.png", "portal/img/kirsty.png", "portal/img/wes.png", "portal/img/nigel.png", "portal/img/phil.png"]
     CHARACTERS = []
 
+    logo_image = ImageReader(staticfiles_storage.path("portal/img/logo_c4l_reminder_card.png"))
+
     for character_file in CHARACTER_FILES:
         character_image = ImageReader(staticfiles_storage.path(character_file))
         character_height = CARD_INNER_HEIGHT
@@ -760,10 +762,8 @@ def teacher_print_reminder_cards(request, access_code):
         p.setStrokeColor(black)
         p.roundRect(left, bottom, CARD_WIDTH, CARD_HEIGHT, CORNER_RADIUS)
 
-        # header text
-        p.setFillColor(white)
-        p.setFont('Helvetica', 18)
-        p.drawCentredString(inner_left + CARD_INNER_WIDTH / 2, header_bottom + HEADER_HEIGHT * 0.35, '[ code ] for { life }')
+        # header image
+        p.drawImage(logo_image, inner_left, header_bottom + 5, CARD_INNER_WIDTH, HEADER_HEIGHT * 0.6)
 
         # footer text
         p.setFont('Helvetica', 10)
@@ -786,10 +786,10 @@ def teacher_print_reminder_cards(request, access_code):
         p.drawImage(character['image'], inner_left + CARD_INNER_WIDTH - character['width'], inner_bottom, character['width'], character['height'], mask='auto')
 
         x = (x + 1) % NUM_X
-        compute_show_page(p, x, y, NUM_Y)
+        y = compute_show_page_character(p, x, y, NUM_Y)
         current_student_count += 1
 
-    compute_show_page(p, x, y, NUM_Y)
+    compute_show_page_end(p, x, y)
 
     p.save()
     return response
@@ -811,10 +811,14 @@ def get_student_data(request, klass, student_data):
     return student_data
 
 
-def compute_show_page(p, x, y, NUM_Y):
+def compute_show_page_character(p, x, y, NUM_Y):
     if x == 0:
         y = (y + 1) % NUM_Y
         if y == 0:
             p.showPage()
-    elif x != 0 or y != 0:
+    return y
+
+
+def compute_show_page_end(p, x, y):
+    if x != 0 or y != 0:
         p.showPage()
