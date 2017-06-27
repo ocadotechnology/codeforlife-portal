@@ -55,6 +55,9 @@ from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 
+from django.conf import settings
+import requests
+
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
@@ -98,11 +101,7 @@ def render_login_form(request):
     teacher_limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
     teacher_captcha_limit = 5
 
-    LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
-    InputLoginForm = compute_teacher_input_login_form(LoginFormWithCaptcha, teacher_limits, teacher_captcha_limit)
-    OutputLoginForm = compute_teacher_output_login_form(LoginFormWithCaptcha, teacher_limits, teacher_captcha_limit)
-
-    login_form = OutputLoginForm(prefix='login')
+    login_form = TeacherLoginForm(prefix='login')
 
     student_limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
     student_captcha_limit = 30
@@ -127,6 +126,8 @@ def render_login_form(request):
         'independent_student_login_form': independent_student_login_form,
         'independent_student_view': independent_student_view,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
+        'settings': settings,
+        'teacher_captcha': compute_teacher_should_use_captcha(teacher_limits, teacher_captcha_limit),
     }
 
     if request.method == 'POST':
@@ -142,9 +143,12 @@ def render_login_form(request):
             render_dict['independent_student_view'] = True
 
         else:
-            form = InputLoginForm(request.POST, prefix='login')
+            form = TeacherLoginForm(request.POST, prefix='login')
             process_form = process_login_form
-            render_dict['login_form'] = OutputLoginForm(request.POST, prefix='login')
+            render_dict['login_form'] = TeacherLoginForm(request.POST, prefix='login')
+
+        form.view_options['is_recaptcha_valid'] = check_recaptcha(request)
+        form.view_options['is_recaptcha_visible'] = render_dict['teacher_captcha']
 
         if form.is_valid():
             return process_form(request, form)
@@ -206,16 +210,6 @@ def compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
 def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
     should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
     return should_use_captcha
-
-
-def compute_teacher_input_login_form(LoginFormWithCaptcha, limits, captcha_limit):
-    InputLoginForm = LoginFormWithCaptcha if compute_teacher_use_captcha(limits, captcha_limit) else TeacherLoginForm
-    return InputLoginForm
-
-
-def compute_teacher_output_login_form(LoginFormWithCaptcha, limits, captcha_limit):
-    OutputLoginForm = LoginFormWithCaptcha if compute_teacher_should_use_captcha(limits, captcha_limit) else TeacherLoginForm
-    return OutputLoginForm
 
 
 def compute_student_input_login_form(StudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
@@ -403,3 +397,7 @@ def contact(request):
 
     response.count = increment_count
     return response
+
+def check_recaptcha(request):
+    payload = {'secret': settings.RECAPTCHA_PRIVATE_KEY , 'response': request.POST.get('g-recaptcha-response')}
+    return requests.post('https://www.google.com/recaptcha/api/siteverify', payload).json().get('success', False)

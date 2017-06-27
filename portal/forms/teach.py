@@ -47,7 +47,6 @@ from portal.helpers.password import password_strength_test
 choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
            ('Dr', 'Dr'), ('Rev', 'Rev'), ('Sir', 'Sir'), ('Dame', 'Dame')]
 
-
 class TeacherSignupForm(forms.Form):
 
     teacher_title = forms.ChoiceField(
@@ -195,8 +194,13 @@ class TeacherLoginForm(forms.Form):
     teacher_password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput)
+    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
     def clean(self):
+        if self.view_options['is_recaptcha_visible']:
+            if not self.view_options['is_recaptcha_valid']:
+                raise forms.ValidationError('Incorrect email address, password or captcha')
+
         if self.has_error('recaptcha'):
             raise forms.ValidationError('Incorrect email address, password or captcha')
 
