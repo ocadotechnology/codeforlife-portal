@@ -59,9 +59,8 @@ class StudentLoginForm(forms.Form):
     view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
     def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect email address, password or captcha')
+        if self.view_options['is_recaptcha_visible'] and not self.view_options['is_recaptcha_valid']:
+            raise forms.ValidationError('Incorrect email address, password or captcha')
 
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
