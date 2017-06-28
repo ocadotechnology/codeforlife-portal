@@ -103,7 +103,7 @@ section {
   }
 
   input:checked + label:before {
-    content: '-';
+    content: '\2013';
   }
 
   input:checked ~ answer {

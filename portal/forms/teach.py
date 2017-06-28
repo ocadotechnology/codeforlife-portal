@@ -93,15 +93,7 @@ class TeacherSignupForm(forms.Form):
         widget=forms.PasswordInput()
     )
 
-    def clean_email(self):
-        email = self.cleaned_data.get('teacher_email', None)
-
-        if email and Teacher.objects.filter(new_user__email=email).exists():
-            raise forms.ValidationError("That email address is already in use")
-
-        return email
-
-    def clean_password(self):
+    def clean_teacher_password(self):
         password = self.cleaned_data.get('teacher_password', None)
 
         if password and not password_strength_test(password):
