@@ -335,18 +335,15 @@ def contact(request):
     captcha_limit = 5
 
     using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
-
-    ContactFormWithCaptcha = partial(create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
-    InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
-    OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
+    should_use_captcha = True #(limits['ip'][0] >= captcha_limit)
 
     anchor = ''
 
     if request.method == 'POST':
-        contact_form = InputContactForm(request.POST)
+        contact_form = ContactForm(request.POST)
         increment_count = True
-
+        contact_form.view_options['is_recaptcha_visible'] = True #should_use_captcha
+        contact_form.view_options['is_recaptcha_valid'] = check_recaptcha(request) # if using_captcha else False
         if contact_form.is_valid():
             email_message = emailMessages.contactEmail(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
@@ -363,15 +360,17 @@ def contact(request):
             messages.success(request, 'Your message was sent successfully.')
             return HttpResponseRedirect('.')
         else:
-            contact_form = OutputContactForm(request.POST)
+            contact_form = ContactForm(request.POST)
             anchor = "contact"
 
     else:
-        contact_form = OutputContactForm()
+        contact_form = ContactForm()
 
     response = render(request, 'portal/help-and-support.html',
                       {'form': contact_form,
-                       'anchor': anchor})
+                       'anchor': anchor,
+                       'captcha': should_use_captcha,
+                       'settings': settings})
 
     response.count = increment_count
     return response
