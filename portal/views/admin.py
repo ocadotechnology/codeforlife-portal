@@ -68,7 +68,7 @@ def admin_login(request):
     show_captcha = getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit
     AdminLoginForm.view_options['is_recaptcha_visible'] = show_captcha
     AdminLoginForm.view_options['is_recaptcha_valid'] = check_recaptcha(request) if show_captcha else False
-    return auth_views.login(request, authentication_form=AdminLoginForm, extra_context={'captcha': show_captcha, 'settings': settings})
+    return auth_views.login(request, authentication_form=AdminLoginForm, extra_context={'captcha': show_captcha, 'settings': app_settings})
 
 
 @login_required(login_url=reverse_lazy('admin_login'))

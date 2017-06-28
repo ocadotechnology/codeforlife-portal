@@ -54,7 +54,7 @@ from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.captcha import check_recaptcha
 
-from django.conf import settings
+from portal import app_settings
 
 
 def teach_email_labeller(request):
@@ -114,7 +114,7 @@ def render_login_form(request):
         'independent_student_login_form': independent_student_login_form,
         'independent_student_view': independent_student_view,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
-        'settings': settings,
+        'settings': app_settings,
         'teacher_captcha': compute_teacher_should_use_captcha(teacher_limits, teacher_captcha_limit),
         'student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
         'independent_student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
@@ -370,7 +370,7 @@ def contact(request):
                       {'form': contact_form,
                        'anchor': anchor,
                        'captcha': should_use_captcha,
-                       'settings': settings})
+                       'settings': app_settings})
 
     response.count = increment_count
     return response

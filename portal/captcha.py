@@ -34,7 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.conf import settings
+from portal import app_settings
 import requests
 
 # Adapted from https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
@@ -42,7 +42,7 @@ def check_recaptcha(request):
     get_request = request.POST.get("g-recaptcha-response")
     url = "https://www.google.com/recaptcha/api/siteverify"
     my_param = {
-        'secret': settings.RECAPTCHA_PRIVATE_KEY,
+        'secret': app_settings.RECAPTCHA_PRIVATE_KEY,
         'response': get_request,
         'remoteip': get_client_ip(request)
     }
