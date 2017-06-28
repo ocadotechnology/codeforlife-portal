@@ -52,9 +52,9 @@ from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
+from portal.captcha import check_recaptcha
 
 from django.conf import settings
-import requests
 
 
 def teach_email_labeller(request):
@@ -375,7 +375,3 @@ def contact(request):
 
     response.count = increment_count
     return response
-
-def check_recaptcha(request):
-    payload = {'secret': settings.RECAPTCHA_PRIVATE_KEY , 'response': request.POST.get('g-recaptcha-response')}
-    return requests.post('https://www.google.com/recaptcha/api/siteverify', payload).json().get('success', False)
