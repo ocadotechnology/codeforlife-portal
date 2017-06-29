@@ -67,8 +67,8 @@ class ContactForm(forms.Form):
 
     def clean_message(self):
         message = self.cleaned_data.get("message", None)
-        if re.match(re.compile('^[\w ]+$'), message) is None:
-            raise forms.ValidationError("Your message may only contain letters, numbers, dashes, underscores, and spaces.")
+        if re.match(re.compile('^[ -~]+$'), message) is None:
+            raise forms.ValidationError("Your message may not contain special characters.")
 
         return message
 
