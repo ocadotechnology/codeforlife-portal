@@ -34,25 +34,29 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django import forms
+from portal import app_settings
+import requests
 
 
-class ContactForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=100,
-                           widget=forms.TextInput(attrs={'class': 'contactField'}))
-    telephone = forms.CharField(label='Telephone', max_length=50,
-                                widget=forms.TextInput(attrs={'class': 'contactField'}))
-    email = forms.EmailField(label='Email address',
-                             widget=forms.EmailInput(attrs={'class': 'contactField'}))
-    message = forms.CharField(label='Message', max_length=250,
-                              widget=forms.Textarea(attrs={'class': 'contactField'}))
-    browser = forms.CharField(label='Browser', max_length=250, required=False,
-                              widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'})
-                              )
-    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
+# Adapted from https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
+def check_recaptcha(request):
+    get_request = request.POST.get("g-recaptcha-response")
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    my_param = {
+        'secret': app_settings.RECAPTCHA_PRIVATE_KEY,
+        'response': get_request,
+        'remoteip': get_client_ip(request)
+    }
+    verify = requests.get(url, params=my_param, verify=True).json()
+    status = verify.get("success", False)
+    return status
 
-    def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect captcha')
-        return self.cleaned_data
+
+# From https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
+def get_client_ip(request):
+    client_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+    if client_ip:
+        ip = client_ip.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
