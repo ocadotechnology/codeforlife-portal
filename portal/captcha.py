@@ -37,6 +37,7 @@
 from portal import app_settings
 import requests
 
+
 # Adapted from https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
 def check_recaptcha(request):
     get_request = request.POST.get("g-recaptcha-response")
@@ -49,6 +50,7 @@ def check_recaptcha(request):
     verify = requests.get(url, params=my_param, verify=True).json()
     status = verify.get("success", False)
     return status
+
 
 # From https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
 def get_client_ip(request):
