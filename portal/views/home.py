@@ -52,7 +52,7 @@ from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
-from portal.captcha import check_recaptcha
+from portal.helpers.captcha import check_recaptcha
 
 
 def teach_email_labeller(request):

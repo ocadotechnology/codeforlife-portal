@@ -64,7 +64,7 @@ from portal.permissions import not_logged_in, not_fully_logged_in
 from portal.helpers.emails import PASSWORD_RESET_EMAIL
 from portal import app_settings
 from ratelimit.decorators import ratelimit
-from portal.captcha import check_recaptcha
+from portal.helpers.captcha import check_recaptcha
 
 
 @ratelimit('def', periods=['1m'])

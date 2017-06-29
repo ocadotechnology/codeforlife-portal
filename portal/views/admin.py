@@ -53,7 +53,7 @@ from portal.helpers.location import lookup_coord
 from portal.models import UserProfile, Teacher, School, Class, Student
 from ratelimit.decorators import ratelimit
 
-from portal.captcha import check_recaptcha
+from portal.helpers.captcha import check_recaptcha
 from django.conf import settings
 
 block_limit = 5
