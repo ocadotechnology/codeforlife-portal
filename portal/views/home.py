@@ -47,14 +47,12 @@ from portal.models import Teacher, Class, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL
-from portal.app_settings import CONTACT_FORM_EMAILS
+from portal import app_settings
 from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.captcha import check_recaptcha
-
-from portal import app_settings
 
 
 def teach_email_labeller(request):
@@ -349,7 +347,7 @@ def contact(request):
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
                 contact_form.cleaned_data['browser'])
-            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
+            send_email(CONTACT_EMAIL, app_settings.CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
 
             confirmed_email_message = emailMessages.confirmationContactEmailMessage(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
