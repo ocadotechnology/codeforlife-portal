@@ -46,7 +46,3 @@ class AdminLoginForm(AuthenticationForm):
             if not self.view_options['is_recaptcha_valid']:
                 raise forms.ValidationError('Incorrect username, password or captcha')
         return super(AdminLoginForm, self).clean()
-
-    @property
-    def captcha(self):
-        return view_options['is_recaptcha_visible']
