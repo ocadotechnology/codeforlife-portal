@@ -91,17 +91,6 @@ def teacher_password_reset(request):
                           password_reset_form=TeacherPasswordResetForm, is_admin_site=True)
 
 
-def decorate_with_captcha(base_class, request, recaptcha_client):
-    form_with_captcha_class = create_form_subclass_with_recaptcha(base_class, recaptcha_client)
-
-    class FormWithCaptcha(form_with_captcha_class):
-
-        def __init__(self, *args, **kwargs):
-            super(FormWithCaptcha, self).__init__(request, *args, **kwargs)
-
-    return FormWithCaptcha
-
-
 @csrf_protect
 def password_reset(request, usertype, is_admin_site=False, template_name='portal/reset_password_teach.html',
                    email_template_name='portal/reset_password_email.html',

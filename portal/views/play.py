@@ -43,7 +43,6 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.forms.play import StudentEditAccountForm, StudentJoinOrganisationForm
 from portal.permissions import logged_in_as_student

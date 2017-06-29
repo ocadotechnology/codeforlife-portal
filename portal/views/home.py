@@ -120,7 +120,7 @@ def render_login_form(request):
         'independent_student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
         'teacher_captcha_visible': False,
         'student_captcha_visible': False,
-        'idependent_student_captcha_visible': False,
+        'independent_student_captcha_visible': False,
     }
 
     if request.method == 'POST':
