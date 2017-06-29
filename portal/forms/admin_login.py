@@ -41,7 +41,7 @@ from django import forms
 
 class AdminLoginForm(AuthenticationForm):
     view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
-    
+
     def clean(self):
         if self.view_options['is_recaptcha_visible']:
             if not self.view_options['is_recaptcha_valid']:
