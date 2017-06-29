@@ -58,8 +58,11 @@ class StudentLoginForm(forms.Form):
 
     view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
+    def is_recaptcha_verified(self):
+        return not self.view_options['is_recaptcha_visible'] or self.view_options['is_recaptcha_valid']
+
     def clean(self):
-        if self.view_options['is_recaptcha_visible'] and not self.view_options['is_recaptcha_valid']:
+        if not self.is_recaptcha_verified():
             raise forms.ValidationError('Incorrect email address, password or captcha')
 
         name = self.cleaned_data.get('name', None)
@@ -200,10 +203,12 @@ class IndependentStudentLoginForm(forms.Form):
 
     view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
+    def is_recaptcha_verified(self):
+        return not self.view_options['is_recaptcha_visible'] or self.view_options['is_recaptcha_valid']
+
     def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect email address, password or captcha')
+        if not self.is_recaptcha_verified():
+            raise forms.ValidationError('Incorrect email address, password or captcha')
 
         username = self.cleaned_data.get('username', None)
         password = self.cleaned_data.get('password', None)
