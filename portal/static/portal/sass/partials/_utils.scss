@@ -159,11 +159,6 @@ section {
   @include _padding(6px, 0px, 6px, 0px);
   display: none;
   width: 100%;
-
-  .body-text {
-    @include _padding(0px, 0px, 20px, 0px);
-  }
-
 }
 
 iframe {

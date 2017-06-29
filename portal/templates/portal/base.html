@@ -179,7 +179,7 @@
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
                 <img title="Information" alt="Information sign" src='{% static "portal/img/icon_info.png" %}'>
-                <p class="body-text">
+                <p>
                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
                 <a class="x-icon"><img title="Close" alt="Close sign" src='{% static "portal/img/icon_close.png" %}'></a>
             </div>
@@ -214,15 +214,15 @@
 {% cache 3600 fragment-base_new-footer %}
 <div class="footer">
     <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img/footer_arrow.png" %}'></a>
-    <p class="small-text"><a href="#top">BACK TO TOP</a></p>
+    <p><a href="#top"><small>BACK TO TOP</small></a></p>
     <img class="col-sm-3" src='{% static "portal/img/logo_c4l_horizontal.png" %}'>
     <div class="row">
-        <p class="body-text"><a href="{% url 'about' %}">About us</a></p>
-        <p class="body-text"><a href="{% url 'teach' %}">Teachers</a></p>
-        <p class="body-text"><a href="{% url 'play' %}">Students</a></p>
-        <p class="body-text"><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
-        <p class="body-text"><a href="{% url 'help' %}#contact">Contact us</a></p>
-        <p class="body-text"><a href="{% url 'terms' %}">Terms of use</a></p>
+        <p><a href="{% url 'about' %}">About us</a></p>
+        <p><a href="{% url 'teach' %}">Teachers</a></p>
+        <p><a href="{% url 'play' %}">Students</a></p>
+        <p><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
+        <p><a href="{% url 'help' %}#contact">Contact us</a></p>
+        <p><a href="{% url 'terms' %}">Terms of use</a></p>
     </div>
     <div class="row social-media"><br>
         <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img/twitter.png" %}'></a>
@@ -230,7 +230,7 @@
         <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img/google+.png" %}'></a>
     </div>
     <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img/logo_ocado.png" %}'></a>
-    <p class="small-text">&copy; Ocado Technology 2017</p>
+    <p><small>&copy; Ocado Technology 2017</small></p>
 </div>
 {% endcache %}
 {% endblock footer %}

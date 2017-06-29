@@ -45,25 +45,31 @@
     <div class="row">
         <div class="col-sm-6">
             <h3>Current students</h3>
-            <p class="body-text">Select an individual student to change their details, including their name and password.</p>
-            <p class="body-text">Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
+            <p>Select an individual student to change their details, including their name and password.</p>
+            <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
                 make them an independent Code for Life user, or delete them permanently.</p>
         </div>
         <div class="col-sm-6">
             <table id="student_table" class="student-table header-secondary data-quaternary">
                 <tr class="student-table__header">
                     <th class="cell-center">
-                        <p class="body-text">Select</p>
+                        <p>Select</p>
                         <div class="student-table__cell">
                             <input id='selectedStudentsListToggle' name='selectedStudentsListToggle' type="checkbox" value="">
-                            <p class="small-text">Select all</p>
+                            <p><small>Select all</small></p>
                         </div>
                     </th>
-                    <th><p class="body-text">Student details</p></th>
+                    <th><p>Student details</p></th>
                     <th>
-                        <p class="body-text">Status</p>
-                        <div class="student-table__cell"><div class="student-status student-status--online"></div><p class="small-text">Logged in</p></div>
-                        <div class="student-table__cell"><div class="student-status student-status--offline"></div><p class="small-text">Logged out</p></div>
+                        <p>Status</p>
+                        <div class="student-table__cell">
+                            <div class="student-status student-status--online"></div>
+                            <p><small>Logged in</small></p>
+                        </div>
+                        <div class="student-table__cell">
+                            <div class="student-status student-status--offline"></div>
+                            <p><small>Logged out</small></p>
+                        </div>
                     </th>
                 </tr>
                 {% for student in students %}
@@ -71,7 +77,7 @@
                     <td class="cell-center"><input id="student_checkbox" type="checkbox" class='student' name='{{ student.id }}' value=""></td>
                     <td>
                         <div class="student-table__cell">
-                            <p class="small-text">{{ student.new_user.first_name }}</p>
+                            <p><small>{{ student.new_user.first_name }}</small></p>
                             <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--small button--primary--positive">Edit</a>
                         </div>
                     </td>
@@ -83,7 +89,7 @@
                 {% endfor %}
                 <tr>
                     <td class="table-footer" colspan="3" rowspan="2">
-                        <p class="small-text"><span id="num_students_selected">0</span>/{{ num_students }} selected</p>
+                        <p><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
                         <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
                                 id='moveSelectedStudents' class="button--small button--primary--navigation">Move</button>
                         <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
@@ -97,7 +103,7 @@
             </table>
         </div>
     </div>
-    <p class="body-text"><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
+    <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
 <div id="add_new_students" class="background background--quaternary">
@@ -105,9 +111,9 @@
         <div class="row">
             <div class="col-sm-6">
                 <h3>Add new students</h3>
-                <p class="body-text">Add the students&rsquo; names to the box below with one student name per line. Students&rsquo; names will be used in their login
+                <p>Add the students&rsquo; names to the box below with one student name per line. Students&rsquo; names will be used in their login
                     details, and so each name should be unique.</p>
-                <p class="body-text">You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
+                <p>You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
                     are required to sign in.</p>
             </div>
             <div class="col-sm-6">
@@ -129,7 +135,7 @@
 
 <div class="background col-sm-8 col-center">
     <h3>Edit other class settings</h3>
-    <p class="body-text">Here you may change the name of the class, transfer the class to another teacher in the school or club, create permissions for the class to
+    <p>Here you may change the name of the class, transfer the class to another teacher in the school or club, create permissions for the class to
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
         their classmates&rsquo; progress.</p>
     <div class="background button-group">
@@ -137,7 +143,7 @@
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class' class.access_code %}')"
                 id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
     </div>
-    <p class="body-text"><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
+    <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
 <script type="text/javascript">

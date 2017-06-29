@@ -28,7 +28,7 @@
     @include _padding(0px, 0px, 30px, 0px);
   }
 
-  .small-text {
+  small {
     @include _padding(20px, 0px, 8px, 0px);
   }
 
@@ -91,11 +91,8 @@
   text-align: center;
 
   p {
-    @include _padding(0px, 0px, 60px, 10px);
-  }
-
-  .body-text {
     @include _font-size(24px);
+    @include _padding(0px, 0px, 60px, 10px);
   }
 }
 
@@ -193,7 +190,7 @@
 .banner--error-page {
   @include _padding(100px, 0px, 100px, 10px);
 
-  .body-text {
+  p {
     @include _font-size(24px);
   }
 }

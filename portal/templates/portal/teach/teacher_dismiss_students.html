@@ -18,14 +18,14 @@
     <div class="col-sm-6 col-center">
         <h3>Students to release from school</h3>
 
-        <p class="body-text">You are about to remove students from your class and set them up as independent students. Neither you nor your school will
+        <p>You are about to remove students from your class and set them up as independent students. Neither you nor your school will
             be able to manage them once you have submitted this request.</p>
 
-        <p class="body-text">You may want to change the username for these students to something more memorable. The students will then log in with
+        <p>You may want to change the username for these students to something more memorable. The students will then log in with
             these new usernames via the independent student login on the <a href="{% url 'play' %}">Play</a> page. Their passwords will stay the same.
             Independent students do not need to provide a class access code.</p>
 
-        <p class="body-text">Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts.
+        <p>Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts.
             If a student is too young to own an email address, a parent or guardian&rsquo;s email address will be required. These email addresses will
             have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
 
@@ -40,23 +40,23 @@
             <div class="background">
                 <div class="row row--under">
                     <div class="col-sm-6">
-                        <p class="small-text">Original Student Name</p>
+                        <p><small>Original Student Name</small></p>
                         {{ form.orig_name }}
                     </div>
                     <div class="col-sm-6">
-                        <p class="small-text">New Student Username</p>
+                        <p><small>New Student Username</small></p>
                         {{ form.name }}
                         {{ form.name.errors }}
                     </div>
                 </div>
                 <div class="row row--under">
                     <div class="col-sm-6">
-                        <p class="small-text">Email Address</p>
+                        <p><small>Email Address</small></p>
                         {{ form.email }}
                         {{ form.email.errors }}
                     </div>
                     <div class="col-sm-6">
-                        <p class="small-text">Confirm Email Address</p>
+                        <p><small>Confirm Email Address</small></p>
                         {{ form.confirm_email }}
                         {{ form.email.confirm_errors }}
                     </div>
@@ -73,7 +73,7 @@
 </div>
 
 <div class="background col-sm-6 col-center">
-    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}

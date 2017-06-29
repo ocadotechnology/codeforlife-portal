@@ -35,18 +35,18 @@
     <div class="col-sm-6 col-center">
         <h4><strong>Move all classes</strong></h4>
 
-        <p class="body-text">Select teachers to take over the classes from the lists below.</p>
+        <p>Select teachers to take over the classes from the lists below.</p>
 
         <form method='post'>
             {% csrf_token %}
             <table class="header-primary">
                 <tr>
-                    <th><p class="body-text">Class</p></th>
-                    <th><p class="body-text">New Teacher</p></th>
+                    <th><p>Class</p></th>
+                    <th><p>New Teacher</p></th>
                 </tr>
                 {% for class in classes %}
                 <tr>
-                    <td><p class="small-text">{{ class.name }} ({{ class.access_code }})</p></td>
+                    <td><p><small>{{ class.name }} ({{ class.access_code }})</small></p></td>
                     <td>
                         <select class='wide' name='{{ class.access_code }}'>
                             {% for teacher in teachers %}
