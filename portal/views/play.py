@@ -112,18 +112,9 @@ def username_labeller(request):
 @ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def student_join_organisation(request):
     increment_count = False
-    limits = getattr(request, 'limits', {'ip': [0]})
-    captcha_limit = 5
-
-    using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
-
-    StudentJoinOrganisationFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentJoinOrganisationForm, recaptcha_client), request)
-    InputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if using_captcha else StudentJoinOrganisationForm
-    OutputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if should_use_captcha else StudentJoinOrganisationForm
 
     student = request.user.new_student
-    request_form = OutputStudentJoinOrganisationForm()
+    request_form = StudentJoinOrganisationForm()
 
     # check student not managed by a school
     if student.class_field:
@@ -132,7 +123,7 @@ def student_join_organisation(request):
     if request.method == 'POST':
         if 'class_join_request' in request.POST:
             increment_count = True
-            request_form = InputStudentJoinOrganisationForm(request.POST)
+            request_form = StudentJoinOrganisationForm(request.POST)
             if request_form.is_valid():
                 student.pending_class_request = request_form.klass
                 student.save()
@@ -146,7 +137,7 @@ def student_join_organisation(request):
                 messages.success(request, 'Your request to join a school has been received successfully.')
 
             else:
-                request_form = OutputStudentJoinOrganisationForm(request.POST)
+                request_form = StudentJoinOrganisationForm(request.POST)
 
         elif 'revoke_join_request' in request.POST:
             student.pending_class_request = None
