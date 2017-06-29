@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django import forms
+import re
 
 
 class ContactForm(forms.Form):
@@ -49,3 +50,24 @@ class ContactForm(forms.Form):
     browser = forms.CharField(label='Browser', max_length=250, required=False,
                               widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'})
                               )
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name", None)
+        if re.match(re.compile('^[\w ]+$'), name) is None:
+            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+
+        return name
+
+    def clean_message(self):
+        message = self.cleaned_data.get("message", None)
+        if re.match(re.compile('^[\w ]+$'), message) is None:
+            raise forms.ValidationError("Your message may only contain letters, numbers, dashes, underscores, and spaces.")
+
+        return message
+
+    def clean_telephone(self):
+        telephone = self.cleaned_data.get("telephone", None)
+        if re.match(re.compile('^[0-9()\-+ ]+$'), telephone) is None:
+            raise forms.ValidationError("Invalid phone number")
+
+        return telephone
