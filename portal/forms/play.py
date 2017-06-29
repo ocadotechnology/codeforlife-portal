@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from datetime import timedelta
+import re
 
 from django import forms
 from django.contrib.auth import authenticate
@@ -116,11 +117,16 @@ class StudentEditAccountForm(forms.Form):
         self.user = user
         super(StudentEditAccountForm, self).__init__(*args, **kwargs)
 
-    def clean_first_name(self):
-        first_name = self.cleaned_data.get('first_name', None)
-        if not self.user.new_student.class_field and first_name == '':
-            raise forms.ValidationError("This field is required")
-        return first_name
+    def clean_name(self):
+        name = self.cleaned_data.get('name', None)
+        if not self.user.new_student.class_field:
+            if name == '':
+                raise forms.ValidationError("This field is required")
+
+            if re.match(re.compile('^[\w ]+$'), name) is None:
+                raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+
+        return name
 
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
@@ -163,10 +169,20 @@ class StudentSignupForm(forms.Form):
         label='Confirm Password',
         widget=forms.PasswordInput)
 
+    def clean_name(self):
+        name = self.cleaned_data.get('name', None)
+        if re.match(re.compile('^[\w ]+$'), name) is None:
+            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+
+        return name
+
     def clean_username(self):
         username = self.cleaned_data.get('username', None)
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("That username is already in use")
+
+        if re.match(re.compile('[\w]+'), username) is None:
+            raise forms.ValidationError("Usernames may only contain letters, numbers, dashes, and underscores.")
 
         return username
 

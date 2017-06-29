@@ -294,6 +294,9 @@ class TeacherEditStudentForm(forms.Form):
         if name == '':
             raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
+        if re.match(re.compile('^[\w ]+$'), name) is None:
+            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+
         students = Student.objects.filter(class_field=self.klass,
                                           new_user__first_name__iexact=name)
         if students.exists() and students[0] != self.student:
@@ -344,6 +347,8 @@ def validateStudentNames(klass, names):
     lower_names = [name.lower() for name in names]
     find_duplicates(names, lower_names, validationErrors)
 
+    find_illegal_characters(names, validationErrors)
+
     return validationErrors
 
 
@@ -361,6 +366,13 @@ def find_duplicates(names, lower_names, validationErrors):
             validationErrors.append(forms.ValidationError(
                 "You cannot add more than one student called '" + duplicate + "'"))
             duplicates_found.append(duplicate)
+
+
+def find_illegal_characters(names, validationErrors):
+    for name in names:
+        if re.match(re.compile('^[\w ]+$'), name) is None:
+            validationErrors.append(forms.ValidationError(
+                "Names may only contain letters, numbers, dashes, underscores, and spaces. You must rename '" + name + "'."))
 
 
 def check_passwords(password, confirm_password):
