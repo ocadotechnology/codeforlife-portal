@@ -36,7 +36,6 @@
 # identified as the original program.
 
 from functools import partial
-from recaptcha import RecaptchaClient
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
@@ -52,8 +51,6 @@ from portal.helpers.emails import send_email, send_verification_email, NOTIFICAT
 from portal import app_settings, emailMessages
 
 from ratelimit.decorators import ratelimit
-
-recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 @login_required(login_url=reverse_lazy('play'))
