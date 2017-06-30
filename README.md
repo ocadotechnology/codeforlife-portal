@@ -29,4 +29,4 @@ __Want to help?__ You can contact us using this [contact form][c4l-contact-form]
 ### Unapplied migrations on first run
 It may be that some migrations were changed and you have .pyc files from the old ones. Try removing all .pyc migrations by running `rm migrations/*.pyc` from the ocargo repository.
 
-[c4l-contact-form]: https://www.codeforlife.education/contact/
+[c4l-contact-form]: https://www.codeforlife.education/help/#contact
