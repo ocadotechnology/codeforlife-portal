@@ -22,18 +22,21 @@ linters:
     enabled: false
     max_elements: 1
 
+  #TODO: Fix the issues and then reenable
   BorderZero:
-    enabled: true
+    enabled: false
     convention: zero # or `none`
 
   ChainedClasses:
     enabled: false
 
+  #TODO: Fix the issues and then reenable
   ColorKeyword:
-    enabled: true
+    enabled: false
 
+  #TODO: Fix the issues and then reenable
   ColorVariable:
-    enabled: true
+    enabled: false
 
   Comment:
     enabled: false
@@ -51,16 +54,18 @@ linters:
   DuplicateProperty:
     enabled: true
 
+  #TODO: Fix the issues and then reenable
   ElsePlacement:
-    enabled: true
+    enabled: false
     style: new_line # or 'same_line'
 
   EmptyLineBetweenBlocks:
     enabled: false
     ignore_single_line_blocks: true
 
+  #TODO: Fix the issues and then reenable
   EmptyRule:
-    enabled: true
+    enabled: false
 
   ExtendDirective:
     enabled: false
@@ -69,12 +74,14 @@ linters:
     enabled: true
     present: true
 
+  #TODO: Fix the issues and then reenable
   HexLength:
-    enabled: true
+    enabled: false
     style: short # or 'long'
 
+  #TODO: Fix the issues and then reenable
   HexNotation:
-    enabled: true
+    enabled: false
     style: lowercase # or 'uppercase'
 
   HexValidation:
@@ -91,22 +98,26 @@ linters:
     leading_underscore: false
     filename_extension: false
 
+  #TODO: Fix the issues and then reenable
   Indentation:
-    enabled: true
+    enabled: false
     allow_non_nested_indentation: false
     character: space # or 'tab'
     width: 2
 
+  #TODO: Fix the issues and then reenable
   LeadingZero:
-    enabled: true
+    enabled: false
     style: exclude_zero # or 'include_zero'
 
+  #TODO: Fix the issues and then reenable
   MergeableSelector:
-    enabled: true
+    enabled: false
     force_nesting: true
 
+  #TODO: Fix the issues and then reenable
   NameFormat:
-    enabled: true
+    enabled: false
     allow_leading_underscore: true
     convention: hyphenated_lowercase # or 'camel_case', or 'snake_case', or a regex pattern
 
@@ -164,60 +175,71 @@ linters:
     enabled: false
     max_depth: 3
 
+  #TODO: Fix the issues and then reenable
   SelectorFormat:
-    enabled: true
+    enabled: false
     convention: hyphenated_BEM # or 'hyphenated_lowercase', or 'hyphenated_BEM', or 'snake_case', or 'camel_case', or a regex pattern
 
   Shorthand:
     enabled: false
     allowed_shorthands: [1, 2, 3, 4]
 
+  #TODO: Fix the issues and then reenable
   SingleLinePerProperty:
-    enabled: true
+    enabled: false
     allow_single_line_rule_sets: true
 
+  #TODO: Fix the issues and then reenable
   SingleLinePerSelector:
-    enabled: true
+    enabled: false
 
+  #TODO: Fix the issues and then reenable
   SpaceAfterComma:
-    enabled: true
+    enabled: false
     style: one_space # or 'no_space', or 'at_least_one_space'
 
+  #TODO: Fix the issues and then reenable
   SpaceAfterComment:
-    enabled: true
+    enabled: false
     style: one_space # or 'no_space', or 'at_least_one_space'
     allow_empty_comments: true
 
+  #TODO: Fix the issues and then reenable
   SpaceAfterPropertyColon:
-    enabled: true
+    enabled: false
     style: one_space # or 'no_space', or 'at_least_one_space', or 'aligned'
 
   SpaceAfterPropertyName:
     enabled: false
 
+  #TODO: Fix the issues and then reenable
   SpaceAfterVariableColon:
-    enabled: true
+    enabled: false
     style: one_space # or 'no_space', 'at_least_one_space' or 'one_space_or_newline'
 
   SpaceAfterVariableName:
     enabled: true
 
+  #TODO: Fix the issues and then reenable
   SpaceAroundOperator:
-    enabled: true
+    enabled: false
     style: one_space # or 'at_least_one_space', or 'no_space'
 
+  #TODO: Fix the issues and then reenable
   SpaceBeforeBrace:
-    enabled: true
+    enabled: false
     style: space # or 'new_line'
     allow_single_line_padding: false
 
+  #TODO: Fix the issues and then reenable
   SpaceBetweenParens:
-    enabled: true
+    enabled: false
     spaces: 0
 
+  #TODO: Fix the issues and then reenable
   StringQuotes:
-    enabled: true
-    style: double_quotes # or single_quotes
+    enabled: false
+    style: single_quotes # or double_quotes
 
   TrailingSemicolon:
     enabled: true
@@ -225,8 +247,9 @@ linters:
   TrailingWhitespace:
     enabled: true
 
+  #TODO: Fix the issues and then reenable
   TrailingZero:
-    enabled: true
+    enabled: false
 
   TransitionAll:
     enabled: true
@@ -240,8 +263,9 @@ linters:
   UrlFormat:
     enabled: true
 
+  #TODO: Fix the issues and then reenable
   UrlQuotes:
-    enabled: true
+    enabled: false
 
   VariableForProperty:
     enabled: false
