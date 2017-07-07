@@ -43,10 +43,10 @@ CONTACT_FORM_EMAILS = getattr(settings, 'PORTAL_CONTACT_FORM_EMAIL', ('',))
 EMAIL_ADDRESS = getattr(settings, 'EMAIL_ADDRESS', 'no-reply@codeforlife.education')
 
 #: Private key for Recaptcha
-RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', os.getenv('RECAPTCHA_PRIVATE_KEY', None))
+RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', None)
 
 #: Public key for Recaptcha
-RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', os.getenv('RECAPTCHA_PUBLIC_KEY', None))
+RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', None)
 
 #: Salesforce URL for adding newly verified users
 SALESFORCE_URL = getattr(settings, 'SALESFORCE_URL', '')
