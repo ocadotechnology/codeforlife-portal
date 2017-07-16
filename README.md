@@ -12,6 +12,13 @@
 
 ## Running Locally
 * Clone the repo
+* Install prerequisites. E.g. on Ubuntu / Linux Mint:
+    * `sudo apt-get install git`
+    * `sudo apt-get install python-dev`
+    * `sudo pip install virtualenvwrapper`
+    * `sudo apt-get install libxml2-dev libxslt1-dev zlib1g-dev`
+    * `sudo apt-get install ruby2.0` - still Ruby 1.9 hiding under `ruby` command.
+    * `sudo gem install sass -v 3.3.4` - later versions incompatible with Ruby 1.9 (see above).
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
     * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
     * and thereafter `workon codeforlife-portal`
@@ -21,9 +28,14 @@
     * sync the database
     * collect the static files
     * run the server
-    
+* Once you see `Quit the server with CONTROL-C`, you can open the portal in your browser at `localhost:8000`.
+
+* If you have problems seeing the portal on machines with different locale (e.g. Polish), check the terminal for errors mentioning `ValueError: unknown locale: UTF-8`. If you see them, you need to have environment variables `LANG` and `LC_ALL` both set to `en_US.UTF-8`.
+    * Either export them in your `.bashrc` or `.bash_profile`
+    * or restart the portal with command `LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ./run`.
+
 ## How to contribute!
-__Want to help?__ You can contact us using this [contact form][c4l-contact-form] and we'll get in touch as soon as possible! Thanks a lot. 
+__Want to help?__ You can contact us using this [contact form][c4l-contact-form] and we'll get in touch as soon as possible! Thanks a lot.
 
 ## Common Problems
 ### Unapplied migrations on first run
