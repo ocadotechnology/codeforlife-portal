@@ -11,7 +11,7 @@
     * the [deployment code for Google App Engine](https://github.com/ocadotechnology/codeforlife-deploy-appengine)
 
 ## Running Locally
-* Clone the repo
+* Clone the repo. Fork it first if you want to contribute, or make sure you work on separate branches.
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
     * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
     * and thereafter `workon codeforlife-portal`
@@ -23,6 +23,8 @@
     * run the server
     
 ## How to contribute!
+__Guidelines__ Read the [contributing guidelines](CONTRIBUTING.md), thanks! 
+
 __Want to help?__ You can contact us using this [contact form][c4l-contact-form] and we'll get in touch as soon as possible! Thanks a lot. 
 
 ## Common Problems
