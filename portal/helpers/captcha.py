@@ -47,7 +47,12 @@ def check_recaptcha(request):
         'response': get_request,
         'remoteip': get_client_ip(request)
     }
-    verify = requests.get(url, params=my_param, verify=True).json()
+    verify_plain = requests.get(url, params=my_param, verify=True)
+    print str(verify_plain)
+    print str(verify_plain.content)
+    verify_plain.raise_for_status()
+    verify = verify_plain.json()
+    print str(verify)
     status = verify.get("success", False)
     return status
 
