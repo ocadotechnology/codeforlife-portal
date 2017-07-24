@@ -337,7 +337,7 @@ PDF_DATA = {
 
     # ...KS1 Activity Set...#
     "ks1_activity_set": {
-        "title": "KS1 Activity Set",
+        "title": "KS1 - Activity Set",
         "description": "This activity set gives you an overview 0f the Key Stage 1 module. It covers the resources that will be useful, learning expectatins and teacher preparation.",
         "links": None,
         "url": "KS1/activity_set.pdf",
@@ -346,7 +346,7 @@ PDF_DATA = {
 
     # ...KS1 Assets...#
     "ks1_assets": {
-        "title": "KS1 Assets",
+        "title": "KS1 - Assets",
         "description": "Arrows, scenery and blockly statements that can be cut out for offline activities.",
         "links": ["ks1_code_wall_cards"],
         "url": "KS1/assets/assets.pdf",
@@ -354,7 +354,7 @@ PDF_DATA = {
     },
 
     "ks1_code_wall_cards": {
-        "title": "KS1 Code Wall Cards",
+        "title": "KS1 - Code Wall Cards",
         "description": "Keywords that can be displayed in the classroom.",
         "links": ["ks1_assets"],
         "url": "KS1/assets/code_wall_cards.pdf",
@@ -363,7 +363,7 @@ PDF_DATA = {
 
     # ...KS1 Assessments...#
     "ks1_assessment_guide": {
-        "title": "KS1 Assessment Guide",
+        "title": "KS1 - Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
         "links": ["ks1_self_assessment_sheet", "ks1_teacher_record_sheet"],
         "url": "KS1/assessment/assessment_sheet.pdf",
@@ -373,7 +373,7 @@ PDF_DATA = {
     "ks1_self_assessment_sheet": {
         "title": "KS1 - Self Assessment Sheet",
         "description": "Document for children to self assess their understanding of key concepts.",
-        "links": ["ks1_assessment_sheet", "ks1_teacher_record_sheet"],
+        "links": ["ks1_assessment_guide", "ks1_teacher_record_sheet"],
         "url": "KS1/assessment/self_assessment_sheet.pdf",
         "page_origin": "#ks1-assessments"
     },
@@ -381,7 +381,7 @@ PDF_DATA = {
     "ks1_teacher_record_sheet": {
         "title": "KS1 - Teacher Record Sheet",
         "description": "Document for the teacher to record pupils progress.",
-        "links": ["ks1_assessment_sheet", "ks1_self_assessment_sheet"],
+        "links": ["ks1_assessment_guide", "ks1_self_assessment_sheet"],
         "url": "KS1/assessment/teacher_record_sheet.pdf",
         "page_origin": "#ks1-assessments"
     },
@@ -581,7 +581,7 @@ PDF_DATA = {
 
     # ...LKS2 Activity Set...#
     "lks2_activity_set": {
-        "title": "Upper KS2 Activity Set",
+        "title": "Lower KS2 - Activity Set",
         "description": "This activity set gives you an overview of the Lower Key Stage 2 module. It covers the resources that will be useful, learning expectations and teacher preparation.",
         "links": None,
         "url": "KS2/activity_set.pdf",
@@ -590,7 +590,7 @@ PDF_DATA = {
 
     # ...LKS2 Assets...#
     "lks2_assets": {
-        "title": "Upper KS2 Assets",
+        "title": "Lower KS2 - Assets",
         "description": "Blockly statements for Lower Key Stage 2 children that can be cut out for offline activities.",
         "links": ["lks2_code_wall_cards"],
         "url": "KS2/assets/assets.pdf",
@@ -598,7 +598,7 @@ PDF_DATA = {
     },
 
     "lks2_code_wall_cards": {
-        "title": "Upper KS2 Code Wall Cards",
+        "title": "Lower KS2 - Code Wall Cards",
         "description": "Keywords that can be displayed in the classroom.",
         "links": ["lks2_assets"],
         "url": "KS2/assets/code_wall_cards.pdf",
@@ -607,7 +607,7 @@ PDF_DATA = {
 
     # ...LKS2 Assessments...#
     "lks2_assessment_guide": {
-        "title": "Upper KS2 Assessment Guide",
+        "title": "Lower KS2 - Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
         "links": ["lks2_self_assessment_sheet", "lks2_teacher_record_sheet"],
         "url": "KS2/assessment/assessment_sheet.pdf",
@@ -615,17 +615,17 @@ PDF_DATA = {
     },
 
     "lks2_self_assessment_sheet": {
-        "title": "Upper KS2 - Self Assessment Sheet",
+        "title": "Lower KS2 - Self Assessment Sheet",
         "description": "Document for children to self assess their understanding of key concepts.",
-        "links": ["lks2_assessment_sheet", "lks2_teacher_record_sheet"],
+        "links": ["lks2_assessment_guide", "lks2_teacher_record_sheet"],
         "url": "KS2/assessment/self_assessment_sheet.pdf",
         "page_origin": "#lks2-assessments"
     },
 
     "lks2_teacher_record_sheet": {
-        "title": "Upper KS2 - Teacher Record Sheet",
+        "title": "Lower KS2 - Teacher Record Sheet",
         "description": "Document for the teacher to record pupils progress.",
-        "links": ["lks2_assessment_sheet", "lks2_self_assessment_sheet"],
+        "links": ["lks2_assessment_guide", "lks2_self_assessment_sheet"],
         "url": "KS2/assessment/teacher_record_sheet.pdf",
         "page_origin": "#lks2-assessments"
     },
@@ -842,7 +842,7 @@ PDF_DATA = {
 
     # ...UKS2 Activity Set...#
     "uks2_activity_set": {
-        "title": "Upper KS2 Activity Set",
+        "title": "Upper KS2 - Activity Set",
         "description": "This activity set gives you an overview of the Upper Key Stage 2 module. It covers the resources that will be useful, learning expectations and teacher preparation.",
         "links": None,
         "url": "python/UKS2-AS-Activity-Set.pdf",
@@ -851,7 +851,7 @@ PDF_DATA = {
 
     # ...UKS2 Assets...#
     "uks2_assets": {
-        "title": "Upper KS2 Assets",
+        "title": "Upper KS2 - Assets",
         "description": "Blockly and Python statements for Upper Key Stage 2 children that can be cut out for offline activities.",
         "links": ["uks2_code_wall_cards"],
         "url": "python/UKS2-Assets.pdf",
@@ -859,7 +859,7 @@ PDF_DATA = {
     },
 
     "uks2_code_wall_cards": {
-        "title": "Upper KS2 Code Wall Cards",
+        "title": "Upper KS2 - Code Wall Cards",
         "description": "Keywords that can be displayed in the classroom.",
         "links": ["uks2_assets"],
         "url": "python/UKS2-Code_Wall_Cards.pdf",
@@ -868,7 +868,7 @@ PDF_DATA = {
 
     # ...UKS2 Assessments...#
     "uks2_assessment_guide": {
-        "title": "Upper KS2 Assessment Guide",
+        "title": "Upper KS2 - Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
         "links": ["uks2_self_assessment_sheet", "uks2_teacher_record_sheet"],
         "url": "python/assessment/UKS2-A-Assessment-tech.pdf",
@@ -878,7 +878,7 @@ PDF_DATA = {
     "uks2_self_assessment_sheet": {
         "title": "Upper KS2 - Self Assessment Sheet",
         "description": "Document for children to self assess their understanding of key concepts.",
-        "links": ["uks2_assessment_sheet", "uks2_teacher_record_sheet"],
+        "links": ["uks2_assessment_guide", "uks2_teacher_record_sheet"],
         "url": "python/assessment/UKS2-SA-Self-Assessment-Sheet.pdf",
         "page_origin": "#uks2-assessments"
     },
@@ -886,7 +886,7 @@ PDF_DATA = {
     "uks2_teacher_record_sheet": {
         "title": "Upper KS2 - Teacher Record Sheet",
         "description": "Document for the teacher to record pupils progress.",
-        "links": ["uks2_assessment_sheet", "uks2_self_assessment_sheet"],
+        "links": ["uks2_assessment_guide", "uks2_self_assessment_sheet"],
         "url": "python/assessment/UKS2-TRS.pdf",
         "page_origin": "#uks2-assessments"
     }
