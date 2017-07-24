@@ -24,7 +24,11 @@
 </div>
 
 <div class="banner banner--resources">
+    {% if video_link %}
     <div class="col-sm-4">
+    {% else %}
+    <div class="col-sm-8">
+    {% endif %}
         <h3>{{ title }}</h3>
         <h4>{{ description }}</h4>
         <div class="resource-buttons">
