@@ -31,7 +31,7 @@ th {
   @include _padding(5px, 10px, 5px, 10px);
   font-weight: 500;
 
-  .body-text {
+  p {
     color: $color-text-secondary;
   }
 
@@ -70,7 +70,7 @@ td {
       vertical-align: top;
     }
 
-    .small-text {
+    small {
       @include _font-size(12px);
     }
 

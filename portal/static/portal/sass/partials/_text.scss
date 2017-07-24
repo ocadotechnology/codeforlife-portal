@@ -44,16 +44,6 @@ h4 {
   @include _line-height(35px);
 }
 
-.body-text {
-  @include _font-size(20px);
-  @include _line-height(30px);
-}
-
-.small-text {
-  @include _font-size(16px);
-  @include _line-height(26px);
-}
-
 a {
   color: #4a4a4a;
 }
@@ -67,6 +57,10 @@ a:focus {
 p {
   @include _padding(10px, 0px, 10px, 0px);
   margin: 0;
+}
+
+small {
+  font-size: 80%;
 }
 
 blockquote {
@@ -129,9 +123,12 @@ label {
 }
 
 @media (min-width: 1400px) {
-
   html {
     font-size: 10px;
+  }
+
+  body {
+    font-size: 20px;
   }
 }
 
@@ -139,17 +136,28 @@ label {
   html {
     font-size: 9px;
   }
+
+  body {
+    font-size: 19px;
+  }
 }
 
 @media (min-width: 760px) and (max-width: 1036px) {
   html {
     font-size: 8px;
   }
+
+  body {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 760px) {
-
   html {
     font-size: 7px;
+  }
+
+  body {
+    font-size: 17px;
   }
 }

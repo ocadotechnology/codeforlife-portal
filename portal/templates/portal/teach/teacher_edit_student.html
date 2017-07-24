@@ -36,7 +36,7 @@
     <div class="col-sm-6 col-center">
         <h3>Update name</h3>
 
-        <p class="body-text">Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
+        <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
 
         <form method='post'>
 
@@ -53,7 +53,7 @@
 
         <h3 id="set-password">Set or reset password</h3>
 
-        <p class="body-text">You can either set this student&rsquo;s password by clicking &lsquo;Set password&rsquo;, or you can let us generate a random and
+        <p>You can either set this student&rsquo;s password by clicking &lsquo;Set password&rsquo;, or you can let us generate a random and
             secure password by clicking &lsquo;Generate random&rsquo;.</p>
 
         <div class="background button-group">
@@ -69,7 +69,7 @@
             {{ password_form.non_field_errors }}
 
             <div id="password-setter">
-                <p class="body-text">Enter and confirm the password in the boxes below. Try to prevent others from being able to guess the new
+                <p>Enter and confirm the password in the boxes below. Try to prevent others from being able to guess the new
                     password when making this decision.</p>
                 {{ password_form.password }}
                 {{ password_form.password.errors }}
@@ -86,6 +86,6 @@
 </div>
 
 <div class="background col-sm-6 col-center">
-    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

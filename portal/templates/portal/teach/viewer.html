@@ -47,7 +47,7 @@
             <h4>Related document(s)</h4>
             <div>
                 {% for link, title in links %}
-                <p class="body-text"><a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a></p>
+                <p><a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a></p>
                 {% endfor %}
             </div>
         </div>
