@@ -94,7 +94,6 @@ section {
   margin-right: auto;
 }
 
-
 #faqs {
   answer,
   input {
@@ -114,7 +113,16 @@ section {
   }
 }
 
-
+.ks-tag
+{
+  @include _font-size(16px);
+  @include _margin(0px, 0px, 0px, 10px);
+  @include _padding(3px, 5px, 3px, 5px);
+  background-color: $color-background-materials-tag;
+  color: $color-text-materials-tag;
+  font-weight: normal;
+  vertical-align: middle;
+}
 
 .tab {
   list-style-type: none;
