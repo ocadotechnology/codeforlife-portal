@@ -45,21 +45,6 @@
 
 <div id="onboarding_student_list_page"></div>
 
-{% if onboarding_done %}
-<div id="sticky-warning" class="sub-nav sub-nav--warning--fixed sub-nav--warning">
-    <img title="Warning" alt="Warning sign" src='{% static "portal/img/warning.png" %}'>
-    <p><small><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
-        be given to the students.</i></small></p>
-    <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
-        {% csrf_token %}
-        <input type='hidden' name='data' value='{{ query_data }}'/>
-        <div class='section'>
-            <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
-            <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
-        </div>
-    </form>
-</div>
-{% else %}
 <div id="sticky-warning" class="sub-nav sub-nav--warning">
     <img title="Warning" alt="Warning sign" src='{% static "portal/img/warning.png" %}'>
     <p><small><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
@@ -73,7 +58,6 @@
         </div>
     </form>
 </div>
-{% endif %}
 
 {% if onboarding_done %}
 <div class="background background--quaternary">
@@ -122,11 +106,13 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        {% if not onboarding_done %}
-            if($(window).width() > 760) {
-                toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
-            }
-        {% endif %}
+        if($(window).width() > 760) {
+            {% if not onboarding_done %}
+                toggleStickySubnav($('.banner').outerHeight());
+            {% else %}
+                toggleStickySubnav(0);
+            {% endif %}
+        }
     });
 </script>
 
