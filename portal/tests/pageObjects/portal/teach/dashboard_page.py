@@ -129,10 +129,14 @@ class TeachDashboardPage(TeachBasePage):
         return correct
 
     def accept_join_request(self):
+        self.browser.find_element_by_id('requests_button').click()
+        time.sleep(3)
         self.browser.find_element_by_id('allow_button').click()
         return self
 
     def deny_join_request(self):
+        self.browser.find_element_by_id('requests_button').click()
+        time.sleep(3)
         self.browser.find_element_by_id('deny_button').click()
         return self
 

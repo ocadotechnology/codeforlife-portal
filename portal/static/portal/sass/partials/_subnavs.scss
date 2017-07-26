@@ -49,6 +49,19 @@
   width: 100%;
 }
 
+.sub-nav--warning {
+  background-color: $color-background-warning;
+
+  .button--secondary--dark  {
+    &:hover,
+    &:active,
+    &:focus{
+      background-color: $color-background-tertiary;
+      color: $color-text-secondary;
+    }
+  }
+}
+
 .sub-nav--warning--fixed {
   margin: 0;
   position: fixed;
@@ -68,10 +81,6 @@
   padding-top: 160px;
 }
 
-.sub-nav--big-filler {
-  padding-top: 240px;
-}
-
 .sub-nav--teacher {
   background-color: $color-background-teach;
 
@@ -89,10 +98,6 @@
   .button--secondary--background-light {
     color: $color-background-play;
   }
-}
-
-.sub-nav--warning {
-  background-color: $color-background-warning;
 }
 
 .success {
