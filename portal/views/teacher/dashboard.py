@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from recaptcha import RecaptchaClient
+
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
@@ -54,6 +56,8 @@ from portal.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 
 from portal.utils import using_two_factor
+
+recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 @login_required(login_url=reverse_lazy('login_view'))

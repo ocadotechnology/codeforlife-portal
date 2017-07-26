@@ -40,10 +40,7 @@ from django import forms
 
 
 class AdminLoginForm(AuthenticationForm):
-    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
-
     def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect username, password or captcha')
+        if self.has_error('recaptcha'):
+            raise forms.ValidationError('Incorrect username, password or captcha')
         return super(AdminLoginForm, self).clean()

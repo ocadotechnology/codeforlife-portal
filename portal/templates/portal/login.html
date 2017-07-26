@@ -38,10 +38,10 @@
                 {{ login_form.teacher_password }}
                 {{ login_form.teacher_password.errors }}
 
-                {% if teacher_captcha %}
-                  {% if teacher_captcha_visible %}
-                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                  {% endif %}
+                {% if login_form.recaptcha %}
+                <label for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
+                {{ login_form.recaptcha|safe }}
+                {{ login_form.recaptcha.errors }}
                 {% endif %}
 
                     <button type="submit" name="login_view" class="button--regular button--primary--general-educate"
@@ -74,10 +74,10 @@
                 {{ school_login_form.password }}
                 {{ school_login_form.password.errors }}
 
-                {% if student_captcha %}
-                  {% if student_captcha_visible %}
-                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                  {% endif %}
+                {% if school_login_form.recaptcha %}
+                {{ school_login_form.recaptcha.errors }}
+                <label for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
+                {{ school_login_form.recaptcha|safe }}
                 {% endif %}
 
                     <button type='submit' name='school_login' class="button--regular button--primary--general-play"
@@ -107,10 +107,10 @@
                 {{ independent_student_login_form.password }}
                 {{ independent_student_login_form.password.errors }}
 
-                {% if independent_student_captcha %}
-                  {% if independent_student_captcha_visible %}
-                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                  {% endif %}
+                {% if independent_student_login_form.recaptcha %}
+                {{ independent_student_login_form.recaptcha.errors }}
+                <label for="id_{{ independent_student_login_form.recaptcha.html_name }}">{{ independent_student_login_form.recaptcha.label }}</label>
+                {{ independent_student_login_form.recaptcha|safe }}
                 {% endif %}
 
                     <button type='submit' name='independent_student_login' class="button--regular button--primary--general-play">Log in</button>
