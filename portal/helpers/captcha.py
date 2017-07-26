@@ -40,6 +40,7 @@ import requests
 
 # Adapted from https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
 def check_recaptcha(request):
+    u_a = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.82 Safari/537.36"
     get_request = request.POST.get("g-recaptcha-response")
     url = "https://www.google.com/recaptcha/api/siteverify"
     my_param = {
@@ -47,12 +48,9 @@ def check_recaptcha(request):
         'response': get_request,
         'remoteip': get_client_ip(request)
     }
-    verify_plain = requests.get(url, params=my_param, verify=True)
-    print str(verify_plain)
-    print str(verify_plain.content)
+    verify_plain = requests.get(url, params=my_param, verify=True, headers={"USER-AGENT": u_a})
     verify_plain.raise_for_status()
     verify = verify_plain.json()
-    print str(verify)
     status = verify.get("success", False)
     return status
 
