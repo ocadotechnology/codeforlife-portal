@@ -107,6 +107,12 @@
                 <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
                 {{ join_form.chosen_org }}
 
+                {% if join_form.recaptcha %}
+                {{ join_form.recaptcha.errors }}
+                <label for="id_{{ join_form.recaptcha.html_name }}">{{ join_form.recaptcha.label }}</label>
+                {{ join_form.recaptcha|safe }}
+                {% endif %}
+
                 <div class='section group'>
                     <button type='submit' class='button--regular button-primary button--primary--general-play' name='join_organisation'>Join school or club</button>
                 </div>

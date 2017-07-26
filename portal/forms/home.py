@@ -49,10 +49,3 @@ class ContactForm(forms.Form):
     browser = forms.CharField(label='Browser', max_length=250, required=False,
                               widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'})
                               )
-    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
-
-    def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect captcha')
-        return self.cleaned_data
