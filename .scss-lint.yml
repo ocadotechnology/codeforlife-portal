@@ -1,0 +1,284 @@
+scss_files: "**/*.scss"
+plugin_directories: ['.scss-linters']
+exclude:
+  - "**/bootstrap.scss"
+  - "**/old_styles.scss"
+  - "example_project/**/*"
+
+# List of gem names to load custom linters from (make sure they are already
+# installed)
+plugin_gems: []
+
+# Default severity of all linters.
+severity: warning
+
+linters:
+  BangFormat:
+    enabled: true
+    space_before_bang: true
+    space_after_bang: false
+
+  BemDepth:
+    enabled: false
+    max_elements: 1
+
+  #TODO: Fix the issues and then reenable
+  BorderZero:
+    enabled: false
+    convention: zero # or `none`
+
+  ChainedClasses:
+    enabled: false
+
+  #TODO: Fix the issues and then reenable
+  ColorKeyword:
+    enabled: false
+
+  #TODO: Fix the issues and then reenable
+  ColorVariable:
+    enabled: false
+
+  Comment:
+    enabled: false
+    style: silent
+
+  DebugStatement:
+    enabled: true
+
+  DeclarationOrder:
+    enabled: false
+
+  DisableLinterReason:
+    enabled: false
+
+  DuplicateProperty:
+    enabled: true
+
+  #TODO: Fix the issues and then reenable
+  ElsePlacement:
+    enabled: false
+    style: new_line # or 'same_line'
+
+  EmptyLineBetweenBlocks:
+    enabled: false
+    ignore_single_line_blocks: true
+
+  #TODO: Fix the issues and then reenable
+  EmptyRule:
+    enabled: false
+
+  ExtendDirective:
+    enabled: false
+
+  FinalNewline:
+    enabled: true
+    present: true
+
+  #TODO: Fix the issues and then reenable
+  HexLength:
+    enabled: false
+    style: short # or 'long'
+
+  #TODO: Fix the issues and then reenable
+  HexNotation:
+    enabled: false
+    style: lowercase # or 'uppercase'
+
+  HexValidation:
+    enabled: true
+
+  IdSelector:
+    enabled: false
+
+  ImportantRule:
+    enabled: false
+
+  ImportPath:
+    enabled: true
+    leading_underscore: false
+    filename_extension: false
+
+  #TODO: Fix the issues and then reenable
+  Indentation:
+    enabled: false
+    allow_non_nested_indentation: false
+    character: space # or 'tab'
+    width: 2
+
+  #TODO: Fix the issues and then reenable
+  LeadingZero:
+    enabled: false
+    style: exclude_zero # or 'include_zero'
+
+  #TODO: Fix the issues and then reenable
+  MergeableSelector:
+    enabled: false
+    force_nesting: true
+
+  #TODO: Fix the issues and then reenable
+  NameFormat:
+    enabled: false
+    allow_leading_underscore: true
+    convention: hyphenated_lowercase # or 'camel_case', or 'snake_case', or a regex pattern
+
+  NestingDepth:
+    enabled: false
+    max_depth: 3
+    ignore_parent_selectors: false
+
+  PlaceholderInExtend:
+    enabled: true
+
+  PrivateNamingConvention:
+    enabled: false
+    prefix: _
+
+  PropertyCount:
+    enabled: false
+    include_nested: false
+    max_properties: 10
+
+  PropertySortOrder:
+    enabled: false
+    ignore_unspecified: false
+    min_properties: 2
+    separate_groups: false
+
+  PropertySpelling:
+    enabled: false
+    extra_properties: []
+    disabled_properties: []
+
+  PropertyUnits:
+    enabled: true
+    global: [
+      'ch', 'em', 'ex', 'rem',                 # Font-relative lengths
+      'cm', 'in', 'mm', 'pc', 'pt', 'px', 'q', # Absolute lengths
+      'vh', 'vw', 'vmin', 'vmax',              # Viewport-percentage lengths
+      'deg', 'grad', 'rad', 'turn',            # Angle
+      'ms', 's',                               # Duration
+      'Hz', 'kHz',                             # Frequency
+      'dpi', 'dpcm', 'dppx',                   # Resolution
+      '%']                                     # Other
+    properties: {}
+
+  PseudoElement:
+    enabled: false
+
+  QualifyingElement:
+    enabled: false
+    allow_element_with_attribute: false
+    allow_element_with_class: false
+    allow_element_with_id: false
+
+  SelectorDepth:
+    enabled: false
+    max_depth: 3
+
+  #TODO: Fix the issues and then reenable
+  SelectorFormat:
+    enabled: false
+    convention: hyphenated_BEM # or 'hyphenated_lowercase', or 'hyphenated_BEM', or 'snake_case', or 'camel_case', or a regex pattern
+
+  Shorthand:
+    enabled: false
+    allowed_shorthands: [1, 2, 3, 4]
+
+  #TODO: Fix the issues and then reenable
+  SingleLinePerProperty:
+    enabled: false
+    allow_single_line_rule_sets: true
+
+  #TODO: Fix the issues and then reenable
+  SingleLinePerSelector:
+    enabled: false
+
+  #TODO: Fix the issues and then reenable
+  SpaceAfterComma:
+    enabled: false
+    style: one_space # or 'no_space', or 'at_least_one_space'
+
+  #TODO: Fix the issues and then reenable
+  SpaceAfterComment:
+    enabled: false
+    style: one_space # or 'no_space', or 'at_least_one_space'
+    allow_empty_comments: true
+
+  #TODO: Fix the issues and then reenable
+  SpaceAfterPropertyColon:
+    enabled: false
+    style: one_space # or 'no_space', or 'at_least_one_space', or 'aligned'
+
+  SpaceAfterPropertyName:
+    enabled: false
+
+  #TODO: Fix the issues and then reenable
+  SpaceAfterVariableColon:
+    enabled: false
+    style: one_space # or 'no_space', 'at_least_one_space' or 'one_space_or_newline'
+
+  SpaceAfterVariableName:
+    enabled: true
+
+  #TODO: Fix the issues and then reenable
+  SpaceAroundOperator:
+    enabled: false
+    style: one_space # or 'at_least_one_space', or 'no_space'
+
+  #TODO: Fix the issues and then reenable
+  SpaceBeforeBrace:
+    enabled: false
+    style: space # or 'new_line'
+    allow_single_line_padding: false
+
+  #TODO: Fix the issues and then reenable
+  SpaceBetweenParens:
+    enabled: false
+    spaces: 0
+
+  #TODO: Fix the issues and then reenable
+  StringQuotes:
+    enabled: false
+    style: single_quotes # or double_quotes
+
+  TrailingSemicolon:
+    enabled: true
+
+  TrailingWhitespace:
+    enabled: true
+
+  #TODO: Fix the issues and then reenable
+  TrailingZero:
+    enabled: false
+
+  TransitionAll:
+    enabled: true
+
+  UnnecessaryMantissa:
+    enabled: true
+
+  UnnecessaryParentReference:
+    enabled: true
+
+  UrlFormat:
+    enabled: true
+
+  #TODO: Fix the issues and then reenable
+  UrlQuotes:
+    enabled: false
+
+  VariableForProperty:
+    enabled: false
+    properties: []
+
+  VendorPrefix:
+    enabled: false
+    identifier_list: base
+    additional_identifiers: []
+    excluded_identifiers: []
+
+  ZeroUnit:
+    enabled: false
+
+  Compass::*:
+    enabled: false
