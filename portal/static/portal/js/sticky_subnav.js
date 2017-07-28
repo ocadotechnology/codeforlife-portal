@@ -31,21 +31,19 @@
 function toggleStickySubnav(scrollToTop) {
     $(window).scroll(function() {
         var currentScroll = $(window).scrollTop();
-        var warningExists = document.getElementById('sticky-warning');
         if (currentScroll >= scrollToTop) {
             if (!$('.sticky-subnav').hasClass("sub-nav--fixed")) {
                 $('.sticky-subnav').addClass('sub-nav--fixed');
-                $('#top').addClass('sub-nav--filler')
             }
-            if (warningExists && !$('#sticky-warning').hasClass('sub-nav--warning--fixed')) {
+            if (!$('#sticky-warning').hasClass('sub-nav--warning--fixed')) {
                 $('#sticky-warning').addClass('sub-nav--warning--fixed');
-                $('#top').removeClass('sub-nav--filler').addClass('sub-nav--big-filler')
             }
+            $('#top').addClass('sub-nav--filler');
         }
         else {
             $('#sticky-warning').removeClass('sub-nav--warning--fixed');
             $('.sticky-subnav').removeClass('sub-nav--fixed');
-            $('#top').removeClass('sub-nav--filler').removeClass('sub-nav--big-filler')
+            $('#top').removeClass('sub-nav--filler');
         }
     });
 }

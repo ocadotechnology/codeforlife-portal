@@ -24,7 +24,11 @@
 </div>
 
 <div class="banner banner--resources">
+    {% if video_link %}
     <div class="col-sm-4">
+    {% else %}
+    <div class="col-sm-8">
+    {% endif %}
         <h3>{{ title }}</h3>
         <h4>{{ description }}</h4>
         <div class="resource-buttons">
@@ -47,7 +51,7 @@
             <h4>Related document(s)</h4>
             <div>
                 {% for link, title in links %}
-                <p class="body-text"><a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a></p>
+                <p><a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a></p>
                 {% endfor %}
             </div>
         </div>

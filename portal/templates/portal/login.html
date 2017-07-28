@@ -38,17 +38,17 @@
                 {{ login_form.teacher_password }}
                 {{ login_form.teacher_password.errors }}
 
-                {% if teacher_captcha %}
-                  {% if teacher_captcha_visible %}
-                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                  {% endif %}
+                {% if login_form.recaptcha %}
+                <label for="id_{{ login_form.recaptcha.html_name }}">{{ login_form.recaptcha.label }}</label>
+                {{ login_form.recaptcha|safe }}
+                {{ login_form.recaptcha.errors }}
                 {% endif %}
 
                     <button type="submit" name="login_view" class="button--regular button--primary--general-educate"
                             onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
                 </form>
-                <p class="body-text"><strong>Forgotten your password?</strong></p>
-                <p class="body-text">Don&rsquo;t worry, you can
+                <p><strong>Forgotten your password?</strong></p>
+                <p>Don&rsquo;t worry, you can
                     <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
                 </p>
             </div>
@@ -74,19 +74,19 @@
                 {{ school_login_form.password }}
                 {{ school_login_form.password.errors }}
 
-                {% if student_captcha %}
-                  {% if student_captcha_visible %}
-                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                  {% endif %}
+                {% if school_login_form.recaptcha %}
+                {{ school_login_form.recaptcha.errors }}
+                <label for="id_{{ school_login_form.recaptcha.html_name }}">{{ school_login_form.recaptcha.label }}</label>
+                {{ school_login_form.recaptcha|safe }}
                 {% endif %}
 
                     <button type='submit' name='school_login' class="button--regular button--primary--general-play"
                             onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
                 </form>
-                <p class="body-text"><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
-                <p class="body-text">Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
+                <p><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
+                <p>Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
 
-            <p class="body-text">Are you registered as an independent student who is not part of a school or club?
+            <p>Are you registered as an independent student who is not part of a school or club?
                 If so, <a href='#' id='switchToIndependentStudent'>log in here</a>.</p>
         </div>
     </div>
@@ -107,19 +107,19 @@
                 {{ independent_student_login_form.password }}
                 {{ independent_student_login_form.password.errors }}
 
-                {% if independent_student_captcha %}
-                  {% if independent_student_captcha_visible %}
-                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                  {% endif %}
+                {% if independent_student_login_form.recaptcha %}
+                {{ independent_student_login_form.recaptcha.errors }}
+                <label for="id_{{ independent_student_login_form.recaptcha.html_name }}">{{ independent_student_login_form.recaptcha.label }}</label>
+                {{ independent_student_login_form.recaptcha|safe }}
                 {% endif %}
 
                     <button type='submit' name='independent_student_login' class="button--regular button--primary--general-play">Log in</button>
                 </form>
-                <p class="body-text"><strong>Forgotten your password?</strong></p>
-                <p class="body-text">Don&rsquo;t worry, you can
+                <p><strong>Forgotten your password?</strong></p>
+                <p>Don&rsquo;t worry, you can
                     <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
                 </p>
-                <p class="body-text">Part of a school or club? <a href='#' id='switchToSchool'>Log in here</a>.</p>
+                <p>Part of a school or club? <a href='#' id='switchToSchool'>Log in here</a>.</p>
             </div>
         </div>
     </div>

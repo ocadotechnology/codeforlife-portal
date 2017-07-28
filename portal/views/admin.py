@@ -45,7 +45,10 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib import messages as messages
+from django_recaptcha_field import create_form_subclass_with_recaptcha
 from django.utils import timezone
+
+from recaptcha import RecaptchaClient
 
 from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
@@ -53,10 +56,10 @@ from portal.helpers.location import lookup_coord
 from portal.models import UserProfile, Teacher, School, Class, Student
 from ratelimit.decorators import ratelimit
 
-from portal.helpers.captcha import check_recaptcha
-from django.conf import settings
-
 block_limit = 5
+
+recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY,
+                                   app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 def is_post_request(request, response):
@@ -66,9 +69,12 @@ def is_post_request(request, response):
 @ratelimit('def', periods=['1m'], increment=is_post_request)
 def admin_login(request):
     show_captcha = getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit
-    AdminLoginForm.view_options['is_recaptcha_visible'] = show_captcha
-    AdminLoginForm.view_options['is_recaptcha_valid'] = check_recaptcha(request) if show_captcha else False
-    return auth_views.login(request, authentication_form=AdminLoginForm, extra_context={'captcha': show_captcha, 'settings': app_settings})
+
+    authentication_form = create_form_subclass_with_recaptcha(AdminLoginForm, recaptcha_client) \
+        if show_captcha \
+        else AdminLoginForm
+
+    return auth_views.login(request, authentication_form=authentication_form)
 
 
 @login_required(login_url=reverse_lazy('admin_login'))

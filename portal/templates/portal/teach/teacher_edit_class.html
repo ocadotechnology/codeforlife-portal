@@ -39,9 +39,9 @@
 
             <div class="background">
                 <h3>External requests setting</h3>
-                <p class="body-text">You can set up permissions for this class allowing students to send requests asking to join your class from outside of your school or club.</p>
+                <p>You can set up permissions for this class allowing students to send requests asking to join your class from outside of your school or club.</p>
 
-                <p class="background body-text"><strong>{{ external_requests_message }}</strong></p>
+                <p class="background"><strong>{{ external_requests_message }}</strong></p>
                 <label for="id_{{ form.external_requests.html_name }}">{{ form.external_requests.label }}</label>
                 {{ form.external_requests }}
                 {{ form.external_requests.errors }}
@@ -55,13 +55,13 @@
 
         <div class="background alternative-section">
             <h3>Transfer class to another teacher</h3>
-            <p class="body-text">To transfer this class to another teacher in your school or club, click 'Transfer'</p>
+            <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
         </div>
         <a id='transfer_button' class='button button--regular button--primary--navigation' href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
     </div>
 </div>
 
 <div class="background col-sm-6 col-center">
-    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

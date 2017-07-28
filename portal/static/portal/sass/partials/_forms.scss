@@ -51,7 +51,7 @@ form {
   text-align: center;
 
   h1,
-  .body-text {
+  p {
     color: $color-text-secondary;
     text-align: center;
   }
@@ -60,11 +60,6 @@ form {
     color: $color-text-secondary;
     display: block;
     font-weight: 200;
-    text-align: left;
-  }
-
-  p {
-    color: $color-text-secondary;
     text-align: left;
   }
 

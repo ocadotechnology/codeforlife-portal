@@ -64,4 +64,4 @@ deploy:
   on:
     repo: ocadotechnology/codeforlife-portal
 after_deploy:
-  - "curl -u ${SNAP_API_AUTH} -X POST -H 'Accept: application/vnd.snap-ci.com.v1+json' -H 'Content-type: application/json' https://api.snap-ci.com/project/ocadotechnology/codeforlife-deploy-appengine/branch/master/trigger"
+  - "curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}"

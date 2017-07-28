@@ -18,8 +18,8 @@
     <div class="col-sm-6 col-center">
         <h3>New teacher to take over class</h3>
 
-        <p class="body-text">Select a new teacher from your school or club to take over the above class from the list below.</p>
-        <p class="body-text"><strong>Warning: The class will move immediately to the new teacher. Should you wish to undo this action,
+        <p>Select a new teacher from your school or club to take over the above class from the list below.</p>
+        <p><strong>Warning: The class will move immediately to the new teacher. Should you wish to undo this action,
             please contact that teacher.</strong></p>
 
         <form method='post'>
@@ -43,7 +43,7 @@
 </div>
 
 <div class="background col-sm-6 col-center">
-    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}

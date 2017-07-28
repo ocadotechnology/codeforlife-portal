@@ -36,7 +36,7 @@
             to continue.</h4>
     </div>
     <div class="col-sm-6 col-center">
-        <p class="body-text">Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
+        <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
             your pending request first.</p><br>
         <form id="revoke_form" method='post'>
 
@@ -106,6 +106,12 @@
                 {{ join_form.chosen_org.errors }}
                 <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
                 {{ join_form.chosen_org }}
+
+                {% if join_form.recaptcha %}
+                {{ join_form.recaptcha.errors }}
+                <label for="id_{{ join_form.recaptcha.html_name }}">{{ join_form.recaptcha.label }}</label>
+                {{ join_form.recaptcha|safe }}
+                {% endif %}
 
                 <div class='section group'>
                     <button type='submit' class='button--regular button-primary button--primary--general-play' name='join_organisation'>Join school or club</button>

@@ -18,26 +18,26 @@
         <div class="col-sm-5">
             <h3>Students currently in class</h3>
             {% if students %}
-            <p class="body-text">{{ student.new_user.username }}, the new external student, will be joining students in the class
+            <p>{{ student.new_user.username }}, the new external student, will be joining students in the class
                 {{ class.name }} ({{ class.access_code }}).</p>
             <table class="header-tertiary data-quaternary">
                 <tr>
-                    <th><p class="body-text">Student Name</p></th>
+                    <th><p>Student Name</p></th>
                 </tr>
                 {% for currentstudent in students %}
                 <tr>
-                    <td><p class="small-text">{{ currentstudent.new_user.first_name }}</p></td>
+                    <td><p><small>{{ currentstudent.new_user.first_name }}</small></p></td>
                 </tr>
                 {% endfor %}
             </table>
             {% else %}
-            <p class="body-text">The new external student {{ student.new_user.username }} is joining the class {{ class.name }}
+            <p>The new external student {{ student.new_user.username }} is joining the class {{ class.name }}
                 ({{ class.access_code }}) in which there are currently no other students.</p>
             {% endif %}
         </div>
         <div class="col-sm-6 col-sm-offset-1 background--quaternary">
             <h3>Add external student</h3>
-            <p class="body-text">Please confirm the name of the new external student joining your class. Their name will be used in their new
+            <p>Please confirm the name of the new external student joining your class. Their name will be used in their new
                 login details, so please ensure it is different from any other existing student in the class.</p>
 
             <form method='POST'>
@@ -62,7 +62,7 @@
 </div>
 
 <div class="background col-sm-8 col-center">
-    <p class="body-text"><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}

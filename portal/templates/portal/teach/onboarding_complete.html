@@ -18,27 +18,27 @@
 
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
-    <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Create / Join school</p>
+    <p><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Create / Join school</p>
 </div>
 {% endblock createJoinSchoolStep %}
 {% block createClassStep %}
 <div class="onboarding-step onboarding-step--done">
-    <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Create class</p>
+    <p><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Create class</p>
 </div>
 {% endblock createClassStep %}
 {% block addStudentsStep %}
 <div class="onboarding-step onboarding-step--done">
-    <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Add students</p>
+    <p><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Add students</p>
 </div>
 {% endblock addStudentsStep %}
 {% block printStudentCardsStep %}
 <div class="onboarding-step onboarding-step--done">
-    <p class="body-text"><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Print student IDs</p>
+    <p><img title="Done" alt="Step done" src='{% static "portal/img/step_done.png" %}'>Print student IDs</p>
 </div>
 {% endblock printStudentCardsStep %}
 {% block setupCompleteStep %}
 <div class="onboarding-step onboarding-step--in-progress">
-    <p class="body-text"><img title="In progress" alt="Step in progress" src='{% static "portal/img/step_in_progress.png" %}'>Setup complete</p>
+    <p><img title="In progress" alt="Step in progress" src='{% static "portal/img/step_in_progress.png" %}'>Setup complete</p>
 </div>
 {% endblock setupCompleteStep %}
 
@@ -54,8 +54,8 @@
             <div class="col-sm-4">
                 <img title="Teaching resources" alt="Resources image" src='{% static "portal/img/teaching_resources.jpg" %}'>
                 <h3>Teaching resources</h3>
-                <p class="body-text">We&rsquo;ve designed a comprehensive range of teaching resources including session plans, pupil resources and assessment tools.</p>
-                <p class="body-text">There are also videos to help you and your class understand what you and your class will be learning next.</p>
+                <p>We&rsquo;ve designed a comprehensive range of teaching resources including session plans, pupil resources and assessment tools.</p>
+                <p>There are also videos to help you and your class understand what you and your class will be learning next.</p>
                 <div class="background">
                     <a href="{% url 'teaching_resources' %}" class="button button--regular button--secondary button--secondary--dark">View resources</a>
                 </div>
@@ -63,8 +63,8 @@
             <div class="col-sm-4">
                 <img title="Rapid Router" alt="Rapid Router" src='{% static "portal/img/rapid_router.png" %}'>
                 <h3>Rapid Router</h3>
-                <p class="body-text">Get stuck in! Have a go at Rapid Router yourself, this can help you familiarise yourself with the game before letting the students loose.</p>
-                <p class="body-text">When you&rsquo;re logged in as a teacher you can also
+                <p>Get stuck in! Have a go at Rapid Router yourself, this can help you familiarise yourself with the game before letting the students loose.</p>
+                <p>When you&rsquo;re logged in as a teacher you can also
                     <a href="{% url 'game.views.level_moderation.level_moderation' %}">moderate</a>, view
                     <a href="{% url 'game.views.scoreboard.scoreboard' %}">scoreboards</a> and find
                     <a href="{% url 'teacher_level_solutions' %}">solutions</a> to the levels.</p>
@@ -75,9 +75,9 @@
             <div class="col-sm-4">
                 <img title="Dashboard" alt="Dashboard screenshot" src='{% static "portal/img/teacher_dashboard.png" %}'>
                 <h3>Teacher dashboard</h3>
-                <p class="body-text">Need to add more classes, add more students or invite other teachers to join your school? No problem, our teacher dashboard helps you to
+                <p>Need to add more classes, add more students or invite other teachers to join your school? No problem, our teacher dashboard helps you to
                     administrate your school or club.</p>
-                <p class="body-text">If you are the school administrator you can invite other teachers to join your school.</p>
+                <p>If you are the school administrator you can invite other teachers to join your school.</p>
                 <div class="background">
                     <a href="{% url 'dashboard' %}" class="button button--regular button--secondary button--secondary--dark">Go to my dashboard</a>
                 </div>
