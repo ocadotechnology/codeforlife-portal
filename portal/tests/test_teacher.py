@@ -44,7 +44,7 @@ from django.core import mail
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher, signup_teacher_directly, signup_duplicate_teacher_fail
-from utils.organisation import create_organisation_directly
+from utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, \
@@ -138,6 +138,34 @@ class TestTeacher(BaseTest):
             'title': 'Mrs',
             'first_name': 'Paulina',
             'last_name': 'Koch',
+        })
+
+    def test_edit_details_non_admin(self):
+        email_1, password_1 = signup_teacher_directly()
+        email_2, password_2 = signup_teacher_directly()
+        name, postcode = create_organisation_directly(email_1)
+        klass_1, class_name_1, access_code_1 = create_class_directly(email_1)
+        create_school_student_directly(access_code_1)
+        join_teacher_to_organisation(email_2, name, postcode)
+        klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
+        create_school_student_directly(access_code_2)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_login_page().login(email_2, password_2)
+
+        page = page.change_teacher_details({
+            'title': 'Mr',
+            'first_name': 'Florian',
+            'last_name': 'Aucomte',
+            'current_password': 'Password1',
+        })
+        assert self.is_dashboard_page(page)
+        assert is_teacher_details_updated_message_showing(selenium)
+
+        assert page.check_account_details({
+            'title': 'Mr',
+            'first_name': 'Florian',
+            'last_name': 'Aucomte',
         })
 
     def test_change_email(self):
