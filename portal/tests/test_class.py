@@ -84,6 +84,24 @@ class TestClass(BaseTest):
 
         assert is_class_created_message_showing(selenium, class_name)
 
+    def test_create_dashboard_non_admin(self):
+        email_1, password_1 = signup_teacher_directly()
+        email_2, password_2 = signup_teacher_directly()
+        name, postcode = create_organisation_directly(email_1)
+        klass_1, class_name_1, access_code_1 = create_class_directly(email_1)
+        create_school_student_directly(access_code_1)
+        join_teacher_to_organisation(email_2, name, postcode)
+        klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
+        create_school_student_directly(access_code_2)
+
+        page = self.go_to_homepage() \
+            .go_to_login_page() \
+            .login(email_2, password_2)
+
+        page, class_name_3 = create_class(page)
+
+        assert is_class_created_message_showing(selenium, class_name_3)
+
     def test_delete_empty(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

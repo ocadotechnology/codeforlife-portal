@@ -87,8 +87,8 @@ def dashboard_teacher_view(request, is_admin):
 
     backup_tokens = check_backup_tokens(request)
 
-    if can_process_forms(request, is_admin):
-        if 'update_school' in request.POST:
+    if request.method == 'POST':
+        if can_process_update_school_form(request, is_admin):
             anchor = 'school-details'
             update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
             anchor = process_update_school_form(request, school, anchor)
@@ -127,8 +127,8 @@ def dashboard_teacher_view(request, is_admin):
     })
 
 
-def can_process_forms(request, is_admin):
-    return request.method == 'POST' and is_admin
+def can_process_update_school_form(request, is_admin):
+    return 'update_school' in request.POST and is_admin
 
 
 def check_backup_tokens(request):
