@@ -55,7 +55,7 @@
         <div class='section'>
             <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
             {% if onboarding_done %}
-            <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
+            <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
             {% else %}
             <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
             {% endif %}
@@ -98,7 +98,7 @@
                 <div class='button-group'>
                     <button class='button--regular button--primary--navigation' type='submit'>Print reminder cards</button>
                     {% if onboarding_done %}
-                        <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
+                        <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
                     {% else %}
                         <a href="{% url 'onboarding-complete' %}" class="button button--regular button--secondary button--secondary--dark">Finish setup</a>
                     {% endif %}
