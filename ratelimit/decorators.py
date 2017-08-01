@@ -12,6 +12,7 @@ PERIODS = {
 
 period_re = re.compile('([\d]*)([smh])')
 
+
 def decode_period(period):
     multi, period = period_re.match(period).groups()
     time = PERIODS[period.lower()]
@@ -21,12 +22,14 @@ def decode_period(period):
 
 backend = CacheBackend()
 
-##### arguemnts:
+# arguments:
 # tag - the name used to identify this result in the limits dict
-# label, labeller - which bucket to go into, different ratelimit calls using the same label will use the same data
+# label, labeler - which bucket to go into, different ratelimit calls using the same label will use the same data
 # path, ip - should the label be dependent on URL path, ip
 # periods - an array of timeframes to consider, results contain counts for each timeframe
 # increment - a function to decide whether to count this request towards the rate limiting
+
+
 def ratelimit(tag, label=None, labeller=None, path=True, ip=True, periods=[], increment=None):
     def decorator(fn):
         decoded_periods = map(decode_period, periods)

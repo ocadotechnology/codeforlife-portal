@@ -1,0 +1,7 @@
+[report]
+omit =
+    */tests/*
+    */python?.?/*
+    *ratelimit/*
+    *portal/migrations/*
+    *.eggs/*

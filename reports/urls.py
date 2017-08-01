@@ -44,6 +44,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def event(request):
     if request.method == 'POST':
         try:
@@ -55,9 +56,9 @@ def event(request):
                 session_key = request.session.session_key
             e = json.loads(request.body)
             details = json.dumps(e["details"])
-            event = Event(dstamp=datetime.now(), app=e["app"], user=user, \
-                    session=session_key, event_type=e["eventType"], \
-                    details=details)
+            event = Event(dstamp=datetime.now(), app=e["app"], user=user,
+                          session=session_key, event_type=e["eventType"],
+                          details=details)
             event.save()
             return HttpResponse("Success", content_type='text/plain', status=status.HTTP_200_OK)
         except ValueError, e:
@@ -82,6 +83,5 @@ except ImportError:
         return HttpResponse("The Panda is not loaded", content_type='text/plain', status=status.HTTP_200_OK)
 
 urlpatterns = patterns('',
-    url(r'^event$', event, name='post_event'),
-    url(r'^test$', test_panda, name='test_panda'),
-)
+                       url(r'^event$', event, name='post_event'),
+                       url(r'^test$', test_panda, name='test_panda'),)
