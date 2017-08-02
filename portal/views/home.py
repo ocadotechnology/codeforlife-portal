@@ -376,6 +376,7 @@ def contact(request):
         increment_count = True
 
         if contact_form.is_valid():
+            anchor = "top"
             email_message = emailMessages.contactEmail(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
@@ -389,7 +390,7 @@ def contact(request):
                        confirmed_email_message['subject'], confirmed_email_message['message'])
 
             messages.success(request, 'Your message was sent successfully.')
-            return HttpResponseRedirect('.')
+            return render(request, 'portal/help-and-support.html', {'form': contact_form, 'anchor': anchor})
         else:
             contact_form = OutputContactForm(request.POST)
             anchor = "contact"
