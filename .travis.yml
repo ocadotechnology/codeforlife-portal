@@ -52,7 +52,7 @@ before_script:
 script:
   - python setup.py test
 after_success:
-  - coveralls
+  - coveralls --rcfile=.coveragerc
 git:
   depth: 9999999 # Building untagged builds needs enough depth to get the latest tag
 deploy:
