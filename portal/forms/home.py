@@ -52,9 +52,8 @@ class ContactForm(forms.Form):
     view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
     def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect captcha')
+        if self.view_options['is_recaptcha_visible'] and not self.view_options['is_recaptcha_valid']:
+            raise forms.ValidationError('Incorrect captcha')
         return self.cleaned_data
 
     def clean_name(self):
