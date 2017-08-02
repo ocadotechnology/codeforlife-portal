@@ -71,6 +71,12 @@
   font-style: italic;
 }
 
+.password-strength-text-old {
+  @include _padding(0px, 0px, 0px, 10px);
+  color: $color-text-primary;
+  font-style: italic;
+}
+
 section {
   text-align: center;
 
