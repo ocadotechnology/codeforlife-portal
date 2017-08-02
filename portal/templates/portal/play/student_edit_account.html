@@ -1,15 +1,6 @@
 {% extends 'portal/play/base.html' %}
 {% load static %}
 
-{% block scripts %}
-    {{ block.super }}
-    <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-    <script>
-        var PASSWORD_FIELD_ID = '{{ form.password.auto_id }}';
-        var PASSWORD_TYPE = 'STUDENT';
-    </script>
-{% endblock scripts %}
-
 {% block studentButtons %}
 <a href="{% url 'student_details' %}" id="student_dashboard_button"
    class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
@@ -64,13 +55,6 @@
 
                     {% endif %}
 
-                    <div class='section group'>
-                        <div class='col span_2_of_3 password-strength-bar-container'>
-                            <div class='password-strength-bar'></div>
-                        </div>
-                        <div class='col span_1_of_3 password-strength-text'></div>
-                    </div>
-
                     {{ form.password.errors }}
                     <label for="{{ form.password.html_name }}">{{ form.password.label }}</label>
                     {{ form.password }}
@@ -82,6 +66,13 @@
                     {{ form.current_password.errors }}
                     <label for="{{ form.current_password.html_name }}">{{ form.current_password.label }}</label>
                     {{ form.current_password }}
+
+                    <div class="row--under">
+                        <div class="password-strength-container">
+                            <div id="student-password-sign" class='password-strength-sign'></div>
+                            <div id="student-password-text" class='password-strength-text-old'></div>
+                        </div>
+                    </div>
 
                     <div class='section group'>
                         <div class='col span_1_of_2'>
@@ -111,5 +102,10 @@
 
         </div>
     </div>
+
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+<script>
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ form.password.auto_id }}';
+</script>
 
 {% endblock %}

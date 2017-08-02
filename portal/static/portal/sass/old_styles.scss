@@ -616,7 +616,7 @@ ul.topNav li.selected a
 
 /************** message boxes *******************/
 
-.info, .success, .warning, .error, .validation, .warningIE {
+.info, .warning, .error, .validation, .warningIE {
   border: 1px solid;
   margin: 10px 0px;
   padding: 15px 50px 15px 50px;
@@ -628,10 +628,6 @@ ul.topNav li.selected a
   color: #333;
   background-color: #BDE5F8;
   border-color: #00529B;
-}
-.success {
-  color: #4F8A10;
-  background-color: #DFF2BF;
 }
 .warning, .warningIE {
   color: #9F6000;
@@ -1167,3 +1163,5 @@ h1 {
 @import "partials/footer";
 @import "partials/buttons";
 @import "partials/images-backgrounds";
+@import "partials/utils";
+@import "partials/subnavs";
