@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 table {
   margin: 20px auto 20px auto;
@@ -12,11 +12,11 @@ table {
 }
 
 .table--resources {
-  border: 0;
+  border: none;
   border-top: 1px solid $color-table-border;
 
   tr {
-    border: 0;
+    border: none;
     border-bottom: 1px solid $color-table-border;
     display: block;
   }

@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 a {
   cursor: pointer;
@@ -12,13 +12,13 @@ a:focus {
 }
 
 button {
-  border: 0;
+  border: none;
 }
 
 button,
 .button {
   @include _padding(10px, 15px, 10px, 15px);
-  border-radius: .8rem;
+  border-radius: 0.8rem;
 }
 
 .button,
@@ -61,7 +61,7 @@ button,
 }
 
 .button--menu--enabled:hover {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .button--menu--disabled {
@@ -105,7 +105,7 @@ button,
   }
 }
 
-.logout[aria-expanded="true"] {
+.logout[aria-expanded='true'] {
 
   @include _border-radius(8px, 8px, 0px, 0px);
   background: $color-background-tertiary;
@@ -117,12 +117,12 @@ button,
 
 }
 
-.logout[aria-expanded="false"] {
+.logout[aria-expanded='false'] {
 
   @include _border-radius(8px, 8px, 0px, 0px);
   background: $color-background-secondary;
   border: 1px solid $color-text-tertiary;
-  border-radius: .8rem;
+  border-radius: 0.8rem;
   color: $color-text-tertiary;
 
   .glyphicon {
@@ -158,7 +158,7 @@ button,
   }
 }
 
-#classes_table {
+#classes-table {
   .button {
     display: inline-block;
   }
@@ -211,7 +211,7 @@ button,
   color: $color-text-secondary;
 }
 
-.button--secondary--dark  {
+.button--secondary--dark {
   border-color: $color-button-secondary-border-dark;
   color: $color-text-tertiary;
 
@@ -221,7 +221,7 @@ button,
 
   &:hover,
   &:active,
-  &:focus{
+  &:focus {
     background-color: $color-background-tertiary;
     color: $color-text-secondary;
   }
@@ -290,7 +290,7 @@ button,
   .menu__item {
     @include _font-size(30px);
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: $color-button-menu-item;
     display: flex;
     height: 60px;
     justify-content: center;

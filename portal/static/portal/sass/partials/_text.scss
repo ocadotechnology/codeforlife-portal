@@ -1,7 +1,7 @@
-@import "base";
+@import 'base';
 
 body {
-  color: #4a4a4a;
+  color: $color-text-tertiary;
 }
 
 h1 {
@@ -45,12 +45,12 @@ h4 {
 }
 
 a {
-  color: #4a4a4a;
+  color: $color-text-tertiary;
 }
 
 a:hover,
 a:focus {
-  color: #4a4a4a;
+  color: $color-text-tertiary;
   text-decoration: none;
 }
 
@@ -64,41 +64,41 @@ small {
 }
 
 blockquote {
-  border-left: 0;
-}
+  border-left: none;
 
-blockquote p {
-  @include _font-size(20px);
-  @include _line-height(25px);
-  display: block;
-  font-weight: lighter;
-  text-align: right;
-}
+  p {
+    @include _font-size(20px);
+    @include _line-height(25px);
+    display: block;
+    font-weight: lighter;
+    text-align: right;
 
-blockquote p.says {
-  @include _font-size(25px);
-  @include _line-height(30px);
-  color: $color-quote-text;
-  padding: 0 0 0 2.5rem;
-  position: relative;
-  text-align: left;
-}
+    .says {
+      @include _font-size(25px);
+      @include _line-height(30px);
+      color: $color-quote-text;
+      padding: 0 0 0 2.5rem;
+      position: relative;
+      text-align: left;
 
-blockquote p.says:before,
-blockquote p.says:after {
-  @include _font-size(48px);
-  color: $color-quote-text;
-  content: '”';
-  font-weight: bold;
-  line-height: 150%;
-  vertical-align: top;
-}
+      :before {
+        content: '“';
+        left: 0;
+        position: absolute;
+        top: -2px;
+      }
 
-blockquote p.says:before {
-  content: '“';
-  left: 0;
-  position: absolute;
-  top: -2px;
+      :before,
+      :after {
+        @include _font-size(48px);
+        color: $color-quote-text;
+        content: '”';
+        font-weight: bold;
+        line-height: 150%;
+        vertical-align: top;
+      }
+    }
+  }
 }
 
 h4,

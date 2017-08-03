@@ -1,8 +1,10 @@
 scss_files: "**/*.scss"
 plugin_directories: ['.scss-linters']
 exclude:
+  - "**/bootstrap*/*"
   - "**/bootstrap.scss"
   - "**/old_styles.scss"
+  - "**/colorbox.scss"
   - "example_project/**/*"
 
 # List of gem names to load custom linters from (make sure they are already
@@ -22,21 +24,18 @@ linters:
     enabled: false
     max_elements: 1
 
-  #TODO: Fix the issues and then reenable
   BorderZero:
-    enabled: false
-    convention: zero # or `none`
+    enabled: true
+    convention: none # or `zero`
 
   ChainedClasses:
     enabled: false
 
-  #TODO: Fix the issues and then reenable
   ColorKeyword:
-    enabled: false
+    enabled: true
 
-  #TODO: Fix the issues and then reenable
   ColorVariable:
-    enabled: false
+    enabled: true
 
   Comment:
     enabled: false
@@ -54,18 +53,16 @@ linters:
   DuplicateProperty:
     enabled: true
 
-  #TODO: Fix the issues and then reenable
   ElsePlacement:
-    enabled: false
+    enabled: true
     style: new_line # or 'same_line'
 
   EmptyLineBetweenBlocks:
     enabled: false
     ignore_single_line_blocks: true
 
-  #TODO: Fix the issues and then reenable
   EmptyRule:
-    enabled: false
+    enabled: true
 
   ExtendDirective:
     enabled: false
@@ -74,14 +71,12 @@ linters:
     enabled: true
     present: true
 
-  #TODO: Fix the issues and then reenable
   HexLength:
-    enabled: false
-    style: short # or 'long'
+    enabled: true
+    style: long # or 'short'
 
-  #TODO: Fix the issues and then reenable
   HexNotation:
-    enabled: false
+    enabled: true
     style: lowercase # or 'uppercase'
 
   HexValidation:
@@ -98,26 +93,22 @@ linters:
     leading_underscore: false
     filename_extension: false
 
-  #TODO: Fix the issues and then reenable
   Indentation:
-    enabled: false
+    enabled: true
     allow_non_nested_indentation: false
     character: space # or 'tab'
     width: 2
 
-  #TODO: Fix the issues and then reenable
   LeadingZero:
-    enabled: false
-    style: exclude_zero # or 'include_zero'
+    enabled: true
+    style: include_zero # or 'exclude_zero'
 
-  #TODO: Fix the issues and then reenable
   MergeableSelector:
-    enabled: false
+    enabled: true
     force_nesting: true
 
-  #TODO: Fix the issues and then reenable
   NameFormat:
-    enabled: false
+    enabled: true
     allow_leading_underscore: true
     convention: hyphenated_lowercase # or 'camel_case', or 'snake_case', or a regex pattern
 
@@ -175,70 +166,59 @@ linters:
     enabled: false
     max_depth: 3
 
-  #TODO: Fix the issues and then reenable
   SelectorFormat:
-    enabled: false
+    enabled: true
     convention: hyphenated_BEM # or 'hyphenated_lowercase', or 'hyphenated_BEM', or 'snake_case', or 'camel_case', or a regex pattern
 
   Shorthand:
     enabled: false
     allowed_shorthands: [1, 2, 3, 4]
 
-  #TODO: Fix the issues and then reenable
   SingleLinePerProperty:
-    enabled: false
+    enabled: true
     allow_single_line_rule_sets: true
 
-  #TODO: Fix the issues and then reenable
   SingleLinePerSelector:
-    enabled: false
+    enabled: true
 
-  #TODO: Fix the issues and then reenable
   SpaceAfterComma:
-    enabled: false
+    enabled: true
     style: one_space # or 'no_space', or 'at_least_one_space'
 
-  #TODO: Fix the issues and then reenable
   SpaceAfterComment:
-    enabled: false
+    enabled: true
     style: one_space # or 'no_space', or 'at_least_one_space'
     allow_empty_comments: true
 
-  #TODO: Fix the issues and then reenable
   SpaceAfterPropertyColon:
-    enabled: false
+    enabled: true
     style: one_space # or 'no_space', or 'at_least_one_space', or 'aligned'
 
   SpaceAfterPropertyName:
     enabled: false
 
-  #TODO: Fix the issues and then reenable
   SpaceAfterVariableColon:
-    enabled: false
+    enabled: true
     style: one_space # or 'no_space', 'at_least_one_space' or 'one_space_or_newline'
 
   SpaceAfterVariableName:
     enabled: true
 
-  #TODO: Fix the issues and then reenable
   SpaceAroundOperator:
-    enabled: false
+    enabled: true
     style: one_space # or 'at_least_one_space', or 'no_space'
 
-  #TODO: Fix the issues and then reenable
   SpaceBeforeBrace:
-    enabled: false
+    enabled: true
     style: space # or 'new_line'
     allow_single_line_padding: false
 
-  #TODO: Fix the issues and then reenable
   SpaceBetweenParens:
-    enabled: false
+    enabled: true
     spaces: 0
 
-  #TODO: Fix the issues and then reenable
   StringQuotes:
-    enabled: false
+    enabled: true
     style: single_quotes # or double_quotes
 
   TrailingSemicolon:
@@ -247,9 +227,8 @@ linters:
   TrailingWhitespace:
     enabled: true
 
-  #TODO: Fix the issues and then reenable
   TrailingZero:
-    enabled: false
+    enabled: true
 
   TransitionAll:
     enabled: true
@@ -263,9 +242,8 @@ linters:
   UrlFormat:
     enabled: true
 
-  #TODO: Fix the issues and then reenable
   UrlQuotes:
-    enabled: false
+    enabled: true
 
   VariableForProperty:
     enabled: false

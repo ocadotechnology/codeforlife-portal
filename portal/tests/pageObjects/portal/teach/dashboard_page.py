@@ -170,15 +170,15 @@ class TeachDashboardPage(TeachBasePage):
         return "Make non-admin" in self.browser.find_element_by_id('teachers_table').text
 
     def have_classes(self):
-        return self.element_exists_by_id('classes_table')
+        return self.element_exists_by_id('classes-table')
 
     def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('classes_table')
+        return self.element_does_not_exist_by_id('classes-table')
 
     def does_class_exist(self, name, access_code):
         return self.have_classes() and \
-               (name in self.browser.find_element_by_id('classes_table').text) and \
-               (access_code in self.browser.find_element_by_id('classes_table').text)
+               (name in self.browser.find_element_by_id('classes-table').text) and \
+               (access_code in self.browser.find_element_by_id('classes-table').text)
 
     def is_teacher_non_admin(self):
         return "Make admin" in self.browser.find_element_by_id('teachers_table').text

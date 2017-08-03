@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 .alternative-section {
   border-top: 1px solid $color-text-tertiary;
@@ -24,7 +24,7 @@
   @include _margin(80px, 0px, 0px, 0px);
 }
 
-.row.is-flex {
+.is-flex {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -57,7 +57,7 @@
 }
 
 .password-strength-sign {
-  border: 1px solid white;
+  border: 1px solid $color-password-strength-icon-border;
   border-radius: 50%;
   display: block;
   height: 15px;
@@ -112,8 +112,7 @@ section {
   }
 }
 
-.ks-tag
-{
+.ks-tag {
   @include _font-size(16px);
   @include _margin(0px, 0px, 0px, 10px);
   @include _padding(3px, 5px, 3px, 5px);
@@ -143,7 +142,7 @@ section {
       display: inline-block;
       text-align: center;
       text-decoration: none;
-      transition: .3s;
+      transition: 0.3s;
       width: 100%;
     }
 

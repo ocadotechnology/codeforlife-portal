@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 .footer {
   background-color: $color-background-tertiary;
@@ -54,14 +54,14 @@
     @include _font-size(20px);
     @include _margin(0px, -3px, 0px, 5px);
     @include _padding(0px, 0px, 0px, 15px);
-    border: 0;
+    border: none;
     height: 50px;
     vertical-align: middle;
     width: 20%;
   }
 
   input:focus {
-    border: 0;
+    border: none;
     outline: none;
   }
 

@@ -1,18 +1,18 @@
-//General Palette
+// General Palette
 $color-teacher-blue: #0c52a3;
 $color-student-orange: #f37300;
 $color-text-grey: #4a4a4a;
-//Text
-$color-text-primary: #000;
-$color-text-secondary: #fff;
+// Text
+$color-text-primary: #000000;
+$color-text-secondary: #ffffff;
 $color-text-tertiary: $color-text-grey;
-$color-text-form-error: #f00;
-$color-text-login-error: #ff0;
+$color-text-form-error: #ff0000;
+$color-text-login-error: #ffff00;
 $color-text-materials-tag: #808080;
-//Quotes
+// Quotes
 $color-quote-text: $color-teacher-blue;
 $color-quote-name: $color-text-grey;
-//Buttons
+// Buttons
 $color-button-primary-action-general-play: $color-teacher-blue;
 $color-button-primary-action-general-play-hover: #002284;
 $color-button-primary-action-general-educate: $color-student-orange;
@@ -21,47 +21,54 @@ $color-button-primary-action-positive: #7ed321;
 $color-button-primary-action-positive-hover: #2dbf00;
 $color-button-primary-action-negative: #ff637d;
 $color-button-primary-action-negative-hover: #fd3d6a;
-$color-button-primary-action-danger: #f00;
+$color-button-primary-action-danger: #ff0000;
 $color-button-primary-action-danger-hover: #df0531;
 $color-button-primary-action-navigation: $color-text-grey;
-$color-button-primary-action-navigation-hover: #000;
+$color-button-primary-action-navigation-hover: #000000;
 $color-button-primary-action-setup: #fab300;
 $color-button-primary-action-setup-hover: #ff9500;
-$color-button-secondary-border-light: #fff;
+$color-button-secondary-border-light: #ffffff;
 $color-button-secondary-border-dark: $color-text-grey;
 $color-button-border-teacher: $color-teacher-blue;
 $color-button-border-student: $color-student-orange;
 $color-button-disabled: #d8d8d8;
-//Tabs
+$color-button-menu-item: #f0f0f0;
+// Tabs
 $color-tab-border: $color-teacher-blue;
-$color-tab-selected-text: #fff;
+$color-tab-selected-text: #ffffff;
 $color-tab-selected-background: $color-teacher-blue;
 $color-tab-unselected-text: $color-teacher-blue;
-$color-tab-unselected-background: #fff;
-//Onboarding Arrows
+$color-tab-unselected-background: #ffffff;
+// Onboarding Arrows
 $color-onboarding-step-done-background: $color-teacher-blue;
-$color-onboarding-step-done-text: #fff;
-$color-onboarding-step-in-progress-background: #fff;
+$color-onboarding-step-done-text: #ffffff;
+$color-onboarding-step-in-progress-background: #ffffff;
 $color-onboarding-step-in-progress-text: $color-text-grey;
 $color-onboarding-step-todo-background: $color-text-grey;
-$color-onboarding-step-todo-text: #fff;
-//Tables
+$color-onboarding-step-todo-text: #ffffff;
+// Tables
 $color-table-header-primary: $color-teacher-blue;
 $color-table-header-secondary: $color-text-grey;
 $color-table-border: #9b9b9b;
-//Backgrounds
-$color-background-primary: #000;
-$color-background-secondary: #fff;
+// Backgrounds
+$color-background-primary: #000000;
+$color-background-secondary: #ffffff;
 $color-background-tertiary: $color-text-grey;
-$color-background-materials-tag: #ccc;
+$color-background-materials-tag: #cccccc;
 $color-background-teach: $color-teacher-blue;
 $color-background-play: $color-student-orange;
 $color-background-play-indep: #ff637d;
 $color-background-warning: #fab300;
 $color-background-positive: #7ed321;
-$color-background-danger: #f00;
+$color-background-danger: #ff0000;
 $color-background-tint-primary: #d6e7ed;
 $color-background-tint-secondary: #f7ecc8;
 $color-background-tint-tertiary: #f8dfe5;
 $color-background-tint-quaternary: #e4eecd;
 $color-background-tint-quinary: #d8d8d8;
+// Popups & Messages
+$color-ui-dialog-border: #808080;
+$color-ui-widget-overlay: #666666;
+$color-message-border: #808080;
+// Password strength checker
+$color-password-strength-icon-border: #ffffff;
