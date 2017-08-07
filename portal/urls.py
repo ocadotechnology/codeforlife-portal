@@ -57,7 +57,7 @@ from portal.views.organisation import organisation_fuzzy_lookup, organisation_ma
 from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
     teacher_move_class, teacher_edit_student, teacher_student_reset, materials_viewer, teacher_print_reminder_cards,\
     teacher_delete_students, teacher_delete_class, teacher_class_password_reset, teacher_move_students,\
-    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions
+    teacher_move_students_to_class, default_solution, teacher_dismiss_students
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join, organisation_deny_join, \
     organisation_kick, organisation_toggle_admin, teacher_disable_2FA, teacher_reject_student_request, \
     teacher_accept_student_request
@@ -101,7 +101,6 @@ urlpatterns = patterns(
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
-    url(r'^teach/level_solutions/$', teacher_level_solutions, name='teacher_level_solutions'),
     url(r'^teach/solutions_navigation/$', levels, name='teacher_level_solutions'),
     url(r'^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
     url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
