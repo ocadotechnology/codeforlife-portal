@@ -34,16 +34,20 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_page import BasePage
-import materials_page
+from portal.tests.pageObjects.portal.base_page import BasePage
+from portal.tests.pageObjects.portal.teach import solution_page
 
 
-class ResourcesPage(BasePage):
+class SolutionsPage(BasePage):
     def __init__(self, browser):
-        super(ResourcesPage, self).__init__(browser)
+        super(SolutionsPage, self).__init__(browser)
 
-        assert self.on_correct_page('resources_page')
+        assert self.on_correct_page('solutions_page')
 
-    def go_to_materials_page(self):
-        self.browser.find_element_by_id('materials_button').click()
-        return materials_page.MaterialsPage(self.browser)
+    def open_episode(self):
+        self.browser.find_element_by_id('episode1').click()
+        return self
+
+    def go_to_level_solution_page(self):
+        self.browser.find_element_by_id('level1').click()
+        return solution_page.SolutionPage(self.browser)

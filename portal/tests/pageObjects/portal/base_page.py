@@ -34,11 +34,10 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class BasePage(object):
@@ -126,4 +125,4 @@ class BasePage(object):
         return error in errors
 
 
-import resources_page
+from portal.tests.pageObjects.portal.teach import resources_page

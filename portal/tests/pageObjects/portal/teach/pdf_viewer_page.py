@@ -34,16 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_page import BasePage
-import pdf_viewer_page
+from portal.tests.pageObjects.portal.base_page import BasePage
 
 
-class MaterialsPage(BasePage):
+class PDFViewerPage(BasePage):
     def __init__(self, browser):
-        super(MaterialsPage, self).__init__(browser)
+        super(PDFViewerPage, self).__init__(browser)
 
-        assert self.on_correct_page('materials_page')
-
-    def click_pdf_link(self):
-        self.browser.find_element_by_id('pdf_link').click()
-        return pdf_viewer_page.PDFViewerPage(self.browser)
+        assert self.on_correct_page('pdf_viewer_page')

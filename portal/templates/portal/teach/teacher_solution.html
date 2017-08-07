@@ -1,32 +1,27 @@
-
 {% extends 'portal/base_old.html' %}
 {% load static %}
 {% load app_tags %}
 
 {% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
 
-
 {% block content %}
 
-
-<link rel="import" src="{% static "portal/python_solutions.html" %}"></link>
+<link rel="import" src="{% static 'portal/python_solutions.html' %}"/>
 <style>
-    .imgs{
+    .imgs {
         max-width: 100%;
         height: auto;
-
     }
 
-    table, td{
+    table, td {
         border: 1px dashed black;
         align: top;
         border-collapse: collapse;
         padding: 5px;
     }
-
 </style>
 
-<div id="teach_dashboard_page"></div>
+<div id="solution_page"></div>
 {% with levelName|add:0|stringformat:"03d" as level_number %}
 <table width="100%">
     <tr>
@@ -48,8 +43,6 @@
     </tr>
 </table>
 {% endwith %}
-
-
 
 {% endblock %}
 
