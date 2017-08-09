@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 .ui-dialog-titlebar {
   @include _padding(10px, 10px, 10px, 10px);
@@ -17,7 +17,7 @@
 
 .ui-dialog {
   background: $color-background-secondary;
-  border: 1px solid grey;
+  border: 1px solid $color-ui-dialog-border;
   left: 35% !important;
   position: fixed !important;
   top: 30% !important;
@@ -40,6 +40,6 @@
 }
 
 .ui-widget-overlay {
-  background: #666666 50% 50% repeat !important;
-  opacity: .8 !important;
+  background: $color-ui-widget-overlay 50% 50% repeat !important;
+  opacity: 0.8 !important;
 }

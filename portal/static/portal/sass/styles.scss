@@ -1,17 +1,17 @@
-@import "partials/base";
+@import 'partials/base';
 
-@import "partials/banners";
-@import "partials/buttons";
-@import "partials/footer";
-@import "partials/forms";
-@import "partials/header";
-@import "partials/images-backgrounds";
-@import "partials/onboarding";
-@import "partials/subnavs";
-@import "partials/tables";
-@import "partials/text";
-@import "partials/ui-dialog";
-@import "partials/utils";
+@import 'partials/banners';
+@import 'partials/buttons';
+@import 'partials/footer';
+@import 'partials/forms';
+@import 'partials/header';
+@import 'partials/images-backgrounds';
+@import 'partials/onboarding';
+@import 'partials/subnavs';
+@import 'partials/tables';
+@import 'partials/text';
+@import 'partials/ui-dialog';
+@import 'partials/utils';
 
 @media (min-width: 760px) {
   body {

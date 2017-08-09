@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 .arrows {
   @include _padding(20px, 40px, 0px, 5px);
@@ -78,7 +78,7 @@
 @media (min-width: 1570px) {
 
   $height-onboarding-step: 50px;
-  @include arrow_properties($height-onboarding-step);
+  @include arrow-properties($height-onboarding-step);
 
   .onboarding-step {
     height: $height-onboarding-step;
@@ -89,7 +89,7 @@
 @media (max-width: 1570px) {
 
   $height-onboarding-step: 76px;
-  @include arrow_properties($height-onboarding-step);
+  @include arrow-properties($height-onboarding-step);
 
   .onboarding-step {
     height: $height-onboarding-step;
@@ -132,7 +132,7 @@
       background: transparent;
       border-right: 1px solid $color-background-secondary;
       border-top: 1px solid $color-background-secondary;
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       transform: rotate(45deg);
@@ -149,7 +149,7 @@
 
     &:before,
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
     }
@@ -166,7 +166,7 @@
 
     &:before,
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
     }

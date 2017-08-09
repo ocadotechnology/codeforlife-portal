@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 
 .banner {
 
@@ -32,7 +32,7 @@
     @include _padding(20px, 0px, 8px, 0px);
   }
 
-  div[class^="col-sm"] {
+  div[class^='col-sm'] {
     padding: 0;
   }
 
@@ -135,7 +135,7 @@
 .banner--student {
   align-items: center;
   display: flex;
-  height: 263px; //TO BE CHANGED!
+  height: 263px; // TO BE CHANGED!
   justify-content: center;
 
   .banner__text--center {
