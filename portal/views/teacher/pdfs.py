@@ -39,7 +39,8 @@ PDF_DATA = {
     # .........User Guide........#
     "introduction_to_coding": {
         "title": "Introduction to Coding",
-        "description": "This document shows how the progression through rapid router levels cover each stage of the computing curriculum for key stages one and two.",
+        "description": "This document shows how the progression through rapid router levels cover each stage of the "
+                       "computing curriculum for key stages one and two.",
         "links": None,
         "url": "general_resources/introduction_to_coding.pdf",
         "page_origin": "#user-guide"
@@ -63,7 +64,8 @@ PDF_DATA = {
 
     "introduction_to_python": {
         "title": "Introduction to Python in Rapid Router",
-        "description": "A summary of the python commands specific to Rapid Router as well as general python statements children will need to use.",
+        "description": "A summary of the python commands specific to Rapid Router as well as general python statements "
+                       "children will need to use.",
         "links": None,
         "url": "general_resources/UKS2-Intro_to_Python.pdf",
         "page_origin": "#user-guide"
@@ -122,7 +124,7 @@ PDF_DATA = {
 
     "ks1_session_5": {
         "title": "KS1 - Session 5",
-        "description": "Create a more complex algorithm to deliver one or more packages on the way",
+        "description": "Create a more complex algorithm to deliver one or more packages on the way.",
         "links": ["KS1_S5_1"],
         "url": "KS1/lesson_plans/s5.pdf",
         "page_origin": "#ks1-sessions"
@@ -130,7 +132,7 @@ PDF_DATA = {
 
     "ks1_session_6": {
         "title": "KS1 - Session 6",
-        "description": "Delivering several packages in a sensible sequence (extension activity)",
+        "description": "Delivering several packages in a sensible sequence (extension activity).",
         "links": ["KS1_S6_1", "KS1_S6_2"],
         "url": "KS1/lesson_plans/s6.pdf",
         "page_origin": "#ks1-sessions"
@@ -338,7 +340,8 @@ PDF_DATA = {
     # ...KS1 Activity Set...#
     "ks1_activity_set": {
         "title": "KS1 - Activity Set",
-        "description": "This activity set gives you an overview 0f the Key Stage 1 module. It covers the resources that will be useful, learning expectatins and teacher preparation.",
+        "description": "This activity set gives you an overview 0f the Key Stage 1 module. It covers the resources "
+                       "that will be useful, learning expectations and teacher preparation.",
         "links": None,
         "url": "KS1/activity_set.pdf",
         "page_origin": "#ks1-activity"
@@ -428,7 +431,8 @@ PDF_DATA = {
 
     "lks2_session_5": {
         "title": "LKS2 - Session 5",
-        "description": "Extension group activity - Explain why the general program does not work for some more complex maps.",
+        "description": "Extension group activity - Explain why the general program does not work for some more complex "
+                       "maps.",
         "links": ["LKS2_S5_1"],
         "url": "KS2/lesson_plans/s5.pdf",
         "page_origin": "#lks2-sessions"
@@ -582,7 +586,8 @@ PDF_DATA = {
     # ...LKS2 Activity Set...#
     "lks2_activity_set": {
         "title": "Lower KS2 - Activity Set",
-        "description": "This activity set gives you an overview of the Lower Key Stage 2 module. It covers the resources that will be useful, learning expectations and teacher preparation.",
+        "description": "This activity set gives you an overview of the Lower Key Stage 2 module. It covers the "
+                       "resources that will be useful, learning expectations and teacher preparation.",
         "links": None,
         "url": "KS2/activity_set.pdf",
         "page_origin": "#lks2-activity"
@@ -677,7 +682,8 @@ PDF_DATA = {
 
     "uks2_session_6": {
         "title": "UKS2 - Session 6",
-        "description": "Flying Solo with Python! Programming independently using selection, defining procedures/functions.",
+        "description": "Flying Solo with Python! Programming independently using selection, defining "
+                       "procedures/functions.",
         "links": ["UKS2_S6_1", "UKS2_S6_2"],
         "url": "python/lesson_plans/UKS2-S6.pdf",
         "page_origin": "#uks2-sessions"
@@ -843,7 +849,8 @@ PDF_DATA = {
     # ...UKS2 Activity Set...#
     "uks2_activity_set": {
         "title": "Upper KS2 - Activity Set",
-        "description": "This activity set gives you an overview of the Upper Key Stage 2 module. It covers the resources that will be useful, learning expectations and teacher preparation.",
+        "description": "This activity set gives you an overview of the Upper Key Stage 2 module. It covers the "
+                       "resources that will be useful, learning expectations and teacher preparation.",
         "links": None,
         "url": "python/UKS2-AS-Activity-Set.pdf",
         "page_origin": "#uks2-activity"
@@ -852,7 +859,8 @@ PDF_DATA = {
     # ...UKS2 Assets...#
     "uks2_assets": {
         "title": "Upper KS2 - Assets",
-        "description": "Blockly and Python statements for Upper Key Stage 2 children that can be cut out for offline activities.",
+        "description": "Blockly and Python statements for Upper Key Stage 2 children that can be cut out for offline "
+                       "activities.",
         "links": ["uks2_code_wall_cards"],
         "url": "python/UKS2-Assets.pdf",
         "page_origin": "#uks2-assets"

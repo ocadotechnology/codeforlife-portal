@@ -69,6 +69,75 @@ from portal.templatetags.app_tags import cloud_storage
 
 @login_required(login_url=reverse_lazy('login_view'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
+def materials(request):
+
+    session_names = ["ks1_session_", "lks2_session_", "uks2_session_"]
+    resource_sheets_names = ["KS1_S", "LKS2_S", "UKS2_S"]
+    ks1_sessions = []
+    lks2_sessions = []
+    uks2_sessions = []
+    session_dictionaries = [ks1_sessions, lks2_sessions, uks2_sessions]
+    ks1_sheets = []
+    lks2_sheets = []
+    uks2_sheets = []
+    resource_sheets_dictionaries = [ks1_sheets, lks2_sheets, uks2_sheets]
+
+    for ks_index in range(0, len(session_names)):
+        get_session_pdfs(session_names[ks_index], session_dictionaries[ks_index])
+        get_resource_sheets_pdfs(session_dictionaries[ks_index], resource_sheets_names[ks_index],
+                                 resource_sheets_dictionaries[ks_index])
+
+    return render(request, 'portal/teach/materials.html',
+                  {'ks1_sessions': ks1_sessions,
+                   'ks1_sheets': ks1_sheets,
+                   'lks2_sessions': lks2_sessions,
+                   'lks2_sheets': lks2_sheets,
+                   'uks2_sessions': uks2_sessions,
+                   'uks2_sheets': uks2_sheets,
+                   })
+
+
+def get_session_pdfs(session_name, session_dictionary):
+    session_pdf_exists = True
+    session_number = 1
+
+    while session_pdf_exists:
+        pdf_name = session_name + str(session_number)
+
+        try:
+            pdf = PDF_DATA[pdf_name]
+            pdf['session_number'] = session_number
+            pdf['url_name'] = pdf_name
+            session_dictionary.append(pdf)
+            session_number += 1
+        except KeyError:
+            session_pdf_exists = False
+
+
+def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_sheets_dictionary):
+    for session_index in range(1, len(session_dictionary)+1):
+        resource_pdf_exists = True
+        resource_number = 1
+        pdfs = []
+
+        while resource_pdf_exists:
+            pdf_name = resource_sheets_name + str(session_index) + "_" + str(resource_number)
+
+            try:
+                pdf = PDF_DATA[pdf_name]
+                pdf['session_number'] = session_index
+                pdf['url_name'] = pdf_name
+                pdfs.append(pdf)
+                resource_number += 1
+
+            except KeyError:
+                resource_pdf_exists = False
+
+        resource_sheets_dictionary.append(pdfs)
+
+
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def materials_viewer(request, pdf_name):
 
     def _getLinks():
