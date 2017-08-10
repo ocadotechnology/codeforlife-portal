@@ -40,6 +40,7 @@ from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly
 from utils.classes import create_class_directly
+from utils.messages import is_student_details_updated_message_showing
 from utils.student import create_school_student_directly
 
 from django_selenium_clean import selenium
@@ -71,5 +72,96 @@ class TestSchoolStudent(BaseTest):
 
         assert page.has_student_login_failed()
 
+    def test_update_password_form_empty(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
+
+        page = page.go_to_account_page().submit_empty_form()
+        assert self.is_account_page(page)
+        assert page.was_form_invalid('This field is required.')
+
+    def test_update_password_current_password_wrong(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
+
+        page = page.go_to_account_page().update_password_failure('NewPassword', 'NewPassword', 'WrongPassword')
+        assert self.is_account_page(page)
+        assert page.was_form_invalid('Your current password was incorrect')
+
+    def test_update_password_passwords_not_match(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
+
+        page = page.go_to_account_page().update_password_failure('NewPassword', 'OtherPassword', student_password)
+        assert self.is_account_page(page)
+        assert page.was_form_invalid('Your new passwords do not match')
+
+    def test_update_password_too_weak(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
+
+        page = page.go_to_account_page().update_password_failure('tiny', 'tiny', student_password)
+        assert self.is_account_page(page)
+        assert page.was_form_invalid('Password not strong enough, consider using at least 6 characters')
+
+    def test_update_password_success(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login(student_name, access_code, student_password)
+        assert self.is_dashboard(page)
+
+        new_password = 'NewPassword'
+
+        page = page.go_to_account_page().update_password_failure(new_password, new_password, student_password)
+        assert is_student_details_updated_message_showing(selenium)
+
+        page.logout()
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login(student_name, access_code, new_password)
+        assert self.is_dashboard(page)
+
     def is_dashboard(self, page):
         return page.__class__.__name__ == 'PlayDashboardPage'
+
+    def is_account_page(self, page):
+        return page.__class__.__name__ == 'PlayAccountPage'

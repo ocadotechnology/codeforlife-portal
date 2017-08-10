@@ -49,3 +49,8 @@ class JoinSchoolOrClubPage(PlayBasePage):
         assert self.element_exists_by_css('.success')
 
         return self
+
+    def revoke_join_request(self):
+        self.browser.find_element_by_name('revoke_join_request').click()
+
+        return self

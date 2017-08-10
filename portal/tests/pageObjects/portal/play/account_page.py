@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from play_base_page import PlayBasePage
+from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
 
 
 class PlayAccountPage(PlayBasePage):
@@ -51,3 +52,34 @@ class PlayAccountPage(PlayBasePage):
 
         return correct
 
+    def submit_empty_form(self):
+        self.browser.find_element_by_id('update_button').click()
+        return self
+
+    def update_password_failure(self, new_password, confirm_new_password, old_password):
+        self._update_password(new_password, confirm_new_password, old_password)
+        return self
+
+    def update_password_success(self, new_password, confirm_new_password, old_password):
+        self._update_password(new_password, confirm_new_password, old_password)
+        return PlayDashboardPage(self.browser)
+
+    def update_name(self, new_name, password):
+        self._update_name(new_name, password)
+        return PlayDashboardPage(self.browser)
+
+    def _update_password(self, new_password, confirm_new_password, old_password):
+        self.browser.find_element_by_id('id_password').send_keys(new_password)
+        self.browser.find_element_by_id('id_confirm_password').send_keys(confirm_new_password)
+        self.browser.find_element_by_id('id_current_password').send_keys(old_password)
+        self.browser.find_element_by_id('update_button').click()
+
+    def _update_name(self, new_name, password):
+        self.browser.find_element_by_id('id_name').clear()
+        self.browser.find_element_by_id('id_name').send_keys(new_name)
+        self.browser.find_element_by_id('id_current_password').send_keys(password)
+        self.browser.find_element_by_id('update_button').click()
+
+    def was_form_invalid(self, error):
+        errors = self.browser.find_element_by_id('student_account_form').find_element_by_class_name('errorlist').text
+        return error in errors
