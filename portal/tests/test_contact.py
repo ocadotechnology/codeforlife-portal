@@ -59,3 +59,39 @@ class TestContact(BaseTest):
         page = page.send_empty_message()
 
         assert page.was_form_empty("contact_form")
+
+    def test_message_accented_name(self):
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
+        page = page.go_to_help_and_support_page()
+
+        page = page.send_message_accented_name()
+
+        assert (not is_contact_message_sent_message_showing(selenium))
+
+    def test_message_incorrect_phone(self):
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
+        page = page.go_to_help_and_support_page()
+
+        page = page.send_message_incorrect_phone()
+
+        assert (not is_contact_message_sent_message_showing(selenium))
+
+    def test_message_formatted_phone(self):
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
+        page = page.go_to_help_and_support_page()
+
+        page = page.send_message_formatted_phone()
+
+        assert is_contact_message_sent_message_showing(selenium)
+
+    def test_accented_message(self):
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
+        page = page.go_to_help_and_support_page()
+
+        page = page.send_accented_message()
+
+        assert (not is_contact_message_sent_message_showing(selenium))
