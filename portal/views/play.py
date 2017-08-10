@@ -56,14 +56,14 @@ from ratelimit.decorators import ratelimit
 recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
-@login_required(login_url=reverse_lazy('play'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('play'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('login_view'))
 def student_details(request):
     return render(request, 'portal/play/student_details.html')
 
 
-@login_required(login_url=reverse_lazy('play'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('play'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('login_view'))
 def student_edit_account(request):
     student = request.user.new_student
 
@@ -74,7 +74,7 @@ def student_edit_account(request):
             changing_email = False
 
             # check not default value for CharField
-            if (data['password'] != ''):
+            if data['password'] != '':
                 student.new_user.set_password(data['password'])
                 student.new_user.save()
                 update_session_auth_hash(request, form.user)
@@ -110,8 +110,8 @@ def username_labeller(request):
     return request.user.username
 
 
-@login_required(login_url=reverse_lazy('play'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('play'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy('login_view'))
 @ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def student_join_organisation(request):
     increment_count = False
