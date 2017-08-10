@@ -49,7 +49,8 @@ from portal.tests.utils.student import create_school_student_directly
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from utils.student import create_independent_student, submit_independent_student_signup_form
-from utils.messages import is_email_verified_message_showing
+from utils.messages import is_email_verified_message_showing, is_indep_student_join_request_received_message_showing, \
+    is_indep_student_join_request_revoked_message_showing, is_student_details_updated_message_showing
 from utils import email as email_utils
 
 
@@ -121,6 +122,41 @@ class TestIndependentStudent(BaseTest):
 
         assert len(mail.outbox) == 0
 
+    def test_update_name(self):
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_account_page().update_name('New name', password)
+
+        assert self.is_dashboard(page)
+        assert is_student_details_updated_message_showing(selenium)
+
+    def test_join_class_revoked(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, class_name, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
+        klass.always_accept_requests = True
+        klass.save()
+
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_join_a_school_or_club_page() \
+            .join_a_school_or_club(access_code)
+
+        assert is_indep_student_join_request_received_message_showing(selenium)
+
+        page.revoke_join_request()
+
+        assert is_indep_student_join_request_revoked_message_showing(selenium)
+
     def test_join_class_accepted(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
@@ -188,3 +224,6 @@ class TestIndependentStudent(BaseTest):
 
     def wait_for_email(self):
         WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
+
+    def is_dashboard(self, page):
+        return page.__class__.__name__ == 'PlayDashboardPage'

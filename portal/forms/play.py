@@ -131,8 +131,7 @@ class StudentEditAccountForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
 
-        if password and not password_strength_test(password, length=6, upper=False, lower=False,
-                                                   numbers=False):
+        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
             raise forms.ValidationError(
                 "Password not strong enough, consider using at least 6 characters")
 
@@ -143,10 +142,10 @@ class StudentEditAccountForm(forms.Form):
         confirm_password = self.cleaned_data.get('confirm_password', None)
         current_password = self.cleaned_data.get('current_password', None)
 
-        if (password or confirm_password) and password != confirm_password:
+        if password is not None and (password or confirm_password) and password != confirm_password:
             raise forms.ValidationError("Your new passwords do not match")
 
-        if not self.user.check_password(current_password):
+        if current_password and not self.user.check_password(current_password):
             raise forms.ValidationError("Your current password was incorrect")
 
         return self.cleaned_data
