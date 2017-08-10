@@ -122,12 +122,8 @@ class LoginPage(BasePage):
         error = 'Incorrect email address or password'
         return error in errors
 
-    def has_student_login_failed(self):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
-
+    def has_student_login_failed(self, error):
         errors = self.browser.find_element_by_id('form-login-school').find_element_by_class_name('errorlist').text
-        error = 'Invalid name, class access code or password'
         return error in errors
 
     def has_independent_student_login_failed(self):

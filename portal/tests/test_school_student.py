@@ -70,7 +70,34 @@ class TestSchoolStudent(BaseTest):
             .go_to_login_page()\
             .student_login_failure(student_name, access_code, 'some other password')
 
-        assert page.has_student_login_failed()
+        assert page.has_student_login_failed('Invalid name, class access code or password')
+
+    def test_login_nonexistent_class(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login_failure(student_name, 'WRONG', student_password)
+
+        assert page.has_student_login_failed('Invalid name, class access code or password')
+
+    def test_login_empty_class(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+        _, class_name2, access_code2 = create_class_directly(email)
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium) \
+            .go_to_login_page() \
+            .student_login_failure(student_name, access_code2, student_password)
+
+        assert page.has_student_login_failed('Invalid name, class access code or password')
 
     def test_update_password_form_empty(self):
         email, password = signup_teacher_directly()

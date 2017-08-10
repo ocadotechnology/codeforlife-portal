@@ -63,7 +63,44 @@ class TestIndependentStudent(BaseTest):
     def test_signup_failed(self):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='test')
-        assert page.has_independent_student_signup_failed()
+        assert page.has_independent_student_signup_failed(
+            'Password not strong enough, consider using at least 6 characters')
+
+    def test_signup_invalid_name(self):
+        page = self.go_to_homepage().go_to_signup_page()
+        page = page.independent_student_signup('Florian!', 'Florian', 'e@mail.com', 'Password1', 'Password1',
+                                               success=False)
+
+        assert self.is_signup_page(page)
+        assert page.has_independent_student_signup_failed(
+            'Names may only contain letters, numbers, dashes, underscores, and spaces.')
+
+    def test_signup_invalid_username(self):
+        page = self.go_to_homepage().go_to_signup_page()
+        page = page.independent_student_signup('Florian', '///', 'e@mail.com', 'Password1', 'Password1',
+                                               success=False)
+
+        assert self.is_signup_page(page)
+        assert page.has_independent_student_signup_failed(
+            'Usernames may only contain letters, numbers, dashes, and underscores.')
+
+    def test_signup_username_already_in_use(self):
+        page = self.go_to_homepage()
+        page, name, username, email, password = create_independent_student(page)
+        page = self.go_to_homepage().go_to_signup_page()
+        page = page.independent_student_signup('Florian', username, 'e@mail.com', 'Password1', 'Password1',
+                                               success=False)
+
+        assert self.is_signup_page(page)
+        assert page.has_independent_student_signup_failed('That username is already in use')
+
+    def test_signup_password_do_not_match(self):
+        page = self.go_to_homepage().go_to_signup_page()
+        page = page.independent_student_signup('Florian', 'Florian', 'e@mail.com', 'Password1', 'Password2',
+                                               success=False)
+
+        assert self.is_signup_page(page)
+        assert page.has_independent_student_signup_failed('Your passwords do not match')
 
     def test_login_failure(self):
         page = self.go_to_homepage()
@@ -122,17 +159,72 @@ class TestIndependentStudent(BaseTest):
 
         assert len(mail.outbox) == 0
 
-    def test_update_name(self):
+    def test_update_name_success(self):
         homepage = self.go_to_homepage()
 
         play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
 
         page = play_page \
             .independent_student_login(student_username, password) \
-            .go_to_account_page().update_name('New name', password)
+            .go_to_account_page().update_name_success('New name', password)
 
         assert self.is_dashboard(page)
         assert is_student_details_updated_message_showing(selenium)
+
+    def test_update_name_failure(self):
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_account_page().update_name_failure('Name!', password)
+
+        assert self.is_account_page(page)
+        assert page.was_form_invalid('Names may only contain letters, numbers, dashes, underscores, and spaces.')
+
+    def test_update_details_empty(self):
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_account_page().submit_empty_form()
+
+        assert self.is_account_page(page)
+        assert page.was_form_invalid('This field is required.')
+
+    def test_join_class_nonexistent_class(self):
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_join_a_school_or_club_page() \
+            .join_a_school_or_club_failure('AA123')
+
+        assert self.is_join_class_page(page)
+        assert page.has_join_request_failed('Cannot find the school or club and/or class')
+
+    def test_join_class_not_accepting_requests(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, class_name, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
+
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_join_a_school_or_club_page() \
+            .join_a_school_or_club_failure(access_code)
+
+        assert self.is_join_class_page(page)
+        assert page.has_join_request_failed('Cannot find the school or club and/or class')
 
     def test_join_class_revoked(self):
         teacher_email, teacher_password = signup_teacher_directly()
@@ -225,5 +317,14 @@ class TestIndependentStudent(BaseTest):
     def wait_for_email(self):
         WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
+    def is_signup_page(self, page):
+        return page.__class__.__name__ == 'SignupPage'
+
     def is_dashboard(self, page):
         return page.__class__.__name__ == 'PlayDashboardPage'
+
+    def is_account_page(self, page):
+        return page.__class__.__name__ == 'PlayAccountPage'
+
+    def is_join_class_page(self, page):
+        return page.__class__.__name__ == 'JoinSchoolOrClubPage'

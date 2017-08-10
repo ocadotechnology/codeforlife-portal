@@ -50,6 +50,17 @@ class JoinSchoolOrClubPage(PlayBasePage):
 
         return self
 
+    def join_a_school_or_club_failure(self, access_code):
+        self.browser.find_element_by_id('id_access_code').send_keys(access_code)
+        self.browser.find_element_by_id('request_join_a_school_or_club_button').click()
+        assert not self.element_exists_by_css('.success')
+
+        return self
+
+    def has_join_request_failed(self, error):
+        errors = self.browser.find_element_by_id('join_class_form').find_element_by_class_name('errorlist').text
+        return error in errors
+
     def revoke_join_request(self):
         self.browser.find_element_by_name('revoke_join_request').click()
 

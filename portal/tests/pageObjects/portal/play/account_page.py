@@ -64,7 +64,11 @@ class PlayAccountPage(PlayBasePage):
         self._update_password(new_password, confirm_new_password, old_password)
         return PlayDashboardPage(self.browser)
 
-    def update_name(self, new_name, password):
+    def update_name_failure(self, new_name, password):
+        self._update_name(new_name, password)
+        return self
+
+    def update_name_success(self, new_name, password):
         self._update_name(new_name, password)
         return PlayDashboardPage(self.browser)
 

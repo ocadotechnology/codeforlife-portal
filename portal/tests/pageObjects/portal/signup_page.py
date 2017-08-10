@@ -72,10 +72,6 @@ class SignupPage(BasePage):
         else:
             return self
 
-    def has_independent_student_signup_failed(self):
-        if not self.element_exists_by_css('.errorlist'):
-            return False
-
+    def has_independent_student_signup_failed(self, error):
         errors = self.browser.find_element_by_id('form-signup-independent-student').find_element_by_class_name('errorlist').text
-        error = 'Password not strong enough, consider using at least 6 characters'
         return error in errors
