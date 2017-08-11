@@ -36,6 +36,7 @@
 # identified as the original program.
 from play_base_page import PlayBasePage
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
+from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
 
 
 class PlayAccountPage(PlayBasePage):
@@ -72,6 +73,10 @@ class PlayAccountPage(PlayBasePage):
         self._update_name(new_name, password)
         return PlayDashboardPage(self.browser)
 
+    def update_email(self, new_email, password):
+        self._update_email(new_email, password)
+        return EmailVerificationNeededPage(self.browser)
+
     def _update_password(self, new_password, confirm_new_password, old_password):
         self.browser.find_element_by_id('id_password').send_keys(new_password)
         self.browser.find_element_by_id('id_confirm_password').send_keys(confirm_new_password)
@@ -81,6 +86,11 @@ class PlayAccountPage(PlayBasePage):
     def _update_name(self, new_name, password):
         self.browser.find_element_by_id('id_name').clear()
         self.browser.find_element_by_id('id_name').send_keys(new_name)
+        self.browser.find_element_by_id('id_current_password').send_keys(password)
+        self.browser.find_element_by_id('update_button').click()
+
+    def _update_email(self, new_email, password):
+        self.browser.find_element_by_id('id_email').send_keys(new_email)
         self.browser.find_element_by_id('id_current_password').send_keys(password)
         self.browser.find_element_by_id('update_button').click()
 

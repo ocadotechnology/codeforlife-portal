@@ -46,7 +46,6 @@ from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
 from utils.messages import is_organisation_created_message_showing
 
-from utils.messages import is_teacher_email_updated_message_showing
 from utils import email as email_utils
 
 from django_selenium_clean import selenium

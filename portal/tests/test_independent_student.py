@@ -183,6 +183,18 @@ class TestIndependentStudent(BaseTest):
         assert self.is_account_page(page)
         assert page.was_form_invalid('Names may only contain letters, numbers, dashes, underscores, and spaces.')
 
+    def test_update_email(self):
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_account_page().update_email('new@mail.com', password)
+
+        assert self.is_email_verification_needed_page(page)
+        assert is_student_details_updated_message_showing(selenium)
+
     def test_update_details_empty(self):
         homepage = self.go_to_homepage()
 
@@ -319,6 +331,9 @@ class TestIndependentStudent(BaseTest):
 
     def is_signup_page(self, page):
         return page.__class__.__name__ == 'SignupPage'
+
+    def is_email_verification_needed_page(self, page):
+        return page.__class__.__name__ == 'EmailVerificationNeededPage'
 
     def is_dashboard(self, page):
         return page.__class__.__name__ == 'PlayDashboardPage'
