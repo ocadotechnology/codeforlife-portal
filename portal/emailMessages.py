@@ -58,7 +58,7 @@ def emailChangeVerificationEmail(request, token):
     return {
         'subject': emailSubjectPrefix() + " : Email address verification needed",
         'message': ("You are changing your email, please go to " +
-                    request.build_absolute_uri(reverse('change_email', kwargs={'token': token})) +
+                    request.build_absolute_uri(reverse('verify_email', kwargs={'token': token})) +
                     " to verify your new email address. If you are not part of Code for Life " +
                     "then please ignore this email. " + emailBodySignOff(request)),
     }
