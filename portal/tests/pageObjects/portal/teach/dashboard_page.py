@@ -37,6 +37,7 @@
 from teach_base_page import TeachBasePage
 from class_page import TeachClassPage
 from move_classes_page import TeachMoveClassesPage
+from resources_page import ResourcesPage
 from add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from selenium.webdriver.support.ui import Select
 
@@ -48,6 +49,10 @@ class TeachDashboardPage(TeachBasePage):
         super(TeachDashboardPage, self).__init__(browser)
 
         assert self.on_correct_page('teach_dashboard_page')
+
+    def go_to_resources_page(self):
+        self.browser.find_element_by_id('resources_button').click()
+        return ResourcesPage(self.browser)
 
     def go_to_class_page(self):
         self.browser.find_element_by_id('class_button').click()

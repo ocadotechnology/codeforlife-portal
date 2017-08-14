@@ -98,10 +98,6 @@ class BasePage(object):
     def on_correct_page(self, pageName):
         return self.element_exists_by_id(pageName)
 
-    def go_to_resources_page(self):
-        self.browser.find_element_by_id('resources_button').click()
-        return resources_page.ResourcesPage(self.browser)
-
     def is_on_admin_login_page(self):
         return self.on_correct_page('admin_login')
 
@@ -123,6 +119,3 @@ class BasePage(object):
             .find_element_by_class_name('errorlist').text
         error = 'This field is required'
         return error in errors
-
-
-from portal.tests.pageObjects.portal.teach import resources_page
