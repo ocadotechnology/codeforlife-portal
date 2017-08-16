@@ -45,23 +45,26 @@ from game import app_settings
 from portal.permissions import logged_in_as_teacher
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+from django.forms.models import model_to_dict
 
 
 def fetch_episode_data_from_database(early_access):
     episode_data = []
+    print "Episodes: " + str(Episode.objects.count())
+    print str(Episode.objects.filter(pk__exact=1))
     episode = Episode.objects.get(pk=1)
     while episode is not None:
         if episode.in_development and not early_access:
             break
 
-        levels, minName, maxName = min_max_levels(episode.levels)
+        levels, min_name, max_name = min_max_levels(episode.levels)
 
         e = {"id": episode.id,
              "name": episode.name,
              "levels": levels,
-             "first_level": minName,
-             "last_level": maxName,
+             "first_level": min_name,
+             "last_level": max_name,
              "random_levels_enabled": episode.r_random_levels_enabled}
 
         episode_data.append(e)
@@ -71,22 +74,22 @@ def fetch_episode_data_from_database(early_access):
 
 def min_max_levels(episode_levels):
     levels = []
-    minName = 1000
-    maxName = 0
+    min_name = 1000
+    max_name = 0
 
     for level in episode_levels:
         level_name = int(level.name)
-        if level_name > maxName:
-            maxName = level_name
-        if level_name < minName:
-            minName = level_name
+        if level_name > max_name:
+            max_name = level_name
+        if level_name < min_name:
+            min_name = level_name
 
         levels.append({
             "id": level.id,
             "name": level_name,
             "title": get_level_title(level_name)})
 
-    return levels, minName, maxName
+    return levels, min_name, max_name
 
 
 def fetch_episode_data(early_access):
@@ -103,14 +106,14 @@ def fetch_episode_data(early_access):
 def get_level_title(i):
     title = 'title_level' + str(i)
     try:
-        titleCall = getattr(messages, title)
-        return mark_safe(titleCall())
+        title_call = getattr(messages, title)
+        return mark_safe(title_call())
     except AttributeError:
         return ""
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy('login_view'))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def levels(request):
     """ Loads a page with all levels listed.
 

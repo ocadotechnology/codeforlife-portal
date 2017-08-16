@@ -34,11 +34,10 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class BasePage(object):
@@ -99,10 +98,6 @@ class BasePage(object):
     def on_correct_page(self, pageName):
         return self.element_exists_by_id(pageName)
 
-    def go_to_resources_page(self):
-        self.browser.find_element_by_id('resources_button').click()
-        return resources_page.ResourcesPage(self.browser)
-
     def is_on_admin_login_page(self):
         return self.on_correct_page('admin_login')
 
@@ -124,6 +119,3 @@ class BasePage(object):
             .find_element_by_class_name('errorlist').text
         error = 'This field is required'
         return error in errors
-
-
-import resources_page

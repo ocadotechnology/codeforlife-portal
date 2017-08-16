@@ -8,7 +8,7 @@
 {% load app_tags %}
 
 {% block scripts %}
-{{block.super}}
+{{ block.super }}
 <script>
     var EPISODES = [];
     {% for episode in episodeData %}
@@ -19,26 +19,22 @@
     EPISODES.push({'id' : {{episode.id}},
     'levels': levels});
     {% endfor %}
-
 </script>
-<script src="{% static "portal/js/solutionSelection.js" %}"></script>
+<script src="{% static 'portal/js/solutionSelection.js' %}"></script>
 
 {% endblock %}
 
 {% block css %}
-{{block.super}}
+{{ block.super }}
 <link href="{% static 'portal/css/solution_selection.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-
-
 {% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
 
-
-
-
-
 {% block content %}
+
+<div id="solutions_page"></div>
+
 <div class="section group">
         <div class="col span_1_of_3_strict">
         <img class="wide rounded" src="{% static 'portal/img/RRlogo_on_less_green_small.png' %}" />
@@ -59,7 +55,7 @@
                     {% for level in episode.levels %}
                     <!-- Marking titles as safe to enable bold, not to be used for user-created levels -->
                     <p>
-                        <a href="{% url 'default_solution' level.name %}">{{level.name}}: {{level.title.strip | safe}}</a>
+                        <a id="level{{level.id}}" href="{% url 'default_solution' level.name %}">{{level.name}}: {{level.title.strip | safe}}</a>
                     </p>
                     {% endfor %}
                 </div>
