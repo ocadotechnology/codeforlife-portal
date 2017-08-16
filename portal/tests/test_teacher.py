@@ -76,7 +76,7 @@ class TestTeacher(BaseTest):
         page = HomePage(selenium)
         page = page.go_to_login_page()
         page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
-        assert page.has_login_failed()
+        assert page.has_login_failed('form-login-teacher', 'Incorrect email address or password')
 
     def test_login_success(self):
         email, password = signup_teacher_directly()

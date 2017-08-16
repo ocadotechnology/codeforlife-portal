@@ -107,7 +107,7 @@ class TestIndependentStudent(BaseTest):
         page = page.go_to_login_page()
         page = page.independent_student_login_failure('Non existent username', 'Incorrect password')
 
-        assert page.has_independent_student_login_failed()
+        assert page.has_login_failed('independent_student_login_form', 'Incorrect username or password')
 
     def test_login_success(self):
         page = self.go_to_homepage()
