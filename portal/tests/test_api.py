@@ -66,6 +66,12 @@ class APITests(APITestCase):
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
+    def test_valid_country_userspercountry(self):
+        url = reverse('number_users_per_country', kwargs={'country': 'GB'})
+        response = self.client.get(url)
+        assert_that(response, has_status_code(status.HTTP_200_OK))
+        assert_that(isinstance(response.data, int))
+
 
 def has_status_code(status_code):
     return HasStatusCode(status_code)
