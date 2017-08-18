@@ -6,7 +6,8 @@
     * Need help with [git](https://git-scm.com/docs/gittutorial)?
     Anyway you can't use Ocado Technology's master.
 * The [issues are listed on ocadotechnology/codeforlife-portal](https://github.com/ocadotechnology/codeforlife-portal/issues). 
-It's even better if you're using [ZenHub](https://www.zenhub.com/) because it will allow you to look at a [Kanban-ish board](https://github.com/ocadotechnology/codeforlife-portal/issues#boards?repos=18399425,49142916,22154147,39072690) for the project.
+It's even better if you're using [ZenHub](https://www.zenhub.com/) because it will allow you to look at a [Kanban-ish board](https://github.com/ocadotechnology/codeforlife-portal/issues#boards?repos=18399425,49142916,22154147,39072690) for the project
+One word of caution however: please do not add any issues related to security. Evil hackers are lurking everywhere nowadays...
 
 ## Now you want to **test** your changes and **run** the project locally... (UNIX)
 * To work on the project, you can use whichever editor you like. Lots here like [IntelliJ or PyCharm](https://www.jetbrains.com/), for instance.
