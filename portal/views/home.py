@@ -44,6 +44,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from recaptcha import RecaptchaClient
 from django_recaptcha_field import create_form_subclass_with_recaptcha
+from django.utils.http import is_safe_url
 
 from portal.models import Teacher, Class, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -254,7 +255,7 @@ def process_login_form(request, login_form):
         })
 
     next_url = request.GET.get('next', None)
-    if next_url:
+    if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
     teacher = request.user.userprofile.teacher
@@ -266,7 +267,7 @@ def process_student_login_form(request, school_login_form):
     login(request, school_login_form.user)
 
     next_url = request.GET.get('next', None)
-    if next_url:
+    if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
     return HttpResponseRedirect(reverse_lazy('student_details'))
@@ -282,7 +283,7 @@ def process_indep_student_login_form(request, independent_student_login_form):
     login(request, independent_student_login_form.user)
 
     next_url = request.GET.get('next', None)
-    if next_url:
+    if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
     return HttpResponseRedirect(reverse_lazy('student_details'))
