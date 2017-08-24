@@ -96,6 +96,15 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.has_creation_failed()
 
+    def test_create_invalid_postcode(self):
+        email, password = signup_teacher_directly()
+
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium).go_to_login_page().login_no_school(email, password)
+
+        page = page.create_organisation_failure('School', password, '   ')
+        assert page.was_postcode_invalid()
+
     def test_revoke(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()

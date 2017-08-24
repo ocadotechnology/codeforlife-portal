@@ -52,14 +52,14 @@ class OrganisationForm(forms.ModelForm):
         model = School
         fields = ['name', 'postcode', 'country']
         labels = {
-            'name' : "Name of your school or club",
-            'postcode' : 'Postcode',
-            'country' : 'Country',
+            'name': "Name of your school or club",
+            'postcode': 'Postcode',
+            'country': 'Country',
             }
         widgets = {
-            'name' : forms.TextInput(attrs={'autocomplete': "off", 'placeholder': 'Name of your school or club'}),
-            'postcode' : forms.TextInput(attrs={'autocomplete': "off", 'placeholder': 'Postcode'}),
-            'country' : CountrySelectWidget(attrs={'class': 'wide'}),
+            'name': forms.TextInput(attrs={'autocomplete': "off", 'placeholder': 'Name of your school or club'}),
+            'postcode': forms.TextInput(attrs={'autocomplete': "off", 'placeholder': 'Postcode'}),
+            'country': CountrySelectWidget(attrs={'class': 'wide'}),
             }
 
     def __init__(self, *args, **kwargs):
@@ -89,9 +89,8 @@ class OrganisationForm(forms.ModelForm):
         postcode = self.cleaned_data.get('postcode', None)
 
         if postcode:
-            # Basic postcode check for now
-            if not len(postcode.replace(' ', '')) > 0:
-                raise forms.ValidationError("That postcode was not recognised")
+            if len(postcode.replace(' ', '')) > 10 or len(postcode.replace(' ', '')) == 0:
+                raise forms.ValidationError("Please enter a valid postcode or ZIP code")
 
         return postcode
 
