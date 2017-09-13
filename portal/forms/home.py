@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django import forms
+from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
 import re
 
 
@@ -58,21 +59,26 @@ class ContactForm(forms.Form):
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
-        if re.match(re.compile('^[\w ]+$'), name) is None:
+
+        if get_regex_name().match(name) is None:
             raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
 
         return name
 
     def clean_message(self):
         message = self.cleaned_data.get("message", None)
-        if re.match(re.compile('^[ -~]+$'), message) is None:
-            raise forms.ValidationError("Your message may not contain special characters.")
+        line_list = message.splitlines()
+
+        for line in line_list:
+            if get_regex_message().match(line) is None:
+                raise forms.ValidationError("Your message may not contain special characters.")
 
         return message
 
     def clean_telephone(self):
         telephone = self.cleaned_data.get("telephone", None)
-        if re.match(re.compile('^[0-9()\-+ ]+$'), telephone) is None:
+
+        if get_regex_telephone().match(telephone) is None:
             raise forms.ValidationError("Invalid phone number")
 
         return telephone
