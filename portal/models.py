@@ -114,7 +114,7 @@ class Teacher(models.Model):
     new_user = models.OneToOneField(User, related_name='new_teacher', null=True, blank=True)
     school = models.ForeignKey(School, related_name='teacher_school', null=True)
     is_admin = models.BooleanField(default=False)
-    pending_join_request = models.ForeignKey(School, related_name='join_request', null=True)
+    pending_join_request = models.ForeignKey(School, related_name='join_request', null=True, blank=True)
 
     objects = TeacherModelManager()
 
