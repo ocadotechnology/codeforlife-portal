@@ -96,6 +96,11 @@ class OnboardingOrganisationPage(TeachBasePage):
         error = 'There is already a school or club registered with that name and postcode'
         return error in errors
 
+    def was_postcode_invalid(self):
+        errors = self.browser.find_element_by_id('form-create-organisation').find_element_by_class_name('errorlist').text
+        error = 'Please enter a valid postcode or ZIP code'
+        return error in errors
+
     def join_organisation(self, name):
         self.browser.find_element_by_id('join-tab').click()
         self.browser.find_element_by_id('id_fuzzy_name').send_keys(name)
