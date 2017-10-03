@@ -74,48 +74,12 @@ def verify_email(request, token):
     # copy newly verified user to secure salesforce db
     add_to_salesforce(user)
 
-    if hasattr(user.userprofile, 'student'):
-        return HttpResponseRedirect(reverse_lazy('login_view'))
-    if hasattr(user.userprofile, 'teacher'):
-        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
-
-    # default to homepage if something goes wrong
-    return HttpResponseRedirect(reverse_lazy('home'))
-
-
-def change_email(request, token):
-    verifications = EmailVerification.objects.filter(token=token)
-
-    if has_verification_failed(verifications):
-        return render(request, 'portal/email_verification_failed.html')
-
-    verification = verifications[0]
-
-    verification.verified = True
-    verification.save()
-
-    user = verification.user
-
-    if verification.email:  # verifying change of email address
-        user.email = verification.email
-        user.save()
-
-        user.email_verifications.exclude(email=user.email).delete()
-
-    messages.success(request, 'Your email address was successfully verified, please log in.')
-
-    # copy newly verified user to secure salesforce db
-    add_to_salesforce(user)
-
-    if hasattr(user.userprofile, 'teacher'):
-        return HttpResponseRedirect(reverse_lazy('dashboard'))
-
-    # default to homepage if something goes wrong
-    return HttpResponseRedirect(reverse_lazy('home'))
+    return HttpResponseRedirect(reverse_lazy('login_view'))
 
 
 def has_verification_failed(verifications):
-    return len(verifications) != 1 or verifications[0].verified or (verifications[0].expiry - timezone.now()) < timedelta()
+    return len(verifications) != 1 or verifications[0].verified or \
+           (verifications[0].expiry - timezone.now()) < timedelta()
 
 
 def send_new_users_report(request):
@@ -127,7 +91,8 @@ def send_new_users_report(request):
     student_count = Student.objects.count()
     schools_countries = School.objects.values('country').annotate(nb_countries=Count('id')).order_by('-nb_countries')
     nb_countries = schools_countries.count()
-    countries_count = "\n".join('{}: {}'.format(dict(countries)[k["country"]], k["nb_countries"]) for k in schools_countries[:3])
+    countries_count = "\n".join('{}: {}'.format(dict(countries)[k["country"]], k["nb_countries"])
+                                for k in schools_countries[:3])
     send_email(NOTIFICATION_EMAIL, CONTACT_FORM_EMAILS, "new users",
                'There are {new_users} new users this week!\n'
                'The total number of registered users is now: {users}\n'

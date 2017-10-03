@@ -50,7 +50,7 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.email import verify_email, change_email
+from portal.views.email import verify_email
 from portal.views.home import login_view, logout_view, register_view, contact
 from portal.views.play import student_details, student_edit_account, student_join_organisation
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, organisation_leave
@@ -111,7 +111,6 @@ urlpatterns = patterns(
     url(r'^login_form', login_view, name='login_view'),
     url(r'^logout/$', logout_view, name='logout_view'),
     url(r'^verify_email/(?P<token>[0-9a-f]+)/$', verify_email, name='verify_email'),
-    url(r'^change_email/(?P<token>[0-9a-f]+)/$', change_email, name='change_email'),
     url(r'^user/password/reset/student/$', student_password_reset, name="student_password_reset"),
     url(r'^user/password/reset/teacher/$', teacher_password_reset, name="teacher_password_reset"),
     url(r'^user/password/reset/done/$', password_reset_done, name='reset_password_email_sent'),
