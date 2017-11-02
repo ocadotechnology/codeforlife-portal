@@ -461,8 +461,8 @@ PDF_DATA = {
     "lks2_session_8": {
         "title": "LKS2 - Session 8",
         "description": "Applying their programming knowledge to play and evaluate a game challenge.",
-        "links": ["LKS2_S7_1", "LKS2_S7_2"],
-        "url": "KS2/lesson_plans/s7.pdf",
+        "links": ["lks2_self_assessment_sheet"],
+        "url": "KS2/lesson_plans/s8.pdf",
         "page_origin": "#lks2-sessions"
     },
 
@@ -830,7 +830,7 @@ PDF_DATA = {
     "UKS2_S8_2": {
         "title": "UKS2 - Session 8 - Sheet 2",
         "description": "To be used with Session 8 lesson plan.",
-        "links": ["uks2_session_7"],
+        "links": ["uks2_session_8"],
         "url": "python/resource_sheets/UKS2-S8-2.pdf",
         "page_origin": "#uks2-resource-sheets"
     },
