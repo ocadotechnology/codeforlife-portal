@@ -454,7 +454,7 @@ PDF_DATA = {
         "links": ["LKS2_S7_1", "LKS2_S7_2"],
         "url": "KS2/lesson_plans/s7.pdf",
         "video": "https://www.youtube.com/embed/vFGd0v3msRE",
-        "video_download_link": "videos/LKS2_7_Mahana_explains_repeat_functions.mp4",
+        "video_download_link": "videos/KS1_7_Mahana_explains_repeat_functions.mp4",
         "page_origin": "#lks2-sessions"
     },
 
