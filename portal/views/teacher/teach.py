@@ -82,8 +82,8 @@ def materials(request):
     uks2_sheets = []
     resource_sheets_dictionaries = [ks1_sheets, lks2_sheets, uks2_sheets]
 
-    for ks_index in range(0, len(session_names)):
-        get_session_pdfs(session_names[ks_index], session_dictionaries[ks_index])
+    for ks_index, session_name in enumerate(session_names):
+        get_session_pdfs(session_name, session_dictionaries[ks_index])
         get_resource_sheets_pdfs(session_dictionaries[ks_index], resource_sheets_names[ks_index],
                                  resource_sheets_dictionaries[ks_index])
 

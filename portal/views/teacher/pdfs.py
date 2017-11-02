@@ -39,7 +39,7 @@ PDF_DATA = {
     # .........User Guide........#
     "introduction_to_coding": {
         "title": "Introduction to Coding",
-        "description": "This document shows how the progression through rapid router levels cover each stage of the "
+        "description": "This document shows how the progression through Rapid Router levels cover each stage of the "
                        "computing curriculum for key stages one and two.",
         "links": None,
         "url": "general_resources/introduction_to_coding.pdf",
@@ -340,7 +340,7 @@ PDF_DATA = {
     # ...KS1 Activity Set...#
     "ks1_activity_set": {
         "title": "KS1 - Activity Set",
-        "description": "This activity set gives you an overview 0f the Key Stage 1 module. It covers the resources "
+        "description": "This activity set gives you an overview of the Key Stage 1 module. It covers the resources "
                        "that will be useful, learning expectations and teacher preparation.",
         "links": None,
         "url": "KS1/activity_set.pdf",
