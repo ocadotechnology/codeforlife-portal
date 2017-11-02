@@ -57,7 +57,7 @@ from portal.views.organisation import organisation_fuzzy_lookup, organisation_ma
 from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
     teacher_move_class, teacher_edit_student, teacher_student_reset, materials_viewer, teacher_print_reminder_cards,\
     teacher_delete_students, teacher_delete_class, teacher_class_password_reset, teacher_move_students,\
-    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions
+    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions, materials
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join, organisation_deny_join, \
     organisation_kick, organisation_toggle_admin, teacher_disable_2FA, teacher_reject_student_request, \
     teacher_accept_student_request
@@ -130,7 +130,7 @@ urlpatterns = patterns(
     url(r'^about', TemplateView.as_view(template_name='portal/about.html'), name='about'),
     url(r'^help/$', contact, name='help'),
     url(r'^terms', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),
-    url(r'^teach/materials/$', TemplateView.as_view(template_name='portal/teach/materials.html'), name='materials'),
+    url(r'^teach/materials/$', materials, name='materials'),
     url(r'^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$', materials_viewer, name='materials_viewer'),
     url(r'^teach/resources/$', TemplateView.as_view(template_name='portal/teach/teacher_resources.html'), name='teaching_resources'),
     url(r'^teach/dashboard/$', dashboard_manage, name='dashboard'),

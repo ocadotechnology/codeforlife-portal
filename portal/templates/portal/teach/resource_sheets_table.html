@@ -1,0 +1,14 @@
+<table class="table--resources">
+    {% for session in table %}
+        <tr>
+            <td><p><strong>Session {{ forloop.counter }}</strong></p></td>
+            {% for sheet in session %}
+                <td>
+                    {% if sheet %}
+                        <p><a href="{% url 'materials_viewer' pdf_name=sheet.url_name %}">{{ sheet.url_name }}</a></p>
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>

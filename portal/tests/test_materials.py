@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,36 +34,30 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django import template
-from django.template.defaultfilters import floatformat
-
-register = template.Library()
+from django.test import TestCase
+from portal.templatetags.table_tags import resource_sheets_table, lengthen_list
 
 
-@register.filter(name='tableformat')
-def tableformat(entry):
+class MaterialsTests(TestCase):
+    def test_lengthen_list_when_length_is_bigger(self):
+        li = [1, 2, 3, 4]
+        length = 10
+        result = lengthen_list(length, li)
+        assert len(result) == 10
 
-    if entry is None:
-        return "-"
-    elif is_numerical(entry):
-        return floatformat(entry, -2)
-    else:
-        return entry
+    def test_lengthen_list_when_length_is_same(self):
+        li = [1, 2, 3, 4]
+        length = 4
+        result = lengthen_list(length, li)
+        assert len(result) == 4
 
+    def test_lengthen_list_when_length_is_smaller(self):
+        li = [1, 2, 3, 4]
+        length = 2
+        result = lengthen_list(length, li)
+        assert len(result) == 4
 
-def is_numerical(str):
-    try:
-        float(str)
-        return True
-    except (ValueError, TypeError):
-        return False
-
-
-@register.inclusion_tag(file_name='portal/teach/resource_sheets_table.html')
-def resource_sheets_table(table):
-    max_count = len(max(table, key=len))
-    return {'table': [lengthen_list(max_count, row) for row in table]}
-
-
-def lengthen_list(length, list):
-    return list + [[]] * (length - len(list))
+    def test_padding_resource_sheet_table(self):
+        table = [[1, 2], [1, 2, 3], []]
+        result = resource_sheets_table(table)
+        assert result['table'] == [[1, 2, []], [1, 2, 3], [[], [], []]]
