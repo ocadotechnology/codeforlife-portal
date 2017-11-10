@@ -81,9 +81,9 @@
                 {{ create_form.non_field_errors }}
 
                 {% for field in create_form %}
-                {{ field.errors }}
                 <label for="id_{{ field.name }}">{{ field.label }}</label>
                 {{ field }}
+                {{ field.errors }}
                 {% endfor %}
 
                 <div class='section group'>
@@ -99,18 +99,18 @@
 
                 {{ join_form.non_field_errors }}
 
-                {{ join_form.fuzzy_name.errors }}
                 <label for="id_{{ join_form.fuzzy_name.html_name }}">{{ join_form.fuzzy_name.label }}</label>
                 {{ join_form.fuzzy_name }}
+                {{ join_form.fuzzy_name.errors }}
 
-                {{ join_form.chosen_org.errors }}
                 <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
                 {{ join_form.chosen_org }}
+                {{ join_form.chosen_org.errors }}
 
                 {% if join_form.recaptcha %}
-                {{ join_form.recaptcha.errors }}
                 <label for="id_{{ join_form.recaptcha.html_name }}">{{ join_form.recaptcha.label }}</label>
                 {{ join_form.recaptcha|safe }}
+                {{ join_form.recaptcha.errors }}
                 {% endif %}
 
                 <div class='section group'>

@@ -35,7 +35,8 @@
     * or restart the portal with command `LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ./run`.
 
 ## How to contribute!
-__Guidelines__ Read the [contributing guidelines](CONTRIBUTING.md), thanks!
+__Guidelines__ Read the [contributing guidelines](CONTRIBUTING.md), thanks!<br>
+One word of caution: please do not add any issues related to security. Evil hackers are everywhere nowadays... If you do find a security issue, let us know using our [contact form][c4l-contact-form].
 
 __Want to help?__ You can contact us using this [contact form][c4l-contact-form] and we'll get in touch as soon as possible! Thanks a lot.
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2017, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,12 +34,30 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-__author__ = 'isabel.richards'
+from django.test import TestCase
+from portal.templatetags.table_tags import resource_sheets_table, lengthen_list
 
-from teach_base_page import TeachBasePage
 
-class ThanksForResetPage(TeachBasePage):
-    def __init__(self, browser):
-        super(ThanksForResetPage, self).__init__(browser)
+class MaterialsTests(TestCase):
+    def test_lengthen_list_when_length_is_bigger(self):
+        li = [1, 2, 3, 4]
+        length = 10
+        result = lengthen_list(length, li)
+        assert len(result) == 10
 
-        assert self.on_correct_page('thanks_for_reset_page')
+    def test_lengthen_list_when_length_is_same(self):
+        li = [1, 2, 3, 4]
+        length = 4
+        result = lengthen_list(length, li)
+        assert len(result) == 4
+
+    def test_lengthen_list_when_length_is_smaller(self):
+        li = [1, 2, 3, 4]
+        length = 2
+        result = lengthen_list(length, li)
+        assert len(result) == 4
+
+    def test_padding_resource_sheet_table(self):
+        table = [[1, 2], [1, 2, 3], []]
+        result = resource_sheets_table(table)
+        assert result['table'] == [[1, 2, []], [1, 2, 3], [[], [], []]]

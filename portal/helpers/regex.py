@@ -34,40 +34,21 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.http import HttpResponse
 
-import datetime
+import re
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-
-from django.contrib.auth.models import User
-from portal.models import Teacher, Student
+name_regex = re.compile('^[\w ]+$')
+message_regex = re.compile('^[ -~]+$')
+telephone_regex = re.compile('^[0-9()\-+ ]+$')
 
 
-@api_view(('GET',))
-def registered_users(request, year, month, day):
-    try:
-        nbr_reg = User.objects.filter(date_joined__startswith=datetime.date(int(year), int(month), int(day))).count()
-        return Response(nbr_reg)
-    except ValueError:
-        return HttpResponse(status=404)
+def get_regex_name():
+    return name_regex
 
 
-@api_view(('GET',))
-def last_connected_since(request, year, month, day):
-    try:
-        nbr_active_users = User.objects.filter(last_login__gte=datetime.date(int(year), int(month), int(day))).count()
-        return Response(nbr_active_users)
-    except ValueError:
-        return HttpResponse(status=404)
+def get_regex_message():
+    return message_regex
 
 
-@api_view(('GET',))
-def number_users_per_country(request, country):
-    try:
-        nbr_reg = Teacher.objects.filter(school__country__exact=country).count() + \
-                  Student.objects.filter(class_field__teacher__school__country__exact=country).count()
-        return Response(nbr_reg)
-    except ValueError:
-        return HttpResponse(status=404)
+def get_regex_telephone():
+    return telephone_regex

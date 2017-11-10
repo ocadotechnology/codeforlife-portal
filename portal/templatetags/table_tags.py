@@ -39,6 +39,7 @@ from django.template.defaultfilters import floatformat
 
 register = template.Library()
 
+
 @register.filter(name='tableformat')
 def tableformat(entry):
 
@@ -49,9 +50,20 @@ def tableformat(entry):
     else:
         return entry
 
+
 def is_numerical(str):
     try:
         float(str)
         return True
     except (ValueError, TypeError):
         return False
+
+
+@register.inclusion_tag(file_name='portal/teach/resource_sheets_table.html')
+def resource_sheets_table(table):
+    max_count = len(max(table, key=len))
+    return {'table': [lengthen_list(max_count, row) for row in table]}
+
+
+def lengthen_list(length, list):
+    return list + [[]] * (length - len(list))

@@ -73,7 +73,7 @@ blockquote {
     font-weight: lighter;
     text-align: right;
 
-    .says {
+    &.says {
       @include _font-size(25px);
       @include _line-height(30px);
       color: $color-quote-text;
@@ -81,15 +81,18 @@ blockquote {
       position: relative;
       text-align: left;
 
-      :before {
+      &:before {
+        @include _font-size(48px);
         content: '“';
+        font-weight: bold;
         left: 0;
+        line-height: 150%;
         position: absolute;
         top: -2px;
+        vertical-align: top;
       }
 
-      :before,
-      :after {
+      &:after {
         @include _font-size(48px);
         color: $color-quote-text;
         content: '”';
