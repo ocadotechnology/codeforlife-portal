@@ -53,26 +53,21 @@ SETTINGS = {
         'django_otp.plugins.otp_static',
         'django_otp.plugins.otp_totp',
     ],
-    'PIPELINE_COMPILERS': (
-        'pipeline.compilers.sass.SASSCompiler',
-    ),
-    'PIPELINE_CSS': {
-        'css': {
-            'source_filenames': (
-                'portal/sass/bootstrap.scss',
-                'portal/sass/colorbox.scss',
-                'portal/sass/styles.scss',
-            ),
-            'output_filename': 'portal.css',
+    'PIPELINE': {
+        'PIPELINE_ENABLED': True,
+        'COMPILERS': (
+            'pipeline.compilers.sass.SASSCompiler',
+        ),
+        'STYLESHEETS': {
+            'game-css': {
+                'source_filenames': (
+                    'portal/sass/*.scss',
+                ),
+                'output_filename': 'portal.css',
+            }
         },
-        'base': {
-            'source_filenames': (
-                'portal/sass/old_styles.scss',
-            ),
-            'output_filename': 'base.css',
-        },
+        'CSS_COMPRESSOR': None,
     },
-    'PIPELINE_CSS_COMPRESSOR': None,
     'INSTALLED_APPS': [
         'cms',
         'game',

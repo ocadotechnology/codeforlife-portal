@@ -14,7 +14,7 @@ setup(name='codeforlife-portal',
         'djangorestframework==3.1.3',
         'django-jquery==1.9.1',
         'django-autoconfig==0.3.6',
-        'django-pipeline==1.5.4',
+        'django-pipeline==1.6.13',
 
         'pyyaml==3.10',
         'rapid-router >= 1.0.0.post.dev1',
