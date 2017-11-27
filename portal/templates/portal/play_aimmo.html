@@ -1,0 +1,104 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block nav_play %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="banner banner--aimmo row">
+    <div class="col-sm-5">
+        <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
+        <h1 class="banner__text--primary">Level 1 prototype</h1>
+    </div>
+    <div class="col-sm-2">
+        <img title="Van" alt="Van" src='{% static "portal/img/van-future.png" %}'>
+    </div>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+
+<div class="background">
+    <section>
+        <h1 class="col-sm-7 col-center">Code for Life will be launching a new game for secondary schools in 2018!</h1>
+        <h4 class="col-sm-6 col-center">Following on from Rapid Router, this exciting game will build on students’ existing coding skills.</h4>
+        <h4 class="col-sm-6 col-center">The game will be a time travelling adventure, which will take them to the next level on their coding journey.
+            We’ll have a playable beta of Level 1 by early 2018, but first we’d like to get your thoughts on the gameplay, learning concept and general design.</h4>
+    </section>
+    <div class="row row--small homepage-info">
+        <div class="col-sm-9 col-center grid">
+            <div>
+                <img title="Teaching Resources" alt="Teaching Resources" src='{% static "portal/img/resources_montage.jpg" %}'>
+                <h3>Step 1</h3>
+                <h4>Teaching materials</h4>
+                <p>Download the teaching materials and read them through before playing the video.
+                    They will guide you through the level and give teaching support.</p>
+                <div class="background">
+                    <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
+                </div>
+            </div>
+            <div>
+                <img title="Gameplay" alt="Gameplay" src='{% static "portal/img/gameplay_video.png" %}'>
+                <h3>Step 2</h3>
+                <h4>Gameplay video</h4>
+                <p>This video is intended to show how the code and gameplay will be implemented within the game UI. The video is a visualisation of actual gameplay.</p>
+                <div class="background">
+                    <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
+                </div>
+            </div>
+            <div>
+                <img title="Feedback" alt="Feedback" src='{% static "portal/img/.png" %}'>
+                <h3>Step 3</h3>
+                <h4>Your feedback</h4>
+                <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
+                <div class="background">
+                    <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="background background--quaternary">
+    <h2>Meet the characters</h2>
+    <div class="col-sm-10 col-center image-row">
+        <div>
+            <img title="Wes" alt="Wes image" src='{% static "portal/img/wes.png" %}'>
+            <p>Wes is as cunning as a fox, which is weird, because he&rsquo;s actually a wolf.</p>
+        </div>
+        <div>
+            <img title="Kirsty" alt="Kirsty image" src='{% static "portal/img/kirsty.png" %}'>
+            <p>Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world!</p>
+        </div>
+        <div>
+            <img title="Dee" alt="Dee image" src='{% static "portal/img/dee.png" %}'>
+            <p>Dee is a Mark II DeliviBot. She&rsquo;s super friendly and her wire hair sparks when she laughs.</p>
+        </div>
+        <div>
+            <img title="Nigel" alt="Nigel image" src='{% static "portal/img/nigel.png" %}'>
+            <p>Nigel is the tallest kid in his class, and he&rsquo;s growing taller by the day.</p>
+        </div>
+        <div>
+            <img title="Phil" alt="Phil image" src='{% static "portal/img/phil.png" %}'>
+            <p>Phil is a Boarsnark, however, he is different to most Boarsnarks because he&rsquo;s very kind, and very gentle.</p>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        invokeColorbox();
+    });
+</script>
+
+{% endblock content %}

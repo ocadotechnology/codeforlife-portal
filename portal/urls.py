@@ -127,6 +127,7 @@ urlpatterns = patterns(
     url(r'^play/details/$', student_details, name='student_details'),
     url(r'^play/account/$', student_edit_account, name='student_edit_account'),
     url(r'^play/join/$', student_join_organisation, name='student_join_organisation'),
+    url(r'^play/aimmo/$', TemplateView.as_view(template_name='portal/play_aimmo.html'), name='play_aimmo'),
     url(r'^about', TemplateView.as_view(template_name='portal/about.html'), name='about'),
     url(r'^help/$', contact, name='help'),
     url(r'^terms', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),

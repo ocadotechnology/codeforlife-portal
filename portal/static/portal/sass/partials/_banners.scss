@@ -171,6 +171,18 @@
   justify-content: space-between;
 }
 
+
+.banner--aimmo {
+  @include _padding(70px, 0px, 100px, 0px);
+  align-items: center;
+  background-image: url('../img/aimmo_landing_hero.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: space-between;
+}
+
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
   align-items: center;
@@ -263,4 +275,13 @@
 
   }
 
+  .banner--aimmo {
+    @include _padding(50px, 0px, 150px, 0px);
+    flex-direction: column;
+
+    .button {
+      margin-bottom: 50px;
+    }
+
+  }
 }
