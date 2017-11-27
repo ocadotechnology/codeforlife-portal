@@ -131,6 +131,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         invokeColorbox();
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.menu').outerHeight());
+        }
     });
 </script>
 
