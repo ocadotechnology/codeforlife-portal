@@ -50,7 +50,7 @@
                 <p>Download the teaching materials and read them through before playing the video.
                     They will guide you through the level and give teaching support.</p>
                 <div class="background button--bottom">
-                    <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
+                    <a href="{{ 'KS3/resource_sheets/AIMMO-L1_teaching.zip'|cloud_storage }}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -59,7 +59,7 @@
                 <h4>Gameplay video</h4>
                 <p>This video is intended to show how the code and gameplay will be implemented within the game UI. The video is a visualisation of actual gameplay.</p>
                 <div class="background button--bottom">
-                    <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
+                    <a href="https://www.youtube.com/watch?v=HxxavGnqRbw&feature=youtu.be" target="_blank" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -68,7 +68,7 @@
                 <h4>Your feedback</h4>
                 <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
                 <div class="background button--bottom">
-                    <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
+                    <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
                 </div>
             </div>
         </div>
