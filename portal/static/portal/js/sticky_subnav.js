@@ -34,6 +34,7 @@ function toggleStickySubnav(scrollToTop) {
         if (currentScroll >= scrollToTop) {
             if (!$('.sticky-subnav').hasClass("sub-nav--fixed")) {
                 $('.sticky-subnav').addClass('sub-nav--fixed');
+                $('.menu').addClass('hide');
             }
             if (!$('#sticky-warning').hasClass('sub-nav--warning--fixed')) {
                 $('#sticky-warning').addClass('sub-nav--warning--fixed');
@@ -44,6 +45,7 @@ function toggleStickySubnav(scrollToTop) {
             $('#sticky-warning').removeClass('sub-nav--warning--fixed');
             $('.sticky-subnav').removeClass('sub-nav--fixed');
             $('#top').removeClass('sub-nav--filler');
+            $('.menu').removeClass('hide');
         }
     });
 }
