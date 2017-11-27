@@ -33,7 +33,7 @@
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 
-  [class*='col-'] {
+  [class^='col-'] {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -214,9 +214,4 @@ iframe {
     padding: 0;
   }
 
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
 }

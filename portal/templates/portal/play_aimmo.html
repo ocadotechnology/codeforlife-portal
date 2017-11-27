@@ -14,7 +14,12 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--aimmo row">
+<div class="banner banner--aimmo--background">
+  <div class="sticky-subnav sub-nav sub-nav--games">
+    <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+    <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
+  </div>
+  <div class="row banner--aimmo--content">
     <div class="col-sm-5">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
         <h1 class="banner__text--primary">Level 1 prototype</h1>
@@ -22,6 +27,7 @@
     <div class="col-sm-2">
         <img title="Van" alt="Van" src='{% static "portal/img/van-future.png" %}'>
     </div>
+  </div>
 </div>
 {% endblock subNav %}
 
@@ -35,33 +41,33 @@
         <h4 class="col-sm-6 col-center">The game will be a time travelling adventure, which will take them to the next level on their coding journey.
             We’ll have a playable beta of Level 1 by early 2018, but first we’d like to get your thoughts on the gameplay, learning concept and general design.</h4>
     </section>
-    <div class="row row--small homepage-info">
-        <div class="col-sm-9 col-center grid">
-            <div>
-                <img title="Teaching Resources" alt="Teaching Resources" src='{% static "portal/img/resources_montage.jpg" %}'>
+    <div class="row row--small">
+        <div class="col-sm-9 col-center is-flex">
+            <div class="col-sm-4">
+                <img title="Teaching Resources" alt="Teaching Resources" src='{% static "portal/img/teaching_materials.jpg" %}'>
                 <h3>Step 1</h3>
                 <h4>Teaching materials</h4>
                 <p>Download the teaching materials and read them through before playing the video.
                     They will guide you through the level and give teaching support.</p>
-                <div class="background">
+                <div class="background button--bottom">
                     <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
                 </div>
             </div>
-            <div>
-                <img title="Gameplay" alt="Gameplay" src='{% static "portal/img/gameplay_video.png" %}'>
+            <div class="col-sm-4">
+                <img title="Gameplay" alt="Gameplay" src='{% static "portal/img/gameplay_video.jpg" %}'>
                 <h3>Step 2</h3>
                 <h4>Gameplay video</h4>
                 <p>This video is intended to show how the code and gameplay will be implemented within the game UI. The video is a visualisation of actual gameplay.</p>
-                <div class="background">
+                <div class="background button--bottom">
                     <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
                 </div>
             </div>
-            <div>
-                <img title="Feedback" alt="Feedback" src='{% static "portal/img/.png" %}'>
+            <div class="col-sm-4">
+                <img title="Feedback" alt="Feedback" src='{% static "portal/img/your_feedback.png" %}'>
                 <h3>Step 3</h3>
                 <h4>Your feedback</h4>
                 <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
-                <div class="background">
+                <div class="background button--bottom">
                     <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
                 </div>
             </div>
