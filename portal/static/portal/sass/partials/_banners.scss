@@ -160,13 +160,16 @@
 
 }
 
-.banner--rapid-router {
-  @include _padding(70px, 0px, 100px, 0px);
-  align-items: center;
+.banner--rapid-router--background {
   background-image: url('../img/rapid_router_landing_hero.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.banner--rapid-router--content {
+  @include _padding(70px, 0px, 100px, 0px);
+  align-items: center;
   display: flex;
   justify-content: space-between;
 }
