@@ -53,6 +53,10 @@ button,
   @include _padding(2px, 10px, 2px, 10px);
 }
 
+.button--bottom {
+  margin-top: auto;
+}
+
 .button--menu {
   @include _padding(10px, 0px, 21px, 0px);
   background-color: transparent;

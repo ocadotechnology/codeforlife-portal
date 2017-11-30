@@ -14,17 +14,23 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--rapid-router row">
-    <div class="col-sm-5">
-        <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
-        <div class="background">
-            <a href="{% url 'game.views.level_selection.levels' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
-        </div>
+<div class="banner banner--rapid-router--background row">
+    <div class="sticky-subnav sub-nav sub-nav--games">
+        <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+        <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
     </div>
-    <div class="col-sm-4">
-        <a href="https://www.youtube.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
-            <img title="Watch Video" alt="Watch Video" src='{% static "portal/img/thumbnail_intro_rr.jpg" %}'>
-        </a>
+    <div class="row banner--rapid-router--content">
+        <div class="col-sm-5">
+            <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
+            <div class="background">
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <a href="https://www.youtube.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
+                <img title="Watch Video" alt="Watch Video" src='{% static "portal/img/thumbnail_intro_rr.jpg" %}'>
+            </a>
+        </div>
     </div>
 </div>
 {% endblock subNav %}
@@ -95,6 +101,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         invokeColorbox();
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.menu').outerHeight());
+        }
     });
 </script>
 
