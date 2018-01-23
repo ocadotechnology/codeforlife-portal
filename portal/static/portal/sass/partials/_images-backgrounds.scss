@@ -5,12 +5,6 @@ img {
   max-width: 100%;
 }
 
-.flex-images {
-  img {
-    align-self: center;
-  }
-}
-
 .homepage-info img {
   @include _padding(0px, 0px, 15px, 0px);
 }
