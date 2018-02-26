@@ -79,6 +79,12 @@ class TeacherPasswordResetForm(forms.Form):
             attrs={'placeholder': 'my.email@address.com'}
         )
     )
+    is_recaptcha_valid = False
+
+    def clean(self):
+        if not self.is_recaptcha_valid:
+            raise forms.ValidationError('Incorrect captcha')
+        return self.cleaned_data
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
@@ -151,6 +157,12 @@ class StudentPasswordResetForm(forms.Form):
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
+    is_recaptcha_valid = False
+
+    def clean(self):
+        if not self.is_recaptcha_valid:
+            raise forms.ValidationError('Incorrect captcha')
+        return self.cleaned_data
 
     def clean_username(self):
         username = self.cleaned_data.get('username', None)

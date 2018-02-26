@@ -34,16 +34,29 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.contrib.auth.forms import AuthenticationForm
+from portal import app_settings
+import requests
 
-from django import forms
+
+# Adapted from https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
+def check_recaptcha(request):
+    get_request = request.POST.get("g-recaptcha-response")
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    my_param = {
+        'secret': app_settings.RECAPTCHA_PRIVATE_KEY,
+        'response': get_request,
+        'remoteip': get_client_ip(request)
+    }
+    verify = requests.get(url, params=my_param, verify=True).json()
+    status = verify.get("success", False)
+    return status
 
 
-class AdminLoginForm(AuthenticationForm):
-    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
-
-    def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect username, password or captcha')
-        return super(AdminLoginForm, self).clean()
+# From https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
+def get_client_ip(request):
+    client_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+    if client_ip:
+        ip = client_ip.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

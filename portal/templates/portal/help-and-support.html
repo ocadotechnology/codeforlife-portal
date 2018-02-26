@@ -290,13 +290,10 @@
                 </div>
                 {{ form.browser }}
 
-                {% if form.recaptcha %}
-                    <label for="{{ form.recaptcha.auto_id }}">ReCaptcha:</label><br />
-                    <div class="col no-margin">
-                        {{ form.recaptcha|safe }}
-                        {{ form.recaptcha.errors }}
-                    </div>
+                {% if captcha %}
+                    <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
                 {% endif %}
+                
                 <section>
                     <button type="submit" name="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
                 </section>
@@ -314,4 +311,3 @@
 </script>
 
 {% endblock content %}
-

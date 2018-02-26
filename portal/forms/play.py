@@ -57,9 +57,14 @@ class StudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
+    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
+
+    def is_recaptcha_verified(self):
+        return not self.view_options['is_recaptcha_visible'] or self.view_options['is_recaptcha_valid']
+
     def clean(self):
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError("Invalid name, class access code, password or captcha")
+        if not self.is_recaptcha_verified():
+            raise forms.ValidationError('Invalid name, class access code, password or captcha')
 
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
@@ -211,9 +216,14 @@ class IndependentStudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput())
 
+    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
+
+    def is_recaptcha_verified(self):
+        return not self.view_options['is_recaptcha_visible'] or self.view_options['is_recaptcha_valid']
+
     def clean(self):
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError("Incorrect username, password or captcha")
+        if not self.is_recaptcha_verified():
+            raise forms.ValidationError('Incorrect username, password or captcha')
 
         username = self.cleaned_data.get('username', None)
         password = self.cleaned_data.get('password', None)
