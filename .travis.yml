@@ -40,6 +40,7 @@ before_install:
 install:
   - pip install -e .
   - pip install coveralls
+  - pop install django-setuptest
 before_script:
   - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
