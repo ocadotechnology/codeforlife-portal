@@ -38,7 +38,6 @@ matrix:
 before_install:
   - gem install sass --version 3.3.4
 install:
-  - pip install django-setuptest
   - pip install -e .
   - pip install coveralls
 before_script:

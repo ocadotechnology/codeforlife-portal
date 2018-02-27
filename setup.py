@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
-from setuptest import test
+# from setuptest import test
 import versioneer
 
-cmdclass = versioneer.get_cmdclass()
-cmdclass['test'] = test
+# cmdclass = versioneer.get_cmdclass()
+# cmdclass['test'] = test
 
 setup(name='codeforlife-portal',
       cmdclass=cmdclass,
-      version=versioneer.get_version(),
+      # version=versioneer.get_version(),
+      version=versioneer.get_cmdclass(),
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
