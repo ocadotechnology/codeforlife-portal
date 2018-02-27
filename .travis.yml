@@ -40,7 +40,6 @@ before_install:
 install:
   - pip install -e .
   - pip install coveralls
-  - pop install django-setuptest
 before_script:
   - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
@@ -49,6 +48,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
   - pip install selenium==2.48.0
+  - pip install django-setuptest
   - python example_project/manage.py collectstatic --noinput --settings test_settings
 script:
   - python setup.py test
