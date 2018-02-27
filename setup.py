@@ -7,9 +7,9 @@ import versioneer
 # cmdclass['test'] = test
 
 setup(name='codeforlife-portal',
-      cmdclass=cmdclass,
-      # version=versioneer.get_version(),
-      version=versioneer.get_cmdclass(),
+      cmdclass=versioneer.get_cmdclass(),
+      # cmdclass=cmdclass,
+      version=versioneer.get_version(),
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
