@@ -53,6 +53,7 @@ from portal import app_settings, emailMessages
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import check_recaptcha
+from deploy import captcha
 
 
 def teach_email_labeller(request):
@@ -189,22 +190,22 @@ def render_signup_form(request):
 
 
 def compute_teacher_use_captcha(limits, captcha_limit):
-    using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
+    using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit) and captcha.CAPTCHA_ENABLED
     return using_captcha
 
 
 def compute_teacher_should_use_captcha(limits, captcha_limit):
-    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
 
 
 def compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit) and captcha.CAPTCHA_ENABLED
     return using_captcha
 
 
 def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
 
 
@@ -332,8 +333,8 @@ def contact(request):
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
 
-    using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
+    using_captcha = (limits['ip'][0] > captcha_limit) and captcha.CAPTCHA_ENABLED
+    should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
     anchor = ''
 

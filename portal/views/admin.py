@@ -55,6 +55,7 @@ from ratelimit.decorators import ratelimit
 
 from portal.helpers.captcha import check_recaptcha
 from django.conf import settings
+from deploy import captcha
 
 block_limit = 5
 
@@ -65,7 +66,7 @@ def is_post_request(request, response):
 
 @ratelimit('def', periods=['1m'], increment=is_post_request)
 def admin_login(request):
-    show_captcha = getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit
+    show_captcha = getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit and captcha.CAPTCHA_ENABLED
     AdminLoginForm.view_options['is_recaptcha_visible'] = show_captcha
     AdminLoginForm.view_options['is_recaptcha_valid'] = check_recaptcha(request) if show_captcha else False
     return auth_views.login(request, authentication_form=AdminLoginForm, extra_context={'captcha': show_captcha, 'settings': app_settings})

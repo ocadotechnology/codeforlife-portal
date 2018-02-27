@@ -127,6 +127,7 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
         'form': form,
         'title': _('Password reset'),
         'settings': app_settings,
+        'should_use_recaptcha': captcha.CAPTCHA_ENABLED
     }
 
     update_context_and_apps(request, context, current_app, extra_context)
