@@ -37,22 +37,22 @@
 
 from django.test import TestCase
 from django.http import HttpRequest
-from portal.helpers.captcha import is_recaptcha_verified, get_client_ip
+from portal.helpers.captcha import is_recaptcha_verified, get_client_ip, DEFAULT_VIEW_OPTIONS
 
 
 class HelpersTest(TestCase):
     def test_successful_captcha_verification(self):
         view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
-        recaptcha_verified = is_recaptcha_verified(view_options=view_options)
+        recaptcha_verified = is_recaptcha_verified(view_options)
         self.assertEqual(True, recaptcha_verified)
 
     def test_successful_captcha_verification_true_by_default(self):
-        recaptcha_verified = is_recaptcha_verified()
-        self.assertEqual(True, recaptcha_verified)
+        recaptcha_verified = is_recaptcha_verified(DEFAULT_VIEW_OPTIONS)
+        self.assertEqual(False, recaptcha_verified)
 
     def test_unsuccessful_captcha_verification(self):
         view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': True}
-        recaptcha_verified = is_recaptcha_verified(view_options=view_options)
+        recaptcha_verified = is_recaptcha_verified(view_options)
         self.assertEqual(False, recaptcha_verified)
 
     def test_client_ip_from_x_forwarded_for(self):

@@ -36,10 +36,11 @@
 # identified as the original program.
 from django import forms
 from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
-import re
+from portal.helpers.captcha import is_recaptcha_verified, DEFAULT_VIEW_OPTIONS
 
 
 class ContactForm(forms.Form):
+
     name = forms.CharField(label='Name', max_length=100,
                            widget=forms.TextInput(attrs={'class': 'contactField'}))
     telephone = forms.CharField(label='Telephone', max_length=50,
@@ -50,10 +51,13 @@ class ContactForm(forms.Form):
                               widget=forms.Textarea(attrs={'class': 'contactField'}))
     browser = forms.CharField(label='Browser', max_length=250, required=False,
                               widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'}))
-    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
+
+    def __init__(self, request=None, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.view_options = DEFAULT_VIEW_OPTIONS
 
     def clean(self):
-        if self.view_options['is_recaptcha_visible'] and not self.view_options['is_recaptcha_valid']:
+        if not is_recaptcha_verified(self.view_options):
             raise forms.ValidationError('Incorrect captcha')
         return self.cleaned_data
 

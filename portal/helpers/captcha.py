@@ -37,6 +37,7 @@
 from portal import app_settings
 import requests
 
+DEFAULT_VIEW_OPTIONS = {'is_recaptcha_valid': False, 'is_recaptcha_visible': True}
 
 # Adapted from https://djangopy.org/how-to/making-django-form-google-recaptcha-powered/, accessed on 28 June 2017
 def check_recaptcha(request):
@@ -63,5 +64,5 @@ def get_client_ip(request):
 
 
 # For forms with reCAPTCHA
-def is_recaptcha_verified(view_options={'is_recaptcha_valid': False, 'is_recaptcha_visible': False}):
+def is_recaptcha_verified(view_options):
     return not view_options['is_recaptcha_visible'] or view_options['is_recaptcha_valid']

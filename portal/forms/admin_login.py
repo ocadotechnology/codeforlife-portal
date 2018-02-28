@@ -36,10 +36,14 @@
 # identified as the original program.
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from portal.helpers.captcha import is_recaptcha_verified
+from portal.helpers.captcha import is_recaptcha_verified, DEFAULT_VIEW_OPTIONS
 
 
 class AdminLoginForm(AuthenticationForm):
+
+    def __init__(self, request=None, *args, **kwargs):
+        super(AdminLoginForm, self).__init__(*args, **kwargs)
+        self.view_options = DEFAULT_VIEW_OPTIONS
 
     def clean(self):
         if not is_recaptcha_verified(view_options=self.view_options):
