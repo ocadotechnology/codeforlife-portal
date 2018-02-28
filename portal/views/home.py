@@ -34,22 +34,19 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import partial
-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
-from portal.models import Teacher, Class, Student
+from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL
-from portal import app_settings
-from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
+from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import check_recaptcha
