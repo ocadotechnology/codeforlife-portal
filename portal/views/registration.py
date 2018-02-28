@@ -99,7 +99,6 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
                    from_email=None, current_app=None, extra_context=None, html_email_template_name=None):
     if request.method == "POST":
         form = password_reset_form(request.POST)
-        form.is_recaptcha_valid = check_recaptcha(request) or not captcha.CAPTCHA_ENABLED
         if form.is_valid():
             opts = {
                 'use_https': request.is_secure(),
