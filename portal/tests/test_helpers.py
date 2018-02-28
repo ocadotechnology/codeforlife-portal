@@ -34,14 +34,43 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.contrib.auth.forms import AuthenticationForm
-from django import forms
-from portal.helpers.captcha import is_recaptcha_verified
+
+from django.test import TestCase
+from django.http import HttpRequest
+from portal.helpers.captcha import is_recaptcha_verified, get_client_ip
 
 
-class AdminLoginForm(AuthenticationForm):
+class HelpersTest(TestCase):
+    def test_successful_captcha_verification(self):
+        view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
+        recaptcha_verified = is_recaptcha_verified(view_options=view_options)
+        self.assertEqual(True, recaptcha_verified)
 
-    def clean(self):
-        if not is_recaptcha_verified(view_options=self.view_options):
-            raise forms.ValidationError('Incorrect username, password or captcha')
-        return super(AdminLoginForm, self).clean()
+
+    def test_successful_captcha_verification_true_by_default(self):
+        recaptcha_verified = is_recaptcha_verified()
+        self.assertEqual(True, recaptcha_verified)
+
+
+    def test_unsuccessful_captcha_verification(self):
+        view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': True}
+        recaptcha_verified = is_recaptcha_verified(view_options=view_options)
+        self.assertEqual(False, recaptcha_verified)
+
+    def test_client_ip_from_x_forwarded_for(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '0.0.0.0,164.4.4.2'
+        }
+        expected_ip = get_client_ip(request)
+        actual_ip = '0.0.0.0'
+        self.assertEqual(actual_ip, expected_ip)
+
+    def test_client_ip_from_remote_addr(self):
+        request = HttpRequest()
+        request.META = {
+            'REMOTE_ADDR': '0.0.0.0'
+        }
+        expected_ip = get_client_ip(request)
+        actual_ip = '0.0.0.0'
+        self.assertEqual(actual_ip, expected_ip)

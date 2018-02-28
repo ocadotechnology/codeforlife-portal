@@ -63,5 +63,5 @@ def get_client_ip(request):
 
 
 # For forms with reCAPTCHA
-def is_recaptcha_verified(view_options):
+def is_recaptcha_verified(view_options={'is_recaptcha_valid': False, 'is_recaptcha_visible': False}):
     return not view_options['is_recaptcha_visible'] or view_options['is_recaptcha_valid']
