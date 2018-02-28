@@ -42,7 +42,7 @@ from django.contrib.auth.models import User
 
 from portal.models import Student, Teacher, stripStudentName
 from portal.helpers.password import password_strength_test
-from portal.helpers.captcha import is_recaptcha_verified, DEFAULT_VIEW_OPTIONS
+from portal.helpers import captcha
 
 
 choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
@@ -189,12 +189,10 @@ class TeacherLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
-    def __init__(self, request=None, *args, **kwargs):
-        super(TeacherLoginForm, self).__init__(*args, **kwargs)
-        self.view_options = DEFAULT_VIEW_OPTIONS
+    view_options = dict(captcha.DEFAULT_VIEW_OPTIONS)
 
     def clean(self):
-        if not is_recaptcha_verified(self.view_options):
+        if not captcha.is_recaptcha_verified(self.view_options):
             raise forms.ValidationError('Incorrect email address, password or captcha')
 
         email = self.cleaned_data.get('teacher_email', None)
