@@ -46,11 +46,9 @@ class HelpersTest(TestCase):
         recaptcha_verified = is_recaptcha_verified(view_options=view_options)
         self.assertEqual(True, recaptcha_verified)
 
-
     def test_successful_captcha_verification_true_by_default(self):
         recaptcha_verified = is_recaptcha_verified()
         self.assertEqual(True, recaptcha_verified)
-
 
     def test_unsuccessful_captcha_verification(self):
         view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': True}
