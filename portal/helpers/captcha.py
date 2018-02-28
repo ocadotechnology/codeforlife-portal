@@ -60,3 +60,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+# For forms with reCAPTCHA
+def is_recaptcha_verified(view_options):
+    return not view_options['is_recaptcha_visible'] or view_options['is_recaptcha_valid']

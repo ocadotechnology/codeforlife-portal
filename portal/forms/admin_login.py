@@ -37,13 +37,12 @@
 from django.contrib.auth.forms import AuthenticationForm
 
 from django import forms
-
+from portal.helpers.captcha import is_recaptcha_verified
 
 class AdminLoginForm(AuthenticationForm):
     view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
     def clean(self):
-        if self.view_options['is_recaptcha_visible']:
-            if not self.view_options['is_recaptcha_valid']:
-                raise forms.ValidationError('Incorrect username, password or captcha')
+        if not is_recaptcha_verified(self.view_options):
+            raise forms.ValidationError('Incorrect username, password or captcha')
         return super(AdminLoginForm, self).clean()
