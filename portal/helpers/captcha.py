@@ -66,3 +66,12 @@ def get_client_ip(request):
 # For forms with reCAPTCHA
 def is_recaptcha_verified(view_options):
     return not view_options['is_recaptcha_visible'] or view_options['is_recaptcha_valid']
+
+def is_captcha_in_form(form):
+    return 'captcha' in form.fields
+
+def remove_captcha_from_forms(*args):
+    map(remove_captcha_from_form, args)
+
+def remove_captcha_from_form(form):
+    form.fields.pop('captcha', None)

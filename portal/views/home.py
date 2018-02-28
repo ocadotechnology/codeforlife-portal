@@ -49,7 +49,7 @@ from portal import app_settings, emailMessages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
-from portal.helpers.captcha import check_recaptcha
+from portal.helpers.captcha import check_recaptcha, is_captcha_in_form, remove_captcha_from_forms
 from deploy import captcha
 
 
@@ -114,35 +114,39 @@ def render_login_form(request):
         'teacher_captcha': compute_teacher_should_use_captcha(teacher_limits, teacher_captcha_limit),
         'student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
         'independent_student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
-        'teacher_captcha_visible': False,
-        'student_captcha_visible': False,
-        'independent_student_captcha_visible': False,
     }
+
+    if not render_dict['teacher_captcha']:
+        remove_captcha_from_forms(login_form)
+
+    if not render_dict['student_captcha']:
+        remove_captcha_from_forms(school_login_form)
+
+    if not render_dict['independent_student_captcha']:
+        remove_captcha_from_forms(independent_student_login_form)
 
     if request.method == 'POST':
         if 'school_login' in request.POST:
             form = StudentLoginForm(request.POST, prefix="login")
             process_form = process_student_login_form
-            render_dict['school_login_form'] = StudentLoginForm(request.POST, prefix='login')
-            render_dict['student_captcha_visible'] = True
-            form.view_options['is_recaptcha_visible'] = compute_student_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit)
+            render_dict['school_login_form'] = form
+            if not is_captcha_in_form(school_login_form):
+                remove_captcha_from_forms(form)
 
         elif 'independent_student_login' in request.POST:
             form = IndependentStudentLoginForm(request.POST, prefix='independent_student')
             process_form = process_indep_student_login_form
-            render_dict['independent_student_login_form'] = IndependentStudentLoginForm(request.POST, prefix='independent_student')
+            render_dict['independent_student_login_form'] = form
             render_dict['independent_student_view'] = True
-            render_dict['independent_student_captcha_visible'] = True
-            form.view_options['is_recaptcha_visible'] = compute_student_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit)
+            if not is_captcha_in_form(independent_student_login_form):
+                remove_captcha_from_forms(form)
 
         else:
             form = TeacherLoginForm(request.POST, prefix='login')
             process_form = process_login_form
-            render_dict['login_form'] = TeacherLoginForm(request.POST, prefix='login')
-            render_dict['teacher_captcha_visible'] = True
-            form.view_options['is_recaptcha_visible'] = compute_teacher_use_captcha(teacher_limits, teacher_captcha_limit)
-
-        form.view_options['is_recaptcha_valid'] = check_recaptcha(request)
+            render_dict['login_form'] = form
+            if not is_captcha_in_form(login_form):
+                remove_captcha_from_forms(form)
 
         if form.is_valid():
             return process_form(request, form)
@@ -186,19 +190,9 @@ def render_signup_form(request):
     return res
 
 
-def compute_teacher_use_captcha(limits, captcha_limit):
-    using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit) and captcha.CAPTCHA_ENABLED
-    return using_captcha
-
-
 def compute_teacher_should_use_captcha(limits, captcha_limit):
     should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
-
-
-def compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit) and captcha.CAPTCHA_ENABLED
-    return using_captcha
 
 
 def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):

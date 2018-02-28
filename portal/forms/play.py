@@ -44,7 +44,7 @@ from django.utils import timezone
 
 from portal.models import Student, Class, stripStudentName
 from portal.helpers.password import password_strength_test
-from portal.helpers import captcha
+from captcha.fields import ReCaptchaField
 
 
 class StudentLoginForm(forms.Form):
@@ -59,12 +59,9 @@ class StudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
-    view_options = dict(captcha.DEFAULT_VIEW_OPTIONS)
+    captcha = ReCaptchaField()
 
     def clean(self):
-        if not captcha.is_recaptcha_verified(view_options=self.view_options):
-            raise forms.ValidationError('Invalid name, class access code, password or captcha')
-
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
         password = self.cleaned_data.get('password', None)
@@ -215,12 +212,9 @@ class IndependentStudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput())
 
-    view_options = dict(captcha.DEFAULT_VIEW_OPTIONS)
+    captcha = ReCaptchaField()
 
     def clean(self):
-        if not captcha.is_recaptcha_verified(self.view_options):
-            raise forms.ValidationError('Incorrect username, password or captcha')
-
         username = self.cleaned_data.get('username', None)
         password = self.cleaned_data.get('password', None)
 
