@@ -204,7 +204,7 @@ class TeacherLoginForm(forms.Form):
 
             user = authenticate(username=user.username, password=password)
 
-            self.check_email_erros(user)
+            self.check_email_errors(user)
 
             self.user = user
 
@@ -223,7 +223,7 @@ class TeacherLoginForm(forms.Form):
 
         return user
 
-    def check_email_erros(self, user):
+    def check_email_errors(self, user):
         if user is None:
             raise forms.ValidationError('Incorrect email address or password')
 
