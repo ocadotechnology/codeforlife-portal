@@ -3,12 +3,9 @@ from setuptools import find_packages, setup
 # from setuptest import test
 import versioneer
 
-# cmdclass = versioneer.get_cmdclass()
-# cmdclass['test'] = test
 
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
-      # cmdclass=cmdclass,
       version=versioneer.get_version(),
       packages=find_packages(),
       include_package_data=True,
