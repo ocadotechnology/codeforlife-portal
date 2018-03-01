@@ -332,6 +332,8 @@ def contact(request):
 
     if request.method == 'POST':
         contact_form = ContactForm(request.POST)
+        if not should_use_captcha:
+            remove_captcha_from_forms(contact_form)
         increment_count = True
         if contact_form.is_valid():
             anchor = "top"
