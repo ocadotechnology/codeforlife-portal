@@ -116,20 +116,12 @@ def render_login_form(request):
         'independent_student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
     }
 
-    if not render_dict['teacher_captcha']:
-        remove_captcha_from_forms(login_form)
-
-    if not render_dict['student_captcha']:
-        remove_captcha_from_forms(school_login_form)
-
-    if not render_dict['independent_student_captcha']:
-        remove_captcha_from_forms(independent_student_login_form)
+    configure_login_form_captcha(login_form, render_dict, 'teacher_captcha')
+    configure_login_form_captcha(school_login_form, render_dict, 'student_captcha')
+    configure_login_form_captcha(independent_student_login_form, render_dict, 'independent_student_captcha')
 
     if request.method == 'POST':
-        form, process_form, render_dict = configure_post_login(request,
-                                            render_dict, render_dict['teacher_captcha'],
-                                            render_dict['student_captcha'],
-                                            render_dict['independent_student_captcha'])
+        form, process_form, render_dict = configure_post_login(request, render_dict)
 
         if form.is_valid():
             return process_form(request, form)
@@ -141,30 +133,33 @@ def render_login_form(request):
     res.count = invalid_form
     return res
 
-def configure_post_login(request, render_dict, teacher_captcha, student_captcha, independent_student_captcha):
+
+def configure_post_login(request, render_dict):
     if 'school_login' in request.POST:
         form = StudentLoginForm(request.POST, prefix="login")
         process_form = process_student_login_form
         render_dict['school_login_form'] = form
-        if not student_captcha:
-            remove_captcha_from_forms(form)
+        configure_login_form_captcha(form, render_dict, 'student_captcha')
 
     elif 'independent_student_login' in request.POST:
         form = IndependentStudentLoginForm(request.POST, prefix='independent_student')
         process_form = process_indep_student_login_form
         render_dict['independent_student_login_form'] = form
         render_dict['independent_student_view'] = True
-        if not independent_student_captcha:
-            remove_captcha_from_forms(form)
+        configure_login_form_captcha(form, render_dict, 'independent_student_captcha')
 
     else:
         form = TeacherLoginForm(request.POST, prefix='login')
         process_form = process_login_form
         render_dict['login_form'] = form
-        if not teacher_captcha:
-            remove_captcha_from_forms(form)
+        configure_login_form_captcha(form, render_dict, 'teacher_captcha')
 
     return form, process_form, render_dict
+
+
+def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
+    if not render_dict[render_dict_captcha_key]:
+        remove_captcha_from_forms(form)
 
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
