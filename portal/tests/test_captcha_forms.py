@@ -36,39 +36,31 @@
 # identified as the original program.
 
 from django.test import TestCase
-from django.http import HttpRequest
-from portal.helpers.captcha import is_recaptcha_verified, get_client_ip, DEFAULT_VIEW_OPTIONS
+from portal.helpers.captcha import remove_captcha_from_forms, is_captcha_in_form
+from django import forms
+from captcha.fields import ReCaptchaField
 
 
-class HelpersTest(TestCase):
-    def test_successful_captcha_verification(self):
-        view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
-        recaptcha_verified = is_recaptcha_verified(view_options)
-        self.assertEqual(True, recaptcha_verified)
+class FormCaptchaTest(TestCase):
 
-    def test_successful_captcha_verification_true_by_default(self):
-        recaptcha_verified = is_recaptcha_verified(DEFAULT_VIEW_OPTIONS)
-        self.assertEqual(False, recaptcha_verified)
+    class FormWithCaptcha(forms.Form):
 
-    def test_unsuccessful_captcha_verification(self):
-        view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': True}
-        recaptcha_verified = is_recaptcha_verified(view_options)
-        self.assertEqual(False, recaptcha_verified)
+        captcha = ReCaptchaField()
 
-    def test_client_ip_from_x_forwarded_for(self):
-        request = HttpRequest()
-        request.META = {
-            'HTTP_X_FORWARDED_FOR': '0.0.0.0,164.4.4.2'
-        }
-        expected_ip = get_client_ip(request)
-        actual_ip = '0.0.0.0'
-        self.assertEqual(actual_ip, expected_ip)
+    def test_is_captcha_in_form(self):
+        form_with_captcha = FormCaptchaTest.FormWithCaptcha()
+        print(form_with_captcha.fields)
+        self.assertTrue(is_captcha_in_form(form_with_captcha))
 
-    def test_client_ip_from_remote_addr(self):
-        request = HttpRequest()
-        request.META = {
-            'REMOTE_ADDR': '0.0.0.0'
-        }
-        expected_ip = get_client_ip(request)
-        actual_ip = '0.0.0.0'
-        self.assertEqual(actual_ip, expected_ip)
+        form_without_captcha = forms.Form()
+        self.assertFalse(is_captcha_in_form(form_without_captcha))
+
+    def test_remove_captcha_from_forms(self):
+        form1 = FormCaptchaTest.FormWithCaptcha()
+        form2 = forms.Form()
+        form3 = FormCaptchaTest.FormWithCaptcha()
+
+        remove_captcha_from_forms(form1, form2, form3)
+
+        for form in [form1, form2, form3]:
+            self.assertFalse(is_captcha_in_form(form))
