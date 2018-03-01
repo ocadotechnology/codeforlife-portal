@@ -323,8 +323,6 @@ def contact(request):
     increment_count = False
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
-
-    using_captcha = (limits['ip'][0] > captcha_limit) and captcha.CAPTCHA_ENABLED
     should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
     anchor = ''
@@ -332,8 +330,6 @@ def contact(request):
     if request.method == 'POST':
         contact_form = ContactForm(request.POST)
         increment_count = True
-        contact_form.view_options['is_recaptcha_visible'] = should_use_captcha
-        contact_form.view_options['is_recaptcha_valid'] = check_recaptcha(request) if using_captcha else False
         if contact_form.is_valid():
             anchor = "top"
             email_message = emailMessages.contactEmail(
@@ -356,6 +352,9 @@ def contact(request):
 
     else:
         contact_form = ContactForm()
+
+    if not should_use_captcha:
+        remove_captcha_from_forms(contact_form)
 
     response = render(request, 'portal/help-and-support.html',
                       {'form': contact_form,

@@ -36,7 +36,7 @@
 # identified as the original program.
 from django import forms
 from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
-from portal.helpers import captcha
+from captcha.fields import ReCaptchaField
 
 
 class ContactForm(forms.Form):
@@ -52,12 +52,7 @@ class ContactForm(forms.Form):
     browser = forms.CharField(label='Browser', max_length=250, required=False,
                               widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'}))
 
-    view_options = dict(captcha.DEFAULT_VIEW_OPTIONS)
-
-    def clean(self):
-        if not captcha.is_recaptcha_verified(self.view_options):
-            raise forms.ValidationError('Incorrect captcha')
-        return self.cleaned_data
+    captcha = ReCaptchaField()
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
