@@ -32,9 +32,9 @@
                 </tr>
                 <tr>
                     <td colspan='2'>
-                        {% if captcha %}
-                            <div class="g-recaptcha" data-sitekey={{ settings.RECAPTCHA_PUBLIC_KEY }}></div>
-                        {% endif %}
+                        {# {% if captcha %} #}
+                            {{ form.captcha }}
+                        {# {% endif %} #}
                     </td>
                 </tr>
             </table>

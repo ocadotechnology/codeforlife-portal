@@ -35,15 +35,17 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.contrib.auth.forms import AuthenticationForm
-from django import forms
-from portal.helpers import captcha
+from captcha.fields import ReCaptchaField
+from portal.helpers.captcha import remove_captcha_from_form
 
 
 class AdminLoginForm(AuthenticationForm):
 
-    view_options = dict(captcha.DEFAULT_VIEW_OPTIONS)
+    captcha = ReCaptchaField()
 
-    def clean(self):
-        if not captcha.is_recaptcha_verified(self.view_options):
-            raise forms.ValidationError('Incorrect username, password or captcha')
-        return super(AdminLoginForm, self).clean()
+    is_captcha_visible = False
+
+    def __init__(self, user, *args, **kwags):
+        super(AdminLoginForm, self).__init__(user, *args, **kwags)
+        if not AdminLoginForm.is_captcha_visible:
+            remove_captcha_from_form(self)
