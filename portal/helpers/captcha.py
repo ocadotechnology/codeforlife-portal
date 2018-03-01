@@ -35,11 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+
 def is_captcha_in_form(form):
     return 'captcha' in form.fields
 
+
 def remove_captcha_from_forms(*args):
     map(remove_captcha_from_form, args)
+
 
 def remove_captcha_from_form(form):
     form.fields.pop('captcha', None)
