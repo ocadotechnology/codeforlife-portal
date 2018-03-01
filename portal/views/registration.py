@@ -64,6 +64,7 @@ from portal.permissions import not_logged_in, not_fully_logged_in
 from portal.helpers.emails import PASSWORD_RESET_EMAIL
 from portal import app_settings
 from ratelimit.decorators import ratelimit
+from portal.helpers.captcha import remove_captcha_from_form
 
 
 @ratelimit('def', periods=['1m'])
@@ -98,6 +99,8 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
                    from_email=None, current_app=None, extra_context=None, html_email_template_name=None):
     if request.method == "POST":
         form = password_reset_form(request.POST)
+        if not captcha.CAPTCHA_ENABLED:
+            remove_captcha_from_form(form)
         if form.is_valid():
             opts = {
                 'use_https': request.is_secure(),
@@ -120,6 +123,9 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
             return render(request, 'portal/reset_password_email_sent.html', {'usertype': usertype})
     else:
         form = password_reset_form()
+
+    if not captcha.CAPTCHA_ENABLED:
+        remove_captcha_from_form(form)
 
     context = {
         'form': form,

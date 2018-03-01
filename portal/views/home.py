@@ -49,7 +49,7 @@ from portal import app_settings, emailMessages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
-from portal.helpers.captcha import is_captcha_in_form, remove_captcha_from_forms
+from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
 
 
