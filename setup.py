@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
-# from setuptest import test
 import versioneer
 
 
