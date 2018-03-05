@@ -151,7 +151,6 @@ class TeacherPasswordResetForm(forms.Form):
 
 
 class StudentPasswordResetForm(forms.Form):
-
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
