@@ -48,7 +48,6 @@ from captcha.fields import ReCaptchaField
 
 
 class StudentLoginForm(forms.Form):
-
     name = forms.CharField(
         label='Name',
         widget=forms.TextInput(attrs={'placeholder': "Jane"}))

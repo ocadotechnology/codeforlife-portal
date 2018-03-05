@@ -40,7 +40,6 @@ from captcha.fields import ReCaptchaField
 
 
 class ContactForm(forms.Form):
-
     name = forms.CharField(label='Name', max_length=100,
                            widget=forms.TextInput(attrs={'class': 'contactField'}))
     telephone = forms.CharField(label='Telephone', max_length=50,

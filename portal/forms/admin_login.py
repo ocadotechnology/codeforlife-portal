@@ -40,7 +40,6 @@ from portal.helpers.captcha import remove_captcha_from_form
 
 
 class AdminLoginForm(AuthenticationForm):
-
     captcha = ReCaptchaField()
 
     is_captcha_visible = False

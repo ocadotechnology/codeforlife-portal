@@ -44,7 +44,6 @@ from captcha.fields import ReCaptchaField
 class FormCaptchaTest(TestCase):
 
     class FormWithCaptcha(forms.Form):
-
         captcha = ReCaptchaField()
 
     def test_is_captcha_in_form(self):
