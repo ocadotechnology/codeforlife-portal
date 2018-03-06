@@ -34,29 +34,23 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import partial
-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from recaptcha import RecaptchaClient
-from django_recaptcha_field import create_form_subclass_with_recaptcha
-from django.utils.http import is_safe_url
 
-from portal.models import Teacher, Class, Student
+from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL
-from portal.app_settings import CONTACT_FORM_EMAILS
-from portal.utils import using_two_factor
 from portal import app_settings, emailMessages
+from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
-
-recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
+from portal.helpers.captcha import remove_captcha_from_forms
+from deploy import captcha
 
 
 def teach_email_labeller(request):
@@ -99,25 +93,13 @@ def render_login_form(request):
     teacher_limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
     teacher_captcha_limit = 5
 
-    LoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(TeacherLoginForm, recaptcha_client), request)
-    InputLoginForm = compute_teacher_input_login_form(LoginFormWithCaptcha, teacher_limits, teacher_captcha_limit)
-    OutputLoginForm = compute_teacher_output_login_form(LoginFormWithCaptcha, teacher_limits, teacher_captcha_limit)
-
-    login_form = OutputLoginForm(prefix='login')
+    login_form = TeacherLoginForm(prefix='login')
 
     student_limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
     student_captcha_limit = 30
     student_name_captcha_limit = 5
 
-    StudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentLoginForm, recaptcha_client), request)
-    InputStudentLoginForm = compute_student_input_login_form(StudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
-    OutputStudentLoginForm = compute_student_output_login_form(StudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
-
-    school_login_form = OutputStudentLoginForm(prefix='login')
-
-    IndependentStudentLoginFormWithCaptcha = partial(create_form_subclass_with_recaptcha(IndependentStudentLoginForm, recaptcha_client), request)
-    InputIndependentStudentLoginForm = compute_indep_student_input_login_form(IndependentStudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
-    OutputIndependentStudentLoginForm = compute_indep_student_output_login_form(IndependentStudentLoginFormWithCaptcha, student_limits, student_captcha_limit, student_name_captcha_limit)
+    school_login_form = StudentLoginForm(prefix='login')
 
     independent_student_login_form = IndependentStudentLoginForm(prefix='independent_student')
     independent_student_view = False
@@ -128,24 +110,18 @@ def render_login_form(request):
         'independent_student_login_form': independent_student_login_form,
         'independent_student_view': independent_student_view,
         'logged_in_as_teacher': is_logged_in_as_teacher(request),
+        'settings': app_settings,
+        'teacher_captcha': compute_teacher_should_use_captcha(teacher_limits, teacher_captcha_limit),
+        'student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
+        'independent_student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
     }
 
+    configure_login_form_captcha(login_form, render_dict, 'teacher_captcha')
+    configure_login_form_captcha(school_login_form, render_dict, 'student_captcha')
+    configure_login_form_captcha(independent_student_login_form, render_dict, 'independent_student_captcha')
+
     if request.method == 'POST':
-        if 'school_login' in request.POST:
-            form = InputStudentLoginForm(request.POST, prefix="login")
-            process_form = process_student_login_form
-            render_dict['school_login_form'] = OutputStudentLoginForm(request.POST, prefix='login')
-
-        elif 'independent_student_login' in request.POST:
-            form = InputIndependentStudentLoginForm(request.POST, prefix='independent_student')
-            process_form = process_indep_student_login_form
-            render_dict['independent_student_login_form'] = OutputIndependentStudentLoginForm(request.POST, prefix='independent_student')
-            render_dict['independent_student_view'] = True
-
-        else:
-            form = InputLoginForm(request.POST, prefix='login')
-            process_form = process_login_form
-            render_dict['login_form'] = OutputLoginForm(request.POST, prefix='login')
+        form, process_form, render_dict = configure_post_login(request, render_dict)
 
         if form.is_valid():
             return process_form(request, form)
@@ -156,6 +132,34 @@ def render_login_form(request):
 
     res.count = invalid_form
     return res
+
+
+def configure_post_login(request, render_dict):
+    if 'school_login' in request.POST:
+        form = StudentLoginForm(request.POST, prefix="login")
+        process_form = process_student_login_form
+        render_dict['school_login_form'] = form
+        configure_login_form_captcha(form, render_dict, 'student_captcha')
+
+    elif 'independent_student_login' in request.POST:
+        form = IndependentStudentLoginForm(request.POST, prefix='independent_student')
+        process_form = process_indep_student_login_form
+        render_dict['independent_student_login_form'] = form
+        render_dict['independent_student_view'] = True
+        configure_login_form_captcha(form, render_dict, 'independent_student_captcha')
+
+    else:
+        form = TeacherLoginForm(request.POST, prefix='login')
+        process_form = process_login_form
+        render_dict['login_form'] = form
+        configure_login_form_captcha(form, render_dict, 'teacher_captcha')
+
+    return form, process_form, render_dict
+
+
+def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
+    if not render_dict[render_dict_captcha_key]:
+        remove_captcha_from_forms(form)
 
 
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
@@ -189,54 +193,14 @@ def render_signup_form(request):
     return res
 
 
-def compute_teacher_use_captcha(limits, captcha_limit):
-    using_captcha = (limits['ip'][0] > captcha_limit or limits['email'][0] > captcha_limit)
-    return using_captcha
-
-
 def compute_teacher_should_use_captcha(limits, captcha_limit):
-    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
-
-
-def compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    using_captcha = (limits['ip'][0] > ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
-    return using_captcha
 
 
 def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit)
+    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
-
-
-def compute_teacher_input_login_form(LoginFormWithCaptcha, limits, captcha_limit):
-    InputLoginForm = LoginFormWithCaptcha if compute_teacher_use_captcha(limits, captcha_limit) else TeacherLoginForm
-    return InputLoginForm
-
-
-def compute_teacher_output_login_form(LoginFormWithCaptcha, limits, captcha_limit):
-    OutputLoginForm = LoginFormWithCaptcha if compute_teacher_should_use_captcha(limits, captcha_limit) else TeacherLoginForm
-    return OutputLoginForm
-
-
-def compute_student_input_login_form(StudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
-    InputStudentLoginForm = StudentLoginFormWithCaptcha if compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else StudentLoginForm
-    return InputStudentLoginForm
-
-
-def compute_student_output_login_form(StudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
-    OutputStudentLoginForm = StudentLoginFormWithCaptcha if compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else StudentLoginForm
-    return OutputStudentLoginForm
-
-
-def compute_indep_student_input_login_form(IndependentStudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
-    InputIndependentStudentLoginForm = IndependentStudentLoginFormWithCaptcha if compute_student_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else IndependentStudentLoginForm
-    return InputIndependentStudentLoginForm
-
-
-def compute_indep_student_output_login_form(IndependentStudentLoginFormWithCaptcha, limits, ip_captcha_limit, name_captcha_limit):
-    OutputIndependentStudentLoginForm = IndependentStudentLoginFormWithCaptcha if compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit) else IndependentStudentLoginForm
-    return OutputIndependentStudentLoginForm
 
 
 def process_login_form(request, login_form):
@@ -362,27 +326,22 @@ def contact(request):
     increment_count = False
     limits = getattr(request, 'limits', {'ip': [0]})
     captcha_limit = 5
-
-    using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
-
-    ContactFormWithCaptcha = partial(create_form_subclass_with_recaptcha(ContactForm, recaptcha_client), request)
-    InputContactForm = ContactFormWithCaptcha if using_captcha else ContactForm
-    OutputContactForm = ContactFormWithCaptcha if should_use_captcha else ContactForm
+    should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
     anchor = ''
 
     if request.method == 'POST':
-        contact_form = InputContactForm(request.POST)
+        contact_form = ContactForm(request.POST)
+        if not should_use_captcha:
+            remove_captcha_from_forms(contact_form)
         increment_count = True
-
         if contact_form.is_valid():
             anchor = "top"
             email_message = emailMessages.contactEmail(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
                 contact_form.cleaned_data['browser'])
-            send_email(CONTACT_EMAIL, CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
+            send_email(CONTACT_EMAIL, app_settings.CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
 
             confirmed_email_message = emailMessages.confirmationContactEmailMessage(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
@@ -393,15 +352,20 @@ def contact(request):
             messages.success(request, 'Your message was sent successfully.')
             return render(request, 'portal/help-and-support.html', {'form': contact_form, 'anchor': anchor})
         else:
-            contact_form = OutputContactForm(request.POST)
+            contact_form = ContactForm(request.POST)
             anchor = "contact"
 
     else:
-        contact_form = OutputContactForm()
+        contact_form = ContactForm()
+
+    if not should_use_captcha:
+        remove_captcha_from_forms(contact_form)
 
     response = render(request, 'portal/help-and-support.html',
                       {'form': contact_form,
-                       'anchor': anchor})
+                       'anchor': anchor,
+                       'captcha': should_use_captcha,
+                       'settings': app_settings})
 
     response.count = increment_count
     return response

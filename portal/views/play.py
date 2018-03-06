@@ -36,7 +36,6 @@
 # identified as the original program.
 
 from functools import partial
-from recaptcha import RecaptchaClient
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
@@ -44,7 +43,6 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal.forms.play import StudentEditAccountForm, StudentJoinOrganisationForm
 from portal.permissions import logged_in_as_student
@@ -52,8 +50,6 @@ from portal.helpers.emails import send_email, send_verification_email, NOTIFICAT
 from portal import app_settings, emailMessages
 
 from ratelimit.decorators import ratelimit
-
-recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 @login_required(login_url=reverse_lazy('login_view'))
@@ -115,18 +111,9 @@ def username_labeller(request):
 @ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def student_join_organisation(request):
     increment_count = False
-    limits = getattr(request, 'limits', {'ip': [0]})
-    captcha_limit = 5
-
-    using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
-
-    StudentJoinOrganisationFormWithCaptcha = partial(create_form_subclass_with_recaptcha(StudentJoinOrganisationForm, recaptcha_client), request)
-    InputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if using_captcha else StudentJoinOrganisationForm
-    OutputStudentJoinOrganisationForm = StudentJoinOrganisationFormWithCaptcha if should_use_captcha else StudentJoinOrganisationForm
 
     student = request.user.new_student
-    request_form = OutputStudentJoinOrganisationForm()
+    request_form = StudentJoinOrganisationForm()
 
     # check student not managed by a school
     if student.class_field:
@@ -135,7 +122,7 @@ def student_join_organisation(request):
     if request.method == 'POST':
         if 'class_join_request' in request.POST:
             increment_count = True
-            request_form = InputStudentJoinOrganisationForm(request.POST)
+            request_form = StudentJoinOrganisationForm(request.POST)
             if request_form.is_valid():
                 student.pending_class_request = request_form.klass
                 student.save()
@@ -149,7 +136,7 @@ def student_join_organisation(request):
                 messages.success(request, 'Your request to join a school has been received successfully.')
 
             else:
-                request_form = OutputStudentJoinOrganisationForm(request.POST)
+                request_form = StudentJoinOrganisationForm(request.POST)
 
         elif 'revoke_join_request' in request.POST:
             student.pending_class_request = None

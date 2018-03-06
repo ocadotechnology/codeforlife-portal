@@ -65,6 +65,7 @@ LOGIN_REDIRECT_URL = '/portal/teach/dashboard/'
 
 INSTALLED_APPS = (
     'portal',
+    'captcha'
 )
 
 PIPELINE_ENABLED = False

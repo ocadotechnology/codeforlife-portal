@@ -2,6 +2,7 @@
 from setuptools import find_packages, setup
 import versioneer
 
+
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
       version=versioneer.get_version(),
@@ -15,12 +16,12 @@ setup(name='codeforlife-portal',
         'django-jquery==1.9.1',
         'django-autoconfig==0.3.6',
         'django-pipeline==1.5.4',
+        'django-recaptcha==1.3.1',  # 1.4 dropped support for < 1.11
 
         'pyyaml==3.10',
         'rapid-router >= 1.0.0.post.dev1',
         'six==1.9.0',
         'docutils==0.12',
-        'django-recaptcha-field==1.0b2',
         'reportlab==3.2.0',
         'postcodes==0.1',
         'django-formtools==1.0',

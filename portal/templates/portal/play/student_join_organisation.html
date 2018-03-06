@@ -73,12 +73,6 @@
                     <label for="id_{{ request_form.access_code.html_name }}">{{ request_form.access_code.label }}</label>
                     {{ request_form.access_code }}
 
-                    {% if request_form.recaptcha %}
-                        {{ request_form.recaptcha.errors }}
-                        <label for="id_{{ request_form.access_code.html_name }}">{{ request_form.recaptcha.label }}</label>
-                        {{ request_form.recaptcha|safe }}
-                    {% endif %}
-
                     <div class='section group'>
                         <div class='col span_1_of_2'>
                             <a class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>

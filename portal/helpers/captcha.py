@@ -34,17 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.contrib.auth.forms import AuthenticationForm
-from captcha.fields import ReCaptchaField
-from portal.helpers.captcha import remove_captcha_from_form
 
 
-class AdminLoginForm(AuthenticationForm):
-    captcha = ReCaptchaField()
+def is_captcha_in_form(form):
+    return 'captcha' in form.fields
 
-    is_captcha_visible = False
 
-    def __init__(self, user, *args, **kwags):
-        super(AdminLoginForm, self).__init__(user, *args, **kwags)
-        if not AdminLoginForm.is_captcha_visible:
-            remove_captcha_from_form(self)
+def remove_captcha_from_forms(*args):
+    map(remove_captcha_from_form, args)
+
+
+def remove_captcha_from_form(form):
+    form.fields.pop('captcha', None)

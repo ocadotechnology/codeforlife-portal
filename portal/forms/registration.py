@@ -48,6 +48,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 
 from portal.models import Student, Teacher
 from portal.helpers.password import password_strength_test
+from captcha.fields import ReCaptchaField
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
@@ -79,6 +80,8 @@ class TeacherPasswordResetForm(forms.Form):
             attrs={'placeholder': 'my.email@address.com'}
         )
     )
+
+    captcha = ReCaptchaField()
 
     def clean_email(self):
         email = self.cleaned_data.get('email', None)
@@ -151,6 +154,8 @@ class StudentPasswordResetForm(forms.Form):
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
+
+    captcha = ReCaptchaField()
 
     def clean_username(self):
         username = self.cleaned_data.get('username', None)
