@@ -36,7 +36,7 @@
 # identified as the original program.
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.test import Client, TestCase
 from portal.models import Student, UserProfile
 from utils.classes import create_class_directly
@@ -100,3 +100,8 @@ class SecurityTestCase(TestCase):
     def test_class_page_wrong_teacher(self):
         """Try and view a class page without being the teacher for that class."""
         self._test_incorrect_teacher_cannot_login('onboarding-class')
+
+    def test_anonymous_cannot_access_teaching_materials(self):
+        c = Client()
+        page = reverse_lazy('materials')
+        self.assertNotEqual(c.get(page).status_code, 200)

@@ -244,12 +244,13 @@
     });
 
     function animateScroll() {
+        var bannerHeight = $('.sticky-subnav').height();
         $('a[href*=#]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
                 var $target = getTarget(this);
                 if ($target.length) {
-                    animate($target.offset().top - 50);
+                    animate($target.offset().top - bannerHeight);
                     return false;
                 }
             }

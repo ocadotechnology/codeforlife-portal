@@ -116,6 +116,15 @@ class TestTeacher(BaseTest):
 
         assert self.is_pdf_viewer_page(page)
 
+        page = page.click_resources_button_link().go_to_materials_page()
+
+        assert self.is_materials_page(page)
+
+        keystages = ['ks1', 'lks2', 'uks2', 'ks3']
+        for ks in keystages:
+            page = page.click_ks_link(ks)
+            assert self.is_materials_page(page)
+
     def test_edit_details(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

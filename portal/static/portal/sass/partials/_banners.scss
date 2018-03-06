@@ -131,8 +131,15 @@
   background-position: top left;
 }
 
+.banner--homepage--aimmo-materials,
+.banner--aimmo-materials {
+  background-image: url('../img/background_grey.png');
+  background-position: top right;
+}
+
 .banner--teacher,
-.banner--student {
+.banner--student,
+.banner--aimmo-materials {
   align-items: center;
   display: flex;
   height: 263px; // TO BE CHANGED!
@@ -213,6 +220,8 @@
   }
 }
 
+
+
 @media (max-width: 1200px) {
 
   .banner {
@@ -290,4 +299,5 @@
     }
 
   }
+
 }

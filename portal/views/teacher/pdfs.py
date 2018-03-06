@@ -897,5 +897,39 @@ PDF_DATA = {
         "links": ["uks2_assessment_guide", "uks2_self_assessment_sheet"],
         "url": "python/assessment/UKS2-TRS.pdf",
         "page_origin": "#uks2-assessments"
-    }
+    },
+
+    # ...................KS3 sessions...........#
+    "ks3_session_1": {
+        "title": "MMO",
+        "description": "AI:MMO: the MMO Basics",
+        "links": ["KS1_S1_1", "KS3_S1_2", "KS3_S1_3"],
+        "url": "",
+        "page_origin": "#ks3-sessions"
+    },
+
+    # ..............KS3 Resource Sheets...........#
+    # ...Session 1...#
+    "KS3_S1_1": {
+        "title": "Code cheat sheet",
+        "description": "To be used to code the AI:MMO game.",
+        "links": [],
+        "url": "KS3/resource_sheets/KS3-Cheat-Sheet.pdf",
+        "page_origin": "#ks3-resource-sheets"
+    },
+    "KS3_S1_2": {
+        "title": "Indentation - Why it's important",
+        "description": "To be used to understand how to use Python to code the AI:MMO game.",
+        "links": [],
+        "url": "KS3/resource_sheets/KS3-PythonIndentation.pdf",
+        "page_origin": "#ks3-resource-sheets"
+    },
+    "KS3_S1_3": {
+        "title": "Understanding the turn-based game",
+        "description": "To be used to understand the AI:MMO game.",
+        "links": [],
+        "url": "KS3/resource_sheets/KS3-HandleTurn.pdf",
+        "page_origin": "#ks3-resource-sheets"
+    },
+
 }
