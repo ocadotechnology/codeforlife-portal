@@ -48,6 +48,6 @@ class MaterialsPage(BasePage):
         self.browser.find_element_by_id('pdf_link').click()
         return pdf_viewer_page.PDFViewerPage(self.browser)
 
-    def click_ks_link(self, keystage):
+    def click_keystage_link(self, keystage):
         self.browser.find_element_by_id(keystage).click()
         return self

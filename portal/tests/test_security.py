@@ -104,4 +104,4 @@ class SecurityTestCase(TestCase):
     def test_anonymous_cannot_access_teaching_materials(self):
         c = Client()
         page = reverse_lazy('materials')
-        self.assertNotEqual(c.get(page).status_code, 200)
+        self.assertEqual(c.get(page).status_code, 302)

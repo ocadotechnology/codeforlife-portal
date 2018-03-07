@@ -242,15 +242,6 @@ button,
   color: $color-text-primary;
 }
 
-.button--secondary--aimmo--download {
-  background: $color-button-aimmo-materials;
-  color: $color-text-secondary;
-
-  &:hover {
-    background: $color-button-primary-action-navigation;
-  }
-}
-
 .home-icon:hover {
   color: $color-background-primary;
 }

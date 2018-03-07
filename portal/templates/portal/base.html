@@ -243,8 +243,7 @@
         $('input, textarea').placeholder();
     });
 
-    function animateScroll() {
-        var bannerHeight = $('.sticky-subnav').height();
+    function animateScroll(bannerHeight) {
         $('a[href*=#]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
@@ -278,7 +277,8 @@
     }
 
     $(document).ready(function() {
-        animateScroll();
+        var bannerHeight = $('.sticky-subnav').height();
+        animateScroll(bannerHeight);
     });
 
     $('.logout').click(function(){
