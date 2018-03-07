@@ -131,15 +131,14 @@
   background-position: top left;
 }
 
-.banner--homepage--grey-cubes,
-.banner--grey-cubes {
+.banner__game--aimmo {
   background-image: url('../img/background_grey.png');
   background-position: top right;
 }
 
 .banner--teacher,
 .banner--student,
-.banner--grey-cubes {
+.banner__game {
   align-items: center;
   display: flex;
   height: 263px; // TO BE CHANGED!
