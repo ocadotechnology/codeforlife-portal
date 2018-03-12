@@ -929,7 +929,19 @@ PDF_DATA = {
         "description": "To be used to understand the AI:MMO game.",
         "links": [],
         "url": "KS3/resource_sheets/KS3-HandleTurn.pdf",
+        "video":"https://www.youtube.com/embed/Mw8CaG47Wek",
+        "video_download_link": "videos/KS3_Understanding_Turn_Based_System.mp4",
         "page_origin": "#ks3-resource-sheets"
+    },
+
+    # ...KS3 Assessments...#
+
+    "ks3_teacher_record_sheet": {
+        "title": "KS3 - Teacher Record Sheet",
+        "description": "Document for the teacher to record pupils progress.",
+        "url": "KS3/assessment/teacher_record_sheet.pdf",
+        "links": [],
+        "page_origin": "#ks3-assessments"
     },
 
 }
