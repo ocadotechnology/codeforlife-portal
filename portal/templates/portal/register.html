@@ -59,6 +59,12 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    {% if captcha %}
+                    {{ teacher_signup_form.captcha }}
+                    {% endif %}
+                </div>
+
                 <button class="button--big button--primary--general-educate" type="submit" name="teacher_signup">Register</button>
             </form>
 
@@ -99,6 +105,12 @@
                         <div id="student-password-sign" class='password-strength-sign'></div>
                         <div id="student-password-text" class='password-strength-text'></div>
                     </div>
+                </div>
+
+                <div class="row">
+                    {% if captcha %}
+                    {{ student_signup_form.captcha }}
+                    {% endif %}
                 </div>
 
                 <button type='submit' name='student_signup' class="button--big button--primary--general-play" value='Register'>Register</button>

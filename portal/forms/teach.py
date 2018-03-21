@@ -95,6 +95,8 @@ class TeacherSignupForm(forms.Form):
         widget=forms.PasswordInput()
     )
 
+    captcha = ReCaptchaField()
+
     def clean_teacher_password(self):
         password = self.cleaned_data.get('teacher_password', None)
 

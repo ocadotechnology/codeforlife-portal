@@ -168,6 +168,8 @@ class StudentSignupForm(forms.Form):
         label='Confirm Password',
         widget=forms.PasswordInput)
 
+    captcha = ReCaptchaField()
+
     def clean_name(self):
         name = self.cleaned_data.get('name', None)
         if re.match(re.compile('^[\w ]+$'), name) is None:
