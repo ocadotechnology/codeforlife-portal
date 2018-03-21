@@ -167,6 +167,7 @@ def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
 @ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def render_signup_form(request):
     invalid_form = False
+    should_use_captcha = captcha.CAPTCHA_ENABLED
 
     teacher_signup_form = TeacherSignupForm(prefix='teacher_signup')
     student_signup_form = StudentSignupForm(prefix='student_signup')
@@ -174,12 +175,20 @@ def render_signup_form(request):
     if request.method == 'POST':
         if 'teacher_signup' in request.POST:
             teacher_signup_form = TeacherSignupForm(request.POST, prefix='teacher_signup')
+
+            if not should_use_captcha:
+                remove_captcha_from_forms(teacher_signup_form)
+
             if teacher_signup_form.is_valid():
                 data = teacher_signup_form.cleaned_data
                 return process_signup_form(request, data)
 
         else:
             student_signup_form = StudentSignupForm(request.POST, prefix='student_signup')
+
+            if not should_use_captcha:
+                remove_captcha_from_forms(student_signup_form)
+
             if student_signup_form.is_valid():
                 data = student_signup_form.cleaned_data
                 return process_student_signup_form(request, data)
@@ -187,6 +196,8 @@ def render_signup_form(request):
     res = render(request, 'portal/register.html', {
         'teacher_signup_form': teacher_signup_form,
         'student_signup_form': student_signup_form,
+        'captcha': should_use_captcha,
+
     })
 
     res.count = invalid_form
