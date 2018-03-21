@@ -289,13 +289,13 @@
                     </div>
                 </div>
                 {{ form.browser }}
-				<div class="row">
-					<div class="col-sm-6">
-					{% if captcha %}
-					{{ form.captcha }}
-					{% endif %}
-					</div>
-				</div>
+		<div class="row">
+		    <div class="col-sm-6">
+		        {% if captcha %}
+		        {{ form.captcha }}
+		        {% endif %}
+		    </div>
+		</div>
 
                 <section>
                     <button type="submit" name="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
