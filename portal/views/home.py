@@ -167,7 +167,9 @@ def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
 @ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def render_signup_form(request):
     invalid_form = False
-    should_use_captcha = captcha.CAPTCHA_ENABLED
+    limits = getattr(request, 'limits', {'ip': [0]})
+    captcha_limit = 5
+    should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
     teacher_signup_form = TeacherSignupForm(prefix='teacher_signup')
     student_signup_form = StudentSignupForm(prefix='student_signup')
