@@ -324,9 +324,7 @@ def redirect_user_to_correct_page(request, teacher):
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def contact(request):
     increment_count = False
-    limits = getattr(request, 'limits', {'ip': [0]})
-    captcha_limit = 5
-    should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
+    should_use_captcha = captcha.CAPTCHA_ENABLED
 
     anchor = ''
 
