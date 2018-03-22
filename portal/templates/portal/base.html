@@ -20,22 +20,22 @@
 
     {% block css %}
     {% cache 3600 fragment-base_new-css %}
-    <link href='{% static "portal.css" %}' type="text/css" rel="stylesheet">
+    <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     {% endcache %}
     {% endblock css %}
 
     {% cache 3600 fragment-base_new-javascript %}
-    <script type='text/javascript' src='{% static "portal/js/lib/jquery.js" %}'></script>
-    <script type="text/javascript" src='{% static "portal/js/lib/jquery-ui.js" %}'></script>
-    <script type='text/javascript' src='{% static "portal/js/bootstrap.js" %}'></script>
-    <script type="text/javascript" src='{% static "portal/js/lib/modernizr.custom.79639.js" %}'></script>
-    <script type="text/javascript" src='{% static "portal/js/common.js" %}'></script>
-    <script type="text/javascript" src='{% static "portal/js/deleteWorkspaces.js" %}'></script>
+    <script type="text/javascript" src="{% static 'portal/js/lib/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/lib/modernizr.custom.79639.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/deleteWorkspaces.js' %}"></script>
     {% endcache %}
-    <script type="text/javascript" src='{% static "portal/js/jquery.placeholder.js" %}'></script>
-    <script type="text/javascript" src='{% static "portal/js/lib/jquery.colorbox.js" %}'></script>
+    <script type="text/javascript" src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/lib/jquery.colorbox.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
     {% block check_user_status %}
     <script>
@@ -81,14 +81,14 @@
 {% include 'portal/mouseflow.html' %}
 
 {% block contentWrapper %}
-<div {% block pageID %}id='contentWrapper'{% endblock %}>
+<div {% block pageID %}id="contentWrapper"{% endblock %}>
     {% block topBar %}
     <div class="header">
         <a href="{% url 'home' %}"><img class="logo col-sm-offset-1"></a>
         <div class="menu col-sm-12">
             <div class="menu__left-side col-sm-6 col-sm-offset-2">
                 <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
-                <a href="{% url 'home' %}"><img class="logo-horizontal" src='{% static "portal/img/logo_c4l_horizontal.png" %}'></a>
+                <a href="{% url 'home' %}"><img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
                 <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
                 {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
@@ -173,15 +173,15 @@
 {% endblock topBar %}
     {% block subNav %}
     {% endblock subNav %}
-    <div id='messages'>
+    <div id="messages">
         {% if messages %}
         <div class="sub-nav--message">
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
-                <img title="Information" alt="Information sign" src='{% static "portal/img/icon_info.png" %}'>
+                <img title="Information" alt="Information sign" src="{% static 'portal/img/icon_info.png' %}">
                 <p>
                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
-                <a class="x-icon"><img title="Close" alt="Close sign" src='{% static "portal/img/icon_close.png" %}'></a>
+                <a class="x-icon"><img title="Close" alt="Close sign" src="{% static 'portal/img/icon_close.png' %}"></a>
             </div>
             {% endfor %}
         </div>
@@ -213,9 +213,9 @@
 {% block footer %}
 {% cache 3600 fragment-base_new-footer %}
 <div class="footer">
-    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img/footer_arrow.png" %}'></a>
+    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src="{% static 'portal/img/footer_arrow.png' %}"></a>
     <p><a href="#top"><small>BACK TO TOP</small></a></p>
-    <img class="col-sm-3" src='{% static "portal/img/logo_c4l_horizontal.png" %}'>
+    <img class="col-sm-3" src="{% static 'portal/img/logo_c4l_horizontal.png' %}">
     <div class="row">
         <p><a href="{% url 'about' %}">About us</a></p>
         <p><a href="{% url 'teach' %}">Teachers</a></p>
@@ -225,11 +225,11 @@
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
     </div>
     <div class="row social-media"><br>
-        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img/twitter.png" %}'></a>
-        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src='{% static "portal/img/facebook.png" %}'></a>
-        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img/google+.png" %}'></a>
+        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
+        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
+        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
     </div>
-    <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img/logo_ocado.png" %}'></a>
+    <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
     <p><small>&copy; Ocado Technology 2017</small></p>
 </div>
 {% endcache %}

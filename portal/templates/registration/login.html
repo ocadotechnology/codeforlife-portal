@@ -3,7 +3,7 @@
 
 {% block content %}
 <div id="admin_login">
-<div class='span_centered_half'>
+<div class="span_centered_half">
     <div class="login-card">
         <h3>Admin login</h3><br/>
         <p>This is for site admins to log in, if you are not part of the codeforlife development team then this is not the login form you are looking for.</p>
@@ -14,24 +14,24 @@
 
             <table>
                 <tr>
-                    <td colspan='2'>{{ form.non_field_errors }}</td>
+                    <td colspan="2">{{ form.non_field_errors }}</td>
                 </tr>
                 <tr>
-                    <td colspan='2'>{{ form.username.errors }}</td>
+                    <td colspan="2">{{ form.username.errors }}</td>
                 </tr>
                 <tr>
                     <td>{{ form.username.label_tag }}</td>
                     <td>{{ form.username }}</td>
                 </tr>
                 <tr>
-                    <td colspan='2'>{{ form.password.errors }}</td>
+                    <td colspan="2">{{ form.password.errors }}</td>
                 </tr>
                 <tr>
                     <td>{{ form.password.label_tag }}</td>
                     <td>{{ form.password }}</td>
                 </tr>
                 <tr>
-                    <td colspan='2'>
+                    <td colspan="2">
                         {# {% if captcha %} #}
                             {{ form.captcha }}
                         {# {% endif %} #}

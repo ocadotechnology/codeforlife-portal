@@ -6,7 +6,7 @@
 
     <title>Code For Life - there has been an error</title>
 
-    <link rel="stylesheet" type="text/css" href='{% static "portal.css" %}'>
+    <link rel="stylesheet" type="text/css" href="{% static 'portal.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
@@ -19,7 +19,7 @@
         <div class="menu col-sm-12">
             <div class="menu__left-side col-sm-6 col-sm-offset-2">
                 <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
-                <a href="{% url 'home' %}"><img class="logo-horizontal" src='{% static "portal/img/logo_c4l_horizontal.png" %}'></a>
+                <a href="{% url 'home' %}"><img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
                 <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
                 {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
@@ -103,7 +103,7 @@
                 <a class="button button--regular button--primary--general-educate" href="{% url 'home' %}">Back to homepage</a>
             </div>
 
-            <img title="Dee" alt="Dee" src='{% static "portal/img/dee_hi_res.png" %}'/>
+            <img title="Dee" alt="Dee" src="{% static 'portal/img/dee_hi_res.png' %}"/>
         </div>
     </div>
 
@@ -111,9 +111,9 @@
 </div>
 
 <div class="footer">
-    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src='{% static "portal/img/footer_arrow.png" %}'></a>
+    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src="{% static 'portal/img/footer_arrow.png' %}"></a>
     <p><a href="#top"><small>BACK TO TOP</small></a></p>
-    <img class="col-sm-3" src='{% static "portal/img/logo_c4l_horizontal.png" %}'>
+    <img class="col-sm-3" src="{% static 'portal/img/logo_c4l_horizontal.png' %}">
     <div class="row">
         <p><a href="{% url 'about' %}">About us</a></p>
         <p><a href="{% url 'teach' %}">Teachers</a></p>
@@ -123,11 +123,11 @@
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
     </div>
     <div class="row social-media"><br>
-        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src='{% static "portal/img/twitter.png" %}'></a>
-        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src='{% static "portal/img/facebook.png" %}'></a>
-        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src='{% static "portal/img/google+.png" %}'></a>
+        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
+        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
+        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
     </div>
-    <a target="_blank" href="http://www.ocadotechnology.com/"><img src='{% static "portal/img/logo_ocado.png" %}'></a>
+    <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
     <p><small>&copy; Ocado Technology 2017</small></p>
 </div>
 

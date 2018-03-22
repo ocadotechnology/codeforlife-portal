@@ -40,7 +40,7 @@
             <p>Please confirm the name of the new external student joining your class. Their name will be used in their new
                 login details, so please ensure it is different from any other existing student in the class.</p>
 
-            <form method='POST'>
+            <form method="POST">
 
                 {% csrf_token %}
 
@@ -53,8 +53,8 @@
                 {% endfor %}
 
                 <section class="background button-group">
-                    <a class='button button--regular button--secondary button--secondary--dark' href="{% url 'dashboard' %}#classes">Cancel</a>
-                    <button id="save_student_name_button" type='submit' class='button--regular button--primary--navigation'>Save</button>
+                    <a class="button button--regular button--secondary button--secondary--dark" href="{% url 'dashboard' %}#classes">Cancel</a>
+                    <button id="save_student_name_button" type="submit" class="button--regular button--primary--navigation">Save</button>
                 </section>
             </form>
         </div>

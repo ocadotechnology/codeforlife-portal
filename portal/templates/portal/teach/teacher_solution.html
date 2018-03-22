@@ -1,13 +1,10 @@
-
 {% extends 'portal/base_old.html' %}
 {% load static %}
 {% load app_tags %}
 
 {% block nav_teacher_dashboard %}<b><a id="teacher_dashboard_button" href="{% url 'teacher_home' %}">Dashboard</a></b>{% endblock nav_teacher_dashboard %}
 
-
 {% block content %}
-
 
 <link rel="import" src="{% static "portal/python_solutions.html" %}"></link>
 <style>
@@ -23,10 +20,10 @@
         border-collapse: collapse;
         padding: 5px;
     }
-
 </style>
 
 <div id="teach_dashboard_page"></div>
+
 {% with levelName|add:0|stringformat:"03d" as level_number %}
 <table width="100%">
     <tr>
@@ -40,17 +37,13 @@
     <tr>
         <div id="my_div"></div>
         <td width="65%">
-            <img id='lvl_img' src="{% static 'portal/img/levels/level_'|add:level_number|add:'.png' %}" class="imgs" />
+            <img id="lvl_img" src="{% static 'portal/img/levels/level_'|add:level_number|add:'.png' %}" class="imgs" />
         </td>
         <td width="35%">
-            <img id='sol_img' src="{% static 'portal/img/solutions/solution_'|add:level_number|add:'.png' %}" class="imgs"/>
+            <img id="sol_img" src="{% static 'portal/img/solutions/solution_'|add:level_number|add:'.png' %}" class="imgs"/>
         </td>
     </tr>
 </table>
 {% endwith %}
 
-
-
 {% endblock %}
-
-	

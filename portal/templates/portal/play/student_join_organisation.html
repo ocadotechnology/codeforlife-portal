@@ -10,16 +10,16 @@
 
 {% block content %}
 
-<div id='play_join_organisation_page'></div>
+<div id="play_join_organisation_page"></div>
 
 <h1>Account</h1><br>
 <h2>Join a school or club</h2><br>
 
-<div class='section group'>
+<div class="section group">
 
     {% if student.pending_class_request %}
-        <div class='span_1_of_2'>
-            <div class='login-card'>
+        <div class="span_1_of_2">
+            <div class="login-card">
                 <h4>Request pending</h4><br>
 
                 <p>Your request to join class <b>{{ student.pending_class_request.access_code }}</b> in the school or club <b>{{ student.pending_class_request.teacher.school.name }}</b> is still pending.</p>
@@ -32,17 +32,17 @@
 
                 <p>You may cancel your request now, before the teacher makes their decision.</p>
 
-                <form method='post'>
+                <form method="post">
 
                     {% csrf_token %}
 
-                    <div class='section group'>
-                        <div class='col span_1_of_2'>
-                            <a class='btn btn-default wide' href="{% url 'student_details' %}">Back</a>
+                    <div class="section group">
+                        <div class="col span_1_of_2">
+                            <a class="btn btn-default wide" href="{% url 'student_details' %}">Back</a>
                         </div>
 
-                        <div class='col span_1_of_2'>
-                            <input type='submit' name='revoke_join_request' class='btn btn-primary wide' value="Cancel request"/>
+                        <div class="col span_1_of_2">
+                            <input type="submit" name="revoke_join_request" class="btn btn-primary wide" value="Cancel request"/>
                         </div>
                     </div>
 
@@ -52,9 +52,9 @@
         </div>
 
     {% else %}
-        <div class='span_1_of_2'>
+        <div class="span_1_of_2">
 
-            <div class='login-card'>
+            <div class="login-card">
                 <h4>Request to join a school or club</h4><br>
 
                 <p>If you want to link your Code For Life account with a school or club, ask a teacher to enable external requests and provide you with the Class Access Code for the class you want to join. Simply add the Class Access Code to the form below and submit.</p>
@@ -63,7 +63,7 @@
 
                 <p>If successful, the teacher will contact you with your new login details.</p>
 
-                <form id="join_class_form" method='post'>
+                <form id="join_class_form" method="post">
 
                     {% csrf_token %}
 
@@ -73,13 +73,13 @@
                     <label for="id_{{ request_form.access_code.html_name }}">{{ request_form.access_code.label }}</label>
                     {{ request_form.access_code }}
 
-                    <div class='section group'>
-                        <div class='col span_1_of_2'>
-                            <a class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
+                    <div class="section group">
+                        <div class="col span_1_of_2">
+                            <a class="btn btn-default wide" href="{% url 'student_details' %}">Cancel</a>
                         </div>
 
-                        <div class='col span_1_of_2'>
-                            <input id="request_join_a_school_or_club_button" type='submit' name='class_join_request' class='btn btn-primary wide' value="Request"/>
+                        <div class="col span_1_of_2">
+                            <input id="request_join_a_school_or_club_button" type="submit" name="class_join_request" class="btn btn-primary wide" value="Request"/>
                         </div>
                     </div>
                 </form>

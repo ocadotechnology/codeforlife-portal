@@ -16,11 +16,11 @@
     <div class="col-sm-6 col-center">
         <h4>The Class Access Code for this student&rsquo;s class is: <strong>{{ student.class_field.access_code }}</strong></h4>
         <h4 id="password_text">The new password for the above student is: <strong>{{ password }}</strong></h4>
-        <form target="_blank" method='post' action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+        <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
             {% csrf_token %}
-            <input type='hidden' name='data' value='{{ query_data }}'/>
-            <div class='background button-group'>
-                <button class='button--regular button-primary button--primary--navigation' type='submit'>Print reminder cards</button>
+            <input type="hidden" name="data" value="{{ query_data }}"/>
+            <div class="background button-group">
+                <button class="button--regular button-primary button--primary--navigation" type="submit">Print reminder cards</button>
                 <a href="{% url 'view_class' class.access_code %}" class="button button--regular button--secondary button--secondary--dark">Back to class</a>
             </div>
         </form>
