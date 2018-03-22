@@ -56,3 +56,10 @@ function showCorrectLogin(INDEPENDENT_STUDENT_VIEW) {
         $('#switchToSchool').click();
     }
 }
+
+$(document).ready(function() {
+    if (window.location.hash == '#independent-student-login') {
+        $('#school-login').hide();
+        $('#independent-student-login').show();
+    }
+})
