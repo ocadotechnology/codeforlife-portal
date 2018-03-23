@@ -10,7 +10,7 @@
 {{ block.super }}
 {% endblock scripts %}
 
-{% block pageID %}id='homeWrapper'{% endblock %}
+{% block pageID %}id="homeWrapper"{% endblock %}
 
 {% block content %}
 {{ block.super }}
@@ -22,7 +22,7 @@
         <div class="form col-sm-8 col-center">
             <h1>Register as a teacher</h1>
             <p>Once you&rsquo;ve registered your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.<br/></p>
-            <form method='post' id="form-reg-teacher">
+            <form method="post" id="form-reg-teacher">
 
                 {% csrf_token %}
 
@@ -54,8 +54,8 @@
 
                 <div class="row--under">
                     <div class="password-strength-container">
-                        <div id="teacher-password-sign" class='password-strength-sign'></div>
-                        <div id="teacher-password-text" class='password-strength-text'></div>
+                        <div id="teacher-password-sign" class="password-strength-sign"></div>
+                        <div id="teacher-password-text" class="password-strength-text"></div>
                     </div>
                 </div>
 
@@ -74,7 +74,7 @@
         <div class="form col-sm-8 col-center">
             <h1>Register as an independent student</h1>
             <p>Are you part of a school or club? If so, please <a href="{% url 'login_view' %}">log-in</a> or speak to your teacher. If you want to register as an <strong>independent student</strong>, please register below:</p>
-            <form id="form-signup-independent-student" method='post'>
+            <form id="form-signup-independent-student" method="post">
 
                 {% csrf_token %}
 
@@ -102,8 +102,8 @@
 
                 <div class="row--under">
                     <div class="password-strength-container">
-                        <div id="student-password-sign" class='password-strength-sign'></div>
-                        <div id="student-password-text" class='password-strength-text'></div>
+                        <div id="student-password-sign" class="password-strength-sign"></div>
+                        <div id="student-password-text" class="password-strength-text"></div>
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@
                     {% endif %}
                 </div>
 
-                <button type='submit' name='student_signup' class="button--big button--primary--general-play" value='Register'>Register</button>
+                <button type="submit" name="student_signup" class="button--big button--primary--general-play" value="Register">Register</button>
             </form>
         </div>
     </div>

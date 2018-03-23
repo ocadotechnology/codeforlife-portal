@@ -15,7 +15,7 @@
 {{ block.super }}
 {% endblock scripts %}
 
-{% block pageID %}id='homeWrapper'{% endblock %}
+{% block pageID %}id="homeWrapper"{% endblock %}
 
 {% block subNav %}
 {{ block.super }}
@@ -76,11 +76,11 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Key Stage 1</h2>
-            <img title="KS1" alt="KS1 icon" src='{% static "portal/img/stage_icon_ks1.png" %}'>
+            <img title="KS1" alt="KS1 icon" src="{% static 'portal/img/stage_icon_ks1.png' %}">
             <h4>Children will learn the basics of coding by programming a delivery van to drive around simple routes. They will sequence instructions and use simple repetition
                 commands in a visual programming language.</h4>
             <a href="{{ 'KS1.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
-            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/icon_zip.png" %}'>
+            <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS1</span></h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guidance on share and
@@ -92,10 +92,10 @@
                 <td><p>
                     <a href="{% url 'materials_viewer' pdf_name=ks1_session.url_name %}">
                         {{ ks1_session.description }} {% if ks1_session.video %}(includes video){% endif %}</a></p></td>
-                <td><img title="PDF" alt="PDF icon" src='{% static "portal/img/icon_pdf.png" %}'></td>
+                <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                 <td>
                     {% if ks1_session.video %}
-                    <img title="Video" alt="Video icon" src='{% static "portal/img/icon_video.png" %}'>
+                    <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                     {% endif %}
                 </td>
             </tr>
@@ -148,11 +148,11 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Lower Key Stage 2</h2>
-            <img title="LKS2" alt="LKS2 icon" src='{% static "portal/img/stage_icon_lks2.png" %}'>
+            <img title="LKS2" alt="LKS2 icon" src="{% static 'portal/img/stage_icon_lks2.png' %}">
             <h4>Children will develop their understanding of programming principles by learning how to use repeat loops,
                 if statements and respond to changes in variables in a visual programming language.</h4>
             <a href="{{ 'KS2.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all Lower KS2 resources</a>
-            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/icon_zip.png" %}'>
+            <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">Lower KS2</span></h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
@@ -164,10 +164,10 @@
                 <td><p>
                     <a href="{% url 'materials_viewer' pdf_name=lks2_session.url_name %}">
                         {{ lks2_session.description }} {% if lks2_session.video %}(includes video){% endif %}</a></p></td>
-                <td><img title="PDF" alt="PDF icon" src='{% static "portal/img/icon_pdf.png" %}'></td>
+                <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                 <td>
                     {% if lks2_session.video %}
-                    <img title="Video" alt="Video icon" src='{% static "portal/img/icon_video.png" %}'>
+                    <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                     {% endif %}
                 </td>
             </tr>
@@ -220,11 +220,11 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Upper Key Stage 2</h2>
-            <img title="UKS2" alt="UKS2 icon" src='{% static "portal/img/stage_icon_uks2.png" %}'>
+            <img title="UKS2" alt="UKS2 icon" src="{% static 'portal/img/stage_icon_uks2.png' %}">
             <h4>Children will revise their skills in the Blockly visual programming language and learn the basics of the
                 text-based language: Python. Throughout, they will be designing, creating and debugging their own programs.</h4>
             <a href="{{ 'python/UKS2_Python.zip'|cloud_storage }}" class="button button--regular button--primary--negative">Download all Upper KS2 resources</a>
-            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/icon_zip.png" %}'>
+            <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">Upper KS2</span></h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
@@ -236,10 +236,10 @@
                 <td><p>
                     <a href="{% url 'materials_viewer' pdf_name=uks2_session.url_name %}">
                         {{ uks2_session.description }} {% if uks2_session.video %}(includes video){% endif %}</a></p></td>
-                <td><img title="PDF" alt="PDF icon" src='{% static "portal/img/icon_pdf.png" %}'></td>
+                <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                 <td>
                     {% if uks2_session.video %}
-                    <img title="Video" alt="Video icon" src='{% static "portal/img/icon_video.png" %}'>
+                    <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                     {% endif %}
                 </td>
             </tr>
@@ -277,7 +277,7 @@
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">Upper KS2</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}" > download the 
+                        a record sheet for pupils. You can <a href="{{ 'python/UKS2-Assessment.zip'|cloud_storage }}" > download the
                         whole set</a> (zip file), or view and download them individually below.</p>
                     <p><a href="{% url 'materials_viewer' pdf_name='uks2_assessment_guide' %}">Assessment Guide</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='uks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
@@ -292,10 +292,10 @@
     <div class="banner banner__game banner__game--aimmo row">
         <section>
             <div class="row row--under">
-        <img title="AIMMO Logo" alt="AIMMO icon" src='{% static "portal/img/aimmo_logo.svg" %}'>
+        <img title="AIMMO Logo" alt="AIMMO icon" src="{% static 'portal/img/aimmo_logo.svg' %}">
             </div>
             <div class="row row--under">
-        <img title="Preview Version" alt="Preview Version" src='{% static "portal/img/preview_version_label.svg" %}'>
+        <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
             </div>
         <p>The Key Stage 3 teaching resources and AI:MMO game are still being developed.</p>
         </section>
@@ -303,12 +303,12 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Key Stage 3</h2>
-            <img title="KS3" alt="KS3 icon" src='{% static "portal/img/stage_icon_ks3.svg" %}'>
+            <img title="KS3" alt="KS3 icon" src="{% static 'portal/img/stage_icon_ks3.svg' %}">
             <h4>Playing AI:MMO will build on skills learnt in Rapid Router (Key Stages 1 and 2).
                 The game is a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the
             next level on their coding journey: Artificial Intelligence and Python.</h4>
             <a href="{{ 'KS3/KS3_resources.zip'|cloud_storage }}" class="button button--regular button--primary--navigation">Download all KS3 resources</a>
-            <img title="ZIP" alt="ZIP icon" src='{% static "portal/img/icon_zip.png" %}'>
+            <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Tutorial level sessions <span class="ks-tag">KS3</span></h3>
         <p>Coming soon.</p>
@@ -322,10 +322,10 @@
                     <td><p>
                         <a href="{% url 'materials_viewer' pdf_name=ks3_sheet.url_name %}">
                             {{ ks3_sheet.title }} {% if ks3_sheet.video %}(includes video){% endif %}</a></p></td>
-                    <td><img title="PDF" alt="PDF icon" src='{% static "portal/img/icon_pdf.png" %}'></td>
+                    <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                     <td>
                         {% if ks3_sheet.video %}
-                        <img title="Video" alt="Video icon" src='{% static "portal/img/icon_video.png" %}'>
+                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
                     </td>
                 </tr>

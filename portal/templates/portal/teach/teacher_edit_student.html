@@ -38,7 +38,7 @@
 
         <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
 
-        <form method='post'>
+        <form method="post">
 
             {% csrf_token %}
 
@@ -47,7 +47,7 @@
             {{ name_form.name }}
             {{ name_form.name.errors }}
 
-            <button id="update_name_button" type='submit' name='update_details' class='button--regular button--primary--navigation'>Update</button>
+            <button id="update_name_button" type="submit" name="update_details" class="button--regular button--primary--navigation">Update</button>
 
         </form>
 
@@ -57,12 +57,12 @@
             secure password by clicking &lsquo;Generate random&rsquo;.</p>
 
         <div class="background button-group">
-            <a id="generate_password_button" class='button button--regular button--primary--navigation'
+            <a id="generate_password_button" class="button button--regular button--primary--navigation"
                href="{% url 'teacher_student_reset' student.id %}">Generate random</a>
             <button class="button--regular button--secondary button--secondary--dark" id="request-password-setter">Set password</button>
         </div>
 
-        <form method='post'>
+        <form method="post">
 
             {% csrf_token %}
 
@@ -76,9 +76,9 @@
 
                 {{ password_form.confirm_password }}
                 {{ password_form.confirm_password.errors }}
-                <div class='background button-group'>
-                    <button id="set_new_password_button" type='submit' name='set_password' class='button--regular button--primary--navigation'>Set</button>
-                    <a id='cancel-password-setter' class='button button--regular button--secondary button--secondary--dark'>Cancel</a>
+                <div class="background button-group">
+                    <button id="set_new_password_button" type="submit" name="set_password" class="button--regular button--primary--navigation">Set</button>
+                    <a id="cancel-password-setter" class="button button--regular button--secondary button--secondary--dark">Cancel</a>
                 </div>
             </div>
         </form>

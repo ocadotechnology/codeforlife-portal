@@ -1,4 +1,4 @@
-{% extends 'portal/teach/base_registering.html' %}
+{% extends "portal/teach/base_registering.html" %}
 {% load staticfiles %}
 {% load app_tags %}
 
@@ -10,15 +10,15 @@
 {{ block.super }}
 {% endblock scripts %}
 
-{% block pageID %}id='homeWrapper'{% endblock %}
+{% block pageID %}id="homeWrapper"{% endblock %}
 
 {% block content %}
 {{ block.super }}
 
 <script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
 <script>
-    var FUZZY_NAME_FIELD_ID = '{{ join_form.fuzzy_name.auto_id }}';
-    var CHOSEN_ORG_FIELD_ID = '{{ join_form.chosen_org.auto_id }}';
+    var FUZZY_NAME_FIELD_ID = "{{ join_form.fuzzy_name.auto_id }}";
+    var CHOSEN_ORG_FIELD_ID = "{{ join_form.chosen_org.auto_id }}";
     var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
 </script>
 
@@ -38,13 +38,13 @@
     <div class="col-sm-6 col-center">
         <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
             your pending request first.</p><br>
-        <form id="revoke_form" method='post'>
+        <form id="revoke_form" method="post">
 
             {% csrf_token %}
 
-            <div class='section group'>
-                <button class='button--regular button--secondary button--secondary--dark' type='submit'
-                        name='revoke_join_request'>Revoke request to {{ teacher.pending_join_request.name }}</button>
+            <div class="section group">
+                <button class="button--regular button--secondary button--secondary--dark" type="submit"
+                        name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}</button>
             </div>
 
         </form>
@@ -56,7 +56,7 @@
     <div class="form col-sm-8 col-center">
         <section class="background">
             <h3>It looks like you&rsquo;ve already created your school ({{ user.new_teacher.school.name }})</h3>
-            <a href="{% url 'onboarding-classes' %}" class='button button--regular button--primary--general-play' >Add a class</a>
+            <a href="{% url 'onboarding-classes' %}" class="button button--regular button--primary--general-play" >Add a class</a>
         </section>
     </div>
 </div>
@@ -66,15 +66,15 @@
         <ul class="tab">
             <li>
                 <a href="javascript:void(0)" class="tablinks" id="defaultOpen" onclick="openForm(event, 'Create')">Create a school or club</a>
-                <img id="left-arrow" src='{% static "portal/img/form_chooser_arrow.png" %}'>
+                <img id="left-arrow" src="{% static 'portal/img/form_chooser_arrow.png' %}">
             </li>
             <li>
                 <a href="javascript:void(0)" class="tablinks" id="join-tab" onclick="openForm(event, 'Join')">Join a school or club</a>
-                <img id="right-arrow" src='{% static "portal/img/form_chooser_arrow.png" %}'>
+                <img id="right-arrow" src="{% static 'portal/img/form_chooser_arrow.png' %}">
             </li>
         </ul>
         <div id="Create" class="tabcontent">
-            <form id="form-create-organisation" method='post'>
+            <form id="form-create-organisation" method="post">
 
                 {% csrf_token %}
 
@@ -86,14 +86,14 @@
                 {{ field.errors }}
                 {% endfor %}
 
-                <div class='section group'>
-                    <button type='submit' class='button--regular button-primary button--primary--general-play' name='create_organisation'>Create school or club</button>
+                <div class="section group">
+                    <button type="submit" class="button--regular button-primary button--primary--general-play" name="create_organisation">Create school or club</button>
                 </div>
 
             </form>
         </div>
         <div id="Join" class="tabcontent">
-            <form id="form-join-organisation" method='post'>
+            <form id="form-join-organisation" method="post">
 
                 {% csrf_token %}
 
@@ -107,8 +107,8 @@
                 {{ join_form.chosen_org }}
                 {{ join_form.chosen_org.errors }}
 
-                <div class='section group'>
-                    <button type='submit' class='button--regular button-primary button--primary--general-play' name='join_organisation'>Join school or club</button>
+                <div class="section group">
+                    <button type="submit" class="button--regular button-primary button--primary--general-play" name="join_organisation">Join school or club</button>
                 </div>
 
             </form>

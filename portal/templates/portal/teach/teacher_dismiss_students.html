@@ -7,14 +7,14 @@
 
 {% block content %}
 
-<div id='dismiss_students_page'></div>
+<div id="dismiss_students_page"></div>
 
 <section class="background col-sm-6 col-center">
     <h2>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h2><br>
     <h4>Convert students into independent students.</h4>
 </section>
 
-<div class='background background--quaternary'>
+<div class="background background--quaternary">
     <div class="col-sm-6 col-center">
         <h3>Students to release from school</h3>
 
@@ -29,7 +29,7 @@
             If a student is too young to own an email address, a parent or guardian&rsquo;s email address will be required. These email addresses will
             have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
 
-        <form method='POST'>
+        <form method="POST">
 
             {% csrf_token %}
 
@@ -64,9 +64,9 @@
             </div>
             {% endfor %}
 
-            <div class='button-group'>
-                <button id='dismiss_button' type='submit' name='submit_dismiss' class='button--regular button--primary--danger'>Remove student</button>
-                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' class.access_code %}">Cancel</a>
+            <div class="button-group">
+                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button--regular button--primary--danger">Remove student</button>
+                <a id="cancel_button" class="button button--regular button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
             </div>
         </form>
     </div>

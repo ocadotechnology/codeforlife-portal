@@ -37,7 +37,7 @@
 
         <p>Select teachers to take over the classes from the lists below.</p>
 
-        <form method='post'>
+        <form method="post">
             {% csrf_token %}
             <table class="header-primary">
                 <tr>
@@ -48,9 +48,9 @@
                 <tr>
                     <td><p><small>{{ class.name }} ({{ class.access_code }})</small></p></td>
                     <td>
-                        <select class='wide' name='{{ class.access_code }}'>
+                        <select class="wide" name="{{ class.access_code }}">
                             {% for teacher in teachers %}
-                            <option value='{{ teacher.id }}'>{{ teacher.title }} {{ teacher.new_user.first_name }}
+                            <option value="{{ teacher.id }}">{{ teacher.title }} {{ teacher.new_user.first_name }}
                                 {{ teacher.new_user.last_name }}</option>
                             {% endfor %}
                         </select>
@@ -60,7 +60,7 @@
             </table>
             <div class="background button-group">
                 <a class="button button--regular button--secondary button--secondary--dark" href="{% url 'dashboard' %}">Cancel</a>
-                <button type='submit' id="move_classes_button" class="button--regular button--primary--navigation">{{ submit_button_text }}</button>
+                <button type="submit" id="move_classes_button" class="button--regular button--primary--navigation">{{ submit_button_text }}</button>
             </div>
         </form>
     </div>
