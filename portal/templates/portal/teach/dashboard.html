@@ -83,7 +83,7 @@
                 {% if coworker.new_user != user %}
                     <td class="cell-center">
                         <button id="kick_button" class="button--small button--primary--danger"
-                                onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}')">
+                                onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
                             Remove</button>
                     </td>
                     <td class="cell-center">
@@ -154,11 +154,15 @@
                                     {{ join_request.new_user.last_name }}</small></p></td>
                                 <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                                 <td class="cell-center">
-                                    <a id="allow_button" class="button button--small button-primary button--primary--positive"
-                                            href="{% url 'organisation_allow_join' join_request.id %}">Allow</a></td>
+                                     <button id="allow_button" class="button button--small button-primary button--primary--positive"
+                                            onclick="post('{% url 'organisation_allow_join' join_request.id %}', {
+                                                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()});">Allow</button>
+                                </td>
                                 <td class="cell-center">
-                                    <a id="deny_button" class="button button--small button-primary button--primary--danger"
-                                            href="{% url 'organisation_deny_join' join_request.id %}">Deny</a></td>
+                                     <button id="deny_button" class="button button--small button-primary button--primary--danger"
+                                        onclick="post('{% url 'organisation_deny_join' join_request.id %}', {
+                                                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()});">Deny</button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
