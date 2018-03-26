@@ -74,7 +74,6 @@ SETTINGS = {
     },
     'PIPELINE_CSS_COMPRESSOR': None,
     'INSTALLED_APPS': [
-        'cms',
         'game',
         'pipeline',
         'portal',
@@ -114,10 +113,6 @@ SETTINGS = {
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
-        'cms.middleware.user.CurrentUserMiddleware',
-        'cms.middleware.page.CurrentPageMiddleware',
-        'cms.middleware.toolbar.ToolbarMiddleware',
-        'cms.middleware.language.LanguageCookieMiddleware',
         'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
         'django_otp.middleware.OTPMiddleware',
     ],
