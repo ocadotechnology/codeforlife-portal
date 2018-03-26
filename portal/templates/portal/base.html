@@ -2,13 +2,11 @@
 {% load app_tags %}
 {% load cache %}
 
-{# CMS #}
-{% load cms_tags sekizai_tags %}
+{% load sekizai_tags %}
 
 <!DOCTYPE html>
 <html>
 <head>
-    {# CMS #}
     {% render_block "css" %}
 
     <title>{% block title %}Code for Life{% endblock %}</title>
@@ -17,7 +15,7 @@
 
     {% block head %}
     {% endblock head %}
-
+    
     {% block css %}
     {% cache 3600 fragment-base_new-css %}
     <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
@@ -75,8 +73,6 @@
 </head>
 
 <body id="top">
-{# CMS #}
-{% cms_toolbar %}
 {% render_block "js" %}
 {% include 'portal/mouseflow.html' %}
 
@@ -198,8 +194,6 @@
     <div class="content">
 
         {% block content %}
-        {# CMS #}
-        {% placeholder template_1_content %}
         {% block base_new_content %}{% endblock %}
         {% endblock content %}
 
