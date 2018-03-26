@@ -13,7 +13,9 @@
     <meta name="msapplication-config" content="none"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-
+    {% block head %}
+    {% endblock head %}
+    
     {% block css %}
     {% cache 3600 fragment-base_new-css %}
     <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
