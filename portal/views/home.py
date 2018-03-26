@@ -40,6 +40,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.utils.http import is_safe_url
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
