@@ -60,6 +60,7 @@ class TestTeacherViews(TestCase):
         response = c.get(url)
         self.assertEqual(response.status_code, 200)
 
+
 class TestLoginViews(TestCase):
     def test_teacher_login_redirect(self):
         email, password = signup_teacher_directly()

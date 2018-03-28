@@ -61,6 +61,7 @@ def create_school_student_directly(access_code):
 
     return name, password, student
 
+
 def create_independent_student_directly():
     name, username, email, password = generate_independent_student_details()
 
@@ -68,9 +69,9 @@ def create_independent_student_directly():
 
     # verify student
     generate_token(student.new_user, preverified=True)
-    student.new_user.save()
 
     return username, password, student
+
 
 def create_school_student(page):
     name, _ = generate_school_details()
