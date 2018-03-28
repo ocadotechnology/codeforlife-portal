@@ -39,6 +39,7 @@ from django.core import mail
 import email
 
 from portal.models import Class, Student
+from portal.helpers.emails import generate_token
 
 
 def generate_school_details():
@@ -60,6 +61,16 @@ def create_school_student_directly(access_code):
 
     return name, password, student
 
+def create_independent_student_directly():
+    name, username, email, password = generate_independent_student_details()
+
+    student = Student.objects.independentStudentFactory(username, name, email, password)
+
+    # verify student
+    generate_token(student.new_user, preverified=True)
+    student.new_user.save()
+
+    return username, password, student
 
 def create_school_student(page):
     name, _ = generate_school_details()
