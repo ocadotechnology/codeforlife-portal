@@ -249,6 +249,36 @@ class TestIndependentStudent(BaseTest):
 
         assert is_indep_student_join_request_revoked_message_showing(selenium)
 
+    def test_join_class_accepted(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, class_name, accesss_code = create_class_directly(teacher_email)
+        create_school_student_directly(accesss_code)
+        klass.always_accept_requests = True
+        klass.save()
+
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_join_a_school_or_club_page() \
+            .join_a_school_or_club(accesss_code)
+
+        page.logout()
+
+        page = self.go_to_homepage()
+
+        page = page \
+            .go_to_login_page() \
+            .login(teacher_email, teacher_password) \
+            .accept_independent_join_request() \
+            .save() \
+            .return_to_class()
+
+        assert page.student_exists(student_name)
+
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
