@@ -86,14 +86,3 @@ class TestLoginViews(TestCase):
             'school_login': ''
         })
         self.assertRedirects(response, '/portal/')
-
-    def test_independent_student_login_redirect(self):
-        username, password, _ = create_independent_student_directly()
-        url = reverse('login_view') + "/?next=/portal/"
-        c = Client()
-        response = c.post(url, {
-            'independent_student-username': username,
-            'independent_student-password': password,
-            'independent_student_login': ''
-        })
-        self.assertRedirects(response, '/portal/')
