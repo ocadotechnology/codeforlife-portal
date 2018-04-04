@@ -20,8 +20,8 @@
 
 {% block content %}
 {{ block.super }}
-<div class="row form--login">
-    <div class="form--register form--register--teacher col-sm-6">
+<div class="row is-flex">
+    <div class="form--register form--register--teacher col-sm-6 is-flex-item">
         <div class="form col-sm-8 col-center">
             <h1>Log in as a teacher</h1>
             <form id="form-login-teacher" method="post">
@@ -42,19 +42,20 @@
                   {{ login_form.captcha }}
                 {% endif %}
 
-                    <button type="submit" name="login_view" class="button--regular button--primary--general-educate"
+                <button type="submit" name="login_view" class="button--regular button--primary--general-educate"
                             onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
-                </form>
-                <p><strong>Forgotten your password?</strong></p>
-                <p>Don&rsquo;t worry, you can
-                    <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
-                </p>
-            </div>
+            </form>
+
+            <p><strong>Forgotten your password?</strong></p>
+            <p>Don&rsquo;t worry, you can
+                <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
+            </p>
         </div>
-        <div id="school-login" class="form--register form--register--student col-sm-6">
-            <div class="form col-sm-8 col-center">
-                <h1>Log in as a student</h1>
-                <form id="form-login-school" method="post">
+    </div>
+    <div id="school-login" class="form--register form--register--student col-sm-6">
+        <div class="form col-sm-8 col-center">
+            <h1>Log in as a student</h1>
+            <form id="form-login-school" method="post">
 
                 {% csrf_token %}
 
@@ -76,12 +77,12 @@
                   {{ school_login_form.captcha }}
                 {% endif %}
 
-                    <button type="submit" name="school_login" class="button--regular button--primary--general-play"
-                            onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
-                </form>
-                <p><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
-                <p>Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
+                <button type="submit" name="school_login" class="button--regular button--primary--general-play"
+                        onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
+            </form>
 
+            <p><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
+            <p>Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
             <p>Are you registered as an independent student who is not part of a school or club?
                 If so, <a href="#independent-student-login" id="switchToIndependentStudent">log in here</a>.</p>
         </div>
@@ -107,16 +108,17 @@
                   {{ independent_student_login_form.captcha }}
                 {% endif %}
 
-                    <button type="submit" name="independent_student_login" class="button--regular button--primary--general-play">Log in</button>
-                </form>
-                <p><strong>Forgotten your password?</strong></p>
-                <p>Don&rsquo;t worry, you can
-                    <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
-                </p>
-                <p>Part of a school or club? <a href="#school-login" id="switchToSchool">Log in here</a>.</p>
-            </div>
+                <button type="submit" name="independent_student_login" class="button--regular button--primary--general-play">Log in</button>
+            </form>
+
+            <p><strong>Forgotten your password?</strong></p>
+            <p>Don&rsquo;t worry, you can
+                <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
+            </p>
+            <p>Part of a school or club? <a href="#school-login" id="switchToSchool">Log in here</a>.</p>
         </div>
     </div>
+</div>
 
 <script>
     var INDEPENDENT_STUDENT_VIEW = {% if independent_student_view %}true{% else %}false{% endif %};
