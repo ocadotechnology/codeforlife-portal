@@ -45,7 +45,8 @@ from django.utils.http import is_safe_url
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL
+from portal.helpers.emails import (send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL,
+                                   add_to_salesforce)
 from portal import app_settings, emailMessages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
@@ -267,6 +268,10 @@ def process_indep_student_login_form(request, independent_student_login_form):
     return HttpResponseRedirect(reverse_lazy('student_details'))
 
 
+def _newsletter_ticked(form_data):
+    return form_data['newsletter_ticked']
+
+
 def process_signup_form(request, data):
     email = data['teacher_email']
     teacher = None
@@ -281,6 +286,9 @@ def process_signup_form(request, data):
             last_name=data['teacher_last_name'],
             email=data['teacher_email'],
             password=data['teacher_password'])
+
+        if _newsletter_ticked(data):
+            add_to_salesforce(teacher.user.user)
 
         send_verification_email(request, teacher.user.user)
 
@@ -298,7 +306,11 @@ def process_student_signup_form(request, data):
         password=data['password'])
 
     email_supplied = (data['email'] != '')
+
     if email_supplied:
+        if _newsletter_ticked(data):
+            add_to_salesforce(student.user.user)
+
         send_verification_email(request, student.new_user)
         return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
 
