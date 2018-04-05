@@ -110,6 +110,17 @@ form {
   background-color: $color-background-play-indep;
 }
 
+.form--register-checkbox-row {
+  display: flex;
+  align-items: center;
+  font-size: 75%;
+  color: white;
+}
+
+.form--register-newsletter-checkbox {
+  padding-right: 25px;
+}
+
 .form__choice {
   @include _margin(40px, 0px, 0px, 37px);
   background-color: $color-background-secondary;

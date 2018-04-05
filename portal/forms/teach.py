@@ -88,6 +88,9 @@ class TeacherSignupForm(forms.Form):
     )
 
     newsletter_ticked = forms.BooleanField(
+        widget=forms.CheckboxInput(
+            attrs={'class': '',},
+        ),
         initial=False,
         required=False
     )

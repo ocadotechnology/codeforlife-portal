@@ -44,7 +44,13 @@
                 {{ teacher_signup_form.teacher_email }}
                 {{ teacher_signup_form.teacher_email.errors }}
 
-                {{ teacher_signup_form.newsletter_ticked }}
+                <div class="form--register-checkbox-row">
+                    <div class="form--register-newsletter-checkbox">
+                        {{ teacher_signup_form.newsletter_ticked }}
+                    </div>
+                    Please confirm that you are happy for us to send you emails in the future. You can view our privacy
+                    policy for more information.
+                </div>
 
                 <label for="id_teacher_signup-teacher_password">{{ teacher_signup_form.teacher_password.label }}</label>
                 {{ teacher_signup_form.teacher_password }}
@@ -94,7 +100,14 @@
                 {{ student_signup_form.email }}
                 {{ student_signup_form.email.errors }}
 
-                {{ student_signup_form.newsletter_ticked }}
+                <div class="form--register-checkbox-row">
+                    <div class="form--register-newsletter-checkbox">
+                        {{ student_signup_form.newsletter_ticked }}
+                    </div>
+                    Please confirm that you are happy for us to send you emails in the future. You can view our
+                    policy for more information.
+                </div>
+
 
                 <label for="id_{{ student_signup_form.password.html_name }}">{{ student_signup_form.password.label }}</label>
                 {{ student_signup_form.password }}
