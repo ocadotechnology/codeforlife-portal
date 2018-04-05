@@ -86,6 +86,12 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
+
+    newsletter_ticked = forms.BooleanField(
+        initial=False,
+        required=False
+    )
+
     teacher_password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput()
