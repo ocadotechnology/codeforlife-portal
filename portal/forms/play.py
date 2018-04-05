@@ -154,19 +154,33 @@ class StudentEditAccountForm(forms.Form):
 class StudentSignupForm(forms.Form):
     name = forms.CharField(
         label='Name', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"}))
+        widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"})
+    )
+
     username = forms.CharField(
         label='Username', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"})
+    )
+
     email = forms.EmailField(
         label='Email address',
-        widget=forms.EmailInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"}))
+        widget=forms.EmailInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"})
+    )
+
+    newsletter_ticked = forms.BooleanField(
+        initial=False,
+        required=False
+    )
+
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput
+    )
+
     confirm_password = forms.CharField(
         label='Confirm Password',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput
+    )
 
     captcha = ReCaptchaField()
 
