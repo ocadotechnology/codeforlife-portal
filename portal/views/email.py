@@ -71,9 +71,6 @@ def verify_email(request, token):
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
 
-    # copy newly verified user to secure salesforce db
-    add_to_salesforce(user)
-
     return HttpResponseRedirect(reverse_lazy('login_view'))
 
 
