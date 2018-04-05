@@ -44,6 +44,8 @@
                 {{ teacher_signup_form.teacher_email }}
                 {{ teacher_signup_form.teacher_email.errors }}
 
+                {{ teacher_signup_form.newsletter_ticked }}
+
                 <label for="id_teacher_signup-teacher_password">{{ teacher_signup_form.teacher_password.label }}</label>
                 {{ teacher_signup_form.teacher_password }}
                 {{ teacher_signup_form.teacher_password.errors }}
@@ -91,6 +93,8 @@
                 <label for="id_{{ student_signup_form.email.html_name }}">{{ student_signup_form.email.label }}</label>
                 {{ student_signup_form.email }}
                 {{ student_signup_form.email.errors }}
+
+                {{ student_signup_form.newsletter_ticked }}
 
                 <label for="id_{{ student_signup_form.password.html_name }}">{{ student_signup_form.password.label }}</label>
                 {{ student_signup_form.password }}
