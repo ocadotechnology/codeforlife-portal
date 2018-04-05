@@ -52,6 +52,7 @@ from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
+from portal.forms.newsletter_form import NewsletterForm
 
 
 def teach_email_labeller(request):
@@ -88,7 +89,7 @@ def register_view(request):
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def render_login_form(request):
+def  render_login_form(request):
     invalid_form = False
 
     teacher_limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
@@ -381,3 +382,18 @@ def contact(request):
 
     response.count = increment_count
     return response
+
+def render_newsletter_form(request):
+    # Remember to add mapping in url file
+    if request.method == 'POST':
+
+        newsletter_form = NewsletterForm(request.POST)
+        user_email = newsletter_form.email
+        # Add email to DB?
+
+        # Redirect to success page?
+
+    else:
+        # GET request, return empty form
+        newsletter_form = NewsletterForm()
+        return render(request, 'base.html', {'news_form': newsletter_form})

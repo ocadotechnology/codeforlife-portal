@@ -218,11 +218,19 @@
         <p><a href="{% url 'help' %}#contact">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
     </div>
-    <div class="row social-media"><br>
-        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
-        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
-        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
-    </div>
+        <div class="newsletter-signup">
+            <br>
+            <form action="/news_signup/" method="post">
+                {% csrf_token %}
+                {{ news_form }}
+                <button class="button--regular button--primary--general-play"> Sign up</button>
+            </form>
+        </div>
+        <div class="row social-media">
+            <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
+            <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
+            <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
+        </div>
     <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
     <p><small>&copy; Ocado Technology 2017</small></p>
 </div>
