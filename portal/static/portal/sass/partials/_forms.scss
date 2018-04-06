@@ -121,6 +121,10 @@ form {
   padding-right: 25px;
 }
 
+.form--register-newsletter-text {
+  text-align: left !important;
+}
+
 .form__choice {
   @include _margin(40px, 0px, 0px, 37px);
   background-color: $color-background-secondary;
