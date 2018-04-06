@@ -383,17 +383,18 @@ def contact(request):
     response.count = increment_count
     return response
 
-def render_newsletter_form(request):
+def process_newsletter_form(request):
     # Remember to add mapping in url file
     if request.method == 'POST':
 
         newsletter_form = NewsletterForm(request.POST)
         user_email = newsletter_form.email
         # Add email to DB?
-
-        # Redirect to success page?
+        # Add message below input box  "Thank you, you are now signed up"
+        # Stay on page
+        pass
 
     else:
         # GET request, return empty form
-        newsletter_form = NewsletterForm()
-        return render(request, 'base.html', {'news_form': newsletter_form})
+        print "GET request received"
+        return {'newsletter_form': NewsletterForm()}

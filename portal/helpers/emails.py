@@ -137,4 +137,5 @@ def add_to_salesforce(user):
 
 def add_email_to_salesforce(email):
     # Use for newsletter sign up, add email to DB
+    # Extract a first and last name from user's email
     pass
