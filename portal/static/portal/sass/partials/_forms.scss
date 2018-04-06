@@ -115,10 +115,22 @@ form {
   align-items: center;
   font-size: 75%;
   color: $color-text-secondary;
+  padding-bottom: 2.5%;
 }
 
 .form--register-newsletter-checkbox {
   padding-right: 25px;
+
+  input[type=checkbox]
+  {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    transform: scale(2); /* Universal */
+    padding: 10px;
+  }
 }
 
 .form--register-newsletter-text {
