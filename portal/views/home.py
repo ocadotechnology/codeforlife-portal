@@ -309,7 +309,7 @@ def process_student_signup_form(request, data):
 
     if email_supplied:
         if _newsletter_ticked(data):
-            add_to_salesforce(student.user.user)
+            add_to_salesforce(student.new_user)
 
         send_verification_email(request, student.new_user)
         return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
