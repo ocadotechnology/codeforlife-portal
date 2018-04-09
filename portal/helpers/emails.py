@@ -97,7 +97,7 @@ def send_verification_email(request, user, new_email=None):
 
         verification = generate_token(user)
 
-        message = emailVerificationNeededEmail(request, verification.token)
+        message = emailVerificationNeededEmail(request, verification.token, verification.expiry)
         send_email(VERIFICATION_EMAIL,
                    [user.email],
                    message['subject'],
@@ -106,7 +106,7 @@ def send_verification_email(request, user, new_email=None):
     else:  # verifying change of email address.
         verification = generate_token(user, new_email)
 
-        message = emailChangeVerificationEmail(request, verification.token)
+        message = emailChangeVerificationEmail(request, verification.token, verification.expiry)
         send_email(VERIFICATION_EMAIL,
                    [new_email],
                    message['subject'],
