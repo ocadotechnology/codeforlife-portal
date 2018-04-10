@@ -217,19 +217,27 @@
         <p><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
         <p><a href="{% url 'help' %}#contact">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
-    </div>
-        <div class="newsletter-signup">
-            <br>
-            <form action="/news_signup/" method="post">
+    </div>>
+
+        <div class="row">
+            <form action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
                 {% csrf_token %}
-                {{newsletter_form}}
-                <button class="button--regular button--primary--general-play"> Sign up</button>
+                <div class="form--news-signup">
+                    {{ news_form }}
+                    <button type="submit" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
+                </div>
             </form>
-        </div>
-        <div class="row social-media">
-            <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
-            <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
-            <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
+            <div class="social-media col-md-2">
+                <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
+                <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
+                <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
+            </div>
+            {% if messages %}
+                <ul class="messages">
+
+                        <li{% if messages.0.tags %} class="{{ messages.0.tags }}"{% endif %}>{{ messages.0}}</li>
+                </ul>
+            {% endif %}
         </div>
     <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
     <p><small>&copy; Ocado Technology 2017</small></p>

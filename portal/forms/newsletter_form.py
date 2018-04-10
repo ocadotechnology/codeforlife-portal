@@ -39,7 +39,7 @@ from django import forms
 
 class NewsletterForm(forms.Form):
 
-    email = forms.EmailField(label='Sign up to our newsletter',
+    email = forms.EmailField(label='Sign up to our newsletter', label_suffix="",
                              widget=forms.TextInput(attrs={'placeholder': 'your.name@yourdomain.com'}))
 
 
