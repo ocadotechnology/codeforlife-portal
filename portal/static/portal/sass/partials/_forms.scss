@@ -110,7 +110,7 @@ form {
   background-color: $color-background-play-indep;
 }
 
-.form--register-checkbox-row {
+.form__register-checkbox {
   display: flex;
   align-items: center;
   font-size: 75%;
@@ -119,7 +119,7 @@ form {
   padding-left: 1.2%;
 }
 
-.form--register-newsletter-checkbox {
+.form__register-checkbox-newsletter {
   padding-right: 25px;
 
   input[type=checkbox]
