@@ -55,7 +55,7 @@ from utils import email as email_utils
 
 
 class TestIndependentStudent(BaseTest):
-    def test_signup(self):
+    def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(selenium)

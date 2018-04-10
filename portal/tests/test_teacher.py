@@ -54,7 +54,7 @@ from utils import email as email_utils
 
 class TestTeacher(BaseTest):
 
-    def test_signup(self):
+    def test_signup_without_newsletter(self):
         selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page, _, _ = signup_teacher(page)
