@@ -268,6 +268,10 @@ def process_indep_student_login_form(request, independent_student_login_form):
     return HttpResponseRedirect(reverse_lazy('student_details'))
 
 
+def _newsletter_ticked(form_data):
+    return form_data['newsletter_ticked']
+
+
 def process_signup_form(request, data):
     email = data['teacher_email']
     teacher = None
@@ -282,6 +286,10 @@ def process_signup_form(request, data):
             last_name=data['teacher_last_name'],
             email=data['teacher_email'],
             password=data['teacher_password'])
+
+        if _newsletter_ticked(data):
+            user = teacher.user.user
+            add_to_salesforce(user.first_name, user.last_name, user.email)
 
         send_verification_email(request, teacher.user.user)
 
@@ -299,7 +307,12 @@ def process_student_signup_form(request, data):
         password=data['password'])
 
     email_supplied = (data['email'] != '')
+
     if email_supplied:
+        if _newsletter_ticked(data):
+            user = student.new_user
+            add_to_salesforce(user.first_name, user.last_name, user.email)
+
         send_verification_email(request, student.new_user)
         return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
 

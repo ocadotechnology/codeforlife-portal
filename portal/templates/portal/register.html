@@ -44,6 +44,8 @@
                 {{ teacher_signup_form.teacher_email }}
                 {{ teacher_signup_form.teacher_email.errors }}
 
+                {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=teacher_signup_form.newsletter_ticked %}
+
                 <label for="id_teacher_signup-teacher_password">{{ teacher_signup_form.teacher_password.label }}</label>
                 {{ teacher_signup_form.teacher_password }}
                 {{ teacher_signup_form.teacher_password.errors }}
@@ -73,7 +75,10 @@
     <div class="form--register form--register--indep-student col-sm-6">
         <div class="form col-sm-8 col-center">
             <h1>Register as an independent student</h1>
-            <p>Are you part of a school or club? If so, please <a href="{% url 'login_view' %}">log-in</a> or speak to your teacher. If you want to register as an <strong>independent student</strong>, please register below:</p>
+            <p>Are you part of a school or club? If so, please <a href="{% url 'login_view' %}">log-in</a> or speak to your teacher. <br/><br/>
+                If you want to register as an <strong>independent student</strong>, please register below.  <br/><br/>
+                If you are under 13 years old you will need to ask a parent or guardian to register for you. <br/><br/>
+            </p>
             <form id="form-signup-independent-student" method="post">
 
                 {% csrf_token %}
@@ -91,6 +96,9 @@
                 <label for="id_{{ student_signup_form.email.html_name }}">{{ student_signup_form.email.label }}</label>
                 {{ student_signup_form.email }}
                 {{ student_signup_form.email.errors }}
+
+                {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=student_signup_form.newsletter_ticked %}
+
 
                 <label for="id_{{ student_signup_form.password.html_name }}">{{ student_signup_form.password.label }}</label>
                 {{ student_signup_form.password }}

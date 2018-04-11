@@ -70,10 +70,14 @@ form {
     }
   }
 
-  h1,
-  p {
+  h1 {
     color: $color-text-secondary;
     text-align: center;
+  }
+
+  p {
+    color: $color-text-secondary;
+    text-align: left;
   }
 
   label {
@@ -108,6 +112,33 @@ form {
 
 .form--register--indep-student {
   background-color: $color-background-play-indep;
+}
+
+.form__register-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 75%;
+  color: $color-text-secondary;
+  padding-bottom: 2.5%;
+  padding-left: 1.2%;
+}
+
+.form__register-checkbox-newsletter {
+  padding-right: 25px;
+
+  input[type=checkbox] {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    transform: scale(2); /* Universal */
+    padding: 10px;
+  }
+}
+
+.form--register-newsletter-text {
+  text-align: left !important;
 }
 
 .form__choice {

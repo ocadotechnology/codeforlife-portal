@@ -75,11 +75,14 @@ def signup_duplicate_teacher_fail(page, duplicate_email):
     return page, email_address, password
 
 
-def signup_teacher(page):
+def signup_teacher(page, newsletter=False):
     page = page.go_to_signup_page()
 
     title, first_name, last_name, email_address, password = generate_details()
-    page = page.signup(title, first_name, last_name, email_address, password, password)
+    page = page.signup(title, first_name, last_name, email_address,
+                       password=password,
+                       confirm_password=password,
+                       newsletter=newsletter)
 
     page = page.return_to_home_page()
 
