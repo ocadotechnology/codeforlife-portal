@@ -44,13 +44,14 @@ from django_otp import device_classes
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.models import User
 from django.contrib import messages as messages
 from django.utils import timezone
 
 from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
-from portal.models import UserProfile, Teacher, School, Class, Student
+from portal.models import Teacher, School, Class, Student
 from ratelimit.decorators import ratelimit
 from deploy import captcha
 
@@ -237,8 +238,8 @@ def aggregated_data(request):
     Rapid Router Levels statistics
     """
     table_data = []
-    num_user_levels = UserProfile.objects.annotate(num_custom_levels=Count('levels')) \
-                                         .exclude(num_custom_levels=0)
+    num_user_levels = User.objects.annotate(num_custom_levels=Count('levels')) \
+                                  .exclude(num_custom_levels=0)
     stats_user_levels = num_user_levels.aggregate(Avg('num_custom_levels'))
 
     table_data.append(["Number of users with custom levels",
@@ -247,7 +248,7 @@ def aggregated_data(request):
     table_data.append(["Of users with custom levels, average number of custom levels",
                        stats_user_levels['num_custom_levels__avg'], ""])
 
-    num_teacher_levels = num_user_levels.exclude(teacher=None)
+    num_teacher_levels = num_user_levels.exclude(userprofile__teacher=None)
     stats_teacher_levels = num_teacher_levels.aggregate(Avg('num_custom_levels'))
 
     table_data.append(["Number of teachers with custom levels",
@@ -256,7 +257,7 @@ def aggregated_data(request):
     table_data.append(["Of teachers with custom levels, average number of custom levels",
                        stats_teacher_levels['num_custom_levels__avg'], ""])
 
-    num_student_levels = num_user_levels.exclude(student=None)
+    num_student_levels = num_user_levels.exclude(userprofile__student=None)
     stats_student_levels = num_student_levels.aggregate(Avg('num_custom_levels'))
 
     table_data.append(["Number of students with custom levels",
@@ -265,7 +266,7 @@ def aggregated_data(request):
     table_data.append(["Of students with custom levels, average number of custom levels",
                        stats_student_levels['num_custom_levels__avg'], ""])
 
-    num_school_student_levels = num_student_levels.exclude(student__class_field=None)
+    num_school_student_levels = num_student_levels.exclude(userprofile__student__class_field=None)
     stats_school_student_levels = num_school_student_levels.aggregate(Avg('num_custom_levels'))
 
     table_data.append(["Number of school students with custom levels",
@@ -274,7 +275,7 @@ def aggregated_data(request):
     table_data.append(["Of school students with custom levels, average number of custom levels",
                        stats_school_student_levels['num_custom_levels__avg'], ""])
 
-    num_independent_student_levels = num_student_levels.filter(student__class_field=None)
+    num_independent_student_levels = num_student_levels.filter(userprofile__student__class_field=None)
     stats_independent_student_levels = num_independent_student_levels.aggregate(Avg('num_custom_levels'))
 
     table_data.append(["Number of independent students with custom levels",
@@ -292,8 +293,8 @@ def aggregated_data(request):
     Rapid Router Workspaces statistics
     """
     table_data = []
-    num_user_workspaces = UserProfile.objects.annotate(num_saved_workspaces=Count('workspaces')) \
-                                             .exclude(num_saved_workspaces=0)
+    num_user_workspaces = User.objects.annotate(num_saved_workspaces=Count('workspaces')) \
+                                      .exclude(num_saved_workspaces=0)
     stats_user_workspaces = num_user_workspaces.aggregate(Avg('num_saved_workspaces'))
 
     table_data.append(["Number of users with saved workspaces",
@@ -302,7 +303,7 @@ def aggregated_data(request):
     table_data.append(["Of users with saved workspaces, average number of saved workspaces",
                        stats_user_workspaces['num_saved_workspaces__avg'], ""])
 
-    num_teacher_workspaces = num_user_workspaces.exclude(teacher=None)
+    num_teacher_workspaces = num_user_workspaces.exclude(userprofile__teacher=None)
     stats_teacher_workspaces = num_teacher_workspaces.aggregate(Avg('num_saved_workspaces'))
 
     table_data.append(["Number of teachers with saved workspaces",
@@ -311,7 +312,7 @@ def aggregated_data(request):
     table_data.append(["Of teachers with saved workspaces, average number of saved workspaces",
                        stats_teacher_workspaces['num_saved_workspaces__avg'], ""])
 
-    num_student_workspaces = num_user_workspaces.exclude(student=None)
+    num_student_workspaces = num_user_workspaces.exclude(userprofile__student=None)
     stats_student_workspaces = num_student_workspaces.aggregate(Avg('num_saved_workspaces'))
 
     table_data.append(["Number of students with saved workspaces",
@@ -320,7 +321,7 @@ def aggregated_data(request):
     table_data.append(["Of students with saved workspaces, average number of saved workspaces",
                        stats_student_workspaces['num_saved_workspaces__avg'], ""])
 
-    num_school_student_workspaces = num_student_workspaces.exclude(student__class_field=None)
+    num_school_student_workspaces = num_student_workspaces.exclude(userprofile__student__class_field=None)
     stats_school_student_workspaces = num_school_student_workspaces.aggregate(Avg('num_saved_workspaces'))
 
     table_data.append(["Number of school students with saved workspaces",
@@ -329,7 +330,7 @@ def aggregated_data(request):
     table_data.append(["Of school students with saved workspaces, average number of saved workspaces",
                        stats_school_student_workspaces['num_saved_workspaces__avg'], ""])
 
-    num_independent_student_workspaces = num_student_workspaces.filter(student__class_field=None)
+    num_independent_student_workspaces = num_student_workspaces.filter(userprofile__student__class_field=None)
     stats_independent_student_workspaces = num_independent_student_workspaces.aggregate(Avg('num_saved_workspaces'))
 
     table_data.append(["Number of independent students with saved workspaces",
