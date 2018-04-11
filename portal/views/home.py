@@ -383,6 +383,7 @@ def contact(request):
     response.count = increment_count
     return response
 
+
 def process_newsletter_form(request):
     # Remember to add mapping in url file
     if request.method == 'POST':
@@ -401,6 +402,7 @@ def process_newsletter_form(request):
         # Stay on page
         messages.add_message(request, messages.ERROR, 'Invalid email address. Please try again.')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 
 def home(request):
     return render(request, 'portal/home.html')
