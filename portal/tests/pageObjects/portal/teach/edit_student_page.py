@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,7 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+
+from selenium.webdriver.common.action_chains import ActionChains
 import edit_student_password_page
 
 from teach_base_page import TeachBasePage
@@ -69,7 +70,10 @@ class EditStudentPage(TeachBasePage):
         return edit_student_password_page.EditStudentPasswordPage(self.browser)
 
     def click_generate_password_button(self):
-        self.browser.find_element_by_id("generate_password_button").click()
+        actions = ActionChains(self.browser)
+        generate_password_button = self.browser.find_element_by_id("generate_password_button")
+        actions.move_to_element(generate_password_button).click()
+        actions.perform()
         return edit_student_password_page.EditStudentPasswordPage(self.browser)
 
     def is_student_name(self, name):

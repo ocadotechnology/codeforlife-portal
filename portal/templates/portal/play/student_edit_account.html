@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    <div id='play_account_page'></div>
+    <div id="play_account_page"></div>
 
     <h1>{% if user.new_student.class_field %}Password{% else %}Account{% endif %}</h1><br>
 
@@ -22,11 +22,11 @@
         <p>You may edit your account details below, including your name, email and password.</p>
     {% endif %}
 
-    <div class='section group'>
+    <div class="section group">
 
-        <div class='span_1_of_2'>
+        <div class="span_1_of_2">
 
-            <div class='login-card'>
+            <div class="login-card">
                 <h4>{% if user.new_student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
 
                 {% if user.new_student.class_field %}
@@ -37,7 +37,7 @@
                     <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
                 {% endif %}
 
-                <form id="student_account_form" method='post'>
+                <form id="student_account_form" method="post">
 
                     {% csrf_token %}
 
@@ -69,17 +69,17 @@
 
                     <div class="row--under">
                         <div class="password-strength-container">
-                            <div id="student-password-sign" class='password-strength-sign'></div>
-                            <div id="student-password-text" class='password-strength-text-old'></div>
+                            <div id="student-password-sign" class="password-strength-sign"></div>
+                            <div id="student-password-text" class="password-strength-text-old"></div>
                         </div>
                     </div>
 
-                    <div class='section group'>
-                        <div class='col span_1_of_2'>
-                            <a id='cancel_button' class='btn btn-default wide' href="{% url 'student_details' %}">Cancel</a>
+                    <div class="section group">
+                        <div class="col span_1_of_2">
+                            <a id="cancel_button" class="btn btn-default wide" href="{% url 'student_details' %}">Cancel</a>
                         </div>
-                        <div class='col span_1_of_2'>
-                            <input id='update_button' type='submit' class='btn btn-primary wide' value='Update'/>
+                        <div class="col span_1_of_2">
+                            <input id="update_button" type="submit" class="btn btn-primary wide" value="Update"/>
                         </div>
                     </div>
 
@@ -87,14 +87,14 @@
             </div>
             {% if not user.new_student.class_field %}
                 <br>
-                <div class='login-card'>
+                <div class="login-card">
                     <h4>Join a school or club</h4><br>
-                    <div class='section group'>
-                        <div class='col span_2_of_3'>
+                    <div class="section group">
+                        <div class="col span_2_of_3">
                             <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
                         </div>
-                        <div class='col span_1_of_3'>
-                            <a class='btn btn-default wide' href="{% url 'student_join_organisation' %}">Join</a>
+                        <div class="col span_1_of_3">
+                            <a class="btn btn-default wide" href="{% url 'student_join_organisation' %}">Join</a>
                         </div>
                     </div>
                 </div>

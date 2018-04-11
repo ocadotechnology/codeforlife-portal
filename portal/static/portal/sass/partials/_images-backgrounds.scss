@@ -33,6 +33,17 @@ img {
   background-color: $color-background-tint-quaternary;
 }
 
+.background--quinary {
+  background-color: $color-background-tint-quinary;
+}
+
+.background--swirl {
+  background-image: url('../img/ocado-swirl.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .image-row {
   align-items: baseline;
   display: flex;

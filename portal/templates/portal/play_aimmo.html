@@ -1,0 +1,140 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block nav_play %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="banner banner--aimmo--background">
+  <div class="sticky-subnav sub-nav sub-nav--games">
+    <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+    <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
+  </div>
+  <div class="row banner--aimmo--content">
+    <div class="col-sm-5">
+        <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
+        <h1 class="banner__text--primary">Coming soon</h1>
+    </div>
+    <div class="col-sm-2">
+        <img title="Van" alt="Van" src="{% static 'portal/img/van-future.png' %}">
+    </div>
+  </div>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+
+<div class="background">
+    <section>
+        <h1 class="col-sm-7 col-center">Code for Life will be launching a new game for secondary schools soon!</h1>
+        <h4 class="col-sm-6 col-center">Following on from Rapid Router, this exciting game will build on students’ existing coding skills.</h4>
+        <h4 class="col-sm-6 col-center">The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+            We’ll have a playable beta soon, but first we’d like to get your thoughts on the gameplay, learning concepts and general design.</h4>
+    </section>
+    <div class="row row--small">
+        <div class="col-sm-9 col-center is-flex">
+            <div class="col-sm-4">
+                <img title="Teaching Resources" alt="Teaching Resources" src="{% static 'portal/img/teaching_materials.jpg' %}">
+                <h3>Step 1</h3>
+                <h4>Teaching materials</h4>
+                <p>Download the teaching materials and read them through before playing the video.
+                    They will guide you through the level and give teaching support.</p>
+                <div class="background button--bottom">
+                    <a href="{{ 'KS3/resource_sheets/AIMMO-L1_teaching.zip'|cloud_storage }}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <img title="Gameplay" alt="Gameplay" src="{% static 'portal/img/gameplay_video.jpg' %}">
+                <h3>Step 2</h3>
+                <h4>Gameplay video</h4>
+                <p>This video is intended to show how the code and gameplay will be implemented within the game UI. The video is a visualisation of actual gameplay.</p>
+                <div class="background button--bottom">
+                    <a href="https://www.youtube.com/watch?v=HxxavGnqRbw&feature=youtu.be" target="_blank" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <img title="Feedback" alt="Feedback" src="{% static 'portal/img/your_feedback.png' %}">
+                <h3>Step 3</h3>
+                <h4>Your feedback</h4>
+                <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
+                <div class="background button--bottom">
+                    <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="background background--quinary background--swirl">
+    <h2>Deliver through time...</h2>
+    <div class="col-sm-6 col-center">
+        <h4>Where will your journey take you? Once you pass the test, you can become a time–travelling delivery driver.
+            Your TricyNav sat nav will guide you through time and give you coding hints along the way.</h4>
+    </div>
+    <div class="col-sm-10 col-center image-row">
+        <div>
+            <img title="Prehistoric" alt="Prehistoric image" src="{% static 'portal/img/prehistoric.svg' %}">
+            <p><b>Prehistoric</b></p>
+            <p>68 million years ago
+                </br>
+                Dino delivery</p>
+        </div>
+        <div>
+            <img title="Stone age" alt="Stone age image" src="{% static 'portal/img/stoneage.svg' %}">
+            <p><b>Stone age</b></p>
+            <p>2.5 million years ago
+                </br>
+                Hunter delivery</p>
+        </div>
+        <div>
+            <img title="Medieval" alt="Medieval image" src="{% static 'portal/img/medieval.svg' %}">
+            <p><b>Medieval age</b></p>
+            <p>476 AD
+                </br>
+                The wheel has been  around for a while</p>
+        </div>
+        <div>
+            <img title="Victorian" alt="Victorian image" src="{% static 'portal/img/victorian.svg' %}">
+            <p><b>Victorian era</b></p>
+            <p>1842 AD
+                </br>
+                Horse–drawn carriages
+                help with delivery</p>
+        </div>
+        <div>
+            <img title="Modern" alt="Modern image" src="{% static 'portal/img/modern.svg' %}">
+            <p><b>Modern era</b></p>
+            <p>2000 AD
+                </br>
+                Motorised van delivery</p>
+        </div>
+        <div>
+            <img title="Future" alt="Future image" src="{% static 'portal/img/future.svg' %}">
+            <p><b>The future</b></p>
+            <p>2200 AD
+                </br>
+                Time travel delivery</p>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        invokeColorbox();
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.menu').outerHeight());
+        }
+    });
+</script>
+
+{% endblock content %}

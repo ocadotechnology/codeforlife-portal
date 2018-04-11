@@ -131,8 +131,14 @@
   background-position: top left;
 }
 
+.banner__game--aimmo {
+  background-image: url('../img/background_grey.png');
+  background-position: top right;
+}
+
 .banner--teacher,
-.banner--student {
+.banner--student,
+.banner__game {
   align-items: center;
   display: flex;
   height: 263px; // TO BE CHANGED!
@@ -160,13 +166,31 @@
 
 }
 
-.banner--rapid-router {
-  @include _padding(70px, 0px, 100px, 0px);
-  align-items: center;
+.banner--rapid-router--background {
   background-image: url('../img/rapid_router_landing_hero.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.banner--rapid-router--content {
+  @include _padding(70px, 0px, 100px, 0px);
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.banner--aimmo--background {
+  background-image: url('../img/aimmo_landing_hero.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.banner--aimmo--content {
+  @include _padding(70px, 0px, 100px, 0px);
+  align-items: center;
   display: flex;
   justify-content: space-between;
 }
@@ -254,6 +278,16 @@
   }
 
   .banner--rapid-router {
+    @include _padding(50px, 0px, 150px, 0px);
+    flex-direction: column;
+
+    .button {
+      margin-bottom: 50px;
+    }
+
+  }
+
+  .banner--aimmo {
     @include _padding(50px, 0px, 150px, 0px);
     flex-direction: column;
 

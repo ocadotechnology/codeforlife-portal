@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,12 +35,16 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.contrib.auth.forms import AuthenticationForm
-
-from django import forms
+from captcha.fields import ReCaptchaField
+from portal.helpers.captcha import remove_captcha_from_form
 
 
 class AdminLoginForm(AuthenticationForm):
-    def clean(self):
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError('Incorrect username, password or captcha')
-        return super(AdminLoginForm, self).clean()
+    captcha = ReCaptchaField()
+
+    is_captcha_visible = False
+
+    def __init__(self, user, *args, **kwags):
+        super(AdminLoginForm, self).__init__(user, *args, **kwags)
+        if not AdminLoginForm.is_captcha_visible:
+            remove_captcha_from_form(self)

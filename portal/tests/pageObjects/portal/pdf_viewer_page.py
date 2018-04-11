@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from base_page import BasePage
+import resources_page
 
 
 class PDFViewerPage(BasePage):
@@ -42,3 +43,7 @@ class PDFViewerPage(BasePage):
         super(PDFViewerPage, self).__init__(browser)
 
         assert self.on_correct_page('pdf_viewer_page')
+
+    def click_resources_button_link(self):
+        self.browser.find_element_by_id('resources_button').click()
+        return resources_page.ResourcesPage(self.browser)

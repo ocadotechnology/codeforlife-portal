@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -69,7 +69,6 @@ SETTINGS = {
         'CSS_COMPRESSOR': None,
     },
     'INSTALLED_APPS': [
-        'cms',
         'game',
         'pipeline',
         'portal',
@@ -109,10 +108,6 @@ SETTINGS = {
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
-        'cms.middleware.user.CurrentUserMiddleware',
-        'cms.middleware.page.CurrentPageMiddleware',
-        'cms.middleware.toolbar.ToolbarMiddleware',
-        'cms.middleware.language.LanguageCookieMiddleware',
         'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
         'django_otp.middleware.OTPMiddleware',
     ],

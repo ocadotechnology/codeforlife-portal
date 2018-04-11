@@ -40,7 +40,7 @@
             from class {{ old_class.name }} ({{ old_class.access_code }}). Their names will be used in their new login details, so please ensure it is
             different from any other existing students in the class.</p>
 
-        <form method='POST'>
+        <form method="POST">
 
             {% csrf_token %}
 
@@ -66,9 +66,9 @@
             </table>
 
             <section class="background button-group">
-                <input type='hidden' name='new_class' value='{{ new_class.id }}'/>
-                <button id='move_button' name='submit_disambiguation' type='submit' class='button--regular button--primary--navigation'>Save</button>
-                <a id='cancel_button' class='button button--regular button--secondary button--secondary--dark' href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+                <input type="hidden" name="new_class" value="{{ new_class.id }}"/>
+                <button id="move_button" name="submit_disambiguation" type="submit" class="button--regular button--primary--navigation">Save</button>
+                <a id="cancel_button" class="button button--regular button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
             </section>
 
         </form>

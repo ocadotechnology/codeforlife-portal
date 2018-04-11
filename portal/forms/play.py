@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,6 +44,7 @@ from django.utils import timezone
 
 from portal.models import Student, Class, stripStudentName
 from portal.helpers.password import password_strength_test
+from captcha.fields import ReCaptchaField
 
 
 class StudentLoginForm(forms.Form):
@@ -57,10 +58,9 @@ class StudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
-    def clean(self):
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError("Invalid name, class access code, password or captcha")
+    captcha = ReCaptchaField()
 
+    def clean(self):
         name = self.cleaned_data.get('name', None)
         access_code = self.cleaned_data.get('access_code', None)
         password = self.cleaned_data.get('password', None)
@@ -154,19 +154,35 @@ class StudentEditAccountForm(forms.Form):
 class StudentSignupForm(forms.Form):
     name = forms.CharField(
         label='Name', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"}))
+        widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"})
+    )
+
     username = forms.CharField(
         label='Username', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
+        widget=forms.TextInput(attrs={'placeholder': "rosie_f"})
+    )
+
     email = forms.EmailField(
         label='Email address',
-        widget=forms.EmailInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"}))
+        widget=forms.EmailInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"})
+    )
+
+    newsletter_ticked = forms.BooleanField(
+        initial=False,
+        required=False
+    )
+
     password = forms.CharField(
         label='Password',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput
+    )
+
     confirm_password = forms.CharField(
         label='Confirm Password',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput
+    )
+
+    captcha = ReCaptchaField()
 
     def clean_name(self):
         name = self.cleaned_data.get('name', None)
@@ -211,10 +227,9 @@ class IndependentStudentLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput())
 
-    def clean(self):
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError("Incorrect username, password or captcha")
+    captcha = ReCaptchaField()
 
+    def clean(self):
         username = self.cleaned_data.get('username', None)
         password = self.cleaned_data.get('password', None)
 

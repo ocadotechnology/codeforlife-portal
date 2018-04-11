@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,7 @@ from django.core import mail
 import email
 
 from portal.models import Class, Student
+from portal.helpers.emails import generate_token
 
 
 def generate_school_details():
@@ -61,6 +62,17 @@ def create_school_student_directly(access_code):
     return name, password, student
 
 
+def create_independent_student_directly():
+    name, username, email, password = generate_independent_student_details()
+
+    student = Student.objects.independentStudentFactory(username, name, email, password)
+
+    # verify student
+    generate_token(student.new_user, preverified=True)
+
+    return username, password, student
+
+
 def create_school_student(page):
     name, _ = generate_school_details()
 
@@ -69,10 +81,10 @@ def create_school_student(page):
     return page, name
 
 
-def create_many_school_students(page, n):
-    names = ['' for i in range(n)]
+def create_many_school_students(page, number_of_students):
+    names = ['' for i in range(number_of_students)]
 
-    for i in range(n):
+    for i in range(number_of_students):
         names[i], _ = generate_school_details()
         page = page.type_student_name(names[i])
 
@@ -94,11 +106,14 @@ def generate_independent_student_details():
 generate_independent_student_details.next_id = 1
 
 
-def create_independent_student(page):
+def create_independent_student(page, newsletter=False):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
-    page = page.independent_student_signup(name, username, email_address, password, password)
+    page = page.independent_student_signup(name, username, email_address,
+                                           password=password,
+                                           confirm_password=password,
+                                           newsletter=newsletter)
 
     page = page.return_to_home_page()
 

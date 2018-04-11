@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,7 +36,7 @@
 # identified as the original program.
 from django import forms
 from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
-import re
+from captcha.fields import ReCaptchaField
 
 
 class ContactForm(forms.Form):
@@ -50,12 +50,8 @@ class ContactForm(forms.Form):
                               widget=forms.Textarea(attrs={'class': 'contactField'}))
     browser = forms.CharField(label='Browser', max_length=250, required=False,
                               widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'}))
-    view_options = {'is_recaptcha_valid': False, 'is_recaptcha_visible': False}
 
-    def clean(self):
-        if self.view_options['is_recaptcha_visible'] and not self.view_options['is_recaptcha_valid']:
-            raise forms.ValidationError('Incorrect captcha')
-        return self.cleaned_data
+    captcha = ReCaptchaField()
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)

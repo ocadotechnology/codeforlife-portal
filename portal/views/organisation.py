@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,7 +36,6 @@
 # identified as the original program.
 from functools import partial
 import json
-from recaptcha import RecaptchaClient
 
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
@@ -44,7 +43,6 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 
 from portal import app_settings, emailMessages
 from portal.models import School, Teacher, Class
@@ -54,8 +52,6 @@ from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
 
 from ratelimit.decorators import ratelimit
-
-recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
 
 
 def organisation_fuzzy_lookup(request):
@@ -97,20 +93,11 @@ def search_school(school, school_data):
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 def organisation_create(request):
     increment_count = False
-    limits = getattr(request, 'limits', {'ip': [0]})
-    captcha_limit = 5
-
-    using_captcha = (limits['ip'][0] > captcha_limit)
-    should_use_captcha = (limits['ip'][0] >= captcha_limit)
-
-    OrganisationJoinFormWithCaptcha = partial(create_form_subclass_with_recaptcha(OrganisationJoinForm, recaptcha_client), request)
-    InputOrganisationJoinForm = compute_input_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, using_captcha)
-    OutputOrganisationJoinForm = compute_output_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, should_use_captcha)
 
     teacher = request.user.new_teacher
 
     create_form = OrganisationForm(user=request.user)
-    join_form = OutputOrganisationJoinForm()
+    join_form = OrganisationJoinForm()
 
     if request.method == 'POST':
         if 'create_organisation' in request.POST:
@@ -142,7 +129,7 @@ def organisation_create(request):
 
         elif 'join_organisation' in request.POST:
             increment_count = True
-            process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganisationJoinForm)
+            process_join_form(request, teacher, OrganisationJoinForm, OrganisationJoinForm)
 
         else:
             return process_revoke_request(request, teacher)

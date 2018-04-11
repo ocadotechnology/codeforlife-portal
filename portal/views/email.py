@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -70,9 +70,6 @@ def verify_email(request, token):
         user.email_verifications.exclude(email=user.email).delete()
 
     messages.success(request, 'Your email address was successfully verified, please log in.')
-
-    # copy newly verified user to secure salesforce db
-    add_to_salesforce(user)
 
     return HttpResponseRedirect(reverse_lazy('login_view'))
 

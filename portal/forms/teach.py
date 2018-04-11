@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -42,6 +42,7 @@ from django.contrib.auth.models import User
 
 from portal.models import Student, Teacher, stripStudentName
 from portal.helpers.password import password_strength_test
+from captcha.fields import ReCaptchaField
 
 
 choices = [('Miss', 'Miss'), ('Mrs', 'Mrs'), ('Ms', 'Ms'), ('Mr', 'Mr'),
@@ -85,6 +86,13 @@ class TeacherSignupForm(forms.Form):
             }
         )
     )
+
+    newsletter_ticked = forms.BooleanField(
+        widget=forms.CheckboxInput(),
+        initial=False,
+        required=False
+    )
+
     teacher_password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput()
@@ -93,6 +101,8 @@ class TeacherSignupForm(forms.Form):
         label='Confirm Password',
         widget=forms.PasswordInput()
     )
+
+    captcha = ReCaptchaField()
 
     def clean_teacher_password(self):
         password = self.cleaned_data.get('teacher_password', None)
@@ -188,10 +198,9 @@ class TeacherLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput)
 
-    def clean(self):
-        if self.has_error('recaptcha'):
-            raise forms.ValidationError('Incorrect email address, password or captcha')
+    captcha = ReCaptchaField()
 
+    def clean(self):
         email = self.cleaned_data.get('teacher_email', None)
         password = self.cleaned_data.get('teacher_password', None)
 
@@ -204,7 +213,7 @@ class TeacherLoginForm(forms.Form):
 
             user = authenticate(username=user.username, password=password)
 
-            self.check_email_erros(user)
+            self.check_email_errors(user)
 
             self.user = user
 
@@ -223,7 +232,7 @@ class TeacherLoginForm(forms.Form):
 
         return user
 
-    def check_email_erros(self, user):
+    def check_email_errors(self, user):
         if user is None:
             raise forms.ValidationError('Incorrect email address or password')
 

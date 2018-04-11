@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -123,10 +123,12 @@ urlpatterns = patterns(
     url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='onboarding-class'),
     url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$', teacher_print_reminder_cards, name='teacher_print_reminder_cards'),
     url(r'^teach/onboarding-complete', TemplateView.as_view(template_name='portal/teach/onboarding_complete.html'), name='onboarding-complete'),
-    url(r'^play/$', TemplateView.as_view(template_name='portal/play.html'), name='play'),
+    url(r'^play/$', RedirectView.as_view(url=reverse_lazy('play'), permanent=True)),
     url(r'^play/details/$', student_details, name='student_details'),
     url(r'^play/account/$', student_edit_account, name='student_edit_account'),
     url(r'^play/join/$', student_join_organisation, name='student_join_organisation'),
+    url(r'^play/rapid-router/$', TemplateView.as_view(template_name='portal/play_rapid-router.html'), name='play'),
+    url(r'^play/aimmo/$', TemplateView.as_view(template_name='portal/play_aimmo.html'), name='play_aimmo'),
     url(r'^about', TemplateView.as_view(template_name='portal/about.html'), name='about'),
     url(r'^help/$', contact, name='help'),
     url(r'^terms', TemplateView.as_view(template_name='portal/terms.html'), name='terms'),

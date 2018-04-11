@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -65,6 +65,7 @@ LOGIN_REDIRECT_URL = '/portal/teach/dashboard/'
 
 INSTALLED_APPS = (
     'portal',
+    'captcha'
 )
 
 PIPELINE_ENABLED = False

@@ -34,7 +34,7 @@
 </div>
 {% if is_admin and join_requests %}
 <div id="sticky-warning" class="sub-nav sub-nav--warning">
-    <img title="Warning" alt="Warning sign" src='{% static "portal/img/warning.png" %}'>
+    <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
     <p><i>You have pending requests from teachers wanting to join your school or club.
         <a id="requests_button" href="#requests">View the requests</a></i></p>
 </div>
@@ -83,14 +83,13 @@
                 {% if coworker.new_user != user %}
                     <td class="cell-center">
                         <button id="kick_button" class="button--small button--primary--danger"
-                                onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}')">
+                                onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
                             Remove</button>
                     </td>
                     <td class="cell-center">
                         {% if coworker.is_admin %}
                             <button id="make_non_admin_button" class='button button--small button--primary--navigation'
-                               onclick="post('{% url 'organisation_toggle_admin' coworker.id %}', {
-                                   csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()});">Make non-admin</button>
+                               onclick="postWithCsrf('{% url 'organisation_toggle_admin' coworker.id %}');">Make non-admin</button>
                         {% else %}
                             <button id="make_admin_button" class="button--small button--primary--navigation"
                                     onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
@@ -154,11 +153,13 @@
                                     {{ join_request.new_user.last_name }}</small></p></td>
                                 <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                                 <td class="cell-center">
-                                    <a id="allow_button" class="button button--small button-primary button--primary--positive"
-                                            href="{% url 'organisation_allow_join' join_request.id %}">Allow</a></td>
+                                     <button id="allow_button" class="button button--small button-primary button--primary--positive"
+                                            onclick="postWithCsrf('{% url 'organisation_allow_join' join_request.id %}');">Allow</button>
+                                </td>
                                 <td class="cell-center">
-                                    <a id="deny_button" class="button button--small button-primary button--primary--danger"
-                                            href="{% url 'organisation_deny_join' join_request.id %}">Deny</a></td>
+                                     <button id="deny_button" class="button button--small button-primary button--primary--danger"
+                                        onclick="postWithCsrf('{% url 'organisation_deny_join' join_request.id %}');">Deny</button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -174,7 +175,7 @@
             <h3>Change details of your school or club</h3>
             <p>Update your school or club&rsquo;s name and/or postcode.
             <strong>These details are used to allow other teachers to join your team.</strong></p>
-            <form id="edit_form" method='post'>
+            <form id="edit_form" method="post">
                 {% csrf_token %}
 
                 {{ update_school_form.non_field_errors }}
@@ -184,8 +185,8 @@
                 {{ field }}
                 {{ field.errors }}
                 {% endfor %}
-                <div class='section group'>
-                    <button id="update_details_button" type='submit' class='button--regular button--primary--general-play' name="update_school">Change</button>
+                <div class="section group">
+                    <button id="update_details_button" type="submit" class="button--regular button--primary--general-play" name="update_school">Change</button>
                 </div>
             </form>
         </div>
@@ -260,9 +261,9 @@
                         <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                         <td><p><small>{{ join_request.pending_class_request.name }}
                             ({{ join_request.pending_class_request.access_code }})</small></p></td>
-                        <td><a id="allow_independent_button" class='button button--small button--primary--positive'
+                        <td><a id="allow_independent_button" class="button button--small button--primary--positive"
                                href="{% url 'teacher_accept_student_request' join_request.id %}">Accept</a></td>
-                        <td><a id="deny_independent_button" class='button button--small button--primary--danger'
+                        <td><a id="deny_independent_button" class="button button--small button--primary--danger"
                                href="{% url 'teacher_reject_student_request' join_request.id %}">Reject</a></td>
                     </tr>
                     {% endfor %}
@@ -280,7 +281,7 @@
             <h3>Create a new class</h3>
             <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                 class.</p>
-            <form method='post'>
+            <form method="post">
 
                 {% csrf_token %}
 
@@ -298,7 +299,7 @@
                         {{ create_class_form.classmate_progress }}
                         {{ create_class_form.classmate_progress.errors }}
                     </div>
-                    <button id="create_class_button" type='submit' class='button--regular button--primary--positive' name="create_class">Create</button>
+                    <button id="create_class_button" type="submit" class="button--regular button--primary--positive" name="create_class">Create</button>
                 </div>
             </form>
         </div>
@@ -314,7 +315,7 @@
     <div class="background background--tertiary">
         <div class="col-sm-7 col-center">
             <h3>Update details</h3>
-            <form method='post' id="form-edit-teacher">
+            <form method="post" id="form-edit-teacher">
 
                 {% csrf_token %}
 
@@ -361,7 +362,7 @@
                         {{ update_account_form.current_password.errors }}
                     </div>
                 </div>
-                <button id="update_button" type='submit' class='button--regular button--primary--negative' name="update_account">Update</button>
+                <button id="update_button" type="submit" class="button--regular button--primary--negative" name="update_account">Update</button>
             </form>
         </div>
     </div>
@@ -398,7 +399,7 @@
         {% else %}
             <p>Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
             <div class="background">
-                <a class='button button--regular button--primary--negative'
+                <a class="button button--regular button--primary--negative"
                    href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
             </div>
         {% endif %}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -55,8 +55,6 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from recaptcha import RecaptchaClient
-from django_recaptcha_field import create_form_subclass_with_recaptcha
 from deploy import captcha
 from two_factor.views import LoginView
 
@@ -66,8 +64,7 @@ from portal.permissions import not_logged_in, not_fully_logged_in
 from portal.helpers.emails import PASSWORD_RESET_EMAIL
 from portal import app_settings
 from ratelimit.decorators import ratelimit
-
-recaptcha_client = RecaptchaClient(app_settings.RECAPTCHA_PRIVATE_KEY, app_settings.RECAPTCHA_PUBLIC_KEY)
+from portal.helpers.captcha import remove_captcha_from_form
 
 
 @ratelimit('def', periods=['1m'])
@@ -83,30 +80,15 @@ def custom_2FA_login(request):
 @user_passes_test(not_logged_in, login_url=reverse_lazy('login_view'))
 def student_password_reset(request):
     usertype = "STUDENT"
-    form = (StudentPasswordResetForm if not captcha.CAPTCHA_ENABLED
-            else decorate_with_captcha(StudentPasswordResetForm, request, recaptcha_client))
     return password_reset(request, usertype, from_email=PASSWORD_RESET_EMAIL, template_name='portal/reset_password_student.html',
-                          password_reset_form=form, is_admin_site=True)
+                          password_reset_form=StudentPasswordResetForm, is_admin_site=True)
 
 
 @user_passes_test(not_fully_logged_in, login_url=reverse_lazy('login_view'))
 def teacher_password_reset(request):
     usertype = "TEACHER"
-    form = (TeacherPasswordResetForm if not captcha.CAPTCHA_ENABLED
-            else decorate_with_captcha(TeacherPasswordResetForm, request, recaptcha_client))
     return password_reset(request, usertype, from_email=PASSWORD_RESET_EMAIL, template_name='portal/reset_password_teach.html',
-                          password_reset_form=form, is_admin_site=True)
-
-
-def decorate_with_captcha(base_class, request, recaptcha_client):
-    form_with_captcha_class = create_form_subclass_with_recaptcha(base_class, recaptcha_client)
-
-    class FormWithCaptcha(form_with_captcha_class):
-
-        def __init__(self, *args, **kwargs):
-            super(FormWithCaptcha, self).__init__(request, *args, **kwargs)
-
-    return FormWithCaptcha
+                          password_reset_form=TeacherPasswordResetForm, is_admin_site=True)
 
 
 @csrf_protect
@@ -117,6 +99,8 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
                    from_email=None, current_app=None, extra_context=None, html_email_template_name=None):
     if request.method == "POST":
         form = password_reset_form(request.POST)
+        if not captcha.CAPTCHA_ENABLED:
+            remove_captcha_from_form(form)
         if form.is_valid():
             opts = {
                 'use_https': request.is_secure(),
@@ -140,9 +124,14 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
     else:
         form = password_reset_form()
 
+    if not captcha.CAPTCHA_ENABLED:
+        remove_captcha_from_form(form)
+
     context = {
         'form': form,
         'title': _('Password reset'),
+        'settings': app_settings,
+        'should_use_recaptcha': captcha.CAPTCHA_ENABLED
     }
 
     update_context_and_apps(request, context, current_app, extra_context)

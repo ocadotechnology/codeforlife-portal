@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -897,5 +897,51 @@ PDF_DATA = {
         "links": ["uks2_assessment_guide", "uks2_self_assessment_sheet"],
         "url": "python/assessment/UKS2-TRS.pdf",
         "page_origin": "#uks2-assessments"
-    }
+    },
+
+    # ...................KS3 sessions...........#
+    "ks3_session_1": {
+        "title": "MMO",
+        "description": "AI:MMO: the MMO Basics",
+        "links": ["KS1_S1_1", "KS3_S1_2", "KS3_S1_3"],
+        "url": "",
+        "page_origin": "#ks3-sessions"
+    },
+
+    # ..............KS3 Resource Sheets...........#
+    # ...Session 1...#
+    "KS3_S1_1": {
+        "title": "Code cheat sheet",
+        "description": "To be used to code the AI:MMO game.",
+        "links": [],
+        "url": "KS3/resource_sheets/KS3-Cheat-Sheet.pdf",
+        "page_origin": "#ks3-resource-sheets"
+    },
+    "KS3_S1_2": {
+        "title": "Indentation - Why it's important",
+        "description": "To be used to understand how to use Python to code the AI:MMO game.",
+        "links": [],
+        "url": "KS3/resource_sheets/KS3-PythonIndentation.pdf",
+        "page_origin": "#ks3-resource-sheets"
+    },
+    "KS3_S1_3": {
+        "title": "Understanding the turn-based game",
+        "description": "To be used to understand the AI:MMO game.",
+        "links": [],
+        "url": "KS3/resource_sheets/KS3-HandleTurn.pdf",
+        "video": "https://www.youtube.com/embed/Mw8CaG47Wek",
+        "video_download_link": "videos/KS3_Understanding_Turn_Based_System.mp4",
+        "page_origin": "#ks3-resource-sheets"
+    },
+
+    # ...KS3 Assessments...#
+
+    "ks3_teacher_record_sheet": {
+        "title": "KS3 - Teacher Record Sheet",
+        "description": "Document for the teacher to record pupils progress.",
+        "url": "KS3/assessment/teacher_record_sheet.pdf",
+        "links": [],
+        "page_origin": "#ks3-assessments"
+    },
+
 }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -54,10 +54,16 @@ from utils import email as email_utils
 
 class TestTeacher(BaseTest):
 
-    def test_signup(self):
+    def test_signup_without_newsletter(self):
         selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page, _, _ = signup_teacher(page)
+        assert is_email_verified_message_showing(selenium)
+
+    def test_signup_with_newsletter(self):
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
+        page, _, _ = signup_teacher(page, newsletter=True)
         assert is_email_verified_message_showing(selenium)
 
     def test_signup_duplicate_failure(self):
@@ -115,6 +121,15 @@ class TestTeacher(BaseTest):
         page = page.click_pdf_link()
 
         assert self.is_pdf_viewer_page(page)
+
+        page = page.click_resources_button_link().go_to_materials_page()
+
+        assert self.is_materials_page(page)
+
+        keystages = ['ks1', 'lks2', 'uks2', 'ks3']
+        for ks in keystages:
+            page = page.click_keystage_link(ks)
+            assert self.is_materials_page(page)
 
     def test_edit_details(self):
         email, password = signup_teacher_directly()

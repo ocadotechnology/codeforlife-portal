@@ -38,6 +38,7 @@ identified as the original program.
 
 /* global post */
 /* global openConfirmationBox */
+/* global postWithCsrf */
 
 var CONFIRMATION_DATA = {};
 
@@ -89,7 +90,7 @@ $(function() {
     });
 
     $("#deleteClass").click(function() {
-        openConfirmationBox('deleteClass');
+        openConfirmationBox('delete');
         return false;
     });
 });
@@ -100,7 +101,7 @@ function deleteClassConfirmation(path) {
             title: 'Delete class'
         },
         html: '<p class="body-text">This class will be permanently deleted. Are you sure?</p>',
-        confirm: function() { window.location.replace(path); }
+        confirm: function() { postWithCsrf(path); }
     };
     openConfirmationBox('delete');
 }

@@ -87,6 +87,12 @@ function openConfirmationBox(name) {
     $('#confirmation-dialog').dialog('open');
 }
 
+function postWithCsrf(path) {
+    post(path, {
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    });
+}
+
 $(function() {
     $('#confirmation-dialog').dialog(defaultConfirmationOptions);
 });

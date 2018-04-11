@@ -2,6 +2,7 @@
 from setuptools import find_packages, setup
 import versioneer
 
+
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
       version=versioneer.get_version(),
@@ -15,12 +16,12 @@ setup(name='codeforlife-portal',
         'django-jquery==1.9.1',
         'django-autoconfig==0.3.6',
         'django-pipeline==1.6.13',
+        'django-recaptcha==1.3.1',  # 1.4 dropped support for < 1.11
 
         'pyyaml==3.10',
         'rapid-router >= 1.0.0.post.dev1',
         'six==1.9.0',
         'docutils==0.12',
-        'django-recaptcha-field==1.0b2',
         'reportlab==3.2.0',
         'postcodes==0.1',
         'django-formtools==1.0',
@@ -28,28 +29,10 @@ setup(name='codeforlife-portal',
         'urllib3==1.10.4',
         'requests==2.7.0',
 
-        'django-cms==3.1.2',
-
         'django-classy-tags==0.6.1',
         'django-treebeard==3.0',
         'django-sekizai==0.8.2',
-        'djangocms-admin-style==0.2.8',
 
-        'djangocms-text-ckeditor==2.6.0',
-        'djangocms-link==1.6.2',
-        'djangocms-snippet==1.5',
-        'djangocms-style==1.5',
-        'djangocms-column==1.5',
-        'djangocms-grid==1.2',
-        'djangocms-oembed==0.5',
-        'djangocms-table==1.2',
-        'djangocms-file==0.1',
-        'djangocms_flash==0.2.0',
-        'djangocms_googlemap==0.3',
-        'djangocms_inherit==0.1',
-        'djangocms_picture==0.1',
-        'djangocms_teaser==0.1',
-        'djangocms_video==0.1',
         'django-online-status==0.1.0',
 
 

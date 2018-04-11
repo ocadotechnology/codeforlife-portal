@@ -8,7 +8,7 @@
 
 {% block css %}
 {{ block.super }}
-<link href='{% static "portal/css/jquery-ui.css" %}' rel="stylesheet">
+<link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block scripts %}
@@ -18,7 +18,7 @@
 <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
 {% endblock scripts %}
 
-{% block pageID %}id='homeWrapper'{% endblock %}
+{% block pageID %}id="homeWrapper"{% endblock %}
 
 {% block subNav %}
 {{ block.super }}
@@ -55,7 +55,7 @@
                     <th class="cell-center">
                         <p>Select</p>
                         <div class="student-table__cell">
-                            <input id='selectedStudentsListToggle' name='selectedStudentsListToggle' type="checkbox" value="">
+                            <input id="selectedStudentsListToggle" name="selectedStudentsListToggle" type="checkbox" value="">
                             <p><small>Select all</small></p>
                         </div>
                     </th>
@@ -74,7 +74,7 @@
                 </tr>
                 {% for student in students %}
                 <tr>
-                    <td class="cell-center"><input id="student_checkbox" type="checkbox" class='student' name='{{ student.id }}' value=""></td>
+                    <td class="cell-center"><input id="student_checkbox" type="checkbox" class="student" name="{{ student.id }}" value=""></td>
                     <td>
                         <div class="student-table__cell">
                             <p><small>{{ student.new_user.first_name }}</small></p>
@@ -91,9 +91,9 @@
                     <td class="table-footer" colspan="3" rowspan="2">
                         <p><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
                         <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-                                id='moveSelectedStudents' class="button--small button--primary--navigation">Move</button>
+                                id="moveSelectedStudents" class="button--small button--primary--navigation">Move</button>
                         <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
-                                id='dismissSelectedStudents' class="button--small button--primary--navigation">Release</button>
+                                id="dismissSelectedStudents" class="button--small button--primary--navigation">Release</button>
                         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
                                 id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
                         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
@@ -117,7 +117,7 @@
                     are required to sign in.</p>
             </div>
             <div class="col-sm-6">
-                <form id='form-create-students' method='POST'>
+                <form id="form-create-students" method="POST">
 
                     {% csrf_token %}
 
@@ -126,7 +126,7 @@
                     {{ new_students_form.names.errors }}
                     {{ new_students_form.names }}
 
-                    <button type='submit' class='button--regular button--primary--positive' name='new_students' value='Add students'>Add students</button>
+                    <button type="submit" class="button--regular button--primary--positive" name="new_students" value="Add students">Add students</button>
                 </form>
             </div>
         </div>
