@@ -125,11 +125,11 @@ def is_verified(user):
     return len(verifications) != 0
 
 
-def add_to_salesforce(user):
+def add_to_salesforce(first_name, last_name, email):
     url = app_settings.SALESFORCE_URL
     data = {"oid": app_settings.SALESFORCE_OID, "retURL": "http://", "recordType": app_settings.SALESFORCE_RT,
-            "lead_source": "Code for Life", "first_name": user.first_name, "last_name": user.last_name,
-            "email": user.email, "company": "Code for Life users"}
+            "lead_source": "Code for Life", "first_name": first_name, "last_name": last_name,
+            "email": email, "company": "Code for Life users"}
     try:
         post(url, data=data)
     except RequestException:
