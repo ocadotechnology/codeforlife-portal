@@ -45,7 +45,7 @@ from django.utils.http import is_safe_url
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL
+from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL, add_email_to_salesforce
 from portal import app_settings, emailMessages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
@@ -392,7 +392,6 @@ def process_newsletter_form(request):
             print "Inside valid condition"
             # Add email to DB?
             user_email = newsletter_form.cleaned_data['email']
-
             messages.add_message(request, messages.SUCCESS, 'Thank you for signing up!')
             # Does not work incognito
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
