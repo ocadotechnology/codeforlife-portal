@@ -47,7 +47,7 @@ class SignupPage(BasePage):
 
         assert self.on_correct_page('signup_page')
 
-    def signup(self, title, first_name, last_name, email, password, confirm_password):
+    def signup(self, title, first_name, last_name, email, password, confirm_password, newsletter=False):
         Select(self.browser.find_element_by_id('id_teacher_signup-teacher_title')).select_by_value(title)
         self.browser.find_element_by_id('id_teacher_signup-teacher_first_name').send_keys(first_name)
         self.browser.find_element_by_id('id_teacher_signup-teacher_last_name').send_keys(last_name)
@@ -55,15 +55,22 @@ class SignupPage(BasePage):
         self.browser.find_element_by_id('id_teacher_signup-teacher_password').send_keys(password)
         self.browser.find_element_by_id('id_teacher_signup-teacher_confirm_password').send_keys(confirm_password)
 
+        if newsletter:
+            self.browser.find_element_by_id('id_teacher_signup-newsletter_ticked').click()
+
         self.browser.find_element_by_name('teacher_signup').click()
         return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
 
-    def independent_student_signup(self, name, username, email_address, password, confirm_password, success=True):
+    def independent_student_signup(self, name, username, email_address, password, confirm_password, success=True,
+                                   newsletter=False):
         self.browser.find_element_by_id('id_student_signup-name').send_keys(name)
         self.browser.find_element_by_id('id_student_signup-username').send_keys(username)
         self.browser.find_element_by_id('id_student_signup-email').send_keys(email_address)
         self.browser.find_element_by_id('id_student_signup-password').send_keys(password)
         self.browser.find_element_by_id('id_student_signup-confirm_password').send_keys(confirm_password)
+
+        if newsletter:
+            self.browser.find_element_by_id('id_teacher_signup-newsletter_ticked').click()
 
         self.browser.find_element_by_name('student_signup').click()
         if success:

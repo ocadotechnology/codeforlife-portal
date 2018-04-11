@@ -54,10 +54,16 @@ from utils import email as email_utils
 
 class TestTeacher(BaseTest):
 
-    def test_signup(self):
+    def test_signup_without_newsletter(self):
         selenium.get(self.live_server_url)
         page = HomePage(selenium)
         page, _, _ = signup_teacher(page)
+        assert is_email_verified_message_showing(selenium)
+
+    def test_signup_with_newsletter(self):
+        selenium.get(self.live_server_url)
+        page = HomePage(selenium)
+        page, _, _ = signup_teacher(page, newsletter=True)
         assert is_email_verified_message_showing(selenium)
 
     def test_signup_duplicate_failure(self):
