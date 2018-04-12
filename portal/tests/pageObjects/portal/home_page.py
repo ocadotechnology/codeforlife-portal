@@ -54,6 +54,14 @@ class HomePage(BasePage):
         self.browser.find_element_by_id('help_and_support_button').click()
         return help_and_support_page.HelpPage(self.browser)
 
+    def newsletter_singup(self, email):
+        self.browser.find_element_by_id('id_newsletter_email').send_keys(email)
+        return self
+
+
+
+
+
 
 import login_page
 import signup_page

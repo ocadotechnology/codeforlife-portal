@@ -398,21 +398,19 @@ def contact(request):
 
 
 def process_newsletter_form(request):
-    # Remember to add mapping in url file
+
     if request.method == 'POST':
-        print "inside Post condition"
+
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
-            print "Inside valid condition"
-            # Add email to DB?
+
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
-            print "Added email to DB"
+
             messages.add_message(request, messages.SUCCESS, 'Thank you for signing up!')
             # Does not work incognito
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        # Add message below input box  "Thank you, you are now signed up"
-        # Stay on page
+
         messages.add_message(request, messages.ERROR, 'Invalid email address. Please try again.')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
