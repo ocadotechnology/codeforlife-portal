@@ -1,12 +1,10 @@
-from django_selenium_clean import selenium
-from selenium.webdriver.support.wait import WebDriverWait
-
 from base_test import BaseTest
 from utils.messages import is_newsletter_signup_successful_message_showing, is_newsletter_signup_fail_message_showing
+from django_selenium_clean import selenium
 
 class NewsletterFooter(BaseTest):
 
-    def test_signup_successful(self):
+    def test_footer_signup_successful(self):
         # Test signup with valid email address
         page = self.go_to_homepage()
         valid_email = "test@example.com"
@@ -14,7 +12,7 @@ class NewsletterFooter(BaseTest):
         assert is_newsletter_signup_successful_message_showing(selenium)
 
 
-    def test_signup_fail(self):
+    def test_footer_signup_fail(self):
         # Test signup with invalid email address
         page = self.go_to_homepage()
         invalid_email = "invalid_email"
