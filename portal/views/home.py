@@ -400,15 +400,11 @@ def contact(request):
 def process_newsletter_form(request):
 
     if request.method == 'POST':
-
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
-
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
-
             messages.add_message(request, messages.SUCCESS, 'Thank you for signing up!')
-            # Does not work incognito
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
         messages.add_message(request, messages.ERROR, 'Invalid email address. Please try again.')
@@ -417,3 +413,4 @@ def process_newsletter_form(request):
 
 def home(request):
     return render(request, 'portal/home.html')
+

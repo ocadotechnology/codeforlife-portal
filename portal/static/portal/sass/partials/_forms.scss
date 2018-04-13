@@ -213,9 +213,7 @@ form {
   }
 }
 
-.form--news-signup {
-  //width: 700px;
-  //margin-right: 400px;
+.form--news-signup {;
   display: flex;
   justify-content: space-around;
 }
@@ -226,31 +224,16 @@ form {
 
 }
 
-.form--news-signup input {
- // width: 500px;
-
-}
 
 .form--news-signup label {
-  //width: 400px;
   color: white;
   white-space: nowrap;
-  //margin-right: 100px;
   margin-top: 20px;
-//  position: relative;
 
 }
 
 .form--news-signup button {
   margin-top: 10px;
   white-space: nowrap;
-  //height: 45px;
-  //width: 150px;
-  //margin-left: -100px;
-  //margin-bottom: 50px;
-  //position: relative;
-  //top: -8px;
-  //margin-right: -50px;
-  //display: inline-block;
 }
 
