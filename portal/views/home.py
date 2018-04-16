@@ -398,7 +398,6 @@ def contact(request):
 
 
 def process_newsletter_form(request):
-
     if request.method == 'POST':
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():

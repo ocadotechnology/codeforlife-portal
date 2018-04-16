@@ -55,6 +55,7 @@ class HomePage(BasePage):
 
     def newsletter_singup(self, email):
         self.browser.find_element_by_id('newsletter_email_field').send_keys(email)
+        self.browser.find_element_by_id('submit_newsletter').click()
         return self
 
 
