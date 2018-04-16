@@ -36,7 +36,6 @@
 # identified as the original program.
 from base_page import BasePage
 
-
 class HomePage(BasePage):
     def __init__(self, browser):
         super(HomePage, self).__init__(browser)
@@ -55,7 +54,7 @@ class HomePage(BasePage):
         return help_and_support_page.HelpPage(self.browser)
 
     def newsletter_singup(self, email):
-        self.browser.find_element_by_id('id_newsletter_email').send_keys(email)
+        self.browser.find_element_by_id('newsletter_email_field').send_keys(email)
         return self
 
 

@@ -174,7 +174,11 @@
         <div class="sub-nav--message">
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
+		{% if 'warning' in message.tags %}
+		<img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
+		{% else %}
                 <img title="Information" alt="Information sign" src="{% static 'portal/img/icon_info.png' %}">
+		{% endif %}
                 <p>
                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
                 <a class="x-icon"><img title="Close" alt="Close sign" src="{% static 'portal/img/icon_close.png' %}"></a>
@@ -220,11 +224,10 @@
     </div>>
 
         <div class="row">
-            <form action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
+            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
                 {% csrf_token %}
                 <div class="form--news-signup">
-                    <label for="id_newsletter_email">{{ news_form.email.label }}</label>
-                    {{ news_form.email }}
+                    {{ news_form}}
                     <button type="submit" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
                 </div>
             </form>
@@ -233,11 +236,6 @@
                 <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
                 <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
             </div>
-            {% if messages %}
-                <ul class="messages">
-                        <li{% if messages.0.tags %} class="{{ messages.0.tags }}"{% endif %}>{{ messages.0}}</li>
-                </ul>
-            {% endif %}
         </div>
     <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
     <p><small>&copy; Ocado Technology 2017</small></p>
