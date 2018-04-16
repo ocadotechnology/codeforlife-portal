@@ -87,6 +87,14 @@ PDF_DATA = {
         "page_origin": "#user-guide"
     },
 
+    "user_guide_aimmo": {
+        "title": "User Guide (AI:MMO)",
+        "description": "User guide for AI:MMO, the KS3 game.",
+        "links": None,
+        "url": "general_resources/KS3-AIMMO-User-guide.pdf",
+        "page_origin": "#user-guide"
+    },
+
     # ...................KS1 sessions...........#
     "ks1_session_1": {
         "title": "KS1 - Session 1",
