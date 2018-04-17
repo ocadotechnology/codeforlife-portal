@@ -70,14 +70,10 @@ form {
     }
   }
 
-  h1 {
-    color: $color-text-secondary;
-    text-align: center;
-  }
-
+  h1,
   p {
     color: $color-text-secondary;
-    text-align: left;
+    text-align: center;
   }
 
   label {
