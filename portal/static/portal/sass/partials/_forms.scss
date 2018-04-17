@@ -217,14 +217,12 @@ form {
 .form--news-signup > * {
   margin-left: 10px;
   margin-right: 10px;
-
 }
 
 .form--news-signup label {
-  color: #ffffff;
+  color: $color-text-secondary;
   white-space: nowrap;
   margin-top: 20px;
-
 }
 
 .form--news-signup button {

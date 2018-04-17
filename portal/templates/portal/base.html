@@ -174,7 +174,7 @@
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
                 {% if 'warning' in message.tags %}
-                <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
+                <img title="Error" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
                 {% else %}
                 <img title="Information" alt="Information sign" src="{% static 'portal/img/icon_info.png' %}">
                 {% endif %}
@@ -226,11 +226,12 @@
 
         <div class="row">
             <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
+                {{ news_form.non_field_errors }}
                 <div class="form--news-signup">
                     {% csrf_token %}
                     <label>{{ news_form.email.label }}</label>
                     {{ news_form.email }}
-                    {{ news_form.non_field_errors }}
+                    {{ news_form.email.errors }}
                     <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
                 </div>
             </form>
