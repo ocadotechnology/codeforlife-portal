@@ -82,8 +82,10 @@ def is_class_nonempty_message_showing(browser):
 def is_contact_message_sent_message_showing(browser):
     return is_message_showing(browser, "Your message was sent successfully.")
 
+
 def is_newsletter_signup_successful_message_showing(browser):
     return is_message_showing(browser, "Thank you for signing up!")
+
 
 def is_newsletter_signup_fail_message_showing(browser):
     return is_message_showing(browser, "Invalid email address. Please try again.")

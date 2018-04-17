@@ -36,6 +36,7 @@
 # identified as the original program.
 from base_page import BasePage
 
+
 class HomePage(BasePage):
     def __init__(self, browser):
         super(HomePage, self).__init__(browser)
@@ -57,10 +58,6 @@ class HomePage(BasePage):
         self.browser.find_element_by_id('newsletter_email_field').send_keys(email)
         self.browser.find_element_by_id('submit_newsletter').click()
         return self
-
-
-
-
 
 
 import login_page

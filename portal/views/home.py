@@ -34,8 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login, logout
@@ -89,7 +89,7 @@ def register_view(request):
 @ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
 @ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-def  render_login_form(request):
+def render_login_form(request):
     invalid_form = False
 
     teacher_limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
@@ -396,7 +396,6 @@ def contact(request):
     response.count = increment_count
     return response
 
-
 def process_newsletter_form(request):
     if request.method == 'POST':
         newsletter_form = NewsletterForm(data=request.POST)
@@ -404,12 +403,11 @@ def process_newsletter_form(request):
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
             messages.success(request, 'Thank you for signing up!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get('HTTP_REFERER', '/'))
 
-        messages.warning(request, 'Invalid email address. Please try again.', extra_tags='sub-nav sub-nav--warning')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav sub-nav--warning')
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 def home(request):
     return render(request, 'portal/home.html')
-
