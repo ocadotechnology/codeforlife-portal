@@ -396,6 +396,7 @@ def contact(request):
     response.count = increment_count
     return response
 
+
 def process_newsletter_form(request):
     if request.method == 'POST':
         newsletter_form = NewsletterForm(data=request.POST)

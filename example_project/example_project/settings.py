@@ -86,7 +86,6 @@ TEMPLATES = [
     },
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 try:
     from example_project.local_settings import * # pylint: disable=E0611
