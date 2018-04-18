@@ -45,8 +45,8 @@ class TestNewsletterFooter(TestCase):
         url = reverse('process_newsletter_form')
         client = Client()
         data = {'email': 'valid_email@example.com'}
-        resp = client.post(url, data)
-        messages = list(resp.wsgi_request._messages)
+        response = client.post(url, data)
+        messages = list(response.wsgi_request._messages)
         self.assertEquals(1, len([m for m in messages if m.tags == 'success']))
 
     def test_newsletter_signup_fail(self):
@@ -54,5 +54,5 @@ class TestNewsletterFooter(TestCase):
         client = Client()
         data = {'email': 'invalid_email'}
         resp = client.post(url, data)
-        messages = list(resp.wsgi_request._messages)
+        messages = list(response.wsgi_request._messages)
         self.assertEquals(1, len([m for m in messages if 'error' in m.tags]))

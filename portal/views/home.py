@@ -406,7 +406,7 @@ def process_newsletter_form(request):
             messages.success(request, 'Thank you for signing up!')
             return redirect(request.META.get('HTTP_REFERER', '/'))
 
-        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav sub-nav--warning')
+        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
 

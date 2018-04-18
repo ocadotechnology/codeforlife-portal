@@ -173,7 +173,7 @@
         <div class="sub-nav--message">
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
-                {% if 'warning' in message.tags %}
+                {% if 'error' in message.tags %}
                 <img title="Error" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
                 {% else %}
                 <img title="Information" alt="Information sign" src="{% static 'portal/img/icon_info.png' %}">
