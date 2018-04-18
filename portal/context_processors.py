@@ -34,63 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-'''Django settings for example_project project.'''
-import os
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)),'db.sqlite3'),# Or path to database file if using sqlite3.
-    }
-}
-
-USE_I18N = True
-USE_L10N = True
-TIME_ZONE = 'Europe/London'
-
-LANGUAGE_CODE = 'en-gb'
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(STATIC_ROOT, 'email_media/')
-SECRET_KEY = 'not-a-secret'
-
-ROOT_URLCONF = 'django_autoconfig.autourlconf'
-
-WSGI_APPLICATION = 'example_project.wsgi.application'
-
-LOGIN_REDIRECT_URL = '/portal/teach/dashboard/'
-
-INSTALLED_APPS = (
-    'portal',
-    'captcha'
-)
-
-PIPELINE_ENABLED = False
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'portal.context_processors.process_newsletter_form',
-            ],
-        },
-    },
-]
+from portal.forms.newsletter_form import NewsletterForm
 
 
-try:
-    from example_project.local_settings import * # pylint: disable=E0611
-except ImportError:
-    pass
-
-from django_autoconfig import autoconfig
-autoconfig.configure_settings(globals())
+def process_newsletter_form(request):
+    return {'news_form': NewsletterForm()
+            }

@@ -19,6 +19,23 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
     },
 }
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'portal.context_processors.process_newsletter_form',
+            ],
+        },
+    },
+]
+
 INSTALLED_APPS = ['portal']
 PIPELINE_ENABLED = False
 ROOT_URLCONF = 'django_autoconfig.autourlconf'
