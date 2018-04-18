@@ -53,6 +53,6 @@ class TestNewsletterFooter(TestCase):
         url = reverse('process_newsletter_form')
         client = Client()
         data = {'email': 'invalid_email'}
-        resp = client.post(url, data)
+        response = client.post(url, data)
         messages = list(response.wsgi_request._messages)
         self.assertEquals(1, len([m for m in messages if 'error' in m.tags]))
