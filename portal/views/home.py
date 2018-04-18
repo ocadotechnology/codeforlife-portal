@@ -45,6 +45,7 @@ from django.utils.http import is_safe_url
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
+from portal.forms.newsletter_form import NewsletterForm
 from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL, add_to_salesforce
 from portal import app_settings, emailMessages
 from portal.utils import using_two_factor
@@ -52,7 +53,6 @@ from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
-from portal.forms.newsletter_form import NewsletterForm
 
 
 def teach_email_labeller(request):
