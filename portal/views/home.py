@@ -405,11 +405,16 @@ def process_newsletter_form(request):
             add_to_salesforce("", "", user_email)
             messages.success(request, 'Thank you for signing up!')
             next = request.POST.get('URL')
+            print "About to redirect"
             return HttpResponseRedirect(next)
 
         messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
         next = request.POST.get('URL')
+        print "About to redirect"
         return HttpResponseRedirect(next)
+    else:
+        print "About to redirect"
+        return HttpResponseRedirect(request.GET.get('URL'))
 
 
 def home(request):
