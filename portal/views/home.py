@@ -404,10 +404,12 @@ def process_newsletter_form(request):
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
             messages.success(request, 'Thank you for signing up!')
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            next = request.POST.get('URL')
+            return HttpResponseRedirect(next)
 
         messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        next = request.POST.get('URL')
+        return HttpResponseRedirect(next)
 
 
 def home(request):
