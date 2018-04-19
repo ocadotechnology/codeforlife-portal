@@ -404,21 +404,9 @@ def process_newsletter_form(request):
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
             messages.success(request, 'Thank you for signing up!')
-            next = request.POST.get('URL')
-            relative_path = urlparse(next).path
-            if next and is_safe_url(relative_path):
-                print "About to redirect"
-                return HttpResponseRedirect(relative_path)
-            else:
-                return home(request)
+            return render(request, 'portal/confirm_news_signup.html')
         messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
-        next = request.POST.get('URL')
-        next = request.POST.get('URL')
-        relative_path = urlparse(next).path
-        if next and is_safe_url(relative_path):
-            print "About to redirect"
-            return HttpResponseRedirect(relative_path)
-        return home(request)
+        return render(request, 'portal/confirm_news_signup.html')
 
 
 def home(request):
