@@ -53,7 +53,7 @@ from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
-
+from urlparse import urlparse
 
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login_view' in request.POST:
@@ -405,16 +405,20 @@ def process_newsletter_form(request):
             add_to_salesforce("", "", user_email)
             messages.success(request, 'Thank you for signing up!')
             next = request.POST.get('URL')
-            print "About to redirect"
-            return HttpResponseRedirect(next)
-
+            relative_path = urlparse(next).path
+            if next and is_safe_url(relative_path):
+                print "About to redirect"
+                return HttpResponseRedirect(relative_path)
+            else:
+                return home(request)
         messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
         next = request.POST.get('URL')
-        print "About to redirect"
-        return HttpResponseRedirect(next)
-    else:
-        print "About to redirect"
-        return HttpResponseRedirect(request.GET.get('URL'))
+        next = request.POST.get('URL')
+        relative_path = urlparse(next).path
+        if next and is_safe_url(relative_path):
+            print "About to redirect"
+            return HttpResponseRedirect(relative_path)
+        return home(request)
 
 
 def home(request):
