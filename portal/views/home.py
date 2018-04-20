@@ -403,11 +403,10 @@ def process_newsletter_form(request):
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
-            #messages.success(request, 'Thank you for signing up!')
             return render(request, 'portal/confirm_news_signup.html')
 
-        #messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
         return render(request, 'portal/news_signup_fail.html')
+
 
 
 def home(request):
