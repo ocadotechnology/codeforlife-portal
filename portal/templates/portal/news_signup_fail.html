@@ -1,0 +1,31 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id="homeWrapper"{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="background form--register form--register--student col-sm-12">
+    <div class="background">
+        <div class="background">
+            <h1>Invalid Email Address</h1>
+            <img title="Sad Face" alt="Verification failure" src="{% static 'portal/img/sadface.png' %}">
+            <p>Please try again.</p><br>
+        </div>
+        <section>
+            <a href="{% url 'home' %}" class="button button--regular button--primary--general-play">Back to homepage</a>
+        </section>
+    </div>
+</div>
+
+{% endblock content %}
