@@ -53,7 +53,6 @@ from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
-from urlparse import urlparse
 
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login_view' in request.POST:
@@ -406,7 +405,6 @@ def process_newsletter_form(request):
             return render(request, 'portal/confirm_news_signup.html')
 
         return render(request, 'portal/news_signup_fail.html')
-
 
 
 def home(request):

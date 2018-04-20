@@ -56,9 +56,7 @@ def has_2FA(u):
 
 @register.filter(name='is_logged_in')
 def is_logged_in(u):
-    if u:
-        return u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
-    return False
+        return u and (u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified())))
 
 
 @register.filter
@@ -84,7 +82,7 @@ def make_into_username(u):
 
 
 @register.filter(name='is_logged_in_as_teacher')
-def is_logged_in_as_teacher(u):
+defis_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
 
 
