@@ -54,6 +54,7 @@ from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
 
+
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login_view' in request.POST:
         return request.POST['login-teacher_email']
