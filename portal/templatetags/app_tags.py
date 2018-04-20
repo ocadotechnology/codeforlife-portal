@@ -82,7 +82,7 @@ def make_into_username(u):
 
 
 @register.filter(name='is_logged_in_as_teacher')
-defis_logged_in_as_teacher(u):
+def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
 
 
