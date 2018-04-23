@@ -63,13 +63,14 @@ def has_2FA(u):
 def is_logged_in(u):
         logger.info("inside is_logged_in")
         logger.info(u)
-        return u and (u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified())))
+        return u and u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
 
 @register.filter
 def is_developer(u):
     logger.info("inside is_developer")
     logger.info(u)
+    logger.info(not u.is_anonymous() and u.userprofile.developer)
     return not u.is_anonymous() and u.userprofile.developer
 
 
