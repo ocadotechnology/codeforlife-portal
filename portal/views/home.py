@@ -54,6 +54,10 @@ from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
 
+import logging
+
+logger = logging.getLogger('console')
+
 def teach_email_labeller(request):
     if request.method == 'POST' and 'login_view' in request.POST:
         return request.POST['login-teacher_email']
@@ -397,13 +401,18 @@ def contact(request):
 
 
 def process_newsletter_form(request):
+    logger.info("request received")
     if request.method == 'POST':
+        logger.info("request method - POST")
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
+            logger.info("Newsletter input valid")
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
+            logger.info("Added email to DB")
             return render(request, 'portal/confirm_news_signup.html')
 
+        logger.info("Newsletter input invalid")
         return render(request, 'portal/news_signup_fail.html')
 
 
