@@ -35,12 +35,13 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -415,6 +416,8 @@ def process_newsletter_form(request):
         logger.info("Newsletter input invalid")
         return render(request, 'portal/news_signup_fail.html')
 
+    return HttpResponse(status=403)
 
+@ensure_csrf_cookie
 def home(request):
     return render(request, 'portal/home.html')
