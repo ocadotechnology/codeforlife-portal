@@ -63,7 +63,8 @@ def has_2FA(u):
 def is_logged_in(u):
         logger.info("inside is_logged_in")
         logger.info(u)
-        return u and u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
+        #result =  u and u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
+        return False
 
 
 @register.filter
