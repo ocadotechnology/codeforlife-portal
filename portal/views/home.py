@@ -401,6 +401,7 @@ def contact(request):
     return response
 
 
+@ensure_csrf_cookie
 def process_newsletter_form(request):
     logger.info("request received")
     if request.method == 'POST':
@@ -417,6 +418,7 @@ def process_newsletter_form(request):
         return render(request, 'portal/news_signup_fail.html')
 
     return HttpResponse(status=403)
+
 
 @ensure_csrf_cookie
 def home(request):
