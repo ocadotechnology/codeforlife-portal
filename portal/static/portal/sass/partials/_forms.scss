@@ -200,32 +200,13 @@ form {
       color: $color-text-secondary;
     }
 
+    input,
+    button,
     b,
     .input-button,
     .social-media p {
       display: none;
     }
 
-  }
-}
-
-.form--news-signup {
-  display: flex;
-  justify-content: space-around;
-
-  > * {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  label {
-    color: $color-text-secondary;
-    white-space: nowrap;
-    margin-top: 20px;
-  }
-
-  button {
-    margin-top: 10px;
-    white-space: nowrap;
   }
 }

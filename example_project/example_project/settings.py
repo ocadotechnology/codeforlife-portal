@@ -70,23 +70,6 @@ INSTALLED_APPS = (
 
 PIPELINE_ENABLED = False
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'portal.context_processors.process_newsletter_form',
-            ],
-        },
-    },
-]
-
-
 try:
     from example_project.local_settings import * # pylint: disable=E0611
 except ImportError:

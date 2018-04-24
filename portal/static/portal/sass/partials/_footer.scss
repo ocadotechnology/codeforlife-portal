@@ -50,10 +50,6 @@
     border-bottom: none;
   }
 
-  .social-media {
-    margin-top: 10px;
-  }
-
   input {
     @include _font-size(20px);
     @include _margin(0px, -3px, 0px, 5px);
