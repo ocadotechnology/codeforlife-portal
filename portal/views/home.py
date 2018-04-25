@@ -404,21 +404,24 @@ def contact(request):
 
 @csrf_exempt
 def process_newsletter_form(request):
-    logger.info("request received")
     if request.method == 'POST':
-        logger.info("request method - POST")
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
-            logger.info("Newsletter input valid")
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
-            logger.info("Added email to DB")
-            return render(request, 'portal/confirm_news_signup.html')
+            messages.success(request, 'Thank you for signing up!')
+            next = request.POST.get('URL')
+            if next is None:
+                return HttpResponseRedirect('/')
+            return HttpResponseRedirect(next)
 
-        logger.info("Newsletter input invalid")
-        return render(request, 'portal/news_signup_fail.html')
+        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
+        next = request.POST.get('URL')
+        if next is None:
+            return HttpResponseRedirect('/')
+        return HttpResponseRedirect(next)
 
-    return HttpResponse(status=403)
+    return HttpResponse(status=405)
 
 
 def home(request):
