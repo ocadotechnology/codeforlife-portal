@@ -41,7 +41,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -401,7 +401,7 @@ def contact(request):
     return response
 
 
-@ensure_csrf_cookie
+@csrf_protect
 def process_newsletter_form(request):
     logger.info("request received")
     if request.method == 'POST':
@@ -420,6 +420,6 @@ def process_newsletter_form(request):
     return HttpResponse(status=403)
 
 
-@ensure_csrf_cookie
+@csrf_protect
 def home(request):
     return render(request, 'portal/home.html')
