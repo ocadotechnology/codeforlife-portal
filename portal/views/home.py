@@ -42,6 +42,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.cache import cache_page
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -401,7 +402,7 @@ def contact(request):
     response.count = increment_count
     return response
 
-
+@cache_page(60)
 @csrf_protect
 @ensure_csrf_cookie
 def process_newsletter_form(request):
@@ -421,7 +422,7 @@ def process_newsletter_form(request):
 
     return HttpResponse(status=403)
 
-
+@cache_page(60)
 @csrf_protect
 @ensure_csrf_cookie
 def home(request):
