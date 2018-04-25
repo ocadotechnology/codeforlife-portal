@@ -41,7 +41,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -56,6 +56,7 @@ from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
 
 import logging
+
 
 logger = logging.getLogger('console')
 
@@ -402,6 +403,7 @@ def contact(request):
 
 
 @csrf_protect
+@ensure_csrf_cookie
 def process_newsletter_form(request):
     logger.info("request received")
     if request.method == 'POST':
@@ -421,5 +423,6 @@ def process_newsletter_form(request):
 
 
 @csrf_protect
+@ensure_csrf_cookie
 def home(request):
     return render(request, 'portal/home.html')
