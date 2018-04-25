@@ -226,12 +226,15 @@
 
         <div class="row">
             <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
+                {% csrf_token %}
                 {{ news_form.non_field_errors }}
                 <div class="form--news-signup">
-                    {% csrf_token %}
                     <label>{{ news_form.email.label }}</label>
                     {{ news_form.email }}
                     {{ news_form.email.errors }}
+
+                    <input type="hidden" name="URL" id="refURL">
+
                     <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
                 </div>
             </form>
@@ -287,6 +290,13 @@
             closeButton: true
         });
     }
+
+    var refURL = window.parent.location.toString();
+    if (refURL.indexOf("#") > -1){
+      refURL = refURL.substr(0, refURL.indexOf('#'));
+    }
+    var target = document.getElementById('refURL');
+    target.value = refURL;
 
     $(document).ready(function() {
         var bannerHeight = $('.sticky-subnav').height();

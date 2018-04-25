@@ -56,7 +56,7 @@ def has_2FA(u):
 
 @register.filter(name='is_logged_in')
 def is_logged_in(u):
-    return u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
+        return u and u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
 
 
 @register.filter
