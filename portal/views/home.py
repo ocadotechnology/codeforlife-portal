@@ -41,8 +41,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
-from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_exempt
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -402,9 +401,8 @@ def contact(request):
     response.count = increment_count
     return response
 
-@cache_page(60)
-@csrf_protect
-@ensure_csrf_cookie
+
+@csrf_exempt
 def process_newsletter_form(request):
     logger.info("request received")
     if request.method == 'POST':
@@ -422,8 +420,6 @@ def process_newsletter_form(request):
 
     return HttpResponse(status=403)
 
-@cache_page(60)
-@csrf_protect
-@ensure_csrf_cookie
+
 def home(request):
     return render(request, 'portal/home.html')
