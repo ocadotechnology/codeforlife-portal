@@ -42,7 +42,7 @@ from datetime import datetime
 import json
 import logging
 
-logger = logging.getLogger('console')
+logger = logging.getLogger(__name__)
 
 
 def event(request):
