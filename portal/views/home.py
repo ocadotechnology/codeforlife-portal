@@ -401,20 +401,16 @@ def contact(request):
 @csrf_exempt
 def process_newsletter_form(request):
     if request.method == 'POST':
+        next = request.POST.get('URL')
+        if next is None:
+            next = '/'
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data['email']
             add_to_salesforce("", "", user_email)
             messages.success(request, 'Thank you for signing up!')
-            next = request.POST.get('URL')
-            if next is None:
-                return HttpResponseRedirect('/')
             return HttpResponseRedirect(next)
-
         messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
-        next = request.POST.get('URL')
-        if next is None:
-            return HttpResponseRedirect('/')
         return HttpResponseRedirect(next)
 
     return HttpResponse(status=405)
