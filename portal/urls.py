@@ -51,7 +51,7 @@ from portal.views.email import send_new_users_report
 from game.views.level import play_default_level
 
 from portal.views.email import verify_email
-from portal.views.home import login_view, logout_view, register_view, contact
+from portal.views.home import login_view, logout_view, register_view, contact, process_newsletter_form, home
 from portal.views.play import student_details, student_edit_account, student_join_organisation
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, organisation_leave
 from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
@@ -106,10 +106,11 @@ urlpatterns = patterns(
     url(r'^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$', default_solution, name='default_solution'),
     url(r'^(?P<levelName>[A-Z0-9]+)/$', play_default_level, name='play_default_level'),
 
-    url(r'^$', TemplateView.as_view(template_name='portal/home.html'), name='home'),
+    url(r'^$', home, name='home'),
     url(r'^register_form', register_view, name='register'),
     url(r'^login_form', login_view, name='login_view'),
     url(r'^logout/$', logout_view, name='logout_view'),
+    url(r'^news_signup/$', process_newsletter_form, name='process_newsletter_form'),
     url(r'^verify_email/(?P<token>[0-9a-f]+)/$', verify_email, name='verify_email'),
     url(r'^user/password/reset/student/$', student_password_reset, name="student_password_reset"),
     url(r'^user/password/reset/teacher/$', teacher_password_reset, name="teacher_password_reset"),

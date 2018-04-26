@@ -34,19 +34,21 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
+from django.views.decorators.csrf import csrf_exempt
 
 from portal.models import Teacher, Student
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
-from portal.helpers.emails import (send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL,
-                                   add_to_salesforce)
+from portal.forms.newsletter_form import NewsletterForm
+from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL, \
+    add_to_salesforce
 from portal import app_settings, emailMessages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
@@ -288,7 +290,8 @@ def process_signup_form(request, data):
             password=data['teacher_password'])
 
         if _newsletter_ticked(data):
-            add_to_salesforce(teacher.user.user)
+            user = teacher.user.user
+            add_to_salesforce(user.first_name, user.last_name, user.email)
 
         send_verification_email(request, teacher.user.user)
 
@@ -309,7 +312,8 @@ def process_student_signup_form(request, data):
 
     if email_supplied:
         if _newsletter_ticked(data):
-            add_to_salesforce(student.new_user)
+            user = student.new_user
+            add_to_salesforce(user.first_name, user.last_name, user.email)
 
         send_verification_email(request, student.new_user)
         return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
@@ -393,3 +397,23 @@ def contact(request):
 
     response.count = increment_count
     return response
+
+
+@csrf_exempt
+def process_newsletter_form(request):
+    if request.method == 'POST':
+        next = request.POST.get('URL') if not None else '/'
+        newsletter_form = NewsletterForm(data=request.POST)
+        if newsletter_form.is_valid():
+            user_email = newsletter_form.cleaned_data['email']
+            add_to_salesforce("", "", user_email)
+            messages.success(request, 'Thank you for signing up!')
+            return HttpResponseRedirect(next)
+        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
+        return HttpResponseRedirect(next)
+
+    return HttpResponse(status=405)
+
+
+def home(request):
+    return render(request, 'portal/home.html')

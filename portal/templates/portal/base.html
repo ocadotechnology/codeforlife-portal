@@ -168,13 +168,16 @@
 </div>
 {% endblock topBar %}
     {% block subNav %}
-    {% endblock subNav %}
     <div id="messages">
         {% if messages %}
         <div class="sub-nav--message">
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
+                {% if 'error' in message.tags %}
+                <img title="Error" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
+                {% else %}
                 <img title="Information" alt="Information sign" src="{% static 'portal/img/icon_info.png' %}">
+                {% endif %}
                 <p>
                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
                 <a class="x-icon"><img title="Close" alt="Close sign" src="{% static 'portal/img/icon_close.png' %}"></a>
@@ -183,6 +186,8 @@
         </div>
         {% endif %}
     </div>
+    {% endblock subNav %}
+
 
     <!--[if lt IE 10]>
     <ul class="messages">
@@ -218,11 +223,26 @@
         <p><a href="{% url 'help' %}#contact">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
     </div>
-    <div class="row social-media"><br>
-        <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
-        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
-        <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
-    </div>
+
+        <div class="row">
+            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
+                {{ news_form.non_field_errors }}
+                <div class="form--news-signup">
+                    <label>{{ news_form.email.label }}</label>
+                    {{ news_form.email }}
+                    {{ news_form.email.errors }}
+
+                    <input type="hidden" name="URL" id="refURL">
+
+                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
+                </div>
+            </form>
+            <div class="social-media col-md-2">
+                <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
+                <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
+                <a target="_blank" href="https://plus.google.com/u/0/100583499170006777522"><img src="{% static 'portal/img/google+.png' %}"></a>
+            </div>
+        </div>
     <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
     <p><small>&copy; Ocado Technology 2017</small></p>
 </div>
@@ -270,9 +290,19 @@
         });
     }
 
+
     $(document).ready(function() {
         var bannerHeight = $('.sticky-subnav').height();
         animateScroll(bannerHeight);
+
+        var refURL = window.parent.location.toString();
+        if (refURL.indexOf("#") > -1){
+            refURL = refURL.substr(0, refURL.indexOf('#'));
+        }
+        var target = document.getElementById('refURL');
+        target.value = refURL;
+
+
     });
 
     $('.logout').click(function(){

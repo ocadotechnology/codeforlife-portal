@@ -47,7 +47,7 @@ from django_countries import countries
 
 from portal.app_settings import CONTACT_FORM_EMAILS
 from portal.models import EmailVerification, School, Teacher, Student
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL, add_to_salesforce
+from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 
 
 def verify_email(request, token):
