@@ -402,9 +402,7 @@ def contact(request):
 @csrf_exempt
 def process_newsletter_form(request):
     if request.method == 'POST':
-        next = request.POST.get('URL')
-        if next is None:
-            next = '/'
+        next = request.POST.get('URL') if not None else '/'
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data['email']

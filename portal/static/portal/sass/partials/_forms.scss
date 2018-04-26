@@ -151,6 +151,27 @@ form {
   }
 }
 
+.form--news-signup {
+  display: flex;
+  justify-content: space-around;
+
+  > * {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  label {
+    color: $color-text-secondary;
+    white-space: nowrap;
+    margin-top: 20px;
+  }
+
+  button {
+    margin-top: 10px;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 770px) {
   .form--register {
     width: 100%;
@@ -206,26 +227,5 @@ form {
       display: none;
     }
 
-  }
-}
-
-.form--news-signup {
-  display: flex;
-  justify-content: space-around;
-
-  > * {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  label {
-    color: $color-text-secondary;
-    white-space: nowrap;
-    margin-top: 20px;
-  }
-
-  button {
-    margin-top: 10px;
-    white-space: nowrap;
   }
 }
