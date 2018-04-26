@@ -15,7 +15,7 @@ setup(name='codeforlife-portal',
         'djangorestframework==3.1.3',
         'django-jquery==1.9.1',
         'django-autoconfig==0.3.6',
-        'django-pipeline==1.5.4',
+        'django-pipeline==1.6.13',
         'django-recaptcha==1.3.1',  # 1.4 dropped support for < 1.11
 
         'pyyaml==3.10',
