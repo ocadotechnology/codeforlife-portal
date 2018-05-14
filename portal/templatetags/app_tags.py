@@ -63,6 +63,9 @@ def is_logged_in(u):
 def is_developer(u):
     return not u.is_anonymous() and u.userprofile.developer
 
+@register.filter
+def is_beta_user(u):
+    return not u.is_anonymous() and u.userprofile.beta_user
 
 @register.filter
 def has_beta_access(request):
