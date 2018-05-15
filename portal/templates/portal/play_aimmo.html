@@ -66,7 +66,7 @@
         {% if not user|is_beta_user %}
         <div class="col-sm-9 col-center is-flex">
             <div class="col-sm-4">
-                <img title="Teaching Resources" alt="Teaching Resources" src="{% static 'portal/img/teaching_materials.jpg' %}">
+                <img title="Teaching Resources" alt="Teaching Resources" class="img-aspect-fill" src="{% static 'portal/img/teaching_materials.jpg' %}">
                 <h4>
                     {% if user|is_eligible_for_testing %}
                     <a>View the teaching pack</a>
@@ -84,7 +84,7 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <img title="Gameplay" alt="Gameplay" src="{% static 'portal/img/gameplay_video.jpg' %}">
+                <img title="Gameplay" alt="Gameplay" class="img-aspect-fill" src="{% static 'portal/img/gameplay_video.jpg' %}">
                 <h4>
                     {% if user|is_eligible_for_testing %}
                     Try it out with your class
@@ -101,7 +101,7 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <img title="Feedback" alt="Feedback" src="{% static 'portal/img/your_feedback.png' %}">
+                <img title="Feedback" alt="Feedback" class="img-aspect-fill" src="{% static 'portal/img/your_feedback.png' %}">
                 <h4>Give your feedback</h4>
                 <p>
                     {% if user|is_eligible_for_testing %}

@@ -50,6 +50,11 @@
   }
 }
 
+.img-aspect-fill {
+  object-fit: cover;
+  width: 100%;
+}
+
 .is-flex-item {
   flex: 1;
   -webkit-flex: 1;
