@@ -75,6 +75,8 @@ class School(models.Model):
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label='(select country)')
+    # TODO: Change this back to False
+    eligible_for_testing = models.BooleanField(default=True)
 
     class Meta:
         permissions = (

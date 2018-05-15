@@ -110,9 +110,11 @@ def dashboard_teacher_view(request, is_admin):
 
     classes = Class.objects.filter(teacher=teacher)
 
-    message = format_html('You have been selected to trial the preview version of AI:MMO, our new game for secondary '
-                          'schools. <a href="{}">Try it out</a>', reverse('play_aimmo'))
-    messages.info(request, mark_safe(message))
+    # TODO: Should the banner appear everytime or only while user is not a beta tester?
+    if school.eligible_for_testing and not teacher.user.beta_user:
+        message = format_html('You have been selected to trial the preview version of AI:MMO, our new game for secondary '
+                              'schools. <a href="{}">Try it out</a>', reverse('play_aimmo'))
+        messages.info(request, mark_safe(message))
 
     return render(request, 'portal/teach/dashboard.html', {
         'teacher': teacher,
@@ -223,7 +225,6 @@ def process_update_account_form(request, teacher, old_anchor):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def dashboard_manage(request):
     teacher = request.user.new_teacher
-    print "GOt here"
     if teacher.school:
         return dashboard_teacher_view(request, teacher.is_admin)
     else:

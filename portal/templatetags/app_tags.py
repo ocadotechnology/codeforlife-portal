@@ -68,6 +68,10 @@ def is_beta_user(u):
     return not u.is_anonymous() and u.userprofile.beta_user
 
 @register.filter
+def is_eligible_for_testing(u):
+    return not u.is_anonymous() and u.userprofile.teacher.school.eligible_for_testing
+
+@register.filter
 def has_beta_access(request):
     return beta.has_beta_access(request)
 

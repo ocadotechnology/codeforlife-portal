@@ -68,7 +68,23 @@
                 <h4>Your feedback</h4>
                 <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
                 <div class="background button--bottom">
-                    <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
+                    {% if user|is_logged_in %}
+                        {% if user|is_logged_in_as_teacher %}
+                            {% if user|is_eligible_for_testing %}
+                                {% if user|is_beta_user %}
+                                <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give Feedback</a>
+                                {% else %}
+                                <a href="{% url 'make_beta_tester' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Start Testing</a>
+                                {% endif %}
+                            {% else %}
+                            <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
+                            {% endif %}
+                        {% else %}
+                        <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
+                        {% endif %}
+                    {% else %}
+                    <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

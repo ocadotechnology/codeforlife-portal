@@ -414,8 +414,18 @@ def process_newsletter_form(request):
 
     return HttpResponse(status=405)
 
-    return HttpResponse(status=405)
-
 
 def home(request):
     return render(request, 'portal/home.html')
+
+
+def make_beta_tester(request):
+    if request.method == 'GET':
+        if is_logged_in_as_teacher(request) and request.user.new_teacher.school.eligible_for_testing:
+            teacher = request.user.userprofile
+            teacher.set_to_beta_user()
+            teacher.save()
+            # Render aimmo game page
+            return HttpResponse("Success!")
+        return HttpResponse(status=401)
+    return HttpResponse(status=405)
