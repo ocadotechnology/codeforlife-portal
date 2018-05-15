@@ -21,11 +21,16 @@
   </div>
   <div class="row banner--aimmo--content">
     <div class="col-sm-5">
+        <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
-        <h1 class="banner__text--primary">Coming soon</h1>
+        {% if not user|is_beta_user %}
+            <div class="background">
+                <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+            </div>
+        {% endif %}
     </div>
-    <div class="col-sm-2">
-        <img title="Van" alt="Van" src="{% static 'portal/img/van-future.png' %}">
+    <div class="col-sm-4">
+        <img title="Van" alt="Van" src="{% static 'portal/img/AIMMO-intro-video.jpg' %}">
     </div>
   </div>
 </div>
@@ -84,7 +89,7 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <img title="Gameplay" alt="Gameplay" class="img-aspect-fill" src="{% static 'portal/img/gameplay_video.jpg' %}">
+                <img title="Gameplay" alt="Gameplay" class="img-aspect-fill" src="{% static 'portal/img/try-with-your-class.jpg' %}">
                 <h4>
                     {% if user|is_eligible_for_testing %}
                     Try it out with your class

@@ -189,10 +189,13 @@
 }
 
 .banner--aimmo--content {
-  @include _padding(70px, 0px, 100px, 0px);
   align-items: center;
   display: flex;
   justify-content: space-between;
+}
+
+.banner .banner--aimmo--content {
+  @include _padding(70px, 0px, 100px, 0px);
 }
 
 .banner--resources {
