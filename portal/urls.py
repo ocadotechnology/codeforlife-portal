@@ -83,6 +83,7 @@ two_factor_patterns = [
 
 urlpatterns = patterns(
     '',
+    url(r'^aimmo/', include('players.urls')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
     url(r'^administration/login/$', admin_login, name='administration_login'),

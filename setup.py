@@ -20,6 +20,7 @@ setup(name='codeforlife-portal',
 
         'pyyaml==3.10',
         'rapid-router >= 1.0.0.post.dev1',
+        'aimmo',
         'six==1.9.0',
         'docutils==0.12',
         'reportlab==3.2.0',
