@@ -36,57 +36,71 @@
 
 <div class="background">
     <section>
-        <h1 class="col-sm-7 col-center">Code for Life will be launching a new game for secondary schools soon!</h1>
-        <h4 class="col-sm-6 col-center">Following on from Rapid Router, this exciting game will build on students’ existing coding skills.</h4>
-        <h4 class="col-sm-6 col-center">The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
-            We’ll have a playable beta soon, but first we’d like to get your thoughts on the gameplay, learning concepts and general design.</h4>
+        <img class="col-sm-4 col-md-3 col-center" src="{% static 'portal/img/AIMMO-Logo-Horizontal-RGB.svg' %}" alt="AI:MMO logo">
+        {% if user|is_logged_in %}
+        <h1 class="col-sm-7 col-center">
+          {% if user|is_eligible_for_testing %}
+            Your school has been selected
+          {% else %}
+            bleh
+          {% endif %}
+
+        </h1>
+        {% endif %}
+        <h4 class="col-sm-6 col-center">
+          {% if user|is_logged_in %}
+
+          {% else %}
+            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+          {% endif %}
+        </h4>
+        <h4 class="col-sm-6 col-center">
+          {% if user|is_logged_in %}
+
+          {% else %}
+            This preview version of AI:MMO is intended to be used by selected schools to help Code for Life deliver an enjoyable game,
+            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (13 - 16 year olds).
+          {% endif %}
+        </h4>
     </section>
     <div class="row row--small">
         <div class="col-sm-9 col-center is-flex">
             <div class="col-sm-4">
                 <img title="Teaching Resources" alt="Teaching Resources" src="{% static 'portal/img/teaching_materials.jpg' %}">
-                <h3>Step 1</h3>
                 <h4>Teaching materials</h4>
                 <p>Download the teaching materials and read them through before playing the video.
                     They will guide you through the level and give teaching support.</p>
-                <div class="background button--bottom">
-                    <a href="{{ 'KS3/resource_sheets/AIMMO-L1_teaching.zip'|cloud_storage }}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
-                </div>
             </div>
             <div class="col-sm-4">
                 <img title="Gameplay" alt="Gameplay" src="{% static 'portal/img/gameplay_video.jpg' %}">
-                <h3>Step 2</h3>
                 <h4>Gameplay video</h4>
                 <p>This video is intended to show how the code and gameplay will be implemented within the game UI. The video is a visualisation of actual gameplay.</p>
-                <div class="background button--bottom">
-                    <a href="https://www.youtube.com/watch?v=HxxavGnqRbw&feature=youtu.be" target="_blank" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
-                </div>
             </div>
             <div class="col-sm-4">
                 <img title="Feedback" alt="Feedback" src="{% static 'portal/img/your_feedback.png' %}">
-                <h3>Step 3</h3>
                 <h4>Your feedback</h4>
                 <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
-                <div class="background button--bottom">
-                    {% if user|is_logged_in %}
-                        {% if user|is_logged_in_as_teacher %}
-                            {% if user|is_eligible_for_testing %}
-                                {% if user|is_beta_user %}
-                                <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give Feedback</a>
-                                {% else %}
-                                <a href="{% url 'make_beta_tester' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Start Testing</a>
-                                {% endif %}
-                            {% else %}
-                            <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
-                            {% endif %}
+            </div>
+        </div>
+        <div class="background button--bottom col-md-1 col-center">
+            {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                    {% if user|is_eligible_for_testing %}
+                        {% if user|is_beta_user %}
+                        <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give Feedback</a>
                         {% else %}
-                        <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
+                        <a href="{% url 'make_beta_tester' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Start Testing</a>
                         {% endif %}
                     {% else %}
                     <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
                     {% endif %}
-                </div>
-            </div>
+                {% else %}
+                <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
+                {% endif %}
+            {% else %}
+            <a href="{% url 'help' %}" target="_blank" class="button button--regular button--secondary button--secondary--dark">Contact us</a>
+            {% endif %}
         </div>
     </div>
 </div>
