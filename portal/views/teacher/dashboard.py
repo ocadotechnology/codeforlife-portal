@@ -110,7 +110,6 @@ def dashboard_teacher_view(request, is_admin):
 
     classes = Class.objects.filter(teacher=teacher)
 
-    # TODO: Should the banner appear everytime or only while user is not a beta tester?
     if school.eligible_for_testing and not teacher.user.beta_user:
         message = format_html('You have been selected to trial the preview version of AI:MMO, our new game for secondary '
                               'schools. <a href="{}">Try it out</a>', reverse('play_aimmo'))
