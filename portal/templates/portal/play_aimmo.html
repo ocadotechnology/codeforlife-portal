@@ -37,27 +37,25 @@
 <div class="background">
     <section>
         <img class="col-sm-4 col-md-3 col-center" src="{% static 'portal/img/AIMMO-Logo-Horizontal-RGB.svg' %}" alt="AI:MMO logo">
-        {% if user|is_logged_in %}
+        {% if user|is_eligible_for_testing %}
         <h1 class="col-sm-7 col-center">
-          {% if user|is_eligible_for_testing %}
-            Your school has been selected
-          {% else %}
-            bleh
-          {% endif %}
-
+            Your school has been selected to trial the preview version of AI:MMO
         </h1>
         {% endif %}
         <h4 class="col-sm-6 col-center">
-          {% if user|is_logged_in_as_teacher %}
-
+          {% if user|is_eligible_for_testing %}
+            Your testing and feedback will help Code for Life deliver an enjoyable game,
+            and will allow us to consult with you on resources that will be relevant to
+            teaching computing classes in secondary schools (13 - 16 year olds).
           {% else %}
             Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
             The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
           {% endif %}
         </h4>
         <h4 class="col-sm-6 col-center">
-          {% if user|is_logged_in_as_teacher %}
-
+          {% if user|is_eligible_for_testing %}
+            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
           {% else %}
             This preview version of AI:MMO is intended to be used by selected schools to help Code for Life deliver an enjoyable game,
             and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (13 - 16 year olds).
@@ -68,38 +66,63 @@
         <div class="col-sm-9 col-center is-flex">
             <div class="col-sm-4">
                 <img title="Teaching Resources" alt="Teaching Resources" src="{% static 'portal/img/teaching_materials.jpg' %}">
-                <h4>Sign up to become a tester</h4>
-                <p>We will give you special beta tester access to the preview version of AI:MMO for you to trial with your class.</p>
+                <h4>
+                    {% if user|is_eligible_for_testing %}
+                    View the teaching pack
+                    {% else %}
+                    Sign up to become a tester
+                    {% endif %}
+                </h4>
+                <p>
+                    {% if user|is_eligible_for_testing %}
+                    This includes an AI:MMO User guide,
+                    a Code Cheat Sheet, which lists all the functions available, guide to the importance of indendation in Python and an explanation of the turn-based nature of the gameplay.
+                    {% else %}
+                    We will give you special beta tester access to the preview version of AI:MMO for you to trial with your class.
+                    {% endif %}
+                </p>
             </div>
             <div class="col-sm-4">
                 <img title="Gameplay" alt="Gameplay" src="{% static 'portal/img/gameplay_video.jpg' %}">
-                <h4>Try it out</h4>
-                <p>You will have early access to the preview version of the game and the teaching materials.</p>
+                <h4>
+                    {% if user|is_eligible_for_testing %}
+                    Try it out with your class
+                    {% else %}
+                    Try it out
+                    {% endif %}
+                </h4>
+                <p>
+                    {% if user|is_eligible_for_testing %}
+                    You have early access to the preview version of the game. You can set up a class and get your students to play the game.
+                    {% else %}
+                    You will have early access to the preview version of the game and the teaching materials.
+                    {% endif %}
+                </p>
             </div>
             <div class="col-sm-4">
                 <img title="Feedback" alt="Feedback" src="{% static 'portal/img/your_feedback.png' %}">
                 <h4>Give your feedback</h4>
-                <p>Your feedback will help shape the gameplay, design and teaching materials for the full version.</p>
+                <p>
+                    {% if user|is_eligible_for_testing %}
+                    Your feedback is really important to us as it will help shape the gameplay, design and teaching materials for the full version.
+                    {% else %}
+                    Your feedback will help shape the gameplay, design and teaching materials for the full version.
+                    {% endif %}
+                </p>
             </div>
         </div>
         <div class="background button--bottom is-flex center-flex">
-            {% if user|is_logged_in %}
-                {% if user|is_logged_in_as_teacher %}
-                    {% if user|is_eligible_for_testing %}
-                        {% if user|is_beta_user %}
-                        <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
-                        {% else %}
-                        <a href="{% url 'make_beta_tester' %}" target="_blank" class="button button--big button-primary button--primary--general-play">Start Testing</a>
-                        {% endif %}
-                    {% else %}
-                    <a href="{% url 'help' %}" target="_blank" class="button button--big button-primary button--primary--general-play">Contact us bleh</a>
-                    {% endif %}
+
+            {% if user|is_eligible_for_testing %}
+                {% if user|is_beta_user %}
+                <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
                 {% else %}
-                <a href="{% url 'help' %}" target="_blank" class="button button--big button-primary button--primary--general-play">Contact us</a>
+                <a href="{% url 'make_beta_tester' %}" target="_blank" class="button button--big button-primary button--primary--general-play">Start Testing</a>
                 {% endif %}
             {% else %}
             <a href="{% url 'help' %}" target="_blank" class="button button--big button-primary button--primary--general-play">Contact us to join</a>
             {% endif %}
+
         </div>
     </div>
 </div>
