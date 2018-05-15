@@ -70,6 +70,10 @@
   justify-content: center;
 }
 
+.center-flex {
+  justify-content: center;
+}
+
 .password-strength-sign {
   border: 1px solid $color-password-strength-icon-border;
   border-radius: 50%;
@@ -229,4 +233,3 @@ iframe {
   }
 
 }
-
