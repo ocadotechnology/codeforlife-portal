@@ -23,7 +23,7 @@
     <div class="col-md-offset-2 col-md-5">
         <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
-        {% if not user|is_beta_user %}
+        {% if user|is_beta_user %}
             <div class="background button--banner--container">
                 <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
                 <a href="{% url 'materials' %}#ks3" class="button button--jumbo button--banner button--primary--navigation">View teaching pack</a>
