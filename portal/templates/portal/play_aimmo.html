@@ -20,17 +20,20 @@
     <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
   </div>
   <div class="row banner--aimmo--content">
-    <div class="col-sm-5">
+    <div class="col-md-offset-2 col-md-5">
         <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
         {% if not user|is_beta_user %}
-            <div class="background">
-                <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+            <div class="background button--banner--container">
+                <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
+                <a href="{% url 'materials' %}#ks3" class="button button--jumbo button--banner button--primary--navigation">View teaching pack</a>
             </div>
         {% endif %}
     </div>
-    <div class="col-sm-4">
-        <img title="Van" alt="Van" src="{% static 'portal/img/AIMMO-intro-video.jpg' %}">
+    <div class="col-md-4">
+      <a href="#" class="youtube cboxElement">
+        <img title="AI:MMO Intro Video" alt="AI:MMO Intro Video" src="{% static 'portal/img/AIMMO-intro-video.jpg' %}">
+      </a>
     </div>
   </div>
 </div>
@@ -106,7 +109,7 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <img title="Feedback" alt="Feedback" class="img-aspect-fill" src="{% static 'portal/img/your_feedback.png' %}">
+                <img title="Feedback" alt="Feedback" class="img-aspect-fill" src="{% static 'portal/img/your_feedback.jpg' %}">
                 <h4>Give your feedback</h4>
                 <p>
                     {% if user|is_eligible_for_testing %}
