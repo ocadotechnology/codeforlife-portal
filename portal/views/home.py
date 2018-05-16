@@ -425,7 +425,6 @@ def make_beta_tester(request):
             teacher = request.user.userprofile
             teacher.set_to_beta_user()
             teacher.save()
-            # Render aimmo game page
-            return HttpResponse("Success!")
+            return HttpResponseRedirect(reverse_lazy('play_aimmo'))
         return HttpResponse(status=401)
     return HttpResponse(status=405)
