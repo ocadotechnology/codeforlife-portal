@@ -265,6 +265,17 @@ button,
 
 }
 
+.button--banner--container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.button--banner {
+  & + & {
+    margin: 0 0 0 30px;
+  }
+}
+
 @media (min-width: 760px) {
   .menu__item {
     display: none;

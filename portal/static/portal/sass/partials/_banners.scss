@@ -173,11 +173,8 @@
   background-size: cover;
 }
 
-.banner--rapid-router--content {
+.banner .banner--rapid-router--content {
   @include _padding(70px, 0px, 100px, 0px);
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
 }
 
 
@@ -188,14 +185,8 @@
   background-size: cover;
 }
 
-.banner--aimmo--content {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
 .banner .banner--aimmo--content {
-  @include _padding(70px, 0px, 100px, 0px);
+  @include _padding(70px, 0px, 70px, 0px);
 }
 
 .banner--resources {
