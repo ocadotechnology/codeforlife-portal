@@ -69,7 +69,8 @@ def is_beta_user(u):
 
 @register.filter
 def is_eligible_for_testing(u):
-    return is_logged_in_as_teacher(u) and u.userprofile.teacher.school.eligible_for_testing
+    return (is_logged_in_as_teacher(u) and u.userprofile.teacher.school.eligible_for_testing) \
+           or is_developer(u)
 
 @register.filter
 def has_beta_access(request):
