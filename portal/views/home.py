@@ -328,6 +328,10 @@ def is_logged_in_as_teacher(request):
     return logged_in_as_teacher
 
 
+def is_developer(request):
+    return hasattr(request.user, 'userprofile') and request.user.userprofile.developer
+
+
 def redirect_user_to_correct_page(request, teacher):
     if teacher.has_school():
         classes = teacher.class_teacher.all()
@@ -419,12 +423,17 @@ def home(request):
     return render(request, 'portal/home.html')
 
 
+def is_eligible_for_testing(request):
+    return (is_logged_in_as_teacher(request) and request.user.new_teacher.school.eligible_for_testing) \
+           or is_developer(request)
+
+
 def make_beta_tester(request):
     if request.method == 'GET':
-        if is_logged_in_as_teacher(request) and request.user.new_teacher.school.eligible_for_testing:
-            teacher = request.user.userprofile
-            teacher.set_to_beta_user()
-            teacher.save()
+        if is_eligible_for_testing(request):
+            user = request.user.userprofile
+            user.set_to_beta_user()
+            user.save()
             return HttpResponseRedirect(reverse_lazy('play_aimmo'))
         return HttpResponse(status=401)
     return HttpResponse(status=405)
