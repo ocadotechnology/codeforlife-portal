@@ -28,7 +28,7 @@ setup(name='codeforlife-portal',
         'postcodes==0.1',
         'django-formtools==1.0',
         'django-two-factor-auth==1.2.0',
-        'urllib3==1.10.4',
+        'urllib3==1.22',
         'requests==2.18.4',
 
         'django-classy-tags==0.6.1',
