@@ -3,6 +3,7 @@ from setuptools import find_packages, setup
 import versioneer
 
 
+
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
       version=versioneer.get_version(),
@@ -28,7 +29,7 @@ setup(name='codeforlife-portal',
         'django-formtools==1.0',
         'django-two-factor-auth==1.2.0',
         'urllib3==1.10.4',
-        'requests==2.7.0',
+        'requests==2.18.4',
 
         'django-classy-tags==0.6.1',
         'django-treebeard==3.0',
