@@ -49,7 +49,6 @@ class TestNewsletterFooter(TestCase):
         messages = list(response.wsgi_request._messages)
         self.assertEquals(1, len([m for m in messages if m.tags == 'success']))
 
-
     def test_newsletter_signup_fail(self):
         url = reverse('process_newsletter_form')
         client = Client()

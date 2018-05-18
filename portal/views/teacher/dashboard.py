@@ -224,6 +224,7 @@ def process_update_account_form(request, teacher, old_anchor):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def dashboard_manage(request):
     teacher = request.user.new_teacher
+    
     if teacher.school:
         return dashboard_teacher_view(request, teacher.is_admin)
     else:
