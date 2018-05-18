@@ -52,7 +52,7 @@ class TestPreviewUsers(TestCase):
         c = Client()
         c.login(username=email, password=password)
         response = c.get(url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(302, response.status_code)
 
     def test_teacher_not_eligible_to_become_tester(self):
         email, password = signup_teacher_directly()
@@ -61,13 +61,13 @@ class TestPreviewUsers(TestCase):
         c = Client()
         c.login(username=email, password=password)
         response = c.get(url)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(401, response.status_code)
 
     def test_anonymous_user_not_eligible_to_become_tester(self):
         url = reverse('make_preview_tester')
         c = Client()
         response = c.get(url)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(401, response.status_code)
 
     def test_is_preview_user(self):
         email, password = signup_teacher_directly()
@@ -77,7 +77,7 @@ class TestPreviewUsers(TestCase):
         c.login(username=email, password=password)
         c.get(url)
         teacher = Teacher.objects.get(new_user__email=email)
-        self.assertEqual(is_preview_user(teacher.new_user), True)
+        self.assertEqual(True, is_preview_user(teacher.new_user))
 
     def test_not_preview_user(self):
         email, password = signup_teacher_directly()
@@ -87,16 +87,16 @@ class TestPreviewUsers(TestCase):
         c.login(username=email, password=password)
         c.get(url)
         teacher = Teacher.objects.get(new_user__email=email)
-        self.assertEqual(is_preview_user(teacher.new_user), False)
+        self.assertEqual(False, is_preview_user(teacher.new_user))
 
     def test_eligible_for_testing(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
         teacher = Teacher.objects.get(new_user__email=email)
-        self.assertEqual(is_eligible_for_testing(teacher.new_user), True)
+        self.assertEqual(True, is_eligible_for_testing(teacher.new_user))
 
     def test_not_eligible_for_testing(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, False)
         teacher = Teacher.objects.get(new_user__email=email)
-        self.assertEqual(is_eligible_for_testing(teacher.new_user), False)
+        self.assertEqual(False, is_eligible_for_testing(teacher.new_user))

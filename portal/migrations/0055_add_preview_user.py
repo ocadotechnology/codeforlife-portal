@@ -12,8 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
+            model_name='school',
+            name='eligible_for_testing',
+            field=models.BooleanField(default=False),
+        ),
+        migrations.AddField(
             model_name='userprofile',
-            name='beta_user',
+            name='preview_user',
             field=models.BooleanField(default=False),
         ),
     ]
