@@ -63,9 +63,11 @@ def is_logged_in(u):
 def is_developer(u):
     return not u.is_anonymous() and u.userprofile.developer
 
+
 @register.filter
 def is_preview_user(u):
     return is_eligible_for_testing(u) and u.userprofile.preview_user
+
 
 @register.filter
 def is_eligible_for_testing(u):
@@ -73,6 +75,7 @@ def is_eligible_for_testing(u):
         school_set_up = hasattr(u.userprofile.teacher, 'school') and hasattr(u.userprofile.teacher.school, 'eligible_for_testing')
         return school_set_up and u.userprofile.teacher.school.eligible_for_testing
     return is_developer(u)
+
 
 @register.filter
 def has_beta_access(request):
