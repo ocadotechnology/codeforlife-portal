@@ -40,15 +40,15 @@ from django.test import TestCase, Client
 from utils.teacher import signup_teacher_directly
 from utils.organisation import create_organisation_directly
 from portal.models import Teacher
-from portal.templatetags.app_tags import is_beta_user, is_eligible_for_testing
+from portal.templatetags.app_tags import is_preview_user, is_eligible_for_testing
 
 
-class TestBetaUsers(TestCase):
+class TestPreviewUsers(TestCase):
 
     def test_teacher_can_become_tester(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
-        url = reverse('make_beta_tester')
+        url = reverse('make_preview_tester')
         c = Client()
         c.login(username=email, password=password)
         response = c.get(url)
@@ -57,37 +57,37 @@ class TestBetaUsers(TestCase):
     def test_teacher_not_eligible_to_become_tester(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, False)
-        url = reverse('make_beta_tester')
+        url = reverse('make_preview_tester')
         c = Client()
         c.login(username=email, password=password)
         response = c.get(url)
         self.assertEqual(response.status_code, 401)
 
     def test_anonymous_user_not_eligible_to_become_tester(self):
-        url = reverse('make_beta_tester')
+        url = reverse('make_preview_tester')
         c = Client()
         response = c.get(url)
         self.assertEqual(response.status_code, 401)
 
-    def test_is_beta_user(self):
+    def test_is_preview_user(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
-        url = reverse('make_beta_tester')
+        url = reverse('make_preview_tester')
         c = Client()
         c.login(username=email, password=password)
         c.get(url)
         teacher = Teacher.objects.get(new_user__email=email)
-        self.assertEqual(is_beta_user(teacher.new_user), True)
+        self.assertEqual(is_preview_user(teacher.new_user), True)
 
-    def test_not_beta_user(self):
+    def test_not_preview_user(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, False)
-        url = reverse('make_beta_tester')
+        url = reverse('make_preview_tester')
         c = Client()
         c.login(username=email, password=password)
         c.get(url)
         teacher = Teacher.objects.get(new_user__email=email)
-        self.assertEqual(is_beta_user(teacher.new_user), False)
+        self.assertEqual(is_preview_user(teacher.new_user), False)
 
     def test_eligible_for_testing(self):
         email, password = signup_teacher_directly()

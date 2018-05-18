@@ -53,7 +53,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
-    beta_user = models.BooleanField(default=False)
+    preview_user = models.BooleanField(default=False)
 
     awaiting_email_verification = models.BooleanField(default=False)
 
@@ -64,8 +64,8 @@ class UserProfile(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=7) <= self.user.date_joined
 
-    def set_to_beta_user(self):
-        self.beta_user = True
+    def set_to_preview_user(self):
+        self.preview_user = True
 
 
 class School(models.Model):

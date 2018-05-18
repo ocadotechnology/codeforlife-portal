@@ -110,7 +110,7 @@ def dashboard_teacher_view(request, is_admin):
 
     classes = Class.objects.filter(teacher=teacher)
 
-    if school.eligible_for_testing and not teacher.user.beta_user:
+    if school.eligible_for_testing and not teacher.user.preview_user:
         message = format_html('You have been selected to trial the preview version of AI:MMO, our new game for secondary '
                               'schools. <a href="{}">Try it out</a>', reverse('play_aimmo'))
         messages.info(request, mark_safe(message))

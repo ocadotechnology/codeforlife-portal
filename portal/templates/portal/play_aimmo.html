@@ -23,7 +23,7 @@
     <div class="col-md-offset-2 col-md-5">
         <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
-        {% if user|is_beta_user %}
+        {% if user|is_preview_user %}
             <div class="background button--banner--container">
                 <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
                 <a href="{% url 'materials' %}#ks3" class="button button--jumbo button--banner button--primary--navigation">View teaching pack</a>
@@ -71,7 +71,7 @@
         </h4>
     </section>
     <div class="row row--small">
-        {% if not user|is_beta_user %}
+        {% if not user|is_preview_user %}
         <div class="col-sm-9 col-center is-flex">
             <div class="col-sm-4">
                 <img title="Teaching Resources" alt="Teaching Resources" class="img-aspect-fill" src="{% static 'portal/img/teaching_materials.jpg' %}">
@@ -124,10 +124,10 @@
         <div class="background button--bottom is-flex center-flex">
 
             {% if user|is_eligible_for_testing %}
-                {% if user|is_beta_user %}
+                {% if user|is_preview_user %}
                 <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
                 {% else %}
-                <a href="{% url 'make_beta_tester' %}" target="" class="button button--big button-primary button--primary--general-play">Start Testing</a>
+                <a href="{% url 'make_preview_tester' %}" target="" class="button button--big button-primary button--primary--general-play">Start Testing</a>
                 {% endif %}
             {% else %}
             <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us to join</a>

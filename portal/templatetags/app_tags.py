@@ -64,8 +64,8 @@ def is_developer(u):
     return not u.is_anonymous() and u.userprofile.developer
 
 @register.filter
-def is_beta_user(u):
-    return is_eligible_for_testing(u) and u.userprofile.beta_user
+def is_preview_user(u):
+    return is_eligible_for_testing(u) and u.userprofile.preview_user
 
 @register.filter
 def is_eligible_for_testing(u):

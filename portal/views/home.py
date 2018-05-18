@@ -428,11 +428,11 @@ def is_eligible_for_testing(request):
            or is_developer(request)
 
 
-def make_beta_tester(request):
+def make_preview_tester(request):
     if request.method == 'GET':
         if is_eligible_for_testing(request):
             user = request.user.userprofile
-            user.set_to_beta_user()
+            user.set_to_preview_user()
             user.save()
             return HttpResponseRedirect(reverse_lazy('play_aimmo'))
         return HttpResponse(status=401)

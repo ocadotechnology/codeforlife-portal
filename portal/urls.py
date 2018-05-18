@@ -51,7 +51,7 @@ from portal.views.email import send_new_users_report
 from game.views.level import play_default_level
 
 from portal.views.email import verify_email
-from portal.views.home import login_view, logout_view, register_view, contact, process_newsletter_form, home, make_beta_tester
+from portal.views.home import login_view, logout_view, register_view, contact, process_newsletter_form, home, make_preview_tester
 from portal.views.play import student_details, student_edit_account, student_join_organisation
 from portal.views.organisation import organisation_fuzzy_lookup, organisation_manage, organisation_leave
 from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
@@ -112,7 +112,7 @@ urlpatterns = patterns(
     url(r'^login_form', login_view, name='login_view'),
     url(r'^logout/$', logout_view, name='logout_view'),
     url(r'^news_signup/$', process_newsletter_form, name='process_newsletter_form'),
-    url(r'^set_beta_tester/$', make_beta_tester, name='make_beta_tester'),
+    url(r'^set_preview_tester/$', make_preview_tester, name='make_preview_tester'),
     url(r'^verify_email/(?P<token>[0-9a-f]+)/$', verify_email, name='verify_email'),
     url(r'^user/password/reset/student/$', student_password_reset, name="student_password_reset"),
     url(r'^user/password/reset/teacher/$', teacher_password_reset, name="teacher_password_reset"),
