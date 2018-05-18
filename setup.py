@@ -9,9 +9,6 @@ setup(name='codeforlife-portal',
       version=versioneer.get_version(),
       packages=find_packages(),
       include_package_data=True,
-      dependency_links =[
-          'git+https://github.com/ocadotechnology/rapid-router@update_deps#egg=rapid-router-1.0.0.post.dev1'
-      ],
       install_requires=[
         'django==1.8.3',
         'django-appconf==1.0.1',
@@ -24,7 +21,7 @@ setup(name='codeforlife-portal',
 
         'pyyaml==3.10',
         'rapid-router >= 1.0.0.post.dev1',
-        'six==1.9.0',
+        'six==1.11.0',
         'aimmo',
         'docutils==0.12',
         'reportlab==3.2.0',
