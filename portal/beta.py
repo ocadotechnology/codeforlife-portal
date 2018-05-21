@@ -37,7 +37,7 @@
 
 
 def has_beta_access(request):
-    return is_on_beta_host(request) or is_developer(request) or is_preview_user(request)
+    return is_developer(request) or is_preview_user(request)
 
 
 def is_on_beta_host(request):
