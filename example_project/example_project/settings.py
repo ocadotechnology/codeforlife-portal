@@ -63,6 +63,8 @@ WSGI_APPLICATION = 'example_project.wsgi.application'
 
 LOGIN_REDIRECT_URL = '/portal/teach/dashboard/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 INSTALLED_APPS = (
     'portal',
     'captcha'

@@ -20,12 +20,20 @@
     <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
   </div>
   <div class="row banner--aimmo--content">
-    <div class="col-sm-5">
+    <div class="col-md-offset-2 col-md-5">
+        <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
-        <h1 class="banner__text--primary">Coming soon</h1>
+        {% if user|is_preview_user %}
+            <div class="background button--banner--container">
+                <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
+                <a href="{% url 'materials' %}#ks3" class="button button--jumbo button--banner button--primary--navigation">View teaching pack</a>
+            </div>
+        {% endif %}
     </div>
-    <div class="col-sm-2">
-        <img title="Van" alt="Van" src="{% static 'portal/img/van-future.png' %}">
+    <div class="col-md-4">
+      <a href="https://www.youtube-nocookie.com/embed/MOfL8bqHufI?rel=0&amp;showinfo=0;autoplay=1" class="youtube">
+        <img title="AI:MMO Intro Video" alt="AI:MMO Intro Video" src="{% static 'portal/img/AIMMO-intro-video.jpg' %}">
+      </a>
     </div>
   </div>
 </div>
@@ -36,97 +44,98 @@
 
 <div class="background">
     <section>
-        <h1 class="col-sm-7 col-center">Code for Life will be launching a new game for secondary schools soon!</h1>
-        <h4 class="col-sm-6 col-center">Following on from Rapid Router, this exciting game will build on students’ existing coding skills.</h4>
-        <h4 class="col-sm-6 col-center">The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
-            We’ll have a playable beta soon, but first we’d like to get your thoughts on the gameplay, learning concepts and general design.</h4>
+        <img class="col-sm-4 col-md-3 col-center" src="{% static 'portal/img/AIMMO-Logo-Horizontal-RGB.svg' %}" alt="AI:MMO logo">
+        {% if user|is_eligible_for_testing %}
+        <h1 class="col-sm-7 col-center">
+            Your school has been selected to trial the preview version of AI:MMO
+        </h1>
+        {% endif %}
+        <h4 class="col-sm-6 col-center">
+          {% if user|is_eligible_for_testing %}
+            Your testing and feedback will help Code for Life deliver an enjoyable game,
+            and will allow us to consult with you on resources that will be relevant to
+            teaching computing classes in secondary schools (13 - 16 year olds).
+          {% else %}
+            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+          {% endif %}
+        </h4>
+        <h4 class="col-sm-6 col-center">
+          {% if user|is_eligible_for_testing %}
+            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+          {% else %}
+            This preview version of AI:MMO is intended to be used by selected schools to help Code for Life deliver an enjoyable game,
+            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (13 - 16 year olds).
+          {% endif %}
+        </h4>
     </section>
     <div class="row row--small">
+        {% if not user|is_preview_user %}
         <div class="col-sm-9 col-center is-flex">
             <div class="col-sm-4">
-                <img title="Teaching Resources" alt="Teaching Resources" src="{% static 'portal/img/teaching_materials.jpg' %}">
-                <h3>Step 1</h3>
-                <h4>Teaching materials</h4>
-                <p>Download the teaching materials and read them through before playing the video.
-                    They will guide you through the level and give teaching support.</p>
-                <div class="background button--bottom">
-                    <a href="{{ 'KS3/resource_sheets/AIMMO-L1_teaching.zip'|cloud_storage }}" class="button button--regular button--secondary button--secondary--dark">Download teaching materials</a>
-                </div>
+                <img title="Teaching Resources" alt="Teaching Resources" class="img-aspect-fill" src="{% static 'portal/img/teaching_materials.jpg' %}">
+                <h4>
+                    {% if user|is_eligible_for_testing %}
+                    <a href="{% url 'materials'%}#ks3">View the teaching pack</a>
+                    {% else %}
+                    Sign up to become a tester
+                    {% endif %}
+                </h4>
+                <p>
+                    {% if user|is_eligible_for_testing %}
+                    This includes an AI:MMO User guide,
+                    a Code Cheat Sheet, which lists all the functions available, guide to the importance of indentation in Python and an explanation of the turn-based nature of the gameplay.
+                    {% else %}
+                    We will give you special beta tester access to the preview version of AI:MMO for you to trial with your class.
+                    {% endif %}
+                </p>
             </div>
             <div class="col-sm-4">
-                <img title="Gameplay" alt="Gameplay" src="{% static 'portal/img/gameplay_video.jpg' %}">
-                <h3>Step 2</h3>
-                <h4>Gameplay video</h4>
-                <p>This video is intended to show how the code and gameplay will be implemented within the game UI. The video is a visualisation of actual gameplay.</p>
-                <div class="background button--bottom">
-                    <a href="https://www.youtube.com/watch?v=HxxavGnqRbw&feature=youtu.be" target="_blank" class="button button--regular button--secondary button--secondary--dark">Watch the video</a>
-                </div>
+                <img title="Gameplay" alt="Gameplay" class="img-aspect-fill" src="{% static 'portal/img/try-with-your-class.jpg' %}">
+                <h4>
+                    {% if user|is_eligible_for_testing %}
+                    Try it out with your class
+                    {% else %}
+                    Try it out
+                    {% endif %}
+                </h4>
+                <p>
+                    {% if user|is_eligible_for_testing %}
+                    You have early access to the preview version of the game. You can set up a class and get your students to play the game.
+                    {% else %}
+                    You will have early access to the preview version of the game and the teaching materials.
+                    {% endif %}
+                </p>
             </div>
             <div class="col-sm-4">
-                <img title="Feedback" alt="Feedback" src="{% static 'portal/img/your_feedback.png' %}">
-                <h3>Step 3</h3>
-                <h4>Your feedback</h4>
-                <p>Please give us your feedback on the gameplay, design and teaching materials.</p>
-                <div class="background button--bottom">
-                    <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--regular button--secondary button--secondary--dark">Give your feedback</a>
-                </div>
+                <img title="Feedback" alt="Feedback" class="img-aspect-fill" src="{% static 'portal/img/your_feedback.jpg' %}">
+                <h4>Give your feedback</h4>
+                <p>
+                    {% if user|is_eligible_for_testing %}
+                    Your feedback is really important to us as it will help shape the gameplay, design and teaching materials for the full version.
+                    {% else %}
+                    Your feedback will help shape the gameplay, design and teaching materials for the full version.
+                    {% endif %}
+                </p>
             </div>
+        </div>
+        {% endif %}
+        <div class="background button--bottom is-flex center-flex">
+
+            {% if user|is_eligible_for_testing %}
+                {% if user|is_preview_user %}
+                <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
+                {% else %}
+                <a href="{% url 'make_preview_tester' %}" target="" class="button button--big button-primary button--primary--general-play">Start Testing</a>
+                {% endif %}
+            {% else %}
+            <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us to join</a>
+            {% endif %}
+
         </div>
     </div>
 </div>
-
-<section class="background background--quinary background--swirl">
-    <h2>Deliver through time...</h2>
-    <div class="col-sm-6 col-center">
-        <h4>Where will your journey take you? Once you pass the test, you can become a time–travelling delivery driver.
-            Your TricyNav sat nav will guide you through time and give you coding hints along the way.</h4>
-    </div>
-    <div class="col-sm-10 col-center image-row">
-        <div>
-            <img title="Prehistoric" alt="Prehistoric image" src="{% static 'portal/img/prehistoric.svg' %}">
-            <p><b>Prehistoric</b></p>
-            <p>68 million years ago
-                </br>
-                Dino delivery</p>
-        </div>
-        <div>
-            <img title="Stone age" alt="Stone age image" src="{% static 'portal/img/stoneage.svg' %}">
-            <p><b>Stone age</b></p>
-            <p>2.5 million years ago
-                </br>
-                Hunter delivery</p>
-        </div>
-        <div>
-            <img title="Medieval" alt="Medieval image" src="{% static 'portal/img/medieval.svg' %}">
-            <p><b>Medieval age</b></p>
-            <p>476 AD
-                </br>
-                The wheel has been  around for a while</p>
-        </div>
-        <div>
-            <img title="Victorian" alt="Victorian image" src="{% static 'portal/img/victorian.svg' %}">
-            <p><b>Victorian era</b></p>
-            <p>1842 AD
-                </br>
-                Horse–drawn carriages
-                help with delivery</p>
-        </div>
-        <div>
-            <img title="Modern" alt="Modern image" src="{% static 'portal/img/modern.svg' %}">
-            <p><b>Modern era</b></p>
-            <p>2000 AD
-                </br>
-                Motorised van delivery</p>
-        </div>
-        <div>
-            <img title="Future" alt="Future image" src="{% static 'portal/img/future.svg' %}">
-            <p><b>The future</b></p>
-            <p>2200 AD
-                </br>
-                Time travel delivery</p>
-        </div>
-    </div>
-</section>
 
 <script type="text/javascript">
     $(document).ready(function(){
