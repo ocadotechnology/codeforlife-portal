@@ -2,14 +2,6 @@
 
 .banner {
 
-  .banner--rapid-router--content {
-    @include _padding(70px, 0px, 100px, 0px);
-  }
-
-  .banner--aimmo--content {
-    @include _padding(70px, 0px, 70px, 0px);
-  }
-
   p {
 
     a,
@@ -34,6 +26,14 @@
 
   .row {
     @include _padding(0px, 0px, 30px, 0px);
+  }
+
+  .banner--rapid-router--content {
+    @include _padding(70px, 0px, 100px, 0px);
+  }
+
+  .banner--aimmo--content {
+    @include _padding(70px, 0px, 70px, 0px);
   }
 
   small {
