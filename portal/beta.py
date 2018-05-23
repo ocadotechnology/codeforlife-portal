@@ -37,7 +37,7 @@
 
 
 def has_beta_access(request):
-    return is_developer(request) or is_preview_user(request)
+    return is_on_beta_host(request) or is_developer(request)
 
 
 def is_on_beta_host(request):
@@ -48,5 +48,29 @@ def is_developer(request):
     return (not request.user.is_anonymous()) and request.user.userprofile.developer
 
 
-def is_preview_user(request):
-    return (not request.user.is_anonymous()) and request.user.userprofile.preview_user
+def get_students_from_class(user, is_teacher):
+    students = []
+    if is_teacher:
+        classes = user.class_teacher.all()
+        for c in classes:
+            students.extend(c.students.all())
+    else:
+        c = user.class_field
+        students.extend(c.students.all())
+    return students
+
+
+def get_users_for_new_game(request):
+    print "Getting users"
+    user = request.user
+    users = []
+    if hasattr(user, 'userprofile'):
+        if hasattr(user.userprofile, 'teacher') and user.userprofile.teacher.has_school():
+            users.append(user.userprofile.teacher)
+            return users.extend(get_students_from_class(user.userprofile.teacher, True))
+        elif hasattr(user.userprofile, 'student'):
+            if user.userprofile.student.is_independent():
+                return users.extend(get_independent_students())
+            else:
+                return get_students_from_class(user.userprofile.student, False)
+    return User.objects.all()
