@@ -168,6 +168,7 @@
 </div>
 {% endblock topBar %}
     {% block subNav %}
+    {% endblock subNav %}
     <div id="messages">
         {% if messages %}
         <div class="sub-nav--message">
@@ -186,9 +187,6 @@
         </div>
         {% endif %}
     </div>
-    {% endblock subNav %}
-
-
     <!--[if lt IE 10]>
     <ul class="messages">
         <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser. See <a href="{% url 'help' %}">Help and Support</a> for more details.</li>
@@ -290,13 +288,6 @@
             closeButton: true
         });
     }
-
-    var refURL = window.parent.location.toString();
-    if (refURL.indexOf("#") > -1){
-      refURL = refURL.substr(0, refURL.indexOf('#'));
-    }
-    var target = document.getElementById('refURL');
-    target.value = refURL;
 
     $(document).ready(function() {
         var bannerHeight = $('.sticky-subnav').height();

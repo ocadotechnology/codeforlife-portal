@@ -74,6 +74,7 @@ SETTINGS = {
     },
     'PIPELINE_CSS_COMPRESSOR': None,
     'INSTALLED_APPS': [
+        'players',
         'game',
         'pipeline',
         'portal',
@@ -155,6 +156,7 @@ SETTINGS = {
     },
 
     'RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME': 'portal.beta.has_beta_access',
+    'PREVIEW_USER_AIMMO_DECORATOR': 'portal.permissions.preview_user',
 }
 
 RELATIONSHIPS = [

@@ -38,6 +38,7 @@ matrix:
 before_install:
   - gem install sass --version 3.3.4
 install:
+  - pip install -U setuptools
   - pip install -e .
   - pip install coveralls
 before_script:

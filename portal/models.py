@@ -53,6 +53,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
+    preview_user = models.BooleanField(default=False)
 
     awaiting_email_verification = models.BooleanField(default=False)
 
@@ -63,6 +64,9 @@ class UserProfile(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=7) <= self.user.date_joined
 
+    def set_to_preview_user(self):
+        self.preview_user = True
+
 
 class School(models.Model):
     name = models.CharField(max_length=200)
@@ -71,6 +75,7 @@ class School(models.Model):
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label='(select country)')
+    eligible_for_testing = models.BooleanField(default=False)
 
     class Meta:
         permissions = (

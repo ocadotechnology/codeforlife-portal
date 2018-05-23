@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from functools import wraps
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse_lazy
 
 from portal.utils import using_two_factor
@@ -66,6 +66,18 @@ def teacher_verified(view_func):
         if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
                 (not u.is_verified() and using_two_factor(u))):
             return HttpResponseRedirect(reverse_lazy('teach'))
+
+        return view_func(request, *args, **kwargs)
+
+    return wrapped
+
+
+def preview_user(view_func):
+    @wraps(view_func)
+    def wrapped(request, *args, **kwargs):
+        u = request.user
+        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'preview_user') or not u.userprofile.preview_user):
+            return HttpResponse('Unauthorized', status=401)
 
         return view_func(request, *args, **kwargs)
 
