@@ -134,6 +134,21 @@ class Teacher(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
+class ClassModelManager(models.Manager):
+    def all_members(self, user):
+        members = []
+        if hasattr(user, 'teacher'):
+            members.append(user.teacher)
+            if user.teacher.has_school():
+                classes = user.class_teacher.all()
+                for c in classes:
+                    members.extend(c.students.all())
+        else:
+            c = user.class_field
+            members.append(c.teacher)
+            members.extend(c.students.all())
+        return members
+
 
 class Class(models.Model):
     name = models.CharField(max_length=200)

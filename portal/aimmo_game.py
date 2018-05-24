@@ -35,18 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-
-def has_beta_access(request):
-    return is_developer(request) or is_preview_user(request)
+from portal.models import Class, Student
 
 
-def is_on_beta_host(request):
-    return request.get_host().startswith("beta")
-
-
-def is_developer(request):
-    return (not request.user.is_anonymous()) and request.user.userprofile.developer
-
-
-def is_preview_user(request):
-    return (not request.user.is_anonymous()) and request.user.userprofile.preview_user
+def get_users_for_new_game(request):
+    user = request.user
+    users = []
+    if hasattr(user, 'userprofile'):
+        if hasattr(user.userprofile, 'student') and user.userprofile.student.is_independent():
+            return users.extend(Student.objects.independent_students())
+        else:
+            return users.extend(Class.objects.all_members())
+    return users
