@@ -37,7 +37,7 @@
 
 
 def has_beta_access(request):
-    return is_on_beta_host(request) or is_developer(request)
+    return is_developer(request) or is_preview_user(request)
 
 
 def is_on_beta_host(request):
@@ -46,6 +46,10 @@ def is_on_beta_host(request):
 
 def is_developer(request):
     return (not request.user.is_anonymous()) and request.user.userprofile.developer
+
+
+def is_preview_user(request):
+    return (not request.user.is_anonymous()) and request.user.userprofile.preview_user
 
 
 def get_students_from_class(user, is_teacher):
