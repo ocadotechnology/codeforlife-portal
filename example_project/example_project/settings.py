@@ -67,7 +67,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INSTALLED_APPS = (
     'portal',
-    'captcha'
+    'captcha',
+    'django_forms_bootstrap',
 )
 
 PIPELINE_ENABLED = False

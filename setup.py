@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 import versioneer
-
-
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
       version=versioneer.get_version(),
@@ -21,7 +19,7 @@ setup(name='codeforlife-portal',
           'pyyaml==3.10',
           'rapid-router >= 1.0.0.post.dev1',
           'six==1.11.0',
-          'aimmo',
+          'aimmo==1.1',
           'docutils==0.12',
           'reportlab==3.2.0',
           'postcodes==0.1',
@@ -40,7 +38,9 @@ setup(name='codeforlife-portal',
           'django-reversion==1.9.3',
           'sqlparse',
           'libsass',
+          'django-forms-bootstrap'
       ],
+      dependency_links=['git+https://github.com/riaJha97/aimmo@users_per_game#egg=aimmo-1.1'],
       tests_require=[
           'django-setuptest',
           'django-selenium-clean==0.2.1',
