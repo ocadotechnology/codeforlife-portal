@@ -75,7 +75,8 @@ class School(models.Model):
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label='(select country)')
-    eligible_for_testing = models.BooleanField(default=False)
+    # TODO: Change this back to False
+    eligible_for_testing = models.BooleanField(default=True)
 
     class Meta:
         permissions = (
@@ -134,13 +135,14 @@ class Teacher(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
+
 class ClassModelManager(models.Manager):
     def all_members(self, user):
         members = []
         if hasattr(user, 'teacher'):
             members.append(user.teacher)
             if user.teacher.has_school():
-                classes = user.class_teacher.all()
+                classes = user.teacher.class_teacher.all()
                 for c in classes:
                     members.extend(c.students.all())
         else:
@@ -157,6 +159,8 @@ class Class(models.Model):
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
     accept_requests_until = models.DateTimeField(null=True)
+
+    objects = ClassModelManager()
 
     def __unicode__(self):
         return self.name
@@ -193,14 +197,18 @@ class Class(models.Model):
 class StudentModelManager(models.Manager):
     def schoolFactory(self, klass, name, password):
         from portal.helpers.generators import get_random_username
-
         user = User.objects.create_user(
             username=get_random_username(),
             password=password,
             first_name=name)
 
         user_profile = UserProfile.objects.create(user=user)
-        return Student.objects.create(class_field=klass, user=user_profile, new_user=user)
+        s = Student.objects.create(class_field=klass, user=user_profile, new_user=user)
+
+        teacher = s.class_field.teacher
+        if teacher.school.eligible_for_testing and teacher.user.preview_user:
+            print "Setting to preview user"
+            s.user.set_to_preview_user()
 
     def independentStudentFactory(self, username, name, email, password):
         user = User.objects.create_user(

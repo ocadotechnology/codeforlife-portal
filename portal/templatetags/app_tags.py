@@ -70,11 +70,20 @@ def is_preview_user(u):
 
 
 @register.filter
+def is_preview_student(u):
+    if is_logged_in(u) and hasattr(u.userprofile, 'student'):
+        student = u.userprofile.student
+        teacher = student.class_field.teacher
+        return teacher.school.eligible_for_testing and teacher.user.preview_user
+    return False
+
+
+@register.filter
 def is_eligible_for_testing(u):
     if is_logged_in_as_teacher(u):
         school_set_up = hasattr(u.userprofile.teacher, 'school') and hasattr(u.userprofile.teacher.school, 'eligible_for_testing')
         return school_set_up and u.userprofile.teacher.school.eligible_for_testing
-    return is_developer(u)
+    return is_developer(u) or is_preview_student(u)
 
 
 @register.filter
