@@ -4,7 +4,6 @@ import versioneer
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
       version=versioneer.get_version(),
-      dependency_links=['git+https://github.com/riaJha97/aimmo@users_per_game#egg=aimmo-0.1.1a0.post0.dev56'],
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
@@ -41,6 +40,7 @@ setup(name='codeforlife-portal',
           'libsass',
           'django-forms-bootstrap'
       ],
+      dependency_links=['git+https://github.com/riaJha97/aimmo@users_per_game#egg=aimmo-0.1.1a0.post0.dev56'],
       tests_require=[
           'django-setuptest',
           'django-selenium-clean==0.2.1',
