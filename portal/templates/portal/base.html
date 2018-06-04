@@ -224,7 +224,6 @@
 
         <div class="row">
             <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-6 col-md-offset-2">
-                {% csrf_token %}
                 {{ news_form.non_field_errors }}
                 <div class="form--news-signup">
                     <label>{{ news_form.email.label }}</label>
