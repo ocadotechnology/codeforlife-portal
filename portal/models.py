@@ -146,7 +146,7 @@ class ClassModelManager(models.Manager):
                 for c in classes:
                     members.extend(c.students.all())
         else:
-            c = user.class_field
+            c = user.student.class_field
             members.append(c.teacher)
             members.extend(c.students.all())
         return members
