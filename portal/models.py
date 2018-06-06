@@ -75,7 +75,6 @@ class School(models.Model):
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label='(select country)')
-    # TODO: Change this back to False
     eligible_for_testing = models.BooleanField(default=True)
 
     class Meta:
@@ -203,12 +202,7 @@ class StudentModelManager(models.Manager):
             first_name=name)
 
         user_profile = UserProfile.objects.create(user=user)
-        s = Student.objects.create(class_field=klass, user=user_profile, new_user=user)
-
-        teacher = s.class_field.teacher
-        if teacher.school.eligible_for_testing and teacher.user.preview_user:
-            print "Setting to preview user"
-            s.user.set_to_preview_user()
+        return Student.objects.create(class_field=klass, user=user_profile, new_user=user)
 
     def independentStudentFactory(self, username, name, email, password):
         user = User.objects.create_user(

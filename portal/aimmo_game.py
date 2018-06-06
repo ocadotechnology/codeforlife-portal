@@ -53,7 +53,4 @@ def get_users_for_new_game(request):
 
 
 def get_user_objects(players):
-    users = []
-    for player in players:
-        users.append(player.user.user)
-    return users
+    return [player.user.user for player in players]
