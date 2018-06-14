@@ -39,7 +39,6 @@ from portal.models import Class, Student
 
 
 def get_users_for_new_game(request):
-    print "Inside portal's get users function"
     user = request.user
     players = []
     if hasattr(user, 'userprofile'):
