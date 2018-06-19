@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 import versioneer
-
-
 setup(name='codeforlife-portal',
       cmdclass=versioneer.get_cmdclass(),
       version=versioneer.get_version(),
@@ -40,6 +38,7 @@ setup(name='codeforlife-portal',
           'django-reversion==1.9.3',
           'sqlparse',
           'libsass',
+          'django-forms-bootstrap'
       ],
       tests_require=[
           'django-setuptest',

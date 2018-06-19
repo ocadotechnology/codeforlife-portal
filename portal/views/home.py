@@ -332,6 +332,11 @@ def is_developer(request):
     return hasattr(request.user, 'userprofile') and request.user.userprofile.developer
 
 
+def is_logged_in_as_student(request):
+    is_student = hasattr(request.user, 'userprofile') and hasattr(request.user.userprofile, 'student')
+    return request.user.is_verified() or not using_two_factor(request.user) and is_student
+
+
 def redirect_user_to_correct_page(request, teacher):
     if teacher.has_school():
         classes = teacher.class_teacher.all()
@@ -425,7 +430,8 @@ def home(request):
 
 def is_eligible_for_testing(request):
     return (is_logged_in_as_teacher(request) and request.user.new_teacher.school.eligible_for_testing) \
-           or is_developer(request)
+           or is_developer(request) or (is_logged_in_as_student(request) and
+                                        request.user.userprofile.student.class_field.teacher.school.eligible_for_testing)
 
 
 def make_preview_tester(request):
