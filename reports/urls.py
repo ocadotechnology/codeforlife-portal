@@ -34,7 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from rest_framework import status
 from django.http import HttpResponse
 from models import Event
@@ -82,6 +82,5 @@ except ImportError:
     def test_panda(request):
         return HttpResponse("The Panda is not loaded", content_type='text/plain', status=status.HTTP_200_OK)
 
-urlpatterns = patterns('',
-                       url(r'^event$', event, name='post_event'),
-                       url(r'^test$', test_panda, name='test_panda'),)
+urlpatterns = [url(r'^event$', event, name='post_event'),
+                url(r'^test$', test_panda, name='test_panda')]
