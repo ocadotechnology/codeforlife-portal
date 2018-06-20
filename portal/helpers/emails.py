@@ -42,7 +42,7 @@ from requests.exceptions import RequestException
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
-from django.template import Context, loader
+from django.template import loader
 
 from portal.models import EmailVerification
 from portal import app_settings
@@ -63,10 +63,10 @@ def send_email(sender, recipients, subject, text_content, html_content=None,
     # setup templates
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
-    plaintext_email_context = Context({'content': text_content})
-    html_email_context = Context({'content': text_content})
+    plaintext_email_context = {'content': text_content}
+    html_email_context = {'content': text_content}
     if html_content:
-        html_email_context = Context({'content': html_content})
+        html_email_context = {'content': html_content}
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
