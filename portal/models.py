@@ -135,6 +135,22 @@ class Teacher(models.Model):
         return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
 
 
+class ClassModelManager(models.Manager):
+    def all_members(self, user):
+        members = []
+        if hasattr(user, 'teacher'):
+            members.append(user.teacher)
+            if user.teacher.has_school():
+                classes = user.teacher.class_teacher.all()
+                for c in classes:
+                    members.extend(c.students.all())
+        else:
+            c = user.student.class_field
+            members.append(c.teacher)
+            members.extend(c.students.all())
+        return members
+
+
 class Class(models.Model):
     name = models.CharField(max_length=200)
     teacher = models.ForeignKey(Teacher, related_name='class_teacher')
@@ -142,6 +158,8 @@ class Class(models.Model):
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
     accept_requests_until = models.DateTimeField(null=True)
+
+    objects = ClassModelManager()
 
     def __unicode__(self):
         return self.name
@@ -178,7 +196,6 @@ class Class(models.Model):
 class StudentModelManager(models.Manager):
     def schoolFactory(self, klass, name, password):
         from portal.helpers.generators import get_random_username
-
         user = User.objects.create_user(
             username=get_random_username(),
             password=password,
@@ -197,6 +214,13 @@ class StudentModelManager(models.Manager):
         user_profile = UserProfile.objects.create(user=user)
 
         return Student.objects.create(user=user_profile, new_user=user)
+
+    def independent_students(self):
+        """
+        Returns all independent students in the database.
+        :return: A list of all independent students.
+        """
+        return [student for student in Student.objects.all() if student.is_independent()]
 
 
 class Student(models.Model):

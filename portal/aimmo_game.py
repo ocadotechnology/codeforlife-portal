@@ -34,51 +34,22 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import wraps
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse_lazy
 
-from portal.utils import using_two_factor
+from portal.models import Class, Student
 
 
-def logged_in_as_teacher(u):
-    if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
-        return False
-    return u.is_verified() or not using_two_factor(u)
+def get_users_for_new_game(request):
+    user = request.user
+    players = []
+    if hasattr(user, 'userprofile'):
+        if hasattr(user.userprofile, 'student') and user.userprofile.student.is_independent():
+            players.extend(Student.objects.independent_students())
+            return get_user_objects(players)
+        else:
+            players.extend(Class.objects.all_members(user.userprofile))
+            return get_user_objects(players)
+    return players
 
 
-def logged_in_as_student(u):
-    return hasattr(u, 'userprofile') and hasattr(u.userprofile, 'student')
-
-
-def not_logged_in(u):
-    return not hasattr(u, 'userprofile')
-
-
-def not_fully_logged_in(u):
-    return not_logged_in(u) or (not logged_in_as_student(u) and not logged_in_as_teacher(u))
-
-
-def teacher_verified(view_func):
-    @wraps(view_func)
-    def wrapped(request, *args, **kwargs):
-        u = request.user
-        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
-                (not u.is_verified() and using_two_factor(u))):
-            return HttpResponseRedirect(reverse_lazy('teach'))
-
-        return view_func(request, *args, **kwargs)
-
-    return wrapped
-
-
-def preview_user(view_func):
-    @wraps(view_func)
-    def wrapped(request, *args, **kwargs):
-        u = request.user
-        if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'preview_user') or not u.userprofile.preview_user:
-            return HttpResponse('Unauthorized', status=401)
-
-        return view_func(request, *args, **kwargs)
-
-    return wrapped
+def get_user_objects(players):
+    return [player.user.user for player in players]
