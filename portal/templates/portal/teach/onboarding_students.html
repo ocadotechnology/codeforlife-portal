@@ -66,8 +66,9 @@
         toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });
     function buttonDisable(){
-        document.getElementById("submitStudents").disabled=true;
-        document.getElementById("submitStudents").style.background="grey";
+        var button = document.getElementById("submitStudents");
+        button.disabled=true;
+        button.style.background="grey";
     }
 </script>
 
