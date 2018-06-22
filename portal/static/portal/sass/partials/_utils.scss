@@ -205,6 +205,24 @@ iframe {
   height: 800px;
 }
 
+#myProgress {
+  display: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 0.8rem;
+  position: relative;
+  background-color: #ddd;
+}
+
+#myBar {
+  background-color: #0c52a3;
+  width: 10px;
+  height: 10px;
+  border-radius: 0.8rem;
+  position: absolute;
+}
+
+
 @media (max-width: 1200px) {
   .col-sm-offset-2 {
     margin-left: 8.333%;
