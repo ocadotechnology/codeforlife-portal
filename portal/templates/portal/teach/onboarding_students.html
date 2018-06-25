@@ -56,7 +56,11 @@
             {{ new_students_form.names.errors }}
             {{ new_students_form.names }}
 
-            <button type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students">Add students</button>
+            <button id="addStudents" type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students" onclick="toggleLoader()">Add students</button>
+            <div style="clear: left;">
+              <div class="loader" id="spinner"><img src="{% static 'portal/img/hex_blank.png' %}"></div>
+              <div><p id="upload" >Uploading...</p></div>
+           </div>
         </form>
     </div>
 </div>
@@ -65,6 +69,20 @@
     $(document).ready(function(){
         toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });
+    function toggleLoader() {
+      var twist = document.getElementById("spinner");
+      if (twist.style.display === "block") {
+        twist.style.display = "none";
+      } else {twist.style.display = "block";}
+      var twist2 = document.getElementById("addStudents");
+      if (twist2.style.display === "none") {
+        twist2.style.display = "block";
+      } else {twist2.style.display = "none";}
+      var twist3 = document.getElementById("upload");
+      if (twist3.style.display === "block") {
+        twist3.style.display = "none";
+      } else {twist3.style.display = "block";}
+    }
 </script>
 
 {% endblock content %}
