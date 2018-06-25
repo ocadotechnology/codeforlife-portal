@@ -7,12 +7,12 @@ setup(name='codeforlife-portal',
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
-          'django==1.8.3',
+          # 'django==1.9',
           'django-appconf==1.0.1',
           'django-countries==3.4.1',
           'djangorestframework==3.1.3',
           'django-jquery==1.9.1',
-          'django-autoconfig==0.3.6',
+          'django-autoconfig==0.8.0',
           'django-pipeline==1.5.4',
           'django-recaptcha==1.3.1',  # 1.4 dropped support for < 1.11
 
@@ -24,7 +24,7 @@ setup(name='codeforlife-portal',
           'reportlab==3.2.0',
           'postcodes==0.1',
           'django-formtools==1.0',
-          'django-two-factor-auth==1.2.0',
+          'django-two-factor-auth==1.3.0',
           'urllib3==1.22',
           'requests==2.18.4',
 
