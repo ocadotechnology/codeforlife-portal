@@ -81,9 +81,7 @@
     }
     function showNames(){
         names = fileReader.result;
-        for(var index = names.indexOf(","); index!=-1; index = names.indexOf(",")){
-            names = names.substring(0, index)+"\n"+names.substring(index+1);
-        }
+        names = names.split(",").join("\n");
         theText.value+=names;
     }
 
