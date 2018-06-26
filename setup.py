@@ -41,7 +41,7 @@ setup(name='codeforlife-portal',
           'django-forms-bootstrap'
       ],
       tests_require=[
-          'django-setuptest',
+          'django-setuptest==0.2.1',
           'django-selenium-clean==0.2.1',
           'responses==0.4.0',
           'selenium==2.48.0',
