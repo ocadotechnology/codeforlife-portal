@@ -56,10 +56,7 @@
             {{ new_students_form.names.errors }}
             {{ new_students_form.names }}
 
-            <button type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students" onclick="move()">Add students</button>
-            <div id="myProgress">
-                <div id="myBar"></div>
-            </div>
+            <button type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students">Add students</button>
         </form>
     </div>
 </div>
@@ -68,22 +65,9 @@
     $(document).ready(function(){
         toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });
-    function move() {
-    var hideBar = document.getElementById("myProgress")
-    if (hideBar.style.display === "block") {hideBar.style.display = "none";}
-    else {hideBar.style.display = "block";}
-    var elem = document.getElementById("myBar");
-    var width = 0;
-    var id = setInterval(frame, 0.05);
-    function frame() {
-    if (width >= 100) {
-      clearInterval(id);
-    } else {
-      width+=0.1;
-      elem.style.width = width + '%';
-    }
-  }
-}
 </script>
+
+<style>
+</style>
 
 {% endblock content %}
