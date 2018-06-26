@@ -7,7 +7,7 @@ setup(name='codeforlife-portal',
       packages=find_packages(),
       include_package_data=True,
       install_requires=[
-          # 'django==1.9',
+          'django==1.9.13',
           'django-appconf==1.0.1',
           'django-countries==3.4.1',
           'djangorestframework==3.1.3',
@@ -29,8 +29,8 @@ setup(name='codeforlife-portal',
           'requests==2.18.4',
 
           'django-classy-tags==0.6.1',
-          'django-treebeard==3.0',
-          'django-sekizai==0.8.2',
+          'django-treebeard==4.3',
+          'django-sekizai==0.10.0',
 
           'django-online-status==0.1.0',
 
