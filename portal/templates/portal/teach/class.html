@@ -115,6 +115,8 @@
                     details, and so each name should be unique.</p>
                 <p>You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
                     are required to sign in.</p>
+                <p>You can export .csv or .txt files from spreadsheets or documents to import students' names.</p><br>
+                <button class="button--secondary button-secondary button--secondary--dark" onclick="activateImport()">Import .csv or .txt file</button>
             </div>
             <div class="col-sm-6">
                 <form id="form-create-students" method="POST">
@@ -128,6 +130,7 @@
 
                     <button type="submit" class="button--regular button--primary--positive" name="new_students" value="Add students">Add students</button>
                 </form>
+                <input type="file" id="studentNamesFileImport" onchange="writeStudents()" accept=".csv,.txt" style= "display:none"/>
             </div>
         </div>
     </div>
@@ -152,6 +155,24 @@
             toggleStickySubnav($('.menu').innerHeight());
         }
     });
+
+    function activateImport(){
+        $("#studentNamesFileImport").click();
+    }
+
+    var fileReader, theText = document.getElementById("form-create-students").elements.item(1);
+    function writeStudents(){
+        fileReader = new FileReader();
+        fileReader.readAsText(document.getElementById("studentNamesFileImport").files[0]);
+        fileReader.addEventListener("loadend", showNames);
+    }
+    function showNames(){
+        names = fileReader.result;
+        for(var index = names.indexOf(","); index!=-1; index = names.indexOf(",")){
+            names = names.substring(0, index)+"\n"+names.substring(index+1);
+        }
+        theText.value+=names;
+    }
 </script>
 
 {% endblock content %}
