@@ -64,27 +64,16 @@
     </div>
 </div>
 
+<script src={% static "portal/js/import_student_spreadsheet.js" %}></script>
 <script>
     $(document).ready(function(){
         toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });
 
-    function activateImport(){
-        $("#studentNamesFileImport").click();
-    }
-
-    var fileReader, theText = document.getElementById("form-create-students").elements.item(1);
-    function writeStudents(){
-        fileReader = new FileReader();
-        fileReader.readAsText(document.getElementById("studentNamesFileImport").files[0]);
-        fileReader.addEventListener("loadend", showNames);
-    }
-    function showNames(){
-        names = fileReader.result;
-        names = names.split(",").join("\n");
-        theText.value+=names;
-    }
 
 </script>
 
 {% endblock content %}
+
+<!--portal/templates/portal/teach/onboarding_students.html-->
+<!--portal/templates/portal/teach/class.html-->
