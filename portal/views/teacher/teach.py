@@ -909,8 +909,7 @@ def invite_teacher(request):
     else:
         inviteteacher_form = InviteTeacherForm(data=request.POST)
         if inviteteacher_form.is_valid():
-            send_email(INVITE_FROM, [request.POST['email']],'You have been invited to join Code for Life. Please Register to get started.', 'plz work')
+            send_email(INVITE_FROM, [request.POST['email']],'You have been invited to join Code for Life. Please Register to get started.', 'A colleague at your school or code club has invited you to become part if Code for Life. Please register your details to get started. https://www.codeforlife.education/register_form Best Wishes The Code for Life team.')
             return render(request,'portal/email_invitation_sent.html')
         else:
-            print "hmmm"
             return HttpResponseRedirect('')
