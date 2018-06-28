@@ -60,12 +60,16 @@ from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassE
     TeacherEditStudentForm, TeacherSetStudentPass, TeacherMoveStudentsDestinationForm, \
     TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, StudentCreationForm, \
     TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet
+from portal.forms.invite_teacher import InviteTeacherForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password, generate_new_student_name
-from portal.helpers.emails import send_verification_email
+from portal.helpers.emails import send_email
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
+from portal import app_settings
+from django.contrib import messages as messages
 
+INVITE_FROM = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
 
 @login_required(login_url=reverse_lazy('login_view'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
@@ -895,3 +899,32 @@ def compute_show_page_character(p, x, y, NUM_Y):
 def compute_show_page_end(p, x, y):
     if x != 0 or y != 0:
         p.showPage()
+
+def invite_teacher(request):
+    if request.method == 'GET':
+        return render(request,'portal/teach/invite.html',
+        {
+        'invite_form': InviteTeacherForm()
+        })
+    else:
+        inviteteacher_form = InviteTeacherForm(data=request.POST)
+        if inviteteacher_form.is_valid():
+
+            send_email(INVITE_FROM, [inviteteacher_form.cleaned_data['email']],'You have been invited to join Code for Life. Please Register to get started.', 'plz work')
+            return HttpResponseRedirect('')
+        else:
+            messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
+            return HttpResponseRedirect('')
+
+#@csrf_exempt
+#def process_invite_teacher(request):
+#    if request.method == 'POST':
+#        next = request.POST.get('URL') if not None else '/'
+#        newsletter_form = NewsletterForm(data=request.POST)
+#        if newsletter_form.is_valid():
+##            user_email = newsletter_form.cleaned_data['email']
+#            add_to_salesforce("", "", user_email)
+#            messages.success(request, 'Thank you for signing up!')
+#            return HttpResponseRedirect(next)
+#        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
+#        return HttpResponseRedirect(next)
