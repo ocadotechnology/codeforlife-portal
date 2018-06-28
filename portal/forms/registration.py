@@ -110,6 +110,8 @@ class TeacherPasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
+        email_message.attach_file("{% static 'portal/img/logo_c4l_horizontal.png' %}")
+
         email_message.send()
 
     def save(self, domain_override=None,
@@ -179,6 +181,8 @@ class StudentPasswordResetForm(forms.Form):
         if html_email_template_name is not None:
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.attach_file("{% static 'portal/img/logo_c4l_horizontal.png' %}")
 
         email_message.send()
 
