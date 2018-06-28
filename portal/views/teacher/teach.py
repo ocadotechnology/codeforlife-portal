@@ -909,22 +909,8 @@ def invite_teacher(request):
     else:
         inviteteacher_form = InviteTeacherForm(data=request.POST)
         if inviteteacher_form.is_valid():
-
-            send_email(INVITE_FROM, [inviteteacher_form.cleaned_data['email']],'You have been invited to join Code for Life. Please Register to get started.', 'plz work')
-            return HttpResponseRedirect('')
+            send_email(INVITE_FROM, [request.POST['email']],'You have been invited to join Code for Life. Please Register to get started.', 'plz work')
+            return render(request,'portal/email_invitation_sent.html')
         else:
-            messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
+            print "hmmm"
             return HttpResponseRedirect('')
-
-#@csrf_exempt
-#def process_invite_teacher(request):
-#    if request.method == 'POST':
-#        next = request.POST.get('URL') if not None else '/'
-#        newsletter_form = NewsletterForm(data=request.POST)
-#        if newsletter_form.is_valid():
-##            user_email = newsletter_form.cleaned_data['email']
-#            add_to_salesforce("", "", user_email)
-#            messages.success(request, 'Thank you for signing up!')
-#            return HttpResponseRedirect(next)
-#        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
-#        return HttpResponseRedirect(next)

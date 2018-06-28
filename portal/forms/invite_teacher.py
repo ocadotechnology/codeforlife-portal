@@ -39,7 +39,12 @@ from django import forms
 
 class InviteTeacherForm(forms.Form):
 
+    emailregex = ".+\@.+\..+"
+    vaildemailerror = "setCustomValidity('Please enter a vaild email address')"
 
     email = forms.EmailField(
-                             widget=forms.TextInput(attrs={'placeholder': 'recipient.name@domain.com',
-                                                           'id': 'newsletter_email_field'}))
+                             widget=forms.TextInput(attrs={'placeholder': 'recipient.name@domain.com', 'id': 'newsletter_email_field', 'pattern': emailregex, 'oninvalid': vaildemailerror })
+
+
+
+                             )
