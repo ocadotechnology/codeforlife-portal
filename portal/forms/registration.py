@@ -44,6 +44,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.conf.urls.static import static
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from portal.models import Student, Teacher
@@ -110,7 +111,7 @@ class TeacherPasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
-        email_message.attach_file("{% static 'portal/img/logo_c4l_horizontal.png' %}")
+        email_message.attach_file(static('portal/img/logo_c4l_horizontal.png'))
 
         email_message.send()
 
@@ -182,7 +183,7 @@ class StudentPasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
-        email_message.attach_file("{% static 'portal/img/logo_c4l_horizontal.png' %}")
+        email_message.attach_file(static('portal/img/logo_c4l_horizontal.png'))
 
         email_message.send()
 
