@@ -184,7 +184,7 @@ class StudentPasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
-        email_message.attach_file('portal' + STATIC_URL+'portal/img/logo_c4l_horizontal.png')
+        email_message.attach_file(STATIC_URL+'portal/img/logo_c4l_horizontal.png')
 
         email_message.send()
 
