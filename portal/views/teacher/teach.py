@@ -63,11 +63,10 @@ from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassE
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password, generate_new_student_name
-from portal.helpers.emails import send_email
+from portal.helpers.emails import send_email, send_verification_email
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
 from portal import app_settings
-from django.contrib import messages as messages
 
 INVITE_FROM = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
 
@@ -903,12 +902,10 @@ def compute_show_page_end(p, x, y):
 def invite_teacher(request):
     if request.method == 'GET':
         return render(request,'portal/teach/invite.html',
-        {
-        'invite_form': InviteTeacherForm()
-        })
+        {'invite_form': InviteTeacherForm()})
     else:
-        inviteteacher_form = InviteTeacherForm(data=request.POST)
-        if inviteteacher_form.is_valid():
+        invite_teacher_form = InviteTeacherForm(data=request.POST)
+        if invite_teacher_form.is_valid():
             send_email(INVITE_FROM, [request.POST['email']],'You have been invited to join Code for Life. Please Register to get started.', 'A colleague at your school or code club has invited you to become part if Code for Life. Please register your details to get started. https://www.codeforlife.education/register_form Best Wishes The Code for Life team.')
             return render(request,'portal/email_invitation_sent.html')
         else:

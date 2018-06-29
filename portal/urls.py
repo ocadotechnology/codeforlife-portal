@@ -125,7 +125,6 @@ urlpatterns = [
     url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='onboarding-class'),
     url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$', teacher_print_reminder_cards, name='teacher_print_reminder_cards'),
     url(r'^teach/onboarding-complete', TemplateView.as_view(template_name='portal/teach/onboarding_complete.html'), name='onboarding-complete'),
-    url(r'^teach/email-invitation', TemplateView.as_view(template_name='portal/email_invitation_sent.html'), name='email-invitation-sent'),
     url(r'^teach/invite', invite_teacher, name='invite_teacher'),
     url(r'^play/$', RedirectView.as_view(url=reverse_lazy('play'), permanent=True)),
     url(r'^play/details/$', student_details, name='student_details'),
