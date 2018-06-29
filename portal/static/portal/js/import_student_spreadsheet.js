@@ -11,7 +11,7 @@
     }
 
     function showNames(){
-        names = fileReader.result;
+        var names = fileReader.result;
         names = names.split(",").join("\n");
         theText.value+=names;
     }
