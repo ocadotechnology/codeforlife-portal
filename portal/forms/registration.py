@@ -44,13 +44,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from settings import STATIC_ROOT
 from django.conf.urls.static import static
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from portal.models import Student, Teacher
 from portal.helpers.password import password_strength_test
 from captcha.fields import ReCaptchaField
+from example_project.example_project.settings.py import STATIC_ROOT
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
