@@ -70,6 +70,7 @@ from portal import app_settings
 
 INVITE_FROM = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
 
+
 @login_required(login_url=reverse_lazy('login_view'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def materials(request):
@@ -899,14 +900,15 @@ def compute_show_page_end(p, x, y):
     if x != 0 or y != 0:
         p.showPage()
 
+
 def invite_teacher(request):
     if request.method == 'GET':
-        return render(request,'portal/teach/invite.html',
-        {'invite_form': InviteTeacherForm()})
+        return render(request, 'portal/teach/invite.html',
+                     {'invite_form': InviteTeacherForm()})
     else:
         invite_teacher_form = InviteTeacherForm(data=request.POST)
         if invite_teacher_form.is_valid():
-            send_email(INVITE_FROM, [request.POST['email']],'You have been invited to join Code for Life. Please Register to get started.', 'A colleague at your school or code club has invited you to become part if Code for Life. Please register your details to get started. https://www.codeforlife.education/register_form Best Wishes The Code for Life team.')
-            return render(request,'portal/email_invitation_sent.html')
+            send_email(INVITE_FROM, [request.POST['email']], 'You have been invited to join Code for Life. Please Register to get started.', 'A colleague at your school or code club has invited you to become part if Code for Life. Please register your details to get started. https://www.codeforlife.education/register_form Best Wishes The Code for Life team.')
+            return render(request, 'portal/email_invitation_sent.html')
         else:
             return HttpResponseRedirect('')
