@@ -62,6 +62,7 @@ class OrganisationForm(forms.ModelForm):
             'country': CountrySelectWidget(attrs={'class': 'wide'}),
             }
 
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         self.current_school = kwargs.pop('current_school', None)
