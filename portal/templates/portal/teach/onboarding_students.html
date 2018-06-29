@@ -64,13 +64,10 @@
     </div>
 </div>
 
-<script src={% static "portal/js/import_student_spreadsheet.js" %}></script>
-<script>
+<script src={% static "portal/js/import_student_spreadsheet.js" %}>
     $(document).ready(function(){
         toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });
-
-
 </script>
 
 {% endblock content %}
