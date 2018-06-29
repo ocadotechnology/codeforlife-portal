@@ -98,10 +98,12 @@
                         {% if user|has_teacher_finished_onboarding %}
                             <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                            <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
                             <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
                         {% else %}
                             <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">AI:MMO</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                         {% endif %}
                         {% endblock secondaryButtons %}
@@ -151,6 +153,7 @@
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'teach' %}">Educate</a>
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'dashboard' %}">School / Club</a>
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'game.views.level_selection.levels' %}">Rapid Router</a>
+                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'play_aimmo' %}">AI:MMO</a>
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'teaching_resources' %}">Resources</a>
                 </div>
             {% else %}

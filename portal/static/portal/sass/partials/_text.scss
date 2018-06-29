@@ -131,6 +131,16 @@ label {
   }
 
   body {
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  html {
+    font-size: 9px;
+  }
+
+  body {
     font-size: 20px;
   }
 }
