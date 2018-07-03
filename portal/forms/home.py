@@ -63,11 +63,9 @@ class ContactForm(forms.Form):
 
     def clean_message(self):
         message = self.cleaned_data.get("message", None)
-        line_list = message.splitlines()
 
-        for line in line_list:
-            if get_regex_message().match(line) is None:
-                raise forms.ValidationError("Your message may not contain special characters.")
+        # Gets converted to ASCII above - not sure why
+        message = message.encode('utf-8')
 
         return message
 
