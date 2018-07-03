@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import os.path
+
 from django import forms
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import get_user_model
@@ -44,11 +46,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.conf.urls.static import static
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from portal.models import Student, Teacher
 from portal.helpers.password import password_strength_test
 from captcha.fields import ReCaptchaField
+from portal.app_settings import STATIC_ROOT
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
@@ -109,6 +113,8 @@ class TeacherPasswordResetForm(forms.Form):
         if html_email_template_name is not None:
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.attach_file(os.path.join(STATIC_ROOT, 'portal', 'img', 'logo_c4l_horizontal.png'))
 
         email_message.send()
 
@@ -179,6 +185,8 @@ class StudentPasswordResetForm(forms.Form):
         if html_email_template_name is not None:
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.attach_file(os.path.join(STATIC_ROOT, 'portal', 'img', 'logo_c4l_horizontal.png'))
 
         email_message.send()
 
