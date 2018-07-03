@@ -52,7 +52,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from portal.models import Student, Teacher
 from portal.helpers.password import password_strength_test
 from captcha.fields import ReCaptchaField
-from test_settings import STATIC_ROOT
+from portal.app_settings import STATIC_ROOT
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
@@ -114,7 +114,7 @@ class TeacherPasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
-        email_message.attach_file(os.path.join(STATIC_ROOT, '/portal/img/logo_c4l_horizontal.png'))
+        email_message.attach_file(os.path.join(STATIC_ROOT, 'portal', 'img', 'logo_c4l_horizontal.png'))
 
         email_message.send()
 
@@ -186,7 +186,7 @@ class StudentPasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
-        email_message.attach_file(os.path.join(STATIC_ROOT, '/portal/img/logo_c4l_horizontal.png'))
+        email_message.attach_file(os.path.join(STATIC_ROOT, 'portal', 'img', 'logo_c4l_horizontal.png'))
 
         email_message.send()
 

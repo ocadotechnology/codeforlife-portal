@@ -26,7 +26,7 @@
 # “Ocado” or claim any affiliation or association with Ocado or its employees.
 #
 # You are not authorised to use the name Ocado (or any of its trade names) or
-# the names of any author or contributor in advertising or for publicity purposes
+# the names of any author or contributor in adverfrtising or for publicity purposes
 # pertaining to the distribution of this program, without the prior written
 # authorisation of Ocado.
 #

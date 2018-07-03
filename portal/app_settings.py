@@ -56,3 +56,5 @@ SALESFORCE_OID = getattr(settings, 'SALESFORCE_OID', '')
 
 #: Salesforce record type for adding newly verified users
 SALESFORCE_RT = getattr(settings, 'SALESFORCE_RT', '')
+
+STATIC_ROOT = getattr(settings, 'STATIC_ROOT', '')
