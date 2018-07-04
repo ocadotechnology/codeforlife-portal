@@ -530,4 +530,3 @@ class TeacherAddExternalStudentForm(forms.Form):
             raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
         return name
-    
