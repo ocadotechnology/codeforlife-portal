@@ -46,7 +46,9 @@
         <p>Add the students&rsquo; names to the box with one student name per line. Students&rsquo; names will be used in their login details, and so
             each name should be unique.</p><br>
         <p>You have the option the use the students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
-            are required to sign in.</p>
+            are required to sign in.</p><br>
+        <p>You can export .csv or .txt files from spreadsheets or documents to import students' names.</p><br>
+        <button class="button--secondary button-secondary button--secondary--dark" onclick="activateImport()">Import .csv or .txt file</button>
         <form id="form-create-students" method="POST">
 
             {% csrf_token %}
@@ -58,10 +60,11 @@
 
             <button type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students">Add students</button>
         </form>
+        <input type="file" id="studentNamesFileImport" onchange="writeStudents()" accept=".csv,.txt" style= "display:none"/>
     </div>
 </div>
 
-<script>
+<script src={% static "portal/js/import_student_spreadsheet.js" %}>
     $(document).ready(function(){
         toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
     });

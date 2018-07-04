@@ -115,6 +115,8 @@
                     details, and so each name should be unique.</p>
                 <p>You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
                     are required to sign in.</p>
+                <p>You can export .csv or .txt files from spreadsheets or documents to import students' names.</p><br>
+                <button class="button--secondary button-secondary button--secondary--dark" onclick="activateImport()">Import .csv or .txt file</button>
             </div>
             <div class="col-sm-6">
                 <form id="form-create-students" method="POST">
@@ -128,6 +130,7 @@
 
                     <button type="submit" class="button--regular button--primary--positive" name="new_students" value="Add students">Add students</button>
                 </form>
+                <input type="file" id="studentNamesFileImport" onchange="writeStudents()" accept=".csv,.txt" style= "display:none"/>
             </div>
         </div>
     </div>
@@ -146,7 +149,7 @@
     <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
-<script type="text/javascript">
+<script src={% static "portal/js/import_student_spreadsheet.js" %}>
     $(document).ready(function(){
         if($(window).width() > 760) {
             toggleStickySubnav($('.menu').innerHeight());
