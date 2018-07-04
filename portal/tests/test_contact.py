@@ -94,4 +94,4 @@ class TestContact(BaseTest):
 
         page = page.send_accented_message()
 
-        assert (not is_contact_message_sent_message_showing(selenium))
+        assert is_contact_message_sent_message_showing(selenium)
