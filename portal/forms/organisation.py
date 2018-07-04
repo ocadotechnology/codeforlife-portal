@@ -46,7 +46,7 @@ class OrganisationForm(forms.ModelForm):
 
     current_password = forms.CharField(
         label='Enter your password',
-        widget=forms.PasswordInput(attrs={'autocomplete': "new-password", 'placeholder' : "Your Password"}))
+        widget=forms.PasswordInput(attrs={'autocomplete': "new-password", 'placeholder': "Your Password"}))
 
     class Meta:
         model = School
