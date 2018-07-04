@@ -25,7 +25,7 @@
             <p>To invite another teacher from your school or club to join Code for Life,</p>
             <p>Just put <b>their email address</b> in the field below.</p>
         </div>
-          <form action="{% url 'invite_teacher' %}" method="post" class="invite_teacher col-md-6 center-block">
+          <form action="{% url 'invite_teacher' %}" method="post" class="col-md-6 col-md-offset-3">
               {{ invite_form.non_field_errors }}
               <div class="btn-toolbar" >
                   {% csrf_token %}
