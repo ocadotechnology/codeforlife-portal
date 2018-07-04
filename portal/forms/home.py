@@ -63,8 +63,6 @@ class ContactForm(forms.Form):
 
     def clean_message(self):
         message = self.cleaned_data.get("message", None)
-
-        # Gets converted to ASCII above - not sure why
         message = message.encode('utf-8')
 
         return message
