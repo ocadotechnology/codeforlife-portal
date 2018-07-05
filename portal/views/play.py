@@ -81,7 +81,7 @@ def student_edit_account(request):
                 if new_email != '' and new_email != student.new_user.email:
                     # new email to set and verify
                     changing_email = True
-                    send_verification_email(request, student.user, new_email)
+                    send_verification_email(request, student.new_user, new_email)
 
                 student.new_user.first_name = data['name']
                 # save all tables
@@ -92,6 +92,8 @@ def student_edit_account(request):
 
             if changing_email:
                 logout(request)
+                messages.success(request, 'Your email will be changed once you have verified it, until then you can '
+                                          'still log in with your old email.')
                 return render(request, 'portal/email_verification_needed.html', {'userprofile': student.user, 'email': new_email})
 
             return HttpResponseRedirect(reverse_lazy('student_details'))

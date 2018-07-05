@@ -60,10 +60,9 @@ def is_indep_student_join_request_revoked_message_showing(browser):
     return is_message_showing(browser, 'Your request to join a school has been cancelled successfully.')
 
 
-def is_teacher_email_updated_message_showing(browser):
-    return is_message_showing(browser, 'Your account details have been successfully changed. Your email will be '
-                                       'changed once you have verified it, until then you can still log in with your '
-                                       'old email.')
+def is_email_updated_message_showing(browser):
+    return is_message_showing(browser, 'Your email will be changed once you have verified it, until then you can '
+                                       'still log in with your old email.')
 
 
 def is_organisation_created_message_showing(browser, name):

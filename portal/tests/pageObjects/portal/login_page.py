@@ -114,8 +114,24 @@ class LoginPage(BasePage):
         self.browser.find_element_by_id('id_independent_student-password').send_keys(password)
         self.browser.find_element_by_name('independent_student_login').click()
 
-    def has_login_failed(self, form_id, error):
-        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name('errorlist').text
+    def has_login_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('form-login-teacher').find_element_by_class_name('errorlist').text
+        error = 'Incorrect email address or password'
+        return error in errors
+
+    def has_student_login_failed(self, error):
+        errors = self.browser.find_element_by_id('form-login-school').find_element_by_class_name('errorlist').text
+        return error in errors
+
+    def has_independent_student_login_failed(self):
+        if not self.element_exists_by_css('.errorlist'):
+            return False
+
+        errors = self.browser.find_element_by_id('independent_student_login_form').find_element_by_class_name('errorlist').text
+        error = 'Incorrect username or password'
         return error in errors
 
     def go_to_teacher_forgotten_password_page(self):

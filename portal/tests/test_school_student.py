@@ -70,7 +70,7 @@ class TestSchoolStudent(BaseTest):
             .go_to_login_page()\
             .student_login_failure(student_name, access_code, 'some other password')
 
-        assert page.has_login_failed('form-login-school', 'Invalid name, class access code or password')
+        assert page.has_student_login_failed('Invalid name, class access code or password')
 
     def test_login_nonexistent_class(self):
         email, password = signup_teacher_directly()
@@ -83,7 +83,7 @@ class TestSchoolStudent(BaseTest):
             .go_to_login_page() \
             .student_login_failure(student_name, 'WRONG', student_password)
 
-        assert page.has_login_failed('form-login-school', 'Invalid name, class access code or password')
+        assert page.has_student_login_failed('Invalid name, class access code or password')
 
     def test_login_empty_class(self):
         email, password = signup_teacher_directly()
@@ -97,7 +97,7 @@ class TestSchoolStudent(BaseTest):
             .go_to_login_page() \
             .student_login_failure(student_name, access_code2, student_password)
 
-        assert page.has_login_failed('form-login-school', 'Invalid name, class access code or password')
+        assert page.has_student_login_failed('Invalid name, class access code or password')
 
     def test_update_password_form_empty(self):
         email, password = signup_teacher_directly()

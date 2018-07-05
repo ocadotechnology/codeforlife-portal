@@ -48,7 +48,7 @@ from utils.organisation import create_organisation_directly, join_teacher_to_org
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
 from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, \
-    is_teacher_email_updated_message_showing
+    is_email_updated_message_showing
 from utils import email as email_utils
 
 
@@ -195,7 +195,7 @@ class TestTeacher(BaseTest):
         new_email = 'another-email@codeforlife.com'
         page = page.change_email('Test', 'Teacher', new_email, password)
         assert page.__class__.__name__ == 'EmailVerificationNeededPage'
-        assert is_teacher_email_updated_message_showing(selenium)
+        assert is_email_updated_message_showing(selenium)
 
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
