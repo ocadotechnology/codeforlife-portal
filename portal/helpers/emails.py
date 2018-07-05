@@ -54,7 +54,7 @@ NOTIFICATION_EMAIL = 'Code For Life Notification <' + app_settings.EMAIL_ADDRESS
 VERIFICATION_EMAIL = 'Code For Life Verification <' + app_settings.EMAIL_ADDRESS + '>'
 PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + app_settings.EMAIL_ADDRESS + '>'
 CONTACT_EMAIL = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
-INVITE_FROM = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
+INVITE_FROM = 'Code For Life Invitation <' + app_settings.EMAIL_ADDRESS + '>'
 
 
 def send_email(sender, recipients, subject, text_content, html_content=None,
