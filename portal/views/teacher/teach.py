@@ -66,7 +66,7 @@ from portal.helpers.generators import generate_access_code, generate_password, g
 from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
-from portal import app_settings, emailMessages
+from portal import emailMessages
 
 
 @login_required(login_url=reverse_lazy('login_view'))
