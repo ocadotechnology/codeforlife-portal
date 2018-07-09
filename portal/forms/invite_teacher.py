@@ -35,42 +35,10 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django import forms
-from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
-from captcha.fields import ReCaptchaField
 
 
-class ContactForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=100,
-                           widget=forms.TextInput(attrs={'class': 'contactField'}))
-    telephone = forms.CharField(label='Telephone', max_length=50,
-                                widget=forms.TextInput(attrs={'class': 'contactField'}))
-    email = forms.EmailField(label='Email address',
-                             widget=forms.EmailInput(attrs={'class': 'contactField'}))
-    message = forms.CharField(label='Message', max_length=250,
-                              widget=forms.Textarea(attrs={'class': 'contactField'}))
-    browser = forms.CharField(label='Browser', max_length=250, required=False,
-                              widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'}))
+class InviteTeacherForm(forms.Form):
 
-    captcha = ReCaptchaField()
+    email_regex = '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
 
-    def clean_name(self):
-        name = self.cleaned_data.get("name", None)
-
-        if get_regex_name().match(name) is None:
-            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
-
-        return name
-
-    def clean_message(self):
-        message = self.cleaned_data.get("message", None)
-        message = message.encode('utf-8')
-
-        return message
-
-    def clean_telephone(self):
-        telephone = self.cleaned_data.get("telephone", None)
-
-        if get_regex_telephone().match(telephone) is None:
-            raise forms.ValidationError("Invalid phone number")
-
-        return telephone
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'recipient.name@domain.com', 'id': 'newsletter_email_field', 'pattern': email_regex, 'type': 'email'}))
