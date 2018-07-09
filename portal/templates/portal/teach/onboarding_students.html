@@ -62,11 +62,10 @@
 </div>
 
 <script>
-
-  $('#form-create-students').submit(disableOnClick('#submitStudents'));
-
   $(document).ready(function(){
     toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+
+    $('#form-create-students').submit(disableOnClick('#submitStudents'));
   });
 </script>
 
