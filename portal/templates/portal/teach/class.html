@@ -148,13 +148,7 @@
 
 <script type="text/javascript">
 
-  $('#form-create-students').submit(function () {
-    var button = document.getElementById("submitStudents");
-    button.style.backgroundColor="grey";
-    button.disabled=true;
-    return true;
-
-  })
+  $('#form-create-students').submit(disableOnClick('#submitStudents'));
 
   $(document).ready(function(){
         if($(window).width() > 760) {

@@ -63,13 +63,7 @@
 
 <script>
 
-  $('#form-create-students').submit(function () {
-    var button = document.getElementById("submitStudents");
-    button.style.backgroundColor="grey";
-    button.disabled=true;
-    return true;
-
-  })
+  $('#form-create-students').submit(disableOnClick('#submitStudents'));
 
   $(document).ready(function(){
     toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());

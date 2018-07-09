@@ -93,6 +93,15 @@ function postWithCsrf(path) {
     });
 }
 
+function disableOnClick(id) {
+    return function() {
+        var button = $(id);
+        button.addClass('button--primary--disabled')
+        button.attr('disabled', true);
+        return true;
+    }
+  }
+
 $(function() {
     $('#confirmation-dialog').dialog(defaultConfirmationOptions);
 });
