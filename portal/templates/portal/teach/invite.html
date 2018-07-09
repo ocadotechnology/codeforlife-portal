@@ -1,0 +1,55 @@
+{% extends 'portal/teach/base_logged_in.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block dashboard %}
+<a href="{% url 'invite_teacher' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
+{% endblock dashboard %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+
+{% block pageID %}id='homeWrapper'{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="background form--register form--register--teacher col-sm-12">
+    <div class="background">
+        <div class="background">
+            <h1>Invite a teacher</h1>
+            <p>To invite another teacher from your school or club to join Code for Life,</p>
+            <p>Just put <b>their email address</b> in the field below.</p>
+        </div>
+          <form action="{% url 'invite_teacher' %}" method="post" class="col-md-6 col-md-offset-3">
+              {{ invite_form.non_field_errors }}
+              <div class="btn-toolbar" >
+                  {% csrf_token %}
+                  {{ invite_form.email }}
+                  {{ invite_form.email.errors }}
+                  </br>
+                  <a class="button button--regular button--secondary button--secondary--light">Cancel</a>
+                  <button type="submit" name="submit" value="Submit" class="button button-primary button--primary--general-educate">Submit</button>
+              </div>
+            </br>
+          </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+        }
+
+        {% if anchor %}
+            window.location = '#{{anchor}}';
+        {% endif %}
+    });
+</script>
+
+{% endblock content %}

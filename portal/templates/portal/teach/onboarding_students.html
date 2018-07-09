@@ -56,15 +56,19 @@
             {{ new_students_form.names.errors }}
             {{ new_students_form.names }}
 
-            <button type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students">Add students</button>
+            <button id="submitStudents" type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students">Add Students</button>
         </form>
     </div>
 </div>
 
 <script>
-    $(document).ready(function(){
-        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
-    });
+
+  $('#form-create-students').submit(disableOnClick('#submitStudents'));
+
+  $(document).ready(function(){
+    toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+  });
 </script>
+
 
 {% endblock content %}

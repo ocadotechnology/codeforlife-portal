@@ -15,12 +15,14 @@
 
     {% block head %}
     {% endblock head %}
-    
+
     {% block css %}
     {% cache 3600 fragment-base_new-css %}
     <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon"> 
+    <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
     {% endcache %}
     {% endblock css %}
 
@@ -80,7 +82,9 @@
 <div {% block pageID %}id="contentWrapper"{% endblock %}>
     {% block topBar %}
     <div class="header">
-        <a href="{% url 'home' %}"><img class="logo col-sm-offset-1"></a>
+        <a href="{% url 'home' %}">
+          <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}"></img>
+        </a>
         <div class="menu col-sm-12">
             <div class="menu__left-side col-sm-6 col-sm-offset-2">
                 <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>

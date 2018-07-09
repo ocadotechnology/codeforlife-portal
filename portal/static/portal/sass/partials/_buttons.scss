@@ -205,6 +205,10 @@ button,
   }
 }
 
+.button--primary--disabled {
+  background: $color-button-disabled !important;
+}
+
 .button--secondary {
   background-color: transparent;
   border: 1px solid;

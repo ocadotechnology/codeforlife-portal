@@ -1,0 +1,34 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id="homeWrapper"{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="emailVerificationNeeded_page"></div>
+
+<div class="background form--register form--register--teacher col-sm-12">
+    <div class="background">
+        <div class="background">
+            <h1>Invitation sent</h1>
+            <img title="Paper Plane" alt="Verification email sent" src="{% static 'portal/img/paper_plane.png' %}">
+            <p>Your invitation is on its way. You will receive a notification on your</p>
+            <p>dashboard once a teacher has requested to join your school or club.</p>
+        </div>
+        <section>
+            <a id="home_button" href="{% url 'dashboard' %}" class="button button--regular button--primary--general-educate">OK</a>
+        </section>
+    </div>
+</div>
+
+{% endblock content %}
