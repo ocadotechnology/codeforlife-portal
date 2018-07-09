@@ -20,7 +20,6 @@
     * `sudo apt-get install ruby2.0` - still Ruby 1.9 hiding under `ruby` command.
     * `sudo gem install sass -v 3.3.4` - later versions incompatible with Ruby 1.9 (see above).
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
-    * on Mac, you may need to install virtualenvwrapper with: `[sudo] pip install virtualenvwrapper --ignore-installed six` if it complains about `six` being already installed with dist-utils
     * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
     * and thereafter `workon codeforlife-portal`
     * create settings file under `example_project/example_project/local_settings.py` with `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
