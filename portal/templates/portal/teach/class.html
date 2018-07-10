@@ -147,13 +147,12 @@
 </div>
 
 <script type="text/javascript">
-
-  $('#form-create-students').submit(disableOnClick('#submitStudents'));
-
   $(document).ready(function(){
         if($(window).width() > 760) {
             toggleStickySubnav($('.menu').innerHeight());
         }
+        
+        $('#form-create-students').submit(disableOnClick('#submitStudents'));
     });
 </script>
 
