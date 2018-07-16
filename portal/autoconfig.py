@@ -54,7 +54,7 @@ SETTINGS = {
         'django_otp.plugins.otp_totp',
     ],
     'PIPELINE_COMPILERS': (
-        'portal.pipeline_compilers.libsass_compiler.LibSassCompiler',
+        'portal.pipeline_compilers.LibSassCompiler',
     ),
     'PIPELINE_CSS': {
         'css': {
