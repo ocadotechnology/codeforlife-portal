@@ -59,7 +59,7 @@ def is_numerical(str):
         return False
 
 
-@register.inclusion_tag(file_name='portal/teach/resource_sheets_table.html')
+@register.inclusion_tag('portal/teach/resource_sheets_table.html')
 def resource_sheets_table(table):
     max_count = len(max(table, key=len))
     return {'table': [lengthen_list(max_count, row) for row in table]}

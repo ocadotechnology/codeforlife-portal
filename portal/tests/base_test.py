@@ -40,7 +40,7 @@ import time
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django_selenium_clean import selenium, SeleniumTestCase
+from django_selenium_clean import SeleniumTestCase
 from unittest import skipUnless
 
 
@@ -51,7 +51,6 @@ from portal.tests.pageObjects.portal.home_page import HomePage
 from deploy import captcha
 
 
-@skipUnless(selenium, "Selenium is unconfigured")
 class BaseTest(SeleniumTestCase):
 
     @classmethod
@@ -68,14 +67,14 @@ class BaseTest(SeleniumTestCase):
     def go_to_homepage(self):
         path = reverse('home')
         self._go_to_path(path)
-        return HomePage(selenium)
+        return HomePage(self.selenium)
 
     def _go_to_path(self, path):
         socket.setdefaulttimeout(20)
         attempts = 0
         while attempts <= 3:
             try:
-                selenium.get(self.live_server_url + path)
+                self.selenium.get(self.live_server_url + path)
             except socket.timeout:
                 if attempts > 2:
                     raise
