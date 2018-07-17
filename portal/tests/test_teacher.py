@@ -57,19 +57,19 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page, _, _ = signup_teacher(page)
-        assert is_email_verified_message_showing(selenium)
+        assert is_email_verified_message_showing(self.selenium)
 
     def test_signup_with_newsletter(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page, _, _ = signup_teacher(page, newsletter=True)
-        assert is_email_verified_message_showing(selenium)
+        assert is_email_verified_message_showing(self.selenium)
 
     def test_signup_duplicate_failure(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page, email, _ = signup_teacher(page)
-        assert is_email_verified_message_showing(selenium)
+        assert is_email_verified_message_showing(self.selenium)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -146,7 +146,7 @@ class TestTeacher(BaseTest):
             'current_password': 'Password1',
         })
         assert self.is_dashboard_page(page)
-        assert is_teacher_details_updated_message_showing(selenium)
+        assert is_teacher_details_updated_message_showing(self.selenium)
 
         assert page.check_account_details({
             'title': 'Mrs',
@@ -174,7 +174,7 @@ class TestTeacher(BaseTest):
             'current_password': 'Password1',
         })
         assert self.is_dashboard_page(page)
-        assert is_teacher_details_updated_message_showing(selenium)
+        assert is_teacher_details_updated_message_showing(self.selenium)
 
         assert page.check_account_details({
             'title': 'Mr',
@@ -194,7 +194,7 @@ class TestTeacher(BaseTest):
         new_email = 'another-email@codeforlife.com'
         page = page.change_email('Test', 'Teacher', new_email, password)
         assert page.__class__.__name__ == 'EmailVerificationNeededPage'
-        assert is_teacher_email_updated_message_showing(selenium)
+        assert is_teacher_email_updated_message_showing(self.selenium)
 
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
@@ -219,7 +219,7 @@ class TestTeacher(BaseTest):
 
         self.wait_for_email()
 
-        page = email_utils.follow_reset_email_link(selenium, mail.outbox[0])
+        page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
 
         new_password = 'AnotherPassword12'
 
@@ -246,7 +246,7 @@ class TestTeacher(BaseTest):
         return page
 
     def wait_for_email(self):
-        WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
+        WebDriverWait(self.selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == 'TeachDashboardPage'
