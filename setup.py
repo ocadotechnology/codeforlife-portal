@@ -42,7 +42,7 @@ setup(name='codeforlife-portal',
       ],
       tests_require=[
           'django-setuptest==0.2.1',
-          'django-selenium-clean==0.2.1',
+          'django-selenium-clean==0.3.0',
           'responses==0.4.0',
           'selenium==2.48.0',
       ],
