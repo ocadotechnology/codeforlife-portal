@@ -34,8 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django_selenium_clean import selenium
-
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from utils.messages import is_contact_message_sent_message_showing
@@ -43,17 +41,17 @@ from utils.messages import is_contact_message_sent_message_showing
 
 class TestContact(BaseTest):
     def test_contact(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
         page = page.send_message()
 
-        assert is_contact_message_sent_message_showing(selenium)
+        assert is_contact_message_sent_message_showing(self.selenium)
 
     def test_contact_fail(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
         page = page.send_empty_message()
@@ -61,37 +59,37 @@ class TestContact(BaseTest):
         assert page.was_form_empty("contact_form")
 
     def test_message_accented_name(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
         page = page.send_message_accented_name()
 
-        assert (not is_contact_message_sent_message_showing(selenium))
+        assert (not is_contact_message_sent_message_showing(self.selenium))
 
     def test_message_incorrect_phone(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
         page = page.send_message_incorrect_phone()
 
-        assert (not is_contact_message_sent_message_showing(selenium))
+        assert (not is_contact_message_sent_message_showing(self.selenium))
 
     def test_message_formatted_phone(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
         page = page.send_message_formatted_phone()
 
-        assert is_contact_message_sent_message_showing(selenium)
+        assert is_contact_message_sent_message_showing(self.selenium)
 
     def test_accented_message(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
         page = page.send_accented_message()
 
-        assert is_contact_message_sent_message_showing(selenium)
+        assert is_contact_message_sent_message_showing(self.selenium)

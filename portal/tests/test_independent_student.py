@@ -38,7 +38,6 @@ import re
 import time
 
 from django.core import mail
-from django_selenium_clean import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.tests.utils.classes import create_class_directly
@@ -58,12 +57,12 @@ class TestIndependentStudent(BaseTest):
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
-        assert is_email_verified_message_showing(selenium)
+        assert is_email_verified_message_showing(self.selenium)
 
     def test_signup_with_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page, newsletter=True)
-        assert is_email_verified_message_showing(selenium)
+        assert is_email_verified_message_showing(self.selenium)
 
     def test_signup_failed(self):
         page = self.go_to_homepage()
@@ -135,13 +134,13 @@ class TestIndependentStudent(BaseTest):
 
         self.wait_for_email()
 
-        page = email_utils.follow_reset_email_link(selenium, mail.outbox[0])
+        page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
 
         new_password = 'AnotherPassword12'
 
         page.student_reset_password(new_password)
 
-        selenium.get(self.live_server_url)
+        self.selenium.get(self.live_server_url)
         page = self \
             .go_to_homepage() \
             .go_to_login_page() \
@@ -174,7 +173,7 @@ class TestIndependentStudent(BaseTest):
             .go_to_account_page().update_name_success('New name', password)
 
         assert self.is_dashboard(page)
-        assert is_student_details_updated_message_showing(selenium)
+        assert is_student_details_updated_message_showing(self.selenium)
 
     def test_update_name_failure(self):
         homepage = self.go_to_homepage()
@@ -248,11 +247,11 @@ class TestIndependentStudent(BaseTest):
             .go_to_join_a_school_or_club_page() \
             .join_a_school_or_club(access_code)
 
-        assert is_indep_student_join_request_received_message_showing(selenium)
+        assert is_indep_student_join_request_received_message_showing(self.selenium)
 
         page.revoke_join_request()
 
-        assert is_indep_student_join_request_revoked_message_showing(selenium)
+        assert is_indep_student_join_request_revoked_message_showing(self.selenium)
 
     def test_join_class_accepted(self):
         teacher_email, teacher_password = signup_teacher_directly()
@@ -313,14 +312,14 @@ class TestIndependentStudent(BaseTest):
         assert dashboard_page.has_no_independent_join_requests()
 
     def get_to_forgotten_password_page(self):
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .go_to_indep_forgotten_password_page()
         return page
 
     def wait_for_email(self):
-        WebDriverWait(selenium, 2).until(lambda driver: len(mail.outbox) == 1)
+        WebDriverWait(self.selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
     def is_signup_page(self, page):
         return page.__class__.__name__ == 'SignupPage'
