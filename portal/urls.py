@@ -38,6 +38,7 @@ from django.conf.urls import include, url
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
+from django.views.i18n import javascript_catalog
 from two_factor.views import DisableView, BackupTokensView, SetupCompleteView, SetupView, \
     ProfileView, QRGeneratorView
 
@@ -99,7 +100,7 @@ urlpatterns = [
     url(r'^', include(two_factor_patterns, 'two_factor')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(r'^jsi18n/$', javascript_catalog, js_info_dict),
 
     url(r'^teach/level_solutions/$', teacher_level_solutions, name='teacher_level_solutions'),
     url(r'^teach/solutions_navigation/$', levels, name='teacher_level_solutions'),
