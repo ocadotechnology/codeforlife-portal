@@ -43,8 +43,6 @@ from utils.classes import create_class_directly
 from utils.messages import is_student_details_updated_message_showing
 from utils.student import create_school_student_directly
 
-from django_selenium_clean import selenium
-
 
 class TestSchoolStudent(BaseTest):
     def test_login(self):
@@ -53,8 +51,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)\
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)\
             .go_to_login_page()\
             .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -65,8 +63,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium)\
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)\
             .go_to_login_page()\
             .student_login_failure(student_name, access_code, 'some other password')
 
@@ -78,8 +76,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login_failure(student_name, 'WRONG', student_password)
 
@@ -92,8 +90,8 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
         _, class_name2, access_code2 = create_class_directly(email)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login_failure(student_name, access_code2, student_password)
 
@@ -105,8 +103,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -121,8 +119,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -137,8 +135,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -153,8 +151,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -169,8 +167,8 @@ class TestSchoolStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login(student_name, access_code, student_password)
         assert self.is_dashboard(page)
@@ -178,11 +176,11 @@ class TestSchoolStudent(BaseTest):
         new_password = 'NewPassword'
 
         page = page.go_to_account_page().update_password_failure(new_password, new_password, student_password)
-        assert is_student_details_updated_message_showing(selenium)
+        assert is_student_details_updated_message_showing(self.selenium)
 
         page.logout()
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium) \
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium) \
             .go_to_login_page() \
             .student_login(student_name, access_code, new_password)
         assert self.is_dashboard(page)

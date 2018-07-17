@@ -42,8 +42,6 @@ from utils.organisation import create_organisation_directly, join_teacher_to_org
 from utils.classes import create_class_directly
 from utils.student import create_school_student, create_many_school_students, create_school_student_directly
 
-from django_selenium_clean import selenium
-
 
 class TestTeacherStudent(BaseTest):
     def test_create(self):
@@ -51,8 +49,8 @@ class TestTeacherStudent(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
 
         page, student_name = create_school_student(page)
         assert page.student_exists(student_name)
@@ -64,8 +62,8 @@ class TestTeacherStudent(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login_no_students(email, password).create_students_empty()
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password).create_students_empty()
 
         assert page.was_form_empty('form-create-students')
 
@@ -74,8 +72,8 @@ class TestTeacherStudent(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
 
         page, student_names = create_many_school_students(page, 12)
 
@@ -89,8 +87,8 @@ class TestTeacherStudent(BaseTest):
 
         student_name = 'bob'
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login_no_students(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
 
         page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
         assert page.adding_students_failed()
@@ -102,8 +100,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page()
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page()
 
         page, new_student_name = create_school_student(page)
         assert page.student_exists(new_student_name)
@@ -118,8 +116,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         name, password, student = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
 
         assert page.is_student_name(name)
 
@@ -136,8 +134,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         name, password, student = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
 
         assert page.is_student_name(name)
 
@@ -154,8 +152,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         name, password, student = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
 
         assert page.is_student_name(name)
 
@@ -169,8 +167,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_class_page()
         assert page.student_exists(student_name)
 
@@ -186,8 +184,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_class_page()
         assert page.student_exists(student_name)
 
@@ -204,8 +202,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_class_page()
 
         page = page.move_students_none_selected()
@@ -226,8 +224,8 @@ class TestTeacherStudent(BaseTest):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         student_name, student_password, _ = create_school_student_directly(access_code_1)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email_1, password_1)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
         page = page.go_to_class_page()
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -247,8 +245,8 @@ class TestTeacherStudent(BaseTest):
         student_name_1, student_password_1, _ = create_school_student_directly(access_code_1)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code_1)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email_1, password_1)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
         assert page.student_exists(student_name_2)
@@ -269,8 +267,8 @@ class TestTeacherStudent(BaseTest):
         student_name_1, student_password_1, _ = create_school_student_directly(access_code)
         student_name_2, student_password_2, _ = create_school_student_directly(access_code)
 
-        selenium.get(self.live_server_url)
-        page = HomePage(selenium).go_to_login_page().login(email, password)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
 

@@ -66,6 +66,7 @@ class OrganisationForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         self.current_school = kwargs.pop('current_school', None)
         super(OrganisationForm, self).__init__(*args, **kwargs)
+        self.fields['postcode'].strip = False
         if self.current_school:
             del self.fields['current_password']
 

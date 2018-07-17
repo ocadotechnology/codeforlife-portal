@@ -42,8 +42,6 @@ from utils.classes import create_class, create_class_directly, transfer_class
 from utils.student import create_school_student_directly
 from utils.messages import is_class_created_message_showing, is_class_nonempty_message_showing
 
-from django_selenium_clean import selenium
-
 
 class TestClass(BaseTest):
     def test_create(self):
@@ -57,7 +55,7 @@ class TestClass(BaseTest):
         assert page.does_not_have_classes()
 
         page, class_name = create_class(page)
-        assert is_class_created_message_showing(selenium, class_name)
+        assert is_class_created_message_showing(self.selenium, class_name)
 
     def test_create_empty(self):
         email, password = signup_teacher_directly()
@@ -82,7 +80,7 @@ class TestClass(BaseTest):
 
         page, class_name = create_class(page)
 
-        assert is_class_created_message_showing(selenium, class_name)
+        assert is_class_created_message_showing(self.selenium, class_name)
 
     def test_create_dashboard_non_admin(self):
         email_1, password_1 = signup_teacher_directly()
@@ -100,7 +98,7 @@ class TestClass(BaseTest):
 
         page, class_name_3 = create_class(page)
 
-        assert is_class_created_message_showing(selenium, class_name_3)
+        assert is_class_created_message_showing(self.selenium, class_name_3)
 
     def test_delete_empty(self):
         email, password = signup_teacher_directly()
@@ -135,7 +133,7 @@ class TestClass(BaseTest):
         page = page.confirm_dialog_expect_error()
         assert page.__class__.__name__ == 'TeachClassPage'
         page.wait_for_messages()
-        assert is_class_nonempty_message_showing(selenium)
+        assert is_class_nonempty_message_showing(self.selenium)
 
     def test_edit(self):
         email, password = signup_teacher_directly()
