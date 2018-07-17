@@ -35,8 +35,6 @@ matrix:
     - python: pypy3
       env: SELENIUM_WEBDRIVER=default
   fast_finish: true
-before_install:
-  - gem install sass --version 3.3.4
 install:
   - pip install -U setuptools
   - pip install -e .
