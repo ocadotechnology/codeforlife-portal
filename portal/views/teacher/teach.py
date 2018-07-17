@@ -60,11 +60,13 @@ from portal.forms.teach import TeacherEditAccountForm, ClassCreationForm, ClassE
     TeacherEditStudentForm, TeacherSetStudentPass, TeacherMoveStudentsDestinationForm, \
     TeacherMoveStudentDisambiguationForm, BaseTeacherMoveStudentsDisambiguationFormSet, StudentCreationForm, \
     TeacherDismissStudentsForm, BaseTeacherDismissStudentsFormSet
+from portal.forms.invite_teacher import InviteTeacherForm
 from portal.permissions import logged_in_as_teacher
 from portal.helpers.generators import generate_access_code, generate_password, generate_new_student_name
-from portal.helpers.emails import send_verification_email
+from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
+from portal import emailMessages
 
 
 @login_required(login_url=reverse_lazy('login_view'))
@@ -895,3 +897,15 @@ def compute_show_page_character(p, x, y, NUM_Y):
 def compute_show_page_end(p, x, y):
     if x != 0 or y != 0:
         p.showPage()
+
+
+def invite_teacher(request):
+    if request.method == 'POST':
+        invite_teacher_form = InviteTeacherForm(data=request.POST)
+        if invite_teacher_form.is_valid():
+            email_address = invite_teacher_form.cleaned_data['email']
+            email_message = emailMessages.inviteTeacherEmail(request)
+            send_email(INVITE_FROM, [email_address], email_message['subject'], email_message['message'])
+            return render(request, 'portal/email_invitation_sent.html')
+
+    return render(request, 'portal/teach/invite.html', {'invite_form': InviteTeacherForm()})

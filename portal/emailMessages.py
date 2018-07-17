@@ -194,3 +194,11 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
                     accessCode + " has been rejected. Speak to your teacher if you think this is " +
                     "in error." + emailBodySignOff(request)),
     }
+
+def inviteTeacherEmail(request):
+    return {
+        'subject': emailSubjectPrefix() + " : You've been invited to join Code for Life",
+        'message': ("A colleague at your school or code club has invited you to become part of Code " +
+                    "for Life.\n\nPlease register your details to get started.\n\n" +
+                    request.build_absolute_uri(reverse('register')) + "\n" + emailBodySignOff(request))
+    }

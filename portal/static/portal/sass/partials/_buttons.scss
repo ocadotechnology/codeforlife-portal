@@ -205,6 +205,14 @@ button,
   }
 }
 
+.button--primary--disabled {
+  background: $color-button-disabled;
+
+  &:hover {
+    background: $color-button-disabled;
+  }
+}
+
 .button--secondary {
   background-color: transparent;
   border: 1px solid;

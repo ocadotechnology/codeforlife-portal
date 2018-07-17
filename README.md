@@ -20,6 +20,7 @@
     * `sudo apt-get install ruby2.0` - still Ruby 1.9 hiding under `ruby` command.
     * `sudo gem install sass -v 3.3.4` - later versions incompatible with Ruby 1.9 (see above).
 * Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
+    * on Mac, you may need to install virtualenvwrapper with: `[sudo] pip install virtualenvwrapper --ignore-installed six` if it complains about `six` being already installed with dist-utils
     * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
     * and thereafter `workon codeforlife-portal`
     * create settings file under `example_project/example_project/local_settings.py` with `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
@@ -29,6 +30,8 @@
     * collect the static files
     * run the server
 * Once you see `Quit the server with CONTROL-C`, you can open the portal in your browser at `localhost:8000`.
+
+* To setup test dependencies and run tests, you can use `python setup.py test`
 
 * If you have problems seeing the portal on machines with different locale (e.g. Polish), check the terminal for errors mentioning `ValueError: unknown locale: UTF-8`. If you see them, you need to have environment variables `LANG` and `LC_ALL` both set to `en_US.UTF-8`.
     * Either export them in your `.bashrc` or `.bash_profile`

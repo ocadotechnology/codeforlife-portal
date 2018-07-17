@@ -57,7 +57,7 @@ from portal.views.organisation import organisation_fuzzy_lookup, organisation_ma
 from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
     teacher_move_class, teacher_edit_student, teacher_student_reset, materials_viewer, teacher_print_reminder_cards,\
     teacher_delete_students, teacher_delete_class, teacher_class_password_reset, teacher_move_students,\
-    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions, materials
+    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions, materials, invite_teacher
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join, organisation_deny_join, \
     organisation_kick, organisation_toggle_admin, teacher_disable_2FA, teacher_reject_student_request, \
     teacher_accept_student_request
@@ -82,7 +82,7 @@ two_factor_patterns = [
 
 
 urlpatterns = [
-    url(r'^aimmo/', include('players.urls')),
+    url(r'^aimmo/', include('aimmo.urls')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
     url(r'^administration/login/$', admin_login, name='administration_login'),
@@ -125,6 +125,7 @@ urlpatterns = [
     url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$', teacher_class, name='onboarding-class'),
     url(r'^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$', teacher_print_reminder_cards, name='teacher_print_reminder_cards'),
     url(r'^teach/onboarding-complete', TemplateView.as_view(template_name='portal/teach/onboarding_complete.html'), name='onboarding-complete'),
+    url(r'^teach/invite', invite_teacher, name='invite_teacher'),
     url(r'^play/$', RedirectView.as_view(url=reverse_lazy('play'), permanent=True)),
     url(r'^play/details/$', student_details, name='student_details'),
     url(r'^play/account/$', student_edit_account, name='student_edit_account'),
