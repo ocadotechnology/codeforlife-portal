@@ -206,7 +206,11 @@ button,
 }
 
 .button--primary--disabled {
-  background: $color-button-disabled !important;
+  background: $color-button-disabled;
+
+  &:hover {
+    background: $color-button-disabled;
+  }
 }
 
 .button--secondary {

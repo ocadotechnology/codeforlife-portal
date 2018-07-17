@@ -74,7 +74,7 @@ SETTINGS = {
     },
     'PIPELINE_CSS_COMPRESSOR': None,
     'INSTALLED_APPS': [
-        'players',
+        'aimmo',
         'game',
         'pipeline',
         'portal',
