@@ -35,7 +35,7 @@ setup(name='codeforlife-portal',
           'django-online-status==0.1.0',
 
           'Pillow==3.3.2',
-          'django-reversion==1.9.3',
+          'django-reversion==2.0.0',
           'sqlparse',
           'libsass',
           'django-forms-bootstrap'
