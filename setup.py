@@ -24,7 +24,7 @@ setup(name='codeforlife-portal',
           'reportlab==3.2.0',
           'postcodes==0.1',
           'django-formtools==1.0',
-          'django-two-factor-auth==1.3.0',
+          'django-two-factor-auth==1.5.0',
           'urllib3==1.22',
           'requests==2.18.4',
 
@@ -35,7 +35,7 @@ setup(name='codeforlife-portal',
           'django-online-status==0.1.0',
 
           'Pillow==3.3.2',
-          'django-reversion==1.9.3',
+          'django-reversion==2.0.0',
           'sqlparse',
           'libsass',
           'django-forms-bootstrap'
