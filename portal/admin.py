@@ -68,14 +68,14 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    search_fields = ['user__first_name', 'user__last_name', 'new_username', 'user__date_joined']
+    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'user__date_joined']
     list_filter = ['user__date_joined']
     list_display = ['user', 'joined_recently']
     readonly_fields = ['user']
 
 
 class EmailVerificationAdmin(admin.ModelAdmin):
-    search_fields = ['new_user']
+    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'user__date_joined']
 
 
 UserAdmin.list_display += ('date_joined',)
