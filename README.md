@@ -15,15 +15,11 @@
 * Install prerequisites. E.g. on Ubuntu / Linux Mint:
     * `sudo apt-get install git`
     * `sudo apt-get install python-dev`
-    * `sudo pip install virtualenvwrapper`
     * `sudo apt-get install libxml2-dev libxslt1-dev zlib1g-dev`
-* Make and activate a virtualenv (We recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html))
-    * on Mac, you may need to install virtualenvwrapper with: `[sudo] pip install virtualenvwrapper --ignore-installed six` if it complains about `six` being already installed with dist-utils
-    * e.g. the first time, `mkvirtualenv -a path/to/codeforlife-portal codeforlife-portal`
-    * and thereafter `workon codeforlife-portal`
+* Make and activate a virtualenv (We recommend [pipenv]((https://docs.pipenv.org/)))
+    * On **Mac**, run `brew install pipenv` using the `brew` package manager. Then run `pipenv install` followed by `pipenv shell`.
     * create settings file under `example_project/example_project/local_settings.py` with `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
 * `./run` - This will:
-    * install all of the dependencies using pip
     * sync the database
     * collect the static files
     * run the server
