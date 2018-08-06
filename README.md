@@ -18,6 +18,7 @@
     * `sudo apt-get install libxml2-dev libxslt1-dev zlib1g-dev`
 * Make and activate a virtualenv (We recommend [pipenv]((https://docs.pipenv.org/)))
     * On **Mac**, run `brew install pipenv` using the `brew` package manager. Then run `pipenv install` followed by `pipenv shell`.
+    * On Linux, follow the instructions [here](https://docs.pipenv.org/install/#installing-pipenv) to install pipenv. Then run `pipenv install` followed by `pipenv shell`. 
     * create settings file under `example_project/example_project/local_settings.py` with `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
 * `./run` - This will:
     * sync the database
