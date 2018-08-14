@@ -34,34 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.db.migrations.executor import MigrationExecutor
-from django.test import TransactionTestCase
-from django.db import connection
+from base_test_migration import MigrationTestCase
 
-class MigrationTestCase(TransactionTestCase):
-    """A Test case for testing migrations."""
+class TestMigrationPreviewUsers(MigrationTestCase):
 
-    # These must be defined by subclasses.
-    start_migration = None
-    dest_migration = None
+    start_migration = '0054_pending_join_request_can_be_blank'
+    dest_migration = '0055_add_preview_user'
 
-    django_application = None
-    app_name = "portal"
+    def test_migration_fields(self):
+        print "GOT HERE"
+        model = self.django_application.get_model(self.app_name, 'UserProfile')
+        print model._meta.get_fields()
 
-    def setUp(self):
-        super(MigrationTestCase, self).setUp()
-        executor = MigrationExecutor(connection)
-        # Migrate to start_migration (the migration before the one you want to test)
-        executor.migrate([(self.app_name, self.start_migration)])
-
-        # Rebuild graph. Done between invocations of migrate()
-        executor.loader.build_graph()
-
-        # Run the migration you want to test
-        executor.migrate([(self.app_name, self.dest_migration)])
-
-        # This application can now be used to get the latest models for testing
-        self.django_application = executor.loader.project_state([self.app_name, self.dest_migration])
-
-# def tearDown(self):
-#     super(MigrationTestCase).tearDown()
