@@ -35,11 +35,11 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.db.migrations.executor import MigrationExecutor
-from django.test import TransactionTestCase
+from django.test import TestCase
 from django.db import connection
 from django.apps import apps
 
-class MigrationTestCase(TransactionTestCase):
+class MigrationTestCase(TestCase):
     """A Test case for testing migrations."""
 
     # These must be defined by subclasses.
@@ -66,6 +66,3 @@ class MigrationTestCase(TransactionTestCase):
 
         # This application can now be used to get the latest models for testing
         self.django_application = executor.loader.project_state([(self.app_name, self.dest_migration)]).apps
-
-# def tearDown(self):
-#     super(MigrationTestCase).tearDown()

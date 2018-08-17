@@ -42,8 +42,14 @@ class TestMigrationPreviewUsers(MigrationTestCase):
     dest_migration = '0055_add_preview_user'
 
     def test_preview_user_field_added(self):
+        print "GOT HERE"
         model = self.django_application.get_model(self.app_name, 'UserProfile')
         field_names =  [field.name for field in model._meta.get_fields()]
         self.assertIn('preview_user', field_names)
         self.assertEquals(model._meta.get_field('preview_user').get_internal_type(), 'BooleanField')
 
+    def test_eligible_for_testing_field_added(self):
+        model = self.django_application.get_model(self.app_name, 'School')
+        field_names =  [field.name for field in model._meta.get_fields()]
+        self.assertIn('eligible_for_testing', field_names)
+        self.assertEquals(model._meta.get_field('eligible_for_testing').get_internal_type(), 'BooleanField')
