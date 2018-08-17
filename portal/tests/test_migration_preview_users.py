@@ -41,8 +41,9 @@ class TestMigrationPreviewUsers(MigrationTestCase):
     start_migration = '0054_pending_join_request_can_be_blank'
     dest_migration = '0055_add_preview_user'
 
-    def test_migration_fields(self):
-        print "GOT HERE"
+    def test_preview_user_field_added(self):
         model = self.django_application.get_model(self.app_name, 'UserProfile')
-        print model._meta.get_fields()
+        field_names =  [field.name for field in model._meta.get_fields()]
+        self.assertIn('preview_user', field_names)
+        self.assertEquals(model._meta.get_field('preview_user').get_internal_type(), 'BooleanField')
 
