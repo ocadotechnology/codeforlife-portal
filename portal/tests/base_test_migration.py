@@ -53,7 +53,6 @@ class MigrationTestCase(TestCase):
         return apps.get_containing_app_config(type(self).__module__).name
 
     def setUp(self):
-        super(MigrationTestCase, self).setUp()
         executor = MigrationExecutor(connection)
         # Migrate to start_migration (the migration before the one you want to test)
         executor.migrate([(self.app_name, self.start_migration)])
