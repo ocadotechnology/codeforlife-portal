@@ -37,6 +37,7 @@ matrix:
   fast_finish: true
 install:
   - pip install -U setuptools
+  - python -m pip install --upgrade pip setuptools
   - pip install -e .
   - pip install coveralls
 before_script:
