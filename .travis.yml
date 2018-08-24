@@ -9,6 +9,7 @@ env:
     secure: yhZstk2BCizpt3zidJp6+MFXK41/zl4ODA7YexGvVfdtyLkvyi1CSuCiDu+EcZn6QD1SGLcDBxRRB7F4ZTW+I9DHzDNDziawdGkVuUIQowUReklQ9W41sJJKzBO6HYpvp8Wvm8bkDfzwJtVpnKphckUoj8k+OXGmhoAl6/DVCsKiCSuZnJ1BxP2GA9cON2RGjJnKpiARXpLR5Zb+R73ALoi1YGU2o3Go8Z+2s7doibqiDlyzLK3nfHdjG5XgKAeYvn14udVyCtLQuaQe24xwDnc1dIOgkfkLdzjrLxoSNeFwhSowEQuWTyeBHBeDyCtJCLk762HW4qlbIacbl1bH6nLHHLznkTSvfUt9yK0tSpPxqUi4ooQxnMT4XFw+5Mg0e3soTgJKNWgG+1WXQ4+F4AC+l0IJdch0vVlH5WSuibvO1fUNzB5brSyrj0hXXtvEGvB31fXT54E6lhxymuAdLyAXHw4cCCc+UNrW3skn0vj3/J5jecbbwcF0DcOK4bjhJ+xHZJucwWtq6ioXGpj6S0u1Fe1dw3AJNNgyjwWTxaEzt3VQP7Znk0OxKGYyViEeEsF+TvVJyhuaaPGSisGc45I4U0/1bopUa5IrZh3EDpPJ8E1HDf++s2z/iVxqmBmbqU0SRtzhRh+ZIsbe+Lea9wx/Zw7k0AKnF1WQXbHacsY=
   matrix:
     - SELENIUM_WEBDRIVER=default
+    - DJANGO=1.9
 matrix:
   allow_failures:
     - python: 3.3
