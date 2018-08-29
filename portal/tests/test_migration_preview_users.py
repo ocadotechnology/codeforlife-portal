@@ -34,34 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.db.migrations.executor import MigrationExecutor
-from django.test import TestCase
-from django.db import connection
-from django.apps import apps
+from base_test_migration import MigrationTestCase
 
-class MigrationTestCase(TestCase):
-    """A Test case for testing migrations."""
+class TestMigrationPreviewUsers(MigrationTestCase):
 
-    # These must be defined by subclasses.
-    start_migration = None
-    dest_migration = None
+    start_migration = '0054_pending_join_request_can_be_blank'
+    dest_migration = '0055_add_preview_user'
 
-    django_application = None
+    def test_preview_user_field_added(self):
+        model = self.django_application.get_model(self.app_name, 'UserProfile')
+        # Test will fail automatically if get_field() raises an exception()
+        self.assertEquals(model._meta.get_field('preview_user').get_internal_type(), 'BooleanField')
 
-    @property
-    def app_name(self):
-        return apps.get_containing_app_config(type(self).__module__).name
-
-    def setUp(self):
-        executor = MigrationExecutor(connection)
-        # Migrate to start_migration (the migration before the one you want to test)
-        executor.migrate([(self.app_name, self.start_migration)])
-
-        # Rebuild graph. Done between invocations of migrate()
-        executor.loader.build_graph()
-
-        # Run the migration you want to test
-        executor.migrate([(self.app_name, self.dest_migration)])
-
-        # This application can now be used to get the latest models for testing
-        self.django_application = executor.loader.project_state([(self.app_name, self.dest_migration)]).apps
+    def test_eligible_for_testing_field_added(self):
+        model = self.django_application.get_model(self.app_name, 'School')
+        self.assertEquals(model._meta.get_field('eligible_for_testing').get_internal_type(), 'BooleanField')
