@@ -438,7 +438,7 @@ def make_students_preview_users(request):
     class_members = Class.objects.all_members(request.user.userprofile)
     for c in class_members:
         c.user.set_to_preview_user()
-        c.save()
+        c.user.save()
 
 
 def make_preview_tester(request):
