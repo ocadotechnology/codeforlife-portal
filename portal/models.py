@@ -202,6 +202,10 @@ class StudentModelManager(models.Manager):
             first_name=name)
 
         user_profile = UserProfile.objects.create(user=user)
+
+        if klass.teacher.school.eligible_for_testing and not user_profile.preview_user:
+            user_profile.set_to_preview_user()
+            user_profile.save()
         return Student.objects.create(class_field=klass, user=user_profile, new_user=user)
 
     def independentStudentFactory(self, username, name, email, password):
