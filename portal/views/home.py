@@ -437,7 +437,7 @@ def is_eligible_for_testing(request):
 def make_students_preview_users(request):
     class_members = Class.objects.all_members(request.user.userprofile)
     for c in class_members:
-        c.set_to_preview_user()
+        c.user.set_to_preview_user()
         c.save()
 
 
