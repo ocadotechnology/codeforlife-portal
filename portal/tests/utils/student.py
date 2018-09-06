@@ -41,7 +41,7 @@ import email
 from portal.models import Class, Student
 from portal.helpers.emails import generate_token
 
-
+m
 def generate_school_details():
     name = 'Student %d' % generate_school_details.next_id
     password = 'Password1'
@@ -57,6 +57,7 @@ def create_school_student_directly(access_code):
     name, password = generate_school_details()
 
     klass = Class.objects.get(access_code=access_code)
+    print "FILTERED CLASS OBJECT"
     student = Student.objects.schoolFactory(klass, name, password)
 
     return name, password, student
