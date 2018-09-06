@@ -41,7 +41,6 @@ import email
 from portal.models import Class, Student
 from portal.helpers.emails import generate_token
 
-
 def generate_school_details():
     name = 'Student %d' % generate_school_details.next_id
     password = 'Password1'

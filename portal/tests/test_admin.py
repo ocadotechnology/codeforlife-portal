@@ -41,6 +41,7 @@ from django.core.urlresolvers import reverse
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
 from portal.tests.base_test import BaseTest
 from portal.views import admin
+from portal.models import UserProfile
 
 
 class TestAdmin(BaseTest):
@@ -81,7 +82,8 @@ class TestAdmin(BaseTest):
     def test_superuser_access(self):
         username = self.randomId()
         password = 'abc123'
-        User.objects.create_superuser(username=username, password=password, email='')
+        user = User.objects.create_superuser(username=username, password=password, email='')
+        UserProfile.objects.create(user=user)
         page = self.navigate_to_admin_data().login_to_data(username, password)
         self.assertTrue(page.is_on_admin_data_page())
         page = page.go_to_admin_map_page()
@@ -92,6 +94,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
+        UserProfile.objects.create(user=user)
         permission = Permission.objects.get(codename='view_map_data')
         user.user_permissions.add(permission)
         page = self.navigate_to_admin_map().login_to_map(username, password)
@@ -104,6 +107,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
+        UserProfile.objects.create(user=user)
         permission = Permission.objects.get(codename='view_aggregated_data')
         user.user_permissions.add(permission)
         page = self.navigate_to_admin_data().login_to_data(username, password)
@@ -128,7 +132,8 @@ class TestAdmin(BaseTest):
     def test_wrong_username(self):
         username = self.randomId()
         password = 'abc123'
-        User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username=username, password=password)
+        UserProfile.objects.create(user=user)
         page = self.navigate_to_admin_data().login_failure('user123', password)
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
