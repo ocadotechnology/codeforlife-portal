@@ -132,7 +132,8 @@ class TestAdmin(BaseTest):
     def test_wrong_username(self):
         username = self.randomId()
         password = 'abc123'
-        User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username=username, password=password)
+        UserProfile.objects.create(user=user)
         page = self.navigate_to_admin_data().login_failure('user123', password)
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
