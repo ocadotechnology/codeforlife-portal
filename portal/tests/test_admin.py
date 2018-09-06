@@ -83,7 +83,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         user = User.objects.create_superuser(username=username, password=password, email='')
-        user_profile = UserProfile.objects.create(user=user)
+        UserProfile.objects.create(user=user)
         page = self.navigate_to_admin_data().login_to_data(username, password)
         self.assertTrue(page.is_on_admin_data_page())
         page = page.go_to_admin_map_page()
@@ -94,7 +94,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
-        user_profile = UserProfile.objects.create(user=user)
+        UserProfile.objects.create(user=user)
         permission = Permission.objects.get(codename='view_map_data')
         user.user_permissions.add(permission)
         page = self.navigate_to_admin_map().login_to_map(username, password)
@@ -107,7 +107,7 @@ class TestAdmin(BaseTest):
         username = self.randomId()
         password = 'abc123'
         user = User.objects.create_user(username=username, password=password)
-        user_profile = UserProfile.objects.create(user=user)
+        UserProfile.objects.create(user=user)
         permission = Permission.objects.get(codename='view_aggregated_data')
         user.user_permissions.add(permission)
         page = self.navigate_to_admin_data().login_to_data(username, password)
