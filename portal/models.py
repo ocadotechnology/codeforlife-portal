@@ -200,20 +200,14 @@ class StudentModelManager(models.Manager):
             username=get_random_username(),
             password=password,
             first_name=name)
-        print "CREATED USER OBJECT FOR STUDENT"
         user_profile = UserProfile.objects.create(user=user)
-        print "CREATED USER PROFILE FOR STUDENT"
         school = klass.teacher.school
         if school:
-            print "STUDENT'S SCHOOL EXISTS"
             if school.eligible_for_testing and not user_profile.preview_user:
-                print "SCHOOL ELIGIBLE"
                 user_profile.set_to_preview_user()
                 user_profile.save()
 
-        studnet = Student.objects.create(class_field=klass, user=user_profile, new_user=user)
-        print "CREATED STUDNT OBJECT"
-        return studnet
+        return Student.objects.create(class_field=klass, user=user_profile, new_user=user)
 
     def independentStudentFactory(self, username, name, email, password):
         user = User.objects.create_user(

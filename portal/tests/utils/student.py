@@ -56,7 +56,6 @@ def create_school_student_directly(access_code):
     name, password = generate_school_details()
 
     klass = Class.objects.get(access_code=access_code)
-    print "FILTERED CLASS OBJECT"
     student = Student.objects.schoolFactory(klass, name, password)
 
     return name, password, student
