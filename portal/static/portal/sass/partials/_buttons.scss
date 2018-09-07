@@ -1,5 +1,6 @@
 @import 'base';
 
+
 a {
   cursor: pointer;
 }
@@ -112,9 +113,10 @@ button,
 .logout[aria-expanded='true'] {
 
   @include _border-radius(8px, 8px, 0px, 0px);
+  @extend .dropdown;
   background: $color-background-tertiary;
   color: $color-text-secondary;
-
+  text-align: left;
   .glyphicon {
     @include _font-size(20px);
   }
@@ -124,11 +126,13 @@ button,
 .logout[aria-expanded='false'] {
 
   @include _border-radius(8px, 8px, 0px, 0px);
+  @extend .dropdown;
   background: $color-background-secondary;
   border: 1px solid $color-text-tertiary;
   border-radius: 0.8rem;
   color: $color-text-tertiary;
-
+  text-align: left;
+  
   .glyphicon {
     @include _font-size(20px);
   }
