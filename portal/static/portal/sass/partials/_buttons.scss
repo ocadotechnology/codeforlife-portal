@@ -116,9 +116,13 @@ button,
   @extend .dropdown;
   background: $color-background-tertiary;
   color: $color-text-secondary;
-  text-align: left;
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
   .glyphicon {
     @include _font-size(20px);
+    display: inline-flex;
+    //align-self: right;
   }
 
 }
@@ -131,10 +135,13 @@ button,
   border: 1px solid $color-text-tertiary;
   border-radius: 0.8rem;
   color: $color-text-tertiary;
-  text-align: left;
-  
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
   .glyphicon {
     @include _font-size(20px);
+    display: inline-flex;
+    //align-self: right;
   }
 
 }

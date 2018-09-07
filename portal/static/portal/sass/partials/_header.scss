@@ -5,6 +5,11 @@
   min-width: 155px;
 }
 
+.dropdown-text {
+  display: inline-flex;
+  //align-self: left;
+}
+
 .dropdown-menu {
   border: none;
   border-radius: 0.8rem;
