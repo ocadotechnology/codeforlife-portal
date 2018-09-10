@@ -43,7 +43,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.models import Teacher, Student
+from portal.models import Teacher, Student, Class
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.forms.newsletter_form import NewsletterForm
@@ -434,12 +434,23 @@ def is_eligible_for_testing(request):
                                         request.user.userprofile.student.class_field.teacher.school.eligible_for_testing)
 
 
+def make_students_preview_users(request):
+    class_members = Class.objects.all_members(request.user.userprofile)
+    for c in class_members:
+        c.user.set_to_preview_user()
+        c.user.save()
+
+
 def make_preview_tester(request):
     if request.method == 'GET':
         if is_eligible_for_testing(request):
-            user = request.user.userprofile
-            user.set_to_preview_user()
-            user.save()
+            if is_logged_in_as_teacher(request):
+                make_students_preview_users(request)
+            else:
+                user = request.user.userprofile
+                user.set_to_preview_user()
+                user.save()
+
             return HttpResponseRedirect(reverse_lazy('play_aimmo'))
         return HttpResponse(status=401)
     return HttpResponse(status=405)
