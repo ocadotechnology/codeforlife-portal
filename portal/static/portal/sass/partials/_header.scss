@@ -1,5 +1,14 @@
 @import 'base';
 
+
+.dropdown {
+  min-width: 155px;
+}
+
+.dropdown-text {
+  display: inline-flex;
+}
+
 .dropdown-menu {
   border: none;
   border-radius: 0.8rem;
@@ -7,6 +16,7 @@
   min-width: 0;
   padding: 0;
   width: 100%;
+  font-weight: 300;
 
   li {
 
@@ -17,8 +27,9 @@
       @include _line-height(25px);
       @include _padding(10px, 15px, 10px, 15px);
       background: $color-background-tertiary;
-      color: $color-button-primary-action-general-educate;
-      text-decoration: underline;
+      color: $color-text-secondary;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
     }
 
   }
