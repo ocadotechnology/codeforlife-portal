@@ -131,7 +131,6 @@ class TestTeacher(BaseTest):
         keystages = ['ks1', 'lks2', 'uks2', 'ks3']
         for ks in keystages:
             page = page.click_keystage_link(ks)
-            time.sleep(1)
             assert self.is_materials_page(page)
 
     def test_edit_details(self):
