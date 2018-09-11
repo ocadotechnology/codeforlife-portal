@@ -113,18 +113,18 @@ class TestTeacher(BaseTest):
 
         assert self.is_dashboard_page(page)
 
-        page = page.go_to_resources_page().go_to_materials_page()
+        page = page.go_to_resources_page()
         time.sleep(5)
+
+        page = page.go_to_materials_page()
 
         assert self.is_materials_page(page)
 
         page = page.click_pdf_link()
-        time.sleep(5)
 
         assert self.is_pdf_viewer_page(page)
 
         page = page.click_resources_button_link().go_to_materials_page()
-        time.sleep(3)
 
         assert self.is_materials_page(page)
 
