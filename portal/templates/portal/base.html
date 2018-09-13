@@ -127,7 +127,7 @@
                 {% if user|is_logged_in %}
                     <div class="dropdown">
                         <button id="logout_menu" class="button--regular button--secondary button--secondary--dark logout"
-                                data-toggle="dropdown">{{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></button>
+                                data-toggle="dropdown"><div class="dropdown-text">{{ user|make_into_username }} </div><div class="glyphicon glyphicon-user"></div></button>
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="button--regular button--logout" id="logout_button"
