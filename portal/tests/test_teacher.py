@@ -114,8 +114,9 @@ class TestTeacher(BaseTest):
         assert self.is_dashboard_page(page)
         print "GOT TO DASHBOARD PAGE"
         page = page.go_to_resources_page()
-        time.sleep(5)
-
+        print "GOING TO RESOURCES PAGE"
+        time.sleep(3)
+        print "GOING TO MATERIALS PAGE"
         page = page.go_to_materials_page()
 
         assert self.is_materials_page(page)
