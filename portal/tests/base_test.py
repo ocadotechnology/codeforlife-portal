@@ -57,7 +57,7 @@ class BaseTest(SeleniumTestCase):
     def setUpClass(cls):
         cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
         captcha.CAPTCHA_ENABLED = False
-        # super(BaseTest, cls).setUpClass()
+        super(BaseTest, cls).setUpClass()
 
     @classmethod
     def tearDownClass(cls):
