@@ -100,7 +100,9 @@ class BasePage(object):
         return self.element_exists_by_id(pageName)
 
     def go_to_resources_page(self):
+        print "INSIDE GO TO RESOURCES PAGE"
         self.browser.find_element_by_id('resources_button').click()
+        print "FOUND RESOURCES BUTTON"
         return resources_page.ResourcesPage(self.browser)
 
     def is_on_admin_login_page(self):
