@@ -125,5 +125,9 @@ class BasePage(object):
         error = 'This field is required'
         return error in errors
 
+    def was_form_invalid(self, formID, error):
+        errors = self.browser.find_element_by_id(formID).find_element_by_class_name('errorlist').text
+        return error in errors
+
 
 import resources_page

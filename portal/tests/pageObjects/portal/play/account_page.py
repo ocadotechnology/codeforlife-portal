@@ -83,7 +83,3 @@ class PlayAccountPage(PlayBasePage):
         self.browser.find_element_by_id('id_name').send_keys(new_name)
         self.browser.find_element_by_id('id_current_password').send_keys(password)
         self.browser.find_element_by_id('update_button').click()
-
-    def was_form_invalid(self, error):
-        errors = self.browser.find_element_by_id('student_account_form').find_element_by_class_name('errorlist').text
-        return error in errors

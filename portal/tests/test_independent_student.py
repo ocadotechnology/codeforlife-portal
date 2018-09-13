@@ -185,7 +185,7 @@ class TestIndependentStudent(BaseTest):
             .go_to_account_page().update_name_failure('Name!', password)
 
         assert self.is_account_page(page)
-        assert page.was_form_invalid('Names may only contain letters, numbers, dashes, underscores, and spaces.')
+        assert page.was_form_invalid('student_account_form', 'Names may only contain letters, numbers, dashes, underscores, and spaces.')
 
     def test_update_details_empty(self):
         homepage = self.go_to_homepage()
@@ -197,7 +197,7 @@ class TestIndependentStudent(BaseTest):
             .go_to_account_page().submit_empty_form()
 
         assert self.is_account_page(page)
-        assert page.was_form_invalid('This field is required.')
+        assert page.was_form_invalid('student_account_form', 'This field is required.')
 
     def test_join_class_nonexistent_class(self):
         homepage = self.go_to_homepage()

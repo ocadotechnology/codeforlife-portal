@@ -303,7 +303,7 @@ class TeacherEditStudentForm(forms.Form):
         if name == '':
             raise forms.ValidationError("'" + self.cleaned_data.get('name', '') + "' is not a valid name")
 
-        if re.match(re.compile('^[\w ]+$'), name) is None:
+        if re.match(re.compile('^[\w -]+$'), name) is None:
             raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
 
         students = Student.objects.filter(class_field=self.klass,
@@ -379,7 +379,7 @@ def find_duplicates(names, lower_names, validationErrors):
 
 def find_illegal_characters(names, validationErrors):
     for name in names:
-        if re.match(re.compile('^[\w ]+$'), name) is None:
+        if re.match(re.compile('^[\w -]+$'), name) is None:
             validationErrors.append(forms.ValidationError(
                 "Names may only contain letters, numbers, dashes, underscores, and spaces. You must rename '" + name + "'."))
 
