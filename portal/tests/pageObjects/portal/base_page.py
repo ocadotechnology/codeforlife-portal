@@ -101,6 +101,8 @@ class BasePage(object):
 
     def go_to_resources_page(self):
         print "INSIDE GO TO RESOURCES PAGE"
+        self.browser.find_element_by_id('aimmo_button')
+        print "FOUND AIMMO BUTTON"
         self.browser.find_element_by_id('resources_button').click()
         print "FOUND RESOURCES BUTTON"
         return resources_page.ResourcesPage(self.browser)
