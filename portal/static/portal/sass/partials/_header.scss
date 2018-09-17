@@ -2,7 +2,7 @@
 
 
 .dropdown {
-  min-width: 155px;
+  min-width: 179px;
 }
 
 .dropdown-text {
@@ -15,21 +15,48 @@
   margin: 0;
   min-width: 0;
   padding: 0;
-  width: 100%;
   font-weight: 300;
+  width: 100%;
 
   li {
 
     a,
     a:hover,
-    a:focus {
-      @include _border-radius(0px, 0px, 8px, 8px);
+    a:focus,
+    a:visited {
       @include _line-height(25px);
       @include _padding(10px, 15px, 10px, 15px);
       background: $color-background-tertiary;
       color: $color-text-secondary;
-      text-decoration-line: underline;
-      text-decoration-style: dotted;
+
+      small {
+        border-bottom: 1px dotted $color-text-secondary;
+        text-decoration: none;
+      }
+
+      .glyphicon {
+        @include _font-size(18px);
+        @include _padding(0px, 10px, 0px, 0px);
+      }
+
+    }
+
+    a:hover {
+
+      small {
+        border-bottom: 1px solid $color-text-secondary;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+    }
+
+    &:last-of-type {
+
+      a {
+        @include _border-radius(0px, 0px, 8px, 8px);
+      }
+
     }
 
   }
@@ -52,6 +79,7 @@
     align-items: center;
     display: flex;
     justify-content: flex-end;
+    width: 100%
   }
 
 }

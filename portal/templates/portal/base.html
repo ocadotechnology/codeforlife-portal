@@ -124,13 +124,26 @@
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                     <div class="dropdown">
-                        <button id="logout_menu" class="button--regular button--secondary button--secondary--dark logout"
+                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark logout"
                                 data-toggle="dropdown"><div class="dropdown-text">{{ user|make_into_username }} </div><div class="glyphicon glyphicon-user"></div></button>
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="button--regular button--logout" id="logout_button"
-                                   href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">Log out</a>
+                                   href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
+                                    <div class="glyphicon glyphicon-log-out"></div><small>Log out</small></a>
                             </li>
+                            {% if user|is_logged_in_as_teacher %}
+                                <li>
+                                    <a class="button--regular button--logout" id="change_password_button"
+                                       href="{% url 'dashboard' %}#password">
+                                        <div class="glyphicon glyphicon-lock"></div><small>Change password</small></a>
+                                </li>
+                                <li>
+                                    <a class="button--regular button--logout" id="update_details_button"
+                                       href="{% url 'dashboard' %}#account">
+                                        <div class="glyphicon glyphicon-user"></div><small>Update my details</small></a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
                 {% else %}
@@ -165,6 +178,10 @@
             <a class="button button--menu__item" href="{% url 'help' %}">Help and support</a>
             <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use</a>
             {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password</a>
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details</a>
+                {% endif %}
                 <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout</a>
             {% endif %}
         </div>
@@ -306,11 +323,6 @@
 
     });
 
-    $('.logout').click(function(){
-        $(this).toggleClass("button--secondary");
-        $(this).toggleClass("button--secondary--dark");
-        $(this).toggleClass("button--logout");
-    })
 </script>
 {% endblock scripts %}
 
