@@ -110,28 +110,23 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page = page.go_to_login_page()
         page = page.login(email, password)
-        print "LOGGED IN"
+
         assert self.is_dashboard_page(page)
-        print "GOT TO DASHBOARD PAGE"
-        page = page.go_to_resources_page()
-        print "GOING TO RESOURCES PAGE"
-        time.sleep(3)
-        print "GOING TO MATERIALS PAGE"
-        page = page.go_to_materials_page()
+
+        page = page.go_to_resources_page().go_to_materials_page()
 
         assert self.is_materials_page(page)
-        print "GOT TO MATERIALS PAGE"
+
         page = page.click_pdf_link()
 
         assert self.is_pdf_viewer_page(page)
-        print "PDF VIEWER"
+
         page = page.click_resources_button_link().go_to_materials_page()
-        print "GOING TO MATERIALS PAGE AGAIN"
+
         assert self.is_materials_page(page)
-        print ""
+
         keystages = ['ks1', 'lks2', 'uks2', 'ks3']
         for ks in keystages:
-            "CLICKING KEYSTAGE LINK: " + ks
             page = page.click_keystage_link(ks)
             assert self.is_materials_page(page)
 
