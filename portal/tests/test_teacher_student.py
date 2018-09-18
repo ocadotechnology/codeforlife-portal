@@ -67,6 +67,53 @@ class TestTeacherStudent(BaseTest):
 
         assert page.was_form_empty('form-create-students')
 
+    def test_create_valid_name_dash(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        student_name = "Florian-Gilbert"
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+
+        page = page.type_student_name(student_name).create_students()
+
+        assert page.student_exists(student_name)
+
+        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+
+    def test_create_valid_name_underscore(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        student_name = "Florian_Gilbert"
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+
+        page = page.type_student_name(student_name).create_students()
+
+        assert page.student_exists(student_name)
+
+        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+
+    def test_create_invalid_name(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+
+        student_name = "Florian!"
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+
+        page = page.type_student_name(student_name).create_students_failure()
+
+        assert page.adding_students_failed()
+        assert page.was_form_invalid('form-create-students', 'Names may only contain letters, numbers, dashes, underscores, and spaces.')
+
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -127,6 +174,61 @@ class TestTeacherStudent(BaseTest):
         page = page.click_update_button()
 
         assert page.is_student_name(new_student_name)
+
+    def test_update_student_valid_name_dash(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_name = "new-name"
+
+        page = page.type_student_name(new_student_name)
+        page = page.click_update_button()
+
+        assert page.is_student_name(new_student_name)
+
+    def test_update_student_valid_name_underscore(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_name = "new_name"
+
+        page = page.type_student_name(new_student_name)
+        page = page.click_update_button()
+
+        assert page.is_student_name(new_student_name)
+
+    def test_update_student_invalid_name(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, class_name, access_code = create_class_directly(email)
+        name, password, student = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+
+        assert page.is_student_name(name)
+
+        new_student_name = "new name!"
+
+        page = page.type_student_name(new_student_name)
+        page = page.click_update_button()
+
+        assert page.is_student_name(name)
+        assert page.was_form_invalid('form-edit-student', 'Names may only contain letters, numbers, dashes, underscores, and spaces.')
 
     def test_update_student_password(self):
         email, password = signup_teacher_directly()
