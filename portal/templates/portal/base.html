@@ -134,13 +134,11 @@
                             </li>
                             {% if user|is_logged_in_as_teacher %}
                                 <li>
-                                    <a class="button--regular button--logout" id="change_password_button"
-                                       href="{% url 'dashboard' %}#password">
+                                    <a class="button--regular button--logout" href="{% url 'dashboard' %}#password">
                                         <div class="glyphicon glyphicon-lock"></div><small>Change password</small></a>
                                 </li>
                                 <li>
-                                    <a class="button--regular button--logout" id="update_details_button"
-                                       href="{% url 'dashboard' %}#account">
+                                    <a class="button--regular button--logout" href="{% url 'dashboard' %}#account">
                                         <div class="glyphicon glyphicon-user"></div><small>Update my details</small></a>
                                 </li>
                             {% endif %}
