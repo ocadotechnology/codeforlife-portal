@@ -86,7 +86,7 @@
           <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}"></img>
         </a>
         <div class="menu col-sm-12">
-            <div class="menu__left-side col-sm-6 col-sm-offset-2">
+            <div class="menu__left-side col-sm-7 col-sm-offset-2">
                 <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
                 <a href="{% url 'home' %}"><img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
                 <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
@@ -97,11 +97,13 @@
                         {% block secondaryButtons %}
                         {% if user|has_teacher_finished_onboarding %}
                             <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
-                            <a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                            {% block rapidrouter %}<a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
+                            {% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>{% endblock aimmo %}
                             <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
                         {% else %}
                             <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">AI:MMO</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                         {% endif %}
                         {% endblock secondaryButtons %}
@@ -120,7 +122,7 @@
                 {% endif %}
                 {% endblock leftMenuButtons %}
             </div>
-            <div class="menu__right-side col-sm-4">
+            <div class="menu__right-side col-sm-3">
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                     <div class="dropdown">
