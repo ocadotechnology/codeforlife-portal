@@ -2,11 +2,17 @@
 
 
 .dropdown {
-  min-width: 179px;
+  display: flex;
+  width: 90%;
 }
 
 .dropdown-text {
-  display: inline-flex;
+  display: block;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  width: 90%;
+  white-space: nowrap;
 }
 
 .dropdown-menu {
@@ -16,20 +22,22 @@
   min-width: 0;
   padding: 0;
   font-weight: 300;
-  width: 100%;
+  width: 90%;
 
-  li {
+  .dropdown-menu-option {
 
-    a,
-    a:hover,
-    a:focus,
-    a:visited {
+    .button--regular,
+    .button--regular:hover,
+    .button--regular:focus,
+    .button--regular:visited {
       @include _line-height(25px);
       @include _padding(10px, 15px, 10px, 15px);
+      align-items: center;
       background: $color-background-tertiary;
       color: $color-text-secondary;
+      display: flex;
 
-      small {
+      .dropdown-menu-option-text {
         border-bottom: 1px dotted $color-text-secondary;
         text-decoration: none;
       }
@@ -41,9 +49,9 @@
 
     }
 
-    a:hover {
+    .button--regular:hover {
 
-      small {
+      .dropdown-menu-option-text {
         border-bottom: 1px solid $color-text-secondary;
         cursor: pointer;
         text-decoration: none;
@@ -53,7 +61,7 @@
 
     &:last-of-type {
 
-      a {
+      .button--regular {
         @include _border-radius(0px, 0px, 8px, 8px);
       }
 
