@@ -2,34 +2,69 @@
 
 
 .dropdown {
-  min-width: 155px;
+  display: flex;
+  width: 90%;
 }
 
-.dropdown-text {
-  display: inline-flex;
+.dropdown__text {
+  display: block;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  width: 90%;
+  white-space: nowrap;
 }
 
 .dropdown-menu {
   border: none;
-  border-radius: 0.8rem;
+  border-radius: 1rem;
   margin: 0;
   min-width: 0;
   padding: 0;
-  width: 100%;
   font-weight: 300;
+  width: 90%;
 
-  li {
+  .dropdown-menu__option {
 
-    a,
-    a:hover,
-    a:focus {
-      @include _border-radius(0px, 0px, 8px, 8px);
+    .button--regular,
+    .button--regular:hover,
+    .button--regular:focus,
+    .button--regular:visited {
       @include _line-height(25px);
       @include _padding(10px, 15px, 10px, 15px);
+      align-items: center;
       background: $color-background-tertiary;
       color: $color-text-secondary;
-      text-decoration-line: underline;
-      text-decoration-style: dotted;
+      display: flex;
+
+      .dropdown-menu__option__text {
+        border-bottom: 1px dotted $color-text-secondary;
+        text-decoration: none;
+      }
+
+      .glyphicon {
+        @include _font-size(18px);
+        @include _padding(0px, 10px, 0px, 0px);
+      }
+
+    }
+
+    .button--regular:hover {
+
+      .dropdown-menu__option__text {
+        border-bottom: 1px solid $color-text-secondary;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+    }
+
+    &:last-of-type {
+
+      .button--regular {
+        @include _border-radius(0px, 0px, 8px, 8px);
+      }
+
     }
 
   }
@@ -52,6 +87,7 @@
     align-items: center;
     display: flex;
     justify-content: flex-end;
+    width: 100%;
   }
 
 }

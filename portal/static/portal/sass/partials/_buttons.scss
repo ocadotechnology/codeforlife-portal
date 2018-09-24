@@ -110,38 +110,28 @@ button,
   }
 }
 
-.logout[aria-expanded='true'] {
-
-  @include _border-radius(8px, 8px, 0px, 0px);
-  @extend .dropdown;
-  background: $color-background-tertiary;
-  color: $color-text-secondary;
-  display: inline-flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  .glyphicon {
-    @include _font-size(20px);
-    display: inline-flex;
-  }
-
-}
-
-.logout[aria-expanded='false'] {
-
-  @include _border-radius(8px, 8px, 0px, 0px);
+.logout {
+  @include _border-radius(8px, 8px, 8px, 8px);
   @extend .dropdown;
   background: $color-background-secondary;
   border: 1px solid $color-text-tertiary;
-  border-radius: 0.8rem;
   color: $color-text-tertiary;
   display: flex;
-  justify-content: space-between;
   flex-wrap: nowrap;
+  justify-content: space-between;
+  outline: none;
+
   .glyphicon {
     @include _font-size(20px);
+    @include _padding(0px, 0px, 0px, 10px);
     display: inline-flex;
   }
+}
 
+.logout[aria-expanded='true'] {
+  @include _border-radius(8px, 8px, 0px, 0px);
+  background: $color-background-tertiary;
+  color: $color-text-secondary;
 }
 
 .button--primary--general-play {
