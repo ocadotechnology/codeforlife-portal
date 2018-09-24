@@ -6,7 +6,7 @@
   width: 90%;
 }
 
-.dropdown-text {
+.dropdown__text {
   display: block;
   overflow: hidden;
   text-align: left;
@@ -24,7 +24,7 @@
   font-weight: 300;
   width: 90%;
 
-  .dropdown-menu-option {
+  .dropdown-menu__option {
 
     .button--regular,
     .button--regular:hover,
@@ -37,7 +37,7 @@
       color: $color-text-secondary;
       display: flex;
 
-      .dropdown-menu-option-text {
+      .dropdown-menu__option__text {
         border-bottom: 1px dotted $color-text-secondary;
         text-decoration: none;
       }
@@ -51,7 +51,7 @@
 
     .button--regular:hover {
 
-      .dropdown-menu-option-text {
+      .dropdown-menu__option__text {
         border-bottom: 1px solid $color-text-secondary;
         cursor: pointer;
         text-decoration: none;
