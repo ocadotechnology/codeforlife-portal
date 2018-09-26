@@ -91,7 +91,7 @@
     <div class="header">
         <a href="{% url 'home' %}"><img class="logo col-sm-offset-1"></a>
         <div class="menu col-sm-12">
-            <div class="menu__left-side col-sm-6 col-sm-offset-2">
+            <div class="menu__left-side col-sm-7 col-sm-offset-2">
                 <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
                 <a href="{% url 'home' %}"><img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
                 <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
@@ -129,22 +129,47 @@
                 {% endif %}
                 {% endblock leftMenuButtons %}
             </div>
-            <div class="menu__right-side col-sm-4">
+            <div class="menu__right-side col-sm-2">
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
-                    <div class="dropdown">
-                        <button id="logout_menu" class="button--regular button--secondary button--secondary--dark logout"
-                                data-toggle="dropdown">{{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="button--regular button--logout" id="logout_button"
-                                   href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">Log out</a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="dropdown">
+                    <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark logout"
+                            data-toggle="dropdown">
+                        <div class="dropdown__text">{{ user|make_into_username }}</div>
+                        <div class="glyphicon glyphicon-user"></div></button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular button--logout" id="logout_button" aria-labelledby="Log out"
+                               href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
+                                <div class="glyphicon glyphicon-log-out"></div>
+                                <small class="dropdown-menu__option__text">Log out</small></a>
+                        </li>
+                        {% if user|is_logged_in_as_teacher %}
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular button--logout" aria-labelledby="Change password"
+                               href="{% url 'dashboard' %}#edit_account_details_password">
+                                <div class="glyphicon glyphicon-lock"></div>
+                                <small class="dropdown-menu__option__text">Change password</small></a>
+                        </li>
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular button--logout" aria-labelledby="Update my details"
+                               href="{% url 'dashboard' %}#account">
+                                <div class="glyphicon glyphicon-user"></div>
+                                <small class="dropdown-menu__option__text">Update my details</small></a>
+                        </li>
+                        {% else %}
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular button--logout" aria-labelledby="Change password"
+                               href="{% url 'student_edit_account' %}">
+                                <div class="glyphicon glyphicon-lock"></div>
+                                <small class="dropdown-menu__option__text">Change password</small></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
                 {% else %}
-                    <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
-                    <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
+                <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in<div class="glyphicon glyphicon-user"></div></a>
                 {% endif %}
                 {% endblock rightMenuButtons %}
             </div>
@@ -288,14 +313,6 @@
     })
 </script>
 {% endblock scripts %}
-
-<script type="text/javascript">
-    $('.logout').click(function(){
-        $(this).toggleClass("button--secondary");
-        $(this).toggleClass("button--secondary--dark");
-        $(this).toggleClass("button--logout");
-    })
-</script>
 
 </body>
 </html>
