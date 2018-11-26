@@ -28,6 +28,11 @@
   border-radius: calculate-rem($radius-top-left) calculate-rem($radius-top-right) calculate-rem($radius-bottom-right) calculate-rem($radius-bottom-left);
 }
 
+@mixin _box-shadow($h-offset, $v-offset, $blur, $spread, $color) {
+  // border-radius: $radius-top-left $radius-top-right $radius-bottom-right $radius-bottom-left; // Fallback in px
+  box-shadow: calculate-rem($h-offset) calculate-rem($v-offset) calculate-rem($blur) calculate-rem($spread) $color;
+}
+
 @mixin arrow-properties($height-onboarding-step) {
   $height-onboarding-step-done: $height-onboarding-step * 0.7;
   $height-onboarding-step-progress: $height-onboarding-step / 2;

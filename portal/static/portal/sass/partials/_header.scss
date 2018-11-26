@@ -3,7 +3,12 @@
 
 .dropdown {
   display: flex;
-  width: 90%;
+}
+
+.menu__right-side {
+  .dropdown {
+    width: 90%;
+  }
 }
 
 .dropdown__text {
@@ -69,6 +74,44 @@
 
   }
 
+}
+
+.dropdown-content {
+  @include _box-shadow(0px, 8px, 16px, 0px, rgba(0,0,0,0.2));
+  @include _margin(54px, 0px, 0px, 20px);
+  background-color: white;
+  display: none;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+
+  a {
+    color: $color-text-tertiary;
+    display: block;
+    padding: 12px 16px;
+
+    small {
+      border-bottom: 1px dotted $color-text-tertiary;
+      text-decoration: none;
+    }
+  }
+
+  a:hover {
+    small {
+      border-bottom: 1px solid $color-text-tertiary;
+      text-decoration: none;
+    }
+  }
+}
+
+.dropdown:hover {
+  .button--menu--student--active {
+    border-bottom: 6px solid $color-button-secondary-border-light;
+  }
+
+  .dropdown-content {
+    display: block;
+  }
 }
 
 @media (min-width: 1400px) {

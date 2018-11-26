@@ -35,7 +35,6 @@ h2 {
 h3 {
   @include _font-size(35px);
   @include _line-height(40px);
-  @include _padding(0px, 0px, 20px, 0px);
   font-weight: 600;
 }
 
