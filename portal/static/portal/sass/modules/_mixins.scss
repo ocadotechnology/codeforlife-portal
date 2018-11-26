@@ -4,32 +4,26 @@
 }
 
 @mixin _font-size($size) {
-  // font-size: $size; // Fallback in px
   font-size: calculate-rem($size);
 }
 
 @mixin _line-height($height) {
-  // line-height: $height; // Fallback in px
   line-height: calculate-rem($height);
 }
 
 @mixin _padding($padding-top, $padding-right, $padding-bottom, $padding-left) {
-  // padding: $padding-top $padding-right $padding-bottom $padding-left; // Fallback in px
   padding: calculate-rem($padding-top) calculate-rem($padding-right) calculate-rem($padding-bottom) calculate-rem($padding-left);
 }
 
 @mixin _margin($margin-top, $margin-right, $margin-bottom, $margin-left) {
-  // margin: $margin-top $margin-right $margin-bottom $margin-left; // Fallback in px
   margin: calculate-rem($margin-top) calculate-rem($margin-right) calculate-rem($margin-bottom) calculate-rem($margin-left);
 }
 
 @mixin _border-radius($radius-top-left, $radius-top-right, $radius-bottom-right, $radius-bottom-left) {
-  // border-radius: $radius-top-left $radius-top-right $radius-bottom-right $radius-bottom-left; // Fallback in px
   border-radius: calculate-rem($radius-top-left) calculate-rem($radius-top-right) calculate-rem($radius-bottom-right) calculate-rem($radius-bottom-left);
 }
 
 @mixin _box-shadow($h-offset, $v-offset, $blur, $spread, $color) {
-  // border-radius: $radius-top-left $radius-top-right $radius-bottom-right $radius-bottom-left; // Fallback in px
   box-shadow: calculate-rem($h-offset) calculate-rem($v-offset) calculate-rem($blur) calculate-rem($spread) $color;
 }
 
