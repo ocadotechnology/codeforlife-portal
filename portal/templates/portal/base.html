@@ -110,10 +110,25 @@
                     {% else %}
                         <a href="{% url 'play' %}" class="button--menu button--menu--primary"><b>Student</b></a>
                         {% block studentButtons %}
-                        <a href="{% url 'student_details' %}" id="student_dashboard_button"
-                           class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
-                        <a href="{% url 'student_edit_account' %}" id="student_account_button"
-                           class="button--menu button--menu--secondary button--menu--enabled">Password</a>
+                        <div class="dropdown">
+                            <a href="{% url 'student_details' %}" id="student_dashboard_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
+                                <a href="{% url 'aimmo/home' %}"><small>AI:MMO</small></a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a href="{% url 'game.views.scoreboard.scoreboard' %}" id="student_scoreboards_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'game.views.scoreboard.scoreboard' %}"><small>Rapid Router</small></a>
+                            </div>
+                        </div>
+                        {% if not user.new_student.class_field %}
+                            <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
+                        {% endif %}
                         {% endblock studentButtons %}
                     {% endif %}
                 {% else %}
@@ -153,7 +168,7 @@
                             {% else %}
                                 <li class="dropdown-menu__option">
                                     <a class="button--regular button--logout" aria-labelledby="Change password"
-                                       href="{% url 'student_edit_account' %}">
+                                       href="{% url 'student_edit_account' %}" id="student_edit_account_button">
                                         <div class="glyphicon glyphicon-lock"></div>
                                         <small class="dropdown-menu__option__text">Change password</small></a>
                                 </li>

@@ -251,6 +251,15 @@ def process_student_login_form(request, school_login_form):
     if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
+    student = request.user.userprofile.student
+    student_class = student.class_field
+    student_school = student_class.teacher.school
+
+    messages.info(
+        request, ("You are logged in as a member of class: <strong>" + student_class.name
+                  + "</strong>, in school or club: <strong>" + student_school.name + "</strong>."),
+        extra_tags='safe')
+
     return HttpResponseRedirect(reverse_lazy('student_details'))
 
 

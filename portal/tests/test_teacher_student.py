@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import time
+
 from base_test import BaseTest
 
 from portal.tests.pageObjects.portal.home_page import HomePage
@@ -244,6 +246,7 @@ class TestTeacherStudent(BaseTest):
         new_student_password = "new_password"
 
         page = page.click_set_password_form_button().type_student_password(new_student_password)
+        time.sleep(1)
         page = page.click_set_password_button()
 
         assert page.is_student_password(new_student_password)

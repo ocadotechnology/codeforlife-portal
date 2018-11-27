@@ -1,100 +1,70 @@
-{% extends 'portal/play/base.html' %}
+{% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
 
 {% block studentButtons %}
-<a href="{% url 'student_details' %}" id="student_dashboard_button"
-   class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">Dashboard</a>
-<a href="{% url 'student_edit_account' %}" id="student_account_button"
-   class="button--menu button--menu--secondary button--menu--enabled">Password</a>
+<div class="dropdown">
+    <a href="{% url 'student_details' %}" id="student_dashboard_button"
+       class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">My Games</a>
+    <div class="dropdown-content">
+        <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
+        <a href="{% url 'aimmo/home' %}"><small>AI:MMO</small></a>
+    </div>
+</div>
+<div class="dropdown">
+    <a href="{% url 'game.views.scoreboard.scoreboard' %}" id="student_scoreboards_button"
+       class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
+    <div class="dropdown-content">
+        <a href="{% url 'game.views.scoreboard.scoreboard' %}"><small>Rapid Router</small></a>
+    </div>
+</div>
+{% if not user.new_student.class_field %}
+<a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
+   class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
+{% endif %}
 {% endblock studentButtons %}
 
+{% block subNav %}
+{{ block.super }}
+<section class="banner banner--teacher row">
+    <h1 class="banner__text--primary">Welcome, {{ user|make_into_username }}</h1>
+</section>
+{% endblock subNav %}
+
 {% block content %}
-
-<div id="play_dashboard_page"></div>
-
-<h2>Welcome, {{ user|make_into_username }}</h2><br>
-<div class="section group">
-
-
-    <div class="col span_2_of_3">
-
-
-		{% if user.new_student.class_field %}
-		<p>You are logged in as a member of class {{ user.new_student.class_field.name }} in school or club {{ user.new_student.class_field.teacher.school.name }}.</p>
-		{% endif %}
-
-      <div class="section group">
-              <p style="text-align: center">
-              <img style="width: 75%" src="{% static 'portal/img/RR_logo_blank.png' %}" /><br>
-              Are you ready to play?<br><br>
-              <a class="btn btn-primary" href="{% url 'game.views.level_selection.levels' %}">Play now!</a>
-              </p>
-       </div>
-
-	</div>
-
-	<div class="col span_1_of_3">
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="CSSTable">
-           <tr>
-             <td>Links and Resources</td>
-           </tr>
-            <tr>
-              <td><a href="{% url 'game.views.level_selection.levels' %}">Play Rapid Router</a></td>
-            </tr>
-            {% if user.new_student.class_field %}
-            <tr>
-              <td><a href="{% url 'game.views.scoreboard.scoreboard' %}">Rapid Router Scoreboard</a></td>
-            </tr>
-            {% endif %}
-            <tr>
-              <td><a href="{% url 'student_edit_account' %}">{% if user.new_student.class_field %}Set password{% else %}Edit account details{% endif %}</a></td>
-            </tr>
-            {% if not user.new_student.class_field %}
-            <tr>
-              <td><a id="join_a_school_or_club" href="{% url 'student_join_organisation' %}">Join a school or club</a></td>
-            </tr>
-            {% endif %}
-         </table>
+<div id="play_dashboard_page" class="background">
+    {% if user.new_student.class_field and user|is_preview_user %}
+    <div class="grid-games col-center col-sm-7">
+    {% else %}
+    <div class="grid-games col-center col-sm-4">
+    {% endif %}
+        <section>
+            <a href="{% url 'game.views.level_selection.levels'%}"><img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/RR_logo.png' %}"></a>
+            <h4>Anyone can code &mdash; you can, too!</h4>
+            <div class="background">
+                <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--primary--navigation">Play now</a>
+            </div>
+        </section>
+        <p>Rapid Router guides you, and makes learning to code easy and great fun.
+            Using Blockly, you can advance through the levels to become an Ocado delivery hero.</p>
+        <div>
+            <p><a href="{% url 'play' %}">Learn more about Rapid Router</a></p>
+            <p><a href="{% url 'game.views.scoreboard.scoreboard' %}">View my score</a></p>
+        </div>
+        {% if user.new_student.class_field and user|is_preview_user %}
+            <section>
+                <a href="{% url 'aimmo/home' %}"><img title="AI:MMO" alt="AI:MMO" src="{% static 'portal/img/aimmo_logo_vertical.svg' %}"></a>
+                <h4>Take your coding to the next level!</h4>
+                <div class="background">
+                    <a href="{% url 'aimmo/home' %}" class="button button--regular button--primary--navigation">Play now</a>
+                </div>
+            </section>
+            <p>AI:MMO is a Massively Multiplayer Online (MMO) learning tool, which will take you to the next level
+                on your coding journey: intermediate Python skills.</p>
+            <div>
+                <p><a href="{% url 'play_aimmo' %}">Learn more about AI:MMO</a></p>
+            </div>
+        {% endif %}
     </div>
 </div>
-
-<h3>Meet the Rapid Router characters</h3>
-<p>Have you met Dee's friends yet? Here are her friends who you'll get to know as you play.</p>
-
-
-<div class="section group characters">
-    <div class="col span_1_of_3a">
-      <img src="{% static 'portal/img/kirsty_hi_res.png' %}" />
-        <h4>Kirsty</h4><br>
-       <p>Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world! Kirsty is not impressed that she hasn&#8217;t been born into the royal family, so she is trying to train an army of frogs to take the crown by force.</p>
-    </div>
-    <div class="col span_1_of_3a">
-        <img src="{% static 'portal/img/nigel_hi_res.png' %}" />
-            <h4>Nigel</h4><br>
-           <p>Nigel is the tallest kid in his class, and he's growing taller by the day. Sometimes this makes him feel a bit out of place, but he doesn't mind too much as it allows him to keep an eye out for the playground monitor when Nigel and his friends are up to playful mischief at lunchtime.</p>
-    </div>
-    <div class="col span_1_of_3a">
-       <img src="{% static 'portal/img/dee_hi_res.png' %}" />
-         <h4>Dee</h4><br>
-           <p>Dee is a Mark II DeliviBot. She&#8217;s super friendly and her wire hair sparks when she laughs. Dee is strong enough to juggle elephants, which makes delivering groceries a doddle.</p>
-    </div>
-
-</div>
-
-
-<div class="section group characters">
-    <div class="col span_1_of_2">
-        <img src="{% static 'portal/img/phil_hi_res.png' %}" />
-        <h4>Phil</h4><br>
-           <p>Phil is a Boarsnark, the scariest monster of all monsters. Phil, however, is different to most Boarsnarks because he&#8217;s very kind, and very gentle, so he&#8217;s just not that good at scaring people. While other young Boarsnarks are hiding out in the woods practicing their fearsome roars, Phil can be found munching beetles, and playing computer games.</p>
-    </div>
-    <div class="col span_1_of_2">
-    <img src="{% static 'portal/img/wes_hi_res.png' %}" />
-    <h4>Wes</h4><br>
-       <p>Wes is as cunning as a fox, which is weird, because he's actually a wolf. He graduated from the fabulous foxy school for the fantastically gifted, with almost perfect grades in Crafty. Wes would be a genius, if only he stayed at home and studied a bit more. He&#8217;s such a party animal.</p>
-    </div>
-</div>
-
 {% endblock %}
