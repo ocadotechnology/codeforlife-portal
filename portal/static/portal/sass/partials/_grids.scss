@@ -1,7 +1,7 @@
 @import 'base';
 
 .grid-games {
-  @include _column-gap(50px);
+  @include _column-spacing($spacing*12);
   display: grid;
   grid-auto-flow: column;
   grid-template: auto auto auto / auto;

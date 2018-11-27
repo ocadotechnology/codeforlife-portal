@@ -107,6 +107,10 @@ section {
     @include _margin(0px, 10px, 0px, 10px);
   }
 
+  h4 {
+    @include _padding(10px, 0px, 30px, 0px);
+  }
+
   .youtube img {
     @include _margin(30px, 0px, 30px, 0px);
   }

@@ -51,7 +51,7 @@ class PlayBasePage(BasePage):
 
     def go_to_account_page(self):
         self.open_user_options_box()
-        self.browser.find_element_by_id('student_account_button').click()
+        self.browser.find_element_by_id('student_edit_account_button').click()
 
         from account_page import PlayAccountPage
         return PlayAccountPage(self.browser)
