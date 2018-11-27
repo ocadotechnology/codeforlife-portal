@@ -27,10 +27,6 @@
   box-shadow: calculate-rem($h-offset) calculate-rem($v-offset) calculate-rem($blur) calculate-rem($spread) $color;
 }
 
-@mixin _box-shadow($h-offset, $v-offset, $blur, $spread, $color) {
-  box-shadow: calculate-rem($h-offset) calculate-rem($v-offset) calculate-rem($blur) calculate-rem($spread) $color;
-}
-
 @mixin _column-gap($gap) {
   column-gap: calculate-rem($gap);
 }
