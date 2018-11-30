@@ -20,7 +20,7 @@
 
   }
 
-  * {
+  h1, h2, h3, h4, p, a {
     color: $color-text-secondary;
   }
 
@@ -36,12 +36,30 @@
     @include _padding(70px, 0px, 70px, 0px);
   }
 
-  small {
-    @include _padding(20px, 0px, 8px, 0px);
+  .button-group {
+    display: flex;
+
+    input {
+      width: 65%;
+    }
+
   }
 
   div[class^='col-sm'] {
     padding: 0;
+  }
+
+  .dropdown {
+    width: 50%;
+
+    button, ul {
+      width: 100%;
+    }
+
+    .glyphicon {
+      @include _font-size(10px);
+      @include _padding(8px, 0px, 0px, 0px);
+    }
   }
 
 }
@@ -90,6 +108,10 @@
 .banner--picture--terms,
 .banner--picture--tools {
   background-image: url('../img/teaching_resources.jpg');
+}
+
+.banner--picture--aimmo {
+  background-image: url('../img/aimmo_hero.png');
 }
 
 .banner--homepage {

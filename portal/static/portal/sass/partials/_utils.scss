@@ -205,6 +205,21 @@ iframe {
   height: 800px;
 }
 
+.pdf-list {
+  p:not(:first-of-type) {
+    &:after {
+      background: url("../img/icon_pdf.png") no-repeat center;
+      background-size: contain;
+      content: "";
+      display: inline-block;
+      height: 20px;
+      margin: 0 6px 0 10px;
+      vertical-align: sub;
+      width: 20px;
+    }
+  }
+}
+
 @media (max-width: 1200px) {
   .col-sm-offset-2 {
     margin-left: 8.333%;

@@ -84,6 +84,8 @@ two_factor_patterns = [
 
 urlpatterns = [
     url(r'^aimmo/', include('aimmo.urls')),
+    url(r'^aimmo-home/$', TemplateView.as_view(template_name='portal/aimmo_home.html'), name='aimmo_home'),
+
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
     url(r'^administration/login/$', admin_login, name='administration_login'),
