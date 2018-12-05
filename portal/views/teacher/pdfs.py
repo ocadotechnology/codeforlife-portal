@@ -907,7 +907,7 @@ PDF_DATA = {
         "page_origin": "#uks2-assessments"
     },
 
-    # ...................KS3 sessions...........#
+    # ...KS3 sessions...#
     "ks3_session_1": {
         "title": "MMO",
         "description": "AI:MMO: the MMO Basics",
@@ -916,7 +916,7 @@ PDF_DATA = {
         "page_origin": "#ks3-sessions"
     },
 
-    # ..............KS3 Resource Sheets...........#
+    # ...KS3 Resource Sheets...#
     # ...Session 1...#
     "KS3_S1_1": {
         "title": "Code cheat sheet",
@@ -926,7 +926,7 @@ PDF_DATA = {
         "page_origin": "#ks3-resource-sheets"
     },
     "KS3_S1_2": {
-        "title": "Indentation - Why it's important",
+        "title": "Indentation — Why it matters",
         "description": "To be used to understand how to use Python to code the AI:MMO game.",
         "links": [],
         "url": "KS3/resource_sheets/KS3-PythonIndentation.pdf",
@@ -950,6 +950,29 @@ PDF_DATA = {
         "url": "KS3/assessment/teacher_record_sheet.pdf",
         "links": [],
         "page_origin": "#ks3-assessments"
+    },
+
+    # ...KS3 Challenges...#
+    "KS3_challenges_guide": {
+        "title": "Teacher lesson guide for challenges",
+        "description": "To be used to code the AI:MMO game.",
+        "links": [],
+        "url": "KS3/challenges/KS3-challenges-guide.pdf",
+        "page_origin": "#ks3-challenges"
+    },
+    "KS3_challenge1": {
+        "title": "AI:MMO Challenge Sheet 1",
+        "description": "To be used to understand how to use Python to code the AI:MMO game.",
+        "links": [],
+        "url": "KS3/challenges/KS3-challenge1.pdf",
+        "page_origin": "#ks3-challenges"
+    },
+    "KS3_challenge2": {
+        "title": "AI:MMO Challenge Sheet 2",
+        "description": "To be used to understand the AI:MMO game.",
+        "links": [],
+        "url": "KS3/challenges/KS3-challenge2.pdf",
+        "page_origin": "#ks3-challenges"
     },
 
 }

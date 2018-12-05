@@ -115,7 +115,7 @@
                                class="button--menu button--menu--secondary button--menu--enabled">My Games</a>{% endblock myGames %}
                             <div class="dropdown-content">
                                 <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
-                                <a href="{% url 'aimmo/home' %}"><small>AI:MMO</small></a>
+                                <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
                             </div>
                         </div>
                         <div class="dropdown">
@@ -141,7 +141,7 @@
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                     <div class="dropdown">
-                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark logout"
+                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown"
                                 data-toggle="dropdown">
                             <div class="dropdown__text">{{ user|make_into_username }}</div>
                             <div class="glyphicon glyphicon-user"></div></button>

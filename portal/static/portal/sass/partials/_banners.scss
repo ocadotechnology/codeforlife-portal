@@ -36,30 +36,8 @@
     @include _padding(70px, 0px, 70px, 0px);
   }
 
-  .button-group {
-    display: flex;
-
-    input {
-      width: 65%;
-    }
-
-  }
-
   div[class^='col-sm'] {
     padding: 0;
-  }
-
-  .dropdown {
-    width: 50%;
-
-    button, ul {
-      width: 100%;
-    }
-
-    .glyphicon {
-      @include _font-size(10px);
-      @include _padding(8px, 0px, 0px, 0px);
-    }
   }
 
 }
@@ -126,7 +104,6 @@
   }
 }
 
-
 .banner--homepage__text {
   @include _font-size(140px);
   @include _line-height(120px);
@@ -192,6 +169,77 @@
 
   .progress-arrow__body--in-progress p {
     color: $color-background-tertiary;
+  }
+
+}
+
+.banner--aimmo-home {
+  .dropdown {
+    width: 50%;
+
+    button, ul {
+      @include _margin(0px, 0px, 0px, 0px);
+      width: 100%;
+      z-index: 1;
+    }
+
+    li {
+      border-bottom: 1px solid $color-table-border;
+    }
+
+    .dropdown-menu__option__text {
+      border-bottom: 1px solid transparent;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+
+      &:hover {
+        border-bottom: 1px solid $color-text-grey;
+      }
+    }
+
+    .glyphicon {
+      @include _font-size(10px);
+      @include _padding(8px, 0px, 0px, 0px);
+    }
+  }
+}
+
+.banner--teacher--create-aimmo-game {
+  align-items: start;
+
+  .button-group {
+    display: flex;
+
+    .dropdown + .button,
+    .dropdown + button {
+      @include _margin(0px, 0px, 0px, 20px);
+    }
+
+  }
+
+  #create-game-form {
+    padding: 0;
+
+    label {
+      display: none;
+    }
+
+    input {
+      height: auto;
+      margin: 0;
+      width: 65%;
+
+      &::placeholder {
+        color: $color-text-form-error;
+      }
+
+    }
+
+  }
+
+  img {
+    @include _margin(14px, 0px, 0px, 0px);
   }
 
 }

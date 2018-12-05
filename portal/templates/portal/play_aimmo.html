@@ -27,7 +27,7 @@
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
         {% if user|is_preview_user %}
             <div class="background button--banner--container">
-                <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
+                <a href="{% url 'aimmo' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
                 <a href="{% url 'materials' %}#ks3" class="button button--jumbo button--banner button--primary--navigation">View teaching pack</a>
             </div>
         {% endif %}
@@ -56,19 +56,19 @@
           {% if user|is_eligible_for_testing %}
             Your testing and feedback will help Code for Life deliver an enjoyable game,
             and will allow us to consult with you on resources that will be relevant to
-            teaching computing classes in secondary schools (13 - 16 year olds).
+            teaching computing classes in secondary schools (14 &mdash; 18 year olds).
           {% else %}
-            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
-            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+            Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: intermediate Python.
           {% endif %}
         </h4>
         <h4 class="col-sm-6 col-center">
           {% if user|is_eligible_for_testing %}
-            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
-            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+            Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: intermediate Python.
           {% else %}
             This preview version of AI:MMO is intended to be used by selected schools to help Code for Life deliver an enjoyable game,
-            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (13 - 16 year olds).
+            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (14 &mdash; 18 year olds).
           {% endif %}
         </h4>
     </section>

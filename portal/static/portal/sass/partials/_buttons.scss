@@ -214,7 +214,7 @@ button,
   }
 }
 
-.logout {
+.button--dropdown {
   @include _border-radius(8px, 8px, 8px, 8px);
   @extend .dropdown;
   background: $color-background-secondary;
@@ -232,7 +232,7 @@ button,
   }
 }
 
-.logout[aria-expanded='true'] {
+.button--dropdown[aria-expanded='true'] {
   @include _border-radius(8px, 8px, 0px, 0px);
   background: $color-background-tertiary;
   color: $color-text-secondary;
@@ -256,9 +256,8 @@ button,
 .button-group {
 
   .button,
-  button,
-  input {
-    @include _margin(0px, 20px, 0px, 0px);
+  button {
+    @include _margin(0px, 0px, 0px, 20px);
   }
 
 }

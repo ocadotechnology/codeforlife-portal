@@ -46,6 +46,7 @@ from portal.views.api import registered_users, last_connected_since, number_user
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.teacher.solutions_level_selector import levels
 from portal.permissions import teacher_verified
+from portal.views.aimmo.home import aimmo_home_view
 
 from portal.views.email import send_new_users_report
 
@@ -64,6 +65,7 @@ from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_
     teacher_accept_student_request
 from portal.views.registration import teacher_password_reset, password_reset_done, student_password_reset, \
     password_reset_check_and_confirm, custom_2FA_login
+
 js_info_dict = {
     'packages': ('conf.locale',),
 }
@@ -83,8 +85,9 @@ two_factor_patterns = [
 
 
 urlpatterns = [
+    url(r'^aimmo/', aimmo_home_view, name='aimmo'),
     url(r'^aimmo/', include('aimmo.urls')),
-    url(r'^aimmo-home/$', TemplateView.as_view(template_name='portal/aimmo_home.html'), name='aimmo_home'),
+
 
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
