@@ -98,7 +98,7 @@
                         {% if user|has_teacher_finished_onboarding %}
                             <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             {% block rapidrouter %}<a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
-                            {% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>{% endblock aimmo %}
+                            {% block aimmo %}<a href="{% url 'aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>{% endblock aimmo %}
                             <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
                         {% else %}
                             <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
