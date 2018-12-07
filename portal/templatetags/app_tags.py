@@ -79,7 +79,7 @@ def is_preview_student(u):
     return False
 
 
-@register.filter
+@register.filter(name='is_eligible_for_testing')
 def is_eligible_for_testing(u):
     if is_logged_in_as_teacher(u):
         school_set_up = hasattr(u.userprofile.teacher, 'school') and hasattr(u.userprofile.teacher.school, 'eligible_for_testing')

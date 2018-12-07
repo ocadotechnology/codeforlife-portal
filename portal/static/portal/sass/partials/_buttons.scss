@@ -255,8 +255,12 @@ button,
 
 .button-group {
 
-  .button,
-  button {
+  button + .button,
+  button + button,
+  .button + .button,
+  .button + button,
+  input + button,
+  input + .button {
     @include _margin(0px, 0px, 0px, 20px);
   }
 

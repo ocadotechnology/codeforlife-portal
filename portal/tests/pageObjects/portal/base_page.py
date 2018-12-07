@@ -34,7 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -103,6 +102,10 @@ class BasePage(object):
         self.browser.find_element_by_id('resources_button').click()
         return resources_page.ResourcesPage(self.browser)
 
+    def go_to_aimmo_home_page(self):
+        self.browser.find_element_by_id('aimmo_home_button').click()
+        return aimmo_home_page.AimmoHomePage(self.browser)
+
     def is_on_admin_login_page(self):
         return self.on_correct_page('admin_login')
 
@@ -131,3 +134,4 @@ class BasePage(object):
 
 
 import resources_page
+import aimmo_home_page

@@ -121,7 +121,8 @@
                 {% if user|is_preview_user %}
                 <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
                 {% else %}
-                <a href="{% url 'make_preview_tester' %}" target="" class="button button--big button-primary button--primary--general-play">Start Testing</a>
+                <a href="{% url 'make_preview_tester' %}" target="" id="start_testing_button"
+                   class="button button--big button-primary button--primary--general-play">Start Testing</a>
                 {% endif %}
             {% else %}
             <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us to join</a>

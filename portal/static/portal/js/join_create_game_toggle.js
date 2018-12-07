@@ -39,23 +39,23 @@ identified as the original program.
 $(document).ready(function() {
     let game_name_input = $('#id_name');
 
-    $('#create-game-button').click(function(){
-        $('#join-game').addClass("hidden");
-        $('#create-game').removeClass("hidden");
+    $('#create_new_game_button').click(function(){
+        $('#join_game').addClass("hidden");
+        $('#create_game').removeClass("hidden");
     });
 
-    $('#back-button').click(function(){
-        $('#create-game').addClass("hidden");
-        $('#join-game').removeClass("hidden");
+    $('#back_button').click(function(){
+        $('#create_game').addClass("hidden");
+        $('#join_game').removeClass("hidden");
     });
 
-    $('#create-new-game-button').click(function(){
+    $('#create_game_button').click(function(){
         if(!document.getElementById("id_name").value || document.getElementById("id_name").value == ""){
             document.getElementById("id_name").placeholder = "Give your new game a name...";
             game_name_input.css("border-color", "#ff0000");
         }
         else{
-            document.getElementById("create-game-form").submit();
+            document.getElementById("create_game_form").submit();
         }
     });
 
