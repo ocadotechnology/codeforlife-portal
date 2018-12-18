@@ -1,4 +1,4 @@
-{% extends 'portal/teach/base_logged_in.html' %}
+{% extends 'portal/base.html' %}
 
 {% block dashboard %}
 <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
@@ -20,8 +20,6 @@
         $('#password-setter').show();
         window.location = '#set-password';
         {%endif%}
-
-        toggleStickySubnav($('.menu').outerHeight());
     });
 </script>
 
