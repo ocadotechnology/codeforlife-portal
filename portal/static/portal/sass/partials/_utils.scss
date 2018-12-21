@@ -208,9 +208,9 @@ iframe {
 .pdf-list {
   p:not(:first-of-type) {
     &:after {
-      background: url("../img/icon_pdf.png") no-repeat center;
+      background: url('../img/icon_pdf.png') no-repeat center;
       background-size: contain;
-      content: "";
+      content: '';
       display: inline-block;
       height: 20px;
       margin: 0 6px 0 10px;

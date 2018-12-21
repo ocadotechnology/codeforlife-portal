@@ -20,7 +20,12 @@
 
   }
 
-  h1, h2, h3, h4, p, a {
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  a {
     color: $color-text-secondary;
   }
 
@@ -177,7 +182,8 @@
   .dropdown {
     width: 50%;
 
-    button, ul {
+    button,
+    ul {
       @include _margin(0px, 0px, 0px, 0px);
       width: 100%;
       z-index: 1;
