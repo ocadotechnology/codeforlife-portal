@@ -34,7 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
@@ -42,6 +42,8 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 
 from portal.models import Teacher, Student, Class
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
@@ -128,6 +130,9 @@ def render_login_form(request):
         form, process_form, render_dict = configure_post_login(request, render_dict)
 
         if form.is_valid():
+            message = format_html('We have updated our terms and conditions. Please take a moment to review them '
+                                  '<a href="{}">here</a>.', reverse('terms'))
+            messages.info(request, mark_safe(message))
             return process_form(request, form)
         else:
             invalid_form = True
@@ -434,6 +439,9 @@ def process_newsletter_form(request):
 
 
 def home(request):
+    message = format_html('We have updated our terms and conditions. Please take a moment to review them '
+                          '<a href="{}">here</a>.', reverse('terms'))
+    messages.info(request, mark_safe(message))
     return render(request, 'portal/home.html')
 
 
