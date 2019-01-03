@@ -35,11 +35,9 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse_lazy
 from django.forms import ModelForm
 
 from aimmo.models import Game
-from aimmo.templatetags.players_utils import get_user_playable_games
 
 
 class AddGameForm(ModelForm):
@@ -52,9 +50,19 @@ class AddGameForm(ModelForm):
                    'target_num_pickups_per_avatar', 'pickup_spawn_chance', 'obstacle_ratio',
                    'start_height', 'start_width']
 
-        print("HELLOOOOOOOOOOOO")
+    def clean(self):
+        name = self.cleaned_data['name']
 
-        def clean(self):
-            print(self.name in get_user_playable_games(self, reverse_lazy('aimmo_home')))
-            if self.name and self.name in get_user_playable_games(self, reverse_lazy('aimmo_home')):
-                raise ValidationError("Sorry, a game with that name already exists.")
+        playable_games_names = [
+            playable_game.name
+            for playable_game in self.playable_games
+            if self.playable_games and name
+        ]
+
+        if name in playable_games_names:
+            raise ValidationError("Sorry, a game with that name already exists.")
+
+        return self.cleaned_data
+
+    def add_playable_games(self, playable_games):
+        self.playable_games = playable_games

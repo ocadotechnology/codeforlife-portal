@@ -166,6 +166,29 @@ class SeleniumTestPreviewUsers(BaseTest):
 
         self.assertEqual(page.get_input_game_name_placeholder(), "Give your new game a name...")
 
+    def test_preview_user_cannot_create_duplicate_game(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game")
+        page.click_create_game_button()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game")
+        page.click_create_game_button()
+
+        self.assertEqual(page.get_input_game_name_placeholder(), "Sorry, a game with this name already exists...")
+
     def test_preview_user_can_join_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)

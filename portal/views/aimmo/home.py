@@ -38,37 +38,43 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
+from portal.forms.aimmo_home import AddGameForm
 from portal.permissions import preview_user
 from portal.views.teacher.teach import get_session_pdfs, get_resource_sheets_pdfs
 
-from aimmo import forms
 from aimmo.app_settings import get_users_for_new_game
 
 
 @login_required(login_url=reverse_lazy('login_view'))
 @preview_user
-def aimmo_home_view(request):
+def aimmo_home(request):
     ks3_sessions = []
     ks3_sheets = []
 
     get_session_pdfs("ks3_session_", ks3_sessions)
     get_resource_sheets_pdfs(ks3_sessions, "KS3_S", ks3_sheets)
 
-    if request.method == 'POST':
-        create_game_form = forms.AddGameForm(request.POST)
-        if create_game_form.is_valid():
-            game = create_game_form.save(commit=False)
-            game.generator = 'Main'
-            game.owner = request.user
-            game.main_user = request.user
-            game.save()
-            users = get_users_for_new_game(request)
+    def save_form():
+        game = create_game_form.save(commit=False)
+        game.generator = 'Main'
+        game.owner = request.user
+        game.main_user = request.user
+        game.save()
+        users = get_users_for_new_game(request)
 
-            if users is not None:
-                game.can_play.add(*users)
-            return redirect('aimmo/play', id=game.id)
+        if users is not None:
+            game.can_play.add(*users)
+        return redirect('aimmo/play', id=game.id)
+
+    if request.method == 'POST':
+        playable_games = request.user.playable_games.all()
+        create_game_form = AddGameForm(request.POST)
+        create_game_form.add_playable_games(playable_games)
+        if create_game_form.is_valid():
+            return save_form()
+
     else:
-        create_game_form = forms.AddGameForm()
+        create_game_form = AddGameForm()
 
     return render(request, 'portal/aimmo_home.html',
                   {'create_game_form': create_game_form,

@@ -37,30 +37,54 @@ identified as the original program.
 */
 
 $(document).ready(function() {
-    let game_name_input = $('#id_name');
+    var game_name_input = $('#id_name');
+    var create_game_form = $('#create_game_form');
+    var join_game_section = $('#join_game');
+    var create_game_section = $('#create_game');
+    var create_game_button = $('#create_game_button');
+    var create_new_game_button = $('#create_new_game_button');
+    var back_button = $('#back_button');
 
-    $('#create_new_game_button').click(function(){
-        $('#join_game').addClass("hidden");
-        $('#create_game').removeClass("hidden");
+    if(game_name_input.val()){
+        showCreateGameForm();
+        game_name_input.val("");
+        showInputError("Sorry, a game with this name already exists...");
+    }
+
+    create_new_game_button.click(function(){
+        showCreateGameForm();
     });
 
-    $('#back_button').click(function(){
-        $('#create_game').addClass("hidden");
-        $('#join_game').removeClass("hidden");
+    back_button.click(function(){
+        showJoinGameForm();
     });
 
-    $('#create_game_button').click(function(){
-        if(!document.getElementById("id_name").value || document.getElementById("id_name").value == ""){
-            document.getElementById("id_name").placeholder = "Give your new game a name...";
-            $("#id_name").addClass('input-invalid');
+    create_game_button.click(function(){
+        if(!game_name_input.val() || game_name_input.val() === ""){
+            showInputError("Give your new game a name...");
         }
         else {
-            document.getElementById("create_game_form").submit();
+            create_game_form.submit();
         }
     });
 
     game_name_input.click(function () {
-        document.getElementById("id_name").placeholder = "";
-        $("#id_name").removeClass('input-invalid');
-    })
+        game_name_input.attr("placeholder", "");
+        game_name_input.removeClass('input-invalid');
+    });
+
+    function showCreateGameForm(){
+        join_game_section.addClass("hidden");
+        create_game_section.removeClass("hidden");
+    }
+
+    function showJoinGameForm(){
+        create_game_section.addClass("hidden");
+        join_game_section.removeClass("hidden");
+    }
+
+    function showInputError(error_message){
+        game_name_input.attr("placeholder", error_message);
+        game_name_input.addClass('input-invalid');
+    }
 });

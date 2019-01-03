@@ -227,7 +227,8 @@
   #create_game_form {
     padding: 0;
 
-    label {
+    label,
+    .errorlist {
       display: none;
     }
 
