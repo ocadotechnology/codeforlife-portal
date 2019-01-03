@@ -34,10 +34,27 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django import forms
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse_lazy
+from django.forms import ModelForm
+
+from aimmo.models import Game
+from aimmo.templatetags.players_utils import get_user_playable_games
 
 
-class GameCreationForm(forms.Form):
-    game_name = forms.CharField(
-        label='Game Name',
-        widget=forms.TextInput())
+class AddGameForm(ModelForm):
+    class Meta:
+        model = Game
+        name = ['name']
+        exclude = ['Main', 'owner', 'auth_token', 'completed', 'main_user', 'static_data', 'can_play',
+                   'public', 'generator', 'target_num_cells_per_avatar',
+                   'target_num_score_locations_per_avatar', 'score_despawn_chance',
+                   'target_num_pickups_per_avatar', 'pickup_spawn_chance', 'obstacle_ratio',
+                   'start_height', 'start_width']
+
+        print("HELLOOOOOOOOOOOO")
+
+        def clean(self):
+            print(self.name in get_user_playable_games(self, reverse_lazy('aimmo_home')))
+            if self.name and self.name in get_user_playable_games(self, reverse_lazy('aimmo_home')):
+                raise ValidationError("Sorry, a game with that name already exists.")

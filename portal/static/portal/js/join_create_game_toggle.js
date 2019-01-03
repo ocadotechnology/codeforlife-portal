@@ -52,15 +52,15 @@ $(document).ready(function() {
     $('#create_game_button').click(function(){
         if(!document.getElementById("id_name").value || document.getElementById("id_name").value == ""){
             document.getElementById("id_name").placeholder = "Give your new game a name...";
-            game_name_input.css("border-color", "#ff0000");
+            $("#id_name").addClass('input-invalid');
         }
-        else{
+        else {
             document.getElementById("create_game_form").submit();
         }
     });
 
     game_name_input.click(function () {
         document.getElementById("id_name").placeholder = "";
-        game_name_input.css("border-color", "#808080");
+        $("#id_name").removeClass('input-invalid');
     })
 });

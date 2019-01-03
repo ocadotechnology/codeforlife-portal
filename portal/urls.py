@@ -46,7 +46,7 @@ from portal.views.api import registered_users, last_connected_since, number_user
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.teacher.solutions_level_selector import levels
 from portal.permissions import teacher_verified
-from portal.views.aimmo.home import aimmo_home_view
+from portal.views.aimmo.home import aimmo_home
 
 from portal.views.email import send_new_users_report
 
@@ -85,7 +85,10 @@ two_factor_patterns = [
 
 
 urlpatterns = [
-    url(r'^aimmo/', aimmo_home_view, name='aimmo'),
+    # The first AIMMO URL renders the new AIMMO home page. It uses the same regex so as to overwrite the default
+    # home page in the AIMMO project.
+    # The second AIMMO URL imports all the URLs from the AIMMO project.
+    url(r'^aimmo/', aimmo_home, name='aimmo'),
     url(r'^aimmo/', include('aimmo.urls')),
 
 

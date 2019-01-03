@@ -42,6 +42,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
                     {% csrf_token %}
                     <div class="button-group">
                         {{ create_game_form }}
+                        {{ create_game_form.name.errors }}
                         <a id="create_game_button" name="create_class"
                                 class="button button--regular button-primary button--primary--general-educate">Create</a>
                     </div>

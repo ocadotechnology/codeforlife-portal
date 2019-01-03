@@ -94,7 +94,7 @@
 }
 
 .banner--picture--aimmo {
-  background-image: url('../img/aimmo_hero.png');
+  background-image: url('../img/aimmo_hero.jpg');
 }
 
 .banner--homepage {
@@ -200,7 +200,7 @@
       white-space: normal;
 
       &:hover {
-        border-bottom: 1px solid $color-text-grey;
+        border-bottom: 1px solid $color-text-gray;
       }
     }
 
@@ -237,7 +237,7 @@
       width: 65%;
 
       &::placeholder {
-        color: $color-text-form-error;
+        color: $color-error;
       }
 
     }
