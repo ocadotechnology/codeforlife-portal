@@ -217,11 +217,6 @@
   .button-group {
     display: flex;
 
-    .dropdown + .button,
-    .dropdown + button {
-      @include _margin(0px, 0px, 0px, 20px);
-    }
-
   }
 
   #create_game_form {
