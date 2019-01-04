@@ -42,8 +42,10 @@ button--menu--enabled button--menu--student--active">My Games</a>
                     {% csrf_token %}
                     <div class="button-group">
                         {{ create_game_form }}
-                        <a id="create_game_button" name="create_class"
-                                class="button button--regular button-primary button--primary--general-educate">Create</a>
+                        <a id="create_game_button"
+                           name="create_class"
+                           class="button button--regular button-primary button--primary--general-educate"
+                           onclick='send_event("AI:MMO", "Clicked", "Create game button");'>Create</a>
                     </div>
                 </form>
                 <p><a id="back_button"><small>&#10229; Back</small></a></p>

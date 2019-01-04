@@ -59,12 +59,12 @@
         ga('create', 'UA-49883146-1', 'auto');
         ga('send', 'pageview');
 
-        function send_event(name_of_file, action){
+        function send_event(category_name, action, label_name){
             ga('send', {
                 hitType: 'event',
-                eventCategory: 'PDFs',
+                eventCategory: category_name,
                 eventAction: action,
-                eventLabel: name_of_file
+                eventLabel: label_name
             });
         }
     </script>
