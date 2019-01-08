@@ -45,6 +45,19 @@ from portal.views.teacher.teach import get_session_pdfs, get_resource_sheets_pdf
 from aimmo.app_settings import get_users_for_new_game
 
 
+def save_form(request, create_game_form):
+    game = create_game_form.save(commit=False)
+    game.generator = 'Main'
+    game.owner = request.user
+    game.main_user = request.user
+    game.save()
+    users = get_users_for_new_game(request)
+
+    if users is not None:
+        game.can_play.add(*users)
+    return redirect('aimmo/play', id=game.id)
+
+
 @login_required(login_url=reverse_lazy('login_view'))
 @preview_user
 def aimmo_home(request):
@@ -54,24 +67,12 @@ def aimmo_home(request):
     get_session_pdfs("ks3_session_", ks3_sessions)
     get_resource_sheets_pdfs(ks3_sessions, "KS3_S", ks3_sheets)
 
-    def save_form():
-        game = create_game_form.save(commit=False)
-        game.generator = 'Main'
-        game.owner = request.user
-        game.main_user = request.user
-        game.save()
-        users = get_users_for_new_game(request)
-
-        if users is not None:
-            game.can_play.add(*users)
-        return redirect('aimmo/play', id=game.id)
-
     if request.method == 'POST':
         playable_games = request.user.playable_games.all()
         create_game_form = AddGameForm(request.POST)
         create_game_form.add_playable_games(playable_games)
         if create_game_form.is_valid():
-            return save_form()
+            return save_form(request, create_game_form)
 
     else:
         create_game_form = AddGameForm()
