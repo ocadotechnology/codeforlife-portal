@@ -85,7 +85,7 @@
   display: none;
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: $hover-content-level;
 
   a {
     color: $color-text-tertiary;
@@ -152,7 +152,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 2;
+    z-index: $nav-bar-level;
 
     .button--menu {
       border-radius: 0;
@@ -218,7 +218,7 @@
       content: url('../img/logo_c4l_horizontal.png');
       position: relative;
       width: 80%;
-      z-index: 1;
+      z-index: $hover-content-level;
     }
 
     button {

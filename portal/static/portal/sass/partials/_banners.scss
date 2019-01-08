@@ -186,7 +186,7 @@
     ul {
       @include _margin(0px, 0px, 0px, 0px);
       width: 100%;
-      z-index: 1;
+      z-index: $hover-content-level;
     }
 
     li {

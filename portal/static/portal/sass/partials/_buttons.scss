@@ -255,7 +255,7 @@ button,
 
 .button-group {
 
-  :not(:first-child) {
+  > :not(:first-child) {
     @include _margin(0px, 0px, 0px, 20px);
   }
 
