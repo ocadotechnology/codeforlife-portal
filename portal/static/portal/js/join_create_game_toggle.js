@@ -45,22 +45,22 @@ $(document).ready(function() {
     var create_new_game_button = $('#create_new_game_button');
     var back_button = $('#back_button');
 
-    if(game_name_input.val()){
+    if(game_name_input.val()) {
         showCreateGameForm();
         game_name_input.val("");
         showInputError("Sorry, a game with this name already exists...");
     }
 
-    create_new_game_button.click(function(){
+    create_new_game_button.click(function() {
         showCreateGameForm();
     });
 
-    back_button.click(function(){
+    back_button.click(function() {
         showJoinGameForm();
     });
 
-    create_game_button.click(function(){
-        if(!game_name_input.val() || game_name_input.val() === ""){
+    create_game_button.click(function() {
+        if(!game_name_input.val() || game_name_input.val() === "") {
             showInputError("Give your new game a name...");
         }
         else {
@@ -73,17 +73,17 @@ $(document).ready(function() {
         game_name_input.removeClass('input-invalid');
     });
 
-    function showCreateGameForm(){
+    function showCreateGameForm() {
         join_game_section.addClass("hidden");
         create_game_section.removeClass("hidden");
     }
 
-    function showJoinGameForm(){
+    function showJoinGameForm() {
         create_game_section.addClass("hidden");
         join_game_section.removeClass("hidden");
     }
 
-    function showInputError(error_message){
+    function showInputError(error_message) {
         game_name_input.attr("placeholder", error_message);
         game_name_input.addClass('input-invalid');
     }

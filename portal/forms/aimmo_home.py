@@ -60,7 +60,7 @@ class AddGameForm(ModelForm):
         ]
 
         if name in playable_games_names:
-            raise ValidationError("Sorry, a game with that name already exists.")
+            raise ValidationError("Sorry, a game with this name already exists.")
 
         return self.cleaned_data
 
