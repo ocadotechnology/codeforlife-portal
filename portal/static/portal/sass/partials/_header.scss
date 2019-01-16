@@ -7,7 +7,7 @@
 
 .menu__right-side {
   .dropdown {
-    width: 90%;
+    width: 80%;
   }
 }
 
@@ -16,7 +16,7 @@
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
-  width: 90%;
+  width: 80%;
   white-space: nowrap;
 }
 
@@ -29,7 +29,7 @@
   min-width: 0;
   overflow: auto;
   padding: 0;
-  width: 90%;
+  width: 80%;
 
   .dropdown-menu__option {
 
@@ -133,6 +133,10 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
+
+    &.col-sm-3 {
+      width: 100%;
+    }
   }
 
 }
