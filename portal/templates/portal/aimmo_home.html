@@ -38,7 +38,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
                 {% endif %}
             </div>
             <div id="create_game" class="hidden">
-                <form autocomplete="off" id="create_game_form" method="post">
+                <form autocomplete="off" id="create-game-form" method="post">
                     {% csrf_token %}
                     <div class="button-group">
                         {{ create_game_form }}

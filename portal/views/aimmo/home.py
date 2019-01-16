@@ -38,11 +38,11 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from portal.forms.aimmo_home import AddGameForm
 from portal.permissions import preview_user
 from portal.views.teacher.teach import get_session_pdfs, get_resource_sheets_pdfs
 
 from aimmo.app_settings import get_users_for_new_game
+from aimmo.forms import AddGameForm
 
 
 def save_form(request, create_game_form):
@@ -67,15 +67,15 @@ def aimmo_home(request):
     get_session_pdfs("ks3_session_", ks3_sessions)
     get_resource_sheets_pdfs(ks3_sessions, "KS3_S", ks3_sheets)
 
+    playable_games = request.user.playable_games.all()
+
     if request.method == 'POST':
-        playable_games = request.user.playable_games.all()
-        create_game_form = AddGameForm(request.POST)
-        create_game_form.add_playable_games(playable_games)
+        create_game_form = AddGameForm(playable_games, data=request.POST)
         if create_game_form.is_valid():
             return save_form(request, create_game_form)
 
     else:
-        create_game_form = AddGameForm()
+        create_game_form = AddGameForm(playable_games)
 
     return render(request, 'portal/aimmo_home.html',
                   {'create_game_form': create_game_form,

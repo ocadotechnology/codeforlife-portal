@@ -66,6 +66,8 @@ from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_
 from portal.views.registration import teacher_password_reset, password_reset_done, student_password_reset, \
     password_reset_check_and_confirm, custom_2FA_login
 
+from aimmo.urls import HOMEPAGE_REGEX
+
 js_info_dict = {
     'packages': ('conf.locale',),
 }
@@ -88,8 +90,8 @@ urlpatterns = [
     # The first AIMMO URL renders the new AIMMO home page. It uses the same regex so as to overwrite the default
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(r'^aimmo/', aimmo_home, name='aimmo'),
-    url(r'^aimmo/', include('aimmo.urls')),
+    url(HOMEPAGE_REGEX, aimmo_home, name='aimmo'),
+    url(HOMEPAGE_REGEX, include('aimmo.urls')),
 
 
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),

@@ -38,7 +38,7 @@ identified as the original program.
 
 $(document).ready(function() {
     var game_name_input = $('#id_name');
-    var create_game_form = $('#create_game_form');
+    var create_game_form = $('#create-game-form');
     var join_game_section = $('#join_game');
     var create_game_section = $('#create_game');
     var create_game_button = $('#create_game_button');
