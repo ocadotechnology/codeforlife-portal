@@ -6,10 +6,8 @@
 }
 
 .menu__right-side {
-  width: fit-content;
-
   .dropdown {
-    width: 90%;
+    width: 80%;
   }
 }
 
@@ -18,7 +16,7 @@
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
-  width: 90%;
+  width: 80%;
   white-space: nowrap;
 }
 
@@ -29,7 +27,7 @@
   min-width: 0;
   padding: 0;
   font-weight: 300;
-  width: 90%;
+  width: 80%;
 
   .dropdown-menu__option {
 
@@ -133,6 +131,10 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
+
+    &.col-sm-3 {
+      width: 100%;
+    }
   }
 
 }
