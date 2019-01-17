@@ -16,7 +16,7 @@ setup(name='codeforlife-portal',
           'django-pipeline==1.5.4',
           'django-recaptcha==1.3.1',  # 1.4 dropped support for < 1.11
 
-          'pyyaml==3.10',
+          'pyyaml==4.2b1',
           'rapid-router >= 1.0.0.post.dev1',
           'six==1.11.0',
           'aimmo',
@@ -26,8 +26,8 @@ setup(name='codeforlife-portal',
           'django-formtools==1.0',
           'django-two-factor-auth==1.5.0',
           'django-otp==0.4.3',  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
-          'urllib3==1.22',
-          'requests==2.18.4',
+          'urllib3==1.23',
+          'requests==2.20.0',
 
           'django-classy-tags==0.6.1',
           'django-treebeard==4.3',
