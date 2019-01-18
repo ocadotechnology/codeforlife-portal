@@ -34,7 +34,6 @@ function toggleStickySubnav(scrollToTop) {
         if (currentScroll >= scrollToTop) {
             if (!$('.sticky-subnav').hasClass("sub-nav--fixed")) {
                 $('.sticky-subnav').addClass('sub-nav--fixed');
-                $('.menu').addClass('hide');
             }
             if (!$('#sticky-warning').hasClass('sub-nav--warning--fixed')) {
                 $('#sticky-warning').addClass('sub-nav--warning--fixed');
