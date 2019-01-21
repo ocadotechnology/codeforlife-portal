@@ -1,5 +1,20 @@
 @import 'base';
 
+input[type=text],
+input[type=email],
+input[type=password],
+select {
+  @include _border-radius(8px, 8px, 8px, 8px);
+  @include _padding(0px, 0px, 0px, 10px);
+  border: 1px solid $color-message-border;
+
+  &:focus {
+    border: 1px solid $color-message-border;
+    outline: none;
+  }
+
+}
+
 form {
   @include _font-size(20px);
   @include _line-height(25px);
@@ -15,7 +30,6 @@ form {
   select {
     @include _font-size(20px);
     @include _margin(10px, 0px, 10px, 0px);
-    @include _padding(0px, 0px, 0px, 10px);
     background-color: $color-background-secondary;
     height: 50px;
     width: 100%;
@@ -37,7 +51,7 @@ form {
   }
 
   ul {
-    color: $color-text-form-error;
+    color: $color-error;
     font-style: italic;
     list-style: none;
     padding: 0;

@@ -1,0 +1,125 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block aimmo %}
+<a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary
+button--menu--enabled button--menu--teacher--active">AI:MMO</a>
+{% endblock aimmo %}
+
+{% block myGames %}
+<a href="{% url 'student_details' %}" id="student_dashboard_button" class="button--menu button--menu--secondary
+button--menu--enabled button--menu--student--active">My Games</a>
+{% endblock myGames %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'portal/js/join_create_game_toggle.js' %}"></script>
+{% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+{% if user|is_logged_in_as_teacher %}
+    <div class="banner banner--teacher banner--aimmo-home banner--teacher--create-aimmo-game row">
+{% else %}
+    <div class="banner banner--teacher banner--aimmo-home row">
+{% endif %}
+        <div class="col-sm-4 col-sm-offset-2">
+            <img title="Preview version" alt="Preview version" src="{% static 'portal/img/preview_version_label.svg' %}">
+            <h1 class="banner__text--primary">AI:MMO</h1>
+            <div id="join_game" class="button-group">
+                {% game_dropdown_list 'aimmo/play' %}
+                {% if user|is_logged_in_as_teacher %}
+                    <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
+                {% endif %}
+            </div>
+            <div id="create_game" class="hidden">
+                <form autocomplete="off" id="create-game-form" method="post">
+                    {% csrf_token %}
+                    <div class="button-group">
+                        {{ create_game_form }}
+                        <a id="create_game_button"
+                           name="create_class"
+                           class="button button--regular button-primary button--primary--general-educate"
+                           onclick='send_event("AI:MMO", "Clicked", "Create game button");'>Create</a>
+                    </div>
+                </form>
+                <p><a id="back_button"><small>&#10229; Back</small></a></p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--aimmo"></div></div></div>
+        </div>
+    </div>
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+<div id="aimmo_home_page">
+    <div class="background--primary">
+        {% if user|is_logged_in_as_teacher %}
+            <section class="background col-sm-6 col-center">
+                <h1>Your school has been selected to trial the preview version of AI:MMO</h1>
+                <p>Your testing and
+                    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link">feedback</a>
+                    will help Code for Life deliver an enjoyable game, and will allow us to consult with you on resources
+                    that will be relevant to teaching computing classes in secondary schools<br>(14 &mdash; 18 year olds).</p>
+            </section>
+        {% endif %}
+        <div class="background col-sm-8 col-center">
+            <div class="row pdf-list">
+                <div class="col-sm-4">
+                    <h3>User guide</h3>
+                    <p>Find out more about the game and learn the basics for using the code editor and game map.</p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='user_guide_aimmo' %}">User Guide</a></p>
+                </div>
+                <div class="col-sm-4">
+                    <h3>Challenges</h3>
+                    {% if user|is_logged_in_as_teacher %}
+                        <p>We have created two initial challenges for both teachers and students to become familiar with the game.</p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='KS3_challenges_guide' %}">Teacher lesson guide for challenges</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='KS3_challenge1' %}">Student challenge sheet 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='KS3_challenge2' %}">Student challenge sheet 2</a></p>
+                    {% else %}
+                        <p>We have created two initial challenges for you to become familiar with the game.</p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='KS3_challenge1' %}">Challenge sheet 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='KS3_challenge2' %}">Challenge sheet 2</a></p>
+                    {% endif %}
+                </div>
+                <div class="col-sm-4">
+                    <h3>Resource sheets</h3>
+                    <p>Resource sheets help you to understand coding concepts that will be used within the game.</p>
+                    {% for ks3_sessions in ks3_sheets %}
+                        {% for ks3_sheet in ks3_sessions %}
+                            <p><a href="{% url 'materials_viewer' pdf_name=ks3_sheet.url_name %}">{{ ks3_sheet.title }}</a></p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="background">
+        <div class="col-sm-6 col-center">
+            {% if user|is_logged_in_as_teacher %}
+                <h3>Teachers, tell us what you think of AI:MMO...</h3>
+                <div class="background">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
+                       class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>
+                </div>
+            {% else %}
+                <h3>Students, tell us what you think of AI:MMO...</h3>
+                <div class="background">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link"
+                       class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+{% endblock content %}

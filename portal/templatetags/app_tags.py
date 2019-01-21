@@ -39,6 +39,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from portal.utils import using_two_factor
 from portal import beta
+from aimmo.templatetags.players_utils import get_user_playable_games
 
 register = template.Library()
 
@@ -78,7 +79,7 @@ def is_preview_student(u):
     return False
 
 
-@register.filter
+@register.filter(name='is_eligible_for_testing')
 def is_eligible_for_testing(u):
     if is_logged_in_as_teacher(u):
         school_set_up = hasattr(u.userprofile.teacher, 'school') and hasattr(u.userprofile.teacher.school, 'eligible_for_testing')
@@ -89,6 +90,11 @@ def is_eligible_for_testing(u):
 @register.filter
 def has_beta_access(request):
     return beta.has_beta_access(request)
+
+
+@register.inclusion_tag('portal/partials/aimmo_join_game_dropdown.html', takes_context=True)
+def game_dropdown_list(context, base_url):
+    return get_user_playable_games(context, base_url)
 
 
 @register.filter(name='make_into_username')

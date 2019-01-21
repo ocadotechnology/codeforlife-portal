@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block nav_play %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block nav_play %}<a href="{% url 'aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
 {% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">AI:MMO</a>{% endblock aimmo %}
 
 
@@ -19,18 +19,12 @@
 <div class="banner banner--aimmo--background">
   <div class="sticky-subnav sub-nav sub-nav--games">
     <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
-    <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
+    <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
   </div>
   <div class="row banner--aimmo--content">
     <div class="col-md-offset-2 col-md-5">
         <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
         <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
-        {% if user|is_preview_user %}
-            <div class="background button--banner--container">
-                <a href="{% url 'aimmo/home' %}" class="button button--jumbo button--banner button--primary--general-educate">Play now</a>
-                <a href="{% url 'materials' %}#ks3" class="button button--jumbo button--banner button--primary--navigation">View teaching pack</a>
-            </div>
-        {% endif %}
     </div>
     <div class="col-md-4">
       <a href="https://www.youtube-nocookie.com/embed/MOfL8bqHufI?rel=0&amp;showinfo=0;autoplay=1" class="youtube">
@@ -56,24 +50,23 @@
           {% if user|is_eligible_for_testing %}
             Your testing and feedback will help Code for Life deliver an enjoyable game,
             and will allow us to consult with you on resources that will be relevant to
-            teaching computing classes in secondary schools (13 - 16 year olds).
+            teaching computing classes in secondary schools (14 &mdash; 18 year olds).
           {% else %}
-            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
-            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+            Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: intermediate Python.
           {% endif %}
         </h4>
         <h4 class="col-sm-6 col-center">
           {% if user|is_eligible_for_testing %}
-            Following on from Rapid Router, this exciting game will build on students’ existing coding skills.
-            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: Artificial Intelligence and Python.
+            Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
+            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: intermediate Python.
           {% else %}
             This preview version of AI:MMO is intended to be used by selected schools to help Code for Life deliver an enjoyable game,
-            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (13 - 16 year olds).
+            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (14 &mdash; 18 year olds).
           {% endif %}
         </h4>
     </section>
     <div class="row row--small">
-        {% if not user|is_preview_user %}
         <div class="col-sm-9 col-center is-flex">
             <div class="col-sm-4">
                 <img title="Teaching Resources" alt="Teaching Resources" class="img-aspect-fill" src="{% static 'portal/img/teaching_materials.jpg' %}">
@@ -122,14 +115,14 @@
                 </p>
             </div>
         </div>
-        {% endif %}
         <div class="background button--bottom is-flex center-flex">
 
             {% if user|is_eligible_for_testing %}
                 {% if user|is_preview_user %}
                 <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
                 {% else %}
-                <a href="{% url 'make_preview_tester' %}" target="" class="button button--big button-primary button--primary--general-play">Start Testing</a>
+                <a href="{% url 'make_preview_tester' %}" target="" id="start_testing_button"
+                   class="button button--big button-primary button--primary--general-play">Start Testing</a>
                 {% endif %}
             {% else %}
             <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us to join</a>

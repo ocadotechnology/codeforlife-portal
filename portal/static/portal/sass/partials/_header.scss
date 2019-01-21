@@ -21,12 +21,14 @@
 }
 
 .dropdown-menu {
+  @include _border-radius(0px, 0px, 10px, 10px);
   border: none;
-  border-radius: 1rem;
-  margin: 0;
-  min-width: 0;
-  padding: 0;
   font-weight: 300;
+  margin: 0;
+  max-height: 300px;
+  min-width: 0;
+  overflow: auto;
+  padding: 0;
   width: 80%;
 
   .dropdown-menu__option {
@@ -43,7 +45,7 @@
       display: flex;
 
       .dropdown-menu__option__text {
-        border-bottom: 1px dotted $color-text-secondary;
+        border-bottom: 1px dotted transparent;
         text-decoration: none;
       }
 
@@ -67,7 +69,7 @@
     &:last-of-type {
 
       .button--regular {
-        @include _border-radius(0px, 0px, 8px, 8px);
+        border: none;
       }
 
     }
@@ -83,7 +85,7 @@
   display: none;
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: $hover-content-level;
 
   a {
     color: $color-text-tertiary;
@@ -154,7 +156,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1;
+    z-index: $nav-bar-level;
 
     .button--menu {
       border-radius: 0;
@@ -220,7 +222,7 @@
       content: url('../img/logo_c4l_horizontal.png');
       position: relative;
       width: 80%;
-      z-index: 1;
+      z-index: $hover-content-level;
     }
 
     button {

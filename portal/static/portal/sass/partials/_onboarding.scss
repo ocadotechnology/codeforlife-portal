@@ -107,7 +107,7 @@
 
   .onboarding-step__text {
     @include _margin(0px, 0px, 0px, 45px);
-    z-index: 1;
+    z-index: $hover-content-level;
   }
 
   .onboarding-step--done {

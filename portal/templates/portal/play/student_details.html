@@ -8,7 +8,7 @@
        class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">My Games</a>
     <div class="dropdown-content">
         <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
-        <a href="{% url 'aimmo/home' %}"><small>AI:MMO</small></a>
+        <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
     </div>
 </div>
 <div class="dropdown">
@@ -53,10 +53,10 @@
         </div>
         {% if user.new_student.class_field and user|is_preview_user %}
             <section>
-                <a href="{% url 'aimmo/home' %}"><img title="AI:MMO" alt="AI:MMO" src="{% static 'portal/img/aimmo_logo_vertical.svg' %}"></a>
+                <a href="{% url 'aimmo' %}"><img title="AI:MMO" alt="AI:MMO" src="{% static 'portal/img/aimmo_logo_vertical.svg' %}"></a>
                 <h4>Take your coding to the next level!</h4>
                 <div class="background">
-                    <a href="{% url 'aimmo/home' %}" class="button button--regular button--primary--navigation">Play now</a>
+                    <a href="{% url 'aimmo' %}" class="button button--regular button--primary--navigation">Play now</a>
                 </div>
             </section>
             <p>AI:MMO is a Massively Multiplayer Online (MMO) learning tool, which will take you to the next level

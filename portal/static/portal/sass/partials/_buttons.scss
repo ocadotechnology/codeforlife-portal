@@ -110,30 +110,6 @@ button,
   }
 }
 
-.logout {
-  @include _border-radius(8px, 8px, 8px, 8px);
-  @extend .dropdown;
-  background: $color-background-secondary;
-  border: 1px solid $color-text-tertiary;
-  color: $color-text-tertiary;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  outline: none;
-
-  .glyphicon {
-    @include _font-size(20px);
-    @include _padding(0px, 0px, 0px, 10px);
-    display: inline-flex;
-  }
-}
-
-.logout[aria-expanded='true'] {
-  @include _border-radius(8px, 8px, 0px, 0px);
-  background: $color-background-tertiary;
-  color: $color-text-secondary;
-}
-
 .button--primary--general-play {
   background: $color-button-primary-action-general-play;
   color: $color-text-secondary;
@@ -238,6 +214,30 @@ button,
   }
 }
 
+.button--dropdown {
+  @include _border-radius(8px, 8px, 8px, 8px);
+  @extend .dropdown;
+  background: $color-background-secondary;
+  border: 1px solid $color-text-tertiary;
+  color: $color-text-tertiary;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  outline: none;
+
+  .glyphicon {
+    @include _font-size(20px);
+    @include _padding(0px, 0px, 0px, 10px);
+    display: inline-flex;
+  }
+}
+
+.button--dropdown[aria-expanded='true'] {
+  @include _border-radius(8px, 8px, 0px, 0px);
+  background: $color-background-tertiary;
+  color: $color-text-secondary;
+}
+
 .button--secondary--no-border {
   border-color: transparent;
   color: $color-text-tertiary;
@@ -255,9 +255,8 @@ button,
 
 .button-group {
 
-  .button,
-  button {
-    @include _margin(0px, 20px, 0px, 0px);
+  > :not(:first-child) {
+    @include _margin(0px, 0px, 0px, 20px);
   }
 
 }

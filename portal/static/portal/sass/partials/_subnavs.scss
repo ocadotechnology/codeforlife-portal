@@ -8,7 +8,7 @@
   justify-content: center;
   text-align: center;
   width: 100%;
-  z-index: 2;
+  z-index: $nav-bar-level;
 
   .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
@@ -72,7 +72,7 @@
   position: fixed;
   top: 80px;
   width: 100%;
-  z-index: 2;
+  z-index: $nav-bar-level;
 }
 
 .sub-nav--filler {

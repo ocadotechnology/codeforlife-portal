@@ -20,7 +20,12 @@
 
   }
 
-  * {
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  a {
     color: $color-text-secondary;
   }
 
@@ -34,10 +39,6 @@
 
   .banner--aimmo--content {
     @include _padding(70px, 0px, 70px, 0px);
-  }
-
-  small {
-    @include _padding(20px, 0px, 8px, 0px);
   }
 
   div[class^='col-sm'] {
@@ -92,6 +93,10 @@
   background-image: url('../img/teaching_resources.jpg');
 }
 
+.banner--picture--aimmo {
+  background-image: url('../img/aimmo_hero.jpg');
+}
+
 .banner--homepage {
   @include _padding(100px, 0px, 100px, 10px);
   display: flex;
@@ -103,7 +108,6 @@
     @include _padding(0px, 0px, 60px, 10px);
   }
 }
-
 
 .banner--homepage__text {
   @include _font-size(140px);
@@ -170,6 +174,74 @@
 
   .progress-arrow__body--in-progress p {
     color: $color-background-tertiary;
+  }
+
+}
+
+.banner--aimmo-home {
+  .dropdown {
+    width: 50%;
+
+    button,
+    ul {
+      @include _margin(0px, 0px, 0px, 0px);
+      width: 100%;
+      z-index: $hover-content-level;
+    }
+
+    li {
+      border-bottom: 1px solid $color-table-border;
+    }
+
+    .dropdown-menu__option__text {
+      border-bottom: 1px solid transparent;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+
+      &:hover {
+        border-bottom: 1px solid $color-text-gray;
+      }
+    }
+
+    .glyphicon {
+      @include _font-size(10px);
+      @include _padding(8px, 0px, 0px, 0px);
+    }
+  }
+}
+
+.banner--teacher--create-aimmo-game {
+  align-items: start;
+
+  .button-group {
+    display: flex;
+
+  }
+
+  #create-game-form {
+    padding: 0;
+
+    label,
+    .errorlist {
+      display: none;
+    }
+
+    input {
+      height: auto;
+      margin: 0;
+      width: 65%;
+
+      &::placeholder {
+        color: $color-error;
+      }
+
+    }
+
+  }
+
+  img {
+    @include _margin(14px, 0px, 0px, 0px);
   }
 
 }

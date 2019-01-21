@@ -460,6 +460,6 @@ def make_preview_tester(request):
                 user.set_to_preview_user()
                 user.save()
 
-            return HttpResponseRedirect(reverse_lazy('play_aimmo'))
+            return HttpResponseRedirect(reverse_lazy('aimmo'))
         return HttpResponse(status=401)
     return HttpResponse(status=405)
