@@ -46,6 +46,7 @@ from portal.views.api import registered_users, last_connected_since, number_user
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.teacher.solutions_level_selector import levels
 from portal.permissions import teacher_verified
+from portal.views.aimmo.home import aimmo_home
 
 from portal.views.email import send_new_users_report
 
@@ -64,6 +65,9 @@ from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_
     teacher_accept_student_request
 from portal.views.registration import teacher_password_reset, password_reset_done, student_password_reset, \
     password_reset_check_and_confirm, custom_2FA_login
+
+from aimmo.urls import HOMEPAGE_REGEX
+
 js_info_dict = {
     'packages': ('conf.locale',),
 }
@@ -83,7 +87,13 @@ two_factor_patterns = [
 
 
 urlpatterns = [
-    url(r'^aimmo/', include('aimmo.urls')),
+    # The first AIMMO URL renders the new AIMMO home page. It uses the same regex so as to overwrite the default
+    # home page in the AIMMO project.
+    # The second AIMMO URL imports all the URLs from the AIMMO project.
+    url(HOMEPAGE_REGEX, aimmo_home, name='aimmo'),
+    url(HOMEPAGE_REGEX, include('aimmo.urls')),
+
+
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/portal/img/favicon.ico', permanent=True)),
 
     url(r'^administration/login/$', admin_login, name='administration_login'),

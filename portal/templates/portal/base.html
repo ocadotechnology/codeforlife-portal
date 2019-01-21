@@ -50,7 +50,7 @@
 
     {% block google_analytics %}
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
                     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
@@ -59,12 +59,12 @@
         ga('create', 'UA-49883146-1', 'auto');
         ga('send', 'pageview');
 
-        function send_event(name_of_file, action){
+        function send_event(category_name, action, label_name) {
             ga('send', {
                 hitType: 'event',
-                eventCategory: 'PDFs',
+                eventCategory: category_name,
                 eventAction: action,
-                eventLabel: name_of_file
+                eventLabel: label_name
             });
         }
     </script>
@@ -98,12 +98,16 @@
                         {% if user|has_teacher_finished_onboarding %}
                             {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
                             {% block rapidrouter %}<a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
-                            {% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>{% endblock aimmo %}
+                            {% if user|is_preview_user %}
+                            {% block aimmo %}<a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>{% endblock aimmo %}
+                            {% endif %}
                             {% block materials %}<a id="resources_button" href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
                         {% else %}
                             <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                            {% if user|is_eligible_for_testing %}
                             <a class="button--menu button--menu--secondary button--menu--disabled">AI:MMO</a>
+                            {% endif %}
                             <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                         {% endif %}
                         {% endblock secondaryButtons %}
@@ -111,11 +115,11 @@
                         <a href="{% url 'play' %}" class="button--menu button--menu--primary"><b>Student</b></a>
                         {% block studentButtons %}
                         <div class="dropdown">
-                            <a href="{% url 'student_details' %}" id="student_dashboard_button"
-                               class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
+                            {% block myGames %}<a href="{% url 'student_details' %}" id="student_dashboard_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">My Games</a>{% endblock myGames %}
                             <div class="dropdown-content">
                                 <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
-                                <a href="{% url 'aimmo/home' %}"><small>AI:MMO</small></a>
+                                <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
                             </div>
                         </div>
                         <div class="dropdown">
@@ -141,7 +145,7 @@
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                     <div class="dropdown">
-                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark logout"
+                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown"
                                 data-toggle="dropdown">
                             <div class="dropdown__text">{{ user|make_into_username }}</div>
                             <div class="glyphicon glyphicon-user"></div></button>
@@ -348,8 +352,6 @@
         }
         var target = document.getElementById('refURL');
         target.value = refURL;
-
-
     });
 
 </script>

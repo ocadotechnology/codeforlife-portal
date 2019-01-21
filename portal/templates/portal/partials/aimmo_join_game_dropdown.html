@@ -1,0 +1,17 @@
+{% if open_play_games %}
+<div class="dropdown">
+    <button class="button button--regular button--secondary button--secondary--dark button--dropdown"
+            id="join_game_button"
+            data-toggle="dropdown">
+        <div class="dropdown__text">Join a game</div>
+        <div class="glyphicon glyphicon-triangle-bottom"></div></button>
+    <ul class="dropdown-menu">
+        {% for game in open_play_games %}
+            <li class="dropdown-menu__option">
+                <a class="button--regular" href="{% url base_url id=game.id %}">
+                    <small class="dropdown-menu__option__text">{{ game.name }}</small></a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

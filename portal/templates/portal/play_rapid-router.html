@@ -16,10 +16,12 @@
 {% block subNav %}
 {{ block.super }}
 <div class="banner banner--rapid-router--background row">
-    <div class="sticky-subnav sub-nav sub-nav--games">
-        <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
-        <a href="{% url 'play_aimmo' %}"class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
-    </div>
+    {% if not user|is_preview_user %}
+        <div class="sticky-subnav sub-nav sub-nav--games">
+            <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+            <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
+        </div>
+    {% endif %}
     <div class="row banner--rapid-router--content">
         <div class="col-sm-5 col-sm-offset-2">
             <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
