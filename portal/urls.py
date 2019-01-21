@@ -90,7 +90,7 @@ urlpatterns = [
     # The first AIMMO URL renders the new AIMMO home page. It uses the same regex so as to overwrite the default
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(HOMEPAGE_REGEX, aimmo_home, name='aimmo'),
+    url(r'^aimmo/$', aimmo_home, name='aimmo'),
     url(HOMEPAGE_REGEX, include('aimmo.urls')),
 
 
