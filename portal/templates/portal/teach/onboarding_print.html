@@ -111,9 +111,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         if($(window).width() > 760) {
-            {% if not onboarding_done %}
-                toggleStickySubnav($('.banner').outerHeight());
-            {% else %}
+            {% if onboarding_done %}
                 toggleStickySubnav(0);
             {% endif %}
         }

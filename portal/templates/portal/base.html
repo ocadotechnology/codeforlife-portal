@@ -248,6 +248,13 @@
 
         {% block content %}
         {% block base_new_content %}{% endblock %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                if($(window).width() > 760) {
+                    toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+                }
+            });
+        </script>
         {% endblock content %}
 
     </div>

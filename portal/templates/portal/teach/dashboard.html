@@ -410,10 +410,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        if($(window).width() > 760) {
-            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
-        }
-
         {% if anchor %}
             window.location = '#{{anchor}}';
         {% endif %}
