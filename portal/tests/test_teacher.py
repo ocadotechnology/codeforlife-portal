@@ -125,7 +125,7 @@ class TestTeacher(BaseTest):
 
         assert self.is_materials_page(page)
 
-        keystages = ['ks1', 'lks2', 'uks2', 'ks3']
+        keystages = ['ks1', 'lks2', 'uks2']
         for ks in keystages:
             page = page.click_keystage_link(ks)
             assert self.is_materials_page(page)

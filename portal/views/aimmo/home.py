@@ -61,11 +61,11 @@ def save_form(request, create_game_form):
 @login_required(login_url=reverse_lazy('login_view'))
 @preview_user
 def aimmo_home(request):
-    ks3_sessions = []
-    ks3_sheets = []
+    aimmo_sessions = []
+    aimmo_sheets = []
 
-    get_session_pdfs("ks3_session_", ks3_sessions)
-    get_resource_sheets_pdfs(ks3_sessions, "KS3_S", ks3_sheets)
+    get_session_pdfs("AIMMO_session_", aimmo_sessions)
+    get_resource_sheets_pdfs(aimmo_sessions, "AIMMO_S", aimmo_sheets)
 
     playable_games = request.user.playable_games.all()
 
@@ -79,5 +79,5 @@ def aimmo_home(request):
 
     return render(request, 'portal/aimmo_home.html',
                   {'create_game_form': create_game_form,
-                   'ks3_sessions': ks3_sessions,
-                   'ks3_sheets': ks3_sheets})
+                   'aimmo_sessions': aimmo_sessions,
+                   'aimmo_sheets': aimmo_sheets})
