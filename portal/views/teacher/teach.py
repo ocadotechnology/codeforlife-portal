@@ -201,12 +201,6 @@ def default_solution(request, levelName):
 
 @login_required(login_url=reverse_lazy('login_view'))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
-def teacher_level_solutions(request):
-    return render(request, 'portal/teach/teacher_level_solutions.html')
-
-
-@login_required(login_url=reverse_lazy('login_view'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def teacher_classes(request):
     teacher = request.user.new_teacher
     requests = Student.objects.filter(pending_class_request__teacher=teacher)

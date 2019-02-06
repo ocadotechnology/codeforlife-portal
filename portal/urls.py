@@ -59,7 +59,7 @@ from portal.views.organisation import organisation_fuzzy_lookup, organisation_ma
 from portal.views.teacher.teach import teacher_classes, teacher_class, teacher_view_class, teacher_edit_class,\
     teacher_move_class, teacher_edit_student, teacher_student_reset, materials_viewer, teacher_print_reminder_cards,\
     teacher_delete_students, teacher_delete_class, teacher_class_password_reset, teacher_move_students,\
-    teacher_move_students_to_class, default_solution, teacher_dismiss_students, teacher_level_solutions, materials, invite_teacher
+    teacher_move_students_to_class, default_solution, teacher_dismiss_students, materials, invite_teacher
 from portal.views.teacher.dashboard import dashboard_manage, organisation_allow_join, organisation_deny_join, \
     organisation_kick, organisation_toggle_admin, teacher_disable_2FA, teacher_reject_student_request, \
     teacher_accept_student_request
