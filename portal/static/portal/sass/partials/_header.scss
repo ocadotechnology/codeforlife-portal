@@ -126,6 +126,14 @@
 
 }
 
+@media (min-width: 760px) and (max-width: 1200px) {
+
+  .home-icon {
+    display: none;
+  }
+
+}
+
 @media (min-width: 760px) and (max-width: 1400px) {
 
   .menu__right-side {
