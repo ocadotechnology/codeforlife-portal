@@ -288,6 +288,12 @@ button,
   }
 }
 
+@media (min-width: 760px) and (max-width: 1200px) {
+  .button--menu--enabled {
+    font-size: 18px;
+  }
+}
+
 @media (max-width: 760px) {
 
   .button--secondary--dark {
