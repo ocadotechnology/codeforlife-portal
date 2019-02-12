@@ -34,7 +34,6 @@
     <a href="#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
     <a href="#lks2" class="button button--regular button--secondary button--secondary--light">Lower Key Stage 2</a>
     <a href="#uks2" class="button button--regular button--secondary button--secondary--light">Upper Key Stage 2</a>
-    <a href="#ks3" class="button button--regular button--secondary button--secondary--light">Key Stage 3</a>
 </div>
 {% endblock subNav %}
 
@@ -50,21 +49,17 @@
                 <h2>User Guide</h2>
             </section>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-7">
                     <h4>Key Stage 1, and Lower Key Stage 2</h4>
-                    <p><a id="pdf_link" href="{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_1-50' %}">Levels Guide (1-50)</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='glossary' %}">Glossary</a></p>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <h4>Upper Key Stage 2</h4>
                     <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_python' %}">Introduction to Python in Rapid Router</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_51-109' %}">Levels Guide (51-109)</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}">Blockly - Python Phrasebook</a></p>
-                </div>
-                <div class="col-sm-4">
-                    <h4>Key Stage 3</h4>
-                    <p><a href="{% url 'materials_viewer' pdf_name='user_guide_aimmo' %}">User Guide (AI:MMO)</a></p>
                 </div>
             </div>
         </div>
@@ -281,69 +276,6 @@
                     <p><a href="{% url 'materials_viewer' pdf_name='uks2_assessment_guide' %}">Assessment Guide</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='uks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='uks2_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="ks3">
-    <div class="banner banner__game banner__game--aimmo row">
-        <section>
-            <div class="row row--under">
-        <img title="AIMMO Logo" alt="AIMMO icon" src="{% static 'portal/img/aimmo_logo_white_no_box.svg' %}">
-            </div>
-            <div class="row row--under">
-        <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
-            </div>
-        <p>The Key Stage 3 teaching resources and AI:MMO game are still being developed.</p>
-        </section>
-    </div>
-    <div class="background col-sm-8 col-center">
-        <section>
-            <h2>Key Stage 3</h2>
-            <img title="KS3" alt="KS3 icon" src="{% static 'portal/img/stage_icon_ks3.svg' %}">
-            <h4>Playing AI:MMO will build on skills learnt in Rapid Router (Key Stages 1 and 2).
-                The game is a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the
-            next level on their coding journey: intermediate Python.</h4>
-            <a href="{{ 'KS3/KS3_resources.zip'|cloud_storage }}" class="button button--regular button--primary--navigation">Download all KS3 resources</a>
-            <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
-        </section>
-        <h3>User Guide <span class="ks-tag">KS3</span></h3>
-        <p><a href="{% url 'materials_viewer' pdf_name='user_guide_aimmo' %}">AI:MMO User Guide</a></p>
-        <h3>Resource Sheets <span class="ks-tag">KS3</span></h3>
-        <p>Resource sheets help you teach coding concepts that will be used within the MMO game.</p>
-        {% for ks3_sessions in ks3_sheets %}
-            <table class="table--resources table--sessions">
-                {% for ks3_sheet in ks3_sessions %}
-                <tr>
-                    <td><p><strong>MMO</strong></p></td>
-                    <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=ks3_sheet.url_name %}">
-                            {{ ks3_sheet.title }} {% if ks3_sheet.video %}(includes video){% endif %}</a></p></td>
-                    <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
-                    <td>
-                        {% if ks3_sheet.video %}
-                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        {% endfor %}
-    </div>
-
-    <div class="background background--quinary">
-        <div class="col-sm-8 col-center">
-            <div class="row row--under">
-                <div class="col-sm-6">
-                    <h3>Activity Set <span class="ks-tag">KS3</span></h3>
-                    <p>Coming soon.</p>
-                </div>
-                <div class="col-sm-6">
-                    <h3>Assessments <span class="ks-tag">KS3</span></h3>
-                    <p>A record sheet for pupils.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks3_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
                 </div>
             </div>
         </div>

@@ -91,7 +91,7 @@ PDF_DATA = {
         "title": "User Guide (AI:MMO)",
         "description": "User guide for AI:MMO, the KS3 game.",
         "links": None,
-        "url": "general_resources/KS3-AIMMO-User-guide.pdf",
+        "url": "user_guide/AIMMO_User_guide.pdf",
         "page_origin": "#user-guide"
     },
 
@@ -907,71 +907,52 @@ PDF_DATA = {
         "page_origin": "#uks2-assessments"
     },
 
-    # ...KS3 sessions...#
-    "ks3_session_1": {
-        "title": "MMO",
-        "description": "AI:MMO: the MMO Basics",
-        "links": ["KS1_S1_1", "KS3_S1_2", "KS3_S1_3"],
-        "url": "",
+    # ...Intermediate Python sessions...#
+    "AIMMO_session_1": {
+        "title": "Sessions 1",
+        "description": "Intermediate Python Session 1 — Teacher Guidance",
+        "links": ["AIMMO_cheat_sheet", "AIMMO_indentation", "AIMMO_next_turn"],
+        "url": "AIMMO/sessions/Intermediate_Python_Teacher_S1.pdf",
         "page_origin": "#ks3-sessions"
     },
 
-    # ...KS3 Resource Sheets...#
+    # ...Intermediate Python Resource Sheets...#
     # ...Session 1...#
-    "KS3_S1_1": {
-        "title": "Code cheat sheet",
+    "AIMMO_S1_1": {
+        "title": "Code Cheat Sheet",
         "description": "To be used to code the AI:MMO game.",
         "links": [],
-        "url": "KS3/resource_sheets/KS3-Cheat-Sheet.pdf",
+        "url": "AIMMO/resource_sheets/AIMMO_cheat_sheet.pdf",
         "page_origin": "#ks3-resource-sheets"
     },
-    "KS3_S1_2": {
+    "AIMMO_S1_2": {
         "title": "Indentation — Why it matters",
         "description": "To be used to understand how to use Python to code the AI:MMO game.",
         "links": [],
-        "url": "KS3/resource_sheets/KS3-PythonIndentation.pdf",
+        "url": "AIMMO/resource_sheets/Python_Indentation.pdf",
         "page_origin": "#ks3-resource-sheets"
     },
-    "KS3_S1_3": {
+    "AIMMO_S1_3": {
         "title": "Understanding the turn-based game",
         "description": "To be used to understand the AI:MMO game.",
         "links": [],
-        "url": "KS3/resource_sheets/KS3-HandleTurn.pdf",
-        "video": "https://www.youtube.com/embed/Mw8CaG47Wek",
-        "video_download_link": "videos/KS3_Understanding_Turn_Based_System.mp4",
+        "url": "AIMMO/resource_sheets/AIMMO_Next_Turn.pdf",
         "page_origin": "#ks3-resource-sheets"
     },
 
-    # ...KS3 Assessments...#
-
-    "ks3_teacher_record_sheet": {
-        "title": "KS3 - Teacher Record Sheet",
-        "description": "Document for the teacher to record pupils progress.",
-        "url": "KS3/assessment/teacher_record_sheet.pdf",
+    # ...Intermediate Python Challenges...#
+    "AIMMO_challenge_1": {
+        "title": "KS3_SC1",
+        "description": "Student challenge 1: Move your avatar",
         "links": [],
-        "page_origin": "#ks3-assessments"
-    },
-
-    # ...KS3 Challenges...#
-    "KS3_challenges_guide": {
-        "title": "Teacher lesson guide for challenges",
-        "description": "To be used to code the AI:MMO game.",
-        "links": [],
-        "url": "KS3/challenges/KS3-challenges-guide.pdf",
+        "url": "AIMMO/student_challenges/Intermediate_Python_SC1.pdf",
         "page_origin": "#ks3-challenges"
     },
-    "KS3_challenge1": {
-        "title": "AI:MMO Challenge Sheet 1",
-        "description": "To be used to understand how to use Python to code the AI:MMO game.",
+    "AIMMO_challenge_2": {
+        "title": "KS3_SC2",
+        "description": "Student challenge 2: Avoid the obstacles",
         "links": [],
-        "url": "KS3/challenges/KS3-challenge1.pdf",
-        "page_origin": "#ks3-challenges"
-    },
-    "KS3_challenge2": {
-        "title": "AI:MMO Challenge Sheet 2",
-        "description": "To be used to understand the AI:MMO game.",
-        "links": [],
-        "url": "KS3/challenges/KS3-challenge2.pdf",
+        "url": "AIMMO/student_challenges/Intermediate_Python_SC2.pdf",
         "page_origin": "#ks3-challenges"
     },
 

@@ -73,18 +73,16 @@ from portal import emailMessages
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def materials(request):
 
-    session_names = ["ks1_session_", "lks2_session_", "uks2_session_", "ks3_session_"]
-    resource_sheets_names = ["KS1_S", "LKS2_S", "UKS2_S", "KS3_S"]
+    session_names = ["ks1_session_", "lks2_session_", "uks2_session_"]
+    resource_sheets_names = ["KS1_S", "LKS2_S", "UKS2_S"]
     ks1_sessions = []
     lks2_sessions = []
     uks2_sessions = []
-    ks3_sessions = []
-    session_dictionaries = [ks1_sessions, lks2_sessions, uks2_sessions, ks3_sessions]
+    session_dictionaries = [ks1_sessions, lks2_sessions, uks2_sessions]
     ks1_sheets = []
     lks2_sheets = []
     uks2_sheets = []
-    ks3_sheets = []
-    resource_sheets_dictionaries = [ks1_sheets, lks2_sheets, uks2_sheets, ks3_sheets]
+    resource_sheets_dictionaries = [ks1_sheets, lks2_sheets, uks2_sheets]
 
     for ks_index, session_name in enumerate(session_names):
         get_session_pdfs(session_name, session_dictionaries[ks_index])
@@ -97,9 +95,7 @@ def materials(request):
                    'lks2_sessions': lks2_sessions,
                    'lks2_sheets': lks2_sheets,
                    'uks2_sessions': uks2_sessions,
-                   'uks2_sheets': uks2_sheets,
-                   'ks3_sessions': ks3_sessions,
-                   'ks3_sheets': ks3_sheets,
+                   'uks2_sheets': uks2_sheets
                    })
 
 
