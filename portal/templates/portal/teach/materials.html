@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 {% load table_tags %}
+{% load cache %}
 
 {% block materials %}
 <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
@@ -40,6 +41,7 @@
 {% block content %}
 {{ block.super }}
 
+{% cache 3600 fragment-materials-page %}
 <div id="materials_page"></div>
 
 <div id="user_guide">
@@ -290,5 +292,5 @@
     });
 </script>
 
-
+{% endcache %}
 {% endblock content %}
