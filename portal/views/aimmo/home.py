@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -62,7 +62,7 @@ def save_form(request, create_game_form):
 @preview_user
 def aimmo_home(request):
     aimmo_sessions = []
-    aimmo_sheets = []
+    aimmo_sheets = {}
 
     get_session_pdfs("AIMMO_session_", aimmo_sessions)
     get_resource_sheets_pdfs(aimmo_sessions, "AIMMO_S", aimmo_sheets)

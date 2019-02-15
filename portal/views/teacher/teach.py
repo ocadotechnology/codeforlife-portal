@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -73,16 +73,20 @@ from portal import emailMessages
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('login_view'))
 def materials(request):
 
-    session_names = ["ks1_session_", "lks2_session_", "uks2_session_"]
-    resource_sheets_names = ["KS1_S", "LKS2_S", "UKS2_S"]
+    session_names = ["ks1_session_", "ks2_session_", "lks3_session_", "iks3_session_", "uks3_session_"]
+    resource_sheets_names = ["KS1_S", "KS2_S", "LKS3_S", "IKS3_S", "UKS3_S"]
     ks1_sessions = []
-    lks2_sessions = []
-    uks2_sessions = []
-    session_dictionaries = [ks1_sessions, lks2_sessions, uks2_sessions]
-    ks1_sheets = []
-    lks2_sheets = []
-    uks2_sheets = []
-    resource_sheets_dictionaries = [ks1_sheets, lks2_sheets, uks2_sheets]
+    ks2_sessions = []
+    lks3_sessions = []
+    iks3_sessions = []
+    uks3_sessions = []
+    session_dictionaries = [ks1_sessions, ks2_sessions, lks3_sessions, iks3_sessions, uks3_sessions]
+    ks1_sheets = {}
+    ks2_sheets = {}
+    lks3_sheets = {}
+    iks3_sheets = {}
+    uks3_sheets = {}
+    resource_sheets_dictionaries = [ks1_sheets, ks2_sheets, lks3_sheets, iks3_sheets, uks3_sheets]
 
     for ks_index, session_name in enumerate(session_names):
         get_session_pdfs(session_name, session_dictionaries[ks_index])
@@ -92,16 +96,25 @@ def materials(request):
     return render(request, 'portal/teach/materials.html',
                   {'ks1_sessions': ks1_sessions,
                    'ks1_sheets': ks1_sheets,
-                   'lks2_sessions': lks2_sessions,
-                   'lks2_sheets': lks2_sheets,
-                   'uks2_sessions': uks2_sessions,
-                   'uks2_sheets': uks2_sheets
+                   'ks2_sessions': ks2_sessions,
+                   'ks2_sheets': ks2_sheets,
+                   'lks3_sessions': lks3_sessions,
+                   'lks3_sheets': lks3_sheets,
+                   'iks3_sessions': iks3_sessions,
+                   'iks3_sheets': iks3_sheets,
+                   'uks3_sessions': uks3_sessions,
+                   'uks3_sheets': uks3_sheets,
                    })
 
 
 def get_session_pdfs(session_name, session_dictionary):
     session_pdf_exists = True
-    session_number = 1
+    if session_name == "iks3_session_":
+        session_number = 6
+    elif session_name == "uks3_session_":
+        session_number = 11
+    else:
+        session_number = 1
 
     while session_pdf_exists:
         pdf_name = session_name + str(session_number)
@@ -118,6 +131,11 @@ def get_session_pdfs(session_name, session_dictionary):
 
 def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_sheets_dictionary):
     for session_index in range(1, len(session_dictionary)+1):
+        if resource_sheets_name == "IKS3_S":
+            session_index += 5
+        elif resource_sheets_name == "UKS3_S":
+            session_index += 10
+
         resource_pdf_exists = True
         resource_number = 1
         pdfs = []
@@ -135,7 +153,7 @@ def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_
             except KeyError:
                 resource_pdf_exists = False
 
-        resource_sheets_dictionary.append(pdfs)
+        resource_sheets_dictionary[session_index] = pdfs
 
 
 @login_required(login_url=reverse_lazy('login_view'))

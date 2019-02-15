@@ -1,8 +1,8 @@
 <table class="table--resources">
-    {% for session in table %}
+    {% for session, sheets in table.items %}
         <tr>
-            <td><p><strong>Session {{ forloop.counter }}</strong></p></td>
-            {% for sheet in session %}
+            <td><p><strong>Session {{ session }}</strong></p></td>
+            {% for sheet in sheets %}
                 <td>
                     {% if sheet %}
                         <p><a href="{% url 'materials_viewer' pdf_name=sheet.url_name %}">{{ sheet.url_name }}</a></p>

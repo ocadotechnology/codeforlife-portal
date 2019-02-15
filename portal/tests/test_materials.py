@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Limited
+# Copyright (C) 2019, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -58,6 +58,6 @@ class MaterialsTests(TestCase):
         assert len(result) == 4
 
     def test_padding_resource_sheet_table(self):
-        table = [[1, 2], [1, 2, 3], []]
+        table = {1: [1, 2], 2: [1, 2, 3], 3: []}
         result = resource_sheets_table(table)
-        assert result['table'] == [[1, 2, []], [1, 2, 3], [[], [], []]]
+        assert result['table'] == {1: [1, 2, []], 2: [1, 2, 3], 3: [[], [], []]}

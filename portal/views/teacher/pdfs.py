@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -42,15 +42,15 @@ PDF_DATA = {
         "description": "This document shows how the progression through Rapid Router levels cover each stage of the "
                        "computing curriculum for key stages one and two.",
         "links": None,
-        "url": "general_resources/introduction_to_coding.pdf",
+        "url": "user_guide/introduction_to_coding.pdf",
         "page_origin": "#user-guide"
     },
 
-    "levels_guide_1-50": {
-        "title": "Levels Guide 1 - 50",
-        "description": "Road maps for levels 1 to 50 of Rapid Router. You can find the maps for levels 51 - 109 below.",
-        "links": ["levels_guide_51-109"],
-        "url": "general_resources/levels_guide.pdf",
+    "levels_guide_1-28": {
+        "title": "Levels Guide 1 - 28",
+        "description": "Road maps for levels 1 to 28 of Rapid Router. You can find the maps for levels 29 - 109 below.",
+        "links": ["levels_guide_29-109"],
+        "url": "user_guide/levels_guide_KS1_KS2.pdf",
         "page_origin": "#user-guide"
     },
 
@@ -58,24 +58,24 @@ PDF_DATA = {
         "title": "Glossary",
         "description": "A glossary of coding terminology, for all the key stages of the curriculum.",
         "links": None,
-        "url": "general_resources/glossary.pdf",
+        "url": "user_guide/glossary.pdf",
         "page_origin": "#user-guide"
     },
 
     "introduction_to_python": {
         "title": "Introduction to Python in Rapid Router",
         "description": "A summary of the python commands specific to Rapid Router as well as general python statements "
-                       "children will need to use.",
+                       "students will need to use.",
         "links": None,
-        "url": "general_resources/UKS2-Intro_to_Python.pdf",
+        "url": "user_guide/introduction_to_python.pdf",
         "page_origin": "#user-guide"
     },
 
-    "levels_guide_51-109": {
-        "title": "Levels Guide 51 - 109",
-        "description": "Road maps for levels 51 to 109 of Rapid Router.",
-        "links": ["levels_guide_1-50"],
-        "url": "general_resources/UKS2-levels-guide.pdf",
+    "levels_guide_29-109": {
+        "title": "Levels Guide 29 - 109",
+        "description": "Road maps for levels 29 to 109 of Rapid Router.",
+        "links": ["levels_guide_1-28"],
+        "url": "user_guide/levels_guide_KS3.pdf",
         "page_origin": "#user-guide"
     },
 
@@ -83,12 +83,12 @@ PDF_DATA = {
         "title": "Blockly - Python Phrasebook",
         "description": "A table showing the conversion from Blockly to Python.",
         "links": None,
-        "url": "general_resources/UKS2-Python_Phrasebook.pdf",
+        "url": "user_guide/blockly_python_phrasebook.pdf",
         "page_origin": "#user-guide"
     },
 
     "user_guide_aimmo": {
-        "title": "User Guide (AI:MMO)",
+        "title": "Introduction to AI:MMO",
         "description": "User guide for AI:MMO, the KS3 game.",
         "links": None,
         "url": "user_guide/AIMMO_User_guide.pdf",
@@ -98,17 +98,17 @@ PDF_DATA = {
     # ...................KS1 sessions...........#
     "ks1_session_1": {
         "title": "KS1 - Session 1",
-        "description": "Unplugged algorithms for moving along a route.",
+        "description": "Unplugged algorithms for moving along a route",
         "links": ["KS1_S1_1", "KS1_S1_2", "KS1_S1_3", "KS1_S1_4"],
-        "url": "KS1/lesson_plans/s1.pdf",
+        "url": "KS1_new/sessions/ks1_s1.pdf",
         "page_origin": "#ks1-sessions"
     },
 
     "ks1_session_2": {
         "title": "KS1 - Session 2",
-        "description": "Starting off on-screen with the app.",
+        "description": "Starting off on-screen with the app",
         "links": None,
-        "url": "KS1/lesson_plans/s2.pdf",
+        "url": "KS1_new/sessions/ks1_s2.pdf",
         "video": "https://www.youtube.com/embed/PQFyF3R6Xts",
         "video_download_link": "videos/KS1_2_Introduction_to_Rapid_Router_with_Matt_and_Chris.mp4",
         "page_origin": "#ks1-sessions"
@@ -116,67 +116,25 @@ PDF_DATA = {
 
     "ks1_session_3": {
         "title": "KS1 - Session 3",
-        "description": "Creating simple algorithms to reach a single destination.",
+        "description": "Creating simple algorithms to reach a single destination",
         "links": ["KS1_S3_1"],
-        "url": "KS1/lesson_plans/s3.pdf",
+        "url": "KS1_new/sessions/ks1_s3.pdf",
         "page_origin": "#ks1-sessions"
     },
 
     "ks1_session_4": {
         "title": "KS1 - Session 4",
-        "description": "Creating simple algorithms to reach a single destination along the shortest route.",
+        "description": "Creating simple algorithms to reach a single destination along the shortest route",
         "links": ["KS1_S4_1", "KS1_S4_2", "KS1_S4_3", "KS1_S4_4"],
-        "url": "KS1/lesson_plans/s4.pdf",
+        "url": "KS1_new/sessions/ks1_s4.pdf",
         "page_origin": "#ks1-sessions"
     },
 
     "ks1_session_5": {
         "title": "KS1 - Session 5",
-        "description": "Create a more complex algorithm to deliver one or more packages on the way.",
+        "description": "Create a more complex algorithm to deliver one or more packages on the way",
         "links": ["KS1_S5_1"],
-        "url": "KS1/lesson_plans/s5.pdf",
-        "page_origin": "#ks1-sessions"
-    },
-
-    "ks1_session_6": {
-        "title": "KS1 - Session 6",
-        "description": "Delivering several packages in a sensible sequence (extension activity).",
-        "links": ["KS1_S6_1", "KS1_S6_2"],
-        "url": "KS1/lesson_plans/s6.pdf",
-        "page_origin": "#ks1-sessions"
-    },
-
-    "ks1_session_7": {
-        "title": "KS1 - Session 7",
-        "description": "Introducing the repeat code.",
-        "links": ["KS1_S7_1", "KS1_S7_2", "KS1_S7_3"],
-        "url": "KS1/lesson_plans/s7.pdf",
-        "video": "https://www.youtube.com/embed/vFGd0v3msRE",
-        "video_download_link": "videos/KS1_7_Mahana_explains_repeat_functions.mp4",
-        "page_origin": "#ks1-sessions"
-    },
-
-    "ks1_session_8": {
-        "title": "KS1 - Session 8",
-        "description": "Follow-on and extension work on multiple repeat loops and nested repeats.",
-        "links": ["KS1_S8_1", "KS1_S8_2"],
-        "url": "KS1/lesson_plans/s8.pdf",
-        "page_origin": "#ks1-sessions"
-    },
-
-    "ks1_session_9": {
-        "title": "KS1 - Session 9",
-        "description": "Children create their own routes.",
-        "links": ["KS1_S9_1"],
-        "url": "KS1/lesson_plans/s9.pdf",
-        "page_origin": "#ks1-sessions"
-    },
-
-    "ks1_session_10": {
-        "title": "KS1 - Session 10",
-        "description": "Try out a partners route.",
-        "links": None,
-        "url": "KS1/lesson_plans/s10.pdf",
+        "url": "KS1_new/sessions/ks1_s5.pdf",
         "page_origin": "#ks1-sessions"
     },
 
@@ -187,7 +145,7 @@ PDF_DATA = {
         "title": "KS1 - Session 1 - Sheet 1",
         "description": "To be used with Session 1 lesson plan.",
         "links": ["ks1_session_1"],
-        "url": "KS1/resource_sheets/s1_1.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s1_1.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -195,7 +153,7 @@ PDF_DATA = {
         "title": "KS1 - Session 1 - Sheet 2",
         "description": "To be used with Session 1 lesson plan.",
         "links": ["ks1_session_1"],
-        "url": "KS1/resource_sheets/s1_2.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s1_2.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -203,7 +161,7 @@ PDF_DATA = {
         "title": "KS1 - Session 1 - Sheet 3",
         "description": "To be used with Session 1 lesson plan.",
         "links": ["ks1_session_1"],
-        "url": "KS1/resource_sheets/s1_3.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s1_3.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -211,7 +169,7 @@ PDF_DATA = {
         "title": "KS1 - Session 1 - Sheet 4",
         "description": "To be used with Session 1 lesson plan.",
         "links": ["ks1_session_1"],
-        "url": "KS1/resource_sheets/s1_4.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s1_4.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -220,7 +178,7 @@ PDF_DATA = {
         "title": "KS1 - Session 3 - Sheet 1",
         "description": "To be used with Session 3 lesson plan.",
         "links": ["ks1_session_3"],
-        "url": "KS1/resource_sheets/s3_1.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s3_1.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -229,7 +187,7 @@ PDF_DATA = {
         "title": "KS1 - Session 4 - Sheet 1",
         "description": "To be used with Session 4 lesson plan.",
         "links": ["ks1_session_4"],
-        "url": "KS1/resource_sheets/s4_1.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s4_1.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -237,7 +195,7 @@ PDF_DATA = {
         "title": "KS1 - Session 4 - Sheet 2",
         "description": "To be used with Session 4 lesson plan.",
         "links": ["ks1_session_4"],
-        "url": "KS1/resource_sheets/s4_2.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s4_2.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -245,7 +203,7 @@ PDF_DATA = {
         "title": "KS1 - Session 4 - Sheet 3",
         "description": "To be used with Session 4 lesson plan.",
         "links": ["ks1_session_4"],
-        "url": "KS1/resource_sheets/s4_3.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s4_3.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -253,7 +211,7 @@ PDF_DATA = {
         "title": "KS1 - Session 4 - Sheet 4",
         "description": "To be used with Session 4 lesson plan.",
         "links": ["ks1_session_4"],
-        "url": "KS1/resource_sheets/s4_4.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s4_4.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
@@ -262,86 +220,18 @@ PDF_DATA = {
         "title": "KS1 - Session 5 - Sheet 1",
         "description": "To be used with Session 5 lesson plan.",
         "links": ["ks1_session_5"],
-        "url": "KS1/resource_sheets/s5_1.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    # ...Session 6 ...#
-    "KS1_S6_1": {
-        "title": "KS1 - Session 6 - Sheet 1",
-        "description": "To be used with Session 6 lesson plan.",
-        "links": ["ks1_session_6"],
-        "url": "KS1/resource_sheets/s6_1.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    "KS1_S6_2": {
-        "title": "KS1 - Session 6 - Sheet 2",
-        "description": "To be used with Session 6 lesson plan.",
-        "links": ["ks1_session_6"],
-        "url": "KS1/resource_sheets/s6_2.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    # ...Session 7...#
-    "KS1_S7_1": {
-        "title": "KS1 - Session 7 - Sheet 1",
-        "description": "To be used with Session 7 lesson plan.",
-        "links": ["ks1_session_7"],
-        "url": "KS1/resource_sheets/s7_1.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    "KS1_S7_2": {
-        "title": "KS1 - Session 7 - Sheet 2",
-        "description": "To be used with Session 7 lesson plan.",
-        "links": ["ks1_session_7"],
-        "url": "KS1/resource_sheets/s7_2.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    "KS1_S7_3": {
-        "title": "KS1 - Session 7 - Sheet 3",
-        "description": "To be used with Session 7 lesson plan.",
-        "links": ["ks1_session_7"],
-        "url": "KS1/resource_sheets/s7_3.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    # ...Session 8...#
-    "KS1_S8_1": {
-        "title": "KS1 - Session 8 - Sheet 1",
-        "description": "To be used with Session 8 lesson plan.",
-        "links": ["ks1_session_8"],
-        "url": "KS1/resource_sheets/s8_1.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    "KS1_S8_2": {
-        "title": "KS1 - Session 8 - Sheet 2",
-        "description": "To be used with Session 8 lesson plan.",
-        "links": ["ks1_session_8"],
-        "url": "KS1/resource_sheets/s8_2.pdf",
-        "page_origin": "#ks1-resource-sheets"
-    },
-
-    # ...Session 9...#
-    "KS1_S9_1": {
-        "title": "KS1 - Session 9 - Sheet 1",
-        "description": "To be used with Session 9 lesson plan.",
-        "links": ["ks1_session_9"],
-        "url": "KS1/resource_sheets/s9_1.pdf",
+        "url": "KS1_new/resource_sheets/ks1_s5_1.pdf",
         "page_origin": "#ks1-resource-sheets"
     },
 
     # ............KS1 Extras............#
 
     # ...KS1 Program Solutions...#
-    "program_solutions_1-28": {
-        "title": "Program Solutions 1 - 28",
-        "description": "A table showing the best solutions to levels 1 to 28 of Rapid Router.",
-        "links": ["program_solutions_29-50", "program_solutions_51-109"],
-        "url": "KS1/program_solutions/program_solutions_table.pdf",
+    "program_solutions_1-16": {
+        "title": "Program Solutions 1 - 16",
+        "description": "A table showing the best solutions to levels 1 to 16 of Rapid Router.",
+        "links": ["program_solutions_17-28", "program_solutions_19-43", "program_solutions_44-79", "program_solutions_80-109"],
+        "url": "KS1_new/ks1_program_solutions.pdf",
         "page_origin": "#ks1-solutions"
     },
 
@@ -351,7 +241,7 @@ PDF_DATA = {
         "description": "This activity set gives you an overview of the Key Stage 1 module. It covers the resources "
                        "that will be useful, learning expectations and teacher preparation.",
         "links": None,
-        "url": "KS1/activity_set.pdf",
+        "url": "KS1_new/ks1_activity_set.pdf",
         "page_origin": "#ks1-activity"
     },
 
@@ -360,7 +250,7 @@ PDF_DATA = {
         "title": "KS1 - Assets",
         "description": "Arrows, scenery and blockly statements that can be cut out for offline activities.",
         "links": ["ks1_code_wall_cards"],
-        "url": "KS1/assets/assets.pdf",
+        "url": "KS1_new/assets/ks1_assets.pdf",
         "page_origin": "#ks1-assets"
     },
 
@@ -368,7 +258,7 @@ PDF_DATA = {
         "title": "KS1 - Code Wall Cards",
         "description": "Keywords that can be displayed in the classroom.",
         "links": ["ks1_assets"],
-        "url": "KS1/assets/code_wall_cards.pdf",
+        "url": "KS1_new/assets/ks1_code_wall_cards.pdf",
         "page_origin": "#ks1-assets"
     },
 
@@ -377,534 +267,712 @@ PDF_DATA = {
         "title": "KS1 - Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
         "links": ["ks1_self_assessment_sheet", "ks1_teacher_record_sheet"],
-        "url": "KS1/assessment/assessment_sheet.pdf",
+        "url": "KS1_new/assessments/ks1_assessment_sheet.pdf",
         "page_origin": "#ks1-assessments"
     },
 
     "ks1_self_assessment_sheet": {
         "title": "KS1 - Self Assessment Sheet",
-        "description": "Document for children to self assess their understanding of key concepts.",
+        "description": "Document for students to self assess their understanding of key concepts.",
         "links": ["ks1_assessment_guide", "ks1_teacher_record_sheet"],
-        "url": "KS1/assessment/self_assessment_sheet.pdf",
+        "url": "KS1_new/assessments/ks1_self_assessment_sheet.pdf",
         "page_origin": "#ks1-assessments"
     },
 
     "ks1_teacher_record_sheet": {
         "title": "KS1 - Teacher Record Sheet",
-        "description": "Document for the teacher to record pupils progress.",
+        "description": "Document for the teacher to record pupils' progress.",
         "links": ["ks1_assessment_guide", "ks1_self_assessment_sheet"],
-        "url": "KS1/assessment/teacher_record_sheet.pdf",
+        "url": "KS1_new/assessments/ks1_teacher_record_sheet.pdf",
         "page_origin": "#ks1-assessments"
     },
 
 
-    # .........LKS2 sessions...........#
-    "lks2_session_1": {
-        "title": "LKS2 - Session 1",
-        "description": "Recap on using a simple 'repeat' loop.",
-        "links": ["LKS2_S1_1"],
-        "url": "KS2/lesson_plans/s1.pdf",
-        "page_origin": "#lks2-sessions"
+    # .........KS2 sessions...........#
+
+    "ks2_session_1": {
+        "title": "KS2 - Session 1",
+        "description": "Recap: Delivering several packages in a sensible sequence",
+        "links": ["KS2_S1_1", "KS2_S1_2"],
+        "url": "KS2_new/sessions/ks2_s1.pdf",
+        "page_origin": "#ks2-sessions"
     },
 
-    "lks2_session_2": {
-        "title": "LKS2 - Session 2",
-        "description": "Using repeat with a condition on a simple route: 'repeat until'.",
-        "links": ["LKS2_S2_1", "LKS2_S2_2"],
-        "url": "KS2/lesson_plans/s2.pdf",
-        "video": "https://www.youtube.com/embed/EDwc80X_LQI",
-        "video_download_link": "videos/LKS2_2_Ana_discusses_repeat_until_and_repeat_while_functions.mp4",
-        "page_origin": "#lks2-sessions"
-    },
-
-    "lks2_session_3": {
-        "title": "LKS2 - Session 3",
-        "description": "Using simple selections and repetition: Repeat until at destination 'if…do'.",
-        "links": ["LKS2_S3_1"],
-        "url": "KS2/lesson_plans/s3.pdf",
-        "video": "https://www.youtube.com/embed/O0RXbJyYq8o",
-        "video_download_link": "videos/LKS2_3_Chris_and_Matt_introduce_if_statements.mp4",
-        "page_origin": "#lks2-sessions"
-    },
-
-    "lks2_session_4": {
-        "title": "LKS2 - Session 4",
-        "description": "General solution using repeat until and if…do…(including else if for more able children).",
-        "links": ["LKS2_S4_1", "LKS2_S4_2", "LKS2_S4_3", "LKS2_S4_4"],
-        "url": "KS2/lesson_plans/s4.pdf",
-        "video": "https://www.youtube.com/embed/GUUJSRuAyU0",
-        "video_download_link": "videos/LKS2_4_Helen_explains_if_else_statements.mp4",
-        "page_origin": "#lks2-sessions"
-    },
-
-    "lks2_session_5": {
-        "title": "LKS2 - Session 5",
-        "description": "Extension group activity - Explain why the general program does not work for some more complex "
-                       "maps.",
-        "links": ["LKS2_S5_1"],
-        "url": "KS2/lesson_plans/s5.pdf",
-        "page_origin": "#lks2-sessions"
-    },
-
-    "lks2_session_6": {
-        "title": "LKS2 - Session 6",
-        "description": "Traffic lights: understanding variables and the if do…if else statements.",
-        "links": ["LKS2_S6_1"],
-        "url": "KS2/lesson_plans/s6.pdf",
-        "video": "https://www.youtube.com/embed/UFpsEjaB_DI",
-        "video_download_link": "videos/LKS2_6_Will_discusses_variables.mp4",
-        "page_origin": "#lks2-sessions"
-    },
-
-    "lks2_session_7": {
-        "title": "LKS2 - Session 7",
-        "description": "Applying their programming knowledge to create a game challenge.",
-        "links": ["LKS2_S7_1", "LKS2_S7_2"],
-        "url": "KS2/lesson_plans/s7.pdf",
+    "ks2_session_2": {
+        "title": "KS2 - Session 2",
+        "description": "Introducing the repeat loop",
+        "links": ["KS2_S2_1", "KS2_S2_2", "KS2_S2_3"],
+        "url": "KS2_new/sessions/ks2_s2.pdf",
         "video": "https://www.youtube.com/embed/vFGd0v3msRE",
         "video_download_link": "videos/KS1_7_Mahana_explains_repeat_functions.mp4",
-        "page_origin": "#lks2-sessions"
+        "page_origin": "#ks2-sessions"
     },
 
-    "lks2_session_8": {
-        "title": "LKS2 - Session 8",
-        "description": "Applying their programming knowledge to play and evaluate a game challenge.",
-        "links": ["lks2_self_assessment_sheet"],
-        "url": "KS2/lesson_plans/s8.pdf",
-        "page_origin": "#lks2-sessions"
+    "ks2_session_3": {
+        "title": "KS2 - Session 3",
+        "description": "Follow-on and extension work on multiple repeat loops and nested repeats",
+        "links": ["KS2_S3_1", "KS2_S3_2"],
+        "url": "KS2_new/sessions/ks2_s3.pdf",
+        "page_origin": "#ks2-sessions"
     },
 
-    # .........LKS2 Resource Sheets.........#
-
-    # ...Session 1...#
-    "LKS2_S1_1": {
-        "title": "LKS2 - Session 1 - Sheet 1",
-        "description": "To be used with Session 1 lesson plan.",
-        "links": ["lks2_session_1"],
-        "url": "KS2/resource_sheets/s1_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
+    "ks2_session_4": {
+        "title": "KS2 - Session 4",
+        "description": "Students create their own routes",
+        "links": ["KS2_S4_1"],
+        "url": "KS2_new/sessions/ks2_s4.pdf",
+        "page_origin": "#ks2-sessions"
     },
 
-    # ... Session 2 ... #
-    "LKS2_S2_1": {
-        "title": "LKS2 - Session 2 - Sheet 1",
-        "description": "To be used with Session 2 lesson plan.",
-        "links": ["lks2_session_2"],
-        "url": "KS2/resource_sheets/s2_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    "LKS2_S2_2": {
-        "title": "LKS2 - Session 2 - Sheet 2",
-        "description": "To be used with Session 2 lesson plan.",
-        "links": ["lks2_session_2"],
-        "url": "KS2/resource_sheets/s2_2.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-
-    # ...Session 3...#
-    "LKS2_S3_1": {
-        "title": "LKS2 - Session 3 - Sheet 1",
-        "description": "To be used with Session 3 lesson plan.",
-        "links": ["lks2_session_3"],
-        "url": "KS2/resource_sheets/s3_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    # ...Session 4...#
-    "LKS2_S4_1": {
-        "title": "LKS2 - Session 4 - Sheet 1",
-        "description": "To be used with Session 4 lesson plan.",
-        "links": ["lks2_session_4"],
-        "url": "KS2/resource_sheets/s4_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    "LKS2_S4_2": {
-        "title": "LKS2 - Session 4 - Sheet 2",
-        "description": "To be used with Session 4 lesson plan.",
-        "links": ["lks2_session_4"],
-        "url": "KS2/resource_sheets/s4_2.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    "LKS2_S4_3": {
-        "title": "LKS2 - Session 4 - Sheet 3",
-        "description": "To be used with Session 4 lesson plan.",
-        "links": ["lks2_session_4"],
-        "url": "KS2/resource_sheets/s4_3.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    "LKS2_S4_4": {
-        "title": "LKS2 - Session 4 - Sheet 4",
-        "description": "To be used with Session 4 lesson plan.",
-        "links": ["lks2_session_4"],
-        "url": "KS2/resource_sheets/s4_4.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    # ...Session 5...#
-    "LKS2_S5_1": {
-        "title": "LKS2 - Session 5 - Sheet 1",
-        "description": "To be used with Session 5 lesson plan.",
-        "links": ["lks2_session_5"],
-        "url": "KS2/resource_sheets/s5_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    # ...Session 6...#
-    "LKS2_S6_1": {
-        "title": "LKS2 - Session 6 - Sheet 1",
-        "description": "To be used with Session 6 lesson plan.",
-        "links": ["lks2_session_6"],
-        "url": "KS2/resource_sheets/s6_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    # ...Session 7...#
-    "LKS2_S7_1": {
-        "title": "LKS2 - Session 7 - Sheet 1",
-        "description": "To be used with Session 7 lesson plan.",
-        "links": ["lks2_session_7"],
-        "url": "KS2/resource_sheets/s7_1.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    "LKS2_S7_2": {
-        "title": "LKS2 - Session 7 - Sheet 2",
-        "description": "To be used with Session 7 lesson plan.",
-        "links": ["lks2_session_7"],
-        "url": "KS2/resource_sheets/s7_2.pdf",
-        "page_origin": "#lks2-resource-sheets"
-    },
-
-    # ............LKS2 Extras............#
-
-    # ...LKS2 Program Solutions...#
-    "program_solutions_29-50": {
-        "title": "Program Solutions 29 - 50",
-        "description": "A table showing the best solutions to levels 29 to 50 of Rapid Router.",
-        "links": ["program_solutions_1-28", "program_solutions_51-109"],
-        "url": "KS2/program_solutions/program_solutions_table.pdf",
-        "page_origin": "#lks2-solutions"
-    },
-
-    # ...LKS2 Activity Set...#
-    "lks2_activity_set": {
-        "title": "Lower KS2 - Activity Set",
-        "description": "This activity set gives you an overview of the Lower Key Stage 2 module. It covers the "
-                       "resources that will be useful, learning expectations and teacher preparation.",
+    "ks2_session_5": {
+        "title": "KS2 - Session 5",
+        "description": "Try out a partner's route",
         "links": None,
-        "url": "KS2/activity_set.pdf",
-        "page_origin": "#lks2-activity"
+        "url": "KS2_new/sessions/ks2_s5.pdf",
+        "page_origin": "#ks2-sessions"
     },
 
-    # ...LKS2 Assets...#
-    "lks2_assets": {
-        "title": "Lower KS2 - Assets",
-        "description": "Blockly statements for Lower Key Stage 2 children that can be cut out for offline activities.",
-        "links": ["lks2_code_wall_cards"],
-        "url": "KS2/assets/assets.pdf",
-        "page_origin": "#lks2-assets"
-    },
+    # .........KS2 Resource Sheets.........#
 
-    "lks2_code_wall_cards": {
-        "title": "Lower KS2 - Code Wall Cards",
-        "description": "Keywords that can be displayed in the classroom.",
-        "links": ["lks2_assets"],
-        "url": "KS2/assets/code_wall_cards.pdf",
-        "page_origin": "#lks2-assets"
-    },
-
-    # ...LKS2 Assessments...#
-    "lks2_assessment_guide": {
-        "title": "Lower KS2 - Assessment Guide",
-        "description": "Information on how to use the assessment sheets available.",
-        "links": ["lks2_self_assessment_sheet", "lks2_teacher_record_sheet"],
-        "url": "KS2/assessment/assessment_sheet.pdf",
-        "page_origin": "#lks2-assessments"
-    },
-
-    "lks2_self_assessment_sheet": {
-        "title": "Lower KS2 - Self Assessment Sheet",
-        "description": "Document for children to self assess their understanding of key concepts.",
-        "links": ["lks2_assessment_guide", "lks2_teacher_record_sheet"],
-        "url": "KS2/assessment/self_assessment_sheet.pdf",
-        "page_origin": "#lks2-assessments"
-    },
-
-    "lks2_teacher_record_sheet": {
-        "title": "Lower KS2 - Teacher Record Sheet",
-        "description": "Document for the teacher to record pupils progress.",
-        "links": ["lks2_assessment_guide", "lks2_self_assessment_sheet"],
-        "url": "KS2/assessment/teacher_record_sheet.pdf",
-        "page_origin": "#lks2-assessments"
-    },
-
-    # .........UKS2 sessions...........#
-    "uks2_session_1": {
-        "title": "UKS2 - Session 1",
-        "description": "What do we already know? (Recap the Blockly commands previously encountered)",
-        "links": ["UKS2_S1_1"],
-        "url": "python/lesson_plans/UKS2-S1.pdf",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_2": {
-        "title": "UKS2 - Session 2",
-        "description": "Breaking down the problem in chunks (understanding procedures).",
-        "links": ["UKS2_S2_1", "UKS2_S2_2"],
-        "url": "python/lesson_plans/UKS2-S2.pdf",
-        "video": "https://www.youtube.com/embed/zsWwscJrEhs",
-        "video_download_link": "videos/UKS2_Ed_Armitage_explains_functions_procedures.mp4",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_3": {
-        "title": "UKS2 - Session 3",
-        "description": "Switching from Blockly to Python.",
-        "links": ["UKS2_S3_1", "UKS2_S3_2"],
-        "url": "python/lesson_plans/UKS2-S3.pdf",
-        "video": "https://www.youtube.com/embed/5atj2caRjyA",
-        "video_download_link": "videos/UKS2_Kenny_introduces_real_programming_language_Python.mp4",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_4": {
-        "title": "UKS2 - Session 4",
-        "description": "Understanding more Python commands (while, if…elif…else).",
-        "links": ["UKS2_S4_1"],
-        "url": "python/lesson_plans/UKS2-S4.pdf",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_5": {
-        "title": "UKS2 - Session 5",
-        "description": "Writing basic code directly in Python (forwards, turn, print, repetition).",
-        "links": ["UKS2_S5_1", "UKS2_S5_2", "UKS2_S5_3"],
-        "url": "python/lesson_plans/UKS2-S5.pdf",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_6": {
-        "title": "UKS2 - Session 6",
-        "description": "Flying Solo with Python! Programming independently using selection, defining "
-                       "procedures/functions.",
-        "links": ["UKS2_S6_1", "UKS2_S6_2"],
-        "url": "python/lesson_plans/UKS2-S6.pdf",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_7": {
-        "title": "UKS2 - Session 7",
-        "description": "Increase the challenge - creating new Python variables, incrementing variables.",
-        "links": ["UKS2_S7_1", "UKS2_S7_2"],
-        "url": "python/lesson_plans/UKS2-S7.pdf",
-        "page_origin": "#uks2-sessions"
-    },
-
-    "uks2_session_8": {
-        "title": "UKS2 - Session 8",
-        "description": "Assessment session - applying your coding knowledge to create a game challenge for a partner.",
-        "links": ["UKS2_S8_1", "UKS2_S8_2"],
-        "url": "python/lesson_plans/UKS2-S8.pdf",
-        "page_origin": "#uks2-sessions"
-    },
-
-    # .........UKS2 Resource Sheets.........#
-
-    # ...Session 1...#
-    "UKS2_S1_1": {
-        "title": "UKS2 - Session 1 - Sheet 1",
+    # ...Session 1 ...#
+    "KS2_S1_1": {
+        "title": "KS2 - Session 1 - Sheet 1",
         "description": "To be used with Session 1 lesson plan.",
-        "links": ["uks2_session_1"],
-        "url": "python/resource_sheets/UKS2-S1-1_1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["ks2_session_1"],
+        "url": "KS2_new/resource_sheets/ks2_s1_1.pdf",
+        "page_origin": "#ks2-resource-sheets"
+    },
+
+    "KS2_S1_2": {
+        "title": "KS2 - Session 1 - Sheet 2",
+        "description": "To be used with Session 1 lesson plan.",
+        "links": ["ks2_session_1"],
+        "url": "KS2_new/resource_sheets/ks2_s6_2.pdf",
+        "page_origin": "#ks2-resource-sheets"
     },
 
     # ...Session 2...#
-    "UKS2_S2_1": {
-        "title": "UKS2 - Session 2 - Sheet 1",
+    "KS2_S2_1": {
+        "title": "KS2 - Session 2 - Sheet 1",
         "description": "To be used with Session 2 lesson plan.",
-        "links": ["uks2_session_2"],
-        "url": "python/resource_sheets/UKS2-S2-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["ks2_session_2"],
+        "url": "KS2_new/resource_sheets/ks2_s2_1.pdf",
+        "page_origin": "#ks2-resource-sheets"
     },
 
-    "UKS2_S2_2": {
-        "title": "UKS2 - Session 2 - Sheet 2",
+    "KS2_S2_2": {
+        "title": "KS2 - Session 2 - Sheet 2",
         "description": "To be used with Session 2 lesson plan.",
-        "links": ["uks2_session_2"],
-        "url": "python/resource_sheets/UKS2-S2-2.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["ks2_session_2"],
+        "url": "KS2_new/resource_sheets/ks2_s2_2.pdf",
+        "page_origin": "#ks2-resource-sheets"
+    },
+
+    "KS2_S2_3": {
+        "title": "KS2 - Session 2 - Sheet 3",
+        "description": "To be used with Session 2 lesson plan.",
+        "links": ["ks2_session_2"],
+        "url": "KS2_new/resource_sheets/ks2_s2_3.pdf",
+        "page_origin": "#ks2-resource-sheets"
     },
 
     # ...Session 3...#
-    "UKS2_S3_1": {
-        "title": "UKS2 - Session 3 - Sheet 1",
+    "KS2_S3_1": {
+        "title": "KS2 - Session 3 - Sheet 1",
         "description": "To be used with Session 3 lesson plan.",
-        "links": ["uks2_session_3"],
-        "url": "python/resource_sheets/UKS2-S3-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["ks2_session_3"],
+        "url": "KS2_new/resource_sheets/ks2_s3_1.pdf",
+        "page_origin": "#ks2-resource-sheets"
     },
 
-    "UKS2_S3_2": {
-        "title": "UKS2 - Session 3 - Sheet 2",
+    "KS2_S3_2": {
+        "title": "KS2 - Session 3 - Sheet 2",
         "description": "To be used with Session 3 lesson plan.",
-        "links": ["uks2_session_3"],
-        "url": "python/resource_sheets/UKS2-S3-2.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["ks2_session_3"],
+        "url": "KS2_new/resource_sheets/ks2_s3_2.pdf",
+        "page_origin": "#ks2-resource-sheets"
     },
 
     # ...Session 4...#
-    "UKS2_S4_1": {
-        "title": "UKS2 - Session 4 - Sheet 1",
+    "KS2_S4_1": {
+        "title": "KS2 - Session 4 - Sheet 1",
         "description": "To be used with Session 4 lesson plan.",
-        "links": ["uks2_session_4"],
-        "url": "python/resource_sheets/UKS2-S4-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["ks2_session_4"],
+        "url": "KS2_new/resource_sheets/ks2_s4_1.pdf",
+        "page_origin": "#ks2-resource-sheets"
+    },
+
+    # ............KS2 Extras............#
+
+    # ...KS2 Program Solutions...#
+    "program_solutions_17-28": {
+        "title": "Program Solutions 17 - 28",
+        "description": "A table showing the best solutions to levels 17 to 28 of Rapid Router.",
+        "links": ["program_solutions_1-16", "program_solutions_19-43", "program_solutions_44-79", "program_solutions_80-109"],
+        "url": "KS2_new/ks2_program_solutions.pdf",
+        "page_origin": "#ks2-solutions"
+    },
+
+    # ...KS2 Activity Set...#
+    "ks2_activity_set": {
+        "title": "KS2 - Activity Set",
+        "description": "This activity set gives you an overview of the Key Stage 2 module. It covers the "
+                       "resources that will be useful, learning expectations and teacher preparation.",
+        "links": None,
+        "url": "KS2_new/ks2_activity_set.pdf",
+        "page_origin": "#ks2-activity"
+    },
+
+    # ...KS2 Assets...#
+    "ks2_assets": {
+        "title": "KS2 - Assets",
+        "description": "Blockly statements for Key Stage 2 students that can be cut out for offline activities.",
+        "links": ["ks2_code_wall_cards"],
+        "url": "KS2_new/assets/ks2_assets.pdf",
+        "page_origin": "#ks2-assets"
+    },
+
+    "ks2_code_wall_cards": {
+        "title": "KS2 - Code Wall Cards",
+        "description": "Keywords that can be displayed in the classroom.",
+        "links": ["ks2_assets"],
+        "url": "KS2_new/assets/ks2_code_wall_cards.pdf",
+        "page_origin": "#ks2-assets"
+    },
+
+    # ...KS2 Assessments...#
+    "ks2_assessment_guide": {
+        "title": "KS2 - Assessment Guide",
+        "description": "Information on how to use the assessment sheets available.",
+        "links": ["ks2_self_assessment_sheet", "ks2_teacher_record_sheet"],
+        "url": "KS2_new/assessments/ks2_assessment_sheet.pdf",
+        "page_origin": "#ks2-assessments"
+    },
+
+    "ks2_self_assessment_sheet": {
+        "title": "KS2 - Self Assessment Sheet",
+        "description": "Document for students to self assess their understanding of key concepts.",
+        "links": ["ks2_assessment_guide", "ks2_teacher_record_sheet"],
+        "url": "KS2_new/assessments/ks2_self_assessment_sheet.pdf",
+        "page_origin": "#ks2-assessments"
+    },
+
+    "ks2_teacher_record_sheet": {
+        "title": "KS2 - Teacher Record Sheet",
+        "description": "Document for the teacher to record pupils' progress.",
+        "links": ["ks2_assessment_guide", "ks2_self_assessment_sheet"],
+        "url": "KS2_new/assessments/ks2_teacher_record_sheet.pdf",
+        "page_origin": "#ks2-assessments"
+    },
+
+    # .........LKS3 sessions...........#
+
+    "lks3_session_1": {
+        "title": "LKS3 - Session 1",
+        "description": "Recap: Using a simple 'repeat' loop",
+        "links": ["LKS3_S1_1"],
+        "url": "KS3_new/sessions/ks3_s1.pdf",
+        "page_origin": "#lks3-sessions"
+    },
+
+    "lks3_session_2": {
+        "title": "LKS3 - Session 2",
+        "description": "Using repeat with a condition on a simple route: 'repeat until'",
+        "links": ["LKS3_S2_1", "LKS3_S2_2"],
+        "url": "KS3_new/sessions/ks3_s2.pdf",
+        "video": "https://www.youtube.com/embed/EDwc80X_LQI",
+        "video_download_link": "videos/LKS2_2_Ana_discusses_repeat_until_and_repeat_while_functions.mp4",
+        "page_origin": "#lks3-sessions"
+    },
+
+    "lks3_session_3": {
+        "title": "LKS3 - Session 3",
+        "description": "Using simple selection and repetition: Repeat until at destination 'if…do'",
+        "links": ["LKS3_S3_1"],
+        "url": "KS3_new/sessions/ks3_s3.pdf",
+        "video": "https://www.youtube.com/embed/O0RXbJyYq8o",
+        "video_download_link": "videos/LKS2_3_Chris_and_Matt_introduce_if_statements.mp4",
+        "page_origin": "#lks3-sessions"
+    },
+
+    "lks3_session_4": {
+        "title": "LKS3 - Session 4",
+        "description": "General solution using repeat until and if…do… (including else if for more able students)",
+        "links": ["LKS3_S4_1", "LKS3_S4_2", "LKS3_S4_3", "LKS3_S4_4"],
+        "url": "KS3_new/sessions/ks3_s4.pdf",
+        "video": "https://www.youtube.com/embed/GUUJSRuAyU0",
+        "video_download_link": "videos/LKS2_4_Helen_explains_if_else_statements.mp4",
+        "page_origin": "#lks3-sessions"
+    },
+
+    "lks3_session_5": {
+        "title": "LKS3 - Session 5",
+        "description": "Group extension - Explain why the general program does not work for some more complex maps",
+        "links": ["LKS3_S5_1"],
+        "url": "KS3_new/sessions/ks3_s5.pdf",
+        "page_origin": "#lks3-sessions"
+    },
+
+    # .........IKS3 sessions...........#
+
+    "iks3_session_6": {
+        "title": "IKS3 - Session 6",
+        "description": "Traffic lights: understanding variables and the if do…if else statements",
+        "links": ["IKS3_S6_1"],
+        "url": "KS3_new/sessions/ks3_s6.pdf",
+        "video": "https://www.youtube.com/embed/UFpsEjaB_DI",
+        "video_download_link": "videos/LKS2_6_Will_discusses_variables.mp4",
+        "page_origin": "#iks3-sessions"
+    },
+
+    "iks3_session_7": {
+        "title": "IKS3 - Session 7",
+        "description": "Applying their programming knowledge to create a game challenge",
+        "links": ["IKS3_S7_1", "IKS3_S7_2"],
+        "url": "KS3_new/sessions/ks3_s7.pdf",
+        "video": "https://www.youtube.com/embed/vFGd0v3msRE",
+        "video_download_link": "videos/KS1_7_Mahana_explains_repeat_functions.mp4",
+        "page_origin": "#iks3-sessions"
+    },
+
+    "iks3_session_8": {
+        "title": "IKS3 - Session 8",
+        "description": "Applying their programming knowledge to play and evaluate a game challenge",
+        "links": ["iks3_self_assessment_sheet"],
+        "url": "KS3_new/sessions/ks3_s8.pdf",
+        "page_origin": "#iks3-sessions"
+    },
+
+    "iks3_session_9": {
+        "title": "IKS3 - Session 9",
+        "description": "What do we already know? (Recap the Blockly commands previously encountered)",
+        "links": ["IKS3_S9_1"],
+        "url": "KS3_new/sessions/ks3_s9.pdf",
+        "page_origin": "#iks3-sessions"
+    },
+
+    "iks3_session_10": {
+        "title": "IKS3 - Session 10",
+        "description": "Breaking down the problem in chunks (understanding procedures)",
+        "links": ["IKS3_S10_1", "IKS3_S10_2"],
+        "url": "KS3_new/sessions/ks3_s10.pdf",
+        "video": "https://www.youtube.com/embed/zsWwscJrEhs",
+        "video_download_link": "videos/LKS3_Ed_Armitage_explains_functions_procedures.mp4",
+        "page_origin": "#iks3-sessions"
+    },
+
+    # ........UKS3 sessions...........#
+
+    "uks3_session_11": {
+        "title": "UKS3 - Session 11",
+        "description": "Switching from Blockly to Python",
+        "links": ["UKS3_S11_1", "UKS3_S11_2"],
+        "url": "KS3_new/sessions/ks3_s11.pdf",
+        "video": "https://www.youtube.com/embed/5atj2caRjyA",
+        "video_download_link": "videos/LKS3_Kenny_introduces_real_programming_language_Python.mp4",
+        "page_origin": "#uks3-sessions"
+    },
+
+    "uks3_session_12": {
+        "title": "UKS3 - Session 12",
+        "description": "Understanding more Python commands (while, if…elif…else)",
+        "links": ["UKS3_S12_1"],
+        "url": "KS3_new/sessions/ks3_s12.pdf",
+        "page_origin": "#uks3-sessions"
+    },
+
+    "uks3_session_13": {
+        "title": "UKS3 - Session 13",
+        "description": "Writing basic code directly in Python (forwards, turn, print, repetition)",
+        "links": ["UKS3_S13_1", "UKS3_S13_2", "UKS3_S13_3"],
+        "url": "KS3_new/sessions/ks3_s13.pdf",
+        "page_origin": "#uks3-sessions"
+    },
+
+    "uks3_session_14": {
+        "title": "UKS3 - Session 14",
+        "description": "Flying Solo with Python! Programming independently using selection, defining "
+                       "procedures/functions",
+        "links": ["UKS3_S14_1", "UKS3_S14_2"],
+        "url": "KS3_new/sessions/ks3_s14.pdf",
+        "page_origin": "#uks3-sessions"
+    },
+
+    "uks3_session_15": {
+        "title": "UKS3 - Session 15",
+        "description": "Increase the challenge - creating new Python variables, incrementing variables",
+        "links": ["UKS3_S15_1", "UKS3_S15_2"],
+        "url": "KS3_new/sessions/ks3_s15.pdf",
+        "page_origin": "#uks3-sessions"
+    },
+
+    "uks3_session_16": {
+        "title": "UKS3 - Session 16",
+        "description": "Assessment session - applying your coding knowledge to create a game challenge for a partner",
+        "links": ["UKS3_S16_1", "UKS3_S16_2"],
+        "url": "KS3_new/sessions/ks3_s16.pdf",
+        "page_origin": "#uks3-sessions"
+    },
+
+    # .........LKS3 Resource Sheets.........#
+
+    # ...Session 1...#
+    "LKS3_S1_1": {
+        "title": "LKS3 - Session 1 - Sheet 1",
+        "description": "To be used with Session 1 lesson plan.",
+        "links": ["lks3_session_1"],
+        "url": "KS3_new/resource_sheets/ks3_s1_1.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    # ... Session 2 ... #
+    "LKS3_S2_1": {
+        "title": "LKS3 - Session 2 - Sheet 1",
+        "description": "To be used with Session 2 lesson plan.",
+        "links": ["lks3_session_2"],
+        "url": "KS3_new/resource_sheets/ks3_s2_1.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    "LKS3_S2_2": {
+        "title": "LKS3 - Session 2 - Sheet 2",
+        "description": "To be used with Session 2 lesson plan.",
+        "links": ["lks3_session_2"],
+        "url": "KS3_new/resource_sheets/ks3_s2_2.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    # ...Session 3...#
+    "LKS3_S3_1": {
+        "title": "LKS3 - Session 3 - Sheet 1",
+        "description": "To be used with Session 3 lesson plan.",
+        "links": ["lks3_session_3"],
+        "url": "KS3_new/resource_sheets/ks3_s3_1.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    # ...Session 4...#
+    "LKS3_S4_1": {
+        "title": "LKS3 - Session 4 - Sheet 1",
+        "description": "To be used with Session 4 lesson plan.",
+        "links": ["lks3_session_4"],
+        "url": "KS3_new/resource_sheets/ks3_s4_1.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    "LKS3_S4_2": {
+        "title": "LKS3 - Session 4 - Sheet 2",
+        "description": "To be used with Session 4 lesson plan.",
+        "links": ["lks3_session_4"],
+        "url": "KS3_new/resource_sheets/ks3_s4_2.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    "LKS3_S4_3": {
+        "title": "LKS3 - Session 4 - Sheet 3",
+        "description": "To be used with Session 4 lesson plan.",
+        "links": ["lks3_session_4"],
+        "url": "KS3_new/resource_sheets/ks3_s4_3.pdf",
+        "page_origin": "#lks3-resource-sheets"
+    },
+
+    "LKS3_S4_4": {
+        "title": "LKS3 - Session 4 - Sheet 4",
+        "description": "To be used with Session 4 lesson plan.",
+        "links": ["lks3_session_4"],
+        "url": "KS3_new/resource_sheets/ks3_s4_4.pdf",
+        "page_origin": "#lks3-resource-sheets"
     },
 
     # ...Session 5...#
-    "UKS2_S5_1": {
-        "title": "UKS2 - Session 5 - Sheet 1",
+    "LKS3_S5_1": {
+        "title": "LKS3 - Session 5 - Sheet 1",
         "description": "To be used with Session 5 lesson plan.",
-        "links": ["uks2_session_5"],
-        "url": "python/resource_sheets/UKS2-S5-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["lks3_session_5"],
+        "url": "KS3_new/resource_sheets/ks3_s5_1.pdf",
+        "page_origin": "#lks3-resource-sheets"
     },
 
-    "UKS2_S5_2": {
-        "title": "UKS2 - Session 5 - Sheet 2",
-        "description": "To be used with Session 5 lesson plan.",
-        "links": ["uks2_session_3"],
-        "url": "python/resource_sheets/UKS2-S5-2.pdf",
-        "page_origin": "#uks2-resource-sheets"
-    },
-
-    "UKS2_S5_3": {
-        "title": "UKS2 - Session 5 - Sheet 3",
-        "description": "To be used with Session 5 lesson plan.",
-        "links": ["uks2_session_3"],
-        "url": "python/resource_sheets/UKS2-S5-3.pdf",
-        "page_origin": "#uks2-resource-sheets"
-    },
+    # .........IKS3 Resource Sheets.........#
 
     # ...Session 6...#
-    "UKS2_S6_1": {
-        "title": "UKS2 - Session 6 - Sheet 1",
+    "IKS3_S6_1": {
+        "title": "IKS3 - Session 6 - Sheet 1",
         "description": "To be used with Session 6 lesson plan.",
-        "links": ["uks2_session_6"],
-        "url": "python/resource_sheets/UKS2-S6-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["iks3_session_6"],
+        "url": "KS3_new/resource_sheets/ks3_s6_1.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
-    "UKS2_S6_2": {
-        "title": "UKS2 - Session 6 - Sheet 2",
+    "IKS3_S6_2": {
+        "title": "IKS3 - Session 6 - Sheet 2",
         "description": "To be used with Session 6 lesson plan.",
-        "links": ["uks2_session_6"],
-        "url": "python/resource_sheets/UKS2-S6-2.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["iks3_session_6"],
+        "url": "KS3_new/resource_sheets/ks3_s6_2.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
     # ...Session 7...#
-    "UKS2_S7_1": {
-        "title": "UKS2 - Session 7 - Sheet 1",
+    "IKS3_S7_1": {
+        "title": "IKS3 - Session 7 - Sheet 1",
         "description": "To be used with Session 7 lesson plan.",
-        "links": ["uks2_session_7"],
-        "url": "python/resource_sheets/UKS2-S7-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["iks3_session_7"],
+        "url": "KS3_new/resource_sheets/ks3_s7_1.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
-    "UKS2_S7_2": {
-        "title": "UKS2 - Session 7 - Sheet 2",
+    "IKS3_S7_2": {
+        "title": "IKS3 - Session 7 - Sheet 2",
         "description": "To be used with Session 7 lesson plan.",
-        "links": ["uks2_session_7"],
-        "url": "python/resource_sheets/UKS2-S7-2.pdf",
-        "page_origin": "#uks2-resource-sheets"
+        "links": ["iks3_session_7"],
+        "url": "KS3_new/resource_sheets/ks3_s7_2.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
-    # ...Session 8...#
-    "UKS2_S8_1": {
-        "title": "UKS2 - Session 8 - Sheet 1",
-        "description": "To be used with Session 8 lesson plan.",
-        "links": ["uks2_session_8"],
-        "url": "python/resource_sheets/UKS2-S8-1.pdf",
-        "page_origin": "#uks2-resource-sheets"
+    # ...Session 9...#
+    "IKS3_S9_1": {
+        "title": "IKS3 - Session 9 - Sheet 1",
+        "description": "To be used with Session 9 lesson plan.",
+        "links": ["iks3_session_9"],
+        "url": "KS3_new/resource_sheets/ks3_s8_2.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
-    "UKS2_S8_2": {
-        "title": "UKS2 - Session 8 - Sheet 2",
-        "description": "To be used with Session 8 lesson plan.",
-        "links": ["uks2_session_8"],
-        "url": "python/resource_sheets/UKS2-S8-2.pdf",
-        "page_origin": "#uks2-resource-sheets"
+    "IKS3_S9_2": {
+        "title": "IKS3 - Session 9 - Sheet 2",
+        "description": "To be used with Session 9 lesson plan.",
+        "links": ["iks3_session_9"],
+        "url": "KS3_new/resource_sheets/ks3_s9_2.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
-    # ............UKS2 Extras............#
-
-    # ...UKS2 Program Solutions...#
-    "program_solutions_51-109": {
-        "title": "Program Solutions 51 - 109",
-        "description": "A table showing the best solutions to levels 51 to 109 of Rapid Router.",
-        "links": ["program_solutions_1-28", "program_solutions_29-50"],
-        "url": "python/program_solutions/UKS2-PST-Program-Solutions-Table.pdf",
-        "page_origin": "#uks2-solutions"
+    # ...Session 10...#
+    "IKS3_S10_1": {
+        "title": "IKS3 - Session 10 - Sheet 1",
+        "description": "To be used with Session 10 lesson plan.",
+        "links": ["iks3_session_10"],
+        "url": "KS3_new/resource_sheets/ks3_s10_1.pdf",
+        "page_origin": "#iks3-resource-sheets"
     },
 
-    # ...UKS2 Activity Set...#
-    "uks2_activity_set": {
-        "title": "Upper KS2 - Activity Set",
-        "description": "This activity set gives you an overview of the Upper Key Stage 2 module. It covers the "
+    "IKS3_S10_2": {
+        "title": "IKS3 - Session 10 - Sheet 2",
+        "description": "To be used with Session 10 lesson plan.",
+        "links": ["iks3_session_10"],
+        "url": "KS3_new/resource_sheets/ks3_s10_2.pdf",
+        "page_origin": "#iks3-resource-sheets"
+    },
+
+    # .........UKS3 Resource Sheets.........#
+
+    # ...Session 11...#
+    "UKS3_S11_1": {
+        "title": "UKS3 - Session 11 - Sheet 1",
+        "description": "To be used with Session 11 lesson plan.",
+        "links": ["uks3_session_11"],
+        "url": "KS3_new/resource_sheets/ks3_s11_1.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    "UKS3_S11_2": {
+        "title": "UKS3 - Session 11 - Sheet 2",
+        "description": "To be used with Session 11 lesson plan.",
+        "links": ["uks3_session_11"],
+        "url": "KS3_new/resource_sheets/ks3_s11_2.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    # ...Session 12...#
+    "UKS3_S12_1": {
+        "title": "UKS3 - Session 12 - Sheet 1",
+        "description": "To be used with Session 12 lesson plan.",
+        "links": ["uks3_session_12"],
+        "url": "KS3_new/resource_sheets/ks3_s12_1.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    # ...Session 13...#
+    "UKS3_S13_1": {
+        "title": "UKS3 - Session 13 - Sheet 1",
+        "description": "To be used with Session 13 lesson plan.",
+        "links": ["uks3_session_13"],
+        "url": "KS3_new/resource_sheets/ks3_s13_1.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    "UKS3_S13_2": {
+        "title": "UKS3 - Session 13 - Sheet 2",
+        "description": "To be used with Session 13 lesson plan.",
+        "links": ["uks3_session_13"],
+        "url": "KS3_new/resource_sheets/ks3_s13_2.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    "UKS3_S13_3": {
+        "title": "UKS3 - Session 13 - Sheet 3",
+        "description": "To be used with Session 13 lesson plan.",
+        "links": ["uks3_session_13"],
+        "url": "KS3_new/resource_sheets/ks3_s13_3.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    # ...Session 14...#
+    "UKS3_S14_1": {
+        "title": "UKS3 - Session 14 - Sheet 1",
+        "description": "To be used with Session 14 lesson plan.",
+        "links": ["uks3_session_14"],
+        "url": "KS3_new/resource_sheets/ks3_s14_1.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    # ...Session 15...#
+    "UKS3_S15_1": {
+        "title": "UKS3 - Session 15 - Sheet 1",
+        "description": "To be used with Session 15 lesson plan.",
+        "links": ["uks3_session_15"],
+        "url": "KS3_new/resource_sheets/ks3_s15_1.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    "UKS3_S15_2": {
+        "title": "UKS3 - Session 15 - Sheet 2",
+        "description": "To be used with Session 15 lesson plan.",
+        "links": ["uks3_session_15"],
+        "url": "KS3_new/resource_sheets/ks3_s15_2.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    # ...Session 16...#
+    "UKS3_S16_1": {
+        "title": "UKS3 - Session 16 - Sheet 1",
+        "description": "To be used with Session 16 lesson plan.",
+        "links": ["uks3_session_16"],
+        "url": "KS3_new/resource_sheets/ks3_s16_1.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    "UKS3_S16_2": {
+        "title": "UKS3 - Session 16 - Sheet 2",
+        "description": "To be used with Session 16 lesson plan.",
+        "links": ["uks3_session_16"],
+        "url": "KS3_new/resource_sheets/ks3_s16_2.pdf",
+        "page_origin": "#uks3-resource-sheets"
+    },
+
+    # ............KS3 Extras............#
+
+    # ...KS3 Program Solutions...#
+    "program_solutions_19-43": {
+        "title": "Program Solutions 19 - 43",
+        "description": "A table showing the best solutions to levels 19 to 43 of Rapid Router.",
+        "links": ["program_solutions_1-16", "program_solutions_17-28", "program_solutions_44-79", "program_solutions_80-109"],
+        "url": "KS3_new/program_solutions/lks3_program_solutions.pdf",
+        "page_origin": "#lks3-solutions"
+    },
+
+    "program_solutions_44-79": {
+        "title": "Program Solutions 44 - 79",
+        "description": "A table showing the best solutions to levels 44 to 79 of Rapid Router.",
+        "links": ["program_solutions_1-16", "program_solutions_17-28", "program_solutions_19-43", "program_solutions_80-109"],
+        "url": "KS3_new/program_solutions/iks3_program_solutions.pdf",
+        "page_origin": "#lks3-solutions"
+    },
+
+    "program_solutions_80-109": {
+        "title": "Program Solutions 80 - 109",
+        "description": "A table showing the best solutions to levels 80 to 109 of Rapid Router.",
+        "links": ["program_solutions_1-16", "program_solutions_17-28", "program_solutions_19-43", "program_solutions_44-79"],
+        "url": "KS3_new/program_solutions/uks3_program_solutions.pdf",
+        "page_origin": "#lks3-solutions"
+    },
+
+    # ...KS3 Activity Sets...#
+    "lks3_activity_set": {
+        "title": "Lower KS3 - Activity Set",
+        "description": "This activity set gives you an overview of the Lower Key Stage 3 module. It covers the "
                        "resources that will be useful, learning expectations and teacher preparation.",
-        "links": None,
-        "url": "python/UKS2-AS-Activity-Set.pdf",
-        "page_origin": "#uks2-activity"
+        "links": ["iks3_activity_set", "uks3_activity_set"],
+        "url": "KS3_new/activity_sets/lks3_activity_set.pdf",
+        "page_origin": "#lks3-activity"
     },
 
-    # ...UKS2 Assets...#
-    "uks2_assets": {
-        "title": "Upper KS2 - Assets",
-        "description": "Blockly and Python statements for Upper Key Stage 2 children that can be cut out for offline "
+    "iks3_activity_set": {
+        "title": "Intermediate KS3 - Activity Set",
+        "description": "This activity set gives you an overview of the Intermediate Key Stage 3 module. It covers the "
+                       "resources that will be useful, learning expectations and teacher preparation.",
+        "links": ["lks3_activity_set", "uks3_activity_set"],
+        "url": "KS3_new/activity_sets/iks3_activity_set.pdf",
+        "page_origin": "#lks3-activity"
+    },
+
+    "uks3_activity_set": {
+        "title": "Upper KS3 - Activity Set",
+        "description": "This activity set gives you an overview of the Upper Key Stage 3 module. It covers the "
+                       "resources that will be useful, learning expectations and teacher preparation.",
+        "links": ["lks3_activity_set", "iks3_activity_set"],
+        "url": "KS3_new/activity_sets/uks3_activity_set.pdf",
+        "page_origin": "#lks3-activity"
+    },
+
+    # ...KS3 Assets...#
+    "lks3_assets": {
+        "title": "Lower KS3 - Assets",
+        "description": "Blockly and Python statements for Lower Key Stage 3 students that can be cut out for offline "
                        "activities.",
-        "links": ["uks2_code_wall_cards"],
-        "url": "python/UKS2-Assets.pdf",
-        "page_origin": "#uks2-assets"
+        "links": ["iks3_assets", "uks3_assets"],
+        "url": "KS3_new/assets/lks3_assets.pdf",
+        "page_origin": "#lks3-assets"
     },
 
-    "uks2_code_wall_cards": {
-        "title": "Upper KS2 - Code Wall Cards",
-        "description": "Keywords that can be displayed in the classroom.",
-        "links": ["uks2_assets"],
-        "url": "python/UKS2-Code_Wall_Cards.pdf",
-        "page_origin": "#uks2-assets"
+    "iks3_assets": {
+        "title": "Intermediate KS3 - Assets",
+        "description": "Blockly and Python statements for Intermediate Key Stage 3 students that can be cut out for "
+                       "offline activities.",
+        "links": ["lks3_assets", "uks3_assets"],
+        "url": "KS3_new/assets/iks3_assets.pdf",
+        "page_origin": "#lks3-assets"
     },
 
-    # ...UKS2 Assessments...#
-    "uks2_assessment_guide": {
-        "title": "Upper KS2 - Assessment Guide",
+    "uks3_assets": {
+        "title": "Upper KS3 - Assets",
+        "description": "Blockly and Python statements for Upper Key Stage 3 students that can be cut out for offline "
+                       "activities.",
+        "links": ["lks3_assets", "iks3_assets"],
+        "url": "KS3_new/assets/uks3_assets.pdf",
+        "page_origin": "#lks3-assets"
+    },
+
+    # ...KS3 Assessments...#
+    "lks3_assessment_sheet": {
+        "title": "Lower KS3 - Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
-        "links": ["uks2_self_assessment_sheet", "uks2_teacher_record_sheet"],
-        "url": "python/assessment/UKS2-A-Assessment-tech.pdf",
-        "page_origin": "#uks2-assessments"
+        "links": ["lks3_self_assessment_sheet"],
+        "url": "KS3_new/assessments/lks3_assessment_sheet.pdf",
+        "page_origin": "#lks3-assessments"
     },
 
-    "uks2_self_assessment_sheet": {
-        "title": "Upper KS2 - Self Assessment Sheet",
-        "description": "Document for children to self assess their understanding of key concepts.",
-        "links": ["uks2_assessment_guide", "uks2_teacher_record_sheet"],
-        "url": "python/assessment/UKS2-SA-Self-Assessment-Sheet.pdf",
-        "page_origin": "#uks2-assessments"
+    "lks3_self_assessment_sheet": {
+        "title": "Lower KS3 - Self Assessment Sheet",
+        "description": "Document for students to self assess their understanding of key concepts.",
+        "links": ["iks3_self_assessment_sheet", "uks3_self_assessment_sheet"],
+        "url": "KS3_new/assessments/lks3_self_assessment_sheet.pdf",
+        "page_origin": "#lks3-assessments"
     },
 
-    "uks2_teacher_record_sheet": {
-        "title": "Upper KS2 - Teacher Record Sheet",
-        "description": "Document for the teacher to record pupils progress.",
-        "links": ["uks2_assessment_guide", "uks2_self_assessment_sheet"],
-        "url": "python/assessment/UKS2-TRS.pdf",
-        "page_origin": "#uks2-assessments"
+    "iks3_self_assessment_sheet": {
+        "title": "Intermediate KS3 - Self Assessment Guide",
+        "description": "Information on how to use the assessment sheets available.",
+        "links": ["lks3_self_assessment_sheet", "uks3_self_assessment_sheet"],
+        "url": "KS3_new/assessments/iks3_self_assessment_sheet.pdf",
+        "page_origin": "#lks3-assessments"
+    },
+
+    "uks3_self_assessment_sheet": {
+        "title": "Upper KS3 - Self Assessment Guide",
+        "description": "Information on how to use the assessment sheets available.",
+        "links": ["lks3_self_assessment_sheet", "iks3_self_assessment_sheet"],
+        "url": "KS3_new/assessments/uks3_self_assessment_sheet.pdf",
+        "page_origin": "#lks3-assessments"
     },
 
     # ...Intermediate Python sessions...#
@@ -944,14 +1012,14 @@ PDF_DATA = {
     "AIMMO_challenge_1": {
         "title": "KS3_SC1",
         "description": "Student challenge 1: Move your avatar",
-        "links": [],
+        "links": ["AIMMO_challenge_2"],
         "url": "AIMMO/student_challenges/Intermediate_Python_SC1.pdf",
         "page_origin": "#ks3-challenges"
     },
     "AIMMO_challenge_2": {
         "title": "KS3_SC2",
         "description": "Student challenge 2: Avoid the obstacles",
-        "links": [],
+        "links": ["AIMMO_challenge_1"],
         "url": "AIMMO/student_challenges/Intermediate_Python_SC2.pdf",
         "page_origin": "#ks3-challenges"
     },

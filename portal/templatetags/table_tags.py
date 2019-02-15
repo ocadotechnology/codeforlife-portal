@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -61,8 +61,13 @@ def is_numerical(str):
 
 @register.inclusion_tag('portal/partials/resource_sheets_table.html')
 def resource_sheets_table(table):
-    max_count = len(max(table, key=len))
-    return {'table': [lengthen_list(max_count, row) for row in table]}
+    max_count = len(sorted(table.values(), key=len)[-1])
+
+    for session in table:
+        if len(table[session]) < max_count:
+            table[session] = lengthen_list(max_count, table[session])
+
+    return {'table': table}
 
 
 def lengthen_list(length, list):
