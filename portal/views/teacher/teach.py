@@ -109,12 +109,8 @@ def materials(request):
 
 def get_session_pdfs(session_name, session_dictionary):
     session_pdf_exists = True
-    if session_name == "iks3_session_":
-        session_number = 6
-    elif session_name == "uks3_session_":
-        session_number = 11
-    else:
-        session_number = 1
+    session_number = 1
+    session_number = update_session_number_based_on_key_stage(session_number, session_name)
 
     while session_pdf_exists:
         pdf_name = session_name + str(session_number)
@@ -131,11 +127,7 @@ def get_session_pdfs(session_name, session_dictionary):
 
 def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_sheets_dictionary):
     for session_index in range(1, len(session_dictionary)+1):
-        if resource_sheets_name == "IKS3_S":
-            session_index += 5
-        elif resource_sheets_name == "UKS3_S":
-            session_index += 10
-
+        session_index = update_session_number_based_on_key_stage(session_index, resource_sheets_name)
         resource_pdf_exists = True
         resource_number = 1
         pdfs = []
@@ -154,6 +146,19 @@ def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_
                 resource_pdf_exists = False
 
         resource_sheets_dictionary[session_index] = pdfs
+
+
+def update_session_number_based_on_key_stage(session_number, key_stage_name):
+    if key_stage_name == "iks3_session_":
+        session_number = 6
+    elif key_stage_name == "uks3_session_":
+        session_number = 11
+    elif key_stage_name == "IKS3_S":
+        session_number += 5
+    elif key_stage_name == "UKS3_S":
+        session_number += 10
+
+    return session_number
 
 
 @login_required(login_url=reverse_lazy('login_view'))
