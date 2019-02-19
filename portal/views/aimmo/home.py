@@ -62,7 +62,7 @@ def save_form(request, create_game_form):
 @preview_user
 def aimmo_home(request):
     aimmo_sessions = []
-    aimmo_sheets = {}
+    aimmo_sheets = []
 
     get_session_pdfs("AIMMO_session_", aimmo_sessions)
     get_resource_sheets_pdfs(aimmo_sessions, "AIMMO_S", aimmo_sheets)

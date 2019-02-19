@@ -80,37 +80,43 @@ def materials(request):
     lks3_sessions = []
     iks3_sessions = []
     uks3_sessions = []
-    session_dictionaries = [ks1_sessions, ks2_sessions, lks3_sessions, iks3_sessions, uks3_sessions]
-    ks1_sheets = {}
-    ks2_sheets = {}
-    lks3_sheets = {}
-    iks3_sheets = {}
-    uks3_sheets = {}
-    resource_sheets_dictionaries = [ks1_sheets, ks2_sheets, lks3_sheets, iks3_sheets, uks3_sheets]
+    session_lists = [ks1_sessions, ks2_sessions, lks3_sessions, iks3_sessions, uks3_sessions]
+    ks1_sheets = []
+    ks2_sheets = []
+    lks3_sheets = []
+    iks3_sheets = []
+    uks3_sheets = []
+    resource_sheets_lists = [ks1_sheets, ks2_sheets, lks3_sheets, iks3_sheets, uks3_sheets]
+    ks1_sheets_table = {}
+    ks2_sheets_table = {}
+    lks3_sheets_table = {}
+    iks3_sheets_table = {}
+    uks3_sheets_table = {}
+    resource_sheets_tables = [ks1_sheets_table, ks2_sheets_table, lks3_sheets_table, iks3_sheets_table, uks3_sheets_table]
 
     for ks_index, session_name in enumerate(session_names):
-        get_session_pdfs(session_name, session_dictionaries[ks_index])
-        get_resource_sheets_pdfs(session_dictionaries[ks_index], resource_sheets_names[ks_index],
-                                 resource_sheets_dictionaries[ks_index])
+        get_session_pdfs(session_name, session_lists[ks_index])
+        get_resource_sheets_pdfs(session_lists[ks_index], resource_sheets_names[ks_index],
+                                 resource_sheets_lists[ks_index], resource_sheets_tables[ks_index])
+        resource_sheets_tables[ks_index]['content'] = resource_sheets_lists[ks_index]
 
     return render(request, 'portal/teach/materials.html',
                   {'ks1_sessions': ks1_sessions,
-                   'ks1_sheets': ks1_sheets,
+                   'ks1_sheets': ks1_sheets_table,
                    'ks2_sessions': ks2_sessions,
-                   'ks2_sheets': ks2_sheets,
+                   'ks2_sheets': ks2_sheets_table,
                    'lks3_sessions': lks3_sessions,
-                   'lks3_sheets': lks3_sheets,
+                   'lks3_sheets': lks3_sheets_table,
                    'iks3_sessions': iks3_sessions,
-                   'iks3_sheets': iks3_sheets,
+                   'iks3_sheets': iks3_sheets_table,
                    'uks3_sessions': uks3_sessions,
-                   'uks3_sheets': uks3_sheets,
+                   'uks3_sheets': uks3_sheets_table,
                    })
 
 
-def get_session_pdfs(session_name, session_dictionary):
+def get_session_pdfs(session_name, session_list):
     session_pdf_exists = True
-    session_number = 1
-    session_number = update_session_number_based_on_key_stage(session_number, session_name)
+    session_number = update_session_number_based_on_key_stage(session_name)
 
     while session_pdf_exists:
         pdf_name = session_name + str(session_number)
@@ -119,15 +125,18 @@ def get_session_pdfs(session_name, session_dictionary):
             pdf = PDF_DATA[pdf_name]
             pdf['session_number'] = session_number
             pdf['url_name'] = pdf_name
-            session_dictionary.append(pdf)
+            session_list.append(pdf)
             session_number += 1
         except KeyError:
             session_pdf_exists = False
 
 
-def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_sheets_dictionary):
-    for session_index in range(1, len(session_dictionary)+1):
-        session_index = update_session_number_based_on_key_stage(session_index, resource_sheets_name)
+def get_resource_sheets_pdfs(session_list, resource_sheets_name, resource_sheets_list, resource_sheets_table=None):
+    starting_session_index = update_session_number_based_on_key_stage(resource_sheets_name)
+    if resource_sheets_table is not None:
+        resource_sheets_table['starting_session_index'] = starting_session_index
+
+    for session_index in range(starting_session_index, len(session_list) + starting_session_index):
         resource_pdf_exists = True
         resource_number = 1
         pdfs = []
@@ -145,18 +154,16 @@ def get_resource_sheets_pdfs(session_dictionary, resource_sheets_name, resource_
             except KeyError:
                 resource_pdf_exists = False
 
-        resource_sheets_dictionary[session_index] = pdfs
+        resource_sheets_list.append(pdfs)
 
 
-def update_session_number_based_on_key_stage(session_number, key_stage_name):
-    if key_stage_name == "iks3_session_":
+def update_session_number_based_on_key_stage(key_stage_name):
+    if key_stage_name == "iks3_session_" or key_stage_name == "IKS3_S":
         session_number = 6
-    elif key_stage_name == "uks3_session_":
+    elif key_stage_name == "uks3_session_" or key_stage_name == "UKS3_S":
         session_number = 11
-    elif key_stage_name == "IKS3_S":
-        session_number += 5
-    elif key_stage_name == "UKS3_S":
-        session_number += 10
+    else:
+        session_number = 1
 
     return session_number
 

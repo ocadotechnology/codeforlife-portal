@@ -61,13 +61,10 @@ def is_numerical(str):
 
 @register.inclusion_tag('portal/partials/resource_sheets_table.html')
 def resource_sheets_table(table):
-    max_count = len(sorted(table.values(), key=len)[-1])
-
-    for session in table:
-        if len(table[session]) < max_count:
-            table[session] = lengthen_list(max_count, table[session])
-
-    return {'table': table}
+    table_content = table['content']
+    max_count = len(max(table_content, key=len))
+    return {'table': [lengthen_list(max_count, row) for row in table_content],
+            'starting_session_index': table['starting_session_index']}
 
 
 def lengthen_list(length, list):
