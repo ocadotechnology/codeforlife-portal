@@ -85,21 +85,21 @@ def insert_users(apps, schema_editor):
         first_name='Albert',
         last_name='Einstein',
         email='alberteinstein@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     teacher2_user = User.objects.create(
         username='test teacher2',
         first_name='Max',
         last_name='Planck',
         email='maxplanck@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     teacher3_user = User.objects.create(
         username='media ram',
         first_name='Ram',
         last_name='Leith',
         email='ramleith@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     # Create students' users
     student1_user = User.objects.create(
@@ -107,97 +107,97 @@ def insert_users(apps, schema_editor):
         first_name='Leonardo',
         last_name='DaVinci',
         email='leonardodavinci@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student2_user = User.objects.create(
         username='test student2',
         first_name='Galileo',
         last_name='Galilei',
         email='galileogalilei@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student3_user = User.objects.create(
         username='Issac',
         first_name='Isaac',
         last_name='Newton',
         email='isaacnewton@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student4_user = User.objects.create(
         username='test student4',
         first_name='Richard',
         last_name='Feynman',
         email='richardfeynman@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student5_user = User.objects.create(
         username='test student5',
         first_name='Alexander',
         last_name='Flemming',
         email='alexanderflemming@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student6_user = User.objects.create(
         username='test student6',
         first_name='Daniel',
         last_name='Bernoulli',
         email='danielbernoulli@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     indy_user = User.objects.create(
         username='indy',
         first_name='Indiana',
         last_name='Jones',
         email='indianajones@codeforlife.com',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student7_user = User.objects.create(
         username='media noah',
         first_name='Noah',
         last_name='Monaghan',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student8_user = User.objects.create(
         username='media elliot',
         first_name='Elliot',
         last_name='Sharp',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student9_user = User.objects.create(
         username='media tajmae',
         first_name='Tajmae',
         last_name='Joseph',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student10_user = User.objects.create(
         username='media carlton',
         first_name='Carlton',
         last_name='Joseph',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student11_user = User.objects.create(
         username='media nadal',
         first_name='Nadal',
         last_name='Spencer-Jennings',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student12_user = User.objects.create(
         username='media freddie',
         first_name='Freddie',
         last_name='Goff',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student13_user = User.objects.create(
         username='media leon',
         first_name='Leon',
         last_name='Scott',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     student14_user = User.objects.create(
         username='media betty',
         first_name='Betty',
         last_name='Kessell',
-        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('ADMIN_PASSWORD', 'Password2')))
 
     # Create UserProfiles
     teacher_userprofile = UserProfile.objects.create(user=teacher_user,
@@ -350,7 +350,7 @@ def insert_users(apps, schema_editor):
         first_name='DATA',
         last_name='AGGREGATE',
         email='aggregator@codeforlife.com',
-        password=make_password(os.getenv('DATA_AGGREGATE_PASSWORD', 'Password1')))
+        password=make_password(os.getenv('DATA_AGGREGATE_PASSWORD', 'Password2')))
 
     user_profile = UserProfile.objects.create(
         user=user,

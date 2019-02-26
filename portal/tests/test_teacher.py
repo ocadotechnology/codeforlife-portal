@@ -42,7 +42,7 @@ from django.core import mail
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
-from utils.teacher import signup_teacher, signup_teacher_directly, signup_duplicate_teacher_fail
+from utils.teacher import signup_teacher, signup_teacher_directly, signup_duplicate_teacher_fail, submit_teacher_signup_form
 from utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
@@ -75,6 +75,20 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page, _, _ = signup_duplicate_teacher_fail(page, email)
         assert page.__class__.__name__ == 'LoginPage'
+
+    def test_signup_failure_short_password(self):
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = submit_teacher_signup_form(page, password='test')
+        assert page.has_teacher_signup_failed(
+            'Password not strong enough, consider using at least 8 characters')
+
+    def test_signup_failure_common_password(self):
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = submit_teacher_signup_form(page, password='Password1')
+        assert page.has_teacher_signup_failed(
+            'Password not strong enough, consider using at least 8 characters')
 
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)
@@ -143,7 +157,7 @@ class TestTeacher(BaseTest):
             'title': 'Mrs',
             'first_name': 'Paulina',
             'last_name': 'Koch',
-            'current_password': 'Password1',
+            'current_password': 'Password2',
         })
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
@@ -171,7 +185,7 @@ class TestTeacher(BaseTest):
             'title': 'Mr',
             'first_name': 'Florian',
             'last_name': 'Aucomte',
-            'current_password': 'Password1',
+            'current_password': 'Password2',
         })
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)

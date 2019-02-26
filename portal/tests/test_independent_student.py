@@ -64,15 +64,21 @@ class TestIndependentStudent(BaseTest):
         page, _, _, _, _ = create_independent_student(page, newsletter=True)
         assert is_email_verified_message_showing(self.selenium)
 
-    def test_signup_failed(self):
+    def test_signup_failure_short_password(self):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='test')
         assert page.has_independent_student_signup_failed(
-            'Password not strong enough, consider using at least 6 characters')
+            'Password not strong enough, consider using at least 8 characters')
+
+    def test_signup_failure_common_password(self):
+        page = self.go_to_homepage()
+        page = submit_independent_student_signup_form(page, password='Password1')
+        assert page.has_independent_student_signup_failed(
+            'Password not strong enough, consider using at least 8 characters')
 
     def test_signup_invalid_name(self):
         page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup('Florian!', 'Florian', 'e@mail.com', 'Password1', 'Password1',
+        page = page.independent_student_signup('Florian!', 'Florian', 'e@mail.com', 'Password2', 'Password2',
                                                success=False)
 
         assert self.is_signup_page(page)
@@ -81,7 +87,7 @@ class TestIndependentStudent(BaseTest):
 
     def test_signup_invalid_username(self):
         page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup('Florian', '///', 'e@mail.com', 'Password1', 'Password1',
+        page = page.independent_student_signup('Florian', '///', 'e@mail.com', 'Password2', 'Password2',
                                                success=False)
 
         assert self.is_signup_page(page)
@@ -92,7 +98,7 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
         page, name, username, email, password = create_independent_student(page)
         page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup('Florian', username, 'e@mail.com', 'Password1', 'Password1',
+        page = page.independent_student_signup('Florian', username, 'e@mail.com', 'Password2', 'Password2',
                                                success=False)
 
         assert self.is_signup_page(page)
@@ -100,7 +106,7 @@ class TestIndependentStudent(BaseTest):
 
     def test_signup_password_do_not_match(self):
         page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup('Florian', 'Florian', 'e@mail.com', 'Password1', 'Password2',
+        page = page.independent_student_signup('Florian', 'Florian', 'e@mail.com', 'Password2', 'Password3',
                                                success=False)
 
         assert self.is_signup_page(page)
