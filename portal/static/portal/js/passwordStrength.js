@@ -80,12 +80,13 @@ function updatePasswordStrength(isTeacher) {
     // things this way, so maybe there is no better workaround.
 
     setTimeout(function() {
+        var password;
 
         if (isTeacher) {
-            var password = $('#' + TEACHER_PASSWORD_FIELD_ID).val();
+            password = $('#' + TEACHER_PASSWORD_FIELD_ID).val();
         }
         else {
-            var password = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID).val();
+            password = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID).val();
         }
 
         var strength = 0;

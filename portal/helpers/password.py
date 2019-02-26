@@ -38,7 +38,7 @@ import re
 
 
 def password_strength_test(password, length=8, upper=True, lower=True, numbers=True):
-    most_used_passwords_2018 = ['Abcd1234', 'Password1', 'Qwerty123'];
+    most_used_passwords_2018 = ['Abcd1234', 'Password1', 'Qwerty123']
     return (len(password) >= length and
             (not upper or re.search(r'[A-Z]', password)) and
             (not lower or re.search(r'[a-z]', password)) and
