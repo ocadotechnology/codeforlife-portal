@@ -53,25 +53,23 @@ $(function() {
     teacher_password_field = $('#' + TEACHER_PASSWORD_FIELD_ID);
     indep_student_password_field = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID);
 
-    setUpDynamicUpdates(teacher_password_field, updatePasswordStrengthTeacher);
-    setUpDynamicUpdates(indep_student_password_field, updatePasswordStrengthStudent);
+    setUpDynamicUpdates(teacher_password_field, true);
+    setUpDynamicUpdates(indep_student_password_field, false);
 
     updatePasswordStrength(true);
     updatePasswordStrength(false);
 });
 
-function setUpDynamicUpdates(password_field, update_function) {
-    password_field.on('keyup', update_function);
-    password_field.on('paste', update_function);
-    password_field.on('cut', update_function);
-}
-
-function updatePasswordStrengthTeacher(){
-    updatePasswordStrength(true);
-}
-
-function updatePasswordStrengthStudent(){
-    updatePasswordStrength(false);
+function setUpDynamicUpdates(password_field, isTeacher) {
+    password_field.on('keyup', function(){
+        updatePasswordStrength(isTeacher)
+    });
+    password_field.on('paste', function(){
+        updatePasswordStrength(isTeacher)
+    });
+    password_field.on('cut', function(){
+        updatePasswordStrength(isTeacher)
+    });
 }
 
 function updatePasswordStrength(isTeacher) {
