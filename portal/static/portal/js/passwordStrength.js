@@ -91,7 +91,7 @@ function updatePasswordStrength(isTeacher) {
 
         var strength = 0;
         if (password.length > 0) { strength++; }
-        if (password.length > 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)) { strength++; }
+        if (password.length >= 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)) { strength++; }
         if ($.inArray(password, most_used_passwords_2018) >= 0 && strength == 2) { strength = 3; }
 
         if (isTeacher) {
