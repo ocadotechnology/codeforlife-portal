@@ -159,7 +159,7 @@ class TestSchoolStudent(BaseTest):
 
         page = page.go_to_account_page().update_password_failure('tiny', 'tiny', student_password)
         assert self.is_account_page(page)
-        assert page.was_form_invalid('student_account_form', 'Password not strong enough, consider using at least 8 characters')
+        assert page.was_form_invalid('student_account_form', 'Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
 
     def test_update_password_success(self):
         email, password = signup_teacher_directly()

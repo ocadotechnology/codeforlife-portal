@@ -68,13 +68,13 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='test')
         assert page.has_independent_student_signup_failed(
-            'Password not strong enough, consider using at least 8 characters')
+            'Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
 
     def test_signup_failure_common_password(self):
         page = self.go_to_homepage()
         page = submit_independent_student_signup_form(page, password='Password1')
         assert page.has_independent_student_signup_failed(
-            'Password not strong enough, consider using at least 8 characters')
+            'Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
 
     def test_signup_invalid_name(self):
         page = self.go_to_homepage().go_to_signup_page()
