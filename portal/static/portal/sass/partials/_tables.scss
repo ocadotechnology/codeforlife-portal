@@ -229,7 +229,7 @@ td {
   @include _margin(40px, 0px, 40px, 0px);
   text-align: left;
 
-  h4 {
+  .resource__title {
     @include _margin(30px, 0px, 10px, 0px);
   }
 }

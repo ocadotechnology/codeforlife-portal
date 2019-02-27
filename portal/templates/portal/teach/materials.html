@@ -72,9 +72,9 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Key Stage 1</h2>
-            <img title="KS1" alt="KS1 icon" src="{% static 'portal/img/stage_icon_ks1.png' %}">
+            <img title="KS1" alt="KS1 icon" src="{% static 'portal/img/stage_icon_ks1.svg' %}">
             <h4>Students will learn the basics of coding by programming a delivery van to drive around simple routes.</h4>
-            <a href="{{ 'KS1_new.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
+            <a href="{{ 'KS1_v1.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS1</span></h3>
@@ -98,7 +98,7 @@
         </table>
         <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS1_new/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS1_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
         {% resource_sheets_table ks1_sheets %}
     </div>
@@ -128,7 +128,7 @@
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS1</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'KS1_new/assessment.zip'|cloud_storage }}"> download the
+                        a record sheet for pupils. You can <a href="{{ 'KS1_v1/assessment.zip'|cloud_storage }}"> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks1_assessment_guide' %}">Assessment Sheet</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks1_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
@@ -143,10 +143,10 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Key Stage 2</h2>
-            <img title="KS2" alt="KS2 icon" src="{% static 'portal/img/stage_icon_ks2.png' %}">
+            <img title="KS2" alt="KS2 icon" src="{% static 'portal/img/stage_icon_ks2.svg' %}">
             <h4>Students will develop their understanding of programming principles by learning how to use repeat loops,
                 in a visual programming language.</h4>
-            <a href="{{ 'KS2_new.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all KS2 resources</a>
+            <a href="{{ 'KS2_v1.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all KS2 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS2</span></h3>
@@ -170,7 +170,7 @@
         </table>
         <h3>Resource Sheets <span class="ks-tag">KS2</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS2_new/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS2_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
         {% resource_sheets_table ks2_sheets %}
     </div>
@@ -200,7 +200,7 @@
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS2</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'KS2_new/assessment.zip'|cloud_storage }}"> download the
+                        a record sheet for pupils. You can <a href="{{ 'KS2_v1/assessment.zip'|cloud_storage }}"> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks2_assessment_guide' %}">Assessment Sheet</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
@@ -215,65 +215,66 @@
     <div class="background col-sm-8 col-center">
         <section>
             <h2>Key Stage 3</h2>
-            <img title="KS3" alt="KS3 icon" src="{% static 'portal/img/stage_icon_ks3.png' %}">
-            <h4>Student will continue to develop their understanding of programming principles by learning how to use
+            <img title="KS3" alt="KS3 icon" src="{% static 'portal/img/stage_icon_ks3_blockly.svg' %}">
+            <img title="KS3" alt="KS3 icon" src="{% static 'portal/img/stage_icon_ks3_python.svg' %}">
+            <h4>Students will continue to develop their understanding of programming principles by learning how to use
             repeat loops, if statements and respond to changes in variables in a visual programming language. They will
             also learn the basics of the text-based language: Python. Throughout, they will be designing, creating and
             debugging their own programs.</h4>
-            <a href="{{ 'KS3_new.zip'|cloud_storage }}" class="button button--regular button--primary--negative">Download all KS3 resources</a>
+            <a href="{{ 'KS3_v1.zip'|cloud_storage }}" class="button button--regular button--primary--negative">Download all KS3 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS3</span></h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guideance on share and
             review following the session.</p>
         <section class="resource">
-            <h4><strong>Lower KS3:</strong> Year 7 students (11&ndash;12 year olds)</h4>
+            <h4 class="resource__title"><strong>Lower KS3:</strong> Year 7 students (11&ndash;12 year olds)</h4>
             <p><strong>You may wish to recap on <a href="#ks2">earlier levels</a> if your pupils haven&rsquo;t
                 already completed levels 17 &mdash; 28.</strong></p>
             <table class="table--resources table--sessions">
-                {% for lks3_session in lks3_sessions %}
+                {% for lower_ks3_session in lower_ks3_sessions %}
                 <tr>
-                    <td><p><strong>Session {{ lks3_session.session_number }}</strong></p></td>
+                    <td><p><strong>Session {{ lower_ks3_session.session_number }}</strong></p></td>
                     <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=lks3_session.url_name %}">
-                            {{ lks3_session.description }}</a></p></td>
+                        <a href="{% url 'materials_viewer' pdf_name=lower_ks3_session.url_name %}">
+                            {{ lower_ks3_session.description }}</a></p></td>
                     <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                     <td>
-                        {% if lks3_session.video %}
+                        {% if lower_ks3_session.video %}
                         <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </table>
-            <h4><strong>Intermediate KS3:</strong> Year 8 students (12&ndash;13 year olds)</h4>
+            <h4 class="resource__title"><strong>Intermediate KS3:</strong> Year 8 students (12&ndash;13 year olds)</h4>
             <table class="table--resources table--sessions">
-                {% for iks3_session in iks3_sessions %}
+                {% for intermediate_ks3_session in intermediate_ks3_sessions %}
                 <tr>
-                    <td><p><strong>Session {{ iks3_session.session_number }}</strong></p></td>
+                    <td><p><strong>Session {{ intermediate_ks3_session.session_number }}</strong></p></td>
                     <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=iks3_session.url_name %}">
-                            {{ iks3_session.description }}</a></p></td>
+                        <a href="{% url 'materials_viewer' pdf_name=intermediate_ks3_session.url_name %}">
+                            {{ intermediate_ks3_session.description }}</a></p></td>
                     <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                     <td>
-                        {% if iks3_session.video %}
+                        {% if intermediate_ks3_session.video %}
                         <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </table>
-            <h4><strong>Upper KS3:</strong> Year 9 students (13&ndash;14 year olds)</h4>
+            <h4 class="resource__title"><strong>Upper KS3:</strong> Year 9 students (13&ndash;14 year olds)</h4>
             <table class="table--resources table--sessions">
-                {% for uks3_session in uks3_sessions %}
+                {% for upper_ks3_session in upper_ks3_sessions %}
                 <tr>
-                    <td><p><strong>Session {{ uks3_session.session_number }}</strong></p></td>
+                    <td><p><strong>Session {{ upper_ks3_session.session_number }}</strong></p></td>
                     <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=uks3_session.url_name %}">
-                            {{ uks3_session.description }}</a></p></td>
+                        <a href="{% url 'materials_viewer' pdf_name=upper_ks3_session.url_name %}">
+                            {{ upper_ks3_session.description }}</a></p></td>
                     <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
                     <td>
-                        {% if uks3_session.video %}
+                        {% if upper_ks3_session.video %}
                         <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
                     </td>
@@ -283,15 +284,15 @@
         </section>
         <h3>Resource Sheets <span class="ks-tag">KS3</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS3_new/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS3_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
         <section class="resource">
-            <h4><strong>Lower KS3:</strong> Year 7 students (11&ndash;12 year olds)</h4>
-            {% resource_sheets_table lks3_sheets %}
-            <h4><strong>Intermediate KS3:</strong> Year 8 students (12&ndash;13 year olds)</h4>
-            {% resource_sheets_table iks3_sheets %}
-            <h4><strong>Upper KS3:</strong> Year 9 students (13&ndash;14 year olds)</h4>
-            {% resource_sheets_table uks3_sheets %}
+            <h4 class="resource__title"><strong>Lower KS3:</strong> Year 7 students (11&ndash;12 year olds)</h4>
+            {% resource_sheets_table lower_ks3_sheets %}
+            <h4 class="resource__title"><strong>Intermediate KS3:</strong> Year 8 students (12&ndash;13 year olds)</h4>
+            {% resource_sheets_table intermediate_ks3_sheets %}
+            <h4 class="resource__title"><strong>Upper KS3:</strong> Year 9 students (13&ndash;14 year olds)</h4>
+            {% resource_sheets_table upper_ks3_sheets %}
         </section>
     </div>
 
@@ -309,28 +310,28 @@
                     <h3>Activity Set <span class="ks-tag">KS3</span></h3>
                     <p>This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lks3_activity_set' %}">Lower KS3 activity set</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='iks3_activity_set' %}">Intermediate KS3 activity set</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='uks3_activity_set' %}">Upper KS3 activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_activity_set' %}">Lower KS3 activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_activity_set' %}">Intermediate KS3 activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_activity_set' %}">Upper KS3 activity set</a></p>
                 </div>
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
                     <h3>Assets <span class="ks-tag">KS3</span></h3>
                     <p>Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lks3_assets' %}">Lower KS3 Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='iks3_assets' %}">Intermediate KS3 Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='uks3_assets' %}">Upper KS3 Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_assets' %}">Lower KS3 Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_assets' %}">Intermediate KS3 Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_assets' %}">Upper KS3 Assets</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS3</span></h3>
                     <p>Assessment guidance sheets for teachers to explain techniques and key questions.
-                        You can <a href="{{ 'KS3_new/assessment.zip'|cloud_storage }}" > download the
+                        You can <a href="{{ 'KS3_v1/assessment.zip'|cloud_storage }}" > download the
                         whole set</a> (zip file), or view and download them individually below.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lks3_assessment_sheet' %}">Lower KS3 Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lks3_self_assessment_sheet' %}">Lower KS3 Self Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='iks3_self_assessment_sheet' %}">Intermediate KS3 Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='uks3_self_assessment_sheet' %}">Upper KS3 Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_assessment_sheet' %}">Lower KS3 Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_self_assessment_sheet' %}">Lower KS3 Self Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_self_assessment_sheet' %}">Intermediate KS3 Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_self_assessment_sheet' %}">Upper KS3 Assessment Sheet</a></p>
                 </div>
             </div>
         </div>
