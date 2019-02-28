@@ -48,7 +48,7 @@ def generate_details(**kwargs):
     first_name = kwargs.get('first_name', 'Test')
     last_name = kwargs.get('last_name', 'Teacher')
     email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % random.randint(1, sys.maxint))
-    password = kwargs.get('password', 'Password1')
+    password = kwargs.get('password', 'Password2')
 
     return title, first_name, last_name, email_address, password
 
@@ -99,3 +99,14 @@ def signup_teacher(page, newsletter=False):
     mail.outbox = []
 
     return page, email_address, password
+
+
+def submit_teacher_signup_form(page, password='test'):
+    page = page.go_to_signup_page()
+
+    title, first_name, last_name, email_address, _ = generate_details()
+    return page.signup(title, first_name, last_name, email_address,
+                       password=password,
+                       confirm_password=password,
+                       success=False,
+                       newsletter=True)
