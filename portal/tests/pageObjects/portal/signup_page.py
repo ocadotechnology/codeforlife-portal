@@ -47,7 +47,7 @@ class SignupPage(BasePage):
 
         assert self.on_correct_page('signup_page')
 
-    def signup(self, title, first_name, last_name, email, password, confirm_password, newsletter=False):
+    def signup(self, title, first_name, last_name, email, password, confirm_password, success=True, newsletter=False):
         Select(self.browser.find_element_by_id('id_teacher_signup-teacher_title')).select_by_value(title)
         self.browser.find_element_by_id('id_teacher_signup-teacher_first_name').send_keys(first_name)
         self.browser.find_element_by_id('id_teacher_signup-teacher_last_name').send_keys(last_name)
@@ -59,7 +59,11 @@ class SignupPage(BasePage):
             self.browser.find_element_by_id('id_teacher_signup-newsletter_ticked').click()
 
         self.browser.find_element_by_name('teacher_signup').click()
-        return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+
+        if success:
+            return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+        else:
+            return self
 
     def independent_student_signup(self, name, username, email_address, password, confirm_password, success=True,
                                    newsletter=False):
@@ -81,4 +85,8 @@ class SignupPage(BasePage):
 
     def has_independent_student_signup_failed(self, error):
         errors = self.browser.find_element_by_id('form-signup-independent-student').find_element_by_class_name('errorlist').text
+        return error in errors
+
+    def has_teacher_signup_failed(self, error):
+        errors = self.browser.find_element_by_id('form-reg-teacher').find_element_by_class_name('errorlist').text
         return error in errors

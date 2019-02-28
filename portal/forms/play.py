@@ -131,9 +131,9 @@ class StudentEditAccountForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
 
-        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
+        if password and not password_strength_test(password, length=8, upper=False, lower=False, numbers=False):
             raise forms.ValidationError(
-                "Password not strong enough, consider using at least 6 characters")
+                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
 
         return password
 
@@ -204,8 +204,8 @@ class StudentSignupForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
 
-        if password and not password_strength_test(password, length=6, upper=False, lower=False, numbers=False):
-            raise forms.ValidationError("Password not strong enough, consider using at least 6 characters")
+        if password and not password_strength_test(password, length=8, upper=False, lower=False, numbers=False):
+            raise forms.ValidationError("Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
 
         return password
 

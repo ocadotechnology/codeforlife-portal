@@ -43,7 +43,7 @@ from portal.helpers.emails import generate_token
 
 def generate_school_details():
     name = 'Student %d' % generate_school_details.next_id
-    password = 'Password1'
+    password = 'Password2'
 
     generate_school_details.next_id += 1
 
@@ -96,7 +96,7 @@ def generate_independent_student_details():
     name = 'Student %d' % generate_independent_student_details.next_id
     username = 'Student user %d' % generate_independent_student_details.next_id
     email_address = 'Student%d@codeforlife.com' % generate_independent_student_details.next_id
-    password = 'Password1'
+    password = 'Password2'
 
     generate_independent_student_details.next_id += 1
 
