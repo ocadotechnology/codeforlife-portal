@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 import re, sys
 # import versioneer
 
-with open('game/__init__.py', 'r') as fd:
+with open('portal/__init__.py', 'r') as fd:
     version = re.search(
         r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
         fd.read(),
