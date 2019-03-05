@@ -1,9 +1,26 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
-import versioneer
+import re, sys
+# import versioneer
+
+with open('game/__init__.py', 'r') as fd:
+    version = re.search(
+        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+        fd.read(),
+        re.MULTILINE
+    ).group(1)
+
+try:
+    from semantic_release import setup_hook
+
+    setup_hook(sys.argv)
+except ImportError:
+    pass
+
 setup(name='codeforlife-portal',
-      cmdclass=versioneer.get_cmdclass(),
-      version=versioneer.get_version(),
+      # cmdclass=versioneer.get_cmdclass(),
+      # version=versioneer.get_version(),
+      version=version,
       packages=find_packages(),
       include_package_data=True,
       install_requires=[

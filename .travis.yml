@@ -14,10 +14,10 @@ matrix:
     - python: 2.7.12
       env: SELENIUM_WEBDRIVER=default
   fast_finish: true
-#install:
-#  - pip install -U setuptools
-#  - pip install -e .
-#  - pip install coveralls
+install:
+  - pip install -U setuptools
+  - pip install -e .
+  - pip install coveralls
 #before_script:
 #  - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
 #  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
