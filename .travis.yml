@@ -45,7 +45,7 @@ jobs:
       script:
         - git config --global user.name "semantic-release (via TravisCI)"
         - git config --global user.email "semantic-release@travis"
-        - pip install python-semantic-release
+        - pip install python-semantic-release==3.11.2
         - semantic-release version
 #git:
 #  depth: 9999999 # Building untagged builds needs enough depth to get the latest tag
