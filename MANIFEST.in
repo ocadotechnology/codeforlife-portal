@@ -3,5 +3,3 @@ graft deploy/static
 graft deploy/templates
 graft portal/static
 graft portal/templates
-# include portal/_version.py
-# include versioneer.py

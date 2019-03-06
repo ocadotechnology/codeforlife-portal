@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import re
+import sys
+
 from setuptools import find_packages, setup
-import re, sys
-# import versioneer
 
 with open('portal/__init__.py', 'r') as fd:
     version = re.search(
@@ -18,8 +19,6 @@ except ImportError:
     pass
 
 setup(name='codeforlife-portal',
-      # cmdclass=versioneer.get_cmdclass(),
-      # version=versioneer.get_version(),
       version=version,
       packages=find_packages(),
       include_package_data=True,
