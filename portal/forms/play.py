@@ -128,6 +128,14 @@ class StudentEditAccountForm(forms.Form):
 
         return name
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email', None)
+
+        if email and email == self.user.email:
+            raise forms.ValidationError("Please choose a different email")
+
+        return email
+
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
 

@@ -81,7 +81,7 @@ def student_edit_account(request):
                 if new_email != '' and new_email != student.new_user.email:
                     # new email to set and verify
                     changing_email = True
-                    send_verification_email(request, student.user, new_email)
+                    send_verification_email(request, student.new_user, new_email)
 
                 student.new_user.first_name = data['name']
                 # save all tables
