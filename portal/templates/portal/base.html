@@ -358,6 +358,14 @@
         target.value = refURL;
     });
 
+    $(window).on('scroll', function() {
+        var scroll = $(window).scrollTop();
+        if ((scroll > 0) && ($('.dropdown').hasClass('open'))) {
+            $('.dropdown').removeClass('open');
+            $('.button--dropdown').attr("aria-expanded","false");
+        }
+    });
+
 </script>
 {% endblock scripts %}
 
