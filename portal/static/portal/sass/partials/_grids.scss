@@ -11,6 +11,48 @@
   }
 }
 
+.grid-sessions {
+  border-top: 1px solid $color-table-border;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: 12% 68% 14% 3% 3%;
+
+  & > * {
+    align-items: center;
+    border-bottom: 1px solid $color-table-border;
+    display: flex;
+  }
+
+  img {
+    max-height: 60%;
+    max-width: 60%;
+  }
+}
+
+.grid-resources {
+  border-top: 1px solid $color-table-border;
+  display: grid;
+  grid-auto-rows: auto;
+
+  & > * {
+    border-bottom: 1px solid $color-table-border;
+  }
+}
+
+$max-resource-sheets-numbers-per-key-stage: (
+  ks1: 4,
+  ks2: 3,
+  lower-ks3: 4,
+  intermediate-ks3: 2,
+  upper-ks3: 3
+);
+
+@each $key-stage, $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage {
+  .grid-resources--#{$key-stage} {
+    grid-template-columns: 12% repeat($max-resource-sheets-number, 88%/($max-resource-sheets-number));
+  }
+}
+
 @media (max-width: 760px) {
   .grid-games {
     grid-auto-flow: row;

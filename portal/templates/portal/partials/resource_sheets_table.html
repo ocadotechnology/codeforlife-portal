@@ -1,14 +1,10 @@
-<table class="table--resources">
-    {% for session in table %}
-        <tr>
-            <td><p><strong>Session {{ forloop.counter0|add:starting_session_index }}</strong></p></td>
-                {% for sheet in session %}
-                <td>
-                    {% if sheet %}
-                        <p><a href="{% url 'materials_viewer' pdf_name=sheet.url_name %}">{{ sheet.url_name }}</a></p>
-                    {% endif %}
-                </td>
-            {% endfor %}
-        </tr>
+{% for session in table %}
+    <p><strong>Session {{ forloop.counter0|add:starting_session_index }}</strong></p>
+    {% for sheet in session %}
+        <div>
+            {% if sheet %}
+                <p><a href="{% url 'materials_viewer' pdf_name=sheet.url_name %}">{{ sheet.url_name }}</a></p>
+            {% endif %}
+        </div>
     {% endfor %}
-</table>
+{% endfor %}

@@ -41,7 +41,6 @@
 {% block content %}
 {{ block.super }}
 
-{% cache 3600 fragment-materials-page %}
 <div id="materials_page"></div>
 
 <div id="user_guide">
@@ -54,13 +53,13 @@
                 <div class="col-sm-6">
                     <h4>Key Stage 1, and Key Stage 2</h4>
                     <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_1-28' %}">Levels Guide (1-28)</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_1-28' %}">Levels Guide (1–28)</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='glossary' %}">Glossary</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h4>Key Stage 3</h4>
                     <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_python' %}">Introduction to Python in Rapid Router</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_29-109' %}">Levels Guide (29-109)</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_29-109' %}">Levels Guide (29–109)</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}">Blockly - Python Phrasebook</a></p>
                 </div>
             </div>
@@ -80,27 +79,27 @@
         <h3>Sessions <span class="ks-tag">KS1</span></h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guidance on share and
             review following the session.</p>
-        <table class="table--resources table--sessions">
+        <div class="grid-sessions">
             {% for ks1_session in ks1_sessions %}
-            <tr>
-                <td><p><strong>Session {{ ks1_session.session_number }}</strong></p></td>
-                <td><p>
-                    <a href="{% url 'materials_viewer' pdf_name=ks1_session.url_name %}">
-                        {{ ks1_session.description }}</a></p></td>
-                <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
-                <td>
+                <p><strong>Session {{ ks1_session.session_number }}</strong></p>
+                <p><a href="{% url 'materials_viewer' pdf_name=ks1_session.url_name %}">
+                        {{ ks1_session.description }}</a></p>
+                <p><i>{{ ks1_session.levels_covered }}</i></p>
+                <div>
                     {% if ks1_session.video %}
-                    <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
+                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                     {% endif %}
-                </td>
-            </tr>
+                </div>
+                <div><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></div>
             {% endfor %}
-        </table>
+        </div>
         <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
             You can <a href="{{ 'KS1_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
-        {% resource_sheets_table ks1_sheets %}
+        <div class="grid-resources grid-resources--ks1">
+            {% resource_sheets_table ks1_sheets %}
+        </div>
     </div>
 
     <div class="background background--quaternary">
@@ -152,27 +151,27 @@
         <h3>Sessions <span class="ks-tag">KS2</span></h3>
         <p>Complete lesson plans for each session, including learning objectives, a list of useful resources, pupil activities, and guidance on share and
             review following the session.</p>
-        <table class="table--resources table--sessions">
+        <div class="grid-sessions">
             {% for ks2_session in ks2_sessions %}
-            <tr>
-                <td><p><strong>Session {{ ks2_session.session_number }}</strong></p></td>
-                <td><p>
-                    <a href="{% url 'materials_viewer' pdf_name=ks2_session.url_name %}">
-                        {{ ks2_session.description }}</a></p></td>
-                <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
-                <td>
+                <p><strong>Session {{ ks2_session.session_number }}</strong></p>
+                <p><a href="{% url 'materials_viewer' pdf_name=ks2_session.url_name %}">
+                    {{ ks2_session.description }}</a></p>
+                <p><i>{{ ks2_session.levels_covered }}</i></p>
+                <div>
                     {% if ks2_session.video %}
-                    <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
+                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                     {% endif %}
-                </td>
-            </tr>
+                </div>
+                <div><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></div>
             {% endfor %}
-        </table>
+        </div>
         <h3>Resource Sheets <span class="ks-tag">KS2</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
             You can <a href="{{ 'KS2_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
             them individually below.</p>
-        {% resource_sheets_table ks2_sheets %}
+        <div class="grid-resources grid-resources--ks2">
+            {% resource_sheets_table ks2_sheets %}
+        </div>
     </div>
 
     <div class="background background--secondary">
@@ -231,56 +230,50 @@
             <h4 class="resource__title"><strong>Lower KS3:</strong> Year 7 students (11&ndash;12 year olds)</h4>
             <p><strong>You may wish to recap on <a href="#ks2">earlier levels</a> if your pupils haven&rsquo;t
                 already completed levels 17 &mdash; 28.</strong></p>
-            <table class="table--resources table--sessions">
+            <div class="grid-sessions">
                 {% for lower_ks3_session in lower_ks3_sessions %}
-                <tr>
-                    <td><p><strong>Session {{ lower_ks3_session.session_number }}</strong></p></td>
-                    <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=lower_ks3_session.url_name %}">
-                            {{ lower_ks3_session.description }}</a></p></td>
-                    <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
-                    <td>
+                    <p><strong>Session {{ lower_ks3_session.session_number }}</strong></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name=lower_ks3_session.url_name %}">
+                        {{ lower_ks3_session.description }}</a></p>
+                    <p><i>{{ lower_ks3_session.levels_covered }}</i></p>
+                    <div>
                         {% if lower_ks3_session.video %}
-                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
+                            <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
-                    </td>
-                </tr>
+                    </div>
+                    <div><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></div>
                 {% endfor %}
-            </table>
+            </div>
             <h4 class="resource__title"><strong>Intermediate KS3:</strong> Year 8 students (12&ndash;13 year olds)</h4>
-            <table class="table--resources table--sessions">
+            <div class="grid-sessions">
                 {% for intermediate_ks3_session in intermediate_ks3_sessions %}
-                <tr>
-                    <td><p><strong>Session {{ intermediate_ks3_session.session_number }}</strong></p></td>
-                    <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=intermediate_ks3_session.url_name %}">
-                            {{ intermediate_ks3_session.description }}</a></p></td>
-                    <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
-                    <td>
+                    <p><strong>Session {{ intermediate_ks3_session.session_number }}</strong></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name=intermediate_ks3_session.url_name %}">
+                        {{ intermediate_ks3_session.description }}</a></p>
+                    <p><i>{{ intermediate_ks3_session.levels_covered }}</i></p>
+                    <div>
                         {% if intermediate_ks3_session.video %}
-                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
+                            <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
-                    </td>
-                </tr>
+                    </div>
+                    <div><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></div>
                 {% endfor %}
-            </table>
+            </div>
             <h4 class="resource__title"><strong>Upper KS3:</strong> Year 9 students (13&ndash;14 year olds)</h4>
-            <table class="table--resources table--sessions">
+            <div class="grid-sessions">
                 {% for upper_ks3_session in upper_ks3_sessions %}
-                <tr>
-                    <td><p><strong>Session {{ upper_ks3_session.session_number }}</strong></p></td>
-                    <td><p>
-                        <a href="{% url 'materials_viewer' pdf_name=upper_ks3_session.url_name %}">
-                            {{ upper_ks3_session.description }}</a></p></td>
-                    <td><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></td>
-                    <td>
+                    <p><strong>Session {{ upper_ks3_session.session_number }}</strong></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name=upper_ks3_session.url_name %}">
+                        {{ upper_ks3_session.description }}</a></p>
+                    <p><i>{{ upper_ks3_session.levels_covered }}</i></p>
+                    <div>
                         {% if upper_ks3_session.video %}
-                        <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
+                            <img title="Video" alt="Video icon" src="{% static 'portal/img/icon_video.png' %}">
                         {% endif %}
-                    </td>
-                </tr>
+                    </div>
+                    <div><img title="PDF" alt="PDF icon" src="{% static 'portal/img/icon_pdf.png' %}"></div>
                 {% endfor %}
-            </table>
+            </div>
         </section>
         <h3>Resource Sheets <span class="ks-tag">KS3</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
@@ -288,11 +281,17 @@
             them individually below.</p>
         <section class="resource">
             <h4 class="resource__title"><strong>Lower KS3:</strong> Year 7 students (11&ndash;12 year olds)</h4>
-            {% resource_sheets_table lower_ks3_sheets %}
+            <div class="grid-resources grid-resources--lower-ks3">
+                {% resource_sheets_table lower_ks3_sheets %}
+            </div>
             <h4 class="resource__title"><strong>Intermediate KS3:</strong> Year 8 students (12&ndash;13 year olds)</h4>
-            {% resource_sheets_table intermediate_ks3_sheets %}
+            <div class="grid-resources grid-resources--intermediate-ks3">
+                {% resource_sheets_table intermediate_ks3_sheets %}
+            </div>
             <h4 class="resource__title"><strong>Upper KS3:</strong> Year 9 students (13&ndash;14 year olds)</h4>
-            {% resource_sheets_table upper_ks3_sheets %}
+            <div class="grid-resources grid-resources--upper-ks3">
+                {% resource_sheets_table upper_ks3_sheets %}
+            </div>
         </section>
     </div>
 
@@ -346,5 +345,4 @@
     });
 </script>
 
-{% endcache %}
 {% endblock content %}
