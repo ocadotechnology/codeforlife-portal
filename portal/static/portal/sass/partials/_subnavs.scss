@@ -39,7 +39,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: $nav-bar-level - 1;
+  z-index: $nav-bar-level + 1;
 }
 
 .sub-nav--warning {
