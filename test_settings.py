@@ -39,7 +39,7 @@ TEMPLATES = [
 INSTALLED_APPS = ['portal']
 PIPELINE_ENABLED = False
 ROOT_URLCONF = 'django_autoconfig.autourlconf'
-STATIC_ROOT = 'portal/static'
+STATIC_ROOT = 'example_project/example_project/static'
 SECRET_KEY = 'bad_test_secret'
 
 from django_autoconfig.autoconfig import configure_settings
