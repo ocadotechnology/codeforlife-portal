@@ -11,34 +11,6 @@ table {
 
 }
 
-.table--resources {
-  border: none;
-  border-top: 1px solid $color-table-border;
-  table-layout: fixed;
-  width: 100%;
-
-  tr {
-    border: none;
-    border-bottom: 1px solid $color-table-border;
-  }
-
-  td {
-    border: 0;
-    padding: 0;
-  }
-
-  td:first-child {
-    width: 10%;
-  }
-
-}
-
-.table--sessions {
-  td:nth-child(2) {
-    width: 80%;
-  }
-}
-
 th {
   @include _padding(5px, 10px, 5px, 10px);
   font-weight: 500;

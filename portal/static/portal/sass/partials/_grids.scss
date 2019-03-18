@@ -1,60 +1,70 @@
 @import 'base';
 
-.grid-games {
-  @include _column-gap($spacing*12);
-  display: grid;
-  grid-auto-flow: column;
-  grid-template: auto auto auto / auto;
+$column--info-width: 13%;
+$column--icon-width: 3%;
 
-  img {
-    min-height: 240px;
-  }
-}
+@media (min-width: 760px) {
+  .grid-games {
+    @include _column-gap($spacing*12);
+    display: grid;
+    grid-auto-flow: column;
+    grid-template: auto auto auto / auto;
 
-.grid-sessions {
-  border-top: 1px solid $color-table-border;
-  display: grid;
-  grid-auto-rows: auto;
-  grid-template-columns: 12% 68% 14% 3% 3%;
-
-  & > * {
-    align-items: center;
-    border-bottom: 1px solid $color-table-border;
-    display: flex;
+    img {
+      min-height: 240px;
+    }
   }
 
-  img {
-    max-height: 60%;
-    max-width: 60%;
+  .grid-sessions {
+    border-top: 1px solid $color-table-border;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns:
+            $column--info-width
+            auto
+            $column--info-width
+            $column--icon-width
+            $column--icon-width;
+
+    & > * {
+      align-items: center;
+      border-bottom: 1px solid $color-table-border;
+      display: flex;
+    }
+
+    .grid-icon {
+      max-height: 60%;
+      max-width: 60%;
+    }
   }
-}
 
-.grid-resources {
-  border-top: 1px solid $color-table-border;
-  display: grid;
-  grid-auto-rows: auto;
+  .grid-resources {
+    border-top: 1px solid $color-table-border;
+    display: grid;
+    grid-auto-rows: auto;
 
-  & > * {
-    border-bottom: 1px solid $color-table-border;
+    & > * {
+      border-bottom: 1px solid $color-table-border;
+    }
   }
-}
 
-$max-resource-sheets-numbers-per-key-stage: (
-  ks1: 4,
-  ks2: 3,
-  lower-ks3: 4,
-  intermediate-ks3: 2,
-  upper-ks3: 3
-);
+  $max-resource-sheets-numbers-per-key-stage: (
+          ks1: 4,
+          ks2: 3,
+          lower-ks3: 4,
+          intermediate-ks3: 2,
+          upper-ks3: 3
+  );
 
-@each $key-stage, $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage {
-  .grid-resources--#{$key-stage} {
-    grid-template-columns: 12% repeat($max-resource-sheets-number, 88%/($max-resource-sheets-number));
+  @each $key-stage, $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage {
+    .grid-resources--#{$key-stage} {
+      grid-template-columns: $column--info-width repeat($max-resource-sheets-number, auto);
+    }
   }
 }
 
 @media (max-width: 760px) {
-  .grid-games {
-    grid-auto-flow: row;
+  .grid-icon {
+    display: none;
   }
 }
