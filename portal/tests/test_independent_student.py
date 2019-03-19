@@ -205,6 +205,22 @@ class TestIndependentStudent(BaseTest):
         assert self.is_account_page(page)
         assert page.was_form_invalid('student_account_form', 'This field is required.')
 
+    def test_change_email(self):
+        homepage = self.go_to_homepage()
+
+        play_page, student_name, student_username, student_email, password = create_independent_student(homepage)
+
+        page = play_page \
+            .independent_student_login(student_username, password) \
+            .go_to_account_page()
+
+
+        new_email = 'another-email@codeforlife.com'
+        page = page.change_email(new_email, password)
+
+        assert page.__class__.__name__ == 'EmailVerificationNeededPage'
+        assert is_student_details_updated_message_showing(self.selenium)
+
     def test_join_class_nonexistent_class(self):
         homepage = self.go_to_homepage()
 

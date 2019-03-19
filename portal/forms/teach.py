@@ -153,15 +153,6 @@ class TeacherEditAccountForm(forms.Form):
         self.user = user
         super(TeacherEditAccountForm, self).__init__(*args, **kwargs)
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email', None)
-        if email:
-            teachers = Teacher.objects.filter(new_user__email=email)
-            if (len(teachers) == 1 and teachers[0].new_user != self.user) or len(teachers) > 1:
-                raise forms.ValidationError("That email address is already in use")
-
-        return email
-
     def clean_password(self):
         password = self.cleaned_data.get('password', None)
 
