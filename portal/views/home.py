@@ -312,33 +312,28 @@ def process_signup_form(request, data):
 
 def process_student_signup_form(request, data):
     email = data['email']
-    student = None
     studentManager = StudentModelManager()
 
-    if email:
-        for std in studentManager.independent_students():
-            if std.user.user.email == email:
-                email_message = emailMessages.userAlreadyRegisteredEmail(request, email)
-                send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
-                return render(request, 'portal/email_verification_needed.html')
+    for std in studentManager.independent_students():
+        if std.user.user.email == email:
+            email_message = emailMessages.userAlreadyRegisteredEmail(request, email)
+            send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
+            return render(request, 'portal/email_verification_needed.html')
 
-        student = Student.objects.independentStudentFactory(
-            username=data['username'],
-            name=data['name'],
-            email=data['email'],
-            password=data['password'])
+    student = Student.objects.independentStudentFactory(
+        username=data['username'],
+        name=data['name'],
+        email=data['email'],
+        password=data['password']
+    )
 
-        if _newsletter_ticked(data):
-            user = student.new_user
-            add_to_salesforce(user.first_name, user.last_name, user.email)
+    if _newsletter_ticked(data):
+        user = student.new_user
+        add_to_salesforce(user.first_name, user.last_name, user.email)
 
-        send_verification_email(request, student.new_user)
+    send_verification_email(request, student.new_user)
 
-    if student:
-        return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
-
-    else:
-        return render(request, 'portal/email_verification_needed.html')
+    return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
 
 
 def is_logged_in_as_teacher(request):
