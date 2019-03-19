@@ -312,10 +312,10 @@ def process_signup_form(request, data):
 
 def process_student_signup_form(request, data):
     email = data['email']
-    studentManager = StudentModelManager()
+    student_manager = StudentModelManager()
 
-    for std in studentManager.independent_students():
-        if std.user.user.email == email:
+    for independent_student in student_manager.independent_students():
+        if independent_student.user.user.email == email:
             email_message = emailMessages.userAlreadyRegisteredEmail(request, email)
             send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
             return render(request, 'portal/email_verification_needed.html')

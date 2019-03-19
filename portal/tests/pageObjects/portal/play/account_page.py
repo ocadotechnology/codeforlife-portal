@@ -36,6 +36,7 @@
 # identified as the original program.
 from play_base_page import PlayBasePage
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
+from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
 
 
 class PlayAccountPage(PlayBasePage):
@@ -83,8 +84,6 @@ class PlayAccountPage(PlayBasePage):
             'email': new_email,
             'current_password': password,
         })
-
-        from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
         return EmailVerificationNeededPage(self.browser)
 
     def _update_password(self, new_password, confirm_new_password, old_password):
