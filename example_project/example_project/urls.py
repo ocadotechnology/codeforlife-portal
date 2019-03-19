@@ -8,6 +8,5 @@ urlpatterns = patterns(
     url(r'^', include('portal.urls')),
     url(r'^administration/', include(admin.site.urls)),
     url(r'^rapidrouter/', include('game.urls')),
-    url(r'^reports/', include('reports.urls')),
     url(r'^aimmo/', include('aimmo.urls')),
 )
