@@ -214,7 +214,6 @@ class TestIndependentStudent(BaseTest):
             .independent_student_login(student_username, password) \
             .go_to_account_page()
 
-
         new_email = 'another-email@codeforlife.com'
         page = page.change_email(new_email, password)
 

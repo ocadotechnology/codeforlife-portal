@@ -43,7 +43,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.models import Teacher, Student, Class
+from portal.models import Teacher, Student, Class, StudentModelManager
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
 from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
 from portal.forms.newsletter_form import NewsletterForm
@@ -311,23 +311,34 @@ def process_signup_form(request, data):
 
 
 def process_student_signup_form(request, data):
-    student = Student.objects.independentStudentFactory(
-        username=data['username'],
-        name=data['name'],
-        email=data['email'],
-        password=data['password'])
+    email = data['email']
+    student = None
+    studentManager = StudentModelManager()
 
-    email_supplied = (data['email'] != '')
+    if email:
+        for std in studentManager.independent_students():
+            if std.user.user.email == email:
+                email_message = emailMessages.userAlreadyRegisteredEmail(request, email)
+                send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
+                return render(request, 'portal/email_verification_needed.html')
 
-    if email_supplied:
+        student = Student.objects.independentStudentFactory(
+            username=data['username'],
+            name=data['name'],
+            email=data['email'],
+            password=data['password'])
+
         if _newsletter_ticked(data):
             user = student.new_user
             add_to_salesforce(user.first_name, user.last_name, user.email)
 
         send_verification_email(request, student.new_user)
+
+    if student:
         return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
 
-    return render(request, 'portal/play/student_details.html')
+    else:
+        return render(request, 'portal/email_verification_needed.html')
 
 
 def is_logged_in_as_teacher(request):
