@@ -36,10 +36,12 @@
 # identified as the original program.
 
 from django.core.urlresolvers import reverse
-from django.test import TestCase, Client
-from utils.teacher import signup_teacher_directly
+from django.test import Client, TestCase
+
 from utils.classes import create_class_directly
-from utils.student import create_school_student_directly, create_independent_student_directly
+from utils.student import (create_independent_student_directly,
+                           create_school_student_directly)
+from utils.teacher import signup_teacher_directly
 
 
 class TestTeacherViews(TestCase):
@@ -64,20 +66,20 @@ class TestTeacherViews(TestCase):
 class TestLoginViews(TestCase):
     def test_teacher_login_redirect(self):
         email, password = signup_teacher_directly()
-        url = reverse('login_view') + "/?next=/portal/"
+        url = reverse('login_view') + "/?next=/"
         c = Client()
         response = c.post(url, {
             'login-teacher_email': email,
             'login-teacher_password': password,
             'login_view': ''
         })
-        self.assertRedirects(response, '/portal/')
+        self.assertRedirects(response, '/')
 
     def test_student_login_redirect(self):
         teacher_email, _ = signup_teacher_directly()
         _, _, class_access_code = create_class_directly(teacher_email)
         name, password, _ = create_school_student_directly(class_access_code)
-        url = reverse('login_view') + "/?next=/portal/"
+        url = reverse('login_view') + "/?next=/"
         c = Client()
         response = c.post(url, {
             'login-name': name,
@@ -85,4 +87,4 @@ class TestLoginViews(TestCase):
             'login-password': password,
             'school_login': ''
         })
-        self.assertRedirects(response, '/portal/')
+        self.assertRedirects(response, '/')
