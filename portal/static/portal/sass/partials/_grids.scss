@@ -63,6 +63,20 @@ $column--icon-width: 3%;
   }
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .grid-sessions,
+  .grid-resources {
+
+    & > * {
+      border: none;
+    }
+  }
+
+  .grid-icon {
+    display: none;
+  }
+}
+
 @media (max-width: 760px) {
   .grid-icon {
     display: none;
