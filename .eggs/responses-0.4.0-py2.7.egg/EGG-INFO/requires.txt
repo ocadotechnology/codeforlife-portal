@@ -1,0 +1,9 @@
+requests>=2.0
+cookies
+mock
+six
+
+[tests]
+pytest
+pytest-cov
+flake8
