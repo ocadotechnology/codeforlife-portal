@@ -49,7 +49,7 @@ class AddIndependentStudentToClassPage(TeachBasePage):
 
     def _rename(self):
         self.browser.find_element_by_id('id_name').clear()
-        self.browser.find_element_by_id('id_name').send_keys("Student3")
+        self.browser.find_element_by_id('id_name').send_keys("Student 3")
 
     def save(self):
         self._rename()

@@ -298,8 +298,12 @@ class TestIndependentStudent(BaseTest):
         page = page \
             .go_to_login_page() \
             .login(teacher_email, teacher_password) \
-            .accept_independent_join_request() \
-            .save() \
+            .accept_independent_join_request()
+
+        page = page \
+            .save()\
+
+        page = page \
             .return_to_class()
 
         assert page.student_exists(student_name)
