@@ -83,30 +83,30 @@
 
                 {% csrf_token %}
 
-                {{ student_signup_form.non_field_errors }}
+                {{ independent_student_signup_form.non_field_errors }}
 
-                <label for="id_{{ student_signup_form.name.html_name }}">{{ student_signup_form.name.label }}</label>
-                {{ student_signup_form.name }}
-                {{ student_signup_form.name.errors }}
+                <label for="id_{{ independent_student_signup_form.name.html_name }}">{{ independent_student_signup_form.name.label }}</label>
+                {{ independent_student_signup_form.name }}
+                {{ independent_student_signup_form.name.errors }}
 
-                <label for="id_{{ student_signup_form.username.html_name }}">{{ student_signup_form.username.label }}</label>
-                {{ student_signup_form.username }}
-                {{ student_signup_form.username.errors }}
+                <label for="id_{{ independent_student_signup_form.username.html_name }}">{{ independent_student_signup_form.username.label }}</label>
+                {{ independent_student_signup_form.username }}
+                {{ independent_student_signup_form.username.errors }}
 
-                <label for="id_{{ student_signup_form.email.html_name }}">{{ student_signup_form.email.label }}</label>
-                {{ student_signup_form.email }}
-                {{ student_signup_form.email.errors }}
+                <label for="id_{{ independent_student_signup_form.email.html_name }}">{{ independent_student_signup_form.email.label }}</label>
+                {{ independent_student_signup_form.email }}
+                {{ independent_student_signup_form.email.errors }}
 
-                {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=student_signup_form.newsletter_ticked %}
+                {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=independent_student_signup_form.newsletter_ticked %}
 
 
-                <label for="id_{{ student_signup_form.password.html_name }}">{{ student_signup_form.password.label }}</label>
-                {{ student_signup_form.password }}
-                {{ student_signup_form.password.errors }}
+                <label for="id_{{ independent_student_signup_form.password.html_name }}">{{ independent_student_signup_form.password.label }}</label>
+                {{ independent_student_signup_form.password }}
+                {{ independent_student_signup_form.password.errors }}
 
-                <label for="id_{{ student_signup_form.confirm_password.html_name }}">{{ student_signup_form.confirm_password.label }}</label>
-                {{ student_signup_form.confirm_password }}
-                {{ student_signup_form.confirm_password.errors }}
+                <label for="id_{{ independent_student_signup_form.confirm_password.html_name }}">{{ independent_student_signup_form.confirm_password.label }}</label>
+                {{ independent_student_signup_form.confirm_password }}
+                {{ independent_student_signup_form.confirm_password.errors }}
 
                 <div class="row--under">
                     <div class="password-strength-container">
@@ -117,11 +117,11 @@
 
                 <div class="row">
                     {% if captcha %}
-                    {{ student_signup_form.captcha }}
+                    {{ independent_student_signup_form.captcha }}
                     {% endif %}
                 </div>
 
-                <button type="submit" name="student_signup" class="button--big button--primary--general-play" value="Register">Register</button>
+                <button type="submit" name="independent_student_signup" class="button--big button--primary--general-play" value="Register">Register</button>
             </form>
         </div>
     </div>
@@ -130,7 +130,7 @@
 <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
 <script>
     var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
-    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ student_signup_form.password.auto_id }}';
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ independent_student_signup_form.password.auto_id }}';
 </script>
 
 {% endblock content %}

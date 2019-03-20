@@ -64,7 +64,7 @@ def emailChangeVerificationEmail(request, token):
     }
 
 
-def emailChangeNotificationEmail(request, new_email):
+def emailChangeNotificationEmail(request):
     return {
         'subject': emailSubjectPrefix() + " : Email address changed",
         'message': ("Someone has tried to change the email address of your account. If this was " +

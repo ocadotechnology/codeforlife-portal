@@ -45,7 +45,7 @@ from django.utils.html import format_html
 
 from two_factor.utils import devices_for_user
 
-from portal import app_settings, emailMessages
+from portal import app_settings, email_messages
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.models import Teacher, Class, Student
 from portal.forms.organisation import OrganisationForm
@@ -248,7 +248,7 @@ def organisation_allow_join(request, pk):
 
     messages.success(request, 'The teacher has been added to your school or club.')
 
-    emailMessage = emailMessages.joinRequestAcceptedEmail(request, teacher.school.name)
+    emailMessage = email_messages.joinRequestAcceptedEmail(request, teacher.school.name)
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
@@ -269,7 +269,7 @@ def organisation_deny_join(request, pk):
 
     messages.success(request, 'The request to join your school or club has been successfully denied.')
 
-    emailMessage = emailMessages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
+    emailMessage = email_messages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     return HttpResponseRedirect(reverse_lazy('dashboard'))
@@ -314,7 +314,7 @@ def organisation_kick(request, pk):
 
     messages.success(request, 'The teacher has been successfully removed from your school or club.')
 
-    emailMessage = emailMessages.kickedEmail(request, user.school.name)
+    emailMessage = email_messages.kickedEmail(request, user.school.name)
 
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
@@ -334,10 +334,10 @@ def organisation_toggle_admin(request, pk):
 
     if teacher.is_admin:
         messages.success(request, 'Administrator status has been given successfully.')
-        emailMessage = emailMessages.adminGivenEmail(request, teacher.school.name)
+        emailMessage = email_messages.adminGivenEmail(request, teacher.school.name)
     else:
         messages.success(request, 'Administrator status has been revoked successfully.')
-        emailMessage = emailMessages.adminRevokedEmail(request, teacher.school.name)
+        emailMessage = email_messages.adminRevokedEmail(request, teacher.school.name)
 
     send_email(NOTIFICATION_EMAIL, [teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
@@ -413,7 +413,7 @@ def teacher_reject_student_request(request, pk):
     if request.user.new_teacher != student.pending_class_request.teacher:
         raise Http404
 
-    emailMessage = emailMessages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
+    emailMessage = email_messages.studentJoinRequestRejectedEmail(request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code)
     send_email(NOTIFICATION_EMAIL, [student.new_user.email], emailMessage['subject'], emailMessage['message'])
 
     student.pending_class_request = None

@@ -47,7 +47,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from portal.forms.play import StudentEditAccountForm, StudentJoinOrganisationForm
 from portal.permissions import logged_in_as_student
 from portal.helpers.emails import send_email, send_verification_email, NOTIFICATION_EMAIL
-from portal import app_settings, emailMessages
+from portal import app_settings, email_messages
 
 from ratelimit.decorators import ratelimit
 
@@ -127,10 +127,10 @@ def student_join_organisation(request):
                 student.pending_class_request = request_form.klass
                 student.save()
 
-                emailMessage = emailMessages.studentJoinRequestSentEmail(request, request_form.klass.teacher.school.name, request_form.klass.access_code)
+                emailMessage = email_messages.studentJoinRequestSentEmail(request, request_form.klass.teacher.school.name, request_form.klass.access_code)
                 send_email(NOTIFICATION_EMAIL, [student.new_user.email], emailMessage['subject'], emailMessage['message'])
 
-                emailMessage = emailMessages.studentJoinRequestNotifyEmail(request, student.new_user.username, student.new_user.email, student.pending_class_request.access_code)
+                emailMessage = email_messages.studentJoinRequestNotifyEmail(request, student.new_user.username, student.new_user.email, student.pending_class_request.access_code)
                 send_email(NOTIFICATION_EMAIL, [student.pending_class_request.teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
 
                 messages.success(request, 'Your request to join a school has been received successfully.')
