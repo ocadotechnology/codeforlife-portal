@@ -195,6 +195,7 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
                     "in error." + emailBodySignOff(request)),
     }
 
+
 def inviteTeacherEmail(request):
     return {
         'subject': emailSubjectPrefix() + " : You've been invited to join Code for Life",
