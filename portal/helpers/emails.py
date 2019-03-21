@@ -46,9 +46,9 @@ from django.template import loader
 
 from portal.models import EmailVerification
 from portal import app_settings
-from portal.emailMessages import emailVerificationNeededEmail
-from portal.emailMessages import emailChangeNotificationEmail
-from portal.emailMessages import emailChangeVerificationEmail
+from portal.email_messages import emailVerificationNeededEmail
+from portal.email_messages import emailChangeNotificationEmail
+from portal.email_messages import emailChangeVerificationEmail
 
 NOTIFICATION_EMAIL = 'Code For Life Notification <' + app_settings.EMAIL_ADDRESS + '>'
 VERIFICATION_EMAIL = 'Code For Life Verification <' + app_settings.EMAIL_ADDRESS + '>'
@@ -113,7 +113,7 @@ def send_verification_email(request, user, new_email=None):
                    message['subject'],
                    message['message'])
 
-        message = emailChangeNotificationEmail(request, new_email)
+        message = emailChangeNotificationEmail(request)
         send_email(VERIFICATION_EMAIL,
                    [user.email],
                    message['subject'],
