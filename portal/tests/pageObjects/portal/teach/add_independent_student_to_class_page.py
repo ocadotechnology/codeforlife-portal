@@ -47,12 +47,12 @@ class AddIndependentStudentToClassPage(TeachBasePage):
 
         assert self.on_correct_page('add_independent_student_to_class')
 
-    def _rename(self):
+    def _rename(self, name):
         self.browser.find_element_by_id('id_name').clear()
-        self.browser.find_element_by_id('id_name').send_keys("Student 3")
+        self.browser.find_element_by_id('id_name').send_keys(name)
 
-    def save(self):
-        self._rename()
+    def save(self, name):
+        self._rename(name)
         self.wait_for_element_to_be_clickable((By.ID, 'save_student_name_button'))
         self.browser.find_element_by_id('save_student_name_button').click()
 
