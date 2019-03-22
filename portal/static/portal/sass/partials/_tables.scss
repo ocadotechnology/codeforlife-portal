@@ -11,40 +11,6 @@ table {
 
 }
 
-.table--resources {
-  border: none;
-  border-top: 1px solid $color-table-border;
-  table-layout: fixed;
-  width: 100%;
-
-  tr {
-    border: none;
-    border-bottom: 1px solid $color-table-border;
-  }
-
-  td {
-    border: 0;
-    padding: 0;
-  }
-
-  td:first-child {
-    width: 10%;
-  }
-
-  img {
-    display: flex;
-    max-height: 60%;
-    max-width: 60%;
-  }
-
-}
-
-.table--sessions {
-  td:nth-child(2) {
-    width: 80%;
-  }
-}
-
 th {
   @include _padding(5px, 10px, 5px, 10px);
   font-weight: 500;
@@ -223,4 +189,13 @@ td {
     font-style: italic;
   }
 
+}
+
+.resource {
+  @include _margin(40px, 0px, 40px, 0px);
+  text-align: left;
+
+  .resource__title {
+    @include _margin(30px, 0px, 10px, 0px);
+  }
 }

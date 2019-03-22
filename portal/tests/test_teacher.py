@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -139,7 +139,7 @@ class TestTeacher(BaseTest):
 
         assert self.is_materials_page(page)
 
-        keystages = ['ks1', 'lks2', 'uks2']
+        keystages = ['ks1', 'ks2', 'ks3']
         for ks in keystages:
             page = page.click_keystage_link(ks)
             assert self.is_materials_page(page)

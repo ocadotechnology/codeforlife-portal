@@ -93,9 +93,9 @@ button--menu--enabled button--menu--student--active">My Games</a>
                 <div class="col-sm-4">
                     <h3>Resource sheets</h3>
                     <p>Resource sheets help you to understand coding concepts that will be used within the game.</p>
-                    {% for aimmo_sessions in aimmo_sheets %}
-                        {% for aimmo_sheet in aimmo_sessions %}
-                            <p><a href="{% url 'materials_viewer' pdf_name=aimmo_sheet.url_name %}">{{ aimmo_sheet.title }}</a></p>
+                    {% for aimmo_session in aimmo_sheets %}
+                        {% for sheet in aimmo_session %}
+                            <p><a href="{% url 'materials_viewer' pdf_name=sheet.url_name %}">{{ sheet.title }}</a></p>
                         {% endfor %}
                     {% endfor %}
                 </div>
