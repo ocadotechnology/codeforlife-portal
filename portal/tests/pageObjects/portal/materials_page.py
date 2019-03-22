@@ -45,7 +45,7 @@ class MaterialsPage(BasePage):
         assert self.on_correct_page('materials_page')
 
     def click_pdf_link(self):
-        self.browser.find_element_by_xpath('//a[@href="/teach/materials/ks1_session_7"]').click()
+        self.browser.find_element_by_xpath('//a[@href="/teach/materials/ks2_session_2"]').click()
         return pdf_viewer_page.PDFViewerPage(self.browser)
 
     def click_keystage_link(self, keystage):
