@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -45,7 +45,7 @@ class MaterialsPage(BasePage):
         assert self.on_correct_page('materials_page')
 
     def click_pdf_link(self):
-        self.browser.find_element_by_xpath('//a[@href="/portal/teach/materials/ks1_session_7"]').click()
+        self.browser.find_element_by_xpath('//a[@href="/teach/materials/ks1_session_7"]').click()
         return pdf_viewer_page.PDFViewerPage(self.browser)
 
     def click_keystage_link(self, keystage):

@@ -65,7 +65,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(STATIC_ROOT, 'email_media/')
 SECRET_KEY = 'not-a-secret'
 
-ROOT_URLCONF = 'django_autoconfig.autourlconf'
+ROOT_URLCONF = 'example_project.urls'
 
 WSGI_APPLICATION = 'example_project.wsgi.application'
 
