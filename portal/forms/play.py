@@ -151,7 +151,7 @@ class StudentEditAccountForm(forms.Form):
         return self.cleaned_data
 
 
-class StudentSignupForm(forms.Form):
+class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
         label='Name', max_length=100,
         widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"})

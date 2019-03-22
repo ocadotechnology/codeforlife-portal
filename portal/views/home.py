@@ -43,13 +43,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.models import Teacher, Student, Class
+from portal.models import Teacher, Student, Class, StudentModelManager
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
-from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, StudentSignupForm
+from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, IndependentStudentSignupForm
 from portal.forms.newsletter_form import NewsletterForm
 from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL, \
     add_to_salesforce
-from portal import app_settings, emailMessages
+from portal import app_settings, email_messages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
 from portal.forms.home import ContactForm
@@ -176,7 +176,7 @@ def render_signup_form(request):
     should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
     teacher_signup_form = TeacherSignupForm(prefix='teacher_signup')
-    student_signup_form = StudentSignupForm(prefix='student_signup')
+    independent_student_signup_form = IndependentStudentSignupForm(prefix='independent_student_signup')
 
     if request.method == 'POST':
         if 'teacher_signup' in request.POST:
@@ -190,18 +190,18 @@ def render_signup_form(request):
                 return process_signup_form(request, data)
 
         else:
-            student_signup_form = StudentSignupForm(request.POST, prefix='student_signup')
+            independent_student_signup_form = IndependentStudentSignupForm(request.POST, prefix='independent_student_signup')
 
             if not should_use_captcha:
-                remove_captcha_from_forms(student_signup_form)
+                remove_captcha_from_forms(independent_student_signup_form)
 
-            if student_signup_form.is_valid():
-                data = student_signup_form.cleaned_data
-                return process_student_signup_form(request, data)
+            if independent_student_signup_form.is_valid():
+                data = independent_student_signup_form.cleaned_data
+                return process_independent_student_signup_form(request, data)
 
     res = render(request, 'portal/register.html', {
         'teacher_signup_form': teacher_signup_form,
-        'student_signup_form': student_signup_form,
+        'independent_student_signup_form': independent_student_signup_form,
         'captcha': should_use_captcha,
 
     })
@@ -288,7 +288,7 @@ def process_signup_form(request, data):
     teacher = None
 
     if email and Teacher.objects.filter(new_user__email=email).exists():
-        email_message = emailMessages.userAlreadyRegisteredEmail(request, email)
+        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
         send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
     else:
         teacher = Teacher.objects.factory(
@@ -310,24 +310,30 @@ def process_signup_form(request, data):
         return render(request, 'portal/email_verification_needed.html')
 
 
-def process_student_signup_form(request, data):
+def process_independent_student_signup_form(request, data):
+    email = data['email']
+    student_manager = StudentModelManager()
+
+    for independent_student in student_manager.independent_students():
+        if independent_student.user.user.email == email:
+            email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+            send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
+            return render(request, 'portal/email_verification_needed.html')
+
     student = Student.objects.independentStudentFactory(
         username=data['username'],
         name=data['name'],
         email=data['email'],
-        password=data['password'])
+        password=data['password']
+    )
 
-    email_supplied = (data['email'] != '')
+    if _newsletter_ticked(data):
+        user = student.new_user
+        add_to_salesforce(user.first_name, user.last_name, user.email)
 
-    if email_supplied:
-        if _newsletter_ticked(data):
-            user = student.new_user
-            add_to_salesforce(user.first_name, user.last_name, user.email)
+    send_verification_email(request, student.new_user)
 
-        send_verification_email(request, student.new_user)
-        return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
-
-    return render(request, 'portal/play/student_details.html')
+    return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
 
 
 def is_logged_in_as_teacher(request):
@@ -383,13 +389,13 @@ def contact(request):
         increment_count = True
         if contact_form.is_valid():
             anchor = "top"
-            email_message = emailMessages.contactEmail(
+            email_message = email_messages.contactEmail(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
                 contact_form.cleaned_data['browser'])
             send_email(CONTACT_EMAIL, app_settings.CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
 
-            confirmed_email_message = emailMessages.confirmationContactEmailMessage(
+            confirmed_email_message = email_messages.confirmationContactEmailMessage(
                 request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
                 contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
             send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']],
