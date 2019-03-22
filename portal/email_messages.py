@@ -64,7 +64,7 @@ def emailChangeVerificationEmail(request, token):
     }
 
 
-def emailChangeNotificationEmail(request, new_email):
+def emailChangeNotificationEmail(request):
     return {
         'subject': emailSubjectPrefix() + " : Email address changed",
         'message': ("Someone has tried to change the email address of your account. If this was " +
@@ -194,6 +194,7 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
                     accessCode + " has been rejected. Speak to your teacher if you think this is " +
                     "in error." + emailBodySignOff(request)),
     }
+
 
 def inviteTeacherEmail(request):
     return {

@@ -66,7 +66,7 @@ from portal.helpers.generators import generate_access_code, generate_password, g
 from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
-from portal import emailMessages
+from portal import email_messages
 
 
 @login_required(login_url=reverse_lazy('login_view'))
@@ -945,7 +945,7 @@ def invite_teacher(request):
         invite_teacher_form = InviteTeacherForm(data=request.POST)
         if invite_teacher_form.is_valid():
             email_address = invite_teacher_form.cleaned_data['email']
-            email_message = emailMessages.inviteTeacherEmail(request)
+            email_message = email_messages.inviteTeacherEmail(request)
             send_email(INVITE_FROM, [email_address], email_message['subject'], email_message['message'])
             return render(request, 'portal/email_invitation_sent.html')
 
