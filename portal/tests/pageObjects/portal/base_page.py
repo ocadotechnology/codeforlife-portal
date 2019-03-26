@@ -54,10 +54,14 @@ class BasePage(object):
     def wait_for_element_by_css(self, css, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait_for_presence((By.CSS_SELECTOR, css), wait_seconds)
 
-    def wait_for_element_to_be_clickable(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
+    def wait_for_element_to_be_clickable(
+        self, locator, wait_seconds=DEFAULT_WAIT_SECONDS
+    ):
         self.wait(EC.element_to_be_clickable(locator), wait_seconds)
 
-    def wait_for_element_to_be_invisible(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
+    def wait_for_element_to_be_invisible(
+        self, locator, wait_seconds=DEFAULT_WAIT_SECONDS
+    ):
         self.wait(EC.invisibility_of_element_located(locator), wait_seconds)
 
     def wait_for_presence(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
@@ -99,37 +103,43 @@ class BasePage(object):
         return self.element_exists_by_id(pageName)
 
     def go_to_resources_page(self):
-        self.browser.find_element_by_id('resources_button').click()
+        self.browser.find_element_by_id("resources_button").click()
         return resources_page.ResourcesPage(self.browser)
 
     def go_to_aimmo_home_page(self):
-        self.browser.find_element_by_id('aimmo_home_button').click()
+        self.browser.find_element_by_id("aimmo_home_button").click()
         return aimmo_home_page.AimmoHomePage(self.browser)
 
     def is_on_admin_login_page(self):
-        return self.on_correct_page('admin_login')
+        return self.on_correct_page("admin_login")
 
     def is_on_admin_data_page(self):
-        return self.on_correct_page('admin_data')
+        return self.on_correct_page("admin_data")
 
     def is_on_admin_map_page(self):
-        return self.on_correct_page('admin_map')
+        return self.on_correct_page("admin_map")
 
     def is_on_403_forbidden(self):
-        return self.on_correct_page('403_forbidden')
+        return self.on_correct_page("403_forbidden")
 
     def was_form_empty(self, formID):
-        if not self.element_exists_by_css('.errorlist'):
+        if not self.element_exists_by_css(".errorlist"):
             return False
 
-        errors = self.browser \
-            .find_element_by_id(formID) \
-            .find_element_by_class_name('errorlist').text
-        error = 'This field is required'
+        errors = (
+            self.browser.find_element_by_id(formID)
+            .find_element_by_class_name("errorlist")
+            .text
+        )
+        error = "This field is required"
         return error in errors
 
     def was_form_invalid(self, formID, error):
-        errors = self.browser.find_element_by_id(formID).find_element_by_class_name('errorlist').text
+        errors = (
+            self.browser.find_element_by_id(formID)
+            .find_element_by_class_name("errorlist")
+            .text
+        )
         return error in errors
 
 

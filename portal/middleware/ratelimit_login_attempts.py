@@ -40,18 +40,22 @@ from ratelimit.decorators import ratelimit
 
 
 def is_cms_toolbar_login_request(request):
-    return request.method == 'POST' and 'cms-toolbar-login' in request.GET
+    return request.method == "POST" and "cms-toolbar-login" in request.GET
 
 
 class RateLimitLoginAttemptsMiddleware:
-
     @staticmethod
-    @ratelimit('cms_login_ip', periods=['1m'], path=False, increment=lambda req, res: is_cms_toolbar_login_request(req))
+    @ratelimit(
+        "cms_login_ip",
+        periods=["1m"],
+        path=False,
+        increment=lambda req, res: is_cms_toolbar_login_request(req),
+    )
     def process_request(request):
         limit = 5
 
-        limits = getattr(request, 'limits', {'cms_login_ip': [0]})
+        limits = getattr(request, "limits", {"cms_login_ip": [0]})
 
-        if limits['cms_login_ip'][0] > limit and is_cms_toolbar_login_request(request):
-            return HttpResponseRedirect(reverse_lazy('locked_out'))
+        if limits["cms_login_ip"][0] > limit and is_cms_toolbar_login_request(request):
+            return HttpResponseRedirect(reverse_lazy("locked_out"))
         return None

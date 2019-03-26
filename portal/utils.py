@@ -41,18 +41,18 @@ from two_factor.utils import default_device
 
 
 def two_factor_cache_key(user):
-    '''Cache key for using_two_factor.'''
-    return 'using-two-factor-%s' % user.pk
+    """Cache key for using_two_factor."""
+    return "using-two-factor-%s" % user.pk
 
 
 def _using_two_factor(user):
-    '''Returns whether the user is using 2fa or not.'''
+    """Returns whether the user is using 2fa or not."""
     return default_device(user)
 
 
 def using_two_factor(user):
-    '''Returns whether the user is using 2fa or not (Cached).'''
-    if hasattr(user, 'using_two_factor_cache'):
+    """Returns whether the user is using 2fa or not (Cached)."""
+    if hasattr(user, "using_two_factor_cache"):
         # First try local memory, as we call this a lot in one request
         return user.using_two_factor_cache
     cache_key = two_factor_cache_key(user)

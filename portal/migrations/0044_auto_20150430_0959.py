@@ -39,6 +39,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from portal.helpers import location
 
+
 class Migration(migrations.Migration):
 
     # It will guess the country of the school using postcode, UK will be set if no result is returned by the API
@@ -56,16 +57,12 @@ class Migration(migrations.Migration):
     def reset_country(apps, schema_editor):
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
-            school.country = ''
-            school.town = '0'
-            school.lat = '0'
-            school.lng = '0'
+            school.country = ""
+            school.town = "0"
+            school.lat = "0"
+            school.lng = "0"
             school.save()
 
-    dependencies = [
-        ('portal', '0043_auto_20150430_0952'),
-    ]
+    dependencies = [("portal", "0043_auto_20150430_0952")]
 
-    operations = [
-        migrations.RunPython(populate_country, reset_country),
-    ]
+    operations = [migrations.RunPython(populate_country, reset_country)]

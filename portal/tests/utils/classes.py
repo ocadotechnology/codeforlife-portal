@@ -41,12 +41,13 @@ from portal.helpers.generators import generate_access_code
 
 
 def generate_details():
-    name = 'Class %d' % generate_details.next_id
+    name = "Class %d" % generate_details.next_id
     accesss_code = generate_access_code()
 
     generate_details.next_id += 1
 
     return name, accesss_code
+
 
 generate_details.next_id = 1
 
@@ -59,10 +60,7 @@ def create_class_directly(teacher_email, class_name=None):
 
     teacher = Teacher.objects.get(new_user__email=teacher_email)
 
-    klass = Class.objects.create(
-        name=name,
-        access_code=accesss_code,
-        teacher=teacher)
+    klass = Class.objects.create(name=name, access_code=accesss_code, teacher=teacher)
 
     return klass, name, accesss_code
 
@@ -70,7 +68,7 @@ def create_class_directly(teacher_email, class_name=None):
 def create_class(page):
     name, _ = generate_details()
 
-    page = page.create_class(name, 'False')
+    page = page.create_class(name, "False")
 
     return page, name
 

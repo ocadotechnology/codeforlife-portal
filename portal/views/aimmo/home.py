@@ -47,7 +47,7 @@ from aimmo.forms import AddGameForm
 
 def save_form(request, create_game_form):
     game = create_game_form.save(commit=False)
-    game.generator = 'Main'
+    game.generator = "Main"
     game.owner = request.user
     game.main_user = request.user
     game.save()
@@ -55,10 +55,10 @@ def save_form(request, create_game_form):
 
     if users is not None:
         game.can_play.add(*users)
-    return redirect('aimmo/play', id=game.id)
+    return redirect("aimmo/play", id=game.id)
 
 
-@login_required(login_url=reverse_lazy('login_view'))
+@login_required(login_url=reverse_lazy("login_view"))
 @preview_user
 def aimmo_home(request):
     aimmo_sessions = []
@@ -69,7 +69,7 @@ def aimmo_home(request):
 
     playable_games = request.user.playable_games.all()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         create_game_form = AddGameForm(playable_games, data=request.POST)
         if create_game_form.is_valid():
             return save_form(request, create_game_form)
@@ -77,7 +77,12 @@ def aimmo_home(request):
     else:
         create_game_form = AddGameForm(playable_games)
 
-    return render(request, 'portal/aimmo_home.html',
-                  {'create_game_form': create_game_form,
-                   'aimmo_sessions': aimmo_sessions,
-                   'aimmo_sheets': aimmo_sheets})
+    return render(
+        request,
+        "portal/aimmo_home.html",
+        {
+            "create_game_form": create_game_form,
+            "aimmo_sessions": aimmo_sessions,
+            "aimmo_sheets": aimmo_sheets,
+        },
+    )

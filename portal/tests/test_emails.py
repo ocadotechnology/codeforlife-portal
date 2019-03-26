@@ -43,6 +43,6 @@ from django.core import mail
 class EmailTest(TestCase):
     def test_send_new_users_numbers_email(self):
         client = Client()
-        response = client.get(reverse('send_new_users_report'))
+        response = client.get(reverse("send_new_users_report"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)

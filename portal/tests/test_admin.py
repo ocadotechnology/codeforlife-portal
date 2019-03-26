@@ -52,18 +52,18 @@ class TestAdmin(BaseTest):
 
     # NB: Users are not expected to navigate to admin login page directly
     def navigate_to_admin_login(self):
-        url = (self.live_server_url + reverse('admin_login'))
+        url = self.live_server_url + reverse("admin_login")
         self.selenium.get(url)
         return AdminLoginPage(self.selenium, self.live_server_url)
 
     def navigate_to_admin_data(self):
-        url = (self.live_server_url + reverse('aggregated_data'))
+        url = self.live_server_url + reverse("aggregated_data")
         self.selenium.get(url)
         # gets redirected to login page when not logged in
         return AdminLoginPage(self.selenium, self.live_server_url)
 
     def navigate_to_admin_map(self):
-        url = (self.live_server_url + reverse('map'))
+        url = self.live_server_url + reverse("map")
         self.selenium.get(url)
         # gets redirected to login page when not logged in
         return AdminLoginPage(self.selenium, self.live_server_url)
@@ -81,8 +81,10 @@ class TestAdmin(BaseTest):
     # Check superuser access to each admin pages
     def test_superuser_access(self):
         username = self.randomId()
-        password = 'abc123'
-        user = User.objects.create_superuser(username=username, password=password, email='')
+        password = "abc123"
+        user = User.objects.create_superuser(
+            username=username, password=password, email=""
+        )
         UserProfile.objects.create(user=user)
         page = self.navigate_to_admin_data().login_to_data(username, password)
         self.assertTrue(page.is_on_admin_data_page())
@@ -92,10 +94,10 @@ class TestAdmin(BaseTest):
     # Check user with view_map_data permission can access to /admin/map but not /admin/data
     def test_view_map_data_permission_access(self):
         username = self.randomId()
-        password = 'abc123'
+        password = "abc123"
         user = User.objects.create_user(username=username, password=password)
         UserProfile.objects.create(user=user)
-        permission = Permission.objects.get(codename='view_map_data')
+        permission = Permission.objects.get(codename="view_map_data")
         user.user_permissions.add(permission)
         page = self.navigate_to_admin_map().login_to_map(username, password)
         self.assertTrue(page.is_on_admin_map_page())
@@ -105,10 +107,10 @@ class TestAdmin(BaseTest):
     # Check user with view_aggregated_data permission can access to /admin/data but not /admin/map
     def test_view_aggregated_data_permission_access(self):
         username = self.randomId()
-        password = 'abc123'
+        password = "abc123"
         user = User.objects.create_user(username=username, password=password)
         UserProfile.objects.create(user=user)
-        permission = Permission.objects.get(codename='view_aggregated_data')
+        permission = Permission.objects.get(codename="view_aggregated_data")
         user.user_permissions.add(permission)
         page = self.navigate_to_admin_data().login_to_data(username, password)
         self.assertTrue(page.is_on_admin_data_page())
@@ -117,27 +119,29 @@ class TestAdmin(BaseTest):
 
     def test_no_view_aggregated_data_permission_access(self):
         username = self.randomId()
-        password = 'abc123'
+        password = "abc123"
         User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_data().login_to_forbidden(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_no_view_map_data_permission_access(self):
         username = self.randomId()
-        password = 'abc123'
+        password = "abc123"
         User.objects.create_user(username=username, password=password)
         page = self.navigate_to_admin_map().login_to_forbidden(username, password)
         self.assertTrue(page.is_on_403_forbidden())
 
     def test_wrong_username(self):
         username = self.randomId()
-        password = 'abc123'
+        password = "abc123"
         user = User.objects.create_user(username=username, password=password)
         UserProfile.objects.create(user=user)
-        page = self.navigate_to_admin_data().login_failure('user123', password)
+        page = self.navigate_to_admin_data().login_failure("user123", password)
         self.assertTrue(page.is_on_admin_login_page())
-        self.assertIn("Please enter a correct username and password. Note that both fields may be case-sensitive.",
-                      self.selenium.page_source)
+        self.assertIn(
+            "Please enter a correct username and password. Note that both fields may be case-sensitive.",
+            self.selenium.page_source,
+        )
 
     def randomId(self):
         return str(uuid.uuid4())

@@ -40,9 +40,16 @@ from base_test import BaseTest
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from utils.teacher import signup_teacher_directly
-from utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from utils.classes import create_class_directly
-from utils.student import create_school_student, create_many_school_students, create_school_student_directly
+from utils.student import (
+    create_school_student,
+    create_many_school_students,
+    create_school_student_directly,
+)
 
 
 class TestTeacherStudent(BaseTest):
@@ -52,12 +59,16 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+        )
 
         page, student_name = create_school_student(page)
         assert page.student_exists(student_name)
 
-        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+        assert page.__class__.__name__ == "OnboardingStudentListPage"
 
     def test_create_empty(self):
         email, password = signup_teacher_directly()
@@ -65,9 +76,14 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password).create_students_empty()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+            .create_students_empty()
+        )
 
-        assert page.was_form_empty('form-create-students')
+        assert page.was_form_empty("form-create-students")
 
     def test_create_valid_name_dash(self):
         email, password = signup_teacher_directly()
@@ -77,13 +93,17 @@ class TestTeacherStudent(BaseTest):
         student_name = "Florian-Gilbert"
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+        )
 
         page = page.type_student_name(student_name).create_students()
 
         assert page.student_exists(student_name)
 
-        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+        assert page.__class__.__name__ == "OnboardingStudentListPage"
 
     def test_create_valid_name_underscore(self):
         email, password = signup_teacher_directly()
@@ -93,13 +113,17 @@ class TestTeacherStudent(BaseTest):
         student_name = "Florian_Gilbert"
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+        )
 
         page = page.type_student_name(student_name).create_students()
 
         assert page.student_exists(student_name)
 
-        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+        assert page.__class__.__name__ == "OnboardingStudentListPage"
 
     def test_create_invalid_name(self):
         email, password = signup_teacher_directly()
@@ -109,12 +133,19 @@ class TestTeacherStudent(BaseTest):
         student_name = "Florian!"
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+        )
 
         page = page.type_student_name(student_name).create_students_failure()
 
         assert page.adding_students_failed()
-        assert page.was_form_invalid('form-create-students', 'Names may only contain letters, numbers, dashes, underscores, and spaces.')
+        assert page.was_form_invalid(
+            "form-create-students",
+            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+        )
 
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
@@ -122,7 +153,11 @@ class TestTeacherStudent(BaseTest):
         _, class_name, access_code = create_class_directly(email)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+        )
 
         page, student_names = create_many_school_students(page, 12)
 
@@ -134,12 +169,20 @@ class TestTeacherStudent(BaseTest):
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
 
-        student_name = 'bob'
+        student_name = "bob"
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login_no_students(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login_no_students(email, password)
+        )
 
-        page = page.type_student_name(student_name).type_student_name(student_name).create_students_failure()
+        page = (
+            page.type_student_name(student_name)
+            .type_student_name(student_name)
+            .create_students_failure()
+        )
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
 
@@ -150,7 +193,12 @@ class TestTeacherStudent(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+        )
 
         page, new_student_name = create_school_student(page)
         assert page.student_exists(new_student_name)
@@ -166,7 +214,13 @@ class TestTeacherStudent(BaseTest):
         name, password, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+            .go_to_edit_student_page()
+        )
 
         assert page.is_student_name(name)
 
@@ -184,7 +238,13 @@ class TestTeacherStudent(BaseTest):
         name, password, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+            .go_to_edit_student_page()
+        )
 
         assert page.is_student_name(name)
 
@@ -202,7 +262,13 @@ class TestTeacherStudent(BaseTest):
         name, password, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+            .go_to_edit_student_page()
+        )
 
         assert page.is_student_name(name)
 
@@ -220,7 +286,13 @@ class TestTeacherStudent(BaseTest):
         name, password, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+            .go_to_edit_student_page()
+        )
 
         assert page.is_student_name(name)
 
@@ -230,7 +302,10 @@ class TestTeacherStudent(BaseTest):
         page = page.click_update_button()
 
         assert page.is_student_name(name)
-        assert page.was_form_invalid('form-edit-student', 'Names may only contain letters, numbers, dashes, underscores, and spaces.')
+        assert page.was_form_invalid(
+            "form-edit-student",
+            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+        )
 
     def test_update_student_password(self):
         email, password = signup_teacher_directly()
@@ -239,13 +314,21 @@ class TestTeacherStudent(BaseTest):
         name, password, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+            .go_to_edit_student_page()
+        )
 
         assert page.is_student_name(name)
 
         new_student_password = "new_password"
 
-        page = page.click_set_password_form_button().type_student_password(new_student_password)
+        page = page.click_set_password_form_button().type_student_password(
+            new_student_password
+        )
         time.sleep(1)
         page = page.click_set_password_button()
 
@@ -258,13 +341,19 @@ class TestTeacherStudent(BaseTest):
         name, password, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password).go_to_class_page().go_to_edit_student_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(email, password)
+            .go_to_class_page()
+            .go_to_edit_student_page()
+        )
 
         assert page.is_student_name(name)
 
         page = page.click_generate_password_button()
 
-        assert page.__class__.__name__ == 'EditStudentPasswordPage'
+        assert page.__class__.__name__ == "EditStudentPasswordPage"
 
     def test_delete(self):
         email, password = signup_teacher_directly()
@@ -299,7 +388,7 @@ class TestTeacherStudent(BaseTest):
         page = page.confirm_reset_student_dialog()
 
         assert page.student_exists(student_name)
-        assert page.__class__.__name__ == 'OnboardingStudentListPage'
+        assert page.__class__.__name__ == "OnboardingStudentListPage"
 
     def test_move_cancel(self):
         email, password = signup_teacher_directly()
@@ -312,13 +401,13 @@ class TestTeacherStudent(BaseTest):
         page = page.go_to_class_page()
 
         page = page.move_students_none_selected()
-        assert page.__class__.__name__ == 'TeachClassPage'
+        assert page.__class__.__name__ == "TeachClassPage"
 
         page = page.toggle_select_student().move_students()
-        assert page.__class__.__name__ == 'TeachMoveStudentsPage'
+        assert page.__class__.__name__ == "TeachMoveStudentsPage"
 
         page = page.cancel()
-        assert page.__class__.__name__ == 'TeachClassPage'
+        assert page.__class__.__name__ == "TeachClassPage"
 
     def test_move_cancel_disambiguate(self):
         email_1, password_1 = signup_teacher_directly()
@@ -327,7 +416,9 @@ class TestTeacherStudent(BaseTest):
         join_teacher_to_organisation(email_2, org_name, postcode)
         _, class_name_1, access_code_1 = create_class_directly(email_1)
         _, class_name_2, access_code_2 = create_class_directly(email_2)
-        student_name, student_password, _ = create_school_student_directly(access_code_1)
+        student_name, student_password, _ = create_school_student_directly(
+            access_code_1
+        )
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
@@ -347,8 +438,12 @@ class TestTeacherStudent(BaseTest):
         join_teacher_to_organisation(email_2, org_name, postcode)
         _, class_name_1, access_code_1 = create_class_directly(email_1)
         _, class_name_2, access_code_2 = create_class_directly(email_2)
-        student_name_1, student_password_1, _ = create_school_student_directly(access_code_1)
-        student_name_2, student_password_2, _ = create_school_student_directly(access_code_1)
+        student_name_1, student_password_1, _ = create_school_student_directly(
+            access_code_1
+        )
+        student_name_2, student_password_2, _ = create_school_student_directly(
+            access_code_1
+        )
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
@@ -369,8 +464,12 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, class_name, access_code = create_class_directly(email)
-        student_name_1, student_password_1, _ = create_school_student_directly(access_code)
-        student_name_2, student_password_2, _ = create_school_student_directly(access_code)
+        student_name_1, student_password_1, _ = create_school_student_directly(
+            access_code
+        )
+        student_name_2, student_password_2, _ = create_school_student_directly(
+            access_code
+        )
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
@@ -378,9 +477,14 @@ class TestTeacherStudent(BaseTest):
         assert page.student_exists(student_name_1)
 
         page = page.toggle_select_student().dismiss_students()
-        assert page.__class__.__name__ == 'TeachDismissStudentsPage'
+        assert page.__class__.__name__ == "TeachDismissStudentsPage"
         page = page.cancel()
-        assert page.__class__.__name__ == 'TeachClassPage'
+        assert page.__class__.__name__ == "TeachClassPage"
 
-        page = page.toggle_select_student().dismiss_students().enter_email("student_email@gmail.com").dismiss()
+        page = (
+            page.toggle_select_student()
+            .dismiss_students()
+            .enter_email("student_email@gmail.com")
+            .dismiss()
+        )
         assert not page.student_exists(student_name_1)

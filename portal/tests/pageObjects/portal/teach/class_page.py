@@ -47,10 +47,10 @@ class TeachClassPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('teach_class_page')
+        assert self.on_correct_page("teach_class_page")
 
     def type_student_name(self, name):
-        self.browser.find_element_by_id('id_names').send_keys(name + '\n')
+        self.browser.find_element_by_id("id_names").send_keys(name + "\n")
         return self
 
     def create_students(self):
@@ -58,41 +58,42 @@ class TeachClassPage(TeachBasePage):
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def _click_create_students(self):
-        self.browser.find_element_by_name('new_students').click()
+        self.browser.find_element_by_name("new_students").click()
 
     def student_exists(self, name):
-        return name in self.browser.find_element_by_id('student_table').text
+        return name in self.browser.find_element_by_id("student_table").text
 
     def delete_class(self):
-        self.browser.find_element_by_id('deleteClass').click()
+        self.browser.find_element_by_id("deleteClass").click()
         return self
 
     def delete_students(self):
-        self.browser.find_element_by_id('deleteSelectedStudents').click()
+        self.browser.find_element_by_id("deleteSelectedStudents").click()
         return self
 
     def reset_passwords(self):
-        self.browser.find_element_by_id('resetSelectedStudents').click()
+        self.browser.find_element_by_id("resetSelectedStudents").click()
         return self
 
     def move_students(self):
-        self.browser.find_element_by_id('moveSelectedStudents').click()
+        self.browser.find_element_by_id("moveSelectedStudents").click()
 
         return move_students_page.TeachMoveStudentsPage(self.browser)
 
     def move_students_none_selected(self):
-        self.browser.find_element_by_id('moveSelectedStudents').click()
+        self.browser.find_element_by_id("moveSelectedStudents").click()
 
         return self
 
     def dismiss_students(self):
-        self.browser.find_element_by_id('dismissSelectedStudents').click()
+        self.browser.find_element_by_id("dismissSelectedStudents").click()
 
         return dismiss_students_page.TeachDismissStudentsPage(self.browser)
 
     def cancel_dialog(self):
         self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]").click()
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]"
+        ).click()
         return self
 
     def confirm_delete_class_dialog(self):
@@ -116,24 +117,27 @@ class TeachClassPage(TeachBasePage):
         return self
 
     def is_dialog_showing(self):
-        return self.browser.find_element_by_xpath("//div[contains(@class,'ui-dialog')]").is_displayed()
+        return self.browser.find_element_by_xpath(
+            "//div[contains(@class,'ui-dialog')]"
+        ).is_displayed()
 
     def _click_confirm(self):
         self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]").click()
+            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]"
+        ).click()
 
     def toggle_select_student(self):
         self.browser.find_element_by_id("student_checkbox").click()
         return self
 
     def wait_for_messages(self):
-        self.wait_for_element_by_id('messages')
+        self.wait_for_element_by_id("messages")
 
     def has_students(self):
-        return self.element_exists_by_id('student_table')
+        return self.element_exists_by_id("student_table")
 
     def go_to_class_settings_page(self):
-        self.browser.find_element_by_id('class_settings_button').click()
+        self.browser.find_element_by_id("class_settings_button").click()
         return class_settings_page.TeachClassSettingsPage(self.browser)
 
     def go_to_edit_student_page(self):

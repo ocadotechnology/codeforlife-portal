@@ -42,16 +42,16 @@ class AimmoHomePage(BasePage):
     def __init__(self, browser):
         super(AimmoHomePage, self).__init__(browser)
 
-        assert self.on_correct_page('aimmo_home_page')
+        assert self.on_correct_page("aimmo_home_page")
 
     def click_create_new_game_button(self):
-        self.browser.find_element_by_id('create_new_game_button').click()
+        self.browser.find_element_by_id("create_new_game_button").click()
 
     def click_create_game_button(self):
-        self.browser.find_element_by_id('create_game_button').click()
+        self.browser.find_element_by_id("create_game_button").click()
 
     def click_join_game_button(self):
-        self.browser.find_element_by_id('join_game_button').click()
+        self.browser.find_element_by_id("join_game_button").click()
 
     def click_game_to_join_button(self, game_name):
         self.browser.find_element_by_link_text(game_name).click()
@@ -64,8 +64,8 @@ class AimmoHomePage(BasePage):
             return False
 
     def input_new_game_name(self, new_game_name):
-        self.browser.find_element_by_id('id_name').clear()
-        self.browser.find_element_by_id('id_name').send_keys(new_game_name)
+        self.browser.find_element_by_id("id_name").clear()
+        self.browser.find_element_by_id("id_name").send_keys(new_game_name)
 
     def get_input_game_name_placeholder(self):
-        return self.browser.find_element_by_id('id_name').get_attribute("placeholder")
+        return self.browser.find_element_by_id("id_name").get_attribute("placeholder")

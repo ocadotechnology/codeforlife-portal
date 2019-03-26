@@ -41,8 +41,11 @@ from portal.models import Class, Student
 def get_users_for_new_game(request):
     user = request.user
     players = []
-    if hasattr(user, 'userprofile'):
-        if hasattr(user.userprofile, 'student') and user.userprofile.student.is_independent():
+    if hasattr(user, "userprofile"):
+        if (
+            hasattr(user.userprofile, "student")
+            and user.userprofile.student.is_independent()
+        ):
             players.extend(Student.objects.independent_students())
             return get_user_objects(players)
         else:

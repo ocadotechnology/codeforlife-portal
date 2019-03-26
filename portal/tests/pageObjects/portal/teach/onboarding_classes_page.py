@@ -46,11 +46,13 @@ class OnboardingClassesPage(TeachBasePage):
     def __init__(self, browser):
         super(OnboardingClassesPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding_classes_page')
+        assert self.on_correct_page("onboarding_classes_page")
 
     def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id('id_class_name').send_keys(name)
-        Select(self.browser.find_element_by_id('id_classmate_progress')).select_by_value(classmate_progress)
+        self.browser.find_element_by_id("id_class_name").send_keys(name)
+        Select(
+            self.browser.find_element_by_id("id_classmate_progress")
+        ).select_by_value(classmate_progress)
 
         self._click_create_class_button()
 
@@ -62,7 +64,7 @@ class OnboardingClassesPage(TeachBasePage):
         return self
 
     def _click_create_class_button(self):
-        self.browser.find_element_by_id('create_class_button').click()
+        self.browser.find_element_by_id("create_class_button").click()
 
     def does_not_have_classes(self):
-        return self.element_does_not_exist_by_id('add_students')
+        return self.element_does_not_exist_by_id("add_students")

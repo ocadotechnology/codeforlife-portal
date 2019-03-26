@@ -36,31 +36,36 @@
 # identified as the original program.
 from play_base_page import PlayBasePage
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
-from portal.tests.pageObjects.portal.email_verification_needed_page import EmailVerificationNeededPage
+from portal.tests.pageObjects.portal.email_verification_needed_page import (
+    EmailVerificationNeededPage,
+)
 
 
 class PlayAccountPage(PlayBasePage):
     def __init__(self, browser):
         super(PlayAccountPage, self).__init__(browser)
 
-        assert self.on_correct_page('play_account_page')
+        assert self.on_correct_page("play_account_page")
 
     def check_account_details(self, details):
         correct = True
 
         for field, value in details.items():
-            correct &= (self.browser.find_element_by_id('id_' + field).get_attribute('value') == value)
+            correct &= (
+                self.browser.find_element_by_id("id_" + field).get_attribute("value")
+                == value
+            )
 
         return correct
 
     def _change_details(self, details):
         for field, value in details.items():
-            self.browser.find_element_by_id('id_' + field).clear()
-            self.browser.find_element_by_id('id_' + field).send_keys(value)
-        self.browser.find_element_by_id('update_button').click()
+            self.browser.find_element_by_id("id_" + field).clear()
+            self.browser.find_element_by_id("id_" + field).send_keys(value)
+        self.browser.find_element_by_id("update_button").click()
 
     def submit_empty_form(self):
-        self.browser.find_element_by_id('update_button').click()
+        self.browser.find_element_by_id("update_button").click()
         return self
 
     def update_password_failure(self, new_password, confirm_new_password, old_password):
@@ -80,20 +85,19 @@ class PlayAccountPage(PlayBasePage):
         return PlayDashboardPage(self.browser)
 
     def change_email(self, new_email, password):
-        self._change_details({
-            'email': new_email,
-            'current_password': password,
-        })
+        self._change_details({"email": new_email, "current_password": password})
         return EmailVerificationNeededPage(self.browser)
 
     def _update_password(self, new_password, confirm_new_password, old_password):
-        self.browser.find_element_by_id('id_password').send_keys(new_password)
-        self.browser.find_element_by_id('id_confirm_password').send_keys(confirm_new_password)
-        self.browser.find_element_by_id('id_current_password').send_keys(old_password)
-        self.browser.find_element_by_id('update_button').click()
+        self.browser.find_element_by_id("id_password").send_keys(new_password)
+        self.browser.find_element_by_id("id_confirm_password").send_keys(
+            confirm_new_password
+        )
+        self.browser.find_element_by_id("id_current_password").send_keys(old_password)
+        self.browser.find_element_by_id("update_button").click()
 
     def _update_name(self, new_name, password):
-        self.browser.find_element_by_id('id_name').clear()
-        self.browser.find_element_by_id('id_name').send_keys(new_name)
-        self.browser.find_element_by_id('id_current_password').send_keys(password)
-        self.browser.find_element_by_id('update_button').click()
+        self.browser.find_element_by_id("id_name").clear()
+        self.browser.find_element_by_id("id_name").send_keys(new_name)
+        self.browser.find_element_by_id("id_current_password").send_keys(password)
+        self.browser.find_element_by_id("update_button").click()

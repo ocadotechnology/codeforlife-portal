@@ -42,17 +42,27 @@ from django.core import mail
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
-from utils.teacher import signup_teacher, signup_teacher_directly, signup_duplicate_teacher_fail, submit_teacher_signup_form
-from utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from utils.teacher import (
+    signup_teacher,
+    signup_teacher_directly,
+    signup_duplicate_teacher_fail,
+    submit_teacher_signup_form,
+)
+from utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
-from utils.messages import is_email_verified_message_showing, is_teacher_details_updated_message_showing, \
-    is_teacher_email_updated_message_showing
+from utils.messages import (
+    is_email_verified_message_showing,
+    is_teacher_details_updated_message_showing,
+    is_teacher_email_updated_message_showing,
+)
 from utils import email as email_utils
 
 
 class TestTeacher(BaseTest):
-
     def test_signup_without_newsletter(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -74,28 +84,34 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page, _, _ = signup_duplicate_teacher_fail(page, email)
-        assert page.__class__.__name__ == 'LoginPage'
+        assert page.__class__.__name__ == "LoginPage"
 
     def test_signup_failure_short_password(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
-        page = submit_teacher_signup_form(page, password='test')
+        page = submit_teacher_signup_form(page, password="test")
         assert page.has_teacher_signup_failed(
-            'Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
+            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+        )
 
     def test_signup_failure_common_password(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
-        page = submit_teacher_signup_form(page, password='Password1')
+        page = submit_teacher_signup_form(page, password="Password1")
         assert page.has_teacher_signup_failed(
-            'Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
+            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+        )
 
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_login_page()
-        page = page.login_failure('non-existent-email@codeforlife.com', 'Incorrect password')
-        assert page.has_login_failed('form-login-teacher', 'Incorrect email address or password')
+        page = page.login_failure(
+            "non-existent-email@codeforlife.com", "Incorrect password"
+        )
+        assert page.has_login_failed(
+            "form-login-teacher", "Incorrect email address or password"
+        )
 
     def test_login_success(self):
         email, password = signup_teacher_directly()
@@ -139,7 +155,7 @@ class TestTeacher(BaseTest):
 
         assert self.is_materials_page(page)
 
-        keystages = ['ks1', 'ks2', 'ks3']
+        keystages = ["ks1", "ks2", "ks3"]
         for ks in keystages:
             page = page.click_keystage_link(ks)
             assert self.is_materials_page(page)
@@ -153,20 +169,20 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
 
-        page = page.change_teacher_details({
-            'title': 'Mrs',
-            'first_name': 'Paulina',
-            'last_name': 'Koch',
-            'current_password': 'Password2',
-        })
+        page = page.change_teacher_details(
+            {
+                "title": "Mrs",
+                "first_name": "Paulina",
+                "last_name": "Koch",
+                "current_password": "Password2",
+            }
+        )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
-        assert page.check_account_details({
-            'title': 'Mrs',
-            'first_name': 'Paulina',
-            'last_name': 'Koch',
-        })
+        assert page.check_account_details(
+            {"title": "Mrs", "first_name": "Paulina", "last_name": "Koch"}
+        )
 
     def test_edit_details_non_admin(self):
         email_1, password_1 = signup_teacher_directly()
@@ -181,20 +197,20 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email_2, password_2)
 
-        page = page.change_teacher_details({
-            'title': 'Mr',
-            'first_name': 'Florian',
-            'last_name': 'Aucomte',
-            'current_password': 'Password2',
-        })
+        page = page.change_teacher_details(
+            {
+                "title": "Mr",
+                "first_name": "Florian",
+                "last_name": "Aucomte",
+                "current_password": "Password2",
+            }
+        )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
-        assert page.check_account_details({
-            'title': 'Mr',
-            'first_name': 'Florian',
-            'last_name': 'Aucomte',
-        })
+        assert page.check_account_details(
+            {"title": "Mr", "first_name": "Florian", "last_name": "Aucomte"}
+        )
 
     def test_change_email(self):
         email, password = signup_teacher_directly()
@@ -205,9 +221,9 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
 
-        new_email = 'another-email@codeforlife.com'
-        page = page.change_email('Test', 'Teacher', new_email, password)
-        assert page.__class__.__name__ == 'EmailVerificationNeededPage'
+        new_email = "another-email@codeforlife.com"
+        page = page.change_email("Test", "Teacher", new_email, password)
+        assert page.__class__.__name__ == "EmailVerificationNeededPage"
         assert is_teacher_email_updated_message_showing(self.selenium)
 
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
@@ -215,11 +231,9 @@ class TestTeacher(BaseTest):
 
         page = page.login(new_email, password)
 
-        assert page.check_account_details({
-            'title': 'Mr',
-            'first_name': 'Test',
-            'last_name': 'Teacher',
-        })
+        assert page.check_account_details(
+            {"title": "Mr", "first_name": "Test", "last_name": "Teacher"}
+        )
 
     def test_reset_password(self):
         email, password = signup_teacher_directly()
@@ -235,7 +249,7 @@ class TestTeacher(BaseTest):
 
         page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
 
-        new_password = 'AnotherPassword12'
+        new_password = "AnotherPassword12"
 
         page.teacher_reset_password(new_password)
 
@@ -254,22 +268,24 @@ class TestTeacher(BaseTest):
 
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .go_to_teacher_forgotten_password_page()
+        )
         return page
 
     def wait_for_email(self):
         WebDriverWait(self.selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
     def is_dashboard_page(self, page):
-        return page.__class__.__name__ == 'TeachDashboardPage'
+        return page.__class__.__name__ == "TeachDashboardPage"
 
     def is_materials_page(self, page):
-        return page.__class__.__name__ == 'MaterialsPage'
+        return page.__class__.__name__ == "MaterialsPage"
 
     def is_pdf_viewer_page(self, page):
-        return page.__class__.__name__ == 'PDFViewerPage'
+        return page.__class__.__name__ == "PDFViewerPage"
 
     def is_onboarding_page(self, page):
-        return page.__class__.__name__ == 'OnboardingOrganisationPage'
+        return page.__class__.__name__ == "OnboardingOrganisationPage"

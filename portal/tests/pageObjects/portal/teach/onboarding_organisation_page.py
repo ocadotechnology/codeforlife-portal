@@ -48,14 +48,14 @@ class OnboardingOrganisationPage(TeachBasePage):
     def __init__(self, browser):
         super(OnboardingOrganisationPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding_organisation_page')
+        assert self.on_correct_page("onboarding_organisation_page")
 
-    def create_organisation(self, name, password, postcode, country='GB'):
+    def create_organisation(self, name, password, postcode, country="GB"):
         self._create_organisation(name, password, postcode, country)
 
         return onboarding_classes_page.OnboardingClassesPage(self.browser)
 
-    def create_organisation_failure(self, name, password, postcode, country='GB'):
+    def create_organisation_failure(self, name, password, postcode, country="GB"):
         self._create_organisation(name, password, postcode, country)
 
         return self
@@ -66,48 +66,58 @@ class OnboardingOrganisationPage(TeachBasePage):
         return self
 
     def join_empty_organisation(self):
-        self.browser.find_element_by_id('join-tab').click()
+        self.browser.find_element_by_id("join-tab").click()
         self._click_join_school_button()
 
         return self
 
     def _create_organisation(self, name, password, postcode, country):
-        self.browser.find_element_by_id('id_name').send_keys(name)
-        self.browser.find_element_by_id('id_postcode').send_keys(postcode)
-        self.browser.find_element_by_id('id_current_password').send_keys(password)
-        country_element = self.browser.find_element_by_id('id_country')
+        self.browser.find_element_by_id("id_name").send_keys(name)
+        self.browser.find_element_by_id("id_postcode").send_keys(postcode)
+        self.browser.find_element_by_id("id_current_password").send_keys(password)
+        country_element = self.browser.find_element_by_id("id_country")
         select = Select(country_element)
         select.select_by_value(country)
         self._click_create_school_button()
 
     def _click_create_school_button(self):
-        self.browser.find_element_by_name('create_organisation').click()
+        self.browser.find_element_by_name("create_organisation").click()
 
     def _click_join_school_button(self):
-        self.browser.find_element_by_name('join_organisation').click()
+        self.browser.find_element_by_name("join_organisation").click()
 
     def has_creation_failed(self):
-        if not self.element_exists_by_css('.errorlist'):
+        if not self.element_exists_by_css(".errorlist"):
             return False
 
-        errors = self.browser \
-            .find_element_by_id('form-create-organisation') \
-            .find_element_by_class_name('errorlist').text
-        error = 'There is already a school or club registered with that name and postcode'
+        errors = (
+            self.browser.find_element_by_id("form-create-organisation")
+            .find_element_by_class_name("errorlist")
+            .text
+        )
+        error = (
+            "There is already a school or club registered with that name and postcode"
+        )
         return error in errors
 
     def was_postcode_invalid(self):
-        errors = self.browser.find_element_by_id('form-create-organisation').find_element_by_class_name('errorlist').text
-        error = 'Please enter a valid postcode or ZIP code'
+        errors = (
+            self.browser.find_element_by_id("form-create-organisation")
+            .find_element_by_class_name("errorlist")
+            .text
+        )
+        error = "Please enter a valid postcode or ZIP code"
         return error in errors
 
     def join_organisation(self, name):
-        self.browser.find_element_by_id('join-tab').click()
-        self.browser.find_element_by_id('id_fuzzy_name').send_keys(name)
+        self.browser.find_element_by_id("join-tab").click()
+        self.browser.find_element_by_id("id_fuzzy_name").send_keys(name)
         time.sleep(1)
         self._click_join_school_button()
 
-        if self.on_correct_page('onboarding_revoke_request_page'):
-            return onboarding_revoke_request_page.OnboardingRevokeRequestPage(self.browser)
+        if self.on_correct_page("onboarding_revoke_request_page"):
+            return onboarding_revoke_request_page.OnboardingRevokeRequestPage(
+                self.browser
+            )
         else:
             return self

@@ -52,7 +52,7 @@ class LoginPage(BasePage):
     def __init__(self, browser):
         super(LoginPage, self).__init__(browser)
 
-        assert self.on_correct_page('login_page')
+        assert self.on_correct_page("login_page")
 
     def login(self, email, password):
         self._login(email, password)
@@ -62,7 +62,9 @@ class LoginPage(BasePage):
     def login_no_school(self, email, password):
         self._login(email, password)
 
-        return teach.onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
+        return teach.onboarding_organisation_page.OnboardingOrganisationPage(
+            self.browser
+        )
 
     def login_no_class(self, email, password):
         self._login(email, password)
@@ -97,33 +99,41 @@ class LoginPage(BasePage):
         return self
 
     def _login(self, email, password):
-        self.browser.find_element_by_id('id_login-teacher_email').send_keys(email)
-        self.browser.find_element_by_id('id_login-teacher_password').send_keys(password)
-        self.browser.find_element_by_name('login_view').click()
+        self.browser.find_element_by_id("id_login-teacher_email").send_keys(email)
+        self.browser.find_element_by_id("id_login-teacher_password").send_keys(password)
+        self.browser.find_element_by_name("login_view").click()
 
     def _student_login(self, name, access_code, password):
-        self.browser.find_element_by_id('id_login-name').send_keys(name)
-        self.browser.find_element_by_id('id_login-access_code').send_keys(access_code)
-        self.browser.find_element_by_id('id_login-password').send_keys(password)
-        self.browser.find_element_by_name('school_login').click()
+        self.browser.find_element_by_id("id_login-name").send_keys(name)
+        self.browser.find_element_by_id("id_login-access_code").send_keys(access_code)
+        self.browser.find_element_by_id("id_login-password").send_keys(password)
+        self.browser.find_element_by_name("school_login").click()
 
     def _independent_student_login(self, username, password):
-        self.browser.find_element_by_id('switchToIndependentStudent').click()
+        self.browser.find_element_by_id("switchToIndependentStudent").click()
 
-        self.browser.find_element_by_id('id_independent_student-username').send_keys(username)
-        self.browser.find_element_by_id('id_independent_student-password').send_keys(password)
-        self.browser.find_element_by_name('independent_student_login').click()
+        self.browser.find_element_by_id("id_independent_student-username").send_keys(
+            username
+        )
+        self.browser.find_element_by_id("id_independent_student-password").send_keys(
+            password
+        )
+        self.browser.find_element_by_name("independent_student_login").click()
 
     def has_login_failed(self, form_id, error):
-        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name('errorlist').text
+        errors = (
+            self.browser.find_element_by_id(form_id)
+            .find_element_by_class_name("errorlist")
+            .text
+        )
         return error in errors
 
     def go_to_teacher_forgotten_password_page(self):
-        self.browser.find_element_by_id('teacher_forgotten_password_button').click()
+        self.browser.find_element_by_id("teacher_forgotten_password_button").click()
         return TeacherPasswordResetFormPage(self.browser)
 
     def go_to_indep_forgotten_password_page(self):
-        self.browser.find_element_by_id('switchToIndependentStudent').click()
+        self.browser.find_element_by_id("switchToIndependentStudent").click()
 
-        self.browser.find_element_by_id('student_forgotten_password_button').click()
+        self.browser.find_element_by_id("student_forgotten_password_button").click()
         return StudentPasswordResetFormPage(self.browser)

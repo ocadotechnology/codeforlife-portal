@@ -42,30 +42,35 @@ from portal.utils import using_two_factor
 
 
 def logged_in_as_teacher(u):
-    if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher'):
+    if not hasattr(u, "userprofile") or not hasattr(u.userprofile, "teacher"):
         return False
     return u.is_verified() or not using_two_factor(u)
 
 
 def logged_in_as_student(u):
-    return hasattr(u, 'userprofile') and hasattr(u.userprofile, 'student')
+    return hasattr(u, "userprofile") and hasattr(u.userprofile, "student")
 
 
 def not_logged_in(u):
-    return not hasattr(u, 'userprofile')
+    return not hasattr(u, "userprofile")
 
 
 def not_fully_logged_in(u):
-    return not_logged_in(u) or (not logged_in_as_student(u) and not logged_in_as_teacher(u))
+    return not_logged_in(u) or (
+        not logged_in_as_student(u) and not logged_in_as_teacher(u)
+    )
 
 
 def teacher_verified(view_func):
     @wraps(view_func)
     def wrapped(request, *args, **kwargs):
         u = request.user
-        if (not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'teacher') or
-                (not u.is_verified() and using_two_factor(u))):
-            return HttpResponseRedirect(reverse_lazy('teach'))
+        if (
+            not hasattr(u, "userprofile")
+            or not hasattr(u.userprofile, "teacher")
+            or (not u.is_verified() and using_two_factor(u))
+        ):
+            return HttpResponseRedirect(reverse_lazy("teach"))
 
         return view_func(request, *args, **kwargs)
 
@@ -76,8 +81,12 @@ def preview_user(view_func):
     @wraps(view_func)
     def wrapped(request, *args, **kwargs):
         u = request.user
-        if not hasattr(u, 'userprofile') or not hasattr(u.userprofile, 'preview_user') or not u.userprofile.preview_user:
-            return HttpResponse('Unauthorized', status=401)
+        if (
+            not hasattr(u, "userprofile")
+            or not hasattr(u.userprofile, "preview_user")
+            or not u.userprofile.preview_user
+        ):
+            return HttpResponse("Unauthorized", status=401)
 
         return view_func(request, *args, **kwargs)
 

@@ -42,8 +42,8 @@ class PDFViewerPage(BasePage):
     def __init__(self, browser):
         super(PDFViewerPage, self).__init__(browser)
 
-        assert self.on_correct_page('pdf_viewer_page')
+        assert self.on_correct_page("pdf_viewer_page")
 
     def click_resources_button_link(self):
-        self.browser.find_element_by_id('resources_button').click()
+        self.browser.find_element_by_id("resources_button").click()
         return resources_page.ResourcesPage(self.browser)

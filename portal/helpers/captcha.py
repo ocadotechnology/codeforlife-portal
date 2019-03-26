@@ -37,7 +37,7 @@
 
 
 def is_captcha_in_form(form):
-    return 'captcha' in form.fields
+    return "captcha" in form.fields
 
 
 def remove_captcha_from_forms(*args):
@@ -45,4 +45,4 @@ def remove_captcha_from_forms(*args):
 
 
 def remove_captcha_from_form(form):
-    form.fields.pop('captcha', None)
+    form.fields.pop("captcha", None)

@@ -58,11 +58,11 @@ class MaterialsTests(TestCase):
         assert len(result) == 4
 
     def test_padding_resource_sheet_table(self):
-        table = {'starting_session_index': 1, 'content': [[1, 2], [1, 2, 3], []]}
+        table = {"starting_session_index": 1, "content": [[1, 2], [1, 2, 3], []]}
         result = resource_sheets_table(table)
-        assert result['table'] == [[1, 2, []], [1, 2, 3], [[], [], []]]
+        assert result["table"] == [[1, 2, []], [1, 2, 3], [[], [], []]]
 
     def test_padding_resource_sheet_table_when_index_is_not_one(self):
-        table = {'starting_session_index': 6, 'content': [[1, 2], [1, 2, 3], []]}
+        table = {"starting_session_index": 6, "content": [[1, 2], [1, 2, 3], []]}
         result = resource_sheets_table(table)
-        assert result['table'] == [[1, 2, []], [1, 2, 3], [[], [], []]]
+        assert result["table"] == [[1, 2, []], [1, 2, 3], [[], [], []]]

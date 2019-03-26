@@ -41,13 +41,15 @@ import email
 from portal.models import Class, Student
 from portal.helpers.emails import generate_token
 
+
 def generate_school_details():
-    name = 'Student %d' % generate_school_details.next_id
-    password = 'Password2'
+    name = "Student %d" % generate_school_details.next_id
+    password = "Password2"
 
     generate_school_details.next_id += 1
 
     return name, password
+
 
 generate_school_details.next_id = 1
 
@@ -81,7 +83,7 @@ def create_school_student(page):
 
 
 def create_many_school_students(page, number_of_students):
-    names = ['' for i in range(number_of_students)]
+    names = ["" for i in range(number_of_students)]
 
     for i in range(number_of_students):
         names[i], _ = generate_school_details()
@@ -93,14 +95,17 @@ def create_many_school_students(page, number_of_students):
 
 
 def generate_independent_student_details():
-    name = 'Student %d' % generate_independent_student_details.next_id
-    username = 'Student user %d' % generate_independent_student_details.next_id
-    email_address = 'Student%d@codeforlife.com' % generate_independent_student_details.next_id
-    password = 'Password2'
+    name = "Student %d" % generate_independent_student_details.next_id
+    username = "Student user %d" % generate_independent_student_details.next_id
+    email_address = (
+        "Student%d@codeforlife.com" % generate_independent_student_details.next_id
+    )
+    password = "Password2"
 
     generate_independent_student_details.next_id += 1
 
     return name, username, email_address, password
+
 
 generate_independent_student_details.next_id = 1
 
@@ -109,10 +114,14 @@ def create_independent_student(page, newsletter=False):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
-    page = page.independent_student_signup(name, username, email_address,
-                                           password=password,
-                                           confirm_password=password,
-                                           newsletter=newsletter)
+    page = page.independent_student_signup(
+        name,
+        username,
+        email_address,
+        password=password,
+        confirm_password=password,
+        newsletter=newsletter,
+    )
 
     page = page.return_to_home_page()
 
@@ -122,8 +131,10 @@ def create_independent_student(page, newsletter=False):
     return page, name, username, email_address, password
 
 
-def submit_independent_student_signup_form(page, password='test'):
+def submit_independent_student_signup_form(page, password="test"):
     page = page.go_to_signup_page()
 
     name, username, email_address, _ = generate_independent_student_details()
-    return page.independent_student_signup(name, username, email_address, password, password, success=False)
+    return page.independent_student_signup(
+        name, username, email_address, password, password, success=False
+    )
