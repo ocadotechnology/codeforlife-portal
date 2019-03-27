@@ -1,7 +1,7 @@
 
 # Contributing Guidelines
 
-Thanks for helping out Code For life's Portal! Here are a few guildeines to help your contributions to be accepted :)
+Thanks for helping out with Code for Life's Portal! Here are a few guidelines to help your contributions to be accepted :)
 
 ## Prerequisites
 
