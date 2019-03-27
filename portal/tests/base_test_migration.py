@@ -39,6 +39,7 @@ from django.test import TestCase
 from django.db import connection
 from django.apps import apps
 
+
 class MigrationTestCase(TestCase):
     """A Test case for testing migrations."""
 
@@ -64,4 +65,6 @@ class MigrationTestCase(TestCase):
         executor.migrate([(self.app_name, self.dest_migration)])
 
         # This application can now be used to get the latest models for testing
-        self.django_application = executor.loader.project_state([(self.app_name, self.dest_migration)]).apps
+        self.django_application = executor.loader.project_state(
+            [(self.app_name, self.dest_migration)]
+        ).apps

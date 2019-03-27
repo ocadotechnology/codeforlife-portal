@@ -54,37 +54,44 @@ from captcha.fields import ReCaptchaField
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwags):
         super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwags)
-        self.fields['new_password1'].label = "Enter your new password"
-        self.fields['new_password1'].widget.attrs['placeholder'] = "Try at least 8 characters, upper and lower case letters, and numbers"
-        self.fields['new_password2'].label = "Confirm your new password"
-        self.fields['new_password2'].widget.attrs['placeholder'] = "Please repeat your new password"
+        self.fields["new_password1"].label = "Enter your new password"
+        self.fields["new_password1"].widget.attrs[
+            "placeholder"
+        ] = "Try at least 8 characters, upper and lower case letters, and numbers"
+        self.fields["new_password2"].label = "Confirm your new password"
+        self.fields["new_password2"].widget.attrs[
+            "placeholder"
+        ] = "Please repeat your new password"
 
     def clean_new_password1(self):
-        new_password1 = self.cleaned_data.get('new_password1', None)
-        if hasattr(self.user, 'teacher'):
+        new_password1 = self.cleaned_data.get("new_password1", None)
+        if hasattr(self.user, "teacher"):
             if not password_strength_test(new_password1):
                 raise forms.ValidationError(
-                    "Password not strong enough, consider using at least 8 characters, upper and " +
-                    "lower case letters, and numbers")
-        elif hasattr(self.user, 'student'):
-            if not password_strength_test(new_password1, length=8, upper=False, lower=False, numbers=False):
-                raise forms.ValidationError("Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
+                    "Password not strong enough, consider using at least 8 characters, upper and "
+                    + "lower case letters, and numbers"
+                )
+        elif hasattr(self.user, "student"):
+            if not password_strength_test(
+                new_password1, length=8, upper=False, lower=False, numbers=False
+            ):
+                raise forms.ValidationError(
+                    "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+                )
         return new_password1
 
 
 class TeacherPasswordResetForm(forms.Form):
     email = forms.EmailField(
-        label='Email address',
+        label="Email address",
         max_length=254,
-        widget=forms.EmailInput(
-            attrs={'placeholder': 'my.email@address.com'}
-        )
+        widget=forms.EmailInput(attrs={"placeholder": "my.email@address.com"}),
     )
 
     captcha = ReCaptchaField()
 
     def clean_email(self):
-        email = self.cleaned_data.get('email', None)
+        email = self.cleaned_data.get("email", None)
         self.username = ""
         # Check such an email exists
         if User.objects.filter(email=email).exists():
@@ -95,35 +102,50 @@ class TeacherPasswordResetForm(forms.Form):
 
         return email
 
-    def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
         """
         Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
         """
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
-        subject = ''.join(subject.splitlines())
+        subject = "".join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
 
         email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
         if html_email_template_name is not None:
             html_email = loader.render_to_string(html_email_template_name, context)
-            email_message.attach_alternative(html_email, 'text/html')
+            email_message.attach_alternative(html_email, "text/html")
 
         email_message.send()
 
-    def save(self, domain_override=None,
-             subject_template_name='registration/password_reset_subject.txt',
-             email_template_name='portal/reset_password_email.html',
-             use_https=False, token_generator=default_token_generator,
-             from_email=None, request=None, html_email_template_name=None):
+    def save(
+        self,
+        domain_override=None,
+        subject_template_name="registration/password_reset_subject.txt",
+        email_template_name="portal/reset_password_email.html",
+        use_https=False,
+        token_generator=default_token_generator,
+        from_email=None,
+        request=None,
+        html_email_template_name=None,
+    ):
         """
         Generates a one-use only link for resetting password and sends to the
         user.
         """
         UserModel = get_user_model()
         if self.username:
-            active_users = UserModel._default_manager.filter(username=self.username, is_active=True)
+            active_users = UserModel._default_manager.filter(
+                username=self.username, is_active=True
+            )
             for user in active_users:
                 # Make sure that no email is sent to a user that actually has
                 # a password marked as unusable
@@ -136,57 +158,80 @@ class TeacherPasswordResetForm(forms.Form):
                 else:
                     site_name = domain = domain_override
                 context = {
-                    'email': user.email,
-                    'domain': domain,
-                    'site_name': site_name,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'user': user,
-                    'token': token_generator.make_token(user),
-                    'protocol': compute_protocol(use_https),
+                    "email": user.email,
+                    "domain": domain,
+                    "site_name": site_name,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "user": user,
+                    "token": token_generator.make_token(user),
+                    "protocol": compute_protocol(use_https),
                 }
 
-                self.send_mail(subject_template_name, email_template_name,
-                               context, from_email, user.email,
-                               html_email_template_name=html_email_template_name)
+                self.send_mail(
+                    subject_template_name,
+                    email_template_name,
+                    context,
+                    from_email,
+                    user.email,
+                    html_email_template_name=html_email_template_name,
+                )
 
 
 class StudentPasswordResetForm(forms.Form):
     username = forms.CharField(
-        label='Username',
-        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
+        label="Username", widget=forms.TextInput(attrs={"placeholder": "rosie_f"})
+    )
 
     captcha = ReCaptchaField()
 
     def clean_username(self):
-        username = self.cleaned_data.get('username', None)
+        username = self.cleaned_data.get("username", None)
         user_filter = User.objects.filter(username=username)
         # Check such a username exists and such a username is not in use by a student part of a class/school
-        if not user_filter.exists() or not Student.objects.filter(class_field=None, new_user__username=username).exists():
+        if (
+            not user_filter.exists()
+            or not Student.objects.filter(
+                class_field=None, new_user__username=username
+            ).exists()
+        ):
             username = ""
         return username
 
-    def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
         """
         Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
         """
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
-        subject = ''.join(subject.splitlines())
+        subject = "".join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
 
         email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
         if html_email_template_name is not None:
             html_email = loader.render_to_string(html_email_template_name, context)
-            email_message.attach_alternative(html_email, 'text/html')
+            email_message.attach_alternative(html_email, "text/html")
 
         email_message.send()
 
-    def save(self, domain_override=None,
-             subject_template_name='registration/password_reset_subject.txt',
-             email_template_name='portal/reset_password_email.html',
-             use_https=False, token_generator=default_token_generator,
-             from_email=None, request=None, html_email_template_name=None):
+    def save(
+        self,
+        domain_override=None,
+        subject_template_name="registration/password_reset_subject.txt",
+        email_template_name="portal/reset_password_email.html",
+        use_https=False,
+        token_generator=default_token_generator,
+        from_email=None,
+        request=None,
+        html_email_template_name=None,
+    ):
         """
         Generates a one-use only link for resetting password and sends to the
         user.
@@ -195,7 +240,8 @@ class StudentPasswordResetForm(forms.Form):
         username = self.cleaned_data["username"]
         if username:
             active_users = UserModel._default_manager.filter(
-                username=username, is_active=True)
+                username=username, is_active=True
+            )
             for user in active_users:
                 # Make sure that no email is sent to a user that actually has
                 # a password marked as unusable
@@ -208,19 +254,24 @@ class StudentPasswordResetForm(forms.Form):
                 else:
                     site_name = domain = domain_override
                 context = {
-                    'email': user.email,
-                    'domain': domain,
-                    'site_name': site_name,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'user': user,
-                    'token': token_generator.make_token(user),
-                    'protocol': compute_protocol(use_https),
+                    "email": user.email,
+                    "domain": domain,
+                    "site_name": site_name,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "user": user,
+                    "token": token_generator.make_token(user),
+                    "protocol": compute_protocol(use_https),
                 }
 
-                self.send_mail(subject_template_name, email_template_name,
-                               context, from_email, user.email,
-                               html_email_template_name=html_email_template_name)
+                self.send_mail(
+                    subject_template_name,
+                    email_template_name,
+                    context,
+                    from_email,
+                    user.email,
+                    html_email_template_name=html_email_template_name,
+                )
 
 
 def compute_protocol(use_https):
-    return 'https' if use_https else 'http'
+    return "https" if use_https else "http"

@@ -46,69 +46,85 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 from portal.forms.play import StudentEditAccountForm, StudentJoinOrganisationForm
 from portal.permissions import logged_in_as_student
-from portal.helpers.emails import send_email, send_verification_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import (
+    send_email,
+    send_verification_email,
+    NOTIFICATION_EMAIL,
+)
 from portal import app_settings, email_messages
 
 from ratelimit.decorators import ratelimit
 
 
-@login_required(login_url=reverse_lazy('login_view'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('login_view'))
+@login_required(login_url=reverse_lazy("login_view"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
 def student_details(request):
-    return render(request, 'portal/play/student_details.html')
+    return render(request, "portal/play/student_details.html")
 
 
-@login_required(login_url=reverse_lazy('login_view'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('login_view'))
+@login_required(login_url=reverse_lazy("login_view"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
 def student_edit_account(request):
     student = request.user.new_student
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = StudentEditAccountForm(request.user, request.POST)
         if form.is_valid():
             data = form.cleaned_data
             changing_email = False
 
             # check not default value for CharField
-            if data['password'] != '':
-                student.new_user.set_password(data['password'])
+            if data["password"] != "":
+                student.new_user.set_password(data["password"])
                 student.new_user.save()
                 update_session_auth_hash(request, form.user)
 
             # allow individual students to update more
             if not student.class_field:
-                new_email = data['email']
-                if new_email != '' and new_email != student.new_user.email:
+                new_email = data["email"]
+                if new_email != "" and new_email != student.new_user.email:
                     # new email to set and verify
                     changing_email = True
                     send_verification_email(request, student.new_user, new_email)
 
-                student.new_user.first_name = data['name']
+                student.new_user.first_name = data["name"]
                 # save all tables
                 student.save()
                 student.new_user.save()
 
-            messages.success(request, 'Your account details have been changed successfully.')
+            messages.success(
+                request, "Your account details have been changed successfully."
+            )
 
             if changing_email:
                 logout(request)
-                return render(request, 'portal/email_verification_needed.html', {'userprofile': student.user, 'email': new_email})
+                return render(
+                    request,
+                    "portal/email_verification_needed.html",
+                    {"userprofile": student.user, "email": new_email},
+                )
 
-            return HttpResponseRedirect(reverse_lazy('student_details'))
+            return HttpResponseRedirect(reverse_lazy("student_details"))
     else:
-        form = StudentEditAccountForm(request.user, initial={
-            'name': student.new_user.first_name})
+        form = StudentEditAccountForm(
+            request.user, initial={"name": student.new_user.first_name}
+        )
 
-    return render(request, 'portal/play/student_edit_account.html', {'form': form})
+    return render(request, "portal/play/student_edit_account.html", {"form": form})
 
 
 def username_labeller(request):
     return request.user.username
 
 
-@login_required(login_url=reverse_lazy('login_view'))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy('login_view'))
-@ratelimit('ip', labeller=username_labeller, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@login_required(login_url=reverse_lazy("login_view"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
+@ratelimit(
+    "ip",
+    labeller=username_labeller,
+    periods=["1m"],
+    increment=lambda req, res: hasattr(res, "count") and res.count,
+)
 def student_join_organisation(request):
     increment_count = False
 
@@ -119,35 +135,63 @@ def student_join_organisation(request):
     if student.class_field:
         raise Http404
 
-    if request.method == 'POST':
-        if 'class_join_request' in request.POST:
+    if request.method == "POST":
+        if "class_join_request" in request.POST:
             increment_count = True
             request_form = StudentJoinOrganisationForm(request.POST)
             if request_form.is_valid():
                 student.pending_class_request = request_form.klass
                 student.save()
 
-                emailMessage = email_messages.studentJoinRequestSentEmail(request, request_form.klass.teacher.school.name, request_form.klass.access_code)
-                send_email(NOTIFICATION_EMAIL, [student.new_user.email], emailMessage['subject'], emailMessage['message'])
+                emailMessage = email_messages.studentJoinRequestSentEmail(
+                    request,
+                    request_form.klass.teacher.school.name,
+                    request_form.klass.access_code,
+                )
+                send_email(
+                    NOTIFICATION_EMAIL,
+                    [student.new_user.email],
+                    emailMessage["subject"],
+                    emailMessage["message"],
+                )
 
-                emailMessage = email_messages.studentJoinRequestNotifyEmail(request, student.new_user.username, student.new_user.email, student.pending_class_request.access_code)
-                send_email(NOTIFICATION_EMAIL, [student.pending_class_request.teacher.new_user.email], emailMessage['subject'], emailMessage['message'])
+                emailMessage = email_messages.studentJoinRequestNotifyEmail(
+                    request,
+                    student.new_user.username,
+                    student.new_user.email,
+                    student.pending_class_request.access_code,
+                )
+                send_email(
+                    NOTIFICATION_EMAIL,
+                    [student.pending_class_request.teacher.new_user.email],
+                    emailMessage["subject"],
+                    emailMessage["message"],
+                )
 
-                messages.success(request, 'Your request to join a school has been received successfully.')
+                messages.success(
+                    request,
+                    "Your request to join a school has been received successfully.",
+                )
 
             else:
                 request_form = StudentJoinOrganisationForm(request.POST)
 
-        elif 'revoke_join_request' in request.POST:
+        elif "revoke_join_request" in request.POST:
             student.pending_class_request = None
             student.save()
             # Check teacher hasn't since accepted rejection before posting success message
             if not student.class_field:
-                messages.success(request, 'Your request to join a school has been cancelled successfully.')
-            return HttpResponseRedirect(reverse_lazy('student_edit_account'))
+                messages.success(
+                    request,
+                    "Your request to join a school has been cancelled successfully.",
+                )
+            return HttpResponseRedirect(reverse_lazy("student_edit_account"))
 
-    res = render(request, 'portal/play/student_join_organisation.html',
-                 {'request_form': request_form, 'student': student})
+    res = render(
+        request,
+        "portal/play/student_join_organisation.html",
+        {"request_form": request_form, "student": student},
+    )
 
     res.count = increment_count
     return res

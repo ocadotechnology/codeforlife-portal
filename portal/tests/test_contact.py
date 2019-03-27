@@ -65,7 +65,7 @@ class TestContact(BaseTest):
 
         page = page.send_message_accented_name()
 
-        assert (not is_contact_message_sent_message_showing(self.selenium))
+        assert not is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_incorrect_phone(self):
         self.selenium.get(self.live_server_url)
@@ -74,7 +74,7 @@ class TestContact(BaseTest):
 
         page = page.send_message_incorrect_phone()
 
-        assert (not is_contact_message_sent_message_showing(self.selenium))
+        assert not is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_formatted_phone(self):
         self.selenium.get(self.live_server_url)

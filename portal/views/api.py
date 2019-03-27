@@ -45,29 +45,37 @@ from django.contrib.auth.models import User
 from portal.models import Teacher, Student
 
 
-@api_view(('GET',))
+@api_view(("GET",))
 def registered_users(request, year, month, day):
     try:
-        nbr_reg = User.objects.filter(date_joined__startswith=datetime.date(int(year), int(month), int(day))).count()
+        nbr_reg = User.objects.filter(
+            date_joined__startswith=datetime.date(int(year), int(month), int(day))
+        ).count()
         return Response(nbr_reg)
     except ValueError:
         return HttpResponse(status=404)
 
 
-@api_view(('GET',))
+@api_view(("GET",))
 def last_connected_since(request, year, month, day):
     try:
-        nbr_active_users = User.objects.filter(last_login__gte=datetime.date(int(year), int(month), int(day))).count()
+        nbr_active_users = User.objects.filter(
+            last_login__gte=datetime.date(int(year), int(month), int(day))
+        ).count()
         return Response(nbr_active_users)
     except ValueError:
         return HttpResponse(status=404)
 
 
-@api_view(('GET',))
+@api_view(("GET",))
 def number_users_per_country(request, country):
     try:
-        nbr_reg = Teacher.objects.filter(school__country__exact=country).count() + \
-                  Student.objects.filter(class_field__teacher__school__country__exact=country).count()
+        nbr_reg = (
+            Teacher.objects.filter(school__country__exact=country).count()
+            + Student.objects.filter(
+                class_field__teacher__school__country__exact=country
+            ).count()
+        )
         return Response(nbr_reg)
     except ValueError:
         return HttpResponse(status=404)

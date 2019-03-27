@@ -44,21 +44,28 @@ import password_strength_test
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwags):
         super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwags)
-        self.fields['new_password1'].label = "Enter your new password"
-        self.fields['new_password1'].widget.attrs['placeholder'] = "Enter your new password"
-        self.fields['new_password2'].label = "Confirm your new password"
-        self.fields['new_password2'].widget.attrs['placeholder'] = "Confirm your new password"
+        self.fields["new_password1"].label = "Enter your new password"
+        self.fields["new_password1"].widget.attrs[
+            "placeholder"
+        ] = "Enter your new password"
+        self.fields["new_password2"].label = "Confirm your new password"
+        self.fields["new_password2"].widget.attrs[
+            "placeholder"
+        ] = "Confirm your new password"
 
     def clean_new_password1(self):
-        new_password1 = self.cleaned_data.get('new_password1', None)
-        if hasattr(self.user, 'teacher'):
+        new_password1 = self.cleaned_data.get("new_password1", None)
+        if hasattr(self.user, "teacher"):
             if not password_strength_test(new_password1):
                 raise forms.ValidationError(
                     "Password not strong enough, consider using at least 8 characters, upper and "
-                    + "lower case letters, and numbers")
-        elif hasattr(self.user, 'student'):
-            if not password_strength_test(new_password1, length=8, upper=False, lower=False,
-                                          numbers=False):
+                    + "lower case letters, and numbers"
+                )
+        elif hasattr(self.user, "student"):
+            if not password_strength_test(
+                new_password1, length=8, upper=False, lower=False, numbers=False
+            ):
                 raise forms.ValidationError(
-                    "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
+                    "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+                )
         return new_password1

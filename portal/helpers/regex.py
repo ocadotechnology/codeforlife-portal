@@ -37,9 +37,9 @@
 
 import re
 
-name_regex = re.compile('^[\w ]+$')
-message_regex = re.compile('^[ -~]+$')
-telephone_regex = re.compile('^[0-9()\-+ ]+$')
+name_regex = re.compile("^[\w ]+$")
+message_regex = re.compile("^[ -~]+$")
+telephone_regex = re.compile("^[0-9()\-+ ]+$")
 
 
 def get_regex_name():

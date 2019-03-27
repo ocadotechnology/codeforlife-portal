@@ -44,18 +44,22 @@ from portal.helpers.emails import generate_token
 
 
 def generate_details(**kwargs):
-    title = kwargs.get('title', 'Mr')
-    first_name = kwargs.get('first_name', 'Test')
-    last_name = kwargs.get('last_name', 'Teacher')
-    email_address = kwargs.get('email_address', 'testteacher%d@codeforlife.com' % random.randint(1, sys.maxint))
-    password = kwargs.get('password', 'Password2')
+    title = kwargs.get("title", "Mr")
+    first_name = kwargs.get("first_name", "Test")
+    last_name = kwargs.get("last_name", "Teacher")
+    email_address = kwargs.get(
+        "email_address", "testteacher%d@codeforlife.com" % random.randint(1, sys.maxint)
+    )
+    password = kwargs.get("password", "Password2")
 
     return title, first_name, last_name, email_address, password
 
 
 def signup_teacher_directly(**kwargs):
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
-    teacher = Teacher.objects.factory(title, first_name, last_name, email_address, password)
+    teacher = Teacher.objects.factory(
+        title, first_name, last_name, email_address, password
+    )
     generate_token(teacher.new_user, preverified=True)
     teacher.user.save()
     return email_address, password
@@ -63,7 +67,9 @@ def signup_teacher_directly(**kwargs):
 
 def signup_teacher_directly_as_preview_user(**kwargs):
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
-    teacher = Teacher.objects.factory(title, first_name, last_name, email_address, password)
+    teacher = Teacher.objects.factory(
+        title, first_name, last_name, email_address, password
+    )
     generate_token(teacher.new_user, preverified=True)
     teacher.user.set_to_preview_user()
     teacher.user.save()
@@ -74,7 +80,9 @@ def signup_duplicate_teacher_fail(page, duplicate_email):
     page = page.go_to_signup_page()
 
     title, first_name, last_name, email_address, password = generate_details()
-    page = page.signup(title, first_name, last_name, duplicate_email, password, password)
+    page = page.signup(
+        title, first_name, last_name, duplicate_email, password, password
+    )
 
     page = page.return_to_home_page()
 
@@ -88,10 +96,15 @@ def signup_teacher(page, newsletter=False):
     page = page.go_to_signup_page()
 
     title, first_name, last_name, email_address, password = generate_details()
-    page = page.signup(title, first_name, last_name, email_address,
-                       password=password,
-                       confirm_password=password,
-                       newsletter=newsletter)
+    page = page.signup(
+        title,
+        first_name,
+        last_name,
+        email_address,
+        password=password,
+        confirm_password=password,
+        newsletter=newsletter,
+    )
 
     page = page.return_to_home_page()
 
@@ -101,12 +114,17 @@ def signup_teacher(page, newsletter=False):
     return page, email_address, password
 
 
-def submit_teacher_signup_form(page, password='test'):
+def submit_teacher_signup_form(page, password="test"):
     page = page.go_to_signup_page()
 
     title, first_name, last_name, email_address, _ = generate_details()
-    return page.signup(title, first_name, last_name, email_address,
-                       password=password,
-                       confirm_password=password,
-                       success=False,
-                       newsletter=True)
+    return page.signup(
+        title,
+        first_name,
+        last_name,
+        email_address,
+        password=password,
+        confirm_password=password,
+        success=False,
+        newsletter=True,
+    )

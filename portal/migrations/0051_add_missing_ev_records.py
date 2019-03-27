@@ -15,15 +15,18 @@ from portal.models import EmailVerification
 def add_missing_ev_records(apps, schema_editor):
     verified_users_without_ev = User.objects.filter(
         userprofile__awaiting_email_verification=False
-    ).exclude(
-        email_verifications__verified=True
-    )
+    ).exclude(email_verifications__verified=True)
 
-    records = [EmailVerification(user=user,
-                                 email=user.email,
-                                 token=uuid4().hex[:30],
-                                 expiry=timezone.now() + timedelta(hours=1),
-                                 verified=True) for user in verified_users_without_ev]
+    records = [
+        EmailVerification(
+            user=user,
+            email=user.email,
+            token=uuid4().hex[:30],
+            expiry=timezone.now() + timedelta(hours=1),
+            verified=True,
+        )
+        for user in verified_users_without_ev
+    ]
 
     EmailVerification.objects.bulk_create(records)
 
@@ -33,12 +36,6 @@ def reverse(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('portal', '0050_refactor_emailverifications_2'),
-    ]
+    dependencies = [("portal", "0050_refactor_emailverifications_2")]
 
-    operations = [
-
-        migrations.RunPython(add_missing_ev_records, reverse)
-
-    ]
+    operations = [migrations.RunPython(add_missing_ev_records, reverse)]

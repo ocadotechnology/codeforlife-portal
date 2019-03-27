@@ -64,8 +64,8 @@ def generate_new_student_name(orig_name):
 
 def generate_access_code():
     while True:
-        first_part = ''.join(random.choice(string.ascii_uppercase) for _ in range(2))
-        second_part = ''.join(random.choice(string.digits) for _ in range(3))
+        first_part = "".join(random.choice(string.ascii_uppercase) for _ in range(2))
+        second_part = "".join(random.choice(string.digits) for _ in range(3))
         access_code = first_part + second_part
 
         if not Class.objects.filter(access_code=access_code).exists():
@@ -74,6 +74,6 @@ def generate_access_code():
 
 def generate_password(length):
     chars = set(string.ascii_lowercase + string.digits)
-    chars.remove('l')
-    chars.remove('0')
-    return ''.join(random.choice(list(chars)) for _ in range(length))
+    chars.remove("l")
+    chars.remove("0")
+    return "".join(random.choice(list(chars)) for _ in range(length))

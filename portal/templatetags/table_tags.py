@@ -40,7 +40,7 @@ from django.template.defaultfilters import floatformat
 register = template.Library()
 
 
-@register.filter(name='tableformat')
+@register.filter(name="tableformat")
 def tableformat(entry):
 
     if entry is None:
@@ -59,7 +59,7 @@ def is_numerical(str):
         return False
 
 
-@register.inclusion_tag('portal/partials/resource_sheets_table.html')
+@register.inclusion_tag("portal/partials/resource_sheets_table.html")
 def resource_sheets_table(table):
     """
     This function takes in a dictionary which mirrors the table of resource sheets for a key stage section.
@@ -70,10 +70,12 @@ def resource_sheets_table(table):
     :param table: A dictionary containing a starting session index (integer) and the content of the table (2D list)
     :return: A dictionary containing the table with all rows now of the same length, and the starting session index.
     """
-    table_content = table['content']
+    table_content = table["content"]
     max_count = len(max(table_content, key=len))
-    return {'table': [lengthen_list(max_count, column) for column in table_content],
-            'starting_session_index': table['starting_session_index']}
+    return {
+        "table": [lengthen_list(max_count, column) for column in table_content],
+        "starting_session_index": table["starting_session_index"],
+    }
 
 
 def lengthen_list(length, list):

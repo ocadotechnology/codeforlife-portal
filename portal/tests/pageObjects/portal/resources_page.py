@@ -42,8 +42,8 @@ class ResourcesPage(BasePage):
     def __init__(self, browser):
         super(ResourcesPage, self).__init__(browser)
 
-        assert self.on_correct_page('resources_page')
+        assert self.on_correct_page("resources_page")
 
     def go_to_materials_page(self):
-        self.browser.find_element_by_id('materials_button').click()
+        self.browser.find_element_by_id("materials_button").click()
         return materials_page.MaterialsPage(self.browser)

@@ -40,18 +40,18 @@ from base_page import BasePage
 class HomePage(BasePage):
     def __init__(self, browser):
         super(HomePage, self).__init__(browser)
-        assert self.on_correct_page('home_page')
+        assert self.on_correct_page("home_page")
 
     def go_to_login_page(self):
-        self.browser.find_element_by_id('login_button').click()
+        self.browser.find_element_by_id("login_button").click()
         return login_page.LoginPage(self.browser)
 
     def go_to_signup_page(self):
-        self.browser.find_element_by_id('signup_button').click()
+        self.browser.find_element_by_id("signup_button").click()
         return signup_page.SignupPage(self.browser)
 
     def go_to_help_and_support_page(self):
-        self.browser.find_element_by_id('help_and_support_button').click()
+        self.browser.find_element_by_id("help_and_support_button").click()
         return help_and_support_page.HelpPage(self.browser)
 
 

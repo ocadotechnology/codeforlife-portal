@@ -44,10 +44,10 @@ class OnboardingStudentListPage(TeachBasePage):
     def __init__(self, browser):
         super(OnboardingStudentListPage, self).__init__(browser)
 
-        assert self.on_correct_page('onboarding_student_list_page')
+        assert self.on_correct_page("onboarding_student_list_page")
 
     def student_exists(self, name):
-        return name in self.browser.find_element_by_id('student_table').text
+        return name in self.browser.find_element_by_id("student_table").text
 
     def go_back_to_class(self):
         self.browser.find_element_by_id("back_to_class_button").click()

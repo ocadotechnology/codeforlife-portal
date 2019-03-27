@@ -41,5 +41,4 @@ class AdminDataPage(AdminBasePage):
     def __init__(self, browser, live_server_url):
         super(AdminDataPage, self).__init__(browser, live_server_url)
 
-        assert self.on_correct_page('admin_data')
-
+        assert self.on_correct_page("admin_data")
