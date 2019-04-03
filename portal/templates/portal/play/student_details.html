@@ -7,15 +7,15 @@
     <a href="{% url 'student_details' %}" id="student_dashboard_button"
        class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">My Games</a>
     <div class="dropdown-content">
-        <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
+        <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
         <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
     </div>
 </div>
 <div class="dropdown">
-    <a href="{% url 'game.views.scoreboard.scoreboard' %}" id="student_scoreboards_button"
+    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
        class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
     <div class="dropdown-content">
-        <a href="{% url 'game.views.scoreboard.scoreboard' %}"><small>Rapid Router</small></a>
+        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
     </div>
 </div>
 {% if not user.new_student.class_field %}
@@ -39,17 +39,17 @@
     <div class="grid-games col-center col-sm-4">
     {% endif %}
         <section>
-            <a href="{% url 'game.views.level_selection.levels'%}"><img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/RR_logo.png' %}"></a>
+            <a href="{% url 'levels'%}"><img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/RR_logo.png' %}"></a>
             <h4>Anyone can code &mdash; you can, too!</h4>
             <div class="background">
-                <a href="{% url 'game.views.level_selection.levels' %}" class="button button--regular button--primary--navigation">Play now</a>
+                <a href="{% url 'levels' %}" class="button button--regular button--primary--navigation">Play now</a>
             </div>
         </section>
         <p>Rapid Router guides you, and makes learning to code easy and great fun.
             Using Blockly, you can advance through the levels to become an Ocado delivery hero.</p>
         <div>
             <p><a href="{% url 'play' %}">Learn more about Rapid Router</a></p>
-            <p><a href="{% url 'game.views.scoreboard.scoreboard' %}">View my score</a></p>
+            <p><a href="{% url 'scoreboard' %}">View my score</a></p>
         </div>
         {% if user.new_student.class_field and user|is_preview_user %}
             <section>

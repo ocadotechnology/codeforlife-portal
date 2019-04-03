@@ -6,15 +6,15 @@
     <a href="{% url 'student_details' %}" id="student_dashboard_button"
        class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
     <div class="dropdown-content">
-        <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
+        <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
         <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
     </div>
 </div>
 <div class="dropdown">
-    <a href="{% url 'game.views.scoreboard.scoreboard' %}" id="student_scoreboards_button"
+    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
        class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
     <div class="dropdown-content">
-        <a href="{% url 'game.views.scoreboard.scoreboard' %}"><small>Rapid Router</small></a>
+        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
     </div>
 </div>
 {% if not user.new_student.class_field %}
