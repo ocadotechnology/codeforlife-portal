@@ -88,6 +88,8 @@ def number_users_per_country(request, country):
 
 
 class InactiveUserSerializer(serializers.Serializer):
+    """The user information we show in the InactiveUsersViewSet."""
+
     username = serializers.CharField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -106,7 +108,12 @@ class IsAdminOrGoogleAppEngine(permissions.BasePermission):
 
 
 class InactiveUsersViewSet(viewsets.ModelViewSet):
-    """"""
+    """
+    This viewset allows us to see our inactive users.
+    
+    An inactive user is one that hasn't logged in for three years. 
+    If the user has never logged in, we look at the date they registered with us instead.
+    """
 
     queryset = User.objects.filter(
         last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS)

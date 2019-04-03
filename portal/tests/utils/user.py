@@ -5,6 +5,7 @@ from django.utils import timezone
 
 
 def get_superuser():
+    """Get a superuser for testing, or create one if there isn't one."""
     try:
         return User.objects.get(username="superuser")
     except:
@@ -14,6 +15,7 @@ def get_superuser():
 
 
 def create_inactive_user_directly(**kwargs):
+    """Create a inactive user on the database."""
     username = "old_user+{:d}".format(create_inactive_user_directly.next_id)
     user = User.objects.create_user(username, password="password")
     user.last_login = timezone.now() - timezone.timedelta(days=2000)
