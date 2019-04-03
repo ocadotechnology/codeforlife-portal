@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,26 +34,40 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.conf import settings
 
 
-def is_cms_toolbar_login_request(request):
-    return request.method == 'POST' and 'cms-toolbar-login' in request.GET
+class OnlineStatusSettings(object):
+    @property
+    def TIME_IDLE(self):
+        return getattr(settings, "USERS_ONLINE__TIME_IDLE", 60 * 5)
+
+    @property
+    def TIME_OFFLINE(self):
+        return getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 60 * 10)
+
+    @property
+    def CACHE_USERS(self):
+        return getattr(settings, "USERS_ONLINE__CACHE_USERS", "online_users")
+
+    @property
+    def CACHE_PREFIX_USER(self):
+        return (
+            getattr(settings, "USERS_ONLINE__CACHE_PREFIX_USER", "online_user") + "_%d"
+        )
+
+    @property
+    def CACHE_PREFIX_ANONYM_USER(self):
+        return (
+            getattr(
+                settings, "USERS_ONLINE__CACHE_PREFIX_ANONYM_USER", "online_anonym_user"
+            )
+            + "_%s"
+        )
+
+    @property
+    def ONLY_LOGGED_USERS(self):
+        return getattr(settings, "USERS_ONLINE__ONLY_LOGGED_USERS", False)
 
 
-class RateLimitLoginAttemptsMiddleware(object):
-    def __init__(self, get_response=None):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        limit = 5
-
-        limits = getattr(request, 'limits', {'cms_login_ip': [0]})
-
-        if limits['cms_login_ip'][0] > limit and is_cms_toolbar_login_request(request):
-            response = HttpResponseRedirect(reverse_lazy('locked_out'))
-        else:
-            response = self.get_response(request)
-
-        return response
+online_status_settings = OnlineStatusSettings()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -104,17 +104,17 @@ SETTINGS = {
     ],
     'STATICFILES_STORAGE': 'pipeline.storage.PipelineStorage',
     'MESSAGE_STORAGE': 'django.contrib.messages.storage.session.SessionStorage',
-    'MIDDLEWARE_CLASSES': [
+    'MIDDLEWARE': [
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-        'online_status.middleware.OnlineStatusMiddleware',
+        'portal.middleware.online_status.middleware.OnlineStatusMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
+        # 'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
         'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
         'django_otp.middleware.OTPMiddleware',
     ],
@@ -163,7 +163,7 @@ SETTINGS = {
 
 RELATIONSHIPS = [
     OrderingRelationship(
-        'MIDDLEWARE_CLASSES',
+        'MIDDLEWARE',
         'cms.middleware.toolbar.ToolbarMiddleware',
         after=[
             'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -171,7 +171,7 @@ RELATIONSHIPS = [
         add_missing=False,
     ),
     OrderingRelationship(
-        'MIDDLEWARE_CLASSES',
+        'MIDDLEWARE',
         'online_status.middleware.OnlineStatusMiddleware',
         after=[
             'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -179,7 +179,7 @@ RELATIONSHIPS = [
         add_missing=False,
     ),
     OrderingRelationship(
-        'MIDDLEWARE_CLASSES',
+        'MIDDLEWARE',
         'django_otp.middleware.OTPMiddleware',
         after=[
             'django.contrib.auth.middleware.AuthenticationMiddleware',
