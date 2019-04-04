@@ -114,7 +114,7 @@ SETTINGS = {
         'portal.middleware.online_status.middleware.OnlineStatusMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        # 'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
+        'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
         'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
         'django_otp.middleware.OTPMiddleware',
     ],
