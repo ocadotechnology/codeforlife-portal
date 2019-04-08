@@ -52,7 +52,7 @@ from portal.views.api import (
     registered_users,
     last_connected_since,
     number_users_per_country,
-    router,
+    InactiveUsersView,
 )
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.teacher.solutions_level_selector import levels
@@ -172,7 +172,7 @@ urlpatterns = [
     url(r"^admin/map/$", schools_map, name="map"),
     url(r"^admin/data/$", aggregated_data, name="aggregated_data"),
     url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),
-    url(r"^", include(router.urls)),
+    url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     url(
         r"^locked_out/$",
         TemplateView.as_view(template_name="portal/locked_out.html"),

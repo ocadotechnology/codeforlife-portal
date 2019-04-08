@@ -41,7 +41,7 @@ from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import serializers, viewsets, routers, permissions
+from rest_framework import serializers, permissions, generics, status
 from django.http import HttpResponse
 from django.utils import timezone
 
@@ -98,7 +98,7 @@ class InactiveUserSerializer(serializers.Serializer):
     last_login = serializers.DateTimeField()
 
 
-class IsAdminOrGoogleAppEngine(permissions.BasePermission):
+class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
     """Checks whether the request is from a Google App Engine cron job."""
 
     def has_permission(self, request, view):
@@ -107,9 +107,9 @@ class IsAdminOrGoogleAppEngine(permissions.BasePermission):
         ).has_permission(request, view)
 
 
-class InactiveUsersViewSet(viewsets.ModelViewSet):
+class InactiveUsersView(generics.ListAPIView):
     """
-    This viewset allows us to see our inactive users.
+    This API view endpoint allows us to see our inactive users.
     
     An inactive user is one that hasn't logged in for three years. 
     If the user has never logged in, we look at the date they registered with us instead.
@@ -124,6 +124,8 @@ class InactiveUsersViewSet(viewsets.ModelViewSet):
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
-
-router = routers.DefaultRouter()
-router.register(r"users/inactive", InactiveUsersViewSet, base_name="inactive-user")
+    def delete(self, request):
+        """Delete all inactive users."""
+        inactive_users = self.get_queryset()
+        inactive_users.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
