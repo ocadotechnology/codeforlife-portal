@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -42,14 +42,12 @@ import django_countries.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('portal', '0044_auto_20150430_0959'),
-    ]
+    dependencies = [("portal", "0044_auto_20150430_0959")]
 
     operations = [
         migrations.AlterField(
-            model_name='school',
-            name='country',
+            model_name="school",
+            name="country",
             field=django_countries.fields.CountryField(max_length=2),
-        ),
+        )
     ]

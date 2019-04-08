@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,22 +37,22 @@
 from django.conf import settings
 import os
 
-CONTACT_FORM_EMAILS = getattr(settings, 'PORTAL_CONTACT_FORM_EMAIL', ('',))
+CONTACT_FORM_EMAILS = getattr(settings, "PORTAL_CONTACT_FORM_EMAIL", ("",))
 
 #: Email address to source notifications from
-EMAIL_ADDRESS = getattr(settings, 'EMAIL_ADDRESS', 'no-reply@codeforlife.education')
+EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education")
 
 #: Private key for Recaptcha
-RECAPTCHA_PRIVATE_KEY = getattr(settings, 'RECAPTCHA_PRIVATE_KEY', None)
+RECAPTCHA_PRIVATE_KEY = getattr(settings, "RECAPTCHA_PRIVATE_KEY", None)
 
 #: Public key for Recaptcha
-RECAPTCHA_PUBLIC_KEY = getattr(settings, 'RECAPTCHA_PUBLIC_KEY', None)
+RECAPTCHA_PUBLIC_KEY = getattr(settings, "RECAPTCHA_PUBLIC_KEY", None)
 
 #: Salesforce URL for adding newly verified users
-SALESFORCE_URL = getattr(settings, 'SALESFORCE_URL', '')
+SALESFORCE_URL = getattr(settings, "SALESFORCE_URL", "")
 
 #: Salesforce oid for adding newly verified users
-SALESFORCE_OID = getattr(settings, 'SALESFORCE_OID', '')
+SALESFORCE_OID = getattr(settings, "SALESFORCE_OID", "")
 
 #: Salesforce record type for adding newly verified users
-SALESFORCE_RT = getattr(settings, 'SALESFORCE_RT', '')
+SALESFORCE_RT = getattr(settings, "SALESFORCE_RT", "")

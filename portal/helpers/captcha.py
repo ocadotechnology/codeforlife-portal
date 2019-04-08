@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,7 +37,7 @@
 
 
 def is_captcha_in_form(form):
-    return 'captcha' in form.fields
+    return "captcha" in form.fields
 
 
 def remove_captcha_from_forms(*args):
@@ -45,4 +45,4 @@ def remove_captcha_from_forms(*args):
 
 
 def remove_captcha_from_form(form):
-    form.fields.pop('captcha', None)
+    form.fields.pop("captcha", None)

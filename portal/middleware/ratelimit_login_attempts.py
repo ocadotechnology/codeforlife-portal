@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,7 +39,7 @@ from django.http import HttpResponseRedirect
 
 
 def is_cms_toolbar_login_request(request):
-    return request.method == 'POST' and 'cms-toolbar-login' in request.GET
+    return request.method == "POST" and "cms-toolbar-login" in request.GET
 
 
 class RateLimitLoginAttemptsMiddleware(object):
@@ -49,10 +49,10 @@ class RateLimitLoginAttemptsMiddleware(object):
     def __call__(self, request):
         limit = 5
 
-        limits = getattr(request, 'limits', {'cms_login_ip': [0]})
+        limits = getattr(request, "limits", {"cms_login_ip": [0]})
 
-        if limits['cms_login_ip'][0] > limit and is_cms_toolbar_login_request(request):
-            response = HttpResponseRedirect(reverse_lazy('locked_out'))
+        if limits["cms_login_ip"][0] > limit and is_cms_toolbar_login_request(request):
+            response = HttpResponseRedirect(reverse_lazy("locked_out"))
         else:
             response = self.get_response(request)
 

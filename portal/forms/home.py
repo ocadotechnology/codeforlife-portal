@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -40,16 +40,30 @@ from captcha.fields import ReCaptchaField
 
 
 class ContactForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=100,
-                           widget=forms.TextInput(attrs={'class': 'contactField'}))
-    telephone = forms.CharField(label='Telephone', max_length=50,
-                                widget=forms.TextInput(attrs={'class': 'contactField'}))
-    email = forms.EmailField(label='Email address',
-                             widget=forms.EmailInput(attrs={'class': 'contactField'}))
-    message = forms.CharField(label='Message', max_length=250,
-                              widget=forms.Textarea(attrs={'class': 'contactField'}))
-    browser = forms.CharField(label='Browser', max_length=250, required=False,
-                              widget=forms.TextInput(attrs={'type': 'hidden', 'id': 'browserField'}))
+    name = forms.CharField(
+        label="Name",
+        max_length=100,
+        widget=forms.TextInput(attrs={"class": "contactField"}),
+    )
+    telephone = forms.CharField(
+        label="Telephone",
+        max_length=50,
+        widget=forms.TextInput(attrs={"class": "contactField"}),
+    )
+    email = forms.EmailField(
+        label="Email address", widget=forms.EmailInput(attrs={"class": "contactField"})
+    )
+    message = forms.CharField(
+        label="Message",
+        max_length=250,
+        widget=forms.Textarea(attrs={"class": "contactField"}),
+    )
+    browser = forms.CharField(
+        label="Browser",
+        max_length=250,
+        required=False,
+        widget=forms.TextInput(attrs={"type": "hidden", "id": "browserField"}),
+    )
 
     captcha = ReCaptchaField()
 
@@ -57,13 +71,15 @@ class ContactForm(forms.Form):
         name = self.cleaned_data.get("name", None)
 
         if get_regex_name().match(name) is None:
-            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+            raise forms.ValidationError(
+                "Names may only contain letters, numbers, dashes, underscores, and spaces."
+            )
 
         return name
 
     def clean_message(self):
         message = self.cleaned_data.get("message", None)
-        message = message.encode('utf-8')
+        message = message.encode("utf-8")
 
         return message
 

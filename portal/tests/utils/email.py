@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -81,7 +81,10 @@ def follow_reset_email_link(browser, email):
 
     browser.get(link)
 
-    from portal.tests.pageObjects.portal.password_reset_form_page import PasswordResetPage
+    from portal.tests.pageObjects.portal.password_reset_form_page import (
+        PasswordResetPage,
+    )
+
     return PasswordResetPage(browser)
 
 
@@ -93,9 +96,9 @@ def follow_change_email_link_to_dashboard(page, email):
 
 def _follow_change_email_link(page, email):
     message = str(email.message())
-    prefix = 'please go to '
+    prefix = "please go to "
     i = string.find(message, prefix) + len(prefix)
-    suffix = ' to verify'
+    suffix = " to verify"
     j = string.find(message, suffix, i)
     page.browser.get(message[i:j])
 

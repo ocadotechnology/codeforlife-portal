@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,15 @@ from django import forms
 
 class InviteTeacherForm(forms.Form):
 
-    email_regex = '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+    email_regex = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'recipient.name@domain.com', 'id': 'newsletter_email_field', 'pattern': email_regex, 'type': 'email'}))
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "recipient.name@domain.com",
+                "id": "newsletter_email_field",
+                "pattern": email_regex,
+                "type": "email",
+            }
+        )
+    )

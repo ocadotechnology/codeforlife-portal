@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Limited
+# Copyright (C) 2019, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,7 +44,6 @@ from utils.teacher import signup_teacher_directly
 
 
 class SecurityTestCase(TestCase):
-
     def _test_incorrect_teacher_cannot_login(self, view_name):
         email1, _ = signup_teacher_directly()
         email2, pass2 = signup_teacher_directly()
@@ -66,42 +65,42 @@ class SecurityTestCase(TestCase):
         invalid_page = reverse(view_name, args=[access_code])
         invalid_login_code = c.get(invalid_page).status_code
 
-        non_existant_page = reverse(view_name, args=['AAAAA'])
+        non_existant_page = reverse(view_name, args=["AAAAA"])
         non_existant_code = c.get(non_existant_page).status_code
 
         self.assertEqual(non_existant_code, invalid_login_code)
 
     def test_reminder_cards_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""
-        self._test_incorrect_teacher_no_info_leak('teacher_print_reminder_cards')
+        self._test_incorrect_teacher_no_info_leak("teacher_print_reminder_cards")
 
     def test_class_page_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""
-        self._test_incorrect_teacher_no_info_leak('onboarding-class')
+        self._test_incorrect_teacher_no_info_leak("onboarding-class")
 
     def test_student_edit_info_leak(self):
         c = Client()
         t_email, t_pass = signup_teacher_directly()
         c.login(email=t_email, password=t_pass)
-        profile = UserProfile(user=User.objects.create_user('test'))
+        profile = UserProfile(user=User.objects.create_user("test"))
         profile.save()
         stu = Student(user=profile)
         stu.save()
 
         self.assertEqual(
-            c.get(reverse('teacher_edit_student', kwargs={'pk': '9999'})).status_code,
-            c.get(reverse('teacher_edit_student', kwargs={'pk': stu.pk})).status_code
+            c.get(reverse("teacher_edit_student", kwargs={"pk": "9999"})).status_code,
+            c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code,
         )
 
     def test_reminder_cards_wrong_teacher(self):
         """Try and view reminder cards without being the teacher for that class."""
-        self._test_incorrect_teacher_cannot_login('teacher_print_reminder_cards')
+        self._test_incorrect_teacher_cannot_login("teacher_print_reminder_cards")
 
     def test_class_page_wrong_teacher(self):
         """Try and view a class page without being the teacher for that class."""
-        self._test_incorrect_teacher_cannot_login('onboarding-class')
+        self._test_incorrect_teacher_cannot_login("onboarding-class")
 
     def test_anonymous_cannot_access_teaching_materials(self):
         c = Client()
-        page = reverse_lazy('materials')
+        page = reverse_lazy("materials")
         self.assertNotEqual(str(c.get(page).status_code)[0], 2)

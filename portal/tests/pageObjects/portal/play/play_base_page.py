@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,18 +44,20 @@ class PlayBasePage(BasePage):
 
     def logout(self):
         self.open_user_options_box()
-        self.browser.find_element_by_id('logout_button').click()
+        self.browser.find_element_by_id("logout_button").click()
 
         from portal.tests.pageObjects.portal.home_page import HomePage
+
         return HomePage(self.browser)
 
     def go_to_account_page(self):
         self.open_user_options_box()
-        self.browser.find_element_by_id('student_edit_account_button').click()
+        self.browser.find_element_by_id("student_edit_account_button").click()
 
         from account_page import PlayAccountPage
+
         return PlayAccountPage(self.browser)
 
     def open_user_options_box(self):
-        self.browser.find_element_by_id('logout_menu').click()
+        self.browser.find_element_by_id("logout_menu").click()
         time.sleep(1)

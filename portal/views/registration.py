@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,9 +37,7 @@
 
 import warnings
 
-from django.contrib.auth.forms import (
-    PasswordResetForm, SetPasswordForm,
-)
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from django.core.urlresolvers import reverse_lazy
@@ -58,8 +56,11 @@ from django.views.decorators.csrf import csrf_protect
 from deploy import captcha
 from two_factor.views import LoginView
 
-from portal.forms.registration import TeacherPasswordResetForm, PasswordResetSetPasswordForm, \
-    StudentPasswordResetForm
+from portal.forms.registration import (
+    TeacherPasswordResetForm,
+    PasswordResetSetPasswordForm,
+    StudentPasswordResetForm,
+)
 from portal.permissions import not_logged_in, not_fully_logged_in
 from portal.helpers.emails import PASSWORD_RESET_EMAIL
 from portal import app_settings
@@ -67,60 +68,85 @@ from ratelimit.decorators import ratelimit
 from portal.helpers.captcha import remove_captcha_from_form
 
 
-@ratelimit('def', periods=['1m'])
+@ratelimit("def", periods=["1m"])
 def custom_2FA_login(request):
     block_limit = 5
 
-    if getattr(request, 'limits', {'def': [0]})['def'][0] >= block_limit:
-        return HttpResponseRedirect(reverse_lazy('locked_out'))
+    if getattr(request, "limits", {"def": [0]})["def"][0] >= block_limit:
+        return HttpResponseRedirect(reverse_lazy("locked_out"))
 
     return LoginView.as_view()(request)
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy('login_view'))
+@user_passes_test(not_logged_in, login_url=reverse_lazy("login_view"))
 def student_password_reset(request):
     usertype = "STUDENT"
-    return password_reset(request, usertype, from_email=PASSWORD_RESET_EMAIL, template_name='portal/reset_password_student.html',
-                          password_reset_form=StudentPasswordResetForm, is_admin_site=True)
+    return password_reset(
+        request,
+        usertype,
+        from_email=PASSWORD_RESET_EMAIL,
+        template_name="portal/reset_password_student.html",
+        password_reset_form=StudentPasswordResetForm,
+        is_admin_site=True,
+    )
 
 
-@user_passes_test(not_fully_logged_in, login_url=reverse_lazy('login_view'))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("login_view"))
 def teacher_password_reset(request):
     usertype = "TEACHER"
-    return password_reset(request, usertype, from_email=PASSWORD_RESET_EMAIL, template_name='portal/reset_password_teach.html',
-                          password_reset_form=TeacherPasswordResetForm, is_admin_site=True)
+    return password_reset(
+        request,
+        usertype,
+        from_email=PASSWORD_RESET_EMAIL,
+        template_name="portal/reset_password_teach.html",
+        password_reset_form=TeacherPasswordResetForm,
+        is_admin_site=True,
+    )
 
 
 @csrf_protect
-def password_reset(request, usertype, is_admin_site=False, template_name='portal/reset_password_teach.html',
-                   email_template_name='portal/reset_password_email.html',
-                   subject_template_name='registration/password_reset_subject.txt',
-                   password_reset_form=PasswordResetForm, token_generator=default_token_generator,
-                   from_email=None, current_app=None, extra_context=None, html_email_template_name=None):
+def password_reset(
+    request,
+    usertype,
+    is_admin_site=False,
+    template_name="portal/reset_password_teach.html",
+    email_template_name="portal/reset_password_email.html",
+    subject_template_name="registration/password_reset_subject.txt",
+    password_reset_form=PasswordResetForm,
+    token_generator=default_token_generator,
+    from_email=None,
+    current_app=None,
+    extra_context=None,
+    html_email_template_name=None,
+):
     if request.method == "POST":
         form = password_reset_form(request.POST)
         if not captcha.CAPTCHA_ENABLED:
             remove_captcha_from_form(form)
         if form.is_valid():
             opts = {
-                'use_https': request.is_secure(),
-                'token_generator': token_generator,
-                'from_email': from_email,
-                'email_template_name': email_template_name,
-                'subject_template_name': subject_template_name,
-                'request': request,
-                'html_email_template_name': html_email_template_name,
+                "use_https": request.is_secure(),
+                "token_generator": token_generator,
+                "from_email": from_email,
+                "email_template_name": email_template_name,
+                "subject_template_name": subject_template_name,
+                "request": request,
+                "html_email_template_name": html_email_template_name,
             }
             if is_admin_site:
                 warnings.warn(
                     "The is_admin_site argument to "
                     "django.contrib.auth.views.password_reset() is deprecated "
-                    "and will be removed in Django 2.0.", RemovedInDjango20Warning, 3
+                    "and will be removed in Django 2.0.",
+                    RemovedInDjango20Warning,
+                    3,
                 )
                 opts = dict(opts, domain_override=request.get_host())
             form.save(**opts)
 
-            return render(request, 'portal/reset_password_email_sent.html', {'usertype': usertype})
+            return render(
+                request, "portal/reset_password_email_sent.html", {"usertype": usertype}
+            )
     else:
         form = password_reset_form()
 
@@ -128,10 +154,10 @@ def password_reset(request, usertype, is_admin_site=False, template_name='portal
         remove_captcha_from_form(form)
 
     context = {
-        'form': form,
-        'title': _('Password reset'),
-        'settings': app_settings,
-        'should_use_recaptcha': captcha.CAPTCHA_ENABLED
+        "form": form,
+        "title": _("Password reset"),
+        "settings": app_settings,
+        "should_use_recaptcha": captcha.CAPTCHA_ENABLED,
     }
 
     update_context_and_apps(request, context, current_app, extra_context)
@@ -147,10 +173,13 @@ def update_context_and_apps(request, context, current_app, extra_context):
         request.current_app = current_app
 
 
-def password_reset_done(request, template_name='portal/reset_password_email_sent.html', current_app=None, extra_context=None):
-    context = {
-        'title': _('Password reset sent'),
-    }
+def password_reset_done(
+    request,
+    template_name="portal/reset_password_email_sent.html",
+    current_app=None,
+    extra_context=None,
+):
+    context = {"title": _("Password reset sent")}
 
     update_context_and_apps(request, context, current_app, extra_context)
 
@@ -159,10 +188,17 @@ def password_reset_done(request, template_name='portal/reset_password_email_sent
 
 @sensitive_post_parameters()
 @never_cache
-def password_reset_confirm(request, usertype, uidb64=None, token=None,
-                           template_name='portal/reset_password_confirm.html',
-                           token_generator=default_token_generator,
-                           set_password_form=SetPasswordForm, current_app=None, extra_context=None):
+def password_reset_confirm(
+    request,
+    usertype,
+    uidb64=None,
+    token=None,
+    template_name="portal/reset_password_confirm.html",
+    token_generator=default_token_generator,
+    set_password_form=SetPasswordForm,
+    current_app=None,
+    extra_context=None,
+):
     """
     View that checks the hash in a password reset link and presents a
     form for entering a new password.
@@ -178,24 +214,22 @@ def password_reset_confirm(request, usertype, uidb64=None, token=None,
 
     if user_is_authenticated(user, token_generator, token):
         validlink = True
-        title = _('Enter new password')
-        if request.method == 'POST':
+        title = _("Enter new password")
+        if request.method == "POST":
             form = set_password_form(user, request.POST)
             if form.is_valid():
                 form.save()
-                return render(request, 'portal/reset_password_done.html', {'usertype': usertype})
+                return render(
+                    request, "portal/reset_password_done.html", {"usertype": usertype}
+                )
         else:
             form = set_password_form(user)
     else:
         validlink = False
         form = None
-        title = _('Password reset unsuccessful')
+        title = _("Password reset unsuccessful")
 
-    context = {
-        'form': form,
-        'title': title,
-        'validlink': validlink,
-    }
+    context = {"form": form, "title": title, "validlink": validlink}
 
     update_context_and_apps(request, context, current_app, extra_context)
 
@@ -210,7 +244,7 @@ def user_is_authenticated(user, token_generator, token):
     return user is not None and token_generator.check_token(user, token)
 
 
-@user_passes_test(not_fully_logged_in, login_url=reverse_lazy('login_view'))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("login_view"))
 def password_reset_check_and_confirm(request, uidb64=None, token=None):
     """
     Customised standard django auth view with customised form to incorporate checking the password set is strong enough
@@ -221,9 +255,15 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None):
         user = UserModel._default_manager.get(pk=uid)
     except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None
-    if user and hasattr(user, 'new_student'):
-        usertype = 'STUDENT'
+    if user and hasattr(user, "new_student"):
+        usertype = "STUDENT"
     else:
-        usertype = 'TEACHER'
-    return password_reset_confirm(request, usertype, set_password_form=PasswordResetSetPasswordForm, uidb64=uidb64,
-                                  token=token, extra_context={'usertype': usertype})
+        usertype = "TEACHER"
+    return password_reset_confirm(
+        request,
+        usertype,
+        set_password_form=PasswordResetSetPasswordForm,
+        uidb64=uidb64,
+        token=token,
+        extra_context={"usertype": usertype},
+    )

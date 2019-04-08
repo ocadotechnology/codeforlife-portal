@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2016, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -41,4 +41,4 @@ class PlayPage(BasePage):
     def __init__(self, browser):
         super(PlayPage, self).__init__(browser)
 
-        assert self.on_correct_page('play_page')
+        assert self.on_correct_page("play_page")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,7 @@ from django.test import TestCase
 from django.db import connection
 from django.apps import apps
 
+
 class MigrationTestCase(TestCase):
     """A Test case for testing migrations."""
 
@@ -64,4 +65,6 @@ class MigrationTestCase(TestCase):
         executor.migrate([(self.app_name, self.dest_migration)])
 
         # This application can now be used to get the latest models for testing
-        self.django_application = executor.loader.project_state([(self.app_name, self.dest_migration)]).apps
+        self.django_application = executor.loader.project_state(
+            [(self.app_name, self.dest_migration)]
+        ).apps

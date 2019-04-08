@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -52,7 +52,6 @@ from deploy import captcha
 
 
 class BaseTest(SeleniumTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
@@ -65,7 +64,7 @@ class BaseTest(SeleniumTestCase):
         super(BaseTest, cls).tearDownClass()
 
     def go_to_homepage(self):
-        path = reverse('home')
+        path = reverse("home")
         self._go_to_path(path)
         return HomePage(self.selenium)
 

@@ -50,24 +50,33 @@ from portal.email_messages import emailVerificationNeededEmail
 from portal.email_messages import emailChangeNotificationEmail
 from portal.email_messages import emailChangeVerificationEmail
 
-NOTIFICATION_EMAIL = 'Code For Life Notification <' + app_settings.EMAIL_ADDRESS + '>'
-VERIFICATION_EMAIL = 'Code For Life Verification <' + app_settings.EMAIL_ADDRESS + '>'
-PASSWORD_RESET_EMAIL = 'Code For Life Password Reset <' + app_settings.EMAIL_ADDRESS + '>'
-CONTACT_EMAIL = 'Code For Life Contact <' + app_settings.EMAIL_ADDRESS + '>'
-INVITE_FROM = 'Code For Life Invitation <' + app_settings.EMAIL_ADDRESS + '>'
+NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
+VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
+PASSWORD_RESET_EMAIL = (
+    "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
+)
+CONTACT_EMAIL = "Code For Life Contact <" + app_settings.EMAIL_ADDRESS + ">"
+INVITE_FROM = "Code For Life Invitation <" + app_settings.EMAIL_ADDRESS + ">"
 
 
-def send_email(sender, recipients, subject, text_content, html_content=None,
-               plaintext_template='email.txt', html_template='email.html'):
+def send_email(
+    sender,
+    recipients,
+    subject,
+    text_content,
+    html_content=None,
+    plaintext_template="email.txt",
+    html_template="email.html",
+):
     # add in template for templates to message
 
     # setup templates
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
-    plaintext_email_context = {'content': text_content}
-    html_email_context = {'content': text_content}
+    plaintext_email_context = {"content": text_content}
+    html_email_context = {"content": text_content}
     if html_content:
-        html_email_context = {'content': html_content}
+        html_email_context = {"content": html_content}
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
@@ -86,7 +95,7 @@ def generate_token(user, email="", preverified=False):
         email=email,
         token=uuid4().hex[:30],
         expiry=timezone.now() + timedelta(hours=1),
-        verified=preverified
+        verified=preverified,
     )
 
 
@@ -99,25 +108,22 @@ def send_verification_email(request, user, new_email=None):
         verification = generate_token(user)
 
         message = emailVerificationNeededEmail(request, verification.token)
-        send_email(VERIFICATION_EMAIL,
-                   [user.email],
-                   message['subject'],
-                   message['message'])
+        send_email(
+            VERIFICATION_EMAIL, [user.email], message["subject"], message["message"]
+        )
 
     else:  # verifying change of email address.
         verification = generate_token(user, new_email)
 
         message = emailChangeVerificationEmail(request, verification.token)
-        send_email(VERIFICATION_EMAIL,
-                   [new_email],
-                   message['subject'],
-                   message['message'])
+        send_email(
+            VERIFICATION_EMAIL, [new_email], message["subject"], message["message"]
+        )
 
         message = emailChangeNotificationEmail(request)
-        send_email(VERIFICATION_EMAIL,
-                   [user.email],
-                   message['subject'],
-                   message['message'])
+        send_email(
+            VERIFICATION_EMAIL, [user.email], message["subject"], message["message"]
+        )
 
 
 def is_verified(user):
@@ -128,9 +134,16 @@ def is_verified(user):
 
 def add_to_salesforce(first_name, last_name, email):
     url = app_settings.SALESFORCE_URL
-    data = {"oid": app_settings.SALESFORCE_OID, "retURL": "http://", "recordType": app_settings.SALESFORCE_RT,
-            "lead_source": "Code for Life", "first_name": first_name, "last_name": last_name,
-            "email": email, "company": "Code for Life users"}
+    data = {
+        "oid": app_settings.SALESFORCE_OID,
+        "retURL": "http://",
+        "recordType": app_settings.SALESFORCE_RT,
+        "lead_source": "Code for Life",
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "company": "Code for Life users",
+    }
     try:
         post(url, data=data)
     except RequestException:

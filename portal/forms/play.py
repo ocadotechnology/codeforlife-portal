@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -49,21 +49,20 @@ from captcha.fields import ReCaptchaField
 
 class StudentLoginForm(forms.Form):
     name = forms.CharField(
-        label='Name',
-        widget=forms.TextInput(attrs={'placeholder': "Jane"}))
+        label="Name", widget=forms.TextInput(attrs={"placeholder": "Jane"})
+    )
     access_code = forms.CharField(
-        label='Class Access Code',
-        widget=forms.TextInput(attrs={'placeholder': "AB123"}))
-    password = forms.CharField(
-        label='Password',
-        widget=forms.PasswordInput)
+        label="Class Access Code",
+        widget=forms.TextInput(attrs={"placeholder": "AB123"}),
+    )
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
     captcha = ReCaptchaField()
 
     def clean(self):
-        name = self.cleaned_data.get('name', None)
-        access_code = self.cleaned_data.get('access_code', None)
-        password = self.cleaned_data.get('password', None)
+        name = self.cleaned_data.get("name", None)
+        access_code = self.cleaned_data.get("access_code", None)
+        password = self.cleaned_data.get("password", None)
 
         if name and access_code and password:
 
@@ -81,7 +80,9 @@ class StudentLoginForm(forms.Form):
 
         name = stripStudentName(name)
 
-        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=classes[0])
+        students = Student.objects.filter(
+            new_user__first_name__iexact=name, class_field=classes[0]
+        )
         if len(students) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
 
@@ -98,51 +99,65 @@ class StudentLoginForm(forms.Form):
 
 class StudentEditAccountForm(forms.Form):
     name = forms.CharField(
-        label='Name', max_length=100, required=False,
-        widget=forms.TextInput(attrs={'placeholder': "Name"}))
+        label="Name",
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+    )
     email = forms.EmailField(
-        label='New email address (optional)', required=False,
-        widget=forms.EmailInput(attrs={'placeholder': "new.address@myemail.com"}))
+        label="New email address (optional)",
+        required=False,
+        widget=forms.EmailInput(attrs={"placeholder": "new.address@myemail.com"}),
+    )
     password = forms.CharField(
-        label='New password (optional)', required=False,
-        widget=forms.PasswordInput)
+        label="New password (optional)", required=False, widget=forms.PasswordInput
+    )
     confirm_password = forms.CharField(
-        label='Confirm new password', required=False,
-        widget=forms.PasswordInput)
+        label="Confirm new password", required=False, widget=forms.PasswordInput
+    )
     current_password = forms.CharField(
-        label='Current password',
-        widget=forms.PasswordInput)
+        label="Current password", widget=forms.PasswordInput
+    )
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(StudentEditAccountForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
-        name = self.cleaned_data.get('name', None)
+        name = self.cleaned_data.get("name", None)
         if not self.user.new_student.class_field:
-            if name == '':
+            if name == "":
                 raise forms.ValidationError("This field is required")
 
-            if re.match(re.compile('^[\w ]+$'), name) is None:
-                raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+            if re.match(re.compile("^[\w ]+$"), name) is None:
+                raise forms.ValidationError(
+                    "Names may only contain letters, numbers, dashes, underscores, and spaces."
+                )
 
         return name
 
     def clean_password(self):
-        password = self.cleaned_data.get('password', None)
+        password = self.cleaned_data.get("password", None)
 
-        if password and not password_strength_test(password, length=8, upper=False, lower=False, numbers=False):
+        if password and not password_strength_test(
+            password, length=8, upper=False, lower=False, numbers=False
+        ):
             raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
+                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+            )
 
         return password
 
     def clean(self):
-        password = self.cleaned_data.get('password', None)
-        confirm_password = self.cleaned_data.get('confirm_password', None)
-        current_password = self.cleaned_data.get('current_password', None)
+        password = self.cleaned_data.get("password", None)
+        confirm_password = self.cleaned_data.get("confirm_password", None)
+        current_password = self.cleaned_data.get("current_password", None)
 
-        if password is not None and (password or confirm_password) and password != confirm_password:
+        if (
+            password is not None
+            and (password or confirm_password)
+            and password != confirm_password
+        ):
             raise forms.ValidationError("Your new passwords do not match")
 
         if current_password and not self.user.check_password(current_password):
@@ -153,65 +168,70 @@ class StudentEditAccountForm(forms.Form):
 
 class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
-        label='Name', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "Rosalind Franklin"})
+        label="Name",
+        max_length=100,
+        widget=forms.TextInput(attrs={"placeholder": "Rosalind Franklin"}),
     )
 
     username = forms.CharField(
-        label='Username', max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': "rosie_f"})
+        label="Username",
+        max_length=100,
+        widget=forms.TextInput(attrs={"placeholder": "rosie_f"}),
     )
 
     email = forms.EmailField(
-        label='Email address',
-        widget=forms.EmailInput(attrs={'placeholder': "rosalind.franklin@cambridge.ac.uk"})
+        label="Email address",
+        widget=forms.EmailInput(
+            attrs={"placeholder": "rosalind.franklin@cambridge.ac.uk"}
+        ),
     )
 
-    newsletter_ticked = forms.BooleanField(
-        initial=False,
-        required=False
-    )
+    newsletter_ticked = forms.BooleanField(initial=False, required=False)
 
-    password = forms.CharField(
-        label='Password',
-        widget=forms.PasswordInput
-    )
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
     confirm_password = forms.CharField(
-        label='Confirm Password',
-        widget=forms.PasswordInput
+        label="Confirm Password", widget=forms.PasswordInput
     )
 
     captcha = ReCaptchaField()
 
     def clean_name(self):
-        name = self.cleaned_data.get('name', None)
-        if re.match(re.compile('^[\w ]+$'), name) is None:
-            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+        name = self.cleaned_data.get("name", None)
+        if re.match(re.compile("^[\w ]+$"), name) is None:
+            raise forms.ValidationError(
+                "Names may only contain letters, numbers, dashes, underscores, and spaces."
+            )
 
         return name
 
     def clean_username(self):
-        username = self.cleaned_data.get('username', None)
+        username = self.cleaned_data.get("username", None)
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("That username is already in use")
 
-        if re.match(re.compile('[\w]+'), username) is None:
-            raise forms.ValidationError("Usernames may only contain letters, numbers, dashes, and underscores.")
+        if re.match(re.compile("[\w]+"), username) is None:
+            raise forms.ValidationError(
+                "Usernames may only contain letters, numbers, dashes, and underscores."
+            )
 
         return username
 
     def clean_password(self):
-        password = self.cleaned_data.get('password', None)
+        password = self.cleaned_data.get("password", None)
 
-        if password and not password_strength_test(password, length=8, upper=False, lower=False, numbers=False):
-            raise forms.ValidationError("Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers")
+        if password and not password_strength_test(
+            password, length=8, upper=False, lower=False, numbers=False
+        ):
+            raise forms.ValidationError(
+                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+            )
 
         return password
 
     def clean(self):
-        password = self.cleaned_data.get('password', None)
-        confirm_password = self.cleaned_data.get('confirm_password', None)
+        password = self.cleaned_data.get("password", None)
+        confirm_password = self.cleaned_data.get("confirm_password", None)
 
         if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Your passwords do not match")
@@ -221,20 +241,20 @@ class IndependentStudentSignupForm(forms.Form):
 
 class IndependentStudentLoginForm(forms.Form):
     username = forms.CharField(
-        label='Username',
-        widget=forms.TextInput(attrs={'placeholder': "rosie_f"}))
-    password = forms.CharField(
-        label='Password',
-        widget=forms.PasswordInput())
+        label="Username", widget=forms.TextInput(attrs={"placeholder": "rosie_f"})
+    )
+    password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
     captcha = ReCaptchaField()
 
     def clean(self):
-        username = self.cleaned_data.get('username', None)
-        password = self.cleaned_data.get('password', None)
+        username = self.cleaned_data.get("username", None)
+        password = self.cleaned_data.get("password", None)
 
         if username and password:
-            students = Student.objects.filter(class_field=None, new_user__username=username)
+            students = Student.objects.filter(
+                class_field=None, new_user__username=username
+            )
             if not students.exists():
                 raise forms.ValidationError("Incorrect username or password")
 
@@ -255,20 +275,27 @@ class IndependentStudentLoginForm(forms.Form):
 
 class StudentJoinOrganisationForm(forms.Form):
     access_code = forms.CharField(
-        label='Class Access Code',
-        widget=forms.TextInput(attrs={'placeholder': "AB123"}))
+        label="Class Access Code",
+        widget=forms.TextInput(attrs={"placeholder": "AB123"}),
+    )
 
     def clean(self):
-        access_code = self.cleaned_data.get('access_code', None)
+        access_code = self.cleaned_data.get("access_code", None)
 
         if access_code:
             classes = Class.objects.filter(access_code=access_code)
             if len(classes) != 1:
-                raise forms.ValidationError("Cannot find the school or club and/or class")
+                raise forms.ValidationError(
+                    "Cannot find the school or club and/or class"
+                )
             self.klass = classes[0]
             if not self.klass.always_accept_requests:
                 if self.klass.accept_requests_until is None:
-                    raise forms.ValidationError("Cannot find the school or club and/or class")
+                    raise forms.ValidationError(
+                        "Cannot find the school or club and/or class"
+                    )
                 elif (self.klass.accept_requests_until - timezone.now()) < timedelta():
-                    raise forms.ValidationError("Cannot find the school or club and/or class")
+                    raise forms.ValidationError(
+                        "Cannot find the school or club and/or class"
+                    )
         return self.cleaned_data

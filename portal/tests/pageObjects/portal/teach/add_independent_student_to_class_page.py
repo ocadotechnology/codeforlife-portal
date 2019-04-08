@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.tests.pageObjects.portal.teach.added_independent_student_to_class_page import \
-    AddedIndependentStudentToClassPage
+from portal.tests.pageObjects.portal.teach.added_independent_student_to_class_page import (
+    AddedIndependentStudentToClassPage,
+)
 from portal.tests.pageObjects.portal.teach.teach_base_page import TeachBasePage
 
 from selenium.webdriver.common.by import By
@@ -45,15 +46,15 @@ class AddIndependentStudentToClassPage(TeachBasePage):
     def __init__(self, browser):
         super(AddIndependentStudentToClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('add_independent_student_to_class')
+        assert self.on_correct_page("add_independent_student_to_class")
 
     def _rename(self, name):
-        self.browser.find_element_by_id('id_name').clear()
-        self.browser.find_element_by_id('id_name').send_keys(name)
+        self.browser.find_element_by_id("id_name").clear()
+        self.browser.find_element_by_id("id_name").send_keys(name)
 
     def save(self, name):
         self._rename(name)
-        self.wait_for_element_to_be_clickable((By.ID, 'save_student_name_button'))
-        self.browser.find_element_by_id('save_student_name_button').click()
+        self.wait_for_element_to_be_clickable((By.ID, "save_student_name_button"))
+        self.browser.find_element_by_id("save_student_name_button").click()
 
         return AddedIndependentStudentToClassPage(self.browser)

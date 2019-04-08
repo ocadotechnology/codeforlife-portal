@@ -34,163 +34,137 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-'''Portal autoconfig'''
+"""Portal autoconfig"""
 import os
 
 from django_autoconfig.autoconfig import OrderingRelationship
 
 
 DEFAULT_SETTINGS = {
-    'AUTOCONFIG_INDEX_VIEW': 'home',
-    'LANGUAGE_CODE': 'en-gb',
-    'SITE_ID': 1,
-    'MEDIA_ROOT': os.path.join(os.path.join(os.path.dirname(__file__), 'static'), 'email_media/')
+    "AUTOCONFIG_INDEX_VIEW": "home",
+    "LANGUAGE_CODE": "en-gb",
+    "SITE_ID": 1,
+    "MEDIA_ROOT": os.path.join(
+        os.path.join(os.path.dirname(__file__), "static"), "email_media/"
+    ),
 }
 
 SETTINGS = {
-    'AUTOCONFIG_DISABLED_APPS': [
-        'django_otp',
-        'django_otp.plugins.otp_static',
-        'django_otp.plugins.otp_totp',
+    "AUTOCONFIG_DISABLED_APPS": [
+        "django_otp",
+        "django_otp.plugins.otp_static",
+        "django_otp.plugins.otp_totp",
     ],
-    'PIPELINE_COMPILERS': (
-        'portal.pipeline_compilers.LibSassCompiler',
-    ),
-    'PIPELINE_CSS': {
-        'css': {
-            'source_filenames': (
-                'portal/sass/bootstrap.scss',
-                'portal/sass/colorbox.scss',
-                'portal/sass/styles.scss',
+    "PIPELINE_COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
+    "PIPELINE_CSS": {
+        "css": {
+            "source_filenames": (
+                "portal/sass/bootstrap.scss",
+                "portal/sass/colorbox.scss",
+                "portal/sass/styles.scss",
             ),
-            'output_filename': 'portal.css',
+            "output_filename": "portal.css",
         },
-        'base': {
-            'source_filenames': (
-                'portal/sass/old_styles.scss',
-            ),
-            'output_filename': 'base.css',
+        "base": {
+            "source_filenames": ("portal/sass/old_styles.scss",),
+            "output_filename": "base.css",
         },
     },
-    'PIPELINE_CSS_COMPRESSOR': None,
-    'INSTALLED_APPS': [
-        'aimmo',
-        'game',
-        'pipeline',
-        'portal',
-        'ratelimit',
-        'django.contrib.admin',
-        'django.contrib.admindocs',
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.messages',
-        'django.contrib.sites',
-        'django.contrib.staticfiles',
-        'rest_framework',
-        'jquery',
-        'django_otp',
-        'django_otp.plugins.otp_static',
-        'django_otp.plugins.otp_totp',
-        'sekizai',  # for javascript and css management
-        'treebeard',
-        'two_factor',
+    "PIPELINE_CSS_COMPRESSOR": None,
+    "INSTALLED_APPS": [
+        "aimmo",
+        "game",
+        "pipeline",
+        "portal",
+        "ratelimit",
+        "django.contrib.admin",
+        "django.contrib.admindocs",
+        "django.contrib.auth",
+        "django.contrib.contenttypes",
+        "django.contrib.sessions",
+        "django.contrib.messages",
+        "django.contrib.sites",
+        "django.contrib.staticfiles",
+        "rest_framework",
+        "jquery",
+        "django_otp",
+        "django_otp.plugins.otp_static",
+        "django_otp.plugins.otp_totp",
+        "sekizai",  # for javascript and css management
+        "treebeard",
+        "two_factor",
     ],
-    'LANGUAGES': [
-        ('en-gb', 'English'),
+    "LANGUAGES": [("en-gb", "English")],
+    "STATICFILES_FINDERS": ["pipeline.finders.PipelineFinder"],
+    "STATICFILES_STORAGE": "pipeline.storage.PipelineStorage",
+    "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
+    "MIDDLEWARE": [
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.locale.LocaleMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
+        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
+        "portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware",
+        "django_otp.middleware.OTPMiddleware",
     ],
-    'STATICFILES_FINDERS': [
-        'pipeline.finders.PipelineFinder',
-    ],
-    'STATICFILES_STORAGE': 'pipeline.storage.PipelineStorage',
-    'MESSAGE_STORAGE': 'django.contrib.messages.storage.session.SessionStorage',
-    'MIDDLEWARE': [
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.locale.LocaleMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-        'portal.middleware.online_status.middleware.OnlineStatusMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
-        'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
-        'django_otp.middleware.OTPMiddleware',
-    ],
-
-    'TEMPLATES': [
+    "TEMPLATES": [
         {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'context_processors': [
-                    'django.contrib.auth.context_processors.auth',
-                    'django.template.context_processors.request',
-                    'django.contrib.messages.context_processors.messages',
-                    'sekizai.context_processors.sekizai',
-                    'portal.context_processors.process_newsletter_form',
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            "APP_DIRS": True,
+            "OPTIONS": {
+                "context_processors": [
+                    "django.contrib.auth.context_processors.auth",
+                    "django.template.context_processors.request",
+                    "django.contrib.messages.context_processors.messages",
+                    "sekizai.context_processors.sekizai",
+                    "portal.context_processors.process_newsletter_form",
                 ]
-            }
+            },
         }
     ],
-
-    'CODEFORLIFE_WEBSITE': 'www.codeforlife.education',
-
-    'CLOUD_STORAGE_PREFIX': '//storage.googleapis.com/codeforlife-assets/',
-
-    'LOGGING': {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-            },
-        },
-        'loggers': {
-            'two_factor': {
-                'handlers': ['console'],
-                'level': 'INFO',
-            }
-        }
+    "CODEFORLIFE_WEBSITE": "www.codeforlife.education",
+    "CLOUD_STORAGE_PREFIX": "//storage.googleapis.com/codeforlife-assets/",
+    "LOGGING": {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
+        "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
     },
-
-    'RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME': 'portal.beta.has_beta_access',
-    'PREVIEW_USER_AIMMO_DECORATOR': 'portal.permissions.preview_user',
-    'USERS_FOR_NEW_AIMMO_GAME': 'portal.aimmo_game.get_users_for_new_game'
+    "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
+    "PREVIEW_USER_AIMMO_DECORATOR": "portal.permissions.preview_user",
+    "USERS_FOR_NEW_AIMMO_GAME": "portal.aimmo_game.get_users_for_new_game",
 }
 
 RELATIONSHIPS = [
     OrderingRelationship(
-        'MIDDLEWARE',
-        'cms.middleware.toolbar.ToolbarMiddleware',
-        after=[
-            'django.contrib.auth.middleware.AuthenticationMiddleware',
-        ],
+        "MIDDLEWARE",
+        "cms.middleware.toolbar.ToolbarMiddleware",
+        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),
     OrderingRelationship(
-        'MIDDLEWARE',
-        'portal.middleware.online_status.middleware.OnlineStatusMiddleware',
-        after=[
-            'django.contrib.auth.middleware.AuthenticationMiddleware',
-        ],
+        "MIDDLEWARE",
+        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
+        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),
     OrderingRelationship(
-        'MIDDLEWARE',
-        'django_otp.middleware.OTPMiddleware',
-        after=[
-            'django.contrib.auth.middleware.AuthenticationMiddleware',
-        ],
+        "MIDDLEWARE",
+        "django_otp.middleware.OTPMiddleware",
+        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),
 ]
 
 try:
     import django_pandasso
-    SETTINGS['INSTALLED_APPS'].append('django_pandasso')
-    SETTINGS['INSTALLED_APPS'].append('social.apps.django_app.default')
+
+    SETTINGS["INSTALLED_APPS"].append("django_pandasso")
+    SETTINGS["INSTALLED_APPS"].append("social.apps.django_app.default")
 except ImportError:
     pass

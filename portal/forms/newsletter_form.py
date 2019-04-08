@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,6 +39,13 @@ from django import forms
 
 class NewsletterForm(forms.Form):
 
-    email = forms.EmailField(label='Sign up to our newsletter', label_suffix="",
-                             widget=forms.TextInput(attrs={'placeholder': 'your.name@yourdomain.com',
-                                                           'id': 'newsletter_email_field'}))
+    email = forms.EmailField(
+        label="Sign up to our newsletter",
+        label_suffix="",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "your.name@yourdomain.com",
+                "id": "newsletter_email_field",
+            }
+        ),
+    )

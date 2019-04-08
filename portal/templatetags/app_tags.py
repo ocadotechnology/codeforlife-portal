@@ -44,20 +44,24 @@ from aimmo.templatetags.players_utils import get_user_playable_games
 register = template.Library()
 
 
-@register.filter(name='emaildomain')
+@register.filter(name="emaildomain")
 @stringfilter
 def emaildomain(email):
-    return '*********' + email[email.find('@'):]
+    return "*********" + email[email.find("@") :]
 
 
-@register.filter(name='has_2FA')
+@register.filter(name="has_2FA")
 def has_2FA(u):
     return using_two_factor(u)
 
 
-@register.filter(name='is_logged_in')
+@register.filter(name="is_logged_in")
 def is_logged_in(u):
-    return u and u.is_authenticated() and (not using_two_factor(u) or (hasattr(u, 'is_verified') and u.is_verified()))
+    return (
+        u
+        and u.is_authenticated()
+        and (not using_two_factor(u) or (hasattr(u, "is_verified") and u.is_verified()))
+    )
 
 
 @register.filter
@@ -72,17 +76,19 @@ def is_preview_user(u):
 
 @register.filter
 def is_preview_student(u):
-    if is_logged_in(u) and hasattr(u.userprofile, 'student'):
+    if is_logged_in(u) and hasattr(u.userprofile, "student"):
         student = u.userprofile.student
         teacher = student.class_field.teacher
         return teacher.school.eligible_for_testing and teacher.user.preview_user
     return False
 
 
-@register.filter(name='is_eligible_for_testing')
+@register.filter(name="is_eligible_for_testing")
 def is_eligible_for_testing(u):
     if is_logged_in_as_teacher(u):
-        school_set_up = hasattr(u.userprofile.teacher, 'school') and hasattr(u.userprofile.teacher.school, 'eligible_for_testing')
+        school_set_up = hasattr(u.userprofile.teacher, "school") and hasattr(
+            u.userprofile.teacher.school, "eligible_for_testing"
+        )
         return school_set_up and u.userprofile.teacher.school.eligible_for_testing
     return is_developer(u) or is_preview_student(u)
 
@@ -92,55 +98,71 @@ def has_beta_access(request):
     return beta.has_beta_access(request)
 
 
-@register.inclusion_tag('portal/partials/aimmo_join_game_dropdown.html', takes_context=True)
+@register.inclusion_tag(
+    "portal/partials/aimmo_join_game_dropdown.html", takes_context=True
+)
 def game_dropdown_list(context, base_url):
     return get_user_playable_games(context, base_url)
 
 
-@register.filter(name='make_into_username')
+@register.filter(name="make_into_username")
 def make_into_username(u):
-    username = ''
-    if hasattr(u, 'userprofile'):
-        if hasattr(u.userprofile, 'student'):
+    username = ""
+    if hasattr(u, "userprofile"):
+        if hasattr(u.userprofile, "student"):
             username = u.first_name
-        elif hasattr(u.userprofile, 'teacher'):
-            username = u.userprofile.teacher.title + ' ' + u.last_name
+        elif hasattr(u.userprofile, "teacher"):
+            username = u.userprofile.teacher.title + " " + u.last_name
 
     return username
 
 
-@register.filter(name='is_logged_in_as_teacher')
+@register.filter(name="is_logged_in_as_teacher")
 def is_logged_in_as_teacher(u):
-    return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, 'teacher')
+    return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, "teacher")
 
 
-@register.filter(name='has_teacher_finished_onboarding')
+@register.filter(name="has_teacher_finished_onboarding")
 def has_teacher_finished_onboarding(u):
     teacher = u.userprofile.teacher
     classes = teacher.class_teacher.all()
-    return is_logged_in_as_teacher(u) and teacher.has_school() and classes and (classes.count() > 1 or
-                                                                                classes[0].has_students())
+    return (
+        is_logged_in_as_teacher(u)
+        and teacher.has_school()
+        and classes
+        and (classes.count() > 1 or classes[0].has_students())
+    )
 
 
-@register.filter(name='is_logged_in_as_school_user')
+@register.filter(name="is_logged_in_as_school_user")
 def is_logged_in_as_school_user(u):
-    return is_logged_in(u) and u.userprofile and ((hasattr(u.userprofile, 'student') and u.userprofile.student.class_field != None) or hasattr(u.userprofile, 'teacher'))
+    return (
+        is_logged_in(u)
+        and u.userprofile
+        and (
+            (
+                hasattr(u.userprofile, "student")
+                and u.userprofile.student.class_field != None
+            )
+            or hasattr(u.userprofile, "teacher")
+        )
+    )
 
 
-@register.filter(name='get_user_status')
+@register.filter(name="get_user_status")
 def get_user_status(u):
     if is_logged_in_as_school_user(u):
         if is_logged_in_as_teacher(u):
-            return 'TEACHER'
+            return "TEACHER"
         else:
-            return 'SCHOOL_STUDENT'
+            return "SCHOOL_STUDENT"
     elif is_logged_in(u):
-        return 'INDEPENDENT_STUDENT'
+        return "INDEPENDENT_STUDENT"
     else:
-        return 'UNTRACKED'
+        return "UNTRACKED"
 
 
-@register.filter(name='make_title_caps')
+@register.filter(name="make_title_caps")
 def make_title_caps(s):
     if len(s) <= 0:
         return s
@@ -149,7 +171,7 @@ def make_title_caps(s):
     return s
 
 
-@register.filter(name='cloud_storage')
+@register.filter(name="cloud_storage")
 @stringfilter
 def cloud_storage(e):
     return settings.CLOUD_STORAGE_PREFIX + e

@@ -63,20 +63,20 @@ class TestOnlineStatus(TestCase):
         self.client.login(username=user.username, password=password)
 
     def setUp(self):
-        self.user1 = User.objects.get_or_create(username='test1')[0]
-        self.user2 = User.objects.get_or_create(username='test2')[0]
+        self.user1 = User.objects.get_or_create(username="test1")[0]
+        self.user2 = User.objects.get_or_create(username="test2")[0]
 
     def list_len(self, length):
         users = cache.get(config.CACHE_USERS)
         self.assertEqual(len(users), length)
 
     def test_middleware(self):
-        self.client.get(reverse('dashboard'))
+        self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline, None)
 
         self.login_as(self.user1)
-        self.client.get(reverse('dashboard'))
+        self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline.user, self.user1)
         self.assertEqual(useronline.status, 1)
@@ -86,7 +86,7 @@ class TestOnlineStatus(TestCase):
         self.client.logout()
         self.login_as(self.user2)
 
-        self.client.get(reverse('dashboard'))
+        self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user2.pk)
         self.assertEqual(useronline.user, self.user2)
         self.assertEqual(useronline.status, 1)
@@ -94,14 +94,14 @@ class TestOnlineStatus(TestCase):
         self.list_len(2)
 
         sleep(config.TIME_IDLE + 1)
-        self.client.get(reverse('dashboard'))
+        self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline.user, self.user1)
         self.assertEqual(useronline.status, 0)
         self.list_len(2)
 
         sleep(config.TIME_OFFLINE + 1)
-        self.client.get(reverse('dashboard'))
+        self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline, None)
         self.list_len(1)

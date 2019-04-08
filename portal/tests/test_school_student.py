@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -52,9 +52,11 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)\
-            .go_to_login_page()\
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, student_password)
+        )
         assert self.is_dashboard(page)
 
     def test_login_failure(self):
@@ -64,11 +66,15 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)\
-            .go_to_login_page()\
-            .student_login_failure(student_name, access_code, 'some other password')
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .student_login_failure(student_name, access_code, "some other password")
+        )
 
-        assert page.has_login_failed('form-login-school', 'Invalid name, class access code or password')
+        assert page.has_login_failed(
+            "form-login-school", "Invalid name, class access code or password"
+        )
 
     def test_login_nonexistent_class(self):
         email, password = signup_teacher_directly()
@@ -77,11 +83,15 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
-            .student_login_failure(student_name, 'WRONG', student_password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .student_login_failure(student_name, "WRONG", student_password)
+        )
 
-        assert page.has_login_failed('form-login-school', 'Invalid name, class access code or password')
+        assert page.has_login_failed(
+            "form-login-school", "Invalid name, class access code or password"
+        )
 
     def test_login_empty_class(self):
         email, password = signup_teacher_directly()
@@ -91,11 +101,15 @@ class TestSchoolStudent(BaseTest):
         _, class_name2, access_code2 = create_class_directly(email)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login_failure(student_name, access_code2, student_password)
+        )
 
-        assert page.has_login_failed('form-login-school', 'Invalid name, class access code or password')
+        assert page.has_login_failed(
+            "form-login-school", "Invalid name, class access code or password"
+        )
 
     def test_update_password_form_empty(self):
         email, password = signup_teacher_directly()
@@ -104,14 +118,16 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, student_password)
+        )
         assert self.is_dashboard(page)
 
         page = page.go_to_account_page().submit_empty_form()
         assert self.is_account_page(page)
-        assert page.was_form_invalid('student_account_form', 'This field is required.')
+        assert page.was_form_invalid("student_account_form", "This field is required.")
 
     def test_update_password_current_password_wrong(self):
         email, password = signup_teacher_directly()
@@ -120,14 +136,20 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, student_password)
+        )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure('NewPassword', 'NewPassword', 'WrongPassword')
+        page = page.go_to_account_page().update_password_failure(
+            "NewPassword", "NewPassword", "WrongPassword"
+        )
         assert self.is_account_page(page)
-        assert page.was_form_invalid('student_account_form', 'Your current password was incorrect')
+        assert page.was_form_invalid(
+            "student_account_form", "Your current password was incorrect"
+        )
 
     def test_update_password_passwords_not_match(self):
         email, password = signup_teacher_directly()
@@ -136,14 +158,20 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, student_password)
+        )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure('NewPassword', 'OtherPassword', student_password)
+        page = page.go_to_account_page().update_password_failure(
+            "NewPassword", "OtherPassword", student_password
+        )
         assert self.is_account_page(page)
-        assert page.was_form_invalid('student_account_form', 'Your new passwords do not match')
+        assert page.was_form_invalid(
+            "student_account_form", "Your new passwords do not match"
+        )
 
     def test_update_password_too_weak(self):
         email, password = signup_teacher_directly()
@@ -152,14 +180,21 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, student_password)
+        )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure('tiny', 'tiny', student_password)
+        page = page.go_to_account_page().update_password_failure(
+            "tiny", "tiny", student_password
+        )
         assert self.is_account_page(page)
-        assert page.was_form_invalid('student_account_form', 'Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers')
+        assert page.was_form_invalid(
+            "student_account_form",
+            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers",
+        )
 
     def test_update_password_success(self):
         email, password = signup_teacher_directly()
@@ -168,25 +203,31 @@ class TestSchoolStudent(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, student_password)
+        )
         assert self.is_dashboard(page)
 
-        new_password = 'NewPassword'
+        new_password = "NewPassword"
 
-        page = page.go_to_account_page().update_password_failure(new_password, new_password, student_password)
+        page = page.go_to_account_page().update_password_failure(
+            new_password, new_password, student_password
+        )
         assert is_student_details_updated_message_showing(self.selenium)
 
         page.logout()
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium) \
-            .go_to_login_page() \
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
             .student_login(student_name, access_code, new_password)
+        )
         assert self.is_dashboard(page)
 
     def is_dashboard(self, page):
-        return page.__class__.__name__ == 'PlayDashboardPage'
+        return page.__class__.__name__ == "PlayDashboardPage"
 
     def is_account_page(self, page):
-        return page.__class__.__name__ == 'PlayAccountPage'
+        return page.__class__.__name__ == "PlayAccountPage"

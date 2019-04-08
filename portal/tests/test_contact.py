@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -65,7 +65,7 @@ class TestContact(BaseTest):
 
         page = page.send_message_accented_name()
 
-        assert (not is_contact_message_sent_message_showing(self.selenium))
+        assert not is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_incorrect_phone(self):
         self.selenium.get(self.live_server_url)
@@ -74,7 +74,7 @@ class TestContact(BaseTest):
 
         page = page.send_message_incorrect_phone()
 
-        assert (not is_contact_message_sent_message_showing(self.selenium))
+        assert not is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_formatted_phone(self):
         self.selenium.get(self.live_server_url)

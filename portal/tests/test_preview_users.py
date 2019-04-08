@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Limited
+# Copyright (C) 2019, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,7 +39,10 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
-from utils.teacher import signup_teacher_directly, signup_teacher_directly_as_preview_user
+from utils.teacher import (
+    signup_teacher_directly,
+    signup_teacher_directly_as_preview_user,
+)
 from utils.organisation import create_organisation_directly
 from portal.models import Teacher
 from portal.templatetags.app_tags import is_preview_user, is_eligible_for_testing
@@ -49,11 +52,10 @@ from pageObjects.portal.home_page import HomePage
 
 
 class UnitTestPreviewUsers(TestCase):
-
     def test_teacher_can_become_tester(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
-        url = reverse('make_preview_tester')
+        url = reverse("make_preview_tester")
         c = Client()
         c.login(username=email, password=password)
         response = c.get(url)
@@ -62,14 +64,14 @@ class UnitTestPreviewUsers(TestCase):
     def test_teacher_not_eligible_to_become_tester(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, False)
-        url = reverse('make_preview_tester')
+        url = reverse("make_preview_tester")
         c = Client()
         c.login(username=email, password=password)
         response = c.get(url)
         self.assertEqual(401, response.status_code)
 
     def test_anonymous_user_not_eligible_to_become_tester(self):
-        url = reverse('make_preview_tester')
+        url = reverse("make_preview_tester")
         c = Client()
         response = c.get(url)
         self.assertEqual(401, response.status_code)
@@ -77,7 +79,7 @@ class UnitTestPreviewUsers(TestCase):
     def test_is_preview_user(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
-        url = reverse('make_preview_tester')
+        url = reverse("make_preview_tester")
         c = Client()
         c.login(username=email, password=password)
         c.get(url)
@@ -87,7 +89,7 @@ class UnitTestPreviewUsers(TestCase):
     def test_not_preview_user(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, False)
-        url = reverse('make_preview_tester')
+        url = reverse("make_preview_tester")
         c = Client()
         c.login(username=email, password=password)
         c.get(url)
@@ -109,14 +111,14 @@ class UnitTestPreviewUsers(TestCase):
     def test_preview_user_can_view_aimmo_home_page(self):
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
-        make_preview_url = reverse('make_preview_tester')
+        make_preview_url = reverse("make_preview_tester")
         c = Client()
         c.login(username=email, password=password)
         c.get(make_preview_url)
         teacher = Teacher.objects.get(new_user__email=email)
         self.assertEqual(True, is_preview_user(teacher.new_user))
 
-        aimmo_home_page_url = reverse('aimmo')
+        aimmo_home_page_url = reverse("aimmo")
         response = c.get(aimmo_home_page_url)
         self.assertEqual(200, response.status_code)
 
@@ -128,7 +130,7 @@ class UnitTestPreviewUsers(TestCase):
         teacher = Teacher.objects.get(new_user__email=email)
         self.assertEqual(False, is_preview_user(teacher.new_user))
 
-        aimmo_home_page_url = reverse('aimmo')
+        aimmo_home_page_url = reverse("aimmo")
         response = c.get(aimmo_home_page_url)
         self.assertEqual(401, response.status_code)
 
@@ -164,7 +166,9 @@ class SeleniumTestPreviewUsers(BaseTest):
         page.input_new_game_name("")
         page.click_create_game_button()
 
-        self.assertEqual(page.get_input_game_name_placeholder(), "Give your new game a name...")
+        self.assertEqual(
+            page.get_input_game_name_placeholder(), "Give your new game a name..."
+        )
 
     def test_preview_user_cannot_create_duplicate_game(self):
         email, password = signup_teacher_directly_as_preview_user()
@@ -187,7 +191,10 @@ class SeleniumTestPreviewUsers(BaseTest):
         page.input_new_game_name("Test Game")
         page.click_create_game_button()
 
-        self.assertEqual(page.get_input_game_name_placeholder(), "Sorry, a game with this name already exists...")
+        self.assertEqual(
+            page.get_input_game_name_placeholder(),
+            "Sorry, a game with this name already exists...",
+        )
 
     def test_preview_user_can_join_game(self):
         email, password = signup_teacher_directly_as_preview_user()

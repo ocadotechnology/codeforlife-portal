@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -45,19 +45,25 @@ class TeachMoveClassPage(TeachBasePage):
     def __init__(self, browser):
         super(TeachMoveClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('teach_move_class_page')
+        assert self.on_correct_page("teach_move_class_page")
 
     def get_list_length(self):
-        return len(self.browser.find_element_by_id('id_new_teacher').find_elements_by_tag_name('option'))
+        return len(
+            self.browser.find_element_by_id("id_new_teacher").find_elements_by_tag_name(
+                "option"
+            )
+        )
 
     def select_teacher_by_index(self, teacher_index):
-        Select(self.browser.find_element_by_id('id_new_teacher')).select_by_index(teacher_index)
+        Select(self.browser.find_element_by_id("id_new_teacher")).select_by_index(
+            teacher_index
+        )
         return self
 
     def cancel(self):
-        self.browser.find_element_by_id('cancel_button').click()
+        self.browser.find_element_by_id("cancel_button").click()
         return class_page.TeachClassPage(self.browser)
 
     def move(self):
-        self.browser.find_element_by_id('move_button').click()
+        self.browser.find_element_by_id("move_button").click()
         return dashboard_page.TeachDashboardPage(self.browser)

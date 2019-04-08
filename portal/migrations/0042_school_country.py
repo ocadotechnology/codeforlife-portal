@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -41,15 +41,13 @@ from django.db import models, migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('portal', '0001_squashed_0041_new_news'),
-    ]
+    dependencies = [("portal", "0001_squashed_0041_new_news")]
 
     operations = [
         migrations.AddField(
-            model_name='school',
-            name='country',
+            model_name="school",
+            name="country",
             field=models.CharField(max_length=200, null=True, blank=True),
             preserve_default=True,
-        ),
+        )
     ]

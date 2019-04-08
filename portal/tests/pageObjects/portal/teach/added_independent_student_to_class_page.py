@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -42,9 +42,9 @@ class AddedIndependentStudentToClassPage(TeachBasePage):
     def __init__(self, browser):
         super(AddedIndependentStudentToClassPage, self).__init__(browser)
 
-        assert self.on_correct_page('added_independent_student_to_class')
+        assert self.on_correct_page("added_independent_student_to_class")
 
     def return_to_class(self):
-        self.browser.find_element_by_id('return_button').click()
+        self.browser.find_element_by_id("return_button").click()
 
         return TeachClassPage(self.browser)

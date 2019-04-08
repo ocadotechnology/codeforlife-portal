@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -38,9 +38,11 @@ import re
 
 
 def password_strength_test(password, length=8, upper=True, lower=True, numbers=True):
-    most_used_passwords_2018 = ['Abcd1234', 'Password1', 'Qwerty123']
-    return (len(password) >= length and
-            (not upper or re.search(r'[A-Z]', password)) and
-            (not lower or re.search(r'[a-z]', password)) and
-            (not numbers or re.search(r'[0-9]', password)) and
-            (password not in most_used_passwords_2018))
+    most_used_passwords_2018 = ["Abcd1234", "Password1", "Qwerty123"]
+    return (
+        len(password) >= length
+        and (not upper or re.search(r"[A-Z]", password))
+        and (not lower or re.search(r"[a-z]", password))
+        and (not numbers or re.search(r"[0-9]", password))
+        and (password not in most_used_passwords_2018)
+    )

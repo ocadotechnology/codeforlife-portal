@@ -6,37 +6,22 @@ from django.conf import settings
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('portal', '0049_refactor_emailverifications'),
-    ]
+    dependencies = [("portal", "0049_refactor_emailverifications")]
 
     operations = [
-
-        migrations.RemoveField(
-            model_name='emailverification',
-            name='user'
-        ),
-
-        migrations.RemoveField(
-            model_name='emailverification',
-            name='used'
-        ),
-
+        migrations.RemoveField(model_name="emailverification", name="user"),
+        migrations.RemoveField(model_name="emailverification", name="used"),
         migrations.AddField(
-            model_name='emailverification',
-            name='user',
+            model_name="emailverification",
+            name="user",
             field=models.ForeignKey(
                 to=settings.AUTH_USER_MODEL,
-                related_name='email_verifications',
+                related_name="email_verifications",
                 null=True,
                 blank=True,
-            )
+            ),
         ),
-
         migrations.RunSQL(
-            (
-                'UPDATE portal_emailverification'
-                '  SET user_id = new_user_id;'
-            )
+            ("UPDATE portal_emailverification" "  SET user_id = new_user_id;")
         ),
     ]

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -40,18 +40,17 @@ from django.test import TestCase, Client
 
 
 class TestInviteTeacher(TestCase):
-
     def test_invite_teacher_successful(self):
-        url = reverse('invite_teacher')
+        url = reverse("invite_teacher")
         client = Client()
-        data = {'email': 'valid_email@example.com'}
+        data = {"email": "valid_email@example.com"}
         response = client.post(url, data)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'portal/email_invitation_sent.html')
+        self.assertTemplateUsed(response, "portal/email_invitation_sent.html")
 
     def test_invite_teacher_fail(self):
-        url = reverse('invite_teacher')
+        url = reverse("invite_teacher")
         client = Client()
-        data = {'email': 'invalid_email'}
+        data = {"email": "invalid_email"}
         response = client.post(url, data)
-        self.assertTemplateNotUsed(response, 'portal/email_invitation_sent.html')
+        self.assertTemplateNotUsed(response, "portal/email_invitation_sent.html")

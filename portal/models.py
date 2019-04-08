@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -74,13 +74,13 @@ class School(models.Model):
     town = models.CharField(max_length=200)
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
-    country = CountryField(blank_label='(select country)')
+    country = CountryField(blank_label="(select country)")
     eligible_for_testing = models.BooleanField(default=False)
 
     class Meta:
         permissions = (
-            ('view_aggregated_data', "Can see available aggregated data"),
-            ('view_map_data', "Can see schools' location displayed on map")
+            ("view_aggregated_data", "Can see available aggregated data"),
+            ("view_map_data", "Can see schools' location displayed on map"),
         )
 
     def __unicode__(self):
@@ -106,7 +106,8 @@ class TeacherModelManager(models.Manager):
             email=email,
             password=password,
             first_name=first_name,
-            last_name=last_name)
+            last_name=last_name,
+        )
 
         user_profile = UserProfile.objects.create(user=user)
 
@@ -116,15 +117,19 @@ class TeacherModelManager(models.Manager):
 class Teacher(models.Model):
     title = models.CharField(max_length=35)
     user = models.OneToOneField(UserProfile)
-    new_user = models.OneToOneField(User, related_name='new_teacher', null=True, blank=True)
-    school = models.ForeignKey(School, related_name='teacher_school', null=True)
+    new_user = models.OneToOneField(
+        User, related_name="new_teacher", null=True, blank=True
+    )
+    school = models.ForeignKey(School, related_name="teacher_school", null=True)
     is_admin = models.BooleanField(default=False)
-    pending_join_request = models.ForeignKey(School, related_name='join_request', null=True, blank=True)
+    pending_join_request = models.ForeignKey(
+        School, related_name="join_request", null=True, blank=True
+    )
 
     objects = TeacherModelManager()
 
     def teaches(self, userprofile):
-        if hasattr(userprofile, 'student'):
+        if hasattr(userprofile, "student"):
             student = userprofile.student
             return not student.is_independent() and student.class_field.teacher == self
 
@@ -132,13 +137,13 @@ class Teacher(models.Model):
         return self.school is not (None or "")
 
     def __unicode__(self):
-        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
+        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
 
 
 class ClassModelManager(models.Manager):
     def all_members(self, user):
         members = []
-        if hasattr(user, 'teacher'):
+        if hasattr(user, "teacher"):
             members.append(user.teacher)
             if user.teacher.has_school():
                 classes = user.teacher.class_teacher.all()
@@ -153,7 +158,7 @@ class ClassModelManager(models.Manager):
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
-    teacher = models.ForeignKey(Teacher, related_name='class_teacher')
+    teacher = models.ForeignKey(Teacher, related_name="class_teacher")
     access_code = models.CharField(max_length=5)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
@@ -173,19 +178,35 @@ class Class(models.Model):
 
         """This gets all the students who are logged in."""
         users_status = cache.get(online_status_settings.CACHE_USERS)
-        online_users_status = filter(lambda status: status.status == ONLINE, users_status)
+        online_users_status = filter(
+            lambda status: status.status == ONLINE, users_status
+        )
         online_user_ids = map(lambda status: status.user.id, online_users_status)
 
         # Query all logged in users based on id list
-        return Student.objects.filter(class_field=self).filter(new_user__id__in=online_user_ids)
+        return Student.objects.filter(class_field=self).filter(
+            new_user__id__in=online_user_ids
+        )
 
     def get_requests_message(self):
         if self.always_accept_requests:
-            external_requests_message = 'This class is currently set to always accept requests.'
-        elif self.accept_requests_until is not None and (self.accept_requests_until - timezone.now()) >= timedelta():
-            external_requests_message = 'This class is accepting external requests until ' + self.accept_requests_until.strftime("%d-%m-%Y %H:%M") + ' ' + timezone.get_current_timezone_name()
+            external_requests_message = (
+                "This class is currently set to always accept requests."
+            )
+        elif (
+            self.accept_requests_until is not None
+            and (self.accept_requests_until - timezone.now()) >= timedelta()
+        ):
+            external_requests_message = (
+                "This class is accepting external requests until "
+                + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
+                + " "
+                + timezone.get_current_timezone_name()
+            )
         else:
-            external_requests_message = 'This class is not currently accepting external requests.'
+            external_requests_message = (
+                "This class is not currently accepting external requests."
+            )
 
         return external_requests_message
 
@@ -196,10 +217,10 @@ class Class(models.Model):
 class StudentModelManager(models.Manager):
     def schoolFactory(self, klass, name, password):
         from portal.helpers.generators import get_random_username
+
         user = User.objects.create_user(
-            username=get_random_username(),
-            password=password,
-            first_name=name)
+            username=get_random_username(), password=password, first_name=name
+        )
         user_profile = UserProfile.objects.create(user=user)
         school = klass.teacher.school
         if school:
@@ -207,14 +228,14 @@ class StudentModelManager(models.Manager):
                 user_profile.set_to_preview_user()
                 user_profile.save()
 
-        return Student.objects.create(class_field=klass, user=user_profile, new_user=user)
+        return Student.objects.create(
+            class_field=klass, user=user_profile, new_user=user
+        )
 
     def independentStudentFactory(self, username, name, email, password):
         user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            first_name=name)
+            username=username, email=email, password=password, first_name=name
+        )
 
         user_profile = UserProfile.objects.create(user=user)
 
@@ -225,14 +246,20 @@ class StudentModelManager(models.Manager):
         Returns all independent students in the database.
         :return: A list of all independent students.
         """
-        return [student for student in Student.objects.all() if student.is_independent()]
+        return [
+            student for student in Student.objects.all() if student.is_independent()
+        ]
 
 
 class Student(models.Model):
-    class_field = models.ForeignKey(Class, related_name='students', null=True)
+    class_field = models.ForeignKey(Class, related_name="students", null=True)
     user = models.OneToOneField(UserProfile)
-    new_user = models.OneToOneField(User, related_name='new_student', null=True, blank=True)
-    pending_class_request = models.ForeignKey(Class, related_name='class_request', null=True)
+    new_user = models.OneToOneField(
+        User, related_name="new_student", null=True, blank=True
+    )
+    pending_class_request = models.ForeignKey(
+        Class, related_name="class_request", null=True
+    )
 
     objects = StudentModelManager()
 
@@ -240,25 +267,29 @@ class Student(models.Model):
         return not self.class_field
 
     def __unicode__(self):
-        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
+        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
 
 
 def stripStudentName(name):
-    return re.sub('[ \t]+', ' ', name.strip())
+    return re.sub("[ \t]+", " ", name.strip())
 
 
 class Guardian(models.Model):
     name = models.CharField(max_length=200)
     children = models.ManyToManyField(Student)
     user = models.OneToOneField(UserProfile)
-    new_user = models.OneToOneField(User, related_name='new_guardian', null=True, blank=True)
+    new_user = models.OneToOneField(
+        User, related_name="new_guardian", null=True, blank=True
+    )
 
     def __unicode__(self):
-        return '%s %s' % (self.new_user.first_name, self.new_user.last_name)
+        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
 
 
 class EmailVerification(models.Model):
-    user = models.ForeignKey(User, related_name='email_verifications', null=True, blank=True)
+    user = models.ForeignKey(
+        User, related_name="email_verifications", null=True, blank=True
+    )
     token = models.CharField(max_length=30)
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()

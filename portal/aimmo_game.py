@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -41,8 +41,11 @@ from portal.models import Class, Student
 def get_users_for_new_game(request):
     user = request.user
     players = []
-    if hasattr(user, 'userprofile'):
-        if hasattr(user.userprofile, 'student') and user.userprofile.student.is_independent():
+    if hasattr(user, "userprofile"):
+        if (
+            hasattr(user.userprofile, "student")
+            and user.userprofile.student.is_independent()
+        ):
             players.extend(Student.objects.independent_students())
             return get_user_objects(players)
         else:

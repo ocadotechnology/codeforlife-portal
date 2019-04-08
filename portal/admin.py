@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,47 +39,70 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
 
-from portal.models import Class, Student, Guardian, Teacher, School, UserProfile, FrontPageNews, EmailVerification
+from portal.models import (
+    Class,
+    Student,
+    Guardian,
+    Teacher,
+    School,
+    UserProfile,
+    FrontPageNews,
+    EmailVerification,
+)
 
 
 class ClassAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'teacher__new_user__first_name', 'teacher__new_user__last_name']
-    list_filter = ['teacher']
-    readonly_fields = ['teacher']
+    search_fields = [
+        "name",
+        "teacher__new_user__first_name",
+        "teacher__new_user__last_name",
+    ]
+    list_filter = ["teacher"]
+    readonly_fields = ["teacher"]
 
 
 class SchoolAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'country', 'postcode', 'town']
-    list_filter = ['postcode', 'country']
+    search_fields = ["name", "country", "postcode", "town"]
+    list_filter = ["postcode", "country"]
 
 
 class StudentAdmin(admin.ModelAdmin):
-    search_fields = ['new_user__first_name', 'new_user__last_name']
-    list_filter = ['class_field', 'class_field__teacher']
-    readonly_fields = ['user', 'new_user']
-    raw_id_fields = ['class_field', 'pending_class_request']
+    search_fields = ["new_user__first_name", "new_user__last_name"]
+    list_filter = ["class_field", "class_field__teacher"]
+    readonly_fields = ["user", "new_user"]
+    raw_id_fields = ["class_field", "pending_class_request"]
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    search_fields = ['new_user__first_name', 'new_user__last_name']
-    list_filter = ['school']
-    readonly_fields = ['user', 'new_user']
-    raw_id_fields = ['school', 'pending_join_request']
+    search_fields = ["new_user__first_name", "new_user__last_name"]
+    list_filter = ["school"]
+    readonly_fields = ["user", "new_user"]
+    raw_id_fields = ["school", "pending_join_request"]
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'user__date_joined']
-    list_filter = ['user__date_joined']
-    list_display = ['user', 'joined_recently']
-    readonly_fields = ['user']
+    search_fields = [
+        "user__first_name",
+        "user__last_name",
+        "user__username",
+        "user__date_joined",
+    ]
+    list_filter = ["user__date_joined"]
+    list_display = ["user", "joined_recently"]
+    readonly_fields = ["user"]
 
 
 class EmailVerificationAdmin(admin.ModelAdmin):
-    search_fields = ['user__first_name', 'user__last_name', 'user__username', 'user__date_joined']
+    search_fields = [
+        "user__first_name",
+        "user__last_name",
+        "user__username",
+        "user__date_joined",
+    ]
 
 
-UserAdmin.list_display += ('date_joined',)
-UserAdmin.list_filter += ('date_joined',)
+UserAdmin.list_display += ("date_joined",)
+UserAdmin.list_filter += ("date_joined",)
 
 
 admin.site.register(Class, ClassAdmin)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2017, Ocado Limited
+# Copyright (C) 2019, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -45,29 +45,37 @@ from hamcrest.core.base_matcher import BaseMatcher
 
 class APITests(APITestCase):
     def test_valid_date_registered(self):
-        url = reverse('registered-users', kwargs={'year': '2016', 'month': '04', 'day': '01'})
+        url = reverse(
+            "registered-users", kwargs={"year": "2016", "month": "04", "day": "01"}
+        )
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
 
     def test_invalid_date_registered(self):
-        url = reverse('registered-users', kwargs={'year': '2016', 'month': '05', 'day': '35'})
+        url = reverse(
+            "registered-users", kwargs={"year": "2016", "month": "05", "day": "35"}
+        )
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
     def test_valid_date_lastconnectedsince(self):
-        url = reverse('last-connected-since', kwargs={'year': '2016', 'month': '04', 'day': '01'})
+        url = reverse(
+            "last-connected-since", kwargs={"year": "2016", "month": "04", "day": "01"}
+        )
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
 
     def test_invalid_date_lastconnectedsince(self):
-        url = reverse('last-connected-since', kwargs={'year': '2016', 'month': '05', 'day': '35'})
+        url = reverse(
+            "last-connected-since", kwargs={"year": "2016", "month": "05", "day": "35"}
+        )
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
     def test_valid_country_userspercountry(self):
-        url = reverse('number_users_per_country', kwargs={'country': 'GB'})
+        url = reverse("number_users_per_country", kwargs={"country": "GB"})
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
@@ -85,7 +93,9 @@ class HasStatusCode(BaseMatcher):
         return response.status_code == self.status_code
 
     def describe_to(self, description):
-        description.append_text('has status code ').append_text(self.status_code)
+        description.append_text("has status code ").append_text(self.status_code)
 
     def describe_mismatch(self, response, mismatch_description):
-        mismatch_description.append_text('had status code ').append_text(response.status_code)
+        mismatch_description.append_text("had status code ").append_text(
+            response.status_code
+        )

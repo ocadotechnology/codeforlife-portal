@@ -57,12 +57,14 @@ def fetch_episode_data_from_database(early_access):
 
         levels, minName, maxName = min_max_levels(episode.levels)
 
-        e = {"id": episode.id,
-             "name": episode.name,
-             "levels": levels,
-             "first_level": minName,
-             "last_level": maxName,
-             "random_levels_enabled": episode.r_random_levels_enabled}
+        e = {
+            "id": episode.id,
+            "name": episode.name,
+            "levels": levels,
+            "first_level": minName,
+            "last_level": maxName,
+            "random_levels_enabled": episode.r_random_levels_enabled,
+        }
 
         episode_data.append(e)
         episode = episode.next_episode
@@ -81,10 +83,9 @@ def min_max_levels(episode_levels):
         if level_name < minName:
             minName = level_name
 
-        levels.append({
-            "id": level.id,
-            "name": level_name,
-            "title": get_level_title(level_name)})
+        levels.append(
+            {"id": level.id, "name": level_name, "title": get_level_title(level_name)}
+        )
 
     return levels, minName, maxName
 
@@ -101,7 +102,7 @@ def fetch_episode_data(early_access):
 
 
 def get_level_title(i):
-    title = 'title_level' + str(i)
+    title = "title_level" + str(i)
     try:
         titleCall = getattr(messages, title)
         return mark_safe(titleCall())
@@ -109,8 +110,8 @@ def get_level_title(i):
         return ""
 
 
-@login_required(login_url=reverse_lazy('teach'))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy('teach'))
+@login_required(login_url=reverse_lazy("teach"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teach"))
 def levels(request):
     """ Loads a page with all levels listed.
 
@@ -126,7 +127,7 @@ def levels(request):
 
     episode_data = fetch_episode_data(app_settings.EARLY_ACCESS_FUNCTION(request))
 
-    context = RequestContext(request, {
-        'episodeData': episode_data,
-    })
-    return render(request, 'portal/teach/teacher_level_solutions.html', context_instance=context)
+    context = RequestContext(request, {"episodeData": episode_data})
+    return render(
+        request, "portal/teach/teacher_level_solutions.html", context_instance=context
+    )

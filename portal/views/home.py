@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -45,10 +45,20 @@ from django.views.decorators.csrf import csrf_exempt
 
 from portal.models import Teacher, Student, Class, StudentModelManager
 from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
-from portal.forms.play import StudentLoginForm, IndependentStudentLoginForm, IndependentStudentSignupForm
+from portal.forms.play import (
+    StudentLoginForm,
+    IndependentStudentLoginForm,
+    IndependentStudentSignupForm,
+)
 from portal.forms.newsletter_form import NewsletterForm
-from portal.helpers.emails import send_verification_email, is_verified, send_email, CONTACT_EMAIL, NOTIFICATION_EMAIL, \
-    add_to_salesforce
+from portal.helpers.emails import (
+    send_verification_email,
+    is_verified,
+    send_email,
+    CONTACT_EMAIL,
+    NOTIFICATION_EMAIL,
+    add_to_salesforce,
+)
 from portal import app_settings, email_messages
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
@@ -58,21 +68,21 @@ from deploy import captcha
 
 
 def teach_email_labeller(request):
-    if request.method == 'POST' and 'login_view' in request.POST:
-        return request.POST['login-teacher_email']
+    if request.method == "POST" and "login_view" in request.POST:
+        return request.POST["login-teacher_email"]
 
-    return ''
+    return ""
 
 
 def play_name_labeller(request):
-    if request.method == 'POST':
-        if 'school_login' in request.POST:
-            return request.POST['login-name'] + ':' + request.POST['login-access_code']
+    if request.method == "POST":
+        if "school_login" in request.POST:
+            return request.POST["login-name"] + ":" + request.POST["login-access_code"]
 
-        if 'independent_student_login' in request.POST:
-            return request.POST['independent_student-username']
+        if "independent_student_login" in request.POST:
+            return request.POST["independent_student-username"]
 
-    return ''
+    return ""
 
 
 def login_view(request):
@@ -81,50 +91,74 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse_lazy('home'))
+    return HttpResponseRedirect(reverse_lazy("home"))
 
 
 def register_view(request):
     return render_signup_form(request)
 
 
-@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit(
+    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
+)
+@ratelimit(
+    "email",
+    labeller=teach_email_labeller,
+    ip=False,
+    periods=["1m"],
+    increment=lambda req, res: hasattr(res, "count") and res.count,
+)
+@ratelimit(
+    "name",
+    labeller=play_name_labeller,
+    ip=False,
+    periods=["1m"],
+    increment=lambda req, res: hasattr(res, "count") and res.count,
+)
 def render_login_form(request):
     invalid_form = False
 
-    teacher_limits = getattr(request, 'limits', {'ip': [0], 'email': [0]})
+    teacher_limits = getattr(request, "limits", {"ip": [0], "email": [0]})
     teacher_captcha_limit = 5
 
-    login_form = TeacherLoginForm(prefix='login')
+    login_form = TeacherLoginForm(prefix="login")
 
-    student_limits = getattr(request, 'limits', {'ip': [0], 'name': [0]})
+    student_limits = getattr(request, "limits", {"ip": [0], "name": [0]})
     student_captcha_limit = 30
     student_name_captcha_limit = 5
 
-    school_login_form = StudentLoginForm(prefix='login')
+    school_login_form = StudentLoginForm(prefix="login")
 
-    independent_student_login_form = IndependentStudentLoginForm(prefix='independent_student')
+    independent_student_login_form = IndependentStudentLoginForm(
+        prefix="independent_student"
+    )
     independent_student_view = False
 
     render_dict = {
-        'login_form': login_form,
-        'school_login_form': school_login_form,
-        'independent_student_login_form': independent_student_login_form,
-        'independent_student_view': independent_student_view,
-        'logged_in_as_teacher': is_logged_in_as_teacher(request),
-        'settings': app_settings,
-        'teacher_captcha': compute_teacher_should_use_captcha(teacher_limits, teacher_captcha_limit),
-        'student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
-        'independent_student_captcha': compute_student_should_use_captcha(student_limits, student_captcha_limit, student_name_captcha_limit),
+        "login_form": login_form,
+        "school_login_form": school_login_form,
+        "independent_student_login_form": independent_student_login_form,
+        "independent_student_view": independent_student_view,
+        "logged_in_as_teacher": is_logged_in_as_teacher(request),
+        "settings": app_settings,
+        "teacher_captcha": compute_teacher_should_use_captcha(
+            teacher_limits, teacher_captcha_limit
+        ),
+        "student_captcha": compute_student_should_use_captcha(
+            student_limits, student_captcha_limit, student_name_captcha_limit
+        ),
+        "independent_student_captcha": compute_student_should_use_captcha(
+            student_limits, student_captcha_limit, student_name_captcha_limit
+        ),
     }
 
-    configure_login_form_captcha(login_form, render_dict, 'teacher_captcha')
-    configure_login_form_captcha(school_login_form, render_dict, 'student_captcha')
-    configure_login_form_captcha(independent_student_login_form, render_dict, 'independent_student_captcha')
+    configure_login_form_captcha(login_form, render_dict, "teacher_captcha")
+    configure_login_form_captcha(school_login_form, render_dict, "student_captcha")
+    configure_login_form_captcha(
+        independent_student_login_form, render_dict, "independent_student_captcha"
+    )
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form, process_form, render_dict = configure_post_login(request, render_dict)
 
         if form.is_valid():
@@ -132,31 +166,31 @@ def render_login_form(request):
         else:
             invalid_form = True
 
-    res = render(request, 'portal/login.html', render_dict)
+    res = render(request, "portal/login.html", render_dict)
 
     res.count = invalid_form
     return res
 
 
 def configure_post_login(request, render_dict):
-    if 'school_login' in request.POST:
+    if "school_login" in request.POST:
         form = StudentLoginForm(request.POST, prefix="login")
         process_form = process_student_login_form
-        render_dict['school_login_form'] = form
-        configure_login_form_captcha(form, render_dict, 'student_captcha')
+        render_dict["school_login_form"] = form
+        configure_login_form_captcha(form, render_dict, "student_captcha")
 
-    elif 'independent_student_login' in request.POST:
-        form = IndependentStudentLoginForm(request.POST, prefix='independent_student')
+    elif "independent_student_login" in request.POST:
+        form = IndependentStudentLoginForm(request.POST, prefix="independent_student")
         process_form = process_indep_student_login_form
-        render_dict['independent_student_login_form'] = form
-        render_dict['independent_student_view'] = True
-        configure_login_form_captcha(form, render_dict, 'independent_student_captcha')
+        render_dict["independent_student_login_form"] = form
+        render_dict["independent_student_view"] = True
+        configure_login_form_captcha(form, render_dict, "independent_student_captcha")
 
     else:
-        form = TeacherLoginForm(request.POST, prefix='login')
+        form = TeacherLoginForm(request.POST, prefix="login")
         process_form = process_login_form
-        render_dict['login_form'] = form
-        configure_login_form_captcha(form, render_dict, 'teacher_captcha')
+        render_dict["login_form"] = form
+        configure_login_form_captcha(form, render_dict, "teacher_captcha")
 
     return form, process_form, render_dict
 
@@ -166,21 +200,39 @@ def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
         remove_captcha_from_forms(form)
 
 
-@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('email', labeller=teach_email_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
-@ratelimit('name', labeller=play_name_labeller, ip=False, periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit(
+    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
+)
+@ratelimit(
+    "email",
+    labeller=teach_email_labeller,
+    ip=False,
+    periods=["1m"],
+    increment=lambda req, res: hasattr(res, "count") and res.count,
+)
+@ratelimit(
+    "name",
+    labeller=play_name_labeller,
+    ip=False,
+    periods=["1m"],
+    increment=lambda req, res: hasattr(res, "count") and res.count,
+)
 def render_signup_form(request):
     invalid_form = False
-    limits = getattr(request, 'limits', {'ip': [0]})
+    limits = getattr(request, "limits", {"ip": [0]})
     captcha_limit = 5
-    should_use_captcha = (limits['ip'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
+    should_use_captcha = (limits["ip"][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
-    teacher_signup_form = TeacherSignupForm(prefix='teacher_signup')
-    independent_student_signup_form = IndependentStudentSignupForm(prefix='independent_student_signup')
+    teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
+    independent_student_signup_form = IndependentStudentSignupForm(
+        prefix="independent_student_signup"
+    )
 
-    if request.method == 'POST':
-        if 'teacher_signup' in request.POST:
-            teacher_signup_form = TeacherSignupForm(request.POST, prefix='teacher_signup')
+    if request.method == "POST":
+        if "teacher_signup" in request.POST:
+            teacher_signup_form = TeacherSignupForm(
+                request.POST, prefix="teacher_signup"
+            )
 
             if not should_use_captcha:
                 remove_captcha_from_forms(teacher_signup_form)
@@ -190,7 +242,9 @@ def render_signup_form(request):
                 return process_signup_form(request, data)
 
         else:
-            independent_student_signup_form = IndependentStudentSignupForm(request.POST, prefix='independent_student_signup')
+            independent_student_signup_form = IndependentStudentSignupForm(
+                request.POST, prefix="independent_student_signup"
+            )
 
             if not should_use_captcha:
                 remove_captcha_from_forms(independent_student_signup_form)
@@ -199,24 +253,31 @@ def render_signup_form(request):
                 data = independent_student_signup_form.cleaned_data
                 return process_independent_student_signup_form(request, data)
 
-    res = render(request, 'portal/register.html', {
-        'teacher_signup_form': teacher_signup_form,
-        'independent_student_signup_form': independent_student_signup_form,
-        'captcha': should_use_captcha,
-
-    })
+    res = render(
+        request,
+        "portal/register.html",
+        {
+            "teacher_signup_form": teacher_signup_form,
+            "independent_student_signup_form": independent_student_signup_form,
+            "captcha": should_use_captcha,
+        },
+    )
 
     res.count = invalid_form
     return res
 
 
 def compute_teacher_should_use_captcha(limits, captcha_limit):
-    should_use_captcha = (limits['ip'][0] >= captcha_limit or limits['email'][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
+    should_use_captcha = (
+        limits["ip"][0] >= captcha_limit or limits["email"][0] >= captcha_limit
+    ) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
 
 
 def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    should_use_captcha = (limits['ip'][0] >= ip_captcha_limit or limits['name'][0] >= name_captcha_limit) and captcha.CAPTCHA_ENABLED
+    should_use_captcha = (
+        limits["ip"][0] >= ip_captcha_limit or limits["name"][0] >= name_captcha_limit
+    ) and captcha.CAPTCHA_ENABLED
     return should_use_captcha
 
 
@@ -224,18 +285,22 @@ def process_login_form(request, login_form):
     user = login_form.user
     if not is_verified(user):
         send_verification_email(request, user)
-        return render(request, 'portal/email_verification_needed.html', {'user': user})
+        return render(request, "portal/email_verification_needed.html", {"user": user})
 
     login(request, login_form.user)
 
     if using_two_factor(request.user):
-        return render(request, 'portal/2FA_redirect.html', {
-            'form': AuthenticationForm(),
-            'username': request.user.username,
-            'password': login_form.cleaned_data['teacher_password'],
-        })
+        return render(
+            request,
+            "portal/2FA_redirect.html",
+            {
+                "form": AuthenticationForm(),
+                "username": request.user.username,
+                "password": login_form.cleaned_data["teacher_password"],
+            },
+        )
 
-    next_url = request.GET.get('next', None)
+    next_url = request.GET.get("next", None)
     if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
@@ -247,7 +312,7 @@ def process_login_form(request, login_form):
 def process_student_login_form(request, school_login_form):
     login(request, school_login_form.user)
 
-    next_url = request.GET.get('next', None)
+    next_url = request.GET.get("next", None)
     if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
@@ -256,47 +321,59 @@ def process_student_login_form(request, school_login_form):
     student_school = student_class.teacher.school
 
     messages.info(
-        request, ("You are logged in as a member of class: <strong>" + student_class.name
-                  + "</strong>, in school or club: <strong>" + student_school.name + "</strong>."),
-        extra_tags='safe')
+        request,
+        (
+            "You are logged in as a member of class: <strong>"
+            + student_class.name
+            + "</strong>, in school or club: <strong>"
+            + student_school.name
+            + "</strong>."
+        ),
+        extra_tags="safe",
+    )
 
-    return HttpResponseRedirect(reverse_lazy('student_details'))
+    return HttpResponseRedirect(reverse_lazy("student_details"))
 
 
 def process_indep_student_login_form(request, independent_student_login_form):
     user = independent_student_login_form.user
     if not is_verified(user):
         send_verification_email(request, user)
-        return render(request, 'portal/email_verification_needed.html',
-                      {'user': user})
+        return render(request, "portal/email_verification_needed.html", {"user": user})
 
     login(request, independent_student_login_form.user)
 
-    next_url = request.GET.get('next', None)
+    next_url = request.GET.get("next", None)
     if next_url and is_safe_url(next_url):
         return HttpResponseRedirect(next_url)
 
-    return HttpResponseRedirect(reverse_lazy('student_details'))
+    return HttpResponseRedirect(reverse_lazy("student_details"))
 
 
 def _newsletter_ticked(form_data):
-    return form_data['newsletter_ticked']
+    return form_data["newsletter_ticked"]
 
 
 def process_signup_form(request, data):
-    email = data['teacher_email']
+    email = data["teacher_email"]
     teacher = None
 
     if email and Teacher.objects.filter(new_user__email=email).exists():
         email_message = email_messages.userAlreadyRegisteredEmail(request, email)
-        send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
+        send_email(
+            NOTIFICATION_EMAIL,
+            [email],
+            email_message["subject"],
+            email_message["message"],
+        )
     else:
         teacher = Teacher.objects.factory(
-            title=data['teacher_title'],
-            first_name=data['teacher_first_name'],
-            last_name=data['teacher_last_name'],
-            email=data['teacher_email'],
-            password=data['teacher_password'])
+            title=data["teacher_title"],
+            first_name=data["teacher_first_name"],
+            last_name=data["teacher_last_name"],
+            email=data["teacher_email"],
+            password=data["teacher_password"],
+        )
 
         if _newsletter_ticked(data):
             user = teacher.user.user
@@ -305,26 +382,35 @@ def process_signup_form(request, data):
         send_verification_email(request, teacher.user.user)
 
     if teacher:
-        return render(request, 'portal/email_verification_needed.html', {'user': teacher.user.user})
+        return render(
+            request,
+            "portal/email_verification_needed.html",
+            {"user": teacher.user.user},
+        )
     else:
-        return render(request, 'portal/email_verification_needed.html')
+        return render(request, "portal/email_verification_needed.html")
 
 
 def process_independent_student_signup_form(request, data):
-    email = data['email']
+    email = data["email"]
     student_manager = StudentModelManager()
 
     for independent_student in student_manager.independent_students():
         if independent_student.user.user.email == email:
             email_message = email_messages.userAlreadyRegisteredEmail(request, email)
-            send_email(NOTIFICATION_EMAIL, [email], email_message['subject'], email_message['message'])
-            return render(request, 'portal/email_verification_needed.html')
+            send_email(
+                NOTIFICATION_EMAIL,
+                [email],
+                email_message["subject"],
+                email_message["message"],
+            )
+            return render(request, "portal/email_verification_needed.html")
 
     student = Student.objects.independentStudentFactory(
-        username=data['username'],
-        name=data['name'],
-        email=data['email'],
-        password=data['password']
+        username=data["username"],
+        name=data["name"],
+        email=data["email"],
+        password=data["password"],
     )
 
     if _newsletter_ticked(data):
@@ -333,23 +419,31 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user)
 
-    return render(request, 'portal/email_verification_needed.html', {'user': student.new_user})
+    return render(
+        request, "portal/email_verification_needed.html", {"user": student.new_user}
+    )
 
 
 def is_logged_in_as_teacher(request):
-    logged_in_as_teacher = hasattr(request.user, 'userprofile') and \
-        hasattr(request.user.userprofile, 'teacher') and \
-        (request.user.is_verified() or not using_two_factor(request.user))
+    logged_in_as_teacher = (
+        hasattr(request.user, "userprofile")
+        and hasattr(request.user.userprofile, "teacher")
+        and (request.user.is_verified() or not using_two_factor(request.user))
+    )
     return logged_in_as_teacher
 
 
 def is_developer(request):
-    return hasattr(request.user, 'userprofile') and request.user.userprofile.developer
+    return hasattr(request.user, "userprofile") and request.user.userprofile.developer
 
 
 def is_logged_in_as_student(request):
-    is_student = hasattr(request.user, 'userprofile') and hasattr(request.user.userprofile, 'student')
-    return request.user.is_verified() or not using_two_factor(request.user) and is_student
+    is_student = hasattr(request.user, "userprofile") and hasattr(
+        request.user.userprofile, "student"
+    )
+    return (
+        request.user.is_verified() or not using_two_factor(request.user) and is_student
+    )
 
 
 def redirect_user_to_correct_page(request, teacher):
@@ -358,31 +452,43 @@ def redirect_user_to_correct_page(request, teacher):
         if classes:
             classes_count = classes.count()
             if classes_count > 1 or classes[0].has_students():
-                link = reverse('two_factor:profile')
+                link = reverse("two_factor:profile")
                 messages.info(
-                    request, ("You are not currently set up with two-factor authentication. " +
-                              "Use your phone or tablet to enhance your account's security.</br>" +
-                              "Click <a href='" + link + "'>here</a> to find out more and " +
-                              "set it up or go to your account page at any time."),
-                    extra_tags='safe')
-                return HttpResponseRedirect(reverse_lazy('dashboard'))
+                    request,
+                    (
+                        "You are not currently set up with two-factor authentication. "
+                        + "Use your phone or tablet to enhance your account's security.</br>"
+                        + "Click <a href='"
+                        + link
+                        + "'>here</a> to find out more and "
+                        + "set it up or go to your account page at any time."
+                    ),
+                    extra_tags="safe",
+                )
+                return HttpResponseRedirect(reverse_lazy("dashboard"))
             else:
-                return HttpResponseRedirect(reverse_lazy('onboarding-class',
-                                                         kwargs={'access_code': classes[0].access_code}))
+                return HttpResponseRedirect(
+                    reverse_lazy(
+                        "onboarding-class",
+                        kwargs={"access_code": classes[0].access_code},
+                    )
+                )
         else:
-            return HttpResponseRedirect(reverse_lazy('onboarding-classes'))
+            return HttpResponseRedirect(reverse_lazy("onboarding-classes"))
     else:
-        return HttpResponseRedirect(reverse_lazy('onboarding-organisation'))
+        return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
 
-@ratelimit('ip', periods=['1m'], increment=lambda req, res: hasattr(res, 'count') and res.count)
+@ratelimit(
+    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
+)
 def contact(request):
     increment_count = False
     should_use_captcha = captcha.CAPTCHA_ENABLED
 
-    anchor = ''
+    anchor = ""
 
-    if request.method == 'POST':
+    if request.method == "POST":
         contact_form = ContactForm(request.POST)
         if not should_use_captcha:
             remove_captcha_from_forms(contact_form)
@@ -390,19 +496,40 @@ def contact(request):
         if contact_form.is_valid():
             anchor = "top"
             email_message = email_messages.contactEmail(
-                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
-                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'],
-                contact_form.cleaned_data['browser'])
-            send_email(CONTACT_EMAIL, app_settings.CONTACT_FORM_EMAILS, email_message['subject'], email_message['message'])
+                request,
+                contact_form.cleaned_data["name"],
+                contact_form.cleaned_data["telephone"],
+                contact_form.cleaned_data["email"],
+                contact_form.cleaned_data["message"],
+                contact_form.cleaned_data["browser"],
+            )
+            send_email(
+                CONTACT_EMAIL,
+                app_settings.CONTACT_FORM_EMAILS,
+                email_message["subject"],
+                email_message["message"],
+            )
 
             confirmed_email_message = email_messages.confirmationContactEmailMessage(
-                request, contact_form.cleaned_data['name'], contact_form.cleaned_data['telephone'],
-                contact_form.cleaned_data['email'], contact_form.cleaned_data['message'])
-            send_email(CONTACT_EMAIL, [contact_form.cleaned_data['email']],
-                       confirmed_email_message['subject'], confirmed_email_message['message'])
+                request,
+                contact_form.cleaned_data["name"],
+                contact_form.cleaned_data["telephone"],
+                contact_form.cleaned_data["email"],
+                contact_form.cleaned_data["message"],
+            )
+            send_email(
+                CONTACT_EMAIL,
+                [contact_form.cleaned_data["email"]],
+                confirmed_email_message["subject"],
+                confirmed_email_message["message"],
+            )
 
-            messages.success(request, 'Your message was sent successfully.')
-            return render(request, 'portal/help-and-support.html', {'form': contact_form, 'anchor': anchor})
+            messages.success(request, "Your message was sent successfully.")
+            return render(
+                request,
+                "portal/help-and-support.html",
+                {"form": contact_form, "anchor": anchor},
+            )
         else:
             contact_form = ContactForm(request.POST)
             anchor = "contact"
@@ -413,11 +540,16 @@ def contact(request):
     if not should_use_captcha:
         remove_captcha_from_forms(contact_form)
 
-    response = render(request, 'portal/help-and-support.html',
-                      {'form': contact_form,
-                       'anchor': anchor,
-                       'captcha': should_use_captcha,
-                       'settings': app_settings})
+    response = render(
+        request,
+        "portal/help-and-support.html",
+        {
+            "form": contact_form,
+            "anchor": anchor,
+            "captcha": should_use_captcha,
+            "settings": app_settings,
+        },
+    )
 
     response.count = increment_count
     return response
@@ -425,28 +557,40 @@ def contact(request):
 
 @csrf_exempt
 def process_newsletter_form(request):
-    if request.method == 'POST':
-        next = request.POST.get('URL') if not None else '/'
+    if request.method == "POST":
+        next = request.POST.get("URL") if not None else "/"
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
-            user_email = newsletter_form.cleaned_data['email']
+            user_email = newsletter_form.cleaned_data["email"]
             add_to_salesforce("", "", user_email)
-            messages.success(request, 'Thank you for signing up!')
+            messages.success(request, "Thank you for signing up!")
             return HttpResponseRedirect(next)
-        messages.error(request, 'Invalid email address. Please try again.', extra_tags='sub-nav--warning')
+        messages.error(
+            request,
+            "Invalid email address. Please try again.",
+            extra_tags="sub-nav--warning",
+        )
         return HttpResponseRedirect(next)
 
     return HttpResponse(status=405)
 
 
 def home(request):
-    return render(request, 'portal/home.html')
+    return render(request, "portal/home.html")
 
 
 def is_eligible_for_testing(request):
-    return (is_logged_in_as_teacher(request) and request.user.new_teacher.school.eligible_for_testing) \
-           or is_developer(request) or (is_logged_in_as_student(request) and
-                                        request.user.userprofile.student.class_field.teacher.school.eligible_for_testing)
+    return (
+        (
+            is_logged_in_as_teacher(request)
+            and request.user.new_teacher.school.eligible_for_testing
+        )
+        or is_developer(request)
+        or (
+            is_logged_in_as_student(request)
+            and request.user.userprofile.student.class_field.teacher.school.eligible_for_testing
+        )
+    )
 
 
 def make_students_preview_users(request):
@@ -457,7 +601,7 @@ def make_students_preview_users(request):
 
 
 def make_preview_tester(request):
-    if request.method == 'GET':
+    if request.method == "GET":
         if is_eligible_for_testing(request):
             if is_logged_in_as_teacher(request):
                 make_students_preview_users(request)
@@ -466,6 +610,6 @@ def make_preview_tester(request):
                 user.set_to_preview_user()
                 user.save()
 
-            return HttpResponseRedirect(reverse_lazy('aimmo'))
+            return HttpResponseRedirect(reverse_lazy("aimmo"))
         return HttpResponse(status=401)
     return HttpResponse(status=405)

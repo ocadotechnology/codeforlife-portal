@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,9 +37,9 @@
 
 import re
 
-name_regex = re.compile('^[\w ]+$')
-message_regex = re.compile('^[ -~]+$')
-telephone_regex = re.compile('^[0-9()\-+ ]+$')
+name_regex = re.compile("^[\w ]+$")
+message_regex = re.compile("^[ -~]+$")
+telephone_regex = re.compile("^[0-9()\-+ ]+$")
 
 
 def get_regex_name():
