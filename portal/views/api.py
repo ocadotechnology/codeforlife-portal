@@ -110,8 +110,8 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
 class InactiveUsersView(generics.ListAPIView):
     """
     This API view endpoint allows us to see our inactive users.
-    
-    An inactive user is one that hasn't logged in for three years. 
+
+    An inactive user is one that hasn't logged in for three years.
     If the user has never logged in, we look at the date they registered with us instead.
     """
 
