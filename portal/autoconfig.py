@@ -172,7 +172,7 @@ RELATIONSHIPS = [
     ),
     OrderingRelationship(
         'MIDDLEWARE',
-        'online_status.middleware.OnlineStatusMiddleware',
+        'portal.middleware.online_status.middleware.OnlineStatusMiddleware',
         after=[
             'django.contrib.auth.middleware.AuthenticationMiddleware',
         ],
