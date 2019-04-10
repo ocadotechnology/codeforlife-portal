@@ -92,27 +92,30 @@ def refresh_users_list(request, **kwargs):
 
         # 'updated' will be added into `online_users` later
         if not online_status.user == updated.user:
-            # delete expired
-            if seconds > config.TIME_OFFLINE:
-                cache.delete(config.CACHE_PREFIX_USER % online_status.user.pk)
-            elif seconds > config.TIME_IDLE:
-                # default value will be used if the second cache is expired
-                user_status = cache.get(
-                    config.CACHE_PREFIX_USER % online_status.user.pk, online_status
-                )
-                online_status.set_idle()
-                user_status.set_idle()
-                cache.set(
-                    config.CACHE_PREFIX_USER % online_status.user.pk,
-                    user_status,
-                    config.TIME_OFFLINE,
-                )
-
+            set_user_idle_or_offline(online_status, seconds)
             online_users.append(online_status)
 
     update_online_users(updated, online_users)
 
     cache.set(config.CACHE_USERS, online_users, config.TIME_OFFLINE)
+
+
+def set_user_idle_or_offline(online_status, seconds):
+    # delete expired
+    if seconds > config.TIME_OFFLINE:
+        cache.delete(config.CACHE_PREFIX_USER % online_status.user.pk)
+    elif seconds > config.TIME_IDLE:
+        # default value will be used if the second cache is expired
+        user_status = cache.get(
+            config.CACHE_PREFIX_USER % online_status.user.pk, online_status
+        )
+        online_status.set_idle()
+        user_status.set_idle()
+        cache.set(
+            config.CACHE_PREFIX_USER % online_status.user.pk,
+            user_status,
+            config.TIME_OFFLINE,
+            )
 
 
 def update_online_users(updated, online_users):
