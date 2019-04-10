@@ -6,12 +6,14 @@ class ExceptionLoggingMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
+        response = self.get_response(request)
+        return response
+
+    def process_exception(self, request, exception):
         logging.exception(
             "Exception occurred while handling %s request to %s",
             request.method,
             request.path,
         )
 
-        response = self.get_response(request)
-
-        return response
+        return None
