@@ -70,7 +70,7 @@ class TestOnlineStatus(TestCase):
         users = cache.get(config.CACHE_USERS)
         self.assertEqual(len(users), length)
 
-    def test_middleware(self):
+    def setup_conditions(self):
         cache.clear()
         self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user1.pk)
@@ -85,6 +85,10 @@ class TestOnlineStatus(TestCase):
         self.list_len(1)
 
         self.client.logout()
+
+    def test_user_online(self):
+        self.setup_conditions()
+
         self.login_as(self.user2)
 
         self.client.get(reverse("dashboard"))
@@ -101,8 +105,10 @@ class TestOnlineStatus(TestCase):
         self.assertEqual(useronline.status, 0)
         self.list_len(2)
 
+    def test_user_offline(self):
+        self.setup_conditions()
+
         sleep(config.TIME_OFFLINE + 1)
         self.client.get(reverse("dashboard"))
         useronline = cache.get(config.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline, None)
-        self.list_len(1)
