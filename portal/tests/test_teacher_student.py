@@ -70,21 +70,6 @@ class TestTeacherStudent(BaseTest):
 
         assert page.__class__.__name__ == "OnboardingStudentListPage"
 
-    def test_create_empty(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_login_page()
-            .login_no_students(email, password)
-            .create_students_empty()
-        )
-
-        assert page.was_form_empty("form-create-students")
-
     def test_create_valid_name_dash(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

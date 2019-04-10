@@ -61,19 +61,6 @@ class TestClass(BaseTest):
         page, class_name = create_class(page)
         assert is_class_created_message_showing(self.selenium, class_name)
 
-    def test_create_empty(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-
-        page = (
-            self.go_to_homepage()
-            .go_to_login_page()
-            .login_no_class(email, password)
-            .create_class_empty()
-        )
-
-        assert page.was_form_empty("form-create-class")
-
     def test_create_dashboard(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
