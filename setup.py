@@ -55,7 +55,7 @@ setup(
         "django-setuptest==0.2.1",
         "django-selenium-clean==0.3.0",
         "responses==0.4.0",
-        "selenium==2.48.0",
+        "selenium==2.53.6",
     ],
     test_suite="setuptest.setuptest.SetupTestSuite",
     zip_safe=False,
