@@ -39,7 +39,6 @@ import os
 
 from django_autoconfig.autoconfig import OrderingRelationship
 
-
 DEFAULT_SETTINGS = {
     "AUTOCONFIG_INDEX_VIEW": "home",
     "LANGUAGE_CODE": "en-gb",
@@ -109,7 +108,6 @@ SETTINGS = {
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
-        "portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware",
         "django_otp.middleware.OTPMiddleware",
     ],
     "TEMPLATES": [
@@ -141,12 +139,6 @@ SETTINGS = {
 }
 
 RELATIONSHIPS = [
-    OrderingRelationship(
-        "MIDDLEWARE",
-        "cms.middleware.toolbar.ToolbarMiddleware",
-        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-        add_missing=False,
-    ),
     OrderingRelationship(
         "MIDDLEWARE",
         "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
