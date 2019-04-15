@@ -37,10 +37,12 @@
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
 
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
+
+from utils.user import create_user_directly, get_superuser
 
 
 class APITests(APITestCase):
@@ -79,6 +81,44 @@ class APITests(APITestCase):
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
+
+    def test_get_inactive_users_if_admin(self):
+        client = APIClient()
+        superuser = get_superuser()
+        create_user_directly(active=False)
+        create_user_directly(active=True)
+        client.force_authenticate(user=superuser)
+        url = reverse("inactive_users")
+        response = client.get(url)
+        self.assertEqual(len(response.data), 1)
+
+    def test_get_inactive_users_if_appengine(self):
+        client = APIClient()
+        create_user_directly(active=False)
+        create_user_directly(active=True)
+        url = reverse("inactive_users")
+        client.credentials(HTTP_X_APPENGINE_CRON=True)
+        response = client.get(url)
+        self.assertEqual(len(response.data), 1)
+
+    def test_get_inactive_users_if_unauthorised(self):
+        client = APIClient()
+        create_user_directly(active=False)
+        create_user_directly(active=True)
+        url = reverse("inactive_users")
+        response = client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_inactive_users_if_appengine(self):
+        client = APIClient()
+        create_user_directly(active=False)
+        create_user_directly(active=False)
+        url = reverse("inactive_users")
+        client.credentials(HTTP_X_APPENGINE_CRON=True)
+        response = client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response = client.get(url)
+        self.assertEqual(len(response.data), 0)
 
 
 def has_status_code(status_code):
