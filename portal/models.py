@@ -46,7 +46,7 @@ from django_countries.fields import CountryField
 from django.core.cache import cache
 from django.utils import timezone
 
-from online_status.status import CACHE_USERS
+from portal.middleware.online_status.conf import online_status_settings
 
 
 class UserProfile(models.Model):
@@ -177,7 +177,7 @@ class Class(models.Model):
         ONLINE = 1
 
         """This gets all the students who are logged in."""
-        users_status = cache.get(CACHE_USERS)
+        users_status = cache.get(online_status_settings.CACHE_USERS)
         online_users_status = filter(
             lambda status: status.status == ONLINE, users_status
         )

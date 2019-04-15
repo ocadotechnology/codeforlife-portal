@@ -39,7 +39,6 @@ import os
 
 from django_autoconfig.autoconfig import OrderingRelationship
 
-
 DEFAULT_SETTINGS = {
     "AUTOCONFIG_INDEX_VIEW": "home",
     "LANGUAGE_CODE": "en-gb",
@@ -98,18 +97,17 @@ SETTINGS = {
     "STATICFILES_FINDERS": ["pipeline.finders.PipelineFinder"],
     "STATICFILES_STORAGE": "pipeline.storage.PipelineStorage",
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
-    "MIDDLEWARE_CLASSES": [
+    "MIDDLEWARE": [
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-        "online_status.middleware.OnlineStatusMiddleware",
+        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
-        "portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware",
         "django_otp.middleware.OTPMiddleware",
     ],
     "TEMPLATES": [
@@ -142,19 +140,13 @@ SETTINGS = {
 
 RELATIONSHIPS = [
     OrderingRelationship(
-        "MIDDLEWARE_CLASSES",
-        "cms.middleware.toolbar.ToolbarMiddleware",
+        "MIDDLEWARE",
+        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),
     OrderingRelationship(
-        "MIDDLEWARE_CLASSES",
-        "online_status.middleware.OnlineStatusMiddleware",
-        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-        add_missing=False,
-    ),
-    OrderingRelationship(
-        "MIDDLEWARE_CLASSES",
+        "MIDDLEWARE",
         "django_otp.middleware.OTPMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,

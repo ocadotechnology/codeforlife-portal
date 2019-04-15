@@ -22,10 +22,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "django==1.9.13",
+        "django>=1.10.8, < 1.11",
         "django-appconf==1.0.1",
         "django-countries==3.4.1",
-        "djangorestframework==3.6.4",
+        "djangorestframework>=3.8.2, < 3.9.0",
         "django-jquery==1.9.1",
         "django-autoconfig==0.8.0",
         "django-pipeline==1.5.4",
@@ -45,7 +45,6 @@ setup(
         "django-classy-tags==0.6.1",
         "django-treebeard==4.3",
         "django-sekizai==0.10.0",
-        "django-online-status==0.1.0",
         "Pillow==3.3.2",
         "django-reversion==2.0.0",
         "sqlparse",
@@ -61,4 +60,3 @@ setup(
     test_suite="setuptest.setuptest.SetupTestSuite",
     zip_safe=False,
 )
-

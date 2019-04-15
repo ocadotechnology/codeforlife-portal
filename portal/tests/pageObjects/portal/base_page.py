@@ -122,18 +122,6 @@ class BasePage(object):
     def is_on_403_forbidden(self):
         return self.on_correct_page("403_forbidden")
 
-    def was_form_empty(self, formID):
-        if not self.element_exists_by_css(".errorlist"):
-            return False
-
-        errors = (
-            self.browser.find_element_by_id(formID)
-            .find_element_by_class_name("errorlist")
-            .text
-        )
-        error = "This field is required"
-        return error in errors
-
     def was_form_invalid(self, formID, error):
         errors = (
             self.browser.find_element_by_id(formID)
