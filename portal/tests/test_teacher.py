@@ -155,11 +155,6 @@ class TestTeacher(BaseTest):
 
         assert self.is_materials_page(page)
 
-        keystages = ["ks1", "ks2", "ks3"]
-        for ks in keystages:
-            page = page.click_keystage_link(ks)
-            assert self.is_materials_page(page)
-
     def test_edit_details(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

@@ -222,22 +222,6 @@ class TestIndependentStudent(BaseTest):
             "Names may only contain letters, numbers, dashes, underscores, and spaces.",
         )
 
-    def test_update_details_empty(self):
-        homepage = self.go_to_homepage()
-
-        play_page, student_name, student_username, student_email, password = create_independent_student(
-            homepage
-        )
-
-        page = (
-            play_page.independent_student_login(student_username, password)
-            .go_to_account_page()
-            .submit_empty_form()
-        )
-
-        assert self.is_account_page(page)
-        assert page.was_form_invalid("student_account_form", "This field is required.")
-
     def test_change_email(self):
         homepage = self.go_to_homepage()
 

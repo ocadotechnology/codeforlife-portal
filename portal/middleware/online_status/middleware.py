@@ -34,53 +34,39 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_test import BaseTest
-from pageObjects.portal.home_page import HomePage
-from utils.messages import is_contact_message_sent_message_showing
+from __future__ import unicode_literals
+
+from django.core.cache import cache
+
+from conf import online_status_settings as config
+from status import refresh_user, refresh_users_list, OnlineStatus
 
 
-class TestContact(BaseTest):
-    def test_contact(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_help_and_support_page()
+class OnlineStatusMiddleware(object):
+    """Cache OnlineStatus instance for an authenticated User"""
 
-        page.send_message()
+    def __init__(self, get_response):
+        self.get_response = get_response
 
-        assert is_contact_message_sent_message_showing(self.selenium)
+    def __call__(self, request):
+        self.set_status(request)
 
-    def test_message_accented_name(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_help_and_support_page()
+        response = self.get_response(request)
 
-        page.send_message_accented_name()
+        return response
 
-        assert not is_contact_message_sent_message_showing(self.selenium)
+    def set_status(self, request):
+        if request.user.is_authenticated:
+            onlinestatus = cache.get(config.CACHE_PREFIX_USER % request.user.pk)
+        elif not config.ONLY_LOGGED_USERS:
+            onlinestatus = cache.get(
+                config.CACHE_PREFIX_ANONYM_USER % request.session.session_key
+            )
+        else:
+            return
 
-    def test_message_incorrect_phone(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_help_and_support_page()
+        if not onlinestatus:
+            onlinestatus = OnlineStatus(request)
 
-        page.send_message_incorrect_phone()
-
-        assert not is_contact_message_sent_message_showing(self.selenium)
-
-    def test_message_formatted_phone(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_help_and_support_page()
-
-        page.send_message_formatted_phone()
-
-        assert is_contact_message_sent_message_showing(self.selenium)
-
-    def test_accented_message(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_help_and_support_page()
-
-        page.send_accented_message()
-
-        assert is_contact_message_sent_message_showing(self.selenium)
+        refresh_user(request)
+        refresh_users_list(request, updated=onlinestatus)

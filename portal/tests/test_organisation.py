@@ -66,17 +66,6 @@ class TestOrganisation(BaseTest, BasePage):
         page, name, postcode = create_organisation(page, password)
         assert is_organisation_created_message_showing(self.selenium, name)
 
-    def test_create_empty(self):
-        email, password = signup_teacher_directly()
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium).go_to_login_page().login_no_school(email, password)
-        )
-
-        page = page.create_organisation_empty()
-        assert page.was_form_empty("form-create-organisation")
-
     def test_join_empty(self):
         email, password = signup_teacher_directly()
 
