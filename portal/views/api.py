@@ -33,16 +33,22 @@
 # Any propagation, distribution or conveyance of this program must include this
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
-# identified as the original program.
-from django.http import HttpResponse
+# identified as the original program
 
 import datetime
 
+from django.http import HttpResponse
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import serializers, permissions, generics, status
+from django.http import HttpResponse
+from django.utils import timezone
 
 from django.contrib.auth.models import User
 from portal.models import Teacher, Student
+
+THREE_YEARS_IN_DAYS = 1095
 
 
 @api_view(("GET",))
@@ -79,3 +85,47 @@ def number_users_per_country(request, country):
         return Response(nbr_reg)
     except ValueError:
         return HttpResponse(status=404)
+
+
+class InactiveUserSerializer(serializers.Serializer):
+    """The user information we show in the InactiveUsersViewSet."""
+
+    username = serializers.CharField()
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    email = serializers.CharField()
+    date_joined = serializers.DateTimeField()
+    last_login = serializers.DateTimeField()
+
+
+class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
+    """Checks whether the request is from a Google App Engine cron job."""
+
+    def has_permission(self, request, view):
+        return request.META.get("HTTP_X_APPENGINE_CRON") is not None or super(
+            IsAdminOrGoogleAppEngine, self
+        ).has_permission(request, view)
+
+
+class InactiveUsersView(generics.ListAPIView):
+    """
+    This API view endpoint allows us to see our inactive users.
+
+    An inactive user is one that hasn't logged in for three years.
+    If the user has never logged in, we look at the date they registered with us instead.
+    """
+
+    queryset = User.objects.filter(
+        last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
+    ) | User.objects.filter(
+        last_login__isnull=True,
+        date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+    )
+    serializer_class = InactiveUserSerializer
+    permission_classes = (IsAdminOrGoogleAppEngine,)
+
+    def delete(self, request):
+        """Delete all inactive users."""
+        inactive_users = self.get_queryset()
+        inactive_users.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
