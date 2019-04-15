@@ -37,6 +37,8 @@
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 
+from ratelimit.decorators import ratelimit
+
 
 def is_cms_toolbar_login_request(request):
     return request.method == "POST" and "cms-toolbar-login" in request.GET
@@ -46,6 +48,12 @@ class RateLimitLoginAttemptsMiddleware(object):
     def __init__(self, get_response=None):
         self.get_response = get_response
 
+    @ratelimit(
+        "cms_login_ip",
+        periods=["1m"],
+        path=False,
+        increment=lambda req, res: is_cms_toolbar_login_request(req),
+    )
     def __call__(self, request):
         limit = 5
 
