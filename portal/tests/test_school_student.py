@@ -111,24 +111,6 @@ class TestSchoolStudent(BaseTest):
             "form-login-school", "Invalid name, class access code or password"
         )
 
-    def test_update_password_form_empty(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-        student_name, student_password, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_login_page()
-            .student_login(student_name, access_code, student_password)
-        )
-        assert self.is_dashboard(page)
-
-        page = page.go_to_account_page().submit_empty_form()
-        assert self.is_account_page(page)
-        assert page.was_form_invalid("student_account_form", "This field is required.")
-
     def test_update_password_current_password_wrong(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

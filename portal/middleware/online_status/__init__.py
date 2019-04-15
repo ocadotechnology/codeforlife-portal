@@ -34,28 +34,3 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect
-from ratelimit.decorators import ratelimit
-
-
-def is_cms_toolbar_login_request(request):
-    return request.method == "POST" and "cms-toolbar-login" in request.GET
-
-
-class RateLimitLoginAttemptsMiddleware:
-    @staticmethod
-    @ratelimit(
-        "cms_login_ip",
-        periods=["1m"],
-        path=False,
-        increment=lambda req, res: is_cms_toolbar_login_request(req),
-    )
-    def process_request(request):
-        limit = 5
-
-        limits = getattr(request, "limits", {"cms_login_ip": [0]})
-
-        if limits["cms_login_ip"][0] > limit and is_cms_toolbar_login_request(request):
-            return HttpResponseRedirect(reverse_lazy("locked_out"))
-        return None

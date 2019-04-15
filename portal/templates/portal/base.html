@@ -97,7 +97,7 @@
                         {% block secondaryButtons %}
                         {% if user|has_teacher_finished_onboarding %}
                             {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
-                            {% block rapidrouter %}<a href="{% url 'game.views.level_selection.levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
+                            {% block rapidrouter %}<a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
                             {% block aimmo %}
                                 {% if user|is_preview_user %}
                                     <a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
@@ -122,15 +122,15 @@
                             {% block myGames %}<a href="{% url 'student_details' %}" id="student_dashboard_button"
                                class="button--menu button--menu--secondary button--menu--enabled">My Games</a>{% endblock myGames %}
                             <div class="dropdown-content">
-                                <a href="{% url 'game.views.level_selection.levels' %}"><small>Rapid Router</small></a>
+                                <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
                                 <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
                             </div>
                         </div>
                         <div class="dropdown">
-                            <a href="{% url 'game.views.scoreboard.scoreboard' %}" id="student_scoreboards_button"
+                            <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
                                class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
                             <div class="dropdown-content">
-                                <a href="{% url 'game.views.scoreboard.scoreboard' %}"><small>Rapid Router</small></a>
+                                <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
                             </div>
                         </div>
                         {% if not user.new_student.class_field %}
@@ -200,7 +200,7 @@
                 <div id="teacher-tabs" class="collapse">
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'teach' %}">Educate</a>
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'dashboard' %}">School / Club</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'game.views.level_selection.levels' %}">Rapid Router</a>
+                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'levels' %}">Rapid Router</a>
                     <a class="button button--menu__item button--menu__item__sub" href="{% url 'teaching_resources' %}">Resources</a>
                 </div>
             {% else %}

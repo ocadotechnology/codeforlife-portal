@@ -45,25 +45,16 @@ class TestContact(BaseTest):
         page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
-        page = page.send_message()
+        page.send_message()
 
         assert is_contact_message_sent_message_showing(self.selenium)
-
-    def test_contact_fail(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_help_and_support_page()
-
-        page = page.send_empty_message()
-
-        assert page.was_form_empty("contact_form")
 
     def test_message_accented_name(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
-        page = page.send_message_accented_name()
+        page.send_message_accented_name()
 
         assert not is_contact_message_sent_message_showing(self.selenium)
 
@@ -72,7 +63,7 @@ class TestContact(BaseTest):
         page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
-        page = page.send_message_incorrect_phone()
+        page.send_message_incorrect_phone()
 
         assert not is_contact_message_sent_message_showing(self.selenium)
 
@@ -81,7 +72,7 @@ class TestContact(BaseTest):
         page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
-        page = page.send_message_formatted_phone()
+        page.send_message_formatted_phone()
 
         assert is_contact_message_sent_message_showing(self.selenium)
 
@@ -90,6 +81,6 @@ class TestContact(BaseTest):
         page = HomePage(self.selenium)
         page = page.go_to_help_and_support_page()
 
-        page = page.send_accented_message()
+        page.send_accented_message()
 
         assert is_contact_message_sent_message_showing(self.selenium)
