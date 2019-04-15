@@ -887,7 +887,10 @@ PDF_DATA = {
     "lower_ks3_assessment_sheet": {
         "title": "Lower KS3 ‒ Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
-        "links": ["lower_ks3_self_assessment_sheet"],
+        "links": [
+            "intermediate_ks3_assessment_sheet",
+            "upper_ks3_assessment_sheet"
+        ],
         "url": "KS3_v1/assessments/lks3_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
@@ -896,16 +899,59 @@ PDF_DATA = {
         "description": "Document for students to self assess their understanding of key concepts.",
         "links": [
             "intermediate_ks3_self_assessment_sheet",
-            "upper_ks3_self_assessment_sheet",
+            "upper_ks3_self_assessment_sheet"
         ],
         "url": "KS3_v1/assessments/lks3_self_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
+    "lower_ks3_teacher_record_sheet": {
+        "title": "Lower KS3 ‒ Teacher Record Sheet",
+        "description": "Document to record students' progress.",
+        "links": [
+            "intermediate_ks3_teacher_record_sheet",
+            "upper_ks3_teacher_record_sheet"
+        ],
+        "url": "KS3_v1/assessments/lks3_teacher_record_sheet.pdf",
+        "page_origin": "#ks3-assessments",
+    },
+    "intermediate_ks3_assessment_sheet": {
+        "title": "Intermediate KS3 ‒ Assessment Guide",
+        "description": "Information on how to use the assessment sheets available.",
+        "links": [
+            "lower_ks3_assessment_sheet",
+            "upper_ks3_assessment_sheet"
+        ],
+        "url": "KS3_v1/assessments/iks3_assessment_sheet.pdf",
+        "page_origin": "#ks3-assessments",
+    },
     "intermediate_ks3_self_assessment_sheet": {
         "title": "Intermediate KS3 ‒ Self Assessment Guide",
-        "description": "Information on how to use the assessment sheets available.",
-        "links": ["lower_ks3_self_assessment_sheet", "upper_ks3_self_assessment_sheet"],
+        "description": "Document for students to self assess their understanding of key concepts.",
+        "links": [
+            "lower_ks3_self_assessment_sheet",
+            "upper_ks3_self_assessment_sheet"
+        ],
         "url": "KS3_v1/assessments/iks3_self_assessment_sheet.pdf",
+        "page_origin": "#ks3-assessments",
+    },
+    "intermediate_ks3_teacher_record_sheet": {
+        "title": "Intermediate KS3 ‒ Teacher Record Sheet",
+        "description": "Document to record students' progress.",
+        "links": [
+            "lower_ks3_teacher_record_sheet",
+            "upper_ks3_teacher_record_sheet"
+        ],
+        "url": "KS3_v1/assessments/iks3_teacher_record_sheet.pdf",
+        "page_origin": "#ks3-assessments",
+    },
+    "upper_ks3_assessment_sheet": {
+        "title": "Upper KS3 ‒ Assessment Guide",
+        "description": "Information on how to use the assessment sheets available.",
+        "links": [
+            "lower_ks3_assessment_sheet",
+            "intermediate_ks3_assessment_sheet"
+        ],
+        "url": "KS3_v1/assessments/uks3_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
     "upper_ks3_self_assessment_sheet": {
@@ -913,9 +959,19 @@ PDF_DATA = {
         "description": "Information on how to use the assessment sheets available.",
         "links": [
             "lower_ks3_self_assessment_sheet",
-            "intermediate_ks3_self_assessment_sheet",
+            "intermediate_ks3_self_assessment_sheet"
         ],
         "url": "KS3_v1/assessments/uks3_self_assessment_sheet.pdf",
+        "page_origin": "#ks3-assessments",
+    },
+    "upper_ks3_teacher_record_sheet": {
+        "title": "Upper KS3 ‒ Teacher Record Sheet",
+        "description": "Document to record students' progress.",
+        "links": [
+            "lower_ks3_teacher_record_sheet",
+            "intermediate_ks3_teacher_record_sheet"
+        ],
+        "url": "KS3_v1/assessments/uks3_teacher_record_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
     # ...Intermediate Python sessions...#
