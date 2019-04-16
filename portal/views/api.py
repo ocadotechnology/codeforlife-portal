@@ -41,6 +41,7 @@ from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication
 from rest_framework import serializers, permissions, generics, status
 from django.http import HttpResponse
 from django.utils import timezone
@@ -121,6 +122,7 @@ class InactiveUsersView(generics.ListAPIView):
         last_login__isnull=True,
         date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
     )
+    authentication_classes = (SessionAuthentication,)
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
