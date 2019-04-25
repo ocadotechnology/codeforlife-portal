@@ -82,6 +82,8 @@ from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
 from portal import email_messages
 
+from aimmo.models import Game
+
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
@@ -439,6 +441,7 @@ def teacher_view_class(request, access_code):
     students = Student.objects.filter(class_field=klass).order_by(
         "new_user__first_name"
     )
+    games = Game.objects.filter(owner=teacher.new_user)
 
     check_logged_in_students(klass, students)
 
@@ -452,7 +455,12 @@ def teacher_view_class(request, access_code):
                 password = generate_password(6)
                 name_tokens.append({"name": name, "password": password})
 
-                Student.objects.schoolFactory(klass=klass, name=name, password=password)
+                new_student = Student.objects.schoolFactory(
+                    klass=klass, name=name, password=password
+                )
+
+                for game in games:
+                    game.can_play.add(new_student.new_user)
 
             return render(
                 request,

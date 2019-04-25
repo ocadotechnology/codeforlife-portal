@@ -39,6 +39,11 @@ import time
 
 from selenium.webdriver.support.wait import WebDriverWait
 from django.core import mail
+from django.core.urlresolvers import reverse
+from django.test import Client, TestCase
+
+from aimmo.models import Game
+from portal.models import Teacher, Student
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
@@ -53,13 +58,73 @@ from utils.organisation import (
     join_teacher_to_organisation,
 )
 from utils.classes import create_class_directly
-from utils.student import create_school_student_directly
+from utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
 from utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
     is_teacher_email_updated_message_showing,
 )
 from utils import email as email_utils
+
+
+class UnitTestTeachers(TestCase):
+    def test_new_student_can_play_games(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email, True)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        c = Client()
+        c.login(username=email, password=password)
+        c.get(reverse("make_preview_tester"))
+
+        c.post(reverse("aimmo"), {"name": "Test Game"})
+
+        c.post(
+            reverse("view_class", kwargs={"access_code": access_code}),
+            {"names": "Florian"},
+        )
+
+        game = Game.objects.get(id=1)
+        new_student = Student.objects.last()
+        self.assertEqual(game.can_play.all().last(), new_student.new_user)
+
+    def test_accepted_independent_student_can_play_games(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email, True)
+        klass, name, access_code = create_class_directly(email, True)
+        klass.always_accept_requests = True
+        klass.save()
+        create_school_student_directly(access_code)
+        indep_username, indep_password, indep_student = (
+            create_independent_student_directly()
+        )
+
+        c = Client()
+
+        c.login(username=indep_username, password=indep_password)
+        c.post(
+            reverse("student_join_organisation"),
+            {"access_code": access_code, "class_join_request": "Request"},
+        )
+        c.logout()
+
+        c.login(username=email, password=password)
+        c.get(reverse("make_preview_tester"))
+
+        c.post(reverse("aimmo"), {"name": "Test Game"})
+
+        c.post(
+            reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
+            {"name": "Florian"},
+        )
+
+        game = Game.objects.get(id=1)
+        new_student = Student.objects.last()
+        self.assertEqual(game.can_play.all().last(), new_student.new_user)
 
 
 class TestTeacher(BaseTest):
