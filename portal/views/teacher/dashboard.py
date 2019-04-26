@@ -445,13 +445,7 @@ def teacher_accept_student_request(request, pk):
     teacher = request.user.new_teacher
     games = Game.objects.filter(owner=teacher.new_user)
 
-    # check student is awaiting decision on request
-    if not student.pending_class_request:
-        raise Http404
-
-    # check user (teacher) has authority to accept student
-    if request.user.new_teacher != student.pending_class_request.teacher:
-        raise Http404
+    check_student_can_be_accepted(request, student)
 
     students = Student.objects.filter(
         class_field=student.pending_class_request
@@ -495,6 +489,16 @@ def teacher_accept_student_request(request, pk):
             "form": form,
         },
     )
+
+
+def check_student_can_be_accepted(request, student):
+    # check student is awaiting decision on request
+    if not student.pending_class_request:
+        raise Http404
+
+    # check user (teacher) has authority to accept student
+    if request.user.new_teacher != student.pending_class_request.teacher:
+        raise Http404
 
 
 @login_required(login_url=reverse_lazy("login_view"))

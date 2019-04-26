@@ -375,6 +375,7 @@ def teacher_class(request, access_code):
     students = Student.objects.filter(class_field=klass).order_by(
         "new_user__first_name"
     )
+    games = Game.objects.filter(owner=teacher.new_user)
 
     check_logged_in_students(klass, students)
 
@@ -388,7 +389,12 @@ def teacher_class(request, access_code):
                 password = generate_password(6)
                 name_tokens.append({"name": name, "password": password})
 
-                Student.objects.schoolFactory(klass=klass, name=name, password=password)
+                new_student = Student.objects.schoolFactory(
+                    klass=klass, name=name, password=password
+                )
+
+                for game in games:
+                    game.can_play.add(new_student.new_user)
 
             return render(
                 request,
@@ -834,20 +840,33 @@ def teacher_class_password_reset(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
-    teachers = Teacher.objects.filter(school=klass.teacher.school).exclude(
-        user=klass.teacher.user
+    old_teacher = klass.teacher
+    other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(
+        user=old_teacher.user
     )
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.new_teacher != old_teacher:
         raise Http404
 
     if request.method == "POST":
-        form = ClassMoveForm(teachers, request.POST)
+        form = ClassMoveForm(other_teachers, request.POST)
         if form.is_valid():
-            teacher = form.cleaned_data["new_teacher"]
-            klass.teacher = get_object_or_404(Teacher, id=teacher)
+            new_teacher_id = form.cleaned_data["new_teacher"]
+            new_teacher = Teacher.objects.get(id=new_teacher_id)
+
+            old_teacher_games = Game.objects.filter(owner=old_teacher.new_user)
+            new_teacher_games = Game.objects.filter(owner=new_teacher.new_user)
+
+            klass.teacher = get_object_or_404(Teacher, id=new_teacher_id)
             klass.save()
+
+            students = Student.objects.filter(class_field=klass)
+
+            for student in students:
+                give_student_access_to_only_new_teacher_games(
+                    student, new_teacher_games, old_teacher_games
+                )
 
             messages.success(
                 request,
@@ -856,10 +875,20 @@ def teacher_move_class(request, access_code):
 
             return HttpResponseRedirect(reverse_lazy("dashboard"))
     else:
-        form = ClassMoveForm(teachers)
+        form = ClassMoveForm(other_teachers)
     return render(
         request, "portal/teach/teacher_move_class.html", {"form": form, "class": klass}
     )
+
+
+def give_student_access_to_only_new_teacher_games(
+    student, new_teacher_games, old_teacher_games
+):
+    for new_teacher_game in new_teacher_games:
+        new_teacher_game.can_play.add(student.new_user)
+
+    for old_teacher_game in old_teacher_games:
+        old_teacher_game.can_play.remove(student.new_user)
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -964,6 +993,12 @@ def is_right_move_form(request):
 
 
 def process_move_students_form(request, formset, old_class, new_class):
+    old_teacher = old_class.teacher
+    new_teacher = new_class.teacher
+
+    old_teacher_games = Game.objects.filter(owner=old_teacher.new_user)
+    new_teacher_games = Game.objects.filter(owner=new_teacher.new_user)
+
     for name_update in formset.cleaned_data:
         student = get_object_or_404(
             Student,
@@ -972,6 +1007,9 @@ def process_move_students_form(request, formset, old_class, new_class):
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
+        give_student_access_to_only_new_teacher_games(
+            student, new_teacher_games, old_teacher_games
+        )
         student.save()
         student.new_user.save()
 
