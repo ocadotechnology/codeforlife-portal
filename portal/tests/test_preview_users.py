@@ -214,7 +214,7 @@ class SeleniumTestPreviewUsers(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_aimmo_home_page()
 
-        page.click_join_game_button()
+        page.click_play_game_button()
 
         assert page.game_exists(new_game_name)
 
