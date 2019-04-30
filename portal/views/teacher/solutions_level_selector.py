@@ -127,7 +127,8 @@ def levels(request):
 
     episode_data = fetch_episode_data(app_settings.EARLY_ACCESS_FUNCTION(request))
 
-    context = RequestContext(request, {"episodeData": episode_data})
     return render(
-        request, "portal/teach/teacher_level_solutions.html", context_instance=context
+        request,
+        "portal/teach/teacher_level_solutions.html",
+        {"episodeData": episode_data},
     )
