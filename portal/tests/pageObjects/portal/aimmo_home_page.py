@@ -51,7 +51,9 @@ class AimmoHomePage(BasePage):
         self.browser.find_element_by_id("create_game_button").click()
 
     def click_join_game_button(self):
-        self.browser.find_element_by_id("join_game_button").click()
+        self.browser.find_element_by_css_selector(
+            "button button--medium.button--primary--navigation"
+        )
 
     def click_game_to_join_button(self, game_name):
         self.browser.find_element_by_link_text(game_name).click()

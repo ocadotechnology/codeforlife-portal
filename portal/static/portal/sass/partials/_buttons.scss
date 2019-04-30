@@ -48,6 +48,13 @@ button,
   @include _padding(10px, 15px, 10px, 15px);
 }
 
+.button--medium {
+  @include _font-size(18px);
+  @include _line-height(25px);
+  @include _padding(6px, 15px, 6px, 15px);
+  @include _margin(0px, 15px, 0px, 15px);
+}
+
 .button--small {
   @include _font-size(16px);
   @include _line-height(25px);
@@ -261,6 +268,12 @@ button,
 
 }
 
+.button-group--game--table {
+  display: flex;
+  justify-content: space-around;
+}
+
+
 .resource-buttons {
   @include _padding(40px, 0px, 0px, 0px);
 
@@ -346,6 +359,10 @@ button,
     }
 
   }
+  .button-group--game--table {
+    display: flex;
+    flex-wrap: wrap;
+  }
 
   .button--menu__item__sub {
     @include _font-size(30px);
@@ -353,5 +370,10 @@ button,
     background-color: $color-background-teach;
     font-weight: 500;
     text-align: left;
+  }
+
+  .button--medium {
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
 }
