@@ -21,10 +21,10 @@
             <td>
                 <div class="games-table__cell">
                     {% if game.status == 'r' %}
-                        <div class="status-indicator status-indicator--game status-indicator--online"></div>
+                        <div class="status-indicator status-indicator--game status-indicator--on"></div>
                         <small>Running</small>
                     {% elif game.status == 's' %}
-                        <div class="status-indicator status-indicator--game status-indicator--offline"></div>
+                        <div class="status-indicator status-indicator--game status-indicator--off"></div>
                         <small>Stopped</small>
                     {% elif game.status == 'p' %}
                         <div class="status-indicator status-indicator--game status-indicator--standby"></div>

@@ -138,11 +138,11 @@ td {
   width: 10px;
 }
 
-.status-indicator--offline {
+.status-indicator--off {
   background: $color-button-primary-action-danger;
 }
 
-.status-indicator--online {
+.status-indicator--on {
   background: $color-button-primary-action-positive;
 }
 
