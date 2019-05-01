@@ -51,8 +51,8 @@ button,
 .button--medium {
   @include _font-size(18px);
   @include _line-height(25px);
-  @include _padding(6px, 15px, 6px, 15px);
-  @include _margin(0px, 15px, 0px, 15px);
+  padding: $padding-button-medium;
+  margin: $margin-button-medium;
 }
 
 .button--small {
@@ -373,7 +373,6 @@ button,
   }
 
   .button--medium {
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin: $margin-button-medium-mobile;
   }
 }

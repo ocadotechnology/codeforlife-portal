@@ -148,26 +148,17 @@ td {
 
 .status-indicator--stopped {
   background: $color-button-primary-action-danger;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-  margin-left: 0px;
+  margin: $margin-game-status;
 }
 
 .status-indicator--running {
   background: $color-button-primary-action-positive;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-  margin-left: 0px;
+  margin: $margin-game-status;
 }
 
 .status-indicator--paused {
   background: $color-button-primary-action-setup;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-  margin-left: 0px;
+  margin: $margin-game-status;
 }
 
 .student-table {
@@ -208,9 +199,9 @@ td {
 
 .games-table {
   table-layout: fixed;
-  width: 700px;
+  text-align: start;
+  width: 600px;
   word-break: break-all;
-  text-align: left;
 }
 
 .games-table__header {
@@ -251,8 +242,6 @@ td {
 @media (max-width: 760px) {
   .games-table {
     width: 100%;
-    word-break: break-all;
-    text-align: left;
   }
 
   .games-table__cell {
@@ -260,7 +249,7 @@ td {
   }
 
   .games-table__header {
-    font-size: 14px;
+    @include _font-size(14px);
   }
 
 }

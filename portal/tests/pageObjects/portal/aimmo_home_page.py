@@ -53,9 +53,6 @@ class AimmoHomePage(BasePage):
     def click_play_game_button(self):
         self.browser.find_element_by_link_text("Play").click()
 
-    def click_game_to_join_button(self, game_name):
-        self.browser.find_element_by_link_text(game_name).click()
-
     def input_new_game_name(self, new_game_name):
         self.browser.find_element_by_id("id_name").clear()
         self.browser.find_element_by_id("id_name").send_keys(new_game_name)

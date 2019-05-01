@@ -98,13 +98,6 @@ def has_beta_access(request):
     return beta.has_beta_access(request)
 
 
-@register.inclusion_tag(
-    "portal/partials/aimmo_join_game_dropdown.html", takes_context=True
-)
-def game_dropdown_list(context, base_url):
-    return get_user_playable_games(context, base_url)
-
-
 @register.inclusion_tag("portal/partials/aimmo_games_table.html", takes_context=True)
 def games_table(context, base_url):
     return get_user_playable_games(context, base_url)
