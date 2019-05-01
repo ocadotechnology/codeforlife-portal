@@ -146,18 +146,11 @@ td {
   background: $color-button-primary-action-positive;
 }
 
-.status-indicator--stopped {
-  background: $color-button-primary-action-danger;
-  margin: $margin-game-status;
-}
-
-.status-indicator--running {
-  background: $color-button-primary-action-positive;
-  margin: $margin-game-status;
-}
-
-.status-indicator--paused {
+.status-indicator--standby {
   background: $color-button-primary-action-setup;
+}
+
+.status-indicator--game {
   margin: $margin-game-status;
 }
 
