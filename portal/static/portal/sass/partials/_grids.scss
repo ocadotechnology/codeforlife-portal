@@ -5,7 +5,7 @@ $column--icon-width: 3%;
 
 @media (min-width: 760px) {
   .grid-games {
-    @include _column-gap($spacing*10);
+    @include _column-gap($spacing * 10);
     display: grid;
     grid-auto-flow: column;
     grid-template: auto auto auto / auto;
