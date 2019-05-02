@@ -42,7 +42,7 @@ PDF_DATA = {
         "description": "This document shows how the progression through Rapid Router levels cover each stage of the "
         "computing curriculum for key stages one and two.",
         "links": None,
-        "url": "user_guide/introduction_to_coding.pdf",
+        "url": "user_guide_v1/introduction_to_coding.pdf",
         "page_origin": "#user-guide",
     },
     "levels_guide_1-28": {
