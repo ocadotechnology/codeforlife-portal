@@ -393,18 +393,18 @@ def process_signup_form(request, data):
 
 def process_independent_student_signup_form(request, data):
     email = data["email"]
-    student_manager = StudentModelManager()
 
-    for independent_student in student_manager.independent_students():
-        if independent_student.user.user.email == email:
-            email_message = email_messages.userAlreadyRegisteredEmail(request, email)
-            send_email(
-                NOTIFICATION_EMAIL,
-                [email],
-                email_message["subject"],
-                email_message["message"],
-            )
-            return render(request, "portal/email_verification_needed.html")
+    independent_students = Student.objects.filter(class_field=None)
+
+    if email and independent_students.filter(new_user__email=email).exists():
+        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+        send_email(
+            NOTIFICATION_EMAIL,
+            [email],
+            email_message["subject"],
+            email_message["message"],
+        )
+        return render(request, "portal/email_verification_needed.html")
 
     student = Student.objects.independentStudentFactory(
         username=data["username"],
