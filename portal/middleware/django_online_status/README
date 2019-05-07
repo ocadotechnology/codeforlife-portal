@@ -1,0 +1,6 @@
+========================
+django-online-status
+========================
+
+Online status for authenticated users (online, idle, offline) and list of current users online, all to display with templatetags. No database models, everything cached.
+Read more: http://bitbucket.org/zalew/django-online-status/wiki/Home

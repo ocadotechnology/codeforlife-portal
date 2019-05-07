@@ -1,0 +1,11 @@
+{% load status_format %}
+<dl class="online_users">
+{% for online in onlineusers %}
+	<dt class="user">{{ online.user.username }}</dt><dd class="status">{{ online.status|status_format:"text" }}</dd>
+{% endfor %}
+</dl>
+<dl class="onlineanonym_users">
+{% for online in onlineanonymusers %}
+	<dt class="user">{{ online.ip }}</dt><dd class="status">{{ online.status|status_format:"text" }}</dd>
+{% endfor %}
+</dl>

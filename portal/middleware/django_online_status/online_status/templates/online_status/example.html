@@ -1,0 +1,10 @@
+{% load online_status_tags %}
+
+<h1>Users online</h1>
+{% online_users 30 %}
+
+<h1>Status for user "{{ example_user.username }}"</h1>
+<p>{% user_status example_user %}</p>
+
+<h1>My status ("{{ user.username }}")</h1>
+<p>{% user_status user %}</p>

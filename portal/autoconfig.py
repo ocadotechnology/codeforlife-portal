@@ -89,6 +89,7 @@ SETTINGS = {
         "django_otp",
         "django_otp.plugins.otp_static",
         "django_otp.plugins.otp_totp",
+        "portal.middleware.django_online_status",
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
@@ -104,7 +105,7 @@ SETTINGS = {
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
+        "portal.middleware.django_online_status.online_status.middleware.OnlineStatusMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
@@ -141,7 +142,7 @@ SETTINGS = {
 RELATIONSHIPS = [
     OrderingRelationship(
         "MIDDLEWARE",
-        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
+        "portal.middleware.django_online_status.online_status.middleware.OnlineStatusMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),
