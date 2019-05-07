@@ -94,6 +94,7 @@ def refresh_users_list(request, **kwargs):
         if not online_status.user == updated.user:
             set_user_idle_or_offline(online_status, seconds)
             online_users.append(online_status)
+            print(online_users)
 
     update_online_users(updated, online_users)
 
