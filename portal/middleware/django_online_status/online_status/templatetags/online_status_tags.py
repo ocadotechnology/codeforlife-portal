@@ -4,7 +4,7 @@ from django.conf import settings
 
 from django import template
 from django.core.cache import cache
-from online_status.status import CACHE_USERS, CACHE_PREFIX_ANONYM_USER, TIME_OFFLINE, ONLY_LOGGED_USERS, status_for_user
+from portal.middleware.django_online_status.online_status.status import CACHE_USERS, CACHE_PREFIX_ANONYM_USER, TIME_OFFLINE, ONLY_LOGGED_USERS, status_for_user
 from django.contrib.sessions.models import Session
     
 register = template.Library()

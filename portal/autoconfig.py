@@ -89,7 +89,6 @@ SETTINGS = {
         "django_otp",
         "django_otp.plugins.otp_static",
         "django_otp.plugins.otp_totp",
-        "portal.middleware.django_online_status",
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",

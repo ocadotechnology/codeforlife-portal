@@ -62,7 +62,6 @@ def refresh_user(request):
         onlinestatus.set_active(request=request)
     cache.set(key, onlinestatus, TIME_OFFLINE)
     return onlinestatus
-    # self.refresh_users_list(user=self.user)
 
 
 def refresh_users_list(request, **kwargs):
