@@ -88,8 +88,8 @@ class TestOnlineStatus(TestCase):
         self.login_as(self.user2)
 
         self.client.get(reverse("dashboard"))
-        useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
-        self.assertEqual(useronline.user, self.user1)
+        useronline = cache.get(status.CACHE_PREFIX_USER % self.user2.pk)
+        self.assertEqual(useronline.user, self.user2)
         self.assertEqual(useronline.status, 1)
 
         self.list_len(2)
