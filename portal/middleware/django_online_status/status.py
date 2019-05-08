@@ -80,9 +80,15 @@ def set_offline_users(request, online_users, updated):
         if seconds > TIME_OFFLINE:
             online_users.remove(obj)
             cache.delete(CACHE_PREFIX_USER % obj.user.pk)
-        if obj.user == updated.user and updated.is_authenticated():
+        if updated_user_is_authenticated(obj, updated):
             obj.set_active(request)
             obj.seen = datetime.now()
             updated_found = True
 
     return updated_found
+
+
+def updated_user_is_authenticated(obj, updated):
+    if obj.user == updated.user and updated.is_authenticated():
+        return True
+    return False
