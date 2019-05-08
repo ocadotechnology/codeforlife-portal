@@ -65,6 +65,15 @@ def refresh_users_list(request, **kwargs):
     online_users = cache.get(CACHE_USERS)
     if not online_users:
         online_users = []
+
+    updated_found = set_offline_users(request, online_users, updated)
+
+    if not updated_found and updated.is_authenticated():
+        online_users.append(updated)
+    cache.set(CACHE_USERS, online_users, TIME_OFFLINE)
+
+
+def set_offline_users(request, online_users, updated):
     updated_found = False
     for obj in online_users:
         seconds = (datetime.now() - obj.seen).seconds
@@ -75,6 +84,5 @@ def refresh_users_list(request, **kwargs):
             obj.set_active(request)
             obj.seen = datetime.now()
             updated_found = True
-    if not updated_found and updated.is_authenticated():
-        online_users.append(updated)
-    cache.set(CACHE_USERS, online_users, TIME_OFFLINE)
+
+    return updated_found
