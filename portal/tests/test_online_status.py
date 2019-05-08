@@ -44,7 +44,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from portal.middleware.django_online_status import status
+from portal.middleware.online_status import status
 
 
 # override settings so we don't have to wait so long during tests

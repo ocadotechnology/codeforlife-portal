@@ -1,4 +1,8 @@
+from .middleware import OnlineStatusMiddleware
+
 VERSION = (0, 1, 1)
+
+__all__ = ["OnlineStatusMiddleware"]
 
 
 def get_version():
