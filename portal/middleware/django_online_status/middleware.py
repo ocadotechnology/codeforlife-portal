@@ -1,5 +1,5 @@
 from django.core.cache import cache
-from portal.middleware.django_online_status.online_status.status import (
+from portal.middleware.django_online_status.status import (
     refresh_user,
     refresh_users_list,
 )

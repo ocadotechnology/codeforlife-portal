@@ -2,9 +2,7 @@ from datetime import datetime
 from django.core.cache import cache
 from django.conf import settings
 
-
-TIME_IDLE = getattr(settings, "USERS_ONLINE__TIME_IDLE", 3)
-TIME_OFFLINE = getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 6)
+TIME_OFFLINE = getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 10)
 
 CACHE_PREFIX_USER = (
     getattr(settings, "USERS_ONLINE__CACHE_PREFIX_USER", "online_user") + "_%d"
@@ -24,14 +22,11 @@ class OnlineStatus(object):
 
     def __init__(self, request):
         self.user = request.user
-        # 0 - idle, 1 - active
+        # 1 - active
         self.status = 1
         self.seen = datetime.now()
         self.ip = request.META["REMOTE_ADDR"]
         self.session = request.session.session_key
-
-    def set_idle(self):
-        self.status = 0
 
     def set_active(self, request):
         self.status = 1
@@ -76,26 +71,10 @@ def refresh_users_list(request, **kwargs):
         if seconds > TIME_OFFLINE:
             online_users.remove(obj)
             cache.delete(CACHE_PREFIX_USER % obj.user.pk)
-        elif seconds > TIME_IDLE:
-            obj.set_idle()
-            user = cache.get(CACHE_PREFIX_USER % obj.user.pk)
-            user.set_idle()
-            cache.set(CACHE_PREFIX_USER % obj.user.pk, user, TIME_OFFLINE)
-        if (
-            obj.user == updated.user and updated.is_authenticated()
-        ):  # It should never find it if it's an anonymous user, but you never know
+        if obj.user == updated.user and updated.is_authenticated():
             obj.set_active(request)
             obj.seen = datetime.now()
             updated_found = True
     if not updated_found and updated.is_authenticated():
         online_users.append(updated)
     cache.set(CACHE_USERS, online_users, TIME_OFFLINE)
-
-
-def status_for_user(user):
-    """Return status for user, duh?"""
-    if user.is_authenticated():
-        key = CACHE_PREFIX_USER % user.pk
-        return cache.get(key)
-    return None
-

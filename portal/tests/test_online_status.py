@@ -44,15 +44,11 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from portal.middleware.django_online_status.online_status import status
+from portal.middleware.django_online_status import status
 
 
 # override settings so we don't have to wait so long during tests
-@override_settings(
-    USERS_ONLINE__TIME_IDLE=2,
-    USERS_ONLINE__TIME_OFFLINE=6,
-    USERS_ONLINE__ONLY_LOGGED_USERS=True,
-)
+@override_settings(USERS_ONLINE__TIME_OFFLINE=6, USERS_ONLINE__ONLY_LOGGED_USERS=True)
 class TestOnlineStatus(TestCase):
     def login_as(self, user):
         password = user.password
@@ -92,21 +88,10 @@ class TestOnlineStatus(TestCase):
         self.login_as(self.user2)
 
         self.client.get(reverse("dashboard"))
-        useronline = cache.get(status.CACHE_PREFIX_USER % self.user2.pk)
-        self.assertEqual(useronline.user, self.user2)
+        useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
+        self.assertEqual(useronline.user, self.user1)
         self.assertEqual(useronline.status, 1)
 
-        self.list_len(2)
-
-    def test_user_idle(self):
-        self.setup_conditions()
-        self.login_as(self.user2)
-
-        sleep(status.TIME_IDLE + 1)
-        self.client.get(reverse("dashboard"))
-        useronline = cache.get(status.CACHE_PREFIX_USER % self.user2.pk)
-        self.assertEqual(useronline.user, self.user)
-        self.assertEqual(useronline.status, 0)
         self.list_len(2)
 
     def test_user_offline(self):
