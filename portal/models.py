@@ -46,7 +46,7 @@ from django_countries.fields import CountryField
 from django.core.cache import cache
 from django.utils import timezone
 
-from portal.middleware.django_online_status.online_status import status
+from portal.middleware.online_status import status
 
 
 class UserProfile(models.Model):
