@@ -49,6 +49,7 @@ status.TIME_OFFLINE = 3
 status.TIME_IDLE = 1
 status.ONLY_LOGGED_USERS = True
 
+
 # override settings so we don't have to wait so long during tests
 class TestOnlineStatus(TestCase):
     def setUp(self):
