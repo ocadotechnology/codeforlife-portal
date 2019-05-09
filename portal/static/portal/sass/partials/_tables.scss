@@ -114,7 +114,7 @@ td {
 }
 
 .cell-left {
-  text-align: left;
+  text-align: start;
 }
 
 .table-footer {
@@ -193,7 +193,6 @@ td {
 .games-table {
   table-layout: fixed;
   text-align: start;
-  width: 600px;
   word-break: break-all;
 }
 
@@ -207,6 +206,13 @@ td {
 .games-table__cell {
   display: flex;
   justify-content: flex-start;
+}
+
+
+
+.games-table__buttons {
+  display: flex;
+  justify-content: center;
 }
 
 
