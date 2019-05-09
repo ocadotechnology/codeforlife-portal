@@ -42,14 +42,19 @@ from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.test.utils import override_settings
 
 from portal.middleware.online_status import status
 
+status.TIME_OFFLINE = 3
+status.TIME_IDLE = 1
+status.ONLY_LOGGED_USERS = True
 
 # override settings so we don't have to wait so long during tests
-@override_settings(USERS_ONLINE__TIME_OFFLINE=6, USERS_ONLINE__ONLY_LOGGED_USERS=True)
 class TestOnlineStatus(TestCase):
+    def setUp(self):
+        self.user1 = User.objects.get_or_create(username="test1")[0]
+        self.user2 = User.objects.get_or_create(username="test2")[0]
+
     def login_as(self, user):
         password = user.password
         if not password:
@@ -58,20 +63,17 @@ class TestOnlineStatus(TestCase):
             user.save()
         self.client.login(username=user.username, password=password)
 
-    def setUp(self):
-        self.user1 = User.objects.get_or_create(username="test1")[0]
-        self.user2 = User.objects.get_or_create(username="test2")[0]
-
     def list_len(self, length):
         users = cache.get(status.CACHE_USERS)
         self.assertEqual(len(users), length)
 
-    def setup_conditions(self):
+    def base_setup(self):
         cache.clear()
         self.client.get(reverse("dashboard"))
         useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline, None)
 
+        # Log user1 in, assert if online
         self.login_as(self.user1)
         self.client.get(reverse("dashboard"))
         useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
@@ -83,10 +85,10 @@ class TestOnlineStatus(TestCase):
         self.client.logout()
 
     def test_user_online(self):
-        self.setup_conditions()
+        self.base_setup()
 
+        # Log user2 in, assert if online
         self.login_as(self.user2)
-
         self.client.get(reverse("dashboard"))
         useronline = cache.get(status.CACHE_PREFIX_USER % self.user2.pk)
         self.assertEqual(useronline.user, self.user2)
@@ -94,10 +96,25 @@ class TestOnlineStatus(TestCase):
 
         self.list_len(2)
 
-    def test_user_offline(self):
-        self.setup_conditions()
+    def test_user_idle(self):
+        self.base_setup()
 
+        # Check idle
+        sleep(status.TIME_IDLE + 1)
+        self.client.get(reverse("dashboard"))
+        useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
+        self.assertEqual(useronline.user, self.user1)
+        self.assertEqual(useronline.status, 0)
+
+        self.list_len(1)
+
+    def test_user_offline(self):
+        self.base_setup()
+
+        # Check offline
         sleep(status.TIME_OFFLINE + 1)
         self.client.get(reverse("dashboard"))
         useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline, None)
+
+        self.list_len(0)

@@ -2,7 +2,8 @@ from datetime import datetime
 from django.core.cache import cache
 from django.conf import settings
 
-TIME_OFFLINE = getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 10)
+TIME_IDLE = getattr(settings, "USERS_ONLINE__TIME_IDLE", 60)
+TIME_OFFLINE = getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 2 * 60)
 
 CACHE_PREFIX_USER = (
     getattr(settings, "USERS_ONLINE__CACHE_PREFIX_USER", "online_user") + "_%d"
@@ -27,6 +28,9 @@ class OnlineStatus(object):
         self.seen = datetime.now()
         self.ip = request.META["REMOTE_ADDR"]
         self.session = request.session.session_key
+
+    def set_idle(self):
+        self.status = 0
 
     def set_active(self, request):
         self.status = 1
@@ -61,34 +65,40 @@ def refresh_user(request):
 
 def refresh_users_list(request, **kwargs):
     """Updates online users list and their statuses"""
+
     updated = kwargs.pop("updated", None)
-    online_users = cache.get(CACHE_USERS)
-    if not online_users:
-        online_users = []
+    online_users = []
 
-    updated_found = set_offline_users(request, online_users, updated)
+    for online_status in cache.get(CACHE_USERS, []):
+        seconds = (datetime.now() - online_status.seen).seconds
 
-    if not updated_found and updated.is_authenticated():
-        online_users.append(updated)
+        # 'updated' will be added into `online_users` later
+        if not online_status.user == updated.user:
+            is_offline = set_user_idle_or_offline(online_status, seconds)
+            if not is_offline:
+                online_users.append(online_status)
+
+    update_online_users(updated, online_users)
+
     cache.set(CACHE_USERS, online_users, TIME_OFFLINE)
 
 
-def set_offline_users(request, online_users, updated):
-    updated_found = False
-    for obj in online_users:
-        seconds = (datetime.now() - obj.seen).seconds
-        if seconds > TIME_OFFLINE:
-            online_users.remove(obj)
-            cache.delete(CACHE_PREFIX_USER % obj.user.pk)
-        if updated_user_is_authenticated(obj, updated):
-            obj.set_active(request)
-            obj.seen = datetime.now()
-            updated_found = True
-
-    return updated_found
-
-
-def updated_user_is_authenticated(obj, updated):
-    if obj.user == updated.user and updated.is_authenticated():
+def set_user_idle_or_offline(online_status, seconds):
+    # delete expired
+    if seconds > TIME_OFFLINE:
+        cache.delete(CACHE_PREFIX_USER % online_status.user.pk)
         return True
-    return False
+    elif seconds > TIME_IDLE:
+        # default value will be used if the second cache is expired
+        user_status = cache.get(
+            CACHE_PREFIX_USER % online_status.user.pk, online_status
+        )
+        online_status.set_idle()
+        user_status.set_idle()
+        cache.set(CACHE_PREFIX_USER % online_status.user.pk, user_status, TIME_OFFLINE)
+        return False
+
+
+def update_online_users(updated, online_users):
+    if updated.user.is_authenticated:
+        online_users.append(updated)
