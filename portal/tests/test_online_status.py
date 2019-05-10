@@ -36,21 +36,17 @@
 # identified as the original program.
 from __future__ import unicode_literals
 
-from time import sleep
-
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+from datetime import datetime
+from mock import patch
+
 from portal.middleware.online_status import status
 
-status.TIME_OFFLINE = 3
-status.TIME_IDLE = 1
-status.ONLY_LOGGED_USERS = True
 
-
-# override settings so we don't have to wait so long during tests
 class TestOnlineStatus(TestCase):
     def setUp(self):
         self.user1 = User.objects.get_or_create(username="test1")[0]
@@ -97,11 +93,13 @@ class TestOnlineStatus(TestCase):
 
         self.list_len(2)
 
-    def test_user_idle(self):
+    @patch("portal.middleware.online_status.status.datetime")
+    def test_user_idle(self, mocked_datetime):
+        mocked_datetime.now.return_value = datetime(2019, 5, 1, 0, 0)
         self.base_setup()
 
         # Check idle
-        sleep(status.TIME_IDLE + 1)
+        mocked_datetime.now.return_value = datetime(2019, 5, 1, 0, 6)
         self.client.get(reverse("dashboard"))
         useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline.user, self.user1)
@@ -109,11 +107,13 @@ class TestOnlineStatus(TestCase):
 
         self.list_len(1)
 
-    def test_user_offline(self):
+    @patch("portal.middleware.online_status.status.datetime")
+    def test_user_offline(self, mocked_datetime):
+        mocked_datetime.now.return_value = datetime(2019, 5, 1, 0, 0)
         self.base_setup()
 
         # Check offline
-        sleep(status.TIME_OFFLINE + 1)
+        mocked_datetime.now.return_value = datetime(2019, 5, 1, 0, 11)
         self.client.get(reverse("dashboard"))
         useronline = cache.get(status.CACHE_PREFIX_USER % self.user1.pk)
         self.assertEqual(useronline, None)

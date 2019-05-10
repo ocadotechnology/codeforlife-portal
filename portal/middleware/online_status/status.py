@@ -2,8 +2,8 @@ from datetime import datetime
 from django.core.cache import cache
 from django.conf import settings
 
-TIME_IDLE = getattr(settings, "USERS_ONLINE__TIME_IDLE", 60)
-TIME_OFFLINE = getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 2 * 60)
+TIME_IDLE = getattr(settings, "USERS_ONLINE__TIME_IDLE", 5 * 60)
+TIME_OFFLINE = getattr(settings, "USERS_ONLINE__TIME_OFFLINE", 10 * 60)
 
 CACHE_PREFIX_USER = (
     getattr(settings, "USERS_ONLINE__CACHE_PREFIX_USER", "online_user") + "_%d"
