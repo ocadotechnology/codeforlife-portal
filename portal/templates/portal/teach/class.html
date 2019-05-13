@@ -63,11 +63,11 @@
                     <th>
                         <p>Status</p>
                         <div class="student-table__cell">
-                            <div class="student-status student-status--online"></div>
+                            <div class="status-indicator status-indicator--on"></div>
                             <p><small>Logged in</small></p>
                         </div>
                         <div class="student-table__cell">
-                            <div class="student-status student-status--offline"></div>
+                            <div class="status-indicator status-indicator--off"></div>
                             <p><small>Logged out</small></p>
                         </div>
                     </th>
@@ -82,8 +82,8 @@
                         </div>
                     </td>
                     <td>
-                        {% if student.logged_in %}<div class="student-status student-status--online"></div>
-                        {% else %}<div class="student-status student-status--offline"></div>{% endif %}
+                        {% if student.logged_in %}<div class="status-indicator status-indicator--on"></div>
+                        {% else %}<div class="status-indicator status-indicator--off"></div>{% endif %}
                     </td>
                 </tr>
                 {% endfor %}

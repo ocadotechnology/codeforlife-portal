@@ -113,6 +113,10 @@ td {
   text-align: center;
 }
 
+.cell-left {
+  text-align: start;
+}
+
 .table-footer {
 
   background-color: $color-background-tint-quinary;
@@ -124,7 +128,7 @@ td {
 
 }
 
-.student-status {
+.status-indicator {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -134,12 +138,20 @@ td {
   width: 10px;
 }
 
-.student-status--offline {
+.status-indicator--off {
   background: $color-button-primary-action-danger;
 }
 
-.student-status--online {
+.status-indicator--on {
   background: $color-button-primary-action-positive;
+}
+
+.status-indicator--standby {
+  background: $color-button-primary-action-setup;
+}
+
+.status-indicator--game {
+  margin: auto 2 * $spacing auto 0px;
 }
 
 .student-table {
@@ -160,7 +172,7 @@ td {
     padding: 0;
   }
 
-  .student-status {
+  .status-indicator {
     @include _margin(0px, 5px, 0px, 0px);
   }
 
@@ -177,6 +189,32 @@ td {
   display: flex;
   justify-content: space-between;
 }
+
+.games-table {
+  table-layout: fixed;
+  text-align: start;
+  word-break: break-all;
+}
+
+.games-table__header {
+
+  * {
+    padding: auto;
+  }
+}
+
+.games-table__cell {
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+
+.games-table__buttons {
+  display: flex;
+  justify-content: start;
+}
+
 
 .table--move {
 
@@ -198,4 +236,19 @@ td {
   .resource__title {
     @include _margin(30px, 0px, 10px, 0px);
   }
+}
+
+@media (max-width: 760px) {
+  .games-table {
+    width: 100%;
+  }
+
+  .games-table__cell {
+    width: auto;
+  }
+
+  .games-table__header {
+    @include _font-size(14px);
+  }
+
 }

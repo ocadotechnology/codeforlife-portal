@@ -32,7 +32,6 @@ button--menu--enabled button--menu--student--active">My Games</a>
             <img title="Preview version" alt="Preview version" src="{% static 'portal/img/preview_version_label.svg' %}">
             <h1 class="banner__text--primary">AI:MMO</h1>
             <div id="join_game" class="button-group">
-                {% game_dropdown_list 'aimmo/play' %}
                 {% if user|is_logged_in_as_teacher %}
                     <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
                 {% endif %}
@@ -59,11 +58,19 @@ button--menu--enabled button--menu--student--active">My Games</a>
 
 {% block content %}
 {{block.super}}
+<section class="background">
+    <div class="col-sm-6 col-center">
+        {% if user|is_logged_in_as_teacher %}
+            <h3>My games</h3>
+            {% games_table 'aimmo/play' %}
+        {% endif %}
+    </div>
+</section>
+
 <div id="aimmo_home_page">
     <div class="background--primary">
         {% if user|is_logged_in_as_teacher %}
             <section class="background col-sm-6 col-center">
-                <h1>Your school has been selected to trial the preview version of AI:MMO</h1>
                 <p>Your testing and
                     <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link">feedback</a>
                     will help Code for Life deliver an enjoyable game, and will allow us to consult with you on resources
@@ -106,7 +113,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
     <section class="background">
         <div class="col-sm-6 col-center">
             {% if user|is_logged_in_as_teacher %}
-                <h3>Teachers, tell us what you think of AI:MMO...</h3>
+                <h3>Testers, tell us what you think of AI:MMO...</h3>
                 <div class="background">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
                        class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>
