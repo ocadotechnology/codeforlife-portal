@@ -166,7 +166,10 @@ class SeleniumTestPreviewUsers(BaseTest):
         page.input_new_game_name("Test Game")
         page.click_create_game_button()
 
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_aimmo_home_page()
+
         page.click_delete_game_button()
 
         return self.element_does_not_exist_by_id("games-table")
