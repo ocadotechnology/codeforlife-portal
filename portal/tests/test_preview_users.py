@@ -235,4 +235,4 @@ class SeleniumTestPreviewUsers(BaseTest):
 
         page.click_play_game_button()
 
-        self.assertIn("/aimmo/play/2/", self.selenium.driver.current_url)
+        self.assertIn("/aimmo/play/3/", self.selenium.driver.current_url)
