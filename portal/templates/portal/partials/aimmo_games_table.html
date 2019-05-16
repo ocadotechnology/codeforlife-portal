@@ -1,6 +1,10 @@
+{% load staticfiles %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'portal/js/delete_aimmo_game.js' %}"></script>
+{% endblock scripts %}
 {% if open_play_games %}
     <div class="col-sm-8 col-center">
-        <table class="games-table header-primary data-primary">
+        <table id="games-table" class="games-table header-primary data-primary">
             <tr class="games-table__header">
                 <th class="cell-left">
                     <p>Game name</p>
@@ -36,6 +40,7 @@
                 <td>
                     <div class="games-table__buttons">
                         <a class="button button--medium button--primary--navigation" href="{% url base_url id=game.id %}">Play</a>
+                        <a class="button button--medium button--primary--danger" onclick="deleteGameConfirmation('{% url 'teacher_delete_game' game.id %}', '{{ game.name }}')">Delete</a>
                     </div>
                 </td>
             </tr>

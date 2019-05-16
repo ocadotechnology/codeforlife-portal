@@ -49,9 +49,10 @@ button,
 }
 
 .button--medium {
-  @include _font-size(18px);
+  @include _font-size(16px);
   @include _line-height(25px);
   @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
+  @include _margin(0px, $spacing, 0px, 0px);
 }
 
 .button--small {
@@ -62,6 +63,18 @@ button,
 
 .button--bottom {
   margin-top: auto;
+}
+
+.button--delete {
+  background-color: $color-teacher-blue;
+  border: 1px solid;
+  color: $color-button-secondary-border-light;
+}
+
+.button--cancel {
+  background-color: $color-button-secondary-border-light;
+  border: 1px solid;
+  color: $color-teacher-blue;
 }
 
 .button--menu {
