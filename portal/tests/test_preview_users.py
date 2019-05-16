@@ -166,6 +166,7 @@ class SeleniumTestPreviewUsers(BaseTest):
         page.input_new_game_name("Test Game")
         page.click_create_game_button()
 
+        self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_aimmo_home_page()
 
@@ -180,7 +181,7 @@ class SeleniumTestPreviewUsers(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
