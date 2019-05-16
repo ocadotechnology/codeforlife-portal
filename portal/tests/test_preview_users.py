@@ -37,6 +37,7 @@
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
+from teach_base_page import TeachBasePage
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
 from utils.teacher import (
@@ -135,7 +136,7 @@ class UnitTestPreviewUsers(TestCase):
         self.assertEqual(401, response.status_code)
 
 
-class SeleniumTestPreviewUsers(BaseTest):
+class SeleniumTestPreviewUsers(TeachBasePage):
     def test_preview_user_can_create_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
