@@ -47,7 +47,6 @@ from utils.organisation import create_organisation_directly
 from portal.models import Teacher
 from portal.templatetags.app_tags import is_preview_user, is_eligible_for_testing
 
-from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from pageObjects.portal.teach.teach_base_page import TeachBasePage
 
