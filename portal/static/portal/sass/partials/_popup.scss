@@ -8,60 +8,54 @@
   bottom: 0;
   background-color: $color-popup-overlay;
   z-index: 999999;
-}
 
-.dialog-overlay .dialog {
-  width: 400px;
-  margin: 20 * $spacing auto 0;
-  background-color: $color-background-secondary;
-  box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
-  border-radius: $spacing;
-  border-style: solid;
-  border-color: $color-popup-border;
-  overflow: hidden;
-}
+  .dialog {
+    width: 400px;
+    margin: 20 * $spacing auto 0;
+    background-color: $color-background-secondary;
+    box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
+    border-radius: $spacing;
+    border-style: solid;
+    border-color: $color-popup-border;
+    overflow: hidden;
+  
+    header {
+      @include _padding($spacing, 2 * $spacing, $spacing, 2 * $spacing);
+      background-color: $color-popup-border;
+    
+      h3 {
+        @include _font-size(20px);
+        @include _margin(0px, 0px, 0px, 0px);
+        @include _padding(0px, $spacing, 0px, $spacing);
+        font-weight: bold;
+        color: $color-text-primary;
+        display: inline-block;
+      }
+    }
 
-.dialog-overlay .dialog header {
-  @include _padding($spacing, 2 * $spacing, $spacing, 2 * $spacing);
-  background-color: $color-popup-border;
-}
+    .dialog-msg {
+      @include _padding(3 * $spacing, 3 * $spacing, 3 * $spacing, 3 * $spacing);
+    
+      p {
+        @include _margin(0px, 0px, 0px, 0px);
+        @include _padding($spacing, $spacing, $spacing, $spacing);
+        @include _font-size(18px);
+        color: $color-text-primary;
+      }
+    }
 
-.dialog-overlay .dialog header h3 {
-  @include _font-size(20px);
-  @include _margin(0px, 0px, 0px, 0px);
-  @include _padding(0px, $spacing, 0px, $spacing);
-  font-weight: bold;
-  color: $color-text-primary;
-  display: inline-block;
-}
-
-.dialog-overlay .dialog .popup-header .fa-close {
-  float: right;
-  color: $color-button-secondary-border-light;
-  cursor: pointer;
-}
-
-.dialog-overlay .dialog .dialog-msg {
-  @include _padding(3 * $spacing, 3 * $spacing, 3 * $spacing, 3 * $spacing);
-}
-
-.dialog-overlay .dialog .dialog-msg p {
-  @include _margin(0px, 0px, 0px, 0px);
-  @include _padding($spacing, $spacing, $spacing, $spacing);
-  @include _font-size(18px);
-  color: $color-text-primary;
-}
-
-.dialog-overlay .dialog footer {
-  @include _margin(2 * $spacing, 2 * $spacing, 2 * $spacing, 2 * $spacing);
-  display: flex;
-  justify-content: center;
-}
-
-.dialog-overlay .dialog footer .button {
-  @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
-  @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
-  border-radius: $spacing;
-  border-style: solid;
-  border-color: $color-teacher-blue;
+    footer {
+      @include _margin(2 * $spacing, 2 * $spacing, 2 * $spacing, 2 * $spacing);
+      display: flex;
+      justify-content: center;
+      
+      .button {
+        @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
+        @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
+        border-radius: $spacing;
+        border-style: solid;
+        border-color: $color-teacher-blue;
+      }
+    }
+  }
 }
