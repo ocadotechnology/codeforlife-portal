@@ -18,11 +18,11 @@
     border-style: solid;
     border-color: $color-popup-border;
     overflow: hidden;
-  
+
     header {
       @include _padding($spacing, 2 * $spacing, $spacing, 2 * $spacing);
       background-color: $color-popup-border;
-    
+
       h3 {
         @include _font-size(20px);
         @include _margin(0px, 0px, 0px, 0px);
@@ -35,7 +35,7 @@
 
     .dialog-msg {
       @include _padding(3 * $spacing, 3 * $spacing, 3 * $spacing, 3 * $spacing);
-    
+
       p {
         @include _margin(0px, 0px, 0px, 0px);
         @include _padding($spacing, $spacing, $spacing, $spacing);
@@ -48,7 +48,7 @@
       @include _margin(2 * $spacing, 2 * $spacing, 2 * $spacing, 2 * $spacing);
       display: flex;
       justify-content: center;
-      
+   
       .button {
         @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
         @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
