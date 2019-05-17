@@ -37,7 +37,6 @@
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
-from teach_base_page import TeachBasePage
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
 from utils.teacher import (
@@ -50,6 +49,7 @@ from portal.templatetags.app_tags import is_preview_user, is_eligible_for_testin
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
+from pageObjects.portal.teach.teach_base_page import TeachBasePage
 
 
 class UnitTestPreviewUsers(TestCase):
