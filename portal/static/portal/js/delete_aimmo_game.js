@@ -36,6 +36,8 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 
+/* global postWithCsrf */
+
 function deleteGameConfirmation(path, game_name) {
     var $content =
         "<div class='dialog-overlay'>" +
