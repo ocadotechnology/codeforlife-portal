@@ -7,7 +7,7 @@
   right: 0;
   bottom: 0;
   background-color: $color-popup-overlay;
-  z-index: 999999;
+  z-index: $dialog-overlay-level;
 
   .dialog {
     width: 400px;
@@ -18,20 +18,6 @@
     border-style: solid;
     border-color: $color-popup-border;
     overflow: hidden;
-
-    header {
-      @include _padding($spacing, 2 * $spacing, $spacing, 2 * $spacing);
-      background-color: $color-popup-border;
-
-      h3 {
-        @include _font-size(20px);
-        @include _margin(0px, 0px, 0px, 0px);
-        @include _padding(0px, $spacing, 0px, $spacing);
-        font-weight: bold;
-        color: $color-text-primary;
-        display: inline-block;
-      }
-    }
 
     .dialog-msg {
       @include _padding(3 * $spacing, 3 * $spacing, 3 * $spacing, 3 * $spacing);
@@ -55,6 +41,20 @@
         border-radius: $spacing;
         border-style: solid;
         border-color: $color-teacher-blue;
+      }
+    }
+
+    header {
+      @include _padding($spacing, 2 * $spacing, $spacing, 2 * $spacing);
+      background-color: $color-popup-border;
+
+      h3 {
+        @include _font-size(20px);
+        @include _margin(0px, 0px, 0px, 0px);
+        @include _padding(0px, $spacing, 0px, $spacing);
+        font-weight: bold;
+        color: $color-text-primary;
+        display: inline-block;
       }
     }
   }

@@ -45,14 +45,14 @@ function deleteGameConfirmation(path, game_name) {
         "<header><h3> Delete Game </h3></header>" +
         "<div class='dialog-msg'><p> Are you sure you want to delete the game: <strong>" + game_name +
         "</strong>?</p><p> Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>" +
-        "<footer><button class='button button--medium button--cancel cancelAction'> Cancel </button>" +
-        "<button id='delete_game' class='button button--medium button--delete doAction'> Delete game</button></footer></div></div>";
+        "<footer><button id='cancel' class='button--medium button--cancel'> Cancel </button>" +
+        "<button id='delete_game' class='button--medium button--delete'> Delete game </button></footer></div></div>";
     $('body').prepend($content);
-    $('.doAction').click(function () {
+    $('#delete_game').click(function () {
         postWithCsrf(path);
         $(this).parents('.dialog-overlay').remove();
     });
-    $('.cancelAction').click(function () {
+    $('#cancel').click(function () {
         $(this).parents('.dialog-overlay').remove();
     });
 }
