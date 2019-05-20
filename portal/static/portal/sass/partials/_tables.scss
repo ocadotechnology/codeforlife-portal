@@ -212,7 +212,13 @@ td {
 
 .games-table__buttons {
   display: flex;
-  justify-content: start;
+  justify-content: center;
+  text-align: center;
+
+  .button--small {
+    @include _margin(0px, $spacing, $spacing, 0px);
+    @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
+  }
 }
 
 
@@ -241,6 +247,11 @@ td {
 @media (max-width: 760px) {
   .games-table {
     width: 100%;
+    word-break: keep-all;
+  }
+
+  .games-table__buttons {
+    flex-direction: column;
   }
 
   .games-table__cell {
