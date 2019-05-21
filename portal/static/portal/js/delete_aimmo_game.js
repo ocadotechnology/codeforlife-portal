@@ -36,9 +36,7 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 
-/* global postWithCsrf */
-
-function deleteGameConfirmation(path, game_name) {
+function deleteGameConfirmation(game_id, game_name) {
     var $content =
         "<div class='dialog-overlay'>" +
         "<div class='dialog'>" +
@@ -49,8 +47,17 @@ function deleteGameConfirmation(path, game_name) {
         "<button id='delete_game' class='button button--small button--delete'> Delete game </button></footer></div></div>";
     $('body').prepend($content);
     $('#delete_game').click(function () {
-        postWithCsrf(path);
+        // postWithCsrf(path);
+        $.ajax({
+            url: '/aimmo/api/games/' + game_id + '/',
+            type: 'delete',
+            headers: {
+                "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
+            }
+        })
+
         $(this).parents('.dialog-overlay').remove();
+        document.location.reload(true)
     });
     $('#cancel').click(function () {
         $(this).parents('.dialog-overlay').remove();

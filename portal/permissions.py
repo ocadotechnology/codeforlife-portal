@@ -39,6 +39,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse_lazy
 
 from portal.utils import using_two_factor
+from rest_framework import permissions
 
 
 def logged_in_as_teacher(u):
@@ -91,3 +92,13 @@ def preview_user(view_func):
         return view_func(request, *args, **kwargs)
 
     return wrapped
+
+
+class IsPreviewUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        u = request.user
+        return (
+            hasattr(u, "userprofile")
+            and hasattr(u.userprofile, "preview_user")
+            and u.userprofile.preview_user
+        )

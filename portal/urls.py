@@ -268,7 +268,7 @@ urlpatterns = [
         name="play_aimmo",
     ),
     url(
-        r"^play/aimmo/delete/(?P<game_id>[A-Z0-9]+)$",
+        r"^aimmo/api/games/(?P<game_id>[A-Z0-9]+)/$",
         teacher_delete_game,
         name="teacher_delete_game",
     ),

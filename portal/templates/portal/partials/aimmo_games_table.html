@@ -40,7 +40,7 @@
                 <td>
                     <div class="games-table__buttons">
                         <a class="button button--small button--primary--navigation" href="{% url base_url id=game.id %}">Play</a>
-                        <a class="button button--small button--primary--danger" onclick="deleteGameConfirmation('{% url 'teacher_delete_game' game.id %}', '{{ game.name }}')">Delete</a>
+                        <a class="button button--small button--primary--danger" onclick="deleteGameConfirmation('{{ game.id }}', '{{ game.name }}')">Delete</a>
                     </div>
                 </td>
             </tr>
