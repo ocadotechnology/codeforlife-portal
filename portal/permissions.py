@@ -102,3 +102,13 @@ class IsPreviewUser(permissions.BasePermission):
             and hasattr(u.userprofile, "preview_user")
             and u.userprofile.preview_user
         )
+
+
+class IsTeacher(permissions.BasePermission):
+    def has_permission(self, request, view):
+        u = request.user
+        return (
+            hasattr(u, "userprofile")
+            and hasattr(u.userprofile, "teacher")
+            and (not u.is_verified() and using_two_factor(u))
+        )
