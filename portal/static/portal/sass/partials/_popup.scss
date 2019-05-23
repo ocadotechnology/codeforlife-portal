@@ -14,47 +14,47 @@
     border-color: $color-popup-border;
     border-radius: $spacing;
     border-style: solid;
+    box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
     margin: 20 * $spacing auto 0;
     overflow: hidden;
-    box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
     width: 400px;
 
     .dialog-msg {
       @include _padding(3 * $spacing, 3 * $spacing, 3 * $spacing, 3 * $spacing);
 
       p {
-        color: $color-text-primary;
         @include _font-size(18px);
         @include _margin(0px, 0px, 0px, 0px);
         @include _padding($spacing, $spacing, $spacing, $spacing);
+        color: $color-text-primary;
       }
     }
 
     footer {
-      display: flex;
       @include _margin(2 * $spacing, 2 * $spacing, 2 * $spacing, 2 * $spacing);
+      display: flex;
       justify-content: center;
 
       .button {
+        @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
+        @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
         border-color: $color-teacher-blue;
         border-radius: $spacing;
         border-style: solid;
-        @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
-        @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
       }
     }
 
     header {
-      background-color: $color-popup-border;
       @include _padding($spacing, 2 * $spacing, $spacing, 2 * $spacing);
+      background-color: $color-popup-border;
 
       h3 {
-        color: $color-text-primary;
-        display: inline-block;
-        font-weight: bold;
         @include _font-size(20px);
         @include _margin(0px, 0px, 0px, 0px);
         @include _padding(0px, $spacing, 0px, $spacing);
+        color: $color-text-primary;
+        display: inline-block;
+        font-weight: bold;
       }
     }
   }

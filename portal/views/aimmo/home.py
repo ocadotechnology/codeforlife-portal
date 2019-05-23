@@ -88,13 +88,3 @@ def aimmo_home(request):
             "aimmo_sheets": aimmo_sheets,
         },
     )
-
-
-@login_required(login_url=reverse_lazy("login_view"))
-@preview_user
-def teacher_delete_game(request, game_id):
-    game = get_object_or_404(Game, id=game_id)
-
-    game.delete()
-
-    return HttpResponseRedirect(reverse_lazy("aimmo"))

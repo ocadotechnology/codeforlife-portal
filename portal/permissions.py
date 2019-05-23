@@ -43,17 +43,26 @@ from rest_framework import permissions
 
 
 def logged_in_as_teacher(u):
-    if not hasattr(u, "userprofile") or not hasattr(u.userprofile, "teacher"):
+    try:
+        return u.userprofile.teacher and (u.is_verified() or not using_two_factor(u))
+    except:
         return False
-    return u.is_verified() or not using_two_factor(u)
 
 
 def logged_in_as_student(u):
-    return hasattr(u, "userprofile") and hasattr(u.userprofile, "student")
+    try:
+        if u.userprofile.student:
+            return True
+    except:
+        return False
 
 
 def not_logged_in(u):
-    return not hasattr(u, "userprofile")
+    try:
+        if u.userprofile:
+            return False
+    except:
+        return True
 
 
 def not_fully_logged_in(u):
@@ -66,13 +75,13 @@ def teacher_verified(view_func):
     @wraps(view_func)
     def wrapped(request, *args, **kwargs):
         u = request.user
-        if (
-            not hasattr(u, "userprofile")
-            or not hasattr(u.userprofile, "teacher")
-            or (not u.is_verified() and using_two_factor(u))
-        ):
+        try:
+            if not u.userprofile.teacher or (
+                not u.is_verified() and using_two_factor(u)
+            ):
+                return HttpResponseRedirect(reverse_lazy("teach"))
+        except:
             return HttpResponseRedirect(reverse_lazy("teach"))
-
         return view_func(request, *args, **kwargs)
 
     return wrapped
@@ -82,13 +91,11 @@ def preview_user(view_func):
     @wraps(view_func)
     def wrapped(request, *args, **kwargs):
         u = request.user
-        if (
-            not hasattr(u, "userprofile")
-            or not hasattr(u.userprofile, "preview_user")
-            or not u.userprofile.preview_user
-        ):
+        try:
+            if not u.userprofile.preview_user:
+                return HttpResponse("Unauthorized", status=401)
+        except:
             return HttpResponse("Unauthorized", status=401)
-
         return view_func(request, *args, **kwargs)
 
     return wrapped
@@ -97,18 +104,24 @@ def preview_user(view_func):
 class IsPreviewUser(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
-        return (
-            hasattr(u, "userprofile")
-            and hasattr(u.userprofile, "preview_user")
-            and u.userprofile.preview_user
-        )
+        try:
+            return (
+                u.userprofile
+                and u.userprofile.preview_user
+                and (u.is_verified() or not using_two_factor(u))
+            )
+        except AttributeError:
+            return False
 
 
 class IsTeacher(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
-        return (
-            hasattr(u, "userprofile")
-            and hasattr(u.userprofile, "teacher")
-            and (not u.is_verified() and using_two_factor(u))
-        )
+        try:
+            return (
+                u.userprofile
+                and u.userprofile.teacher
+                and (u.is_verified() or not using_two_factor(u))
+            )
+        except AttributeError:
+            return False

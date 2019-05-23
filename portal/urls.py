@@ -62,7 +62,7 @@ from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
 
-from portal.views.aimmo.home import aimmo_home, teacher_delete_game
+from portal.views.aimmo.home import aimmo_home
 
 from portal.views.email import verify_email
 from portal.views.home import (
@@ -266,11 +266,6 @@ urlpatterns = [
         r"^play/aimmo/$",
         TemplateView.as_view(template_name="portal/play_aimmo.html"),
         name="play_aimmo",
-    ),
-    url(
-        r"^aimmo/api/games/(?P<game_id>[A-Z0-9]+)/$",
-        teacher_delete_game,
-        name="teacher_delete_game",
     ),
     url(
         r"^about", TemplateView.as_view(template_name="portal/about.html"), name="about"
