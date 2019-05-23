@@ -42,10 +42,14 @@ from portal.utils import using_two_factor
 from rest_framework import permissions
 
 
+def two_factor_verified_or_not_using(u):
+    return not using_two_factor(u) or (u.is_verified() and using_two_factor(u))
+
+
 def logged_in_as_teacher(u):
     try:
-        return u.userprofile.teacher and (u.is_verified() or not using_two_factor(u))
-    except:
+        return u.userprofile.teacher and two_factor_verified_or_not_using(u)
+    except AttributeError:
         return False
 
 
@@ -53,7 +57,7 @@ def logged_in_as_student(u):
     try:
         if u.userprofile.student:
             return True
-    except:
+    except AttributeError:
         return False
 
 
@@ -61,7 +65,7 @@ def not_logged_in(u):
     try:
         if u.userprofile:
             return False
-    except:
+    except AttributeError:
         return True
 
 
@@ -76,11 +80,9 @@ def teacher_verified(view_func):
     def wrapped(request, *args, **kwargs):
         u = request.user
         try:
-            if not u.userprofile.teacher or (
-                not u.is_verified() and using_two_factor(u)
-            ):
+            if not u.userprofile.teacher or not two_factor_verified_or_not_using(u):
                 return HttpResponseRedirect(reverse_lazy("teach"))
-        except:
+        except AttributeError:
             return HttpResponseRedirect(reverse_lazy("teach"))
         return view_func(request, *args, **kwargs)
 
@@ -94,7 +96,7 @@ def preview_user(view_func):
         try:
             if not u.userprofile.preview_user:
                 return HttpResponse("Unauthorized", status=401)
-        except:
+        except AttributeError:
             return HttpResponse("Unauthorized", status=401)
         return view_func(request, *args, **kwargs)
 
@@ -108,7 +110,7 @@ class IsPreviewUser(permissions.BasePermission):
             return (
                 u.userprofile
                 and u.userprofile.preview_user
-                and (u.is_verified() or not using_two_factor(u))
+                and two_factor_verified_or_not_using(u)
             )
         except AttributeError:
             return False
@@ -121,7 +123,7 @@ class IsTeacher(permissions.BasePermission):
             return (
                 u.userprofile
                 and u.userprofile.teacher
-                and (u.is_verified() or not using_two_factor(u))
+                and two_factor_verified_or_not_using(u)
             )
         except AttributeError:
             return False
