@@ -35,31 +35,25 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
+function showPopup() {
+    var popup = document.getElementById("deletePopup");
+    popup.style.visibility = "visible";
+    document.body.appendChild(popup);
+}
 
-function deleteGameConfirmation(game_id, game_name) {
-    var $content =
-        "<div class='dialog-overlay'>" +
-        "<div class='dialog'>" +
-        "<header><h3> Delete Game </h3></header>" +
-        "<div class='dialog-msg'><p> Are you sure you want to delete the game: <strong>" + game_name +
-        "</strong>?</p><p> Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>" +
-        "<footer><button id='cancel' class='button button--small button--cancel'> Cancel </button>" +
-        "<button id='delete_game' class='button button--small button--delete'> Delete game </button></footer></div></div>";
-    $('body').prepend($content);
-    $('#delete_game').click(function () {
-        // postWithCsrf(path);
-        $.ajax({
-            url: '/aimmo/api/games/' + game_id + '/',
-            type: 'delete',
-            headers: {
-                "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
-            }
-        })
+function cancelDelete() {
+    var popup = document.getElementById("deletePopup");
+    popup.style.visibility = "hidden";
+}
 
-        $(this).parents('.dialog-overlay').remove();
-        document.location.reload(true)
-    });
-    $('#cancel').click(function () {
-        $(this).parents('.dialog-overlay').remove();
-    });
+function deleteGame(game_id) {
+    $.ajax({
+        url: '/aimmo/api/games/' + game_id + '/',
+        type: 'delete',
+        headers: {
+            "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
+        }
+    })
+    cancelDelete();
+    document.location.reload(true);
 }
