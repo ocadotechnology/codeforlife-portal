@@ -35,18 +35,22 @@ copyright notice and these terms. You must not misrepresent the origins of this
 program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
-function showPopup() {
+
+function clickDeleteGame(game_id, game_name) {
     var popup = document.getElementById("deletePopup");
+    popup.setAttribute("data-game-id", game_id)
     popup.style.visibility = "visible";
-    document.body.appendChild(popup);
+
+    $("#gameName").text(game_name);
 }
 
-function cancelDelete() {
+function hidePopup() {
     var popup = document.getElementById("deletePopup");
     popup.style.visibility = "hidden";
 }
 
-function deleteGame(game_id) {
+function deleteGame() {
+    var game_id = document.getElementById("deletePopup").getAttribute("data-game-id");
     $.ajax({
         url: '/aimmo/api/games/' + game_id + '/',
         type: 'delete',
@@ -54,6 +58,6 @@ function deleteGame(game_id) {
             "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
         }
     })
-    cancelDelete();
+    hidePopup();
     document.location.reload(true);
 }

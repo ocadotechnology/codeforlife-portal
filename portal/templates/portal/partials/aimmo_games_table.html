@@ -40,25 +40,25 @@
                 <td>
                     <div class="games-table__buttons">
                         <a class="button button--small button--primary--navigation" href="{% url base_url id=game.id %}">Play</a>
-                        <div class="button button--small button--primary--danger" onclick="showPopup()"> Delete </div>
+                        <a class="button button--small button--primary--danger" onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
                     </div>
                 </td>
             </tr>
-            <div id="deletePopup" class="dialog-overlay">
-                <div class="dialog">
-                    <header><h3> Delete Game </h3></header>
-                    <div class="dialog-msg">
-                        <p> Are you sure you want to delete the game: <strong> {{ game.name }} </strong>?</p>
-                        <p> Deleting will permanently delete players&rsquo; progress for this particular game.</p>
-                    </div>
-                    <footer>
-                        <button id="cancel" class="button button--small button--cancel" onclick="cancelDelete()"> Cancel </button>
-                        <button id='confirmDelete' class='button button--small button--delete' onclick="deleteGame('{{ game.id }}')"> Delete game </button>
-                    </footer>
-                </div>
-            </div>
             {% endfor %}
         </table>
+    </div>
+    <div id="deletePopup" class="dialog-overlay" data-game-id="">
+        <div class="dialog">
+            <header><h3> Delete Game </h3></header>
+            <div class="dialog-msg">
+                <p> Are you sure you want to delete the game: <strong id="gameName"></strong>?</p>
+                <p> Deleting will permanently delete players&rsquo; progress for this particular game.</p>
+            </div>
+            <footer>
+                <a class="button button--small button--cancel" onclick="hidePopup()" > Cancel </a>
+                <a class='button button--small button--delete' onclick="deleteGame()"> Delete game </a>
+            </footer>
+        </div>
     </div>
 {% else %}
     <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo; button above.</p>

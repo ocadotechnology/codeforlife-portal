@@ -107,11 +107,7 @@ class IsPreviewUser(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            return (
-                u.userprofile
-                and u.userprofile.preview_user
-                and two_factor_verified_or_not_using(u)
-            )
+            return u.userprofile.preview_user and two_factor_verified_or_not_using(u)
         except AttributeError:
             return False
 
@@ -120,10 +116,6 @@ class IsTeacher(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            return (
-                u.userprofile
-                and u.userprofile.teacher
-                and two_factor_verified_or_not_using(u)
-            )
+            return u.userprofile.teacher and two_factor_verified_or_not_using(u)
         except AttributeError:
             return False
