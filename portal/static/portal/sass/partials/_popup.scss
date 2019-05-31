@@ -1,6 +1,6 @@
 @import 'base';
 
-.dialog-overlay {
+.popup-overlay {
   background-color: $color-popup-overlay;
   bottom: 0;
   left: 0;
@@ -8,9 +8,9 @@
   right: 0;
   top: 0;
   visibility: hidden;
-  z-index: $dialog-overlay-level;
+  z-index: $popup-overlay-level;
 
-  .dialog {
+  .popup {
     background-color: $color-background-secondary;
     border-color: $color-popup-border;
     border-radius: $spacing;
@@ -20,7 +20,7 @@
     overflow: hidden;
     width: 400px;
 
-    .dialog-msg {
+    .popup-msg {
       @include _padding(3 * $spacing, 3 * $spacing, 3 * $spacing, 3 * $spacing);
 
       p {

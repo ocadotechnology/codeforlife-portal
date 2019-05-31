@@ -34,17 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 
 from portal.permissions import preview_user
 from portal.views.teacher.teach import get_session_pdfs, get_resource_sheets_pdfs
 
 from aimmo.app_settings import get_users_for_new_game
 from aimmo.forms import AddGameForm
-from aimmo.models import Game
 
 
 def save_form(request, create_game_form):

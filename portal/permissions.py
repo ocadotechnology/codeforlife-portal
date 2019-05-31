@@ -42,13 +42,13 @@ from portal.utils import using_two_factor
 from rest_framework import permissions
 
 
-def two_factor_verified_or_not_using(u):
+def has_completed_auth_setup(u):
     return not using_two_factor(u) or (u.is_verified() and using_two_factor(u))
 
 
 def logged_in_as_teacher(u):
     try:
-        return u.userprofile.teacher and two_factor_verified_or_not_using(u)
+        return u.userprofile.teacher and has_completed_auth_setup(u)
     except AttributeError:
         return False
 
@@ -80,7 +80,7 @@ def teacher_verified(view_func):
     def wrapped(request, *args, **kwargs):
         u = request.user
         try:
-            if not u.userprofile.teacher or not two_factor_verified_or_not_using(u):
+            if not u.userprofile.teacher or not has_completed_auth_setup(u):
                 return HttpResponseRedirect(reverse_lazy("teach"))
         except AttributeError:
             return HttpResponseRedirect(reverse_lazy("teach"))
@@ -107,7 +107,7 @@ class IsPreviewUser(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            return u.userprofile.preview_user and two_factor_verified_or_not_using(u)
+            return u.userprofile.preview_user and has_completed_auth_setup(u)
         except AttributeError:
             return False
 
@@ -116,6 +116,6 @@ class IsTeacher(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            return u.userprofile.teacher and two_factor_verified_or_not_using(u)
+            return u.userprofile.teacher and has_completed_auth_setup(u)
         except AttributeError:
             return False
