@@ -37,8 +37,9 @@ identified as the original program.
 */
 
 function clickDeleteGame(game_id, game_name) {
-    $("#deletePopup")[0].setAttribute("data-game-id", game_id)
-    $("#deletePopup")[0].style.visibility = "visible";
+    var popup = $("#deletePopup")[0]
+    popup.setAttribute("data-game-id", game_id)
+    popup.style.visibility = "visible";
     $("strong").text(game_name);
 }
 

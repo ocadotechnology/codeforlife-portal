@@ -174,6 +174,32 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         return self.element_does_not_exist_by_id("games-table")
 
+    def test_preview_user_can_delete_one_game(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game")
+        page.click_create_game_button()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game 2")
+        page.click_create_game_button()
+
+        page.click_delete_game_button()
+
+        return self.element_exists_by_id("games-table")
+
     def test_preview_user_cannot_create_empty_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
