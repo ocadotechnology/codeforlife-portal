@@ -11,11 +11,11 @@
   visibility: hidden;
   z-index: $popup-overlay-level;
 
-  -webkit-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;  
-  -moz-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;   
-  -o-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out; 
-  -ms-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out; 
-  transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;  
+  -webkit-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
+  -moz-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
+  -o-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
+  -ms-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
+  transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
 
   .popup {
     background-color: $color-button-cancel;
@@ -54,7 +54,7 @@
 
     header {
       @include _padding(4 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
-      background-color: $color-popup;      
+      background-color: $color-popup;
       display: flex;
       justify-content: flex-start;
 
@@ -74,11 +74,11 @@
   opacity: 1;
   visibility: visible;
 
-  -webkit-transition: opacity 0.15s ease-out;  
-  -moz-transition: opacity 0.15s ease-out;   
-  -o-transition: opacity 0.15s ease-out; 
-  -ms-transition: opacity 0.15s ease-out; 
-  transition: opacity 0.15s ease-out;  
+  -webkit-transition: opacity 0.15s ease-out;
+  -moz-transition: opacity 0.15s ease-out;
+  -o-transition: opacity 0.15s ease-out;
+  -ms-transition: opacity 0.15s ease-out;
+  transition: opacity 0.15s ease-out;
 }
 
 
