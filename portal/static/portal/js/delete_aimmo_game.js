@@ -40,7 +40,7 @@ function clickDeleteGame(game_id, game_name) {
     var popup = $(".popup-overlay");
     popup.attr("data-game-id", game_id);
     popup.addClass("fade-active");
-    $("strong").text(game_name);
+    $(".strong").text(game_name);
 }
 
 function hidePopup() {
