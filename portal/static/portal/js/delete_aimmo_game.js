@@ -37,18 +37,18 @@ identified as the original program.
 */
 
 function clickDeleteGame(game_id, game_name) {
-    var popup = $("#deletePopup")[0]
-    popup.setAttribute("data-game-id", game_id)
-    popup.style.visibility = "visible";
+    var popup = $(".popup-overlay");
+    popup.attr("data-game-id", game_id);
+    popup.addClass("fade-active");
     $("strong").text(game_name);
 }
 
 function hidePopup() {
-    $("#deletePopup")[0].style.visibility = "hidden";
+    $(".popup-overlay").removeClass("fade-active");
 }
 
 function deleteGame() {
-    var game_id = $("#deletePopup")[0].getAttribute("data-game-id");
+    var game_id = $("#deletePopup").getAttribute("data-game-id");
     $.ajax({
         url: '/aimmo/api/games/' + game_id + '/',
         type: 'delete',

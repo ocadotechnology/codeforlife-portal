@@ -61,13 +61,20 @@ button,
 .button--delete {
   background-color: $color-teacher-blue;
   border: 1px solid;
+  border-color: $color-teacher-blue;
   color: $color-button-secondary-border-light;
 }
 
 .button--cancel {
-  background-color: $color-button-secondary-border-light;
+  background-color: $color-button-cancel;
   border: 1px solid;
-  color: $color-teacher-blue;
+  color: $color-text-primary;
+}
+
+.button--cancel:hover,
+.button--cancel:active,
+.button--cancel:focus {
+  color: $color-text-primary;
 }
 
 .button--menu {
