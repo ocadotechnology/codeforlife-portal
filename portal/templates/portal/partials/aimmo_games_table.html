@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load app_tags %}
 {% block scripts %}
 <script type="text/javascript" src="{% static 'portal/js/delete_aimmo_game.js' %}"></script>
 {% endblock scripts %}
@@ -47,19 +48,7 @@
             {% endfor %}
         </table>
     </div>
-    <div id="deletePopup" class="popup-overlay" data-game-id="">
-        <div class="popup">
-            <header><h3> Delete Game </h3></header>
-            <div class="popup-msg">
-                <p> Are you sure you want to delete the game: <strong class="strong"></strong>?</p>
-                <p> Deleting will permanently delete players&rsquo; progress for this particular game.</p>
-            </div>
-            <footer>
-                <a class="button button--small button--cancel" onclick="hidePopup()" > Cancel </a>
-                <a class='button button--small button--delete' onclick="deleteGame()"> Delete game </a>
-            </footer>
-        </div>
-    </div>
+    {% popup title="Delete Game" text="Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p><p>Deleting will permanently delete players&rsquo; progress for this particular game."  cancel_func="hidePopup()" cancel_text="Cancel" confirm_func="deleteGame()" confirm_text="Delete game" %}
 {% else %}
     <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo; button above.</p>
 {% endif %}

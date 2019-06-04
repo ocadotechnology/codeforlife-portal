@@ -40,7 +40,7 @@ function clickDeleteGame(game_id, game_name) {
     var popup = $(".popup-overlay");
     popup.attr("data-game-id", game_id);
     popup.addClass("fade-active");
-    $(".strong").text(game_name);
+    $(".popup__game-name").text(game_name);
 }
 
 function hidePopup() {
@@ -48,7 +48,7 @@ function hidePopup() {
 }
 
 function deleteGame() {
-    var game_id = $("#deletePopup").getAttribute("data-game-id");
+    var game_id = $("#popup").attr("data-game-id");
     $.ajax({
         url: '/aimmo/api/games/' + game_id + '/',
         type: 'delete',

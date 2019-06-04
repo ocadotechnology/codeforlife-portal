@@ -1,0 +1,13 @@
+{% load staticfiles %}
+<div id="popup" class="popup-overlay">
+    <div class="popup">
+        <header><h3> {{ title }} </h3></header>
+        <div class="popup-msg">
+            <p>{{ text }}</p>
+        </div>
+        <footer>
+            <a class="button button--small button--cancel" onclick="{{ cancel_func }}" > {{ cancel_text }} </a>
+            <a class='button button--small button--delete' onclick="{{ confirm_func }}"> {{ confirm_text }} </a>
+        </footer>
+    </div>
+</div>
