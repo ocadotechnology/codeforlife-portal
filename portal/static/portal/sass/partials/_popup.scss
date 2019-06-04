@@ -1,6 +1,6 @@
 @import 'base';
 
-.popup-overlay {
+.popup {
   background-color: $color-popup-overlay;
   bottom: 0;
   left: 0;
@@ -11,13 +11,13 @@
   visibility: hidden;
   z-index: $popup-overlay-level;
 
-  -webkit-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
-  -moz-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
-  -o-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
-  -ms-transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
-  transition: visibility 0s linear 0.15s, opacity 0.15s ease-out;
+  -webkit-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  -moz-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  -o-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  -ms-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
 
-  .popup {
+  .popup-box {
     background-color: $color-button-cancel;
     border-color: $color-popup;
     border-radius: $spacing;
@@ -27,7 +27,7 @@
     overflow: hidden;
     width: 440px;
 
-    .popup-msg {
+    .popup-box__msg {
       @include _padding(0px, 5 * $spacing, 5 * $spacing, 5 * $spacing);
       text-align: left;
 
@@ -70,21 +70,21 @@
   }
 }
 
-.fade-active {
+.popup--fade-active {
   opacity: 1;
   visibility: visible;
 
-  -webkit-transition: opacity 0.15s ease-out;
-  -moz-transition: opacity 0.15s ease-out;
-  -o-transition: opacity 0.15s ease-out;
-  -ms-transition: opacity 0.15s ease-out;
-  transition: opacity 0.15s ease-out;
+  -webkit-transition: opacity $fade-time ease-out;
+  -moz-transition: opacity $fade-time ease-out;
+  -o-transition: opacity $fade-time ease-out;
+  -ms-transition: opacity $fade-time ease-out;
+  transition: opacity $fade-time ease-out;
 }
 
 
 @media (max-width: 760px) {
-  .popup-overlay {
-    .popup {
+  .popup {
+    .popup-box {
       width: 80%;
     }
   }
