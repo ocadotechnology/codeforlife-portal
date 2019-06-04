@@ -1,13 +1,13 @@
 {% load staticfiles %}
-<div id="popup" class="popup">
+<section id="popup" class="popup-wrapper">
     <div class="popup-box">
-        <header><h3> {{ title }} </h3></header>
+        <div class="popup-box__title"><h3> {{ title }} </h3></div>
         <div class="popup-box__msg">
             <p>{{ text }}</p>
         </div>
-        <footer>
+        <div class="popup-box__buttons">
             <a class="button button--small button--cancel" onclick="{{ btn1_func }}" > {{ btn1_text }} </a>
             <a class='button button--small button--delete' onclick="{{ btn2_func }}"> {{ btn2_text }} </a>
-        </footer>
+        </div>
     </div>
-</div>
+</section>

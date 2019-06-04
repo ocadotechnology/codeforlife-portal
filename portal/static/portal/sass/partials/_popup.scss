@@ -1,6 +1,6 @@
 @import 'base';
 
-.popup {
+.popup-wrapper {
   background-color: $color-popup-overlay;
   bottom: 0;
   left: 0;
@@ -39,7 +39,7 @@
       }
     }
 
-    footer {
+    .popup-box__buttons {
       @include _margin(5 * $spacing, 5 * $spacing, 5 * $spacing, 5 * $spacing);
       display: flex;
       justify-content: flex-end;
@@ -52,7 +52,7 @@
       }
     }
 
-    header {
+    .popup-box__title {
       @include _padding(4 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
       background-color: $color-popup;
       display: flex;
@@ -70,7 +70,7 @@
   }
 }
 
-.popup--fade-active {
+.popup--fade {
   opacity: 1;
   visibility: visible;
 
@@ -83,7 +83,7 @@
 
 
 @media (max-width: 760px) {
-  .popup {
+  .popup-wrapper {
     .popup-box {
       width: 80%;
     }

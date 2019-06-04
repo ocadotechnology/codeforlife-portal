@@ -37,14 +37,14 @@ identified as the original program.
 */
 
 function clickDeleteGame(game_id, game_name) {
-    var popup = $(".popup");
+    var popup = $(".popup-wrapper");
     popup.attr("data-game-id", game_id);
-    popup.addClass("popup--fade-active");
+    popup.addClass("popup--fade");
     $(".popup__game-name").text(game_name);
 }
 
 function hidePopup() {
-    $(".popup").removeClass("popup--fade-active");
+    $(".popup-wrapper").removeClass("popup--fade");
 }
 
 function deleteGame() {

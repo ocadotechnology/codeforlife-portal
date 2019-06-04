@@ -104,7 +104,7 @@ def games_table(context, base_url):
 
 
 @register.inclusion_tag("portal/partials/popup.html")
-def popup(title, text, btn1, btn2):
+def show_popup(title, text, btn1, btn2):
     btn1_function, btn1_text = btn1.split("::")
     btn2_function, btn2_text = btn2.split("::")
 
