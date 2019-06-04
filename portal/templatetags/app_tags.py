@@ -103,15 +103,18 @@ def games_table(context, base_url):
     return get_user_playable_games(context, base_url)
 
 
-@register.inclusion_tag("portal/partials/popup.html", takes_context=True)
-def popup(context, title, text, cancel_func, cancel_text, confirm_func, confirm_text):
+@register.inclusion_tag("portal/partials/popup.html")
+def popup(title, text, btn1, btn2):
+    btn1_function, btn1_text = btn1.split("::")
+    btn2_function, btn2_text = btn2.split("::")
+
     return {
         "title": title,
         "text": text,
-        "cancel_func": cancel_func,
-        "cancel_text": cancel_text,
-        "confirm_func": confirm_func,
-        "confirm_text": confirm_text,
+        "btn1_func": btn1_function,
+        "btn1_text": btn1_text,
+        "btn2_func": btn2_function,
+        "btn2_text": btn2_text,
     }
 
 

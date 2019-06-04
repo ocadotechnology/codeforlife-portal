@@ -48,7 +48,7 @@
             {% endfor %}
         </table>
     </div>
-    {% popup title="Delete Game" text="Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p><p>Deleting will permanently delete players&rsquo; progress for this particular game."  cancel_func="hidePopup()" cancel_text="Cancel" confirm_func="deleteGame()" confirm_text="Delete game" %}
+    {% popup title="Delete Game" text="Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p><p>Deleting will permanently delete players&rsquo; progress for this particular game."  btn1="hidePopup()::Cancel" btn2="deleteGame()::Delete game" %}
 {% else %}
     <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo; button above.</p>
 {% endif %}
