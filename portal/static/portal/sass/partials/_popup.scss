@@ -18,10 +18,8 @@
   transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
 
   .popup-box {
-    background-color: $color-button-cancel;
-    border-color: $color-popup;
+    background-color: $color-background-secondary;
     border-radius: $spacing;
-    border-style: solid;
     box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
     margin: 20% auto 0;
     overflow: hidden;
@@ -53,8 +51,8 @@
     }
 
     .popup-box__title {
-      @include _padding(4 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
-      background-color: $color-popup;
+      @include _padding(5 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
+      background-color: $color-background-secondary;
       display: flex;
       justify-content: flex-start;
 

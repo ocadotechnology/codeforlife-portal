@@ -37,13 +37,12 @@ identified as the original program.
 */
 
 /* global post */
-/* global openConfirmationBox */
 /* global postWithCsrf */
 
 var CONFIRMATION_DATA = {};
 
-$(function() {
-    $('#selectedStudentsListToggle').click(function() {
+$(function () {
+    $('#selectedStudentsListToggle').click(function () {
         var students = $('.student');
         var selectedStudents = [];
         for (var i = 0; i < students.length; i++) {
@@ -69,7 +68,7 @@ $(function() {
             $('#num_students_selected').text("0")
         }
     });
-    $('.student').click(function() {
+    $('.student').click(function () {
         var students = $('.student');
 
         var count = 0;
@@ -88,52 +87,41 @@ $(function() {
         }
         $('#num_students_selected').text(count)
     });
-
-    $("#deleteClass").click(function() {
-        openConfirmationBox('delete');
-        return false;
-    });
 });
 
 function deleteClassConfirmation(path) {
-    CONFIRMATION_DATA.delete = {
-        options: {
-            title: 'Delete class'
-        },
-        html: '<p class="body-text">This class will be permanently deleted. Are you sure?</p>',
-        confirm: function() { postWithCsrf(path); }
-    };
-    openConfirmationBox('delete');
+    title = "Delete class";
+    text = "<div class='popup-text'><p class='body-text'>This class will be permanently deleted. Are you sure?</p></div>";
+    confirm_handler = "postWithCsrf('" + path + "')";
+    confirm_text = "Delete";
+
+    showPopupConfirmation(title, text, confirm_handler, confirm_text);
 }
 
 function deleteStudentsConfirmation(path) {
-    runIfStudentsSelected(function() {
-        CONFIRMATION_DATA.deleteStudents = {
-            options: {
-                title: 'Delete students'
-            },
-            html: '<p class="body-text">These students will be permanently deleted. Are you sure?</p>',
-            confirm: function () { postSelectedStudents(path); }
-        };
-        openConfirmationBox('deleteStudents');
+    runIfStudentsSelected(function () {
+        title = "Delete students";
+        text = "<div class='popup-text'><p class='body-text'>These students will be permanently deleted. Are you sure?</p></div>";
+        confirm_handler = "postSelectedStudents('" + path + "')";
+        confirm_text = "Delete";
+
+        showPopupConfirmation(title, text, confirm_handler, confirm_text);
     })
 }
 
 function resetStudentPasswords(path) {
-    runIfStudentsSelected(function() {
-        CONFIRMATION_DATA.resetPasswords = {
-            options: {
-                title: 'Reset student passwords'
-            },
-            html: '<p class="body-text">These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p>',
-            confirm: function() { postSelectedStudents(path); }
-        };
-        openConfirmationBox('resetPasswords');
+    runIfStudentsSelected(function () {
+        title = "Reset student passwords";
+        text = "<div class='popup-text'><p class='body-text'>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p></div>";
+        confirm_handler = "postSelectedStudents('" + path + "')";
+        confirm_text = "Confirm";
+
+        showPopupConfirmation(title, text, confirm_handler, confirm_text);
     })
 }
 
 function postSelectedStudents(path) {
-    runIfStudentsSelected(function(selectedStudents) {
+    runIfStudentsSelected(function (selectedStudents) {
         post(path, {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             transfer_students: JSON.stringify(selectedStudents)

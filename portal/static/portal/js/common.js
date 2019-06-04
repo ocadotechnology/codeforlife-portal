@@ -41,50 +41,35 @@ function post(path, params) {
     form.setAttribute("method", 'POST');
     form.setAttribute("action", path);
 
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
             hiddenField.setAttribute("value", params[key]);
 
             form.appendChild(hiddenField);
-         }
+        }
     }
 
     document.body.appendChild(form);
     form.submit();
 }
 
-var defaultConfirmationOptions = {
-    autoOpen: false,
-    resizable: false,
-    draggable: false,
-    modal: true,
-    buttons: {
-        Cancel: function() {
-            $(this).dialog('close');
-        }
-    }
+function showPopupConfirmation(title, text, confirm_handler, confirm_text) {
+    console.log(confirm_handler);
+    var popup = $(".popup-wrapper");
+    $(".popup-box__title").text(title);
+    $(".popup-box__msg").append(text);
+    $(".button--confirm").attr("onclick", confirm_handler);
+    $(".button--confirm").text(confirm_text);
+
+    popup.addClass("popup--fade");
 }
 
-function openConfirmationBox(name) {
-    var data = CONFIRMATION_DATA[name]
-
-    // copy the default options, overriding with our own where appropriate
-    opts = $.extend(defaultConfirmationOptions, data.options)
-
-    // add in the confirmation function if supplied
-    if (data.confirm) {
-        opts.buttons.Confirm = function() {
-            $(this).dialog('close');
-            data.confirm();
-        }
-    }
-
-    $('#confirmation-dialog').dialog('option', opts)
-    $('#confirmation-dialog').html(data.html)
-    $('#confirmation-dialog').dialog('open');
+function hidePopupConfirmation() {
+    $(".popup-wrapper").removeClass("popup--fade");
+    $(".popup-text").remove();
 }
 
 function postWithCsrf(path) {
@@ -94,14 +79,10 @@ function postWithCsrf(path) {
 }
 
 function disableOnClick(id) {
-    return function() {
+    return function () {
         var button = $(id);
         button.addClass('button--primary--disabled')
         button.attr('disabled', true);
         return true;
     }
-  }
-
-$(function() {
-    $('#confirmation-dialog').dialog(defaultConfirmationOptions);
-});
+}

@@ -104,18 +104,8 @@ def games_table(context, base_url):
 
 
 @register.inclusion_tag("portal/partials/popup.html")
-def show_popup(title, text, btn1, btn2):
-    btn1_function, btn1_text = btn1.split("::")
-    btn2_function, btn2_text = btn2.split("::")
-
-    return {
-        "title": title,
-        "text": text,
-        "btn1_func": btn1_function,
-        "btn1_text": btn1_text,
-        "btn2_func": btn2_function,
-        "btn2_text": btn2_text,
-    }
+def show_popup():
+    return
 
 
 @register.filter(name="make_into_username")

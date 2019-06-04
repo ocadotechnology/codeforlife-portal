@@ -36,15 +36,20 @@ program; modified versions of the program must be marked as such and not
 identified as the original program.
 */
 
+/* global showPopupConfirmation */
+
 function clickDeleteGame(game_id, game_name) {
+    title = "Delete Game";
+    text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
+        "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
+    confirm_handler = "deleteGame()";
+    confirm_text = "Delete game";
+
+
+    showPopupConfirmation(title, text, confirm_handler, confirm_text);
     var popup = $(".popup-wrapper");
     popup.attr("data-game-id", game_id);
-    popup.addClass("popup--fade");
     $(".popup__game-name").text(game_name);
-}
-
-function hidePopup() {
-    $(".popup-wrapper").removeClass("popup--fade");
 }
 
 function deleteGame() {
@@ -56,6 +61,6 @@ function deleteGame() {
             "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
         }
     })
-    hidePopup();
+    hidePopupConfirmation();
     document.location.reload(true);
 }
