@@ -246,7 +246,7 @@ class TeachDashboardPage(TeachBasePage):
         ).is_displayed()
 
     def confirm_dialog(self):
-        self._click_confirm()
+        self.browser.find_element_by_link_text("Confirm").click()
 
         return self
 

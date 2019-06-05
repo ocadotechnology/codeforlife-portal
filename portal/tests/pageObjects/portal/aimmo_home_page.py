@@ -52,7 +52,7 @@ class AimmoHomePage(BasePage):
 
     def click_delete_game_button(self):
         self.browser.find_element_by_link_text("Delete").click()
-        self.browser.find_element_by_id("delete_game").click()
+        self.browser.find_element_by_link_text("Confirm").click()
 
     def click_play_game_button(self):
         self.browser.find_element_by_link_text("Play").click()

@@ -93,9 +93,8 @@ function deleteClassConfirmation(path) {
     title = "Delete class";
     text = "<div class='popup-text'><p class='body-text'>This class will be permanently deleted. Are you sure?</p></div>";
     confirm_handler = "postWithCsrf('" + path + "')";
-    confirm_text = "Delete";
 
-    showPopupConfirmation(title, text, confirm_handler, confirm_text);
+    showPopupConfirmation(title, text, confirm_handler);
 }
 
 function deleteStudentsConfirmation(path) {
@@ -103,9 +102,8 @@ function deleteStudentsConfirmation(path) {
         title = "Delete students";
         text = "<div class='popup-text'><p class='body-text'>These students will be permanently deleted. Are you sure?</p></div>";
         confirm_handler = "postSelectedStudents('" + path + "')";
-        confirm_text = "Delete";
 
-        showPopupConfirmation(title, text, confirm_handler, confirm_text);
+        showPopupConfirmation(title, text, confirm_handler);
     })
 }
 
@@ -114,9 +112,8 @@ function resetStudentPasswords(path) {
         title = "Reset student passwords";
         text = "<div class='popup-text'><p class='body-text'>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p></div>";
         confirm_handler = "postSelectedStudents('" + path + "')";
-        confirm_text = "Confirm";
 
-        showPopupConfirmation(title, text, confirm_handler, confirm_text);
+        showPopupConfirmation(title, text, confirm_handler);
     })
 }
 

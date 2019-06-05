@@ -56,13 +56,12 @@ function post(path, params) {
     form.submit();
 }
 
-function showPopupConfirmation(title, text, confirm_handler, confirm_text) {
+function showPopupConfirmation(title, text, confirm_handler) {
     console.log(confirm_handler);
     var popup = $(".popup-wrapper");
     $(".popup-box__title").text(title);
     $(".popup-box__msg").append(text);
     $(".button--confirm").attr("onclick", confirm_handler);
-    $(".button--confirm").text(confirm_text);
 
     popup.addClass("popup--fade");
 }

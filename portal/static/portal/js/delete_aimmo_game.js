@@ -43,10 +43,9 @@ function clickDeleteGame(game_id, game_name) {
     text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
         "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
     confirm_handler = "deleteGame()";
-    confirm_text = "Delete game";
 
 
-    showPopupConfirmation(title, text, confirm_handler, confirm_text);
+    showPopupConfirmation(title, text, confirm_handler);
     var popup = $(".popup-wrapper");
     popup.attr("data-game-id", game_id);
     $(".popup__game-name").text(game_name);
