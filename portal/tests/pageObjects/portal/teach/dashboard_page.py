@@ -40,6 +40,8 @@ from move_classes_page import TeachMoveClassesPage
 from add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from selenium.webdriver.support.ui import Select
 
+import time
+
 
 class TeachDashboardPage(TeachBasePage):
     def __init__(self, browser):

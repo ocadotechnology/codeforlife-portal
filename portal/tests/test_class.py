@@ -99,6 +99,7 @@ class TestClass(BaseTest):
         page = page.go_to_class_page()
 
         page = page.toggle_select_student().delete_students()
+        assert page.is_dialog_showing()
         page = page.confirm_dialog()
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -119,6 +120,7 @@ class TestClass(BaseTest):
         assert page.is_dialog_showing()
         page = page.cancel_dialog()
         page = page.delete_class()
+        assert page.is_dialog_showing()
         page = page.confirm_dialog_expect_error()
         assert page.__class__.__name__ == "TeachClassPage"
         page.wait_for_messages()
