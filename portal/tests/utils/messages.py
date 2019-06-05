@@ -34,9 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
-
-FADE_TIME = 0.16
 
 
 def is_message_showing(browser, message):
@@ -104,14 +101,3 @@ def is_class_nonempty_message_showing(browser):
 
 def is_contact_message_sent_message_showing(browser):
     return is_message_showing(browser, "Your message was sent successfully.")
-
-
-def is_dialog_showing(self):
-    time.sleep(FADE_TIME)
-    return self.browser.find_element_by_id("popup").is_displayed()
-
-
-def confirm_dialog(self):
-    self.browser.find_element_by_id("confirm_button").click()
-
-    return self

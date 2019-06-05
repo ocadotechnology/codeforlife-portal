@@ -38,6 +38,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
+
+FADE_TIME = 0.16
 
 
 class BasePage(object):
@@ -129,6 +132,14 @@ class BasePage(object):
             .text
         )
         return error in errors
+
+    def is_dialog_showing(self):
+        time.sleep(FADE_TIME)
+        return self.browser.find_element_by_id("popup").is_displayed()
+
+    def confirm_dialog(self):
+        self.browser.find_element_by_id("confirm_button").click()
+        return self
 
 
 import resources_page

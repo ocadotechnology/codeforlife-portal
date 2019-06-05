@@ -39,11 +39,6 @@ from class_page import TeachClassPage
 from move_classes_page import TeachMoveClassesPage
 from add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from selenium.webdriver.support.ui import Select
-from utils.messages import confirm_dialog
-
-import time
-
-FADE_TIME = 0.16
 
 
 class TeachDashboardPage(TeachBasePage):

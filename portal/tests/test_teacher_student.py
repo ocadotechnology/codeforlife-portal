@@ -50,7 +50,6 @@ from utils.student import (
     create_many_school_students,
     create_school_student_directly,
 )
-from utils.messages import is_dialog_showing
 
 
 class TestTeacherStudent(BaseTest):
