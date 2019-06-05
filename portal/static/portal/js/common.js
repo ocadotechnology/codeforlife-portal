@@ -57,7 +57,6 @@ function post(path, params) {
 }
 
 function showPopupConfirmation(title, text, confirm_handler) {
-    console.log(confirm_handler);
     var popup = $(".popup-wrapper");
     $(".popup-box__title").text(title);
     $(".popup-box__msg").append(text);
