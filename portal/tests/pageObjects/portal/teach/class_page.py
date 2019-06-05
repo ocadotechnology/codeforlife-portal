@@ -41,6 +41,9 @@ import edit_student_page
 import onboarding_student_list_page
 import move_students_page
 import dismiss_students_page
+import time
+
+FADE_TIME = 0.16
 
 
 class TeachClassPage(TeachBasePage):
@@ -92,6 +95,7 @@ class TeachClassPage(TeachBasePage):
 
     def cancel_dialog(self):
         self.browser.find_element_by_id("cancel_button").click()
+        time.sleep(FADE_TIME)
         return self
 
     def confirm_delete_class_dialog(self):

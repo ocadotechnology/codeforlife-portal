@@ -250,7 +250,7 @@ class TestOrganisation(BaseTest, BasePage):
         create_school_student_directly(access_code_2)
 
         page = page.click_kick_button()
-        time.sleep(FADE_TIME)
+        assert page.is_dialog_showing()
         page = page.confirm_kick_with_students_dialog()
 
         assert page.__class__.__name__ == "TeachMoveClassesPage"
