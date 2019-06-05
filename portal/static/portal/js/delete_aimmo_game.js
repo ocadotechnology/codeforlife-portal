@@ -37,12 +37,13 @@ identified as the original program.
 */
 
 /* global showPopupConfirmation */
+/* global hidePopupConfirmation */
 
 function clickDeleteGame(game_id, game_name) {
-    title = "Delete Game";
-    text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
+    var title = "Delete Game";
+    var text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
         "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
-    confirm_handler = "deleteGame()";
+    var confirm_handler = "deleteGame()";
 
 
     showPopupConfirmation(title, text, confirm_handler);

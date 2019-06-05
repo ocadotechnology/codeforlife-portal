@@ -38,6 +38,7 @@ identified as the original program.
 
 /* global post */
 /* global postWithCsrf */
+/* global showPopupConfirmation */
 
 var CONFIRMATION_DATA = {};
 
@@ -90,18 +91,18 @@ $(function () {
 });
 
 function deleteClassConfirmation(path) {
-    title = "Delete class";
-    text = "<div class='popup-text'><p class='body-text'>This class will be permanently deleted. Are you sure?</p></div>";
-    confirm_handler = "postWithCsrf('" + path + "')";
+    var title = "Delete class";
+    var text = "<div class='popup-text'><p class='body-text'>This class will be permanently deleted. Are you sure?</p></div>";
+    var confirm_handler = "postWithCsrf('" + path + "')";
 
     showPopupConfirmation(title, text, confirm_handler);
 }
 
 function deleteStudentsConfirmation(path) {
     runIfStudentsSelected(function () {
-        title = "Delete students";
-        text = "<div class='popup-text'><p class='body-text'>These students will be permanently deleted. Are you sure?</p></div>";
-        confirm_handler = "postSelectedStudents('" + path + "')";
+        var title = "Delete students";
+        var text = "<div class='popup-text'><p class='body-text'>These students will be permanently deleted. Are you sure?</p></div>";
+        var confirm_handler = "postSelectedStudents('" + path + "')";
 
         showPopupConfirmation(title, text, confirm_handler);
     })
@@ -109,9 +110,9 @@ function deleteStudentsConfirmation(path) {
 
 function resetStudentPasswords(path) {
     runIfStudentsSelected(function () {
-        title = "Reset student passwords";
-        text = "<div class='popup-text'><p class='body-text'>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p></div>";
-        confirm_handler = "postSelectedStudents('" + path + "')";
+        var title = "Reset student passwords";
+        var text = "<div class='popup-text'><p class='body-text'>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p></div>";
+        var confirm_handler = "postSelectedStudents('" + path + "')";
 
         showPopupConfirmation(title, text, confirm_handler);
     })
