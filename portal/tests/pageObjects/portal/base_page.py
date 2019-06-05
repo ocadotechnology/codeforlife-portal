@@ -141,6 +141,11 @@ class BasePage(object):
         self.browser.find_element_by_id("confirm_button").click()
         return self
 
+    def cancel_dialog(self):
+        self.browser.find_element_by_id("cancel_button").click()
+        time.sleep(FADE_TIME)
+        return self
+
 
 import resources_page
 import aimmo_home_page

@@ -45,7 +45,6 @@ function clickDeleteGame(game_id, game_name) {
         "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
     var confirm_handler = "deleteGame()";
 
-
     showPopupConfirmation(title, text, confirm_handler);
     var popup = $(".popup-wrapper");
     popup.attr("data-game-id", game_id);
