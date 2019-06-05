@@ -91,7 +91,7 @@ class TeachClassPage(TeachBasePage):
         return dismiss_students_page.TeachDismissStudentsPage(self.browser)
 
     def cancel_dialog(self):
-        self.browser.find_element_by_class("button--cancel").click()
+        self.browser.find_element_by_class_name("button--cancel").click()
         return self
 
     def confirm_delete_class_dialog(self):

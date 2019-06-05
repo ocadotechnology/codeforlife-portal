@@ -244,7 +244,7 @@ class TeachDashboardPage(TeachBasePage):
         return self.browser.find_element_by_class("popup-wrapper").is_displayed()
 
     def confirm_dialog(self):
-        self.browser.find_element_by_link_text("Confirm").click()
+        self.browser.find_element_by_class_name("button--confirm").click()
 
         return self
 
