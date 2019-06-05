@@ -39,7 +39,6 @@ import time
 from base_test import BaseTest
 
 from portal.tests.pageObjects.portal.home_page import HomePage
-from portal.tests.pageObjects.portal.teach.dashboard_page import is_dialog_showing
 from utils.teacher import signup_teacher_directly
 from utils.organisation import (
     create_organisation_directly,
@@ -51,6 +50,7 @@ from utils.student import (
     create_many_school_students,
     create_school_student_directly,
 )
+from utils.messages import is_dialog_showing
 
 
 class TestTeacherStudent(BaseTest):

@@ -39,6 +39,7 @@ from class_page import TeachClassPage
 from move_classes_page import TeachMoveClassesPage
 from add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from selenium.webdriver.support.ui import Select
+from utils.messages import confirm_dialog
 
 import time
 
@@ -242,17 +243,7 @@ class TeachDashboardPage(TeachBasePage):
     def _click_leave_button(self):
         self.browser.find_element_by_id("leave_organisation_button").click()
 
-    def is_dialog_showing(self):
-        time.sleep(FADE_TIME)
-        return self.browser.find_element_by_id("popup").is_displayed()
-
-    def confirm_dialog(self):
-        self.browser.find_element_by_id("confirm_button").click()
-
-        return self
-
     def confirm_kick_with_students_dialog(self):
         self.confirm_dialog()
 
         return TeachMoveClassesPage(self.browser)
-

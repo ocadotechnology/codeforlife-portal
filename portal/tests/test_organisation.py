@@ -49,12 +49,14 @@ from utils.organisation import (
 )
 from utils.classes import create_class_directly
 from utils.student import create_school_student_directly
-from utils.messages import is_organisation_created_message_showing
+from utils.messages import (
+    is_organisation_created_message_showing,
+    is_dialog_showing,
+    confirm_dialog,
+)
 
 from utils.messages import is_teacher_email_updated_message_showing
 from utils import email as email_utils
-
-FADE_TIME = 0.16
 
 
 class TestOrganisation(BaseTest, BasePage):

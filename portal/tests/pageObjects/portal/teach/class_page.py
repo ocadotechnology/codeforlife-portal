@@ -41,6 +41,7 @@ import edit_student_page
 import onboarding_student_list_page
 import move_students_page
 import dismiss_students_page
+from utils.messages import confirm_dialog
 
 
 class TeachClassPage(TeachBasePage):
