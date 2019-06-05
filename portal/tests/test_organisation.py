@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import time
 from django.core import mail
 
 from base_test import BaseTest
@@ -52,6 +53,8 @@ from utils.messages import is_organisation_created_message_showing
 
 from utils.messages import is_teacher_email_updated_message_showing
 from utils import email as email_utils
+
+FADE_TIME = 0.16
 
 
 class TestOrganisation(BaseTest, BasePage):
@@ -211,7 +214,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.is_teacher_in_school(new_last_name)
 
-        page = page.click_kick_button().confirm_dialog()
+        page = page.click_kick_button()
+        time.sleep(FADE_TIME)
+        page = page.confirm_dialog()
 
         assert page.is_not_teacher_in_school(new_last_name)
 
@@ -246,7 +251,9 @@ class TestOrganisation(BaseTest, BasePage):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = page.click_kick_button().confirm_kick_with_students_dialog()
+        page = page.click_kick_button()
+        time.sleep(FADE_TIME)
+        page = page.confirm_kick_with_students_dialog()
 
         assert page.__class__.__name__ == "TeachMoveClassesPage"
 
@@ -312,7 +319,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
-        page = page.click_make_admin_button().confirm_dialog()
+        page = page.click_make_admin_button()
+        time.sleep(FADE_TIME)
+        page = page.confirm_dialog()
 
         assert page.is_teacher_admin()
 
@@ -333,7 +342,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
-        page = page.click_make_admin_button().confirm_dialog()
+        page = page.click_make_admin_button()
+        time.sleep(FADE_TIME)
+        page = page.confirm_dialog()
 
         assert page.is_teacher_admin()
 
