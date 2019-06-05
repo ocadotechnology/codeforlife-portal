@@ -48,6 +48,11 @@ from utils.messages import (
     is_class_nonempty_message_showing,
 )
 
+from portal.tests.pageObjects.portal.teach.dashboard_page import (
+    is_dialog_showing,
+    confirm_dialog,
+)
+
 
 class TestClass(BaseTest):
     def test_create(self):
