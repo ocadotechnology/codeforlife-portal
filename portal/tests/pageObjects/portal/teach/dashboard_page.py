@@ -244,7 +244,7 @@ class TeachDashboardPage(TeachBasePage):
 
     def is_dialog_showing(self):
         time.sleep(FADE_TIME)
-        return self.browser.find_element_by_class("popup-wrapper").is_displayed()
+        return self.browser.find_element_by_id("popup").is_displayed()
 
     def confirm_dialog(self):
         self.browser.find_element_by_id("confirm_button").click()
