@@ -215,7 +215,7 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.is_teacher_in_school(new_last_name)
 
         page = page.click_kick_button()
-        time.sleep(FADE_TIME)
+        assert page.is_dialog_showing()
         page = page.confirm_dialog()
 
         assert page.is_not_teacher_in_school(new_last_name)
@@ -320,7 +320,7 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.__class__.__name__ == "TeachDashboardPage"
 
         page = page.click_make_admin_button()
-        time.sleep(FADE_TIME)
+        assert page.is_dialog_showing()
         page = page.confirm_dialog()
 
         assert page.is_teacher_admin()
@@ -343,7 +343,7 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.__class__.__name__ == "TeachDashboardPage"
 
         page = page.click_make_admin_button()
-        time.sleep(FADE_TIME)
+        assert page.is_dialog_showing()
         page = page.confirm_dialog()
 
         assert page.is_teacher_admin()

@@ -42,6 +42,8 @@ from selenium.webdriver.support.ui import Select
 
 import time
 
+FADE_TIME = 0.16
+
 
 class TeachDashboardPage(TeachBasePage):
     def __init__(self, browser):
@@ -241,6 +243,7 @@ class TeachDashboardPage(TeachBasePage):
         self.browser.find_element_by_id("leave_organisation_button").click()
 
     def is_dialog_showing(self):
+        time.sleep(FADE_TIME)
         return self.browser.find_element_by_class("popup-wrapper").is_displayed()
 
     def confirm_dialog(self):

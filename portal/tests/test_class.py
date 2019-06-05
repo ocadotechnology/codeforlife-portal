@@ -34,7 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
 from base_test import BaseTest
 
 from utils.teacher import signup_teacher_directly
@@ -48,8 +47,6 @@ from utils.messages import (
     is_class_created_message_showing,
     is_class_nonempty_message_showing,
 )
-
-FADE_TIME = 0.16
 
 
 class TestClass(BaseTest):
@@ -102,14 +99,10 @@ class TestClass(BaseTest):
         page = page.go_to_class_page()
 
         page = page.toggle_select_student().delete_students()
-        time.sleep(FADE_TIME)
-        page = page.confirm_delete_student_dialog()
-
+        page = page.confirm_dialog()
         page = page.delete_class()
-        time.sleep(FADE_TIME)
         assert page.is_dialog_showing()
         page = page.confirm_delete_class_dialog()
-
         assert page.__class__.__name__ == "TeachDashboardPage"
         assert page.does_not_have_classes()
 
@@ -123,14 +116,10 @@ class TestClass(BaseTest):
         page = page.go_to_class_page()
 
         page = page.delete_class()
-        time.sleep(FADE_TIME)
         assert page.is_dialog_showing()
         page = page.cancel_dialog()
-
         page = page.delete_class()
-        time.sleep(FADE_TIME)
         page = page.confirm_dialog_expect_error()
-
         assert page.__class__.__name__ == "TeachClassPage"
         page.wait_for_messages()
         assert is_class_nonempty_message_showing(self.selenium)

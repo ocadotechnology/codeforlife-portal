@@ -352,7 +352,6 @@ class TestTeacherStudent(BaseTest):
         assert page.student_exists(student_name)
 
         page = page.toggle_select_student().delete_students()
-        time.sleep(FADE_TIME)
         assert page.is_dialog_showing()
         page = page.confirm_delete_student_dialog()
 
@@ -370,7 +369,6 @@ class TestTeacherStudent(BaseTest):
         assert page.student_exists(student_name)
 
         page = page.toggle_select_student().reset_passwords()
-        time.sleep(FADE_TIME)
         assert page.is_dialog_showing()
         page = page.confirm_reset_student_dialog()
 
