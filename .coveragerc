@@ -2,3 +2,5 @@
 branch = True
 omit = 
     portal/tests/*
+    .eggs/*
+    /*
