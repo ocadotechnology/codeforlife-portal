@@ -103,11 +103,6 @@ def games_table(context, base_url):
     return get_user_playable_games(context, base_url)
 
 
-@register.inclusion_tag("portal/partials/popup.html")
-def popup():
-    return
-
-
 @register.filter(name="make_into_username")
 def make_into_username(u):
     username = ""
