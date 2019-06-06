@@ -1,6 +1,0 @@
-[run]
-branch = True
-omit = 
-    portal/tests/*
-    .eggs/*
-data_file=.coverage
