@@ -1,9 +1,9 @@
 [run]
 branch = True
 omit = 
-    tests/*
+    portal/tests/*
     .eggs/*
-    /usr/*
+    /home/travis/*
 data_file=.coverage
 
 [report]
@@ -14,4 +14,6 @@ exclude_lines =
     if __name__ == .__main__.:
 ignore_errors = True
 omit =
-    tests/*
+    portal/tests/*
+    .eggs/*
+    /home/travis/*
