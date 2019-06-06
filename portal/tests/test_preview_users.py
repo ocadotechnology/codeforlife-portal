@@ -240,7 +240,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         return self.element_does_not_exist_by_id("games-table")
 
-    def test_preview_user_deletes_one_game_only(self):
+    def test_preview_user_deletes_one_of_multiple_games(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
         _, _, access_code = create_class_directly(email)
