@@ -3,6 +3,7 @@ branch = True
 omit = 
     portal/tests/*
     .eggs/*
+    /usr/*
 data_file=.coverage
 
 [report]
