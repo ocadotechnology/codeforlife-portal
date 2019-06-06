@@ -4,6 +4,7 @@ omit =
     portal/tests/*
     .eggs/*
     /usr/*
+    /home/*
 data_file=.coverage
 
 [report]
