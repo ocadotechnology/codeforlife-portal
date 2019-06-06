@@ -1,0 +1,89 @@
+@import 'base';
+
+.popup-wrapper {
+  background-color: $color-popup-overlay;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  visibility: hidden;
+  z-index: $popup-overlay-level;
+
+  -webkit-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  -moz-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  -o-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  -ms-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+  transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
+
+  .popup-box {
+    background-color: $color-background-secondary;
+    border-radius: $spacing;
+    box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
+    margin: 20% auto 0;
+    overflow: hidden;
+    width: 440px;
+
+    .popup-box__msg {
+      @include _padding(0px, 5 * $spacing, 5 * $spacing, 5 * $spacing);
+      text-align: left;
+
+      p {
+        @include _font-size(18px);
+        @include _margin(0px, 0px, 0px, 0px);
+        @include _padding($spacing, $spacing, $spacing, $spacing);
+        color: $color-text-primary;
+      }
+    }
+
+    .popup-box__buttons {
+      @include _margin(5 * $spacing, 5 * $spacing, 5 * $spacing, 5 * $spacing);
+      display: flex;
+      justify-content: flex-end;
+
+      .button {
+        @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
+        @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
+        border-radius: $spacing;
+        border-style: solid;
+      }
+    }
+
+    .popup-box__title {
+      @include _padding(5 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
+      background-color: $color-background-secondary;
+      display: flex;
+      justify-content: flex-start;
+
+      h3 {
+        @include _font-size(20px);
+        @include _margin(0px, 0px, 0px, 0px);
+        @include _padding(0px, $spacing, 0px, $spacing);
+        color: $color-text-primary;
+        display: inline-block;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.popup--fade {
+  opacity: 1;
+  visibility: visible;
+
+  -webkit-transition: opacity $fade-time ease-out;
+  -moz-transition: opacity $fade-time ease-out;
+  -o-transition: opacity $fade-time ease-out;
+  -ms-transition: opacity $fade-time ease-out;
+  transition: opacity $fade-time ease-out;
+}
+
+
+@media (max-width: 760px) {
+  .popup-wrapper {
+    .popup-box {
+      width: 80%;
+    }
+  }
+}
