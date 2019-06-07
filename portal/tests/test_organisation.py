@@ -181,11 +181,11 @@ class TestOrganisation(BaseTest, BasePage):
 
     def test_kick(self):
         email_1, password_1 = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email_1)
-        _, class_name, access_code = create_class_directly(email_1)
+        name, _ = create_organisation_directly(email_1)
+        _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
 
-        title, first_name, last_name, email_2, password_2 = generate_details()
+        title, first_name, _, email_2, password_2 = generate_details()
 
         new_last_name = "New Teacher"
 
@@ -195,8 +195,6 @@ class TestOrganisation(BaseTest, BasePage):
             .go_to_signup_page()
             .signup(title, first_name, new_last_name, email_2, password_2, password_2)
         )
-
-        assert page.__class__.__name__ == "EmailVerificationNeededPage"
 
         page = email_utils.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
         mail.outbox = []
@@ -211,17 +209,19 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.is_teacher_in_school(new_last_name)
 
-        page = page.click_kick_button().confirm_dialog()
+        page = page.click_kick_button()
+        assert page.is_dialog_showing()
+        page = page.confirm_dialog()
 
         assert page.is_not_teacher_in_school(new_last_name)
 
     def test_move_classes_and_kick(self):
         email_1, password_1 = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email_1)
-        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        name, _ = create_organisation_directly(email_1)
+        _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
 
-        title, first_name, last_name, email_2, password_2 = generate_details()
+        title, first_name, _, email_2, password_2 = generate_details()
 
         new_last_name = "New Teacher"
 
@@ -243,10 +243,12 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.is_teacher_in_school(new_last_name)
 
-        _, class_name_2, access_code_2 = create_class_directly(email_2)
+        _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = page.click_kick_button().confirm_kick_with_students_dialog()
+        page = page.click_kick_button()
+        assert page.is_dialog_showing()
+        page = page.confirm_kick_with_students_dialog()
 
         assert page.__class__.__name__ == "TeachMoveClassesPage"
 
@@ -301,9 +303,9 @@ class TestOrganisation(BaseTest, BasePage):
 
     def test_toggle_admin(self):
         email_1, password_1 = signup_teacher_directly()
-        email_2, password_2 = signup_teacher_directly()
+        email_2, _ = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
-        _, class_name, access_code = create_class_directly(email_1)
+        _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
         join_teacher_to_organisation(email_2, name, postcode)
 
@@ -312,7 +314,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
-        page = page.click_make_admin_button().confirm_dialog()
+        page = page.click_make_admin_button()
+        assert page.is_dialog_showing()
+        page = page.confirm_dialog()
 
         assert page.is_teacher_admin()
 
@@ -322,9 +326,9 @@ class TestOrganisation(BaseTest, BasePage):
 
     def test_disable_2FA(self):
         email_1, password_1 = signup_teacher_directly()
-        email_2, password_2 = signup_teacher_directly()
+        email_2, _ = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
-        _, class_name, access_code = create_class_directly(email_1)
+        _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
         join_teacher_to_organisation(email_2, name, postcode)
 
@@ -333,7 +337,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
-        page = page.click_make_admin_button().confirm_dialog()
+        page = page.click_make_admin_button()
+        assert page.is_dialog_showing()
+        page = page.confirm_dialog()
 
         assert page.is_teacher_admin()
 

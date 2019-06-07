@@ -104,7 +104,7 @@ SETTINGS = {
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
+        "portal.middleware.online_status.OnlineStatusMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
@@ -135,13 +135,15 @@ SETTINGS = {
     },
     "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
     "PREVIEW_USER_AIMMO_DECORATOR": "portal.permissions.preview_user",
+    "IS_PREVIEW_USER_AIMMO_CLASS": "portal.permissions.IsPreviewUser",
+    "IS_TEACHER_CLASS": "portal.permissions.IsTeacher",
     "USERS_FOR_NEW_AIMMO_GAME": "portal.aimmo_game.get_users_for_new_game",
 }
 
 RELATIONSHIPS = [
     OrderingRelationship(
         "MIDDLEWARE",
-        "portal.middleware.online_status.middleware.OnlineStatusMiddleware",
+        "portal.middleware.online_status.OnlineStatusMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),

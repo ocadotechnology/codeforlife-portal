@@ -58,6 +58,25 @@ button,
   margin-top: auto;
 }
 
+.button--confirm {
+  background-color: $color-teacher-blue;
+  border: 1px solid;
+  border-color: $color-teacher-blue;
+  color: $color-button-secondary-border-light;
+}
+
+.button--cancel {
+  background-color: $color-background-secondary;
+  border: 1px solid;
+  color: $color-text-primary;
+}
+
+.button--cancel:hover,
+.button--cancel:active,
+.button--cancel:focus {
+  color: $color-text-primary;
+}
+
 .button--menu {
   @include _padding(10px, 0px, 21px, 0px);
   background-color: transparent;

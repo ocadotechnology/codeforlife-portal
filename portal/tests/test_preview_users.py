@@ -47,8 +47,8 @@ from utils.organisation import create_organisation_directly
 from portal.models import Teacher
 from portal.templatetags.app_tags import is_preview_user, is_eligible_for_testing
 
-from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
+from pageObjects.portal.teach.teach_base_page import TeachBasePage
 
 
 class UnitTestPreviewUsers(TestCase):
@@ -97,13 +97,13 @@ class UnitTestPreviewUsers(TestCase):
         self.assertEqual(False, is_preview_user(teacher.new_user))
 
     def test_eligible_for_testing(self):
-        email, password = signup_teacher_directly()
+        email, _ = signup_teacher_directly()
         _, _ = create_organisation_directly(email, True)
         teacher = Teacher.objects.get(new_user__email=email)
         self.assertEqual(True, is_eligible_for_testing(teacher.new_user))
 
     def test_not_eligible_for_testing(self):
-        email, password = signup_teacher_directly()
+        email, _ = signup_teacher_directly()
         _, _ = create_organisation_directly(email, False)
         teacher = Teacher.objects.get(new_user__email=email)
         self.assertEqual(False, is_eligible_for_testing(teacher.new_user))
@@ -135,11 +135,11 @@ class UnitTestPreviewUsers(TestCase):
         self.assertEqual(401, response.status_code)
 
 
-class SeleniumTestPreviewUsers(BaseTest):
+class SeleniumTestPreviewUsers(TeachBasePage):
     def test_preview_user_can_create_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -155,7 +155,7 @@ class SeleniumTestPreviewUsers(BaseTest):
     def test_preview_user_cannot_create_empty_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -199,7 +199,7 @@ class SeleniumTestPreviewUsers(BaseTest):
     def test_preview_user_can_join_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -214,10 +214,54 @@ class SeleniumTestPreviewUsers(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_aimmo_home_page()
 
-        page.click_join_game_button()
+        page.click_play_game_button()
 
-        assert page.game_exists(new_game_name)
+        self.assertIn("/aimmo/play/3/", self.selenium.driver.current_url)
 
-        page.click_game_to_join_button(new_game_name)
+    def test_preview_user_can_delete_game(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
 
-        self.assertIn("/aimmo/play/2/", self.selenium.driver.current_url)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game")
+        page.click_create_game_button()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_delete_game_button()
+
+        return self.element_does_not_exist_by_id("games-table")
+
+    def test_preview_user_deletes_one_of_multiple_games(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game")
+        page.click_create_game_button()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test Game 2")
+        page.click_create_game_button()
+
+        page.click_delete_game_button()
+
+        return self.element_exists_by_id("games-table")

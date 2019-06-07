@@ -50,18 +50,12 @@ class AimmoHomePage(BasePage):
     def click_create_game_button(self):
         self.browser.find_element_by_id("create_game_button").click()
 
-    def click_join_game_button(self):
-        self.browser.find_element_by_id("join_game_button").click()
+    def click_delete_game_button(self):
+        self.browser.find_element_by_link_text("Delete").click()
+        self.browser.find_element_by_id("confirm_button").click()
 
-    def click_game_to_join_button(self, game_name):
-        self.browser.find_element_by_link_text(game_name).click()
-
-    def game_exists(self, game_name):
-        try:
-            self.browser.find_element_by_link_text(game_name)
-            return True
-        except NoSuchElementException:
-            return False
+    def click_play_game_button(self):
+        self.browser.find_element_by_link_text("Play").click()
 
     def input_new_game_name(self, new_game_name):
         self.browser.find_element_by_id("id_name").clear()

@@ -42,21 +42,21 @@ PDF_DATA = {
         "description": "This document shows how the progression through Rapid Router levels cover each stage of the "
         "computing curriculum for key stages one and two.",
         "links": None,
-        "url": "user_guide/introduction_to_coding.pdf",
+        "url": "user_guide_v1/introduction_to_coding.pdf",
         "page_origin": "#user-guide",
     },
     "levels_guide_1-28": {
         "title": "Levels Guide 1 ‒ 28",
         "description": "Road maps for levels 1 to 28 of Rapid Router. You can find the maps for levels 29 ‒ 109 below.",
         "links": ["levels_guide_29-109"],
-        "url": "user_guide/levels_guide_KS1_KS2.pdf",
+        "url": "user_guide_v1/levels_guide_KS1_KS2.pdf",
         "page_origin": "#user-guide",
     },
     "glossary": {
         "title": "Glossary",
         "description": "A glossary of coding terminology, for all the key stages of the curriculum.",
         "links": None,
-        "url": "user_guide/glossary.pdf",
+        "url": "user_guide_v1/glossary.pdf",
         "page_origin": "#user-guide",
     },
     "introduction_to_python": {
@@ -64,28 +64,28 @@ PDF_DATA = {
         "description": "A summary of the python commands specific to Rapid Router as well as general python statements "
         "students will need to use.",
         "links": None,
-        "url": "user_guide/introduction_to_python.pdf",
+        "url": "user_guide_v1/introduction_to_python.pdf",
         "page_origin": "#user-guide",
     },
     "levels_guide_29-109": {
         "title": "Levels Guide 29 ‒ 109",
         "description": "Road maps for levels 29 to 109 of Rapid Router.",
         "links": ["levels_guide_1-28"],
-        "url": "user_guide/levels_guide_KS3.pdf",
+        "url": "user_guide_v1/levels_guide_KS3.pdf",
         "page_origin": "#user-guide",
     },
     "blockly_python_phrasebook": {
         "title": "Blockly ‒ Python Phrasebook",
         "description": "A table showing the conversion from Blockly to Python.",
         "links": None,
-        "url": "user_guide/blockly_python_phrasebook.pdf",
+        "url": "user_guide_v1/blockly_python_phrasebook.pdf",
         "page_origin": "#user-guide",
     },
     "user_guide_aimmo": {
         "title": "Introduction to AI:MMO",
         "description": "User guide for AI:MMO, the KS3 game.",
         "links": None,
-        "url": "user_guide/AIMMO_User_guide.pdf",
+        "url": "user_guide_v1/AIMMO_User_guide.pdf",
         "page_origin": "#user-guide",
     },
     # ...................KS1 sessions...........#
