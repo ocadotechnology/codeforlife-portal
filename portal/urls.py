@@ -57,11 +57,12 @@ from portal.views.api import (
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.teacher.solutions_level_selector import levels
 from portal.permissions import teacher_verified
-from portal.views.aimmo.home import aimmo_home
 
 from portal.views.email import send_new_users_report
 
 from game.views.level import play_default_level
+
+from portal.views.aimmo.home import aimmo_home
 
 from portal.views.email import verify_email
 from portal.views.home import (

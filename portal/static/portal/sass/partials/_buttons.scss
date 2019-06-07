@@ -48,12 +48,6 @@ button,
   @include _padding(10px, 15px, 10px, 15px);
 }
 
-.button--medium {
-  @include _font-size(18px);
-  @include _line-height(25px);
-  @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
-}
-
 .button--small {
   @include _font-size(16px);
   @include _line-height(25px);
@@ -62,6 +56,25 @@ button,
 
 .button--bottom {
   margin-top: auto;
+}
+
+.button--confirm {
+  background-color: $color-teacher-blue;
+  border: 1px solid;
+  border-color: $color-teacher-blue;
+  color: $color-button-secondary-border-light;
+}
+
+.button--cancel {
+  background-color: $color-background-secondary;
+  border: 1px solid;
+  color: $color-text-primary;
+}
+
+.button--cancel:hover,
+.button--cancel:active,
+.button--cancel:focus {
+  color: $color-text-primary;
 }
 
 .button--menu {
@@ -267,12 +280,6 @@ button,
 
 }
 
-.button-group--game--table {
-  display: flex;
-  justify-content: space-around;
-}
-
-
 .resource-buttons {
   @include _padding(40px, 0px, 0px, 0px);
 
@@ -358,10 +365,6 @@ button,
     }
 
   }
-  .button-group--game--table {
-    display: flex;
-    flex-wrap: wrap;
-  }
 
   .button--menu__item__sub {
     @include _font-size(30px);
@@ -369,9 +372,5 @@ button,
     background-color: $color-background-teach;
     font-weight: 500;
     text-align: left;
-  }
-
-  .button--medium {
-    @include _margin($spacing, auto, $spacing, auto);
   }
 }
