@@ -37,9 +37,8 @@
 from django.core import mail
 
 import email
-
-from portal.models import Class, Student
 from portal.helpers.emails import generate_token
+from portal.models import Class, Student
 
 
 def generate_school_details():
