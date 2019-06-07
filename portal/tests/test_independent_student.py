@@ -50,6 +50,7 @@ from pageObjects.portal.home_page import HomePage
 from utils.student import (
     create_independent_student,
     submit_independent_student_signup_form,
+    signup_duplicate_independent_student_fail
 )
 from utils.messages import (
     is_email_verified_message_showing,
@@ -70,6 +71,15 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page, newsletter=True)
         assert is_email_verified_message_showing(self.selenium)
+
+    def test_signup_duplicate_failure(self):
+        page = self.go_to_homepage()
+        page, _, _, email, _ = create_independent_student(page)
+        assert is_email_verified_message_showing(self.selenium)
+
+        page = self.go_to_homepage()
+        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, email, False)
+        assert page.__class__.__name__ == "LoginPage"
 
     def test_signup_failure_short_password(self):
         page = self.go_to_homepage()
