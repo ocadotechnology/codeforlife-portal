@@ -880,7 +880,7 @@ def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=No
     for game_to_add in games_to_add:
         game_to_add.can_play.add(student.new_user)
     
-    if old_teacher is not None:
+    if old_teacher:
         games_to_remove = Game.objects.filter(owner=old_teacher.new_user)
 
         for game_to_remove in games_to_remove:
