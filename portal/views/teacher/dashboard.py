@@ -492,7 +492,9 @@ def teacher_accept_student_request(request, pk):
 
 
 def check_student_can_be_accepted(request, student):
-    # check student is awaiting decision on request
+    """
+    check student is awaiting decision on request
+    """
     if not student.pending_class_request:
         raise Http404
 
