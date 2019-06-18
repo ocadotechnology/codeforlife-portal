@@ -43,7 +43,7 @@ from rest_framework import permissions
 
 
 def has_completed_auth_setup(u):
-    return not using_two_factor(u) or (u.is_verified() and using_two_factor(u))
+    return (not using_two_factor(u)) or (u.is_verified() and using_two_factor(u))
 
 
 def logged_in_as_teacher(u):
