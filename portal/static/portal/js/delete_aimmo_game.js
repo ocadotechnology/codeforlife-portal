@@ -58,9 +58,6 @@ function deleteGame() {
         type: 'delete',
         headers: {
             "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
-        },
-        xhrFields: {
-            withCredentials: true
         }
     })
     hidePopupConfirmation();

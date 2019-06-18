@@ -107,11 +107,7 @@ class IsPreviewUser(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            print(
-                "OHMYGOD IT GOT HERE WHICH MEANS WE STILL DON'T KNOW WHAT'S WRONG LMAO"
-            )
-            if u.userprofile.preview_user:
-                print("AND WE HAS PREVIEW USER")
+            print(u.userprofile)
             return u.userprofile.preview_user and has_completed_auth_setup(u)
         except AttributeError:
             return False
