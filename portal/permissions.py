@@ -109,7 +109,6 @@ class IsPreviewUser(permissions.BasePermission):
         try:
             return u.userprofile.preview_user and has_completed_auth_setup(u)
         except AttributeError:
-            print(u.userprofile)
             return False
 
 
