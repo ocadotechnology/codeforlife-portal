@@ -109,13 +109,14 @@ def process_student_edit_account_form(form, student, request):
 
 def process_independent_student_edit_account_form(form, student, request):
     data = form.cleaned_data
-    changing_email = False
 
     # check not default value for CharField
     check_update_password(form, student, request, data)
 
     # allow individual students to update more
-    changing_email, new_email = update_email_or_name(form, student, request, data)
+    changing_email, new_email = update_email(form, student, request, data)
+
+    update_name(student, data)
 
     messages.success(
         request, "Your account details have been changed successfully."
@@ -139,19 +140,21 @@ def check_update_password(form, student, request, data):
         update_session_auth_hash(request, form.user)
 
 
-def update_email_or_name(form, student, request, data):
+def update_email(form, student, request, data):
+    changing_email = False
     new_email = data["email"]
     if new_email != "" and new_email != student.new_user.email:
         # new email to set and verify
         changing_email = True
         send_verification_email(request, student.new_user, new_email)
+    return changing_email, new_email
 
+
+def update_name(student, data):
     student.new_user.first_name = data["name"]
     # save all tables
     student.save()
     student.new_user.save()
-
-    return changing_email, new_email
 
 
 @login_required(login_url=reverse_lazy("login_view"))
