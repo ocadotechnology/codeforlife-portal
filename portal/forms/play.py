@@ -125,21 +125,8 @@ class StudentEditAccountForm(forms.Form):
         return password
 
     def clean(self):
-        password = self.cleaned_data.get("password", None)
-        confirm_password = self.cleaned_data.get("confirm_password", None)
-        current_password = self.cleaned_data.get("current_password", None)
+        return clean_confirm_password(self)
 
-        if (
-            password is not None
-            and (password or confirm_password)
-            and password != confirm_password
-        ):
-            raise forms.ValidationError("Your new passwords do not match")
-
-        if current_password and not self.user.check_password(current_password):
-            raise forms.ValidationError("Your current password was incorrect")
-
-        return self.cleaned_data
 
 class IndependentStudentEditAccountForm(forms.Form):
     name = forms.CharField(
@@ -193,6 +180,10 @@ class IndependentStudentEditAccountForm(forms.Form):
         return password
 
     def clean(self):
+        return clean_confirm_password(self)
+
+
+def clean_confirm_password(self):
         password = self.cleaned_data.get("password", None)
         confirm_password = self.cleaned_data.get("confirm_password", None)
         current_password = self.cleaned_data.get("current_password", None)
