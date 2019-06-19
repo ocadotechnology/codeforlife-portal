@@ -77,7 +77,7 @@ def student_edit_account(request):
     else:
         if request.method == "POST":
             form = IndependentStudentEditAccountForm(request.user, request.POST)
-            return self.process_independent_student_edit_account_form(form, student, request)  
+            return self.process_independent_student_edit_account_form(form, student, request)
         else:
             form = IndependentStudentEditAccountForm(
                 request.user, initial={"name": student.new_user.first_name}
@@ -93,7 +93,6 @@ def username_labeller(request):
 def process_student_edit_account_form(form, student, request):
     if form.is_valid():
         data = form.cleaned_data
-        
         # check not default value for CharField
         if data["password"] != "":
             student.new_user.set_password(data["password"])
@@ -113,23 +112,10 @@ def process_independent_student_edit_account_form(form, student, request):
         changing_email = False
 
         # check not default value for CharField
-        if data["password"] != "":
-            student.new_user.set_password(data["password"])
-            student.new_user.save()
-            update_session_auth_hash(request, form.user)
+        check_update_password(form, student, request)
 
         # allow individual students to update more
-        if not student.class_field:
-            new_email = data["email"]
-            if new_email != "" and new_email != student.new_user.email:
-                # new email to set and verify
-                changing_email = True
-                send_verification_email(request, student.new_user, new_email)
-
-            student.new_user.first_name = data["name"]
-            # save all tables
-            student.save()
-            student.new_user.save()
+        update_email_or_name(form, student, request)
 
         messages.success(
             request, "Your account details have been changed successfully."
@@ -144,6 +130,26 @@ def process_independent_student_edit_account_form(form, student, request):
             )
 
         return HttpResponseRedirect(reverse_lazy("student_details"))
+
+def check_update_password(form, student, request):
+    if data["password"] != "":
+        student.new_user.set_password(data["password"])
+        student.new_user.save()
+        update_session_auth_hash(request, form.user)
+
+
+def update_email_or_name(form, student, request):
+    new_email = data["email"]
+    if new_email != "" and new_email != student.new_user.email:
+        # new email to set and verify
+        changing_email = True
+        send_verification_email(request, student.new_user, new_email)
+
+    student.new_user.first_name = data["name"]
+    # save all tables
+    student.save()
+    student.new_user.save()
+
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
