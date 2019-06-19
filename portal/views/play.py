@@ -115,7 +115,7 @@ def process_independent_student_edit_account_form(form, student, request):
     check_update_password(form, student, request, data)
 
     # allow individual students to update more
-    update_email_or_name(form, student, request, data)
+    changing_email, new_email = update_email_or_name(form, student, request, data)
 
     messages.success(
         request, "Your account details have been changed successfully."
@@ -150,6 +150,8 @@ def update_email_or_name(form, student, request, data):
     # save all tables
     student.save()
     student.new_user.save()
+
+    return changing_email, new_email
 
 
 @login_required(login_url=reverse_lazy("login_view"))
