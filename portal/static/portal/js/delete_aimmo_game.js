@@ -55,9 +55,13 @@ function deleteGame() {
     var game_id = $("#popup").attr("data-game-id");
     $.ajax({
         url: '/aimmo/api/games/' + game_id + '/',
-        type: 'delete',
+        type: 'DELETE',
+        data: { _method: 'delete' },
         headers: {
             "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
+        },
+        error: function (data) {
+            console.log('Error:', data);
         }
     })
     hidePopupConfirmation();
