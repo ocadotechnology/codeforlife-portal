@@ -107,7 +107,7 @@ class IsPreviewUser(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            return u.userprofile and has_completed_auth_setup(u)
+            return u.userprofile.preview_user and has_completed_auth_setup(u)
         except AttributeError:
             return False
 
@@ -117,5 +117,18 @@ class IsTeacher(permissions.BasePermission):
         u = request.user
         try:
             return u.userprofile.teacher and has_completed_auth_setup(u)
+        except AttributeError:
+            return False
+
+
+class CanDeleteGame(permissions.BasePermission):
+    def has_permission(self, request, view):
+        u = request.user
+        try:
+            return (
+                u.userprofile.teacher
+                and u.userprofile.preview_user
+                and has_completed_auth_setup(u)
+            )
         except AttributeError:
             return False
