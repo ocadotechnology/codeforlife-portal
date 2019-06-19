@@ -69,7 +69,8 @@ def student_edit_account(request):
     if student.class_field:
         if request.method == "POST":
             form = StudentEditAccountForm(request.user, request.POST)
-            return self.process_student_edit_account_form(form, student, request)
+            if form.is_valid():
+                return process_student_edit_account_form(form, student, request)
         else:
             form = StudentEditAccountForm(
                 request.user, initial={"name": student.new_user.first_name}
@@ -77,7 +78,8 @@ def student_edit_account(request):
     else:
         if request.method == "POST":
             form = IndependentStudentEditAccountForm(request.user, request.POST)
-            return self.process_independent_student_edit_account_form(form, student, request)
+            if form.is_valid():
+                return process_independent_student_edit_account_form(form, student, request)
         else:
             form = IndependentStudentEditAccountForm(
                 request.user, initial={"name": student.new_user.first_name}
@@ -91,55 +93,53 @@ def username_labeller(request):
 
 
 def process_student_edit_account_form(form, student, request):
-    if form.is_valid():
-        data = form.cleaned_data
-        # check not default value for CharField
-        if data["password"] != "":
-            student.new_user.set_password(data["password"])
-            student.new_user.save()
-            update_session_auth_hash(request, form.user)
+    data = form.cleaned_data
+    # check not default value for CharField
+    if data["password"] != "":
+        student.new_user.set_password(data["password"])
+        student.new_user.save()
+        update_session_auth_hash(request, form.user)
 
-        messages.success(
-            request, "Your account details have been changed successfully."
-        )
+    messages.success(
+        request, "Your account details have been changed successfully."
+    )
 
-        return HttpResponseRedirect(reverse_lazy("student_details"))
+    return HttpResponseRedirect(reverse_lazy("student_details"))
 
 
 def process_independent_student_edit_account_form(form, student, request):
-    if form.is_valid():
-        data = form.cleaned_data
-        changing_email = False
+    data = form.cleaned_data
+    changing_email = False
 
-        # check not default value for CharField
-        check_update_password(form, student, request)
+    # check not default value for CharField
+    check_update_password(form, student, request, data)
 
-        # allow individual students to update more
-        update_email_or_name(form, student, request)
+    # allow individual students to update more
+    update_email_or_name(form, student, request, data)
 
-        messages.success(
-            request, "Your account details have been changed successfully."
+    messages.success(
+        request, "Your account details have been changed successfully."
+    )
+
+    if changing_email:
+        logout(request)
+        return render(
+            request,
+            "portal/email_verification_needed.html",
+            {"userprofile": student.user, "email": new_email},
         )
 
-        if changing_email:
-            logout(request)
-            return render(
-                request,
-                "portal/email_verification_needed.html",
-                {"userprofile": student.user, "email": new_email},
-            )
-
-        return HttpResponseRedirect(reverse_lazy("student_details"))
+    return HttpResponseRedirect(reverse_lazy("student_details"))
 
 
-def check_update_password(form, student, request):
+def check_update_password(form, student, request, data):
     if data["password"] != "":
         student.new_user.set_password(data["password"])
         student.new_user.save()
         update_session_auth_hash(request, form.user)
 
 
-def update_email_or_name(form, student, request):
+def update_email_or_name(form, student, request, data):
     new_email = data["email"]
     if new_email != "" and new_email != student.new_user.email:
         # new email to set and verify
