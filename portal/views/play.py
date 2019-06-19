@@ -131,6 +131,7 @@ def process_independent_student_edit_account_form(form, student, request):
 
         return HttpResponseRedirect(reverse_lazy("student_details"))
 
+
 def check_update_password(form, student, request):
     if data["password"] != "":
         student.new_user.set_password(data["password"])

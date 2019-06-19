@@ -189,9 +189,7 @@ def clean_confirm_password(self):
         current_password = self.cleaned_data.get("current_password", None)
 
         if (
-            password is not None
-            and (password or confirm_password)
-            and password != confirm_password
+            return are_password_and_confirm_password_different(password, confirm_password)
         ):
             raise forms.ValidationError("Your new passwords do not match")
 
@@ -199,6 +197,11 @@ def clean_confirm_password(self):
             raise forms.ValidationError("Your current password was incorrect")
 
         return self.cleaned_data
+
+def are_password_and_confirm_password_different(password, confirm_password):
+    return password is not None
+        and (password or confirm_password)
+        and password != confirm_password
 
 
 class IndependentStudentSignupForm(forms.Form):
