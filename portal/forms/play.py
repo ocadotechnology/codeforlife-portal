@@ -199,8 +199,8 @@ def clean_confirm_password(self):
 
 def are_password_and_confirm_password_different(password, confirm_password):
     return (password is not None
-    and (password or confirm_password)
-    and password != confirm_password)
+        and (password or confirm_password)
+        and password != confirm_password)
 
 
 class IndependentStudentSignupForm(forms.Form):
