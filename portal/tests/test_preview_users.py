@@ -168,6 +168,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         self.assertEqual(
             page.get_input_game_name_placeholder(), "Give your new game a name..."
+        )
 
         page.input_new_game_name("it's an invalid name")
         page.click_create_game_button()
