@@ -59,9 +59,6 @@ function deleteGame() {
         data: { _method: 'delete' },
         headers: {
             "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
-        },
-        error: function (data) {
-            console.log('Error:', data);
         }
     })
     hidePopupConfirmation();
