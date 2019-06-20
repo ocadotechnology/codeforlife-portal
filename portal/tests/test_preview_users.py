@@ -170,6 +170,25 @@ class SeleniumTestPreviewUsers(TeachBasePage):
             page.get_input_game_name_placeholder(), "Give your new game a name..."
         )
 
+    def test_preview_user_cannot_create_invalid_game_name(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("it's an invalid name")
+        page.click_create_game_button()
+
+        self.assertEqual(
+            page.get_input_game_name_placeholder(),
+            "Name cannot contain special characters.",
+        )
+
     def test_preview_user_cannot_create_duplicate_game(self):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
