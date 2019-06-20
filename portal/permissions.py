@@ -43,7 +43,7 @@ from rest_framework import permissions
 
 
 def has_completed_auth_setup(u):
-    return not using_two_factor(u) or (u.is_verified() and using_two_factor(u))
+    return (not using_two_factor(u)) or (u.is_verified() and using_two_factor(u))
 
 
 def logged_in_as_teacher(u):
@@ -103,19 +103,14 @@ def preview_user(view_func):
     return wrapped
 
 
-class IsPreviewUser(permissions.BasePermission):
+class CanDeleteGame(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
-            return u.userprofile.preview_user and has_completed_auth_setup(u)
-        except AttributeError:
-            return False
-
-
-class IsTeacher(permissions.BasePermission):
-    def has_permission(self, request, view):
-        u = request.user
-        try:
-            return u.userprofile.teacher and has_completed_auth_setup(u)
+            return (
+                u.userprofile.teacher
+                and u.userprofile.preview_user
+                and has_completed_auth_setup(u)
+            )
         except AttributeError:
             return False
