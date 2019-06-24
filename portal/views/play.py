@@ -76,7 +76,6 @@ class SchoolStudentEditAccountView(FormView):
         self.process_student_edit_account_form(form, student, request)
         return super(SchoolStudentEditAccountView, self).form_valid(form)
 
-
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
         # check not default value for CharField
@@ -88,7 +87,6 @@ class SchoolStudentEditAccountView(FormView):
         messages.success(
             request, "Your account details have been changed successfully."
         )
-
 
     def get_form(self, form_class=None):
         user = self.request.user
@@ -109,20 +107,17 @@ class IndependentStudentEditAccountView(FormView):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
         kwargs['initial']['name'] = "{} {}".format(self.request.user.first_name, self.request.user.last_name) 
         return kwargs
-
-        
+  
     def get_form(self, form_class=None):
         user = self.request.user
         if form_class is None:
             form_class = self.get_form_class()
         return form_class(user, **self.get_form_kwargs())
 
-
     def form_valid(self, form):
         student = self.request.user.new_student
         self.process_independent_student_edit_account_form(form, student, self.request)
         return super(IndependentStudentEditAccountView, self).form_valid(form)
-
 
     def process_independent_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
@@ -147,13 +142,11 @@ class IndependentStudentEditAccountView(FormView):
                 {"userprofile": student.user, "email": new_email},
             )
 
-
     def check_update_password(self, form, student, request, data):
         if data["password"] != "":
             student.new_user.set_password(data["password"])
             student.new_user.save()
             update_session_auth_hash(request, form.user)
-
 
     def update_email(self, form, student, request, data):
         changing_email = False
@@ -163,7 +156,6 @@ class IndependentStudentEditAccountView(FormView):
             changing_email = True
             send_verification_email(request, student.new_user, new_email)
         return changing_email, new_email
-
 
     def update_name(self, student, data):
         student.new_user.first_name = data["name"]
@@ -185,7 +177,6 @@ def student_edit_account(request):
     else:
         
         return HttpResponseRedirect(reverse_lazy("school_student_edit_account"))
-
 
 def username_labeller(request):
     return request.user.username
@@ -266,6 +257,5 @@ def student_join_organisation(request):
         "portal/play/student_join_organisation.html",
         {"request_form": request_form, "student": student},
     )
-
     res.count = increment_count
     return res
