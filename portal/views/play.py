@@ -64,16 +64,22 @@ def student_details(request):
     return render(request, "portal/play/student_details.html")
 
 
+def get_form(self, form_class):
+    user = self.request.user
+    if form_class is None:
+        form_class = self.get_form_class()
+    return form_class(user, **self.get_form_kwargs())
+
+
 class SchoolStudentEditAccountView(FormView):
     form_class = StudentEditAccountForm
     template_name = '../templates/portal/play/student_edit_account.html'
     success_url = reverse_lazy("student_details")
     model = Student
 
-
     def form_valid(self, form):
         student = self.request.user.new_student
-        self.process_student_edit_account_form(form, student, request)
+        self.process_student_edit_account_form(form, student, self.request)
         return super(SchoolStudentEditAccountView, self).form_valid(form)
 
     def process_student_edit_account_form(self, form, student, request):
@@ -89,10 +95,7 @@ class SchoolStudentEditAccountView(FormView):
         )
 
     def get_form(self, form_class=None):
-        user = self.request.user
-        if form_class is None:
-            form_class = self.get_form_class()
-        return form_class(user, **self.get_form_kwargs())
+        return get_form(self, form_class)
 
 
 class IndependentStudentEditAccountView(FormView):
@@ -102,17 +105,13 @@ class IndependentStudentEditAccountView(FormView):
     model = Student
     initial = {'name': 'Could not find name'}
 
-
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
-        kwargs['initial']['name'] = "{} {}".format(self.request.user.first_name, self.request.user.last_name) 
+        kwargs['initial']['name'] = "{} {}".format(self.request.user.first_name, self.request.user.last_name)
         return kwargs
-  
+
     def get_form(self, form_class=None):
-        user = self.request.user
-        if form_class is None:
-            form_class = self.get_form_class()
-        return form_class(user, **self.get_form_kwargs())
+        return get_form(self, form_class)
 
     def form_valid(self, form):
         student = self.request.user.new_student
@@ -171,12 +170,10 @@ def student_edit_account(request):
     print("Checking for independent")
     print(student)
     if student.is_independent():
-       
         return HttpResponseRedirect(reverse_lazy("indenpendent_edit_account"))
-
     else:
-        
         return HttpResponseRedirect(reverse_lazy("school_student_edit_account"))
+
 
 def username_labeller(request):
     return request.user.username
