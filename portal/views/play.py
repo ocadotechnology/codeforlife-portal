@@ -72,7 +72,6 @@ class SchoolStudentEditAccountView(FormView):
 
 
     def form_valid(self, form):
-        print("EPIC")
         student = self.request.user.new_student
         self.process_student_edit_account_form(form, student, request)
         return super(SchoolStudentEditAccountView, self).form_valid(form)
@@ -80,7 +79,6 @@ class SchoolStudentEditAccountView(FormView):
 
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
-        print("MEG")
         # check not default value for CharField
         if data["password"] != "":
             student.new_user.set_password(data["password"])
@@ -93,7 +91,6 @@ class SchoolStudentEditAccountView(FormView):
 
 
     def get_form(self, form_class=None):
-        print("SONOEPIC")
         user = self.request.user
         if form_class is None:
             form_class = self.get_form_class()
@@ -107,6 +104,7 @@ class IndependentStudentEditAccountView(FormView):
     model = Student
     initial = {'name': 'Could not find name'}
 
+
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
         kwargs['initial']['name'] = "{} {}".format(self.request.user.first_name, self.request.user.last_name) 
@@ -119,8 +117,8 @@ class IndependentStudentEditAccountView(FormView):
             form_class = self.get_form_class()
         return form_class(user, **self.get_form_kwargs())
 
+
     def form_valid(self, form):
-        print("Heyo Im independent lol")
         student = self.request.user.new_student
         self.process_independent_student_edit_account_form(form, student, self.request)
         return super(IndependentStudentEditAccountView, self).form_valid(form)
