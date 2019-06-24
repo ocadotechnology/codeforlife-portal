@@ -37,6 +37,8 @@
 
 from functools import partial
 
+from portal.models import Student, UserProfile
+from django.views.generic.edit import FormView, FormView
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse_lazy
@@ -62,99 +64,133 @@ def student_details(request):
     return render(request, "portal/play/student_details.html")
 
 
+class SchoolStudentEditAccountView(FormView):
+    form_class = StudentEditAccountForm
+    template_name = '../templates/portal/play/student_edit_account.html'
+    success_url = reverse_lazy("student_details")
+    model = Student
+
+
+    def form_valid(self, form):
+        print("EPIC")
+        student = self.request.user.new_student
+        self.process_student_edit_account_form(form, student, request)
+        return super(SchoolStudentEditAccountView, self).form_valid(form)
+
+
+    def process_student_edit_account_form(self, form, student, request):
+        data = form.cleaned_data
+        print("MEG")
+        # check not default value for CharField
+        if data["password"] != "":
+            student.new_user.set_password(data["password"])
+            student.new_user.save()
+            update_session_auth_hash(request, form.user)
+
+        messages.success(
+            request, "Your account details have been changed successfully."
+        )
+
+
+    def get_form(self, form_class=None):
+        print("SONOEPIC")
+        user = self.request.user
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(user, **self.get_form_kwargs())
+
+
+class IndependentStudentEditAccountView(FormView):
+    form_class = IndependentStudentEditAccountForm
+    template_name = '../templates/portal/play/student_edit_account.html'
+    success_url = reverse_lazy("student_details")
+    model = Student
+    initial = {'name': 'Could not find name'}
+
+    def get_form_kwargs(self):
+        kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
+        kwargs['initial']['name'] = "{} {}".format(self.request.user.first_name, self.request.user.last_name) 
+        return kwargs
+
+        
+    def get_form(self, form_class=None):
+        user = self.request.user
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(user, **self.get_form_kwargs())
+
+    def form_valid(self, form):
+        print("Heyo Im independent lol")
+        student = self.request.user.new_student
+        self.process_independent_student_edit_account_form(form, student, self.request)
+        return super(IndependentStudentEditAccountView, self).form_valid(form)
+
+
+    def process_independent_student_edit_account_form(self, form, student, request):
+        data = form.cleaned_data
+
+        # check not default value for CharField
+        self.check_update_password(form, student, request, data)
+
+        # allow individual students to update more
+        changing_email, new_email = self.update_email(form, student, request, data)
+
+        self.update_name(student, data)
+
+        messages.success(
+            request, "Your account details have been changed successfully."
+        )
+
+        if changing_email:
+            logout(request)
+            return render(
+                request,
+                "portal/email_verification_needed.html",
+                {"userprofile": student.user, "email": new_email},
+            )
+
+
+    def check_update_password(self, form, student, request, data):
+        if data["password"] != "":
+            student.new_user.set_password(data["password"])
+            student.new_user.save()
+            update_session_auth_hash(request, form.user)
+
+
+    def update_email(self, form, student, request, data):
+        changing_email = False
+        new_email = data["email"]
+        if new_email != "" and new_email != student.new_user.email:
+            # new email to set and verify
+            changing_email = True
+            send_verification_email(request, student.new_user, new_email)
+        return changing_email, new_email
+
+
+    def update_name(self, student, data):
+        student.new_user.first_name = data["name"]
+        # save all tables
+        student.save()
+        student.new_user.save()
+
+
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
 def student_edit_account(request):
     student = request.user.new_student
-    if student.class_field:
-        if request.method == "POST":
-            form = StudentEditAccountForm(request.user, request.POST)
-            if form.is_valid():
-                return process_student_edit_account_form(form, student, request)
-        else:
-            form = StudentEditAccountForm(
-                request.user, initial={"name": student.new_user.first_name}
-            )
-    else:
-        if request.method == "POST":
-            form = IndependentStudentEditAccountForm(request.user, request.POST)
-            if form.is_valid():
-                return process_independent_student_edit_account_form(form, student, request)
-        else:
-            form = IndependentStudentEditAccountForm(
-                request.user, initial={"name": student.new_user.first_name}
-            )
+    print("Checking for independent")
+    print(student)
+    if student.is_independent():
+       
+        return HttpResponseRedirect(reverse_lazy("indenpendent_edit_account"))
 
-    return render(request, "portal/play/student_edit_account.html", {"form": form})
+    else:
+        
+        return HttpResponseRedirect(reverse_lazy("school_student_edit_account"))
 
 
 def username_labeller(request):
     return request.user.username
-
-
-def process_student_edit_account_form(form, student, request):
-    data = form.cleaned_data
-    # check not default value for CharField
-    if data["password"] != "":
-        student.new_user.set_password(data["password"])
-        student.new_user.save()
-        update_session_auth_hash(request, form.user)
-
-    messages.success(
-        request, "Your account details have been changed successfully."
-    )
-
-    return HttpResponseRedirect(reverse_lazy("student_details"))
-
-
-def process_independent_student_edit_account_form(form, student, request):
-    data = form.cleaned_data
-
-    # check not default value for CharField
-    check_update_password(form, student, request, data)
-
-    # allow individual students to update more
-    changing_email, new_email = update_email(form, student, request, data)
-
-    update_name(student, data)
-
-    messages.success(
-        request, "Your account details have been changed successfully."
-    )
-
-    if changing_email:
-        logout(request)
-        return render(
-            request,
-            "portal/email_verification_needed.html",
-            {"userprofile": student.user, "email": new_email},
-        )
-
-    return HttpResponseRedirect(reverse_lazy("student_details"))
-
-
-def check_update_password(form, student, request, data):
-    if data["password"] != "":
-        student.new_user.set_password(data["password"])
-        student.new_user.save()
-        update_session_auth_hash(request, form.user)
-
-
-def update_email(form, student, request, data):
-    changing_email = False
-    new_email = data["email"]
-    if new_email != "" and new_email != student.new_user.email:
-        # new email to set and verify
-        changing_email = True
-        send_verification_email(request, student.new_user, new_email)
-    return changing_email, new_email
-
-
-def update_name(student, data):
-    student.new_user.first_name = data["name"]
-    # save all tables
-    student.save()
-    student.new_user.save()
 
 
 @login_required(login_url=reverse_lazy("login_view"))

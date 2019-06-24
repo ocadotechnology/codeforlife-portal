@@ -78,6 +78,8 @@ from portal.views.play import (
     student_details,
     student_edit_account,
     student_join_organisation,
+    SchoolStudentEditAccountView,
+    IndependentStudentEditAccountView
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
@@ -256,6 +258,8 @@ urlpatterns = [
     url(r"^play/$", RedirectView.as_view(url=reverse_lazy("play"), permanent=True)),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
+    url(r"^play/account/independent/$", IndependentStudentEditAccountView.as_view(), name="indenpendent_edit_account"),
+    url(r"^play/account/school_student/$", SchoolStudentEditAccountView.as_view(), name="school_student_edit_account"),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(
         r"^play/rapid-router/$",
