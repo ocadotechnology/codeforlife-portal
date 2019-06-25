@@ -84,7 +84,7 @@ class SchoolStudentEditAccountView(FormView):
     model = Student
 
     def form_valid(self, form):
-       return is_form_valid(StudentEditAccountForm, self.process_student_edit_account_form)
+        return is_form_valid(StudentEditAccountForm, self.process_student_edit_account_form)
 
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
