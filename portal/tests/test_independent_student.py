@@ -154,9 +154,6 @@ class TestIndependentStudent(BaseTest):
         page = page.independent_student_login(username, password)
         assert page.__class__.__name__ == "PlayDashboardPage"
 
-        page = page.go_to_account_page()
-        assert page.check_account_details({"name": name})
-
     def test_reset_password(self):
         page = self.go_to_homepage()
 
@@ -204,9 +201,11 @@ class TestIndependentStudent(BaseTest):
 
         page = (
             play_page.independent_student_login(student_username, password)
-            .go_to_account_page()
-            .update_name_success("New name", password)
-        )
+            .go_to_account_page())
+
+        assert page.check_account_details({"name": name})
+
+        page = page.update_name_success("New name", password)
 
         assert self.is_dashboard(page)
         assert is_student_details_updated_message_showing(self.selenium)
