@@ -393,7 +393,7 @@ def teacher_class(request, access_code):
                     klass=klass, name=name, password=password
                 )
 
-                give_student_access_to_aimmo_games(new_student, None, teacher)
+                give_student_access_to_aimmo_games(new_student, new_teacher=teacher)
 
             return render(
                 request,
@@ -464,7 +464,7 @@ def teacher_view_class(request, access_code):
                     klass=klass, name=name, password=password
                 )
 
-                give_student_access_to_aimmo_games(new_student, None, teacher)
+                give_student_access_to_aimmo_games(new_student, new_teacher=teacher)
 
             return render(
                 request,
