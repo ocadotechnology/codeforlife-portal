@@ -71,8 +71,13 @@ from utils.messages import (
 from utils import email as email_utils
 
 
-class UnitTestTeachers(TestCase):
+class TestTeachers(TestCase):
     def test_new_student_can_play_games(self):
+        """
+        Given a preview teacher has an AI:MMO game,
+        When they add a new student to their class,
+        Then the new student should be in the game's player list
+        """
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
         klass, name, access_code = create_class_directly(email)
@@ -91,6 +96,11 @@ class UnitTestTeachers(TestCase):
         self.assertTrue(new_student.new_user in game.can_play.all())
 
     def test_accepted_independent_student_can_play_games(self):
+        """
+        Given an independent student requests access to a class,
+        When the teacher for that class accepts the request,
+        Then the new student should have access to the teacher's games
+        """
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
         klass, name, access_code = create_class_directly(email, True)
@@ -122,6 +132,11 @@ class UnitTestTeachers(TestCase):
         self.assertTrue(new_student.new_user in game.can_play.all())
 
     def test_transferred_student_has_access_to_only_new_teacher_games(self):
+        """
+        Given a student in a class,
+        When a teacher transfers them to another class with a new teacher,
+        Then the student should have access to the new teacher's games
+        """
         email1, password1 = signup_teacher_directly_as_preview_user()
         school_name, postcode = create_organisation_directly(email1, True)
         klass1, klass_name1, access_code1 = create_class_directly(email1, True)
@@ -162,6 +177,11 @@ class UnitTestTeachers(TestCase):
         self.assertTrue(student1.new_user in game2.can_play.all())
 
     def test_moved_student_has_access_to_only_new_teacher_games(self):
+        """
+        Given a student in a class,
+        When a teacher transfers them to another class with a new teacher,
+        Then the student should not have access to the former teacher's games
+        """
         email1, password1 = signup_teacher_directly_as_preview_user()
         school_name, postcode = create_organisation_directly(email1, True)
         klass1, klass_name1, access_code1 = create_class_directly(email1, True)
