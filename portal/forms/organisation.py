@@ -44,7 +44,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class OrganisationForm(forms.ModelForm):
 
-
     class Meta:
         model = School
         fields = ["name", "postcode", "country"]
