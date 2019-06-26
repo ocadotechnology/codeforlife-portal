@@ -71,8 +71,6 @@ class OrganisationForm(forms.ModelForm):
         self.current_school = kwargs.pop("current_school", None)
         super(OrganisationForm, self).__init__(*args, **kwargs)
         self.fields["postcode"].strip = False
-        if self.current_school:
-            del self.fields["current_password"]
 
     def clean(self):
         name = self.cleaned_data.get("name", None)
