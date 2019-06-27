@@ -21,6 +21,7 @@ stages:
 jobs:
   include:
     - stage: test
+      name: "Python tests"
       install:
         - pip install -U setuptools
         - pip install -e .
@@ -38,6 +39,29 @@ jobs:
         - python setup.py test
       after_success:
         - coveralls
+      - name: "Cypress tests"
+        node_js:
+          - 10
+        addons:
+          apt:
+            packages:
+              # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+              - libgconf-2-4
+        cache:
+          # Caches $HOME/.npm when npm ci is default script command
+          # Caches node_modules in all other cases
+          npm: true
+          directories:
+            # we also need to cache folder with Cypress binary
+            - ~/.cache
+        before_install:
+          - apt install nodejs
+          - apt install npm
+        install:
+          - npm ci
+          - npm install cypress --save-dev
+        script:
+          - $node_modules/.bin/cypress run --browser chrome --record
     - stage: deploy
       install:
         - pip install -U setuptools
