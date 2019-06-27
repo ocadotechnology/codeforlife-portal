@@ -57,7 +57,7 @@ jobs:
         - coveralls
     - name: "Cypress tests"
       before_install:
-        - apt-get install nodejs
+        - sudo apt-get install nodejs
         - node -v
         - npm -v
       install:
