@@ -74,7 +74,6 @@ class OnboardingOrganisationPage(TeachBasePage):
     def _create_organisation(self, name, password, postcode, country):
         self.browser.find_element_by_id("id_name").send_keys(name)
         self.browser.find_element_by_id("id_postcode").send_keys(postcode)
-        self.browser.find_element_by_id("id_current_password").send_keys(password)
         country_element = self.browser.find_element_by_id("id_country")
         select = Select(country_element)
         select.select_by_value(country)
