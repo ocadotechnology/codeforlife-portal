@@ -6,11 +6,11 @@ python:
   - 2.7.12
 # node_js:
 #   - 10
-addons:
-  apt:
-    packages:
-      - nodejs
-      - npm
+# addons:
+#   apt:
+#     packages:
+#       - nodejs
+#       - npm
 # cache:
 #   # cache both npm modules and Cypress binary
 #   directories:
@@ -56,6 +56,10 @@ jobs:
       after_success:
         - coveralls
     - name: "Cypress tests"
+      before_install:
+        - apt-get install nodejs
+        - node -v
+        - npm -v
       install:
         - npm ci
         - npm install cypress --save-dev
