@@ -63,7 +63,7 @@ jobs:
       install:
         - npm install cypress --save-dev
       script:
-        - $node_modules/.bin/cypress run --browser chrome --record
+        - $(npm bin)/cypress run --browser chrome --record
     - stage: deploy
       install:
         - pip install -U setuptools
