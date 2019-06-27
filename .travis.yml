@@ -57,11 +57,15 @@ jobs:
         - coveralls
     - name: "Cypress tests"
       before_install:
-        - sudo apt-get install nodejs
+        - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+        - export NVM_DIR="$HOME/.nvm"
+        - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        - [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        - nvm install 10.13.0
+        - nvm use 10.13.0
         - node -v
         - npm -v
       install:
-        - npm cache clear
         - npm ci
         - npm install cypress --save-dev
       cache:
