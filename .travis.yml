@@ -2,6 +2,24 @@ sudo: required
 dist: trusty
 group: deprecated-2017Q2
 language: python
+node_js:
+  - 10
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
+      - nodejs
+      - npm
+cache:
+  # cache both npm modules and Cypress binary
+  directories:
+    - ~/.npm
+    - ~/.cache
+  # install dependencies and check that Cypress can run
+  override:
+    - npm ci
+    - npm run cy:verify
 python:
   - 2.7.12
 env:
@@ -40,27 +58,11 @@ jobs:
       after_success:
         - coveralls
       - name: "Cypress tests"
-        node_js:
-          - 10
-        addons:
-          apt:
-            packages:
-              # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
-              - libgconf-2-4
-        cache:
-          # Caches $HOME/.npm when npm ci is default script command
-          # Caches node_modules in all other cases
-          npm: true
-          directories:
-            # we also need to cache folder with Cypress binary
-            - ~/.cache
-        before_install:
-          - apt install nodejs
-          - apt install npm
         install:
           - npm ci
           - npm install cypress --save-dev
         script:
+          - npm run start:ci &
           - $node_modules/.bin/cypress run --browser chrome --record
     - stage: deploy
       install:
