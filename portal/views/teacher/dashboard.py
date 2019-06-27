@@ -61,6 +61,8 @@ from portal.helpers.location import lookup_coord
 
 from portal.utils import using_two_factor
 
+from portal.views.teacher.teach import give_student_access_to_aimmo_games
+
 from aimmo.models import Game
 
 
@@ -466,8 +468,7 @@ def teacher_accept_student_request(request, pk):
             student.save()
             student.new_user.save()
 
-            for game in games:
-                game.can_play.add(student.new_user)
+            give_student_access_to_aimmo_games(student, new_teacher=teacher)
 
             return render(
                 request,
@@ -492,7 +493,9 @@ def teacher_accept_student_request(request, pk):
 
 
 def check_student_can_be_accepted(request, student):
-    # check student is awaiting decision on request
+    """
+    check student is awaiting decision on request
+    """
     if not student.pending_class_request:
         raise Http404
 

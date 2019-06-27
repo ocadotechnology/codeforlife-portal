@@ -393,8 +393,7 @@ def teacher_class(request, access_code):
                     klass=klass, name=name, password=password
                 )
 
-                for game in games:
-                    game.can_play.add(new_student.new_user)
+                give_student_access_to_aimmo_games(new_student, new_teacher=teacher)
 
             return render(
                 request,
@@ -465,8 +464,7 @@ def teacher_view_class(request, access_code):
                     klass=klass, name=name, password=password
                 )
 
-                for game in games:
-                    game.can_play.add(new_student.new_user)
+                give_student_access_to_aimmo_games(new_student, new_teacher=teacher)
 
             return render(
                 request,
@@ -855,18 +853,13 @@ def teacher_move_class(request, access_code):
             new_teacher_id = form.cleaned_data["new_teacher"]
             new_teacher = Teacher.objects.get(id=new_teacher_id)
 
-            old_teacher_games = Game.objects.filter(owner=old_teacher.new_user)
-            new_teacher_games = Game.objects.filter(owner=new_teacher.new_user)
-
             klass.teacher = get_object_or_404(Teacher, id=new_teacher_id)
             klass.save()
 
             students = Student.objects.filter(class_field=klass)
 
             for student in students:
-                give_student_access_to_only_new_teacher_games(
-                    student, new_teacher_games, old_teacher_games
-                )
+                give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
 
             messages.success(
                 request,
@@ -881,14 +874,17 @@ def teacher_move_class(request, access_code):
     )
 
 
-def give_student_access_to_only_new_teacher_games(
-    student, new_teacher_games, old_teacher_games
-):
-    for new_teacher_game in new_teacher_games:
-        new_teacher_game.can_play.add(student.new_user)
+def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
+    games_to_add = Game.objects.filter(owner=new_teacher.new_user)
 
-    for old_teacher_game in old_teacher_games:
-        old_teacher_game.can_play.remove(student.new_user)
+    for game_to_add in games_to_add:
+        game_to_add.can_play.add(student.new_user)
+
+    if old_teacher:
+        games_to_remove = Game.objects.filter(owner=old_teacher.new_user)
+
+        for game_to_remove in games_to_remove:
+            game_to_remove.can_play.remove(student.new_user)
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -996,9 +992,6 @@ def process_move_students_form(request, formset, old_class, new_class):
     old_teacher = old_class.teacher
     new_teacher = new_class.teacher
 
-    old_teacher_games = Game.objects.filter(owner=old_teacher.new_user)
-    new_teacher_games = Game.objects.filter(owner=new_teacher.new_user)
-
     for name_update in formset.cleaned_data:
         student = get_object_or_404(
             Student,
@@ -1007,9 +1000,7 @@ def process_move_students_form(request, formset, old_class, new_class):
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
-        give_student_access_to_only_new_teacher_games(
-            student, new_teacher_games, old_teacher_games
-        )
+        give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
         student.save()
         student.new_user.save()
 
