@@ -124,6 +124,10 @@ form {
   background-color: $color-background-play-indep;
 }
 
+#independent-student-login {
+  display: none;
+}
+
 .form__register-checkbox {
   display: flex;
   align-items: center;

@@ -240,22 +240,7 @@ class TeachDashboardPage(TeachBasePage):
     def _click_leave_button(self):
         self.browser.find_element_by_id("leave_organisation_button").click()
 
-    def is_dialog_showing(self):
-        return self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]"
-        ).is_displayed()
-
-    def confirm_dialog(self):
-        self._click_confirm()
-
-        return self
-
     def confirm_kick_with_students_dialog(self):
-        self._click_confirm()
+        self.confirm_dialog()
 
         return TeachMoveClassesPage(self.browser)
-
-    def _click_confirm(self):
-        self.browser.find_element_by_xpath(
-            "//button[contains(text(),'Confirm')]"
-        ).click()

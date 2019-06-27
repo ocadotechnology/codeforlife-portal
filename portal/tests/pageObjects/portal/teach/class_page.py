@@ -90,41 +90,25 @@ class TeachClassPage(TeachBasePage):
 
         return dismiss_students_page.TeachDismissStudentsPage(self.browser)
 
-    def cancel_dialog(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Cancel')]"
-        ).click()
-        return self
-
     def confirm_delete_class_dialog(self):
-        self._click_confirm()
+        self.confirm_dialog()
 
         return dashboard_page.TeachDashboardPage(self.browser)
 
     def confirm_delete_student_dialog(self):
-        self._click_confirm()
+        self.confirm_dialog()
 
         return self
 
     def confirm_reset_student_dialog(self):
-        self._click_confirm()
+        self.confirm_dialog()
 
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def confirm_dialog_expect_error(self):
-        self._click_confirm()
+        self.confirm_dialog()
 
         return self
-
-    def is_dialog_showing(self):
-        return self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]"
-        ).is_displayed()
-
-    def _click_confirm(self):
-        self.browser.find_element_by_xpath(
-            "//div[contains(@class,'ui-dialog')]//span[contains(text(),'Confirm')]"
-        ).click()
 
     def toggle_select_student(self):
         self.browser.find_element_by_id("student_checkbox").click()

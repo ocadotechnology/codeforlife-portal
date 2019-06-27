@@ -37,27 +37,30 @@ identified as the original program.
 */
 
 /* global showPopupConfirmation */
+/* global hidePopupConfirmation */
 
-function showRemoveConfirmation(path, name) {
-    var title = "Remove teacher";
-    var text = "<div class='popup-text'><p>The teacher " + name + ", will be removed from the school or club. If they have any classes you will be asked to move them to other teachers of this school or club.</p><p>Are you sure?</p></div>";
-    var confirm_handler = "postWithCsrf('" + path + "')";
+function clickDeleteGame(game_id, game_name) {
+    var title = "Delete Game";
+    var text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
+        "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
+    var confirm_handler = "deleteGame()";
 
     showPopupConfirmation(title, text, confirm_handler);
+    var popup = $(".popup-wrapper");
+    popup.attr("data-game-id", game_id);
+    $(".popup__game-name").text(game_name);
 }
 
-function showToggleAdminConfirmation(path, name) {
-    var title = "Remove teacher";
-    var text = "<div class='popup-text'><p>The teacher " + name + ", will be made an administrator of this school or club. They will gain all of the powers that you currently have.</p><p>Are you sure?</p></div>";
-    var confirm_handler = "postWithCsrf('" + path + "')";
-
-    showPopupConfirmation(title, text, confirm_handler);
-}
-
-function showDisable2FAConfirmation(path, name) {
-    var title = "Disable 2FA for " + name;
-    var text = "<div class='popup-text'><p>The teacher " + name + ", will have their two factor authentication disabled. This will make their account less secure.</p><p>Are you sure?</p></div>";
-    var confirm_handler = "postWithCsrf('" + path + "')";
-
-    showPopupConfirmation(title, text, confirm_handler);
+function deleteGame() {
+    var game_id = $("#popup").attr("data-game-id");
+    $.ajax({
+        url: '/aimmo/api/games/' + game_id + '/',
+        type: 'DELETE',
+        data: { _method: 'delete' },
+        headers: {
+            "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
+        }
+    })
+    hidePopupConfirmation();
+    document.location.reload(true);
 }

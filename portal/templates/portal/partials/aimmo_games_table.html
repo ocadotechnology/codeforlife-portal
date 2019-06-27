@@ -1,0 +1,54 @@
+{% load staticfiles %}
+{% load app_tags %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'portal/js/delete_aimmo_game.js' %}"></script>
+{% endblock scripts %}
+{% if open_play_games %}
+    {% include "portal/partials/popup.html" %}
+    <div class="col-sm-10 col-center">
+        <table id="games-table" class="games-table header-primary data-primary">
+            <tr class="games-table__header">
+                <th class="cell-left">
+                    <p>Game name</p>
+                </th>
+                <th class="cell-left">
+                    <p>Status</p>
+                </th>
+                <th class="cell-left">
+                    <p>Action</p>
+                </th>
+            </tr>
+            {% for game in open_play_games %}
+            <tr>
+                <td>
+                    <div class="games-table__cell">
+                        <p><small>{{ game.name }}</small></p>
+                    </div>
+                </td>
+                <td>
+                    <div class="games-table__cell">
+                        {% if game.status == 'r' %}
+                            <div class="status-indicator status-indicator--game status-indicator--on"></div>
+                            <small>Running</small>
+                        {% elif game.status == 's' %}
+                            <div class="status-indicator status-indicator--game status-indicator--off"></div>
+                            <small>Stopped</small>
+                        {% elif game.status == 'p' %}
+                            <div class="status-indicator status-indicator--game status-indicator--standby"></div>
+                            <small>Paused</small>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="games-table__buttons">
+                        <a class="button button--small button--primary--navigation" href="{% url base_url id=game.id %}">Play</a>
+                        <a class="button button--small button--primary--danger" onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% else %}
+    <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo; button above.</p>
+{% endif %}

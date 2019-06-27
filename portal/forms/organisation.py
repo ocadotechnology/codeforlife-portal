@@ -44,14 +44,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class OrganisationForm(forms.ModelForm):
 
-    current_password = forms.CharField(
-        label="Enter your password",
-        widget=forms.PasswordInput(
-            attrs={"autocomplete": "new-password", "placeholder": "Your Password"}
-        ),
-    )
-
     class Meta:
+
         model = School
         fields = ["name", "postcode", "country"]
         labels = {
@@ -77,8 +71,6 @@ class OrganisationForm(forms.ModelForm):
         self.current_school = kwargs.pop("current_school", None)
         super(OrganisationForm, self).__init__(*args, **kwargs)
         self.fields["postcode"].strip = False
-        if self.current_school:
-            del self.fields["current_password"]
 
     def clean(self):
         name = self.cleaned_data.get("name", None)
@@ -108,11 +100,6 @@ class OrganisationForm(forms.ModelForm):
                 raise forms.ValidationError("Please enter a valid postcode or ZIP code")
 
         return postcode
-
-    def clean_current_password(self):
-        current_password = self.cleaned_data.get("current_password", None)
-        if not self.user.check_password(current_password):
-            raise forms.ValidationError("Your password was incorrect")
 
 
 class OrganisationJoinForm(forms.Form):
