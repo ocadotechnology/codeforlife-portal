@@ -61,7 +61,11 @@ jobs:
         - node -v
         - npm -v
       install:
+        - npm ci
         - npm install cypress --save-dev
+      cache:
+        directories:
+        - "$HOME/.npm"
       script:
         - $(npm bin)/cypress run --browser chrome --record
     - stage: deploy
