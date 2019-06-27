@@ -39,7 +39,7 @@ stages:
 jobs:
   include:
     - stage: test
-      name: "Python tests"
+      # name: "Python tests"
       install:
         - pip install -U setuptools
         - pip install -e .
@@ -57,13 +57,13 @@ jobs:
         - python setup.py test
       after_success:
         - coveralls
-      - name: "Cypress tests"
-        install:
-          - npm ci
-          - npm install cypress --save-dev
-        script:
-          - npm run start:ci &
-          - $node_modules/.bin/cypress run --browser chrome --record
+      # - name: "Cypress tests"
+      #   install:
+      #     - npm ci
+      #     - npm install cypress --save-dev
+      #   script:
+      #     - npm run start:ci &
+      #     - $node_modules/.bin/cypress run --browser chrome --record
     - stage: deploy
       install:
         - pip install -U setuptools
