@@ -2,24 +2,24 @@ sudo: required
 dist: trusty
 group: deprecated-2017Q2
 language: python
-node_js:
-  - 10
-addons:
-  apt:
-    packages:
-      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
-      - libgconf-2-4
-      - nodejs
-      - npm
-cache:
-  # cache both npm modules and Cypress binary
-  directories:
-    - ~/.npm
-    - ~/.cache
-  # install dependencies and check that Cypress can run
-  override:
-    - npm ci
-    - npm run cy:verify
+# node_js:
+#   - 10
+# addons:
+#   apt:
+#     packages:
+#       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+#       - libgconf-2-4
+#       - nodejs
+#       - npm
+# cache:
+#   # cache both npm modules and Cypress binary
+#   directories:
+#     - ~/.npm
+#     - ~/.cache
+#   # install dependencies and check that Cypress can run
+#   override:
+#     - npm ci
+#     - npm run cy:verify
 python:
   - 2.7.12
 env:
