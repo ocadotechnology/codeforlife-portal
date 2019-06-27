@@ -61,6 +61,7 @@ jobs:
         - node -v
         - npm -v
       install:
+        - npm cache clear
         - npm ci
         - npm install cypress --save-dev
       cache:
