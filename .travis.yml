@@ -71,6 +71,7 @@ jobs:
         directories:
         - "$HOME/.npm"
       script:
+        - ./run & bg
         - node_modules/.bin/cypress run --browser chrome
     - stage: deploy
       install:
