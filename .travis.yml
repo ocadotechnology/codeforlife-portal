@@ -57,8 +57,10 @@ jobs:
         - coveralls
     - name: "Cypress tests"
       before_install:
+        - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
         - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
         - sudo apt install -y nodejs
+        - nvm use 8
         - node -v
         - if [[ `npm -v` != 6* ]]; then npm install -g npm@6; fi
       install:
