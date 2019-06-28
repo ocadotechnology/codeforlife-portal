@@ -59,7 +59,7 @@ jobs:
       before_install:
         - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
         - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-        - sudo apt install -y nodejs
+        - apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
         - nvm install 8
         - nvm use 8
         - node -v
