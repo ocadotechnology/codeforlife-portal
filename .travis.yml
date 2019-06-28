@@ -71,7 +71,7 @@ jobs:
         directories:
         - "$HOME/.npm"
       script:
-        - $(npm bin)/cypress run --browser chrome
+        - node_modules/.bin/cypress run --browser chrome
     - stage: deploy
       install:
         - pip install -U setuptools
