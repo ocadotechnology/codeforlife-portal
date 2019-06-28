@@ -58,7 +58,7 @@ jobs:
     - name: "Cypress tests"
       before_install:
         - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-        - sudo apt-get install -y nodejs
+        - sudo apt-get install -y nodejs=8
         - node -v
         - if [[ `npm -v` != 6* ]]; then npm install -g npm@6; fi
       install:
