@@ -135,7 +135,7 @@ class TestTeachers(TestCase):
         """
         Given a student in a class,
         When a teacher transfers them to another class with a new teacher,
-        Then the student should have access to the new teacher's games
+        Then the student should only have access to the new teacher's games
         """
         email1, password1 = signup_teacher_directly_as_preview_user()
         school_name, postcode = create_organisation_directly(email1, True)
@@ -180,7 +180,7 @@ class TestTeachers(TestCase):
         """
         Given a student in a class,
         When a teacher transfers them to another class with a new teacher,
-        Then the student should not have access to the former teacher's games
+        Then the student should only have access to the new teacher's games
         """
         email1, password1 = signup_teacher_directly_as_preview_user()
         school_name, postcode = create_organisation_directly(email1, True)
