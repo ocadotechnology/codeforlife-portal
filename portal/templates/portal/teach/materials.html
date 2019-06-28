@@ -74,7 +74,7 @@
             <h2>Key Stage 1</h2>
             <img title="KS1" alt="KS1 icon" src="{% static 'portal/img/stage_icon_ks1.svg' %}">
             <h4>Students will learn the basics of coding by programming a delivery van to drive around simple routes.</h4>
-            <a href="{{ 'KS1_v1.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
+            <a href="{{ 'KS1_v1.zip'|cloud_storage }}" onclick='send_event("KS1_v1.zip","Downloaded");' class="button button--regular button--primary--positive">Download all KS1 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS1</span></h3>
@@ -96,7 +96,7 @@
         </div>
         <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS1_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS1_v1/resource_sheets.zip'|cloud_storage }}" onclick='send_event("KS1_v1/resource_sheets.zip","Downloaded");'>download the whole set</a> (zip file), or view and download
             them individually below.</p>
         <div class="grid-resources grid-resources--ks1">
             {% resource_sheets_table ks1_sheets %}
@@ -122,13 +122,13 @@
                 <div class="col-sm-6">
                     <h3>Assets <span class="ks-tag">KS1</span></h3>
                     <p>Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_assets' %}">Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_code_wall_cards' %}">Code wall cards</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_assets' %}" onclick='send_event("KS1_assets.pdf","Downloaded");'>Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_code_wall_cards' %}" onclick='send_event("KS1_code_wall_cards.pdf","Downloaded");'>Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS1</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'KS1_v1/assessment.zip'|cloud_storage }}"> download the
+                        a record sheet for pupils. You can <a href="{{ 'KS1_v1/assessment.zip'|cloud_storage }}" onclick='send_event("KS1_v1/assessment.zip","Downloaded");'> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks1_assessment_guide' %}">Assessment Sheet</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks1_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
@@ -146,7 +146,7 @@
             <img title="KS2" alt="KS2 icon" src="{% static 'portal/img/stage_icon_ks2.svg' %}">
             <h4>Students will develop their understanding of programming principles by learning how to use repeat loops,
                 in a visual programming language.</h4>
-            <a href="{{ 'KS2_v1.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all KS2 resources</a>
+            <a href="{{ 'KS2_v1.zip'|cloud_storage }}"  onclick='send_event("KS2_v1.zip","Downloaded");'class="button button--regular button--primary--setup">Download all KS2 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS2</span></h3>
@@ -155,7 +155,7 @@
         <div class="grid-sessions">
             {% for ks2_session in ks2_sessions %}
                 <p><strong>Session {{ ks2_session.session_number }}</strong></p>
-                <p><a href="{% url 'materials_viewer' pdf_name=ks2_session.url_name %}">
+                <p><a href="{% url 'materials_viewer' pdf_name=ks2_session.url_name %}" onclick='send_event("ks2_session.pdf","Downloaded");'>
                     {{ ks2_session.description }}</a></p>
                 <p><i>{{ ks2_session.levels_covered }}</i></p>
                 <div>
@@ -168,7 +168,7 @@
         </div>
         <h3>Resource Sheets <span class="ks-tag">KS2</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS2_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS2_v1/resource_sheets.zip'|cloud_storage }}" onclick='send_event("KS2_v1/resource_sheets.zip","Downloaded");'>download the whole set</a> (zip file), or view and download
             them individually below.</p>
         <div class="grid-resources grid-resources--ks2">
             {% resource_sheets_table ks2_sheets %}
@@ -181,26 +181,26 @@
                 <div class="col-sm-6">
                     <h3>Program Solutions <span class="ks-tag">KS2</span></h3>
                     <p>This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_17-28' %}">View program solutions</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_17-28' %}" onclick='send_event("program_solutions_17-28","Downloaded");'>View program solutions</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Activity Set <span class="ks-tag">KS2</span></h3>
                     <p>This activity set gives you an overview of the Key Stage 2 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_activity_set' %}">View activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_activity_set' %}" onclick='send_event("ks2_activity_set","Downloaded");'>View activity set</a></p>
                 </div>
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
                     <h3>Assets <span class="ks-tag">KS2</span></h3>
                     <p>Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_assets' %}">Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_code_wall_cards' %}">Code wall cards</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_assets' %}" onclick='send_event("KS2_assets.pdf","Downloaded");'>Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_code_wall_cards' %}" onclick='send_event("KS2_code_wall_card.pdf","Downloaded");'>Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS2</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'KS2_v1/assessment.zip'|cloud_storage }}"> download the
+                        a record sheet for pupils. You can <a href="{{ 'KS2_v1/assessment.zip'|cloud_storage }}" onclick='send_event("KS2_v1/assessment.zip","Downloaded");'> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks2_assessment_guide' %}">Assessment Sheet</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='ks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
