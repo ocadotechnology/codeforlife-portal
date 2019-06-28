@@ -68,8 +68,8 @@ jobs:
         - npm ci
         - npm install cypress --save-dev
         - pip install pipenv
-        - pipenv install --system
         - pip install django==1.10.8
+        - pipenv install --system
       cache:
         directories:
         - "$HOME/.npm"
