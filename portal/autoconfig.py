@@ -125,6 +125,7 @@ SETTINGS = {
             },
         }
     ],
+    "LOGIN_REDIRECT_URL": "/teach/dashboard/",
     "CODEFORLIFE_WEBSITE": "www.codeforlife.education",
     "CLOUD_STORAGE_PREFIX": "//storage.googleapis.com/codeforlife-assets/",
     "LOGGING": {
