@@ -39,12 +39,18 @@ import time
 
 from selenium.webdriver.support.wait import WebDriverWait
 from django.core import mail
+from django.core.urlresolvers import reverse
+from django.test import Client, TestCase
+
+from aimmo.models import Game
+from portal.models import Teacher, Student
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from utils.teacher import (
     signup_teacher,
     signup_teacher_directly,
+    signup_teacher_directly_as_preview_user,
     signup_duplicate_teacher_fail,
     submit_teacher_signup_form,
 )
@@ -53,13 +59,182 @@ from utils.organisation import (
     join_teacher_to_organisation,
 )
 from utils.classes import create_class_directly
-from utils.student import create_school_student_directly
+from utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
 from utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
     is_teacher_email_updated_message_showing,
 )
 from utils import email as email_utils
+
+
+class TestTeachers(TestCase):
+    def test_new_student_can_play_games(self):
+        """
+        Given a preview teacher has an AI:MMO game,
+        When they add a new student to their class,
+        Then the new student should be in the game's player list
+        """
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        klass, name, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        c = Client()
+        c.login(username=email, password=password)
+        c.post(reverse("aimmo"), {"name": "Test Game"})
+        c.post(
+            reverse("view_class", kwargs={"access_code": access_code}),
+            {"names": "Florian"},
+        )
+
+        game = Game.objects.get(id=1)
+        new_student = Student.objects.last()
+        self.assertTrue(new_student.new_user in game.can_play.all())
+
+    def test_accepted_independent_student_can_play_games(self):
+        """
+        Given an independent student requests access to a class,
+        When the teacher for that class accepts the request,
+        Then the new student should have access to the teacher's games
+        """
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        klass, name, access_code = create_class_directly(email, True)
+        klass.always_accept_requests = True
+        klass.save()
+        create_school_student_directly(access_code)
+        indep_username, indep_password, indep_student = (
+            create_independent_student_directly()
+        )
+
+        c = Client()
+
+        c.login(username=indep_username, password=indep_password)
+        c.post(
+            reverse("student_join_organisation"),
+            {"access_code": access_code, "class_join_request": "Request"},
+        )
+        c.logout()
+
+        c.login(username=email, password=password)
+        c.post(reverse("aimmo"), {"name": "Test Game"})
+        c.post(
+            reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
+            {"name": "Florian"},
+        )
+
+        game = Game.objects.get(id=1)
+        new_student = Student.objects.last()
+        self.assertTrue(new_student.new_user in game.can_play.all())
+
+    def test_transferred_student_has_access_to_only_new_teacher_games(self):
+        """
+        Given a student in a class,
+        When a teacher transfers them to another class with a new teacher,
+        Then the student should only have access to the new teacher's games
+        """
+        email1, password1 = signup_teacher_directly_as_preview_user()
+        school_name, postcode = create_organisation_directly(email1, True)
+        klass1, klass_name1, access_code1 = create_class_directly(email1, True)
+        create_school_student_directly(access_code1)
+
+        email2, password2 = signup_teacher_directly_as_preview_user()
+        join_teacher_to_organisation(email2, school_name, postcode)
+        klass2, klass_name2, access_code2 = create_class_directly(email2, True)
+        create_school_student_directly(access_code2)
+
+        teacher1 = Teacher.objects.get(new_user__email=email1)
+        teacher2 = Teacher.objects.get(new_user__email=email2)
+
+        c = Client()
+        c.login(username=email2, password=password2)
+        c.post(reverse("aimmo"), {"name": "Game 2"})
+        c.logout()
+
+        c.login(username=email1, password=password1)
+        c.post(reverse("aimmo"), {"name": "Game 1"})
+
+        game1 = Game.objects.get(owner=teacher1.new_user)
+        game2 = Game.objects.get(owner=teacher2.new_user)
+
+        student1 = Student.objects.get(class_field=klass1)
+        student2 = Student.objects.get(class_field=klass2)
+
+        self.assertTrue(student1.new_user in game1.can_play.all())
+        self.assertTrue(student2.new_user in game2.can_play.all())
+
+        c.post(
+            reverse("teacher_move_class", kwargs={"access_code": access_code1}),
+            {"new_teacher": teacher2.pk},
+        )
+        c.logout()
+
+        self.assertTrue(student1.new_user not in game1.can_play.all())
+        self.assertTrue(student1.new_user in game2.can_play.all())
+
+    def test_moved_student_has_access_to_only_new_teacher_games(self):
+        """
+        Given a student in a class,
+        When a teacher transfers them to another class with a new teacher,
+        Then the student should only have access to the new teacher's games
+        """
+        email1, password1 = signup_teacher_directly_as_preview_user()
+        school_name, postcode = create_organisation_directly(email1, True)
+        klass1, klass_name1, access_code1 = create_class_directly(email1, True)
+        create_school_student_directly(access_code1)
+
+        email2, password2 = signup_teacher_directly_as_preview_user()
+        join_teacher_to_organisation(email2, school_name, postcode)
+        klass2, klass_name2, access_code2 = create_class_directly(email2, True)
+        create_school_student_directly(access_code2)
+
+        teacher1 = Teacher.objects.get(new_user__email=email1)
+        teacher2 = Teacher.objects.get(new_user__email=email2)
+
+        c = Client()
+        c.login(username=email2, password=password2)
+        c.post(reverse("aimmo"), {"name": "Game 2"})
+        c.logout()
+
+        c.login(username=email1, password=password1)
+        c.post(reverse("aimmo"), {"name": "Game 1"})
+
+        game1 = Game.objects.get(owner=teacher1.new_user)
+        game2 = Game.objects.get(owner=teacher2.new_user)
+
+        student1 = Student.objects.get(class_field=klass1)
+        student2 = Student.objects.get(class_field=klass2)
+
+        self.assertTrue(student1.new_user in game1.can_play.all())
+        self.assertTrue(student2.new_user in game2.can_play.all())
+
+        c.post(
+            reverse("teacher_move_students", kwargs={"access_code": access_code1}),
+            {"transfer_students": student1.pk},
+        )
+        c.post(
+            reverse(
+                "teacher_move_students_to_class", kwargs={"access_code": access_code1}
+            ),
+            {
+                "form-0-name": student1.user.user.first_name,
+                "form-MAX_NUM_FORMS": 1000,
+                "form-0-orig_name": student1.user.user.first_name,
+                "form-TOTAL_FORMS": 1,
+                "form-MIN_NUM_FORMS": 0,
+                "submit_disambiguation": "",
+                "form-INITIAL_FORMS": 1,
+                "new_class": klass2.pk,
+            },
+        )
+        c.logout()
+
+        self.assertTrue(student1.new_user not in game1.can_play.all())
+        self.assertTrue(student1.new_user in game2.can_play.all())
 
 
 class TestTeacher(BaseTest):
