@@ -71,6 +71,16 @@
 
     <script src="/static/portal/js/riveted.min.js"></script>
     <script>riveted.init();</script>
+    <script> 
+        function send_event(name_of_file, action){
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'PDFs',
+              eventAction: action,
+              eventLabel: name_of_file
+            });
+        }
+    </script>
     {% endblock google_analytics %}
 </head>
 
