@@ -199,11 +199,11 @@ class TestIndependentStudent(BaseTest):
             homepage
         )
 
-        page = (
-            play_page.independent_student_login(student_username, password)
-            .go_to_account_page())
+        page = play_page.independent_student_login(
+            student_username, password
+        ).go_to_account_page()
 
-        assert page.check_account_details({"name": name})
+        assert page.check_account_details({"name": student_name})
 
         page = page.update_name_success("New name", password)
 
