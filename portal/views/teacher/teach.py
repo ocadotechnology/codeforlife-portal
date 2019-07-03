@@ -366,10 +366,7 @@ def create_class(form, teacher):
     )
     return klass
 
-
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
-def teacher_class(request, access_code):
+def process_class(request, access_code, onboarding_done, next_url):
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass).order_by(
@@ -401,6 +398,7 @@ def teacher_class(request, access_code):
                 {
                     "class": klass,
                     "name_tokens": name_tokens,
+                    "onboarding_done": onboarding_done,
                     "query_data": json.dumps(name_tokens),
                 },
             )
@@ -411,15 +409,20 @@ def teacher_class(request, access_code):
 
     return render(
         request,
-        "portal/teach/onboarding_students.html",
+        next_url,
         {
-            "new_students_form": new_students_form,
             "class": klass,
             "classes": classes,
             "students": students,
+            "new_students_form": new_students_form,
             "num_students": len(students),
         },
     )
+
+@login_required(login_url=reverse_lazy("login_view"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+def teacher_onboarding_class(request, access_code):
+    return process_class(request, access_code, onboarding_done=False, next_url="portal/teach/onboarding_students.html")
 
 
 def check_logged_in_students(klass, students):
@@ -441,57 +444,7 @@ def check_user_is_authorised(request, klass):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_view_class(request, access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
-    teacher = request.user.new_teacher
-    students = Student.objects.filter(class_field=klass).order_by(
-        "new_user__first_name"
-    )
-    games = Game.objects.filter(owner=teacher.new_user)
-
-    check_logged_in_students(klass, students)
-
-    check_user_is_authorised(request, klass)
-
-    if request.method == "POST":
-        new_students_form = StudentCreationForm(klass, request.POST)
-        if new_students_form.is_valid():
-            name_tokens = []
-            for name in new_students_form.strippedNames:
-                password = generate_password(6)
-                name_tokens.append({"name": name, "password": password})
-
-                new_student = Student.objects.schoolFactory(
-                    klass=klass, name=name, password=password
-                )
-
-                give_student_access_to_aimmo_games(new_student, new_teacher=teacher)
-
-            return render(
-                request,
-                "portal/teach/onboarding_print.html",
-                {
-                    "class": klass,
-                    "name_tokens": name_tokens,
-                    "onboarding_done": True,
-                    "query_data": json.dumps(name_tokens),
-                },
-            )
-    else:
-        new_students_form = StudentCreationForm(klass)
-
-    classes = Class.objects.filter(teacher=teacher)
-
-    return render(
-        request,
-        "portal/teach/class.html",
-        {
-            "class": klass,
-            "classes": classes,
-            "students": students,
-            "new_students_form": new_students_form,
-            "num_students": len(students),
-        },
-    )
+    return process_class(request, access_code, onboarding_done=True, next_url="portal/teach/class.html")
 
 
 @login_required(login_url=reverse_lazy("login_view"))
