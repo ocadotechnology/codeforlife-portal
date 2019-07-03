@@ -88,7 +88,7 @@ from portal.views.organisation import (
 )
 from portal.views.teacher.teach import (
     teacher_classes,
-    teacher_class,
+    teacher_onboarding_class,
     teacher_view_class,
     teacher_edit_class,
     teacher_move_class,
@@ -241,7 +241,7 @@ urlpatterns = [
     url(r"^teach/onboarding-classes", teacher_classes, name="onboarding-classes"),
     url(
         r"^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$",
-        teacher_class,
+        teacher_onboarding_class,
         name="onboarding-class",
     ),
     url(

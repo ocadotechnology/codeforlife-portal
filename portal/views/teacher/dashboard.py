@@ -61,6 +61,10 @@ from portal.helpers.location import lookup_coord
 
 from portal.utils import using_two_factor
 
+from portal.views.teacher.teach import give_student_access_to_aimmo_games
+
+from aimmo.models import Game
+
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
@@ -440,14 +444,10 @@ def teacher_disable_2FA(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_new"))
 def teacher_accept_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
+    teacher = request.user.new_teacher
+    games = Game.objects.filter(owner=teacher.new_user)
 
-    # check student is awaiting decision on request
-    if not student.pending_class_request:
-        raise Http404
-
-    # check user (teacher) has authority to accept student
-    if request.user.new_teacher != student.pending_class_request.teacher:
-        raise Http404
+    check_student_can_be_accepted(request, student)
 
     students = Student.objects.filter(
         class_field=student.pending_class_request
@@ -467,6 +467,9 @@ def teacher_accept_student_request(request, pk):
             student.new_user.email = ""
             student.save()
             student.new_user.save()
+
+            give_student_access_to_aimmo_games(student, new_teacher=teacher)
+
             return render(
                 request,
                 "portal/teach/teacher_added_external_student.html",
@@ -487,6 +490,18 @@ def teacher_accept_student_request(request, pk):
             "form": form,
         },
     )
+
+
+def check_student_can_be_accepted(request, student):
+    """
+    Check student is awaiting decision on request
+    """
+    if not student.pending_class_request:
+        raise Http404
+
+    # check user (teacher) has authority to accept student
+    if request.user.new_teacher != student.pending_class_request.teacher:
+        raise Http404
 
 
 @login_required(login_url=reverse_lazy("login_view"))
