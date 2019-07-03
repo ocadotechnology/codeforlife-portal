@@ -53,15 +53,15 @@
             <div class="row">
                 <div class="col-sm-6">
                     <h4>Key Stage 1, and Key Stage 2</h4>
-                    <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_coding' %}">Introduction to Coding Guide</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_1-28' %}">Levels Guide (1–28)</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='glossary' %}">Glossary</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_coding' %}" onclick='send_event("introduction_to_coding.pdf","Downloaded");'>Introduction to Coding Guide</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_1-28' %}" onclick='send_event("levels_guide_1-28.pdf","Downloaded");'>Levels Guide (1–28)</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='glossary' %}" onclick='send_event("glossary.pdf","Downloaded");'>Glossary</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h4>Key Stage 3</h4>
-                    <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_python' %}">Introduction to Python in Rapid Router</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_29-109' %}">Levels Guide (29–109)</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}">Blockly - Python Phrasebook</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='introduction_to_python' %}" onclick='send_event("introduction_to_python.pdf","Downloaded");'>Introduction to Python in Rapid Router</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='levels_guide_29-109' %}" onclick='send_event("levels_guide_29-109.pdf","Downloaded");'>Levels Guide (29–109)</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='blockly_python_phrasebook' %}" onclick='send_event("blockly_python_phrasebook.pdf","Downloaded");'>Blockly - Python Phrasebook</a></p>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
             <h2>Key Stage 1</h2>
             <img title="KS1" alt="KS1 icon" src="{% static 'portal/img/stage_icon_ks1.svg' %}">
             <h4>Students will learn the basics of coding by programming a delivery van to drive around simple routes.</h4>
-            <a href="{{ 'KS1_v1.zip'|cloud_storage }}" class="button button--regular button--primary--positive">Download all KS1 resources</a>
+            <a href="{{ 'KS1_v1.zip'|cloud_storage }}" onclick='send_event("KS1_v1.zip","Downloaded");' class="button button--regular button--primary--positive">Download all KS1 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS1</span></h3>
@@ -83,7 +83,7 @@
         <div class="grid-sessions">
             {% for ks1_session in ks1_sessions %}
                 <p><strong>Session {{ ks1_session.session_number }}</strong></p>
-                <p><a href="{% url 'materials_viewer' pdf_name=ks1_session.url_name %}">
+                <p><a href="{% url 'materials_viewer' pdf_name=ks1_session.url_name %}" onclick='send_event("ks1_session.pdf","Downloaded");'>
                         {{ ks1_session.description }}</a></p>
                 <p><i>{{ ks1_session.levels_covered }}</i></p>
                 <div>
@@ -96,7 +96,7 @@
         </div>
         <h3>Resource Sheets <span class="ks-tag">KS1</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS1_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS1_v1/resource_sheets.zip'|cloud_storage }}" onclick='send_event("KS1_v1/resource_sheets.zip","Downloaded");'>download the whole set</a> (zip file), or view and download
             them individually below.</p>
         <div class="grid-resources grid-resources--ks1">
             {% resource_sheets_table ks1_sheets %}
@@ -109,30 +109,30 @@
                 <div class="col-sm-6">
                     <h3>Program Solutions <span class="ks-tag">KS1</span></h3>
                     <p>This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_1-16' %}">View program solutions</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_1-16' %}" onclick='send_event("program_solutions_1-16.pdf","Downloaded");'>View program solutions</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Activity Set <span class="ks-tag">KS1</span></h3>
                     <p>This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_activity_set' %}">View activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_activity_set' %}" onclick='send_event("ks1_activity_set.pdf","Downloaded");'>View activity set</a></p>
                 </div>
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
                     <h3>Assets <span class="ks-tag">KS1</span></h3>
                     <p>Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_assets' %}">Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_code_wall_cards' %}">Code wall cards</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_assets' %}" onclick='send_event("KS1_assets.pdf","Downloaded");'>Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_code_wall_cards' %}" onclick='send_event("KS1_code_wall_cards.pdf","Downloaded");'>Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS1</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'KS1_v1/assessment.zip'|cloud_storage }}"> download the
+                        a record sheet for pupils. You can <a href="{{ 'KS1_v1/assessment.zip'|cloud_storage }}" onclick='send_event("KS1_v1/assessment.zip","Downloaded");'> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_assessment_guide' %}">Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_assessment_guide' %}" onclick='send_event("ks1_assessment_guide.PDF","Downloaded");'>Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_self_assessment_sheet' %}" onclick='send_event("ks1_self_assessment_sheet.PDF","Downloaded");'>Self Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks1_teacher_record_sheet' %}" onclick='send_event("ks1_teacher_record_sheet.pdf","Downloaded");'>Teacher Record Sheet</a></p>
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
             <img title="KS2" alt="KS2 icon" src="{% static 'portal/img/stage_icon_ks2.svg' %}">
             <h4>Students will develop their understanding of programming principles by learning how to use repeat loops,
                 in a visual programming language.</h4>
-            <a href="{{ 'KS2_v1.zip'|cloud_storage }}" class="button button--regular button--primary--setup">Download all KS2 resources</a>
+            <a href="{{ 'KS2_v1.zip'|cloud_storage }}"  onclick='send_event("KS2_v1.zip","Downloaded");'class="button button--regular button--primary--setup">Download all KS2 resources</a>
             <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}">
         </section>
         <h3>Sessions <span class="ks-tag">KS2</span></h3>
@@ -155,7 +155,7 @@
         <div class="grid-sessions">
             {% for ks2_session in ks2_sessions %}
                 <p><strong>Session {{ ks2_session.session_number }}</strong></p>
-                <p><a href="{% url 'materials_viewer' pdf_name=ks2_session.url_name %}">
+                <p><a href="{% url 'materials_viewer' pdf_name=ks2_session.url_name %}" onclick='send_event("ks2_session.pdf","Downloaded");'>
                     {{ ks2_session.description }}</a></p>
                 <p><i>{{ ks2_session.levels_covered }}</i></p>
                 <div>
@@ -168,7 +168,7 @@
         </div>
         <h3>Resource Sheets <span class="ks-tag">KS2</span></h3>
         <p>Resource sheets help you teach coding concepts offline in the classroom.
-            You can <a href="{{ 'KS2_v1/resource_sheets.zip'|cloud_storage }}">download the whole set</a> (zip file), or view and download
+            You can <a href="{{ 'KS2_v1/resource_sheets.zip'|cloud_storage }}" onclick='send_event("KS2_v1/resource_sheets.zip","Downloaded");'>download the whole set</a> (zip file), or view and download
             them individually below.</p>
         <div class="grid-resources grid-resources--ks2">
             {% resource_sheets_table ks2_sheets %}
@@ -181,30 +181,30 @@
                 <div class="col-sm-6">
                     <h3>Program Solutions <span class="ks-tag">KS2</span></h3>
                     <p>This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_17-28' %}">View program solutions</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_17-28' %}" onclick='send_event("program_solutions_17-28","Downloaded");'>View program solutions</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Activity Set <span class="ks-tag">KS2</span></h3>
                     <p>This activity set gives you an overview of the Key Stage 2 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_activity_set' %}">View activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_activity_set' %}" onclick='send_event("ks2_activity_set","Downloaded");'>View activity set</a></p>
                 </div>
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
                     <h3>Assets <span class="ks-tag">KS2</span></h3>
                     <p>Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_assets' %}">Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_code_wall_cards' %}">Code wall cards</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_assets' %}" onclick='send_event("KS2_assets.pdf","Downloaded");'>Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_code_wall_cards' %}" onclick='send_event("KS2_code_wall_card.pdf","Downloaded");'>Code wall cards</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS2</span></h3>
                     <p>Assessment guidance sheets for teachers explain techniques and key questions, pupil-led self-assessment sheets, along with
-                        a record sheet for pupils. You can <a href="{{ 'KS2_v1/assessment.zip'|cloud_storage }}"> download the
+                        a record sheet for pupils. You can <a href="{{ 'KS2_v1/assessment.zip'|cloud_storage }}" onclick='send_event("KS2_v1/assessment.zip","Downloaded");'> download the
                         whole set</a> (zip file), or view and download them individually below.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_assessment_guide' %}">Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_self_assessment_sheet' %}">Self Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_teacher_record_sheet' %}">Teacher Record Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_assessment_guide' %}" onclick='send_event("ks2_assessment_guide.pdf","Downloaded");'>Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_self_assessment_sheet' %}" onclick='send_event("ks2_self_assessment_sheet.PDF","Downloaded");'>Self Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='ks2_teacher_record_sheet' %}" onclick='send_event("ks2_teacher_record_sheet","Downloaded");'>Teacher Record Sheet</a></p>
                 </div>
             </div>
         </div>
@@ -234,7 +234,7 @@
             <div class="grid-sessions">
                 {% for lower_ks3_session in lower_ks3_sessions %}
                     <p><strong>Session {{ lower_ks3_session.session_number }}</strong></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name=lower_ks3_session.url_name %}">
+                    <p><a href="{% url 'materials_viewer' pdf_name=lower_ks3_session.url_name %}" onclick='send_event("lower_ks3_session.pdf","Downloaded");'>
                         {{ lower_ks3_session.description }}</a></p>
                     <p><i>{{ lower_ks3_session.levels_covered }}</i></p>
                     <div>
@@ -249,7 +249,7 @@
             <div class="grid-sessions">
                 {% for intermediate_ks3_session in intermediate_ks3_sessions %}
                     <p><strong>Session {{ intermediate_ks3_session.session_number }}</strong></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name=intermediate_ks3_session.url_name %}">
+                    <p><a href="{% url 'materials_viewer' pdf_name=intermediate_ks3_session.url_name %}" onclick='send_event("intermediate_ks3_session.pdf","Downloaded");'>
                         {{ intermediate_ks3_session.description }}</a></p>
                     <p><i>{{ intermediate_ks3_session.levels_covered }}</i></p>
                     <div>
@@ -264,7 +264,7 @@
             <div class="grid-sessions">
                 {% for upper_ks3_session in upper_ks3_sessions %}
                     <p><strong>Session {{ upper_ks3_session.session_number }}</strong></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name=upper_ks3_session.url_name %}">
+                    <p><a href="{% url 'materials_viewer' pdf_name=upper_ks3_session.url_name %}" onclick='send_event("upper_ks3_session.pdf","Downloaded");'>
                         {{ upper_ks3_session.description }}</a></p>
                     <p><i>{{ upper_ks3_session.levels_covered }}</i></p>
                     <div>
@@ -302,44 +302,44 @@
                 <div class="col-sm-6">
                     <h3>Program Solutions <span class="ks-tag">KS3</span></h3>
                     <p>This sheet gives you the confidence and the understanding needed to teach the lessons and the solutions to each level.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_19-43' %}">Lower KS3 program solutions</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_44-79' %}">Intermediate KS3 program solutions</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_80-109' %}">Upper KS3 program solutions</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_19-43' %}" onclick='send_event("program_solutions_19-43.pdf","Downloaded");'>Lower KS3 program solutions</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_44-79' %}" onclick='send_event("program_solutions_44-79.pdf","Downloaded");'>Intermediate KS3 program solutions</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='program_solutions_80-109' %}" onclick='send_event("program_solutions_80-109.pdf","Downloaded");'>Upper KS3 program solutions</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Activity Set <span class="ks-tag">KS3</span></h3>
                     <p>This activity set gives you an overview of the Key Stage 1 module. It covers the resources that will be useful, learning
                         expectations and teacher preparation.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_activity_set' %}">Lower KS3 activity set</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_activity_set' %}">Intermediate KS3 activity set</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_activity_set' %}">Upper KS3 activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_activity_set' %}" onclick='send_event("lower_ks3_activity_set.pdf","Downloaded");'>Lower KS3 activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_activity_set' %}" onclick='send_event("intermediate_ks3_activity_set.pdf","Downloaded");'>Intermediate KS3 activity set</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_activity_set' %}" onclick='send_event("upper_ks3_activity_set.pdf","Downloaded");'>Upper KS3 activity set</a></p>
                 </div>
             </div>
             <div class="row row--under">
                 <div class="col-sm-6">
                     <h3>Assets <span class="ks-tag">KS3</span></h3>
                     <p>Printable sheets with all the game assets from direction arrows to scenery for offline activity activities.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_assets' %}">Lower KS3 Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_assets' %}">Intermediate KS3 Assets</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_assets' %}">Upper KS3 Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_assets' %}" onclick='send_event("lower_ks3_assets","Downloaded");'>Lower KS3 Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_assets' %}" onclick='send_event("intermediate_ks3_assets.pdf","Downloaded");'>Intermediate KS3 Assets</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_assets' %}" onclick='send_event("upper_ks3_assets.pdf","Downloaded");'>Upper KS3 Assets</a></p>
                 </div>
                 <div class="col-sm-6">
                     <h3>Assessments <span class="ks-tag">KS3</span></h3>
                     <p>Assessment guidance sheets for teachers to explain techniques and key questions.
-                        You can <a href="{{ 'KS3_v1/assessment.zip'|cloud_storage }}" > download the
+                        You can <a href="{{ 'KS3_v1/assessment.zip'|cloud_storage }}" onclick='send_event("KS3_v1/assessment.zip","Downloaded");' > download the
                         whole set</a> (zip file), or view and download them individually below.</p>
                     <h4>Teacher Assessment Sheets</h4>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_assessment_sheet' %}">Lower KS3 Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_assessment_sheet' %}">Intermediate KS3 Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_assessment_sheet' %}">Upper KS3 Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_assessment_sheet' %}" onclick='send_event("lower_ks3_assessment_sheet.pdf","Downloaded");'>Lower KS3 Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_assessment_sheet' %}" onclick='send_event("intermediate_ks3_assessment_sheet.pdf","Downloaded");'>Intermediate KS3 Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_assessment_sheet' %}" onclick='send_event("upper_ks3_assessment_sheet.pdf","Downloaded");'>Upper KS3 Assessment Sheet</a></p>
                     <h4>Student Self-Assessment Sheets</h4>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_self_assessment_sheet' %}">Lower KS3 Self-Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_self_assessment_sheet' %}">Intermediate KS3 Self-Assessment Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_self_assessment_sheet' %}">Upper KS3 Self-Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_self_assessment_sheet' %}" onclick='send_event("lower_ks3_self_assessment_sheet.pdf","Downloaded");'>Lower KS3 Self-Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_self_assessment_sheet' %}" onclick='send_event("intermediate_ks3_self_assessment_sheet.pdf","Downloaded");'>Intermediate KS3 Self-Assessment Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_self_assessment_sheet' %}" onclick='send_event("upper_ks3_assessment_sheet.pdf","Downloaded");'>Upper KS3 Self-Assessment Sheet</a></p>
                     <h4>Teacher Record Sheets</h4>
-                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_teacher_record_sheet' %}">Lower KS3 Teacher Record Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_teacher_record_sheet' %}">Intermediate KS3 Teacher Record Sheet</a></p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_teacher_record_sheet' %}">Upper KS3 Teacher Record Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='lower_ks3_teacher_record_sheet' %}" onclick='send_event("lower_ks3_teacher_record_sheet.pdf","Downloaded");'>Lower KS3 Teacher Record Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='intermediate_ks3_teacher_record_sheet' %}" onclick='send_event("intermediate_ks3_teacher_record_sheet.pdf","Downloaded");'>Intermediate KS3 Teacher Record Sheet</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='upper_ks3_teacher_record_sheet' %}" onclick='send_event("upper_ks3_teacher_record_sheet.pdf","Downloaded");'>Upper KS3 Teacher Record Sheet</a></p>
                 </div>
             </div>
         </div>

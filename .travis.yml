@@ -24,7 +24,6 @@ jobs:
       install:
         - pip install -U setuptools
         - pip install -e .
-        - pip install coveralls
       before_script:
         - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
         - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
@@ -37,7 +36,7 @@ jobs:
       script:
         - python setup.py test
       after_success:
-        - coveralls
+        - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
       install:
         - pip install -U setuptools

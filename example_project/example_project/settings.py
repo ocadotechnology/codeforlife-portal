@@ -34,57 +34,54 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-'''Django settings for example_project project.'''
+"""Django settings for example_project project."""
 import os
 
 DEBUG = True
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'OPTIONS': {
-            'debug': DEBUG,
-        },
-    },
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "OPTIONS": {"debug": DEBUG},
+    }
 ]
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(os.path.abspath(os.path.dirname(__file__)),'db.sqlite3'),# Or path to database file if using sqlite3.
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        "NAME": os.path.join(
+            os.path.abspath(os.path.dirname(__file__)), "db.sqlite3"
+        ),  # Or path to database file if using sqlite3.
     }
 }
 
 USE_I18N = True
 USE_L10N = True
-TIME_ZONE = 'Europe/London'
+TIME_ZONE = "Europe/London"
 
-LANGUAGE_CODE = 'en-gb'
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
-STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(STATIC_ROOT, 'email_media/')
-SECRET_KEY = 'not-a-secret'
+LANGUAGE_CODE = "en-gb"
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), "static")
+STATIC_URL = "/static/"
+MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
+SECRET_KEY = "not-a-secret"
 
-ROOT_URLCONF = 'example_project.urls'
+ROOT_URLCONF = "example_project.urls"
 
-WSGI_APPLICATION = 'example_project.wsgi.application'
+WSGI_APPLICATION = "example_project.wsgi.application"
 
-LOGIN_REDIRECT_URL = '/portal/teach/dashboard/'
+LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-INSTALLED_APPS = (
-    'portal',
-    'captcha',
-    'django_forms_bootstrap',
-)
+INSTALLED_APPS = ("portal", "captcha", "django_forms_bootstrap")
 
 PIPELINE_ENABLED = False
 
 try:
-    from example_project.local_settings import * # pylint: disable=E0611
+    from example_project.local_settings import *  # pylint: disable=E0611
 except ImportError:
     pass
 
 from django_autoconfig import autoconfig
+
 autoconfig.configure_settings(globals())
