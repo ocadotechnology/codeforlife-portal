@@ -366,6 +366,7 @@ def create_class(form, teacher):
     )
     return klass
 
+
 def process_class(request, access_code, onboarding_done, next_url):
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
@@ -418,6 +419,7 @@ def process_class(request, access_code, onboarding_done, next_url):
             "num_students": len(students),
         },
     )
+
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
