@@ -468,7 +468,7 @@ def teacher_accept_student_request(request, pk):
             student.save()
             student.new_user.save()
 
-            give_student_access_to_aimmo_games(student, new_teacher=teacher)
+            give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
 
             return render(
                 request,
