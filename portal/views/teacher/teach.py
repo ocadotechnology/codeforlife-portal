@@ -814,7 +814,7 @@ def teacher_move_class(request, access_code):
             students = Student.objects.filter(class_field=klass)
 
             for student in students:
-                give_student_access_to_aimmo_games(student=student, old_teacher, new_teacher)
+                give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
 
             messages.success(
                 request,
@@ -955,7 +955,7 @@ def process_move_students_form(request, formset, old_class, new_class):
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
-        give_student_access_to_aimmo_games(student=student, old_teacher, new_teacher)
+        give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
         student.save()
         student.new_user.save()
 
