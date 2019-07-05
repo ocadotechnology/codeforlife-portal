@@ -72,6 +72,12 @@ def get_form(self, form_class):
     return form_class(user, **self.get_form_kwargs())
 
 
+def process_form(self, process_function, form, view):
+    student = self.request.user.new_student
+    process_function(form, student, self.request)
+    return super(view, self).form_valid(form)
+
+
 class SchoolStudentEditAccountView(FormView):
     form_class = StudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
@@ -79,9 +85,12 @@ class SchoolStudentEditAccountView(FormView):
     model = Student
 
     def form_valid(self, form):
-        student = self.request.user.new_student
-        self.process_student_edit_account_form(form, student, self.request)
-        return super(SchoolStudentEditAccountView, self).form_valid(form)
+        return process_form(
+            self,
+            self.process_student_edit_account_form,
+            form,
+            SchoolStudentEditAccountView,
+        )
 
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
@@ -123,9 +132,12 @@ class IndependentStudentEditAccountView(FormView):
             return reverse_lazy("student_details")
 
     def form_valid(self, form):
-        student = self.request.user.new_student
-        self.process_independent_student_edit_account_form(form, student, self.request)
-        return super(IndependentStudentEditAccountView, self).form_valid(form)
+        return process_form(
+            self,
+            self.process_independent_student_edit_account_form,
+            form,
+            IndependentStudentEditAccountView,
+        )
 
     def process_independent_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
