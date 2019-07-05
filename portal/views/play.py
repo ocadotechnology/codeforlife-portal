@@ -35,26 +35,27 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from functools import partial
-
-from portal.models import Student, UserProfile
-from django.views.generic.edit import FormView, FormView
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render
+from django.views.generic.edit import FormView
 
-from portal.forms.play import StudentEditAccountForm, StudentJoinOrganisationForm, IndependentStudentEditAccountForm
-from portal.permissions import logged_in_as_student
+from portal import email_messages
+from portal.forms.play import (
+    StudentEditAccountForm,
+    StudentJoinOrganisationForm,
+    IndependentStudentEditAccountForm,
+)
 from portal.helpers.emails import (
     send_email,
     send_verification_email,
     NOTIFICATION_EMAIL,
 )
-from portal import app_settings, email_messages
-
+from portal.models import Student
+from portal.permissions import logged_in_as_student
 from ratelimit.decorators import ratelimit
 
 
@@ -73,7 +74,7 @@ def get_form(self, form_class):
 
 class SchoolStudentEditAccountView(FormView):
     form_class = StudentEditAccountForm
-    template_name = '../templates/portal/play/student_edit_account.html'
+    template_name = "../templates/portal/play/student_edit_account.html"
     success_url = reverse_lazy("student_details")
     model = Student
 
@@ -100,18 +101,26 @@ class SchoolStudentEditAccountView(FormView):
 
 class IndependentStudentEditAccountView(FormView):
     form_class = IndependentStudentEditAccountForm
-    template_name = '../templates/portal/play/student_edit_account.html'
-    success_url = reverse_lazy("student_details")
+    template_name = "../templates/portal/play/student_edit_account.html"
     model = Student
-    initial = {'name': 'Could not find name'}
+    initial = {"name": "Could not find name"}
+    changing_email = False
 
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
-        kwargs['initial']['name'] = "{} {}".format(self.request.user.first_name, self.request.user.last_name)
+        kwargs["initial"]["name"] = "{} {}".format(
+            self.request.user.first_name, self.request.user.last_name
+        )
         return kwargs
 
     def get_form(self, form_class=None):
         return get_form(self, form_class)
+
+    def get_success_url(self):
+        if self.changing_email:
+            return reverse_lazy("email_verification")
+        else:
+            return reverse_lazy("student_details")
 
     def form_valid(self, form):
         student = self.request.user.new_student
@@ -125,7 +134,7 @@ class IndependentStudentEditAccountView(FormView):
         self.check_update_password(form, student, request, data)
 
         # allow individual students to update more
-        changing_email, new_email = self.update_email(form, student, request, data)
+        self.changing_email, new_email = self.update_email(form, student, request, data)
 
         self.update_name(student, data)
 
@@ -133,13 +142,8 @@ class IndependentStudentEditAccountView(FormView):
             request, "Your account details have been changed successfully."
         )
 
-        if changing_email:
+        if self.changing_email:
             logout(request)
-            return render(
-                request,
-                "portal/email_verification_needed.html",
-                {"userprofile": student.user, "email": new_email},
-            )
 
     def check_update_password(self, form, student, request, data):
         if data["password"] != "":
@@ -147,7 +151,7 @@ class IndependentStudentEditAccountView(FormView):
             student.new_user.save()
             update_session_auth_hash(request, form.user)
 
-    def update_email(self, form, student, request, data):
+    def update_email(self, student, request, data):
         changing_email = False
         new_email = data["email"]
         if new_email != "" and new_email != student.new_user.email:
@@ -239,7 +243,7 @@ def student_join_organisation(request):
         elif "revoke_join_request" in request.POST:
             student.pending_class_request = None
             student.save()
-            # Check teacher hasn't since accepted rejection before posting success message
+            # Check teacher hasn't since accepted rejection before posting success
             if not student.class_field:
                 messages.success(
                     request,

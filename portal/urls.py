@@ -197,6 +197,7 @@ urlpatterns = [
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
     url(r"^set_preview_tester/$", make_preview_tester, name="make_preview_tester"),
+    url(r"^verify_email/$", TemplateView.as_view(template_name="portal/email_verification_needed.html"), name="email_verification"),
     url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
     url(
         r"^user/password/reset/student/$",
