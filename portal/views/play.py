@@ -108,7 +108,7 @@ class IndependentStudentEditAccountView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
-        kwargs["initial"]["name"] = "{} {}".format(
+        kwargs["initial"]["name"] = "{}{}".format(
             self.request.user.first_name, self.request.user.last_name
         )
         return kwargs
@@ -134,7 +134,7 @@ class IndependentStudentEditAccountView(FormView):
         self.check_update_password(form, student, request, data)
 
         # allow individual students to update more
-        self.changing_email, new_email = self.update_email(form, student, request, data)
+        self.changing_email, new_email = self.update_email(student, request, data)
 
         self.update_name(student, data)
 
