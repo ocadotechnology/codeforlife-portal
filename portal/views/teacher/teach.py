@@ -278,17 +278,16 @@ def materials_viewer(request, pdf_name):
     except KeyError:
         raise Http404
 
+    links = None
+    video_link = None
+    video_download_link = None
+
     if PDF_DATA[pdf_name]["links"] is not None:
         links = _getLinks()
-    else:
-        links = None
 
     if "video" in PDF_DATA[pdf_name]:
         video_link = PDF_DATA[pdf_name]["video"]
         video_download_link = cloud_storage(PDF_DATA[pdf_name]["video_download_link"])
-    else:
-        video_link = None
-        video_download_link = None
 
     return render(
         request,
@@ -1144,7 +1143,7 @@ def teacher_print_reminder_cards(request, access_code):
                 )
                 return
 
-            font_size -= 1
+            font_size = font_size - 1
 
     current_student_count = 0
     for student in student_data:

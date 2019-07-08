@@ -101,7 +101,7 @@ def has_beta_access(request):
 @register.inclusion_tag("portal/partials/aimmo_games_table.html", takes_context=True)
 def games_table(context, base_url):
     playable_games = get_user_playable_games(context, base_url)
-    playable_games["can_delete_game"] = True
+    playable_games["can_delete_game"] = None
 
     user = context.request.user
     if (
@@ -110,6 +110,8 @@ def games_table(context, base_url):
         and user.userprofile.student.class_field != None
     ):
         playable_games["can_delete_game"] = False
+    else:
+        playable_games["can_delete_game"] = True
 
     return playable_games
 
