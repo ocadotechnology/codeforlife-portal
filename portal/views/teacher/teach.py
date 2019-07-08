@@ -860,7 +860,6 @@ def teacher_move_class(request, access_code):
                     student.new_user.userprofile.set_to_preview_user()
                     student.new_user.userprofile.save()
 
-
             messages.success(
                 request,
                 "The class has been successfully assigned to a different teacher.",
@@ -901,7 +900,6 @@ def remove_access_from_all_aimmo_games(student, teacher):
         game.can_play.remove(student.new_user)
 
 
-
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_students(request, access_code):
@@ -935,7 +933,7 @@ def teacher_move_students(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_students_to_class(request, access_code):
     """
-    Move students 
+    Move students
     """
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get("new_class", None)
@@ -1009,7 +1007,7 @@ def is_right_move_form(request):
     return request.method == "POST" and "submit_disambiguation" in request.POST
 
 
-def process_move_students_form(request, formset, old_class, new_class): 
+def process_move_students_form(request, formset, old_class, new_class):
     """
     Process move form
     """
