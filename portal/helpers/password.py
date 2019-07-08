@@ -36,11 +36,13 @@
 # identified as the original program.
 import re
 
+MINIMUM_PASSWORD_LENGTH = 8
 
-def password_strength_test(password, length=8, upper=True, lower=True, numbers=True):
+
+def password_strength_test(password, upper=True, lower=True, numbers=True):
     most_used_passwords_2018 = ["Abcd1234", "Password1", "Qwerty123"]
     return (
-        len(password) >= length
+        len(password) >= MINIMUM_PASSWORD_LENGTH
         and (not upper or re.search(r"[A-Z]", password))
         and (not lower or re.search(r"[a-z]", password))
         and (not numbers or re.search(r"[0-9]", password))

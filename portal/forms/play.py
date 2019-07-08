@@ -116,7 +116,7 @@ class StudentEditAccountForm(forms.Form):
         password = self.cleaned_data.get("password", None)
 
         if password and not password_strength_test(
-            password, length=8, upper=False, lower=False, numbers=False
+            password, upper=False, lower=False, numbers=False
         ):
             raise forms.ValidationError(
                 "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
@@ -171,7 +171,7 @@ class IndependentStudentEditAccountForm(forms.Form):
         password = self.cleaned_data.get("password", None)
 
         if password and not password_strength_test(
-            password, length=8, upper=False, lower=False, numbers=False
+            password, upper=False, lower=False, numbers=False
         ):
             raise forms.ValidationError(
                 "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
@@ -198,9 +198,7 @@ def clean_confirm_password(self):
 
 
 def are_password_and_confirm_password_different(password, confirm_password):
-    return (password is not None
-            and (password or confirm_password)
-            and password != confirm_password)
+    return password is not None and password != confirm_password
 
 
 class IndependentStudentSignupForm(forms.Form):
@@ -258,7 +256,7 @@ class IndependentStudentSignupForm(forms.Form):
         password = self.cleaned_data.get("password", None)
 
         if password and not password_strength_test(
-            password, length=8, upper=False, lower=False, numbers=False
+            password, upper=False, lower=False, numbers=False
         ):
             raise forms.ValidationError(
                 "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"

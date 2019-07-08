@@ -39,33 +39,23 @@ from django.contrib import messages as messages
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.views.generic.edit import FormView
 
-from portal import email_messages
-from portal.forms.play import (
-    StudentEditAccountForm,
-    StudentJoinOrganisationForm,
-    IndependentStudentEditAccountForm,
-)
-from portal.helpers.emails import (
-    send_email,
-    send_verification_email,
-    NOTIFICATION_EMAIL,
-)
+from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
+from portal.helpers.emails import send_verification_email
 from portal.models import Student
 from portal.permissions import logged_in_as_student
-from ratelimit.decorators import ratelimit
-
-
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
-def student_details(request):
-    return render(request, "portal/play/student_details.html")
 
 
 def get_form(self, form_class):
+    """
+    Generic function which gets the appropriate edit account details form for either
+    a school student or an independent student.
+    :param self: The view class the form is used in.
+    :param form_class: The form class which corresponds to the type of student.
+    :return: The initialised form which can then be used in the FormView.
+    """
     user = self.request.user
     if form_class is None:
         form_class = self.get_form_class()
@@ -73,12 +63,26 @@ def get_form(self, form_class):
 
 
 def process_form(self, process_function, form, view):
+    """
+    Generic function which processes the appropriate edit account details form for
+    either a school student or an independent student.
+    :param self: The view class the form is used in.
+    :param process_function: The core function that is needed to process the form.
+    :param form: The form which needs to be processed.
+    :param view: The view object.
+    :return: The view once the form is valid and has been submitted.
+    """
     student = self.request.user.new_student
     process_function(form, student, self.request)
     return super(view, self).form_valid(form)
 
 
 class SchoolStudentEditAccountView(FormView):
+    """
+    A FormView for editing a school student's account details. This forms enables a
+    school student to change their password.
+    """
+
     form_class = StudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     success_url = reverse_lazy("student_details")
@@ -109,6 +113,11 @@ class SchoolStudentEditAccountView(FormView):
 
 
 class IndependentStudentEditAccountView(FormView):
+    """
+    A FormView for editing an independent student's account details. This forms enables
+    an independent student to change their name, their email and / or their password.
+    """
+
     form_class = IndependentStudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     model = Student
@@ -187,86 +196,3 @@ def student_edit_account(request):
         return HttpResponseRedirect(reverse_lazy("indenpendent_edit_account"))
     else:
         return HttpResponseRedirect(reverse_lazy("school_student_edit_account"))
-
-
-def username_labeller(request):
-    return request.user.username
-
-
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
-@ratelimit(
-    "ip",
-    labeller=username_labeller,
-    periods=["1m"],
-    increment=lambda req, res: hasattr(res, "count") and res.count,
-)
-def student_join_organisation(request):
-    increment_count = False
-
-    student = request.user.new_student
-    request_form = StudentJoinOrganisationForm()
-
-    # check student not managed by a school
-    if student.class_field:
-        raise Http404
-
-    if request.method == "POST":
-        if "class_join_request" in request.POST:
-            increment_count = True
-            request_form = StudentJoinOrganisationForm(request.POST)
-            if request_form.is_valid():
-                student.pending_class_request = request_form.klass
-                student.save()
-
-                emailMessage = email_messages.studentJoinRequestSentEmail(
-                    request,
-                    request_form.klass.teacher.school.name,
-                    request_form.klass.access_code,
-                )
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [student.new_user.email],
-                    emailMessage["subject"],
-                    emailMessage["message"],
-                )
-
-                emailMessage = email_messages.studentJoinRequestNotifyEmail(
-                    request,
-                    student.new_user.username,
-                    student.new_user.email,
-                    student.pending_class_request.access_code,
-                )
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [student.pending_class_request.teacher.new_user.email],
-                    emailMessage["subject"],
-                    emailMessage["message"],
-                )
-
-                messages.success(
-                    request,
-                    "Your request to join a school has been received successfully.",
-                )
-
-            else:
-                request_form = StudentJoinOrganisationForm(request.POST)
-
-        elif "revoke_join_request" in request.POST:
-            student.pending_class_request = None
-            student.save()
-            # Check teacher hasn't since accepted rejection before posting success
-            if not student.class_field:
-                messages.success(
-                    request,
-                    "Your request to join a school has been cancelled successfully.",
-                )
-            return HttpResponseRedirect(reverse_lazy("student_edit_account"))
-
-    res = render(
-        request,
-        "portal/play/student_join_organisation.html",
-        {"request_form": request_form, "student": student},
-    )
-    res.count = increment_count
-    return res

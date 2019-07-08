@@ -74,10 +74,12 @@ from portal.views.home import (
     home,
     make_preview_tester,
 )
-from portal.views.play import (
+from portal.views.student.play import (
     student_details,
-    student_edit_account,
     student_join_organisation,
+)
+from portal.views.student.edit_account_details import (
+    student_edit_account,
     SchoolStudentEditAccountView,
     IndependentStudentEditAccountView
 )

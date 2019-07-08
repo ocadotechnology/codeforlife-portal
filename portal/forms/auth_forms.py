@@ -63,7 +63,7 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
                 )
         elif hasattr(self.user, "student"):
             if not password_strength_test(
-                new_password1, length=8, upper=False, lower=False, numbers=False
+                new_password1, upper=False, lower=False, numbers=False
             ):
                 raise forms.ValidationError(
                     "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
