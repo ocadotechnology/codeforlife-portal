@@ -101,7 +101,7 @@ def has_beta_access(request):
 @register.inclusion_tag("portal/partials/aimmo_games_table.html", takes_context=True)
 def games_table(context, base_url):
     playable_games = get_user_playable_games(context, base_url)
-    playable_games["can_delete_game"] = None
+    playable_games["can_delete_game"] = True
 
     user = context.request.user
     if (
@@ -110,8 +110,6 @@ def games_table(context, base_url):
         and user.userprofile.student.class_field != None
     ):
         playable_games["can_delete_game"] = False
-    else:
-        playable_games["can_delete_game"] = True
 
     return playable_games
 
@@ -175,9 +173,7 @@ def get_user_status(u):
 
 @register.filter(name="make_title_caps")
 def make_title_caps(s):
-    if len(s) <= 0:
-        return s
-    else:
+    if len(s) > 0:
         s = s[0].upper() + s[1:]
     return s
 
