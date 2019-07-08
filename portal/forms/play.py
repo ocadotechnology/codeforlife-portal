@@ -34,17 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from datetime import timedelta
 import re
+from datetime import timedelta
 
+from captcha.fields import ReCaptchaField
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from portal.helpers.password import form_clean_password
 from portal.models import Student, Class, stripStudentName
-from portal.helpers.password import password_strength_test
-from captcha.fields import ReCaptchaField
 
 
 class StudentLoginForm(forms.Form):
@@ -113,16 +113,7 @@ class StudentEditAccountForm(forms.Form):
         super(StudentEditAccountForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(
-            password, upper=False, lower=False, numbers=False
-        ):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
         return clean_confirm_password(self)
@@ -168,16 +159,7 @@ class IndependentStudentEditAccountForm(forms.Form):
         return name
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(
-            password, upper=False, lower=False, numbers=False
-        ):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
         return clean_confirm_password(self)
@@ -253,16 +235,7 @@ class IndependentStudentSignupForm(forms.Form):
         return username
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(
-            password, upper=False, lower=False, numbers=False
-        ):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
         password = self.cleaned_data.get("password", None)

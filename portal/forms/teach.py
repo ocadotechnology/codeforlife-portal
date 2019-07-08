@@ -36,14 +36,13 @@
 # identified as the original program.
 import re
 
+from captcha.fields import ReCaptchaField
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
-from portal.models import Student, Teacher, stripStudentName
-from portal.helpers.password import password_strength_test
-from captcha.fields import ReCaptchaField
-
+from portal.helpers.password import form_clean_password
+from portal.models import Student, stripStudentName
 
 choices = [
     ("Miss", "Miss"),
@@ -89,14 +88,7 @@ class TeacherSignupForm(forms.Form):
     captcha = ReCaptchaField()
 
     def clean_teacher_password(self):
-        password = self.cleaned_data.get("teacher_password", None)
-
-        if password and not password_strength_test(password):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "teacher_password")
 
     def clean(self):
         if any(self.errors):
@@ -147,15 +139,7 @@ class TeacherEditAccountForm(forms.Form):
         super(TeacherEditAccountForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(password):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower "
-                + "case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
         if any(self.errors):
@@ -356,16 +340,7 @@ class TeacherSetStudentPass(forms.Form):
     )
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(
-            password, upper=False, lower=False, numbers=False
-        ):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
         password = self.cleaned_data.get("password", None)
@@ -437,7 +412,6 @@ def find_illegal_characters(names, validationErrors):
 def check_passwords(password, confirm_password):
     if (
         password is not None
-        and (password or confirm_password)
         and password != confirm_password
     ):
         raise forms.ValidationError(

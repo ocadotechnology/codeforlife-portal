@@ -34,26 +34,25 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from captcha.fields import ReCaptchaField
 from django import forms
-from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from django.utils.translation import ugettext, ugettext_lazy as _
 
+from portal.helpers.password import form_clean_password
 from portal.models import Student, Teacher
-from portal.helpers.password import password_strength_test
-from captcha.fields import ReCaptchaField
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
-    def __init__(self, user, *args, **kwags):
-        super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwags)
+    def __init__(self, user, *args, **kwargs):
+        super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
         self.fields["new_password1"].label = "Enter your new password"
         self.fields["new_password1"].widget.attrs[
             "placeholder"
@@ -64,21 +63,7 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
         ] = "Please repeat your new password"
 
     def clean_new_password1(self):
-        new_password1 = self.cleaned_data.get("new_password1", None)
-        if hasattr(self.user, "teacher"):
-            if not password_strength_test(new_password1):
-                raise forms.ValidationError(
-                    "Password not strong enough, consider using at least 8 characters, upper and "
-                    + "lower case letters, and numbers"
-                )
-        elif hasattr(self.user, "student"):
-            if not password_strength_test(
-                new_password1, upper=False, lower=False, numbers=False
-            ):
-                raise forms.ValidationError(
-                    "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-                )
-        return new_password1
+        return form_clean_password(self, forms, "new_password1")
 
 
 class TeacherPasswordResetForm(forms.Form):

@@ -73,8 +73,7 @@ def student_join_organisation(request):
     request_form = StudentJoinOrganisationForm()
 
     # check student not managed by a school
-    if student.class_field:
-        raise Http404
+    raise_error_if_student_in_class(student)
 
     if request.method == "POST":
         if "class_join_request" in request.POST:
@@ -84,7 +83,7 @@ def student_join_organisation(request):
                 student.pending_class_request = request_form.klass
                 student.save()
 
-                emailMessage = email_messages.studentJoinRequestSentEmail(
+                email_message = email_messages.studentJoinRequestSentEmail(
                     request,
                     request_form.klass.teacher.school.name,
                     request_form.klass.access_code,
@@ -92,11 +91,11 @@ def student_join_organisation(request):
                 send_email(
                     NOTIFICATION_EMAIL,
                     [student.new_user.email],
-                    emailMessage["subject"],
-                    emailMessage["message"],
+                    email_message["subject"],
+                    email_message["message"],
                 )
 
-                emailMessage = email_messages.studentJoinRequestNotifyEmail(
+                email_message = email_messages.studentJoinRequestNotifyEmail(
                     request,
                     student.new_user.username,
                     student.new_user.email,
@@ -105,8 +104,8 @@ def student_join_organisation(request):
                 send_email(
                     NOTIFICATION_EMAIL,
                     [student.pending_class_request.teacher.new_user.email],
-                    emailMessage["subject"],
-                    emailMessage["message"],
+                    email_message["subject"],
+                    email_message["message"],
                 )
 
                 messages.success(
@@ -121,11 +120,7 @@ def student_join_organisation(request):
             student.pending_class_request = None
             student.save()
             # Check teacher hasn't since accepted rejection before posting success
-            if not student.class_field:
-                messages.success(
-                    request,
-                    "Your request to join a school has been cancelled successfully.",
-                )
+            show_cancellation_message_if_student_not_in_class(student, request)
             return HttpResponseRedirect(reverse_lazy("student_edit_account"))
 
     res = render(
@@ -135,3 +130,16 @@ def student_join_organisation(request):
     )
     res.count = increment_count
     return res
+
+
+def raise_error_if_student_in_class(student):
+    if student.class_field:
+        raise Http404
+
+
+def show_cancellation_message_if_student_not_in_class(student, request):
+    if not student.class_field:
+        messages.success(
+            request,
+            "Your request to join a school has been cancelled successfully.",
+        )
