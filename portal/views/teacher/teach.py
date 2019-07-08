@@ -552,6 +552,9 @@ def process_edit_class_form(request, klass, form):
         classmate_progress = True
     external_requests_setting = form.cleaned_data["external_requests"]
     if external_requests_setting != "":
+        klass.always_accept_requests = True
+        klass.accept_requests_until = None
+
         # Change submitted for external requests
         hours = int(external_requests_setting)
         if hours == 0:
@@ -562,6 +565,7 @@ def process_edit_class_form(request, klass, form):
                 request,
                 "Class set successfully to never receive requests from external students.",
             )
+
         elif hours < 1000:
             # Setting to number of hours
             klass.always_accept_requests = False
@@ -573,6 +577,7 @@ def process_edit_class_form(request, klass, form):
                 + " "
                 + timezone.get_current_timezone_name(),
             )
+
         else:
             # Setting to always on
             klass.always_accept_requests = True
