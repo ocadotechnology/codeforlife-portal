@@ -73,48 +73,14 @@ def student_join_organisation(request):
     request_form = StudentJoinOrganisationForm()
 
     # check student not managed by a school
-    raise_error_if_student_in_class(student)
+    if student.class_field:
+        raise Http404
 
     if request.method == "POST":
         if "class_join_request" in request.POST:
             increment_count = True
             request_form = StudentJoinOrganisationForm(request.POST)
-            if request_form.is_valid():
-                student.pending_class_request = request_form.klass
-                student.save()
-
-                email_message = email_messages.studentJoinRequestSentEmail(
-                    request,
-                    request_form.klass.teacher.school.name,
-                    request_form.klass.access_code,
-                )
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [student.new_user.email],
-                    email_message["subject"],
-                    email_message["message"],
-                )
-
-                email_message = email_messages.studentJoinRequestNotifyEmail(
-                    request,
-                    student.new_user.username,
-                    student.new_user.email,
-                    student.pending_class_request.access_code,
-                )
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [student.pending_class_request.teacher.new_user.email],
-                    email_message["subject"],
-                    email_message["message"],
-                )
-
-                messages.success(
-                    request,
-                    "Your request to join a school has been received successfully.",
-                )
-
-            else:
-                request_form = StudentJoinOrganisationForm(request.POST)
+            process_join_organisation_form(request_form, request, student)
 
         elif "revoke_join_request" in request.POST:
             student.pending_class_request = None
@@ -132,9 +98,40 @@ def student_join_organisation(request):
     return res
 
 
-def raise_error_if_student_in_class(student):
-    if student.class_field:
-        raise Http404
+def process_join_organisation_form(request_form, request, student):
+    if request_form.is_valid():
+        student.pending_class_request = request_form.klass
+        student.save()
+
+        email_message = email_messages.studentJoinRequestSentEmail(
+            request,
+            request_form.klass.teacher.school.name,
+            request_form.klass.access_code,
+        )
+        send_email(
+            NOTIFICATION_EMAIL,
+            [student.new_user.email],
+            email_message["subject"],
+            email_message["message"],
+        )
+
+        email_message = email_messages.studentJoinRequestNotifyEmail(
+            request,
+            student.new_user.username,
+            student.new_user.email,
+            student.pending_class_request.access_code,
+        )
+        send_email(
+            NOTIFICATION_EMAIL,
+            [student.pending_class_request.teacher.new_user.email],
+            email_message["subject"],
+            email_message["message"],
+        )
+
+        messages.success(
+            request,
+            "Your request to join a school has been received successfully.",
+        )
 
 
 def show_cancellation_message_if_student_not_in_class(student, request):

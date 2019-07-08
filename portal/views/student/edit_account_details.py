@@ -77,6 +77,13 @@ def process_form(self, process_function, form, view):
     return super(view, self).form_valid(form)
 
 
+def check_update_password(form, student, request, data):
+    if data["password"] != "":
+        student.new_user.set_password(data["password"])
+        student.new_user.save()
+        update_session_auth_hash(request, form.user)
+
+
 class SchoolStudentEditAccountView(FormView):
     """
     A FormView for editing a school student's account details. This forms enables a
@@ -99,10 +106,7 @@ class SchoolStudentEditAccountView(FormView):
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
         # check not default value for CharField
-        if data["password"] != "":
-            student.new_user.set_password(data["password"])
-            student.new_user.save()
-            update_session_auth_hash(request, form.user)
+        check_update_password(form, student, request, data)
 
         messages.success(
             request, "Your account details have been changed successfully."
@@ -152,7 +156,7 @@ class IndependentStudentEditAccountView(FormView):
         data = form.cleaned_data
 
         # check not default value for CharField
-        self.check_update_password(form, student, request, data)
+        check_update_password(form, student, request, data)
 
         # allow individual students to update more
         self.changing_email, new_email = self.update_email(student, request, data)
@@ -165,12 +169,6 @@ class IndependentStudentEditAccountView(FormView):
 
         if self.changing_email:
             logout(request)
-
-    def check_update_password(self, form, student, request, data):
-        if data["password"] != "":
-            student.new_user.set_password(data["password"])
-            student.new_user.save()
-            update_session_auth_hash(request, form.user)
 
     def update_email(self, student, request, data):
         changing_email = False
