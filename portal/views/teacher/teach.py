@@ -757,7 +757,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         student = get_object_or_404(
             Student, class_field=klass, new_user__first_name__iexact=data["orig_name"]
         )
-        
+
         remove_access_from_all_aimmo_games(student, klass.teacher)
         student.new_user.userprofile.remove_preview_user()
 
