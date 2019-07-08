@@ -36,14 +36,15 @@
 # identified as the original program.
 
 from django.contrib import messages as messages
-from django.contrib.auth import logout, update_session_auth_hash
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic.edit import FormView
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
-from portal.helpers.emails import send_verification_email
+from portal.helpers.emails import update_email
+from portal.helpers.password import check_update_password
 from portal.models import Student
 from portal.permissions import logged_in_as_student
 
@@ -77,13 +78,6 @@ def process_form(self, process_function, form, view):
     return super(view, self).form_valid(form)
 
 
-def check_update_password(form, student, request, data):
-    if data["password"] != "":
-        student.new_user.set_password(data["password"])
-        student.new_user.save()
-        update_session_auth_hash(request, form.user)
-
-
 class SchoolStudentEditAccountView(FormView):
     """
     A FormView for editing a school student's account details. This forms enables a
@@ -106,7 +100,7 @@ class SchoolStudentEditAccountView(FormView):
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
         # check not default value for CharField
-        check_update_password(form, student, request, data)
+        check_update_password(form, student.new_user, request, data)
 
         messages.success(
             request, "Your account details have been changed successfully."
@@ -156,10 +150,10 @@ class IndependentStudentEditAccountView(FormView):
         data = form.cleaned_data
 
         # check not default value for CharField
-        check_update_password(form, student, request, data)
+        check_update_password(form, student.new_user, request, data)
 
         # allow individual students to update more
-        self.changing_email, new_email = self.update_email(student, request, data)
+        self.changing_email, new_email = update_email(student.new_user, request, data)
 
         self.update_name(student, data)
 
@@ -169,15 +163,6 @@ class IndependentStudentEditAccountView(FormView):
 
         if self.changing_email:
             logout(request)
-
-    def update_email(self, student, request, data):
-        changing_email = False
-        new_email = data["email"]
-        if new_email != "" and new_email != student.new_user.email:
-            # new email to set and verify
-            changing_email = True
-            send_verification_email(request, student.new_user, new_email)
-        return changing_email, new_email
 
     def update_name(self, student, data):
         student.new_user.first_name = data["name"]

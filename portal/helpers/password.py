@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from django.contrib.auth import update_session_auth_hash
+
 import re
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -60,3 +62,10 @@ def form_clean_password(self, forms, password_field_name):
         )
 
     return password
+
+
+def check_update_password(form, user, request, data):
+    if data["password"] != "":
+        user.set_password(data["password"])
+        user.save()
+        update_session_auth_hash(request, form.user)
