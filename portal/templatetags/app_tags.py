@@ -100,7 +100,18 @@ def has_beta_access(request):
 
 @register.inclusion_tag("portal/partials/aimmo_games_table.html", takes_context=True)
 def games_table(context, base_url):
-    return get_user_playable_games(context, base_url)
+    playable_games = get_user_playable_games(context, base_url)
+    playable_games["can_delete_game"] = True
+
+    user = context.request.user
+    if (
+        hasattr(user, "userprofile")
+        and hasattr(user.userprofile, "student")
+        and user.userprofile.student.class_field != None
+    ):
+        playable_games["can_delete_game"] = False
+
+    return playable_games
 
 
 @register.filter(name="make_into_username")

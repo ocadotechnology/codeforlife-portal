@@ -81,6 +81,7 @@ from portal.helpers.emails import send_email, send_verification_email, INVITE_FR
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
 from portal import email_messages
+from portal.templatetags.app_tags import is_preview_user
 
 from aimmo.models import Game
 
@@ -319,7 +320,10 @@ def default_solution(request, levelName):
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
-def teacher_classes(request):
+def teacher_onboarding_create_class(request):
+    """
+    Onboarding view for creating a class (and organisation if there isn't one, yet)
+    """
     teacher = request.user.new_teacher
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
@@ -367,16 +371,17 @@ def create_class(form, teacher):
     return klass
 
 
-def process_class(request, access_code, onboarding_done, next_url):
+def process_edit_class(request, access_code, onboarding_done, next_url):
+    """
+    Handles student creation both during onboarding or on the class page
+    """
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass).order_by(
         "new_user__first_name"
     )
-    games = Game.objects.filter(owner=teacher.new_user)
 
     check_logged_in_students(klass, students)
-
     check_user_is_authorised(request, klass)
 
     if request.method == "POST":
@@ -423,8 +428,11 @@ def process_class(request, access_code, onboarding_done, next_url):
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
-def teacher_onboarding_class(request, access_code):
-    return process_class(request, access_code, onboarding_done=False, next_url="portal/teach/onboarding_students.html")
+def teacher_onboarding_edit_class(request, access_code):
+    """
+    Adding students to a class during the onboarding process
+    """
+    return process_edit_class(request, access_code, onboarding_done=False, next_url="portal/teach/onboarding_students.html")
 
 
 def check_logged_in_students(klass, students):
@@ -446,7 +454,10 @@ def check_user_is_authorised(request, klass):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_view_class(request, access_code):
-    return process_class(request, access_code, onboarding_done=True, next_url="portal/teach/class.html")
+    """
+    Adding students to a class after the onboarding process has been completed
+    """
+    return process_edit_class(request, access_code, onboarding_done=True, next_url="portal/teach/class.html")
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -499,6 +510,9 @@ def teacher_delete_students(request, access_code):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_edit_class(request, access_code):
+    """
+    Editing class details
+    """
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
@@ -583,6 +597,9 @@ def process_edit_class_form(request, klass, form):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_edit_student(request, pk):
+    """
+    Changing a student's details
+    """
     student = get_object_or_404(Student, id=pk)
 
     check_if_reset_authorised(request, student)
@@ -654,6 +671,9 @@ def check_if_reset_authorised(request, student):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_student_reset(request, pk):
+    """
+    Reset a student's password
+    """
     student = get_object_or_404(Student, id=pk)
 
     # check user is authorised to edit student
@@ -680,11 +700,14 @@ def teacher_student_reset(request, pk):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_dismiss_students(request, access_code):
+    """
+    Dismiss a student (make them independent)
+    """
     klass = get_object_or_404(Class, access_code=access_code)
 
     check_if_dismiss_authorised(request, klass)
 
-    # get student objects for students to be deleted, confirming they are in the class
+    # get student objects for students to be dismissed, confirming they are in the class
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
     students = [
         get_object_or_404(Student, id=i, class_field=klass) for i in student_ids
@@ -735,12 +758,17 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         student = get_object_or_404(
             Student, class_field=klass, new_user__first_name__iexact=data["orig_name"]
         )
+        
+        remove_access_from_all_aimmo_games(student, klass.teacher)
+        student.new_user.userprofile.remove_preview_user()
+
         student.class_field = None
         student.new_user.first_name = data["name"]
         student.new_user.username = data["name"]
         student.new_user.email = data["email"]
         student.save()
         student.new_user.save()
+        student.new_user.userprofile.save()
 
         send_verification_email(request, student.new_user)
 
@@ -755,6 +783,9 @@ def process_dismiss_student_form(request, formset, klass, access_code):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_class_password_reset(request, access_code):
+    """
+    Reset passwords for one or more students
+    """
     klass = get_object_or_404(Class, access_code=access_code)
     students = Student.objects.filter(class_field=klass).order_by(
         "new_user__first_name"
@@ -792,6 +823,9 @@ def teacher_class_password_reset(request, access_code):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_class(request, access_code):
+    """
+    Move a class to another teacher
+    """
     klass = get_object_or_404(Class, access_code=access_code)
     old_teacher = klass.teacher
     other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(
@@ -816,6 +850,17 @@ def teacher_move_class(request, access_code):
             for student in students:
                 give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
 
+                # If the new teacher isn't a preview user but the old one was, revoke preview user access
+                if is_preview_user(old_teacher.new_user) and not is_preview_user(new_teacher.new_user):
+                    student.new_user.userprofile.remove_preview_user()
+                    student.new_user.userprofile.save()
+
+                # If the new teacher is a preview user but the old one wasn't, give preview user access
+                elif is_preview_user(new_teacher.new_user) and not is_preview_user(old_teacher.new_user):
+                    student.new_user.userprofile.set_to_preview_user()
+                    student.new_user.userprofile.save()
+
+
             messages.success(
                 request,
                 "The class has been successfully assigned to a different teacher.",
@@ -830,10 +875,11 @@ def teacher_move_class(request, access_code):
 
 
 def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
+    """
+    Give students access to all of their current teacher's (new_teacher) AI:MMO games,
+    Remove access to games from previous teacher
+    """
     games_to_add = Game.objects.filter(owner=new_teacher.new_user)
-
-    for game_to_add in games_to_add:
-        game_to_add.can_play.add(student.new_user)
 
     if old_teacher:
         games_to_remove = Game.objects.filter(owner=old_teacher.new_user)
@@ -841,10 +887,27 @@ def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=No
         for game_to_remove in games_to_remove:
             game_to_remove.can_play.remove(student.new_user)
 
+    for game_to_add in games_to_add:
+        game_to_add.can_play.add(student.new_user)
+
+
+def remove_access_from_all_aimmo_games(student, teacher):
+    """
+    Remove access to all games (when the student becomes independent)
+    """
+    games_to_remove = Game.objects.filter(owner=teacher.new_user)
+
+    for game in games_to_remove:
+        game.can_play.remove(student.new_user)
+
+
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_students(request, access_code):
+    """
+    Move students
+    """
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
@@ -871,6 +934,9 @@ def teacher_move_students(request, access_code):
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_students_to_class(request, access_code):
+    """
+    Move students 
+    """
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get("new_class", None)
     new_class = get_object_or_404(Class, id=new_class_id)
@@ -943,7 +1009,10 @@ def is_right_move_form(request):
     return request.method == "POST" and "submit_disambiguation" in request.POST
 
 
-def process_move_students_form(request, formset, old_class, new_class):
+def process_move_students_form(request, formset, old_class, new_class): 
+    """
+    Process move form
+    """
     old_teacher = old_class.teacher
     new_teacher = new_class.teacher
 
@@ -955,7 +1024,9 @@ def process_move_students_form(request, formset, old_class, new_class):
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
+
         give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
+
         student.save()
         student.new_user.save()
 

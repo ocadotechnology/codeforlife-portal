@@ -60,10 +60,8 @@ button--menu--enabled button--menu--student--active">My Games</a>
 {{block.super}}
 <section class="background">
     <div class="col-sm-6 col-center">
-        {% if user|is_logged_in_as_teacher %}
-            <h3>My games</h3>
-            {% games_table 'aimmo/play' %}
-        {% endif %}
+        <h3>My games</h3>
+        {% games_table 'aimmo/play' %}
     </div>
 </section>
 

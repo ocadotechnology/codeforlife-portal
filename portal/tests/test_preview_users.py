@@ -43,6 +43,10 @@ from utils.teacher import (
     signup_teacher_directly,
     signup_teacher_directly_as_preview_user,
 )
+from utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
 from utils.organisation import create_organisation_directly
 from portal.models import Teacher
 from portal.templatetags.app_tags import is_preview_user, is_eligible_for_testing
@@ -147,7 +151,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = page.go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
-        page.input_new_game_name("Test Game")
+        page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
         self.assertIn("/aimmo/play/1/", self.selenium.driver.current_url)
@@ -189,14 +193,14 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = page.go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
-        page.input_new_game_name("Test Game")
+        page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
-        page.input_new_game_name("Test Game")
+        page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
         self.assertEqual(
@@ -214,7 +218,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
         page = page.go_to_aimmo_home_page()
 
-        new_game_name = "Join me"
+        new_game_name = "Join_me"
         page.click_create_new_game_button()
         page.input_new_game_name(new_game_name)
         page.click_create_game_button()
@@ -237,7 +241,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = page.go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
-        page.input_new_game_name("Test Game")
+        page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
         self.selenium.get(self.live_server_url)
@@ -259,7 +263,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = page.go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
-        page.input_new_game_name("Test Game")
+        page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
         self.selenium.get(self.live_server_url)
@@ -267,9 +271,37 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = page.go_to_aimmo_home_page()
 
         page.click_create_new_game_button()
-        page.input_new_game_name("Test Game 2")
+        page.input_new_game_name("Test_Game_2")
         page.click_create_game_button()
 
         page.click_delete_game_button()
+
+        return self.element_exists_by_id("games-table")
+
+    def test_users_who_can_play_can_see(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        _, _, access_code = create_class_directly(email)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test_Game")
+        page.click_create_game_button()
+
+        page.logout()
+
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .student_login(student_name, access_code, student_password)
+        )
+
+        page = page.go_to_aimmo_home_page()
 
         return self.element_exists_by_id("games-table")
