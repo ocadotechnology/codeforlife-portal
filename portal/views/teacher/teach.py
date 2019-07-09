@@ -1012,9 +1012,6 @@ def is_right_move_form(request):
 
 
 def process_move_students_form(request, formset, old_class, new_class):
-    """
-    Process move form
-    """
     old_teacher = old_class.teacher
     new_teacher = new_class.teacher
 
