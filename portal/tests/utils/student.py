@@ -38,6 +38,7 @@ from django.core import mail
 
 import email
 from portal.helpers.emails import generate_token
+from portal.templatetags.app_tags import is_eligible_for_testing
 from portal.models import Class, Student
 
 
@@ -57,7 +58,10 @@ def create_school_student_directly(access_code):
     name, password = generate_school_details()
 
     klass = Class.objects.get(access_code=access_code)
+
     student = Student.objects.schoolFactory(klass, name, password)
+    if is_eligible_for_testing(klass.teacher.new_user):
+        student.new_user.userprofile.set_to_preview_user()
 
     return name, password, student
 

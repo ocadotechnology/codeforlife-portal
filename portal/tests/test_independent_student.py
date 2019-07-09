@@ -357,6 +357,7 @@ class TestIndependentStudent(BaseTest):
         teacher_email, teacher_password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(teacher_email, True)
         klass, _, accesss_code = create_class_directly(teacher_email)
+        create_school_student_directly(accesss_code)
         klass.always_accept_requests = True
         klass.save()
 
@@ -384,9 +385,10 @@ class TestIndependentStudent(BaseTest):
             .return_to_class()
         )
 
-        student = Student.objects.get(class_field=klass)
+        students = Student.objects.get(class_field=klass)
 
-        self.assertEqual(True, is_preview_user(student.new_user))
+        for student in students:
+            self.assertEqual(True, is_preview_user(student.new_user))
 
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()
