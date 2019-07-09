@@ -42,7 +42,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
 from portal.templatetags.app_tags import is_preview_user
-from portal.models import Student
+from portal.models import Student, stripStudentName
 from portal.tests.utils.classes import create_class_directly
 from portal.tests.utils.organisation import create_organisation_directly
 from portal.tests.utils.student import create_school_student_directly
@@ -384,6 +384,8 @@ class TestIndependentStudent(BaseTest):
             .save(student_name)
             .return_to_class()
         )
+
+        student_name = stripStudentName(student_name)
 
         students = Student.objects.filter(
             new_user__first_name__iexact=student_name, class_field=accesss_code
