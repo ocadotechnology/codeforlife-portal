@@ -385,10 +385,12 @@ class TestIndependentStudent(BaseTest):
             .return_to_class()
         )
 
-        students = Student.objects.get(class_field=klass)
+        students = Student.objects.filter(
+            new_user__first_name__iexact=student_name, class_field=accesss_code
+        )
 
-        for student in students:
-            self.assertEqual(True, is_preview_user(student.new_user))
+        student = students[0]
+        self.assertEqual(True, is_preview_user(student.new_user))
 
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()
