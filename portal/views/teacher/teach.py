@@ -552,9 +552,6 @@ def process_edit_class_form(request, klass, form):
         classmate_progress = True
     external_requests_setting = form.cleaned_data["external_requests"]
     if external_requests_setting != "":
-        klass.always_accept_requests = True
-        klass.accept_requests_until = None
-
         # Change submitted for external requests
         hours = int(external_requests_setting)
         if hours == 0:
@@ -937,7 +934,7 @@ def teacher_move_students(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_students_to_class(request, access_code):
     """
-    Move students
+    Disamnbiguation for moving students (teacher gets to rename the students to avoid clashes)
     """
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get("new_class", None)
