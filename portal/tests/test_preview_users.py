@@ -250,7 +250,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         page.click_delete_game_button()
 
-        return self.element_does_not_exist_by_id("games-table")
+        self.assertEqual(True, self.element_exists_by_id("games-table"))
 
     def test_preview_user_deletes_one_of_multiple_games(self):
         email, password = signup_teacher_directly_as_preview_user()
@@ -276,7 +276,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         page.click_delete_game_button()
 
-        return self.element_exists_by_id("games-table")
+        self.assertEqual(True, self.element_exists_by_id("games-table"))
 
     def test_users_who_can_play_can_see(self):
         email, password = signup_teacher_directly_as_preview_user()
@@ -304,4 +304,4 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         page = page.go_to_aimmo_home_page()
 
-        return self.element_exists_by_id("games-table")
+        self.assertEqual(True, self.element_exists_by_id("games-table"))
