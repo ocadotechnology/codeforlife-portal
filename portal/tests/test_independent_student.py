@@ -357,7 +357,6 @@ class TestIndependentStudent(BaseTest):
         teacher_email, teacher_password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(teacher_email, True)
         klass, _, accesss_code = create_class_directly(teacher_email)
-        create_school_student_directly(accesss_code)
         klass.always_accept_requests = True
         klass.save()
 
