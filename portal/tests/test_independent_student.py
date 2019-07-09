@@ -356,8 +356,8 @@ class TestIndependentStudent(BaseTest):
     def test_join_preview_class_accepted(self):
         teacher_email, teacher_password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(teacher_email, True)
-        klass, _, accesss_code = create_class_directly(teacher_email)
-        create_school_student_directly(accesss_code)
+        klass, _, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
         klass.always_accept_requests = True
         klass.save()
 
@@ -370,7 +370,7 @@ class TestIndependentStudent(BaseTest):
         page = (
             play_page.independent_student_login(student_username, password)
             .go_to_join_a_school_or_club_page()
-            .join_a_school_or_club(accesss_code)
+            .join_a_school_or_club(access_code)
         )
 
         page.logout()
@@ -388,7 +388,7 @@ class TestIndependentStudent(BaseTest):
         student_name = stripStudentName(student_name)
 
         students = Student.objects.filter(
-            new_user__first_name__iexact=student_name, class_field=accesss_code
+            new_user__first_name__iexact=student_name, class_field=klass
         )
 
         student = students[0]
@@ -397,8 +397,8 @@ class TestIndependentStudent(BaseTest):
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
-        klass, _, accesss_code = create_class_directly(teacher_email)
-        create_school_student_directly(accesss_code)
+        klass, _, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
         klass.always_accept_requests = True
         klass.save()
 
@@ -411,7 +411,7 @@ class TestIndependentStudent(BaseTest):
         page = (
             play_page.independent_student_login(student_username, password)
             .go_to_join_a_school_or_club_page()
-            .join_a_school_or_club(accesss_code)
+            .join_a_school_or_club(access_code)
         )
 
         page.logout()
