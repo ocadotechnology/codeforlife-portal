@@ -40,7 +40,10 @@ from base_test import BaseTest
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.templatetags.app_tags import is_preview_user
-from utils.teacher import signup_teacher_directly
+from utils.teacher import (
+    signup_teacher_directly,
+    signup_teacher_directly_as_preview_user,
+)
 from utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
@@ -402,12 +405,14 @@ class TestTeacherStudent(BaseTest):
         join_teacher_to_organisation(email_2, org_name, postcode)
         _, _, access_code_1 = create_class_directly(old_teacher_email)
         _, _, _ = create_class_directly(email_2)
-        student_name, _, _ = create_school_student_directly(
-            access_code_1
-        )
+        student_name, _, _ = create_school_student_directly(access_code_1)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(old_teacher_email, password_1)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(old_teacher_email, password_1)
+        )
         page = page.go_to_class_page()
         assert page.has_students()
         assert page.student_exists(student_name)
@@ -424,12 +429,8 @@ class TestTeacherStudent(BaseTest):
         join_teacher_to_organisation(email_2, org_name, postcode)
         _, _, access_code_1 = create_class_directly(email_1)
         _, _, _ = create_class_directly(email_2)
-        student_name_1, _, _ = create_school_student_directly(
-            access_code_1
-        )
-        student_name_2, _, _ = create_school_student_directly(
-            access_code_1
-        )
+        student_name_1, _, _ = create_school_student_directly(access_code_1)
+        student_name_2, _, _ = create_school_student_directly(access_code_1)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
@@ -447,21 +448,23 @@ class TestTeacherStudent(BaseTest):
         assert page.student_exists(student_name_1)
 
     def test_moved_student_loses_preview_access(self):
-        old_teacher_email, old_teacher_password = signup_teacher_directly_as_preview_user()
+        old_teacher_email, old_teacher_password = (
+            signup_teacher_directly_as_preview_user()
+        )
         new_teacher_email, new_teacher_password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(old_teacher_email, True)
         join_teacher_to_organisation(new_teacher_email, org_name, postcode)
         _, _, access_code = create_class_directly(old_teacher_email)
         new_class, _, new_access_code = create_class_directly(new_teacher_email)
-        student_name_1, _, _ = create_school_student_directly(
-            access_code
-        )
-        student_name_2, _, _ = create_school_student_directly(
-            access_code
-        )
+        student_name_1, _, _ = create_school_student_directly(access_code)
+        student_name_2, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(old_teacher_email, old_teacher_password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(old_teacher_email, old_teacher_password)
+        )
         page = page.go_to_class_page().toggle_select_student()
         page = page.move_students().select_class_by_index(0).move().move()
 
@@ -471,20 +474,22 @@ class TestTeacherStudent(BaseTest):
 
     def test_moved_student_gains_preview_access(self):
         old_teacher_email, old_teacher_password = signup_teacher_directly()
-        new_teacher_email, new_teacher_password = signup_teacher_directly_as_preview_user()
+        new_teacher_email, new_teacher_password = (
+            signup_teacher_directly_as_preview_user()
+        )
         org_name, postcode = create_organisation_directly(old_teacher_email, True)
         join_teacher_to_organisation(new_teacher_email, org_name, postcode)
         _, _, access_code = create_class_directly(old_teacher_email)
         new_class, _, new_access_code = create_class_directly(new_teacher_email)
-        student_name_1, _, _ = create_school_student_directly(
-            access_code
-        )
-        student_name_2, _, _ = create_school_student_directly(
-            access_code
-        )
+        student_name_1, _, _ = create_school_student_directly(access_code)
+        student_name_2, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(old_teacher_email, old_teacher_password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .login(old_teacher_email, old_teacher_password)
+        )
         page = page.go_to_class_page().toggle_select_student()
         page = page.move_students().select_class_by_index(0).move().move()
 
@@ -496,12 +501,8 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        student_name_1, _, _ = create_school_student_directly(
-            access_code
-        )
-        _, _, _ = create_school_student_directly(
-            access_code
-        )
+        student_name_1, _, _ = create_school_student_directly(access_code)
+        _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
