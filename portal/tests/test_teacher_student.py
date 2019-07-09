@@ -38,7 +38,7 @@ import time
 
 from base_test import BaseTest
 
-from portal.models import tudent
+from portal.models import Student
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.templatetags.app_tags import is_preview_user
 from utils.teacher import (
