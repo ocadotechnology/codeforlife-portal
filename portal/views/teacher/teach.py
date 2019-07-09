@@ -850,16 +850,7 @@ def teacher_move_class(request, access_code):
 
             for student in students:
                 give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
-
-                # If the new teacher isn't a preview user but the old one was, revoke preview user access
-                if is_preview_user(old_teacher.new_user) and not is_preview_user(new_teacher.new_user):
-                    student.new_user.userprofile.remove_preview_user()
-                    student.new_user.userprofile.save()
-
-                # If the new teacher is a preview user but the old one wasn't, give preview user access
-                elif is_preview_user(new_teacher.new_user) and not is_preview_user(old_teacher.new_user):
-                    student.new_user.userprofile.set_to_preview_user()
-                    student.new_user.userprofile.save()
+                update_moved_student_preview_status(student, old_teacher, new_teacher)
 
             messages.success(
                 request,
@@ -872,6 +863,18 @@ def teacher_move_class(request, access_code):
     return render(
         request, "portal/teach/teacher_move_class.html", {"form": form, "class": klass}
     )
+
+
+def update_moved_student_preview_status(student, old_teacher, new_teacher):
+    # If the new teacher isn't a preview user but the old one was, revoke preview user access
+    if is_preview_user(old_teacher.new_user) and not is_preview_user(new_teacher.new_user):
+        student.new_user.userprofile.remove_preview_user()
+        student.new_user.userprofile.save()
+
+    # If the new teacher is a preview user but the old one wasn't, give preview user access
+    elif is_preview_user(new_teacher.new_user) and not is_preview_user(old_teacher.new_user):
+        student.new_user.userprofile.set_to_preview_user()
+        student.new_user.userprofile.save()
 
 
 def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
@@ -934,7 +937,7 @@ def teacher_move_students(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def teacher_move_students_to_class(request, access_code):
     """
-    Disamnbiguation for moving students (teacher gets to rename the students to avoid clashes)
+    Disambiguation for moving students (teacher gets to rename the students to avoid clashes)
     """
     old_class = get_object_or_404(Class, access_code=access_code)
     new_class_id = request.POST.get("new_class", None)
