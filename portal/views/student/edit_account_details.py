@@ -49,7 +49,7 @@ from portal.models import Student
 from portal.permissions import logged_in_as_student
 
 
-def get_form(self, form_class):
+def _get_form(self, form_class):
     """
     Generic function which gets the appropriate edit account details form for either
     a school student or an independent student.
@@ -63,7 +63,7 @@ def get_form(self, form_class):
     return form_class(user, **self.get_form_kwargs())
 
 
-def process_form(self, process_function, form, view):
+def _process_form(self, process_function, form, view):
     """
     Generic function which processes the appropriate edit account details form for
     either a school student or an independent student.
@@ -90,7 +90,7 @@ class SchoolStudentEditAccountView(FormView):
     model = Student
 
     def form_valid(self, form):
-        return process_form(
+        return _process_form(
             self,
             self.process_student_edit_account_form,
             form,
@@ -107,7 +107,7 @@ class SchoolStudentEditAccountView(FormView):
         )
 
     def get_form(self, form_class=None):
-        return get_form(self, form_class)
+        return _get_form(self, form_class)
 
 
 class IndependentStudentEditAccountView(FormView):
@@ -130,7 +130,7 @@ class IndependentStudentEditAccountView(FormView):
         return kwargs
 
     def get_form(self, form_class=None):
-        return get_form(self, form_class)
+        return _get_form(self, form_class)
 
     def get_success_url(self):
         if self.changing_email:
@@ -139,7 +139,7 @@ class IndependentStudentEditAccountView(FormView):
             return reverse_lazy("student_details")
 
     def form_valid(self, form):
-        return process_form(
+        return _process_form(
             self,
             self.process_independent_student_edit_account_form,
             form,
