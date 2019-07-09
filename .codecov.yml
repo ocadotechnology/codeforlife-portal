@@ -2,6 +2,8 @@ coverage:
   precision: 2
   round: down
   range: "70...100"
+  status: 
+    patch: off
   
 comment:
   layout: "reach, diff, flags, files"
