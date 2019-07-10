@@ -148,7 +148,7 @@ class TestSchoolStudent(BaseTest):
         assert self.is_dashboard(page)
 
         page = page.go_to_account_page().update_password_failure(
-            "NewPassword", "OtherPassword", student_password
+            "NewPassword1", "OtherPassword1", student_password
         )
         assert self.is_account_page(page)
         assert page.was_form_invalid(
@@ -192,7 +192,7 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        new_password = "NewPassword"
+        new_password = "NewPassword1"
 
         page = page.go_to_account_page().update_password_failure(
             new_password, new_password, student_password

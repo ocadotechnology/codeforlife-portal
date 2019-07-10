@@ -34,21 +34,20 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from uuid import uuid4
 from datetime import timedelta
+from uuid import uuid4
+
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
+from django.utils import timezone
 from requests import post
 from requests.exceptions import RequestException
 
-from django.conf import settings
-from django.utils import timezone
-from django.core.mail import EmailMultiAlternatives
-from django.template import loader
-
-from portal.models import EmailVerification
 from portal import app_settings
-from portal.email_messages import emailVerificationNeededEmail
 from portal.email_messages import emailChangeNotificationEmail
 from portal.email_messages import emailChangeVerificationEmail
+from portal.email_messages import emailVerificationNeededEmail
+from portal.models import EmailVerification
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -148,3 +147,13 @@ def add_to_salesforce(first_name, last_name, email):
         post(url, data=data)
     except RequestException:
         return
+
+
+def update_email(user, request, data):
+    changing_email = False
+    new_email = data["email"]
+    if new_email != "" and new_email != user.email:
+        # new email to set and verify
+        changing_email = True
+        send_verification_email(request, user, new_email)
+    return changing_email, new_email

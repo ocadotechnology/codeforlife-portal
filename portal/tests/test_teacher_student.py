@@ -314,7 +314,7 @@ class TestTeacherStudent(BaseTest):
 
         assert page.is_student_name(name)
 
-        new_student_password = "new_password"
+        new_student_password = "New_password1"
 
         page = page.click_set_password_form_button().type_student_password(
             new_student_password
