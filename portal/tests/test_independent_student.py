@@ -208,7 +208,7 @@ class TestIndependentStudent(BaseTest):
             student_username, password
         ).go_to_account_page()
 
-        assert page.check_account_details({"name": student_name})
+        assert page.check_account_details({"name": student_username})
 
         page = page.update_name_success("New name", password)
 

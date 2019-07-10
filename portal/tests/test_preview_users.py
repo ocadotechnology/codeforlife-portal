@@ -250,7 +250,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         page.click_delete_game_button()
 
-        self.assertEqual(True, self.element_exists_by_id("games-table"))
+        self.assertEqual(False, self.element_exists_by_id("games-table"))
 
     def test_preview_user_deletes_one_of_multiple_games(self):
         email, password = signup_teacher_directly_as_preview_user()
@@ -305,3 +305,31 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page = page.go_to_aimmo_home_page()
 
         self.assertEqual(True, self.element_exists_by_id("games-table"))
+
+    def test_preview_students_cannot_delete_game(self):
+        email, password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(email, True)
+        _, _, access_code = create_class_directly(email)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test_Game")
+        page.click_create_game_button()
+
+        page.logout()
+
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_login_page()
+            .student_login(student_name, access_code, student_password)
+        )
+
+        page = page.go_to_aimmo_home_page()
+
+        self.assertEqual(True, self.element_does_not_exist_by_link_text("Delete"))

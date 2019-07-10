@@ -99,6 +99,9 @@ class BasePage(object):
     def element_exists_by_id(self, name):
         return self.element_exists((By.ID, name))
 
+    def element_does_not_exist_by_link_text(self, name):
+        return self.element_does_not_exist((By.LINK_TEXT, name))
+
     def element_exists_by_css(self, name):
         return self.element_exists((By.CSS_SELECTOR, name))
 
