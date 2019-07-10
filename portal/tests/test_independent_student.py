@@ -200,7 +200,7 @@ class TestIndependentStudent(BaseTest):
     def test_update_name_success(self):
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
+        play_page, name, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -208,7 +208,7 @@ class TestIndependentStudent(BaseTest):
             student_username, password
         ).go_to_account_page()
 
-        assert page.check_account_details({"name": student_username})
+        assert page.check_account_details({"name": name})
 
         page = page.update_name_success("New name", password)
 
