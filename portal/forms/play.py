@@ -34,17 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from datetime import timedelta
 import re
+from datetime import timedelta
 
+from captcha.fields import ReCaptchaField
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from portal.helpers.password import form_clean_password
 from portal.models import Student, Class, stripStudentName
-from portal.helpers.password import password_strength_test
-from captcha.fields import ReCaptchaField
 
 
 class StudentLoginForm(forms.Form):
@@ -98,6 +98,28 @@ class StudentLoginForm(forms.Form):
 
 
 class StudentEditAccountForm(forms.Form):
+    password = forms.CharField(
+        label="New password", required=True, widget=forms.PasswordInput
+    )
+    confirm_password = forms.CharField(
+        label="Confirm new password", required=True, widget=forms.PasswordInput
+    )
+    current_password = forms.CharField(
+        label="Current password", widget=forms.PasswordInput
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(StudentEditAccountForm, self).__init__(*args, **kwargs)
+
+    def clean_password(self):
+        return form_clean_password(self, forms, "password")
+
+    def clean(self):
+        return clean_confirm_password(self)
+
+
+class IndependentStudentEditAccountForm(forms.Form):
     name = forms.CharField(
         label="Name",
         max_length=100,
@@ -110,7 +132,7 @@ class StudentEditAccountForm(forms.Form):
         widget=forms.EmailInput(attrs={"placeholder": "new.address@myemail.com"}),
     )
     password = forms.CharField(
-        label="New password (optional)", required=False, widget=forms.PasswordInput
+        label="New password", required=False, widget=forms.PasswordInput
     )
     confirm_password = forms.CharField(
         label="Confirm new password", required=False, widget=forms.PasswordInput
@@ -121,7 +143,7 @@ class StudentEditAccountForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
-        super(StudentEditAccountForm, self).__init__(*args, **kwargs)
+        super(IndependentStudentEditAccountForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
@@ -137,33 +159,28 @@ class StudentEditAccountForm(forms.Form):
         return name
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(
-            password, length=8, upper=False, lower=False, numbers=False
-        ):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
+        return clean_confirm_password(self)
+
+
+def clean_confirm_password(self):
         password = self.cleaned_data.get("password", None)
         confirm_password = self.cleaned_data.get("confirm_password", None)
         current_password = self.cleaned_data.get("current_password", None)
 
-        if (
-            password is not None
-            and (password or confirm_password)
-            and password != confirm_password
-        ):
+        if are_password_and_confirm_password_different(password, confirm_password):
             raise forms.ValidationError("Your new passwords do not match")
 
         if current_password and not self.user.check_password(current_password):
             raise forms.ValidationError("Your current password was incorrect")
 
         return self.cleaned_data
+
+
+def are_password_and_confirm_password_different(password, confirm_password):
+    return password is not None and password != confirm_password
 
 
 class IndependentStudentSignupForm(forms.Form):
@@ -218,16 +235,7 @@ class IndependentStudentSignupForm(forms.Form):
         return username
 
     def clean_password(self):
-        password = self.cleaned_data.get("password", None)
-
-        if password and not password_strength_test(
-            password, length=8, upper=False, lower=False, numbers=False
-        ):
-            raise forms.ValidationError(
-                "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-            )
-
-        return password
+        return form_clean_password(self, forms, "password")
 
     def clean(self):
         password = self.cleaned_data.get("password", None)

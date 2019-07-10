@@ -34,36 +34,33 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy, reverse
+from aimmo.models import Game
 from django.contrib import messages as messages
-from django.contrib.auth import logout, update_session_auth_hash
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import format_html
-
+from django.utils.safestring import mark_safe
 from two_factor.utils import devices_for_user
 
-from portal import app_settings, email_messages
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.models import Teacher, Class, Student
+from portal import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
     TeacherEditAccountForm,
     TeacherAddExternalStudentForm,
 )
-from portal.permissions import logged_in_as_teacher
-from portal.helpers.emails import send_verification_email
+from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import update_email
 from portal.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
-
+from portal.helpers.password import check_update_password
+from portal.models import Teacher, Class, Student
+from portal.permissions import logged_in_as_teacher
 from portal.utils import using_two_factor
-
 from portal.views.teacher.teach import give_student_access_to_aimmo_games
-
-from aimmo.models import Game
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -132,7 +129,9 @@ def dashboard_teacher_view(request, is_admin):
                 logout(request)
                 messages.success(
                     request,
-                    "Your account details have been successfully changed. Your email will be changed once you have verified it, until then you can still log in with your old email.",
+                    "Your account details have been successfully changed. Your email "
+                    "will be changed once you have verified it, until then you can "
+                    "still log in with your old email.",
                 )
                 return render(
                     request,
@@ -144,7 +143,8 @@ def dashboard_teacher_view(request, is_admin):
 
     if school.eligible_for_testing and not teacher.user.preview_user:
         message = format_html(
-            "You have been selected to trial the preview version of AI:MMO, our new game for secondary "
+            "You have been selected to trial the preview version of AI:MMO, our new "
+            "game for secondary "
             'schools. <a href="{}">Try it out</a>',
             reverse("play_aimmo"),
         )
@@ -236,22 +236,15 @@ def process_update_account_form(request, teacher, old_anchor):
     new_email = ""
     if update_account_form.is_valid():
         data = update_account_form.cleaned_data
-        changing_email = False
 
         # check not default value for CharField
-        if data["password"] != "":
-            teacher.new_user.set_password(data["password"])
-            teacher.new_user.save()
-            update_session_auth_hash(request, update_account_form.user)
+        check_update_password(update_account_form, teacher.new_user, request, data)
 
         teacher.title = data["title"]
         teacher.new_user.first_name = data["first_name"]
         teacher.new_user.last_name = data["last_name"]
-        new_email = data["email"]
-        if new_email != "" and new_email != teacher.new_user.email:
-            # new email to set and verify
-            changing_email = True
-            send_verification_email(request, teacher.new_user, new_email)
+
+        changing_email, new_email = update_email(teacher.new_user, request, data)
 
         teacher.save()
         teacher.new_user.save()
@@ -364,7 +357,8 @@ def organisation_kick(request, pk):
     if classes.exists():
         messages.info(
             request,
-            "This teacher still has classes assigned to them. You must first move them to another teacher in your school or club.",
+            "This teacher still has classes assigned to them. You must first move them "
+            "to another teacher in your school or club.",
         )
         return render(
             request,
