@@ -537,7 +537,7 @@ class TestTeacherStudent(BaseTest):
         page.input_new_game_name("Test_Game")
 
         self.selenium.get(self.live_server_url)
-        page = TeachClassPage(self.browser)
+        page = TeachClassPage(self.selenium)
         assert page.student_exists(student_name)
 
         page = page.toggle_select_student().dismiss_students()
