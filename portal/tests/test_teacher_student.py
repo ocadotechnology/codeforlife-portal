@@ -525,13 +525,20 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
         _, _, access_code = create_class_directly(email)
-        student_name_1, _, _ = create_school_student_directly(access_code)
+        student_name, _, _ = create_school_student_directly(access_code)
         _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
-        page = page.go_to_class_page()
-        assert page.student_exists(student_name_1)
+        page = page.go_to_aimmo_home_page()
+
+        page.click_create_new_game_button()
+        page.input_new_game_name("Test_Game")
+        page.click_create_game_button()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_class_page()
+        assert page.student_exists(student_name)
 
         page = page.toggle_select_student().dismiss_students()
         assert page.__class__.__name__ == "TeachDismissStudentsPage"
@@ -544,4 +551,7 @@ class TestTeacherStudent(BaseTest):
             .enter_email("student_email@gmail.com")
             .dismiss()
         )
-        assert not page.student_exists(student_name_1)
+        assert not page.student_exists(student_name)
+
+        student = Student.objects.filter(class_field=None, new_user__username=student_name)
+        self.assertEqual(False, is_preview_user(student.new_user))
