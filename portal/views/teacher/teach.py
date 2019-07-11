@@ -1025,6 +1025,7 @@ def process_move_students_form(request, formset, old_class, new_class):
         student.new_user.first_name = name_update["name"]
 
         give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
+        update_moved_student_preview_status(student, old_teacher, new_teacher)
 
         student.save()
         student.new_user.save()
