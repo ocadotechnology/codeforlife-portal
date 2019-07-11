@@ -40,7 +40,7 @@ from base_test import BaseTest
 
 from portal.models import Student
 from portal.tests.pageObjects.portal.home_page import HomePage
-from portal.tests.pageObjects.portal.teach.teach_base_page import TeachBasePage
+from portal.tests.pageObjects.portal.teach.class_page import TeachClassPage
 from portal.templatetags.app_tags import is_preview_user
 from utils.teacher import (
     signup_teacher_directly,
@@ -535,12 +535,9 @@ class TestTeacherStudent(BaseTest):
 
         page.click_create_new_game_button()
         page.input_new_game_name("Test_Game")
-        page.click_create_game_button()
-
-        page = TeachBasePage(self.selenium).logout()
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = TeachClassPage(self.browser)
         assert page.student_exists(student_name)
 
         page = page.toggle_select_student().dismiss_students()
@@ -556,5 +553,7 @@ class TestTeacherStudent(BaseTest):
         )
         assert not page.student_exists(student_name)
 
-        student = Student.objects.filter(class_field=None, new_user__username=student_name)
+        student = Student.objects.filter(
+            class_field=None, new_user__username=student_name
+        )
         self.assertEqual(False, is_preview_user(student.new_user))
