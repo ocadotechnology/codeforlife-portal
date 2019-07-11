@@ -80,7 +80,7 @@ class TestTeachers(TestCase):
         """
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         c = Client()
@@ -103,7 +103,7 @@ class TestTeachers(TestCase):
         """
         email, password = signup_teacher_directly_as_preview_user()
         create_organisation_directly(email, True)
-        klass, name, access_code = create_class_directly(email, True)
+        klass, _, access_code = create_class_directly(email, True)
         klass.always_accept_requests = True
         klass.save()
         create_school_student_directly(access_code)
@@ -139,12 +139,12 @@ class TestTeachers(TestCase):
         """
         email1, password1 = signup_teacher_directly_as_preview_user()
         school_name, postcode = create_organisation_directly(email1, True)
-        klass1, klass_name1, access_code1 = create_class_directly(email1, True)
+        klass1, _, access_code1 = create_class_directly(email1, True)
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly_as_preview_user()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, klass_name2, access_code2 = create_class_directly(email2, True)
+        klass2, _, access_code2 = create_class_directly(email2, True)
         create_school_student_directly(access_code2)
 
         teacher1 = Teacher.objects.get(new_user__email=email1)
@@ -184,12 +184,12 @@ class TestTeachers(TestCase):
         """
         email1, password1 = signup_teacher_directly_as_preview_user()
         school_name, postcode = create_organisation_directly(email1, True)
-        klass1, klass_name1, access_code1 = create_class_directly(email1, True)
+        klass1, _, access_code1 = create_class_directly(email1, True)
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly_as_preview_user()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, klass_name2, access_code2 = create_class_directly(email2, True)
+        klass2, _, access_code2 = create_class_directly(email2, True)
         create_school_student_directly(access_code2)
 
         teacher1 = Teacher.objects.get(new_user__email=email1)
@@ -291,7 +291,7 @@ class TestTeacher(BaseTest):
     def test_login_success(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -309,7 +309,7 @@ class TestTeacher(BaseTest):
     def test_view_resources(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -333,7 +333,7 @@ class TestTeacher(BaseTest):
     def test_edit_details(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -355,13 +355,13 @@ class TestTeacher(BaseTest):
         )
 
     def test_edit_details_non_admin(self):
-        email_1, password_1 = signup_teacher_directly()
+        email_1, _ = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
-        klass_1, class_name_1, access_code_1 = create_class_directly(email_1)
+        _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
         join_teacher_to_organisation(email_2, name, postcode)
-        klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
+        _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
         self.selenium.get(self.live_server_url)
@@ -385,7 +385,7 @@ class TestTeacher(BaseTest):
     def test_change_email(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -406,9 +406,9 @@ class TestTeacher(BaseTest):
         )
 
     def test_reset_password(self):
-        email, password = signup_teacher_directly()
+        email, _ = signup_teacher_directly()
         create_organisation_directly(email)
-        klass, name, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         page = self.get_to_forgotten_password_page()

@@ -45,7 +45,10 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from two_factor.utils import devices_for_user
 
-from portal import email_messages
+from portal.templatetags.app_tags import is_preview_user
+from portal import app_settings, email_messages
+from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from portal.models import Teacher, Class, Student
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
@@ -439,7 +442,6 @@ def teacher_disable_2FA(request, pk):
 def teacher_accept_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
     teacher = request.user.new_teacher
-    games = Game.objects.filter(owner=teacher.new_user)
 
     check_student_can_be_accepted(request, student)
 
@@ -459,10 +461,14 @@ def teacher_accept_student_request(request, pk):
             student.new_user.first_name = data["name"]
             student.new_user.last_name = ""
             student.new_user.email = ""
+
+            if is_preview_user(teacher.new_user):
+                student.new_user.userprofile.set_to_preview_user()
+                give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
+
             student.save()
             student.new_user.save()
-
-            give_student_access_to_aimmo_games(student, new_teacher=teacher)
+            student.new_user.userprofile.save()
 
             return render(
                 request,

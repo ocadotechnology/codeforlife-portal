@@ -78,8 +78,9 @@ def is_preview_user(u):
 def is_preview_student(u):
     if is_logged_in(u) and hasattr(u.userprofile, "student"):
         student = u.userprofile.student
-        teacher = student.class_field.teacher
-        return teacher.school.eligible_for_testing and teacher.user.preview_user
+        if student.class_field:
+            teacher = student.class_field.teacher
+            return teacher.school.eligible_for_testing and teacher.user.preview_user
     return False
 
 
@@ -100,7 +101,18 @@ def has_beta_access(request):
 
 @register.inclusion_tag("portal/partials/aimmo_games_table.html", takes_context=True)
 def games_table(context, base_url):
-    return get_user_playable_games(context, base_url)
+    playable_games = get_user_playable_games(context, base_url)
+    playable_games["can_delete_game"] = True
+
+    user = context.request.user
+    if (
+        hasattr(user, "userprofile")
+        and hasattr(user.userprofile, "student")
+        and user.userprofile.student.class_field != None
+    ):
+        playable_games["can_delete_game"] = False
+
+    return playable_games
 
 
 @register.filter(name="make_into_username")
@@ -162,9 +174,7 @@ def get_user_status(u):
 
 @register.filter(name="make_title_caps")
 def make_title_caps(s):
-    if len(s) <= 0:
-        return s
-    else:
+    if len(s) > 0:
         s = s[0].upper() + s[1:]
     return s
 

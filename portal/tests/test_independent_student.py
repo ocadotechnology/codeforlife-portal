@@ -41,10 +41,15 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
+from portal.templatetags.app_tags import is_preview_user
+from portal.models import Student, stripStudentName
 from portal.tests.utils.classes import create_class_directly
 from portal.tests.utils.organisation import create_organisation_directly
 from portal.tests.utils.student import create_school_student_directly
-from portal.tests.utils.teacher import signup_teacher_directly
+from portal.tests.utils.teacher import (
+    signup_teacher_directly,
+    signup_teacher_directly_as_preview_user,
+)
 from utils import email as email_utils
 from utils.messages import (
     is_email_verified_message_showing,
@@ -117,7 +122,7 @@ class TestIndependentStudent(BaseTest):
 
     def test_signup_username_already_in_use(self):
         page = self.go_to_homepage()
-        page, name, username, email, password = create_independent_student(page)
+        page, _, username, _, _ = create_independent_student(page)
         page = self.go_to_homepage().go_to_signup_page()
         page = page.independent_student_signup(
             "Florian", username, "e@mail.com", "Password2", "Password2", success=False
@@ -150,14 +155,14 @@ class TestIndependentStudent(BaseTest):
 
     def test_login_success(self):
         page = self.go_to_homepage()
-        page, name, username, email, password = create_independent_student(page)
+        page, name, username, _, password = create_independent_student(page)
         page = page.independent_student_login(username, password)
         assert page.__class__.__name__ == "PlayDashboardPage"
 
     def test_reset_password(self):
         page = self.go_to_homepage()
 
-        page, name, username, email, password = create_independent_student(page)
+        page, name, username, _, _ = create_independent_student(page)
         page = self.get_to_forgotten_password_page()
 
         page.reset_username_submit(username)
@@ -195,7 +200,7 @@ class TestIndependentStudent(BaseTest):
     def test_update_name_success(self):
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, name, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -203,7 +208,7 @@ class TestIndependentStudent(BaseTest):
             student_username, password
         ).go_to_account_page()
 
-        assert page.check_account_details({"name": student_name})
+        assert page.check_account_details({"name": name})
 
         page = page.update_name_success("New name", password)
 
@@ -213,7 +218,7 @@ class TestIndependentStudent(BaseTest):
     def test_update_name_failure(self):
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, _, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -232,7 +237,7 @@ class TestIndependentStudent(BaseTest):
     def test_change_email(self):
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, _, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -249,7 +254,7 @@ class TestIndependentStudent(BaseTest):
     def test_join_class_nonexistent_class(self):
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, _, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -265,14 +270,14 @@ class TestIndependentStudent(BaseTest):
         )
 
     def test_join_class_not_accepting_requests(self):
-        teacher_email, teacher_password = signup_teacher_directly()
+        teacher_email, _ = signup_teacher_directly()
         create_organisation_directly(teacher_email)
-        klass, class_name, access_code = create_class_directly(teacher_email)
+        _, _, access_code = create_class_directly(teacher_email)
         create_school_student_directly(access_code)
 
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, _, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -288,16 +293,16 @@ class TestIndependentStudent(BaseTest):
         )
 
     def test_join_class_revoked(self):
-        teacher_email, teacher_password = signup_teacher_directly()
+        teacher_email, _ = signup_teacher_directly()
         create_organisation_directly(teacher_email)
-        klass, class_name, access_code = create_class_directly(teacher_email)
+        klass, _, access_code = create_class_directly(teacher_email)
         create_school_student_directly(access_code)
         klass.always_accept_requests = True
         klass.save()
 
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, _, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -316,14 +321,14 @@ class TestIndependentStudent(BaseTest):
     def test_join_class_accepted(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
-        klass, class_name, accesss_code = create_class_directly(teacher_email)
+        klass, _, accesss_code = create_class_directly(teacher_email)
         create_school_student_directly(accesss_code)
         klass.always_accept_requests = True
         klass.save()
 
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, student_name, student_username, _, password = create_independent_student(
             homepage
         )
 
@@ -347,24 +352,65 @@ class TestIndependentStudent(BaseTest):
 
         assert page.student_exists(student_name)
 
-    def test_join_class_denied(self):
-        teacher_email, teacher_password = signup_teacher_directly()
-        create_organisation_directly(teacher_email)
-        klass, class_name, accesss_code = create_class_directly(teacher_email)
-        create_school_student_directly(accesss_code)
+    def test_join_preview_class_accepted(self):
+        teacher_email, teacher_password = signup_teacher_directly_as_preview_user()
+        create_organisation_directly(teacher_email, True)
+        klass, _, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
         klass.always_accept_requests = True
         klass.save()
 
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, student_email, password = create_independent_student(
+        play_page, student_name, student_username, _, password = create_independent_student(
             homepage
         )
 
         page = (
             play_page.independent_student_login(student_username, password)
             .go_to_join_a_school_or_club_page()
-            .join_a_school_or_club(accesss_code)
+            .join_a_school_or_club(access_code)
+        )
+
+        page.logout()
+
+        page = self.go_to_homepage()
+
+        page = (
+            page.go_to_login_page()
+            .login(teacher_email, teacher_password)
+            .accept_independent_join_request()
+            .save(student_name)
+            .return_to_class()
+        )
+
+        student_name = stripStudentName(student_name)
+
+        students = Student.objects.filter(
+            new_user__first_name__iexact=student_name, class_field=klass
+        )
+
+        student = students[0]
+        self.assertEqual(True, is_preview_user(student.new_user))
+
+    def test_join_class_denied(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, _, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
+        klass.always_accept_requests = True
+        klass.save()
+
+        homepage = self.go_to_homepage()
+
+        play_page, _, student_username, _, password = create_independent_student(
+            homepage
+        )
+
+        page = (
+            play_page.independent_student_login(student_username, password)
+            .go_to_join_a_school_or_club_page()
+            .join_a_school_or_club(access_code)
         )
 
         page.logout()

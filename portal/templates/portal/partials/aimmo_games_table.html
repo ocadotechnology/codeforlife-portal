@@ -42,7 +42,9 @@
                 <td>
                     <div class="games-table__buttons">
                         <a class="button button--small button--primary--navigation" href="{% url base_url id=game.id %}">Play</a>
-                        <a class="button button--small button--primary--danger" onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
+                        {% if can_delete_game %}
+                            <a class="button button--small button--primary--danger" onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
@@ -50,5 +52,9 @@
         </table>
     </div>
 {% else %}
-    <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo; button above.</p>
+    {% if can_delete_game %}
+        <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo; button above.</p>
+    {% else %}
+        <p>It doesn&rsquo;t look like you have access to any games, yet.</p>
+    {% endif %}
 {% endif %}

@@ -67,6 +67,9 @@ class UserProfile(models.Model):
     def set_to_preview_user(self):
         self.preview_user = True
 
+    def remove_preview_user(self):
+        self.preview_user = False
+
 
 class School(models.Model):
     name = models.CharField(max_length=200)
