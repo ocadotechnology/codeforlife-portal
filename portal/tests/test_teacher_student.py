@@ -535,6 +535,7 @@ class TestTeacherStudent(BaseTest):
 
         page.click_create_new_game_button()
         page.input_new_game_name("Test_Game")
+        page.click_create_game_button()
 
         self.selenium.get(self.live_server_url + "/teach/dashboard")
         page = TeachDashboardPage(self.selenium).go_to_class_page()
