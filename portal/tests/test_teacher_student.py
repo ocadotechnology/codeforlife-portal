@@ -40,6 +40,7 @@ from base_test import BaseTest
 
 from portal.models import Student
 from portal.tests.pageObjects.portal.home_page import HomePage
+from portal.tests.pageObjects.portal.teach.teach_base_page import TeachBasePage
 from portal.templatetags.app_tags import is_preview_user
 from utils.teacher import (
     signup_teacher_directly,
@@ -536,7 +537,7 @@ class TestTeacherStudent(BaseTest):
         page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
-        page.logout()
+        page = TeachBasePage(self.selenium).logout()
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
