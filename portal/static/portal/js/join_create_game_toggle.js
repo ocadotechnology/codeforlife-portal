@@ -63,7 +63,7 @@ $(document).ready(function () {
         if (!game_name_input.val() || game_name_input.val() === "") {
             showInputError("Give your new game a name...");
         }
-        var exp = /^[\w-]+$/;
+        var exp = /^[\w- ]+$/;
         if (!exp.test(game_name_input.val())) {
             showInputError("Name cannot contain special characters.");
         }
