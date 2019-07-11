@@ -78,8 +78,9 @@ def is_preview_user(u):
 def is_preview_student(u):
     if is_logged_in(u) and hasattr(u.userprofile, "student"):
         student = u.userprofile.student
-        teacher = student.class_field.teacher
-        return teacher.school.eligible_for_testing and teacher.user.preview_user
+        if student.class_field:
+            teacher = student.class_field.teacher
+            return teacher.school.eligible_for_testing and teacher.user.preview_user
     return False
 
 
