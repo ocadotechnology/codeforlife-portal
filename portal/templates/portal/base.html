@@ -136,6 +136,7 @@
                                 <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
                             </div>
                         </div>
+                        {% if user|is_logged_in_as_school_user %}
                         <div class="dropdown">
                             <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
                                class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
@@ -143,6 +144,7 @@
                                 <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
                             </div>
                         </div>
+                        {% endif %}
                         {% if not user.new_student.class_field %}
                             <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
                                class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
