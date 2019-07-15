@@ -129,11 +129,11 @@
                 {% endif %}
                 {% endblock leftMenuButtons %}
             </div>
-            <div class="menu__right-side col-sm-2">
+            <div class="menu__right-side col-sm-3">
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                 <div class="dropdown">
-                    <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark logout"
+                    <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown logout"
                             data-toggle="dropdown">
                         <div class="dropdown__text">{{ user|make_into_username }}</div>
                         <div class="glyphicon glyphicon-user"></div></button>
