@@ -322,7 +322,7 @@ PDF_DATA = {
         "title": "KS2 ‒ Session 1 ‒ Sheet 2",
         "description": "To be used with Session 1 lesson plan.",
         "links": ["ks2_session_1"],
-        "url": "KS2_v1/resource_sheets/ks2_s6_2.pdf",
+        "url": "KS2_v1/resource_sheets/ks2_s1_2.pdf",
         "page_origin": "#ks2-resource-sheets",
     },
     # ...Session 2...#
