@@ -1010,14 +1010,14 @@ PDF_DATA = {
         "title": "KS3_SC1",
         "description": "Student challenge 1: Move your avatar",
         "links": ["AIMMO_challenge_2"],
-        "url": "AIMMO_v1/student_challenges/Intermediate_Python_SC1.pdf",
+        "url": "AIMMO_v2/student_challenges/Intermediate_Python_SC1.pdf",
         "page_origin": "#ks3-challenges",
     },
     "AIMMO_challenge_2": {
         "title": "KS3_SC2",
         "description": "Student challenge 2: Avoid the obstacles",
         "links": ["AIMMO_challenge_1"],
-        "url": "AIMMO_v1/student_challenges/Intermediate_Python_SC2.pdf",
+        "url": "AIMMO_v2/student_challenges/Intermediate_Python_SC2.pdf",
         "page_origin": "#ks3-challenges",
     },
 }
