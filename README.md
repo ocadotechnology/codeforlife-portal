@@ -42,4 +42,12 @@ __Want to help?__ You can contact us using this [contact form][c4l-contact-form]
 ### Unapplied migrations on first run
 It may be that some migrations were changed and you have .pyc files from the old ones. Try removing all .pyc migrations by running `rm migrations/*.pyc` from the repository.
 
+### Mac OS Mojave
+On MacOS Mojave there is an error when installing `Pillow 3.3.2`.
+To fix this issue you need to run the following command:
+```
+sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+``` 
+cf: https://github.com/python-pillow/Pillow/issues/3438#issuecomment-435169249 
+
 [c4l-contact-form]: https://www.codeforlife.education/help/#contact
