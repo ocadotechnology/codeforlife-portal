@@ -112,7 +112,7 @@
                                 {% if user|is_preview_user %}
                                     <a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
                                 {% else %}
-                                    <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
+                                    <a href="{% url 'aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
                                 {% endif %}
                             {% endblock aimmo %}
                             {% block materials %}<a id="resources_button" href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
