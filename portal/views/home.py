@@ -86,7 +86,10 @@ def play_name_labeller(request):
 
 
 def login_view(request):
-    return render_login_form(request)
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse_lazy("home"))
+    else:
+        return render_login_form(request)
 
 
 def logout_view(request):
