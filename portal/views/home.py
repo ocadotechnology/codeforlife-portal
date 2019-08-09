@@ -66,6 +66,8 @@ from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from deploy import captcha
 
+from portal.permissions import logged_in_as_student, logged_in_as_teacher
+
 
 def teach_email_labeller(request):
     if request.method == "POST" and "login_view" in request.POST:
@@ -86,10 +88,16 @@ def play_name_labeller(request):
 
 
 def login_view(request):
+    
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse_lazy("home"))
+        if logged_in_as_student(request.user):
+            return HttpResponseRedirect(reverse_lazy("student_details"))
+        elif logged_in_as_teacher(request.user):
+            return HttpResponseRedirect(reverse_lazy("teach"))
+        else:
+            return HttpResponseRedirect(reverse_lazy("home"))
     else:
-        return render_login_form(request)
+        return sender_login_form(request)
 
 
 def logout_view(request):
