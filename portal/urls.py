@@ -285,6 +285,9 @@ urlpatterns = [
     url(
         r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"
     ),
+    url(
+        r"^privacy-policy", TemplateView.as_view(template_name="portal/privacy_policy.html"), name="privacy_policy"
+    ),
     url(r"^teach/materials/$", materials, name="materials"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
