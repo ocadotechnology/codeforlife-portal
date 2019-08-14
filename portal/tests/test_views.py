@@ -39,10 +39,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
 from utils.classes import create_class_directly
-from utils.student import (
-    create_independent_student_directly,
-    create_school_student_directly,
-)
+from utils.student import create_school_student_directly
 from utils.teacher import signup_teacher_directly
 
 
@@ -66,7 +63,7 @@ class TestTeacherViews(TestCase):
 
 
 class TestLoginViews(TestCase):
-    def test_teacher_login_redirect(self):
+    def _create_and_login_teacher(self):
         email, password = signup_teacher_directly()
         url = reverse("login_view") + "/?next=/"
         c = Client()
@@ -78,12 +75,13 @@ class TestLoginViews(TestCase):
                 "login_view": "",
             },
         )
-        self.assertRedirects(response, "/")
+        return response, c
 
-    def test_student_login_redirect(self):
+    def _create_and_login_school_student(self):
         teacher_email, _ = signup_teacher_directly()
         _, _, class_access_code = create_class_directly(teacher_email)
         name, password, _ = create_school_student_directly(class_access_code)
+
         url = reverse("login_view") + "/?next=/"
         c = Client()
         response = c.post(
@@ -95,4 +93,26 @@ class TestLoginViews(TestCase):
                 "school_login": "",
             },
         )
+        return response, c
+
+    def test_teacher_login_redirect(self):
+        response, _ = self._create_and_login_teacher()
         self.assertRedirects(response, "/")
+
+    def test_student_login_redirect(self):
+        response, _ = self._create_and_login_school_student()
+        self.assertRedirects(response, "/")
+
+    def test_teacher_already_logged_in_redirect(self):
+        _, c = self._create_and_login_teacher()
+
+        url = reverse("login_view") + "/?next=/"
+        response = c.get(url)
+        self.assertRedirects(response, "/teach/")
+
+    def test_student_already_logged_in_redirect(self):
+        _, c = self._create_and_login_school_student()
+
+        url = reverse("login_view") + "/?next=/"
+        response = c.get(url)
+        self.assertRedirects(response, "/play/details/")
