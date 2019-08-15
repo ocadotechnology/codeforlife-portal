@@ -88,16 +88,23 @@ def play_name_labeller(request):
 
 def login_view(request):
     if request.user.is_authenticated():
-        return redirect_user_to_landing_page(request)
+        return redirect_user_to_dashboard(request)
     else:
         return render_login_form(request)
 
 
-def redirect_user_to_landing_page(request):
+def register_view(request):
+    if request.user.is_authenticated():
+        return redirect_user_to_dashboard(request)
+    else:
+        return render_signup_form(request)
+
+
+def redirect_user_to_dashboard(request):
     if logged_in_as_student(request.user):
         return HttpResponseRedirect(reverse_lazy("student_details"))
     elif logged_in_as_teacher(request.user):
-        return HttpResponseRedirect(reverse_lazy("teach"))
+        return HttpResponseRedirect(reverse_lazy("dashboard"))
     else:
         return HttpResponseRedirect(reverse_lazy("home"))
 
@@ -105,10 +112,6 @@ def redirect_user_to_landing_page(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy("home"))
-
-
-def register_view(request):
-    return render_signup_form(request)
 
 
 @ratelimit(

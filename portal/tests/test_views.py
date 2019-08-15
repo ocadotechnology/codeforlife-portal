@@ -39,6 +39,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
 from utils.classes import create_class_directly
+from utils.organisation import create_organisation_directly
 from utils.student import create_school_student_directly
 from utils.teacher import signup_teacher_directly
 
@@ -63,9 +64,35 @@ class TestTeacherViews(TestCase):
 
 
 class TestLoginViews(TestCase):
-    def _create_and_login_teacher(self):
-        email, password = signup_teacher_directly()
-        url = reverse("login_view") + "/?next=/"
+    def _set_up_test_data(self, next_url=False):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        _, _, class_access_code = create_class_directly(teacher_email)
+        student_name, student_password, _ = create_school_student_directly(
+            class_access_code
+        )
+
+        if next_url:
+            url = reverse("login_view") + "/?next=/"
+        else:
+            url = reverse("login_view")
+
+        return (
+            teacher_email,
+            teacher_password,
+            student_name,
+            student_password,
+            class_access_code,
+            url,
+        )
+
+    def _create_and_login_teacher(self, next_url=False):
+        email, password, _, _, _, url = self._set_up_test_data(next_url)
+
+        if next_url:
+            url = reverse("login_view") + "/?next=/"
+        else:
+            url = reverse("login_view")
         c = Client()
         response = c.post(
             url,
@@ -77,12 +104,9 @@ class TestLoginViews(TestCase):
         )
         return response, c
 
-    def _create_and_login_school_student(self):
-        teacher_email, _ = signup_teacher_directly()
-        _, _, class_access_code = create_class_directly(teacher_email)
-        name, password, _ = create_school_student_directly(class_access_code)
+    def _create_and_login_school_student(self, next_url=False):
+        _, _, name, password, class_access_code, url = self._set_up_test_data(next_url)
 
-        url = reverse("login_view") + "/?next=/"
         c = Client()
         response = c.post(
             url,
@@ -96,23 +120,37 @@ class TestLoginViews(TestCase):
         return response, c
 
     def test_teacher_login_redirect(self):
-        response, _ = self._create_and_login_teacher()
+        response, _ = self._create_and_login_teacher(True)
         self.assertRedirects(response, "/")
 
     def test_student_login_redirect(self):
-        response, _ = self._create_and_login_school_student()
+        response, _ = self._create_and_login_school_student(True)
         self.assertRedirects(response, "/")
 
-    def test_teacher_already_logged_in_redirect(self):
+    def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()
 
-        url = reverse("login_view") + "/?next=/"
+        url = reverse("login_view")
         response = c.get(url)
-        self.assertRedirects(response, "/teach/")
+        self.assertRedirects(response, "/teach/dashboard/")
 
-    def test_student_already_logged_in_redirect(self):
+    def test_student_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_school_student()
 
-        url = reverse("login_view") + "/?next=/"
+        url = reverse("login_view")
+        response = c.get(url)
+        self.assertRedirects(response, "/play/details/")
+
+    def test_teacher_already_logged_in_register_page_redirect(self):
+        _, c = self._create_and_login_teacher()
+
+        url = reverse("register")
+        response = c.get(url)
+        self.assertRedirects(response, "/teach/dashboard/")
+
+    def test_student_already_logged_in_register_page_redirect(self):
+        _, c = self._create_and_login_school_student()
+
+        url = reverse("register")
         response = c.get(url)
         self.assertRedirects(response, "/play/details/")
