@@ -34,23 +34,26 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.models import Teacher, Student, Class, StudentModelManager
-from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
+from deploy import captcha
+from portal import app_settings, email_messages
+from portal.forms.home import ContactForm
+from portal.forms.newsletter_form import NewsletterForm
 from portal.forms.play import (
     StudentLoginForm,
     IndependentStudentLoginForm,
     IndependentStudentSignupForm,
 )
-from portal.forms.newsletter_form import NewsletterForm
+from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
+from portal.helpers.captcha import remove_captcha_from_forms
 from portal.helpers.emails import (
     send_verification_email,
     is_verified,
@@ -59,12 +62,10 @@ from portal.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_salesforce,
 )
-from portal import app_settings, email_messages
+from portal.models import Teacher, Student, Class
+from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
-from portal.forms.home import ContactForm
-from portal.helpers.captcha import remove_captcha_from_forms
-from deploy import captcha
 
 
 def teach_email_labeller(request):
@@ -86,16 +87,31 @@ def play_name_labeller(request):
 
 
 def login_view(request):
-    return render_login_form(request)
+    if request.user.is_authenticated():
+        return redirect_user_to_dashboard(request)
+    else:
+        return render_login_form(request)
+
+
+def register_view(request):
+    if request.user.is_authenticated():
+        return redirect_user_to_dashboard(request)
+    else:
+        return render_signup_form(request)
+
+
+def redirect_user_to_dashboard(request):
+    if logged_in_as_student(request.user):
+        return HttpResponseRedirect(reverse_lazy("student_details"))
+    elif logged_in_as_teacher(request.user):
+        return HttpResponseRedirect(reverse_lazy("dashboard"))
+    else:
+        return HttpResponseRedirect(reverse_lazy("home"))
 
 
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy("home"))
-
-
-def register_view(request):
-    return render_signup_form(request)
 
 
 @ratelimit(
@@ -306,7 +322,7 @@ def process_login_form(request, login_form):
 
     teacher = request.user.userprofile.teacher
 
-    return redirect_user_to_correct_page(request, teacher)
+    return redirect_teacher_to_correct_page(request, teacher)
 
 
 def process_student_login_form(request, school_login_form):
@@ -446,7 +462,7 @@ def is_logged_in_as_student(request):
     )
 
 
-def redirect_user_to_correct_page(request, teacher):
+def redirect_teacher_to_correct_page(request, teacher):
     if teacher.has_school():
         classes = teacher.class_teacher.all()
         if classes:
