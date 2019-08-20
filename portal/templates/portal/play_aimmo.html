@@ -23,13 +23,7 @@
   </div>
   <div class="row banner--aimmo--content">
     <div class="col-md-offset-2 col-md-5">
-        <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
-        <h1 class="banner--homepage__text banner__text--center">Kurono</h1>
-    </div>
-    <div class="col-md-4">
-      <a href="https://www.youtube-nocookie.com/embed/MOfL8bqHufI?rel=0&amp;showinfo=0;autoplay=1" class="youtube">
-        <img title="AI:MMO Intro Video" alt="AI:MMO Intro Video" src="{% static 'portal/img/AIMMO-intro-video.jpg' %}">
-      </a>
+        <img class="col-sm-4 col-md-3 col-center" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
     </div>
   </div>
 </div>
@@ -40,7 +34,6 @@
 
 <div class="background">
     <section>
-        <img class="col-sm-4 col-md-3 col-center" src="{% static 'portal/img/kurono_logo_description.svg' %}" alt="Kurono logo">
         {% if user|is_eligible_for_testing %}
         <h1 class="col-sm-7 col-center">
             Your school has been selected to trial the preview version of Kurono 
@@ -77,7 +70,7 @@
                    class="button button--big button-primary button--primary--general-play">Start Testing</a>
                 {% endif %}
             {% else %}
-            <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us to join</a>
+            <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us</a>
             {% endif %}
 
         </div>
