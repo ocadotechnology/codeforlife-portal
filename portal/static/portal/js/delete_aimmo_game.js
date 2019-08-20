@@ -54,7 +54,7 @@ function clickDeleteGame(game_id, game_name) {
 function deleteGame() {
     var game_id = $("#popup").attr("data-game-id");
     $.ajax({
-        url: '/aimmo/api/games/' + game_id + '/',
+        url: '/kurono/api/games/' + game_id + '/',
         type: 'DELETE',
         data: { _method: 'delete' },
         headers: {

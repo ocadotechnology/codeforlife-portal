@@ -30,12 +30,12 @@
                 {% if user|has_teacher_finished_onboarding %}
                 <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                 <a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
-                <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
+                <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">=Kurono</a>
                 <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
                 {% else %}
                 <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                 <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
-                <a class="button--menu button--menu--secondary button--menu--disabled">AI:MMO</a>
+                <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
                 <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                 {% endif %}
                 {% endblock secondaryButtons %}
@@ -83,7 +83,7 @@
             <div id="teacher-tabs" class="collapse">
                 <button class="button--menu__item button--menu__item__sub">School / Club</button>
                 <button class="button--menu__item button--menu__item__sub">Rapid Router</button>
-                <button class="button--menu__item button--menu__item__sub">AI:MMO</button>
+                <button class="button--menu__item button--menu__item__sub">Kurono</button>
                 <button class="button--menu__item button--menu__item__sub">Resources</button>
             </div>
             <button class="button--menu__item">Student</button>

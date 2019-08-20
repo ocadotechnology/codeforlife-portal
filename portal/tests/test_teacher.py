@@ -74,7 +74,7 @@ from utils import email as email_utils
 class TestTeachers(TestCase):
     def test_new_student_can_play_games(self):
         """
-        Given a preview teacher has an AI:MMO game,
+        Given a preview teacher has an Kurono game,
         When they add a new student to their class,
         Then the new student should be in the game's player list
         """
@@ -85,7 +85,7 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email, password=password)
-        c.post(reverse("aimmo"), {"name": "Test Game"})
+        c.post(reverse("kurono"), {"name": "Test Game"})
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
             {"names": "Florian"},
@@ -121,7 +121,7 @@ class TestTeachers(TestCase):
         c.logout()
 
         c.login(username=email, password=password)
-        c.post(reverse("aimmo"), {"name": "Test Game"})
+        c.post(reverse("kurono"), {"name": "Test Game"})
         c.post(
             reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
             {"name": "Florian"},
@@ -152,11 +152,11 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email2, password=password2)
-        c.post(reverse("aimmo"), {"name": "Game 2"})
+        c.post(reverse("kurono"), {"name": "Game 2"})
         c.logout()
 
         c.login(username=email1, password=password1)
-        c.post(reverse("aimmo"), {"name": "Game 1"})
+        c.post(reverse("kurono"), {"name": "Game 1"})
 
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)
@@ -197,11 +197,11 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email2, password=password2)
-        c.post(reverse("aimmo"), {"name": "Game 2"})
+        c.post(reverse("kurono"), {"name": "Game 2"})
         c.logout()
 
         c.login(username=email1, password=password1)
-        c.post(reverse("aimmo"), {"name": "Game 1"})
+        c.post(reverse("kurono"), {"name": "Game 1"})
 
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)

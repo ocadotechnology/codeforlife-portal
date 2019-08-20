@@ -3,8 +3,8 @@
 {% load app_tags %}
 
 {% block aimmo %}
-<a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary
-button--menu--enabled button--menu--teacher--active">AI:MMO</a>
+<a href="{% url 'kurono' %}" id="aimmo_home_button" class="button--menu button--menu--secondary
+button--menu--enabled button--menu--teacher--active">Kurono</a>
 {% endblock aimmo %}
 
 {% block myGames %}
@@ -30,7 +30,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
 {% endif %}
         <div class="col-sm-4 col-sm-offset-2">
             <img title="Preview version" alt="Preview version" src="{% static 'portal/img/preview_version_label.svg' %}">
-            <h1 class="banner__text--primary">AI:MMO</h1>
+            <h1 class="banner__text--primary">Kurono</h1>
             <div id="join_game" class="button-group">
                 {% if user|is_logged_in_as_teacher %}
                     <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
@@ -44,7 +44,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
                         <a id="create_game_button"
                            name="create_class"
                            class="button button--regular button-primary button--primary--general-educate"
-                           onclick='send_event("AI:MMO", "Clicked", "Create game button");'>Create</a>
+                           onclick='send_event("Kurono", "Clicked", "Create game button");'>Create</a>
                     </div>
                 </form>
                 <p><a id="back_button"><small>&#10229; Back</small></a></p>
@@ -61,7 +61,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
 <section class="background">
     <div class="col-sm-6 col-center">
         <h3>My games</h3>
-        {% games_table 'aimmo/play' %}
+        {% games_table 'kurono/play' %}
     </div>
 </section>
 
@@ -111,13 +111,13 @@ button--menu--enabled button--menu--student--active">My Games</a>
     <section class="background">
         <div class="col-sm-6 col-center">
             {% if user|is_logged_in_as_teacher %}
-                <h3>Testers, tell us what you think of AI:MMO...</h3>
+                <h3>Testers, tell us what you think of Kurono...</h3>
                 <div class="background">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
                        class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>
                 </div>
             {% else %}
-                <h3>Students, tell us what you think of AI:MMO...</h3>
+                <h3>Students, tell us what you think of Kurono...</h3>
                 <div class="background">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link"
                        class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>

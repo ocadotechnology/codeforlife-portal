@@ -8,7 +8,7 @@
        class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">My Games</a>
     <div class="dropdown-content">
         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-        <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
+        <a href="{% url 'kurono' %}"><small>Kurono</small></a>
     </div>
 </div>
 {% if user|is_logged_in_as_school_user %}
@@ -57,16 +57,16 @@
         </div>
         {% if user.new_student.class_field and user|is_preview_user %}
             <section>
-                <a href="{% url 'aimmo' %}"><img title="AI:MMO" alt="AI:MMO" src="{% static 'portal/img/aimmo_logo_vertical.svg' %}"></a>
+                <a href="{% url 'kurono' %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
                 <h4>Take your coding to the next level!</h4>
                 <div class="background">
-                    <a href="{% url 'aimmo' %}" class="button button--regular button--primary--navigation">Play now</a>
+                    <a href="{% url 'kurono' %}" class="button button--regular button--primary--navigation">Play now</a>
                 </div>
             </section>
             <p>AI:MMO is a Massively Multiplayer Online (MMO) learning tool, which will take you to the next level
                 on your coding journey: intermediate Python skills.</p>
             <div>
-                <p><a href="{% url 'play_aimmo' %}">Learn more about AI:MMO</a></p>
+                <p><a href="{% url 'play_aimmo' %}">Learn more about Kurono</a></p>
             </div>
         {% endif %}
     </div>

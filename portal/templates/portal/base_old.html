@@ -107,9 +107,9 @@
                             {% endblock rapidRouter %}
                             {% block aimmo %}
                                 {% if user|is_preview_user %}
-                                    <a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
+                                    <a href="{% url 'kurono' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
                                 {% else %}
-                                    <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
+                                    <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
                                 {% endif %}
                             {% endblock aimmo %}
                             {% block resources %}
@@ -119,7 +119,7 @@
                             <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
                             {% if user|is_eligible_for_testing %}
-                            <a class="button--menu button--menu--secondary button--menu--disabled">AI:MMO</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
                             {% endif %}
                             <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                         {% endif %}

@@ -110,9 +110,9 @@
                             {% block rapidrouter %}<a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
                             {% block aimmo %}
                                 {% if user|is_preview_user %}
-                                    <a href="{% url 'aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
+                                    <a href="{% url 'kurono' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
                                 {% else %}
-                                    <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">AI:MMO</a>
+                                    <a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
                                 {% endif %}
                             {% endblock aimmo %}
                             {% block materials %}<a id="resources_button" href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
@@ -120,7 +120,7 @@
                             <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
                             <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
                             {% if user|is_eligible_for_testing %}
-                            <a class="button--menu button--menu--secondary button--menu--disabled">AI:MMO</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
                             {% endif %}
                             <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                         {% endif %}
@@ -133,7 +133,7 @@
                                class="button--menu button--menu--secondary button--menu--enabled">My Games</a>{% endblock myGames %}
                             <div class="dropdown-content">
                                 <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-                                <a href="{% url 'aimmo' %}"><small>AI:MMO</small></a>
+                                <a href="{% url 'kurono' %}"><small>Kurono</small></a>
                             </div>
                         </div>
                         {% if user|is_logged_in_as_school_user %}

@@ -879,7 +879,7 @@ def update_moved_student_preview_status(student, old_teacher, new_teacher):
 
 def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
     """
-    Give students access to all of their current teacher's (new_teacher) AI:MMO games,
+    Give students access to all of their current teacher's (new_teacher) Kurono games,
     Remove access to games from previous teacher
     """
     games_to_add = Game.objects.filter(owner=new_teacher.new_user)
