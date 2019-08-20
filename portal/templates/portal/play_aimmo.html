@@ -67,54 +67,6 @@
         </h4>
     </section>
     <div class="row row--small">
-        <div class="col-sm-9 col-center is-flex">
-            <div class="col-sm-4">
-                <img title="Teaching Resources" alt="Teaching Resources" class="img-aspect-fill" src="{% static 'portal/img/teaching_materials.jpg' %}">
-                <h4>
-                    {% if user|is_eligible_for_testing %}
-                    <a href="{% url 'materials'%}#ks3">View the teaching pack</a>
-                    {% else %}
-                    Sign up to become a tester
-                    {% endif %}
-                </h4>
-                <p>
-                    {% if user|is_eligible_for_testing %}
-                    This includes an Kurono User guide,
-                    a Code Cheat Sheet, which lists all the functions available, guide to the importance of indentation in Python and an explanation of the turn-based nature of the gameplay.
-                    {% else %}
-                    We will give you special beta tester access to the preview version of Kurono for you to trial with your class.
-                    {% endif %}
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Gameplay" alt="Gameplay" class="img-aspect-fill" src="{% static 'portal/img/try-with-your-class.jpg' %}">
-                <h4>
-                    {% if user|is_eligible_for_testing %}
-                    Try it out with your class
-                    {% else %}
-                    Try it out
-                    {% endif %}
-                </h4>
-                <p>
-                    {% if user|is_eligible_for_testing %}
-                    You have early access to the preview version of the game. You can set up a class and get your students to play the game.
-                    {% else %}
-                    You will have early access to the preview version of the game and the teaching materials.
-                    {% endif %}
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Feedback" alt="Feedback" class="img-aspect-fill" src="{% static 'portal/img/your_feedback.jpg' %}">
-                <h4>Give your feedback</h4>
-                <p>
-                    {% if user|is_eligible_for_testing %}
-                    Your feedback is really important to us as it will help shape the gameplay, design and teaching materials for the full version.
-                    {% else %}
-                    Your feedback will help shape the gameplay, design and teaching materials for the full version.
-                    {% endif %}
-                </p>
-            </div>
-        </div>
         <div class="background button--bottom is-flex center-flex">
 
             {% if user|is_eligible_for_testing %}
