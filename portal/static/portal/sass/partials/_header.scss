@@ -116,6 +116,11 @@
   }
 }
 
+.kurono-logo {
+  width: 90 * $spacing;
+  padding: 5 * $spacing;
+}
+
 @media (min-width: 1400px) {
 
   .menu__right-side {

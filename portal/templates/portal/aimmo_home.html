@@ -29,8 +29,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
     <div class="banner banner--teacher banner--aimmo-home row">
 {% endif %}
         <div class="col-sm-4 col-sm-offset-2">
-            <img title="Preview version" alt="Preview version" src="{% static 'portal/img/preview_version_label.svg' %}">
-            <h1 class="banner__text--primary">Kurono</h1>
+            <img class="kurono-logo" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
             <div id="join_game" class="button-group">
                 {% if user|is_logged_in_as_teacher %}
                     <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
