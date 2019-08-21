@@ -122,7 +122,7 @@ class UnitTestPreviewUsers(TestCase):
         teacher = Teacher.objects.get(new_user__email=email)
         self.assertEqual(True, is_preview_user(teacher.new_user))
 
-        aimmo_home_page_url = reverse("aimmo")
+        aimmo_home_page_url = reverse("kurono")
         response = c.get(aimmo_home_page_url)
         self.assertEqual(200, response.status_code)
 
@@ -134,7 +134,7 @@ class UnitTestPreviewUsers(TestCase):
         teacher = Teacher.objects.get(new_user__email=email)
         self.assertEqual(False, is_preview_user(teacher.new_user))
 
-        aimmo_home_page_url = reverse("aimmo")
+        aimmo_home_page_url = reverse("kurono")
         response = c.get(aimmo_home_page_url)
         self.assertEqual(401, response.status_code)
 
@@ -154,7 +154,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
         page.input_new_game_name("Test_Game")
         page.click_create_game_button()
 
-        self.assertIn("/aimmo/play/1/", self.selenium.driver.current_url)
+        self.assertIn("/kurono/play/1/", self.selenium.driver.current_url)
 
     def test_preview_user_cannot_create_invalid_game_name(self):
         email, password = signup_teacher_directly_as_preview_user()
@@ -228,7 +228,7 @@ class SeleniumTestPreviewUsers(TeachBasePage):
 
         page.click_play_game_button()
 
-        self.assertIn("/aimmo/play/3/", self.selenium.driver.current_url)
+        self.assertIn("/kurono/play/3/", self.selenium.driver.current_url)
 
     def test_preview_user_can_delete_game(self):
         email, password = signup_teacher_directly_as_preview_user()

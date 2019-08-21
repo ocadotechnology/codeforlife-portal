@@ -55,7 +55,7 @@ def save_form(request, create_game_form):
 
     if users is not None:
         game.can_play.add(*users)
-    return redirect("aimmo/play", id=game.id)
+    return redirect("kurono/play", id=game.id)
 
 
 @login_required(login_url=reverse_lazy("login_view"))

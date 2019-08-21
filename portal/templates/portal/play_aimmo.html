@@ -2,8 +2,8 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block nav_play %}<a href="{% url 'aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">AI:MMO</a>{% endblock aimmo %}
+{% block nav_play %}<a href="{% url 'kurono' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
 
 
 {% block css %}
@@ -19,17 +19,11 @@
 <div class="banner banner--aimmo--background">
   <div class="sticky-subnav sub-nav sub-nav--games">
     <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
-    <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">AI:MMO</a>
+    <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">Kurono</a>
   </div>
   <div class="row banner--aimmo--content">
     <div class="col-md-offset-2 col-md-5">
-        <img title="Preview Version" alt="Preview Version" src="{% static 'portal/img/preview_version_label.svg' %}">
-        <h1 class="banner--homepage__text banner__text--center">AI:MMO</h1>
-    </div>
-    <div class="col-md-4">
-      <a href="https://www.youtube-nocookie.com/embed/MOfL8bqHufI?rel=0&amp;showinfo=0;autoplay=1" class="youtube">
-        <img title="AI:MMO Intro Video" alt="AI:MMO Intro Video" src="{% static 'portal/img/AIMMO-intro-video.jpg' %}">
-      </a>
+        <img class="col-md-8" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
     </div>
   </div>
 </div>
@@ -40,81 +34,32 @@
 
 <div class="background">
     <section>
-        <img class="col-sm-4 col-md-3 col-center" src="{% static 'portal/img/AIMMO-Logo-Horizontal-RGB.svg' %}" alt="AI:MMO logo">
         {% if user|is_eligible_for_testing %}
         <h1 class="col-sm-7 col-center">
-            Your school has been selected to trial the preview version of AI:MMO
+            Your school has been selected to trial the preview version of Kurono.
         </h1>
         {% endif %}
         <h4 class="col-sm-6 col-center">
           {% if user|is_eligible_for_testing %}
             Your testing and feedback will help Code for Life deliver an enjoyable game,
             and will allow us to consult with you on resources that will be relevant to
-            teaching computing classes in secondary schools (14 &mdash; 18 year olds).
+            teaching computing classes in secondary schools (ages 13+).
           {% else %}
             Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
-            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: intermediate Python.
+            Using Python, students will collaborate together to collect artefacts from the relative past to preserve history!
           {% endif %}
         </h4>
         <h4 class="col-sm-6 col-center">
           {% if user|is_eligible_for_testing %}
             Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
-            The game will be a Massively Multiplayer Online (MMO) time travelling adventure, which will take them to the next level on their coding journey: intermediate Python.
+            Using Python, students will collaborate together to collect artefacts from the relative past to preserve history!
           {% else %}
-            This preview version of AI:MMO is intended to be used by selected schools to help Code for Life deliver an enjoyable game,
-            and to consult with teachers on resources that will be relevant to teaching computing classes in secondary schools (14 &mdash; 18 year olds).
+            The game is designed to teach Python in secondary schools (ages 13+).
+            Like Rapid Router, we will provide teaching materials aligned with the British Computing Curriculum. 
           {% endif %}
         </h4>
     </section>
     <div class="row row--small">
-        <div class="col-sm-9 col-center is-flex">
-            <div class="col-sm-4">
-                <img title="Teaching Resources" alt="Teaching Resources" class="img-aspect-fill" src="{% static 'portal/img/teaching_materials.jpg' %}">
-                <h4>
-                    {% if user|is_eligible_for_testing %}
-                    <a href="{% url 'materials'%}#ks3">View the teaching pack</a>
-                    {% else %}
-                    Sign up to become a tester
-                    {% endif %}
-                </h4>
-                <p>
-                    {% if user|is_eligible_for_testing %}
-                    This includes an AI:MMO User guide,
-                    a Code Cheat Sheet, which lists all the functions available, guide to the importance of indentation in Python and an explanation of the turn-based nature of the gameplay.
-                    {% else %}
-                    We will give you special beta tester access to the preview version of AI:MMO for you to trial with your class.
-                    {% endif %}
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Gameplay" alt="Gameplay" class="img-aspect-fill" src="{% static 'portal/img/try-with-your-class.jpg' %}">
-                <h4>
-                    {% if user|is_eligible_for_testing %}
-                    Try it out with your class
-                    {% else %}
-                    Try it out
-                    {% endif %}
-                </h4>
-                <p>
-                    {% if user|is_eligible_for_testing %}
-                    You have early access to the preview version of the game. You can set up a class and get your students to play the game.
-                    {% else %}
-                    You will have early access to the preview version of the game and the teaching materials.
-                    {% endif %}
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Feedback" alt="Feedback" class="img-aspect-fill" src="{% static 'portal/img/your_feedback.jpg' %}">
-                <h4>Give your feedback</h4>
-                <p>
-                    {% if user|is_eligible_for_testing %}
-                    Your feedback is really important to us as it will help shape the gameplay, design and teaching materials for the full version.
-                    {% else %}
-                    Your feedback will help shape the gameplay, design and teaching materials for the full version.
-                    {% endif %}
-                </p>
-            </div>
-        </div>
         <div class="background button--bottom is-flex center-flex">
 
             {% if user|is_eligible_for_testing %}
@@ -125,7 +70,7 @@
                    class="button button--big button-primary button--primary--general-play">Start Testing</a>
                 {% endif %}
             {% else %}
-            <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us to join</a>
+            <a href="{% url 'help' %}#contact" target="" class="button button--big button-primary button--primary--general-play">Contact us</a>
             {% endif %}
 
         </div>

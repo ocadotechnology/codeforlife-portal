@@ -159,10 +159,10 @@ two_factor_patterns = [
 
 
 urlpatterns = [
-    # The first AIMMO URL renders the new AIMMO home page. It uses the same regex so as to overwrite the default
+    # The first AIMMO URL renders the new Kurono home page. It uses the same regex so as to overwrite the default
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(r"^aimmo/$", aimmo_home, name="aimmo"),
+    url(r"^kurono/$", aimmo_home, name="kurono"),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
         r"^favicon\.ico$",
@@ -274,7 +274,7 @@ urlpatterns = [
         name="play",
     ),
     url(
-        r"^play/aimmo/$",
+        r"^play/kurono/$",
         TemplateView.as_view(template_name="portal/play_aimmo.html"),
         name="play_aimmo",
     ),

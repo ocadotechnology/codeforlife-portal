@@ -82,8 +82,8 @@ PDF_DATA = {
         "page_origin": "#user-guide",
     },
     "user_guide_aimmo": {
-        "title": "Introduction to AI:MMO",
-        "description": "User guide for AI:MMO, the KS3 game.",
+        "title": "Introduction to Kurono",
+        "description": "User guide for Kurono.",
         "links": None,
         "url": "user_guide_v1/AIMMO_User_guide_v2.pdf",
         "page_origin": "#user-guide",
@@ -986,21 +986,21 @@ PDF_DATA = {
     # ...Session 1...#
     "AIMMO_S1_1": {
         "title": "Code Cheat Sheet",
-        "description": "To be used to code the AI:MMO game.",
+        "description": "To be used to code the Kurono game.",
         "links": [],
         "url": "AIMMO_v2/resource_sheets/AIMMO_cheat_sheet.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     "AIMMO_S1_2": {
         "title": "Indentation — Why it matters",
-        "description": "To be used to understand how to use Python to code the AI:MMO game.",
+        "description": "To be used to understand how to use Python to code the Kurono game.",
         "links": [],
         "url": "AIMMO_v2/resource_sheets/Python_Indentation.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     "AIMMO_S1_3": {
         "title": "Understanding the turn-based game",
-        "description": "To be used to understand the AI:MMO game.",
+        "description": "To be used to understand the Kurono game.",
         "links": [],
         "url": "AIMMO_v2/resource_sheets/AIMMO_Next_Turn.pdf",
         "page_origin": "#ks3-resource-sheets",

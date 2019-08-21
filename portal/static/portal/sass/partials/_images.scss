@@ -59,6 +59,12 @@ img {
   }
 }
 
+.kurono-logo {
+  padding-bottom: 3 * $spacing;
+  padding-top: 5 * $spacing;
+  width: 90 * $spacing;
+}
+
 .portrait {
   border-radius: 50%;
   display: block;
