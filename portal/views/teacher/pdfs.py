@@ -83,7 +83,7 @@ PDF_DATA = {
     },
     "user_guide_aimmo": {
         "title": "Introduction to Kurono",
-        "description": "User guide for Kurono, the KS4 game.",
+        "description": "User guide for Kurono.",
         "links": None,
         "url": "user_guide_v1/AIMMO_User_guide_v2.pdf",
         "page_origin": "#user-guide",
