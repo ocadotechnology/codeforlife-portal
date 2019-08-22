@@ -65,17 +65,6 @@ def signup_teacher_directly(**kwargs):
     return email_address, password
 
 
-def signup_teacher_directly_as_preview_user(**kwargs):
-    title, first_name, last_name, email_address, password = generate_details(**kwargs)
-    teacher = Teacher.objects.factory(
-        title, first_name, last_name, email_address, password
-    )
-    generate_token(teacher.new_user, preverified=True)
-    teacher.user.set_to_preview_user()
-    teacher.user.save()
-    return email_address, password
-
-
 def signup_duplicate_teacher_fail(page, duplicate_email):
     page = page.go_to_signup_page()
 

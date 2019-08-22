@@ -89,27 +89,12 @@ def teacher_verified(view_func):
     return wrapped
 
 
-def preview_user(view_func):
-    @wraps(view_func)
-    def wrapped(request, *args, **kwargs):
-        u = request.user
-        try:
-            if not u.userprofile.preview_user:
-                return HttpResponse("Unauthorized", status=401)
-        except AttributeError:
-            return HttpResponse("Unauthorized", status=401)
-        return view_func(request, *args, **kwargs)
-
-    return wrapped
-
-
 class CanDeleteGame(permissions.BasePermission):
     def has_permission(self, request, view):
         u = request.user
         try:
             return (
                 u.userprofile.teacher
-                and u.userprofile.preview_user
                 and has_completed_auth_setup(u)
             )
         except AttributeError:

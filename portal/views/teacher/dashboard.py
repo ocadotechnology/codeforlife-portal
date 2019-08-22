@@ -45,7 +45,6 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from two_factor.utils import devices_for_user
 
-from portal.templatetags.app_tags import is_preview_user
 from portal import app_settings, email_messages
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.models import Teacher, Class, Student
@@ -143,15 +142,6 @@ def dashboard_teacher_view(request, is_admin):
                 )
 
     classes = Class.objects.filter(teacher=teacher)
-
-    if school.eligible_for_testing and not teacher.user.preview_user:
-        message = format_html(
-            "You have been selected to trial the preview version of Kurono, our new "
-            "game for secondary "
-            'schools. <a href="{}">Try it out</a>',
-            reverse("play_aimmo"),
-        )
-        messages.info(request, mark_safe(message))
 
     return render(
         request,
@@ -461,10 +451,8 @@ def teacher_accept_student_request(request, pk):
             student.new_user.first_name = data["name"]
             student.new_user.last_name = ""
             student.new_user.email = ""
-
-            if is_preview_user(teacher.new_user):
-                student.new_user.userprofile.set_to_preview_user()
-                give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
+            
+            give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
 
             student.save()
             student.new_user.save()

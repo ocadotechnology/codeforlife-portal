@@ -72,7 +72,6 @@ from portal.views.home import (
     contact,
     process_newsletter_form,
     home,
-    make_preview_tester,
 )
 from portal.views.student.play import (
     student_details,
@@ -198,7 +197,6 @@ urlpatterns = [
     url(r"^login_form", login_view, name="login_view"),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
-    url(r"^set_preview_tester/$", make_preview_tester, name="make_preview_tester"),
     url(r"^verify_email/$", TemplateView.as_view(template_name="portal/email_verification_needed.html"), name="email_verification"),
     url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
     url(

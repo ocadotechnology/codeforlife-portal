@@ -41,14 +41,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from base_test import BaseTest
 from pageObjects.portal.home_page import HomePage
-from portal.templatetags.app_tags import is_preview_user
 from portal.models import Student, stripStudentName
 from portal.tests.utils.classes import create_class_directly
 from portal.tests.utils.organisation import create_organisation_directly
 from portal.tests.utils.student import create_school_student_directly
 from portal.tests.utils.teacher import (
     signup_teacher_directly,
-    signup_teacher_directly_as_preview_user,
 )
 from utils import email as email_utils
 from utils.messages import (
@@ -155,7 +153,7 @@ class TestIndependentStudent(BaseTest):
 
     def test_login_success(self):
         page = self.go_to_homepage()
-        page, name, username, _, password = create_independent_student(page)
+        page, _, username, _, password = create_independent_student(page)
         page = page.independent_student_login(username, password)
         assert page.__class__.__name__ == "PlayDashboardPage"
 
@@ -352,47 +350,6 @@ class TestIndependentStudent(BaseTest):
 
         assert page.student_exists(student_name)
 
-    def test_join_preview_class_accepted(self):
-        teacher_email, teacher_password = signup_teacher_directly_as_preview_user()
-        create_organisation_directly(teacher_email, True)
-        klass, _, access_code = create_class_directly(teacher_email)
-        create_school_student_directly(access_code)
-        klass.always_accept_requests = True
-        klass.save()
-
-        homepage = self.go_to_homepage()
-
-        play_page, student_name, student_username, _, password = create_independent_student(
-            homepage
-        )
-
-        page = (
-            play_page.independent_student_login(student_username, password)
-            .go_to_join_a_school_or_club_page()
-            .join_a_school_or_club(access_code)
-        )
-
-        page.logout()
-
-        page = self.go_to_homepage()
-
-        page = (
-            page.go_to_login_page()
-            .login(teacher_email, teacher_password)
-            .accept_independent_join_request()
-            .save(student_name)
-            .return_to_class()
-        )
-
-        student_name = stripStudentName(student_name)
-
-        students = Student.objects.filter(
-            new_user__first_name__iexact=student_name, class_field=klass
-        )
-
-        student = students[0]
-        self.assertEqual(True, is_preview_user(student.new_user))
-
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
@@ -424,6 +381,13 @@ class TestIndependentStudent(BaseTest):
         )
 
         assert dashboard_page.has_no_independent_join_requests()
+
+    def test_cannot_see_aimmo(self):
+        page = self.go_to_homepage()
+        page, _, username, _, password = create_independent_student(page)
+        page = page.independent_student_login(username, password)
+
+        assert page.element_does_not_exist_by_link_text("Kurono")
 
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)

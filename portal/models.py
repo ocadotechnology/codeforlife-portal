@@ -53,7 +53,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
-    preview_user = models.BooleanField(default=False)
 
     awaiting_email_verification = models.BooleanField(default=False)
 
@@ -64,12 +63,6 @@ class UserProfile(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=7) <= self.user.date_joined
 
-    def set_to_preview_user(self):
-        self.preview_user = True
-
-    def remove_preview_user(self):
-        self.preview_user = False
-
 
 class School(models.Model):
     name = models.CharField(max_length=200)
@@ -78,7 +71,6 @@ class School(models.Model):
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label="(select country)")
-    eligible_for_testing = models.BooleanField(default=False)
 
     class Meta:
         permissions = (
@@ -225,11 +217,6 @@ class StudentModelManager(models.Manager):
             username=get_random_username(), password=password, first_name=name
         )
         user_profile = UserProfile.objects.create(user=user)
-        school = klass.teacher.school
-        if school:
-            if school.eligible_for_testing and not user_profile.preview_user:
-                user_profile.set_to_preview_user()
-                user_profile.save()
 
         return Student.objects.create(
             class_field=klass, user=user_profile, new_user=user

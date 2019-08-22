@@ -38,7 +38,6 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from portal.permissions import preview_user
 from portal.views.teacher.teach import get_session_pdfs, get_resource_sheets_pdfs
 
 from aimmo.app_settings import get_users_for_new_game
@@ -59,7 +58,6 @@ def save_form(request, create_game_form):
 
 
 @login_required(login_url=reverse_lazy("login_view"))
-@preview_user
 def aimmo_home(request):
     aimmo_sessions = []
     aimmo_sheets = []
