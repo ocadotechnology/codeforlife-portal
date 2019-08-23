@@ -48,12 +48,12 @@
 }
 
 .banner--picture {
-  height: 270px;
-  margin: -7px auto 0;
+  height: 64 * $spacing;
+  margin: 0 auto 0;
   overflow: hidden;
   transform: rotate(120deg);
   visibility: hidden;
-  width: 310px;
+  width: 74 * $spacing;
 }
 
 .banner--picture__inside1 {
@@ -66,6 +66,7 @@
 .banner--picture__inside2 {
   background-position: 50%;
   background-repeat: no-repeat;
+  background-size: cover;
   height: 100%;
   transform: rotate(-60deg);
   visibility: visible;
@@ -153,7 +154,7 @@
 .banner__game {
   align-items: center;
   display: flex;
-  height: 263px; // TO BE CHANGED!
+  height: 64 * $spacing;
   justify-content: center;
 
   .banner__text--center {
@@ -214,6 +215,18 @@
 .banner--teacher--create-aimmo-game {
   align-items: start;
 
+  .kurono-logo {
+    @include _padding(20px, 0px, 25px, 0px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    img {
+      width: 90 * $spacing;
+    }
+  }
+
   .button-group {
     display: flex;
   }
@@ -234,9 +247,7 @@
       &::placeholder {
         color: $color-error;
       }
-
     }
-
   }
 
   img {

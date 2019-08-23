@@ -28,8 +28,8 @@ button--menu--enabled button--menu--student--active">My Games</a>
 {% else %}
     <div class="banner banner--teacher banner--aimmo-home row">
 {% endif %}
-        <div class="col-sm-4 col-sm-offset-2">
-            <img class="kurono-logo" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
+        <div class="kurono-logo col-sm-4 col-sm-offset-2">
+            <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
             <div id="join_game" class="button-group">
                 {% if user|is_logged_in_as_teacher %}
                     <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
