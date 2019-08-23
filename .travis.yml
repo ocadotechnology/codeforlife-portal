@@ -15,9 +15,10 @@ matrix:
       env: SELENIUM_WEBDRIVER=default
   fast_finish: true
 stages:
-  - test
+  - name: test
+    if: tag IS blank AND type IN (pull_request)
   - name: deploy
-    if: branch = master AND (NOT type IN (pull_request))
+    if: branch = master AND NOT type IN (pull_request)
 jobs:
   include:
     - stage: test
