@@ -41,10 +41,8 @@ from base_test import BaseTest
 from portal.models import Student
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.pageObjects.portal.teach.dashboard_page import TeachDashboardPage
-from portal.templatetags.app_tags import is_preview_user
 from utils.teacher import (
     signup_teacher_directly,
-    signup_teacher_directly_as_preview_user,
 )
 from utils.organisation import (
     create_organisation_directly,
@@ -449,54 +447,6 @@ class TestTeacherStudent(BaseTest):
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
 
-    def test_moved_student_loses_preview_access(self):
-        old_teacher_email, old_teacher_password = (
-            signup_teacher_directly_as_preview_user()
-        )
-        new_teacher_email, _ = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(old_teacher_email, True)
-        join_teacher_to_organisation(new_teacher_email, org_name, postcode)
-        _, _, access_code = create_class_directly(old_teacher_email)
-        new_class, _, _ = create_class_directly(new_teacher_email)
-        _, _, _ = create_school_student_directly(access_code)
-        _, _, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_login_page()
-            .login(old_teacher_email, old_teacher_password)
-        )
-        page = page.go_to_class_page().toggle_select_student()
-        page = page.move_students().select_class_by_index(0).move().move()
-
-        student = Student.objects.get(class_field=new_class)
-
-        self.assertEqual(False, is_preview_user(student.new_user))
-
-    def test_moved_student_gains_preview_access(self):
-        old_teacher_email, old_teacher_password = signup_teacher_directly()
-        new_teacher_email, _ = signup_teacher_directly_as_preview_user()
-        org_name, postcode = create_organisation_directly(old_teacher_email, True)
-        join_teacher_to_organisation(new_teacher_email, org_name, postcode)
-        _, _, access_code = create_class_directly(old_teacher_email)
-        new_class, _, _ = create_class_directly(new_teacher_email)
-        _, _, _ = create_school_student_directly(access_code)
-        _, _, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_login_page()
-            .login(old_teacher_email, old_teacher_password)
-        )
-        page = page.go_to_class_page().toggle_select_student()
-        page = page.move_students().select_class_by_index(0).move().move()
-
-        student = Student.objects.get(class_field=new_class)
-
-        self.assertEqual(True, is_preview_user(student.new_user))
-
     def test_dismiss(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -521,40 +471,3 @@ class TestTeacherStudent(BaseTest):
             .dismiss()
         )
         assert not page.student_exists(student_name_1)
-
-    def test_preview_dismiss(self):
-        email, password = signup_teacher_directly_as_preview_user()
-        create_organisation_directly(email, True)
-        _, _, access_code = create_class_directly(email)
-        student_name, _, _ = create_school_student_directly(access_code)
-        _, _, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
-        page = page.go_to_aimmo_home_page()
-
-        page.click_create_new_game_button()
-        page.input_new_game_name("Test_Game")
-        page.click_create_game_button()
-
-        self.selenium.get(self.live_server_url + "/teach/dashboard")
-        page = TeachDashboardPage(self.selenium).go_to_class_page()
-        assert page.student_exists(student_name)
-
-        page = page.toggle_select_student().dismiss_students()
-        assert page.__class__.__name__ == "TeachDismissStudentsPage"
-        page = page.cancel()
-        assert page.__class__.__name__ == "TeachClassPage"
-
-        page = (
-            page.toggle_select_student()
-            .dismiss_students()
-            .enter_email("student_email@gmail.com")
-            .dismiss()
-        )
-        assert not page.student_exists(student_name)
-
-        student = Student.objects.filter(
-            class_field=None, new_user__username=student_name
-        )
-        self.assertEqual(False, is_preview_user(student[0].new_user))

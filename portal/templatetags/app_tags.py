@@ -70,31 +70,6 @@ def is_developer(u):
 
 
 @register.filter
-def is_preview_user(u):
-    return is_eligible_for_testing(u) and u.userprofile.preview_user
-
-
-@register.filter
-def is_preview_student(u):
-    if is_logged_in(u) and hasattr(u.userprofile, "student"):
-        student = u.userprofile.student
-        if student.class_field:
-            teacher = student.class_field.teacher
-            return teacher.school.eligible_for_testing and teacher.user.preview_user
-    return False
-
-
-@register.filter(name="is_eligible_for_testing")
-def is_eligible_for_testing(u):
-    if is_logged_in_as_teacher(u):
-        school_set_up = hasattr(u.userprofile.teacher, "school") and hasattr(
-            u.userprofile.teacher.school, "eligible_for_testing"
-        )
-        return school_set_up and u.userprofile.teacher.school.eligible_for_testing
-    return is_developer(u) or is_preview_student(u)
-
-
-@register.filter
 def has_beta_access(request):
     return beta.has_beta_access(request)
 
@@ -130,6 +105,11 @@ def make_into_username(u):
 @register.filter(name="is_logged_in_as_teacher")
 def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, "teacher")
+
+
+@register.filter(name="is_independent_student")
+def is_independent_student(u):
+    return u.userprofile and u.userprofile.student and u.userprofile.student.is_independent()
 
 
 @register.filter(name="has_teacher_finished_onboarding")

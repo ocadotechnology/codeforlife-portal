@@ -134,7 +134,6 @@ SETTINGS = {
         "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
     },
     "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
-    "PREVIEW_USER_AIMMO_DECORATOR": "portal.permissions.preview_user",
     "CAN_DELETE_GAME_CLASS": "portal.permissions.CanDeleteGame",
     "USERS_FOR_NEW_AIMMO_GAME": "portal.aimmo_game.get_users_for_new_game",
 }

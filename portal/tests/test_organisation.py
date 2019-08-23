@@ -80,7 +80,7 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.__class__.__name__ == "OnboardingOrganisationPage"
 
     def test_create_clash(self):
-        email_1, password_1 = signup_teacher_directly()
+        email_1, _ = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
@@ -106,7 +106,7 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.was_postcode_invalid()
 
     def test_revoke(self):
-        email_1, password_1 = signup_teacher_directly()
+        email_1, _ = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
         name, postcode = create_organisation_directly(email_1)
 
@@ -154,8 +154,8 @@ class TestOrganisation(BaseTest, BasePage):
     def test_deny_join(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email_1)
-        _, class_name, access_code = create_class_directly(email_1)
+        name, _ = create_organisation_directly(email_1)
+        _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -258,11 +258,11 @@ class TestOrganisation(BaseTest, BasePage):
 
     def test_leave_organisation(self):
         email_1, password_1 = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email_1)
-        _, class_name_1, access_code_1 = create_class_directly(email_1)
+        name, _ = create_organisation_directly(email_1)
+        _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
 
-        title, first_name, last_name, email_2, password_2 = generate_details()
+        title, first_name, _, email_2, password_2 = generate_details()
 
         new_last_name = "New Teacher"
 
@@ -381,8 +381,8 @@ class TestOrganisation(BaseTest, BasePage):
     def test_edit_details(self):
         email, password = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-        student_name, password, student = create_school_student_directly(access_code)
+        _, _, access_code = create_class_directly(email)
+        _, password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_login_page().login(email, password)
@@ -400,12 +400,12 @@ class TestOrganisation(BaseTest, BasePage):
         )
 
     def test_edit_clash(self):
-        email_1, password_1 = signup_teacher_directly()
+        email_1, _ = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
         school_name_1, postcode_1 = create_organisation_directly(email_1)
         create_organisation_directly(email_2)
-        _, class_name_1, access_code_1 = create_class_directly(email_1)
-        _, class_name_2, access_code_2 = create_class_directly(email_2)
+        _, _, access_code_1 = create_class_directly(email_1)
+        _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_1)
         create_school_student_directly(access_code_2)
 

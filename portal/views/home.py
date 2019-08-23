@@ -592,39 +592,3 @@ def process_newsletter_form(request):
 
 def home(request):
     return render(request, "portal/home.html")
-
-
-def is_eligible_for_testing(request):
-    return (
-        (
-            is_logged_in_as_teacher(request)
-            and request.user.new_teacher.school.eligible_for_testing
-        )
-        or is_developer(request)
-        or (
-            is_logged_in_as_student(request)
-            and request.user.userprofile.student.class_field.teacher.school.eligible_for_testing
-        )
-    )
-
-
-def make_students_preview_users(request):
-    class_members = Class.objects.all_members(request.user.userprofile)
-    for c in class_members:
-        c.user.set_to_preview_user()
-        c.user.save()
-
-
-def make_preview_tester(request):
-    if request.method == "GET":
-        if is_eligible_for_testing(request):
-            if is_logged_in_as_teacher(request):
-                make_students_preview_users(request)
-            else:
-                user = request.user.userprofile
-                user.set_to_preview_user()
-                user.save()
-
-            return HttpResponseRedirect(reverse_lazy("kurono"))
-        return HttpResponse(status=401)
-    return HttpResponse(status=405)

@@ -50,7 +50,6 @@ from pageObjects.portal.home_page import HomePage
 from utils.teacher import (
     signup_teacher,
     signup_teacher_directly,
-    signup_teacher_directly_as_preview_user,
     signup_duplicate_teacher_fail,
     submit_teacher_signup_form,
 )
@@ -74,12 +73,12 @@ from utils import email as email_utils
 class TestTeachers(TestCase):
     def test_new_student_can_play_games(self):
         """
-        Given a preview teacher has an Kurono game,
+        Given a teacher has an Kurono game,
         When they add a new student to their class,
         Then the new student should be in the game's player list
         """
-        email, password = signup_teacher_directly_as_preview_user()
-        create_organisation_directly(email, True)
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
@@ -101,9 +100,9 @@ class TestTeachers(TestCase):
         When the teacher for that class accepts the request,
         Then the new student should have access to the teacher's games
         """
-        email, password = signup_teacher_directly_as_preview_user()
-        create_organisation_directly(email, True)
-        klass, _, access_code = create_class_directly(email, True)
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass, _, access_code = create_class_directly(email)
         klass.always_accept_requests = True
         klass.save()
         create_school_student_directly(access_code)
@@ -137,12 +136,12 @@ class TestTeachers(TestCase):
         When a teacher transfers them to another class with a new teacher,
         Then the student should only have access to the new teacher's games
         """
-        email1, password1 = signup_teacher_directly_as_preview_user()
-        school_name, postcode = create_organisation_directly(email1, True)
+        email1, password1 = signup_teacher_directly()
+        school_name, postcode = create_organisation_directly(email1)
         klass1, _, access_code1 = create_class_directly(email1, True)
         create_school_student_directly(access_code1)
 
-        email2, password2 = signup_teacher_directly_as_preview_user()
+        email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
         klass2, _, access_code2 = create_class_directly(email2, True)
         create_school_student_directly(access_code2)
@@ -182,12 +181,12 @@ class TestTeachers(TestCase):
         When a teacher transfers them to another class with a new teacher,
         Then the student should only have access to the new teacher's games
         """
-        email1, password1 = signup_teacher_directly_as_preview_user()
-        school_name, postcode = create_organisation_directly(email1, True)
+        email1, password1 = signup_teacher_directly()
+        school_name, postcode = create_organisation_directly(email1)
         klass1, _, access_code1 = create_class_directly(email1, True)
         create_school_student_directly(access_code1)
 
-        email2, password2 = signup_teacher_directly_as_preview_user()
+        email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
         klass2, _, access_code2 = create_class_directly(email2, True)
         create_school_student_directly(access_code2)
