@@ -81,7 +81,6 @@ from portal.helpers.emails import send_email, send_verification_email, INVITE_FR
 from portal.views.teacher.pdfs import PDF_DATA
 from portal.templatetags.app_tags import cloud_storage
 from portal import email_messages
-from portal.templatetags.app_tags import is_preview_user
 
 from aimmo.models import Game
 
@@ -761,7 +760,6 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         )
 
         remove_access_from_all_aimmo_games(student, klass.teacher)
-        student.new_user.userprofile.remove_preview_user()
 
         student.class_field = None
         student.new_user.first_name = data["name"]
@@ -850,7 +848,6 @@ def teacher_move_class(request, access_code):
 
             for student in students:
                 give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
-                update_moved_student_preview_status(student, old_teacher, new_teacher)
 
             messages.success(
                 request,
@@ -863,18 +860,6 @@ def teacher_move_class(request, access_code):
     return render(
         request, "portal/teach/teacher_move_class.html", {"form": form, "class": klass}
     )
-
-
-def update_moved_student_preview_status(student, old_teacher, new_teacher):
-    # If the new teacher isn't a preview user but the old one was, revoke preview user access
-    if is_preview_user(old_teacher.new_user) and not is_preview_user(new_teacher.new_user):
-        student.new_user.userprofile.remove_preview_user()
-        student.new_user.userprofile.save()
-
-    # If the new teacher is a preview user but the old one wasn't, give preview user access
-    elif is_preview_user(new_teacher.new_user) and not is_preview_user(old_teacher.new_user):
-        student.new_user.userprofile.set_to_preview_user()
-        student.new_user.userprofile.save()
 
 
 def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
@@ -1025,7 +1010,6 @@ def process_move_students_form(request, formset, old_class, new_class):
         student.new_user.first_name = name_update["name"]
 
         give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
-        update_moved_student_preview_status(student, old_teacher, new_teacher)
 
         student.save()
         student.new_user.save()

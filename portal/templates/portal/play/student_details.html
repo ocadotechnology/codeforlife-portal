@@ -35,7 +35,7 @@
 
 {% block content %}
 <div id="play_dashboard_page" class="background">
-    {% if user.new_student.class_field and user|is_preview_user %}
+    {% if user.new_student.class_field %}
     <div class="grid-games col-center col-sm-7">
     {% else %}
     <div class="grid-games col-center col-sm-4">
@@ -55,7 +55,7 @@
             <p><a href="{% url 'scoreboard' %}">View my score</a></p>
             {% endif %}
         </div>
-        {% if user.new_student.class_field and user|is_preview_user %}
+        {% if user.new_student.class_field %}
             <section>
                 <a href="{% url 'kurono' %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
                 <h4>Take your coding to the next level!</h4>

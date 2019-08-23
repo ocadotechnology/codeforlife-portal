@@ -49,7 +49,7 @@ def generate_details(**kwargs):
 generate_details.next_id = 1
 
 
-def create_organisation_directly(teacher_email, eligible_for_testing=False, **kwargs):
+def create_organisation_directly(teacher_email, **kwargs):
     name, postcode = generate_details(**kwargs)
 
     school = School.objects.create(
@@ -59,7 +59,6 @@ def create_organisation_directly(teacher_email, eligible_for_testing=False, **kw
         town="",
         latitude="",
         longitude="",
-        eligible_for_testing=eligible_for_testing,
     )
 
     teacher = Teacher.objects.get(new_user__email=teacher_email)

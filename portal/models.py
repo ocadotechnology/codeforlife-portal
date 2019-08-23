@@ -64,12 +64,6 @@ class UserProfile(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=7) <= self.user.date_joined
 
-    def set_to_preview_user(self):
-        self.preview_user = True
-
-    def remove_preview_user(self):
-        self.preview_user = False
-
 
 class School(models.Model):
     name = models.CharField(max_length=200)
@@ -225,11 +219,6 @@ class StudentModelManager(models.Manager):
             username=get_random_username(), password=password, first_name=name
         )
         user_profile = UserProfile.objects.create(user=user)
-        school = klass.teacher.school
-        if school:
-            if school.eligible_for_testing and not user_profile.preview_user:
-                user_profile.set_to_preview_user()
-                user_profile.save()
 
         return Student.objects.create(
             class_field=klass, user=user_profile, new_user=user

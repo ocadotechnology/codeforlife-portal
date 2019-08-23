@@ -36,7 +36,6 @@
 # identified as the original program.
 
 from django.core.cache import cache
-
 from two_factor.utils import default_device
 
 
