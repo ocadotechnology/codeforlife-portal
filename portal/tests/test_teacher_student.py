@@ -471,4 +471,3 @@ class TestTeacherStudent(BaseTest):
             .dismiss()
         )
         assert not page.student_exists(student_name_1)
-        
