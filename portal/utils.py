@@ -36,7 +36,6 @@
 # identified as the original program.
 
 from django.core.cache import cache
-from django.core.exceptions import FieldDoesNotExist
 from two_factor.utils import default_device
 
 
@@ -67,11 +66,3 @@ def using_two_factor(user):
     cache.set(cache_key, val, None)  # Cache forever
     user.using_two_factor_cache = val
     return val
-
-
-def field_exists(model, field):
-    try:
-        field = model._meta.get_field(field)
-    except FieldDoesNotExist:
-        return False
-    return True
