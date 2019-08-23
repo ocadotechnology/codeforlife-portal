@@ -73,7 +73,7 @@ from utils import email as email_utils
 class TestTeachers(TestCase):
     def test_new_student_can_play_games(self):
         """
-        Given ateacher has an Kurono game,
+        Given a teacher has an Kurono game,
         When they add a new student to their class,
         Then the new student should be in the game's player list
         """

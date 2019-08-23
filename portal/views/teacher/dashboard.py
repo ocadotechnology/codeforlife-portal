@@ -451,7 +451,7 @@ def teacher_accept_student_request(request, pk):
             student.new_user.first_name = data["name"]
             student.new_user.last_name = ""
             student.new_user.email = ""
-            
+
             give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
 
             student.save()
