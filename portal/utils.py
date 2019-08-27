@@ -68,6 +68,7 @@ def using_two_factor(user):
     user.using_two_factor_cache = val
     return val
 
+
 def field_exists(model, field):
     try:
         field = model._meta.get_field(field)
