@@ -22,8 +22,8 @@
     <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">Kurono</a>
   </div>
   <div class="row banner--aimmo--content">
-    <div class="col-md-offset-2 col-md-5">
-        <img class="col-md-8" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
+    <div class="col-md-4">
+        <img class="col-md-12" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
     </div>
   </div>
 </div>
@@ -34,20 +34,23 @@
 
 <div class="background">
     <section>
-        <h4 class="col-sm-6 col-center">
+        <div class="col-sm-6 col-center kurono-overview__paragraph">
           Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
           Using Python, students will collaborate together to collect artefacts from the relative past to preserve history!
-        </h4>
-        <h4 class="col-sm-6 col-center">
+        </div>
+        <div class="col-sm-6 col-center kurono-overview__paragraph">
           The game is designed to teach Python in secondary schools (ages 13+).
           Like Rapid Router, we will provide teaching materials aligned with the British Computing Curriculum. 
-        </h4>
-    </section>
-    <div class="row row--small">
-        <div class="background button--bottom is-flex center-flex">
-          <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
         </div>
-    </div>
+        <div class="col-sm-6 col-center kurono-overview__paragraph">
+          We plan to release Kurono to everyone soon. In the meantime, please try out our first game, Rapid Router.
+          If you want to help us make Kurono the best resource for teaching programming in secondary schools, 
+          we would love to get in touch with you! 
+        </div>
+        <div class="background">
+          <a href="{% url 'help' %}#contact" target="_blank" class="button button-primary button--primary--general-play">Contact Us</a>
+        </div>
+    </section>
 </div>
 
 <script type="text/javascript">

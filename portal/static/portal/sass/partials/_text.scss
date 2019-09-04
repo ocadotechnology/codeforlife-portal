@@ -44,6 +44,15 @@ h4 {
   @include _line-height(35px);
 }
 
+.kurono-overview__paragraph {
+  @include _font-size(25px);
+  @include _line-height(35px);
+
+  + .kurono-overview__paragraph {
+    @include _padding(8 * $spacing, 0px, 0px, 0px);
+  }
+}
+
 a {
   color: $color-text-tertiary;
 }
