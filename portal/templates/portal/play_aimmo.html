@@ -22,8 +22,8 @@
     <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">Kurono</a>
   </div>
   <div class="row banner--aimmo--content">
-    <div class="col-md-offset-2 col-md-5">
-        <img class="col-md-8" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
+    <div class="col-md-4">
+        <img class="col-md-12" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
     </div>
   </div>
 </div>
@@ -45,7 +45,7 @@
     </section>
     <div class="row row--small">
         <div class="background button--bottom is-flex center-flex">
-          <a href="https://goo.gl/forms/q8ogXmDbllTdDTWR2" target="_blank" class="button button--big button-primary button--primary--general-play">Give Feedback</a>
+          <a href="{% url 'help' %}#contact" target="_blank" class="button button--big button-primary button--primary--general-play">Contact Us</a>
         </div>
     </div>
 </div>

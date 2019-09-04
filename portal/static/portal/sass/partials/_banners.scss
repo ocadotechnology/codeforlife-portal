@@ -38,7 +38,9 @@
   }
 
   .banner--aimmo--content {
-    @include _padding(70px, 0px, 70px, 0px);
+    @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
+    display: flex;
+    justify-content: center;
   }
 
   div[class^='col-sm'] {
