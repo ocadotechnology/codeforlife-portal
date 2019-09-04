@@ -44,12 +44,12 @@ h4 {
   @include _line-height(35px);
 }
 
-.p__kurono {
-  @include _font-size(5 * $spacing);
-  @include _line-height(7 * $spacing);
+.kurono-overview__paragraph {
+  @include _font-size(25px);
+  @include _line-height(35px);
 
-  + .p__kurono {
-    @include _padding(40px, 0px, 0px, 0px);
+  + .kurono-overview__paragraph {
+    @include _padding(8 * $spacing, 0px, 0px, 0px);
   }
 }
 
