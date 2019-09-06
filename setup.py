@@ -22,9 +22,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "django>=1.10.8, < 1.11",
+        "django>=1.10.8, <= 1.11.24",
         "django-appconf==1.0.1",
-        "django-countries==3.4.1",
+        "django-countries==5.4",
         "djangorestframework>=3.8.2, < 3.9.0",
         "django-jquery==1.9.1",
         "django-autoconfig==0.8.0",
@@ -37,9 +37,9 @@ setup(
         "docutils==0.12",
         "reportlab==3.2.0",
         "postcodes==0.1",
-        "django-formtools==1.0",
-        "django-two-factor-auth==1.5.0",
-        "django-otp==0.4.3",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
+        "django-formtools==2.1",
+        "django-two-factor-auth==1.9.1",
+        "django-otp==0.7.0",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
         "urllib3==1.23",
         "requests==2.20.0",
         "django-classy-tags==0.6.1",
