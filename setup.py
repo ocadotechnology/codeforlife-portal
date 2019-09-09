@@ -50,7 +50,6 @@ setup(
         "sqlparse",
         "libsass",
         "django-forms-bootstrap",
-        "Jinja2"
     ],
     tests_require=[
         "django-setuptest==0.2.1",
