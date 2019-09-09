@@ -8,7 +8,9 @@
        class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
     <div class="dropdown-content">
         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-        <a href="{% url 'kurono' %}"><small>Kurono</small></a>
+        {% if not user|is_independent_student %}
+            <a href="{% url 'kurono' %}"><small>Kurono</small></a>
+        {% endif %}
     </div>
 </div>
 {% if user|is_logged_in_as_school_user %}
