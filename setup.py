@@ -38,8 +38,8 @@ setup(
         "reportlab==3.2.0",
         "postcodes==0.1",
         "django-formtools==2.1",
-        "django-two-factor-auth==1.9.1",
-        "django-otp==0.7.0",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
+        "django-two-factor-auth<=1.9.1",
+        "django-otp<=0.7.0",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
         "urllib3==1.23",
         "requests==2.20.0",
         "django-classy-tags==0.6.1",
