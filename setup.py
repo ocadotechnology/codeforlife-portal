@@ -28,7 +28,7 @@ setup(
         "djangorestframework>=3.8.2, < 3.9.0",
         "django-jquery==1.9.1",
         "django-autoconfig==0.8.0",
-        "django-pipeline>=1.5.4, <= 1.6.14",
+        "django-pipeline==1.6.14",
         "django-recaptcha==1.3.1",  # 1.4 dropped support for < 1.11
         "pyyaml==4.2b1",
         "rapid-router >= 1.0.0.post.dev1",
@@ -53,9 +53,9 @@ setup(
     ],
     tests_require=[
         "django-setuptest==0.2.1",
-        "django-selenium-clean==0.3.0",
+        "django-selenium-clean==0.2.1",
         "responses==0.4.0",
-        "selenium==2.53.6",
+        "selenium==3.7.0",
     ],
     test_suite="setuptest.setuptest.SetupTestSuite",
     zip_safe=False,

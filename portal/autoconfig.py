@@ -56,7 +56,7 @@ SETTINGS = {
     ],
     "PIPELINE": {
         "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
-        "CSS": {
+        "STYLESHEETS": {
             "css": {
                 "source_filenames": (
                     "portal/sass/bootstrap.scss",
@@ -73,23 +73,8 @@ SETTINGS = {
         "CSS_COMPRESSOR": None,
         "SASS_ARGUMENTS": "--quiet",
     },
-    "PIPELINE_COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
-    "PIPELINE_CSS": {
-        "css": {
-            "source_filenames": (
-                "portal/sass/bootstrap.scss",
-                "portal/sass/colorbox.scss",
-                "portal/sass/styles.scss",
-            ),
-            "output_filename": "portal.css",
-        },
-        "base": {
-            "source_filenames": ("portal/sass/old_styles.scss",),
-            "output_filename": "base.css",
-        },
-    },
-    "PIPELINE_CSS_COMPRESSOR": None,
-    "PIPELINE_SASS_ARGUMENTS": "--quiet",
+    "STATICFILES_FINDERS": ["pipeline.finders.PipelineFinder"],
+    "STATICFILES_STORAGE": "pipeline.storage.PipelineStorage",
     "INSTALLED_APPS": [
         "aimmo",
         "game",
@@ -114,8 +99,6 @@ SETTINGS = {
         "two_factor",
     ],
     "LANGUAGES": [("en-gb", "English")],
-    "STATICFILES_FINDERS": ["pipeline.finders.PipelineFinder"],
-    "STATICFILES_STORAGE": "pipeline.storage.PipelineStorage",
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
     "MIDDLEWARE": [
         "django.contrib.sessions.middleware.SessionMiddleware",
