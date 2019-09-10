@@ -34,22 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import os
 import socket
 import time
+
 from django.core.urlresolvers import reverse
 
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django_selenium_clean import selenium
-from .selenium_test_case import SeleniumTestCase
-from unittest import skipUnless
-
-
+from deploy import captcha
 # Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
-from portal.tests.pageObjects.portal.game_page import GamePage
 from portal.tests.pageObjects.portal.home_page import HomePage
-from deploy import captcha
+from .selenium_test_case import SeleniumTestCase
 
 
 class BaseTest(SeleniumTestCase):
@@ -67,14 +61,14 @@ class BaseTest(SeleniumTestCase):
     def go_to_homepage(self):
         path = reverse("home")
         self._go_to_path(path)
-        return HomePage(selenium)
+        return HomePage(self.selenium)
 
     def _go_to_path(self, path):
         socket.setdefaulttimeout(20)
         attempts = 0
         while attempts <= 3:
             try:
-                selenium.get(self.live_server_url + path)
+                self.selenium.get(self.live_server_url + path)
             except socket.timeout:
                 if attempts > 2:
                     raise
