@@ -40,7 +40,7 @@ import time
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django_selenium_clean import SeleniumTestCase
+from .selenium_test_case import SeleniumTestCase
 from unittest import skipUnless
 
 
