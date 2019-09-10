@@ -8,7 +8,7 @@
 
 {% block scripts %}
 {{ block.super }}
-<script type="text/javascript" src="{% static "portal/js/student_login.js" %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/student_login.js' %}"></script>
 {% endblock scripts %}
 
 {% block pageID %}id="homeWrapper"{% endblock %}
@@ -84,7 +84,7 @@
             <p><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
             <p>Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
             <p>Are you registered as an independent student who is not part of a school or club?
-                If so, <a href="#independent-student-login" id="switchToIndependentStudent">log in here</a>.</p>
+                If so, <a id="switchToIndependentStudent">log in here</a>.</p>
         </div>
     </div>
     <div id="independent-student-login" class="form--register form--register--indep-student col-sm-6">
@@ -115,7 +115,7 @@
             <p>Don&rsquo;t worry, you can
                 <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
             </p>
-            <p>Part of a school or club? <a href="#school-login" id="switchToSchool">Log in here</a>.</p>
+            <p>Part of a school or club? <a id="switchToSchool">Log in here</a>.</p>
         </div>
     </div>
 </div>
