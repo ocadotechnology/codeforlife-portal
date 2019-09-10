@@ -53,7 +53,7 @@ setup(
     ],
     tests_require=[
         "django-setuptest==0.2.1",
-        "django-selenium-clean==0.3.0",
+        "django-selenium-clean==0.2.1",
         "responses==0.4.0",
         "selenium==3.7.0",
     ],

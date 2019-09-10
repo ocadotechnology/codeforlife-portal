@@ -40,6 +40,7 @@ import time
 from django.core.urlresolvers import reverse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django_selenium_clean import selenium
 from .selenium_test_case import SeleniumTestCase
 from unittest import skipUnless
 
@@ -66,14 +67,14 @@ class BaseTest(SeleniumTestCase):
     def go_to_homepage(self):
         path = reverse("home")
         self._go_to_path(path)
-        return HomePage(self.selenium)
+        return HomePage(selenium)
 
     def _go_to_path(self, path):
         socket.setdefaulttimeout(20)
         attempts = 0
         while attempts <= 3:
             try:
-                self.selenium.get(self.live_server_url + path)
+                selenium.get(self.live_server_url + path)
             except socket.timeout:
                 if attempts > 2:
                     raise
