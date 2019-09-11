@@ -42,6 +42,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.html import escape
 
 from deploy import captcha
 from portal import app_settings, email_messages
@@ -340,9 +341,9 @@ def process_student_login_form(request, school_login_form):
         request,
         (
             "You are logged in as a member of class: <strong>"
-            + student_class.name
+            + escape(student_class.name)
             + "</strong>, in school or club: <strong>"
-            + student_school.name
+            + escape(student_school.name)
             + "</strong>."
         ),
         extra_tags="safe",
@@ -473,7 +474,7 @@ def redirect_teacher_to_correct_page(request, teacher):
                     request,
                     (
                         "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account's security.</br>"
+                        + "Use your phone or tablet to enhance your account&rsquo;s security.</br>"
                         + "Click <a href='"
                         + link
                         + "'>here</a> to find out more and "
