@@ -474,9 +474,9 @@ def redirect_teacher_to_correct_page(request, teacher):
                     request,
                     (
                         "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account's security.</br>"
+                        + "Use your phone or tablet to enhance your account’s security.</br>"
                         + "Click <a href='"
-                        + escape(link)
+                        + link
                         + "'>here</a> to find out more and "
                         + "set it up or go to your account page at any time."
                     ),
