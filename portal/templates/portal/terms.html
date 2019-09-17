@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+{% load banner_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -14,14 +15,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--teacher row">
-    <div class="col-sm-5 col-sm-offset-2">
-        <h1 class="banner__text--primary">Terms of use</h1>
-    </div>
-    <div class="col-sm-5">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--terms"></div></div></div>
-    </div>
-</div>
+{% banner "Terms of use" hexagon="portal/img/teaching_resources_hero_hexagon.png" %}
 {% endblock subNav %}
 
 {% block content %}

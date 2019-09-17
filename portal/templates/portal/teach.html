@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
+{% load banner_tags %}
 
 {% block nav_teach %}
 <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--teacher--active">
@@ -18,15 +19,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--teacher row">
-    <div class="col-sm-4 col-sm-offset-2">
-        <h1 class="banner__text--primary">Educate</h1>
-        <h4>Get ready to teach the next generation of computer scientists</h4>
-    </div>
-    <div class="col-sm-6">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
-    </div>
-</div>
+{% banner "Educate" subtitle="Get ready to teach the next generation of computer scientists" hexagon="portal/img/home_educate_hero_hexagon.png" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <a href="#overview" class="button button--regular button--secondary button--secondary--light">Overview</a>
     <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
