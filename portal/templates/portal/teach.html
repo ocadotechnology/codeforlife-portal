@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
+{% load benefits_tags %}
 
 {% block nav_teach %}
 <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--teacher--active">
@@ -38,23 +39,7 @@
 {{block.super}}
 
 <div id="overview">
-    <section class="background col-sm-9 col-center">
-        <h3>We&rsquo;re with you every step of the way</h3>
-        <div class="row">
-            <div class="col-sm-4">
-                <img title="Laptop" alt="Laptop image" src="{% static 'portal/img/icon_laptop.png' %}">
-                <p class="col-sm-11 col-center"><strong>Rapid Router is aligned to the UK Computing Curriculum</strong>, so you can gain the knowledge and confidence you need.</p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Footsteps" alt="Footsteps" src="{% static 'portal/img/icon_steps.png' %}">
-                <p class="col-sm-11 col-center">The step-by-step nature of Rapid Router makes it <strong>simple for you and your students</strong> to gain exerience quickly.</p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Graph" alt="Graph" src="{% static 'portal/img/icon_graph.png' %}">
-                <p class="col-sm-11 col-center">Easy to use teacher dashboard includes scores to <strong>track student progress</strong> as well as <strong>comprehensive teaching resources</strong>.</p>
-            </div>
-        </div>
-    </section>
+    {% benefits "teach" %}
 </div>
 
 <div id="curriculum">
