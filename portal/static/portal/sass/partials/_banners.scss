@@ -50,7 +50,54 @@
 }
 
 .banner--picture {
-  max-height: 90%;
+  height: 64 * $spacing;
+  margin: 0 auto 0;
+  overflow: hidden;
+  transform: rotate(120deg);
+  visibility: hidden;
+  width: 74 * $spacing;
+}
+
+.banner--picture__inside1 {
+  height: 100%;
+  overflow: hidden;
+  transform: rotate(-60deg);
+  width: 100%;
+}
+
+.banner--picture__inside2 {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  transform: rotate(-60deg);
+  visibility: visible;
+  width: 100%;
+}
+
+.banner--picture--educate {
+  background-image: url('../img/home_educate_hero.jpg');
+}
+
+.banner--picture--play {
+  background-image: url('../img/home_play_hero.jpg');
+}
+
+.banner--picture--about {
+  background-image: url('../img/about_us_hero.jpg');
+}
+
+.banner--picture--help {
+  background-image: url('../img/help_and_support_hero.jpg');
+}
+
+.banner--picture--terms,
+.banner--picture--tools {
+  background-image: url('../img/teaching_resources_hero.jpg');
+}
+
+.banner--picture--aimmo {
+  background-image: url('../img/kurono_hero.jpg');
 }
 
 .banner--homepage {
@@ -105,10 +152,6 @@
   display: flex;
   height: 64 * $spacing;
   justify-content: space-around;
-
-  div {
-    max-width: 43%;
-  }
 
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);

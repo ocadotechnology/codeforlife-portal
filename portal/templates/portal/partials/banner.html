@@ -1,7 +1,5 @@
-{% load staticfiles %}
-
 <div class="banner banner--teacher row">
-    <div>
+    <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">{{ title }}</h1>
         {% if subtitle %}
             <h4>{{ subtitle }}</h4>
@@ -10,7 +8,7 @@
             <p>{{ text }}</p>
         {% endif %}
     </div>
-    {% if hexagon %}
-        <img title="" alt="" class="banner--picture" src="{% static hexagon %}">
-    {% endif %}
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 {{ hexagon }}"></div></div></div>
+    </div>
 </div>
