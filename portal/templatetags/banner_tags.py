@@ -1,17 +1,13 @@
 from django import template
-from app_tags import make_into_username
 
 register = template.Library()
 
 
-@register.inclusion_tag("portal/partials/banner.html", takes_context=True)
-def banner(context, title, subtitle=None, text=None, hexagon=None):
-    if title == "Welcome back, ":
-        title += make_into_username(context.request.user)
-
+@register.inclusion_tag("portal/partials/banner.html")
+def banner(title, hexagon, subtitle=None, text=None):
     return {
         "title": title,
+        "hexagon": hexagon,
         "subtitle": subtitle,
         "text": text,
-        "hexagon": hexagon,
     }

@@ -151,7 +151,7 @@
   align-items: center;
   display: flex;
   height: 64 * $spacing;
-  justify-content: space-around;
+  justify-content: center;
 
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);
@@ -209,10 +209,10 @@
 }
 
 .banner--teacher--create-aimmo-game {
-justify-content: space-between;
+align-items: start;
 
   .kurono-logo {
-    @include _padding(30px, 0px, 30px, 0px);
+    @include _padding(20px, 0px, 25px, 0px);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -244,6 +244,10 @@ justify-content: space-between;
         color: $color-error;
       }
     }
+  }
+
+  img {
+    @include _margin(14px, 0px, 0px, 0px);
   }
 }
 
@@ -337,10 +341,10 @@ justify-content: space-between;
     p a {
       color: $color-text-secondary;
     }
-  }
 
-  .banner .banner--picture {
-    display: none;
+    .banner--picture {
+      display: none;
+    }
   }
 
   .banner--rapid-router {
@@ -350,7 +354,6 @@ justify-content: space-between;
     .button {
       margin-bottom: 50px;
     }
-
   }
 
   .banner--aimmo {
@@ -360,7 +363,5 @@ justify-content: space-between;
     .button {
       margin-bottom: 50px;
     }
-
   }
-
 }
