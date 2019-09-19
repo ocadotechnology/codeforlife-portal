@@ -1,11 +1,32 @@
 {
     "benefits": {
-        "title": "<h4>Code For Life is a non profit initiative that delivers free, open-source games that help all students learn computing.</h4>",
-        "image1": "",
-        "text1": "<h1>13%</h1><p class='col-sm-11 col-center'>of university computer science graduates in the UK are women*. We want both boys and girls to feel inspired and confident about technology from a young age.</p>",
-        "image2": "",
-        "text2": "<h1>100,000</h1><p class='col-sm-11 col-center'>Registered users across the world, and growing everyday.</p>",
-        "image3": "",
-        "text3": "<h1>2014</h1><p class='col-sm-11 col-center'>The year that computing was added to the UK curriculum. We&rsquo;ve been supporting teachers and students ever since.</p>"
+        "main_title": "<h4>Code For Life is a non profit initiative that delivers free, open-source games that help all students learn computing.</h4>",
+        "first": {
+            "image": "",
+            "title": "<h1>13%</h1>",
+            "text": "of university computer science graduates in the UK are women*. We want both boys and girls to feel inspired and confident about technology from a young age.",
+            "button": {
+                "text": "",
+                "link": ""
+            }
+        },
+        "second": {
+            "image": "",
+            "title": "<h1>100,000</h1>",
+            "text": "Registered users across the world, and growing everyday.",
+            "button": {
+                "text": "",
+                "link": ""
+            }
+        },
+        "third": {
+            "image": "",
+            "title": "<h1>2014</h1>",
+            "text": "The year that computing was added to the UK curriculum. We&rsquo;ve been supporting teachers and students ever since.",
+            "button": {
+                "text": "",
+                "link": ""
+            }
+        }
     }
 }

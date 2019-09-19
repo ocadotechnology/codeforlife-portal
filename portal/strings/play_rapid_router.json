@@ -1,0 +1,32 @@
+{
+    "benefits": {
+        "main_title": "",
+        "first": {
+            "image": "portal/img/teaching_tools.jpg",
+            "title": "<h3>Free teaching tools</h3>",
+            "text": "Free teaching resources, lesson plans and much more. You can even track your student&rsquo;s progress with our class tracker.",
+            "button": {
+                "text": "Learn more",
+                "link": "teach"
+            }
+        },
+        "second": {
+            "image": "portal/img/a_fun_game_for_students.jpg",
+            "title": "<h3>A fun game for students</h3>",
+            "text": "You can learn to become a coding superhero, amaze your friends with your high scores.",
+            "button": {
+                "text": "Play now",
+                "link": "levels"
+            }
+        },
+        "third": {
+            "image": "portal/img/about_blockly.png",
+            "title": "<h3>About Blockly</h3>",
+            "text": "Built on &lsquo;Blockly&rsquo;, an easy-to-use visual programming language that&rsquo;s similar to Scratch, so you don&rsquo;t need to worry about syntax.",
+            "button": {
+                "text": "",
+                "link": ""
+            }
+        }
+    }
+}

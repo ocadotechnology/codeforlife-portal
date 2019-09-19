@@ -1,25 +1,49 @@
 {% load staticfiles %}
 
-<section class="background col-sm-9 col-center">
-    {{ title|safe }}
+<div class="background col-sm-9 col-center">
+    {{ main_title|safe }}
     <div class="row">
         <div class="col-sm-4">
             {% if image1 %}
                 <img title="" alt="" src="{% static image1 %}">
             {% endif %}
-            <p class="col-sm-11 col-center"> {{ text1|safe }} </p>
+            {{ title1|safe }}
+            {% if text1 %}
+                <p>{{ text1|safe }} </p>
+            {% endif %}
+            {% if button1_text %}
+                <div class="background">
+                    <a href="{% url button1_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button1_text }}</a>
+                </div>
+            {% endif %}
         </div>
         <div class="col-sm-4">
             {% if image2 %}
                 <img title="" alt="" src="{% static image2 %}">
             {% endif %}
-            <p class="col-sm-11 col-center"> {{ text2|safe }} </p>
+            {{ title2|safe }}
+            {% if text2 %}
+                <p>{{ text2|safe }} </p>
+            {% endif %}
+            {% if button2_text %}
+                <div class="background">
+                    <a href="{% url button2_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button2_text }}</a>
+                </div>
+            {% endif %}
         </div>
         <div class="col-sm-4">
             {% if image3 %}
                 <img title="" alt="" src="{% static image3 %}">
             {% endif %}
-            <p class="col-sm-11 col-center"> {{ text3|safe }} </p>
+            {{ title3|safe }}
+            {% if text3 %}
+                <p>{{ text3|safe }} </p>
+            {% endif %}
+            {% if button3_text %}
+                <div class="background">
+                    <a href="{% url button3_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button3_text }}</a>
+                </div>
+            {% endif %}
         </div>
     </div>
-</section>
+</div>
