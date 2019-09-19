@@ -146,14 +146,8 @@
   background-position: top left;
 }
 
-.banner__game--aimmo {
-  background-image: url('../img/background_grey.png');
-  background-position: top right;
-}
-
 .banner--teacher,
-.banner--student,
-.banner__game {
+.banner--student {
   align-items: center;
   display: flex;
   height: 64 * $spacing;
@@ -255,7 +249,6 @@
   img {
     @include _margin(14px, 0px, 0px, 0px);
   }
-
 }
 
 .banner--rapid-router--background {
@@ -348,10 +341,10 @@
     p a {
       color: $color-text-secondary;
     }
-  }
 
-  .banner div .banner--picture {
-    display: none;
+    .banner--picture {
+      display: none;
+    }
   }
 
   .banner--rapid-router {
@@ -361,7 +354,6 @@
     .button {
       margin-bottom: 50px;
     }
-
   }
 
   .banner--aimmo {
@@ -371,7 +363,5 @@
     .button {
       margin-bottom: 50px;
     }
-
   }
-
 }

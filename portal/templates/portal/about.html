@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 {% load benefits_tags %}
+{% load banner_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -15,15 +16,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--teacher row">
-    <div class="col-sm-5 col-sm-offset-2">
-        <h1 class="banner__text--primary">About Code for Life</h1>
-        <h4>Code For Life gives everyone the ability to shape technology&rsquo;s future</h4>
-    </div>
-    <div class="col-sm-5">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--about"></div></div></div>
-    </div>
-</div>
+{% banner title="About Code for Life" image="banner--picture--about" subtitle="Code For Life gives everyone the ability to shape technology&rsquo;s future" %}
 {% endblock subNav %}
 
 {% block content %}

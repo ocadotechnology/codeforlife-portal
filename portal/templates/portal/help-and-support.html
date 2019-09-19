@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+{% load banner_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -15,19 +16,9 @@
 
 {% block subNav %}
 {{ block.super }}
-
 <div id="help_and_support_page"></div>
 
-<div class="banner banner--teacher row">
-    <div class="col-sm-6 col-sm-offset-2">
-        <h1 class="banner__text--primary">Help and support</h1>
-        <p>If you&rsquo;ve run into problems, please look at our <a href="#faqs">FAQs</a> below for advice to commonly asked questions. If you still can&rsquo;t
-            find the answers, please <a href="#contact">contact us</a>. One of the Code for Life team will get back to you and resolve your issues.</p>
-    </div>
-    <div class="col-sm-4">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--help"></div></div></div>
-    </div>
-</div>
+{% banner title="Help and support" image="banner--picture--help" text="If you&rsquo;ve run into problems, please look at our <a href='#faqs'>FAQs</a> below for advice to commonly asked questions. If you still can&rsquo;t find the answers, please <a href='#contact'>contact us</a>. One of the Code for Life team will get back to you and resolve your issues." %}
 {% endblock subNav %}
 
 {% block content %}
