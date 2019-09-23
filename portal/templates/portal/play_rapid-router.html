@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+{% load headline_tags %}
 
 {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
 {% block rapidrouter %}<a href="{% url 'play' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
@@ -41,9 +42,7 @@
 
 <div class="background">
     <section>
-        <h1>Anyone can code, you can too!</h1>
-        <h4 class="col-sm-6 col-center">Whether you&rsquo;re a teacher or a student, Rapid Router guides you, and makes learning to code easy and great fun. Using Blockly you can advance through the levels
-            to become an Ocado delivery hero.</h4>
+        {% headline headline_name="HEADLINE" %}
     </section>
     <div class="row row--small homepage-info">
         <div class="col-sm-9 col-center">
