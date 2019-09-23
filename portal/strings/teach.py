@@ -1,6 +1,6 @@
-{
+# coding=utf-8
+TEACH = {
     "benefits": {
-        "main_title": "<h3>We&rsquo;re with you every step of the way</h3>",
         "first": {
             "image": "portal/img/icon_laptop.png",
             "title": "",

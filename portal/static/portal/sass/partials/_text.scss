@@ -53,6 +53,30 @@ h4 {
   }
 }
 
+.grid-benefits__text1 {
+  grid-area: text1;
+}
+
+.grid-benefits__text2 {
+  grid-area: text2;
+}
+
+.grid-benefits__text3 {
+  grid-area: text3;
+}
+
+.grid-benefits__title1 {
+  grid-area: title1;
+}
+
+.grid-benefits__title2 {
+  grid-area: title2;
+}
+
+.grid-benefits__title3 {
+  grid-area: title3;
+}
+
 a {
   color: $color-text-tertiary;
 }

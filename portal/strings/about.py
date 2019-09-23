@@ -1,6 +1,6 @@
-{
+# coding=utf-8
+ABOUT = {
     "benefits": {
-        "main_title": "<h4>Code For Life is a non profit initiative that delivers free, open-source games that help all students learn computing.</h4>",
         "first": {
             "image": "",
             "title": "<h1>13%</h1>",

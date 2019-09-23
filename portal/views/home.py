@@ -63,6 +63,11 @@ from portal.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_salesforce,
 )
+from portal.strings.about import (
+    ABOUT,
+    PLAY_RAPID_ROUTER,
+    TEACH,
+)
 from portal.strings.play_rapid_router import HEADLINE
 from portal.models import Teacher, Student, Class
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
@@ -594,6 +599,18 @@ def process_newsletter_form(request):
 
 def home(request):
     return render(request, "portal/home.html")
+
+
+def about(request):
+    return render(request, "portal/about.html", {"ABOUT": ABOUT})
+
+
+def play_rapid_router(request):
+    return render(request, "portal/play_rapid-router.html", {"PLAY_RAPID_ROUTER": PLAY_RAPID_ROUTER})
+
+
+def teach(request):
+    return render(request, "portal/portal/teach.html.html", {"TEACH": TEACH})
 
 
 def play_rapid_router(request):

@@ -91,6 +91,18 @@ img {
   top: 7%;
 }
 
+.grid-benefits__image1 {
+  grid-area: image1;
+}
+
+.grid-benefits__image2 {
+  grid-area: image2;
+}
+
+.grid-benefits__image3 {
+  grid-area: image3;
+}
+
 @media (min-width: 760px) and (max-width: 1400px) {
 
   .logo {
