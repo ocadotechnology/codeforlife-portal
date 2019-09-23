@@ -72,15 +72,13 @@ from portal.views.home import (
     contact,
     process_newsletter_form,
     home,
+    play_rapid_router,
 )
-from portal.views.student.play import (
-    student_details,
-    student_join_organisation,
-)
+from portal.views.student.play import student_details, student_join_organisation
 from portal.views.student.edit_account_details import (
     student_edit_account,
     SchoolStudentEditAccountView,
-    IndependentStudentEditAccountView
+    IndependentStudentEditAccountView,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
@@ -197,7 +195,11 @@ urlpatterns = [
     url(r"^login_form", login_view, name="login_view"),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
-    url(r"^verify_email/$", TemplateView.as_view(template_name="portal/email_verification_needed.html"), name="email_verification"),
+    url(
+        r"^verify_email/$",
+        TemplateView.as_view(template_name="portal/email_verification_needed.html"),
+        name="email_verification",
+    ),
     url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
     url(
         r"^user/password/reset/student/$",
@@ -263,14 +265,18 @@ urlpatterns = [
     url(r"^play/$", RedirectView.as_view(url=reverse_lazy("play"), permanent=True)),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
-    url(r"^play/account/independent/$", IndependentStudentEditAccountView.as_view(), name="indenpendent_edit_account"),
-    url(r"^play/account/school_student/$", SchoolStudentEditAccountView.as_view(), name="school_student_edit_account"),
-    url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(
-        r"^play/rapid-router/$",
-        TemplateView.as_view(template_name="portal/play_rapid-router.html"),
-        name="play",
+        r"^play/account/independent/$",
+        IndependentStudentEditAccountView.as_view(),
+        name="indenpendent_edit_account",
     ),
+    url(
+        r"^play/account/school_student/$",
+        SchoolStudentEditAccountView.as_view(),
+        name="school_student_edit_account",
+    ),
+    url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
+    url(r"^play/rapid-router/$", play_rapid_router, name="play"),
     url(
         r"^play/kurono/$",
         TemplateView.as_view(template_name="portal/play_aimmo.html"),
@@ -284,7 +290,9 @@ urlpatterns = [
         r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"
     ),
     url(
-        r"^privacy-policy", TemplateView.as_view(template_name="portal/privacy_policy.html"), name="privacy_policy"
+        r"^privacy-policy",
+        TemplateView.as_view(template_name="portal/privacy_policy.html"),
+        name="privacy_policy",
     ),
     url(r"^teach/materials/$", materials, name="materials"),
     url(
