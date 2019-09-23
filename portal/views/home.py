@@ -63,12 +63,12 @@ from portal.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_salesforce,
 )
-from portal.strings.about import (
-    ABOUT,
+from portal.strings.about import ABOUT
+from portal.strings.play_rapid_router import (
     PLAY_RAPID_ROUTER,
-    TEACH,
+    HEADLINE,
 )
-from portal.strings.play_rapid_router import HEADLINE
+from portal.strings.teach import TEACH
 from portal.models import Teacher, Student, Class
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
@@ -606,14 +606,8 @@ def about(request):
 
 
 def play_rapid_router(request):
-    return render(request, "portal/play_rapid-router.html", {"PLAY_RAPID_ROUTER": PLAY_RAPID_ROUTER})
+    return render(request, "portal/play_rapid-router.html", {"PLAY_RAPID_ROUTER": PLAY_RAPID_ROUTER, "HEADLINE": HEADLINE})
 
 
 def teach(request):
-    return render(request, "portal/portal/teach.html.html", {"TEACH": TEACH})
-
-
-def play_rapid_router(request):
-    return render(
-        request, "portal/play_rapid-router.html", {"HEADLINE": HEADLINE}
-    )
+    return render(request, "portal/teach.html", {"TEACH": TEACH})
