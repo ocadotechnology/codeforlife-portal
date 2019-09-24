@@ -61,38 +61,23 @@ $column--icon-width: 3%;
 
   .grid-benefits__button1 {
     align-content: center;
-    -ms-flex-line-pack: center;
     display: flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
     grid-area: button1;
     justify-content: center;
-    -ms-flex-pack: center;
-    -webkit-box-pack: center;    
   }
 
   .grid-benefits__button2 {
     align-content: center;
-    -ms-flex-line-pack: center;
     display: flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
     grid-area: button2;
     justify-content: center;
-    -ms-flex-pack: center;
-    -webkit-box-pack: center; 
   }
 
   .grid-benefits__button3 {
     align-content: center;
-    -ms-flex-line-pack: center;
     display: flex;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    grid-area: button2;
+    grid-area: button3;
     justify-content: center;
-    -ms-flex-pack: center;
-    -webkit-box-pack: center; 
   }
 
   $max-resource-sheets-numbers-per-key-stage: (
