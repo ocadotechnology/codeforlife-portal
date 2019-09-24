@@ -73,7 +73,6 @@ from portal.views.home import (
     process_newsletter_form,
     home,
     play_rapid_router,
-    about,
     teach,
 )
 from portal.views.student.play import student_details, student_join_organisation
@@ -283,7 +282,11 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/play_aimmo.html"),
         name="play_aimmo",
     ),
-    url(r"^about", about, name="about"),
+    url(
+        r"^about",
+        TemplateView.as_view(template_name="portal/about.html"),
+        name="about",
+    ),
     url(r"^help/$", contact, name="help"),
     url(
         r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"

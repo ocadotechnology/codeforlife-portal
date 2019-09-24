@@ -63,7 +63,6 @@ from portal.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_salesforce,
 )
-from portal.strings.about import ABOUT
 from portal.strings.play_rapid_router import (
     PLAY_RAPID_ROUTER,
     HEADLINE,
@@ -599,10 +598,6 @@ def process_newsletter_form(request):
 
 def home(request):
     return render(request, "portal/home.html")
-
-
-def about(request):
-    return render(request, "portal/about.html", {"ABOUT": ABOUT})
 
 
 def play_rapid_router(request):
