@@ -233,21 +233,6 @@ button,
   }
 }
 
-.grid-benefits__button1 {
-  @include _padding(40px, 0px, 40px, 0px);
-  grid-area: button1;
-}
-
-.grid-benefits__button2 {
-  @include _padding(40px, 0px, 40px, 0px);
-  grid-area: button2;
-}
-
-.grid-benefits__button3 {
-  @include _padding(40px, 0px, 40px, 0px);
-  grid-area: button3;
-}
-
 .button--dropdown {
   @include _border-radius(8px, 8px, 8px, 8px);
   @extend .dropdown;

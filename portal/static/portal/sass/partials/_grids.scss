@@ -59,6 +59,27 @@ $column--icon-width: 3%;
     justify-items: center;
   }
 
+  .grid-benefits__button1 {
+    align-content: center;
+    display: flex;
+    grid-area: button1;
+    justify-content: center;
+  }
+  
+  .grid-benefits__button2 {
+    align-content: center;
+    display: flex;
+    grid-area: button2;
+    justify-content: center;
+  }
+  
+  .grid-benefits__button3 {
+    align-content: center;
+    display: flex;
+    grid-area: button3;
+    justify-content: center;
+  }
+
   $max-resource-sheets-numbers-per-key-stage: (
           ks1: 4,
           ks2: 3,

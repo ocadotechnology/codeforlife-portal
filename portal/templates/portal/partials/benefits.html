@@ -29,12 +29,18 @@
         <p class="grid-benefits__text3" >{{ text3|safe }} </p>
     {% endif %}
     {% if button1_text %}
-        <a href="{% url button1_link %}" class="button button--regular button--secondary button--secondary--dark grid-benefits__button1">{{ button1_text }}</a>
+        <div class="grid-benefits__button1">
+            <a href="{% url button1_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button1_text }}</a>
+        </div>
     {% endif %}
     {% if button2_text %}
-        <a href="{% url button2_link %}" class="button button--regular button--secondary button--secondary--dark grid-benefits__button2">{{ button2_text }}</a>
+        <div class="grid-benefits__button2">
+            <a href="{% url button2_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button2_text }}</a>
+        </div>
     {% endif %}
     {% if button3_text %}
-        <a href="{% url button3_link %}" class="button button--regular button--secondary button--secondary--dark grid-benefits__button3">{{ button3_text }}</a>
+        <div class="grid-benefits__button3">
+            <a href="{% url button3_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button3_text }}</a>
+        </div>
     {% endif %}
 </div>
