@@ -599,7 +599,11 @@ def home(request):
 
 
 def play_rapid_router(request):
-    return render(request, "portal/play_rapid-router.html", {"BENEFITS": PLAY_RAPID_ROUTER_BENEFITS, "HEADLINE": HEADLINE})
+    return render(
+        request,
+        "portal/play_rapid-router.html",
+        {"BENEFITS": PLAY_RAPID_ROUTER_BENEFITS, "HEADLINE": HEADLINE},
+    )
 
 
 def teach(request):

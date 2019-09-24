@@ -21,5 +21,5 @@ def benefits(context):
         "title3": context["BENEFITS"]["third"]["title"],
         "text3": context["BENEFITS"]["third"]["text"],
         "button3_text": context["BENEFITS"]["third"]["button"]["text"],
-        "button3_link": context["BENEFITS"]["third"]["button"]["link"]
+        "button3_link": context["BENEFITS"]["third"]["button"]["link"],
     }

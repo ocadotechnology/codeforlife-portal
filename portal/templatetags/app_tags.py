@@ -109,7 +109,11 @@ def is_logged_in_as_teacher(u):
 
 @register.filter(name="is_independent_student")
 def is_independent_student(u):
-    return u.userprofile and u.userprofile.student and u.userprofile.student.is_independent()
+    return (
+        u.userprofile
+        and u.userprofile.student
+        and u.userprofile.student.is_independent()
+    )
 
 
 @register.filter(name="has_teacher_finished_onboarding")
