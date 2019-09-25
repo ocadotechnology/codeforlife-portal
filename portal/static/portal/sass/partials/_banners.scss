@@ -127,7 +127,6 @@
   text-align: center;
 
   .banner--game__ages {
-    @include _padding(0px, 0px, 5 * $spacing, 0px);
     font-family: 'Baloo', serif;
     font-weight: 500;
   }
@@ -139,7 +138,7 @@
   }
 
   p {
-    @include _padding(5 * $spacing, 0px, 10 * $spacing, 0px);
+    @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
   }
 }
 
@@ -327,7 +326,7 @@
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .banner__item,
   .button--banner__item {
     display: none;
@@ -335,7 +334,7 @@
 
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
   }
@@ -385,6 +384,14 @@
 
     .button {
       margin-bottom: 50px;
+    }
+  }
+
+  .banner--game {
+    @include _padding(4 * $spacing, 4 * $spacing, 4 * $spacing, 4 * $spacing);
+
+    h1 {
+      @include _font-size(100px);
     }
   }
 }
