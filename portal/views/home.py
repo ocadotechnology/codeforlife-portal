@@ -607,10 +607,8 @@ def play_rapid_router(request):
             "HEADLINE": HEADLINE,
             "RAPID_ROUTER_BANNER": RAPID_ROUTER_BANNER,
             "KURONO_BANNER": KURONO_BANNER,
+            "BENEFITS": PLAY_RAPID_ROUTER_BENEFITS,
         },
-        request,
-        "portal/play_rapid-router.html",
-        {"BENEFITS": PLAY_RAPID_ROUTER_BENEFITS, "HEADLINE": HEADLINE},
     )
 
 
