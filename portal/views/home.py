@@ -64,6 +64,7 @@ from portal.helpers.emails import (
     add_to_salesforce,
 )
 from portal.strings.play_rapid_router import HEADLINE
+from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
 from portal.models import Teacher, Student, Class
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
@@ -598,5 +599,11 @@ def home(request):
 
 def play_rapid_router(request):
     return render(
-        request, "portal/play_rapid-router.html", {"HEADLINE": HEADLINE}
+        request,
+        "portal/play_rapid-router.html",
+        {
+            "HEADLINE": HEADLINE,
+            "RAPID_ROUTER_BANNER": RAPID_ROUTER_BANNER,
+            "KURONO_BANNER": KURONO_BANNER,
+        },
     )

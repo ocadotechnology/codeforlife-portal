@@ -33,12 +33,16 @@ button,
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
+  font-family: 'Baloo', serif;
+  font-weight: 500;
 }
 
 .button--big {
   @include _font-size(28px);
   @include _line-height(28px);
   @include _padding(15px, 20px, 15px, 20px);
+  font-family: 'Baloo', serif;
+  font-weight: 500;
 }
 
 .button--regular,

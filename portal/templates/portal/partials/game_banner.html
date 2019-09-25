@@ -1,0 +1,15 @@
+{% load staticfiles %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-lg-9 col-center banner banner--game {{ background_image_class }}">
+            <div>
+                <p class="banner--game__ages">{{ ages }}</p>
+                <h1>{{ title }}</h1>
+                <p><strong>{{ description }}</strong></p>
+                <a href="{% url button_link %}"
+                   class="button button--big button-primary button--primary--general-educate">{{ button_text}}</a>
+            </div>
+        </div>
+    </div>
+</div>
