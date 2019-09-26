@@ -121,7 +121,7 @@
 }
 
 .banner--game {
-  @include _padding(25 * $spacing, 0px, 25 * $spacing, 0px);
+  @include _padding(25 * $spacing, 4 * $spacing, 25 * $spacing, 4 * $spacing);
   display: flex;
   justify-content: center;
   text-align: center;
@@ -131,13 +131,13 @@
     font-weight: 500;
   }
 
-  h1 {
+  .banner--game__title {
     @include _font-size($GAME_BANNER_TITLE_FONT_SIZE);
     @include _line-height($GAME_BANNER_TITLE_LINE_HEIGHT);
     color: $color-text-secondary;
   }
 
-  p {
+  .banner--game__text {
     @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
   }
 }
@@ -390,8 +390,9 @@
   .banner--game {
     @include _padding(4 * $spacing, 4 * $spacing, 4 * $spacing, 4 * $spacing);
 
-    h1 {
-      @include _font-size(100px);
+    .banner--game__title {
+      @include _font-size($GAME_BANNER_TITLE_FONT_SIZE_SMALL);
+      @include _line-height($GAME_BANNER_TITLE_LINE_HEIGHT_SMALL);
     }
   }
 }
