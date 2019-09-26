@@ -14,8 +14,11 @@ class TestPartials(TestCase):
         rendered_template = template_to_render.render(context)
 
         self.assertInHTML(
-            '<h1>{title}</h1><h4 class="col-sm-6 col-center">{description}</h4>'.format(
-                title=test_headline["title"], description=test_headline["description"]
+            "<h1>{}</h1>".format(test_headline["title"]), rendered_template
+        )
+        self.assertInHTML(
+            '<h4 class="col-sm-6 col-center">{}</h4>'.format(
+                test_headline["description"]
             ),
             rendered_template,
         )
