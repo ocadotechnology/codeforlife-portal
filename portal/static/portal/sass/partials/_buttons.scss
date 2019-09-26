@@ -41,6 +41,7 @@ button,
   @include _font-size(28px);
   @include _line-height(28px);
   @include _padding(15px, 20px, 15px, 20px);
+  display: inline-block;
   font-family: 'Baloo', serif;
   font-weight: 500;
 }
