@@ -13,11 +13,11 @@ class TestPartials(TestCase):
         )
         rendered_template = template_to_render.render(context)
 
-        expected_template = '<h1>{title}</h1><h4 class="col-sm-6 col-center">{description}</h4>'.format(
-            title=test_headline["title"], description=test_headline["description"]
+        self.assertInHTML('<h1>{title}</h1><h4 class="col-sm-6 col-center">{description}</h4>'.format(
+                title=test_headline["title"], description=test_headline["description"]
+            ),
+            rendered_template,
         )
-
-        self.assertEquals(rendered_template.replace("\n", ""), expected_template)
 
     def test_benefits(self):
         test_benefits = {
