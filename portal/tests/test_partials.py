@@ -1,6 +1,6 @@
+from django.core.urlresolvers import reverse_lazy
 from django.template import Template, Context
 from django.test import TestCase
-from django.core.urlresolvers import reverse_lazy
 
 
 class TestPartials(TestCase):
@@ -13,7 +13,8 @@ class TestPartials(TestCase):
         )
         rendered_template = template_to_render.render(context)
 
-        self.assertInHTML('<h1>{title}</h1><h4 class="col-sm-6 col-center">{description}</h4>'.format(
+        self.assertInHTML(
+            '<h1>{title}</h1><h4 class="col-sm-6 col-center">{description}</h4>'.format(
                 title=test_headline["title"], description=test_headline["description"]
             ),
             rendered_template,
