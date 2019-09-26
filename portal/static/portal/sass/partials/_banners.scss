@@ -132,8 +132,8 @@
   }
 
   .banner--game__title {
-    @include _font-size($GAME_BANNER_TITLE_FONT_SIZE);
-    @include _line-height($GAME_BANNER_TITLE_LINE_HEIGHT);
+    @include _font-size($game-banner-title-font-size);
+    @include _line-height($game-banner-title-line-height);
     color: $color-text-secondary;
   }
 
@@ -391,8 +391,8 @@
     @include _padding(4 * $spacing, 4 * $spacing, 4 * $spacing, 4 * $spacing);
 
     .banner--game__title {
-      @include _font-size($GAME_BANNER_TITLE_FONT_SIZE_SMALL);
-      @include _line-height($GAME_BANNER_TITLE_LINE_HEIGHT_SMALL);
+      @include _font-size($game-banner-title-font-size-small);
+      @include _line-height($game-banner-title-line-height-small);
     }
   }
 }
