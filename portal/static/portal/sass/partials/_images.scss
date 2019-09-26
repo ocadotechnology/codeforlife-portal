@@ -103,7 +103,7 @@ img {
   grid-area: image3;
 }
 
-@media (min-width: 760px) and (max-width: 1400px) {
+@media (min-width: 768px) and (max-width: 1400px) {
 
   .logo {
     margin-left: 1%;
@@ -117,7 +117,7 @@ img {
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
 
   .logo {
     content: url('../img/logo_c4l_hexa.png');
@@ -132,7 +132,7 @@ img {
 
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
 
   .logo {
     display: none;

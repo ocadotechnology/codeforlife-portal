@@ -3,7 +3,7 @@
 $column--info-width: 13%;
 $column--icon-width: 3%;
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .grid-games {
     @include _column-gap($spacing * 10);
     display: grid;
@@ -110,7 +110,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .grid-icon {
     display: none;
   }
