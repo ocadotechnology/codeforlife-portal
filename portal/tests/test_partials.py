@@ -1,5 +1,6 @@
 from django.template import Template, Context
 from django.test import TestCase
+from django.core.urlresolvers import reverse_lazy
 
 
 class TestPartials(TestCase):
@@ -12,15 +13,11 @@ class TestPartials(TestCase):
         )
         rendered_template = template_to_render.render(context)
 
-        self.assertInHTML(
-            "<h1>{}</h1>".format(test_headline["title"]), rendered_template
+        expected_template = '<h1>{title}</h1><h4 class="col-sm-6 col-center">{description}</h4>'.format(
+            title=test_headline["title"], description=test_headline["description"]
         )
-        self.assertInHTML(
-            '<h4 class="col-sm-6 col-center">{}</h4>'.format(
-                test_headline["description"]
-            ),
-            rendered_template,
-        )
+
+        self.assertEquals(rendered_template.replace("\n", ""), expected_template)
 
     def test_benefits(self):
         test_benefits = {
@@ -85,5 +82,54 @@ class TestPartials(TestCase):
             '<p class="grid-benefits__text3">{}</p>'.format(
                 test_benefits["third"]["text"]
             ),
+            rendered_template,
+        )
+
+    def test_game_banner(self):
+        test_game_banner = {
+            "title": "Test title",
+            "description": "Test description",
+            "button_text": "Test button",
+            "button_link": "play",
+            "ages": "Test ages",
+            "background_image_class": "test--class",
+        }
+
+        context = Context({"GAME_BANNER": test_game_banner})
+
+        template_to_render = Template(
+            "{% load game_banner_tags %}"
+            "{% game_banner game_banner_name='GAME_BANNER' %}"
+        )
+
+        rendered_template = template_to_render.render(context)
+        print(rendered_template)
+
+        button_url = reverse_lazy(test_game_banner["button_link"])
+
+        self.assertInHTML(
+            '<p class="banner--game__text banner--game__ages">{}</p>'.format(
+                test_game_banner["ages"]
+            ),
+            rendered_template,
+        )
+        self.assertInHTML(
+            '<h1 class="banner--game__title">{}</h1>'.format(test_game_banner["title"]),
+            rendered_template,
+        )
+        self.assertInHTML(
+            '<p class="banner--game__text"><strong>{}</strong></p>'.format(
+                test_game_banner["description"]
+            ),
+            rendered_template,
+        )
+        self.assertInHTML(
+            '<a href="{button_link}" class="button button--big button-primary button--primary--general-educate">{button_text}</a>'.format(
+                button_link=button_url, button_text=test_game_banner["button_text"]
+            ),
+            rendered_template,
+        )
+        self.assertInHTML(
+            'div class="banner banner--game col-center col-lg-10 col-sm-12 test--class"',
             rendered_template,
         )
