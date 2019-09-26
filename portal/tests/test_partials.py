@@ -103,7 +103,6 @@ class TestPartials(TestCase):
         )
 
         rendered_template = template_to_render.render(context)
-        print(rendered_template)
 
         button_url = reverse_lazy(test_game_banner["button_link"])
 
@@ -129,7 +128,11 @@ class TestPartials(TestCase):
             ),
             rendered_template,
         )
-        self.assertInHTML(
-            'div class="banner banner--game col-center col-lg-10 col-sm-12 test--class"',
-            rendered_template,
+
+        expected_div = ' class="banner banner--game col-center col-lg-10 col-sm-12 {}">'.format(
+            test_game_banner["background_image_class"]
         )
+
+        returned_div = rendered_template.split("<div")[2].split("\n")
+
+        self.assertEquals(returned_div[0], expected_div)
