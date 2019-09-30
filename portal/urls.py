@@ -75,6 +75,9 @@ from portal.views.home import (
     play_landing_page,
     play_rapid_router,
     teach,
+    about,
+    terms,
+    privacy_policy,
 )
 from portal.views.student.play import student_details, student_join_organisation
 from portal.views.student.edit_account_details import (
@@ -285,16 +288,16 @@ urlpatterns = [
     ),
     url(
         r"^about",
-        TemplateView.as_view(template_name="portal/about.html"),
+        about,
         name="about",
     ),
     url(r"^help/$", contact, name="help"),
     url(
-        r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"
+        r"^terms", terms, name="terms"
     ),
     url(
         r"^privacy-policy",
-        TemplateView.as_view(template_name="portal/privacy_policy.html"),
+        privacy_policy,
         name="privacy_policy",
     ),
     url(r"^teach/materials/$", materials, name="materials"),

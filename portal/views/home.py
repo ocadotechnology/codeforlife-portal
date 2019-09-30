@@ -65,11 +65,17 @@ from portal.helpers.emails import (
 )
 from portal.strings.play_rapid_router import HEADLINE
 from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
+from portal.strings.teach import BANNER as TEACH_BANNER
 from portal.strings.teach import BENEFITS as TEACH_BENEFITS
-from portal.strings.play import BANNER, KURONO_BANNER, RAPID_ROUTER_BANNER
+from portal.strings.play import BANNER as PLAY_BANNER
+from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
 from portal.strings.play import HEADLINE as PLAY_HEADLINE
 from portal.strings.play import BENEFITS as PLAY_BENEFITS
-from portal.models import Teacher, Student, Class
+from portal.strings.about import BANNER as ABOUT_BANNER
+from portal.strings.help_and_support import BANNER as HELP_BANNER
+from portal.strings.terms import BANNER as TERMS_BANNER
+from portal.strings.privacy_policy import BANNER as PRIVACY_POLICY_BANNER
+from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
@@ -551,7 +557,7 @@ def contact(request):
             return render(
                 request,
                 "portal/help-and-support.html",
-                {"form": contact_form, "anchor": anchor},
+                {"form": contact_form, "anchor": anchor, "BANNER": HELP_BANNER,},
             )
         else:
             contact_form = ContactForm(request.POST)
@@ -571,6 +577,7 @@ def contact(request):
             "anchor": anchor,
             "captcha": should_use_captcha,
             "settings": app_settings,
+            "BANNER": HELP_BANNER,
         },
     )
 
@@ -606,7 +613,7 @@ def play_landing_page(request):
         request,
         "portal/play.html",
         {
-            "BANNER": BANNER,
+            "BANNER": PLAY_BANNER,
             "HEADLINE": PLAY_HEADLINE,
             "BENEFITS": PLAY_BENEFITS,
             "RAPID_ROUTER_BANNER": RAPID_ROUTER_BANNER,
@@ -624,4 +631,16 @@ def play_rapid_router(request):
 
 
 def teach(request):
-    return render(request, "portal/teach.html", {"BENEFITS": TEACH_BENEFITS})
+    return render(request, "portal/teach.html", {"BANNER": TEACH_BANNER, "BENEFITS": TEACH_BENEFITS})
+
+
+def about(request):
+    return render(request, "portal/about.html", {"BANNER": ABOUT_BANNER})
+
+
+def terms(request):
+    return render(request, "portal/terms.html", {"BANNER": TERMS_BANNER})
+
+
+def privacy_policy(request):
+    return render(request, "portal/privacy_policy.html", {"BANNER": PRIVACY_POLICY_BANNER})
