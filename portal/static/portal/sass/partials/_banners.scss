@@ -47,6 +47,18 @@
     padding: 0;
   }
 
+  img {
+    @include _padding(0px, 0px, 20 * $spacing, 0px);
+  }
+
+}
+
+.banner--aimmo-landing--content {
+  @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .banner--picture {
@@ -260,6 +272,13 @@
 
 .banner--aimmo--background {
   background-image: url('../img/kurono_landing_hero.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.banner--aimmo--blurred-background {
+  background-image: url('../img/kurono_landing_hero_blurred.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

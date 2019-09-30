@@ -65,6 +65,11 @@ from portal.helpers.emails import (
 )
 from portal.strings.play_rapid_router import HEADLINE
 from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
+from portal.strings.play_aimmo import HEADLINE as PLAY_AIMMO_HEADLINE
+from portal.strings.play_aimmo import CHALLENGES as PLAY_AIMMO_CHALLENGES
+from portal.strings.play_aimmo import TEACHING_RESOURCES as PLAY_AIMMO_RESOURCES
+from portal.strings.play_aimmo import PLAY_ONLINE as PLAY_AIMMO_PLAY_ONLINE
+from portal.strings.play_aimmo import BENEFITS as PLAY_AIMMO_BENEFITS
 from portal.strings.teach import BENEFITS as TEACH_BENEFITS
 from portal.models import Teacher, Student, Class
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
@@ -605,6 +610,18 @@ def play_rapid_router(request):
         {"BENEFITS": PLAY_RAPID_ROUTER_BENEFITS, "HEADLINE": HEADLINE},
     )
 
+def play_aimmo(request):
+    return render(
+        request,
+        "portal/play_kurono.html", 
+        {
+            "BENEFITS": PLAY_AIMMO_BENEFITS,
+            "HEADLINE": PLAY_AIMMO_HEADLINE,
+            "CHALLENGES": PLAY_AIMMO_CHALLENGES,
+            "TEACHING_RESOURCES": PLAY_AIMMO_RESOURCES,
+            "PLAY_ONLINE": PLAY_AIMMO_PLAY_ONLINE,
+        }
+    )
 
 def teach(request):
     return render(request, "portal/teach.html", {"BENEFITS": TEACH_BENEFITS})

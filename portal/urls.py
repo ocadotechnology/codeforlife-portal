@@ -74,6 +74,7 @@ from portal.views.home import (
     home,
     play_rapid_router,
     teach,
+    play_aimmo,
 )
 from portal.views.student.play import student_details, student_join_organisation
 from portal.views.student.edit_account_details import (
@@ -277,11 +278,7 @@ urlpatterns = [
     ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(r"^play/rapid-router/$", play_rapid_router, name="play"),
-    url(
-        r"^play/kurono/$",
-        TemplateView.as_view(template_name="portal/play_aimmo.html"),
-        name="play_aimmo",
-    ),
+    url(r"^play/kurono/$", play_aimmo, name="play_aimmo"),
     url(
         r"^about",
         TemplateView.as_view(template_name="portal/about.html"),
