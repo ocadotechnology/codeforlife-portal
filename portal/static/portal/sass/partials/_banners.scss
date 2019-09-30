@@ -120,6 +120,28 @@
   color: $color-text-secondary;
 }
 
+.banner--game {
+  @include _padding(25 * $spacing, 4 * $spacing, 25 * $spacing, 4 * $spacing);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  .banner--game__ages {
+    font-family: 'Baloo', serif;
+    font-weight: 500;
+  }
+
+  .banner--game__title {
+    @include _font-size($game-banner-title-font-size);
+    @include _line-height($game-banner-title-line-height);
+    color: $color-text-secondary;
+  }
+
+  .banner--game__text {
+    @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
+  }
+}
+
 .banner__text--primary,
 .banner__text--secondary {
   @include _font-size(72px);
@@ -304,7 +326,7 @@
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .banner__item,
   .button--banner__item {
     display: none;
@@ -312,7 +334,7 @@
 
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
   }
@@ -362,6 +384,15 @@
 
     .button {
       margin-bottom: 50px;
+    }
+  }
+
+  .banner--game {
+    @include _padding(4 * $spacing, 4 * $spacing, 4 * $spacing, 4 * $spacing);
+
+    .banner--game__title {
+      @include _font-size($game-banner-title-font-size-small);
+      @include _line-height($game-banner-title-line-height-small);
     }
   }
 }

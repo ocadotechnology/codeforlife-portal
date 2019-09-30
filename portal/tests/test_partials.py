@@ -1,5 +1,6 @@
 from django.template import Template, Context
-from django.test import TestCase
+
+from snapshottest.django import TestCase
 
 
 class TestPartials(TestCase):
@@ -12,15 +13,7 @@ class TestPartials(TestCase):
         )
         rendered_template = template_to_render.render(context)
 
-        self.assertInHTML(
-            "<h1>{}</h1>".format(test_headline["title"]), rendered_template
-        )
-        self.assertInHTML(
-            '<h4 class="col-sm-6 col-center">{}</h4>'.format(
-                test_headline["description"]
-            ),
-            rendered_template,
-        )
+        self.assertMatchSnapshot(rendered_template)
 
     def test_benefits(self):
         test_benefits = {
@@ -28,19 +21,19 @@ class TestPartials(TestCase):
                 "image": "",
                 "title": "Test title",
                 "text": "Test text",
-                "button": {"text": "", "link": ""},
+                "button": {"text": "Test button", "link": "home"},
             },
             "second": {
                 "image": "",
                 "title": "Test title",
                 "text": "Test text",
-                "button": {"text": "", "link": ""},
+                "button": {"text": "Test button", "link": "home"},
             },
             "third": {
                 "image": "",
                 "title": "Test title",
                 "text": "Test text",
-                "button": {"text": "", "link": ""},
+                "button": {"text": "Test button", "link": "home"},
             },
         }
 
@@ -50,40 +43,25 @@ class TestPartials(TestCase):
 
         rendered_template = template_to_render.render(context)
 
-        self.assertInHTML(
-            '<h3 class="grid-benefits__title1">{}</h3>'.format(
-                test_benefits["first"]["title"]
-            ),
-            rendered_template,
-        )
-        self.assertInHTML(
-            '<h3 class="grid-benefits__title2">{}</h3>'.format(
-                test_benefits["second"]["title"]
-            ),
-            rendered_template,
+        self.assertMatchSnapshot(rendered_template)
+
+    def test_game_banner(self):
+        test_game_banner = {
+            "title": "Test title",
+            "description": "Test description",
+            "button_text": "Test button",
+            "button_link": "play",
+            "ages": "Test ages",
+            "background_image_class": "test--class",
+        }
+
+        context = Context({"GAME_BANNER": test_game_banner})
+
+        template_to_render = Template(
+            "{% load game_banner_tags %}"
+            "{% game_banner game_banner_name='GAME_BANNER' %}"
         )
 
-        self.assertInHTML(
-            '<h3 class="grid-benefits__title3">{}</h3>'.format(
-                test_benefits["third"]["title"]
-            ),
-            rendered_template,
-        )
-        self.assertInHTML(
-            '<p class="grid-benefits__text1">{}</p>'.format(
-                test_benefits["first"]["text"]
-            ),
-            rendered_template,
-        )
-        self.assertInHTML(
-            '<p class="grid-benefits__text2">{}</p>'.format(
-                test_benefits["second"]["text"]
-            ),
-            rendered_template,
-        )
-        self.assertInHTML(
-            '<p class="grid-benefits__text3">{}</p>'.format(
-                test_benefits["third"]["text"]
-            ),
-            rendered_template,
-        )
+        rendered_template = template_to_render.render(context)
+
+        self.assertMatchSnapshot(rendered_template)

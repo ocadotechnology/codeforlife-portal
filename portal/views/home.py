@@ -66,6 +66,7 @@ from portal.helpers.emails import (
 from portal.strings.play_rapid_router import HEADLINE
 from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
 from portal.strings.teach import BENEFITS as TEACH_BENEFITS
+from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
 from portal.models import Teacher, Student, Class
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
@@ -602,7 +603,12 @@ def play_rapid_router(request):
     return render(
         request,
         "portal/play_rapid-router.html",
-        {"BENEFITS": PLAY_RAPID_ROUTER_BENEFITS, "HEADLINE": HEADLINE},
+        {
+            "HEADLINE": HEADLINE,
+            "RAPID_ROUTER_BANNER": RAPID_ROUTER_BANNER,
+            "KURONO_BANNER": KURONO_BANNER,
+            "BENEFITS": PLAY_RAPID_ROUTER_BENEFITS,
+        },
     )
 
 
