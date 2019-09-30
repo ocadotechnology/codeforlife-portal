@@ -40,9 +40,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.utils.html import escape
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.html import escape
 
 from deploy import captcha
 from portal import app_settings, email_messages
@@ -63,20 +63,20 @@ from portal.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_salesforce,
 )
-from portal.strings.play_rapid_router import HEADLINE
-from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
-from portal.strings.teach import BANNER as TEACH_BANNER
-from portal.strings.teach import BENEFITS as TEACH_BENEFITS
-from portal.strings.play import BANNER as PLAY_BANNER
-from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
-from portal.strings.play import HEADLINE as PLAY_HEADLINE
-from portal.strings.play import BENEFITS as PLAY_BENEFITS
-from portal.strings.about import BANNER as ABOUT_BANNER
-from portal.strings.help_and_support import BANNER as HELP_BANNER
-from portal.strings.terms import BANNER as TERMS_BANNER
-from portal.strings.privacy_policy import BANNER as PRIVACY_POLICY_BANNER
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
+from portal.strings.about import BANNER as ABOUT_BANNER
+from portal.strings.help_and_support import BANNER as HELP_BANNER
+from portal.strings.play import BANNER as PLAY_BANNER
+from portal.strings.play import BENEFITS as PLAY_BENEFITS
+from portal.strings.play import HEADLINE as PLAY_HEADLINE
+from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
+from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
+from portal.strings.play_rapid_router import HEADLINE
+from portal.strings.privacy_policy import BANNER as PRIVACY_POLICY_BANNER
+from portal.strings.teach import BANNER as TEACH_BANNER
+from portal.strings.teach import BENEFITS as TEACH_BENEFITS
+from portal.strings.terms import BANNER as TERMS_BANNER
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
 
@@ -557,7 +557,7 @@ def contact(request):
             return render(
                 request,
                 "portal/help-and-support.html",
-                {"form": contact_form, "anchor": anchor, "BANNER": HELP_BANNER,},
+                {"form": contact_form, "anchor": anchor, "BANNER": HELP_BANNER},
             )
         else:
             contact_form = ContactForm(request.POST)
@@ -631,7 +631,11 @@ def play_rapid_router(request):
 
 
 def teach(request):
-    return render(request, "portal/teach.html", {"BANNER": TEACH_BANNER, "BENEFITS": TEACH_BENEFITS})
+    return render(
+        request,
+        "portal/teach.html",
+        {"BANNER": TEACH_BANNER, "BENEFITS": TEACH_BENEFITS},
+    )
 
 
 def about(request):
@@ -643,4 +647,6 @@ def terms(request):
 
 
 def privacy_policy(request):
-    return render(request, "portal/privacy_policy.html", {"BANNER": PRIVACY_POLICY_BANNER})
+    return render(
+        request, "portal/privacy_policy.html", {"BANNER": PRIVACY_POLICY_BANNER}
+    )

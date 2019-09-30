@@ -266,8 +266,16 @@ urlpatterns = [
     url(r"^play/$", play_landing_page, name="play_new"),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
-    url(r"^play/account/independent/$", IndependentStudentEditAccountView.as_view(), name="indenpendent_edit_account"),
-    url(r"^play/account/school_student/$", SchoolStudentEditAccountView.as_view(), name="school_student_edit_account"),
+    url(
+        r"^play/account/independent/$",
+        IndependentStudentEditAccountView.as_view(),
+        name="indenpendent_edit_account",
+    ),
+    url(
+        r"^play/account/school_student/$",
+        SchoolStudentEditAccountView.as_view(),
+        name="school_student_edit_account",
+    ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(
         r"^play/account/independent/$",
@@ -286,20 +294,10 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/play_aimmo.html"),
         name="play_aimmo",
     ),
-    url(
-        r"^about",
-        about,
-        name="about",
-    ),
+    url(r"^about", about, name="about"),
     url(r"^help/$", contact, name="help"),
-    url(
-        r"^terms", terms, name="terms"
-    ),
-    url(
-        r"^privacy-policy",
-        privacy_policy,
-        name="privacy_policy",
-    ),
+    url(r"^terms", terms, name="terms"),
+    url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
