@@ -61,3 +61,19 @@ snapshots['TestPartials::test_game_banner 1'] = '''
 snapshots['TestPartials::test_headline 1'] = '''<h1>Test title</h1>
 <h4 class="col-sm-6 col-center">Test description</h4>
 '''
+
+snapshots['TestPartials::test_banner 1'] = '''<div class="banner test--banner--class row">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">Test title</h1>
+        
+            <h4>Test subtitle</h4>
+        
+        
+            <p>Test text</p>
+        
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 test--image--class"></div></div></div>
+    </div>
+</div>
+'''

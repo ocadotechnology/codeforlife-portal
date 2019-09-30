@@ -4,6 +4,23 @@ from snapshottest.django import TestCase
 
 
 class TestPartials(TestCase):
+    def test_banner(self):
+        test_banner = {
+            "title": "Test title",
+            "subtitle": "Test subtitle",
+            "text": "Test text",
+            "image_class": "test--image--class",
+            "banner_class": "test--banner--class",
+        }
+
+        context = Context({"BANNER": test_banner})
+        template_to_render = Template(
+            "{% load banner_tags %}" '{% banner banner_name="BANNER" %}'
+        )
+        rendered_template = template_to_render.render(context)
+
+        self.assertMatchSnapshot(rendered_template)
+
     def test_headline(self):
         test_headline = {"title": "Test title", "description": "Test description"}
 

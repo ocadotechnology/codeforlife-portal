@@ -21,7 +21,7 @@ BENEFITS = {
         "image": "portal/img/teaching_tools.jpg",
         "title": "Free teaching tools",
         "text": "Free teaching resources, lesson plans and much more. You can even "
-        "track your students' progress with our class tracker.",
+        "track your students’ progress with our class tracker.",
         "button": {"text": "", "link": ""},
     },
     "second": {
