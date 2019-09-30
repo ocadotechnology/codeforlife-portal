@@ -33,12 +33,17 @@ button,
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
+  font-family: 'Baloo', serif;
+  font-weight: 500;
 }
 
 .button--big {
   @include _font-size(28px);
   @include _line-height(28px);
   @include _padding(15px, 20px, 15px, 20px);
+  display: inline-block;
+  font-family: 'Baloo', serif;
+  font-weight: 500;
 }
 
 .button--regular,
@@ -301,19 +306,19 @@ button,
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .menu__item {
     display: none;
   }
 }
 
-@media (min-width: 760px) and (max-width: 1200px) {
+@media (min-width: 768px) and (max-width: 1200px) {
   .button--menu--enabled {
     @include _font-size(18px);
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
 
   .button--secondary--dark {
     background-color: $color-background-secondary;
