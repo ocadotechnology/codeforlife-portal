@@ -1,11 +1,6 @@
-import os
-
-from django.core.urlresolvers import reverse_lazy
 from django.template import Template, Context
 
 from snapshottest.django import TestCase
-
-DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 
 class TestPartials(TestCase):
