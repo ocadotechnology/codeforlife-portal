@@ -121,6 +121,7 @@
 }
 
 .banner--game {
+  @include _margin(8 * $spacing, 0px, 8 * $spacing, 0px);
   @include _padding(25 * $spacing, 4 * $spacing, 25 * $spacing, 4 * $spacing);
   display: flex;
   justify-content: center;

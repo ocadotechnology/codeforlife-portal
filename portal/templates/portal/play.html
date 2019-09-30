@@ -1,0 +1,38 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+{% load banner_tags %}
+{% load game_banner_tags %}
+{% load headline_tags %}
+{% load benefits_tags %}
+
+{% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block rapidrouter %}<a href="{% url 'play' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+
+<section class="background">
+    {% headline headline_name="HEADLINE" %}
+    {% benefits %}
+</section>
+
+<div class="container-fluid">
+    {% game_banner game_banner_name="RAPID_ROUTER_BANNER" %}
+    {% game_banner game_banner_name="KURONO_BANNER" %}
+</div>
+
+{% endblock content %}

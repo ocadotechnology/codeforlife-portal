@@ -72,6 +72,7 @@ from portal.views.home import (
     contact,
     process_newsletter_form,
     home,
+    play_landing_page,
     play_rapid_router,
     teach,
 )
@@ -259,7 +260,7 @@ urlpatterns = [
         name="onboarding-complete",
     ),
     url(r"^teach/invite", invite_teacher, name="invite_teacher"),
-    url(r"^play/$", RedirectView.as_view(url=reverse_lazy("play"), permanent=True)),
+    url(r"^play/$", play_landing_page, name="play_new"),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
     url(r"^play/account/independent/$", IndependentStudentEditAccountView.as_view(), name="indenpendent_edit_account"),

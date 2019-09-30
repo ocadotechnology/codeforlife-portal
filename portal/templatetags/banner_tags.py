@@ -3,6 +3,14 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag("portal/partials/banner.html")
-def banner(title, image, subtitle=None, text=None):
-    return {"title": title, "image": image, "subtitle": subtitle, "text": text}
+@register.inclusion_tag("portal/partials/banner.html", takes_context=True)
+def banner(context, banner_name):
+    banner_data = context[banner_name]
+    
+    return {
+        "title": banner_data["title"],
+        "image_class": banner_data["image_class"],
+        "subtitle": banner_data["subtitle"],
+        "text": banner_data["text"],
+        "banner_class": banner_data["banner_class"],
+    }
