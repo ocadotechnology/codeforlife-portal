@@ -306,6 +306,20 @@
   background-size: cover;
 }
 
+.banner--aimmo--video {
+  left: 0px;
+  max-height: 40%;
+  min-width: 100%;
+  object-fit: none;
+  position: absolute;
+  z-index: -100;
+}
+
+.banner--aimmo--video--text {
+  @include _padding(10 * $spacing, 0px, 10 * $spacing, 0px);
+  color: $color-text-secondary;
+}
+
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
   align-items: center;

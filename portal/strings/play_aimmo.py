@@ -1,9 +1,7 @@
 # coding=utf-8
 HEADLINE = {
     "title": "Join a coding adventure!",
-    "description": "Whether you’re a teacher or a student, Kurono makes learning "
-    "to code easy and great fun. Using Python, you can travel through time to collect "
-    "all the museum artifacts.",
+    "description": "Whether you’re a teacher or a student, Kurono makes learning to code easy and great fun. Using Python, you can travel through time to collect all the museum artifacts.",
 }
 
 CHALLENGES = {
@@ -14,8 +12,7 @@ CHALLENGES = {
 
 TEACHING_RESOURCES = {
     "title": "Teaching Resources",
-    "description": "Integrate Kurono in your classroom with our printable student challenges, "
-    "teacher guidance sheets and supporting materials.",
+    "description": "Integrate Kurono in your classroom with our printable student challenges, teacher guidance sheets and supporting materials.",
 }
 
 PLAY_ONLINE = {

@@ -45,8 +45,12 @@
     </div>
 </div>
 <div class="background">
-    <section>
-        {% headline headline_name="CHALLENGES" %}
+    <video autoplay muted loop class="banner--aimmo--video">
+        <source src={% static 'portal/video/aimmo_challenges_background_video.mp4' %}>
+    </video>
+    <section class="banner banner--aimmo--video--text">
+        <h1>Challenges</h1>
+        <h4 class="col-sm-6 col-center">Individual and collaborative challenges keep students engaged and having fun. (Coming soon)</h4>
     </section>
 </div>
 <div class="background">
@@ -58,7 +62,9 @@
 <div class="background">
     <section>
         {% headline headline_name="PLAY_ONLINE" %}
-        <img src="{% static 'portal/img/landing_screenshot.png' %}">
+        <video autoplay muted loop>
+            <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
+        </video>
     </section>
 </div>
 

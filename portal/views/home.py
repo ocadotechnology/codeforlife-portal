@@ -66,7 +66,6 @@ from portal.helpers.emails import (
 from portal.strings.play_rapid_router import HEADLINE
 from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
 from portal.strings.play_aimmo import HEADLINE as PLAY_AIMMO_HEADLINE
-from portal.strings.play_aimmo import CHALLENGES as PLAY_AIMMO_CHALLENGES
 from portal.strings.play_aimmo import TEACHING_RESOURCES as PLAY_AIMMO_RESOURCES
 from portal.strings.play_aimmo import PLAY_ONLINE as PLAY_AIMMO_PLAY_ONLINE
 from portal.strings.play_aimmo import BENEFITS as PLAY_AIMMO_BENEFITS
@@ -624,7 +623,6 @@ def play_aimmo(request):
         {
             "BENEFITS": PLAY_AIMMO_BENEFITS,
             "HEADLINE": PLAY_AIMMO_HEADLINE,
-            "CHALLENGES": PLAY_AIMMO_CHALLENGES,
             "TEACHING_RESOURCES": PLAY_AIMMO_RESOURCES,
             "PLAY_ONLINE": PLAY_AIMMO_PLAY_ONLINE,
         },
