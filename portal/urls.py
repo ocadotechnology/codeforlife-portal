@@ -263,8 +263,16 @@ urlpatterns = [
     url(r"^play/$", RedirectView.as_view(url=reverse_lazy("play"), permanent=True)),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
-    url(r"^play/account/independent/$", IndependentStudentEditAccountView.as_view(), name="indenpendent_edit_account"),
-    url(r"^play/account/school_student/$", SchoolStudentEditAccountView.as_view(), name="school_student_edit_account"),
+    url(
+        r"^play/account/independent/$",
+        IndependentStudentEditAccountView.as_view(),
+        name="indenpendent_edit_account",
+    ),
+    url(
+        r"^play/account/school_student/$",
+        SchoolStudentEditAccountView.as_view(),
+        name="school_student_edit_account",
+    ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(
         r"^play/account/independent/$",
@@ -280,9 +288,7 @@ urlpatterns = [
     url(r"^play/rapid-router/$", play_rapid_router, name="play"),
     url(r"^play/kurono/$", play_aimmo, name="play_aimmo"),
     url(
-        r"^about",
-        TemplateView.as_view(template_name="portal/about.html"),
-        name="about",
+        r"^about", TemplateView.as_view(template_name="portal/about.html"), name="about"
     ),
     url(r"^help/$", contact, name="help"),
     url(

@@ -616,18 +616,20 @@ def play_rapid_router(request):
         },
     )
 
+
 def play_aimmo(request):
     return render(
         request,
-        "portal/play_aimmo.html", 
+        "portal/play_aimmo.html",
         {
             "BENEFITS": PLAY_AIMMO_BENEFITS,
             "HEADLINE": PLAY_AIMMO_HEADLINE,
             "CHALLENGES": PLAY_AIMMO_CHALLENGES,
             "TEACHING_RESOURCES": PLAY_AIMMO_RESOURCES,
             "PLAY_ONLINE": PLAY_AIMMO_PLAY_ONLINE,
-        }
+        },
     )
+
 
 def teach(request):
     return render(request, "portal/teach.html", {"BENEFITS": TEACH_BENEFITS})
