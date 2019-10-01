@@ -19,14 +19,14 @@
 {% block subNav %}
 {{ block.super }}
 <div class="banner banner--aimmo--blurred-background">
-  {<div class="banner--aimmo-landing--content">
+  <div class="banner--aimmo-landing--content">
     <div class="col-md-6">
         <img class="col-md-12" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
     </div>
     <div>
         <a href="{% url 'kurono'  %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
     </div>
-  </div>}
+  </div>
 </div>
 {% endblock subNav %}
 
@@ -39,11 +39,11 @@
         {% headline headline_name="HEADLINE" %}
     </section>
 </div>
-<div class="background">
+<section class="background">
     <div class="row row--small homepage-info">
         {% benefits %}
     </div>
-</div>
+</section>
 <div class="background">
     <video autoplay muted loop class="banner--aimmo--video">
         <source src={% static 'portal/video/aimmo_challenges_background_video.mp4' %}>

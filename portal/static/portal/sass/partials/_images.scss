@@ -93,14 +93,17 @@ img {
 
 .grid-benefits__image1 {
   grid-area: image1;
+  justify-self: center;
 }
 
 .grid-benefits__image2 {
   grid-area: image2;
+  justify-self: center;
 }
 
 .grid-benefits__image3 {
   grid-area: image3;
+  justify-self: center;
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {

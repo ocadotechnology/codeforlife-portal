@@ -308,15 +308,16 @@
 
 .banner--aimmo--video {
   left: 0px;
-  max-height: 40%;
+  max-height: 300px;
   min-width: 100%;
   object-fit: none;
+  overflow: hidden;
   position: absolute;
   z-index: -100;
 }
 
 .banner--aimmo--video--text {
-  @include _padding(10 * $spacing, 0px, 10 * $spacing, 0px);
+  @include _padding(10 * $spacing, 10 * $spacing, 10 * $spacing, 10 * $spacing);
   color: $color-text-secondary;
 }
 
