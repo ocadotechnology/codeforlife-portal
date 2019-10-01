@@ -5,15 +5,15 @@ BANNER = {
     "fun, free and easy.",
     "text": "",
     "image_class": "banner--picture--play",
-    "banner_class": "banner--student",
+    "banner_class": "banner--teacher",
 }
 
 HEADLINE = {
     "title": "Anyone can code, you can too!",
-    "description": "Whether you’re a teacher or a student, our games guide you, "
-    "making learning to code easy and great fun. Start with Rapid Router designed "
-    "for students new to coding. Then advance to Kurono which teaches "
-    "intermediate Python.",
+    "description": "Whether you’re a teacher or a student, our games support and "
+    "guide you, making learning to code great fun. Get started with Rapid Router "
+    "designed for students new to coding. Advance to Kurono where you can test "
+    "your skills in Python.",
 }
 
 BENEFITS = {
@@ -34,7 +34,7 @@ BENEFITS = {
     "third": {
         "image": "portal/img/a_fun_game_for_students.jpg",
         "title": "Get creative!",
-        "text": "There are multiple ways to solve challenges!",
+        "text": "Work together to find multiple ways to solve challenges.",
         "button": {"text": "", "link": ""},
     },
 }
@@ -53,7 +53,7 @@ KURONO_BANNER = {
     "title": "Kurono",
     "description": "Using intermediate Python, join your class on a time "
     "travelling adventure. Work together to complete challenges and unlock "
-    "new timezones.",
+    "new time periods.",
     "button_text": "Try Now",
     "button_link": "play_aimmo",
     "ages": "Ages 13+",
