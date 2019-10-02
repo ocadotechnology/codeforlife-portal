@@ -32,7 +32,7 @@ BENEFITS = {
         "button": {"text": "", "link": ""},
     },
     "third": {
-        "image": "portal/img/a_fun_game_for_students.jpg",
+        "image": "portal/img/get_creative.png",
         "title": "Get creative!",
         "text": "Work together to find multiple ways to solve challenges.",
         "button": {"text": "", "link": ""},

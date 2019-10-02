@@ -1,6 +1,10 @@
 @function calculate-rem($size) {
-  $rem-size: $size / 10px;
-  @return #{$rem-size}rem;
+  @if $size == "auto" {
+    @return auto;
+  } @else {
+    $rem-size: $size / 10px;
+    @return #{$rem-size}rem;
+  }
 }
 
 @mixin _font-size($size) {
