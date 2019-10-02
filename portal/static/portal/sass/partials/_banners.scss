@@ -55,10 +55,10 @@
 
 .banner--aimmo-landing--content {
   @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .banner--picture {
@@ -310,7 +310,7 @@
   left: 0px;
   max-height: 300px;
   min-width: 100%;
-  object-fit: none;
+  object-fit: cover;
   overflow: hidden;
   position: absolute;
   z-index: -100;
@@ -428,5 +428,14 @@
       @include _font-size($game-banner-title-font-size-small);
       @include _line-height($game-banner-title-line-height-small);
     }
+  }
+
+  .banner--aimmo-landing--content {
+    @include _padding(8 * $spacing, 8 * $spacing, 8 * $spacing, 8 * $spacing);
+    display: block;
+  }
+
+  .banner--aimmo--video {
+    object-fit: none;
   }
 }

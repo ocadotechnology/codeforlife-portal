@@ -18,7 +18,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--aimmo--blurred-background">s
+<div class="banner banner--aimmo--blurred-background">
     <div class="banner banner--aimmo-landing--content">
         <div class="col-md-6">
             <img class="col-md-12" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
@@ -61,7 +61,7 @@
 <div class="background">
     <section>
         {% headline headline_name="PLAY_ONLINE" %}
-        <video autoplay muted loop>
+        <video autoplay muted loop class="video--aimmo--play-online">
             <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
         </video>
     </section>
