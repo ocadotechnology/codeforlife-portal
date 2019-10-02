@@ -35,29 +35,29 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import json
-from functools import partial, wraps
 from datetime import timedelta
+from functools import partial, wraps
 
+from aimmo.models import Game
 from django.conf import settings
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.urlresolvers import reverse_lazy
 from django.forms.formsets import formset_factory
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-
-from reportlab.pdfgen import canvas
+from reportlab.lib.colors import black
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.colors import black, white
-from reportlab.lib.utils import ImageReader
-from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
 
-from portal.models import Teacher, Class, Student
+from portal import email_messages
+from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
-    TeacherEditAccountForm,
     ClassCreationForm,
     ClassEditForm,
     ClassMoveForm,
@@ -70,19 +70,18 @@ from portal.forms.teach import (
     TeacherDismissStudentsForm,
     BaseTeacherDismissStudentsFormSet,
 )
-from portal.forms.invite_teacher import InviteTeacherForm
-from portal.permissions import logged_in_as_teacher
+from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
 from portal.helpers.generators import (
     generate_access_code,
     generate_password,
     generate_new_student_name,
 )
-from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
-from portal.views.teacher.pdfs import PDF_DATA
+from portal.models import Teacher, Class, Student
+from portal.permissions import logged_in_as_teacher
+from portal.strings.materials import BANNER as MATERIALS_BANNER
+from portal.strings.teacher_resources import BANNER as RESOURCES_BANNER
 from portal.templatetags.app_tags import cloud_storage
-from portal import email_messages
-
-from aimmo.models import Game
+from portal.views.teacher.pdfs import PDF_DATA
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -164,6 +163,7 @@ def materials(request):
             "intermediate_ks3_sheets": intermediate_ks3_sheets_table,
             "upper_ks3_sessions": upper_ks3_sessions,
             "upper_ks3_sheets": upper_ks3_sheets_table,
+            "BANNER": MATERIALS_BANNER,
         },
     )
 
@@ -305,6 +305,14 @@ def materials_viewer(request, pdf_name):
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+def teacher_resources(request):
+    return render(
+        request, "portal/teach/teacher_resources.html", {"BANNER": RESOURCES_BANNER}
+    )
+
+
+@login_required(login_url=reverse_lazy("login_view"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def default_solution(request, levelName):
     if 80 <= int(levelName) <= 91:
         return render(
@@ -394,7 +402,9 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     klass=klass, name=name, password=password
                 )
 
-                give_student_access_to_aimmo_games(student=new_student, new_teacher=teacher)
+                give_student_access_to_aimmo_games(
+                    student=new_student, new_teacher=teacher
+                )
 
             return render(
                 request,
@@ -430,7 +440,12 @@ def teacher_onboarding_edit_class(request, access_code):
     """
     Adding students to a class during the onboarding process
     """
-    return process_edit_class(request, access_code, onboarding_done=False, next_url="portal/teach/onboarding_students.html")
+    return process_edit_class(
+        request,
+        access_code,
+        onboarding_done=False,
+        next_url="portal/teach/onboarding_students.html",
+    )
 
 
 def check_logged_in_students(klass, students):
@@ -455,7 +470,9 @@ def teacher_view_class(request, access_code):
     """
     Adding students to a class after the onboarding process has been completed
     """
-    return process_edit_class(request, access_code, onboarding_done=True, next_url="portal/teach/class.html")
+    return process_edit_class(
+        request, access_code, onboarding_done=True, next_url="portal/teach/class.html"
+    )
 
 
 @login_required(login_url=reverse_lazy("login_view"))

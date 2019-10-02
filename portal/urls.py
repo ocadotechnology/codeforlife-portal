@@ -34,11 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from aimmo.urls import HOMEPAGE_REGEX
 from django.conf.urls import include, url
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
+from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
+from game.views.level import play_default_level
 from two_factor.views import (
     DisableView,
     BackupTokensView,
@@ -48,22 +50,16 @@ from two_factor.views import (
     QRGeneratorView,
 )
 
+from portal.permissions import teacher_verified
+from portal.views.admin import aggregated_data, schools_map, admin_login
+from portal.views.aimmo.home import aimmo_home
 from portal.views.api import (
     registered_users,
     last_connected_since,
     number_users_per_country,
     InactiveUsersView,
 )
-from portal.views.admin import aggregated_data, schools_map, admin_login
-from portal.views.teacher.solutions_level_selector import levels
-from portal.permissions import teacher_verified
-
 from portal.views.email import send_new_users_report
-
-from game.views.level import play_default_level
-
-from portal.views.aimmo.home import aimmo_home
-
 from portal.views.email import verify_email
 from portal.views.home import (
     login_view,
@@ -79,17 +75,35 @@ from portal.views.home import (
     terms,
     privacy_policy,
 )
-from portal.views.student.play import student_details, student_join_organisation
-from portal.views.student.edit_account_details import (
-    student_edit_account,
-    SchoolStudentEditAccountView,
-    IndependentStudentEditAccountView,
-)
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
     organisation_manage,
     organisation_leave,
 )
+from portal.views.registration import (
+    teacher_password_reset,
+    password_reset_done,
+    student_password_reset,
+    password_reset_check_and_confirm,
+    custom_2FA_login,
+)
+from portal.views.student.edit_account_details import (
+    student_edit_account,
+    SchoolStudentEditAccountView,
+    IndependentStudentEditAccountView,
+)
+from portal.views.student.play import student_details, student_join_organisation
+from portal.views.teacher.dashboard import (
+    dashboard_manage,
+    organisation_allow_join,
+    organisation_deny_join,
+    organisation_kick,
+    organisation_toggle_admin,
+    teacher_disable_2FA,
+    teacher_reject_student_request,
+    teacher_accept_student_request,
+)
+from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
     teacher_onboarding_create_class,
     teacher_onboarding_edit_class,
@@ -109,26 +123,8 @@ from portal.views.teacher.teach import (
     teacher_dismiss_students,
     materials,
     invite_teacher,
+    teacher_resources,
 )
-from portal.views.teacher.dashboard import (
-    dashboard_manage,
-    organisation_allow_join,
-    organisation_deny_join,
-    organisation_kick,
-    organisation_toggle_admin,
-    teacher_disable_2FA,
-    teacher_reject_student_request,
-    teacher_accept_student_request,
-)
-from portal.views.registration import (
-    teacher_password_reset,
-    password_reset_done,
-    student_password_reset,
-    password_reset_check_and_confirm,
-    custom_2FA_login,
-)
-
-from aimmo.urls import HOMEPAGE_REGEX
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -304,11 +300,7 @@ urlpatterns = [
         materials_viewer,
         name="materials_viewer",
     ),
-    url(
-        r"^teach/resources/$",
-        TemplateView.as_view(template_name="portal/teach/teacher_resources.html"),
-        name="teaching_resources",
-    ),
+    url(r"^teach/resources/$", teacher_resources, name="teaching_resources"),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
