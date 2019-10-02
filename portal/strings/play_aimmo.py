@@ -34,7 +34,7 @@ BENEFITS = {
         "button": {"text": "", "link": ""},
     },
     "third": {
-        "image": "portal/img/icon_multiplayer.png",
+        "image": "portal/img/icon_multiplayer.svg",
         "title": "Online multiplayer game",
         "text": "Classes play together in the same world.",
         "button": {"text": "", "link": ""},
