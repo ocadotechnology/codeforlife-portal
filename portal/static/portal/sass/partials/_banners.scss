@@ -306,6 +306,12 @@
   background-size: cover;
 }
 
+.banner--aimmo--video--container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .banner--aimmo--video {
   left: 0px;
   max-height: 300px;
@@ -313,7 +319,7 @@
   object-fit: cover;
   overflow: hidden;
   position: absolute;
-  z-index: $backgroung-video-level;
+  z-index: $background-video-level;
 }
 
 .banner--aimmo--video--text {
