@@ -34,12 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.conf import settings
-from django import template
-from django.template.defaultfilters import stringfilter
-from portal.utils import using_two_factor
-from portal import beta
 from aimmo.templatetags.players_utils import get_user_playable_games
+from django import template
+from django.conf import settings
+from django.template.defaultfilters import stringfilter
+from portal import __version__
+from portal import beta
+from portal.utils import using_two_factor
 
 register = template.Library()
 
@@ -167,3 +168,8 @@ def make_title_caps(s):
 @stringfilter
 def cloud_storage(e):
     return settings.CLOUD_STORAGE_PREFIX + e
+
+
+@register.filter(name="get_project_version")
+def get_project_version():
+    return __version__
