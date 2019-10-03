@@ -320,7 +320,7 @@
   object-fit: cover;
   overflow: hidden;
   position: absolute;
-  z-index: $background-video-level;
+  z-index: $behind-content-level;
 }
 
 .banner--aimmo--video--text {
