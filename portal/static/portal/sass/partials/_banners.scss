@@ -307,6 +307,7 @@
 }
 
 .banner--aimmo--video--container {
+  @include _padding(12 * $spacing, 0px, 12 * $spacing, 0px);
   align-items: center;
   display: flex;
   justify-content: center;
@@ -314,7 +315,7 @@
 
 .banner--aimmo--video {
   left: 0px;
-  max-height: 300px;
+  max-height: 500px;
   min-width: 100%;
   object-fit: cover;
   overflow: hidden;
@@ -442,7 +443,11 @@
   }
 
   .banner--aimmo--video {
-    max-height: 250px;
+    max-height: 300px;
     object-fit: none;
+  }
+
+  .banner--aimmo--video--container {
+    @include _padding(0px, 0px, 0px, 0px);  
   }
 }
