@@ -259,7 +259,7 @@ urlpatterns = [
         name="onboarding-complete",
     ),
     url(r"^teach/invite", invite_teacher, name="invite_teacher"),
-    url(r"^play/$", play_landing_page, name="play_new"),
+    url(r"^play/$", play_landing_page, name="play"),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
     url(
@@ -284,7 +284,7 @@ urlpatterns = [
         name="school_student_edit_account",
     ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
-    url(r"^play/rapid-router/$", play_rapid_router, name="play"),
+    url(r"^play/rapid-router/$", play_rapid_router, name="play_rapid_router"),
     url(
         r"^play/kurono/$",
         TemplateView.as_view(template_name="portal/play_aimmo.html"),
