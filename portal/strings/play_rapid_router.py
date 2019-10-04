@@ -24,7 +24,7 @@ BENEFITS = {
     "third": {
         "image": "portal/img/about_blockly.png",
         "title": "About Blockly",
-        "text": "Built on &lsquo;Blockly’, an easy-to-use visual programming language "
+        "text": "Built on ‘Blockly’, an easy-to-use visual programming language "
         "that’s similar to Scratch, so you don’t need to worry about syntax.",
         "button": {"text": "", "link": ""},
     },
