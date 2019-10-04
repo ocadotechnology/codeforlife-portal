@@ -3,6 +3,7 @@
 {% load app_tags %}
 {% load headline_tags %}
 {% load benefits_tags %}
+{% load cache %}
 
 {% block nav_play %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
 {% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
@@ -32,6 +33,8 @@
 
 {% block content %}
 {{block.super}}
+
+{% cache 3600 play_aimmo_page get_project_version %}
 
 <div class="background">
     <section>
@@ -69,4 +72,5 @@
     </section>
 </div>
 
+{% endcache %}
 {% endblock content %}
