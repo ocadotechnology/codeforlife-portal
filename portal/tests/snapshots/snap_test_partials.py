@@ -66,7 +66,7 @@ snapshots['TestPartials::test_game_banner 1'] = '''
         <h4 class="banner--game__text banner--game__ages">Test ages</h4>
         <h1 class="banner--game__title">Test title</h1>
         <p class="banner--game__text"><strong>Test description</strong></p>
-        <a href="/play/rapid-router/"
+        <a href="/play/"
            class="button button--big button-primary button--primary--general-educate">Test button</a>
     </div>
 </div>
