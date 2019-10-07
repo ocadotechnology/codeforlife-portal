@@ -106,6 +106,16 @@ img {
   justify-self: center;
 }
 
+.educate-homepage {
+  content: url('../img/home_educate_hero_hexagon.png');
+  height: 350px;
+}
+
+.play-homepage {
+  content: url('../img/home_play_hero_hexagon_both.png');
+  height: 350px;
+}
+
 @media (min-width: 768px) and (max-width: 1400px) {
 
   .logo {
