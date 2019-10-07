@@ -1,5 +1,5 @@
 # coding=utf-8
-BANNER = {
+RESOURCES_BANNER = {
     "title": "Teaching Resources",
     "subtitle": "",
     "text": "",

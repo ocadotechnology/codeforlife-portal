@@ -1,5 +1,5 @@
 # coding=utf-8
-BANNER = {
+HELP_BANNER = {
     "title": "Help and support",
     "subtitle": "",
     "text": "If you’ve run into problems, please look at our FAQs "

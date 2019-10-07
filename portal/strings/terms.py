@@ -1,5 +1,5 @@
 # coding=utf-8
-BANNER = {
+TERMS_BANNER = {
     "title": "Terms of use",
     "subtitle": "",
     "text": "",

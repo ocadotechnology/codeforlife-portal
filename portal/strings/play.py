@@ -1,5 +1,5 @@
 # coding=utf-8
-BANNER = {
+PLAY_BANNER = {
     "title": "Play",
     "subtitle": "Anyone can learn how to code. We will help you learn how. It’s "
     "fun, free and easy.",
@@ -7,7 +7,7 @@ BANNER = {
     "image_class": "banner--picture--play",
 }
 
-HEADLINE = {
+PLAY_HEADLINE = {
     "title": "Anyone can code, you can too!",
     "description": "Whether you’re a teacher or a student, our games support and "
     "guide you, making learning to code great fun. Get started with Rapid Router "
@@ -15,7 +15,7 @@ HEADLINE = {
     "your skills in Python.",
 }
 
-BENEFITS = {
+PLAY_BENEFITS = {
     "first": {
         "image": "portal/img/teaching_tools.jpg",
         "title": "Free teaching tools",

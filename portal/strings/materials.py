@@ -1,5 +1,5 @@
 # coding=utf-8
-BANNER = {
+MATERIALS_BANNER = {
     "title": "Teaching Packs",
     "subtitle": "",
     "text": "We’ve created a comprehensive set of teaching materials to give you the "

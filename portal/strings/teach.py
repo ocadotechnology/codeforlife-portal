@@ -1,12 +1,12 @@
 # coding=utf-8
-BANNER = {
+TEACH_BANNER = {
     "title": "Educate",
     "subtitle": "Get ready to teach the next generation of computer scientists",
     "text": "",
     "image_class": "banner--picture--educate",
 }
 
-BENEFITS = {
+TEACH_BENEFITS = {
     "first": {
         "image": "portal/img/icon_laptop.png",
         "title": "",

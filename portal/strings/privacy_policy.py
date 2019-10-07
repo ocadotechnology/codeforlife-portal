@@ -1,5 +1,5 @@
 # coding=utf-8
-BANNER = {
+PRIVACY_POLICY_BANNER = {
     "title": "Privacy policy",
     "subtitle": "",
     "text": "",
