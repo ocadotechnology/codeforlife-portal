@@ -71,8 +71,12 @@ from portal.strings.play import BANNER as PLAY_BANNER
 from portal.strings.play import BENEFITS as PLAY_BENEFITS
 from portal.strings.play import HEADLINE as PLAY_HEADLINE
 from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
-from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
 from portal.strings.play_rapid_router import HEADLINE
+from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
+from portal.strings.play_aimmo import HEADLINE as PLAY_AIMMO_HEADLINE
+from portal.strings.play_aimmo import TEACHING_RESOURCES as PLAY_AIMMO_RESOURCES
+from portal.strings.play_aimmo import PLAY_ONLINE as PLAY_AIMMO_PLAY_ONLINE
+from portal.strings.play_aimmo import BENEFITS as PLAY_AIMMO_BENEFITS
 from portal.strings.privacy_policy import BANNER as PRIVACY_POLICY_BANNER
 from portal.strings.teach import BANNER as TEACH_BANNER
 from portal.strings.teach import BENEFITS as TEACH_BENEFITS
@@ -627,6 +631,19 @@ def play_rapid_router(request):
         request,
         "portal/play_rapid-router.html",
         {"HEADLINE": HEADLINE, "BENEFITS": PLAY_RAPID_ROUTER_BENEFITS},
+    )
+
+
+def play_aimmo(request):
+    return render(
+        request,
+        "portal/play_aimmo.html",
+        {
+            "BENEFITS": PLAY_AIMMO_BENEFITS,
+            "HEADLINE": PLAY_AIMMO_HEADLINE,
+            "TEACHING_RESOURCES": PLAY_AIMMO_RESOURCES,
+            "PLAY_ONLINE": PLAY_AIMMO_PLAY_ONLINE,
+        },
     )
 
 

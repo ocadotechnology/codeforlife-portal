@@ -110,4 +110,22 @@ $column--icon-width: 3%;
   .grid-icon {
     display: none;
   }
+
+  .grid-benefits {
+    display: grid;
+    display: -ms-grid;
+    grid-template-areas: "image1"
+                          "title1"
+                          "text1"
+                          "button1"
+                          "image2"
+                          "title2"
+                          "text2"
+                          "button2"
+                          "image3"
+                          "title3"
+                          "text3"
+                          "button3";
+    row-gap: 4 * $spacing;
+  }
 }

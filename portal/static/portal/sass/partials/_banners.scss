@@ -47,6 +47,18 @@
     padding: 0;
   }
 
+  img {
+    @include _padding(0px, 0px, 20 * $spacing, 0px);
+  }
+
+}
+
+.banner--aimmo-landing--content {
+  @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .banner--picture {
@@ -292,6 +304,35 @@
   background-size: cover;
 }
 
+.banner--aimmo--blurred-background {
+  background-image: url('../img/kurono_landing_hero_blurred.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.banner--aimmo--video--container {
+  @include _padding(12 * $spacing, 0px, 12 * $spacing, 0px);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.banner--aimmo--video {
+  left: 0px;
+  max-height: 500px;
+  min-width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  position: absolute;
+  z-index: $behind-content-level;
+}
+
+.banner--aimmo--video--text {
+  @include _padding(10 * $spacing, 10 * $spacing, 10 * $spacing, 10 * $spacing);
+  color: $color-text-secondary;
+}
+
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
   align-items: center;
@@ -399,5 +440,19 @@
       @include _font-size($game-banner-title-font-size-small);
       @include _line-height($game-banner-title-line-height-small);
     }
+  }
+
+  .banner--aimmo-landing--content {
+    @include _padding(8 * $spacing, 8 * $spacing, 8 * $spacing, 8 * $spacing);
+    display: block;
+  }
+
+  .banner--aimmo--video {
+    max-height: 300px;
+    object-fit: none;
+  }
+
+  .banner--aimmo--video--container {
+    @include _padding(0px, 0px, 0px, 0px);  
   }
 }
