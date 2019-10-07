@@ -7,7 +7,7 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestPartials::test_banner 1'] = '''<div class="banner test--banner--class row">
+snapshots['TestPartials::test_banner 1'] = '''<div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Test title</h1>
         
@@ -61,7 +61,7 @@ snapshots['TestPartials::test_benefits 1'] = '''
 
 snapshots['TestPartials::test_game_banner 1'] = '''
 
-<div class="banner banner--game col-center col-lg-10 col-sm-12 test--class">
+<div class="banner--game col-center col-lg-10 col-sm-12 test--class">
     <div>
         <h4 class="banner--game__text banner--game__ages">Test ages</h4>
         <h1 class="banner--game__title">Test title</h1>
@@ -73,5 +73,5 @@ snapshots['TestPartials::test_game_banner 1'] = '''
 '''
 
 snapshots['TestPartials::test_headline 1'] = '''<h1>Test title</h1>
-<p class="col-sm-6 col-center">Test description</p>
+<h6 class="col-sm-6 col-center">Test description</h6>
 '''
