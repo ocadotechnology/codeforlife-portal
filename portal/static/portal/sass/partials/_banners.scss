@@ -156,6 +156,7 @@
 
   .banner--game__text {
     @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
+    color: $color-text-secondary;
   }
 }
 
