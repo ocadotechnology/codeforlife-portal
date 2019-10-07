@@ -41,15 +41,15 @@
         {% headline headline_name="HEADLINE" %}
     </section>
 </div>
-<section class="background">
+<div class="background">
     <div class="row row--small homepage-info">
         {% benefits %}
     </div>
-</section>
+</div>
 <div class="background">
     <section class="banner--aimmo--video--container">
         <video autoplay muted loop class="banner banner--aimmo--video">
-            <source src={% static 'portal/video/aimmo_challenges_background_video.mp4' %}>
+            <source src="{% static 'portal/video/aimmo_challenges_background_video.mp4' %}">
         </video>
         <div class="banner banner--aimmo--video--text">
             <h1>Challenges</h1>
@@ -67,7 +67,7 @@
     <section>
         {% headline headline_name="PLAY_ONLINE" %}
         <video autoplay muted loop class="video--aimmo--play-online">
-            <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
+            <source src="{% static 'portal/video/aimmo_play_now_background_video.mp4' %}">
         </video>
     </section>
 </div>
