@@ -12,5 +12,4 @@ def banner(context, banner_name):
         "image_class": banner_data["image_class"],
         "subtitle": banner_data["subtitle"],
         "text": banner_data["text"],
-        "banner_class": banner_data["banner_class"],
     }

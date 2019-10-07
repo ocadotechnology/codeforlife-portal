@@ -4,7 +4,6 @@ BANNER = {
     "subtitle": "Get ready to teach the next generation of computer scientists",
     "text": "",
     "image_class": "banner--picture--educate",
-    "banner_class": "banner--teacher",
 }
 
 BENEFITS = {

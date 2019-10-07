@@ -6,5 +6,4 @@ BANNER = {
     "confidence and resources to use Code for Life’s games to help you teach students "
     "the English National Computing Curriculum right through their school life.",
     "image_class": "banner--picture--tools",
-    "banner_class": "banner--teacher",
 }

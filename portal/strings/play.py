@@ -5,7 +5,6 @@ BANNER = {
     "fun, free and easy.",
     "text": "",
     "image_class": "banner--picture--play",
-    "banner_class": "banner--teacher",
 }
 
 HEADLINE = {

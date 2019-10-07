@@ -7,5 +7,4 @@ BANNER = {
     "answers, please contact us. One of the Code for Life team "
     "will get back to you and resolve your issues.",
     "image_class": "banner--picture--help",
-    "banner_class": "banner--teacher",
 }

@@ -4,5 +4,4 @@ BANNER = {
     "subtitle": "",
     "text": "",
     "image_class": "banner--picture--terms",
-    "banner_class": "banner--teacher",
 }
