@@ -51,6 +51,7 @@ from two_factor.views import (
 )
 
 from portal.permissions import teacher_verified
+from portal.views.about import about
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.aimmo.home import aimmo_home
 from portal.views.api import (
@@ -61,26 +62,23 @@ from portal.views.api import (
 )
 from portal.views.email import send_new_users_report
 from portal.views.email import verify_email
+from portal.views.help_and_support import contact
 from portal.views.home import (
     login_view,
     logout_view,
     register_view,
-    contact,
     process_newsletter_form,
     home,
-    play_landing_page,
-    play_rapid_router,
-    teach,
-    play_aimmo,
-    about,
-    terms,
-    privacy_policy,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
     organisation_manage,
     organisation_leave,
 )
+from portal.views.play_aimmo import play_aimmo
+from portal.views.play_landing_page import play_landing_page
+from portal.views.play_rapid_router import play_rapid_router
+from portal.views.privacy_policy import privacy_policy
 from portal.views.registration import (
     teacher_password_reset,
     password_reset_done,
@@ -94,6 +92,7 @@ from portal.views.student.edit_account_details import (
     IndependentStudentEditAccountView,
 )
 from portal.views.student.play import student_details, student_join_organisation
+from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_allow_join,
@@ -122,10 +121,11 @@ from portal.views.teacher.teach import (
     teacher_move_students_to_class,
     default_solution,
     teacher_dismiss_students,
-    materials,
     invite_teacher,
-    teacher_resources,
 )
+from portal.views.teacher.teacher_materials import materials
+from portal.views.teacher.teacher_resources import teacher_resources
+from portal.views.terms import terms
 
 js_info_dict = {"packages": ("conf.locale",)}
 
