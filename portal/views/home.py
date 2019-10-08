@@ -619,7 +619,7 @@ def play_rapid_router(request):
 def play_aimmo(request):
     return render(
         request,
-        "portal/play_aimmo.html",
+        "portal/play_aimmo_preview.html",
         {
             "BENEFITS": PLAY_AIMMO_BENEFITS,
             "HEADLINE": PLAY_AIMMO_HEADLINE,
