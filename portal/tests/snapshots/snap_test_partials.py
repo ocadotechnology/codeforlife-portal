@@ -14,29 +14,29 @@ snapshots['TestPartials::test_benefits 1'] = '''
     
     
     
-        <h3 class="grid-benefits__title1">Test title</h3>
+        <h3 class="grid-benefits__title grid-benefits__title1">Test title</h3>
     
     
-        <h3 class="grid-benefits__title2">Test title</h3>
+        <h3 class="grid-benefits__title grid-benefits__title2">Test title</h3>
     
     
-        <h3 class="grid-benefits__title3">Test title</h3>
+        <h3 class="grid-benefits__title grid-benefits__title3">Test title</h3>
     
     <p class="grid-benefits__text1">Test text</p>
     <p class="grid-benefits__text2">Test text</p>
     <p class="grid-benefits__text3">Test text</p>
     
-        <div class="grid-benefits__button1">
+        <div class="grid-benefits__button grid-benefits__button1">
             <a href="/" class="button button--regular button--secondary button--secondary--dark">Test button</a>
         </div>
     
     
-        <div class="grid-benefits__button2">
+        <div class="grid-benefits__button grid-benefits__button2">
             <a href="/" class="button button--regular button--secondary button--secondary--dark">Test button</a>
         </div>
     
     
-        <div class="grid-benefits__button3">
+        <div class="grid-benefits__button grid-benefits__button3">
             <a href="/" class="button button--regular button--secondary button--secondary--dark">Test button</a>
         </div>
     
