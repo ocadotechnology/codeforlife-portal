@@ -65,6 +65,10 @@ from portal.helpers.emails import (
 )
 from portal.strings.play_rapid_router import HEADLINE
 from portal.strings.play_rapid_router import BENEFITS as PLAY_RAPID_ROUTER_BENEFITS
+from portal.strings.play_aimmo import HEADLINE as PLAY_AIMMO_HEADLINE
+from portal.strings.play_aimmo import TEACHING_RESOURCES as PLAY_AIMMO_RESOURCES
+from portal.strings.play_aimmo import PLAY_ONLINE as PLAY_AIMMO_PLAY_ONLINE
+from portal.strings.play_aimmo import BENEFITS as PLAY_AIMMO_BENEFITS
 from portal.strings.teach import BENEFITS as TEACH_BENEFITS
 from portal.strings.play import KURONO_BANNER, RAPID_ROUTER_BANNER
 from portal.models import Teacher, Student, Class
@@ -608,6 +612,19 @@ def play_rapid_router(request):
             "RAPID_ROUTER_BANNER": RAPID_ROUTER_BANNER,
             "KURONO_BANNER": KURONO_BANNER,
             "BENEFITS": PLAY_RAPID_ROUTER_BENEFITS,
+        },
+    )
+
+
+def play_aimmo(request):
+    return render(
+        request,
+        "portal/play_aimmo_preview.html",
+        {
+            "BENEFITS": PLAY_AIMMO_BENEFITS,
+            "HEADLINE": PLAY_AIMMO_HEADLINE,
+            "TEACHING_RESOURCES": PLAY_AIMMO_RESOURCES,
+            "PLAY_ONLINE": PLAY_AIMMO_PLAY_ONLINE,
         },
     )
 

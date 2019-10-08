@@ -65,6 +65,10 @@ h4 {
   grid-area: text3;
 }
 
+.grid-benefits__title {
+  @include _padding(0px, 0px, 0px, 0px);
+}
+
 .grid-benefits__title1 {
   grid-area: title1;
 }

@@ -39,6 +39,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from portal.utils import using_two_factor
 from portal import beta
+from portal import __version__
 from aimmo.templatetags.players_utils import get_user_playable_games
 
 register = template.Library()
@@ -167,3 +168,8 @@ def make_title_caps(s):
 @stringfilter
 def cloud_storage(e):
     return settings.CLOUD_STORAGE_PREFIX + e
+
+
+@register.filter(name="get_project_version")
+def get_project_version():
+    return __version__

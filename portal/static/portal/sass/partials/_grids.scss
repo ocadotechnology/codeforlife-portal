@@ -50,35 +50,31 @@ $column--icon-width: 3%;
 
   .grid-benefits {
     @include _column-gap($spacing * 10);
-    @include _margin(0px, 50 * $spacing, 0px, 50 * $spacing);
     display: grid;
     display: -ms-grid;
     grid-template-areas: "image1 image2 image3"
                           "title1 title2 title3"
                           "text1 text2 text3"
                           "button1 button2 button3";
-    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: start;
+  }
+
+  .grid-benefits__button {
+    align-content: center;
+    display: flex;
   }
 
   .grid-benefits__button1 {
-    align-content: center;
-    display: flex;
     grid-area: button1;
-    justify-content: center;
   }
 
   .grid-benefits__button2 {
-    align-content: center;
-    display: flex;
     grid-area: button2;
-    justify-content: center;
   }
 
   .grid-benefits__button3 {
-    align-content: center;
-    display: flex;
     grid-area: button3;
-    justify-content: center;
   }
 
   $max-resource-sheets-numbers-per-key-stage: (
@@ -113,5 +109,23 @@ $column--icon-width: 3%;
 @media (max-width: 768px) {
   .grid-icon {
     display: none;
+  }
+
+  .grid-benefits {
+    display: grid;
+    display: -ms-grid;
+    grid-template-areas: "image1"
+                          "title1"
+                          "text1"
+                          "button1"
+                          "image2"
+                          "title2"
+                          "text2"
+                          "button2"
+                          "image3"
+                          "title3"
+                          "text3"
+                          "button3";
+    row-gap: 4 * $spacing;
   }
 }
