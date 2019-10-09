@@ -9,7 +9,7 @@ snapshots = Snapshot()
 
 snapshots['TestPartials::test_benefits 1'] = '''
 
-<div class="grid-benefits">
+<div class="grid-benefits row col-sm-10 col-lg-8 col-center">
     
     
     
