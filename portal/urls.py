@@ -69,13 +69,13 @@ from portal.views.home import (
     register_view,
     process_newsletter_form,
     home,
+    play_aimmo_preview,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
     organisation_manage,
     organisation_leave,
 )
-from portal.views.play_aimmo import play_aimmo
 from portal.views.play_landing_page import play_landing_page
 from portal.views.play_rapid_router import play_rapid_router
 from portal.views.privacy_policy import privacy_policy
@@ -286,7 +286,7 @@ urlpatterns = [
     ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(r"^play/rapid-router/$", play_rapid_router, name="play_rapid_router"),
-    url(r"^play/kurono/$", play_aimmo, name="play_aimmo"),
+    url(r"^play/kurono/$", play_aimmo_preview, name="play_aimmo"),
     url(r"^about", about, name="about"),
     url(r"^help/$", contact, name="help"),
     url(r"^terms", terms, name="terms"),
