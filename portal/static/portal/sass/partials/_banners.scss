@@ -50,7 +50,6 @@
   img {
     @include _padding(0px, 0px, 20 * $spacing, 0px);
   }
-
 }
 
 .banner--aimmo-landing--content {
@@ -59,6 +58,10 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  .kurono-logo {
+    width: 80vw;
+  }
 }
 
 .banner--picture {
@@ -317,15 +320,17 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .banner--aimmo--video {
   left: 0px;
-  max-height: 500px;
-  min-width: 100%;
+  height: 100%;
   object-fit: cover;
   overflow: hidden;
   position: absolute;
+  top: 0px;
+  width: 100%;
   z-index: $behind-content-level;
 }
 
@@ -379,6 +384,11 @@
     display: none;
   }
 
+  .banner--aimmo-landing--content {
+    .kurono-logo {
+      width: 615px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -445,7 +455,6 @@
 
   .banner--aimmo-landing--content {
     @include _padding(8 * $spacing, 8 * $spacing, 8 * $spacing, 8 * $spacing);
-    display: block;
   }
 
   .banner--aimmo--video {
@@ -454,6 +463,6 @@
   }
 
   .banner--aimmo--video--container {
-    @include _padding(0px, 0px, 0px, 0px);  
+    @include _padding(0px, 0px, 0px, 0px);
   }
 }

@@ -515,3 +515,33 @@ def process_newsletter_form(request):
 
 def home(request):
     return render(request, "portal/home.html")
+
+
+def play_rapid_router(request):
+    return render(
+        request,
+        "portal/play_rapid-router.html",
+        {
+            "HEADLINE": HEADLINE,
+            "RAPID_ROUTER_BANNER": RAPID_ROUTER_BANNER,
+            "KURONO_BANNER": KURONO_BANNER,
+            "BENEFITS": PLAY_RAPID_ROUTER_BENEFITS,
+        },
+    )
+
+
+def play_aimmo(request):
+    return render(
+        request,
+        "portal/play_aimmo_preview.html",
+        {
+            "BENEFITS": PLAY_AIMMO_BENEFITS,
+            "HEADLINE": PLAY_AIMMO_HEADLINE,
+            "TEACHING_RESOURCES": PLAY_AIMMO_RESOURCES,
+            "PLAY_ONLINE": PLAY_AIMMO_PLAY_ONLINE,
+        },
+    )
+
+
+def teach(request):
+    return render(request, "portal/teach.html", {"BENEFITS": TEACH_BENEFITS})

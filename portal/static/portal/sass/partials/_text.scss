@@ -59,17 +59,18 @@ h6 {
 
 .grid-benefits__text1 {
   grid-area: text1;
-  text-align: start;
 }
 
 .grid-benefits__text2 {
   grid-area: text2;
-  text-align: start;
 }
 
 .grid-benefits__text3 {
   grid-area: text3;
-  text-align: start;
+}
+
+.grid-benefits__title {
+  @include _padding(0px, 0px, 0px, 0px);
 }
 
 .grid-benefits__title1 {
