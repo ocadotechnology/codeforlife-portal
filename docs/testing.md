@@ -9,7 +9,6 @@ The selenium tests are run automatically when running `pytest`.
 For them to run locally, you need to have chromedriver executable in your `PATH`.
 
 You can find the list of chromedriver executables [here](https://chromedriver.storage.googleapis.com/index.html).
-Currently, we are using version 2.24.
 
 ## Snapshot tests
 
