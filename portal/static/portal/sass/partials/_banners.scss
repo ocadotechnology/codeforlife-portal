@@ -136,10 +136,15 @@
 }
 
 .banner--game {
+  @include _margin(8 * $spacing, auto, 0px, auto);
   @include _padding(25 * $spacing, 4 * $spacing, 25 * $spacing, 4 * $spacing);
   display: flex;
   justify-content: center;
   text-align: center;
+
+  + .banner--game {
+    @include _margin(8 * $spacing, auto, 8 * $spacing, auto);
+  }
 
   .banner--game__ages {
     font-family: 'Baloo', serif;
@@ -154,6 +159,7 @@
 
   .banner--game__text {
     @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
+    color: $color-text-secondary;
   }
 }
 
@@ -296,7 +302,14 @@
 }
 
 .banner--aimmo--background {
-  background-image: url('../img/kurono_landing_hero.jpg');
+  background-image: url('../img/kurono_landing_hero.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.banner--aimmo--preview--background {
+  background-image: url('../img/kurono_preview_landing_hero.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
