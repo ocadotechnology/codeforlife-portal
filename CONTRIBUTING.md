@@ -17,7 +17,7 @@ If you find a bug, want to suggest feature request or improvement, please open a
 
 Once you submit a PR, we will review it via [Reviewable](https://reviewable.io/). To make the review go smoothly we recommend following the guidelines below:
 
-* Include unit tests when you contribute new features, as they help to a) prove that your code works correctly, and b) guard against future breaking changes to lower the maintenance cost.
+* Include unit tests when you contribute new features, as they help to a) prove that your code works correctly, and b) guard against future breaking changes to lower the maintenance cost. More information regarding testing can be found [here](docs/testing.md).
 
 * Bug fixes also generally require unit tests, because the presence of bugs usually indicates insufficient test coverage.
 

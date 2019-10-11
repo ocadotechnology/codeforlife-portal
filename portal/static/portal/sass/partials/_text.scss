@@ -44,6 +44,10 @@ h4 {
   @include _line-height(35px);
 }
 
+h6 {
+  @include _font-size(28px);
+}
+
 .kurono-overview__paragraph {
   @include _font-size(25px);
   @include _line-height(35px);
@@ -55,17 +59,18 @@ h4 {
 
 .grid-benefits__text1 {
   grid-area: text1;
-  text-align: start;
 }
 
 .grid-benefits__text2 {
   grid-area: text2;
-  text-align: start;
 }
 
 .grid-benefits__text3 {
   grid-area: text3;
-  text-align: start;
+}
+
+.grid-benefits__title {
+  @include _padding(0px, 0px, 0px, 0px);
 }
 
 .grid-benefits__title1 {
