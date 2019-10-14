@@ -56,7 +56,7 @@
   justify-content: center;
 
   .kurono-logo {
-    @include _padding(0px, 0px, 20 * $spacing, 0px);
+    @include _padding(0px, 0px, 5 * $spacing, 0px);
     width: 80vw;
   }
 }
