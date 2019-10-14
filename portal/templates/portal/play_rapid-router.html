@@ -4,8 +4,8 @@
 {% load headline_tags %}
 {% load benefits_tags %}
 
-{% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block rapidrouter %}<a href="{% url 'play' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
+{% block nav_play %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block rapidrouter %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
 
 {% block css %}
 {{block.super}}
@@ -19,7 +19,7 @@
 {{ block.super }}
 <div class="banner banner--rapid-router--background row">
     <div class="sticky-subnav sub-nav sub-nav--games">
-        <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+        <a href="{% url 'play_rapid_router' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
         <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">Kurono</a>
     </div>
     <div class="row banner--rapid-router--content">

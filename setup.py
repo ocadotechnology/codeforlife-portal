@@ -51,13 +51,5 @@ setup(
         "libsass",
         "django-forms-bootstrap",
     ],
-    tests_require=[
-        "django-setuptest==0.2.1",
-        "django-selenium-clean==0.2.1",
-        "responses==0.4.0",
-        "selenium==3.7.0",
-        "snapshottest>=0.5.1,<0.6.0",
-    ],
-    test_suite="setuptest.setuptest.SetupTestSuite",
     zip_safe=False,
 )
