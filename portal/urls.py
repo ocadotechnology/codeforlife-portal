@@ -126,12 +126,13 @@ from portal.views.teacher.teach import (
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
+from two_factor.urls import urlpatterns as two_factor_urls
 
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
     url(r"^account/login/$", custom_2FA_login, name="login"),
-    url(r"", include(tf_urls, "two_factor")),
+    url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
     url(
