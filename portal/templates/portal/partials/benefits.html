@@ -1,0 +1,40 @@
+{% load staticfiles %}
+
+<div class="grid-benefits row col-sm-10 col-lg-8 col-center">
+    {% if image1 %}
+        <img class="grid-benefits__image grid-benefits__image1" src="{% static image1 %}">
+    {% endif %}
+    {% if image2 %}
+        <img class="grid-benefits__image grid-benefits__image2" src="{% static image2 %}">
+    {% endif %}
+    {% if image3 %}
+        <img class="grid-benefits__image grid-benefits__image3" src="{% static image3 %}">
+    {% endif %}
+    {% if title1 %}
+        <h3 class="grid-benefits__title grid-benefits__title1">{{ title1|safe }}</h3>
+    {% endif %}
+    {% if title2 %}
+        <h3 class="grid-benefits__title grid-benefits__title2">{{ title2|safe }}</h3>
+    {% endif %}
+    {% if title3 %}
+        <h3 class="grid-benefits__title grid-benefits__title3">{{ title3|safe }}</h3>
+    {% endif %}
+    <p class="grid-benefits__text1">{{ text1|safe }}</p>
+    <p class="grid-benefits__text2">{{ text2|safe }}</p>
+    <p class="grid-benefits__text3">{{ text3|safe }}</p>
+    {% if button1_text %}
+        <div class="grid-benefits__button grid-benefits__button1">
+            <a href="{% url button1_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button1_text }}</a>
+        </div>
+    {% endif %}
+    {% if button2_text %}
+        <div class="grid-benefits__button grid-benefits__button2">
+            <a href="{% url button2_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button2_text }}</a>
+        </div>
+    {% endif %}
+    {% if button3_text %}
+        <div class="grid-benefits__button grid-benefits__button3">
+            <a href="{% url button3_link %}" class="button button--regular button--secondary button--secondary--dark">{{ button3_text }}</a>
+        </div>
+    {% endif %}
+</div>

@@ -44,6 +44,10 @@ h4 {
   @include _line-height(35px);
 }
 
+h6 {
+  @include _font-size(28px);
+}
+
 .kurono-overview__paragraph {
   @include _font-size(25px);
   @include _line-height(35px);
@@ -51,6 +55,34 @@ h4 {
   + .kurono-overview__paragraph {
     @include _padding(8 * $spacing, 0px, 0px, 0px);
   }
+}
+
+.grid-benefits__text1 {
+  grid-area: text1;
+}
+
+.grid-benefits__text2 {
+  grid-area: text2;
+}
+
+.grid-benefits__text3 {
+  grid-area: text3;
+}
+
+.grid-benefits__title {
+  @include _padding(0px, 0px, 0px, 0px);
+}
+
+.grid-benefits__title1 {
+  grid-area: title1;
+}
+
+.grid-benefits__title2 {
+  grid-area: title2;
+}
+
+.grid-benefits__title3 {
+  grid-area: title3;
 }
 
 a {
@@ -164,7 +196,7 @@ label {
   }
 }
 
-@media (min-width: 760px) and (max-width: 1036px) {
+@media (min-width: 768px) and (max-width: 1036px) {
   html {
     font-size: 8px;
   }
@@ -174,7 +206,7 @@ label {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   html {
     font-size: 7px;
   }

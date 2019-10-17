@@ -1,6 +1,8 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
+{% load benefits_tags %}
+{% load banner_tags %}
 
 {% block nav_teach %}
 <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--teacher--active">
@@ -18,15 +20,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--teacher row">
-    <div class="col-sm-4 col-sm-offset-2">
-        <h1 class="banner__text--primary">Educate</h1>
-        <h4>Get ready to teach the next generation of computer scientists</h4>
-    </div>
-    <div class="col-sm-6">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
-    </div>
-</div>
+{% banner banner_name="BANNER" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <a href="#overview" class="button button--regular button--secondary button--secondary--light">Overview</a>
     <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
@@ -37,25 +31,10 @@
 {% block content %}
 {{block.super}}
 
-<div id="overview">
-    <section class="background col-sm-9 col-center">
-        <h3>We&rsquo;re with you every step of the way</h3>
-        <div class="row">
-            <div class="col-sm-4">
-                <img title="Laptop" alt="Laptop image" src="{% static 'portal/img/icon_laptop.png' %}">
-                <p class="col-sm-11 col-center"><strong>Rapid Router is aligned to the UK Computing Curriculum</strong>, so you can gain the knowledge and confidence you need.</p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Footsteps" alt="Footsteps" src="{% static 'portal/img/icon_steps.png' %}">
-                <p class="col-sm-11 col-center">The step-by-step nature of Rapid Router makes it <strong>simple for you and your students</strong> to gain exerience quickly.</p>
-            </div>
-            <div class="col-sm-4">
-                <img title="Graph" alt="Graph" src="{% static 'portal/img/icon_graph.png' %}">
-                <p class="col-sm-11 col-center">Easy to use teacher dashboard includes scores to <strong>track student progress</strong> as well as <strong>comprehensive teaching resources</strong>.</p>
-            </div>
-        </div>
-    </section>
-</div>
+<section id="overview" class="background">
+    <h3>We&rsquo;re with you every step of the way</h3>
+    {% benefits %}
+</section>
 
 <div id="curriculum">
     <div class="background background--primary">
@@ -76,7 +55,7 @@
                     <a href="https://www.youtube.com/embed/xP-U-MJLk-g?rel=0&amp;autoplay=1" class="youtube">
                         <img title="Watch Video" alt="Watch Video" src="{% static 'portal/img/thumbnail_intro_c4l.jpg' %}">
                     </a>
-                    <br><a href="{% url 'play' %}" class="button button--regular button-primary button--primary--general-educate">Get started</a>
+                    <br><a href="{% url 'play_rapid_router' %}" class="button button--regular button-primary button--primary--general-educate">Get started</a>
                 </section>
             </div>
         </div>

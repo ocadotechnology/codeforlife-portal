@@ -1,0 +1,65 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block nav_play %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
+
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="banner banner--aimmo--preview--background">
+  <div class="sticky-subnav sub-nav sub-nav--games">
+    <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+    <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">Kurono</a>
+  </div>
+  <div class="row banner--aimmo--content">
+    <div class="col-md-4">
+        <img class="col-md-12" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
+    </div>
+  </div>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+
+<div class="background">
+    <section>
+        <div class="col-sm-6 col-center kurono-overview__paragraph">
+          Following on from Rapid Router, this exciting game will build on students&rsquo; existing coding skills.
+          Using Python, students will collaborate together to collect artefacts from the relative past to preserve history!
+        </div>
+        <div class="col-sm-6 col-center kurono-overview__paragraph">
+          The game is designed to teach Python in secondary schools (ages 13+).
+          Like Rapid Router, we will provide teaching materials aligned with the British Computing Curriculum. 
+        </div>
+        <div class="col-sm-6 col-center kurono-overview__paragraph">
+          We plan to release Kurono to everyone soon. In the meantime, please try out our first game, Rapid Router.
+          If you want to help us make Kurono the best resource for teaching programming in secondary schools, 
+          we would love to get in touch with you! 
+        </div>
+        <div class="background">
+          <a href="{% url 'help' %}#contact" target="_blank" class="button button-primary button--primary--general-play">Contact Us</a>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        invokeColorbox();
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.menu').outerHeight());
+        }
+    });
+</script>
+
+{% endblock content %}

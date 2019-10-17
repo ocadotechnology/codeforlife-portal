@@ -91,7 +91,25 @@ img {
   top: 7%;
 }
 
-@media (min-width: 760px) and (max-width: 1400px) {
+.grid-benefits__image {
+  @include _padding(0px, 0px, 3 * $spacing, 0px);
+  justify-self: center;
+  align-self: center;
+}
+
+.grid-benefits__image1 {
+  grid-area: image1;
+}
+
+.grid-benefits__image2 {
+  grid-area: image2;
+}
+
+.grid-benefits__image3 {
+  grid-area: image3;
+}
+
+@media (min-width: 768px) and (max-width: 1400px) {
 
   .logo {
     margin-left: 1%;
@@ -105,7 +123,7 @@ img {
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
 
   .logo {
     content: url('../img/logo_c4l_hexa.png');
@@ -120,7 +138,7 @@ img {
 
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
 
   .logo {
     display: none;

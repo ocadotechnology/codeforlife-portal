@@ -1,9 +1,11 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+{% load headline_tags %}
+{% load benefits_tags %}
 
-{% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block rapidrouter %}<a href="{% url 'play' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
+{% block nav_play %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block rapidrouter %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
 
 {% block css %}
 {{block.super}}
@@ -17,7 +19,7 @@
 {{ block.super }}
 <div class="banner banner--rapid-router--background row">
     <div class="sticky-subnav sub-nav sub-nav--games">
-        <a href="{% url 'play' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
+        <a href="{% url 'play_rapid_router' %}" class="button button--regular button--secondary button--secondary--light">Rapid Router</a>
         <a href="{% url 'play_aimmo' %}" class="button button--regular button--secondary button--secondary--light">Kurono</a>
     </div>
     <div class="row banner--rapid-router--content">
@@ -41,36 +43,9 @@
 
 <div class="background">
     <section>
-        <h1>Anyone can code, you can too!</h1>
-        <h4 class="col-sm-6 col-center">Whether you&rsquo;re a teacher or a student, Rapid Router guides you, and makes learning to code easy and great fun. Using Blockly you can advance through the levels
-            to become an Ocado delivery hero.</h4>
+        {% headline headline_name="HEADLINE" %}
     </section>
-    <div class="row row--small homepage-info">
-        <div class="col-sm-9 col-center">
-            <div class="col-sm-4">
-                <img title="Teaching Tools" alt="Teaching Tools" src="{% static 'portal/img/teaching_tools.jpg' %}">
-                <h3>Free teaching tools</h3>
-                <p>Free teaching resources, lesson plans and much more. You can even track your student&rsquo;s progress with our class tracker.</p>
-                <div class="background">
-                    <a href="{% url 'teach' %}" class="button button--regular button--secondary button--secondary--dark">Learn more</a>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <img title="Fun game" alt="Fun game" src="{% static 'portal/img/a_fun_game_for_students.jpg' %}">
-                <h3>A fun game for students</h3>
-                <p>You can learn to become a coding superhero, amaze your friends with your high scores.</p>
-                <div class="background">
-                    <a href="{% url 'levels' %}" class="button button--regular button--secondary button--secondary--dark">Play now</a>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <img title="Blockly" alt="Blocky code" src="{% static 'portal/img/about_blockly.png' %}">
-                <h3>About Blockly</h3>
-                <p>Built on &lsquo;Blockly&rsquo;, an easy-to-use visual programming language that&rsquo;s similar to Scratch, so you don&rsquo;t need
-                    to worry about syntax.</p>
-            </div>
-        </div>
-    </div>
+    {% benefits %}
 </div>
 
 <section class="background background--quaternary">

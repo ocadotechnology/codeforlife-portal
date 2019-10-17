@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+{% load banner_tags %}
 
 {% block materials %}
 <a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
@@ -8,14 +9,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--teacher row">
-    <div class="col-sm-5 col-sm-offset-2">
-        <h1 class="banner__text--primary">Teaching Resources</h1>
-    </div>
-    <div class="col-sm-5">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--terms"></div></div></div>
-    </div>
-</div>
+{% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}

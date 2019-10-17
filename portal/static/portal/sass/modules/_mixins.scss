@@ -1,4 +1,7 @@
 @function calculate-rem($size) {
+  @if $size == 'auto' {
+    @return auto;
+  }
   $rem-size: $size / 10px;
   @return #{$rem-size}rem;
 }

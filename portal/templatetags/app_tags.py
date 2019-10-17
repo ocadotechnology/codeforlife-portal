@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,12 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.conf import settings
-from django import template
-from django.template.defaultfilters import stringfilter
-from portal.utils import using_two_factor
-from portal import beta
 from aimmo.templatetags.players_utils import get_user_playable_games
+from django import template
+from django.conf import settings
+from django.template.defaultfilters import stringfilter
+from portal import __version__
+from portal import beta
+from portal.utils import using_two_factor
 
 register = template.Library()
 
@@ -109,7 +110,11 @@ def is_logged_in_as_teacher(u):
 
 @register.filter(name="is_independent_student")
 def is_independent_student(u):
-    return u.userprofile and u.userprofile.student and u.userprofile.student.is_independent()
+    return (
+        u.userprofile
+        and u.userprofile.student
+        and u.userprofile.student.is_independent()
+    )
 
 
 @register.filter(name="has_teacher_finished_onboarding")
@@ -163,3 +168,8 @@ def make_title_caps(s):
 @stringfilter
 def cloud_storage(e):
     return settings.CLOUD_STORAGE_PREFIX + e
+
+
+@register.filter(name="get_project_version")
+def get_project_version():
+    return __version__

@@ -40,13 +40,12 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.utils.html import escape
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.html import escape
 
 from deploy import captcha
 from portal import app_settings, email_messages
-from portal.forms.home import ContactForm
 from portal.forms.newsletter_form import NewsletterForm
 from portal.forms.play import (
     StudentLoginForm,
@@ -59,11 +58,10 @@ from portal.helpers.emails import (
     send_verification_email,
     is_verified,
     send_email,
-    CONTACT_EMAIL,
     NOTIFICATION_EMAIL,
     add_to_salesforce,
 )
-from portal.models import Teacher, Student, Class
+from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
 from ratelimit.decorators import ratelimit
@@ -496,82 +494,6 @@ def redirect_teacher_to_correct_page(request, teacher):
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
 
-@ratelimit(
-    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
-)
-def contact(request):
-    increment_count = False
-    should_use_captcha = captcha.CAPTCHA_ENABLED
-
-    anchor = ""
-
-    if request.method == "POST":
-        contact_form = ContactForm(request.POST)
-        if not should_use_captcha:
-            remove_captcha_from_forms(contact_form)
-        increment_count = True
-        if contact_form.is_valid():
-            anchor = "top"
-            email_message = email_messages.contactEmail(
-                request,
-                contact_form.cleaned_data["name"],
-                contact_form.cleaned_data["telephone"],
-                contact_form.cleaned_data["email"],
-                contact_form.cleaned_data["message"],
-                contact_form.cleaned_data["browser"],
-            )
-            send_email(
-                CONTACT_EMAIL,
-                app_settings.CONTACT_FORM_EMAILS,
-                email_message["subject"],
-                email_message["message"],
-            )
-
-            confirmed_email_message = email_messages.confirmationContactEmailMessage(
-                request,
-                contact_form.cleaned_data["name"],
-                contact_form.cleaned_data["telephone"],
-                contact_form.cleaned_data["email"],
-                contact_form.cleaned_data["message"],
-            )
-            send_email(
-                CONTACT_EMAIL,
-                [contact_form.cleaned_data["email"]],
-                confirmed_email_message["subject"],
-                confirmed_email_message["message"],
-            )
-
-            messages.success(request, "Your message was sent successfully.")
-            return render(
-                request,
-                "portal/help-and-support.html",
-                {"form": contact_form, "anchor": anchor},
-            )
-        else:
-            contact_form = ContactForm(request.POST)
-            anchor = "contact"
-
-    else:
-        contact_form = ContactForm()
-
-    if not should_use_captcha:
-        remove_captcha_from_forms(contact_form)
-
-    response = render(
-        request,
-        "portal/help-and-support.html",
-        {
-            "form": contact_form,
-            "anchor": anchor,
-            "captcha": should_use_captcha,
-            "settings": app_settings,
-        },
-    )
-
-    response.count = increment_count
-    return response
-
-
 @csrf_exempt
 def process_newsletter_form(request):
     if request.method == "POST":
@@ -593,3 +515,10 @@ def process_newsletter_form(request):
 
 def home(request):
     return render(request, "portal/home.html")
+
+
+def play_aimmo_preview(request):
+    return render(
+        request,
+        "portal/play_aimmo_preview.html",
+    )

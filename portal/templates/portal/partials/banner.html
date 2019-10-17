@@ -1,0 +1,14 @@
+<div class="banner banner--teacher row">
+    <div class="col-sm-5 col-sm-offset-2">
+        <h1 class="banner__text--primary">{{ title }}</h1>
+        {% if subtitle %}
+            <h4>{{ subtitle }}</h4>
+        {% endif %}
+        {% if text %}
+            <p>{{ text }}</p>
+        {% endif %}
+    </div>
+    <div class="col-sm-5">
+        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 {{ image_class }}"></div></div></div>
+    </div>
+</div>

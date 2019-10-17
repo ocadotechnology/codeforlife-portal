@@ -34,11 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from aimmo.urls import HOMEPAGE_REGEX
 from django.conf.urls import include, url
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.base import TemplateView
 from django.views.generic import RedirectView
+from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
+from game.views.level import play_default_level
 from two_factor.views import (
     DisableView,
     BackupTokensView,
@@ -48,45 +50,60 @@ from two_factor.views import (
     QRGeneratorView,
 )
 
+from portal.permissions import teacher_verified
+from portal.views.about import about
+from portal.views.admin import aggregated_data, schools_map, admin_login
+from portal.views.aimmo.home import aimmo_home
 from portal.views.api import (
     registered_users,
     last_connected_since,
     number_users_per_country,
     InactiveUsersView,
 )
-from portal.views.admin import aggregated_data, schools_map, admin_login
-from portal.views.teacher.solutions_level_selector import levels
-from portal.permissions import teacher_verified
-
 from portal.views.email import send_new_users_report
-
-from game.views.level import play_default_level
-
-from portal.views.aimmo.home import aimmo_home
-
 from portal.views.email import verify_email
+from portal.views.help_and_support import contact
 from portal.views.home import (
     login_view,
     logout_view,
     register_view,
-    contact,
     process_newsletter_form,
     home,
-)
-from portal.views.student.play import (
-    student_details,
-    student_join_organisation,
-)
-from portal.views.student.edit_account_details import (
-    student_edit_account,
-    SchoolStudentEditAccountView,
-    IndependentStudentEditAccountView
+    play_aimmo_preview,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
     organisation_manage,
     organisation_leave,
 )
+from portal.views.play_landing_page import play_landing_page
+from portal.views.play_rapid_router import play_rapid_router
+from portal.views.privacy_policy import privacy_policy
+from portal.views.registration import (
+    teacher_password_reset,
+    password_reset_done,
+    student_password_reset,
+    password_reset_check_and_confirm,
+    custom_2FA_login,
+)
+from portal.views.student.edit_account_details import (
+    student_edit_account,
+    SchoolStudentEditAccountView,
+    IndependentStudentEditAccountView,
+)
+from portal.views.student.play import student_details, student_join_organisation
+from portal.views.teach import teach
+from portal.views.teacher.dashboard import (
+    dashboard_manage,
+    organisation_allow_join,
+    organisation_deny_join,
+    organisation_kick,
+    organisation_toggle_admin,
+    teacher_disable_2FA,
+    teacher_reject_student_request,
+    teacher_accept_student_request,
+)
+from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
     teacher_onboarding_create_class,
     teacher_onboarding_edit_class,
@@ -104,29 +121,11 @@ from portal.views.teacher.teach import (
     teacher_move_students_to_class,
     default_solution,
     teacher_dismiss_students,
-    materials,
     invite_teacher,
 )
-from portal.views.teacher.dashboard import (
-    dashboard_manage,
-    organisation_allow_join,
-    organisation_deny_join,
-    organisation_kick,
-    organisation_toggle_admin,
-    teacher_disable_2FA,
-    teacher_reject_student_request,
-    teacher_accept_student_request,
-)
-from portal.views.registration import (
-    teacher_password_reset,
-    password_reset_done,
-    student_password_reset,
-    password_reset_check_and_confirm,
-    custom_2FA_login,
-)
-
-from aimmo.urls import HOMEPAGE_REGEX
-from two_factor.urls import urlpatterns as tf_urls
+from portal.views.teacher.teacher_materials import materials
+from portal.views.teacher.teacher_resources import teacher_resources
+from portal.views.terms import terms
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -198,7 +197,11 @@ urlpatterns = [
     url(r"^login_form", login_view, name="login_view"),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
-    url(r"^verify_email/$", TemplateView.as_view(template_name="portal/email_verification_needed.html"), name="email_verification"),
+    url(
+        r"^verify_email/$",
+        TemplateView.as_view(template_name="portal/email_verification_needed.html"),
+        name="email_verification",
+    ),
     url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
     url(
         r"^user/password/reset/student/$",
@@ -225,11 +228,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/reset_password_done.html"),
         name="password_reset_complete",
     ),
-    url(
-        r"^teach/$",
-        TemplateView.as_view(template_name="portal/teach.html"),
-        name="teach",
-    ),
+    url(r"^teach/$", teach, name="teach"),
     url(
         r"^teach/fuzzy_lookup/$",
         organisation_fuzzy_lookup,
@@ -261,43 +260,44 @@ urlpatterns = [
         name="onboarding-complete",
     ),
     url(r"^teach/invite", invite_teacher, name="invite_teacher"),
-    url(r"^play/$", RedirectView.as_view(url=reverse_lazy("play"), permanent=True)),
+    url(r"^play/$", play_landing_page, name="play"),
     url(r"^play/details/$", student_details, name="student_details"),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
-    url(r"^play/account/independent/$", IndependentStudentEditAccountView.as_view(), name="indenpendent_edit_account"),
-    url(r"^play/account/school_student/$", SchoolStudentEditAccountView.as_view(), name="school_student_edit_account"),
+    url(
+        r"^play/account/independent/$",
+        IndependentStudentEditAccountView.as_view(),
+        name="indenpendent_edit_account",
+    ),
+    url(
+        r"^play/account/school_student/$",
+        SchoolStudentEditAccountView.as_view(),
+        name="school_student_edit_account",
+    ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(
-        r"^play/rapid-router/$",
-        TemplateView.as_view(template_name="portal/play_rapid-router.html"),
-        name="play",
+        r"^play/account/independent/$",
+        IndependentStudentEditAccountView.as_view(),
+        name="indenpendent_edit_account",
     ),
     url(
-        r"^play/kurono/$",
-        TemplateView.as_view(template_name="portal/play_aimmo.html"),
-        name="play_aimmo",
+        r"^play/account/school_student/$",
+        SchoolStudentEditAccountView.as_view(),
+        name="school_student_edit_account",
     ),
-    url(
-        r"^about", TemplateView.as_view(template_name="portal/about.html"), name="about"
-    ),
+    url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
+    url(r"^play/rapid-router/$", play_rapid_router, name="play_rapid_router"),
+    url(r"^play/kurono/$", play_aimmo_preview, name="play_aimmo"),
+    url(r"^about", about, name="about"),
     url(r"^help/$", contact, name="help"),
-    url(
-        r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"
-    ),
-    url(
-        r"^privacy-policy", TemplateView.as_view(template_name="portal/privacy_policy.html"), name="privacy_policy"
-    ),
+    url(r"^terms", terms, name="terms"),
+    url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
         materials_viewer,
         name="materials_viewer",
     ),
-    url(
-        r"^teach/resources/$",
-        TemplateView.as_view(template_name="portal/teach/teacher_resources.html"),
-        name="teaching_resources",
-    ),
+    url(r"^teach/resources/$", teacher_resources, name="teaching_resources"),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",

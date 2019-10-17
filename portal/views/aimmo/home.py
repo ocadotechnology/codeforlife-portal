@@ -38,7 +38,10 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from portal.views.teacher.teach import get_session_pdfs, get_resource_sheets_pdfs
+from portal.views.teacher.teacher_materials import (
+    get_session_pdfs,
+    get_resource_sheets_pdfs,
+)
 
 from aimmo.app_settings import get_users_for_new_game
 from aimmo.forms import AddGameForm

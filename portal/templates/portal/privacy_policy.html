@@ -1,6 +1,7 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
+{% load banner_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -14,14 +15,7 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--teacher row">
-    <div class="col-sm-5 col-sm-offset-2">
-        <h1 class="banner__text--primary">Privacy Policy</h1>
-    </div>
-    <div class="col-sm-5">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--terms"></div></div></div>
-    </div>
-</div>
+{% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
@@ -29,7 +23,7 @@
 <div class="col-sm-8 col-center">
     <div id="privacy"></div>
     <div class="background">
-        <p><strong>Last Updated: 27 December 2018</strong></p>
+        <p><strong>Last Updated: 8th October 2019</strong></p>
         <p>We ask that you read this privacy notice carefully as it contains important information on who we are, how and why we collect, store, use and share your personal information, your rights in relation to your personal information and on how to contact us and supervisory authorities in the event you have a complaint.</p>
         <p>We&rsquo;re deeply committed to creating a safe and secure online learning environment for you as teachers, parents, guardians, carers and young people.</p>
         <ol>
@@ -122,7 +116,10 @@
 
     <div class="background">
         <h3>How long will your personal information will be kept?</h3>
-        <p>We will only retain your personal information for as long as necessary to fulfil the purposes we collected it for, including for the purposes of satisfying any legal or reporting requirements. To determine the appropriate retention period for personal data, we consider the amount, nature, and sensitivity of the personal data, the potential risk of harm from unauthorised use or disclosure of your personal data, the purposes for which we process your personal data and whether we can achieve those purposes through other means, and the applicable legal requirements.</p>
+        <p>We will only retain your personal information for as long as you have an active account. If you stop doing so, we may still use your data for a period of time in an anonymous format for research and other business purposes.</p>
+        <p>
+            <strong>For users that have registered but whose accounts are inactive</strong>, we will delete your personal information after 3 years of inactivity.
+        </p>
     </div>
 
     <div class="background">
