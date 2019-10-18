@@ -59,7 +59,7 @@ def refresh_user(request):
         onlinestatus = OnlineStatus(request=request)
     else:
         onlinestatus.set_active(request=request)
-    cache.set(key, onlinestatus, TIME_OFFLINE)
+    # cache.set(key, onlinestatus, TIME_OFFLINE)
     return onlinestatus
 
 
@@ -80,7 +80,7 @@ def refresh_users_list(request, **kwargs):
 
     update_online_users(updated, online_users)
 
-    cache.set(CACHE_USERS, online_users, TIME_OFFLINE)
+    # cache.set(CACHE_USERS, online_users, TIME_OFFLINE)
 
 
 def set_user_idle_or_offline(online_status, seconds):
@@ -95,7 +95,7 @@ def set_user_idle_or_offline(online_status, seconds):
         )
         online_status.set_idle()
         user_status.set_idle()
-        cache.set(CACHE_PREFIX_USER % online_status.user.pk, user_status, TIME_OFFLINE)
+        # cache.set(CACHE_PREFIX_USER % online_status.user.pk, user_status, TIME_OFFLINE)
         return False
 
 
