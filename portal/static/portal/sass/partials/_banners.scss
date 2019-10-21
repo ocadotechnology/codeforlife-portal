@@ -46,20 +46,17 @@
   div[class^='col-sm'] {
     padding: 0;
   }
-
-  img {
-    @include _padding(0px, 0px, 20 * $spacing, 0px);
-  }
 }
 
 .banner--aimmo-landing--content {
   @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   .kurono-logo {
+    @include _padding(0px, 0px, 5 * $spacing, 0px);
     width: 80vw;
   }
 }
