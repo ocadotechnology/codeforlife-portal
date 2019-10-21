@@ -113,10 +113,13 @@
 }
 
 .banner--homepage {
-  @include _padding(100px, 0px, 100px, 10px);
+  height: calc(100vh - #{$menu-height});
+  min-height: 768px;
+  @include _padding(4 * $spacing, 0px, 4 * $spacing, 0px);
   display: flex;
   justify-content: center;
   text-align: center;
+  align-items: center;
 
   p {
     @include _font-size(24px);
@@ -398,6 +401,7 @@
 @media (max-width: 768px) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
+    height: auto;
   }
 
   .banner__item {

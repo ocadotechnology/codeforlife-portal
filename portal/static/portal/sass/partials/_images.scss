@@ -117,6 +117,8 @@ img {
 .play-homepage {
   content: url('../img/home_play_hero_hexagon_games.png');
   height: 350px;
+  width: 100%;
+  object-fit: contain;
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
