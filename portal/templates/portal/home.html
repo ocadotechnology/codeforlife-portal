@@ -20,9 +20,7 @@
 <div class="row row--flex">
     <section class="banner--homepage banner--homepage--teacher col-sm-6">
         <div class="banner col-sm-7">
-            <a href="{% url 'teach' %}">
-                <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--educate"></div></div></div>
-            </a>
+            <a href="{% url 'teach' %}" class="educate-homepage"></a>
             <h1 class="banner__text--primary"><a href="{% url 'teach' %}">Educate</a></h1>
             <p>Helping teachers to inspire the next generation of computer scientists.</p>
             <a href="{% url 'teach' %}" class="button button--big button-primary button--primary--general-educate">Learn more</a>
@@ -30,10 +28,8 @@
     </section>
     <section class="banner--homepage banner--homepage--student col-sm-6">
         <div class="banner col-sm-7">
-            <a href="{% url 'play_rapid_router' %}">
-                <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--play"></div></div></div>
-            </a>
-            <h1 class="banner__text--primary"><a href="{% url 'play_rapid_router' %}">Play</a></h1>
+            <a href="{% url 'play' %}" class="play-homepage"></a>
+            <h1 class="banner__text--primary"><a href="{% url 'play' %}">Play</a></h1>
             <p>Anyone can learn how to code. We will help you learn how. It&rsquo;s fun, free and easy.</p>
             <a href="{% url 'play_rapid_router' %}" class="button button--big button-primary button--primary--general-play">Get started</a>
         </div>
