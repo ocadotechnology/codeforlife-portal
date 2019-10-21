@@ -1,26 +1,26 @@
 # coding=utf-8
-HEADLINE = {
+AIMMO_MAIN_HEADLINE = {
     "title": "Join a coding adventure!",
     "description": "Whether you’re a teacher or a student, Kurono makes learning to code easy and great fun. Using Python, you can travel through time to collect all the museum artifacts.",
 }
 
-CHALLENGES = {
+AIMMO_CHALLENGES_HEADLINE = {
     "title": "Challenges",
     "description": "Individual and collaborative challenges keep students engaged and having fun. "
     "(Coming soon)",
 }
 
-TEACHING_RESOURCES = {
+AIMMO_RESOURCES_HEADLINE = {
     "title": "Teaching Resources",
     "description": "Integrate Kurono in your classroom with our printable student challenges, teacher guidance sheets and supporting materials.",
 }
 
-PLAY_ONLINE = {
+AIMMO_PLAY_ONLINE_HEADLINE = {
     "title": "Play Online",
     "description": "No need to install anything, so you can get started right away.",
 }
 
-BENEFITS = {
+AIMMO_BENEFITS = {
     "first": {
         "image": "portal/img/icon_laptop.png",
         "title": "Aligned to the curriculum",

@@ -19,14 +19,14 @@
 
 {% block subNav %}
 {{ block.super }}
-<div class="banner banner--aimmo--blurred-background">
-    <div class="banner banner--aimmo-landing--content">
-        <div class="col-md-6">
-            <img class="col-md-12" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
+<div class="banner--aimmo--blurred-background">
+    <div class="banner--aimmo-landing--content">
+        <div>
+            <img class="kurono-logo" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
         </div>
-    <div>
-        <a href="{% url 'kurono'  %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
-    </div>
+        <div>
+            <a href="{% url 'kurono'  %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
+        </div>
   </div>
 </div>
 {% endblock subNav %}
@@ -42,18 +42,17 @@
     </section>
 </div>
 <section class="background">
-    <div class="row row--small homepage-info">
-        {% benefits %}
-    </div>
+    {% benefits %}
 </section>
 <div class="background">
     <section class="banner--aimmo--video--container">
         <video autoplay muted loop class="banner banner--aimmo--video">
-            <source src={% static 'portal/video/aimmo_challenges_background_video.mp4' %}>
+            <source src="{% static 'portal/video/aimmo_challenges_background_video.mp4' %}">
         </video>
         <div class="banner banner--aimmo--video--text">
             <h1>Challenges</h1>
-            <h4 class="col-sm-6 col-center">Individual and collaborative challenges keep students engaged and having fun. (Coming soon)</h4>
+            <h4 class="col-sm-6 col-center">Individual and collaborative challenges keep students engaged and having fun.</h4>
+            <h4>(Coming soon)</h4>
         </div>
     </section>
 </div>
@@ -63,10 +62,10 @@
         <img src="{% static 'portal/img/teaching_resources.png' %}">
     </section>
 </div>
-<div class="background">
-    <section>
+<div class="background row">
+    <section class="col-center">
         {% headline headline_name="PLAY_ONLINE" %}
-        <video autoplay muted loop class="video--aimmo--play-online">
+        <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
             <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
         </video>
     </section>

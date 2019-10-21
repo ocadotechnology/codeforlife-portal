@@ -52,7 +52,7 @@
         <p>Rapid Router guides you, and makes learning to code easy and great fun.
             Using Blockly, you can advance through the levels to become an Ocado delivery hero.</p>
         <div>
-            <p><a href="{% url 'play' %}">Learn more about Rapid Router</a></p>
+            <p><a href="{% url 'play_rapid_router' %}">Learn more about Rapid Router</a></p>
             {% if user|is_logged_in_as_school_user %}
             <p><a href="{% url 'scoreboard' %}">View my score</a></p>
             {% endif %}

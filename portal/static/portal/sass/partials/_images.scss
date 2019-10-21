@@ -91,19 +91,32 @@ img {
   top: 7%;
 }
 
+.grid-benefits__image {
+  @include _padding(0px, 0px, 3 * $spacing, 0px);
+  justify-self: center;
+  align-self: center;
+}
+
 .grid-benefits__image1 {
   grid-area: image1;
-  justify-self: center;
 }
 
 .grid-benefits__image2 {
   grid-area: image2;
-  justify-self: center;
 }
 
 .grid-benefits__image3 {
   grid-area: image3;
-  justify-self: center;
+}
+
+.educate-homepage {
+  content: url('../img/home_educate_hero_hexagon.png');
+  height: 350px;
+}
+
+.play-homepage {
+  content: url('../img/home_play_hero_hexagon_games.png');
+  height: 350px;
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
