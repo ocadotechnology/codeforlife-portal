@@ -45,7 +45,7 @@ setup(
         "django-classy-tags==0.6.1",
         "django-treebeard==4.3",
         "django-sekizai==0.10.0",
-        "Pillow==5.4.1",
+        "Pillow==6.2.0",
         "django-reversion==2.0.0",
         "sqlparse",
         "libsass",
