@@ -209,7 +209,6 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
         "new_user__first_name"
     )
 
-    check_logged_in_students(klass, students)
     check_user_is_authorised(request, klass)
 
     if request.method == "POST":
@@ -268,16 +267,6 @@ def teacher_onboarding_edit_class(request, access_code):
         onboarding_done=False,
         next_url="portal/teach/onboarding_students.html",
     )
-
-
-def check_logged_in_students(klass, students):
-    # Check which students are logged in
-    logged_in_students = klass.get_logged_in_students()
-    for student in students:
-        if logged_in_students.filter(id=student.id).exists():
-            student.logged_in = True
-        else:
-            student.logged_in = False
 
 
 def check_user_is_authorised(request, klass):

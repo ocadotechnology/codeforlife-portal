@@ -107,7 +107,6 @@ SETTINGS = {
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-        "portal.middleware.online_status.OnlineStatusMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
@@ -142,12 +141,6 @@ SETTINGS = {
 }
 
 RELATIONSHIPS = [
-    OrderingRelationship(
-        "MIDDLEWARE",
-        "portal.middleware.online_status.OnlineStatusMiddleware",
-        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-        add_missing=False,
-    ),
     OrderingRelationship(
         "MIDDLEWARE",
         "django_otp.middleware.OTPMiddleware",
