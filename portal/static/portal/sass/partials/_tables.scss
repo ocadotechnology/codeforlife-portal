@@ -172,10 +172,6 @@ td {
     padding: 0;
   }
 
-  .status-indicator {
-    @include _margin(0px, 5px, 0px, 0px);
-  }
-
   .student-table__cell {
     align-items: center;
     display: flex;

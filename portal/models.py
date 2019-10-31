@@ -36,17 +36,14 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-import re
 import datetime
+import re
 from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
-from django_countries.fields import CountryField
-from django.core.cache import cache
 from django.utils import timezone
-
-from portal.middleware.online_status import status
+from django_countries.fields import CountryField
 
 
 class UserProfile(models.Model):
@@ -94,8 +91,6 @@ class School(models.Model):
 
 class TeacherModelManager(models.Manager):
     def factory(self, title, first_name, last_name, email, password):
-        from portal.helpers.generators import get_random_username
-
         user = User.objects.create_user(
             username=email,
             email=email,
@@ -167,21 +162,6 @@ class Class(models.Model):
     def has_students(self):
         students = self.students.all()
         return students.count() != 0
-
-    def get_logged_in_students(self):
-        ONLINE = 1
-
-        """This gets all the students who are logged in."""
-        users_status = cache.get(status.CACHE_USERS)
-        online_users_status = filter(
-            lambda status: status.status == ONLINE, users_status
-        )
-        online_user_ids = map(lambda status: status.user.id, online_users_status)
-
-        # Query all logged in users based on id list
-        return Student.objects.filter(class_field=self).filter(
-            new_user__id__in=online_user_ids
-        )
 
     def get_requests_message(self):
         if self.always_accept_requests:
@@ -298,6 +278,3 @@ class FrontPageNews(models.Model):
 
     def __unicode__(self):
         return self.title
-
-
-from . import handlers  # noqa
