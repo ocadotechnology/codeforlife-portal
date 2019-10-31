@@ -43,7 +43,7 @@ RAPID_ROUTER_BANNER = {
     "description": "Use Blockly (and later Python) to help Dee drive the van "
     "to make all the deliveries and become an Ocado delivery hero.",
     "button_text": "Play Now",
-    "button_link": "play",
+    "button_link": "play_rapid_router",
     "ages": "Ages 6—13",
     "background_image_class": "banner--rapid-router--background",
 }

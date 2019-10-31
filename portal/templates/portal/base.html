@@ -120,7 +120,7 @@
                         {% endif %}
                         {% endblock secondaryButtons %}
                     {% else %}
-                        <a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--primary"><b>Student</b></a>
+                        <a href="{% url 'play' %}" class="button--menu button--menu--primary"><b>Student</b></a>
                         {% block studentButtons %}
                         <div class="dropdown">
                             {% block myGames %}<a href="{% url 'student_details' %}" id="student_dashboard_button"
@@ -149,7 +149,7 @@
                     {% endif %}
                 {% else %}
                     {% block nav_teach %}<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
-                    {% block nav_play %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
+                    {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
                 {% endif %}
                 {% endblock leftMenuButtons %}
             </div>
@@ -218,7 +218,7 @@
                 </div>
                 <a class="button button--menu__item" href="{% url 'teach' %}">Teacher</a>
             {% endif %}
-            <a class="button button--menu__item" href="{% url 'play_rapid_router' %}">Student</a>
+            <a class="button button--menu__item" href="{% url 'play' %}">Student</a>
             <a class="button button--menu__item" href="{% url 'about' %}">About</a>
             <a class="button button--menu__item" href="{% url 'help' %}">Help and support</a>
             <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use</a>
@@ -282,7 +282,7 @@
     <div class="row">
         <p><a href="{% url 'about' %}">About us</a></p>
         <p><a href="{% url 'teach' %}">Teachers</a></p>
-        <p><a href="{% url 'play_rapid_router' %}">Students</a></p>
+        <p><a href="{% url 'play' %}">Students</a></p>
         <p><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
         <p><a href="{% url 'help' %}#contact">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>

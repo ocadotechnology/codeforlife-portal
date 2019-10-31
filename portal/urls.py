@@ -54,6 +54,7 @@ from portal.permissions import teacher_verified
 from portal.views.about import about
 from portal.views.admin import aggregated_data, schools_map, admin_login
 from portal.views.aimmo.home import aimmo_home
+from portal.views.play_aimmo import play_aimmo
 from portal.views.api import (
     registered_users,
     last_connected_since,
@@ -69,7 +70,6 @@ from portal.views.home import (
     register_view,
     process_newsletter_form,
     home,
-    play_aimmo_preview,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
@@ -287,7 +287,7 @@ urlpatterns = [
     ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
     url(r"^play/rapid-router/$", play_rapid_router, name="play_rapid_router"),
-    url(r"^play/kurono/$", play_aimmo_preview, name="play_aimmo"),
+    url(r"^play/kurono/$", play_aimmo, name="play_aimmo"),
     url(r"^about", about, name="about"),
     url(r"^help/$", contact, name="help"),
     url(r"^terms", terms, name="terms"),
