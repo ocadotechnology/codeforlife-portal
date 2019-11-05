@@ -61,17 +61,6 @@
                         </div>
                     </th>
                     <th><p>Student details</p></th>
-                    <th>
-                        <p>Status</p>
-                        <div class="student-table__cell">
-                            <div class="status-indicator status-indicator--on"></div>
-                            <p><small>Logged in</small></p>
-                        </div>
-                        <div class="student-table__cell">
-                            <div class="status-indicator status-indicator--off"></div>
-                            <p><small>Logged out</small></p>
-                        </div>
-                    </th>
                 </tr>
                 {% for student in students %}
                 <tr>
@@ -81,10 +70,6 @@
                             <p><small>{{ student.new_user.first_name }}</small></p>
                             <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--small button--primary--positive">Edit</a>
                         </div>
-                    </td>
-                    <td>
-                        {% if student.logged_in %}<div class="status-indicator status-indicator--on"></div>
-                        {% else %}<div class="status-indicator status-indicator--off"></div>{% endif %}
                     </td>
                 </tr>
                 {% endfor %}
