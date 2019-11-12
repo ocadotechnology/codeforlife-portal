@@ -31,7 +31,7 @@ setup(
         "django-pipeline==1.6.14",
         "django-recaptcha==1.3.1",  # 1.4 dropped support for < 1.11
         "pyyaml==4.2b1",
-        # "rapid-router >= 1.0.0.post.dev1",
+        "rapid-router >= 1.0.0.post.dev1",
         "six==1.11.0",
         "aimmo",
         "docutils==0.12",
