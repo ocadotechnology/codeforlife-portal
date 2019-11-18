@@ -94,6 +94,7 @@ SETTINGS = {
         "django_otp",
         "django_otp.plugins.otp_static",
         "django_otp.plugins.otp_totp",
+        "security",
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
@@ -111,6 +112,9 @@ SETTINGS = {
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
         "django_otp.middleware.OTPMiddleware",
+        "security.middleware.ContentNoSniff",
+        "security.middleware.StrictTransportSecurityMiddleware",
+        # "security.middleware.ContentSecurityPolicyMiddleware",
     ],
     "TEMPLATES": [
         {
