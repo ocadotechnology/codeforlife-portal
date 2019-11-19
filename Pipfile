@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 codeforlife-portal = {path = ".",editable = true}
-django-security = "*"
 
 [dev-packages]
 django-selenium-clean = "==0.2.1"
