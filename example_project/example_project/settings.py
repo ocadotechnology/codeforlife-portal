@@ -77,6 +77,8 @@ INSTALLED_APPS = ("portal", "captcha", "django_forms_bootstrap")
 
 PIPELINE_ENABLED = False
 
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
 try:
     from example_project.local_settings import *  # pylint: disable=E0611
 except ImportError:
