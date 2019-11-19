@@ -114,7 +114,6 @@ SETTINGS = {
         "django_otp.middleware.OTPMiddleware",
         "security.middleware.ContentNoSniff",
         "security.middleware.StrictTransportSecurityMiddleware",
-        "security.middleware.ContentSecurityPolicyMiddleware",
     ],
     "TEMPLATES": [
         {
