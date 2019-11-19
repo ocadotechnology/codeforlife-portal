@@ -77,7 +77,7 @@ INSTALLED_APPS = ("portal", "captcha", "django_forms_bootstrap")
 
 PIPELINE_ENABLED = False
 
-STS_MAX_AGE = 31536000 # One year
+STS_MAX_AGE = 31536000  # One year
 
 try:
     from example_project.local_settings import *  # pylint: disable=E0611
