@@ -106,14 +106,13 @@ SETTINGS = {
         "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
+        "django.middleware.security.SecurityMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
         "django_otp.middleware.OTPMiddleware",
-        "security.middleware.ContentNoSniff",
-        "security.middleware.StrictTransportSecurityMiddleware",
     ],
     "TEMPLATES": [
         {
