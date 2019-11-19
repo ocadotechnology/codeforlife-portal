@@ -80,14 +80,11 @@ PIPELINE_ENABLED = False
 STS_MAX_AGE = 31536000 # One year
 # CSP_MODE = "report-only"
 
-# CSP_DICT = {
-#     "default-src": ["self", "https:"],
-#     "font-src": ["self", "https://fonts.googleapis.com/css?family=*"],
-#     "js-src": ["self", "https://maps.googleapis.com/maps/api/js"],
-#     "recaptcha-src": ["self", "https://www.google.com/recaptcha/api.js"],
-#     "mouseflow-src": ["self", "//cdn.mouseflow.com/projects/4e6407b5-890c-4dfc-9b50-fc14eeeeb2eb.js"],
-#     "analytics-src": ["self", "//www.google-analytics.com/analytics.js"]
-# }
+CSP_DICT = {
+    "default-src": ["self", "https:"],
+    "font-src": ["self", "https://fonts.googleapis.com/css?family=*"],
+    "script-src": ["self", "https://maps.googleapis.com/maps/api/js", "https://www.google.com/recaptcha/api.js", "//cdn.mouseflow.com/projects/4e6407b5-890c-4dfc-9b50-fc14eeeeb2eb.js", "//www.google-analytics.com/analytics.js"]
+}
 
 try:
     from example_project.local_settings import *  # pylint: disable=E0611
