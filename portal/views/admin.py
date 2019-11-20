@@ -68,7 +68,7 @@ def admin_login(request):
         and captcha.CAPTCHA_ENABLED
     )
     AdminLoginForm.is_captcha_visible = show_captcha
-    return auth_views.login(
+    return auth_views.LoginView.as_view()(
         request,
         authentication_form=AdminLoginForm,
         extra_context={"captcha": show_captcha, "settings": app_settings},
