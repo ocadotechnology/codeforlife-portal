@@ -43,6 +43,7 @@ from django.shortcuts import render
 from django.utils.html import escape
 from django.utils.http import is_safe_url
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_control
 
 from deploy import captcha
 from portal import app_settings, email_messages
@@ -512,7 +513,7 @@ def process_newsletter_form(request):
 
     return HttpResponse(status=405)
 
-
+@cache_control(private=True)
 def home(request):
     return render(request, "portal/home.html")
 
