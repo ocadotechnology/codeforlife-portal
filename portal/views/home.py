@@ -513,6 +513,7 @@ def process_newsletter_form(request):
 
     return HttpResponse(status=405)
 
+
 @cache_control(private=True)
 def home(request):
     return render(request, "portal/home.html")
