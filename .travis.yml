@@ -37,7 +37,7 @@ jobs:
         - pip install selenium==2.53.6
         - python example_project/manage.py collectstatic --noinput --settings test_settings
       script:
-        - pytest
+        - pytest --cov=. --cov-report=xml
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
