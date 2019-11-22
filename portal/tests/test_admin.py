@@ -35,13 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import uuid
+
 from django.contrib.auth.models import User, Permission
 from django.core.urlresolvers import reverse
 
-from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
-from portal.tests.base_test import BaseTest
-from portal.views import admin
 from portal.models import UserProfile
+from portal.tests.base_test import BaseTest
+from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
+from portal.views import admin
 
 
 class TestAdmin(BaseTest):
@@ -52,7 +53,7 @@ class TestAdmin(BaseTest):
 
     # NB: Users are not expected to navigate to admin login page directly
     def navigate_to_admin_login(self):
-        url = self.live_server_url + reverse("admin_login")
+        url = self.live_server_url + reverse("administration_login")
         self.selenium.get(url)
         return AdminLoginPage(self.selenium, self.live_server_url)
 

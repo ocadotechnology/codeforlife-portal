@@ -52,7 +52,7 @@ from two_factor.views import (
 
 from portal.permissions import teacher_verified
 from portal.views.about import about
-from portal.views.admin import aggregated_data, schools_map, admin_login
+from portal.views.admin import aggregated_data, schools_map, AdminLoginView
 from portal.views.aimmo.home import aimmo_home
 from portal.views.play_aimmo import play_aimmo
 from portal.views.api import (
@@ -168,12 +168,11 @@ urlpatterns = [
         r"^favicon\.ico$",
         RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
     ),
-    url(r"^administration/login/$", admin_login, name="administration_login"),
+    url(r"^administration/login/$", AdminLoginView.as_view(), name="administration_login"),
     url(
         r"^admin/$",
         RedirectView.as_view(url=reverse_lazy("aggregated_data"), permanent=True),
     ),
-    url(r"^admin/login/$", admin_login, name="admin_login"),
     url(r"^admin/map/$", schools_map, name="map"),
     url(r"^admin/data/$", aggregated_data, name="aggregated_data"),
     url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),

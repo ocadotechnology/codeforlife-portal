@@ -34,25 +34,24 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from time import sleep
 from datetime import timedelta
+from time import sleep
 
-from django.shortcuts import render
-from rest_framework.reverse import reverse_lazy
-from django.db.models import Avg, Count, Q
-from django_otp import device_classes
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib import messages as messages
+from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
+from django.db.models import Avg, Count, Q
+from django.shortcuts import render
 from django.utils import timezone
+from django_otp import device_classes
+from rest_framework.reverse import reverse_lazy
 
+from deploy import captcha
 from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
 from portal.models import Teacher, School, Class, Student
-from ratelimit.decorators import ratelimit
-from deploy import captcha
 
 block_limit = 5
 
@@ -61,21 +60,33 @@ def is_post_request(request, response):
     return request.method == "POST"
 
 
-@ratelimit("def", periods=["1m"], increment=is_post_request)
-def admin_login(request):
-    show_captcha = (
-        getattr(request, "limits", {"def": [0]})["def"][0] >= block_limit
-        and captcha.CAPTCHA_ENABLED
-    )
-    AdminLoginForm.is_captcha_visible = show_captcha
-    return auth_views.LoginView.as_view()(
-        request,
-        authentication_form=AdminLoginForm,
-        extra_context={"captcha": show_captcha, "settings": app_settings},
-    )
+class AdminLoginView(LoginView):
+    def show_captcha(self):
+        return (
+            getattr(self.request, "limits", {"def": [0]})["def"][0] >= block_limit
+            and captcha.CAPTCHA_ENABLED
+        )
+
+    form_class = AdminLoginForm
+    template_name = "registration/login.html"
+    extra_context = {"captcha": show_captcha, "settings": app_settings}
+    authentication_form = None
+
+    def get_form_kwargs(self):
+        kwargs = super(LoginView, self).get_form_kwargs()
+        return kwargs
+
+    def get_form(self, form_class=None):
+        user = self.request.user
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(user, **self.get_form_kwargs())
+
+    def process_form(self):
+        AdminLoginForm.is_captcha_visible = self.show_captcha
 
 
-@login_required(login_url=reverse_lazy("admin_login"))
+@login_required(login_url=reverse_lazy("administration_login"))
 @permission_required("portal.view_aggregated_data", raise_exception=True)
 def aggregated_data(request):
 
@@ -383,7 +394,7 @@ def fill_in_missing_school_locations(request):
     messages.info(request, "%d school have no town" % town0)
 
 
-@login_required(login_url=reverse_lazy("admin_login"))
+@login_required(login_url=reverse_lazy("administration_login"))
 @permission_required("portal.view_map_data", raise_exception=True)
 def schools_map(request):
     fill_in_missing_school_locations(request)
