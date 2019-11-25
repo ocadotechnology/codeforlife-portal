@@ -61,29 +61,29 @@ def is_post_request(request, response):
 
 
 class AdminLoginView(LoginView):
-    def show_captcha(self):
-        return (
-            getattr(self.request, "limits", {"def": [0]})["def"][0] >= block_limit
-            and captcha.CAPTCHA_ENABLED
-        )
-
     form_class = AdminLoginForm
     template_name = "registration/login.html"
-    extra_context = {"captcha": show_captcha, "settings": app_settings}
+    extra_context = {"settings": app_settings}
     authentication_form = None
+
+    def populate_context_dict(self):
+        self.extra_context["captcha"] = self.show_captcha()
+
+    def show_captcha(self):
+        return (
+                getattr(self.request, "limits", {"def": [0]})["def"][0] >= block_limit
+                and captcha.CAPTCHA_ENABLED
+        )
 
     def get_form_kwargs(self):
         kwargs = super(LoginView, self).get_form_kwargs()
         return kwargs
 
     def get_form(self, form_class=None):
+        self.populate_context_dict()
+        AdminLoginForm.is_captcha_visible = self.show_captcha()
         user = self.request.user
-        if form_class is None:
-            form_class = self.get_form_class()
-        return form_class(user, **self.get_form_kwargs())
-
-    def process_form(self):
-        AdminLoginForm.is_captcha_visible = self.show_captcha
+        return self.form_class(user, **self.get_form_kwargs())
 
 
 @login_required(login_url=reverse_lazy("administration_login"))
