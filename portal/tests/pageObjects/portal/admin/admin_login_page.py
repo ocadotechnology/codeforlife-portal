@@ -34,7 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.core.exceptions import PermissionDenied
 from portal.tests.pageObjects.portal.admin.admin_base_page import AdminBasePage
 
 
@@ -42,7 +41,7 @@ class AdminLoginPage(AdminBasePage):
     def __init__(self, browser, live_server_url):
         super(AdminLoginPage, self).__init__(browser, live_server_url)
 
-        assert self.on_correct_page("admin_login")
+        assert self.on_correct_page("administration_login")
 
     def login_to_forbidden(self, username, password):
         self._login(username, password)

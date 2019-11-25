@@ -41,6 +41,7 @@ from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
 from game.views.level import play_default_level
+from two_factor.urls import urlpatterns as two_factor_urls
 from two_factor.views import (
     DisableView,
     BackupTokensView,
@@ -52,9 +53,9 @@ from two_factor.views import (
 
 from portal.permissions import teacher_verified
 from portal.views.about import about
-from portal.views.admin import aggregated_data, schools_map, admin_login
+from portal.views.admin import aggregated_data, schools_map, AdminLoginView
+from portal.views.admin import is_post_request
 from portal.views.aimmo.home import aimmo_home
-from portal.views.play_aimmo import play_aimmo
 from portal.views.api import (
     registered_users,
     last_connected_since,
@@ -76,6 +77,7 @@ from portal.views.organisation import (
     organisation_manage,
     organisation_leave,
 )
+from portal.views.play_aimmo import play_aimmo
 from portal.views.play_landing_page import play_landing_page
 from portal.views.play_rapid_router import play_rapid_router
 from portal.views.privacy_policy import privacy_policy
@@ -126,7 +128,7 @@ from portal.views.teacher.teach import (
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from two_factor.urls import urlpatterns as two_factor_urls
+from ratelimit.decorators import ratelimit
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -168,12 +170,17 @@ urlpatterns = [
         r"^favicon\.ico$",
         RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
     ),
-    url(r"^administration/login/$", admin_login, name="administration_login"),
+    url(
+        r"^administration/login/$",
+        ratelimit("def", periods=["1m"], increment=is_post_request)(
+            AdminLoginView.as_view()
+        ),
+        name="administration_login",
+    ),
     url(
         r"^admin/$",
         RedirectView.as_view(url=reverse_lazy("aggregated_data"), permanent=True),
     ),
-    url(r"^admin/login/$", admin_login, name="admin_login"),
     url(r"^admin/map/$", schools_map, name="map"),
     url(r"^admin/data/$", aggregated_data, name="aggregated_data"),
     url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),

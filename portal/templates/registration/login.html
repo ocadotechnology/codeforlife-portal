@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block content %}
-<div id="admin_login">
+<div id="administration_login">
 <div class="span_centered_half">
     <div class="login-card">
         <h3>Admin login</h3><br/>
         <p>This is for site admins to log in, if you are not part of the codeforlife development team then this is not the login form you are looking for.</p>
 
-        <form method="post" action="{% url 'admin_login' %}">
+        <form method="post" action="{% url 'administration_login' %}">
 
             {% csrf_token %}
 
@@ -32,9 +32,9 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        {# {% if captcha %} #}
+                        {% if captcha %}
                             {{ form.captcha }}
-                        {# {% endif %} #}
+                        {% endif %}
                     </td>
                 </tr>
             </table>

@@ -35,9 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.conf import settings
-import os
 
-CONTACT_FORM_EMAILS = getattr(settings, "PORTAL_CONTACT_FORM_EMAIL", ("",))
+CONTACT_FORM_EMAILS = getattr(settings, "PORTAL_CONTACT_FORM_EMAIL", ("codeforlife@ocado.com",))
 
 #: Email address to source notifications from
 EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education")

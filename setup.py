@@ -50,6 +50,7 @@ setup(
         "sqlparse",
         "libsass",
         "django-forms-bootstrap",
+        "phonenumbers==7.7.5"
     ],
     zip_safe=False,
 )

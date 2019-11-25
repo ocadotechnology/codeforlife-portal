@@ -117,7 +117,7 @@ class BasePage(object):
         return aimmo_home_page.AimmoHomePage(self.browser)
 
     def is_on_admin_login_page(self):
-        return self.on_correct_page("admin_login")
+        return self.on_correct_page("administration_login")
 
     def is_on_admin_data_page(self):
         return self.on_correct_page("admin_data")
