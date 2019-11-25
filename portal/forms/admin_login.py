@@ -47,5 +47,5 @@ class AdminLoginForm(AuthenticationForm):
 
     def __init__(self, user, *args, **kwargs):
         super(AdminLoginForm, self).__init__(user, *args, **kwargs)
-        if not AdminLoginForm.is_captcha_visible:
+        if not self.is_captcha_visible:
             remove_captcha_from_form(self)

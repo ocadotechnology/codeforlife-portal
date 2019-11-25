@@ -81,9 +81,10 @@ class AdminLoginView(LoginView):
 
     def get_form(self, form_class=None):
         self.populate_context_dict()
-        AdminLoginForm.is_captcha_visible = self.show_captcha()
         user = self.request.user
-        return self.form_class(user, **self.get_form_kwargs())
+        form = self.form_class(user, **self.get_form_kwargs())
+        form.is_captcha_visible = self.show_captcha()
+        return form
 
 
 @login_required(login_url=reverse_lazy("administration_login"))
