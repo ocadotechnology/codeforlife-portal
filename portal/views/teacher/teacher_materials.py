@@ -14,18 +14,18 @@ from portal.views.teacher.pdfs import PDF_DATA
 def materials(request):
 
     session_names = [
-        "ks1_session_",
-        "ks2_session_",
-        "lower_ks3_session_",
-        "intermediate_ks3_session_",
-        "upper_ks3_session_",
+        "KS1_session_",
+        "KS2_session_",
+        "Lower_KS3_session_",
+        "Intermediate_KS3_session_",
+        "Upper_KS3_session_",
     ]
     resource_sheets_names = [
         "KS1_S",
         "KS2_S",
-        "LOWER_KS3_S",
-        "INTERMEDIATE_KS3_S",
-        "UPPER_KS3_S",
+        "Lower_KS3_S",
+        "Intermediate_KS3_S",
+        "Upper_KS3_S",
     ]
     ks1_sessions = []
     ks2_sessions = []
@@ -165,11 +165,11 @@ def update_session_number_based_on_key_stage(key_stage_name):
     UPPER_KS3_STARTING_SESSION_INDEX = 11
 
     if (
-            key_stage_name == "intermediate_ks3_session_"
-            or key_stage_name == "INTERMEDIATE_KS3_S"
+            key_stage_name == "Intermediate_KS3_session_"
+            or key_stage_name == "Intermediate_KS3_S"
     ):
         session_number = INTERMEDIATE_KS3_STARTING_SESSION_INDEX
-    elif key_stage_name == "upper_ks3_session_" or key_stage_name == "UPPER_KS3_S":
+    elif key_stage_name == "Upper_KS3_session_" or key_stage_name == "Upper_KS3_S":
         session_number = UPPER_KS3_STARTING_SESSION_INDEX
     else:
         session_number = DEFAULT_KS_STARTING_SESSION_INDEX

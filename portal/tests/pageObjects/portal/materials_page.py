@@ -46,7 +46,7 @@ class MaterialsPage(BasePage):
 
     def click_pdf_link(self):
         self.browser.find_element_by_xpath(
-            '//a[@href="/teach/materials/ks2_session_2"]'
+            '//a[@href="/teach/materials/KS2_session_2"]'
         ).click()
         return pdf_viewer_page.PDFViewerPage(self.browser)
 

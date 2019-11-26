@@ -35,7 +35,9 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.test import TestCase
+
 from portal.templatetags.table_tags import resource_sheets_table, lengthen_list
+from portal.views.teacher.teach import get_links
 
 
 class MaterialsTests(TestCase):
@@ -66,3 +68,8 @@ class MaterialsTests(TestCase):
         table = {"starting_session_index": 6, "content": [[1, 2], [1, 2, 3], []]}
         result = resource_sheets_table(table)
         assert result["table"] == [[1, 2, []], [1, 2, 3], [[], [], []]]
+
+    def test_underscores_are_removed_from_pdf_link_titles(self):
+        pdf_name = "KS1_session_3"
+        result = get_links(pdf_name)
+        assert result == [("KS1_S3_1", "KS1 S3 1")]
