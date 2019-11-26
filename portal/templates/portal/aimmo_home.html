@@ -71,7 +71,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
                 <p>Your testing and
                     <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link">feedback</a>
                     will help Code for Life deliver an enjoyable game, and will allow us to consult with you on resources
-                    that will be relevant to teaching computing classes in secondary schools<br>(14 &mdash; 18 year olds).</p>
+                    that will be relevant to teaching computing classes in secondary schools<br>(13 &mdash; 18 year olds).</p>
             </section>
         {% endif %}
         <div class="background col-sm-8 col-center">
@@ -85,13 +85,13 @@ button--menu--enabled button--menu--student--active">My Games</a>
                     <h3>Challenges</h3>
                     {% if user|is_logged_in_as_teacher %}
                         <p>We have created two initial challenges for both teachers and students to become familiar with the game.</p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='AIMMO_session_1' %}">Teacher lesson guide for challenges</a></p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='AIMMO_challenge_1' %}">Student challenge sheet 1</a></p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='AIMMO_challenge_2' %}">Student challenge sheet 2</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_session_1' %}">Teacher lesson guide for challenges</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Student challenge sheet 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_2' %}">Student challenge sheet 2</a></p>
                     {% else %}
                         <p>We have created two initial challenges for you to become familiar with the game.</p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='AIMMO_challenge_1' %}">Challenge sheet 1</a></p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='AIMMO_challenge_2' %}">Challenge sheet 2</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Challenge sheet 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_2' %}">Challenge sheet 2</a></p>
                     {% endif %}
                 </div>
                 <div class="col-sm-4">

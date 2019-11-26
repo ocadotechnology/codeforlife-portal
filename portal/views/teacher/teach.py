@@ -82,22 +82,19 @@ from portal.templatetags.app_tags import cloud_storage
 from portal.views.teacher.pdfs import PDF_DATA
 
 
+def get_links(pdf_name):
+    links = PDF_DATA[pdf_name]["links"]
+    link_titles = []
+    for link in links:
+        link = link.replace("_", " ")
+        link_titles.append(link)
+
+    return zip(links, link_titles)
+
+
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
 def materials_viewer(request, pdf_name):
-    def _getLinks():
-        links = PDF_DATA[pdf_name]["links"]
-        link_titles = []
-        for link in links:
-            link = link.replace("_", " ").title()
-
-            if (link[0] == "K") | (link[1] == "k"):
-                link = link[:4].upper() + link[4:]
-
-            link_titles.append(link)
-
-        return zip(links, link_titles)
-
     try:
         title = PDF_DATA[pdf_name]["title"]
         description = PDF_DATA[pdf_name]["description"]
@@ -112,7 +109,7 @@ def materials_viewer(request, pdf_name):
     video_download_link = None
 
     if PDF_DATA[pdf_name]["links"] is not None:
-        links = _getLinks()
+        links = get_links(pdf_name)
 
     if "video" in PDF_DATA[pdf_name]:
         video_link = PDF_DATA[pdf_name]["video"]

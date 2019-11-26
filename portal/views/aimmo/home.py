@@ -34,17 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse_lazy
+from aimmo.app_settings import get_users_for_new_game
+from aimmo.forms import AddGameForm
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import render, redirect
 
 from portal.views.teacher.teacher_materials import (
     get_session_pdfs,
     get_resource_sheets_pdfs,
 )
-
-from aimmo.app_settings import get_users_for_new_game
-from aimmo.forms import AddGameForm
 
 
 def save_form(request, create_game_form):
@@ -65,8 +64,8 @@ def aimmo_home(request):
     aimmo_sessions = []
     aimmo_sheets = []
 
-    get_session_pdfs("AIMMO_session_", aimmo_sessions)
-    get_resource_sheets_pdfs(aimmo_sessions, "AIMMO_S", aimmo_sheets)
+    get_session_pdfs("Kurono_session_", aimmo_sessions)
+    get_resource_sheets_pdfs(aimmo_sessions, "Kurono_S", aimmo_sheets)
 
     playable_games = request.user.playable_games.all()
 
