@@ -976,8 +976,8 @@ PDF_DATA = {
     },
     # ...Kurono...#
     # ...Intermediate Python sessions...#
-    "AIMMO_session_1": {
-        "title": "Sessions 1",
+    "Kurono_session_1": {
+        "title": "Session 1",
         "description": "Intermediate Python Session 1 — Teacher Guidance",
         "links": [],
         "url": "kurono_v1/sessions/intermediate_python_teacher_S1.pdf",
@@ -985,21 +985,21 @@ PDF_DATA = {
     },
     # ...Intermediate Python Resource Sheets...#
     # ...Session 1...#
-    "AIMMO_S1_1": {
+    "Kurono_S1_1": {
         "title": "Code Cheat Sheet",
         "description": "To be used to code the Kurono game.",
         "links": [],
         "url": "kurono_v1/resource_sheets/kurono_cheat_sheet.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
-    "AIMMO_S1_2": {
+    "Kurono_S1_2": {
         "title": "Indentation — Why it matters",
         "description": "To be used to understand how to use Python to code the Kurono game.",
         "links": [],
         "url": "kurono_v1/resource_sheets/python_indentation.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
-    "AIMMO_S1_3": {
+    "Kurono_S1_3": {
         "title": "Understanding the turn-based game",
         "description": "To be used to understand the Kurono game.",
         "links": [],
@@ -1007,18 +1007,18 @@ PDF_DATA = {
         "page_origin": "#ks3-resource-sheets",
     },
     # ...Intermediate Python Challenges...#
-    "AIMMO_challenge_1": {
-        "title": "KS3_SC1",
-        "description": "Student challenge 1: Move your avatar",
-        "links": ["AIMMO_challenge_2"],
-        "url": "kurono_v1/student_challenges/intermediate_python_SC1.pdf",
+    "Kurono_challenge_1": {
+        "title": "Kurono Student Challenge 1",
+        "description": "Move your avatar",
+        "links": ["Kurono_challenge_2"],
+        "url": "kurono_v1/student_challenges/intermediate_python_SC1_v2.pdf",
         "page_origin": "#ks3-challenges",
     },
-    "AIMMO_challenge_2": {
-        "title": "KS3_SC2",
-        "description": "Student challenge 2: Avoid the obstacles",
-        "links": ["AIMMO_challenge_1"],
-        "url": "kurono_v1/student_challenges/intermediate_python_SC2.pdf",
+    "Kurono_challenge_2": {
+        "title": "Kurono Student Challenge 2",
+        "description": "Avoid the obstacles",
+        "links": ["Kurono_challenge_1"],
+        "url": "kurono_v1/student_challenges/intermediate_python_SC2_v2.pdf",
         "page_origin": "#ks3-challenges",
     },
 }

@@ -91,7 +91,7 @@ def materials_viewer(request, pdf_name):
         for link in links:
             link = link.replace("_", " ").title()
 
-            if (link[0] == "K") | (link[1] == "k"):
+            if "Kurono" not in link and (link[0] == "K" or link[1] == "k"):
                 link = link[:4].upper() + link[4:]
 
             link_titles.append(link)
