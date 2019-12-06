@@ -34,10 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 from selenium.webdriver.support.ui import Select
-import class_page
+from . import class_page
 
-from teach_base_page import TeachBasePage
+from .teach_base_page import TeachBasePage
 
 
 class TeachMoveStudentsDisambiguatePage(TeachBasePage):

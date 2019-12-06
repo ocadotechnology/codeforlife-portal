@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -150,5 +151,5 @@ class BasePage(object):
         return self
 
 
-import resources_page
-import aimmo_home_page
+from . import resources_page
+from . import aimmo_home_page

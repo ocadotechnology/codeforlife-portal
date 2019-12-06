@@ -34,27 +34,28 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 import time
 
 from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
-from base_test import BaseTest
-from pageObjects.portal.home_page import HomePage
+from .base_test import BaseTest
+from .pageObjects.portal.home_page import HomePage
 from portal.tests.utils.classes import create_class_directly
 from portal.tests.utils.organisation import create_organisation_directly
 from portal.tests.utils.student import create_school_student_directly
 from portal.tests.utils.teacher import (
     signup_teacher_directly,
 )
-from utils import email as email_utils
-from utils.messages import (
+from .utils import email as email_utils
+from .utils.messages import (
     is_email_verified_message_showing,
     is_indep_student_join_request_received_message_showing,
     is_indep_student_join_request_revoked_message_showing,
     is_student_details_updated_message_showing,
 )
-from utils.student import (
+from .utils.student import (
     create_independent_student,
     submit_independent_student_signup_form,
     signup_duplicate_independent_student_fail,

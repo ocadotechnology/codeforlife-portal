@@ -34,10 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from teach_base_page import TeachBasePage
-from class_page import TeachClassPage
-from move_classes_page import TeachMoveClassesPage
-from add_independent_student_to_class_page import AddIndependentStudentToClassPage
+from __future__ import absolute_import
+from .teach_base_page import TeachBasePage
+from .class_page import TeachClassPage
+from .move_classes_page import TeachMoveClassesPage
+from .add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from selenium.webdriver.support.ui import Select
 
 import time

@@ -35,13 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from __future__ import absolute_import
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
-from utils.classes import create_class_directly
-from utils.organisation import create_organisation_directly
-from utils.student import create_school_student_directly
-from utils.teacher import signup_teacher_directly
+from .utils.classes import create_class_directly
+from .utils.organisation import create_organisation_directly
+from .utils.student import create_school_student_directly
+from .utils.teacher import signup_teacher_directly
 
 
 class TestTeacherViews(TestCase):

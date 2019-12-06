@@ -34,13 +34,14 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from teach_base_page import TeachBasePage
-import dashboard_page
-import class_settings_page
-import edit_student_page
-import onboarding_student_list_page
-import move_students_page
-import dismiss_students_page
+from __future__ import absolute_import
+from .teach_base_page import TeachBasePage
+from . import dashboard_page
+from . import class_settings_page
+from . import edit_student_page
+from . import onboarding_student_list_page
+from . import move_students_page
+from . import dismiss_students_page
 
 
 class TeachClassPage(TeachBasePage):

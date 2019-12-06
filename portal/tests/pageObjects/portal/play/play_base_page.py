@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 import time
 from portal.tests.pageObjects.portal.base_page import BasePage
 
@@ -54,7 +55,7 @@ class PlayBasePage(BasePage):
         self.open_user_options_box()
         self.browser.find_element_by_id("student_edit_account_button").click()
 
-        from account_page import PlayAccountPage
+        from .account_page import PlayAccountPage
 
         return PlayAccountPage(self.browser)
 

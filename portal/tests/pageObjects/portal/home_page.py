@@ -34,7 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_page import BasePage
+from __future__ import absolute_import
+from .base_page import BasePage
 
 
 class HomePage(BasePage):
@@ -55,6 +56,6 @@ class HomePage(BasePage):
         return help_and_support_page.HelpPage(self.browser)
 
 
-import login_page
-import signup_page
-import help_and_support_page
+from . import login_page
+from . import signup_page
+from . import help_and_support_page

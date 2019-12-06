@@ -34,22 +34,23 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 import time
 
-from base_test import BaseTest
+from .base_test import BaseTest
 
 from portal.models import Student
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.pageObjects.portal.teach.dashboard_page import TeachDashboardPage
-from utils.teacher import (
+from .utils.teacher import (
     signup_teacher_directly,
 )
-from utils.organisation import (
+from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from utils.classes import create_class_directly
-from utils.student import (
+from .utils.classes import create_class_directly
+from .utils.student import (
     create_school_student,
     create_many_school_students,
     create_school_student_directly,

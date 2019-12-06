@@ -35,12 +35,13 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from __future__ import absolute_import
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.test import Client, TestCase
 from portal.models import Student, UserProfile
-from utils.classes import create_class_directly
-from utils.teacher import signup_teacher_directly
+from .utils.classes import create_class_directly
+from .utils.teacher import signup_teacher_directly
 
 
 class SecurityTestCase(TestCase):

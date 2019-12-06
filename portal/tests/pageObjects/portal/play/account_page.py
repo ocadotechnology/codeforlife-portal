@@ -34,7 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from play_base_page import PlayBasePage
+from __future__ import absolute_import
+from .play_base_page import PlayBasePage
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
 from portal.tests.pageObjects.portal.email_verification_needed_page import (
     EmailVerificationNeededPage,

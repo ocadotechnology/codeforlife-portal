@@ -34,8 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 import random
-import email
+from . import email
 from django.core import mail
 import sys
 
@@ -48,7 +49,7 @@ def generate_details(**kwargs):
     first_name = kwargs.get("first_name", "Test")
     last_name = kwargs.get("last_name", "Teacher")
     email_address = kwargs.get(
-        "email_address", "testteacher%d@codeforlife.com" % random.randint(1, sys.maxint)
+        "email_address", "testteacher%d@codeforlife.com" % random.randint(1, sys.maxsize)
     )
     password = kwargs.get("password", "Password2")
 

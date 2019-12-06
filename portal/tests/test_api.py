@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
@@ -42,7 +43,7 @@ from rest_framework.test import APITestCase, APIClient
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 
-from utils.user import create_user_directly, get_superuser
+from .utils.user import create_user_directly, get_superuser
 
 
 class APITests(APITestCase):
