@@ -60,7 +60,7 @@ class LoginPage(BasePage):
 
     def login_no_school(self, email, password):
         self._login(email, password)
-        import portal.tests.pageObjects.portal.teach.onboarding_organisation_page
+        import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
         return onboarding_organisation_page.OnboardingOrganisationPage(
             self.browser
         )
