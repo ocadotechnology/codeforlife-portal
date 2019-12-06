@@ -35,19 +35,19 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
-from .base_test import BaseTest
 
-from .utils.teacher import signup_teacher_directly
-from .utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from .base_test import BaseTest
 from .utils.classes import create_class, create_class_directly, transfer_class
-from .utils.student import create_school_student_directly
 from .utils.messages import (
     is_class_created_message_showing,
     is_class_nonempty_message_showing,
 )
+from .utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from .utils.student import create_school_student_directly
+from .utils.teacher import signup_teacher_directly
 
 
 class TestClass(BaseTest):

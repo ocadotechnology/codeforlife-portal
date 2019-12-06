@@ -35,17 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
-from selenium.webdriver.support.ui import Select
 
 from .base_page import BasePage
-from . import play_page
-from . import email_verification_needed_page
-from .teacher_password_reset_form_page import TeacherPasswordResetFormPage
+from .play import dashboard_page
 from .student_password_reset_form_page import StudentPasswordResetFormPage
 from .teach import dashboard_page as teach_dashboard_page
 from .teach import onboarding_classes_page
 from .teach import onboarding_students_page
-from .play import dashboard_page
+from .teacher_password_reset_form_page import TeacherPasswordResetFormPage
 
 
 class LoginPage(BasePage):
@@ -61,9 +58,8 @@ class LoginPage(BasePage):
     def login_no_school(self, email, password):
         self._login(email, password)
         import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
-        return onboarding_organisation_page.OnboardingOrganisationPage(
-            self.browser
-        )
+
+        return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
 
     def login_no_class(self, email, password):
         self._login(email, password)

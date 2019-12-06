@@ -37,8 +37,8 @@
 
 from django.core.urlresolvers import reverse
 
-from portal.tests.pageObjects.portal.forbidden_page import ForbiddenPage
 from portal.tests.pageObjects.portal.base_page import BasePage
+from portal.tests.pageObjects.portal.forbidden_page import ForbiddenPage
 
 
 class AdminBasePage(BasePage):

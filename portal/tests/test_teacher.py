@@ -34,41 +34,40 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-
 from __future__ import absolute_import
+
 import time
 
-from selenium.webdriver.support.wait import WebDriverWait
+from aimmo.models import Game
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
+from selenium.webdriver.support.wait import WebDriverWait
 
-from aimmo.models import Game
 from portal.models import Teacher, Student
-
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
+from .utils import email as email_utils
+from .utils.classes import create_class_directly
+from .utils.messages import (
+    is_email_verified_message_showing,
+    is_teacher_details_updated_message_showing,
+    is_teacher_email_updated_message_showing,
+)
+from .utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from .utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
 from .utils.teacher import (
     signup_teacher,
     signup_teacher_directly,
     signup_duplicate_teacher_fail,
     submit_teacher_signup_form,
 )
-from .utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
-from .utils.classes import create_class_directly
-from .utils.student import (
-    create_independent_student_directly,
-    create_school_student_directly,
-)
-from .utils.messages import (
-    is_email_verified_message_showing,
-    is_teacher_details_updated_message_showing,
-    is_teacher_email_updated_message_showing,
-)
-from .utils import email as email_utils
 
 
 class TestTeachers(TestCase):

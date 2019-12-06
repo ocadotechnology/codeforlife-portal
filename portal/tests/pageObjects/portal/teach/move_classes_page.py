@@ -48,9 +48,11 @@ class TeachMoveClassesPage(TeachBasePage):
     def move_and_kick(self):
         self.browser.find_element_by_id("move_classes_button").click()
         import portal.tests.pageObjects.portal.teach.dashboard_page as dashboard_page
+
         return dashboard_page.TeachDashboardPage(self.browser)
 
     def move_and_leave(self):
         self.browser.find_element_by_id("move_classes_button").click()
         import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
+
         return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)

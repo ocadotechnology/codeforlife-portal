@@ -35,10 +35,11 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
+
 from selenium.webdriver.support.ui import Select
+
 from . import class_page
 from . import move_class_page
-
 from .teach_base_page import TeachBasePage
 
 

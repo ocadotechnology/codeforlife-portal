@@ -34,12 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-
 from __future__ import print_function
-from django.test import TestCase
-from portal.helpers.captcha import remove_captcha_from_forms, is_captcha_in_form
-from django import forms
+
 from captcha.fields import ReCaptchaField
+from django import forms
+from django.test import TestCase
+
+from portal.helpers.captcha import remove_captcha_from_forms, is_captcha_in_form
 
 
 class FormCaptchaTest(TestCase):

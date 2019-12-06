@@ -35,13 +35,13 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
-import time
 
-from . import onboarding_classes_page
-from . import onboarding_revoke_request_page
+import time
 
 from selenium.webdriver.support.ui import Select
 
+from . import onboarding_classes_page
+from . import onboarding_revoke_request_page
 from .teach_base_page import TeachBasePage
 
 

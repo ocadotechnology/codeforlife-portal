@@ -45,9 +45,7 @@ from .pageObjects.portal.home_page import HomePage
 from portal.tests.utils.classes import create_class_directly
 from portal.tests.utils.organisation import create_organisation_directly
 from portal.tests.utils.student import create_school_student_directly
-from portal.tests.utils.teacher import (
-    signup_teacher_directly,
-)
+from portal.tests.utils.teacher import signup_teacher_directly
 from .utils import email as email_utils
 from .utils.messages import (
     is_email_verified_message_showing,

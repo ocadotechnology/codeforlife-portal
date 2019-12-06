@@ -35,10 +35,11 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
-from .play_base_page import PlayBasePage
+
 from portal.tests.pageObjects.portal.play.join_school_or_club_page import (
     JoinSchoolOrClubPage,
 )
+from .play_base_page import PlayBasePage
 
 
 class PlayDashboardPage(PlayBasePage):

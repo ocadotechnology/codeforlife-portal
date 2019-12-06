@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
+
 from .base_page import BasePage
 
 
@@ -47,4 +48,5 @@ class PDFViewerPage(BasePage):
     def click_resources_button_link(self):
         self.browser.find_element_by_id("resources_button").click()
         import portal.tests.pageObjects.portal.resources_page as resources_page
+
         return resources_page.ResourcesPage(self.browser)

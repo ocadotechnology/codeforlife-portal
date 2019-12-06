@@ -53,12 +53,7 @@ def create_organisation_directly(teacher_email, **kwargs):
     name, postcode = generate_details(**kwargs)
 
     school = School.objects.create(
-        name=name,
-        postcode=postcode,
-        country="GB",
-        town="",
-        latitude="",
-        longitude="",
+        name=name, postcode=postcode, country="GB", town="", latitude="", longitude=""
     )
 
     teacher = Teacher.objects.get(new_user__email=teacher_email)

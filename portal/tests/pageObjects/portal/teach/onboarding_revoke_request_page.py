@@ -52,4 +52,5 @@ class OnboardingRevokeRequestPage(TeachBasePage):
     def revoke_join(self):
         self.browser.find_element_by_name("revoke_join_request").click()
         import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
+
         return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
