@@ -42,11 +42,10 @@ from . import play_page
 from . import email_verification_needed_page
 from .teacher_password_reset_form_page import TeacherPasswordResetFormPage
 from .student_password_reset_form_page import StudentPasswordResetFormPage
-from . import teach.dashboard_page
-from . import teach.onboarding_organisation_page
-from . import teach.onboarding_classes_page
-from . import teach.onboarding_students_page
-from . import play.dashboard_page
+from .teach import dashboard_page as teach_dashboard_page
+from .teach import onboarding_classes_page
+from .teach import onboarding_students_page
+from .play import dashboard_page
 
 
 class LoginPage(BasePage):
@@ -57,35 +56,34 @@ class LoginPage(BasePage):
 
     def login(self, email, password):
         self._login(email, password)
-
-        return teach.dashboard_page.TeachDashboardPage(self.browser)
+        return teach_dashboard_page.TeachDashboardPage(self.browser)
 
     def login_no_school(self, email, password):
         self._login(email, password)
-
-        return teach.onboarding_organisation_page.OnboardingOrganisationPage(
+        import portal.tests.pageObjects.portal.teach.onboarding_organisation_page
+        return onboarding_organisation_page.OnboardingOrganisationPage(
             self.browser
         )
 
     def login_no_class(self, email, password):
         self._login(email, password)
 
-        return teach.onboarding_classes_page.OnboardingClassesPage(self.browser)
+        return onboarding_classes_page.OnboardingClassesPage(self.browser)
 
     def login_no_students(self, email, password):
         self._login(email, password)
 
-        return teach.onboarding_students_page.OnboardingStudentsPage(self.browser)
+        return onboarding_students_page.OnboardingStudentsPage(self.browser)
 
     def student_login(self, name, access_code, password):
         self._student_login(name, access_code, password)
 
-        return play.dashboard_page.PlayDashboardPage(self.browser)
+        return dashboard_page.PlayDashboardPage(self.browser)
 
     def independent_student_login(self, username, password):
         self._independent_student_login(username, password)
 
-        return play.dashboard_page.PlayDashboardPage(self.browser)
+        return dashboard_page.PlayDashboardPage(self.browser)
 
     def login_failure(self, email, password):
         self._login(email, password)

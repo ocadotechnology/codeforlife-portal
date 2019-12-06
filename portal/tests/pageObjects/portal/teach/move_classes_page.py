@@ -71,8 +71,6 @@ from __future__ import absolute_import
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from . import dashboard_page
-from . import onboarding_organisation_page
 
 from .teach_base_page import TeachBasePage
 
@@ -85,8 +83,10 @@ class TeachMoveClassesPage(TeachBasePage):
 
     def move_and_kick(self):
         self.browser.find_element_by_id("move_classes_button").click()
+        import portal.tests.pageObjects.portal.teach.dashboard_page
         return dashboard_page.TeachDashboardPage(self.browser)
 
     def move_and_leave(self):
         self.browser.find_element_by_id("move_classes_button").click()
+        import portal.tests.pageObjects.portal.teach.onboarding_organisation_page
         return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)

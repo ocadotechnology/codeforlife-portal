@@ -36,12 +36,6 @@
 # identified as the original program.
 from __future__ import absolute_import
 from .teach_base_page import TeachBasePage
-from . import dashboard_page
-from . import class_settings_page
-from . import edit_student_page
-from . import onboarding_student_list_page
-from . import move_students_page
-from . import dismiss_students_page
 
 
 class TeachClassPage(TeachBasePage):
@@ -56,6 +50,8 @@ class TeachClassPage(TeachBasePage):
 
     def create_students(self):
         self._click_create_students()
+        
+        import portal.tests.pageObjects.portal.teach.onboarding_student_list_page as onboarding_student_list_page
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def _click_create_students(self):
@@ -78,7 +74,8 @@ class TeachClassPage(TeachBasePage):
 
     def move_students(self):
         self.browser.find_element_by_id("moveSelectedStudents").click()
-
+        
+        import portal.tests.pageObjects.portal.teach.move_students_page as move_students_page
         return move_students_page.TeachMoveStudentsPage(self.browser)
 
     def move_students_none_selected(self):
@@ -88,12 +85,14 @@ class TeachClassPage(TeachBasePage):
 
     def dismiss_students(self):
         self.browser.find_element_by_id("dismissSelectedStudents").click()
-
+        
+        import portal.tests.pageObjects.portal.teach.dismiss_students_page as dismiss_students_page
         return dismiss_students_page.TeachDismissStudentsPage(self.browser)
 
     def confirm_delete_class_dialog(self):
         self.confirm_dialog()
-
+        
+        import portal.tests.pageObjects.portal.teach.dashboard_page as dashboard_page
         return dashboard_page.TeachDashboardPage(self.browser)
 
     def confirm_delete_student_dialog(self):
@@ -103,7 +102,8 @@ class TeachClassPage(TeachBasePage):
 
     def confirm_reset_student_dialog(self):
         self.confirm_dialog()
-
+        
+        import portal.tests.pageObjects.portal.teach.onboarding_student_list_page as onboarding_student_list_page
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def confirm_dialog_expect_error(self):
@@ -123,12 +123,18 @@ class TeachClassPage(TeachBasePage):
 
     def go_to_class_settings_page(self):
         self.browser.find_element_by_id("class_settings_button").click()
+        
+        import portal.tests.pageObjects.portal.teach.class_settings_page as class_settings_page
         return class_settings_page.TeachClassSettingsPage(self.browser)
 
     def go_to_edit_student_page(self):
         self.browser.find_element_by_id("edit_student_button").click()
+        
+        import portal.tests.pageObjects.portal.teach.edit_student_page as edit_student_page
         return edit_student_page.EditStudentPage(self.browser)
 
     def go_to_dashboard(self):
         self.browser.find_element_by_id("return_to_classes_button").click()
+        
+        import portal.tests.pageObjects.portal.teach.dashboard_page as dashboard_page
         return dashboard_page.TeachDashboardPage(self.browser)

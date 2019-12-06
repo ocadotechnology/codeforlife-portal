@@ -45,17 +45,18 @@ class HomePage(BasePage):
 
     def go_to_login_page(self):
         self.browser.find_element_by_id("login_button").click()
+
+        import portal.tests.pageObjects.portal.login_page as login_page
         return login_page.LoginPage(self.browser)
 
     def go_to_signup_page(self):
         self.browser.find_element_by_id("signup_button").click()
+
+        import portal.tests.pageObjects.portal.signup_page as signup_page
         return signup_page.SignupPage(self.browser)
 
     def go_to_help_and_support_page(self):
         self.browser.find_element_by_id("help_and_support_button").click()
+
+        import portal.tests.pageObjects.portal.help_and_support_page as help_and_support_page
         return help_and_support_page.HelpPage(self.browser)
-
-
-from . import login_page
-from . import signup_page
-from . import help_and_support_page

@@ -111,7 +111,7 @@ class BasePage(object):
 
     def go_to_resources_page(self):
         self.browser.find_element_by_id("resources_button").click()
-        return resources_page.ResourcesPage(self.browser)
+        return ResourcesPage(self.browser)
 
     def go_to_aimmo_home_page(self):
         self.browser.find_element_by_id("aimmo_home_button").click()
@@ -151,5 +151,5 @@ class BasePage(object):
         return self
 
 
-from . import resources_page
+from .resources_page import ResourcesPage
 from . import aimmo_home_page

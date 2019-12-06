@@ -36,7 +36,11 @@
 # identified as the original program.
 from __future__ import absolute_import
 from .base_page import BasePage
-from . import resources_page
+try:
+    from .resources_page import ResourcesPage
+except ImportError:
+    import sys
+    ResourcesPage = sys.modules[__package__ + '.resources_page']
 
 
 class PDFViewerPage(BasePage):
@@ -47,4 +51,4 @@ class PDFViewerPage(BasePage):
 
     def click_resources_button_link(self):
         self.browser.find_element_by_id("resources_button").click()
-        return resources_page.ResourcesPage(self.browser)
+        return ResourcesPage(self.browser)
