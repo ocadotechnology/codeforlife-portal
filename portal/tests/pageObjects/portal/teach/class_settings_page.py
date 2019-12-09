@@ -36,6 +36,7 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from builtins import str
 from selenium.webdriver.support.ui import Select
 
 from . import class_page
@@ -60,7 +61,7 @@ class TeachClassSettingsPage(TeachBasePage):
             ).select_by_value(str(details["classmates_data_viewable"]))
             del details["classmates_data_viewable"]
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
 
@@ -82,7 +83,7 @@ class TeachClassSettingsPage(TeachBasePage):
             )
             del details["classmates_data_viewable"]
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value

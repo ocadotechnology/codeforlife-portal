@@ -52,7 +52,7 @@ class PlayAccountPage(PlayBasePage):
     def check_account_details(self, details):
         correct = True
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value
@@ -61,7 +61,7 @@ class PlayAccountPage(PlayBasePage):
         return correct
 
     def _change_details(self, details):
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
         self.browser.find_element_by_id("update_button").click()

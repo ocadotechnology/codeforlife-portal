@@ -64,10 +64,10 @@ class TeachDashboardPage(TeachBasePage):
     def check_organisation_details(self, details):
         correct = True
 
-        first_field = details.items()[0][0]
+        first_field = list(details.items())[0][0]
         self.wait_for_element_by_id("id_" + first_field)
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value
@@ -76,7 +76,7 @@ class TeachDashboardPage(TeachBasePage):
         return correct
 
     def change_organisation_details(self, details):
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
 
@@ -132,7 +132,7 @@ class TeachDashboardPage(TeachBasePage):
                 details["title"]
             )
             del details["title"]
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
         self.browser.find_element_by_id("update_button").click()
@@ -149,7 +149,7 @@ class TeachDashboardPage(TeachBasePage):
             )
             del details["title"]
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value
