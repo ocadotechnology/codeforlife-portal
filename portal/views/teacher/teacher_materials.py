@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 from builtins import str
 from builtins import range
 from django.contrib.auth.decorators import login_required, user_passes_test

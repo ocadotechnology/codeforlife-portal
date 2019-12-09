@@ -1,4 +1,5 @@
 # coding=utf-8
+from __future__ import unicode_literals
 HELP_BANNER = {
     "title": "Help and support",
     "subtitle": "",

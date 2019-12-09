@@ -34,15 +34,19 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import unicode_literals
 import requests
-import exceptions
-
-
-class RequestException(exceptions.Exception):
+try:
+    from exceptions import Exception
+except:
     pass
 
 
-class ApiException(exceptions.Exception):
+class RequestException(Exception):
+    pass
+
+
+class ApiException(Exception):
     pass
 
 

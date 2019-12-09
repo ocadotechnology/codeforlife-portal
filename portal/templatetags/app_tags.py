@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import unicode_literals
 from aimmo.templatetags.players_utils import get_user_playable_games
 from django import template
 from django.conf import settings

@@ -36,6 +36,7 @@
 # identified as the original program.
 
 
+from __future__ import unicode_literals
 from builtins import map
 def is_captcha_in_form(form):
     return "captcha" in form.fields

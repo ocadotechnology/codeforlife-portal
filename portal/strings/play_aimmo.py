@@ -1,4 +1,5 @@
 # coding=utf-8
+from __future__ import unicode_literals
 AIMMO_MAIN_HEADLINE = {
     "title": "Join a coding adventure!",
     "description": "Whether you’re a teacher or a student, Kurono makes learning to code easy and great fun. Using Python, you can travel through time to collect all the museum artifacts.",
