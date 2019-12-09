@@ -36,6 +36,7 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from builtins import range
 from django.core import mail
 
 from portal.tests.pageObjects.portal.base_page import BasePage

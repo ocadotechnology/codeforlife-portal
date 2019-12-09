@@ -34,6 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from builtins import map
+from builtins import str
+from builtins import range
 import re
 
 from captcha.fields import ReCaptchaField
@@ -573,7 +576,7 @@ class StudentCreationForm(forms.Form):
 
     def clean(self):
         names = re.split(";|,|\n", self.cleaned_data.get("names", ""))
-        names = map(stripStudentName, names)
+        names = list(map(stripStudentName, names))
         names = [name for name in names if name != ""]
 
         validationErrors = validateStudentNames(self.klass, names)

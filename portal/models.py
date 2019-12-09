@@ -36,6 +36,7 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from builtins import object
 import datetime
 import re
 from datetime import timedelta
@@ -69,7 +70,7 @@ class School(models.Model):
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label="(select country)")
 
-    class Meta:
+    class Meta(object):
         permissions = (
             ("view_aggregated_data", "Can see available aggregated data"),
             ("view_map_data", "Can see schools' location displayed on map"),
@@ -185,7 +186,7 @@ class Class(models.Model):
 
         return external_requests_message
 
-    class Meta:
+    class Meta(object):
         verbose_name_plural = "classes"
 
 
@@ -273,7 +274,7 @@ class FrontPageNews(models.Model):
     link_text = models.CharField(max_length=200)
     added_dstamp = models.DateTimeField()
 
-    class Meta:
+    class Meta(object):
         verbose_name_plural = "front page news"
 
     def __unicode__(self):
