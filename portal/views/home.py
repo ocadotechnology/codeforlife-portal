@@ -65,7 +65,6 @@ from portal.helpers.emails import (
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.utils import using_two_factor
-from ratelimit.decorators import ratelimit
 
 
 def teach_email_labeller(request):
@@ -114,34 +113,10 @@ def logout_view(request):
     return HttpResponseRedirect(reverse_lazy("home"))
 
 
-@ratelimit(
-    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
-)
-@ratelimit(
-    "email",
-    labeller=teach_email_labeller,
-    ip=False,
-    periods=["1m"],
-    increment=lambda req, res: hasattr(res, "count") and res.count,
-)
-@ratelimit(
-    "name",
-    labeller=play_name_labeller,
-    ip=False,
-    periods=["1m"],
-    increment=lambda req, res: hasattr(res, "count") and res.count,
-)
 def render_login_form(request):
     invalid_form = False
 
-    teacher_limits = getattr(request, "limits", {"ip": [0], "email": [0]})
-    teacher_captcha_limit = 5
-
     login_form = TeacherLoginForm(prefix="login")
-
-    student_limits = getattr(request, "limits", {"ip": [0], "name": [0]})
-    student_captcha_limit = 30
-    student_name_captcha_limit = 5
 
     school_login_form = StudentLoginForm(prefix="login")
 
@@ -157,15 +132,9 @@ def render_login_form(request):
         "independent_student_view": independent_student_view,
         "logged_in_as_teacher": is_logged_in_as_teacher(request),
         "settings": app_settings,
-        "teacher_captcha": compute_teacher_should_use_captcha(
-            teacher_limits, teacher_captcha_limit
-        ),
-        "student_captcha": compute_student_should_use_captcha(
-            student_limits, student_captcha_limit, student_name_captcha_limit
-        ),
-        "independent_student_captcha": compute_student_should_use_captcha(
-            student_limits, student_captcha_limit, student_name_captcha_limit
-        ),
+        "teacher_captcha": captcha.CAPTCHA_ENABLED,
+        "student_captcha": captcha.CAPTCHA_ENABLED,
+        "independent_student_captcha": captcha.CAPTCHA_ENABLED,
     }
 
     configure_login_form_captcha(login_form, render_dict, "teacher_captcha")
@@ -216,28 +185,10 @@ def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
         remove_captcha_from_forms(form)
 
 
-@ratelimit(
-    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
-)
-@ratelimit(
-    "email",
-    labeller=teach_email_labeller,
-    ip=False,
-    periods=["1m"],
-    increment=lambda req, res: hasattr(res, "count") and res.count,
-)
-@ratelimit(
-    "name",
-    labeller=play_name_labeller,
-    ip=False,
-    periods=["1m"],
-    increment=lambda req, res: hasattr(res, "count") and res.count,
-)
 def render_signup_form(request):
     invalid_form = False
     limits = getattr(request, "limits", {"ip": [0]})
     captcha_limit = 5
-    should_use_captcha = (limits["ip"][0] >= captcha_limit) and captcha.CAPTCHA_ENABLED
 
     teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
     independent_student_signup_form = IndependentStudentSignupForm(
@@ -250,7 +201,7 @@ def render_signup_form(request):
                 request.POST, prefix="teacher_signup"
             )
 
-            if not should_use_captcha:
+            if not captcha.CAPTCHA_ENABLED:
                 remove_captcha_from_forms(teacher_signup_form)
 
             if teacher_signup_form.is_valid():
@@ -262,7 +213,7 @@ def render_signup_form(request):
                 request.POST, prefix="independent_student_signup"
             )
 
-            if not should_use_captcha:
+            if not captcha.CAPTCHA_ENABLED:
                 remove_captcha_from_forms(independent_student_signup_form)
 
             if independent_student_signup_form.is_valid():
@@ -275,26 +226,12 @@ def render_signup_form(request):
         {
             "teacher_signup_form": teacher_signup_form,
             "independent_student_signup_form": independent_student_signup_form,
-            "captcha": should_use_captcha,
+            "captcha": captcha.CAPTCHA_ENABLED,
         },
     )
 
     res.count = invalid_form
     return res
-
-
-def compute_teacher_should_use_captcha(limits, captcha_limit):
-    should_use_captcha = (
-        limits["ip"][0] >= captcha_limit or limits["email"][0] >= captcha_limit
-    ) and captcha.CAPTCHA_ENABLED
-    return should_use_captcha
-
-
-def compute_student_should_use_captcha(limits, ip_captcha_limit, name_captcha_limit):
-    should_use_captcha = (
-        limits["ip"][0] >= ip_captcha_limit or limits["name"][0] >= name_captcha_limit
-    ) and captcha.CAPTCHA_ENABLED
-    return should_use_captcha
 
 
 def process_login_form(request, login_form):

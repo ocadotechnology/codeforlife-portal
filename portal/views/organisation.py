@@ -51,8 +51,6 @@ from portal.permissions import logged_in_as_teacher
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.helpers.location import lookup_coord
 
-from ratelimit.decorators import ratelimit
-
 
 def organisation_fuzzy_lookup(request):
     fuzzy_name = request.GET.get("fuzzy_name", None)
@@ -94,11 +92,7 @@ def search_school(school, school_data):
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
-@ratelimit(
-    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
-)
 def organisation_create(request):
-    increment_count = False
 
     teacher = request.user.new_teacher
 
@@ -144,7 +138,6 @@ def organisation_create(request):
                 return HttpResponseRedirect(reverse_lazy("onboarding-classes"))
 
         elif "join_organisation" in request.POST:
-            increment_count = True
             process_join_form(
                 request, teacher, OrganisationJoinForm, OrganisationJoinForm
             )
@@ -158,7 +151,6 @@ def organisation_create(request):
         {"create_form": create_form, "join_form": join_form, "teacher": teacher},
     )
 
-    res.count = increment_count
     return res
 
 
