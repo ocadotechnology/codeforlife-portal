@@ -63,7 +63,7 @@ class HelpPage(BasePage):
         return self
 
     def send_message_accented_name(self):
-        self.browser.find_element_by_id("id_name").send_keys("Zoë")
+        self.browser.find_element_by_id("id_name").send_keys(u"Zoë")
         self.browser.find_element_by_id("id_telephone").send_keys("0123456789")
         self.browser.find_element_by_id("id_email").send_keys("zoe@email.com")
         self.browser.find_element_by_id("id_message").send_keys("Hello friends")
@@ -93,7 +93,7 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_name").send_keys("Florian Aucomte")
         self.browser.find_element_by_id("id_telephone").send_keys("0123456789")
         self.browser.find_element_by_id("id_email").send_keys("florian@email.com")
-        self.browser.find_element_by_id("id_message").send_keys("Héllö friends")
+        self.browser.find_element_by_id("id_message").send_keys(u"Héllö friends")
         self.browser.find_element_by_name("submit").click()
 
         return self
