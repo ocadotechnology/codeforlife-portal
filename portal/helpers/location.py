@@ -37,7 +37,7 @@
 from __future__ import unicode_literals
 import requests
 try:
-    from exceptions import Exception
+    from exceptions import Exception, ValueError
 except:
     pass
 
@@ -148,7 +148,7 @@ def get_location_from_api(payload):
     except RequestException as e:
         error = "Request error: %s" % e
 
-    except exceptions.ValueError as e:
+    except ValueError as e:
         error = "Value error: %s" % e
 
     except ApiException as e:
