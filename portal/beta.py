@@ -36,9 +36,6 @@
 # identified as the original program.
 
 
-from __future__ import unicode_literals
-
-
 def has_beta_access(request):
     return is_developer(request)
 

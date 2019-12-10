@@ -35,7 +35,6 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from __future__ import unicode_literals
 from django.core.cache import cache
 from django.core.exceptions import FieldDoesNotExist
 from two_factor.utils import default_device

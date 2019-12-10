@@ -35,7 +35,6 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import division
-from __future__ import unicode_literals
 from builtins import zip
 from past.utils import old_div
 import json

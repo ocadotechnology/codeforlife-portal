@@ -677,7 +677,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("name", models.CharField(max_length=200)),
-                ("children", models.ManyToManyField(to="portal.Student")),
+                ("children", models.ManyToManyField(to=b"portal.Student")),
                 ("user", models.OneToOneField(to="portal.UserProfile")),
             ],
         ),

@@ -1,6 +1,4 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 TEACH_BANNER = {
     "title": "Educate",
     "subtitle": "Get ready to teach the next generation of computer scientists",

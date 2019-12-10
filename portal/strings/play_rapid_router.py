@@ -1,6 +1,4 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 RAPID_ROUTER_HEADLINE = {
     "title": "Anyone can code, you can too!",
     "description": "Whether you’re a teacher or a student, Rapid Router guides you, "

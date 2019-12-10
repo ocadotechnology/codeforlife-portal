@@ -34,7 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from __future__ import unicode_literals
 from portal.tests.pageObjects.portal.base_page import BasePage
 
 

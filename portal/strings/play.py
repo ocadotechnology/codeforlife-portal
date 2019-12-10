@@ -1,6 +1,4 @@
 # coding=utf-8
-from __future__ import unicode_literals
-
 PLAY_BANNER = {
     "title": "Play",
     "subtitle": "Anyone can learn how to code. We will help you learn how. It’s "
