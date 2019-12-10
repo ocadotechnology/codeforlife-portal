@@ -73,8 +73,8 @@ class AdminLoginView(LoginView):
 
     def show_captcha(self):
         return (
-                getattr(self.request, "limits", {"def": [0]})["def"][0] >= block_limit
-                and captcha.CAPTCHA_ENABLED
+            getattr(self.request, "limits", {"def": [0]})["def"][0] >= block_limit
+            and captcha.CAPTCHA_ENABLED
         )
 
     def get_form_kwargs(self):
@@ -378,9 +378,13 @@ def fill_in_missing_school_locations(request):
         requests += 1
         sleep(0.2)  # so we execute a bit less than 5/sec
 
-        error, school.country, school.town, school.latitude, school.longitude = lookup_coord(
-            school.postcode, school.country.code
-        )
+        (
+            error,
+            school.country,
+            school.town,
+            school.latitude,
+            school.longitude,
+        ) = lookup_coord(school.postcode, school.country.code)
 
         if error is None:
             school.save()

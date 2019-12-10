@@ -36,9 +36,10 @@
 # identified as the original program.
 from __future__ import unicode_literals
 import requests
+
 try:
     from exceptions import Exception, ValueError
-except:
+except ImportError:
     pass
 
 

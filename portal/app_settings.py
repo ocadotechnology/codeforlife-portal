@@ -37,7 +37,9 @@
 from __future__ import unicode_literals
 from django.conf import settings
 
-CONTACT_FORM_EMAILS = getattr(settings, "PORTAL_CONTACT_FORM_EMAIL", ("codeforlife@ocado.com",))
+CONTACT_FORM_EMAILS = getattr(
+    settings, "PORTAL_CONTACT_FORM_EMAIL", ("codeforlife@ocado.com",)
+)
 
 #: Email address to source notifications from
 EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education")

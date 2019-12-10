@@ -1,5 +1,6 @@
 # coding=utf-8
 from __future__ import unicode_literals
+
 MATERIALS_BANNER = {
     "title": "Teaching Packs",
     "subtitle": "",

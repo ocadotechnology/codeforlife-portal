@@ -866,12 +866,12 @@ def teacher_print_reminder_cards(request, access_code):
     NUM_X = 2
     NUM_Y = 4
 
-    CARD_WIDTH = old_div((
-        PAGE_WIDTH - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_X - 1)
-    ), NUM_X)
-    CARD_HEIGHT = old_div((
-        PAGE_HEIGHT - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_Y - 1)
-    ), NUM_Y)
+    CARD_WIDTH = old_div(
+        (PAGE_WIDTH - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_X - 1)), NUM_X
+    )
+    CARD_HEIGHT = old_div(
+        (PAGE_HEIGHT - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_Y - 1)), NUM_Y
+    )
 
     HEADER_HEIGHT = CARD_HEIGHT * 0.16
     FOOTER_HEIGHT = CARD_HEIGHT * 0.1
@@ -901,15 +901,14 @@ def teacher_print_reminder_cards(request, access_code):
         character_image = ImageReader(staticfiles_storage.path(character_file))
         character_height = CARD_INNER_HEIGHT
         character_width = CARD_IMAGE_WIDTH
-        character_height = (
-            old_div(character_width
-            * character_image.getSize()[1], character_image.getSize()[0])
+        character_height = old_div(
+            character_width * character_image.getSize()[1], character_image.getSize()[0]
         )
         if character_height > CARD_INNER_HEIGHT:
             character_height = CARD_INNER_HEIGHT
-            character_width = (
-                old_div(character_height
-                * character_image.getSize()[0], character_image.getSize()[1])
+            character_width = old_div(
+                character_height * character_image.getSize()[0],
+                character_image.getSize()[1],
             )
         character = {
             "image": character_image,
@@ -953,7 +952,10 @@ def teacher_print_reminder_cards(request, access_code):
                 para.drawOn(
                     p,
                     inner_left + COLUMN_WIDTH,
-                    inner_bottom + CARD_INNER_HEIGHT * position + 8 - old_div(para_height, 2),
+                    inner_bottom
+                    + CARD_INNER_HEIGHT * position
+                    + 8
+                    - old_div(para_height, 2),
                 )
                 return
 
@@ -984,7 +986,13 @@ def teacher_print_reminder_cards(request, access_code):
 
         # footer rect
         p.roundRect(left, bottom, CARD_WIDTH, FOOTER_HEIGHT, CORNER_RADIUS, fill=1)
-        p.rect(left, bottom + old_div(FOOTER_HEIGHT, 2), CARD_WIDTH, old_div(FOOTER_HEIGHT, 2), fill=1)
+        p.rect(
+            left,
+            bottom + old_div(FOOTER_HEIGHT, 2),
+            CARD_WIDTH,
+            old_div(FOOTER_HEIGHT, 2),
+            fill=1,
+        )
 
         # outer box
         p.setStrokeColor(black)

@@ -36,6 +36,7 @@
 # identified as the original program.
 
 from __future__ import unicode_literals
+
 PDF_DATA = {
     # .........User Guide........#
     "introduction_to_coding": {
@@ -888,10 +889,7 @@ PDF_DATA = {
     "Lower_KS3_assessment_sheet": {
         "title": "Lower KS3 ‒ Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
-        "links": [
-            "Intermediate_KS3_assessment_sheet",
-            "Upper_KS3_assessment_sheet"
-        ],
+        "links": ["Intermediate_KS3_assessment_sheet", "Upper_KS3_assessment_sheet"],
         "url": "KS3_v1/assessments/lks3_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
@@ -900,7 +898,7 @@ PDF_DATA = {
         "description": "Document for students to self assess their understanding of key concepts.",
         "links": [
             "Intermediate_KS3_self_assessment_sheet",
-            "Upper_KS3_self_assessment_sheet"
+            "Upper_KS3_self_assessment_sheet",
         ],
         "url": "KS3_v1/assessments/lks3_self_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
@@ -910,7 +908,7 @@ PDF_DATA = {
         "description": "Document to record students' progress.",
         "links": [
             "Intermediate_KS3_teacher_record_sheet",
-            "Upper_KS3_teacher_record_sheet"
+            "Upper_KS3_teacher_record_sheet",
         ],
         "url": "KS3_v1/assessments/lks3_teacher_record_sheet.pdf",
         "page_origin": "#ks3-assessments",
@@ -918,40 +916,28 @@ PDF_DATA = {
     "Intermediate_KS3_assessment_sheet": {
         "title": "Intermediate KS3 ‒ Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
-        "links": [
-            "Lower_KS3_assessment_sheet",
-            "Upper_KS3_assessment_sheet"
-        ],
+        "links": ["Lower_KS3_assessment_sheet", "Upper_KS3_assessment_sheet"],
         "url": "KS3_v1/assessments/iks3_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
     "Intermediate_KS3_self_assessment_sheet": {
         "title": "Intermediate KS3 ‒ Self Assessment Guide",
         "description": "Document for students to self assess their understanding of key concepts.",
-        "links": [
-            "Lower_KS3_self_assessment_sheet",
-            "Upper_KS3_self_assessment_sheet"
-        ],
+        "links": ["Lower_KS3_self_assessment_sheet", "Upper_KS3_self_assessment_sheet"],
         "url": "KS3_v1/assessments/iks3_self_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
     "Intermediate_KS3_teacher_record_sheet": {
         "title": "Intermediate KS3 ‒ Teacher Record Sheet",
         "description": "Document to record students' progress.",
-        "links": [
-            "Lower_KS3_teacher_record_sheet",
-            "Upper_KS3_teacher_record_sheet"
-        ],
+        "links": ["Lower_KS3_teacher_record_sheet", "Upper_KS3_teacher_record_sheet"],
         "url": "KS3_v1/assessments/iks3_teacher_record_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
     "Upper_KS3_assessment_sheet": {
         "title": "Upper KS3 ‒ Assessment Guide",
         "description": "Information on how to use the assessment sheets available.",
-        "links": [
-            "Lower_KS3_assessment_sheet",
-            "Intermediate_KS3_assessment_sheet"
-        ],
+        "links": ["Lower_KS3_assessment_sheet", "Intermediate_KS3_assessment_sheet"],
         "url": "KS3_v1/assessments/uks3_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
     },
@@ -960,7 +946,7 @@ PDF_DATA = {
         "description": "Information on how to use the assessment sheets available.",
         "links": [
             "Lower_KS3_self_assessment_sheet",
-            "Intermediate_KS3_self_assessment_sheet"
+            "Intermediate_KS3_self_assessment_sheet",
         ],
         "url": "KS3_v1/assessments/uks3_self_assessment_sheet.pdf",
         "page_origin": "#ks3-assessments",
@@ -970,7 +956,7 @@ PDF_DATA = {
         "description": "Document to record students' progress.",
         "links": [
             "Lower_KS3_teacher_record_sheet",
-            "Intermediate_KS3_teacher_record_sheet"
+            "Intermediate_KS3_teacher_record_sheet",
         ],
         "url": "KS3_v1/assessments/uks3_teacher_record_sheet.pdf",
         "page_origin": "#ks3-assessments",

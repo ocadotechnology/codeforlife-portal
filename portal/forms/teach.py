@@ -414,10 +414,7 @@ def find_illegal_characters(names, validationErrors):
 
 
 def check_passwords(password, confirm_password):
-    if (
-        password is not None
-        and password != confirm_password
-    ):
+    if password is not None and password != confirm_password:
         raise forms.ValidationError(
             "The password and the confirmation password do not match"
         )

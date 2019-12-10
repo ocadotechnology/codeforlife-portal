@@ -37,6 +37,8 @@
 
 
 from __future__ import unicode_literals
+
+
 def is_message_showing(browser, message):
     return message in browser.find_element_by_id("messages").text
 

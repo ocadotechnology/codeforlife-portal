@@ -325,9 +325,13 @@ class TestIndependentStudent(BaseTest):
 
         homepage = self.go_to_homepage()
 
-        play_page, student_name, student_username, _, password = create_independent_student(
-            homepage
-        )
+        (
+            play_page,
+            student_name,
+            student_username,
+            _,
+            password,
+        ) = create_independent_student(homepage)
 
         page = (
             play_page.independent_student_login(student_username, password)

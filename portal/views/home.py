@@ -521,7 +521,4 @@ def home(request):
 
 
 def play_aimmo_preview(request):
-    return render(
-        request,
-        "portal/play_aimmo_preview.html",
-    )
+    return render(request, "portal/play_aimmo_preview.html",)

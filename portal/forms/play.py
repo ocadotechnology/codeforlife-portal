@@ -167,17 +167,17 @@ class IndependentStudentEditAccountForm(forms.Form):
 
 
 def clean_confirm_password(self):
-        password = self.cleaned_data.get("password", None)
-        confirm_password = self.cleaned_data.get("confirm_password", None)
-        current_password = self.cleaned_data.get("current_password", None)
+    password = self.cleaned_data.get("password", None)
+    confirm_password = self.cleaned_data.get("confirm_password", None)
+    current_password = self.cleaned_data.get("current_password", None)
 
-        if are_password_and_confirm_password_different(password, confirm_password):
-            raise forms.ValidationError("Your new passwords do not match")
+    if are_password_and_confirm_password_different(password, confirm_password):
+        raise forms.ValidationError("Your new passwords do not match")
 
-        if current_password and not self.user.check_password(current_password):
-            raise forms.ValidationError("Your current password was incorrect")
+    if current_password and not self.user.check_password(current_password):
+        raise forms.ValidationError("Your current password was incorrect")
 
-        return self.cleaned_data
+    return self.cleaned_data
 
 
 def are_password_and_confirm_password_different(password, confirm_password):

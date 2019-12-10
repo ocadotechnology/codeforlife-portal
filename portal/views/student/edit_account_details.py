@@ -84,6 +84,7 @@ class SchoolStudentEditAccountView(FormView):
     A FormView for editing a school student's account details. This forms enables a
     school student to change their password.
     """
+
     form_class = StudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     success_url = reverse_lazy("student_details")
@@ -115,6 +116,7 @@ class IndependentStudentEditAccountView(FormView):
     A FormView for editing an independent student's account details. This forms enables
     an independent student to change their name, their email and / or their password.
     """
+
     form_class = IndependentStudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     model = Student

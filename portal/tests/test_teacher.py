@@ -107,9 +107,11 @@ class TestTeachers(TestCase):
         klass.always_accept_requests = True
         klass.save()
         create_school_student_directly(access_code)
-        indep_username, indep_password, indep_student = (
-            create_independent_student_directly()
-        )
+        (
+            indep_username,
+            indep_password,
+            indep_student,
+        ) = create_independent_student_directly()
 
         c = Client()
 
