@@ -46,7 +46,6 @@ setup(
         "django-treebeard==4.3",
         "django-sekizai==0.10.0",
         "Pillow==5.4.1",
-        "django-reversion==2.0.0",
         "sqlparse",
         "libsass",
         "django-forms-bootstrap",
