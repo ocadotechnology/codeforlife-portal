@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from builtins import str
+from builtins import range
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
@@ -111,7 +113,7 @@ def get_session_pdfs(session_name, session_list):
 
 
 def get_resource_sheets_pdfs(
-        session_list, resource_sheets_name, resource_sheets_list, resource_sheets_table=None
+    session_list, resource_sheets_name, resource_sheets_list, resource_sheets_table=None
 ):
     """
     This function gathers all the resource sheets for each session in the session list. It finds the correct PDFs based
@@ -130,7 +132,7 @@ def get_resource_sheets_pdfs(
         resource_sheets_table["starting_session_index"] = starting_session_index
 
     for session_index in range(
-            starting_session_index, len(session_list) + starting_session_index
+        starting_session_index, len(session_list) + starting_session_index
     ):
         resource_pdf_exists = True
         resource_number = 1
@@ -138,7 +140,7 @@ def get_resource_sheets_pdfs(
 
         while resource_pdf_exists:
             pdf_name = (
-                    resource_sheets_name + str(session_index) + "_" + str(resource_number)
+                resource_sheets_name + str(session_index) + "_" + str(resource_number)
             )
 
             try:
@@ -165,8 +167,8 @@ def update_session_number_based_on_key_stage(key_stage_name):
     UPPER_KS3_STARTING_SESSION_INDEX = 11
 
     if (
-            key_stage_name == "Intermediate_KS3_session_"
-            or key_stage_name == "Intermediate_KS3_S"
+        key_stage_name == "Intermediate_KS3_session_"
+        or key_stage_name == "Intermediate_KS3_S"
     ):
         session_number = INTERMEDIATE_KS3_STARTING_SESSION_INDEX
     elif key_stage_name == "Upper_KS3_session_" or key_stage_name == "Upper_KS3_S":

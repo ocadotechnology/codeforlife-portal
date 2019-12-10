@@ -75,8 +75,7 @@ def test_game_banner(snapshot):
     context = Context({"GAME_BANNER": test_game_banner})
 
     template_to_render = Template(
-        "{% load game_banner_tags %}"
-        "{% game_banner game_banner_name='GAME_BANNER' %}"
+        "{% load game_banner_tags %}" "{% game_banner game_banner_name='GAME_BANNER' %}"
     )
 
     rendered_template = template_to_render.render(context)

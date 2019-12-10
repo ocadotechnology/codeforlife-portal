@@ -34,9 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
+from builtins import range
 from django.core import mail
 
-import email
+from . import email
 from portal.helpers.emails import generate_token
 from portal.models import Class, Student
 

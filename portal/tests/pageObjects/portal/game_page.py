@@ -34,14 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import print_function
+
+from builtins import str
 import os
+import time
 
 from hamcrest import assert_that, equal_to, contains_string
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.base_page import BasePage
-from selenium.common.exceptions import TimeoutException
-import time
 
 
 class GamePage(BasePage):

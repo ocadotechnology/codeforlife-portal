@@ -34,11 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from play_base_page import PlayBasePage
-from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
+from __future__ import absolute_import
+
 from portal.tests.pageObjects.portal.email_verification_needed_page import (
     EmailVerificationNeededPage,
 )
+from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
+from .play_base_page import PlayBasePage
 
 
 class PlayAccountPage(PlayBasePage):
@@ -50,7 +52,7 @@ class PlayAccountPage(PlayBasePage):
     def check_account_details(self, details):
         correct = True
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value
@@ -59,7 +61,7 @@ class PlayAccountPage(PlayBasePage):
         return correct
 
     def _change_details(self, details):
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
         self.browser.find_element_by_id("update_button").click()

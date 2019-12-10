@@ -34,14 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
+from __future__ import absolute_import
 
-import onboarding_classes_page
-import onboarding_revoke_request_page
+import time
 
 from selenium.webdriver.support.ui import Select
 
-from teach_base_page import TeachBasePage
+from . import onboarding_classes_page
+from . import onboarding_revoke_request_page
+from .teach_base_page import TeachBasePage
 
 
 class OnboardingOrganisationPage(TeachBasePage):

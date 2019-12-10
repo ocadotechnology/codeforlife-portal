@@ -34,13 +34,14 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import unittest
-from django.test import TestCase
-from portal.helpers.location import lookup_coord, lookup_country
 import json
+import os
+import unittest
+
 import requests
 import responses
-import os
+
+from portal.helpers.location import lookup_coord, lookup_country
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 

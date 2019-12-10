@@ -35,14 +35,18 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import requests
-import exceptions
 
-
-class RequestException(exceptions.Exception):
+try:
+    from exceptions import Exception, ValueError
+except ImportError:
     pass
 
 
-class ApiException(exceptions.Exception):
+class RequestException(Exception):
+    pass
+
+
+class ApiException(Exception):
     pass
 
 
@@ -144,7 +148,7 @@ def get_location_from_api(payload):
     except RequestException as e:
         error = "Request error: %s" % e
 
-    except exceptions.ValueError as e:
+    except ValueError as e:
         error = "Value error: %s" % e
 
     except ApiException as e:

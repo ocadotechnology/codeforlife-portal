@@ -34,9 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import onboarding_organisation_page
+from __future__ import absolute_import
 
-from teach_base_page import TeachBasePage
+from .teach_base_page import TeachBasePage
 
 
 class OnboardingRevokeRequestPage(TeachBasePage):
@@ -51,4 +51,6 @@ class OnboardingRevokeRequestPage(TeachBasePage):
 
     def revoke_join(self):
         self.browser.find_element_by_name("revoke_join_request").click()
+        import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
+
         return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)

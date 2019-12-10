@@ -34,11 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
+
+from builtins import object
+import time
+
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.webdriver.support.ui import WebDriverWait
 
 FADE_TIME = 0.16
 
@@ -110,7 +114,7 @@ class BasePage(object):
 
     def go_to_resources_page(self):
         self.browser.find_element_by_id("resources_button").click()
-        return resources_page.ResourcesPage(self.browser)
+        return ResourcesPage(self.browser)
 
     def go_to_aimmo_home_page(self):
         self.browser.find_element_by_id("aimmo_home_button").click()
@@ -150,5 +154,5 @@ class BasePage(object):
         return self
 
 
-import resources_page
-import aimmo_home_page
+from .resources_page import ResourcesPage
+from . import aimmo_home_page

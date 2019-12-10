@@ -34,18 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
+from __future__ import absolute_import
 
-from base_page import BasePage
-import play_page
-import email_verification_needed_page
-from teacher_password_reset_form_page import TeacherPasswordResetFormPage
-from student_password_reset_form_page import StudentPasswordResetFormPage
-import teach.dashboard_page
-import teach.onboarding_organisation_page
-import teach.onboarding_classes_page
-import teach.onboarding_students_page
-import play.dashboard_page
+from .base_page import BasePage
+from .play import dashboard_page
+from .student_password_reset_form_page import StudentPasswordResetFormPage
+from .teach import dashboard_page as teach_dashboard_page
+from .teach import onboarding_classes_page
+from .teach import onboarding_students_page
+from .teacher_password_reset_form_page import TeacherPasswordResetFormPage
 
 
 class LoginPage(BasePage):
@@ -56,35 +53,33 @@ class LoginPage(BasePage):
 
     def login(self, email, password):
         self._login(email, password)
-
-        return teach.dashboard_page.TeachDashboardPage(self.browser)
+        return teach_dashboard_page.TeachDashboardPage(self.browser)
 
     def login_no_school(self, email, password):
         self._login(email, password)
+        import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
 
-        return teach.onboarding_organisation_page.OnboardingOrganisationPage(
-            self.browser
-        )
+        return onboarding_organisation_page.OnboardingOrganisationPage(self.browser)
 
     def login_no_class(self, email, password):
         self._login(email, password)
 
-        return teach.onboarding_classes_page.OnboardingClassesPage(self.browser)
+        return onboarding_classes_page.OnboardingClassesPage(self.browser)
 
     def login_no_students(self, email, password):
         self._login(email, password)
 
-        return teach.onboarding_students_page.OnboardingStudentsPage(self.browser)
+        return onboarding_students_page.OnboardingStudentsPage(self.browser)
 
     def student_login(self, name, access_code, password):
         self._student_login(name, access_code, password)
 
-        return play.dashboard_page.PlayDashboardPage(self.browser)
+        return dashboard_page.PlayDashboardPage(self.browser)
 
     def independent_student_login(self, username, password):
         self._independent_student_login(username, password)
 
-        return play.dashboard_page.PlayDashboardPage(self.browser)
+        return dashboard_page.PlayDashboardPage(self.browser)
 
     def login_failure(self, email, password):
         self._login(email, password)

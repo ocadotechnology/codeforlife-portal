@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import division
+from builtins import str
 import game.messages as messages
 from django.template import RequestContext
 from django.utils.safestring import mark_safe

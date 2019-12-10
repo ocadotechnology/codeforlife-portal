@@ -36,6 +36,7 @@
 # identified as the original program.
 from __future__ import unicode_literals
 
+from builtins import str
 from django.db import models, migrations
 from portal.helpers import location
 

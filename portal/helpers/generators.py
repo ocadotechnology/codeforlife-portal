@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from builtins import str
+from builtins import range
 from uuid import uuid4
 import random
 import string
@@ -56,7 +58,7 @@ def generate_new_student_name(orig_name):
 
     i = 1
     while True:
-        new_name = orig_name + unicode(i)
+        new_name = orig_name + str(i)
         if not Student.objects.filter(new_user__username=new_name).exists():
             return new_name
         i += 1

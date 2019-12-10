@@ -34,7 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_page import BasePage
+from __future__ import absolute_import
+
+from .base_page import BasePage
 
 
 class HomePage(BasePage):
@@ -44,17 +46,21 @@ class HomePage(BasePage):
 
     def go_to_login_page(self):
         self.browser.find_element_by_id("login_button").click()
+
+        import portal.tests.pageObjects.portal.login_page as login_page
+
         return login_page.LoginPage(self.browser)
 
     def go_to_signup_page(self):
         self.browser.find_element_by_id("signup_button").click()
+
+        import portal.tests.pageObjects.portal.signup_page as signup_page
+
         return signup_page.SignupPage(self.browser)
 
     def go_to_help_and_support_page(self):
         self.browser.find_element_by_id("help_and_support_button").click()
+
+        import portal.tests.pageObjects.portal.help_and_support_page as help_and_support_page
+
         return help_and_support_page.HelpPage(self.browser)
-
-
-import login_page
-import signup_page
-import help_and_support_page

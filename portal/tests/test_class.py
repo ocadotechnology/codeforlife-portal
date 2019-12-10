@@ -34,19 +34,20 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_test import BaseTest
+from __future__ import absolute_import
 
-from utils.teacher import signup_teacher_directly
-from utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
-from utils.classes import create_class, create_class_directly, transfer_class
-from utils.student import create_school_student_directly
-from utils.messages import (
+from .base_test import BaseTest
+from .utils.classes import create_class, create_class_directly, transfer_class
+from .utils.messages import (
     is_class_created_message_showing,
     is_class_nonempty_message_showing,
 )
+from .utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from .utils.student import create_school_student_directly
+from .utils.teacher import signup_teacher_directly
 
 
 class TestClass(BaseTest):

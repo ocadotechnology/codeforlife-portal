@@ -34,9 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from base_test import BaseTest
-from pageObjects.portal.home_page import HomePage
-from utils.messages import is_contact_message_sent_message_showing
+from __future__ import absolute_import
+
+from .base_test import BaseTest
+from .pageObjects.portal.home_page import HomePage
+from .utils.messages import is_contact_message_sent_message_showing
 
 
 class TestContact(BaseTest):

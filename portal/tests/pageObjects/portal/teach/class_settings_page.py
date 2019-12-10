@@ -34,11 +34,14 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from selenium.webdriver.support.ui import Select
-import class_page
-import move_class_page
+from __future__ import absolute_import
 
-from teach_base_page import TeachBasePage
+from builtins import str
+from selenium.webdriver.support.ui import Select
+
+from . import class_page
+from . import move_class_page
+from .teach_base_page import TeachBasePage
 
 
 class TeachClassSettingsPage(TeachBasePage):
@@ -58,7 +61,7 @@ class TeachClassSettingsPage(TeachBasePage):
             ).select_by_value(str(details["classmates_data_viewable"]))
             del details["classmates_data_viewable"]
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
 
@@ -80,7 +83,7 @@ class TeachClassSettingsPage(TeachBasePage):
             )
             del details["classmates_data_viewable"]
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value

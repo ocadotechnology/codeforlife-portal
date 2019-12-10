@@ -34,13 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from teach_base_page import TeachBasePage
-from class_page import TeachClassPage
-from move_classes_page import TeachMoveClassesPage
-from add_independent_student_to_class_page import AddIndependentStudentToClassPage
-from selenium.webdriver.support.ui import Select
+from __future__ import absolute_import
 
 import time
+
+from selenium.webdriver.support.ui import Select
+
+from .add_independent_student_to_class_page import AddIndependentStudentToClassPage
+from .class_page import TeachClassPage
+from .move_classes_page import TeachMoveClassesPage
+from .teach_base_page import TeachBasePage
 
 
 class TeachDashboardPage(TeachBasePage):
@@ -61,10 +64,10 @@ class TeachDashboardPage(TeachBasePage):
     def check_organisation_details(self, details):
         correct = True
 
-        first_field = details.items()[0][0]
+        first_field = list(details.items())[0][0]
         self.wait_for_element_by_id("id_" + first_field)
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value
@@ -73,7 +76,7 @@ class TeachDashboardPage(TeachBasePage):
         return correct
 
     def change_organisation_details(self, details):
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
 
@@ -129,7 +132,7 @@ class TeachDashboardPage(TeachBasePage):
                 details["title"]
             )
             del details["title"]
-        for field, value in details.items():
+        for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
         self.browser.find_element_by_id("update_button").click()
@@ -146,7 +149,7 @@ class TeachDashboardPage(TeachBasePage):
             )
             del details["title"]
 
-        for field, value in details.items():
+        for field, value in list(details.items()):
             correct &= (
                 self.browser.find_element_by_id("id_" + field).get_attribute("value")
                 == value

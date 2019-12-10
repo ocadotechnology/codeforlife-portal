@@ -40,6 +40,7 @@ import time
 from django.core.urlresolvers import reverse
 
 from deploy import captcha
+
 # Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
 from portal.tests.pageObjects.portal.home_page import HomePage

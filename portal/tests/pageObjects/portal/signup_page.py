@@ -34,11 +34,12 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
+
 from selenium.webdriver.support.ui import Select
 
-from base_page import BasePage
-import play_page
-import email_verification_needed_page
+from . import email_verification_needed_page
+from .base_page import BasePage
 
 
 class SignupPage(BasePage):
@@ -124,7 +125,7 @@ class SignupPage(BasePage):
 
         self.browser.find_element_by_name("independent_student_signup").click()
         if success:
-            from email_verification_needed_page import EmailVerificationNeededPage
+            from .email_verification_needed_page import EmailVerificationNeededPage
 
             return EmailVerificationNeededPage(self.browser)
         else:
