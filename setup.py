@@ -34,7 +34,6 @@ setup(
         "rapid-router >= 1.0.0.post.dev1",
         "six==1.11.0",
         "aimmo",
-        "docutils==0.12",
         "reportlab==3.2.0",
         "postcodes==0.1",
         "django-formtools==2.1",
@@ -50,6 +49,7 @@ setup(
         "libsass",
         "django-forms-bootstrap",
         "phonenumbers>=8.11.0, <8.12.0",
+        "more-itertools==5.0.0",  # 8.0.2 doesn't support Python <=3.4
         "future"
     ],
     zip_safe=False,
