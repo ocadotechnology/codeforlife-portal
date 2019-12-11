@@ -41,7 +41,6 @@ setup(
         "django-otp<=0.7.0",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
         "urllib3==1.24.2",
         "requests==2.20.0",
-        "django-classy-tags==0.6.1",
         "django-treebeard==4.3",
         "django-sekizai==1.0.0",
         "Pillow==5.4.1",

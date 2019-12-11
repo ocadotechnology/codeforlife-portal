@@ -93,10 +93,9 @@
         },
         "django-classy-tags": {
             "hashes": [
-                "sha256:00b785ce56ce0faf904c6a52acc03c5d623e6c8d90f831a6540accdf64bdbb73",
-                "sha256:e57ff4e89649cd395bfe71e9c423f2c5360f2b631c5c72da3b6645b2a2d62013"
+                "sha256:38b4546a8053499e2fef7af679a58d7c868298717d645b8b8227acba5fd4bf2b"
             ],
-            "version": "==0.6.1"
+            "version": "==0.9.0"
         },
         "django-countries": {
             "hashes": [
@@ -561,7 +560,7 @@
                 "sha256:330cc27ccbf7f1e992e69fef78261dc7c6569012cf397db8d3de0234e6c937ca",
                 "sha256:a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"
             ],
-            "markers": "python_version < '3.3'",
+            "markers": "python_version < '3.0'",
             "version": "==1.0.2"
         },
         "idna": {
@@ -599,7 +598,7 @@
                 "sha256:0ec8205a157c80d7acc301c0b18fbd5d44fe655968f5d947b6ecef5290fc35db",
                 "sha256:6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
             ],
-            "markers": "python_version < '3.4'",
+            "markers": "python_version < '3.6'",
             "version": "==2.3.5"
         },
         "pluggy": {
