@@ -49,7 +49,7 @@ setup(
         "libsass",
         "django-forms-bootstrap",
         "phonenumbers>=8.11.0, <8.12.0",
-        "more-itertools==5.0.0", # 8.0.2 doesn't support Python <=3.4
+        "more-itertools==5.0.0",  # 8.0.2 doesn't support Python <=3.4
         "future"
     ],
     zip_safe=False,
