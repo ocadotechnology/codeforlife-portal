@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5e6fad1f22dde5ee159c43a585ccd428becf6921917e24fc79efc53fc02bbbf9"
+            "sha256": "9bbd29cd4e9f5c876d2b4cea8c4c91b7e79fb5984b4972343c4060ecec79c7d6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -493,6 +493,7 @@
                 "sha256:15bee753002dff684987b8df8c235288eb8d45f8191ae056254812dfd42c81d3",
                 "sha256:d6b698788cae4cfa4e62ef8643a9ca332b79bd96cb314294b864ae8d7eb3ee8e"
             ],
+            "markers": "python_version < '3.4'",
             "version": "==2.2.1"
         },
         "django": {
@@ -520,7 +521,7 @@
                 "sha256:330cc27ccbf7f1e992e69fef78261dc7c6569012cf397db8d3de0234e6c937ca",
                 "sha256:a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"
             ],
-            "markers": "python_version < '3.0'",
+            "markers": "python_version < '3.3'",
             "version": "==1.0.2"
         },
         "idna": {
@@ -543,6 +544,7 @@
                 "sha256:83657d894c90d5681d62155c82bda9c1187827525880eda8ff5df4ec813437c3",
                 "sha256:d157e52d4e5b938c550f39eb2fd15610db062441a9c2747d3dbfa9298211d0f8"
             ],
+            "markers": "python_version < '3.3'",
             "version": "==3.0.5"
         },
         "more-itertools": {
@@ -558,7 +560,7 @@
                 "sha256:0ec8205a157c80d7acc301c0b18fbd5d44fe655968f5d947b6ecef5290fc35db",
                 "sha256:6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
             ],
-            "markers": "python_version < '3.6'",
+            "markers": "python_version < '3.4'",
             "version": "==2.3.5"
         },
         "pluggy": {
@@ -607,10 +609,11 @@
         },
         "responses": {
             "hashes": [
-                "sha256:a5df7b5e060eaa919d7eb77faeacf0acc7e10074bb34c9a0ac2238e21851473b"
+                "sha256:46d4e546a19fc6106bc7e804edd4551ef04690405e41e7e750ebc295d042623b",
+                "sha256:93b1e0f2f960c0f3304ca4436856241d64c33683ef441431b9caf1d05d9d9e23"
             ],
             "index": "pypi",
-            "version": "==0.4.0"
+            "version": "==0.10.7"
         },
         "scandir": {
             "hashes": [
