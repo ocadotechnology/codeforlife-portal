@@ -202,13 +202,6 @@
             ],
             "version": "==1.16.0"
         },
-        "docutils": {
-            "hashes": [
-                "sha256:c7db717810ab6965f66c8cf0398a98c9d8df982da39b4cd7f162911eb89596fa",
-                "sha256:dcebd4928112631626f4c4d0df59787c748404e66dda952110030ea883d3b8cd"
-            ],
-            "version": "==0.12"
-        },
         "enum34": {
             "hashes": [
                 "sha256:2d81cbbe0e73112bdfe6ef8576f2238f2ba27dd0d55752a776c41d38b7da2850",
@@ -397,10 +390,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:15179fc7e904ff17d394018d95506d3a75ad763c3e35293405c8bbcf5320034b",
-                "sha256:208d3de9e82257a7500827882dc3b1b4b1d6a62d42901e20e99a9fd1f3c8b12c"
+                "sha256:9dcfaf93da1ff461be473adf8fe4aa58f073facaaaecdad4a3fc131a44ee5f46",
+                "sha256:c24479dfcfa21873d903b12f0156641f91155cddd7449367dc3613ac4a24f158"
             ],
-            "version": "==2.3.0"
+            "version": "==2.3.1"
         },
         "reportlab": {
             "hashes": [
@@ -521,7 +514,7 @@
                 "sha256:330cc27ccbf7f1e992e69fef78261dc7c6569012cf397db8d3de0234e6c937ca",
                 "sha256:a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"
             ],
-            "markers": "python_version < '3.3'",
+            "markers": "python_version < '3.0'",
             "version": "==1.0.2"
         },
         "idna": {
@@ -560,7 +553,7 @@
                 "sha256:0ec8205a157c80d7acc301c0b18fbd5d44fe655968f5d947b6ecef5290fc35db",
                 "sha256:6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
             ],
-            "markers": "python_version < '3.4'",
+            "markers": "python_version < '3.6'",
             "version": "==2.3.5"
         },
         "pluggy": {
