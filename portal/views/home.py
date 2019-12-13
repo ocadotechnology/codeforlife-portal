@@ -187,8 +187,6 @@ def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
 
 def render_signup_form(request):
     invalid_form = False
-    limits = getattr(request, "limits", {"ip": [0]})
-    captcha_limit = 5
 
     teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
     independent_student_signup_form = IndependentStudentSignupForm(
@@ -196,7 +194,7 @@ def render_signup_form(request):
     )
 
     if request.method == "POST":
-        if "teacher_signup" in request.POST:
+        if "teacher_signup-teacher_email" in request.POST:
             teacher_signup_form = TeacherSignupForm(
                 request.POST, prefix="teacher_signup"
             )
