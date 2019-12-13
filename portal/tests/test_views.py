@@ -46,6 +46,7 @@ from .utils.teacher import signup_teacher_directly
 
 from deploy import captcha
 
+
 class TestTeacherViews(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -71,12 +72,11 @@ class TestLoginViews(TestCase):
         cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
         captcha.CAPTCHA_ENABLED = False
         super(TestLoginViews, cls).setUpClass()
-    
+
     @classmethod
     def tearDownClass(cls):
         captcha.CAPTCHA_ENABLED = cls.orig_captcha_enabled
         super(TestLoginViews, cls).tearDownClass()
-
 
     def _set_up_test_data(self, next_url=False):
         teacher_email, teacher_password = signup_teacher_directly()
