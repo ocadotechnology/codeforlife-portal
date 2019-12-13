@@ -74,7 +74,7 @@ def student_join_organisation(request):
 
     # check student not managed by a school
     if student.class_field:
-        raise Http404
+        return HttpResponseRedirect(reverse_lazy("student_details"))
 
     if request.method == "POST":
         if "class_join_request" in request.POST:
