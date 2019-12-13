@@ -68,7 +68,7 @@ class AdminLoginView(LoginView):
     authentication_form = None
 
     def populate_context_dict(self):
-        self.extra_context["captcha"] = self.show_captcha()
+        self.extra_context["captcha"] = captcha.CAPTCHA_ENABLED
 
     def get_form_kwargs(self):
         kwargs = super(LoginView, self).get_form_kwargs()
