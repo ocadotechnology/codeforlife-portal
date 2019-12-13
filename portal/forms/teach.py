@@ -40,6 +40,7 @@ from builtins import range
 import re
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -88,7 +89,7 @@ class TeacherSignupForm(forms.Form):
         label="Confirm Password", widget=forms.PasswordInput()
     )
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_teacher_password(self):
         return form_clean_password(self, forms, "teacher_password")
@@ -170,7 +171,7 @@ class TeacherLoginForm(forms.Form):
     )
     teacher_password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean(self):
         email = self.cleaned_data.get("teacher_email", None)

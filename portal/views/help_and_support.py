@@ -11,14 +11,9 @@ from portal.helpers.emails import (
     CONTACT_EMAIL,
 )
 from portal.strings.help_and_support import HELP_BANNER
-from ratelimit.decorators import ratelimit
 
 
-@ratelimit(
-    "ip", periods=["1m"], increment=lambda req, res: hasattr(res, "count") and res.count
-)
 def contact(request):
-    increment_count = False
     should_use_captcha = captcha.CAPTCHA_ENABLED
 
     anchor = ""
@@ -27,7 +22,6 @@ def contact(request):
         contact_form = ContactForm(request.POST)
         if not should_use_captcha:
             remove_captcha_from_forms(contact_form)
-        increment_count = True
         if contact_form.is_valid():
             anchor = "top"
             email_message = email_messages.contactEmail(
@@ -87,5 +81,4 @@ def contact(request):
         },
     )
 
-    response.count = increment_count
     return response

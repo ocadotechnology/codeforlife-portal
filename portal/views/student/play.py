@@ -45,7 +45,6 @@ from portal import email_messages
 from portal.forms.play import StudentJoinOrganisationForm
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.permissions import logged_in_as_student
-from ratelimit.decorators import ratelimit
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -60,14 +59,7 @@ def username_labeller(request):
 
 @login_required(login_url=reverse_lazy("login_view"))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
-@ratelimit(
-    "ip",
-    labeller=username_labeller,
-    periods=["1m"],
-    increment=lambda req, res: hasattr(res, "count") and res.count,
-)
 def student_join_organisation(request):
-    increment_count = False
 
     student = request.user.new_student
     request_form = StudentJoinOrganisationForm()
@@ -78,7 +70,6 @@ def student_join_organisation(request):
 
     if request.method == "POST":
         if "class_join_request" in request.POST:
-            increment_count = True
             request_form = StudentJoinOrganisationForm(request.POST)
             process_join_organisation_form(request_form, request, student)
 
@@ -94,7 +85,6 @@ def student_join_organisation(request):
         "portal/play/student_join_organisation.html",
         {"request_form": request_form, "student": student},
     )
-    res.count = increment_count
     return res
 
 

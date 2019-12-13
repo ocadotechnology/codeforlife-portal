@@ -37,6 +37,7 @@
 from django import forms
 from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
 
 
 class ContactForm(forms.Form):
@@ -65,7 +66,7 @@ class ContactForm(forms.Form):
         widget=forms.TextInput(attrs={"type": "hidden", "id": "browserField"}),
     )
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
