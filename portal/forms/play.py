@@ -38,6 +38,8 @@ import re
 from datetime import timedelta
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
+
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -57,7 +59,7 @@ class StudentLoginForm(forms.Form):
     )
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean(self):
         name = self.cleaned_data.get("name", None)
@@ -211,7 +213,7 @@ class IndependentStudentSignupForm(forms.Form):
         label="Confirm Password", widget=forms.PasswordInput
     )
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
@@ -253,7 +255,7 @@ class IndependentStudentLoginForm(forms.Form):
     )
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean(self):
         username = self.cleaned_data.get("username", None)

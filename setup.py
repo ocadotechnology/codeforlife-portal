@@ -29,7 +29,7 @@ setup(
         "django-jquery==1.9.1",
         "django-autoconfig==0.8.0",
         "django-pipeline==1.6.14",
-        "django-recaptcha==1.3.1",  # 1.4 dropped support for < 1.11
+        "django-recaptcha==2.0.5",
         "pyyaml==4.2b1",
         "rapid-router >= 1.0.0.post.dev1",
         "six==1.11.0",

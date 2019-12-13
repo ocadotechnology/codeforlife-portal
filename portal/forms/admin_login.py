@@ -35,13 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
 from django.contrib.auth.forms import AuthenticationForm
 
 from portal.helpers.captcha import remove_captcha_from_form
 
 
 class AdminLoginForm(AuthenticationForm):
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     is_captcha_visible = False
 

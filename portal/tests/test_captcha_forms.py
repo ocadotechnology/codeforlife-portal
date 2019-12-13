@@ -37,6 +37,7 @@
 from __future__ import print_function
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 from django.test import TestCase
 
@@ -45,7 +46,7 @@ from portal.helpers.captcha import remove_captcha_from_forms, is_captcha_in_form
 
 class FormCaptchaTest(TestCase):
     class FormWithCaptcha(forms.Form):
-        captcha = ReCaptchaField()
+        captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def test_is_captcha_in_form(self):
         form_with_captcha = FormCaptchaTest.FormWithCaptcha()

@@ -128,7 +128,6 @@ from portal.views.teacher.teach import (
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from ratelimit.decorators import ratelimit
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -172,9 +171,7 @@ urlpatterns = [
     ),
     url(
         r"^administration/login/$",
-        ratelimit("def", periods=["1m"], increment=is_post_request)(
-            AdminLoginView.as_view()
-        ),
+        AdminLoginView.as_view(),
         name="administration_login",
     ),
     url(
