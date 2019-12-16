@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "afee9ee6007a93e28eb8897f3616f010bc22e91cbaaf7d982a8ac246100b2043"
+            "sha256": "174bc07eb337bbefc610e2000f62500201dc8d2fc84f812baea020cc63ede28f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -179,10 +179,11 @@
         },
         "django-two-factor-auth": {
             "hashes": [
-                "sha256:1f27660e14db370f4bb2b666180f47f32b40234eaf82e05f2c9ace6160f4b4b6",
-                "sha256:2319cea6b1e1415471c9b9fd5efd1b2ff29c97a06418045c6e7df5d22cb6e373"
+                "sha256:464c33bcbd2f43470adc5f9b1c1957c8afad7bbada08a92c95031d26e7a8dd73",
+                "sha256:df45c2aafce5174c2c0ccc15740f6bb3bb78402b6bd27223d87cb3ba3ee52626"
             ],
-            "version": "==1.6.2"
+            "index": "pypi",
+            "version": "==1.9.1"
         },
         "djangorestframework": {
             "hashes": [
@@ -205,7 +206,7 @@
                 "sha256:6bd0f6ad48ec2aa117d3d141940d484deccda84d4fcd884f5c3d93c23ecd8c79",
                 "sha256:8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1"
             ],
-            "markers": "python_version < '3.4'",
+            "markers": "python_version == '2.7'",
             "version": "==1.1.6"
         },
         "eventlet": {
@@ -406,16 +407,16 @@
         },
         "qrcode": {
             "hashes": [
-                "sha256:f3993aea9e3af2ca92b64128a81f36ed978a44d115a214293bfcd2cae7de8f6e"
+                "sha256:3996ee560fc39532910603704c82980ff6d4d5d629f9c3f25f34174ce8606cf5",
+                "sha256:505253854f607f2abf4d16092c61d4e9d511a3b4392e60bff957a68592b04369"
             ],
-            "version": "==4.0.4"
+            "version": "==6.1"
         },
         "rapid-router": {
             "hashes": [
                 "sha256:c55690f85c304a02c780081699e3a53f9645b2ae49ddae23614abd8073f1ed9b",
                 "sha256:d7463a8b40d7f4e06e22362e8b8f14141907e404affb6cc84c79c0a78796c38a"
             ],
-            "index": "pypi",
             "version": "==2.3.2"
         },
         "reportlab": {
@@ -544,7 +545,7 @@
                 "sha256:330cc27ccbf7f1e992e69fef78261dc7c6569012cf397db8d3de0234e6c937ca",
                 "sha256:a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"
             ],
-            "markers": "python_version < '3.0'",
+            "markers": "python_version < '3.3'",
             "version": "==1.0.2"
         },
         "idna": {
@@ -583,7 +584,7 @@
                 "sha256:0ec8205a157c80d7acc301c0b18fbd5d44fe655968f5d947b6ecef5290fc35db",
                 "sha256:6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
             ],
-            "markers": "python_version < '3.6'",
+            "markers": "python_version < '3'",
             "version": "==2.3.5"
         },
         "pluggy": {
