@@ -17,7 +17,7 @@
     {% endblock head %}
 
     {% block css %}
-    {% cache 3600 fragment-base_new-css %}
+    {% cache 3600 fragment-base_new-css get_project_version %}
     <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
@@ -26,7 +26,7 @@
     {% endcache %}
     {% endblock css %}
 
-    {% cache 3600 fragment-base_new-javascript %}
+    {% cache 3600 fragment-base_new-javascript get_project_version %}
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/bootstrap.js' %}"></script>
@@ -274,7 +274,7 @@
 {% endblock contentWrapper %}
 
 {% block footer %}
-{% cache 3600 fragment-base_new-footer %}
+{% cache 3600 fragment-base_new-footer get_project_version %}
 <div class="footer">
     <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src="{% static 'portal/img/footer_arrow.png' %}"></a>
     <p><a href="#top"><small>BACK TO TOP</small></a></p>
