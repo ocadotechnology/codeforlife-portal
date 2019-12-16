@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9bbd29cd4e9f5c876d2b4cea8c4c91b7e79fb5984b4972343c4060ecec79c7d6"
+            "sha256": "afee9ee6007a93e28eb8897f3616f010bc22e91cbaaf7d982a8ac246100b2043"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -130,12 +130,6 @@
             ],
             "version": "==5.4.7"
         },
-        "django-jquery": {
-            "hashes": [
-                "sha256:70df837586a69607acb82a1d35a10d11e0dc11403949e4a2f3c2fcc726036abb"
-            ],
-            "version": "==1.9.1"
-        },
         "django-js-reverse": {
             "hashes": [
                 "sha256:2a392d169f44e30b883c30dfcfd917a14167ce8fe196c99d2385b31c90d77aa0",
@@ -211,7 +205,7 @@
                 "sha256:6bd0f6ad48ec2aa117d3d141940d484deccda84d4fcd884f5c3d93c23ecd8c79",
                 "sha256:8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1"
             ],
-            "markers": "python_version == '2.7'",
+            "markers": "python_version < '3.4'",
             "version": "==1.1.6"
         },
         "eventlet": {
@@ -418,10 +412,11 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:9dcfaf93da1ff461be473adf8fe4aa58f073facaaaecdad4a3fc131a44ee5f46",
-                "sha256:c24479dfcfa21873d903b12f0156641f91155cddd7449367dc3613ac4a24f158"
+                "sha256:c55690f85c304a02c780081699e3a53f9645b2ae49ddae23614abd8073f1ed9b",
+                "sha256:d7463a8b40d7f4e06e22362e8b8f14141907e404affb6cc84c79c0a78796c38a"
             ],
-            "version": "==2.3.1"
+            "index": "pypi",
+            "version": "==2.3.2"
         },
         "reportlab": {
             "hashes": [
