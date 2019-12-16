@@ -26,7 +26,6 @@ setup(
         "django-appconf==1.0.1",
         "django-countries==5.4",
         "djangorestframework>=3.8.2, < 3.9.0",
-        "django-jquery==1.9.1",
         "django-autoconfig==0.8.0",
         "django-pipeline==1.6.14",
         "django-recaptcha==2.0.5",

@@ -90,7 +90,6 @@ SETTINGS = {
         "django.contrib.sites",
         "django.contrib.staticfiles",
         "rest_framework",
-        "jquery",
         "django_otp",
         "django_otp.plugins.otp_static",
         "django_otp.plugins.otp_totp",
