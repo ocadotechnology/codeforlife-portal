@@ -23,10 +23,8 @@ setup(
     include_package_data=True,
     install_requires=[
         "django>=1.10.8, <= 1.11.24",
-        "django-appconf==1.0.1",
         "django-countries==5.4",
         "djangorestframework>=3.8.2, < 3.9.0",
-        "django-jquery==1.9.1",
         "django-autoconfig==0.8.0",
         "django-pipeline==1.6.14",
         "django-recaptcha==2.0.5",
@@ -34,9 +32,9 @@ setup(
         "rapid-router >= 1.0.0.post.dev1",
         "six==1.11.0",
         "aimmo",
-        "reportlab==3.2.0",
+        "reportlab>=3.5.32,<3.6.0",
         "django-formtools==2.1",
-        "django-two-factor-auth>=1.6.2,<1.7.0",
+        "django-two-factor-auth>=1.9.1,<1.10.0",
         "django-otp<=0.7.0",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
         "urllib3==1.24.2",
         "requests==2.20.0",
