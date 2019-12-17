@@ -43,6 +43,7 @@ from .teach import dashboard_page as teach_dashboard_page
 from .teach import onboarding_classes_page
 from .teach import onboarding_students_page
 from .teacher_password_reset_form_page import TeacherPasswordResetFormPage
+import time
 
 
 class LoginPage(BasePage):
@@ -116,6 +117,7 @@ class LoginPage(BasePage):
         self.browser.find_element_by_name("independent_student_login").click()
 
     def has_login_failed(self, form_id, error):
+        time.sleep(0.5)
         errors = (
             self.browser.find_element_by_id(form_id)
             .find_element_by_class_name("errorlist")
