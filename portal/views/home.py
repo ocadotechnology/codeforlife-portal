@@ -132,16 +132,7 @@ def render_login_form(request):
         "independent_student_view": independent_student_view,
         "logged_in_as_teacher": is_logged_in_as_teacher(request),
         "settings": app_settings,
-        "teacher_captcha": captcha.CAPTCHA_ENABLED,
-        "student_captcha": captcha.CAPTCHA_ENABLED,
-        "independent_student_captcha": captcha.CAPTCHA_ENABLED,
     }
-
-    configure_login_form_captcha(login_form, render_dict, "teacher_captcha")
-    configure_login_form_captcha(school_login_form, render_dict, "student_captcha")
-    configure_login_form_captcha(
-        independent_student_login_form, render_dict, "independent_student_captcha"
-    )
 
     if request.method == "POST":
         form, process_form, render_dict = configure_post_login(request, render_dict)
@@ -158,31 +149,21 @@ def render_login_form(request):
 
 
 def configure_post_login(request, render_dict):
-    if "school_login" in request.POST:
+    if "login-access_code" in request.POST:
         form = StudentLoginForm(request.POST, prefix="login")
         process_form = process_student_login_form
         render_dict["school_login_form"] = form
-        configure_login_form_captcha(form, render_dict, "student_captcha")
-
-    elif "independent_student_login" in request.POST:
+    elif "independent_student-username" in request.POST:
         form = IndependentStudentLoginForm(request.POST, prefix="independent_student")
         process_form = process_indep_student_login_form
         render_dict["independent_student_login_form"] = form
         render_dict["independent_student_view"] = True
-        configure_login_form_captcha(form, render_dict, "independent_student_captcha")
-
     else:
         form = TeacherLoginForm(request.POST, prefix="login")
         process_form = process_login_form
         render_dict["login_form"] = form
-        configure_login_form_captcha(form, render_dict, "teacher_captcha")
 
     return form, process_form, render_dict
-
-
-def configure_login_form_captcha(form, render_dict, render_dict_captcha_key):
-    if not render_dict[render_dict_captcha_key]:
-        remove_captcha_from_forms(form)
 
 
 def render_signup_form(request):
@@ -211,9 +192,6 @@ def render_signup_form(request):
                 request.POST, prefix="independent_student_signup"
             )
 
-            if not captcha.CAPTCHA_ENABLED:
-                remove_captcha_from_forms(independent_student_signup_form)
-
             if independent_student_signup_form.is_valid():
                 data = independent_student_signup_form.cleaned_data
                 return process_independent_student_signup_form(request, data)
@@ -223,8 +201,7 @@ def render_signup_form(request):
         "portal/register.html",
         {
             "teacher_signup_form": teacher_signup_form,
-            "independent_student_signup_form": independent_student_signup_form,
-            "captcha": captcha.CAPTCHA_ENABLED,
+            "independent_student_signup_form": independent_student_signup_form
         },
     )
 

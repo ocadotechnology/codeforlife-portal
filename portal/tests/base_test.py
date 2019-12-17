@@ -48,6 +48,16 @@ from .selenium_test_case import SeleniumTestCase
 
 
 class BaseTest(SeleniumTestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
+        captcha.CAPTCHA_ENABLED = False
+        super(BaseTest, cls).setUpClass()
+
+    @classmethod
+    def tearDownClass(cls):
+        captcha.CAPTCHA_ENABLED = cls.orig_captcha_enabled
+        super(BaseTest, cls).tearDownClass()
 
     def go_to_homepage(self):
         path = reverse("home")

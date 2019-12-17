@@ -38,9 +38,7 @@
                 {{ login_form.teacher_password }}
                 {{ login_form.teacher_password.errors }}
 
-                {% if teacher_captcha %}
-                  {{ login_form.captcha }}
-                {% endif %}
+                {{ login_form.captcha }}
 
                 <button type="submit" name="login_view" class="button--regular button--primary--general-educate"
                             onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
@@ -73,9 +71,7 @@
                 {{ school_login_form.password }}
                 {{ school_login_form.password.errors }}
 
-                {% if student_captcha %}
-                  {{ school_login_form.captcha }}
-                {% endif %}
+                {{ school_login_form.captcha }}
 
                 <button type="submit" name="school_login" class="button--regular button--primary--general-play"
                         onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
@@ -104,9 +100,7 @@
                 {{ independent_student_login_form.password }}
                 {{ independent_student_login_form.password.errors }}
 
-                {% if independent_student_captcha %}
-                  {{ independent_student_login_form.captcha }}
-                {% endif %}
+                {{ independent_student_login_form.captcha }}
 
                 <button type="submit" name="independent_student_login" class="button--regular button--primary--general-play">Log in</button>
             </form>
