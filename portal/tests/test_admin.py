@@ -142,7 +142,7 @@ class TestAdmin(BaseTest):
         self.assertTrue(page.is_on_admin_login_page())
         self.assertIn(
             "Please enter a correct username and password. Note that both fields may be case-sensitive.",
-            self.selenium.page_source,
+            page.browser.find_element_by_class_name("errorlist").text,
         )
 
     def randomId(self):

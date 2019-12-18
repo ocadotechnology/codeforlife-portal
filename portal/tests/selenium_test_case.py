@@ -32,6 +32,7 @@ class SeleniumTestCase(LiveServerTestCase):
 
         if not selenium:
             return super(SeleniumTestCase, self).__call__(result)
+
         for width in getattr(settings, "SELENIUM_WIDTHS", [1624]):
             selenium.set_window_size(width, 1024)
             super(SeleniumTestCase, self).__call__(result)
