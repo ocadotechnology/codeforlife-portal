@@ -36,7 +36,7 @@ setup(
         "django-formtools==2.1",
         "django-two-factor-auth>=1.9.1,<1.10.0",
         "django-otp<=0.7.0",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
-        "requests==2.20.0",
+        "requests>=2.22.0,<2.23.0",
         "django-treebeard==4.3",
         "django-sekizai==1.0.0",
         "Pillow==5.4.1",
