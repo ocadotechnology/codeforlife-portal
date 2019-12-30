@@ -60,18 +60,18 @@ def follow_duplicate_account_link_to_login(page, email):
 def _follow_verify_email_link(page, email):
     message = str(email.message())
     prefix = '<p>Please go to <a href="'
-    i = string.find(message, prefix) + len(prefix)
+    i = str.find(message, prefix) + len(prefix)
     suffix = '" rel="nofollow">'
-    j = string.find(message, suffix, i)
+    j = str.find(message, suffix, i)
     page.browser.get(message[i:j])
 
 
 def _follow_duplicate_account_email_link(page, email):
     message = str(email.message())
     prefix = 'please login: <a href="'
-    i = string.find(message, prefix) + len(prefix)
+    i = str.find(message, prefix) + len(prefix)
     suffix = '" rel="nofollow">'
-    j = string.find(message, suffix, i)
+    j = str.find(message, suffix, i)
     page.browser.get(message[i:j])
 
 
@@ -98,9 +98,9 @@ def follow_change_email_link_to_dashboard(page, email):
 def _follow_change_email_link(page, email):
     message = str(email.message())
     prefix = "please go to "
-    i = string.find(message, prefix) + len(prefix)
+    i = str.find(message, prefix) + len(prefix)
     suffix = " to verify"
-    j = string.find(message, suffix, i)
+    j = str.find(message, suffix, i)
     page.browser.get(message[i:j])
 
 
