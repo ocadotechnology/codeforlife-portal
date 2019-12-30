@@ -38,7 +38,7 @@ jobs:
         - sleep 3
         - python example_project/manage.py collectstatic --noinput --settings test_settings
       script:
-        - pytest --cov=. --cov-report=xml
+        - pytest --cov=. --cov-report=xml --maxfail=1
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
