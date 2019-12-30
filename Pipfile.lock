@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "797dbcac77b4aca5d7e2394adfa17e49ccfa5d8e552d3abadcecd01e67c136e6"
+            "sha256": "f9dbe6f76e8ea43385994590983dcf6440925a9c6380aa1ae247dc326e056492"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -257,6 +257,13 @@
             ],
             "version": "==8.11.1"
         },
+        "phonenumberslite": {
+            "hashes": [
+                "sha256:1444f6260491075dba575bc2a8f5f8a72f5e50ad96160e9fadaecd747e83d3bf",
+                "sha256:9590121b80353d72fb7420d2530fd3fc79f6c61d56a13e0b4d41459ec2a9e62e"
+            ],
+            "version": "==8.11.1"
+        },
         "pillow": {
             "hashes": [
                 "sha256:051de330a06c99d6f84bcf582960487835bcae3fc99365185dc2d4f65a390c0e",
@@ -451,6 +458,13 @@
             "index": "pypi",
             "version": "==0.2.1"
         },
+        "easyprocess": {
+            "hashes": [
+                "sha256:da7f67a006e2eb63d86a8f3f4baa9d6752dab9676009a67193a4e433f2f41c2a",
+                "sha256:e8258e8fafddc97a9780bafa83a0b7a7223e3679478ebc7a64cb320d434354e5"
+            ],
+            "version": "==0.2.8"
+        },
         "fastdiff": {
             "hashes": [
                 "sha256:623ad3d9055ab78e014d0d10767cb033d98d5d4f66052abf498350c8e42e29aa"
@@ -531,6 +545,14 @@
             ],
             "version": "==2019.3"
         },
+        "pyvirtualdisplay": {
+            "hashes": [
+                "sha256:5b267c8ffc98fcbd084ba852ab4caef3f22e9362bc5d117e1697e767553eaf41",
+                "sha256:cab4ce130be34a9f62b402954451e829035616d39d7a1ba485dabbf77afb9fb4"
+            ],
+            "index": "pypi",
+            "version": "==0.2.5"
+        },
         "requests": {
             "hashes": [
                 "sha256:11e007a8a2aa0323f5a921e9e6a2d7e4e67d9877e85773fba9ba6419025cbeb4",
@@ -598,7 +620,7 @@
                 "sha256:e547b1074e52c10f0581de415b509aa61e577f5248340a68b356938393d773c8",
                 "sha256:fcfe2c7a9fbf323f3520ef9766b82e80cd433d7f8c87ff084b18bcde716923af"
             ],
-            "markers": "python_version >= '3.5' and platform_machine == 'x86_64' and sys_platform == 'linux'",
+            "markers": "python_version >= '3.5' and platform_machine == 'x86_64' and sys_platform == 'darwin'",
             "version": "==0.3.0"
         },
         "wcwidth": {
