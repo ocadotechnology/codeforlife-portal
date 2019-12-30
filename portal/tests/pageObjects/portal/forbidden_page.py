@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from portal.tests.pageObjects.portal.base_page import BasePage
-import time
+
 
 class ForbiddenPage(BasePage):
     def __init__(self, browser):
