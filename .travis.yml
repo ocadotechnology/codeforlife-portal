@@ -2,6 +2,7 @@ sudo: required
 dist: trusty
 group: deprecated-2017Q2
 language: python
+python: 3.6.7
 
 
 env:
@@ -16,35 +17,17 @@ stages:
   - name: deploy
     if: branch = master AND NOT type IN (pull_request)
 
-test_script: &test_script
-  install:
-    - pip install -U setuptools
-    - pip install pytest-cov
-    - pip install pipenv
-    - pipenv install --dev --system
-  script:
-    - pytest --cov=. --cov-report=xml
-  after_success:
-    - bash <(curl -s https://codecov.io/bash)
 
 jobs:
   fail_fast: true
   include:
     - stage: test
-      python: 2.7
-      <<: *test_script
-      before_script:
-        - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-        - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
-        - export CHROME_BIN=chromium-browser
-        - "export DISPLAY=:99.0"
-        - "sh -e /etc/init.d/xvfb start"
-        - sleep 3
-        - pip install selenium==2.53.6
-        - python example_project/manage.py collectstatic --noinput --settings test_settings
-
-    - python: 3.6.7
-      <<: *test_script
+      install:
+        - pip install -U setuptools
+        - pip install -U git+https://github.com/ocadotechnology/rapid-router.git@python3_compatibility#egg=rapid-router
+        - pip install pytest-cov
+        - pip install pipenv
+        - pipenv install --dev --system
       before_script:
         - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
         - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.7/bin/
@@ -54,6 +37,10 @@ jobs:
         - sleep 3
         - pip install selenium==2.53.6
         - python example_project/manage.py collectstatic --noinput --settings test_settings
+      script:
+        - pytest --cov=. --cov-report=xml
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
 
     - stage: deploy
       install:

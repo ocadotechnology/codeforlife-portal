@@ -46,6 +46,8 @@ TEMPLATES = [
     }
 ]
 
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -73,7 +75,7 @@ LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-INSTALLED_APPS = ("portal", "captcha", "django_forms_bootstrap")
+INSTALLED_APPS = ("portal", "captcha")
 
 PIPELINE_ENABLED = False
 
