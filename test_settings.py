@@ -25,6 +25,8 @@ TEMPLATES = [
     }
 ]
 
+DEBUG=True
+
 INSTALLED_APPS = ["portal"]
 PIPELINE_ENABLED = False
 ROOT_URLCONF = "example_project.example_project.urls"
