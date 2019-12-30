@@ -202,10 +202,10 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:554a91e9cde0635fcf6a3ebe995a182b97717bf374b9d649ddba57717509745a",
-                "sha256:9bf5b44ac4c6d9ec81f4128ed17ef9754a5a975ebbd0383389d7c1c001d53ef1"
+                "sha256:3c4369a4b0a1348561048bcda5f1db951a1b8e2a514ea8e8c70d36e656bf6fa0",
+                "sha256:94f0910bc87e0ae8c098f4ada28dfdc381245e0c8079c674292b417dbde144b5"
             ],
-            "version": "==4.56.3"
+            "version": "==4.57.1"
         },
         "idna": {
             "hashes": [
@@ -254,6 +254,13 @@
             "hashes": [
                 "sha256:239507184ee5b1b83557005af1d5fcce70f83ae18f5dff45b94a67226db10d63",
                 "sha256:aaa19bc1f2c7efbf7a94be33558e0c5b71620377c9271692d3e314c558962460"
+            ],
+            "version": "==8.11.1"
+        },
+        "phonenumberslite": {
+            "hashes": [
+                "sha256:1444f6260491075dba575bc2a8f5f8a72f5e50ad96160e9fadaecd747e83d3bf",
+                "sha256:9590121b80353d72fb7420d2530fd3fc79f6c61d56a13e0b4d41459ec2a9e62e"
             ],
             "version": "==8.11.1"
         },
@@ -334,10 +341,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:565160eaeadc8da58bc9a4cbbdae99dbcc435de9d54e1c761bd0c13fa50504f4",
-                "sha256:acebb3d72df09c3dfe2776f9288df275171317c5488a0d667fbf7c95bea82d30"
+                "sha256:d012cdab70ac14fed63bde44c850c840cc267523ebd042dd4b5bc0ff4231ba8e",
+                "sha256:d63e8afaf56efe3803b5e51adaaf08828cc180ae459b4c75cb64e25c0f73f3b4"
             ],
-            "version": "==2.3.6"
+            "version": "==2.3.7"
         },
         "reportlab": {
             "hashes": [
@@ -591,7 +598,7 @@
                 "sha256:e547b1074e52c10f0581de415b509aa61e577f5248340a68b356938393d773c8",
                 "sha256:fcfe2c7a9fbf323f3520ef9766b82e80cd433d7f8c87ff084b18bcde716923af"
             ],
-            "markers": "python_version >= '3.5' and platform_machine == 'x86_64' and sys_platform == 'linux'",
+            "markers": "python_version >= '3.5' and platform_machine == 'x86_64' and sys_platform == 'darwin'",
             "version": "==0.3.0"
         },
         "zipp": {
