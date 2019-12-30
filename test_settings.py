@@ -25,8 +25,6 @@ TEMPLATES = [
     }
 ]
 
-DEBUG=True
-
 if os.environ.get('SELENIUM_HEADLESS', None):
     from pyvirtualdisplay import Display
     display = Display(visible=0, size=(1624, 1024))
