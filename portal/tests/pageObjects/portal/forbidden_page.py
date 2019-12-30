@@ -35,10 +35,11 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from portal.tests.pageObjects.portal.base_page import BasePage
-
+import time
 
 class ForbiddenPage(BasePage):
     def __init__(self, browser):
         super(ForbiddenPage, self).__init__(browser)
+        time.sleep(3)
         print(browser.driver.page_source)
         assert self.on_correct_page("403_forbidden")
