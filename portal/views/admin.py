@@ -72,7 +72,6 @@ class AdminLoginView(LoginView):
         return kwargs
 
     def get_form(self, form_class=None):
-        self.populate_context_dict()
         user = self.request.user
         return self.form_class(user, **self.get_form_kwargs())
 
