@@ -24,7 +24,6 @@ jobs:
     - stage: test
       install:
         - pip install -U setuptools
-        - pip install -U git+https://github.com/ocadotechnology/rapid-router.git@python3_compatibility#egg=rapid-router
         - pip install pytest-cov
         - pip install pipenv
         - pipenv install --dev --system
@@ -44,7 +43,7 @@ jobs:
 
     - stage: deploy
       install:
-        - pip install python-semantic-release==3.11.2
+        - pip install python-semantic-release
       before_script:
         - git config --global user.name "semantic-release (via TravisCI)"
         - git config --global user.email "semantic-release@travis"
