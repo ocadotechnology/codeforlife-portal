@@ -73,7 +73,7 @@ LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-INSTALLED_APPS = ("portal", "captcha", "django_forms_bootstrap")
+INSTALLED_APPS = ("portal", "captcha")
 
 PIPELINE_ENABLED = False
 

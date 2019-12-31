@@ -201,7 +201,7 @@ def render_signup_form(request):
         "portal/register.html",
         {
             "teacher_signup_form": teacher_signup_form,
-            "independent_student_signup_form": independent_student_signup_form
+            "independent_student_signup_form": independent_student_signup_form,
         },
     )
 

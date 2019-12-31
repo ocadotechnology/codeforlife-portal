@@ -25,6 +25,13 @@ TEMPLATES = [
     }
 ]
 
+if os.environ.get('SELENIUM_HEADLESS', None):
+    from pyvirtualdisplay import Display
+    display = Display(visible=0, size=(1624, 1024))
+    display.start()
+    import atexit
+    atexit.register(lambda: display.stop())
+
 INSTALLED_APPS = ["portal"]
 PIPELINE_ENABLED = False
 ROOT_URLCONF = "example_project.example_project.urls"

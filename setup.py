@@ -44,7 +44,12 @@ setup(
         "libsass",
         "phonenumbers>=8.11.0, <8.12.0",
         "more-itertools==5.0.0",  # 8.0.2 doesn't support Python <=3.4
-        "future"
+        "future",
+    ],
+    classifiers=[
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.6",
+        "Framework :: Django",
     ],
     zip_safe=False,
 )

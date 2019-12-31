@@ -50,7 +50,7 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_telephone").send_keys("0123456789")
         self.browser.find_element_by_id("id_email").send_keys("florian@email.com")
         self.browser.find_element_by_id("id_message").send_keys("Hello friends")
-        self.browser.find_element_by_name("submit").click()
+        self._submit_form()
 
         return self
 
@@ -58,7 +58,7 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_name").send_keys("Florian Aucomte")
         self.browser.find_element_by_id("id_telephone").send_keys("0123456789")
         self.browser.find_element_by_id("id_email").send_keys("florian@email.com")
-        self.browser.find_element_by_name("submit").click()
+        self._submit_form()
 
         return self
 
@@ -67,7 +67,7 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_telephone").send_keys("0123456789")
         self.browser.find_element_by_id("id_email").send_keys("zoe@email.com")
         self.browser.find_element_by_id("id_message").send_keys("Hello friends")
-        self.browser.find_element_by_name("submit").click()
+        self._submit_form()
 
         return self
 
@@ -76,7 +76,7 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_telephone").send_keys("(012)-abc-6789")
         self.browser.find_element_by_id("id_email").send_keys("florian@email.com")
         self.browser.find_element_by_id("id_message").send_keys("Hello friends")
-        self.browser.find_element_by_name("submit").click()
+        self._submit_form()
 
         return self
 
@@ -85,7 +85,7 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_telephone").send_keys("+1 (012)-345 6789")
         self.browser.find_element_by_id("id_email").send_keys("florian@email.com")
         self.browser.find_element_by_id("id_message").send_keys("Hello friends")
-        self.browser.find_element_by_name("submit").click()
+        self._submit_form()
 
         return self
 
@@ -94,6 +94,9 @@ class HelpPage(BasePage):
         self.browser.find_element_by_id("id_telephone").send_keys("0123456789")
         self.browser.find_element_by_id("id_email").send_keys("florian@email.com")
         self.browser.find_element_by_id("id_message").send_keys(u"Héllö friends")
-        self.browser.find_element_by_name("submit").click()
+        self._submit_form()
 
         return self
+
+    def _submit_form(self):
+        self.browser.find_element_by_name("email_form_submit").click()

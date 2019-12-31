@@ -38,15 +38,6 @@ from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django.contrib.auth.forms import AuthenticationForm
 
-from portal.helpers.captcha import remove_captcha_from_form
-
 
 class AdminLoginForm(AuthenticationForm):
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
-    is_captcha_visible = False
-
-    def __init__(self, user, *args, **kwargs):
-        super(AdminLoginForm, self).__init__(user, *args, **kwargs)
-        if not AdminLoginForm.is_captcha_visible:
-            remove_captcha_from_form(self)
