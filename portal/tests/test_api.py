@@ -50,6 +50,8 @@ class APITests(APITestCase):
         url = reverse(
             "registered-users", kwargs={"year": "2016", "month": "04", "day": "01"}
         )
+        superuser = get_superuser()
+        self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
@@ -58,6 +60,8 @@ class APITests(APITestCase):
         url = reverse(
             "registered-users", kwargs={"year": "2016", "month": "05", "day": "35"}
         )
+        superuser = get_superuser()
+        self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
@@ -65,6 +69,8 @@ class APITests(APITestCase):
         url = reverse(
             "last-connected-since", kwargs={"year": "2016", "month": "04", "day": "01"}
         )
+        superuser = get_superuser()
+        self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
@@ -73,11 +79,15 @@ class APITests(APITestCase):
         url = reverse(
             "last-connected-since", kwargs={"year": "2016", "month": "05", "day": "35"}
         )
+        superuser = get_superuser()
+        self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
     def test_valid_country_userspercountry(self):
         url = reverse("number_users_per_country", kwargs={"country": "GB"})
+        superuser = get_superuser()
+        self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_200_OK))
         assert_that(isinstance(response.data, int))
