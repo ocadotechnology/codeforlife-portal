@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,22 +37,23 @@
 
 import datetime
 
-from django.http import HttpResponse
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication
-from rest_framework import serializers, permissions, generics, status
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import timezone
+from rest_framework import serializers, permissions, generics, status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse_lazy
 
-from django.contrib.auth.models import User
 from portal.models import Teacher, Student
 
 THREE_YEARS_IN_DAYS = 1095
 
 
 @api_view(("GET",))
+@login_required(login_url=reverse_lazy("administration_login"))
 def registered_users(request, year, month, day):
     try:
         nbr_reg = User.objects.filter(
@@ -64,6 +65,7 @@ def registered_users(request, year, month, day):
 
 
 @api_view(("GET",))
+@login_required(login_url=reverse_lazy("administration_login"))
 def last_connected_since(request, year, month, day):
     try:
         nbr_active_users = User.objects.filter(
@@ -75,6 +77,7 @@ def last_connected_since(request, year, month, day):
 
 
 @api_view(("GET",))
+@login_required(login_url=reverse_lazy("administration_login"))
 def number_users_per_country(request, country):
     try:
         nbr_reg = (
