@@ -12,12 +12,12 @@ AIMMO_CHALLENGES_HEADLINE = {
 
 AIMMO_RESOURCES_HEADLINE = {
     "title": "Teaching Resources",
-    "description": "Integrate Kurono in your classroom with our printable student challenges, teacher guidance sheets and <a href=\"{% url 'teaching_resources' %}\">supporting materials</a>.",
+    "description": "Integrate Kurono in your classroom with our printable student challenges, teacher guidance sheets and supporting materials.",
 }
 
 AIMMO_PLAY_ONLINE_HEADLINE = {
     "title": "Play Online",
-    "description": "No need to install anything, so you can <a href=\"{% url 'kurono' %}\">get started</a> right away.",
+    "description": "No need to install anything, so you can get started right away.",
 }
 
 AIMMO_BENEFITS = {
