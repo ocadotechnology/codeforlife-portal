@@ -59,15 +59,19 @@
 <div class="background">
     <section>
         {% headline headline_name="TEACHING_RESOURCES" %}
-        <img src="{% static 'portal/img/teaching_resources.png' %}">
+        <a href="{% url 'teaching_resources' %}" >
+            <img src="{% static 'portal/img/teaching_resources.png' %}">
+        </a>
     </section>
 </div>
 <div class="background row">
     <section class="col-center">
         {% headline headline_name="PLAY_ONLINE" %}
-        <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
-            <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
-        </video>
+        <a  href="{% url 'kurono' %}">
+            <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
+                <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
+            </video>
+        </a>
     </section>
 </div>
 

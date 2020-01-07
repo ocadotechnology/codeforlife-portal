@@ -1,7 +1,7 @@
 # coding=utf-8
 AIMMO_MAIN_HEADLINE = {
     "title": "Join a coding adventure!",
-    "description": "Whether you’re a teacher or a student, Kurono makes learning to code easy and great fun. Using Python, you can travel through time to collect all the museum artifacts.",
+    "description": "Whether you’re a teacher or a student, Kurono makes learning to code easy and great fun. Using Python, you can travel through time to collect all the valuable missing museum artifacts.",
 }
 
 AIMMO_CHALLENGES_HEADLINE = {
