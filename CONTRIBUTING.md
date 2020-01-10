@@ -5,7 +5,7 @@ Thanks for helping out with Code for Life's Portal! Here are a few guidelines to
 
 ## Prerequisites
 
-We use Zenhub to track our issues, you can find our workspace [here](https://app.zenhub.com/workspaces/code-for-life-team-56f2afba6e54555c586f6db3/boards?repos=18399425,49142916,22154147,39072690,96999382)
+We use Zenhub to track our issues, you can find our workspace [here](https://app.zenhub.com/workspaces/code-for-life-team-56f2afba6e54555c586f6db3/boards?repos=18399425,49142916,22154147,39072690,96999382).
 
 ## Submitting an issue
 
