@@ -36,6 +36,8 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from django.core import mail
+
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import is_contact_message_sent_message_showing
@@ -49,6 +51,19 @@ class TestContact(BaseTest):
 
         page.send_message()
 
+        self.assertEqual(len(mail.outbox), 2)
+        assert is_contact_message_sent_message_showing(self.selenium)
+
+    def test_message_shows_correctly(self):
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = page.go_to_help_and_support_page()
+
+        page.send_message()
+
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[0].subject, 'Code for Life : Contact from Portal')
+        self.assertIn("Message:\nHello friends\n", mail.outbox[0].body)
         assert is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_accented_name(self):
@@ -58,6 +73,7 @@ class TestContact(BaseTest):
 
         page.send_message_accented_name()
 
+        self.assertEqual(len(mail.outbox), 2)
         assert is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_incorrect_phone(self):
@@ -67,6 +83,7 @@ class TestContact(BaseTest):
 
         page.send_message_incorrect_phone()
 
+        self.assertEqual(len(mail.outbox), 0)
         assert not is_contact_message_sent_message_showing(self.selenium)
 
     def test_message_formatted_phone(self):
@@ -76,6 +93,7 @@ class TestContact(BaseTest):
 
         page.send_message_formatted_phone()
 
+        self.assertEqual(len(mail.outbox), 2)
         assert is_contact_message_sent_message_showing(self.selenium)
 
     def test_accented_message(self):
@@ -85,4 +103,5 @@ class TestContact(BaseTest):
 
         page.send_accented_message()
 
+        self.assertEqual(len(mail.outbox), 2)
         assert is_contact_message_sent_message_showing(self.selenium)

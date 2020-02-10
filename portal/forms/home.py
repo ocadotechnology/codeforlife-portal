@@ -34,10 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django import forms
-from portal.helpers.regex import get_regex_name, get_regex_message, get_regex_telephone
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from django import forms
+
+from portal.helpers.regex import get_regex_name, get_regex_telephone
 
 
 class ContactForm(forms.Form):
@@ -80,7 +81,6 @@ class ContactForm(forms.Form):
 
     def clean_message(self):
         message = self.cleaned_data.get("message", None)
-        message = message.encode("utf-8")
 
         return message
 
