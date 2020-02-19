@@ -325,7 +325,7 @@ def process_independent_student_signup_form(request, data):
 
     independent_students = Student.objects.filter(class_field=None)
 
-    if email and independent_students.filter(new_user__email=email).exists():
+    if is_independent_email_already_used(email, independent_students):
         email_message = email_messages.userAlreadyRegisteredEmail(request, email)
         send_email(
             NOTIFICATION_EMAIL,
@@ -335,7 +335,7 @@ def process_independent_student_signup_form(request, data):
         )
         return render(request, "portal/email_verification_needed.html")
 
-    if username and independent_students.filter(new_user__username=username).exists():
+    if is_independent_username_already_used(username, independent_students):
         email_message = email_messages.indepStudentUsernameAlreadyExistsEmail(
             request, username
         )
@@ -362,6 +362,16 @@ def process_independent_student_signup_form(request, data):
 
     return render(
         request, "portal/email_verification_needed.html", {"user": student.new_user}
+    )
+
+
+def is_independent_email_already_used(email, independent_students):
+    return email and independent_students.filter(new_user__email=email).exists()
+
+
+def is_independent_username_already_used(username, independent_students):
+    return (
+        username and independent_students.filter(new_user__username=username).exists()
     )
 
 
