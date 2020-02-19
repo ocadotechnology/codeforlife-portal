@@ -35,17 +35,18 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
+
 import time
 
 from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
-from .base_test import BaseTest
-from .pageObjects.portal.home_page import HomePage
 from portal.tests.utils.classes import create_class_directly
 from portal.tests.utils.organisation import create_organisation_directly
 from portal.tests.utils.student import create_school_student_directly
 from portal.tests.utils.teacher import signup_teacher_directly
+from .base_test import BaseTest
+from .pageObjects.portal.home_page import HomePage
 from .utils import email as email_utils
 from .utils.messages import (
     is_email_verified_message_showing,
@@ -55,6 +56,7 @@ from .utils.messages import (
 )
 from .utils.student import (
     create_independent_student,
+    create_independent_student_directly,
     submit_independent_student_signup_form,
     signup_duplicate_independent_student_fail,
 )
@@ -71,13 +73,32 @@ class TestIndependentStudent(BaseTest):
         page, _, _, _, _ = create_independent_student(page, newsletter=True)
         assert is_email_verified_message_showing(self.selenium)
 
-    def test_signup_duplicate_failure(self):
+    def test_signup_duplicate_email_failure(self):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
         page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, email, False)
+        page, _, _, _, _ = signup_duplicate_independent_student_fail(
+            page, duplicate_email=email
+        )
+
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
+
+        assert page.__class__.__name__ == "LoginPage"
+
+    def test_signup_duplicate_username_failure(self):
+        username, _, _ = create_independent_student_directly()
+
+        page = self.go_to_homepage()
+        page, _, _, _, _ = signup_duplicate_independent_student_fail(
+            page, duplicate_username=username
+        )
+
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].subject == "Code for Life: Username already taken"
+
         assert page.__class__.__name__ == "LoginPage"
 
     def test_signup_failure_short_password(self):
@@ -114,19 +135,6 @@ class TestIndependentStudent(BaseTest):
         assert self.is_signup_page(page)
         assert page.has_independent_student_signup_failed(
             "Usernames may only contain letters, numbers, dashes, and underscores."
-        )
-
-    def test_signup_username_already_in_use(self):
-        page = self.go_to_homepage()
-        page, _, username, _, _ = create_independent_student(page)
-        page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup(
-            "Florian", username, "e@mail.com", "Password2", "Password2", success=False
-        )
-
-        assert self.is_signup_page(page)
-        assert page.has_independent_student_signup_failed(
-            "That username is already in use"
         )
 
     def test_signup_password_do_not_match(self):

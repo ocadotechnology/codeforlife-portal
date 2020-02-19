@@ -62,7 +62,7 @@ class TestContact(BaseTest):
         page.send_message()
 
         self.assertEqual(len(mail.outbox), 2)
-        self.assertEqual(mail.outbox[0].subject, 'Code for Life : Contact from Portal')
+        self.assertEqual(mail.outbox[0].subject, "Code for Life : Contact from Portal")
         self.assertIn("Message:\nHello friends\n", mail.outbox[0].body)
         assert is_contact_message_sent_message_showing(self.selenium)
 
