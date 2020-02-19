@@ -34,11 +34,11 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from builtins import str
-from builtins import range
-from uuid import uuid4
 import random
 import string
+from builtins import range
+from builtins import str
+from uuid import uuid4
 
 from django.contrib.auth.models import User
 
@@ -75,7 +75,19 @@ def generate_access_code():
 
 
 def generate_password(length):
-    chars = set(string.ascii_lowercase + string.digits)
-    chars.remove("l")
-    chars.remove("0")
-    return "".join(random.choice(list(chars)) for _ in range(length))
+    uppercase_chars = string.ascii_uppercase
+    lowercase_chars = string.ascii_lowercase.replace("l", "")
+    digits = string.digits.replace("0", "")
+    chars = set(uppercase_chars + lowercase_chars + digits)
+
+    compulsory_chars = (
+        random.choice(uppercase_chars)
+        + random.choice(lowercase_chars)
+        + random.choice(digits)
+    )
+    other_chars = "".join(
+        random.choice(list(chars)) for _ in range(length - len(compulsory_chars))
+    )
+    unshuffled_password = compulsory_chars + other_chars
+
+    return "".join(random.sample(list(unshuffled_password), len(unshuffled_password)))

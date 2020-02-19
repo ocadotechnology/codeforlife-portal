@@ -35,9 +35,9 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import division
-from builtins import zip
-from past.utils import old_div
+
 import json
+from builtins import zip
 from datetime import timedelta
 from functools import partial, wraps
 
@@ -51,6 +51,7 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from past.utils import old_div
 from reportlab.lib.colors import black
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
@@ -216,7 +217,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
         if new_students_form.is_valid():
             name_tokens = []
             for name in new_students_form.strippedNames:
-                password = generate_password(6)
+                password = generate_password(8)
                 name_tokens.append({"name": name, "password": password})
 
                 new_student = Student.objects.schoolFactory(
@@ -508,7 +509,7 @@ def teacher_student_reset(request, pk):
     if request.user.new_teacher != student.class_field.teacher:
         raise Http404
 
-    new_password = generate_password(6)
+    new_password = generate_password(8)
     student.new_user.set_password(new_password)
     student.new_user.save()
     name_pass = [{"name": student.new_user.first_name, "password": new_password}]
@@ -614,9 +615,6 @@ def teacher_class_password_reset(request, access_code):
     Reset passwords for one or more students
     """
     klass = get_object_or_404(Class, access_code=access_code)
-    students = Student.objects.filter(class_field=klass).order_by(
-        "new_user__first_name"
-    )
 
     # check user authorised to see class
     if request.user.new_teacher != klass.teacher:
@@ -629,7 +627,7 @@ def teacher_class_password_reset(request, access_code):
 
     name_tokens = []
     for student in students:
-        password = generate_password(6)
+        password = generate_password(8)
         name_tokens.append({"name": student.new_user.first_name, "password": password})
         student.new_user.set_password(password)
         student.new_user.save()
