@@ -91,7 +91,7 @@ def emailChangeNotificationEmail(request):
 
 def userAlreadyRegisteredEmail(request, email):
     return {
-        "subject": emailSubjectPrefix() + " : Duplicate account error",
+        "subject": emailSubjectPrefix() + ": Duplicate account error",
         "message": (
             "A user is already registered with this email address: "
             + email
@@ -101,6 +101,16 @@ def userAlreadyRegisteredEmail(request, email):
             + "Otherwise please register with a different email address."
             + emailBodySignOff(request)
         ),
+    }
+
+
+def indepStudentUsernameAlreadyExistsEmail(request, username):
+    return {
+        "subject": f"{emailSubjectPrefix()}: Username already taken",
+        "message": f"A user is already registered with this username: {username}.\n"
+        f"If you've already registered, please login: {request.build_absolute_uri(reverse('login_view'))}.\n"
+        f"Otherwise please register with a different username."
+        f"{emailBodySignOff(request)}",
     }
 
 

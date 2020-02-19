@@ -35,12 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
+
 from builtins import range
+
 from django.core import mail
 
-from . import email
 from portal.helpers.emails import generate_token
 from portal.models import Class, Student
+from . import email
 
 
 def generate_school_details():
@@ -111,13 +113,22 @@ def generate_independent_student_details():
 generate_independent_student_details.next_id = 1
 
 
-def signup_duplicate_independent_student_fail(page, duplicate_email, newsletter=False):
+def signup_duplicate_independent_student_fail(
+    page, duplicate_username=None, duplicate_email=None, newsletter=False
+):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
+
+    if not duplicate_email:
+        duplicate_email = email_address
+
+    if not duplicate_username:
+        duplicate_username = username
+
     page = page.independent_student_signup(
         name,
-        username,
+        duplicate_username,
         duplicate_email,
         password=password,
         confirm_password=password,
@@ -127,7 +138,6 @@ def signup_duplicate_independent_student_fail(page, duplicate_email, newsletter=
     page = page.return_to_home_page()
 
     page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0])
-    mail.outbox = []
 
     return page, name, username, email_address, password
 

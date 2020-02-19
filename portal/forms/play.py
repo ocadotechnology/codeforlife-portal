@@ -39,10 +39,8 @@ from datetime import timedelta
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
-
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
@@ -226,8 +224,6 @@ class IndependentStudentSignupForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data.get("username", None)
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("That username is already in use")
 
         if re.match(re.compile("[\w]+"), username) is None:
             raise forms.ValidationError(

@@ -42,8 +42,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.utils.html import escape
 from django.utils.http import is_safe_url
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_control
+from django.views.decorators.csrf import csrf_exempt
 
 from deploy import captcha
 from portal import app_settings, email_messages
@@ -321,11 +321,24 @@ def process_signup_form(request, data):
 
 def process_independent_student_signup_form(request, data):
     email = data["email"]
+    username = data["username"]
 
     independent_students = Student.objects.filter(class_field=None)
 
-    if email and independent_students.filter(new_user__email=email).exists():
+    if is_independent_email_already_used(email, independent_students):
         email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+        send_email(
+            NOTIFICATION_EMAIL,
+            [email],
+            email_message["subject"],
+            email_message["message"],
+        )
+        return render(request, "portal/email_verification_needed.html")
+
+    if is_independent_username_already_used(username, independent_students):
+        email_message = email_messages.indepStudentUsernameAlreadyExistsEmail(
+            request, username
+        )
         send_email(
             NOTIFICATION_EMAIL,
             [email],
@@ -349,6 +362,16 @@ def process_independent_student_signup_form(request, data):
 
     return render(
         request, "portal/email_verification_needed.html", {"user": student.new_user}
+    )
+
+
+def is_independent_email_already_used(email, independent_students):
+    return email and independent_students.filter(new_user__email=email).exists()
+
+
+def is_independent_username_already_used(username, independent_students):
+    return (
+        username and independent_students.filter(new_user__username=username).exists()
     )
 
 
@@ -432,4 +455,4 @@ def home(request):
 
 
 def play_aimmo_preview(request):
-    return render(request, "portal/play_aimmo_preview.html",)
+    return render(request, "portal/play_aimmo_preview.html")
