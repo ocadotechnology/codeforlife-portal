@@ -36,6 +36,7 @@
 # identified as the original program.
 from aimmo.app_settings import get_users_for_new_game
 from aimmo.forms import AddGameForm
+from aimmo.game_creator import create_game
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
@@ -44,19 +45,6 @@ from portal.views.teacher.teacher_materials import (
     get_session_pdfs,
     get_resource_sheets_pdfs,
 )
-
-
-def save_form(request, create_game_form):
-    game = create_game_form.save(commit=False)
-    game.generator = "Main"
-    game.owner = request.user
-    game.main_user = request.user
-    game.save()
-    users = get_users_for_new_game(request)
-
-    if users is not None:
-        game.can_play.add(*users)
-    return redirect("kurono/play", id=game.id)
 
 
 @login_required(login_url=reverse_lazy("login_view"))
@@ -72,7 +60,10 @@ def aimmo_home(request):
     if request.method == "POST":
         create_game_form = AddGameForm(playable_games, data=request.POST)
         if create_game_form.is_valid():
-            return save_form(request, create_game_form)
+            game = create_game(
+                request.user, create_game_form, get_users_for_new_game(request)
+            )
+            return redirect("kurono/play", id=game.id)
 
     else:
         create_game_form = AddGameForm(playable_games)
