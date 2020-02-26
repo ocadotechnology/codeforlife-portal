@@ -131,7 +131,7 @@ def is_verified(user):
     return len(verifications) != 0
 
 
-def add_to_dotmailer(first_name, last_name, email):
+def add_to_dotmailer(first_name: str, last_name: str, email: str):
     try:
         add_contact_to_address_book(first_name, last_name, email)
     except RequestException:
@@ -149,13 +149,7 @@ def add_contact_to_address_book(first_name, last_name, email):
             {"key": "LASTNAME", "value": last_name},
             {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
         ],
-        "preferences": [
-            {
-                "id": 985,
-                "isPreference": False,
-                "preferences": [{"id": 984, "isPreference": True, "isOptedIn": True}],
-            }
-        ],
+        "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
     }
     post(
         url,
