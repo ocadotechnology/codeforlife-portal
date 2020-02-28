@@ -3,6 +3,7 @@
 {% load cache %}
 
 {% load sekizai_tags %}
+{% load hijack_tags %}
 
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon"> 
     <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
     {% endcache %}
     {% endblock css %}
 
@@ -85,6 +87,7 @@
 </head>
 
 <body id="top">
+{% hijack_notification %}
 {% render_block "js" %}
 {% include 'portal/mouseflow.html' %}
 
