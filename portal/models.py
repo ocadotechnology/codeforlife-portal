@@ -36,9 +36,9 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-from builtins import object
 import datetime
 import re
+from builtins import object
 from datetime import timedelta
 
 from django.contrib.auth.models import User
@@ -54,7 +54,7 @@ class UserProfile(models.Model):
 
     awaiting_email_verification = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     def joined_recently(self):
@@ -76,7 +76,7 @@ class School(models.Model):
             ("view_map_data", "Can see schools' location displayed on map"),
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def classes(self):
@@ -127,8 +127,8 @@ class Teacher(models.Model):
     def has_school(self):
         return self.school is not (None or "")
 
-    def __unicode__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class ClassModelManager(models.Manager):
@@ -157,7 +157,7 @@ class Class(models.Model):
 
     objects = ClassModelManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def has_students(self):
@@ -170,14 +170,14 @@ class Class(models.Model):
                 "This class is currently set to always accept requests."
             )
         elif (
-            self.accept_requests_until is not None
-            and (self.accept_requests_until - timezone.now()) >= timedelta()
+                self.accept_requests_until is not None
+                and (self.accept_requests_until - timezone.now()) >= timedelta()
         ):
             external_requests_message = (
-                "This class is accepting external requests until "
-                + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
-                + " "
-                + timezone.get_current_timezone_name()
+                    "This class is accepting external requests until "
+                    + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
+                    + " "
+                    + timezone.get_current_timezone_name()
             )
         else:
             external_requests_message = (
@@ -192,10 +192,8 @@ class Class(models.Model):
 
 class StudentModelManager(models.Manager):
     def schoolFactory(self, klass, name, password):
-        from portal.helpers.generators import get_random_username
-
         user = User.objects.create_user(
-            username=get_random_username(), password=password, first_name=name
+            username=name, password=password, first_name=name
         )
         user_profile = UserProfile.objects.create(user=user)
 
@@ -237,8 +235,8 @@ class Student(models.Model):
     def is_independent(self):
         return not self.class_field
 
-    def __unicode__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 def stripStudentName(name):
@@ -253,8 +251,8 @@ class Guardian(models.Model):
         User, related_name="new_guardian", null=True, blank=True
     )
 
-    def __unicode__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class EmailVerification(models.Model):
@@ -265,6 +263,9 @@ class EmailVerification(models.Model):
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()
     verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Email verification for {self.user.username}, ({self.email})"
 
 
 class FrontPageNews(models.Model):
@@ -277,5 +278,5 @@ class FrontPageNews(models.Model):
     class Meta(object):
         verbose_name_plural = "front page news"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
