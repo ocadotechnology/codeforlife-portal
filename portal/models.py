@@ -170,14 +170,14 @@ class Class(models.Model):
                 "This class is currently set to always accept requests."
             )
         elif (
-                self.accept_requests_until is not None
-                and (self.accept_requests_until - timezone.now()) >= timedelta()
+            self.accept_requests_until is not None
+            and (self.accept_requests_until - timezone.now()) >= timedelta()
         ):
             external_requests_message = (
-                    "This class is accepting external requests until "
-                    + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
-                    + " "
-                    + timezone.get_current_timezone_name()
+                "This class is accepting external requests until "
+                + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
+                + " "
+                + timezone.get_current_timezone_name()
             )
         else:
             external_requests_message = (
