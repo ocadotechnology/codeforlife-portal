@@ -421,5 +421,5 @@ urlpatterns = [
             ]
         ),
     ),
-    url(r'^hijack/', include('hijack.urls', namespace='hijack')),
+    url(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ]

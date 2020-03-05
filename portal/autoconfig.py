@@ -96,9 +96,9 @@ SETTINGS = {
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
-        'hijack',
-        'compat',
-        'hijack_admin',
+        "hijack",
+        "compat",
+        "hijack_admin",
     ],
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
@@ -154,7 +154,7 @@ RELATIONSHIPS = [
         "django_otp.middleware.OTPMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
-    ),
+    )
 ]
 
 try:

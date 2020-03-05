@@ -7,12 +7,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('portal', '0056_remove_preview_user'),
-    ]
+    dependencies = [("portal", "0056_remove_preview_user")]
 
-    operations = [
-        migrations.DeleteModel(
-            name='FrontPageNews',
-        ),
-    ]
+    operations = [migrations.DeleteModel(name="FrontPageNews")]
