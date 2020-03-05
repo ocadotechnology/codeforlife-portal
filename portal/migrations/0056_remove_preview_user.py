@@ -7,11 +7,9 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("portal", "0055_add_preview_user"),
-    ]
+    dependencies = [("portal", "0055_add_preview_user")]
 
     operations = [
-        migrations.RemoveField(model_name="userprofile", name="preview_user",),
-        migrations.RemoveField(model_name="school", name="eligible_for_testing",),
+        migrations.RemoveField(model_name="userprofile", name="preview_user"),
+        migrations.RemoveField(model_name="school", name="eligible_for_testing"),
     ]

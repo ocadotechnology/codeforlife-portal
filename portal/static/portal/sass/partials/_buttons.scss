@@ -17,7 +17,8 @@ button {
 }
 
 button,
-.button {
+.button,
+.hijacked-warning .btn {
   @include _padding(10px, 15px, 10px, 15px);
   border-radius: 0.8rem;
 }
@@ -47,7 +48,8 @@ button,
 }
 
 .button--regular,
-.ui-dialog-buttonset button {
+.ui-dialog-buttonset button,
+.hijacked-warning .btn {
   @include _font-size(20px);
   @include _line-height(25px);
   @include _padding(10px, 15px, 10px, 15px);
@@ -177,13 +179,18 @@ button,
 }
 
 .button--primary--danger,
-.ui-dialog-buttonset button {
+.ui-dialog-buttonset button,
+.hijacked-warning .btn {
   background: $color-button-primary-action-danger;
   color: $color-text-secondary;
 
   &:hover {
     background: $color-button-primary-action-danger-hover;
   }
+}
+
+.django-hijack-button-bootstrap {
+  @include _margin(0px, 0px, 0px, 50px);
 }
 
 .button--primary--navigation {

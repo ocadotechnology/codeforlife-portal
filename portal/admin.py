@@ -35,9 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.contrib import admin
-from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-
+from django.contrib.auth.models import User
 
 from portal.models import (
     Class,
@@ -46,7 +45,6 @@ from portal.models import (
     Teacher,
     School,
     UserProfile,
-    FrontPageNews,
     EmailVerification,
 )
 
@@ -117,5 +115,4 @@ admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(FrontPageNews)
 admin.site.register(EmailVerification, EmailVerificationAdmin)
