@@ -189,6 +189,10 @@ button,
   }
 }
 
+.django-hijack-button-bootstrap {
+  @include _margin(0px, 0px, 0px, 50px);
+}
+
 .button--primary--navigation {
   background: $color-button-primary-action-navigation;
   color: $color-text-secondary;

@@ -37,7 +37,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from hijack_admin.admin import HijackRelatedAdminMixin
 
 from portal.models import (
     Class,
@@ -65,7 +64,7 @@ class SchoolAdmin(admin.ModelAdmin):
     list_filter = ["postcode", "country"]
 
 
-class StudentAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
+class StudentAdmin(admin.ModelAdmin):
     search_fields = ["new_user__first_name", "new_user__last_name"]
     list_filter = [
         "class_field",
@@ -74,18 +73,16 @@ class StudentAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
     ]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["class_field", "pending_class_request"]
-    list_display = ["user", "hijack_field"]
 
 
-class TeacherAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
+class TeacherAdmin(admin.ModelAdmin):
     search_fields = ["new_user__first_name", "new_user__last_name"]
     list_filter = ["school"]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["school", "pending_join_request"]
-    list_display = ["user", "hijack_field"]
 
 
-class UserProfileAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
+class UserProfileAdmin(admin.ModelAdmin):
     search_fields = [
         "user__first_name",
         "user__last_name",
@@ -93,7 +90,7 @@ class UserProfileAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
         "user__date_joined",
     ]
     list_filter = ["user__date_joined"]
-    list_display = ["user", "__str__", "joined_recently", "hijack_field"]
+    list_display = ["user", "__str__", "joined_recently"]
     readonly_fields = ["user"]
 
 

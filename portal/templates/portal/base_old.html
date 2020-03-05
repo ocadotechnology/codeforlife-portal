@@ -145,12 +145,14 @@
                         <div class="dropdown__text">{{ user|make_into_username }}</div>
                         <div class="glyphicon glyphicon-user"></div></button>
                     <ul class="dropdown-menu">
+                        {% if not request|is_hijacked %}
                         <li class="dropdown-menu__option">
                             <a class="button--regular button--logout" id="logout_button" aria-labelledby="Log out"
                                href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
                                 <div class="glyphicon glyphicon-log-out"></div>
                                 <small class="dropdown-menu__option__text">Log out</small></a>
                         </li>
+                            {% endif %}
                         {% if user|is_logged_in_as_teacher %}
                         <li class="dropdown-menu__option">
                             <a class="button--regular button--logout" aria-labelledby="Change password"
