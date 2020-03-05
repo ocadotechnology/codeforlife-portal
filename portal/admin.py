@@ -56,7 +56,7 @@ class ClassAdmin(admin.ModelAdmin):
         "teacher__new_user__first_name",
         "teacher__new_user__last_name",
     ]
-    list_filter = ["teacher"]
+    list_filter = ["teacher", "teacher__school"]
     readonly_fields = ["teacher"]
 
 
@@ -67,7 +67,11 @@ class SchoolAdmin(admin.ModelAdmin):
 
 class StudentAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
     search_fields = ["new_user__first_name", "new_user__last_name"]
-    list_filter = ["class_field", "class_field__teacher"]
+    list_filter = [
+        "class_field",
+        "class_field__teacher",
+        "class_field__teacher__school",
+    ]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["class_field", "pending_class_request"]
     list_display = ["user", "hijack_field"]
@@ -89,7 +93,7 @@ class UserProfileAdmin(HijackRelatedAdminMixin, admin.ModelAdmin):
         "user__date_joined",
     ]
     list_filter = ["user__date_joined"]
-    list_display = ["user", "joined_recently", "hijack_field"]
+    list_display = ["user", "__str__", "joined_recently", "hijack_field"]
     readonly_fields = ["user"]
 
 

@@ -55,7 +55,7 @@ class UserProfile(models.Model):
     awaiting_email_verification = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.first_name} {self.user.last_name}"
 
     def joined_recently(self):
         now = timezone.now()
@@ -128,7 +128,7 @@ class Teacher(models.Model):
         return self.school is not (None or "")
 
     def __str__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class ClassModelManager(models.Manager):
@@ -192,8 +192,10 @@ class Class(models.Model):
 
 class StudentModelManager(models.Manager):
     def schoolFactory(self, klass, name, password):
+        from .helpers.generators import get_random_username
+
         user = User.objects.create_user(
-            username=name, password=password, first_name=name
+            username=get_random_username(), password=password, first_name=name
         )
         user_profile = UserProfile.objects.create(user=user)
 
@@ -236,7 +238,7 @@ class Student(models.Model):
         return not self.class_field
 
     def __str__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 def stripStudentName(name):
@@ -252,7 +254,7 @@ class Guardian(models.Model):
     )
 
     def __str__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class EmailVerification(models.Model):
