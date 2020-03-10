@@ -1,6 +1,7 @@
 @import 'base';
 
-.sub-nav {
+.sub-nav,
+.hijacked-warning {
   @include _padding(0px, 20px, 0px, 20px);
   align-items: center;
   display: flex;
@@ -17,7 +18,7 @@
   form {
     padding: 0;
 
-    button {
+    .button {
       margin: 0;
     }
 
@@ -109,6 +110,12 @@
 .info {
   background-color: $color-background-tint-primary;
   border-bottom: 1px solid $color-message-border;
+}
+
+.hijacked-warning {
+  .close {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {

@@ -119,12 +119,12 @@ def process_join_organisation_form(request_form, request, student):
         )
 
         messages.success(
-            request, "Your request to join a school has been received successfully.",
+            request, "Your request to join a school has been received successfully."
         )
 
 
 def show_cancellation_message_if_student_not_in_class(student, request):
     if not student.class_field:
         messages.success(
-            request, "Your request to join a school has been cancelled successfully.",
+            request, "Your request to join a school has been cancelled successfully."
         )

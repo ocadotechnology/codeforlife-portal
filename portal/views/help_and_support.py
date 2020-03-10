@@ -6,10 +6,7 @@ from deploy import captcha
 from portal import app_settings, email_messages
 from portal.forms.home import ContactForm
 from portal.helpers.captcha import remove_captcha_from_forms
-from portal.helpers.emails import (
-    send_email,
-    CONTACT_EMAIL,
-)
+from portal.helpers.emails import send_email, CONTACT_EMAIL
 from portal.strings.help_and_support import HELP_BANNER
 
 

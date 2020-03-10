@@ -36,9 +36,9 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-from builtins import object
 import datetime
 import re
+from builtins import object
 from datetime import timedelta
 
 from django.contrib.auth.models import User
@@ -54,8 +54,8 @@ class UserProfile(models.Model):
 
     awaiting_email_verification = models.BooleanField(default=False)
 
-    def __unicode__(self):
-        return self.user.username
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"
 
     def joined_recently(self):
         now = timezone.now()
@@ -76,7 +76,7 @@ class School(models.Model):
             ("view_map_data", "Can see schools' location displayed on map"),
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def classes(self):
@@ -127,8 +127,8 @@ class Teacher(models.Model):
     def has_school(self):
         return self.school is not (None or "")
 
-    def __unicode__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class ClassModelManager(models.Manager):
@@ -157,7 +157,7 @@ class Class(models.Model):
 
     objects = ClassModelManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def has_students(self):
@@ -192,7 +192,7 @@ class Class(models.Model):
 
 class StudentModelManager(models.Manager):
     def schoolFactory(self, klass, name, password):
-        from portal.helpers.generators import get_random_username
+        from .helpers.generators import get_random_username
 
         user = User.objects.create_user(
             username=get_random_username(), password=password, first_name=name
@@ -237,8 +237,8 @@ class Student(models.Model):
     def is_independent(self):
         return not self.class_field
 
-    def __unicode__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 def stripStudentName(name):
@@ -253,8 +253,8 @@ class Guardian(models.Model):
         User, related_name="new_guardian", null=True, blank=True
     )
 
-    def __unicode__(self):
-        return "%s %s" % (self.new_user.first_name, self.new_user.last_name)
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class EmailVerification(models.Model):
@@ -266,16 +266,5 @@ class EmailVerification(models.Model):
     expiry = models.DateTimeField()
     verified = models.BooleanField(default=False)
 
-
-class FrontPageNews(models.Model):
-    title = models.CharField(max_length=200)
-    text = models.CharField(max_length=1000)
-    link = models.CharField(max_length=500)
-    link_text = models.CharField(max_length=200)
-    added_dstamp = models.DateTimeField()
-
-    class Meta(object):
-        verbose_name_plural = "front page news"
-
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return f"Email verification for {self.user.username}, ({self.email})"

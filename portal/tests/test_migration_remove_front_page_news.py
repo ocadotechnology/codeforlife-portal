@@ -34,5 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 
-__version__ = "2.30.0"
+from .base_test_migration import MigrationTestCase
+
+
+class TestMigrationRemoveFrontPageNews(MigrationTestCase):
+
+    start_migration = "0056_remove_preview_user"
+    dest_migration = "0057_delete_frontpagenews"
+
+    def test_front_page_news_model_removed(self):
+        model_names = [
+            model._meta.db_table for model in self.django_application.get_models()
+        ]
+        assert "portal_frontpagenews" not in model_names

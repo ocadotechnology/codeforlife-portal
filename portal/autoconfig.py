@@ -96,6 +96,9 @@ SETTINGS = {
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
+        "hijack",
+        "compat",
+        "hijack_admin",
     ],
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
@@ -139,6 +142,10 @@ SETTINGS = {
     "CAN_DELETE_GAME_CLASS": "portal.permissions.CanDeleteGame",
     "USERS_FOR_NEW_AIMMO_GAME": "portal.aimmo_game.get_users_for_new_game",
     "SECURE_CONTENT_TYPE_NOSNIFF": True,
+    "HIJACK_LOGIN_REDIRECT_URL": "/",
+    "HIJACK_LOGOUT_REDIRECT_URL": "/administration/",
+    "HIJACK_USE_BOOTSTRAP": True,
+    "HIJACK_ALLOW_GET_REQUESTS": True,
 }
 
 RELATIONSHIPS = [
@@ -147,7 +154,7 @@ RELATIONSHIPS = [
         "django_otp.middleware.OTPMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
-    ),
+    )
 ]
 
 try:

@@ -3,6 +3,7 @@
 {% load cache %}
 
 {% load sekizai_tags %}
+{% load hijack_tags %}
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,8 @@
     <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
-    <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon"> 
+    <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
     {% endcache %}
     {% endblock css %}
 
@@ -82,6 +84,7 @@
 </head>
 
 <body id="top">
+{% hijack_notification %}
 {% render_block "js" %}
 {% include 'portal/mouseflow.html' %}
 
@@ -142,12 +145,14 @@
                         <div class="dropdown__text">{{ user|make_into_username }}</div>
                         <div class="glyphicon glyphicon-user"></div></button>
                     <ul class="dropdown-menu">
+                        {% if not request|is_hijacked %}
                         <li class="dropdown-menu__option">
                             <a class="button--regular button--logout" id="logout_button" aria-labelledby="Log out"
                                href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
                                 <div class="glyphicon glyphicon-log-out"></div>
                                 <small class="dropdown-menu__option__text">Log out</small></a>
                         </li>
+                            {% endif %}
                         {% if user|is_logged_in_as_teacher %}
                         <li class="dropdown-menu__option">
                             <a class="button--regular button--logout" aria-labelledby="Change password"

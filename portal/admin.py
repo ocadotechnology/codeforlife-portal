@@ -35,9 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.contrib import admin
-from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-
+from django.contrib.auth.models import User
 
 from portal.models import (
     Class,
@@ -46,7 +45,6 @@ from portal.models import (
     Teacher,
     School,
     UserProfile,
-    FrontPageNews,
     EmailVerification,
 )
 
@@ -57,7 +55,7 @@ class ClassAdmin(admin.ModelAdmin):
         "teacher__new_user__first_name",
         "teacher__new_user__last_name",
     ]
-    list_filter = ["teacher"]
+    list_filter = ["teacher", "teacher__school"]
     readonly_fields = ["teacher"]
 
 
@@ -68,7 +66,11 @@ class SchoolAdmin(admin.ModelAdmin):
 
 class StudentAdmin(admin.ModelAdmin):
     search_fields = ["new_user__first_name", "new_user__last_name"]
-    list_filter = ["class_field", "class_field__teacher"]
+    list_filter = [
+        "class_field",
+        "class_field__teacher",
+        "class_field__teacher__school",
+    ]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["class_field", "pending_class_request"]
 
@@ -88,7 +90,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         "user__date_joined",
     ]
     list_filter = ["user__date_joined"]
-    list_display = ["user", "joined_recently"]
+    list_display = ["user", "__str__", "joined_recently"]
     readonly_fields = ["user"]
 
 
@@ -113,5 +115,4 @@ admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(FrontPageNews)
 admin.site.register(EmailVerification, EmailVerificationAdmin)
