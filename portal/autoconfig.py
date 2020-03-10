@@ -80,7 +80,6 @@ SETTINGS = {
         "game",
         "pipeline",
         "portal",
-        "ratelimit",
         "django.contrib.admin",
         "django.contrib.admindocs",
         "django.contrib.auth",
