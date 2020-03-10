@@ -131,22 +131,31 @@ def is_verified(user):
     return len(verifications) != 0
 
 
-def add_to_salesforce(first_name, last_name, email):
-    url = app_settings.SALESFORCE_URL
-    data = {
-        "oid": app_settings.SALESFORCE_OID,
-        "retURL": "http://",
-        "recordType": app_settings.SALESFORCE_RT,
-        "lead_source": "Code for Life",
-        "first_name": first_name,
-        "last_name": last_name,
-        "email": email,
-        "company": "Code for Life users",
-    }
+def add_to_dotmailer(first_name: str, last_name: str, email: str):
     try:
-        post(url, data=data)
+        add_contact_to_address_book(first_name, last_name, email)
     except RequestException:
         return
+
+
+def add_contact_to_address_book(first_name, last_name, email):
+    url = app_settings.DOTMAILER_URL
+    body = {
+        "email": email,
+        "optInType": "VerifiedDouble",
+        "emailType": "Html",
+        "dataFields": [
+            {"key": "FIRSTNAME", "value": first_name},
+            {"key": "LASTNAME", "value": last_name},
+            {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
+        ],
+        "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
+    }
+    post(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
 
 
 def update_email(user, request, data):
