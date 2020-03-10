@@ -41,20 +41,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
 
-from portal.views.teacher.teacher_materials import (
-    get_session_pdfs,
-    get_resource_sheets_pdfs,
-)
-
 
 @login_required(login_url=reverse_lazy("login_view"))
 def aimmo_home(request):
-    aimmo_sessions = []
-    aimmo_sheets = []
-
-    get_session_pdfs("Kurono_session_", aimmo_sessions)
-    get_resource_sheets_pdfs(aimmo_sessions, "Kurono_S", aimmo_sheets)
-
     playable_games = request.user.playable_games.all()
 
     if request.method == "POST":
@@ -73,7 +62,5 @@ def aimmo_home(request):
         "portal/aimmo_home.html",
         {
             "create_game_form": create_game_form,
-            "aimmo_sessions": aimmo_sessions,
-            "aimmo_sheets": aimmo_sheets,
         },
     )

@@ -960,50 +960,49 @@ PDF_DATA = {
         "page_origin": "#ks3-assessments",
     },
     # ...Kurono...#
-    # ...Intermediate Python sessions...#
-    "Kurono_session_1": {
-        "title": "Session 1",
-        "description": "Intermediate Python Session 1 — Teacher Guidance",
-        "links": [],
-        "url": "kurono_v1/sessions/intermediate_python_teacher_S1.pdf",
+    # ...Teacher Guides...#
+    "Kurono_teacher_guide_1": {
+        "title": "Teacher Guide 1",
+        "description": "Challenge 1",
+        "links": ["Kurono_challenge_1", "Kurono_teacher_guide_2"],
+        "url": "kurono_v2/teacher_guides/teacher_guide_S1_v1.pdf",
         "page_origin": "#ks3-sessions",
     },
-    # ...Intermediate Python Resource Sheets...#
-    # ...Session 1...#
-    "Kurono_S1_1": {
-        "title": "Code Cheat Sheet",
+    "Kurono_teacher_guide_2": {
+        "title": "Teacher Guide 2",
+        "description": "Challenge 2",
+        "links": ["Kurono_challenge_2", "Kurono_teacher_guide_1"],
+        "url": "kurono_v2/teacher_guides/teacher_guide_S2_v1.pdf",
+        "page_origin": "#ks3-sessions",
+    },
+    # ...Resource Sheets...#
+    "Kurono_API_guide": {
+        "title": "Kurono API guide",
         "description": "To be used to code the Kurono game.",
         "links": [],
-        "url": "kurono_v1/resource_sheets/kurono_cheat_sheet.pdf",
+        "url": "kurono_v2/resource_sheets/kurono_API_guide_v1.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
-    "Kurono_S1_2": {
-        "title": "Indentation — Why it matters",
-        "description": "To be used to understand how to use Python to code the Kurono game.",
+    "Kurono_user_guide": {
+        "title": "Kurono User Guide",
+        "description": "",
         "links": [],
-        "url": "kurono_v1/resource_sheets/python_indentation.pdf",
-        "page_origin": "#ks3-resource-sheets",
-    },
-    "Kurono_S1_3": {
-        "title": "Understanding the turn-based game",
-        "description": "To be used to understand the Kurono game.",
-        "links": [],
-        "url": "kurono_v1/resource_sheets/kurono_next_turn.pdf",
+        "url": "kurono_v2/resource_sheets/user_guide_v1.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     # ...Intermediate Python Challenges...#
     "Kurono_challenge_1": {
-        "title": "Kurono Student Challenge 1",
+        "title": "Student Challenge 1",
         "description": "Move your avatar",
         "links": ["Kurono_challenge_2"],
-        "url": "kurono_v1/student_challenges/intermediate_python_SC1_v2.pdf",
+        "url": "kurono_v2/student_challenges/SC1_v1.pdf",
         "page_origin": "#ks3-challenges",
     },
     "Kurono_challenge_2": {
-        "title": "Kurono Student Challenge 2",
-        "description": "Avoid the obstacles",
+        "title": "Student Challenge 2",
+        "description": "Obstacles and Artefacts",
         "links": ["Kurono_challenge_1"],
-        "url": "kurono_v1/student_challenges/intermediate_python_SC2_v2.pdf",
+        "url": "kurono_v2/student_challenges/SC2_v1.pdf",
         "page_origin": "#ks3-challenges",
     },
 }
