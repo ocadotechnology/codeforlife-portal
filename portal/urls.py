@@ -49,6 +49,7 @@ from two_factor.views import (
     SetupView,
     ProfileView,
     QRGeneratorView,
+    LoginView,
 )
 
 from portal.permissions import teacher_verified
@@ -86,7 +87,6 @@ from portal.views.registration import (
     password_reset_done,
     student_password_reset,
     password_reset_check_and_confirm,
-    custom_2FA_login,
 )
 from portal.views.student.edit_account_details import (
     student_edit_account,
@@ -132,7 +132,7 @@ from portal.views.terms import terms
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"^account/login/$", custom_2FA_login, name="login"),
+    url(r"^account/login/$", LoginView.as_view(), name="login"),
     url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),

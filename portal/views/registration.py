@@ -54,7 +54,6 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from deploy import captcha
-from two_factor.views import LoginView
 
 from portal.forms.registration import (
     TeacherPasswordResetForm,
@@ -64,18 +63,7 @@ from portal.forms.registration import (
 from portal.permissions import not_logged_in, not_fully_logged_in
 from portal.helpers.emails import PASSWORD_RESET_EMAIL
 from portal import app_settings
-from ratelimit.decorators import ratelimit
 from portal.helpers.captcha import remove_captcha_from_form
-
-
-@ratelimit("def", periods=["1m"])
-def custom_2FA_login(request):
-    block_limit = 5
-
-    if getattr(request, "limits", {"def": [0]})["def"][0] >= block_limit:
-        return HttpResponseRedirect(reverse_lazy("locked_out"))
-
-    return LoginView.as_view()(request)
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("login_view"))
