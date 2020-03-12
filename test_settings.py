@@ -38,6 +38,11 @@ ROOT_URLCONF = "example_project.example_project.urls"
 STATIC_ROOT = "example_project/example_project/static"
 SECRET_KEY = "bad_test_secret"
 
+DOTMAILER_URL = "https://test/"
+DOTMAILER_USER = "username_here"
+DOTMAILER_PASSWORD = "password_here"
+DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
+
 from django_autoconfig.autoconfig import configure_settings
 
 configure_settings(globals())

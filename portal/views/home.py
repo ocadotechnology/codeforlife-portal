@@ -60,7 +60,7 @@ from portal.helpers.emails import (
     is_verified,
     send_email,
     NOTIFICATION_EMAIL,
-    add_to_salesforce,
+    add_to_dotmailer,
 )
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
@@ -305,7 +305,7 @@ def process_signup_form(request, data):
 
         if _newsletter_ticked(data):
             user = teacher.user.user
-            add_to_salesforce(user.first_name, user.last_name, user.email)
+            add_to_dotmailer(user.first_name, user.last_name, user.email)
 
         send_verification_email(request, teacher.user.user)
 
@@ -356,7 +356,7 @@ def process_independent_student_signup_form(request, data):
 
     if _newsletter_ticked(data):
         user = student.new_user
-        add_to_salesforce(user.first_name, user.last_name, user.email)
+        add_to_dotmailer(user.first_name, user.last_name, user.email)
 
     send_verification_email(request, student.new_user)
 
@@ -436,8 +436,8 @@ def process_newsletter_form(request):
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data["email"]
-            add_to_salesforce("", "", user_email)
-            messages.success(request, "Thank you for signing up!")
+            add_to_dotmailer("", "", user_email)
+            messages.success(request, "Thank you for signing up! 🎉")
             return HttpResponseRedirect(reverse_lazy("home"))
         messages.error(
             request,

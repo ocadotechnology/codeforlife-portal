@@ -37,12 +37,36 @@
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import Client
-from django.test import TestCase
+import pytest
+
+from portal.helpers.emails import add_to_dotmailer
 
 
-class EmailTest(TestCase):
-    def test_send_new_users_numbers_email(self):
-        client = Client()
-        response = client.get(reverse("send_new_users_report"))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(mail.outbox), 1)
+@pytest.mark.django_db
+def test_send_new_users_numbers_email():
+    client = Client()
+    response = client.get(reverse("send_new_users_report"))
+    assert response.status_code == 200
+    assert len(mail.outbox) == 1
+
+
+def test_newsletter_sends_correct_request(mocker, monkeypatch):
+    mocked_post = mocker.patch("portal.helpers.emails.post")
+
+    expected_body = {
+        "email": "ray.charles@example.com",
+        "optInType": "VerifiedDouble",
+        "emailType": "Html",
+        "dataFields": [
+            {"key": "FIRSTNAME", "value": "Ray"},
+            {"key": "LASTNAME", "value": "Charles"},
+            {"key": "FULLNAME", "value": "Ray Charles"},
+        ],
+        "preferences": [{"trout": True}],
+    }
+
+    add_to_dotmailer("Ray", "Charles", "ray.charles@example.com")
+
+    mocked_post.assert_called_once_with(
+        "https://test/", auth=("username_here", "password_here"), json=expected_body
+    )
