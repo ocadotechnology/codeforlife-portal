@@ -39,7 +39,7 @@ button--menu--enabled button--menu--student--active">My Games</a>
                 <form autocomplete="off" id="create-game-form" method="post">
                     {% csrf_token %}
                     <div class="button-group">
-                        {{ create_game_form }}
+                        {{ form }}
                         <a id="create_game_button"
                            name="create_class"
                            class="button button--regular button-primary button--primary--general-educate"
