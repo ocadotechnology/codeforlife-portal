@@ -55,8 +55,7 @@ from two_factor.views import (
 from portal.permissions import teacher_verified
 from portal.views.about import about
 from portal.views.admin import aggregated_data, schools_map, AdminLoginView
-from portal.views.admin import is_post_request
-from portal.views.aimmo.home import aimmo_home
+from portal.views.aimmo.home import AimmoHomeView
 from portal.views.api import (
     registered_users,
     last_connected_since,
@@ -163,7 +162,7 @@ urlpatterns = [
     # The first AIMMO URL renders the new Kurono home page. It uses the same regex so as to overwrite the default
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(r"^kurono/$", aimmo_home, name="kurono"),
+    url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
         r"^favicon\.ico$",
