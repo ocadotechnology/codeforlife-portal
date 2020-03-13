@@ -45,6 +45,8 @@ from django.utils.http import is_safe_url
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
+from portal import handlers
+
 from deploy import captcha
 from portal import app_settings, email_messages
 from portal.forms.newsletter_form import NewsletterForm
