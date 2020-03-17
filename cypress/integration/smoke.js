@@ -5,7 +5,7 @@
  * trying to do almost everything a typical user would do.
  */
 export const smokeTest = () => {
-  cy.visit('localhost:8000/')
+  cy.visit('/')
 
   cy.log('go to Register page')
   cy.get('#signup_button').click()
