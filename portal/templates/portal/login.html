@@ -23,7 +23,7 @@
 <div class="row is-flex">
     <div class="form--register form--register--teacher col-sm-6 is-flex-item">
         <div class="form col-sm-8 col-center">
-            <h1>Log in as a teacher</h1>
+            <h1 data-cy="teacher_login_title">Log in as a teacher</h1>
             <form id="form-login-teacher" method="post">
 
                 {% csrf_token %}
@@ -52,7 +52,7 @@
     </div>
     <div id="school-login" class="form--register form--register--student col-sm-6">
         <div class="form col-sm-8 col-center">
-            <h1>Log in as a student</h1>
+            <h1 data-cy="student_login_title">Log in as a student</h1>
             <form id="form-login-school" method="post">
 
                 {% csrf_token %}
@@ -85,7 +85,7 @@
     </div>
     <div id="independent-student-login" class="form--register form--register--indep-student col-sm-6">
         <div class="form col-sm-8 col-sm-offset-2">
-            <h1>Log in as an independent student</h1>
+            <h1 data-cy="independent_login_title">Log in as an independent student</h1>
             <form id="independent_student_login_form" method="post">
 
                 {% csrf_token %}
