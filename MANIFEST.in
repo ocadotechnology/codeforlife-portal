@@ -3,3 +3,4 @@ graft deploy/static
 graft deploy/templates
 graft portal/static
 graft portal/templates
+graft portal/tests
