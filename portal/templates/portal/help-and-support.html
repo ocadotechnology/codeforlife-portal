@@ -10,6 +10,15 @@
 
 {% block scripts %}
 {{ block.super }}
+{% if not settings.DEBUG %}
+<script>
+	window.fwSettings={
+	'widget_id':77000000397
+	};
+	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+</script>
+<script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer />
+{% endif %}
 {% endblock scripts %}
 
 {% block pageID %}id="homeWrapper"{% endblock %}
@@ -236,62 +245,6 @@
                     saving it in &lsquo;Create&rsquo;.</p>
 		    </answer>
 		</div>
-    </div>
-</div>
-
-<div id="contact">
-    <div class="background background--primary">
-        <div class="col-sm-8 col-center">
-            <h3>Contact us</h3>
-
-            <form id="contact_form" method="post">
-
-                {% csrf_token %}
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        {{ form.non_field_errors }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label><small>Your name</small></label>
-                        {{ form.name }}
-                        {{ form.name.errors }}
-                    </div>
-                    <div class="col-sm-6">
-                        <label><small>Telephone number</small></label>
-                        {{ form.telephone }}
-                        {{ form.telephone.errors }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label><small>Email address</small></label>
-                        {{ form.email }}
-                        {{ form.email.errors }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label><small>Message</small></label>
-                        {{ form.message }}
-                        {{ form.message.errors }}
-                    </div>
-                </div>
-                {{ form.browser }}
-		<div class="row">
-		    <div class="col-sm-6">
-		        {% if captcha %}
-		        {{ form.captcha }}
-		        {% endif %}
-		    </div>
-		</div>
-                <section>
-                    <button name="email_form_submit" type="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
-                </section>
-            </form>
-        </div>
     </div>
 </div>
 

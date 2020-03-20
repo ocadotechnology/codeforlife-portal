@@ -54,7 +54,6 @@ VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS
 PASSWORD_RESET_EMAIL = (
     "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
 )
-CONTACT_EMAIL = "Code For Life Contact <" + app_settings.EMAIL_ADDRESS + ">"
 INVITE_FROM = "Code For Life Invitation <" + app_settings.EMAIL_ADDRESS + ">"
 
 

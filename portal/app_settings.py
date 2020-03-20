@@ -60,3 +60,5 @@ DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
 
 #: Dotmailer default preferences to what users are signed up to
 DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
+
+DEBUG = getattr(settings, "DEBUG", False)
