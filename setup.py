@@ -46,7 +46,7 @@ setup(
         "more-itertools==5.0.0",  # 8.0.2 doesn't support Python <=3.4
         "future",
         "django-hijack>=2.1.10, <2.2.0",
-        "django-hijack-admin>=2.1.10, <2.2.0"
+        "django-hijack-admin>=2.1.10, <2.2.0",
     ],
     classifiers=[
         "Programming Language :: Python",
