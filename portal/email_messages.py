@@ -207,40 +207,6 @@ def adminRevokedEmail(request, schoolName):
     }
 
 
-def contactEmail(request, name, telephone, email, message, browser):
-    return {
-        "subject": emailSubjectPrefix() + " : Contact from Portal",
-        "message": (
-            (
-                "The following message has been submitted on the Code for Life portal:"
-                + "\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\nMessage:"
-                + "\n{message}\n\nBrowser version data received:\n{browser}"
-            ).format(
-                name=name,
-                telephone=telephone,
-                email=email,
-                message=message,
-                browser=browser,
-            )
-        ),
-    }
-
-
-def confirmationContactEmailMessage(request, name, telephone, email, message):
-    return {
-        "subject": emailSubjectPrefix() + " : Your message has been sent",
-        "message": (
-            "Your message has been sent to our Code for Life team who will get back to you "
-            + "as soon as possible.\n\nYour message is shown below."
-            + emailBodySignOff(request)
-            + (
-                "\n\nName: {name}\nTelephone: {telephone}\nEmail: {email}\n\nMessage:"
-                + "\n{message}"
-            ).format(name=name, telephone=telephone, email=email, message=message)
-        ),
-    }
-
-
 def studentJoinRequestSentEmail(request, schoolName, accessCode):
     return {
         "subject": emailSubjectPrefix() + " : School or club join request sent",

@@ -10,6 +10,9 @@
 
 {% block scripts %}
 {{ block.super }}
+<script>
+	FreshworksWidget('show');
+</script>
 {% endblock scripts %}
 
 {% block pageID %}id="homeWrapper"{% endblock %}
@@ -30,7 +33,7 @@
         and Internet Explorer 9 are not supported. Please upgrade to Internet Explorer 10 or above, or use an alternative browser if you are currently using these
         browsers.</p>
     <p>Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please
-        <a href="#contact">contact us</a> for assistance.</p>
+        <a class="freshdesk__contact-us">contact us</a> for assistance.</p>
 </div>
 
 <div id="faqs" >
@@ -77,7 +80,7 @@
 		    <answer>
 		        <p>Passwords for Teachers must be at least 8 characters long and contain numbers and both lowercase and uppercase letters.<br>Passwords
                     for Students can use any combination of characters but must be at least 6 characters long.<br>If you are having any difficulties with
-                    setting your password, please do not hesitate to <a href="#contact">contact us</a> for support.</p>
+                    setting your password, please do not hesitate to <a class="freshdesk__contact-us">contact us</a> for support.</p>
 		    </answer>
 		</div>
 
@@ -236,62 +239,6 @@
                     saving it in &lsquo;Create&rsquo;.</p>
 		    </answer>
 		</div>
-    </div>
-</div>
-
-<div id="contact">
-    <div class="background background--primary">
-        <div class="col-sm-8 col-center">
-            <h3>Contact us</h3>
-
-            <form id="contact_form" method="post">
-
-                {% csrf_token %}
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        {{ form.non_field_errors }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label><small>Your name</small></label>
-                        {{ form.name }}
-                        {{ form.name.errors }}
-                    </div>
-                    <div class="col-sm-6">
-                        <label><small>Telephone number</small></label>
-                        {{ form.telephone }}
-                        {{ form.telephone.errors }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label><small>Email address</small></label>
-                        {{ form.email }}
-                        {{ form.email.errors }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label><small>Message</small></label>
-                        {{ form.message }}
-                        {{ form.message.errors }}
-                    </div>
-                </div>
-                {{ form.browser }}
-		<div class="row">
-		    <div class="col-sm-6">
-		        {% if captcha %}
-		        {{ form.captcha }}
-		        {% endif %}
-		    </div>
-		</div>
-                <section>
-                    <button name="email_form_submit" type="submit" value="Submit" class="button--regular button--primary--general-play">Submit</button>
-                </section>
-            </form>
-        </div>
     </div>
 </div>
 
