@@ -10,15 +10,9 @@
 
 {% block scripts %}
 {{ block.super }}
-{% if not settings.DEBUG %}
 <script>
-	window.fwSettings={
-	'widget_id':77000000397
-	};
-	!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+	FreshworksWidget('show');
 </script>
-<script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer></script>
-{% endif %}
 {% endblock scripts %}
 
 {% block pageID %}id="homeWrapper"{% endblock %}
@@ -39,7 +33,7 @@
         and Internet Explorer 9 are not supported. Please upgrade to Internet Explorer 10 or above, or use an alternative browser if you are currently using these
         browsers.</p>
     <p>Should you experience any difficulties with support for browsers or other devices you are using which you are unable to resolve, please
-        <a href="#contact">contact us</a> for assistance.</p>
+        <a class="freshdesk__contact-us">contact us</a> for assistance.</p>
 </div>
 
 <div id="faqs" >
@@ -86,7 +80,7 @@
 		    <answer>
 		        <p>Passwords for Teachers must be at least 8 characters long and contain numbers and both lowercase and uppercase letters.<br>Passwords
                     for Students can use any combination of characters but must be at least 6 characters long.<br>If you are having any difficulties with
-                    setting your password, please do not hesitate to <a href="#contact">contact us</a> for support.</p>
+                    setting your password, please do not hesitate to <a class="freshdesk__contact-us">contact us</a> for support.</p>
 		    </answer>
 		</div>
 

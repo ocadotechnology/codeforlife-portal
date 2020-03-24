@@ -289,7 +289,7 @@
         <p><a href="{% url 'teach' %}">Teachers</a></p>
         <p><a href="{% url 'play' %}">Students</a></p>
         <p><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
-        <p><a href="{% url 'help' %}#contact">Contact us</a></p>
+        <p><a class="freshdesk__contact-us">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
         <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
     </div>
@@ -311,7 +311,7 @@
         </div>
     </div>
     <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
-    <p><small>&copy; Ocado Technology 2019</small></p>
+    <p><small>&copy; Ocado Technology 2020</small></p>
 </div>
 {% endcache %}
 {% endblock footer %}
@@ -369,9 +369,20 @@
             $('.button--dropdown').attr("aria-expanded", "false");
         }
     });
-
+</script>
+<script>
+    window.fwSettings={
+    'widget_id':77000000397
+    };
+    !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}() 
+</script>
+<script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer></script>
+<script>
+    FreshworksWidget('hide');
+    $('.freshdesk__contact-us').click(function() {
+        FreshworksWidget('open');
+    });
 </script>
 {% endblock scripts %}
-
 </body>
 </html>
