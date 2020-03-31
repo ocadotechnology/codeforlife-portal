@@ -453,6 +453,15 @@ def process_newsletter_form(request):
 
 @cache_control(private=True)
 def home(request):
+    link = reverse("home")
+    messages.success(
+        request,
+        "Our COVID-19 response: <a href='"
+        + link
+        + "'>Download</a> your FREE parents packs to help your children learn from home",
+        extra_tags="safe",
+    )
+
     return render(request, "portal/home.html")
 
 
