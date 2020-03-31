@@ -71,6 +71,7 @@ from portal.views.home import (
     register_view,
     process_newsletter_form,
     home,
+    home_learning,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
@@ -197,6 +198,7 @@ urlpatterns = [
     ),
     url(r"^(?P<levelName>[A-Z0-9]+)/$", play_default_level, name="play_default_level"),
     url(r"^$", home, name="home"),
+    url(r"^home_learning", home_learning, name="home_learning"),
     url(r"^register_form", register_view, name="register"),
     url(r"^login_form", login_view, name="login_view"),
     url(r"^logout/$", logout_view, name="logout_view"),

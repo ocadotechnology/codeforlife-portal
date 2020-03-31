@@ -45,8 +45,6 @@ from django.utils.http import is_safe_url
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
-from portal import handlers
-
 from deploy import captcha
 from portal import app_settings, email_messages
 from portal.forms.newsletter_form import NewsletterForm
@@ -66,6 +64,7 @@ from portal.helpers.emails import (
 )
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
+from portal.strings.home_learning import HOME_LEARNING_BANNER
 from portal.utils import using_two_factor
 
 
@@ -453,7 +452,7 @@ def process_newsletter_form(request):
 
 @cache_control(private=True)
 def home(request):
-    link = reverse("home")
+    link = reverse("home_learning")
     messages.success(
         request,
         "Our COVID-19 response: <a href='"
@@ -467,3 +466,11 @@ def home(request):
 
 def play_aimmo_preview(request):
     return render(request, "portal/play_aimmo_preview.html")
+
+
+def home_learning(request):
+    return render(
+        request,
+        "portal/home_learning.html",
+        {"BANNER": HOME_LEARNING_BANNER},
+    )
