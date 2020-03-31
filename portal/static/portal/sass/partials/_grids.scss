@@ -15,6 +15,42 @@ $column--icon-width: 3%;
     }
   }
 
+  .grid-cards {
+    @include _gap($spacing * 10);
+    display: grid;
+    grid-auto-flow: row;
+    grid-template: auto / repeat(3, 1fr);
+    padding-top: 20px;
+
+    .card {
+      border-radius: 20px;
+      padding: 20px;
+      background-color: white;
+
+      p {
+        padding: 0;
+      }
+
+      .background {
+        @include _padding(20px, 0px, 0px, 0px);
+
+        .button {
+          align-items: center;
+          display: inline-flex;
+
+          .glyphicon {
+            @include _font-size(25px);
+            @include _padding(0px, 5px, 0px, 0px);
+          }
+        }
+      }
+
+      img {
+        max-height: fit-content;
+      }
+    }
+  }
+
   .grid-sessions {
     border-top: 1px solid $color-table-border;
     display: grid;
