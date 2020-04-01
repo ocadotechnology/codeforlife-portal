@@ -42,6 +42,7 @@ h3 {
 h4 {
   @include _font-size(30px);
   @include _line-height(35px);
+  margin: 0;
 }
 
 h6 {

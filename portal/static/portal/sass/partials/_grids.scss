@@ -11,8 +11,12 @@ $column--icon-width: 3%;
   grid-template: auto / repeat(3, 1fr);
 
   .card {
-    @include _border-radius($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+    @include _border-radius(8px, 8px, 8px, 8px);
     background-color: white;
+
+    h4 {
+      @include _padding(0px, 0px, $spacing * 4, 0px);
+    }
 
     .background {
       @include _padding($spacing * 4, 0px, 0px, 0px);
@@ -46,7 +50,7 @@ $column--icon-width: 3%;
   }
 
   img {
-    @include _border-radius($spacing * 4, $spacing * 4, 0px, 0px);
+    @include _border-radius(8px, 8px, 0px, 0px);
     max-height: fit-content;
     width: 100%;
     width: -moz-available;
