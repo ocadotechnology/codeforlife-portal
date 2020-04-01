@@ -54,7 +54,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .grid-games {
     @include _column-gap($spacing * 10);
     display: grid;

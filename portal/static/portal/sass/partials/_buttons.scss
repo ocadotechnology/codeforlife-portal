@@ -313,13 +313,13 @@ button,
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .menu__item {
     display: none;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1200px) {
+@media (min-width: 769px) and (max-width: 1200px) {
   .button--menu--enabled {
     @include _font-size(18px);
   }
