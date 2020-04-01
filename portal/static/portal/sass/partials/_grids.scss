@@ -3,6 +3,57 @@
 $column--info-width: 13%;
 $column--icon-width: 3%;
 
+.grid-cards {
+  @include _gap($spacing * 10);
+  @include _padding($spacing * 4, 0px, 0px, 0px);
+  display: grid;
+  grid-auto-flow: row;
+  grid-template: auto / repeat(3, 1fr);
+
+  .card {
+    @include _border-radius($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+    background-color: white;
+
+    .background {
+      @include _padding($spacing * 4, 0px, 0px, 0px);
+
+      .button {
+        align-items: center;
+        display: inline-flex;
+
+        .glyphicon {
+          @include _font-size(25px);
+          @include _padding(0px, $spacing, 0px, 0px);
+        }
+      }
+    }
+  }
+}
+
+.grid-cards__no-image {
+  .card {
+    @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+
+    p {
+      padding: 0;
+    }
+  }
+}
+
+.grid-cards__image {
+  p {
+    @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+  }
+
+  img {
+    @include _border-radius($spacing * 4, $spacing * 4, 0px, 0px);
+    max-height: fit-content;
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+  }
+}
+
 @media (min-width: 768px) {
   .grid-games {
     @include _column-gap($spacing * 10);
@@ -12,57 +63,6 @@ $column--icon-width: 3%;
 
     img {
       min-height: 240px;
-    }
-  }
-
-  .grid-cards {
-    @include _gap($spacing * 10);
-    display: grid;
-    grid-auto-flow: row;
-    grid-template: auto / repeat(3, 1fr);
-    padding-top: 20px;
-
-    .card {
-      border-radius: 20px;
-      background-color: white;
-
-      .background {
-        @include _padding(20px, 0px, 0px, 0px);
-
-        .button {
-          align-items: center;
-          display: inline-flex;
-
-          .glyphicon {
-            @include _font-size(25px);
-            @include _padding(0px, 5px, 0px, 0px);
-          }
-        }
-      }
-    }
-  }
-
-  .grid-cards__no-image {
-    .card {
-      padding: 20px;
-
-      p {
-        padding: 0;
-      }
-    }
-  }
-
-  .grid-cards__image {
-    p {
-      padding: 20px;
-    }
-
-    img {
-      @include _border-radius(20px, 20px, 0px, 0px);
-      max-height: fit-content;
-      width: 100%;
-      width: -moz-available;
-      width: -webkit-fill-available;
     }
   }
 
@@ -178,5 +178,15 @@ $column--icon-width: 3%;
                           "text3"
                           "button3";
     row-gap: 4 * $spacing;
+  }
+
+  .grid-cards {
+    grid-template: auto / 1fr
+  }
+}
+
+@media screen and (orientation:landscape) {
+  .grid-cards {
+    grid-template: auto / repeat(3, 1fr);
   }
 }
