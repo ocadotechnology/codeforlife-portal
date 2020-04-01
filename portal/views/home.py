@@ -464,13 +464,7 @@ def home(request):
     return render(request, "portal/home.html")
 
 
-def play_aimmo_preview(request):
-    return render(request, "portal/play_aimmo_preview.html")
-
-
 def home_learning(request):
     return render(
-        request,
-        "portal/home_learning.html",
-        {"BANNER": HOME_LEARNING_BANNER},
+        request, "portal/home_learning.html", {"BANNER": HOME_LEARNING_BANNER}
     )

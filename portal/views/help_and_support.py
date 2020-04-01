@@ -11,7 +11,7 @@ def contact(request):
     response = render(
         request,
         "portal/help-and-support.html",
-        {"settings": app_settings, "BANNER": HELP_BANNER,},
+        {"settings": app_settings, "BANNER": HELP_BANNER},
     )
 
     return response
