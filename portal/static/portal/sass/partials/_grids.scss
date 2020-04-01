@@ -12,7 +12,7 @@ $column--icon-width: 3%;
 
   .card {
     @include _border-radius(8px, 8px, 8px, 8px);
-    background-color: white;
+    background-color: $color-background-secondary;
 
     h4 {
       @include _padding(0px, 0px, $spacing * 4, 0px);
@@ -185,7 +185,7 @@ $column--icon-width: 3%;
   }
 
   .grid-cards {
-    grid-template: auto / 1fr
+    grid-template: auto / 1fr;
   }
 }
 
