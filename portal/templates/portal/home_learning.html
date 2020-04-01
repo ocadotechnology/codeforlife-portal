@@ -1,7 +1,6 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
-{% load benefits_tags %}
 {% load banner_tags %}
 
 {% block subNav %}
@@ -61,17 +60,17 @@
                 <h4>How to support your child</h4>
                 <p>If you have time to support your child using using Rapid Router, you can make use of the teaching
                     resources to guide them and expand their learning. However, if you are too busy for this, you should
-                    find that your child is happy to work unaided once you have got them started. If you need help with any
-                    level, or have a general question about the game, please contact us for help. You can see your
+                    find that your child is happy to work unaided once you have got them started. If you need help with
+                    any level, or have a general question about the game, please contact us for help. You can see your
                     child&rsquo;s progress in the scoreboard.</p>
             </div>
             <div class="col-sm-6">
                 <h4>What will my child learn about?</h4>
-                <p>Our teaching resources are split into UK school key stages. By planning routes, controlling a van using
-                    movement commands and working out the shortest route to destination, your child will be learning about
-                    algorithms and how they relate to programs. They will also learn how to create and debug simple programs
-                    and use logical reasoning to predict the behaviour of simple programs. These are all part of the
-                    Computing strand of the English National Curriculum.</p>
+                <p>Our teaching resources are split into UK school key stages. By planning routes, controlling a van
+                    using movement commands and working out the shortest route to destination, your child will be
+                    learning about algorithms and how they relate to programs. They will also learn how to create and
+                    debug simple programs and use logical reasoning to predict the behaviour of simple programs. These
+                    are all part of the Computing strand of the English National Curriculum.</p>
             </div>
         </div>
         <div class="grid-cards grid-cards__no-image">
@@ -80,7 +79,8 @@
                 <p><strong>Ages 5–7, Years 1–2</strong></p>
                 <p>Levels 1–16</p>
                 <div class="background">
-                    <a href="" class="button button--regular button--primary--general-play">
+                    <a href="{{ 'covid-19_response/codeforlife-KS1.zip'|cloud_storage }}"
+                       class="button button--regular button--primary--general-play">
                         <div class="glyphicon glyphicon-save"></div>Key Stage 1 pack</a>
                 </div>
             </div>
@@ -89,7 +89,8 @@
                 <p><strong>Ages 8–11, Years 3–6</strong></p>
                 <p>Levels 17–28</p>
                 <div class="background">
-                    <a href="" class="button button--regular button--primary--general-play">
+                    <a href="{{ 'covid-19_response/codeforlife-KS2.zip'|cloud_storage }}"
+                       class="button button--regular button--primary--general-play">
                         <div class="glyphicon glyphicon-save"></div>Key Stage 2 pack</a>
                 </div>
             </div>
@@ -98,7 +99,8 @@
                 <p><strong>Ages 12–14, Years 7–9</strong></p>
                 <p>Levels 29–109</p>
                 <div class="background">
-                    <a href="" class="button button--regular button--primary--general-play">
+                    <a href="{{ 'covid-19_response/codeforlife-KS3.zip'|cloud_storage }}"
+                       class="button button--regular button--primary--general-play">
                         <div class="glyphicon glyphicon-save"></div>Key Stage 3 pack</a>
                 </div>
             </div>
@@ -118,7 +120,7 @@
                     progress.</p>
             </div>
             <div class="card">
-                <img title="Social contact" alt="Social contact" src="{% static 'portal/img/home_learning_communication.svg' %}">
+                <img title="Social" alt="Social" src="{% static 'portal/img/home_learning_communication.svg' %}">
                 <p>Maintain social contact. Do encourage your child to communicate with their friends. You could even
                     support them in starting a project.</p>
             </div>
