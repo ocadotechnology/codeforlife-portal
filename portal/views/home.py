@@ -409,7 +409,7 @@ def redirect_teacher_to_correct_page(request, teacher):
                     request,
                     (
                         "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account&rsquo;s security.</br>"
+                        + "Use your phone or tablet to enhance your account’s security.</br>"
                         + "Click <a href='"
                         + link
                         + "'>here</a> to find out more and "
@@ -455,9 +455,9 @@ def home(request):
     link = reverse("home-learning")
     messages.success(
         request,
-        "Our COVID-19 response: <a href='"
+        "<a href='"
         + link
-        + "'>Download</a> your FREE parents packs to help your children learn from home",
+        + "'>Download</a> your FREE parent packs today and help your children learn coding skills through play.",
         extra_tags="safe",
     )
 

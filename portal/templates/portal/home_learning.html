@@ -12,9 +12,9 @@
 {{block.super}}
 
 <div class="background--quinary">
-    <section class="col-sm-6 col-center">
-        <h4>Code for Life wants to support you every step of the way in this unusual situation so we have created
-            some parent packs that will help guide you and your child through the online learning process.</h4>
+    <section class="col-sm-7 col-center">
+        <h4>We want to support you the best way we can, so we’ve put together lots of useful tips to help you and your
+            child learn together with Rapid Router.</h4>
     </section>
 </div>
 
@@ -26,23 +26,22 @@
         <div class="row">
             <div class="col-sm-6">
                 <h4>About Rapid Router</h4>
-                <p>Rapid Router is a fun, free-forever educational game which is used in over 2,600 UK schools to help
-                    children aged 6–15 learn to program.</p>
-                <p>We have been providing free lessons plans, printable worksheets and supportive videos to teachers
-                    since 2014. You can see our 5 year celebration video
-                    <a target="_blank" href="https://www.youtube.com/watch?v=N1ofCDoBiic">here</a>. Not all of these
-                    teachers are programming experts, so we have designed our teaching resources with that in mind.</p>
-                <p>All the resources are aligned to the National Curriculum and have been available during the school
-                    closures.</p>
+                <p>You can read more about Rapid Router on our <a target="_blank" href="{% url 'about' %}">about us</a>
+                    page or watch our 5 year celebration video
+                    <a target="_blank" href="https://www.youtube.com/watch?v=N1ofCDoBiic">here</a>. We have been
+                    providing free lesson plans, printable worksheets and supportive videos to teachers since 2014</p>
+                <p>Not all of these teachers are programming experts, so we have designed our teaching resources with
+                    that in mind. All the resources are aligned to the National Curriculum and have been available
+                    during the school closures.</p>
             </div>
             <div class="col-sm-6">
                 <h4>Coding and Lesson plans</h4>
                 <p>Learning to program is a very important skill, it teaches problem-solving, logical thinking and
                     encourages resilience and planning.</p>
-                <p>You are now able to access the lesson plans that only teachers can usually access, and we
-                    realise that you may have very little time to plan, so we will also provide a short
-                    parents&rsquo; guide to the Rapid Router levels (coming soon).</p>
-                <p>We hope you find these resources helpful and that you and your children enjoy learning from them!</p>
+                <p><strong>You are now able to access the lesson plans that only teachers can usually access</strong>,
+                    and we realise that you may have very little time to plan, so we will also provide a short parents’
+                    guide to the Rapid Router levels (coming soon).</p>
+                <p>We want our resources to be helpful, so please let us know what you think!</p>
             </div>
         </div>
     </div>
@@ -57,19 +56,29 @@
             <div class="col-sm-6">
                 <h4>How to support your child</h4>
                 <p>If you have time to support your child using Rapid Router, you can make use of the teaching
-                    resources to guide them and expand their learning. However, if you are too busy for this, you should
-                    find that your child is happy to work unaided once you have got them started. If you need help with
-                    any level, or have a general question about the game, please
-                    <a class="freshdesk__contact-us">contact us</a> for help. You can see your child&rsquo;s progress in the
+                    resources to guide them and expand their learning.</p>
+                <p>However, if you are too busy for this, you should find that your child is happy to work unaided once
+                    you have got them started.</p>
+                <p>If you need help with any level, or have a general question about the game, please
+                    <a class="freshdesk__contact-us">contact us</a>. You can see your child’s progress in the
                     scoreboard.</p>
             </div>
             <div class="col-sm-6">
                 <h4>What will my child learn about?</h4>
-                <p>Our teaching resources are split into UK school key stages. By planning routes, controlling a van
-                    using movement commands and working out the shortest route to destination, your child will be
-                    learning about algorithms and how they relate to programs. They will also learn how to create and
-                    debug simple programs and use logical reasoning to predict the behaviour of simple programs. These
-                    are all part of the Computing strand of the English National Curriculum.</p>
+                <p>By controlling a van using movement commands and working out the shortest route to destination, your
+                    child will be learning about:</p>
+                <ul>
+                    <li>
+                        <p>Algorithms and how they relate to programs</p>
+                    </li>
+                    <li>
+                        <p>Creating and debugging simple programs</p>
+                    </li>
+                    <li>
+                        <p>Logical reasoning to predict the behaviour of simple programs</p>
+                    </li>
+                </ul>
+                <p>These are all part of the Computing strand of the English National Curriculum.</p>
             </div>
         </div>
         <div class="grid-cards grid-cards__no-image">
@@ -130,7 +139,7 @@
             </div>
             <div class="card">
                 <img title="Outdoors" alt="Outdoors" src="{% static 'portal/img/home_learning_outside.svg' %}">
-                <p>Get outdoors. Don&rsquo;t forget to take a break and get outside for fresh air and exercise. This
+                <p>Get outdoors. Don’t forget to take a break and get outside for fresh air and exercise. This
                     will help you all to focus in lesson time.</p>
             </div>
             <div class="card">
@@ -140,11 +149,15 @@
             </div>
             <div class="card">
                 <img title="Goals" alt="Goals" src="{% static 'portal/img/home_learning_goals.svg' %}">
-                <p>Set realistic goals! The change to remote learning was unplanned for many parents. Don&rsquo;t
+                <p>Set realistic goals! The change to remote learning was unplanned for many parents. Don’t
                     worry about not being prepared, we can help you get through it.</p>
             </div>
         </section>
     </div>
 </div>
+
+<section class="background sub-nav--teacher">
+    <a href="" class="button button--regular button--secondary button--secondary--light">Tell us your ideas on how we can help even more!</a>
+</section>
 
 {% endblock content %}
