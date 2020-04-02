@@ -8,7 +8,7 @@ $column--icon-width: 3%;
   @include _padding($spacing * 4, 0px, 0px, 0px);
   display: grid;
   grid-auto-flow: row;
-  grid-template: auto / repeat(3, auto);
+  grid-template: auto / repeat(3, 1fr);
 
   .card {
     @include _border-radius(8px, 8px, 8px, 8px);
@@ -189,8 +189,8 @@ $column--icon-width: 3%;
   }
 }
 
-@media screen and (orientation:landscape) {
+@media (max-width: 768px) and (orientation:landscape) {
   .grid-cards {
-    grid-template: auto / repeat(3, auto);
+    grid-template: auto / repeat(3, 1fr);
   }
 }
