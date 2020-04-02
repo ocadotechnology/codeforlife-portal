@@ -452,7 +452,7 @@ def process_newsletter_form(request):
 
 @cache_control(private=True)
 def home(request):
-    link = reverse("home_learning")
+    link = reverse("home-learning")
     messages.success(
         request,
         "Our COVID-19 response: <a href='"
