@@ -466,5 +466,7 @@ def home(request):
 
 def home_learning(request):
     return render(
-        request, "portal/home_learning.html", {"BANNER": HOME_LEARNING_BANNER}
+        request,
+        "portal/home_learning.html",
+        {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER},
     )
