@@ -58,7 +58,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .grid-games {
     @include _column-gap($spacing * 10);
     display: grid;
@@ -161,7 +161,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .grid-icon {
     display: none;
   }
@@ -189,7 +189,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (max-width: 768px) and (orientation:landscape) {
+@media (max-width: 767px) and (orientation:landscape) {
   .grid-cards {
     grid-template: auto / repeat(3, 1fr);
   }

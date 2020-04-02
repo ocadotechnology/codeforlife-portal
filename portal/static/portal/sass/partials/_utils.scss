@@ -234,7 +234,7 @@ input.input-invalid {
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
 
   .row--flex {
     display: flex;
@@ -246,7 +246,7 @@ input.input-invalid {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
   .col-sm-offset-2 {
     margin-left: 0;

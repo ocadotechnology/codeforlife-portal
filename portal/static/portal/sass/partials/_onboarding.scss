@@ -120,7 +120,7 @@
 
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .onboarding-step--done {
     background: $color-onboarding-step-done-background;
     border-bottom: 1px solid $color-background-secondary;
@@ -179,7 +179,7 @@
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .arrows {
     @include _padding(0px, 0px, 0px, 15px);
     flex-direction: column-reverse;

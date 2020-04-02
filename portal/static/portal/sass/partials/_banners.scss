@@ -378,7 +378,7 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .banner__item,
   .button--banner__item {
     display: none;
@@ -391,7 +391,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
     height: auto;
