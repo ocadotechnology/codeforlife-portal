@@ -45,8 +45,6 @@ from django.utils.http import is_safe_url
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
-from portal import handlers
-
 from deploy import captcha
 from portal import app_settings, email_messages
 from portal.forms.newsletter_form import NewsletterForm
@@ -66,6 +64,7 @@ from portal.helpers.emails import (
 )
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
+from portal.strings.home_learning import HOME_LEARNING_BANNER
 from portal.utils import using_two_factor
 
 
@@ -410,7 +409,7 @@ def redirect_teacher_to_correct_page(request, teacher):
                     request,
                     (
                         "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account&rsquo;s security.</br>"
+                        + "Use your phone or tablet to enhance your account’s security.</br>"
                         + "Click <a href='"
                         + link
                         + "'>here</a> to find out more and "
@@ -453,8 +452,21 @@ def process_newsletter_form(request):
 
 @cache_control(private=True)
 def home(request):
+    link = reverse("home-learning")
+    messages.success(
+        request,
+        "<a href='"
+        + link
+        + "'>Download</a> your FREE parent packs today and help your children learn coding skills through play.",
+        extra_tags="safe",
+    )
+
     return render(request, "portal/home.html")
 
 
-def play_aimmo_preview(request):
-    return render(request, "portal/play_aimmo_preview.html")
+def home_learning(request):
+    return render(
+        request,
+        "portal/home_learning.html",
+        {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER},
+    )

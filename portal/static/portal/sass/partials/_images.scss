@@ -35,6 +35,10 @@ img {
 
 .background--quinary {
   background-color: $color-background-tint-quinary;
+
+  .background--quinary__title {
+    margin: 0;
+  }
 }
 
 .background--swirl {

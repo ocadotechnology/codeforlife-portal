@@ -34,6 +34,10 @@
   column-gap: calculate-rem($gap);
 }
 
+@mixin _gap($gap) {
+  gap: calculate-rem($gap);
+}
+
 @mixin arrow-properties($height-onboarding-step) {
   $height-onboarding-step-done: $height-onboarding-step * 0.7;
   $height-onboarding-step-progress: $height-onboarding-step / 2;
