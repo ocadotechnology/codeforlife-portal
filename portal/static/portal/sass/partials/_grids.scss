@@ -162,7 +162,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .grid-icon {
     display: none;
   }
@@ -190,7 +190,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (max-width: 767px) and (orientation:landscape) {
+@media (max-width: 768px) and (orientation:landscape) {
   .grid-cards {
     grid-template: auto / repeat(3, 1fr);
   }
