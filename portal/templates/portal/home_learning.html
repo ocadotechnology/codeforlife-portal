@@ -1,0 +1,165 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags %}
+{% load banner_tags %}
+
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="HOME_LEARNING_BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+
+<div class="background--quinary">
+    <section class="col-sm-7 col-center">
+        <h4 class="background--quinary__title">We want to support you the best way we can, so we’ve put together lots of
+            useful tips to help you and your child learn together with Rapid Router.</h4>
+    </section>
+</div>
+
+<div class="background">
+    <div class="col-sm-8 col-center">
+        <section>
+            <h3>A guide to using Rapid Router at home!</h3>
+        </section>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>About Rapid Router</h4>
+                <p>You can read more about Rapid Router on our <a target="_blank" href="{% url 'about' %}">about us</a>
+                    page or watch our 5 year celebration video
+                    <a target="_blank" href="https://www.youtube.com/watch?v=N1ofCDoBiic">here</a>. We have been
+                    providing free lesson plans, printable worksheets and supportive videos to teachers since 2014</p>
+                <p>Not all of these teachers are programming experts, so we have designed our teaching resources with
+                    that in mind. All the resources are aligned to the National Curriculum and have been available
+                    during the school closures.</p>
+            </div>
+            <div class="col-sm-6">
+                <h4>Coding and Lesson plans</h4>
+                <p>Learning to program is a very important skill, it teaches problem-solving, logical thinking and
+                    encourages resilience and planning.</p>
+                <p><strong>You are now able to access the lesson plans that only teachers can usually access</strong>,
+                    and we realise that you may have very little time to plan, so we will also provide a short parents’
+                    guide to the Rapid Router levels (coming soon).</p>
+                <p>We want our resources to be helpful, so please let us know what you think!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="background background--primary">
+    <div class="col-sm-8 col-center">
+        <section>
+            <h3>Free resources for parents</h3>
+        </section>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>How to support your child</h4>
+                <p>If you have time to support your child using Rapid Router, you can make use of the teaching
+                    resources to guide them and expand their learning.</p>
+                <p>However, if you are too busy for this, you should find that your child is happy to work unaided once
+                    you have got them started.</p>
+                <p>If you need help with any level, or have a general question about the game, please
+                    <a class="freshdesk__contact-us">contact us</a>. You can see your child’s progress in the
+                    scoreboard.</p>
+            </div>
+            <div class="col-sm-6">
+                <h4>What will my child learn about?</h4>
+                <p>By controlling a van using movement commands and working out the shortest route to destination, your
+                    child will be learning about:</p>
+                <ul>
+                    <li>
+                        <p>Algorithms and how they relate to programs</p>
+                    </li>
+                    <li>
+                        <p>Creating and debugging simple programs</p>
+                    </li>
+                    <li>
+                        <p>Logical reasoning to predict the behaviour of simple programs</p>
+                    </li>
+                </ul>
+                <p>These are all part of the Computing strand of the English National Curriculum.</p>
+            </div>
+        </div>
+        <div class="grid-cards grid-cards--no-image">
+            <div class="card">
+                <h4>Key Stage 1</h4>
+                <p><strong>Ages 5–7, Years 1–2</strong></p>
+                <p>Levels 1–16</p>
+                <div class="background">
+                    <a href="{{ 'covid-19_response/codeforlife-KS1.zip'|cloud_storage }}"
+                       class="button button--regular button--primary--general-play">
+                        <div class="glyphicon glyphicon-save"></div>Key Stage 1 pack</a>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Key Stage 2</h4>
+                <p><strong>Ages 8–11, Years 3–6</strong></p>
+                <p>Levels 17–28</p>
+                <div class="background">
+                    <a href="{{ 'covid-19_response/codeforlife-KS2.zip'|cloud_storage }}"
+                       class="button button--regular button--primary--general-play">
+                        <div class="glyphicon glyphicon-save"></div>Key Stage 2 pack</a>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Key Stage 3</h4>
+                <p><strong>Ages 12–14, Years 7–9</strong></p>
+                <p>Levels 29–109</p>
+                <div class="background">
+                    <a href="{{ 'covid-19_response/codeforlife-KS3.zip'|cloud_storage }}"
+                       class="button button--regular button--primary--general-play">
+                        <div class="glyphicon glyphicon-save"></div>Key Stage 3 pack</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="background background--quinary">
+    <div class="col-sm-8 col-center">
+        <section>
+            <h3>Our top tips for home learning!</h3>
+        </section>
+        <section class="grid-cards grid-cards--image">
+            <div class="card">
+                <img title="Encouragement" alt="Encouragement" src="{% static 'portal/img/home_learning_reward.svg' %}">
+                <p>Be encouraging. This might be completely new to your child. Encourage their learning and praise their
+                    progress.</p>
+            </div>
+            <div class="card">
+                <img title="Social" alt="Social" src="{% static 'portal/img/home_learning_communication.svg' %}">
+                <p>Maintain social contact. Do encourage your child to communicate with their friends. You could even
+                    support them in starting a project.</p>
+            </div>
+            <div class="card">
+                <img title="Routine" alt="Routine" src="{% static 'portal/img/home_learning_routine.svg' %}">
+                <p>Routines are important. Your children are used to having their school day organised and might be
+                    feeling quite anxious and unsettled.</p>
+            </div>
+            <div class="card">
+                <img title="Outdoors" alt="Outdoors" src="{% static 'portal/img/home_learning_outside.svg' %}">
+                <p>Get outdoors. Don’t forget to take a break and get outside for fresh air and exercise. This
+                    will help you all to focus in lesson time.</p>
+            </div>
+            <div class="card">
+                <img title="Fun" alt="Fun" src="{% static 'portal/img/home_learning_fun.svg' %}">
+                <p>Keep positive and remember to have fun too! Your positive attitude will rub off on your child and
+                    help them feel calm.</p>
+            </div>
+            <div class="card">
+                <img title="Goals" alt="Goals" src="{% static 'portal/img/home_learning_goals.svg' %}">
+                <p>Set realistic goals! The change to remote learning was unplanned for many parents. Don’t
+                    worry about not being prepared, we can help you get through it.</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+<section class="background sub-nav--teacher">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSclasSZCb7s26Yax3KZuXIFhLjMhGK591WPvht0BkfjSiQR1w/viewform"
+       target="_blank" class="button button--regular button--secondary button--secondary--light">
+        Tell us your ideas on how we can help even more!</a>
+</section>
+
+{% endblock content %}
