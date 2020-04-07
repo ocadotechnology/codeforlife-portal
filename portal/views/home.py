@@ -458,7 +458,7 @@ def home(request):
         "<a href='"
         + link
         + "'>Download</a> your FREE parent packs today and help your children learn coding skills through play.",
-        extra_tags="safe",
+        extra_tags="safe message__home-learning",
     )
 
     return render(request, "portal/home.html")
