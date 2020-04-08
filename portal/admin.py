@@ -55,8 +55,12 @@ class ClassAdmin(admin.ModelAdmin):
         "teacher__new_user__first_name",
         "teacher__new_user__last_name",
     ]
-    list_filter = ["teacher", "teacher__school"]
-    readonly_fields = ["teacher"]
+    list_filter = ["teacher__school"]
+    list_display = ["__str__", "teacher", "teacher_school"]
+    raw_id_fields = ["teacher"]
+
+    def teacher_school(self, obj):
+        return obj.teacher.school
 
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -66,13 +70,16 @@ class SchoolAdmin(admin.ModelAdmin):
 
 class StudentAdmin(admin.ModelAdmin):
     search_fields = ["new_user__first_name", "new_user__last_name"]
-    list_filter = [
-        "class_field",
-        "class_field__teacher",
-        "class_field__teacher__school",
-    ]
+    list_filter = ["class_field__teacher__school"]
+    list_display = ["__str__", "class_field", "class_field_teacher"]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["class_field", "pending_class_request"]
+
+    def class_field_teacher(self, obj):
+        if obj.class_field:
+            return obj.class_field.teacher
+        else:
+            return "Independent"
 
 
 class TeacherAdmin(admin.ModelAdmin):
@@ -101,6 +108,7 @@ class EmailVerificationAdmin(admin.ModelAdmin):
         "user__username",
         "user__date_joined",
     ]
+    readonly_fields = ["user", "token", "expiry"]
 
 
 UserAdmin.list_display += ("date_joined",)
