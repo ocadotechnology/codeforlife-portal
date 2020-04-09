@@ -35,7 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from portal.forms.newsletter_form import NewsletterForm
+from portal import app_settings
 
 
 def process_newsletter_form(request):
     return {"news_form": NewsletterForm()}
+
+
+def module_name(request):
+    return {"module_name": app_settings.MODULE_NAME}

@@ -62,3 +62,6 @@ DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
 DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
 
 DEBUG = getattr(settings, "DEBUG", False)
+
+#: The name of the google app engine service the application is running on, local otherwise
+MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
