@@ -456,8 +456,9 @@ def home(request):
     messages.success(
         request,
         "Families: #KeepKidsCoding! <a href='"
-        + link + "'>Tap here</a> for free, easy, home coding lessons.",
-        extra_tags="safe",
+        + link
+        + "'>Tap here</a> for free, easy, home coding lessons.",
+        extra_tags="safe message__home-learning hidden",
     )
 
     return render(request, "portal/home.html")
