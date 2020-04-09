@@ -455,9 +455,9 @@ def home(request):
     link = reverse("home-learning")
     messages.success(
         request,
-        "<a href='"
+        "Families: #KeepKidsCoding! <a href='"
         + link
-        + "'>Download</a> your FREE parent packs today and help your children learn coding skills through play.",
+        + "'>Tap here</a> for free, easy, home coding lessons.",
         extra_tags="safe message__home-learning hidden",
     )
 
