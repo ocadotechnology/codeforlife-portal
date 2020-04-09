@@ -35,6 +35,8 @@
     {% endcache %}
     {% endblock css %}
 
+    {% include "portal/tag_manager/tag_manager_head.html" %}
+
     {% cache 3600 fragment-base_old-javascript %}
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
@@ -84,6 +86,7 @@
 </head>
 
 <body id="top">
+{% include "portal/tag_manager/tag_manager_body.html" %}
 {% hijack_notification %}
 {% render_block "js" %}
 {% include 'portal/mouseflow.html' %}

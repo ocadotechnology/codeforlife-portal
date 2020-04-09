@@ -125,6 +125,7 @@ SETTINGS = {
                     "django.contrib.messages.context_processors.messages",
                     "sekizai.context_processors.sekizai",
                     "portal.context_processors.process_newsletter_form",
+                    "portal.context_processors.module_name",
                 ]
             },
         }

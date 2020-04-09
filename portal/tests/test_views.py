@@ -184,7 +184,7 @@ class TestViews(TestCase):
         
         <div class="sub-nav--message">
             
-            <div class="sub-nav safe success">
+            <div class="sub-nav safe message__home-learning hidden success">
                 
                 <img title="Information" alt="Information sign" src="/static/portal/img/icon_info.png">
                 
