@@ -100,8 +100,8 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    search_fields = ["new_user__first_name", "new_user__last_name"]
-    list_filter = ["school"]
+    search_fields = ["new_user__first_name", "new_user__last_name", "school__name"]
+    list_display = ["__str__", "school"]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["school", "pending_join_request"]
 
