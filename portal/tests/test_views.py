@@ -189,7 +189,7 @@ class TestViews(TestCase):
                 <img title="Information" alt="Information sign" src="/static/portal/img/icon_info.png">
                 
                 <p>
-                    <a href='{page_url}'>Download</a> your FREE parent packs today and help your children learn coding skills through play.</p>
+                    Families: #KeepKidsCoding! <a href='{page_url}'>Tap here</a> for free, easy, home coding lessons.</p>
                 <a class="x-icon"><img title="Close" alt="Close sign" src="/static/portal/img/icon_close.png"></a>
             </div>
             
