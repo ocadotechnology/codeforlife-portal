@@ -1,8 +1,13 @@
 @import 'base';
 
-
 .dropdown {
   display: flex;
+}
+
+.menu__right-side {
+  .dropdown {
+    width: 80%;
+  }
 }
 
 .dropdown__text {
@@ -23,10 +28,9 @@
   min-width: 0;
   overflow: auto;
   padding: 0;
-  width: 100%;
+  width: 80%;
 
   .dropdown-menu__option {
-
     .button--regular,
     .button--regular:hover,
     .button--regular:focus,
@@ -47,29 +51,22 @@
         @include _font-size(18px);
         @include _padding(0px, 10px, 0px, 0px);
       }
-
     }
 
     .button--regular:hover {
-
       .dropdown-menu__option__text {
         border-bottom: 1px solid $color-text-secondary;
         cursor: pointer;
         text-decoration: none;
       }
-
     }
 
     &:last-of-type {
-
       .button--regular {
         border: none;
       }
-
     }
-
   }
-
 }
 
 .dropdown-content {
@@ -111,7 +108,6 @@
 }
 
 @media (min-width: 1400px) {
-
   .menu__right-side {
     align-items: center;
     display: flex;
@@ -151,21 +147,17 @@
   .menu__brand {
     margin-left: 10%;
   }
-
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
-
   .menu__right-side {
     align-items: center;
     display: flex;
     justify-content: flex-end;
   }
-
 }
 
 @media (min-width: 768px) {
-
   .hamburger {
     display: none;
   }
@@ -208,9 +200,8 @@
     .button--primary--general-play {
       @include _margin(0px, 30px, 0px, 0px);
     }
-
   }
-  
+
   .menu__brand {
     align-items: center;
     display: flex;
@@ -227,14 +218,21 @@
   .button--menu__item__sub {
     display: none;
   }
+}
 
+.header__ot-logo--no-tagline {
+  height: 40px;
 }
 
 @media (max-width: 768px) {
-
   .menu {
     @include _padding(0px, 0px, 15px, 0px);
-    background-color: $color-background-tertiary;
+    background-color: white;
+
+    .menu__brand {
+      display: flex;
+      flex-direction: row;
+    }
 
     .hamburger {
       @include _margin(15px, 0px, 0px, 15px);
@@ -245,15 +243,6 @@
       width: 48px;
     }
 
-    .logo-horizontal {
-      margin: 0;
-      @include _padding(0px, 0px, 10px, 15px);
-      content: url('../img/logo_c4l_horizontal.png');
-      position: relative;
-      width: 80%;
-      z-index: $hover-content-level;
-    }
-
     button {
       @include _margin(15px, 5px, 0px, 5px);
     }
@@ -262,7 +251,6 @@
     .home-icon {
       display: none;
     }
-
   }
 
   .menu__right-side {

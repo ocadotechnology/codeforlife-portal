@@ -98,21 +98,25 @@
 <div {% block pageID %}id="contentWrapper"{% endblock %}>
     {% block topBar %}
     <div class="header">
-        <a href="{% url 'home' %}">
-          <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
+        <a class="hidden-xs" href="{% url 'home' %}">
+            <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
         </a>
         <div class="menu">
             <div class="menu__brand">
-                <a href="{% url 'home' %}">
-                    <img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
+                <a class="visible-xs" href="{% url 'home' %}">
+                    <img class="logo" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
+                </a>
                 <a target="_blank" href="https://www.ocadotechnology.com/">
                     <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Technology"
-                         class="logo-ocado" src="{% static 'portal/img/logo_ocado_tech_tagline.svg' %}"></a>
+                    class="logo-ocado hidden-xs" src="{% static 'portal/img/logo_ocado_tech_tagline.svg' %}">
+                    <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Technology"
+                    class="header__ot-logo--no-tagline visible-xs" src="{% static 'portal/img/logo_ocado_tech_no_tagline.svg' %}">
+                </a>
+                <button class="glyphicon glyphicon-menu-hamburger visible-xs" data-toggle="collapse" data-target="#menu-items"></button>
             </div>
             {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
                 <div class="menu__left-side col-sm-7">
-                    <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
                         {% if user|is_logged_in_as_teacher %}
                             <a href="{% url 'teach' %}" class="button--menu button--menu--primary"><b>Teacher</b></a>
                             {% block secondaryButtons %}

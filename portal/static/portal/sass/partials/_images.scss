@@ -126,11 +126,9 @@ img {
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
-
   .logo {
     margin-left: 1%;
   }
-
 }
 
 @media (max-width: 1200px) {
@@ -140,7 +138,6 @@ img {
 }
 
 @media (min-width: 768px) {
-
   .logo {
     content: url('../img/logo_c4l_hexa.png');
     position: fixed;
@@ -148,16 +145,12 @@ img {
     z-index: $nav-bar-level + 2;
   }
 
-  .logo-horizontal {
-    display: none;
-  }
-
 }
 
 @media (max-width: 768px) {
-
   .logo {
-    display: none;
+    position: relative;
+    height: 30px;
   }
 
   .image-row {
@@ -168,5 +161,4 @@ img {
       @include _padding(10px, 0px, 10px, 0px);
     }
   }
-
 }
