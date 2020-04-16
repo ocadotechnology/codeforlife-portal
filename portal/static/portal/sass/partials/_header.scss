@@ -14,7 +14,7 @@
 }
 
 .dropdown-menu {
-  @include _border-radius(0px, 0px, 10px, 10px);
+  @include _border-radius(0px, 0px, $spacing * 2, $spacing * 2);
   border: none;
   font-weight: 300;
   margin: 0;
@@ -29,8 +29,8 @@
     .button--regular:hover,
     .button--regular:focus,
     .button--regular:visited {
-      @include _line-height(25px);
-      @include _padding(10px, 15px, 10px, 15px);
+      @include _line-height($spacing * 5);
+      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
       background: $color-background-tertiary;
       color: $color-text-secondary;
@@ -43,7 +43,7 @@
 
       .glyphicon {
         @include _font-size(18px);
-        @include _padding(0px, 10px, 0px, 0px);
+        @include _padding(0px, $spacing * 2, 0px, 0px);
       }
     }
 
@@ -65,7 +65,7 @@
 
 .dropdown-content {
   @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
-  @include _margin(54px, 0px, 0px, 20px);
+  @include _margin(54px, 0px, 0px, $spacing * 4);
   background-color: $color-background-secondary;
   display: none;
   position: absolute;
@@ -108,7 +108,7 @@
   }
 
   .menu__brand {
-    margin-left: 17.5%;
+    margin-left: 19%;
 
     a {
       align-items: center;
@@ -158,10 +158,6 @@
 }
 
 @media (min-width: 768px) {
-  .hamburger {
-    display: none;
-  }
-
   .menu {
     background-color: $color-background-secondary;
     border-bottom: 1px solid $color-background-tertiary;
@@ -177,11 +173,11 @@
     }
 
     .button--menu--primary {
-      @include _padding(10px, 0px, 16px, 0px);
+      @include _padding($spacing * 2, 0px, 16px, 0px);
     }
 
     .button--menu--secondary {
-      @include _padding(10px, 0px, 18px, 0px);
+      @include _padding($spacing * 2, 0px, 18px, 0px);
     }
 
     .button--menu--enabled {
@@ -198,12 +194,12 @@
     }
 
     .button--primary--general-play {
-      @include _margin(0px, 30px, 0px, 0px);
+      @include _margin(0px, $spacing * 6, 0px, 0px);
     }
   }
 
   .menu__brand {
-    @include _padding(10px, 15px, 10px, 15px);
+    @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
     align-items: center;
     display: flex;
     justify-content: center;
@@ -226,7 +222,7 @@
 
 @media (max-width: 767px) {
   .menu {
-    @include _padding(0px, 0px, 15px, 0px);
+    @include _padding(0px, 0px, $spacing * 3, 0px);
     background-color: white;
 
     .menu__brand {
@@ -235,7 +231,7 @@
     }
 
     .hamburger {
-      @include _margin(15px, 0px, 0px, 15px);
+      @include _margin($spacing * 3, 0px, 0px, $spacing * 3);
       background-color: transparent;
       background-image: url('../img/hamburger.png');
       border-radius: 0;
@@ -244,11 +240,10 @@
     }
 
     button {
-      @include _margin(15px, 5px, 0px, 5px);
+      @include _margin($spacing * 3, $spacing, 0px, $spacing);
     }
 
-    .button--menu,
-    .home-icon {
+    .button--menu {
       display: none;
     }
   }
@@ -258,7 +253,7 @@
   }
 
   .menu__left-side {
-    @include _padding(0px, 0px, 10px, 0px);
+    @include _padding(0px, 0px, $spacing * 2, 0px);
     align-items: flex-end;
     display: inline;
   }
