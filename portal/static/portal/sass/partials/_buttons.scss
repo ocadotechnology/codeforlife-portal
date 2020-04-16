@@ -106,7 +106,7 @@ button,
 .button--menu--primary {
   @include _font-size(30px);
   @include _line-height(25px);
-  @include _margin(0px, 40px, 0px, 40px);
+  @include _margin(0px, 40px, 0px, 10px);
 
   &:hover {
     color: $color-text-tertiary;

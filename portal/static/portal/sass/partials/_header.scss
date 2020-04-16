@@ -156,7 +156,6 @@
   }
 
   .menu {
-    @include _padding(10px, 0px, 0px, 0px);
     background-color: $color-background-secondary;
     border-bottom: 1px solid $color-background-tertiary;
     display: flex;
@@ -195,6 +194,11 @@
       @include _margin(0px, 30px, 0px, 0px);
     }
 
+  }
+  
+  .menu__brand {
+    align-items: center;
+    display: flex;
   }
 
   .menu__left-side {

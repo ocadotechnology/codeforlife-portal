@@ -99,13 +99,15 @@
     {% block topBar %}
     <div class="header">
         <a href="{% url 'home' %}">
-          <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}"></img>
+          <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
         </a>
         <div class="menu col-sm-12">
-            <div class="menu__left-side col-sm-7 col-sm-offset-2">
-                <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
+            <div class="menu__brand col-sm-1 col-sm-offset-2">
                 <a href="{% url 'home' %}"><img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
-                <a href="{% url 'home' %}" class="button--regular button--secondary--no-border home-icon"><div class="glyphicon glyphicon-home"></div></a>
+                <a href="{% url 'home' %}"><img class="logo-ocado"></a>
+            </div>
+            <div class="menu__left-side col-sm-5">
+                <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
                 {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
                     {% if user|is_logged_in_as_teacher %}
@@ -159,7 +161,7 @@
                 {% endif %}
                 {% endblock leftMenuButtons %}
             </div>
-            <div class="menu__right-side col-sm-3">
+            <div class="menu__right-side col-sm-3 col-sm-offset-1">
                 {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                     <div class="dropdown">
