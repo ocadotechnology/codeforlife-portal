@@ -22,7 +22,6 @@
   min-width: 0;
   overflow: auto;
   padding: 0;
-  width: 100%;
 
   .dropdown-menu__option {
     .button--regular,
@@ -118,17 +117,9 @@
   }
 }
 
-@media (min-width: 1200px) {
-  .menu__brand {
-    @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
-  }
-}
-
 @media (min-width: 1200px) and (max-width: 1400px) {
   .menu__brand {
     margin-left: 13%;
-    padding-top: 1vw;
-    padding-bottom: 1vw;
   }
 }
 
@@ -143,18 +134,23 @@
     @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
     width: 15%;
   }
+
+  .dropdown,
+  .dropdown-menu {
+    width: 80%;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1036px) {
   .menu__brand {
+    @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
     margin-left: 11%;
     width: 15%;
-    @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
   }
 
-  .logo-ocado {
-    padding-top: 1vw;
-    padding-bottom: 1vw;
+  .dropdown,
+  .dropdown-menu {
+    width: 100%;
   }
 }
 

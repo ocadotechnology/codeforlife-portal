@@ -1132,7 +1132,7 @@ h1 {
   font-family: 'Source Sans Pro', serif;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   body {
     padding-top: 0;
   }
@@ -1164,6 +1164,20 @@ tr.collapse.in {
 tbody.collapse.in {
   display: table-row-group;
 }
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+  -o-transition-duration: .35s;
+  transition-duration: .35s;
+  -webkit-transition-property: height, visibility;
+  -o-transition-property: height, visibility;
+  transition-property: height, visibility;
+}
 
 @import "bootstrap_partials/dropdown";
 @import "bootstrap_partials/grid";
@@ -1174,3 +1188,5 @@ tbody.collapse.in {
 @import "partials/images";
 @import "partials/utils";
 @import "partials/subnavs";
+@import "partials/text";
+@import "partials/forms";
