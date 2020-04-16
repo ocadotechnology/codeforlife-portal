@@ -1132,10 +1132,37 @@ h1 {
   font-family: 'Source Sans Pro', serif;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   body {
     padding-top: 0;
   }
+}
+
+.visible-xs {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+
+  .visible-xs {
+    display: block !important;
+  }
+}
+
+.collapse {
+  display: none;
+}
+.collapse.in {
+  display: block;
+}
+tr.collapse.in {
+  display: table-row;
+}
+tbody.collapse.in {
+  display: table-row-group;
 }
 
 @import "bootstrap_partials/dropdown";

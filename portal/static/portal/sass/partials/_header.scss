@@ -2,12 +2,7 @@
 
 .dropdown {
   display: flex;
-}
-
-.menu__right-side {
-  .dropdown {
-    width: 80%;
-  }
+  width: 100%;
 }
 
 .dropdown__text {
@@ -20,7 +15,7 @@
 }
 
 .dropdown-menu {
-  @include _border-radius(0px, 0px, 10px, 10px);
+  @include _border-radius(0px, 0px, $spacing * 2, $spacing * 2);
   border: none;
   font-weight: 300;
   margin: 0;
@@ -28,15 +23,15 @@
   min-width: 0;
   overflow: auto;
   padding: 0;
-  width: 80%;
+  width: 100%;
 
   .dropdown-menu__option {
     .button--regular,
     .button--regular:hover,
     .button--regular:focus,
     .button--regular:visited {
-      @include _line-height(25px);
-      @include _padding(10px, 15px, 10px, 15px);
+      @include _line-height($spacing * 5);
+      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
       background: $color-background-tertiary;
       color: $color-text-secondary;
@@ -49,7 +44,7 @@
 
       .glyphicon {
         @include _font-size(18px);
-        @include _padding(0px, 10px, 0px, 0px);
+        @include _padding(0px, $spacing * 2, 0px, 0px);
       }
     }
 
@@ -71,7 +66,7 @@
 
 .dropdown-content {
   @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
-  @include _margin(54px, 0px, 0px, 20px);
+  @include _margin(54px, 0px, 0px, $spacing * 4);
   background-color: $color-background-secondary;
   display: none;
   position: absolute;
@@ -111,14 +106,14 @@
   .menu__right-side {
     align-items: center;
     display: flex;
-    justify-content: center;
   }
 
   .menu__brand {
-    @include _padding(10px, 15px, 10px, 15px);
-    margin-left: 17.5%;
+    margin-left: 19%;
 
     a {
+      align-items: center;
+      display: flex;
       height: 100%;
     }
   }
@@ -126,7 +121,6 @@
 
 @media (min-width: 1200px) and (max-width: 1400px) {
   .menu__brand {
-    @include _padding(0px, 15px, 0px, 15px);
     margin-left: 13%;
   }
 }
@@ -137,9 +131,16 @@
   }
 }
 
+@media (min-width: 1036px) {
+  .menu__brand {
+    width: 15%;
+  }
+}
+
 @media (min-width: 768px) and (max-width: 1036px) {
   .menu__brand {
-    margin-left: 10%;
+    margin-left: 11%;
+    width: 20%;
   }
 }
 
@@ -147,7 +148,6 @@
   .menu__right-side {
     align-items: center;
     display: flex;
-    justify-content: flex-end;
   }
 }
 
@@ -167,11 +167,11 @@
     }
 
     .button--menu--primary {
-      @include _padding(10px, 0px, 16px, 0px);
+      @include _padding($spacing * 2, 0px, 16px, 0px);
     }
 
     .button--menu--secondary {
-      @include _padding(10px, 0px, 18px, 0px);
+      @include _padding($spacing * 2, 0px, 18px, 0px);
     }
 
     .button--menu--enabled {
@@ -188,14 +188,16 @@
     }
 
     .button--primary--general-play {
-      @include _margin(0px, 30px, 0px, 0px);
+      @include _margin(0px, $spacing * 6, 0px, 0px);
     }
   }
 
   .menu__brand {
+    @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
     align-items: center;
     display: flex;
-    width: 13%;
+    width: 20%;
+    justify-content: center;
   }
 
   .menu__left-side {
@@ -213,7 +215,7 @@
   height: 30px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .menu {
     background-color: white;
     height: 60px;
@@ -237,11 +239,10 @@
     }
 
     button {
-      @include _margin(15px, 5px, 0px, 5px);
+      @include _margin($spacing * 3, $spacing, 0px, $spacing);
     }
 
-    .button--menu,
-    .home-icon {
+    .button--menu {
       display: none;
     }
   }
@@ -251,7 +252,7 @@
   }
 
   .menu__left-side {
-    @include _padding(0px, 0px, 10px, 0px);
+    @include _padding(0px, 0px, $spacing * 2, 0px);
     align-items: flex-end;
     display: inline;
   }
