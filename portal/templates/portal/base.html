@@ -170,8 +170,8 @@
                 </div>
             {% endblock leftMenuButtons %}
             {% block rightMenuButtons %}
-                <div class="menu__right-side col-sm-4">
                 {% if user|is_logged_in %}
+                <div class="menu__right-side col-sm-4">
                     <div class="dropdown">
                         <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown"
                                 data-toggle="dropdown">
@@ -209,10 +209,11 @@
                             {% endif %}
                         </ul>
                     </div>
-                {% else %}
-                    <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
-                    <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in<div class="glyphicon glyphicon-user"></div></a>
-                {% endif %}
+                    {% else %}
+                    <div class="menu__right-side col-sm-5">
+                        <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
+                        <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in<div class="glyphicon glyphicon-user"></div></a>
+                    {% endif %}
                 </div>
             {% endblock rightMenuButtons %}
         </div>
