@@ -98,16 +98,21 @@
 <div {% block pageID %}id="contentWrapper"{% endblock %}>
     {% block topBar %}
     <div class="header">
-        <a href="{% url 'home' %}">
-          <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
+        <a class="hidden-xs" href="{% url 'home' %}">
+            <img class="logo col-sm-offset-1" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
         </a>
         <div class="menu col-sm-12">
             <div class="menu__brand col-sm-1 col-sm-offset-2">
-                <a href="{% url 'home' %}"><img class="logo-horizontal" src="{% static 'portal/img/logo_c4l_horizontal.png' %}"></a>
-                <a href="{% url 'home' %}"><img class="logo-ocado"></a>
+                <a class="visible-xs" href="{% url 'home' %}">
+                    <img class="logo" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
+                </a>
+                <a href="{% url 'play' %}">
+                    <img class="logo-ocado hidden-xs">
+                    <img class="header__ot-logo--no-tagline visible-xs" src="{% static 'portal/img/logo_ocado_tech_no_tagline.svg' %}">
+                </a> 
+                <button class="glyphicon glyphicon-menu-hamburger visible-xs" data-toggle="collapse" data-target="#menu-items"></button>
             </div>
             <div class="menu__left-side col-sm-5">
-                <button class="hamburger" data-toggle="collapse" data-target="#menu-items"></button>
                 {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
                     {% if user|is_logged_in_as_teacher %}
