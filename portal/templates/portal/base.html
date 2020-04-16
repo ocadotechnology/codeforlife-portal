@@ -112,7 +112,7 @@
                     <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Technology"
                     class="header__ot-logo--no-tagline visible-xs" src="{% static 'portal/img/logo_ocado_tech_no_tagline.svg' %}">
                 </a>
-                <button class="glyphicon glyphicon-menu-hamburger visible-xs" data-toggle="collapse" data-target="#menu-items"></button>
+                <span class="glyphicon glyphicon-menu-hamburger header__hamburger visible-xs" data-toggle="collapse" data-target="#menu-items"></span>
             </div>
             {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
