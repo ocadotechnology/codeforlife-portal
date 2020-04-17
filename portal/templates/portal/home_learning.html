@@ -27,7 +27,18 @@
                 <p>Now, we’ve made lessons available for parents and caregivers to download and teach at home, so we can
                     #KeepKidsCoding. They’re free and easy, but most of all, they’re fun!</p>
                 <p>Read our learning guide and start at Level 1, unless your child has played before.
-                    To start playing, register as an <a href="{% url 'register'%}">independent student</a>.</p>
+                    To start playing, you need to first register as an <a href="{% url 'register'%}">independent student</a>.
+                    This will ensure that the level progress is saved.
+                </p>
+            </div>
+        </div>
+        <div class="background">
+            <div class="col-sm-8 text-center col-center">
+                {% if user|is_logged_in %}
+                    <a href="{% url 'levels' %}" class="button button--big button-primary button--primary--general-educate">Play now</a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="button button--big button--primary--general-play register">Register</a>
+                {% endif %}
             </div>
         </div>
     </div>
