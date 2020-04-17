@@ -173,12 +173,12 @@
             {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                 <div class="menu__right-side col-sm-4">
-                    <div class="dropdown">
-                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown"
+                    <div class="dropdown header__account-details-dropdown">
+                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown header__account-details-dropdown"
                                 data-toggle="dropdown">
                             <div class="dropdown__text">{{ user|make_into_username }}</div>
                             <div class="glyphicon glyphicon-user"></div></button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu header__account-details-dropdown-menu">
                             {% if not request|is_hijacked %}
                             <li class="dropdown-menu__option">
                                 <a class="button--regular button--logout" id="logout_button" aria-labelledby="Log out"
