@@ -1,6 +1,5 @@
 @import 'base';
 
-
 a {
   cursor: pointer;
 }
@@ -281,11 +280,9 @@ button,
 }
 
 .button-group {
-
   > :not(:first-child) {
     @include _margin(0px, 0px, 0px, 20px);
   }
-
 }
 
 .resource-buttons {
@@ -295,7 +292,6 @@ button,
     @include _margin(0px, 20px, 20px, 0px);
     display: inline-flex;
   }
-
 }
 
 .button--banner--container {
@@ -317,7 +313,7 @@ button,
 
 @media (min-width: 768px) and (max-width: 1200px) {
   .button--menu--primary {
-    @include _margin(0px, 30px, 0px, 0px);
+    @include _margin(0px, $spacing * 6, 0px, 0px);
   }
 
   .button--menu--secondary {
@@ -330,7 +326,6 @@ button,
 }
 
 @media (max-width: 767px) {
-
   .button--secondary--dark {
     background-color: $color-background-secondary;
   }
@@ -379,7 +374,6 @@ button,
       background-color: $color-background-secondary;
       color: $color-teacher-blue;
     }
-
   }
 
   .button--menu__item__sub {
