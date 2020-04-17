@@ -144,13 +144,12 @@ img {
     top: 10px;
     z-index: $nav-bar-level + 2;
   }
-
 }
 
 @media (max-width: 767px) {
   .logo {
     position: relative;
-    height: 30px;
+    height: $cfl-logo-height-xs;
   }
 
   .image-row {

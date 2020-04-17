@@ -225,7 +225,7 @@
 
 @media (max-width: 767px) {
   .menu {
-    height: 60px;
+    height: $menu-height-xs;
 
     .menu__brand {
       @include _padding($spacing * 3, $spacing * 4, $spacing * 3, $spacing * 4);
