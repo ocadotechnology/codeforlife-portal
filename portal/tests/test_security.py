@@ -95,6 +95,14 @@ class SecurityTestCase(TestCase):
             c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code,
         )
 
+    def test_cannot_lookup_schools_if_not_logged_in(self):
+        client = Client()
+        url = reverse("organisation_fuzzy_lookup")
+        data = {'fuzzy_name': ['A']}
+        response = client.get(url, data=data)
+
+        self.assertEqual(403, response.status_code)
+
     def test_reminder_cards_wrong_teacher(self):
         """Try and view reminder cards without being the teacher for that class."""
         self._test_incorrect_teacher_cannot_login("teacher_print_reminder_cards")

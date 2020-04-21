@@ -74,7 +74,7 @@ from portal.views.home import (
     home_learning,
 )
 from portal.views.organisation import (
-    organisation_fuzzy_lookup,
+    OrganisationFuzzyLookup,
     organisation_manage,
     organisation_leave,
 )
@@ -237,7 +237,7 @@ urlpatterns = [
     url(r"^teach/$", teach, name="teach"),
     url(
         r"^teach/fuzzy_lookup/$",
-        organisation_fuzzy_lookup,
+        OrganisationFuzzyLookup.as_view(),
         name="organisation_fuzzy_lookup",
     ),
     url(
