@@ -8,7 +8,7 @@ export const smokeTest = () => {
   cy.visit('/')
 
   cy.log('go to Register page')
-  cy.get('#signup_button').click()
+  cy.get('#signup_button_fake').click()
   cy.get('[data-cy=teacher_signup_title]').should('be.visible')
   cy.get('[data-cy=teacher_signup_title]').should("have.text", "Register as a teacher")
   cy.get('[data-cy=independent_signup_title]').should('be.visible')
