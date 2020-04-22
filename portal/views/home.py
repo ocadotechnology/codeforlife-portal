@@ -60,10 +60,11 @@ from portal.helpers.emails import (
     is_verified,
     send_email,
     NOTIFICATION_EMAIL,
-    add_to_salesforce,
+    add_to_dotmailer,
 )
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
+from portal.strings.home_learning import HOME_LEARNING_BANNER
 from portal.utils import using_two_factor
 
 
@@ -305,7 +306,7 @@ def process_signup_form(request, data):
 
         if _newsletter_ticked(data):
             user = teacher.user.user
-            add_to_salesforce(user.first_name, user.last_name, user.email)
+            add_to_dotmailer(user.first_name, user.last_name, user.email)
 
         send_verification_email(request, teacher.user.user)
 
@@ -356,7 +357,7 @@ def process_independent_student_signup_form(request, data):
 
     if _newsletter_ticked(data):
         user = student.new_user
-        add_to_salesforce(user.first_name, user.last_name, user.email)
+        add_to_dotmailer(user.first_name, user.last_name, user.email)
 
     send_verification_email(request, student.new_user)
 
@@ -408,7 +409,7 @@ def redirect_teacher_to_correct_page(request, teacher):
                     request,
                     (
                         "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account&rsquo;s security.</br>"
+                        + "Use your phone or tablet to enhance your account’s security.</br>"
                         + "Click <a href='"
                         + link
                         + "'>here</a> to find out more and "
@@ -436,8 +437,8 @@ def process_newsletter_form(request):
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data["email"]
-            add_to_salesforce("", "", user_email)
-            messages.success(request, "Thank you for signing up!")
+            add_to_dotmailer("", "", user_email)
+            messages.success(request, "Thank you for signing up! 🎉")
             return HttpResponseRedirect(reverse_lazy("home"))
         messages.error(
             request,
@@ -451,8 +452,21 @@ def process_newsletter_form(request):
 
 @cache_control(private=True)
 def home(request):
+    link = reverse("home-learning")
+    messages.success(
+        request,
+        "Families: #KeepKidsCoding! <a href='"
+        + link
+        + "'>Tap here</a> for free, easy, home coding lessons.",
+        extra_tags="safe message__home-learning",
+    )
+
     return render(request, "portal/home.html")
 
 
-def play_aimmo_preview(request):
-    return render(request, "portal/play_aimmo_preview.html")
+def home_learning(request):
+    return render(
+        request,
+        "portal/home_learning.html",
+        {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER},
+    )

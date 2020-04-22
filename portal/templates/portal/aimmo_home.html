@@ -30,24 +30,24 @@ button--menu--enabled button--menu--student--active">My Games</a>
 {% endif %}
         <div class="kurono-logo col-sm-4 col-sm-offset-2">
             <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
-            <div id="join_game" class="button-group">
-                {% if user|is_logged_in_as_teacher %}
+            {% if user|is_logged_in_as_teacher %}
+                <div id="join_game" class="button-group">
                     <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
-                {% endif %}
-            </div>
-            <div id="create_game" class="hidden">
-                <form autocomplete="off" id="create-game-form" method="post">
-                    {% csrf_token %}
-                    <div class="button-group">
-                        {{ create_game_form }}
-                        <a id="create_game_button"
-                           name="create_class"
-                           class="button button--regular button-primary button--primary--general-educate"
-                           onclick='send_event("Kurono", "Clicked", "Create game button");'>Create</a>
-                    </div>
-                </form>
-                <p><a id="back_button"><small>&#10229; Back</small></a></p>
-            </div>
+                </div>
+                <div id="create_game" class="hidden">
+                    <form autocomplete="off" id="create-game-form" method="post">
+                        {% csrf_token %}
+                        <div class="button-group">
+                            {{ form }}
+                            <a id="create_game_button"
+                               name="create_class"
+                               class="button button--regular button-primary button--primary--general-educate"
+                               onclick='send_event("Kurono", "Clicked", "Create game button");'>Create</a>
+                        </div>
+                    </form>
+                    <p><a id="back_button"><small>&#10229; Back</small></a></p>
+                </div>
+            {% endif %}
         </div>
         <div class="col-sm-6">
             <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--aimmo"></div></div></div>
@@ -79,29 +79,26 @@ button--menu--enabled button--menu--student--active">My Games</a>
                 <div class="col-sm-4">
                     <h3>User guide</h3>
                     <p>Find out more about the game and learn the basics for using the code editor and game map.</p>
-                    <p><a href="{% url 'materials_viewer' pdf_name='user_guide_aimmo' %}">User Guide</a></p>
+                    <p><a href="{% url 'materials_viewer' pdf_name='Kurono_user_guide' %}">User Guide</a></p>
                 </div>
                 <div class="col-sm-4">
                     <h3>Challenges</h3>
                     {% if user|is_logged_in_as_teacher %}
                         <p>We have created two initial challenges for both teachers and students to become familiar with the game.</p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_session_1' %}">Teacher lesson guide for challenges</a></p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Student challenge sheet 1</a></p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_2' %}">Student challenge sheet 2</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_guide_1' %}">Teacher guide 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_guide_2' %}">Teacher guide 2</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Student challenge 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_2' %}">Student challenge 2</a></p>
                     {% else %}
                         <p>We have created two initial challenges for you to become familiar with the game.</p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Challenge sheet 1</a></p>
-                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_2' %}">Challenge sheet 2</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Challenge 1</a></p>
+                        <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_2' %}">Challenge 2</a></p>
                     {% endif %}
                 </div>
                 <div class="col-sm-4">
                     <h3>Resource sheets</h3>
                     <p>Resource sheets help you to understand coding concepts that will be used within the game.</p>
-                    {% for aimmo_session in aimmo_sheets %}
-                        {% for sheet in aimmo_session %}
-                            <p><a href="{% url 'materials_viewer' pdf_name=sheet.url_name %}">{{ sheet.title }}</a></p>
-                        {% endfor %}
-                    {% endfor %}
+                    <p><a href="{% url 'materials_viewer' pdf_name='Kurono_API_guide' %}">Kurono API guide</a></p>
                 </div>
             </div>
         </div>

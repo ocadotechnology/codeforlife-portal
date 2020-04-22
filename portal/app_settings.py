@@ -49,11 +49,19 @@ RECAPTCHA_PRIVATE_KEY = getattr(settings, "RECAPTCHA_PRIVATE_KEY", None)
 #: Public key for Recaptcha
 RECAPTCHA_PUBLIC_KEY = getattr(settings, "RECAPTCHA_PUBLIC_KEY", None)
 
-#: Salesforce URL for adding newly verified users
-SALESFORCE_URL = getattr(settings, "SALESFORCE_URL", "")
+#: Dotmailer URL for adding users to the newsletter address book
+DOTMAILER_URL = getattr(settings, "DOTMAILER_URL", "")
 
-#: Salesforce oid for adding newly verified users
-SALESFORCE_OID = getattr(settings, "SALESFORCE_OID", "")
+#: Dotmailer username for API authentication
+DOTMAILER_USER = getattr(settings, "DOTMAILER_USER", "")
 
-#: Salesforce record type for adding newly verified users
-SALESFORCE_RT = getattr(settings, "SALESFORCE_RT", "")
+#: Dotmailer password for API authentication
+DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
+
+#: Dotmailer default preferences to what users are signed up to
+DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
+
+DEBUG = getattr(settings, "DEBUG", False)
+
+#: The name of the google app engine service the application is running on, local otherwise
+MODULE_NAME = getattr(settings, "MODULE_NAME", "local")

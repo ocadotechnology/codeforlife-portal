@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f9dbe6f76e8ea43385994590983dcf6440925a9c6380aa1ae247dc326e056492"
+            "sha256": "146263427a5f1c592dfccc8236013a36a06a9942d95709d4d5ac2bfc749a04f9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -76,6 +76,12 @@
             ],
             "version": "==1.0.0"
         },
+        "django-compat": {
+            "hashes": [
+                "sha256:3ac9a3bedc56b9365d9eb241bc5157d0c193769bf995f9a78dc1bc24e7c2331b"
+            ],
+            "version": "==1.0.15"
+        },
         "django-countries": {
             "hashes": [
                 "sha256:73476e80877936e072cf0935109590def986d528083c9c1a99c0291f68f7d08a",
@@ -95,6 +101,18 @@
                 "sha256:c375de71f890f8a787b88229e04a7f6865d511fbb5ab87da72cf72bce92af957"
             ],
             "version": "==5.4.7"
+        },
+        "django-hijack": {
+            "hashes": [
+                "sha256:be484f0ca67a092d5bf9bf8a5307beb716dc2e86b56a69796479183fdeb9036c"
+            ],
+            "version": "==2.1.10"
+        },
+        "django-hijack-admin": {
+            "hashes": [
+                "sha256:330f9be331ada831248c9cee5a21202aea70fb9911b443249ce4c28d57d9e2e3"
+            ],
+            "version": "==2.1.10"
         },
         "django-js-reverse": {
             "hashes": [
@@ -414,10 +432,10 @@
     "develop": {
         "asgiref": {
             "hashes": [
-                "sha256:3e4192eaec0758b99722f0b0666d5fbfaa713054d92e8de5b58ba84ec5ce696f",
-                "sha256:c8f49dd3b42edcc51d09dd2eea8a92b3cfc987ff7e6486be734b4d0cbfd5d315"
+                "sha256:7e06d934a7718bf3975acbf87780ba678957b87c7adc056f13b6215d610695a0",
+                "sha256:ea448f92fc35a0ef4b1508f53a04c4670255a3f33d22a81c8fc9c872036adbe5"
             ],
-            "version": "==3.2.5"
+            "version": "==3.2.3"
         },
         "attrs": {
             "hashes": [
@@ -534,6 +552,14 @@
             "index": "pypi",
             "version": "==3.7.0"
         },
+        "pytest-mock": {
+            "hashes": [
+                "sha256:b35eb281e93aafed138db25c8772b95d3756108b601947f89af503f8c629413f",
+                "sha256:cb67402d87d5f53c579263d37971a164743dc33c159dfb4fb4a86f37c5552307"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
+        },
         "pytz": {
             "hashes": [
                 "sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d",
@@ -615,7 +641,6 @@
                 "sha256:f864b1e910e6803aa8f3ed9c371b145f0b6fd191f5fbefea011ac7ed4258734d",
                 "sha256:fa1c8479781c91e6b814ef006f6e099b6550eba12601a8617475fb514fc09365"
             ],
-            "markers": "python_version >= '3.5' and platform_machine == 'x86_64' and sys_platform == 'linux'",
             "version": "==0.4.1"
         },
         "wcwidth": {

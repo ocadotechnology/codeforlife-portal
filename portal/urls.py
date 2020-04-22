@@ -49,13 +49,13 @@ from two_factor.views import (
     SetupView,
     ProfileView,
     QRGeneratorView,
+    LoginView,
 )
 
 from portal.permissions import teacher_verified
 from portal.views.about import about
 from portal.views.admin import aggregated_data, schools_map, AdminLoginView
-from portal.views.admin import is_post_request
-from portal.views.aimmo.home import aimmo_home
+from portal.views.aimmo.home import AimmoHomeView
 from portal.views.api import (
     registered_users,
     last_connected_since,
@@ -71,6 +71,7 @@ from portal.views.home import (
     register_view,
     process_newsletter_form,
     home,
+    home_learning,
 )
 from portal.views.organisation import (
     organisation_fuzzy_lookup,
@@ -86,7 +87,6 @@ from portal.views.registration import (
     password_reset_done,
     student_password_reset,
     password_reset_check_and_confirm,
-    custom_2FA_login,
 )
 from portal.views.student.edit_account_details import (
     student_edit_account,
@@ -132,7 +132,7 @@ from portal.views.terms import terms
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"^account/login/$", custom_2FA_login, name="login"),
+    url(r"^account/login/$", LoginView.as_view(), name="login"),
     url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
@@ -163,7 +163,7 @@ urlpatterns = [
     # The first AIMMO URL renders the new Kurono home page. It uses the same regex so as to overwrite the default
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(r"^kurono/$", aimmo_home, name="kurono"),
+    url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
         r"^favicon\.ico$",
@@ -198,6 +198,7 @@ urlpatterns = [
     ),
     url(r"^(?P<levelName>[A-Z0-9]+)/$", play_default_level, name="play_default_level"),
     url(r"^$", home, name="home"),
+    url(r"^home-learning", home_learning, name="home-learning"),
     url(r"^register_form", register_view, name="register"),
     url(r"^login_form", login_view, name="login_view"),
     url(r"^logout/$", logout_view, name="logout_view"),
@@ -421,4 +422,5 @@ urlpatterns = [
             ]
         ),
     ),
+    url(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ]

@@ -37,43 +37,26 @@
 from aimmo.app_settings import get_users_for_new_game
 from aimmo.forms import AddGameForm
 from aimmo.game_creator import create_game
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, redirect
-
-from portal.views.teacher.teacher_materials import (
-    get_session_pdfs,
-    get_resource_sheets_pdfs,
-)
+from django.views.generic.edit import CreateView
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-def aimmo_home(request):
-    aimmo_sessions = []
-    aimmo_sheets = []
+class AimmoHomeView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login_view")
+    form_class = AddGameForm
+    template_name = "portal/aimmo_home.html"
 
-    get_session_pdfs("Kurono_session_", aimmo_sessions)
-    get_resource_sheets_pdfs(aimmo_sessions, "Kurono_S", aimmo_sheets)
+    def get_form(self, form_class=None):
+        user = self.request.user
+        playable_games = user.playable_games.all()
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(playable_games, **self.get_form_kwargs())
 
-    playable_games = request.user.playable_games.all()
+    def form_valid(self, form):
+        create_game(self.request.user, form, get_users_for_new_game(self.request))
+        return super().form_valid(form)
 
-    if request.method == "POST":
-        create_game_form = AddGameForm(playable_games, data=request.POST)
-        if create_game_form.is_valid():
-            game = create_game(
-                request.user, create_game_form, get_users_for_new_game(request)
-            )
-            return redirect("kurono/play", id=game.id)
-
-    else:
-        create_game_form = AddGameForm(playable_games)
-
-    return render(
-        request,
-        "portal/aimmo_home.html",
-        {
-            "create_game_form": create_game_form,
-            "aimmo_sessions": aimmo_sessions,
-            "aimmo_sheets": aimmo_sheets,
-        },
-    )
+    def get_success_url(self):
+        return reverse_lazy("kurono/play", args=(self.object.id,))

@@ -9,19 +9,19 @@
 }
 
 .row--small {
-  @include _padding(25px, 0px, 0px, 0px);
+  @include _padding($spacing * 5, 0px, 0px, 0px);
 }
 
 .row--regular {
-  @include _padding(50px, 0px, 50px, 0px);
+  @include _padding($spacing * 10, 0px, $spacing * 10, 0px);
 }
 
 .row--under {
-  @include _padding(0px, 0px, 20px, 0px);
+  @include _padding(0px, 0px, $spacing * 4, 0px);
 }
 
 .top-element {
-  @include _margin(80px, 0px, 0px, 0px);
+  @include _margin($spacing * 16, 0px, 0px, 0px);
 }
 
 .is-flex {
@@ -89,13 +89,13 @@
 }
 
 .password-strength-text {
-  @include _padding(0px, 0px, 0px, 10px);
+  @include _padding(0px, 0px, 0px, $spacing * 2);
   color: $color-text-secondary;
   font-style: italic;
 }
 
 .password-strength-text-old {
-  @include _padding(0px, 0px, 0px, 10px);
+  @include _padding(0px, 0px, 0px, $spacing * 2);
   color: $color-text-primary;
   font-style: italic;
 }
@@ -104,15 +104,15 @@ section {
   text-align: center;
 
   button {
-    @include _margin(0px, 10px, 0px, 10px);
+    @include _margin(0px, $spacing * 2, 0px, $spacing * 2);
   }
 
   h4 {
-    @include _padding(10px, 0px, 30px, 0px);
+    @include _padding($spacing * 4, 0px, $spacing * 4, 0px);
   }
 
   .youtube img {
-    @include _margin(30px, 0px, 30px, 0px);
+    @include _margin($spacing * 6, 0px, $spacing * 6, 0px);
   }
 }
 
@@ -143,8 +143,8 @@ section {
 
 .ks-tag {
   @include _font-size(16px);
-  @include _margin(0px, 0px, 0px, 10px);
-  @include _padding(3px, 5px, 3px, 5px);
+  @include _margin(0px, 0px, 0px, $spacing * 2);
+  @include _padding(3px, $spacing, 3px, $spacing);
   background-color: $color-background-materials-tag;
   color: $color-text-materials-tag;
   font-weight: normal;
@@ -164,7 +164,7 @@ section {
 
     a {
       @include _font-size(20px);
-      @include _padding(10px, 16px, 10px, 16px);
+      @include _padding($spacing * 2, 16px, $spacing * 2, 16px);
       background-color: $color-tab-unselected-background;
       border: 1px solid $color-tab-unselected-text;
       color: $color-tab-unselected-text;
@@ -201,14 +201,14 @@ iframe {
 }
 
 .viewer-frame {
-  margin-right: 30px;
+  margin-right: $spacing * 6;
   height: 800px;
 }
 
 .pdf-list {
   p:not(:first-of-type) {
     &:after {
-      @include _margin(0px, 5px, 0px, 10px);
+      @include _margin(0px, $spacing, 0px, $spacing * 2);
       background: url('../img/icon_pdf.png') no-repeat center;
       background-size: contain;
       content: '';
@@ -246,7 +246,7 @@ input.input-invalid {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
   .col-sm-offset-2 {
     margin-left: 0;

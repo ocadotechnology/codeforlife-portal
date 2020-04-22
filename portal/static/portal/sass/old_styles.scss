@@ -1132,10 +1132,51 @@ h1 {
   font-family: 'Source Sans Pro', serif;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   body {
     padding-top: 0;
   }
+}
+
+.visible-xs {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+
+  .visible-xs {
+    display: block !important;
+  }
+}
+
+.collapse {
+  display: none;
+}
+.collapse.in {
+  display: block;
+}
+tr.collapse.in {
+  display: table-row;
+}
+tbody.collapse.in {
+  display: table-row-group;
+}
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+  -o-transition-duration: .35s;
+  transition-duration: .35s;
+  -webkit-transition-property: height, visibility;
+  -o-transition-property: height, visibility;
+  transition-property: height, visibility;
 }
 
 @import "bootstrap_partials/dropdown";
@@ -1147,3 +1188,5 @@ h1 {
 @import "partials/images";
 @import "partials/utils";
 @import "partials/subnavs";
+@import "partials/text";
+@import "partials/forms";

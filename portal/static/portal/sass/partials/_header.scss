@@ -1,14 +1,7 @@
 @import 'base';
 
-
 .dropdown {
   display: flex;
-}
-
-.menu__right-side {
-  .dropdown {
-    width: 80%;
-  }
 }
 
 .dropdown__text {
@@ -21,7 +14,7 @@
 }
 
 .dropdown-menu {
-  @include _border-radius(0px, 0px, 10px, 10px);
+  @include _border-radius(0px, 0px, $spacing * 2, $spacing * 2);
   border: none;
   font-weight: 300;
   margin: 0;
@@ -29,16 +22,14 @@
   min-width: 0;
   overflow: auto;
   padding: 0;
-  width: 80%;
 
   .dropdown-menu__option {
-
     .button--regular,
     .button--regular:hover,
     .button--regular:focus,
     .button--regular:visited {
-      @include _line-height(25px);
-      @include _padding(10px, 15px, 10px, 15px);
+      @include _line-height($spacing * 5);
+      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
       background: $color-background-tertiary;
       color: $color-text-secondary;
@@ -51,36 +42,29 @@
 
       .glyphicon {
         @include _font-size(18px);
-        @include _padding(0px, 10px, 0px, 0px);
+        @include _padding(0px, $spacing * 2, 0px, 0px);
       }
-
     }
 
     .button--regular:hover {
-
       .dropdown-menu__option__text {
         border-bottom: 1px solid $color-text-secondary;
         cursor: pointer;
         text-decoration: none;
       }
-
     }
 
     &:last-of-type {
-
       .button--regular {
         border: none;
       }
-
     }
-
   }
-
 }
 
 .dropdown-content {
   @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
-  @include _margin(54px, 0px, 0px, 20px);
+  @include _margin(54px, 0px, 0px, $spacing * 4);
   background-color: $color-background-secondary;
   display: none;
   position: absolute;
@@ -117,46 +101,68 @@
 }
 
 @media (min-width: 1400px) {
-
   .menu__right-side {
     align-items: center;
     display: flex;
-    justify-content: center;
   }
 
+  .menu__brand {
+    margin-left: 19%;
+
+    a {
+      align-items: center;
+      display: flex;
+      height: 100%;
+    }
+  }
 }
 
-@media (min-width: 768px) and (max-width: 1200px) {
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .menu__brand {
+    margin-left: 13%;
+  }
+}
 
-  .home-icon {
-    display: none;
+@media (min-width: 1036px) and (max-width: 1200px) {
+  .menu__brand {
+    margin-left: 8%;
+  }
+}
+
+@media (min-width: 1036px) {
+  .menu__brand {
+    @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
+    width: 15%;
   }
 
+  .header__account-details-dropdown,
+  .header__account-details-dropdown-menu {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1036px) {
+  .menu__brand {
+    @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
+    margin-left: 11%;
+    width: 15%;
+  }
+
+  .header__account-details-dropdown,
+  .header__account-details-dropdown-menu {
+    width: 100%;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
-
   .menu__right-side {
     align-items: center;
     display: flex;
-    justify-content: flex-end;
-    width: 100%;
-
-    &.col-sm-3 {
-      width: 100%;
-    }
   }
-
 }
 
 @media (min-width: 768px) {
-
-  .hamburger {
-    display: none;
-  }
-
   .menu {
-    @include _padding(10px, 0px, 0px, 0px);
     background-color: $color-background-secondary;
     border-bottom: 1px solid $color-background-tertiary;
     display: flex;
@@ -171,11 +177,11 @@
     }
 
     .button--menu--primary {
-      @include _padding(10px, 0px, 16px, 0px);
+      @include _padding($spacing * 2, 0px, 16px, 0px);
     }
 
     .button--menu--secondary {
-      @include _padding(10px, 0px, 18px, 0px);
+      @include _padding($spacing * 2, 0px, 18px, 0px);
     }
 
     .button--menu--enabled {
@@ -192,9 +198,14 @@
     }
 
     .button--primary--general-play {
-      @include _margin(0px, 30px, 0px, 0px);
+      @include _margin(0px, $spacing * 6, 0px, 0px);
     }
+  }
 
+  .menu__brand {
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 
   .menu__left-side {
@@ -206,42 +217,41 @@
   .button--menu__item__sub {
     display: none;
   }
-
 }
 
-@media (max-width: 768px) {
+.header__ot-logo--no-tagline {
+  height: 30px;
+}
 
+@media (max-width: 767px) {
   .menu {
-    @include _padding(0px, 0px, 15px, 0px);
-    background-color: $color-background-tertiary;
+    height: $menu-height-xs;
 
-    .hamburger {
-      @include _margin(15px, 0px, 0px, 15px);
-      background-color: transparent;
-      background-image: url('../img/hamburger.png');
-      border-radius: 0;
-      height: 30px;
-      width: 48px;
+    .menu__brand {
+      @include _padding($spacing * 3, $spacing * 4, $spacing * 3, $spacing * 4);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
     }
 
-    .logo-horizontal {
-      margin: 0;
-      @include _padding(0px, 0px, 10px, 15px);
-      content: url('../img/logo_c4l_horizontal.png');
-      position: relative;
-      width: 80%;
-      z-index: $hover-content-level;
+    .logo {
+      @include _padding($spacing, $spacing * 3, $spacing, 0px);
+      height: 50px;
+      top: initial;
+    }
+
+    .header__hamburger {
+      margin: auto 0 auto auto;
     }
 
     button {
-      @include _margin(15px, 5px, 0px, 5px);
+      @include _margin($spacing * 3, $spacing, 0px, $spacing);
     }
 
-    .button--menu,
-    .home-icon {
+    .button--menu {
       display: none;
     }
-
   }
 
   .menu__right-side {
@@ -249,7 +259,7 @@
   }
 
   .menu__left-side {
-    @include _padding(0px, 0px, 10px, 0px);
+    @include _padding(0px, 0px, $spacing * 2, 0px);
     align-items: flex-end;
     display: inline;
   }

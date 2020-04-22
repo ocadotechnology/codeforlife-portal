@@ -39,12 +39,11 @@ from __future__ import absolute_import
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
+from deploy import captcha
 from .utils.classes import create_class_directly
 from .utils.organisation import create_organisation_directly
 from .utils.student import create_school_student_directly
 from .utils.teacher import signup_teacher_directly
-
-from deploy import captcha
 
 
 class TestTeacherViews(TestCase):
@@ -168,3 +167,38 @@ class TestLoginViews(TestCase):
         url = reverse("register")
         response = c.get(url)
         self.assertRedirects(response, "/play/details/")
+
+
+class TestViews(TestCase):
+    def test_covid_response_page(self):
+        c = Client()
+        home_url = reverse("home")
+        response = c.get(home_url)
+
+        bytes = response.__dict__["_container"][0]
+        html = bytes.decode("utf8")
+
+        page_url = reverse("home-learning")
+
+        expected_html = f"""    <div id="messages">
+        
+        <div class="sub-nav--message">
+            
+            <div class="sub-nav safe message__home-learning success">
+                
+                <img title="Information" alt="Information sign" src="/static/portal/img/icon_info.png">
+                
+                <p>
+                    Families: #KeepKidsCoding! <a href='{page_url}'>Tap here</a> for free, easy, home coding lessons.</p>
+                <a class="x-icon"><img title="Close" alt="Close sign" src="/static/portal/img/icon_close.png"></a>
+            </div>
+            
+        </div>
+        
+    </div>"""
+
+        self.assertIn(expected_html, html)
+
+        response = c.get(page_url)
+
+        self.assertEquals(200, response.status_code)
