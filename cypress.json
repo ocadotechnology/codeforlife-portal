@@ -1,3 +1,6 @@
 {
-  "baseUrl": "localhost:8000"
+  "baseUrl": "http://localhost:8000",
+  "integrationFolder": "portal/tests/",
+  "testFiles": "**/*.spec.js",
+  "video": false
 }
