@@ -49,8 +49,7 @@ def has_completed_auth_setup(u):
 
 class LoggedInAsTeacher(permissions.BasePermission):
     def has_permission(self, request, view):
-        u = request.user
-        return logged_in_as_teacher(u)
+        return logged_in_as_teacher(request.user)
 
 
 def logged_in_as_teacher(user):
