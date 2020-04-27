@@ -106,6 +106,8 @@ class SecurityTestCase(TestCase):
         self.assertEqual(403, response.status_code)
 
     def test_cannot_create_school_with_email_as_name(self):
+        number_of_schools = len(School.objects.all())
+
         email, password = signup_teacher_directly()
 
         client = Client()
@@ -119,12 +121,8 @@ class SecurityTestCase(TestCase):
             "create_organisation": "",
         }
 
-        number_of_schools = len(School.objects.all())
-
         client.post(url, data)
-        school = School.objects.last()
 
-        self.assertNotEqual(email, school.name)
         self.assertEqual(number_of_schools, len(School.objects.all()))
 
     def test_reminder_cards_wrong_teacher(self):
