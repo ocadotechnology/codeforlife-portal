@@ -72,25 +72,25 @@ class OrganisationFuzzyLookup(APIView):
                     Q(name__icontains=part) | Q(postcode__icontains=part)
                 )
 
-            for school in schools:
-                self._search_school(school, school_data)
+            self._search_schools(schools, school_data)
 
         return HttpResponse(json.dumps(school_data), content_type="application/json")
 
-    def _search_school(self, school, school_data):
-        admins = Teacher.objects.filter(school=school, is_admin=True)
-        admin = admins.first()
-        if admin:
-            email = admin.new_user.email
-            admin_domain = "*********" + email[email.find("@") :]
-            school_data.append(
-                {
-                    "id": school.id,
-                    "name": school.name,
-                    "postcode": school.postcode,
-                    "admin_domain": admin_domain,
-                }
-            )
+    def _search_schools(self, schools, school_data):
+        for school in schools:
+            admins = Teacher.objects.filter(school=school, is_admin=True)
+            admin = admins.first()
+            if admin:
+                email = admin.new_user.email
+                admin_domain = "*********" + email[email.find("@") :]
+                school_data.append(
+                    {
+                        "id": school.id,
+                        "name": school.name,
+                        "postcode": school.postcode,
+                        "admin_domain": admin_domain,
+                    }
+                )
 
 
 @login_required(login_url=reverse_lazy("login_view"))
