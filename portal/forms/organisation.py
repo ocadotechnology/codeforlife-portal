@@ -103,7 +103,7 @@ class OrganisationForm(forms.ModelForm):
 
             if is_email:
                 raise forms.ValidationError(
-                    "Please make sure your organisation name has a valid name"
+                    "Please make sure your organisation name is valid"
                 )
 
         return name
