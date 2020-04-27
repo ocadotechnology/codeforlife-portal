@@ -35,20 +35,26 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from functools import wraps
-from django.http import HttpResponseRedirect, HttpResponse
+
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
+from rest_framework import permissions
 
 from portal.utils import using_two_factor
-from rest_framework import permissions
 
 
 def has_completed_auth_setup(u):
     return (not using_two_factor(u)) or (u.is_verified() and using_two_factor(u))
 
 
-def logged_in_as_teacher(u):
+class LoggedInAsTeacher(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return logged_in_as_teacher(request.user)
+
+
+def logged_in_as_teacher(user):
     try:
-        return u.userprofile.teacher and has_completed_auth_setup(u)
+        return user.userprofile.teacher and has_completed_auth_setup(user)
     except AttributeError:
         return False
 

@@ -131,7 +131,7 @@ def render_login_form(request):
         "school_login_form": school_login_form,
         "independent_student_login_form": independent_student_login_form,
         "independent_student_view": independent_student_view,
-        "logged_in_as_teacher": is_logged_in_as_teacher(request),
+        "logged_in_as_teacher": logged_in_as_teacher(request.user),
         "settings": app_settings,
     }
 
@@ -374,15 +374,6 @@ def is_independent_username_already_used(username, independent_students):
     return (
         username and independent_students.filter(new_user__username=username).exists()
     )
-
-
-def is_logged_in_as_teacher(request):
-    logged_in_as_teacher = (
-        hasattr(request.user, "userprofile")
-        and hasattr(request.user.userprofile, "teacher")
-        and (request.user.is_verified() or not using_two_factor(request.user))
-    )
-    return logged_in_as_teacher
 
 
 def is_developer(request):

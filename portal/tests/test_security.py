@@ -37,11 +37,12 @@
 from __future__ import absolute_import
 
 from builtins import str
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.test import Client, TestCase
 
-from portal.models import Student, UserProfile
+from portal.models import Student, UserProfile, School
 from .utils.classes import create_class_directly
 from .utils.teacher import signup_teacher_directly
 
@@ -94,6 +95,35 @@ class SecurityTestCase(TestCase):
             c.get(reverse("teacher_edit_student", kwargs={"pk": "9999"})).status_code,
             c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code,
         )
+
+    def test_cannot_lookup_schools_if_not_logged_in(self):
+        client = Client()
+
+        url = reverse("organisation_fuzzy_lookup")
+        data = {"fuzzy_name": ["A"]}
+        response = client.get(url, data=data)
+
+        self.assertEqual(403, response.status_code)
+
+    def test_cannot_create_school_with_email_as_name(self):
+        number_of_existing_schools = len(School.objects.all())
+
+        email, password = signup_teacher_directly()
+
+        client = Client()
+        client.login(username=email, password=password)
+
+        url = reverse("onboarding-organisation")
+        data = {
+            "name": email,
+            "postcode": "TEST",
+            "country": "GB",
+            "create_organisation": "",
+        }
+
+        client.post(url, data)
+
+        self.assertEqual(number_of_existing_schools, len(School.objects.all()))
 
     def test_reminder_cards_wrong_teacher(self):
         """Try and view reminder cards without being the teacher for that class."""
