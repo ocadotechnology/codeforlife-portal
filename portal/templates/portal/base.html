@@ -177,7 +177,6 @@
                         <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown header__account-details-dropdown"
                                 data-toggle="dropdown">
                             <div class="dropdown__text">{{ user|make_into_username }}</div>
-                            <div class="glyphicon glyphicon-user"></div>
                         </button>
                         <ul class="dropdown-menu header__account-details-dropdown-menu">
                             {% if not request|is_hijacked %}
@@ -218,7 +217,6 @@
                             <button id="login_button" class="button button--regular button--secondary button--secondary--dark login button--dropdown"
                                     data-toggle="dropdown">
                                 <div class="dropdown__text">Log in</div>
-                                <div class="glyphicon glyphicon-user"></div>
                             </button>
                             <ul class="dropdown-menu header__login-options-dropdown-menu">
                                 <li class="dropdown-menu__option">
@@ -242,33 +240,55 @@
         <div id="menu-items" class="collapse">
             {% if user|is_logged_in %}
                 <div class="menu__item">
-                    <div class="button button--jumbo button--secondary button--secondary--dark">
-                        {{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></div>
+                    <h1>{{ user|make_into_username }}</h1>
                 </div>
-                <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
-                <div id="teacher-tabs" class="collapse">
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'teach' %}">Educate</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'dashboard' %}">School / Club</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'levels' %}">Rapid Router</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'teaching_resources' %}">Resources</a>
-                </div>
+                {% if user|is_logged_in_as_teacher %}
+                    <button class="button--menu__item button--menu__item--sub-header" data-toggle="collapse"
+                            data-target="#teacher-tabs">Teacher</button>
+                    <div id="teacher-tabs" class="collapse">
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'teach' %}">Educate<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'dashboard' %}">School / Club<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'teaching_resources' %}">Resources<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    </div>
+                {% endif %}
             {% else %}
-                <div class="menu__item">
-                    <a href="{% url 'register' %}" class="button button--jumbo button--primary--general-play register">Register now</a>
-                    <a href="{% url 'login_view' %}" class="button button--jumbo button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                <a class="button button--menu__item button--menu__item--teacher"
+                   href="{% url 'register' %}">Register now<div class="glyphicon glyphicon-chevron-right"></div></a>
+                <button class="button--menu__item button--menu__item--sub-header" data-toggle="collapse"
+                        data-target="#login-tabs">Log in</button>
+                <div id="login-tabs" class="collapse">
+                    <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                       href="{% url 'login_view' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                       href="{% url 'login_view' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <a class="button button--menu__item button--menu__item--independent button--menu__item__sub"
+                       href="{% url 'login_view' %}">Independent<div class="glyphicon glyphicon-chevron-right"></div></a>
                 </div>
-                <a class="button button--menu__item" href="{% url 'teach' %}">Teacher</a>
+                <a class="button button--menu__item" href="{% url 'teach' %}">Teacher
+                    <div class="glyphicon glyphicon-chevron-right"></div></a>
+                <a class="button button--menu__item" href="{% url 'play' %}">Student
+                    <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% endif %}
-            <a class="button button--menu__item" href="{% url 'play' %}">Student</a>
-            <a class="button button--menu__item" href="{% url 'about' %}">About</a>
-            <a class="button button--menu__item" href="{% url 'help' %}">Help and support</a>
-            <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use</a>
+            <a class="button button--menu__item" href="{% url 'about' %}">About
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <a class="button button--menu__item" href="{% url 'help' %}">Help and support
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
-                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password</a>
-                    <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details</a>
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password
+                        <div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details
+                        <div class="glyphicon glyphicon-chevron-right"></div></a>
                 {% endif %}
-                <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout</a>
+                <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
+                    <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% endif %}
         </div>
     </div>
