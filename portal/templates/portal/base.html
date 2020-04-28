@@ -174,7 +174,7 @@
                 {% if user|is_logged_in %}
                 <div class="menu__right-side col-sm-4">
                     <div class="dropdown header__account-details-dropdown">
-                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown header__account-details-dropdown"
+                        <button id="logout_menu" class="button--regular button--secondary button--dropdown header__account-details-dropdown"
                                 data-toggle="dropdown">
                             <div class="dropdown__text">{{ user|make_into_username }}</div>
                         </button>
@@ -214,7 +214,7 @@
                     <div class="menu__right-side col-sm-5">
                         <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
                         <div class="dropdown">
-                            <button id="login_button" class="button button--regular button--secondary button--secondary--dark login button--dropdown"
+                            <button id="login_button" class="button--regular button--secondary login button--dropdown"
                                     data-toggle="dropdown">
                                 <div class="dropdown__text">Log in</div>
                             </button>
@@ -243,8 +243,8 @@
                     <h1>{{ user|make_into_username }}</h1>
                 </div>
                 {% if user|is_logged_in_as_teacher %}
-                    <button class="button--menu__item button--menu__item--sub-header" data-toggle="collapse"
-                            data-target="#teacher-tabs">Teacher</button>
+                    <button class="button--menu__item button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
                     <div id="teacher-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
                            href="{% url 'teach' %}">Educate<div class="glyphicon glyphicon-chevron-right"></div></a>
@@ -259,8 +259,8 @@
             {% else %}
                 <a class="button button--menu__item button--menu__item--teacher"
                    href="{% url 'register' %}">Register now<div class="glyphicon glyphicon-chevron-right"></div></a>
-                <button class="button--menu__item button--menu__item--sub-header" data-toggle="collapse"
-                        data-target="#login-tabs">Log in</button>
+                <button class="button--menu__item button--menu__item--navigation button--menu__item--sub-header"
+                        data-toggle="collapse" data-target="#login-tabs">Log in</button>
                 <div id="login-tabs" class="collapse">
                     <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
                        href="{% url 'login_view' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
