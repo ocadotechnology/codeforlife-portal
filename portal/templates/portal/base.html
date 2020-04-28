@@ -247,13 +247,36 @@
                             data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
                     <div id="teacher-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
-                           href="{% url 'teach' %}">Educate<div class="glyphicon glyphicon-chevron-right"></div></a>
-                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
                            href="{% url 'dashboard' %}">School / Club<div class="glyphicon glyphicon-chevron-right"></div></a>
                         <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
                            href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
                         <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
-                           href="{% url 'teaching_resources' %}">Resources<div class="glyphicon glyphicon-chevron-right"></div></a>
+                           href="{% url 'teaching_resources' %}">Teaching Resources<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    </div>
+                {% else %}
+                    <button class="button--menu__item button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#student-tabs">Student</button>
+                    <div id="student-tabs" class="collapse">
+                        <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                                data-toggle="collapse" data-target="#games-tabs">My Games</button>
+                        <div id="games-tabs" class="collapse">
+                            <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                               href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                            {% if not user|is_independent_student %}
+                                <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                                   href="{% url 'play_aimmo' %}">Kurono<div class="glyphicon glyphicon-chevron-right"></div></a>
+                            {% endif %}
+                        </div>
+                        <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                                data-toggle="collapse" data-target="#scoreboards-tabs">View Scoreboards</button>
+                        <div id="scoreboards-tabs" class="collapse">
+                            <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                               href="{% url 'scoreboard' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        </div>
+                    {% if not user.new_student.class_field %}
+                        <a class="button button--menu__item button--menu__item--student"
+                           href="{% url 'student_join_organisation' %}">Join a school<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    {% endif %}
                     </div>
                 {% endif %}
             {% else %}
@@ -279,6 +302,8 @@
             <a class="button button--menu__item" href="{% url 'help' %}">Help and support
                 <div class="glyphicon glyphicon-chevron-right"></div></a>
             <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <a class="button button--menu__item" href="{% url 'privacy_policy' %}">Privacy policy
                 <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
