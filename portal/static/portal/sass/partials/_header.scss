@@ -31,7 +31,6 @@
       @include _line-height($spacing * 5);
       @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
-      background: $color-background-tertiary;
       color: $color-text-secondary;
       display: flex;
 
@@ -216,6 +215,36 @@
   .button--menu__item,
   .button--menu__item__sub {
     display: none;
+  }
+
+  .header__login-options-dropdown-menu {
+    width: 100%;
+
+    .button--regular {
+      border-bottom: 1px solid $color-button-secondary-border-light;
+      margin: 0;
+    }
+
+    .button--primary--general-play:hover {
+      background-color: $color-button-primary-action-general-play-hover;
+    }
+
+    .button--primary--general-educate:hover {
+      background-color: $color-button-primary-action-general-educate-hover;
+    }
+
+    .button--primary--negative:hover {
+      background-color: $color-button-primary-action-negative-hover;
+    }
+  }
+
+  .header__account-details-dropdown-menu {
+    .button--regular,
+    .button--regular:hover,
+    .button--regular:focus,
+    .button--regular:visited {
+      background: $color-background-tertiary;
+    }
   }
 }
 
