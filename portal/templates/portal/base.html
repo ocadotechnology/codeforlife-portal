@@ -183,29 +183,29 @@
                             <li class="dropdown-menu__option">
                                 <a class="button--regular button--primary--navigation" id="logout_button" aria-labelledby="Log out"
                                    href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
-                                    <div class="glyphicon glyphicon-log-out"></div>
-                                    <small class="dropdown-menu__option__text">Log out</small></a>
+                                    <small class="dropdown-menu__option__text">Log out</small>
+                                    <div class="glyphicon glyphicon-log-out"></div></a>
                             </li>
                             {% endif %}
                             {% if user|is_logged_in_as_teacher %}
                                 <li class="dropdown-menu__option">
                                     <a class="button--regular button--primary--navigation" aria-labelledby="Change password"
                                        href="{% url 'dashboard' %}#edit_account_details_password">
-                                        <div class="glyphicon glyphicon-lock"></div>
-                                        <small class="dropdown-menu__option__text">Change password</small></a>
+                                        <small class="dropdown-menu__option__text">Change password</small>
+                                        <div class="glyphicon glyphicon-lock"></div></a>
                                 </li>
                                 <li class="dropdown-menu__option">
                                     <a class="button--regular button--primary--navigation" aria-labelledby="Update my details"
                                        href="{% url 'dashboard' %}#account">
-                                        <div class="glyphicon glyphicon-user"></div>
-                                        <small class="dropdown-menu__option__text">Update my details</small></a>
+                                        <small class="dropdown-menu__option__text">Update my details</small>
+                                        <div class="glyphicon glyphicon-user"></div></a>
                                 </li>
                             {% else %}
                                 <li class="dropdown-menu__option">
                                     <a class="button--regular button--primary--navigation" aria-labelledby="Change password"
                                        href="{% url 'student_edit_account' %}" id="student_edit_account_button">
-                                        <div class="glyphicon glyphicon-lock"></div>
-                                        <small class="dropdown-menu__option__text">Change password</small></a>
+                                        <small class="dropdown-menu__option__text">Change password</small>
+                                        <div class="glyphicon glyphicon-lock"></div></a>
                                 </li>
                             {% endif %}
                         </ul>
