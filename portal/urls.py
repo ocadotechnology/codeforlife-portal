@@ -202,7 +202,7 @@ urlpatterns = [
     url(r"^home-learning", home_learning, name="home-learning"),
     url(r"^register_form", register_view, name="register"),
     url(r"^login_form", login_view, name="login_view"),
-    url(r"^login/teacher/$", TeacherLoginView.as_view(), name="login_as_teacher",),
+    url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login",),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
     url(
