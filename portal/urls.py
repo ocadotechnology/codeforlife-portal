@@ -128,7 +128,7 @@ from portal.views.teacher.teach import (
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from portal.views.login.teacher import TeacherLoginView
+from portal.views.login import TeacherLoginView, IndependentStudentLoginView
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -203,6 +203,11 @@ urlpatterns = [
     url(r"^register_form", register_view, name="register"),
     url(r"^login_form", login_view, name="login_view"),
     url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login",),
+    url(
+        r"^login/independent/$",
+        IndependentStudentLoginView.as_view(),
+        name="independent_student_login",
+    ),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
     url(

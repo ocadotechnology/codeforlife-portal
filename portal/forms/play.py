@@ -41,6 +41,7 @@ from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
@@ -245,7 +246,7 @@ class IndependentStudentSignupForm(forms.Form):
         return self.cleaned_data
 
 
-class IndependentStudentLoginForm(forms.Form):
+class IndependentStudentLoginForm(AuthenticationForm):
     username = forms.CharField(
         label="Username", widget=forms.TextInput(attrs={"placeholder": "rosie_f"})
     )
@@ -253,30 +254,15 @@ class IndependentStudentLoginForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def clean(self):
-        username = self.cleaned_data.get("username", None)
-        password = self.cleaned_data.get("password", None)
+    def _is_independent_student(self, user):
+        try:
+            return bool(user.userprofile.student)
+        except AttributeError:
+            return False
 
-        if username and password:
-            students = Student.objects.filter(
-                class_field=None, new_user__username=username
-            )
-            if not students.exists():
-                raise forms.ValidationError("Incorrect username or password")
-
-            user = authenticate(username=username, password=password)
-
-            self.check_for_errors(user)
-
-            self.user = user
-
-        return self.cleaned_data
-
-    def check_for_errors(self, user):
-        if user is None:
+    def confirm_login_allowed(self, user):
+        if not self._is_independent_student(user):
             raise forms.ValidationError("Incorrect username or password")
-        if not user.is_active:
-            raise forms.ValidationError("This user account has been deactivated")
 
 
 class StudentJoinOrganisationForm(forms.Form):
