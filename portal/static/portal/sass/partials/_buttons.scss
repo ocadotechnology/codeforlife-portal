@@ -260,12 +260,21 @@ button,
     @include _padding(0px, 0px, 0px, 10px);
     display: inline-flex;
   }
+
+  &:after {
+    @include _font-size(12px);
+    @include _padding(0px, 0px, 0px, $spacing * 5);
+    content: "\e252";
+    font-family: "Glyphicons Halflings";
+  }
 }
 
 .button--dropdown[aria-expanded='true'] {
   @include _border-radius(8px, 8px, 0px, 0px);
-  background: $color-background-tertiary;
-  color: $color-text-secondary;
+
+  &:after {
+    content: "\e253";
+  }
 }
 
 .button--secondary--no-border {
@@ -340,6 +349,7 @@ button,
     display: flex;
     font-weight: 600;
     height: 60px;
+    justify-content: space-between;
     text-align: left;
     width: 100%;
   }
@@ -376,11 +386,37 @@ button,
     }
   }
 
-  .button--menu__item__sub {
-    @include _font-size(30px);
-    @include _padding(0px, 0px, 0px, 50px);
+  .button--menu__item--sub-header {
+    &:after {
+      content: "\e252";
+      font-family: "Glyphicons Halflings";
+    }
+  }
+
+  .button--menu__item--sub-header[aria-expanded='true'] {
+    &:after {
+      content: "\e253";
+    }
+  }
+
+  .button--menu__item--navigation {
+    background-color: $color-background-tint-quinary;
+    color: $color-text-tertiary;
+  }
+
+  .button--menu__item--teacher {
     background-color: $color-background-teach;
-    font-weight: 500;
-    text-align: left;
+  }
+
+  .button--menu__item--student {
+    background-color: $color-background-play;
+  }
+
+  .button--menu__item--independent {
+    background-color: $color-background-play-indep;
+  }
+
+  .button--menu__item__sub {
+    padding-left: 30px;
   }
 }

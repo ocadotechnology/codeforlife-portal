@@ -34,9 +34,11 @@
       border-bottom: 1px solid $color-button-secondary-border-light;
       color: $color-text-secondary;
       display: flex;
+      justify-content: space-between;
       margin: 0;
 
       .dropdown-menu__option__text {
+        font-weight: 600;
         text-decoration: none;
       }
 
