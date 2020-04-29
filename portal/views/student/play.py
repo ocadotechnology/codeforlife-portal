@@ -47,8 +47,8 @@ from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.permissions import logged_in_as_student
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("student_login"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("student_login"))
 def student_details(request):
     return render(request, "portal/play/student_details.html")
 

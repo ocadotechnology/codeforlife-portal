@@ -224,7 +224,7 @@
                                         <small class="dropdown-menu__option__text">Teacher</small></a>
                                 </li>
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--primary--general-educate" aria-labelledby="Student" href="">
+                                    <a class="button--regular button--primary--general-educate" aria-labelledby="Student" href="{% url 'student_login' %}">
                                         <small class="dropdown-menu__option__text">Student</small></a>
                                 </li>
                                 <li class="dropdown-menu__option">
@@ -288,7 +288,7 @@
                     <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
                        href="{% url 'teacher_login' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
                     <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                       href="{% url 'login_view' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
+                       href="{% url 'student_login' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
                     <a class="button button--menu__item button--menu__item--independent button--menu__item__sub"
                        href="{% url 'independent_student_login' %}">Independent<div class="glyphicon glyphicon-chevron-right"></div></a>
                 </div>

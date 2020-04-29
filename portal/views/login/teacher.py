@@ -1,10 +1,9 @@
-from two_factor.views import LoginView
-from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
-from portal.forms.teach import TeacherLoginForm
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
-from portal.utils import using_two_factor
+from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
+from two_factor.views import LoginView
+
+from portal.forms.teach import TeacherLoginForm
 
 
 class TeacherLoginView(LoginView):

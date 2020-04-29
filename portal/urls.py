@@ -43,55 +43,59 @@ from django.views.i18n import javascript_catalog
 from game.views.level import play_default_level
 from two_factor.urls import urlpatterns as two_factor_urls
 from two_factor.views import (
-    DisableView,
     BackupTokensView,
-    SetupCompleteView,
-    SetupView,
+    DisableView,
+    LoginView,
     ProfileView,
     QRGeneratorView,
-    LoginView,
+    SetupCompleteView,
+    SetupView,
 )
 
 from portal.permissions import teacher_verified
 from portal.views.about import about
-from portal.views.admin import aggregated_data, schools_map, AdminLoginView
+from portal.views.admin import AdminLoginView, aggregated_data, schools_map
 from portal.views.aimmo.home import AimmoHomeView
 from portal.views.api import (
-    registered_users,
+    InactiveUsersView,
     last_connected_since,
     number_users_per_country,
-    InactiveUsersView,
+    registered_users,
 )
-from portal.views.email import send_new_users_report
-from portal.views.email import verify_email
+from portal.views.email import send_new_users_report, verify_email
 from portal.views.help_and_support import contact
 from portal.views.home import (
-    login_view,
-    logout_view,
-    register_view,
-    process_newsletter_form,
     home,
     home_learning,
+    login_view,
+    logout_view,
+    process_newsletter_form,
+    register_view,
+)
+from portal.views.login import (
+    IndependentStudentLoginView,
+    StudentLoginView,
+    TeacherLoginView,
 )
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
-    organisation_manage,
     organisation_leave,
+    organisation_manage,
 )
 from portal.views.play_aimmo import play_aimmo
 from portal.views.play_landing_page import play_landing_page
 from portal.views.play_rapid_router import play_rapid_router
 from portal.views.privacy_policy import privacy_policy
 from portal.views.registration import (
-    teacher_password_reset,
+    password_reset_check_and_confirm,
     password_reset_done,
     student_password_reset,
-    password_reset_check_and_confirm,
+    teacher_password_reset,
 )
 from portal.views.student.edit_account_details import (
-    student_edit_account,
-    SchoolStudentEditAccountView,
     IndependentStudentEditAccountView,
+    SchoolStudentEditAccountView,
+    student_edit_account,
 )
 from portal.views.student.play import student_details, student_join_organisation
 from portal.views.teach import teach
@@ -101,34 +105,33 @@ from portal.views.teacher.dashboard import (
     organisation_deny_join,
     organisation_kick,
     organisation_toggle_admin,
+    teacher_accept_student_request,
     teacher_disable_2FA,
     teacher_reject_student_request,
-    teacher_accept_student_request,
 )
 from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
-    teacher_onboarding_create_class,
-    teacher_onboarding_edit_class,
-    teacher_view_class,
-    teacher_edit_class,
-    teacher_move_class,
-    teacher_edit_student,
-    teacher_student_reset,
+    default_solution,
+    invite_teacher,
     materials_viewer,
-    teacher_print_reminder_cards,
-    teacher_delete_students,
-    teacher_delete_class,
     teacher_class_password_reset,
+    teacher_delete_class,
+    teacher_delete_students,
+    teacher_dismiss_students,
+    teacher_edit_class,
+    teacher_edit_student,
+    teacher_move_class,
     teacher_move_students,
     teacher_move_students_to_class,
-    default_solution,
-    teacher_dismiss_students,
-    invite_teacher,
+    teacher_onboarding_create_class,
+    teacher_onboarding_edit_class,
+    teacher_print_reminder_cards,
+    teacher_student_reset,
+    teacher_view_class,
 )
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from portal.views.login import TeacherLoginView, IndependentStudentLoginView
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -203,6 +206,7 @@ urlpatterns = [
     url(r"^register_form", register_view, name="register"),
     url(r"^login_form", login_view, name="login_view"),
     url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login",),
+    url(r"^login/student/$", StudentLoginView.as_view(), name="student_login",),
     url(
         r"^login/independent/$",
         IndependentStudentLoginView.as_view(),
