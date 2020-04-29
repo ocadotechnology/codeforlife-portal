@@ -26,6 +26,7 @@
             <form id="form-login-teacher" method="post">
 
                 {% csrf_token %}
+                {{ wizard.management_form }}
 
                 {{ form.non_field_errors }}
 
