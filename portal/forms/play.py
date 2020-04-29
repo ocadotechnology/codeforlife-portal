@@ -48,8 +48,8 @@ from portal.helpers.password import form_clean_password
 from portal.models import Student, Class, stripStudentName
 
 
-class StudentLoginForm(forms.Form):
-    name = forms.CharField(
+class StudentLoginForm(AuthenticationForm):
+    username = forms.CharField(
         label="Name", widget=forms.TextInput(attrs={"placeholder": "Jane"})
     )
     access_code = forms.CharField(
@@ -60,8 +60,13 @@ class StudentLoginForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
+    error_messages = {
+        "invalid_login": "Invalid name, class access code or password",
+        "inactive": "This account is inactive.",
+    }
+
     def clean(self):
-        name = self.cleaned_data.get("name", None)
+        name = self.cleaned_data.get("username", None)
         access_code = self.cleaned_data.get("access_code", None)
         password = self.cleaned_data.get("password", None)
 
@@ -70,8 +75,8 @@ class StudentLoginForm(forms.Form):
             student, user = self.check_for_errors(name, access_code, password)
 
             self.student = student
-            self.user = user
-
+            self.user_cache = user
+            self.cleaned_data["username"] = student.new_user.username
         return self.cleaned_data
 
     def check_for_errors(self, name, access_code, password):
@@ -256,7 +261,7 @@ class IndependentStudentLoginForm(AuthenticationForm):
 
     def _is_independent_student(self, user):
         try:
-            return bool(user.userprofile.student)
+            return user.userprofile.student.class_field is None
         except AttributeError:
             return False
 
