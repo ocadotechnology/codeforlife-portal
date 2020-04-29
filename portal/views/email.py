@@ -73,7 +73,19 @@ def verify_email(request, token):
         request, "Your email address was successfully verified, please log in."
     )
 
-    return HttpResponseRedirect(reverse_lazy("login_view"))
+    if _is_independent_student(user):
+        login_url = "independent_student_login"
+    else:
+        login_url = "teacher_login"
+
+    return HttpResponseRedirect(reverse_lazy(login_url))
+
+
+def _is_independent_student(user):
+    try:
+        return bool(user.userprofile.student)
+    except AttributeError:
+        return False
 
 
 def has_verification_failed(verifications):
