@@ -66,7 +66,7 @@ from portal import app_settings
 from portal.helpers.captcha import remove_captcha_from_form
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy("login_view"))
+@user_passes_test(not_logged_in, login_url=reverse_lazy("student_login"))
 def student_password_reset(request):
     usertype = "STUDENT"
     return password_reset(
@@ -232,7 +232,7 @@ def user_is_authenticated(user, token_generator, token):
     return user is not None and token_generator.check_token(user, token)
 
 
-@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("login_view"))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("home"))
 def password_reset_check_and_confirm(request, uidb64=None, token=None):
     """
     Customised standard django auth view with customised form to incorporate checking the password set is strong enough

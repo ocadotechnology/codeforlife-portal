@@ -67,7 +67,6 @@ from portal.views.help_and_support import contact
 from portal.views.home import (
     home,
     home_learning,
-    login_view,
     logout_view,
     process_newsletter_form,
     register_view,
