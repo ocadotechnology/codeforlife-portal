@@ -260,7 +260,7 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page, _, _ = signup_duplicate_teacher_fail(page, email)
-        assert page.__class__.__name__ == "LoginPage"
+        assert page.__class__.__name__ == "TeacherLoginPage"
 
     def test_signup_failure_short_password(self):
         self.selenium.get(self.live_server_url)
@@ -281,7 +281,7 @@ class TestTeacher(BaseTest):
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
-        page = page.go_to_login_page()
+        page = page.go_to_teacher_login_page()
         page = page.login_failure(
             "non-existent-email@codeforlife.com", "Incorrect password"
         )
@@ -296,7 +296,7 @@ class TestTeacher(BaseTest):
         create_school_student_directly(access_code)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
-        page = page.go_to_login_page()
+        page = page.go_to_teacher_login_page()
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
 
@@ -314,7 +314,7 @@ class TestTeacher(BaseTest):
         create_school_student_directly(access_code)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
-        page = page.go_to_login_page()
+        page = page.go_to_teacher_login_page()
         page = page.login(email, password)
 
         assert self.is_dashboard_page(page)
@@ -338,7 +338,7 @@ class TestTeacher(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
         page = page.change_teacher_details(
             {
@@ -366,7 +366,11 @@ class TestTeacher(BaseTest):
         create_school_student_directly(access_code_2)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email_2, password_2)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+        )
 
         page = page.change_teacher_details(
             {
@@ -384,19 +388,22 @@ class TestTeacher(BaseTest):
         )
 
     def test_change_email(self):
+        import time
+
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
         new_email = "another-email@codeforlife.com"
         page = page.change_email("Test", "Teacher", new_email, password)
         assert page.__class__.__name__ == "EmailVerificationNeededPage"
         assert is_teacher_email_updated_message_showing(self.selenium)
 
+        print(mail.outbox[0].message())
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
 
@@ -425,7 +432,11 @@ class TestTeacher(BaseTest):
         page.teacher_reset_password(new_password)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, new_password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, new_password)
+        )
         assert self.is_dashboard_page(page)
 
     def test_reset_password_fail(self):
@@ -441,7 +452,7 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .go_to_teacher_forgotten_password_page()
         )
         return page
