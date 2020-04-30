@@ -44,6 +44,14 @@ class HomePage(BasePage):
         super(HomePage, self).__init__(browser)
         assert self.on_correct_page("home_page")
 
+    def go_to_teacher_login_page(self):
+        self.browser.find_element_by_id("login_dropdown").click()
+        self.browser.find_element_by_id("teacher_login_button").click()
+
+        from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
+
+        return TeacherLoginPage(self.browser)
+
     def go_to_login_page(self):
         self.browser.find_element_by_id("login_button").click()
 

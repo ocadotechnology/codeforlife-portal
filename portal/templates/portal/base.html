@@ -214,13 +214,13 @@
                     <div class="menu__right-side col-sm-5">
                         <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
                         <div class="dropdown">
-                            <button id="login_button" class="button--regular button--secondary login button--dropdown"
+                            <button id="login_dropdown" class="button--regular button--secondary login button--dropdown"
                                     data-toggle="dropdown">
                                 <div class="dropdown__text">Log in</div>
                             </button>
                             <ul class="dropdown-menu header__login-options-dropdown-menu">
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--primary--general-play" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
+                                    <a id="teacher_login_button" class="button--regular button--primary--general-play" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
                                         <small class="dropdown-menu__option__text">Teacher</small></a>
                                 </li>
                                 <li class="dropdown-menu__option">

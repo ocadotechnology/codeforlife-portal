@@ -408,18 +408,16 @@ def redirect_teacher_to_correct_page(request, teacher):
                     ),
                     extra_tags="safe",
                 )
-                return HttpResponseRedirect(reverse_lazy("dashboard"))
+                return reverse_lazy("dashboard")
             else:
-                return HttpResponseRedirect(
-                    reverse_lazy(
-                        "onboarding-class",
-                        kwargs={"access_code": classes[0].access_code},
-                    )
+                return reverse_lazy(
+                    "onboarding-class", kwargs={"access_code": classes[0].access_code},
                 )
+
         else:
-            return HttpResponseRedirect(reverse_lazy("onboarding-classes"))
+            return reverse_lazy("onboarding-classes")
     else:
-        return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
+        return reverse_lazy("onboarding-organisation")
 
 
 @csrf_exempt
