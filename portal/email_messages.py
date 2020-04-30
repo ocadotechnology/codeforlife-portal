@@ -91,7 +91,7 @@ def emailChangeNotificationEmail(request):
 
 def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
     if is_independent_student:
-        login_url = reverse("independent_login")
+        login_url = reverse("independent_student_login")
     else:
         login_url = reverse("teacher_login")
 

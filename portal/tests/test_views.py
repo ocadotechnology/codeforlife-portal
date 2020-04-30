@@ -103,9 +103,10 @@ class TestLoginViews(TestCase):
         email, password, _, _, _, url = self._set_up_test_data(next_url)
 
         if next_url:
-            url = reverse("login_view") + "/?next=/"
+            url = reverse("teacher_login") + "/?next=/"
         else:
-            url = reverse("login_view")
+            url = reverse("            url = reverse("teacher_login") + "/?next=/"
+")
         c = Client()
         response = c.post(
             url,

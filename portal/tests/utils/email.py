@@ -45,16 +45,22 @@ def follow_verify_email_link_to_onboarding(page, email):
     return go_to_teacher_login_page(page.browser)
 
 
-def follow_verify_email_link_to_login(page, email):
+def follow_verify_email_link_to_login(page, email, user_type):
     _follow_verify_email_link(page, email)
 
-    return go_to_teacher_login_page(page.browser)
+    if user_type == "teacher":
+        return go_to_teacher_login_page(page.browser)
+    elif user_type == "independent":
+        return go_to_independent_student_login_page(page.browser)
 
 
-def follow_duplicate_account_link_to_login(page, email):
+def follow_duplicate_account_link_to_login(page, email, user_type):
     _follow_duplicate_account_email_link(page, email)
 
-    return go_to_teacher_login_page(page.browser)
+    if user_type == "teacher":
+        return go_to_teacher_login_page(page.browser)
+    elif user_type == "independent":
+        return go_to_independent_student_login_page(page.browser)
 
 
 def _follow_verify_email_link(page, email):
@@ -72,6 +78,7 @@ def _follow_duplicate_account_email_link(page, email):
     i = str.find(message, prefix) + len(prefix)
     suffix = '" rel="nofollow">'
     j = str.find(message, suffix, i)
+    print(message[i:j])
     page.browser.get(message[i:j])
 
 
@@ -108,3 +115,11 @@ def go_to_teacher_login_page(browser):
     from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
 
     return TeacherLoginPage(browser)
+
+
+def go_to_independent_student_login_page(browser):
+    from portal.tests.pageObjects.portal.independent_login_page import (
+        IndependentStudentLoginPage,
+    )
+
+    return IndependentStudentLoginPage(browser)
