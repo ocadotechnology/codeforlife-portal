@@ -11,8 +11,8 @@ from portal.strings.materials import MATERIALS_BANNER
 from portal.views.teacher.pdfs import PDF_DATA
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def materials(request):
 
     session_names = [

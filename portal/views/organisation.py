@@ -93,9 +93,9 @@ class OrganisationFuzzyLookup(APIView):
                 )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(
-    permissions.logged_in_as_teacher, login_url=reverse_lazy("login_view")
+    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
 )
 def organisation_create(request):
 
@@ -239,17 +239,17 @@ def process_revoke_request(request, teacher):
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(
-    permissions.logged_in_as_teacher, login_url=reverse_lazy("login_view")
+    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
 )
 def organisation_manage(request):
     return organisation_create(request)
 
 
-@login_required(login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(
-    permissions.logged_in_as_teacher, login_url=reverse_lazy("login_view")
+    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
 )
 def organisation_leave(request):
     teacher = request.user.new_teacher
