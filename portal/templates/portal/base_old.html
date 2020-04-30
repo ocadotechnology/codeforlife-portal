@@ -211,21 +211,21 @@
                     <div class="menu__right-side col-sm-5">
                         <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
                         <div class="dropdown">
-                            <button id="login_button" class="button--regular button--secondary login button--dropdown"
+                            <button id="login_dropdown" class="button--regular button--secondary login button--dropdown"
                                     data-toggle="dropdown">
                                 <div class="dropdown__text">Log in</div>
                             </button>
                             <ul class="dropdown-menu header__login-options-dropdown-menu">
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--primary--general-play" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
+                                    <a id="teacher_login_button" class="button--regular button--primary--general-play" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
                                         <small class="dropdown-menu__option__text">Teacher</small></a>
                                 </li>
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--primary--general-educate" aria-labelledby="Student" href="">
+                                    <a class="button--regular button--primary--general-educate" aria-labelledby="Student" href="{% url 'student_login' %}">
                                         <small class="dropdown-menu__option__text">Student</small></a>
                                 </li>
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--primary--negative" aria-labelledby="Independent" href="">
+                                    <a class="button--regular button--primary--negative" aria-labelledby="Independent" href="{% url 'independent_student_login' %}">
                                         <small class="dropdown-menu__option__text">Independent</small></a>
                                 </li>
                             </ul>
@@ -283,11 +283,11 @@
                         data-toggle="collapse" data-target="#login-tabs">Log in</button>
                 <div id="login-tabs" class="collapse">
                     <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
-                       href="{% url 'login_view' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
+                       href="{% url 'teacher_login' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
                     <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                       href="{% url 'login_view' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
+                       href="{% url 'student_login' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
                     <a class="button button--menu__item button--menu__item--independent button--menu__item__sub"
-                       href="{% url 'login_view' %}">Independent<div class="glyphicon glyphicon-chevron-right"></div></a>
+                       href="{% url 'independent_student_login' %}">Independent<div class="glyphicon glyphicon-chevron-right"></div></a>
                 </div>
                 <a class="button button--menu__item" href="{% url 'teach' %}">Teacher
                     <div class="glyphicon glyphicon-chevron-right"></div></a>

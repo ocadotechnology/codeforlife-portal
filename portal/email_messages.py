@@ -113,7 +113,7 @@ def indepStudentUsernameAlreadyExistsEmail(request, username):
     return {
         "subject": f"{emailSubjectPrefix()}: Username already taken",
         "message": f"A user is already registered with this username: {username}.\n"
-        f"If you've already registered, please login: {request.build_absolute_uri(reverse('login_view'))}.\n"
+        f"If you've already registered, please login: {request.build_absolute_uri(reverse('independent_student_login'))}.\n"
         f"Otherwise please register with a different username."
         f"{emailBodySignOff(request)}",
     }
