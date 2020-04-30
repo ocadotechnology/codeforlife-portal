@@ -174,15 +174,46 @@ class TeacherLoginForm(AuthenticationForm):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def _is_teacher(self, user):
-        try:
-            return bool(user.userprofile.teacher)
-        except AttributeError:
-            return False
+    def clean(self):
+        email = self.cleaned_data.get("username", None)
+        password = self.cleaned_data.get("password", None)
 
-    def confirm_login_allowed(self, user):
-        if not self._is_teacher(user):
+        if email and password:
+
+            # Check it's a teacher and not a student using the same email address
+            user = None
+
+            user = self.find_user(email, user)
+
+            user = authenticate(username=user.username, password=password)
+
+            self.check_email_errors(user)
+
+            self.user_cache = user
+
+        return self.cleaned_data
+
+    def find_user(self, email, user):
+        users = User.objects.filter(email=email)
+
+        for result in users:
+            if hasattr(result, "userprofile") and hasattr(
+                result.userprofile, "teacher"
+            ):
+                user = result
+                break
+
+        if user is None:
             raise forms.ValidationError("Incorrect email address or password")
+
+        return user
+
+    def check_email_errors(self, user):
+        if user is None:
+            raise forms.ValidationError("Incorrect email address or password")
+
+        if not user.is_active:
+            raise forms.ValidationError("User account has been deactivated")
 
 
 class ClassCreationForm(forms.Form):
