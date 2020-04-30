@@ -65,8 +65,8 @@ from portal.utils import using_two_factor
 from portal.views.teacher.teach import give_student_access_to_aimmo_games
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
@@ -253,8 +253,8 @@ def process_update_account_form(request, teacher, old_anchor):
     return changing_email, new_email, anchor
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def dashboard_manage(request):
     teacher = request.user.new_teacher
 
@@ -264,8 +264,8 @@ def dashboard_manage(request):
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_allow_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -292,8 +292,8 @@ def organisation_allow_join(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_deny_join(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -327,8 +327,8 @@ def check_teacher_is_authorised(teacher, user):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_kick(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -383,8 +383,8 @@ def organisation_kick(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_toggle_admin(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -411,8 +411,8 @@ def organisation_toggle_admin(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_disable_2FA(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     user = request.user.new_teacher
@@ -427,8 +427,8 @@ def teacher_disable_2FA(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_new"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_accept_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
     teacher = request.user.new_teacher
@@ -492,8 +492,8 @@ def check_student_can_be_accepted(request, student):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_reject_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
 

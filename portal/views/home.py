@@ -69,7 +69,7 @@ from portal.utils import using_two_factor
 
 
 def teach_email_labeller(request):
-    if request.method == "POST" and "login_view" in request.POST:
+    if request.method == "POST" and "teacher_login" in request.POST:
         return request.POST["login-teacher_email"]
 
     return ""

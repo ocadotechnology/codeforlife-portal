@@ -38,6 +38,7 @@
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic.edit import FormView
@@ -78,12 +79,12 @@ def _process_form(self, process_function, form, view):
     return super(view, self).form_valid(form)
 
 
-class SchoolStudentEditAccountView(FormView):
+class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
     """
     A FormView for editing a school student's account details. This forms enables a
     school student to change their password.
     """
-
+    login_url = reverse_lazy("student_login")
     form_class = StudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     success_url = reverse_lazy("student_details")
@@ -110,12 +111,12 @@ class SchoolStudentEditAccountView(FormView):
         return _get_form(self, form_class)
 
 
-class IndependentStudentEditAccountView(FormView):
+class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     """
     A FormView for editing an independent student's account details. This forms enables
     an independent student to change their name, their email and / or their password.
     """
-
+    login_url = reverse_lazy("independent_student_login")
     form_class = IndependentStudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     model = Student
@@ -171,11 +172,11 @@ class IndependentStudentEditAccountView(FormView):
         student.new_user.save()
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("home"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("home"))
 def student_edit_account(request):
     student = request.user.new_student
     if student.is_independent():
-        return HttpResponseRedirect(reverse_lazy("indenpendent_edit_account"))
+        return HttpResponseRedirect(reverse_lazy("independent_edit_account"))
     else:
         return HttpResponseRedirect(reverse_lazy("school_student_edit_account"))
