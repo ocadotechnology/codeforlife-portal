@@ -61,19 +61,27 @@
       }
     }
 
-    .button--primary--general-play:hover {
+    .button--primary--general-play:hover,
+    .button--primary--general-play:focus,
+    .button--primary--general-play:visited {
       background-color: $color-button-primary-action-general-play-hover;
     }
 
-    .button--primary--general-educate:hover {
+    .button--primary--general-educate:hover,
+    .button--primary--general-educate:focus,
+    .button--primary--general-educate:visited {
       background-color: $color-button-primary-action-general-educate-hover;
     }
 
-    .button--primary--negative:hover {
+    .button--primary--negative:hover,
+    .button--primary--negative:focus,
+    .button--primary--negative:visited {
       background-color: $color-button-primary-action-negative-hover;
     }
 
-    .button--primary--navigation:hover {
+    .button--primary--navigation:hover,
+    .button--primary--navigation:focus,
+    .button--primary--navigation:visited {
       background: $color-button-primary-action-navigation-hover;
     }
   }
