@@ -327,7 +327,9 @@ def process_independent_student_signup_form(request, data):
     independent_students = Student.objects.filter(class_field=None)
 
     if is_independent_email_already_used(email, independent_students):
-        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+        email_message = email_messages.userAlreadyRegisteredEmail(
+            request, email, is_independent_student=True
+        )
         send_email(
             NOTIFICATION_EMAIL,
             [email],
