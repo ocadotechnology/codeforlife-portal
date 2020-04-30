@@ -56,7 +56,7 @@
 		    	<a><strong>I am a teacher and have forgotten my password. How do I reset it?</strong></a>
 		    </label>
 		    <answer>
-		        <p>Go to the <a href="{% url 'independent_student_login' %}">login</a> page and select the forgotten password link at the bottom of the log in form to be
+		        <p>Go to the <a href="{% url 'teacher_login' %}">login</a> page and select the forgotten password link at the bottom of the log in form to be
                     sent a link to reset your password.</p>
 		    </answer>
 		</div>
@@ -67,7 +67,7 @@
 		    	<a><strong>I am an independent student and have forgotten my password. How do I reset it?</strong></a>
 		    </label>
 		    <answer>
-		    	<p>Go to the <a href="{% url 'login_view' %}">login</a> page, go to the independent students&rsquo; login form and select the forgotten password
+		    	<p>Go to the <a href="{% url 'independent_student_login' %}">login</a> page and select the forgotten password
                     link at the bottom of the log in form to be sent a link to reset your password.</p>
 		    </answer>
 		</div>
@@ -189,7 +189,7 @@
 		        <a><strong>I&rsquo;ve set up my students. How do they log in?</strong></a>
 		    </label>
 		    <answer>
-		        <p>School students log in via the <a href="{% url 'login_view' %}">login</a> page, using their name, class access code, and password to sign in.</p>
+		        <p>School students log in via the <a href="{% url 'student_login' %}">login</a> page, using their name, class access code, and password to sign in.</p>
 		    </answer>
 		</div>
 
