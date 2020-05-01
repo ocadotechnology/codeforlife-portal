@@ -1,55 +1,45 @@
 from django.contrib.auth import login
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils.http import is_safe_url
-from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
-from two_factor.views import LoginView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+
+from portal import handlers
 
 from portal.forms.teach import TeacherLoginForm
 from portal.views.home import redirect_teacher_to_correct_page
+from portal.permissions import logged_in_as_teacher
+from portal.utils import using_two_factor
 
 
 class TeacherLoginView(LoginView):
-    TEMPLATES = {
-        "auth": "portal/login/teacher.html",
-        "token": "two_factor/core/login.html",
-        "backup": "two_factor/core/login.html",
-    }
-    form_list = (
-        ("auth", TeacherLoginForm),
-        ("token", AuthenticationTokenForm),
-        ("backup", BackupTokenForm),
-    )
     template_name = "portal/login/teacher.html"
-    redirect_authenticated_user = reverse_lazy("dashboard")
-
-    def get_template_names(self):
-        return [self.TEMPLATES[self.steps.current]]
+    form_class = TeacherLoginForm
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect(self.redirect_authenticated_user)
+            if logged_in_as_teacher(self.request):
+                return redirect(reverse_lazy("dashboard"))
+            return redirect(reverse_lazy("home"))
         return super(TeacherLoginView, self).get(request, *args, **kwargs)
 
-    def done(self, form_list, **kwargs):
-        user = self.get_user()
-        login(self.request, user)
-
-        redirect_to = self.request.POST.get(
-            self.redirect_field_name, self.request.GET.get(self.redirect_field_name, "")
+    def get_success_url(self):
+        url = self.get_redirect_url()
+        return url or redirect_teacher_to_correct_page(
+            self.request, self.request.user.userprofile.teacher
         )
 
-        if not is_safe_url(url=redirect_to, allowed_hosts=[self.request.get_host()]):
-            redirect_to = redirect_teacher_to_correct_page(
-                self.request, user.userprofile.teacher
+    def form_valid(self, form):
+        user = form.get_user()
+        if using_two_factor(user):
+            return render(
+                self.request,
+                "portal/2FA_redirect.html",
+                {
+                    "form": AuthenticationForm(),
+                    "username": user.username,
+                    "password": form.cleaned_data["password"],
+                },
             )
-
-        device = getattr(self.get_user(), "otp_device", None)
-        if device:
-            signals.user_verified.send(
-                sender=__name__,
-                request=self.request,
-                user=self.get_user(),
-                device=device,
-            )
-        return redirect(redirect_to)
+        return super(TeacherLoginView, self).form_valid(form)
