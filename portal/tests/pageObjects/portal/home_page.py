@@ -70,13 +70,6 @@ class HomePage(BasePage):
 
         return StudentLoginPage(self.browser)
 
-    def go_to_login_page(self):
-        self.browser.find_element_by_id("login_button").click()
-
-        import portal.tests.pageObjects.portal.login_page as login_page
-
-        return login_page.LoginPage(self.browser)
-
     def go_to_signup_page(self):
         self.browser.find_element_by_id("signup_button").click()
 
