@@ -1,10 +1,9 @@
-from django.contrib.auth import login
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect, render
-from django.utils.http import is_safe_url
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 
+# This import is required so that 2FA works properly
 from portal import handlers
 
 from portal.forms.teach import TeacherLoginForm
