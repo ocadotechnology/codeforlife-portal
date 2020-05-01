@@ -314,6 +314,10 @@ button,
   }
 }
 
+.button--login {
+  margin-top: $spacing * 3;
+}
+
 @media (min-width: 768px) {
   .menu__item {
     display: none;
