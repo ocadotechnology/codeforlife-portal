@@ -31,12 +31,14 @@
       @include _line-height($spacing * 5);
       @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
-      background: $color-background-tertiary;
+      border-bottom: 1px solid $color-button-secondary-border-light;
       color: $color-text-secondary;
       display: flex;
+      justify-content: space-between;
+      margin: 0;
 
       .dropdown-menu__option__text {
-        border-bottom: 1px dotted transparent;
+        font-weight: 600;
         text-decoration: none;
       }
 
@@ -48,7 +50,6 @@
 
     .button--regular:hover {
       .dropdown-menu__option__text {
-        border-bottom: 1px solid $color-text-secondary;
         cursor: pointer;
         text-decoration: none;
       }
@@ -58,6 +59,30 @@
       .button--regular {
         border: none;
       }
+    }
+
+    .button--primary--general-play:hover,
+    .button--primary--general-play:focus,
+    .button--primary--general-play:visited {
+      background-color: $color-button-primary-action-general-play-hover;
+    }
+
+    .button--primary--general-educate:hover,
+    .button--primary--general-educate:focus,
+    .button--primary--general-educate:visited {
+      background-color: $color-button-primary-action-general-educate-hover;
+    }
+
+    .button--primary--negative:hover,
+    .button--primary--negative:focus,
+    .button--primary--negative:visited {
+      background-color: $color-button-primary-action-negative-hover;
+    }
+
+    .button--primary--navigation:hover,
+    .button--primary--navigation:focus,
+    .button--primary--navigation:visited {
+      background: $color-button-primary-action-navigation-hover;
     }
   }
 }
@@ -216,6 +241,10 @@
   .button--menu__item,
   .button--menu__item__sub {
     display: none;
+  }
+
+  .header__login-options-dropdown-menu {
+    width: 100%;
   }
 }
 

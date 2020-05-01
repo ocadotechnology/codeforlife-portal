@@ -89,14 +89,19 @@ def emailChangeNotificationEmail(request):
     }
 
 
-def userAlreadyRegisteredEmail(request, email):
+def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
+    if is_independent_student:
+        login_url = reverse("independent_student_login")
+    else:
+        login_url = reverse("teacher_login")
+
     return {
         "subject": emailSubjectPrefix() + ": Duplicate account error",
         "message": (
             "A user is already registered with this email address: "
             + email
             + ".\nIf you've already registered, please login: "
-            + request.build_absolute_uri(reverse("login_view"))
+            + request.build_absolute_uri(login_url)
             + ".\n"
             + "Otherwise please register with a different email address."
             + emailBodySignOff(request)
@@ -108,7 +113,7 @@ def indepStudentUsernameAlreadyExistsEmail(request, username):
     return {
         "subject": f"{emailSubjectPrefix()}: Username already taken",
         "message": f"A user is already registered with this username: {username}.\n"
-        f"If you've already registered, please login: {request.build_absolute_uri(reverse('login_view'))}.\n"
+        f"If you've already registered, please login: {request.build_absolute_uri(reverse('independent_student_login'))}.\n"
         f"Otherwise please register with a different username."
         f"{emailBodySignOff(request)}",
     }

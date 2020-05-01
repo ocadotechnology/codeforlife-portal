@@ -77,7 +77,7 @@ def signup_duplicate_teacher_fail(page, duplicate_email):
 
     page = page.return_to_home_page()
 
-    page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0])
+    page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0], "teacher")
     mail.outbox = []
 
     return page, email_address, password

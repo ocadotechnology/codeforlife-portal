@@ -96,8 +96,8 @@ def get_links(pdf_name):
     return list(zip(links, link_titles))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def materials_viewer(request, pdf_name):
     try:
         title = PDF_DATA[pdf_name]["title"]
@@ -134,8 +134,8 @@ def materials_viewer(request, pdf_name):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def default_solution(request, levelName):
     if 80 <= int(levelName) <= 91:
         return render(
@@ -147,8 +147,8 @@ def default_solution(request, levelName):
         )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_onboarding_create_class(request):
     """
     Onboarding view for creating a class (and organisation if there isn't one, yet)
@@ -256,8 +256,8 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_onboarding_edit_class(request, access_code):
     """
     Adding students to a class during the onboarding process
@@ -276,8 +276,8 @@ def check_user_is_authorised(request, klass):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_view_class(request, access_code):
     """
     Adding students to a class after the onboarding process has been completed
@@ -287,8 +287,8 @@ def teacher_view_class(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
@@ -310,8 +310,8 @@ def teacher_delete_class(request, access_code):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
@@ -334,8 +334,8 @@ def teacher_delete_students(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_edit_class(request, access_code):
     """
     Editing class details
@@ -423,8 +423,8 @@ def process_edit_class_form(request, klass, form):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_edit_student(request, pk):
     """
     Changing a student's details
@@ -497,8 +497,8 @@ def check_if_reset_authorised(request, student):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_student_reset(request, pk):
     """
     Reset a student's password
@@ -526,8 +526,8 @@ def teacher_student_reset(request, pk):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_dismiss_students(request, access_code):
     """
     Dismiss a student (make them independent)
@@ -608,8 +608,8 @@ def process_dismiss_student_form(request, formset, klass, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_class_password_reset(request, access_code):
     """
     Reset passwords for one or more students
@@ -645,8 +645,8 @@ def teacher_class_password_reset(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_move_class(request, access_code):
     """
     Move a class to another teacher
@@ -715,8 +715,8 @@ def remove_access_from_all_aimmo_games(student, teacher):
         game.can_play.remove(student.new_user)
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_move_students(request, access_code):
     """
     Move students
@@ -744,8 +744,8 @@ def teacher_move_students(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_move_students_to_class(request, access_code):
     """
     Disambiguation for moving students (teacher gets to rename the students to avoid clashes)
@@ -846,8 +846,8 @@ def process_move_students_form(request, formset, old_class, new_class):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_print_reminder_cards(request, access_code):
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="student_reminder_cards.pdf"'

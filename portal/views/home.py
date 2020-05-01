@@ -35,29 +35,23 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.contrib import messages as messages
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import logout
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from django.utils.html import escape
-from django.utils.http import is_safe_url
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
 from deploy import captcha
-from portal import app_settings, email_messages
+from portal import email_messages
 from portal.forms.newsletter_form import NewsletterForm
 from portal.forms.play import (
-    StudentLoginForm,
-    IndependentStudentLoginForm,
     IndependentStudentSignupForm,
 )
-from portal.forms.teach import TeacherSignupForm, TeacherLoginForm
+from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
 from portal.helpers.emails import (
     send_verification_email,
-    is_verified,
     send_email,
     NOTIFICATION_EMAIL,
     add_to_dotmailer,
@@ -65,11 +59,10 @@ from portal.helpers.emails import (
 from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.strings.home_learning import HOME_LEARNING_BANNER
-from portal.utils import using_two_factor
 
 
 def teach_email_labeller(request):
-    if request.method == "POST" and "login_view" in request.POST:
+    if request.method == "POST" and "teacher_login" in request.POST:
         return request.POST["login-teacher_email"]
 
     return ""
@@ -84,13 +77,6 @@ def play_name_labeller(request):
             return request.POST["independent_student-username"]
 
     return ""
-
-
-def login_view(request):
-    if request.user.is_authenticated():
-        return redirect_user_to_dashboard(request)
-    else:
-        return render_login_form(request)
 
 
 def register_view(request):
@@ -112,59 +98,6 @@ def redirect_user_to_dashboard(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy("home"))
-
-
-def render_login_form(request):
-    invalid_form = False
-
-    login_form = TeacherLoginForm(prefix="login")
-
-    school_login_form = StudentLoginForm(prefix="login")
-
-    independent_student_login_form = IndependentStudentLoginForm(
-        prefix="independent_student"
-    )
-    independent_student_view = False
-
-    render_dict = {
-        "login_form": login_form,
-        "school_login_form": school_login_form,
-        "independent_student_login_form": independent_student_login_form,
-        "independent_student_view": independent_student_view,
-        "logged_in_as_teacher": logged_in_as_teacher(request.user),
-        "settings": app_settings,
-    }
-
-    if request.method == "POST":
-        form, process_form, render_dict = configure_post_login(request, render_dict)
-
-        if form.is_valid():
-            return process_form(request, form)
-        else:
-            invalid_form = True
-
-    res = render(request, "portal/login.html", render_dict)
-
-    res.count = invalid_form
-    return res
-
-
-def configure_post_login(request, render_dict):
-    if "login-access_code" in request.POST:
-        form = StudentLoginForm(request.POST, prefix="login")
-        process_form = process_student_login_form
-        render_dict["school_login_form"] = form
-    elif "independent_student-username" in request.POST:
-        form = IndependentStudentLoginForm(request.POST, prefix="independent_student")
-        process_form = process_indep_student_login_form
-        render_dict["independent_student_login_form"] = form
-        render_dict["independent_student_view"] = True
-    else:
-        form = TeacherLoginForm(request.POST, prefix="login")
-        process_form = process_login_form
-        render_dict["login_form"] = form
-
-    return form, process_form, render_dict
 
 
 def render_signup_form(request):
@@ -208,75 +141,6 @@ def render_signup_form(request):
 
     res.count = invalid_form
     return res
-
-
-def process_login_form(request, login_form):
-    user = login_form.user
-    if not is_verified(user):
-        send_verification_email(request, user)
-        return render(request, "portal/email_verification_needed.html", {"user": user})
-
-    login(request, login_form.user)
-
-    if using_two_factor(request.user):
-        return render(
-            request,
-            "portal/2FA_redirect.html",
-            {
-                "form": AuthenticationForm(),
-                "username": request.user.username,
-                "password": login_form.cleaned_data["teacher_password"],
-            },
-        )
-
-    next_url = request.GET.get("next", None)
-    if next_url and is_safe_url(next_url):
-        return HttpResponseRedirect(next_url)
-
-    teacher = request.user.userprofile.teacher
-
-    return redirect_teacher_to_correct_page(request, teacher)
-
-
-def process_student_login_form(request, school_login_form):
-    login(request, school_login_form.user)
-
-    next_url = request.GET.get("next", None)
-    if next_url and is_safe_url(next_url):
-        return HttpResponseRedirect(next_url)
-
-    student = request.user.userprofile.student
-    student_class = student.class_field
-    student_school = student_class.teacher.school
-
-    messages.info(
-        request,
-        (
-            "You are logged in as a member of class: <strong>"
-            + escape(student_class.name)
-            + "</strong>, in school or club: <strong>"
-            + escape(student_school.name)
-            + "</strong>."
-        ),
-        extra_tags="safe",
-    )
-
-    return HttpResponseRedirect(reverse_lazy("student_details"))
-
-
-def process_indep_student_login_form(request, independent_student_login_form):
-    user = independent_student_login_form.user
-    if not is_verified(user):
-        send_verification_email(request, user)
-        return render(request, "portal/email_verification_needed.html", {"user": user})
-
-    login(request, independent_student_login_form.user)
-
-    next_url = request.GET.get("next", None)
-    if next_url and is_safe_url(next_url):
-        return HttpResponseRedirect(next_url)
-
-    return HttpResponseRedirect(reverse_lazy("student_details"))
 
 
 def _newsletter_ticked(form_data):
@@ -327,7 +191,9 @@ def process_independent_student_signup_form(request, data):
     independent_students = Student.objects.filter(class_field=None)
 
     if is_independent_email_already_used(email, independent_students):
-        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+        email_message = email_messages.userAlreadyRegisteredEmail(
+            request, email, is_independent_student=True
+        )
         send_email(
             NOTIFICATION_EMAIL,
             [email],
@@ -380,15 +246,6 @@ def is_developer(request):
     return hasattr(request.user, "userprofile") and request.user.userprofile.developer
 
 
-def is_logged_in_as_student(request):
-    is_student = hasattr(request.user, "userprofile") and hasattr(
-        request.user.userprofile, "student"
-    )
-    return (
-        request.user.is_verified() or not using_two_factor(request.user) and is_student
-    )
-
-
 def redirect_teacher_to_correct_page(request, teacher):
     if teacher.has_school():
         classes = teacher.class_teacher.all()
@@ -408,18 +265,16 @@ def redirect_teacher_to_correct_page(request, teacher):
                     ),
                     extra_tags="safe",
                 )
-                return HttpResponseRedirect(reverse_lazy("dashboard"))
+                return reverse_lazy("dashboard")
             else:
-                return HttpResponseRedirect(
-                    reverse_lazy(
-                        "onboarding-class",
-                        kwargs={"access_code": classes[0].access_code},
-                    )
+                return reverse_lazy(
+                    "onboarding-class", kwargs={"access_code": classes[0].access_code},
                 )
+
         else:
-            return HttpResponseRedirect(reverse_lazy("onboarding-classes"))
+            return reverse_lazy("onboarding-classes")
     else:
-        return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
+        return reverse_lazy("onboarding-organisation")
 
 
 @csrf_exempt

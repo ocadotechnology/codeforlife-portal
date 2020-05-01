@@ -1,0 +1,54 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id="homeWrapper"{% endblock %}
+
+{% block subNav %}
+{{ block.super }}
+<div id="independent_login_page"></div>
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+<section class="row">
+    <div class="form--register is-flex form--register--indep-student">
+        <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
+            <h1 class="center-block">Log in as an independent student</h1>
+            <form id="independent_student_login_form" method="post">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <label for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+
+                <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+
+                {{ form.captcha }}
+
+                <button type="submit" name="independent_student_login" class="button--regular button--primary--general-play button--login">Log in</button>
+            </form>
+
+            <p><strong>Forgotten your password?</strong></p>
+            <p>Don&rsquo;t worry, you can
+                <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
+            </p>
+            <p>Part of a school or club? <a href="{% url 'student_login' %}">Log in here</a>.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -43,7 +43,7 @@ from django.views.generic.edit import CreateView
 
 
 class AimmoHomeView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy("login_view")
+    login_url = reverse_lazy("student_login")
     form_class = AddGameForm
     template_name = "portal/aimmo_home.html"
 

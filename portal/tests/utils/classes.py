@@ -53,16 +53,16 @@ generate_details.next_id = 1
 
 
 def create_class_directly(teacher_email, class_name=None):
-    name, accesss_code = generate_details()
+    name, access_code = generate_details()
 
     if class_name is not None:
         name = class_name
 
     teacher = Teacher.objects.get(new_user__email=teacher_email)
 
-    klass = Class.objects.create(name=name, access_code=accesss_code, teacher=teacher)
+    klass = Class.objects.create(name=name, access_code=access_code, teacher=teacher)
 
-    return klass, name, accesss_code
+    return klass, name, access_code
 
 
 def create_class(page):

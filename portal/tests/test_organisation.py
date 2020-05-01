@@ -60,7 +60,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         self.selenium.get(self.live_server_url)
         page = (
-            HomePage(self.selenium).go_to_login_page().login_no_school(email, password)
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_school(email, password)
         )
 
         page, name, postcode = create_organisation(page, password)
@@ -72,7 +74,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_school(email, password)
             .join_empty_organisation()
         )
@@ -87,7 +89,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_school(email_2, password_2)
             .create_organisation_failure(name, password_2, postcode)
         )
@@ -99,7 +101,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         self.selenium.get(self.live_server_url)
         page = (
-            HomePage(self.selenium).go_to_login_page().login_no_school(email, password)
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_school(email, password)
         )
 
         page = page.create_organisation_failure("School", password, "   ")
@@ -113,7 +117,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_school(email_2, password_2)
         )
         page = page.join_organisation(name)
@@ -133,21 +137,23 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_school(email_2, password_2)
             .join_organisation(name)
         )
 
         assert page.__class__.__name__ == "OnboardingRevokeRequestPage"
 
-        page = page.logout().go_to_login_page().login(email_1, password_1)
+        page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
         assert page.has_join_request(email_2)
         page = page.accept_join_request()
 
         assert not page.has_join_request(email_2)
 
-        page = page.logout().go_to_login_page().login_no_class(email_2, password_2)
+        page = (
+            page.logout().go_to_teacher_login_page().login_no_class(email_2, password_2)
+        )
 
         assert page.__class__.__name__ == "OnboardingClassesPage"
 
@@ -161,21 +167,25 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_school(email_2, password_2)
             .join_organisation(name)
         )
 
         assert page.__class__.__name__ == "OnboardingRevokeRequestPage"
 
-        page = page.logout().go_to_login_page().login(email_1, password_1)
+        page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
         assert page.has_join_request(email_2)
         page = page.deny_join_request()
 
         assert not page.has_join_request(email_2)
 
-        page = page.logout().go_to_login_page().login_no_school(email_2, password_2)
+        page = (
+            page.logout()
+            .go_to_teacher_login_page()
+            .login_no_school(email_2, password_2)
+        )
 
         assert page.__class__.__name__ == "OnboardingOrganisationPage"
 
@@ -203,7 +213,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "OnboardingRevokeRequestPage"
 
-        page = page.logout().go_to_login_page().login(email_1, password_1)
+        page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
         page = page.accept_join_request()
 
@@ -237,7 +247,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.login_no_school(email_2, password_2).join_organisation(name)
 
-        page = page.logout().go_to_login_page().login(email_1, password_1)
+        page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
         page = page.accept_join_request()
 
@@ -278,7 +288,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.login_no_school(email_2, password_2).join_organisation(name)
 
-        page = page.logout().go_to_login_page().login(email_1, password_1)
+        page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
         page = page.accept_join_request()
 
@@ -287,7 +297,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = page.logout().go_to_login_page().login(email_2, password_2)
+        page = page.logout().go_to_teacher_login_page().login(email_2, password_2)
 
         page = page.leave_organisation_with_students()
 
@@ -297,7 +307,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "OnboardingOrganisationPage"
 
-        page = page.logout().go_to_login_page().login(email_1, password_1)
+        page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
         assert page.is_not_teacher_in_school(new_last_name)
 
@@ -310,7 +320,11 @@ class TestOrganisation(BaseTest, BasePage):
         join_teacher_to_organisation(email_2, name, postcode)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email_1, password_1)
+        )
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
@@ -333,7 +347,11 @@ class TestOrganisation(BaseTest, BasePage):
         join_teacher_to_organisation(email_2, name, postcode)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email_1, password_1)
+        )
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
@@ -363,7 +381,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         self.selenium.get(self.live_server_url)
         page = (
-            HomePage(self.selenium).go_to_login_page().login_no_school(email, password)
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_school(email, password)
         )
 
         page = page.join_organisation(names[n - 1])
@@ -385,7 +405,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, password, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
         assert page.check_organisation_details(
             {"name": school_name, "postcode": postcode}
@@ -410,7 +430,11 @@ class TestOrganisation(BaseTest, BasePage):
         create_school_student_directly(access_code_2)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email_2, password_2)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+        )
 
         assert not page.check_organisation_details(
             {"name": school_name_1, "postcode": postcode_1}
