@@ -54,7 +54,6 @@ class TestClass(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        print(email)
         page = (
             self.go_to_homepage()
             .go_to_teacher_login_page()
