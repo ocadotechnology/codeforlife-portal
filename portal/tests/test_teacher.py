@@ -401,7 +401,6 @@ class TestTeacher(BaseTest):
         assert page.__class__.__name__ == "EmailVerificationNeededPage"
         assert is_teacher_email_updated_message_showing(self.selenium)
 
-        print(mail.outbox[0].message())
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
 
