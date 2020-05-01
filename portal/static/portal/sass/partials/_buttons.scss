@@ -264,8 +264,8 @@ button,
   &:after {
     @include _font-size(12px);
     @include _padding(0px, 0px, 0px, $spacing * 5);
-    content: "\e252";
-    font-family: "Glyphicons Halflings";
+    content: '\e252';
+    font-family: 'Glyphicons Halflings';
   }
 }
 
@@ -273,7 +273,7 @@ button,
   @include _border-radius(8px, 8px, 0px, 0px);
 
   &:after {
-    content: "\e253";
+    content: '\e253';
   }
 }
 
@@ -388,14 +388,14 @@ button,
 
   .button--menu__item--sub-header {
     &:after {
-      content: "\e252";
-      font-family: "Glyphicons Halflings";
+      content: '\e252';
+      font-family: 'Glyphicons Halflings';
     }
   }
 
   .button--menu__item--sub-header[aria-expanded='true'] {
     &:after {
-      content: "\e253";
+      content: '\e253';
     }
   }
 
