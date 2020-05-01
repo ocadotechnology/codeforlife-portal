@@ -75,6 +75,7 @@ from portal.views.login import (
     IndependentStudentLoginView,
     StudentLoginView,
     TeacherLoginView,
+    old_login_form_redirect,
 )
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
@@ -210,6 +211,7 @@ urlpatterns = [
         IndependentStudentLoginView.as_view(),
         name="independent_student_login",
     ),
+    url(r"^login_form", old_login_form_redirect, name="old_login_form"),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
     url(
