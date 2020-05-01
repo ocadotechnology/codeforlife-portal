@@ -76,7 +76,6 @@ class StudentLoginForm(AuthenticationForm):
 
             self.student = student
             self.user_cache = user
-            self.cleaned_data["username"] = student.new_user.username
         return self.cleaned_data
 
     def check_for_errors(self, name, access_code, password):
