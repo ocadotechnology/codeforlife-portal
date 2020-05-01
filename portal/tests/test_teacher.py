@@ -388,8 +388,6 @@ class TestTeacher(BaseTest):
         )
 
     def test_change_email(self):
-        import time
-
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)

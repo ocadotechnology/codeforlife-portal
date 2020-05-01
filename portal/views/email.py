@@ -36,18 +36,19 @@
 # identified as the original program.
 from datetime import timedelta
 
-from django.utils import timezone
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages as messages
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Count
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.utils import timezone
 from django_countries import countries
 
 from portal.app_settings import CONTACT_FORM_EMAILS
-from portal.models import EmailVerification, School, Teacher, Student
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from portal.helpers.emails import NOTIFICATION_EMAIL, send_email
+from portal.models import EmailVerification, School, Student, Teacher
+from portal.permissions import logged_in_as_independent_student
 
 
 def verify_email(request, token):
@@ -73,19 +74,12 @@ def verify_email(request, token):
         request, "Your email address was successfully verified, please log in."
     )
 
-    if _is_independent_student(user):
+    if logged_in_as_independent_student(user):
         login_url = "independent_student_login"
     else:
         login_url = "teacher_login"
 
     return HttpResponseRedirect(reverse_lazy(login_url))
-
-
-def _is_independent_student(user):
-    try:
-        return bool(user.userprofile.student)
-    except AttributeError:
-        return False
 
 
 def has_verification_failed(verifications):

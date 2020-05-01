@@ -45,7 +45,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
-from portal.models import Student, Class, stripStudentName
+from portal.models import Class, Student, stripStudentName
+from portal.permissions import logged_in_as_independent_student
 
 
 class StudentLoginForm(AuthenticationForm):
@@ -76,7 +77,6 @@ class StudentLoginForm(AuthenticationForm):
 
             self.student = student
             self.user_cache = user
-            self.cleaned_data["username"] = student.new_user.username
         return self.cleaned_data
 
     def check_for_errors(self, name, access_code, password):
@@ -259,14 +259,8 @@ class IndependentStudentLoginForm(AuthenticationForm):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def _is_independent_student(self, user):
-        try:
-            return user.userprofile.student.class_field is None
-        except AttributeError:
-            return False
-
     def confirm_login_allowed(self, user):
-        if not self._is_independent_student(user):
+        if not logged_in_as_independent_student(user):
             raise forms.ValidationError("Incorrect username or password")
 
 

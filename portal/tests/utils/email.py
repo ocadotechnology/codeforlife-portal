@@ -78,7 +78,6 @@ def _follow_duplicate_account_email_link(page, email):
     i = str.find(message, prefix) + len(prefix)
     suffix = '" rel="nofollow">'
     j = str.find(message, suffix, i)
-    print(message[i:j])
     page.browser.get(message[i:j])
 
 
