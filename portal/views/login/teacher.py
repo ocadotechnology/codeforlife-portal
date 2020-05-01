@@ -17,8 +17,8 @@ class TeacherLoginView(LoginView):
     form_class = TeacherLoginForm
 
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            if logged_in_as_teacher(self.request):
+        if request.user.is_authenticated:
+            if logged_in_as_teacher(request.user):
                 return redirect(reverse_lazy("dashboard"))
             return redirect(reverse_lazy("home"))
         return super(TeacherLoginView, self).get(request, *args, **kwargs)

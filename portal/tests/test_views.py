@@ -105,8 +105,8 @@ class TestLoginViews(TestCase):
         response = c.post(
             url,
             {
-                "auth-username": email,
-                "auth-password": password,
+                "username": email,
+                "password": password,
                 "teacher_login_view-current_step": "auth",
                 "g-recaptcha-response": "something",
             },
