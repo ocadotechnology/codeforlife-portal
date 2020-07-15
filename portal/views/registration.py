@@ -66,7 +66,7 @@ from portal import app_settings
 from portal.helpers.captcha import remove_captcha_from_form
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy("student_login"))
+@user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
 def student_password_reset(request):
     usertype = "STUDENT"
     return password_reset(
