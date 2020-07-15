@@ -79,7 +79,7 @@ def student_password_reset(request):
     )
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))
 def teacher_password_reset(request):
     usertype = "TEACHER"
     return password_reset(
