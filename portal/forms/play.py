@@ -45,7 +45,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
-from common.models import Class, Student, stripStudentName
+from common.common.models import Class, Student, stripStudentName
 from portal.permissions import logged_in_as_independent_student
 
 

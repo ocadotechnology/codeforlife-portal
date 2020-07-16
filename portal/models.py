@@ -39,7 +39,7 @@ from __future__ import absolute_import
 from django.contrib.auth.models import User
 from django.db import models
 
-from common.models import School, Teacher, UserProfile, Class, Student
+from common.common.models import School, Teacher, UserProfile, Class, Student
 
 
 class Guardian(models.Model):
