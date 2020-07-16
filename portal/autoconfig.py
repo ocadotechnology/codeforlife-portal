@@ -80,6 +80,7 @@ SETTINGS = {
         "game",
         "pipeline",
         "portal",
+        "common",
         "django.contrib.admin",
         "django.contrib.admindocs",
         "django.contrib.auth",
