@@ -47,7 +47,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 
 from portal.helpers.password import form_clean_password
-from common.common.models import Student, stripStudentName
+from common.models import Student, stripStudentName
 
 choices = [
     ("Miss", "Miss"),
