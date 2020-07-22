@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('game', '0071_auto_20200716_1728'),
+        ('game', '0071_use_common_models'),
         ('portal', '0057_delete_frontpagenews'),
     ]
 
