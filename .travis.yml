@@ -49,8 +49,8 @@ jobs:
         - git config --global user.email "semantic-release@travis"
       script:
         - semantic-release publish
-        - cp portal/__init__.py common/__init__.py
-        - pushd common
+        - cp portal/__init__.py common_utils/__init__.py
+        - pushd common_utils
         - python setup.py sdist bdist_wheel
         - twine upload --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
         - popd
