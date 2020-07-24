@@ -19,7 +19,7 @@ except ImportError:
 setup(
     name="codeforlife-portal",
     version=version,
-    packages=find_packages(),
+    packages=find_packages(include=["portal*", "deploy*"]),
     include_package_data=True,
     install_requires=[
         "django>=1.10.8, <= 1.11.24",
