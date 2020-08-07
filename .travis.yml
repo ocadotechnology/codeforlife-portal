@@ -40,12 +40,18 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
 
     - stage: deploy
+      name: "Build and deploy portal and common PyPi packages"
       install:
         - pip install python-semantic-release==4.*
+        - pip install twine
       before_script:
         - git config --global user.name "semantic-release (via TravisCI)"
         - git config --global user.email "semantic-release@travis"
       script:
         - semantic-release publish
+        - pushd common_utils
+        - python setup.py sdist bdist_wheel
+        - twine upload --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
+        - popd
       after_success:
         - "curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}"
