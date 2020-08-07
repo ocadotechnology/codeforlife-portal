@@ -51,7 +51,7 @@ jobs:
         - semantic-release publish
         - pushd cfl_common
         - python setup.py sdist bdist_wheel
-        - twine upload --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
+        - twine upload --skip-existing --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
         - popd
       after_success:
         - "curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}"
