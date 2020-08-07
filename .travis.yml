@@ -40,7 +40,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
 
     - stage: deploy
-      name: "Build and upload portal and common PyPi packages"
+      name: "Build and deploy portal and common PyPi packages"
       install:
         - pip install python-semantic-release==4.*
         - pip install twine
@@ -49,8 +49,7 @@ jobs:
         - git config --global user.email "semantic-release@travis"
       script:
         - semantic-release publish
-        - cp portal/__init__.py common_utils/__init__.py
-        - pushd common_utils
+        - pushd cfl_common
         - python setup.py sdist bdist_wheel
         - twine upload --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
         - popd
