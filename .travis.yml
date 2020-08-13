@@ -16,7 +16,7 @@ stages:
   - name: test
     if: tag IS blank AND type IN (pull_request)
   - name: deploy
-    if: branch = master AND NOT type IN (pull_request)
+    if: branch = master AND NOT type IN (pull_request) AND NOT commit_message =~ /^v\d+\.\d+\.\d+$/
 
 jobs:
   fail_fast: true
@@ -51,7 +51,7 @@ jobs:
         - semantic-release publish
         - pushd cfl_common
         - python setup.py sdist bdist_wheel
-        - twine upload --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
+        - twine upload --skip-existing --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
         - popd
       after_success:
         - "curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}"
