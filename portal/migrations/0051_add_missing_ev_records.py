@@ -4,15 +4,13 @@ from __future__ import unicode_literals
 from uuid import uuid4
 from datetime import timedelta
 
-from django.contrib.auth.models import User
 from django.db import migrations
 from django.utils import timezone
 
-from portal.helpers.emails import generate_token
-from portal.models import EmailVerification
-
 
 def add_missing_ev_records(apps, schema_editor):
+    User = apps.get_model("auth", "User")
+    EmailVerification = apps.get_model("portal", "EmailVerification")
     verified_users_without_ev = User.objects.filter(
         userprofile__awaiting_email_verification=False
     ).exclude(email_verifications__verified=True)
