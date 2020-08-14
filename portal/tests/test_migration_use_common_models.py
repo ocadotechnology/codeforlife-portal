@@ -17,3 +17,4 @@ class TestMigrationUseCommonModels(MigrationTestCase):
 
         for moved_model in moved_models:
             assert f"portal_{moved_model}" not in model_names
+            assert f"common_{moved_model}" in model_names
