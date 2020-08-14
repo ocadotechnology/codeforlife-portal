@@ -36,8 +36,21 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from common.models import UserProfile, Student
 from django.contrib.auth.models import User
 from django.db import models
+
+
+class Guardian(models.Model):
+    name = models.CharField(max_length=200)
+    children = models.ManyToManyField(Student)
+    user = models.OneToOneField(UserProfile)
+    new_user = models.OneToOneField(
+        User, related_name="new_guardian", null=True, blank=True
+    )
+
+    def __str__(self):
+        return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
 class EmailVerification(models.Model):

@@ -39,7 +39,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from portal.models import EmailVerification
+from portal.models import Guardian, EmailVerification
 
 
 class ClassAdmin(admin.ModelAdmin):
@@ -127,6 +127,7 @@ UserAdmin.list_filter += ("date_joined",)
 
 admin.site.register(Class, ClassAdmin)
 admin.site.register(Student, StudentAdmin)
+admin.site.register(Guardian)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)
