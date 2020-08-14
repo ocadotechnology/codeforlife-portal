@@ -36,6 +36,7 @@
 # identified as the original program.
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.models import Student, Teacher
 from django import forms
 from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth import get_user_model
@@ -48,7 +49,6 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from portal.helpers.password import form_clean_password
-from portal.models import Student, Teacher
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):

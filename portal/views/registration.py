@@ -37,33 +37,32 @@
 
 import warnings
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
-from django.utils.encoding import force_text
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.views import password_reset, password_reset_confirm
-from django.contrib.auth import get_user_model
-from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils.deprecation import RemovedInDjango20Warning
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext as _
-from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from deploy import captcha
+from django.views.decorators.debug import sensitive_post_parameters
 
+from deploy import captcha
+from portal import app_settings
 from portal.forms.registration import (
     TeacherPasswordResetForm,
     PasswordResetSetPasswordForm,
     StudentPasswordResetForm,
 )
-from portal.permissions import not_logged_in, not_fully_logged_in
-from portal.helpers.emails import PASSWORD_RESET_EMAIL
-from portal import app_settings
 from portal.helpers.captcha import remove_captcha_from_form
+from portal.helpers.emails import PASSWORD_RESET_EMAIL
+from portal.permissions import not_logged_in, not_fully_logged_in
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))

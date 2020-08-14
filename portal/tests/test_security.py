@@ -38,11 +38,11 @@ from __future__ import absolute_import
 
 from builtins import str
 
+from common.models import Student, UserProfile, School
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.test import Client, TestCase
 
-from portal.models import Student, UserProfile, School
 from .utils.classes import create_class_directly
 from .utils.teacher import signup_teacher_directly
 

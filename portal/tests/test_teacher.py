@@ -39,12 +39,12 @@ from __future__ import absolute_import
 import time
 
 from aimmo.models import Game
+from common.models import Teacher, Student
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 from selenium.webdriver.support.wait import WebDriverWait
 
-from portal.models import Teacher, Student
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils import email as email_utils

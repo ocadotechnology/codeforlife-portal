@@ -35,13 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from builtins import object
+
+from common.models import School
 from django import forms
-
-from portal.models import School
-
-from django_countries.widgets import CountrySelectWidget
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import EmailValidator
+from django_countries.widgets import CountrySelectWidget
 
 
 class OrganisationForm(forms.ModelForm):

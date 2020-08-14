@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.contrib import messages as messages
 from django.shortcuts import render
 
-from deploy import captcha
-from portal import app_settings, email_messages
+from portal import app_settings
 from portal.strings.help_and_support import HELP_BANNER
 
 

@@ -39,13 +39,13 @@ from datetime import timedelta
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.models import Class, Student, stripStudentName
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
-from common.models import Class, Student, stripStudentName
 from portal.permissions import logged_in_as_independent_student
 
 

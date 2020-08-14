@@ -34,9 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import re
 
-from portal.models import Teacher, Class
+from common.models import Teacher, Class
+
 from portal.helpers.generators import generate_access_code
 
 

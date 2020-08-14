@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from common.models import Student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -46,7 +47,6 @@ from django.views.generic.edit import FormView
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
 from portal.helpers.emails import update_email
 from portal.helpers.password import check_update_password
-from portal.models import Student
 from portal.permissions import logged_in_as_student
 
 
