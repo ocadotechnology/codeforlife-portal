@@ -76,7 +76,7 @@ class AdminLoginView(LoginView):
 
 
 @login_required(login_url=reverse_lazy("administration_login"))
-@permission_required("portal.view_aggregated_data", raise_exception=True)
+@permission_required("common.view_aggregated_data", raise_exception=True)
 def aggregated_data(request):
 
     tables = []
@@ -388,7 +388,7 @@ def fill_in_missing_school_locations(request):
 
 
 @login_required(login_url=reverse_lazy("administration_login"))
-@permission_required("portal.view_map_data", raise_exception=True)
+@permission_required("common.view_map_data", raise_exception=True)
 def schools_map(request):
     fill_in_missing_school_locations(request)
 
