@@ -13,3 +13,6 @@ comment:
 
 ignore:
   - "portal/tests/*"
+  - "setup.py"
+  - "cfl_common/setup.py"
+  - "cfl_common/common/apps.py"
