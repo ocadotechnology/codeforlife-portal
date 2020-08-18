@@ -37,7 +37,7 @@ jobs:
       script:
         - SELENIUM_HEADLESS=True pytest --cov=. --cov-report=xml
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - codecov
 
     - stage: deploy
       name: "Build and deploy portal and common PyPi packages"
