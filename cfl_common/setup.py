@@ -13,11 +13,15 @@ setup(
     packages=find_packages(),
     version=version,
     include_package_data=True,
+    install_requires=[
+        "django>=1.10.8, <= 1.11.24",
+        "django-countries==5.4",
+    ],
     tests_require=[],
     test_suite="tests",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )

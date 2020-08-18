@@ -2,6 +2,16 @@ coverage:
   precision: 2
   round: down
   range: "70...100"
+
+ignore:
+  - "portal/tests/*.py"
+  - "portal/tests/**/*.py"
+  - "example_project/*.py"
+  - "example_project/**/*.py"
+  - "test_settings.py"
+  - "setup.py"
+  - "cfl_common/setup.py"
+  - "cfl_common/common/apps.py"
   
 comment:
   layout: "reach, diff, flags, files"
@@ -9,7 +19,5 @@ comment:
   require_changes: false
   require_base: no
   require_head: yes
-  branches: !master
-
-ignore:
-  - "portal/tests/*"
+  branches:
+    - "!master"
