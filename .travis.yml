@@ -24,6 +24,7 @@ jobs:
     - stage: test
       install:
         - pip install -U setuptools
+        - pip install codecov
         - pip install pytest-cov
         - pip install pipenv
         - pipenv install --dev --system
