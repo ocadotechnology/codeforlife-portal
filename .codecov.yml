@@ -4,8 +4,8 @@ coverage:
   range: "70...100"
 
 ignore:
-  - "portal/tests/*"
-  - "*setup.py"
+  - "portal/tests/**/*"
+  - "**/*/setup.py"
   - "cfl_common/common/apps.py"
   
 comment:
