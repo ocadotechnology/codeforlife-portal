@@ -5,7 +5,10 @@ coverage:
 
 ignore:
   - "portal/tests/*.py"
+  - "portal/tests/**/*.py"
+  - "example_project/*.py"
   - "example_project/**/*.py"
+  - "test_settings.py"
   - "setup.py"
   - "cfl_common/setup.py"
   - "cfl_common/common/apps.py"
