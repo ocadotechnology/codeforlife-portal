@@ -38,10 +38,10 @@ from __future__ import absolute_import
 
 from builtins import range
 
+from common.models import Class, Student
 from django.core import mail
 
 from portal.helpers.emails import generate_token
-from portal.models import Class, Student
 from . import email
 
 

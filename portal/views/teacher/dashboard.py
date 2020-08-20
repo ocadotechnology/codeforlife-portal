@@ -34,20 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from aimmo.models import Game
+from common.models import Teacher, Class, Student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from two_factor.utils import devices_for_user
 
-from portal import app_settings, email_messages
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.models import Teacher, Class, Student
+from portal import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
@@ -59,7 +55,6 @@ from portal.helpers.emails import update_email
 from portal.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from portal.models import Teacher, Class, Student
 from portal.permissions import logged_in_as_teacher
 from portal.utils import using_two_factor
 from portal.views.teacher.teach import give_student_access_to_aimmo_games

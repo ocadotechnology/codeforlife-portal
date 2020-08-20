@@ -40,9 +40,8 @@ from builtins import range
 from builtins import str
 from uuid import uuid4
 
+from common.models import Student, Class
 from django.contrib.auth.models import User
-
-from portal.models import Student, Class
 
 
 def get_random_username():

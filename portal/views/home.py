@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from common.models import Teacher, Student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -56,7 +57,6 @@ from portal.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_dotmailer,
 )
-from portal.models import Teacher, Student
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.strings.home_learning import HOME_LEARNING_BANNER
 

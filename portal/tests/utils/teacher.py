@@ -35,13 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from __future__ import absolute_import
+
 import random
-from . import email
-from django.core import mail
 import sys
 
-from portal.models import Teacher
+from common.models import Teacher
+from django.core import mail
+
 from portal.helpers.emails import generate_token
+from . import email
 
 
 def generate_details(**kwargs):

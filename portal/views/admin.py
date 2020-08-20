@@ -38,6 +38,7 @@ from builtins import str
 from datetime import timedelta
 from time import sleep
 
+from common.models import Teacher, School, Class, Student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.models import User
@@ -48,11 +49,9 @@ from django.utils import timezone
 from django_otp import device_classes
 from rest_framework.reverse import reverse_lazy
 
-from deploy import captcha
 from portal import app_settings
 from portal.forms.admin_login import AdminLoginForm
 from portal.helpers.location import lookup_coord
-from portal.models import Teacher, School, Class, Student
 
 block_limit = 5
 
@@ -77,7 +76,7 @@ class AdminLoginView(LoginView):
 
 
 @login_required(login_url=reverse_lazy("administration_login"))
-@permission_required("portal.view_aggregated_data", raise_exception=True)
+@permission_required("common.view_aggregated_data", raise_exception=True)
 def aggregated_data(request):
 
     tables = []
@@ -389,7 +388,7 @@ def fill_in_missing_school_locations(request):
 
 
 @login_required(login_url=reverse_lazy("administration_login"))
-@permission_required("portal.view_map_data", raise_exception=True)
+@permission_required("common.view_map_data", raise_exception=True)
 def schools_map(request):
     fill_in_missing_school_locations(request)
 

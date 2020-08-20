@@ -47,10 +47,11 @@ setup(
         "future",
         "django-hijack>=2.1.10, <2.2.0",
         "django-hijack-admin>=2.1.10, <2.2.0",
+        f"cfl-common=={version}",
     ],
     classifiers=[
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Framework :: Django",
     ],
     zip_safe=False,

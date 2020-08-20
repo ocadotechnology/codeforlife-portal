@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from portal.models import Class, Student
+from common.models import Class, Student
 
 
 def get_users_for_new_game(request):

@@ -42,6 +42,7 @@ from datetime import timedelta
 from functools import partial, wraps
 
 from aimmo.models import Game
+from common.models import Teacher, Class, Student
 from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -80,7 +81,6 @@ from portal.helpers.generators import (
     generate_password,
     generate_new_student_name,
 )
-from portal.models import Teacher, Class, Student
 from portal.permissions import logged_in_as_teacher
 from portal.templatetags.app_tags import cloud_storage
 from portal.views.teacher.pdfs import PDF_DATA

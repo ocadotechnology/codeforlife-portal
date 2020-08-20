@@ -36,6 +36,7 @@
 # identified as the original program.
 import json
 
+from common.models import School, Teacher, Class
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
@@ -49,7 +50,6 @@ import portal.permissions as permissions
 from portal import email_messages
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.models import School, Teacher, Class
 
 
 class OrganisationFuzzyLookup(APIView):

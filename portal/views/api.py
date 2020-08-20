@@ -37,6 +37,7 @@
 
 import datetime
 
+from common.models import Teacher, Student
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -46,8 +47,6 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
-
-from portal.models import Teacher, Student
 
 THREE_YEARS_IN_DAYS = 1095
 
