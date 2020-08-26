@@ -305,7 +305,8 @@ def teacher_delete_class(request, access_code):
             reverse_lazy("view_class", kwargs={"access_code": access_code})
         )
 
-    klass.delete()
+    if request.method == "POST":
+        klass.delete()
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 

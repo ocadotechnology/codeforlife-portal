@@ -339,41 +339,42 @@ def organisation_kick(request, pk):
                 klass.teacher = new_teacher
                 klass.save()
 
-    classes = Class.objects.filter(teacher=teacher)
-    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+        classes = Class.objects.filter(teacher=teacher)
+        teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
 
-    if classes.exists():
-        messages.info(
+        if classes.exists():
+            messages.info(
+                request,
+                "This teacher still has classes assigned to them. You must first move them "
+                "to another teacher in your school or club.",
+            )
+            return render(
+                request,
+                "portal/teach/teacher_move_all_classes.html",
+                {
+                    "original_teacher": teacher,
+                    "classes": classes,
+                    "teachers": teachers,
+                    "submit_button_text": "Remove teacher",
+                },
+            )
+
+        teacher.school = None
+        teacher.save()
+
+        messages.success(
             request,
-            "This teacher still has classes assigned to them. You must first move them "
-            "to another teacher in your school or club.",
-        )
-        return render(
-            request,
-            "portal/teach/teacher_move_all_classes.html",
-            {
-                "original_teacher": teacher,
-                "classes": classes,
-                "teachers": teachers,
-                "submit_button_text": "Remove teacher",
-            },
+            "The teacher has been successfully removed from your school or club.",
         )
 
-    teacher.school = None
-    teacher.save()
+        emailMessage = email_messages.kickedEmail(request, user.school.name)
 
-    messages.success(
-        request, "The teacher has been successfully removed from your school or club."
-    )
-
-    emailMessage = email_messages.kickedEmail(request, user.school.name)
-
-    send_email(
-        NOTIFICATION_EMAIL,
-        [teacher.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-    )
+        send_email(
+            NOTIFICATION_EMAIL,
+            [teacher.new_user.email],
+            emailMessage["subject"],
+            emailMessage["message"],
+        )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
@@ -416,8 +417,11 @@ def teacher_disable_2FA(request, pk):
     if teacher.school != user.school or not user.is_admin:
         raise Http404
 
-    for device in devices_for_user(teacher.new_user):
+    [
         device.delete()
+        for device in devices_for_user(teacher.new_user)
+        if request.method == "POST"
+    ]
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
