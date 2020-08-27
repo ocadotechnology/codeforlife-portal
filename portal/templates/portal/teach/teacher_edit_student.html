@@ -54,11 +54,14 @@
         <p>You can either set this student&rsquo;s password by clicking &lsquo;Set password&rsquo;, or you can let us generate a random and
             secure password by clicking &lsquo;Generate random&rsquo;.</p>
 
-        <div class="background button-group">
-            <a id="generate_password_button" class="button button--regular button--primary--navigation"
-               href="{% url 'teacher_student_reset' student.id %}">Generate random</a>
-            <a href="#set-password" class="button button--regular button--secondary button--secondary--dark" id="request-password-setter">Set password</a>
-        </div>
+        <form method="post" action="{% url 'teacher_student_reset' student.id %}">
+            {% csrf_token %}
+            <div class="background button-group">
+                <button id="generate_password_button" type="submit"
+                        class="button--regular button--primary--navigation">Generate random</button>
+                <a href="#set-password" class="button button--regular button--secondary button--secondary--dark" id="request-password-setter">Set password</a>
+            </div>
+        </form>
 
         <form method="post">
 

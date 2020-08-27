@@ -36,12 +36,17 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from common.models import Teacher
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
 from deploy import captcha
+
 from .utils.classes import create_class_directly
-from .utils.organisation import create_organisation_directly
+from .utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from .utils.student import create_school_student_directly
 from .utils.teacher import signup_teacher_directly
 
@@ -63,6 +68,20 @@ class TestTeacherViews(TestCase):
         url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
         response = c.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_organisation_kick_has_correct_permissions(self):
+        teacher2_email, _ = signup_teacher_directly()
+        org_name, org_postcode = create_organisation_directly(self.email)
+        join_teacher_to_organisation(self.email, org_name, org_postcode, is_admin=True)
+        join_teacher_to_organisation(teacher2_email, org_name, org_postcode)
+        teacher2_id = Teacher.objects.get(new_user__email=teacher2_email).id
+
+        client = self.login()
+        url = reverse("organisation_kick", args=[teacher2_id])
+        response = client.get(url)
+        assert response.status_code == 405
+        response = client.post(url)
+        assert response.status_code == 302
 
 
 class TestLoginViews(TestCase):

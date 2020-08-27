@@ -42,16 +42,17 @@ from datetime import timedelta
 from functools import partial, wraps
 
 from aimmo.models import Game
-from common.models import Teacher, Class, Student
+from common.models import Class, Student, Teacher
 from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.urlresolvers import reverse_lazy
 from django.forms.formsets import formset_factory
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, get_object_or_404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 from past.utils import old_div
 from reportlab.lib.colors import black
 from reportlab.lib.pagesizes import A4
@@ -63,23 +64,23 @@ from reportlab.platypus import Paragraph
 from portal import email_messages
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
+    BaseTeacherDismissStudentsFormSet,
+    BaseTeacherMoveStudentsDisambiguationFormSet,
     ClassCreationForm,
     ClassEditForm,
     ClassMoveForm,
-    TeacherEditStudentForm,
-    TeacherSetStudentPass,
-    TeacherMoveStudentsDestinationForm,
-    TeacherMoveStudentDisambiguationForm,
-    BaseTeacherMoveStudentsDisambiguationFormSet,
     StudentCreationForm,
     TeacherDismissStudentsForm,
-    BaseTeacherDismissStudentsFormSet,
+    TeacherEditStudentForm,
+    TeacherMoveStudentDisambiguationForm,
+    TeacherMoveStudentsDestinationForm,
+    TeacherSetStudentPass,
 )
-from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
+from portal.helpers.emails import INVITE_FROM, send_email, send_verification_email
 from portal.helpers.generators import (
     generate_access_code,
-    generate_password,
     generate_new_student_name,
+    generate_password,
 )
 from portal.permissions import logged_in_as_teacher
 from portal.templatetags.app_tags import cloud_storage
@@ -287,6 +288,7 @@ def teacher_view_class(request, access_code):
     )
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_class(request, access_code):
