@@ -34,13 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from common.models import Teacher, Class, Student
+from common.models import Class, Student, Teacher
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
@@ -48,11 +48,10 @@ from portal import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
-    TeacherEditAccountForm,
     TeacherAddExternalStudentForm,
+    TeacherEditAccountForm,
 )
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.helpers.emails import update_email
+from portal.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
 from portal.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
