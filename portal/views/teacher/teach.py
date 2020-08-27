@@ -51,6 +51,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.utils import timezone
 from past.utils import old_div
 from reportlab.lib.colors import black
@@ -287,6 +288,7 @@ def teacher_view_class(request, access_code):
     )
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_class(request, access_code):
@@ -305,8 +307,7 @@ def teacher_delete_class(request, access_code):
             reverse_lazy("view_class", kwargs={"access_code": access_code})
         )
 
-    if request.method == "POST":
-        klass.delete()
+    klass.delete()
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
