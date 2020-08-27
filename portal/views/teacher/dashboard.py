@@ -41,6 +41,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
 from portal import email_messages
@@ -322,6 +323,7 @@ def check_teacher_is_authorised(teacher, user):
         raise Http404
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_kick(request, pk):
@@ -330,51 +332,49 @@ def organisation_kick(request, pk):
 
     check_teacher_is_authorised(teacher, user)
 
-    if request.method == "POST":
-        classes = Class.objects.filter(teacher=teacher)
-        for klass in classes:
-            teacher_id = request.POST.get(klass.access_code, None)
-            if teacher_id:
-                new_teacher = get_object_or_404(Teacher, id=teacher_id)
-                klass.teacher = new_teacher
-                klass.save()
+    classes = Class.objects.filter(teacher=teacher)
+    for klass in classes:
+        teacher_id = request.POST.get(klass.access_code, None)
+        if teacher_id:
+            new_teacher = get_object_or_404(Teacher, id=teacher_id)
+            klass.teacher = new_teacher
+            klass.save()
 
-        classes = Class.objects.filter(teacher=teacher)
-        teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+    classes = Class.objects.filter(teacher=teacher)
+    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
 
-        if classes.exists():
-            messages.info(
-                request,
-                "This teacher still has classes assigned to them. You must first move them "
-                "to another teacher in your school or club.",
-            )
-            return render(
-                request,
-                "portal/teach/teacher_move_all_classes.html",
-                {
-                    "original_teacher": teacher,
-                    "classes": classes,
-                    "teachers": teachers,
-                    "submit_button_text": "Remove teacher",
-                },
-            )
-
-        teacher.school = None
-        teacher.save()
-
-        messages.success(
+    if classes.exists():
+        messages.info(
             request,
-            "The teacher has been successfully removed from your school or club.",
+            "This teacher still has classes assigned to them. You must first move them "
+            "to another teacher in your school or club.",
+        )
+        return render(
+            request,
+            "portal/teach/teacher_move_all_classes.html",
+            {
+                "original_teacher": teacher,
+                "classes": classes,
+                "teachers": teachers,
+                "submit_button_text": "Remove teacher",
+            },
         )
 
-        emailMessage = email_messages.kickedEmail(request, user.school.name)
+    teacher.school = None
+    teacher.save()
 
-        send_email(
-            NOTIFICATION_EMAIL,
-            [teacher.new_user.email],
-            emailMessage["subject"],
-            emailMessage["message"],
-        )
+    messages.success(
+        request, "The teacher has been successfully removed from your school or club.",
+    )
+
+    emailMessage = email_messages.kickedEmail(request, user.school.name)
+
+    send_email(
+        NOTIFICATION_EMAIL,
+        [teacher.new_user.email],
+        emailMessage["subject"],
+        emailMessage["message"],
+    )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
