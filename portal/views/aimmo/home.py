@@ -34,7 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from aimmo.app_settings import get_users_for_new_game
 from aimmo.forms import AddGameForm
 from aimmo.game_creator import create_game
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -50,12 +49,13 @@ class AimmoHomeView(LoginRequiredMixin, CreateView):
     def get_form(self, form_class=None):
         user = self.request.user
         playable_games = user.playable_games.all()
+        classes = user.userprofile.teacher.class_teacher.all()
         if form_class is None:
             form_class = self.get_form_class()
-        return form_class(playable_games, **self.get_form_kwargs())
+        return form_class(playable_games, classes, **self.get_form_kwargs())
 
     def form_valid(self, form):
-        create_game(self.request.user, form, get_users_for_new_game(self.request))
+        create_game(self.request.user, form)
         return super().form_valid(form)
 
     def get_success_url(self):

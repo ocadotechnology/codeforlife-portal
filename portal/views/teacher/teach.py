@@ -737,6 +737,8 @@ def teacher_move_students(request, access_code):
     classes = school.classes()
     classes.remove(klass)
 
+    # TODO: move student's avatars to the new class?
+
     form = TeacherMoveStudentsDestinationForm(classes)
 
     return render(
