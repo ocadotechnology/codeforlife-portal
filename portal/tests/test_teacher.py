@@ -135,7 +135,7 @@ class TestTeachers(TestCase):
     def test_transferred_student_has_access_to_only_new_teacher_games(self):
         """
         Given a student in a class,
-        When a teacher transfers them to another class with a new teacher,
+        When a teacher transfers the class to a new teacher,
         Then the student should only have access to the new teacher's games
         """
         email1, password1 = signup_teacher_directly()
