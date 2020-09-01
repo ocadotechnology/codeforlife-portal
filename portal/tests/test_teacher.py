@@ -79,12 +79,12 @@ class TestTeachers(TestCase):
         """
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, access_code = create_class_directly(email)
+        klass, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
         c = Client()
         c.login(username=email, password=password)
-        c.post(reverse("kurono"), {"name": "Test Game"})
+        c.post(reverse("kurono"), {"name": "Test Game", "game_class": klass.pk})
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
             {"names": "Florian"},
@@ -92,7 +92,7 @@ class TestTeachers(TestCase):
 
         game = Game.objects.get(id=1)
         new_student = Student.objects.last()
-        self.assertTrue(new_student.new_user in game.can_play.all())
+        self.assertTrue(game.can_user_play(new_student.new_user))
 
     def test_accepted_independent_student_can_play_games(self):
         """
@@ -122,7 +122,7 @@ class TestTeachers(TestCase):
         c.logout()
 
         c.login(username=email, password=password)
-        c.post(reverse("kurono"), {"name": "Test Game"})
+        c.post(reverse("kurono"), {"name": "Test Game", "game_class": klass.pk})
         c.post(
             reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
             {"name": "Florian"},
@@ -130,7 +130,7 @@ class TestTeachers(TestCase):
 
         game = Game.objects.get(id=1)
         new_student = Student.objects.last()
-        self.assertTrue(new_student.new_user in game.can_play.all())
+        self.assertTrue(game.can_user_play(new_student.new_user))
 
     def test_transferred_student_has_access_to_only_new_teacher_games(self):
         """
@@ -153,11 +153,11 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email2, password=password2)
-        c.post(reverse("kurono"), {"name": "Game 2"})
+        c.post(reverse("kurono"), {"name": "Game 2", "game_class": klass2.pk})
         c.logout()
 
         c.login(username=email1, password=password1)
-        c.post(reverse("kurono"), {"name": "Game 1"})
+        c.post(reverse("kurono"), {"name": "Game 1", "game_class": klass1.pk})
 
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)
@@ -165,8 +165,8 @@ class TestTeachers(TestCase):
         student1 = Student.objects.get(class_field=klass1)
         student2 = Student.objects.get(class_field=klass2)
 
-        self.assertTrue(student1.new_user in game1.can_play.all())
-        self.assertTrue(student2.new_user in game2.can_play.all())
+        self.assertTrue(game1.can_user_play(student1.new_user))
+        self.assertTrue(game2.can_user_play(student2.new_user))
 
         c.post(
             reverse("teacher_move_class", kwargs={"access_code": access_code1}),
@@ -174,8 +174,8 @@ class TestTeachers(TestCase):
         )
         c.logout()
 
-        self.assertTrue(student1.new_user not in game1.can_play.all())
-        self.assertTrue(student1.new_user in game2.can_play.all())
+        self.assertTrue(not game1.can_user_play(student1.new_user))
+        self.assertTrue(game2.can_user_play(student1.new_user))
 
     def test_moved_student_has_access_to_only_new_teacher_games(self):
         """
@@ -198,11 +198,11 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email2, password=password2)
-        c.post(reverse("kurono"), {"name": "Game 2"})
+        c.post(reverse("kurono"), {"name": "Game 2", "game_class": klass2.pk})
         c.logout()
 
         c.login(username=email1, password=password1)
-        c.post(reverse("kurono"), {"name": "Game 1"})
+        c.post(reverse("kurono"), {"name": "Game 1", "game_class": klass1.pk})
 
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)
@@ -210,8 +210,8 @@ class TestTeachers(TestCase):
         student1 = Student.objects.get(class_field=klass1)
         student2 = Student.objects.get(class_field=klass2)
 
-        self.assertTrue(student1.new_user in game1.can_play.all())
-        self.assertTrue(student2.new_user in game2.can_play.all())
+        self.assertTrue(game1.can_user_play(student1.new_user))
+        self.assertTrue(game2.can_user_play(student2.new_user))
 
         c.post(
             reverse("teacher_move_students", kwargs={"access_code": access_code1}),
@@ -234,8 +234,8 @@ class TestTeachers(TestCase):
         )
         c.logout()
 
-        self.assertTrue(student1.new_user not in game1.can_play.all())
-        self.assertTrue(student1.new_user in game2.can_play.all())
+        self.assertTrue(not game1.can_user_play(student1.new_user))
+        self.assertTrue(game2.can_user_play(student1.new_user))
 
 
 class TestTeacher(BaseTest):
