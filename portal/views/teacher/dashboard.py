@@ -57,7 +57,6 @@ from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
 from portal.permissions import logged_in_as_teacher
 from portal.utils import using_two_factor
-from portal.views.teacher.teach import give_student_access_to_aimmo_games
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -449,8 +448,6 @@ def teacher_accept_student_request(request, pk):
             student.new_user.first_name = data["name"]
             student.new_user.last_name = ""
             student.new_user.email = ""
-
-            give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
 
             student.save()
             student.new_user.save()
