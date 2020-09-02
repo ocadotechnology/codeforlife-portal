@@ -7,9 +7,7 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots[
-    "test_banner 1"
-] = """<div class="banner banner--teacher row">
+snapshots['test_banner 1'] = '''<div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Test title</h1>
         
@@ -23,17 +21,13 @@ snapshots[
         <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 test--image--class"></div></div></div>
     </div>
 </div>
-"""
+'''
 
-snapshots[
-    "test_headline 1"
-] = """<h1>Test title</h1>
+snapshots['test_headline 1'] = '''<h1>Test title</h1>
 <h6 class="col-sm-6 col-center">Test description</h6>
-"""
+'''
 
-snapshots[
-    "test_benefits 1"
-] = """
+snapshots['test_benefits 1'] = '''
 
 <div class="grid-benefits row col-sm-10 col-lg-8 col-center">
     
@@ -67,11 +61,9 @@ snapshots[
         </div>
     
 </div>
-"""
+'''
 
-snapshots[
-    "test_game_banner 1"
-] = """
+snapshots['test_game_banner 1'] = '''
 
 <div class="banner--game col-center col-lg-10 col-sm-12 test--class">
     <div>
@@ -82,4 +74,23 @@ snapshots[
            class="button button--big button-primary button--primary--general-educate">Test button</a>
     </div>
 </div>
-"""
+'''
+
+snapshots['test_hero_card 1'] = '''
+
+<div class="background">
+    <div class="card col-sm-8 col-center">
+        <img class="card__image" src="/static/">
+        <h3 class="card__title">Test title</h3>
+        <p>Test description</p>
+        <div class="background button-group">
+            <a href="/" class="button button--primary--general-play">
+                Test button 1<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+            <a href="/" class="button button--primary--general-play">
+                Test button 2<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+        </div>
+    </div>
+</div>
+'''

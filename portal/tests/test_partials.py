@@ -81,3 +81,25 @@ def test_game_banner(snapshot):
     rendered_template = template_to_render.render(context)
 
     snapshot.assert_match(rendered_template)
+
+
+def test_hero_card(snapshot):
+    test_hero_card = {
+        "image": "",
+        "title": "Test title",
+        "description": "Test description",
+        "button1_text": "Test button 1",
+        "button1_link": "home",
+        "button2_text": "Test button 2",
+        "button2_link": "home",
+    }
+
+    context = Context({"HERO_CARD": test_hero_card})
+
+    template_to_render = Template(
+        "{% load hero_card_tags %}" "{% hero_card %}"
+    )
+
+    rendered_template = template_to_render.render(context)
+
+    snapshot.assert_match(rendered_template)
