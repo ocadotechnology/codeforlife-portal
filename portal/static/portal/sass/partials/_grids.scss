@@ -10,8 +10,13 @@ $column--icon-width: 3%;
   background-color: $color-background-secondary;
   padding: 0;
 
-  & > * {@include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);}
-  & > img {padding: 0;}
+  & > * {
+    @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+  }
+
+  & > img {
+    padding: 0;
+  }
 
   .card__title {
     margin: 0;
