@@ -26,7 +26,6 @@ $column--icon-width: 3%;
 
     .button--big {
       @include _margin(0px, $spacing * 4, $spacing * 4, $spacing * 4);
-      width: -webkit-fill-available;
 
       .glyphicon {
         @include _font-size(25px);
