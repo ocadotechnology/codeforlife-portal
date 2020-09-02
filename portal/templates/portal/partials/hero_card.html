@@ -6,8 +6,12 @@
         <h3 class="card__title">{{ heading }}</h3>
         <p>{{ description }}</p>
         <div class="background button-group">
-            <a><button class="button button--primary--general-play">{{ button1_text }}<div class="glyphicon glyphicon-menu-right"></div></button></a>
-            <a><button class="button button--primary--general-play">{{ button2_text }}<div class="glyphicon glyphicon-menu-right"></div></button></a>
+            <a href="{% url button1_link %}" class="button button--primary--general-play">
+                {{ button1_text }}<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+            <a href="{% url button2_link %}" class="button button--primary--general-play">
+                {{ button2_text }}<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
         </div>
     </div>
 </div>

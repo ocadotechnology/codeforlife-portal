@@ -10,5 +10,7 @@ def hero_card(context):
         "heading": context["HERO_CARD"]["heading"],
         "description": context["HERO_CARD"]["description"],
         "button1_text": context["HERO_CARD"]["button1_text"],
+        "button1_link": context["HERO_CARD"]["button1_link"],
         "button2_text": context["HERO_CARD"]["button2_text"],
+        "button2_link": context["HERO_CARD"]["button2_link"],
     }
