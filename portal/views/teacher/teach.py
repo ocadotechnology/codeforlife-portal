@@ -661,18 +661,15 @@ def teacher_move_class(request, access_code):
         form = ClassMoveForm(other_teachers, request.POST)
         if form.is_valid():
             new_teacher_id = form.cleaned_data["new_teacher"]
-            new_teacher = Teacher.objects.get(id=new_teacher_id)
+            new_teacher = get_object_or_404(Teacher, id=new_teacher_id)
 
-            klass.teacher = get_object_or_404(Teacher, id=new_teacher_id)
+            klass.teacher = new_teacher
             klass.save()
-
-            students = Student.objects.filter(class_field=klass)
 
             messages.success(
                 request,
                 "The class has been successfully assigned to a different teacher.",
             )
-
             return HttpResponseRedirect(reverse_lazy("dashboard"))
     else:
         form = ClassMoveForm(other_teachers)
