@@ -34,15 +34,13 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from __future__ import absolute_import
-
-from common.models import Teacher
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
+from common.models import Teacher
+from common.tests.utils.classes import create_class_directly
 from deploy import captcha
 
-from .utils.classes import create_class_directly
 from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,

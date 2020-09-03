@@ -77,7 +77,7 @@ from portal.forms.teach import (
     TeacherSetStudentPass,
 )
 from portal.helpers.emails import INVITE_FROM, send_email, send_verification_email
-from portal.helpers.generators import (
+from common.helpers.generators import (
     generate_access_code,
     generate_new_student_name,
     generate_password,

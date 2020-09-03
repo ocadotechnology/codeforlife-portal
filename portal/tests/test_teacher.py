@@ -39,16 +39,17 @@ from __future__ import absolute_import
 import time
 
 from aimmo.models import Game
-from common.models import Teacher, Student, Class
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 from selenium.webdriver.support.wait import WebDriverWait
 
+from common.models import Class, Student, Teacher
+from common.tests.utils.classes import create_class_directly
+
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils import email as email_utils
-from .utils.classes import create_class_directly
 from .utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
@@ -63,9 +64,9 @@ from .utils.student import (
     create_school_student_directly,
 )
 from .utils.teacher import (
+    signup_duplicate_teacher_fail,
     signup_teacher,
     signup_teacher_directly,
-    signup_duplicate_teacher_fail,
     submit_teacher_signup_form,
 )
 

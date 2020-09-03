@@ -52,7 +52,7 @@ from portal.forms.teach import (
     TeacherEditAccountForm,
 )
 from portal.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
-from portal.helpers.generators import generate_access_code, get_random_username
+from common.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
 from portal.permissions import logged_in_as_teacher

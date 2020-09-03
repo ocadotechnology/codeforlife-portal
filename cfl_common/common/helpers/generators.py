@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,11 +36,10 @@
 # identified as the original program.
 import random
 import string
-from builtins import range
-from builtins import str
+from builtins import range, str
 from uuid import uuid4
 
-from common.models import Student, Class
+from common.models import Class, Student
 from django.contrib.auth.models import User
 
 
