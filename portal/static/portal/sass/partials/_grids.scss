@@ -10,34 +10,34 @@ $column--icon-width: 3%;
   background-color: $color-background-secondary;
   padding: 0;
 
-  & > * {
+  .card__text {
     @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
   }
 
   .card__title {
     margin: 0;
+    padding: 0;
   }
 
   .card__image {
     @include _border-radius(16px, 16px, 0px, 0px);
-    padding: 0;
   }
 
-  .background {
-    @include _padding($spacing * 4, 0px, 0px, 0px);
+  .button--big {
+    @include _margin($spacing * 4, 0px, 0px, 0px);
+    width: 100%;
 
-    .button--big {
-      @include _margin(0px, $spacing * 4, $spacing * 4, $spacing * 4);
-
-      .glyphicon {
-        @include _font-size(25px);
-        @include _padding(0px, $spacing, 0px, 0px);
-        float: left;
-      }
+    .glyphicon {
+      @include _font-size(25px);
+      @include _padding(0px, $spacing, 0px, 0px);
+      float: left;
     }
+  }
+
+  .button-group {
+    @include _padding($spacing * 3, 0px, 0px, 0px);
 
     .button {
-      @include _margin(0px, 0px, $spacing * 4, $spacing * 4);
       align-items: center;
       display: inline-flex;
 
