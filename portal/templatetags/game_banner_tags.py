@@ -5,13 +5,16 @@ register = template.Library()
 
 @register.inclusion_tag("portal/partials/game_banner.html", takes_context=True)
 def game_banner(context, game_banner_name):
-    game_banner_data = context[game_banner_name]
-
-    return {
-        "title": game_banner_data["title"],
-        "description": game_banner_data["description"],
-        "button_text": game_banner_data["button_text"],
-        "button_link": game_banner_data["button_link"],
-        "ages": game_banner_data["ages"],
-        "background_image_class": game_banner_data["background_image_class"],
-    }
+    """
+    Registers the inclusion tag for the game banner partial.
+    Takes in the name of the game banner.
+    The template currently expects the following context elements:
+    - title: the heading of the banner (usually the name of the game)
+    - description: a short explanation of the game
+    - button_text: the text shown on the button
+    - button_link: the link that the button redirects to
+    - ages: the text showing the ages the game caters to
+    - background_image_class: the CSS class of the image to be shown in the banner's
+    background
+    """
+    return context[game_banner_name]

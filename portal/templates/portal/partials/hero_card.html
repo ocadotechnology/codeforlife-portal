@@ -1,0 +1,19 @@
+{% load staticfiles %}
+
+<div class="background">
+    <div class="card col-sm-8 col-center">
+        <img class="card__image" src="{% static image %}">
+        <div class="card__text">
+            <h3 class="card__title">{{ title }}</h3>
+            <p>{{ description }}</p>
+            <div class="button-group">
+                <a href="{% url button1_link %}" class="button button--primary--general-play">
+                    {{ button1_text }}<div class="glyphicon glyphicon-menu-right"></div>
+                </a>
+                <a href="{% url button2_link %}" class="button button--primary--general-play">
+                    {{ button2_text }}<div class="glyphicon glyphicon-menu-right"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
