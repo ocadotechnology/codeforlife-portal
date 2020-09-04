@@ -39,6 +39,12 @@ from __future__ import absolute_import
 import time
 
 from common.tests.utils.classes import create_class_directly
+from common.utils.student import (
+    create_many_school_students,
+    create_school_student,
+    create_school_student_directly,
+)
+from common.utils.teacher import signup_teacher_directly
 from portal.tests.pageObjects.portal.home_page import HomePage
 
 from .base_test import BaseTest
@@ -46,12 +52,6 @@ from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from .utils.student import (
-    create_many_school_students,
-    create_school_student,
-    create_school_student_directly,
-)
-from .utils.teacher import signup_teacher_directly
 
 
 class TestTeacherStudent(BaseTest):

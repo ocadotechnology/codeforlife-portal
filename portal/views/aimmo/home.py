@@ -41,6 +41,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView
 
 
+# TODO: need to add permission here to make sure that a teacher can only add games here for classes that they own.
 class AimmoHomeView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy("student_login")
     form_class = AddGameForm

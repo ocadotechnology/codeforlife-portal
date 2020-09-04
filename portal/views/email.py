@@ -47,7 +47,7 @@ from django.utils import timezone
 from django_countries import countries
 
 from portal.app_settings import CONTACT_FORM_EMAILS
-from portal.helpers.emails import NOTIFICATION_EMAIL, send_email
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from portal.models import EmailVerification
 from portal.permissions import logged_in_as_independent_student
 

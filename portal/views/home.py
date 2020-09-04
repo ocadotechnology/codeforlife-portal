@@ -46,12 +46,10 @@ from django.views.decorators.csrf import csrf_exempt
 from deploy import captcha
 from portal import email_messages
 from portal.forms.newsletter_form import NewsletterForm
-from portal.forms.play import (
-    IndependentStudentSignupForm,
-)
+from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
-from portal.helpers.emails import (
+from common.helpers.emails import (
     send_verification_email,
     send_email,
     NOTIFICATION_EMAIL,

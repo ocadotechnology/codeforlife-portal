@@ -46,6 +46,16 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from common.models import Class, Student, Teacher
 from common.tests.utils.classes import create_class_directly
+from common.utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
+from common.utils.teacher import (
+    signup_duplicate_teacher_fail,
+    signup_teacher,
+    signup_teacher_directly,
+    submit_teacher_signup_form,
+)
 
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
@@ -58,16 +68,6 @@ from .utils.messages import (
 from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
-)
-from .utils.student import (
-    create_independent_student_directly,
-    create_school_student_directly,
-)
-from .utils.teacher import (
-    signup_duplicate_teacher_fail,
-    signup_teacher,
-    signup_teacher_directly,
-    submit_teacher_signup_form,
 )
 
 

@@ -49,7 +49,7 @@ from rest_framework.views import APIView
 import portal.permissions as permissions
 from portal import email_messages
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 
 
 class OrganisationFuzzyLookup(APIView):

@@ -43,7 +43,7 @@ from django.shortcuts import render
 
 from portal import email_messages
 from portal.forms.play import StudentJoinOrganisationForm
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 from portal.permissions import logged_in_as_student, logged_in_as_independent_student
 
 
@@ -58,7 +58,10 @@ def username_labeller(request):
 
 
 @login_required(login_url=reverse_lazy("independent_student_login"))
-@user_passes_test(logged_in_as_independent_student, login_url=reverse_lazy("independent_student_login"))
+@user_passes_test(
+    logged_in_as_independent_student,
+    login_url=reverse_lazy("independent_student_login"),
+)
 def student_join_organisation(request):
 
     student = request.user.new_student

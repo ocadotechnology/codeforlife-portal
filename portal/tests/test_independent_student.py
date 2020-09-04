@@ -42,9 +42,15 @@ from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
 from common.tests.utils.classes import create_class_directly
+from common.tests.utils.teacher import signup_teacher_directly
+from common.utils.student import (
+    create_independent_student,
+    create_independent_student_directly,
+    signup_duplicate_independent_student_fail,
+    submit_independent_student_signup_form,
+)
 from portal.tests.utils.organisation import create_organisation_directly
-from portal.tests.utils.student import create_school_student_directly
-from portal.tests.utils.teacher import signup_teacher_directly
+from portal.testscommon.utils.student import create_school_student_directly
 
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
@@ -54,12 +60,6 @@ from .utils.messages import (
     is_indep_student_join_request_received_message_showing,
     is_indep_student_join_request_revoked_message_showing,
     is_student_details_updated_message_showing,
-)
-from .utils.student import (
-    create_independent_student,
-    create_independent_student_directly,
-    signup_duplicate_independent_student_fail,
-    submit_independent_student_signup_form,
 )
 
 

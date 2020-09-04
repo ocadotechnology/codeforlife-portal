@@ -41,6 +41,8 @@ from builtins import range
 from django.core import mail
 
 from common.tests.utils.classes import create_class_directly
+from common.utils.student import create_school_student_directly
+from common.utils.teacher import generate_details, signup_teacher_directly
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 
@@ -52,8 +54,6 @@ from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from .utils.student import create_school_student_directly
-from .utils.teacher import generate_details, signup_teacher_directly
 
 
 class TestOrganisation(BaseTest, BasePage):
