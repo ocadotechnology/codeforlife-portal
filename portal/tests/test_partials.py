@@ -85,7 +85,7 @@ def test_game_banner(snapshot):
 
 def test_hero_card(snapshot):
     test_hero_card = {
-        "image": "",
+        "image": "portal/img/kurono_landing_hero.png",
         "title": "Test title",
         "description": "Test description",
         "button1_text": "Test button 1",

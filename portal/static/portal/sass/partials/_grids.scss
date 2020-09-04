@@ -14,16 +14,13 @@ $column--icon-width: 3%;
     @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
   }
 
-  & > img {
-    padding: 0;
-  }
-
   .card__title {
     margin: 0;
   }
 
   .card__image {
     @include _border-radius(16px, 16px, 0px, 0px);
+    padding: 0;
   }
 
   .background {
@@ -40,7 +37,7 @@ $column--icon-width: 3%;
     }
 
     .button {
-      @include _margin(0px, $spacing * 4, $spacing * 4, $spacing * 4);
+      @include _margin(0px, 0px, $spacing * 4, $spacing * 4);
       align-items: center;
       display: inline-flex;
 
