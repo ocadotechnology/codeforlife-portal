@@ -5,7 +5,11 @@ register = template.Library()
 
 @register.inclusion_tag("portal/partials/headline.html", takes_context=True)
 def headline(context, headline_name):
-    return {
-        "title": context[headline_name]["title"],
-        "description": context[headline_name]["description"],
-    }
+    """
+    Registers the inclusion tag for the headline partial.
+    Takes in the name of the headline.
+    The template currently expects the following context elements:
+    - title
+    - description
+    """
+    return context[headline_name]
