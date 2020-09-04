@@ -1,0 +1,30 @@
+{% load staticfiles %}
+
+<div class="background">
+    <div class="grid-worksheets col-sm-8 col-center">
+        {% for card in cards %}
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="{% static card.image %}">
+                    {% if card.coming_soon %}
+                        <h3 class="card__coming_soon">Coming Soon</h3>
+                    {% else %}
+                        <img class="card__locked" src="{% static 'portal/img/sadface.png' %}">
+                    {% endif %}
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">{{ card.title }}</h3>
+                    {% if card.description %}
+                        <p>{{ card.description }}</p>
+                    {% else %}
+                        <div class="button-group">
+                            <a href="{% url card.button_link %}" class="button button--primary--general-play">
+                                {{ card.button_text }}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
