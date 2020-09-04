@@ -83,3 +83,26 @@ snapshots[
     </div>
 </div>
 """
+
+snapshots[
+    "test_hero_card 1"
+] = """
+
+<div class="background">
+    <div class="card col-sm-8 col-center">
+        <img class="card__image" src="/static/portal/img/kurono_landing_hero.png">
+        <div class="card__text">
+            <h3 class="card__title">Test title</h3>
+            <p>Test description</p>
+            <div class="button-group">
+                <a href="/" class="button button--primary--general-play">
+                    Test button 1<div class="glyphicon glyphicon-menu-right"></div>
+                </a>
+                <a href="/" class="button button--primary--general-play">
+                    Test button 2<div class="glyphicon glyphicon-menu-right"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+"""
