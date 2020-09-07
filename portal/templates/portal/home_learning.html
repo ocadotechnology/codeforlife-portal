@@ -2,6 +2,7 @@
 {% load static %}
 {% load app_tags %}
 {% load banner_tags %}
+{% load card_list_tags %}
 
 {% block subNav %}
 {{ block.super }}
@@ -173,5 +174,7 @@
        target="_blank" class="button button--regular button--secondary button--secondary--light">
         Tell us your ideas on how we can help even more!</a>
 </section>
+
+{% card_list %}
 
 {% endblock content %}
