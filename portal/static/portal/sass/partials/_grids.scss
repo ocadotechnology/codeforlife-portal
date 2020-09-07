@@ -28,8 +28,7 @@ $column--icon-width: 3%;
     @include _border-radius(16px, 16px, 0px, 0px);
   }
 
-  .card__coming_soon,
-  .card__locked {
+  .card__thumbnail {
     color: $color-text-secondary;
     left: 50%;
     margin: 0;
@@ -145,8 +144,19 @@ $column--icon-width: 3%;
     @include _column-gap($spacing * 4);
     display: grid;
     display: -ms-grid;
-    grid-template-columns: repeat(3, 1fr);
     text-align: start;
+
+    .card:last-child {
+      display: flex;
+      flex-direction: column;
+
+      .card__text {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+      }
+    }
   }
 
   $max-resource-sheets-numbers-per-key-stage: (
@@ -161,6 +171,18 @@ $column--icon-width: 3%;
     .grid-resources--#{$key-stage} {
       grid-template-columns: $column--info-width repeat($max-resource-sheets-number, auto);
     }
+  }
+}
+
+@media (min-width: 1200px) {
+  .grid-worksheets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .grid-worksheets {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

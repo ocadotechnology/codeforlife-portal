@@ -6,10 +6,12 @@
             <div class="card">
                 <div class="card__images">
                     <img class="card__image" src="{% static card.image %}">
-                    {% if card.coming_soon %}
-                        <h3 class="card__coming_soon">Coming Soon</h3>
-                    {% else %}
-                        <img class="card__locked" src="{% static 'portal/img/sadface.png' %}">
+                    {% if card.description %}
+                        {% if card.coming_soon %}
+                            <h3 class="card__thumbnail">Coming Soon</h3>
+                        {% else %}
+                            <img class="card__thumbnail" src="{% static 'portal/img/sadface.png' %}">
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="card__text">
