@@ -5,7 +5,7 @@ $column--icon-width: 3%;
 
 .card {
   @include _border-radius(16px, 16px, 16px, 16px);
-  @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
+  @include _box-shadow(0px, 5px, 8px, 0px, $color-background-box-shadow);
   @include _margin($spacing * 4, 0px, 0px, 0px);
   background-color: $color-background-secondary;
   padding: 0;
