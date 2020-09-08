@@ -106,3 +106,116 @@ snapshots[
     </div>
 </div>
 """
+
+snapshots[
+    "test_card_list 1"
+] = """
+
+<div class="background">
+    <div class="grid-worksheets col-sm-8 col-center">
+        
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="/static/portal/img/get_creative.png">
+                    
+                        
+                            <img class="card__thumbnail" src="/static/portal/img/sadface.png">
+                        
+                    
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">Test card 1</h3>
+                    
+                        <p>Test description 1</p>
+                    
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="/static/portal/img/get_creative.png">
+                    
+                        
+                            <h3 class="card__thumbnail">Coming Soon</h3>
+                        
+                    
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">Test card 2</h3>
+                    
+                        <p>Test description 2</p>
+                    
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="/static/portal/img/get_creative.png">
+                    
+                        
+                            <h3 class="card__thumbnail">Coming Soon</h3>
+                        
+                    
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">Test card 3</h3>
+                    
+                        <p>Test description 3</p>
+                    
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="/static/portal/img/get_creative.png">
+                    
+                        
+                            <h3 class="card__thumbnail">Coming Soon</h3>
+                        
+                    
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">Test card 4</h3>
+                    
+                        <p>Test description 4</p>
+                    
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="/static/portal/img/get_creative.png">
+                    
+                        
+                            <h3 class="card__thumbnail">Coming Soon</h3>
+                        
+                    
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">Test card 5</h3>
+                    
+                        <p>Test description 5</p>
+                    
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="/static/portal/img/get_creative.png">
+                    
+                </div>
+                <div class="card__text">
+                    <h3 class="card__title">Test card 6</h3>
+                    
+                        <div class="button-group">
+                            <a href="/" class="button button--primary--general-play">
+                                Test button
+                            </a>
+                        </div>
+                    
+                </div>
+            </div>
+        
+    </div>
+</div>
+"""

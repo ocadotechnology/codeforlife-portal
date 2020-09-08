@@ -58,7 +58,7 @@ from portal.helpers.emails import (
     add_to_dotmailer,
 )
 from portal.permissions import logged_in_as_student, logged_in_as_teacher
-from portal.strings.home_learning import HOME_LEARNING_BANNER, CARD_LIST
+from portal.strings.home_learning import HOME_LEARNING_BANNER
 
 
 def teach_email_labeller(request):
@@ -314,5 +314,5 @@ def home_learning(request):
     return render(
         request,
         "portal/home_learning.html",
-        {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER, "CARD_LIST": CARD_LIST},
+        {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER},
     )
