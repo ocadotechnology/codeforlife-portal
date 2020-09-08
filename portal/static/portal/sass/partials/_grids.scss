@@ -186,6 +186,12 @@ $column--icon-width: 3%;
   }
 }
 
+@media (min-width: 768px) {
+  .card__text {
+    @include _font-size(18px);
+  }
+}
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .grid-sessions,
   .grid-resources {
