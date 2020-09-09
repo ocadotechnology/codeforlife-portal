@@ -113,7 +113,6 @@ $column--icon-width: 3%;
 
   .grid-benefits {
     @include _column-gap($spacing * 10);
-    display: -ms-grid;
     display: grid;
     grid-template-areas: "image1 image2 image3"
                           "title1 title2 title3"
@@ -142,7 +141,6 @@ $column--icon-width: 3%;
 
   .grid-worksheets {
     @include _column-gap($spacing * 4);
-    display: -ms-grid;
     display: grid;
     text-align: start;
 
@@ -212,7 +210,6 @@ $column--icon-width: 3%;
   }
 
   .grid-benefits {
-    display: -ms-grid;
     display: grid;
     grid-template-areas: "image1"
                           "title1"
