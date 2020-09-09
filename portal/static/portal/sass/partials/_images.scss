@@ -125,19 +125,19 @@ img {
   object-fit: contain;
 }
 
-@media (min-width: 768px) and (max-width: 1400px) {
+@media (min-width: $tablet-small-min) and (max-width: $desktop-small-max) {
   .logo {
     margin-left: 1%;
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: $tablet-large-max) {
   .logo {
     height: 60px;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $tablet-small-min) {
   .logo {
     content: url('../img/logo_c4l_hexa.png');
     position: fixed;
@@ -146,7 +146,7 @@ img {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max) {
   .logo {
     position: relative;
     height: $cfl-logo-height-xs;

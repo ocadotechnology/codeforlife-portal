@@ -117,7 +117,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max) {
 
   .sub-nav--teacher,
   .sub-nav--student {

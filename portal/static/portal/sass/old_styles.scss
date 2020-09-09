@@ -39,6 +39,7 @@ identified as the original program.
 /* CSS Document */
 
 /* GLOBALS */
+@import "modules/breakpoints";
 
 *,
 *:after,
@@ -1132,7 +1133,7 @@ h1 {
   font-family: 'Source Sans Pro', serif;
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max) {
   body {
     padding-top: 0;
   }
@@ -1142,7 +1143,7 @@ h1 {
   display: none !important;
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max) {
   .hidden-xs {
     display: none !important;
   }

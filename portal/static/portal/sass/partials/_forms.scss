@@ -186,24 +186,16 @@ form {
   }
 }
 
-@media (max-width: 770px) {
-  .form--register {
-    width: 100%;
-  }
-}
-
-@media (max-width: 767px) {
+@media (max-width: $mobile-max) {
   .form__choice {
     display: none;
   }
 
   .form--register {
     @include _padding(40px, 0px, 30px, 0px);
+    width: 100%;
   }
 
-}
-
-@media (max-width: 767px) {
   .footer {
     background-color: $color-background-tertiary;
     text-align: center;
