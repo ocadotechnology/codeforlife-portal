@@ -7,13 +7,15 @@ register = template.Library()
 def card_list(context):
     """
     Registers the inclusion tag for the hero card partial.
-    The template currently expects the following context elements:
-    - image: the path to the image at the top of the hero card
-    - title: the heading of the hero card
-    - description: the text paragraph of the hero card
-    - button1_text: the text on the card's first button
-    - button1_link: the link that the first button redirects to
-    - button2_text: the text on the card's second button
-    - button2_link: the link that the second button redirects to
+    The template currently expects a list of elements which each contain the following:
+    - image: the path to the card's image (top-half)
+    - title: the heading of the card
+    - description (optional): the text paragraph of the card
+    - has_thumbnail (optional): boolean, whether or not the card has a thumbnail on the
+    image
+    - thumbnail_text (optional): text to be shown as the thumbnail
+    - thumbnail_image (optional): the path to the image to be shown as the thumbnail
+    - button_text (optional): the text on the card's button
+    - button_link (optional): the link that the button redirects to
     """
     return context["CARD_LIST"]
