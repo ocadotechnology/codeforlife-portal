@@ -6,12 +6,10 @@
             <div class="card">
                 <div class="card__images">
                     <img class="card__image" src="{% static card.image %}">
-                    {% if card.has_thumbnail %}
-                        {% if card.thumbnail_text %}
-                            <h3 class="card__thumbnail">{{ card.thumbnail_text }}</h3>
-                        {% elif card.thumbnail_image %}
-                            <img class="card__thumbnail" src="{% static card.thumbnail_image %}">
-                        {% endif %}
+                    {% if card.thumbnail_text %}
+                        <h3 class="card__thumbnail">{{ card.thumbnail_text }}</h3>
+                    {% elif card.thumbnail_image %}
+                        <img class="card__thumbnail" src="{% static card.thumbnail_image %}">
                     {% endif %}
                 </div>
                 <div class="card__text">

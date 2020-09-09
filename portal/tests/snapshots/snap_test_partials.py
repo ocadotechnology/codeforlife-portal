@@ -118,9 +118,7 @@ snapshots[
                 <div class="card__images">
                     <img class="card__image" src="/static/portal/img/get_creative.png">
                     
-                        
-                            <img class="card__thumbnail" src="/static/portal/img/sadface.png">
-                        
+                        <img class="card__thumbnail" src="/static/portal/img/sadface.png">
                     
                 </div>
                 <div class="card__text">
@@ -135,9 +133,7 @@ snapshots[
                 <div class="card__images">
                     <img class="card__image" src="/static/portal/img/get_creative.png">
                     
-                        
-                            <h3 class="card__thumbnail">Coming Soon</h3>
-                        
+                        <h3 class="card__thumbnail">Coming Soon</h3>
                     
                 </div>
                 <div class="card__text">
@@ -152,9 +148,7 @@ snapshots[
                 <div class="card__images">
                     <img class="card__image" src="/static/portal/img/get_creative.png">
                     
-                        
-                            <h3 class="card__thumbnail">Coming Soon</h3>
-                        
+                        <h3 class="card__thumbnail">Coming Soon</h3>
                     
                 </div>
                 <div class="card__text">
@@ -169,9 +163,7 @@ snapshots[
                 <div class="card__images">
                     <img class="card__image" src="/static/portal/img/get_creative.png">
                     
-                        
-                            <h3 class="card__thumbnail">Coming Soon</h3>
-                        
+                        <h3 class="card__thumbnail">Coming Soon</h3>
                     
                 </div>
                 <div class="card__text">
@@ -186,9 +178,7 @@ snapshots[
                 <div class="card__images">
                     <img class="card__image" src="/static/portal/img/get_creative.png">
                     
-                        
-                            <h3 class="card__thumbnail">Coming Soon</h3>
-                        
+                        <h3 class="card__thumbnail">Coming Soon</h3>
                     
                 </div>
                 <div class="card__text">
