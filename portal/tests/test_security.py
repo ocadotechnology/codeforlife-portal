@@ -44,7 +44,7 @@ from django.test import Client, TestCase
 
 from common.models import School, Student, UserProfile
 from common.tests.utils.classes import create_class_directly
-from common.utils.teacher import signup_teacher_directly
+from common.tests.utils.teacher import signup_teacher_directly
 
 
 class SecurityTestCase(TestCase):

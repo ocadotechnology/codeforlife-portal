@@ -55,8 +55,8 @@ from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
 from common.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from portal.permissions import logged_in_as_teacher
-from portal.utils import using_two_factor
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))

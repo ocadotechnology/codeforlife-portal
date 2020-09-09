@@ -38,19 +38,20 @@ from __future__ import absolute_import
 
 import time
 
-from aimmo.models import Game
+from aimmo.models import Game, Worksheet
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 from selenium.webdriver.support.wait import WebDriverWait
 
 from common.models import Class, Student, Teacher
+from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.utils.student import (
+from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
 )
-from common.utils.teacher import (
+from common.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,
     signup_teacher_directly,
@@ -59,7 +60,6 @@ from common.utils.teacher import (
 
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
-from .utils import email as email_utils
 from .utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
@@ -85,7 +85,13 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email, password=password)
-        c.post(reverse("kurono"), {"name": "Test Game", "game_class": klass.pk})
+        worksheet: Worksheet = Worksheet.objects.create(
+            name="test", starter_code="test"
+        )
+        c.post(
+            reverse("kurono"),
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+        )
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
             {"names": "Florian"},
@@ -123,7 +129,13 @@ class TestTeachers(TestCase):
         c.logout()
 
         c.login(username=email, password=password)
-        c.post(reverse("kurono"), {"name": "Test Game", "game_class": klass.pk})
+        worksheet: Worksheet = Worksheet.objects.create(
+            name="test", starter_code="test"
+        )
+        c.post(
+            reverse("kurono"),
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+        )
         c.post(
             reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
             {"name": "Florian"},
@@ -141,6 +153,10 @@ class TestTeachers(TestCase):
             - Students in each class still only have access to their class games
             - Teacher 2 has access to both games and teacher 1 has access to none
         """
+        worksheet: Worksheet = Worksheet.objects.create(
+            name="test", starter_code="test"
+        )
+
         # Create teacher 1 -> class 1 -> student 1
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
@@ -160,12 +176,18 @@ class TestTeachers(TestCase):
 
         # Create game 1 under class 1
         c.login(username=email1, password=password1)
-        c.post(reverse("kurono"), {"name": "Game 1", "game_class": klass1.pk})
+        c.post(
+            reverse("kurono"),
+            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
+        )
         c.logout()
 
         # Create game 2 under class 2
         c.login(username=email2, password=password2)
-        c.post(reverse("kurono"), {"name": "Game 2", "game_class": klass2.pk})
+        c.post(
+            reverse("kurono"),
+            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
+        )
         c.logout()
 
         game1: Game = Game.objects.get(owner=teacher1.new_user)
@@ -222,6 +244,10 @@ class TestTeachers(TestCase):
         When a teacher transfers them to another class with a new teacher,
         Then the student should only have access to the new teacher's games
         """
+        worksheet: Worksheet = Worksheet.objects.create(
+            name="test", starter_code="test"
+        )
+
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
         klass1, _, access_code1 = create_class_directly(email1, True)
@@ -237,11 +263,17 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email2, password=password2)
-        c.post(reverse("kurono"), {"name": "Game 2", "game_class": klass2.pk})
+        c.post(
+            reverse("kurono"),
+            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
+        )
         c.logout()
 
         c.login(username=email1, password=password1)
-        c.post(reverse("kurono"), {"name": "Game 1", "game_class": klass1.pk})
+        c.post(
+            reverse("kurono"),
+            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
+        )
 
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)

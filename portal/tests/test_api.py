@@ -42,7 +42,7 @@ from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from common.utils.user import create_user_directly, get_superuser
+from common.tests.utils.user import create_user_directly, get_superuser
 
 
 class APITests(APITestCase):

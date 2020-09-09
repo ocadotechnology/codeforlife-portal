@@ -49,7 +49,7 @@ from django_countries import countries
 from portal.app_settings import CONTACT_FORM_EMAILS
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from portal.models import EmailVerification
-from portal.permissions import logged_in_as_independent_student
+from common.permissions import logged_in_as_independent_student
 
 
 def verify_email(request, token):

@@ -44,7 +44,7 @@ from django.shortcuts import render
 from portal import email_messages
 from portal.forms.play import StudentJoinOrganisationForm
 from common.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.permissions import logged_in_as_student, logged_in_as_independent_student
+from common.permissions import logged_in_as_student, logged_in_as_independent_student
 
 
 @login_required(login_url=reverse_lazy("student_login"))

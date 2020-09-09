@@ -47,7 +47,7 @@ from django.views.generic.edit import FormView
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
 from common.helpers.emails import update_email
 from portal.helpers.password import check_update_password
-from portal.permissions import logged_in_as_student
+from common.permissions import logged_in_as_student
 
 
 def _get_form(self, form_class):

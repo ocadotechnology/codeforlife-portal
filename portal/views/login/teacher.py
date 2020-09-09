@@ -8,8 +8,8 @@ from portal import handlers
 
 from portal.forms.teach import TeacherLoginForm
 from portal.views.home import redirect_teacher_to_correct_page
-from portal.permissions import logged_in_as_teacher
-from portal.utils import using_two_factor
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 
 
 class TeacherLoginView(LoginView):

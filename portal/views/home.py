@@ -55,7 +55,7 @@ from common.helpers.emails import (
     NOTIFICATION_EMAIL,
     add_to_dotmailer,
 )
-from portal.permissions import logged_in_as_student, logged_in_as_teacher
+from common.permissions import logged_in_as_student, logged_in_as_teacher
 from portal.strings.home_learning import HOME_LEARNING_BANNER
 
 

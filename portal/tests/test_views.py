@@ -39,8 +39,8 @@ from django.test import Client, TestCase
 
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
-from common.utils.student import create_school_student_directly
-from common.utils.teacher import signup_teacher_directly
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
 from deploy import captcha
 
 from .utils.organisation import (

@@ -82,7 +82,7 @@ from common.helpers.generators import (
     generate_new_student_name,
     generate_password,
 )
-from portal.permissions import logged_in_as_teacher
+from common.permissions import logged_in_as_teacher
 from portal.templatetags.app_tags import cloud_storage
 from portal.views.teacher.pdfs import PDF_DATA
 

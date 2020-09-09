@@ -140,7 +140,6 @@ SETTINGS = {
         "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
     },
     "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
-    "CAN_DELETE_GAME_CLASS": "portal.permissions.CanDeleteGame",
     "SECURE_CONTENT_TYPE_NOSNIFF": True,
     "HIJACK_LOGIN_REDIRECT_URL": "/",
     "HIJACK_LOGOUT_REDIRECT_URL": "/administration/",

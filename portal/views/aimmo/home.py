@@ -49,11 +49,10 @@ class AimmoHomeView(LoginRequiredMixin, CreateView):
 
     def get_form(self, form_class=None):
         user = self.request.user
-        playable_games = user.playable_games.all()
         classes = user.userprofile.teacher.class_teacher.all()
         if form_class is None:
             form_class = self.get_form_class()
-        return form_class(playable_games, classes, **self.get_form_kwargs())
+        return form_class(classes, **self.get_form_kwargs())
 
     def form_valid(self, form):
         create_game(self.request.user, form)
