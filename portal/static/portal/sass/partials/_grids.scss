@@ -66,7 +66,11 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $tablet-small-width) {
+  .card__text {
+    @include _font-size(18px);
+  }
+
   .grid-games {
     @include _column-gap($spacing * 10);
     display: grid;
@@ -184,13 +188,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: $tablet-small-min) {
-  .card__text {
-    @include _font-size(18px);
-  }
-}
-
-@media (max-width: $mobile-max) {
+@media (max-width: $tablet-small-width - 1) {
   .grid-icon {
     display: none;
   }

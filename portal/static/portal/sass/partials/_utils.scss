@@ -224,7 +224,7 @@ input.input-invalid {
   border-color: $color-error;
 }
 
-@media (max-width: $tablet-large-max) {
+@media (max-width: $desktop-small-width - 1) {
   .col-sm-offset-2 {
     margin-left: 8.333%;
   }
@@ -234,7 +234,7 @@ input.input-invalid {
   }
 }
 
-@media (min-width: $tablet-small-min) {
+@media (min-width: $tablet-small-width) {
 
   .row--flex {
     display: flex;
@@ -246,7 +246,7 @@ input.input-invalid {
 
 }
 
-@media (max-width: $mobile-max) {
+@media (max-width: $tablet-small-width - 1) {
 
   .col-sm-offset-2 {
     margin-left: 0;

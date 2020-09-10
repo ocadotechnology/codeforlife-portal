@@ -121,7 +121,7 @@
   }
 }
 
-@media (min-width: $desktop-large-min) {
+@media (min-width: $desktop-large-width) {
   .menu__right-side {
     align-items: center;
     display: flex;
@@ -138,19 +138,19 @@
   }
 }
 
-@media (min-width: $desktop-small-min) and (max-width: $desktop-small-max) {
+@media (min-width: $desktop-small-width) and (max-width: $desktop-large-width - 1) {
   .menu__brand {
     margin-left: 13%;
   }
 }
 
-@media (min-width: $tablet-large-min) and (max-width: $tablet-large-max) {
+@media (min-width: $tablet-large-width) and (max-width: $desktop-small-width - 1) {
   .menu__brand {
     margin-left: 8%;
   }
 }
 
-@media (min-width: $tablet-large-min) {
+@media (min-width: $tablet-large-width) {
   .menu__brand {
     @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
     width: 15%;
@@ -162,7 +162,7 @@
   }
 }
 
-@media (min-width: $tablet-small-min) and (max-width: $tablet-small-max) {
+@media (min-width: $tablet-small-width) and (max-width: $tablet-large-width - 1) {
   .menu__brand {
     @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
     margin-left: 11%;
@@ -175,14 +175,14 @@
   }
 }
 
-@media (min-width: $tablet-small-min) and (max-width: $desktop-small-max) {
+@media (min-width: $tablet-small-width) and (max-width: $desktop-large-width - 1) {
   .menu__right-side {
     align-items: center;
     display: flex;
   }
 }
 
-@media (min-width: $tablet-small-min) {
+@media (min-width: $tablet-small-width) {
   .menu {
     background-color: $color-background-secondary;
     border-bottom: 1px solid $color-background-tertiary;
@@ -248,7 +248,7 @@
   height: 30px;
 }
 
-@media (max-width: $mobile-max) {
+@media (max-width: $tablet-small-width - 1) {
   .menu {
     height: $menu-height-xs;
 

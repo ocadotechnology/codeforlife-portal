@@ -75,7 +75,7 @@
   padding-top: 30px;
 }
 
-@media (min-width: $desktop-extra-large-min) {
+@media (min-width: $desktop-extra-large-width) {
 
   $height-onboarding-step: 50px;
   @include arrow-properties($height-onboarding-step);
@@ -86,7 +86,7 @@
 
 }
 
-@media (max-width: $desktop-large-max) {
+@media (max-width: $desktop-extra-large-width - 1) {
 
   $height-onboarding-step: 76px;
   @include arrow-properties($height-onboarding-step);
@@ -120,7 +120,7 @@
 
 }
 
-@media (min-width: $tablet-small-min) {
+@media (min-width: $tablet-small-width) {
   .onboarding-step--done {
     background: $color-onboarding-step-done-background;
     border-bottom: 1px solid $color-background-secondary;
@@ -179,7 +179,7 @@
 
 }
 
-@media (max-width: $mobile-max) {
+@media (max-width: $tablet-small-width - 1) {
   .arrows {
     @include _padding(0px, 0px, 0px, 15px);
     flex-direction: column-reverse;

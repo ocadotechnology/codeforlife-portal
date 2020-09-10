@@ -16,7 +16,7 @@
 @import 'partials/utils';
 @import 'partials/videos';
 
-@media (min-width: $tablet-small-min) {
+@media (min-width: $tablet-small-width) {
   body {
     padding-top: 80px;
   }

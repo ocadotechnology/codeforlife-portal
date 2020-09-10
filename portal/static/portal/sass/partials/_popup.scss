@@ -80,7 +80,7 @@
 }
 
 
-@media (max-width: $mobile-max) {
+@media (max-width: $tablet-small-width - 1) {
   .popup-wrapper {
     .popup-box {
       width: 80%;
