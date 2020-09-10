@@ -146,6 +146,7 @@ $column--icon-width: 3%;
   .grid-worksheets {
     @include _column-gap($spacing * 4);
     display: grid;
+    //grid-template-columns: repeat(auto-fit, minmax(245px, 30%));
     text-align: start;
 
     .card:last-child {
@@ -176,13 +177,13 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: $desktop-small-min) {
+@media (min-width: $desktop-small-width) {
   .grid-worksheets {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (min-width: $tablet-small-min) and (max-width: $tablet-large-max) {
+@media (min-width: $tablet-small-width) and (max-width: $desktop-small-width - 1) {
   .grid-worksheets {
     grid-template-columns: repeat(2, 1fr);
   }
