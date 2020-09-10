@@ -34,12 +34,19 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from common.models import School, Teacher, UserProfile, Class, Student
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from portal.models import Guardian, EmailVerification
+from common.models import (
+    Class,
+    EmailVerification,
+    School,
+    Student,
+    Teacher,
+    UserProfile,
+)
+from portal.models import Guardian
 
 
 class ClassAdmin(admin.ModelAdmin):

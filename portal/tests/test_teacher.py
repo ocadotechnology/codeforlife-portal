@@ -76,7 +76,7 @@ class TestTeachers(TestCase):
         """
         Given a teacher has an Kurono game,
         When they add a new student to their class,
-        Then the new student should be able to play that classes' games
+        Then the new student should be able to play that class's games
         """
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -105,7 +105,7 @@ class TestTeachers(TestCase):
         """
         Given an independent student requests access to a class,
         When the teacher for that class accepts the request,
-        Then the new student should have access to that classes' games
+        Then the new student should have access to that class's games
         """
         email, password = signup_teacher_directly()
         create_organisation_directly(email)

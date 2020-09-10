@@ -36,7 +36,6 @@
 # identified as the original program.
 from datetime import timedelta
 
-from common.models import School, Teacher, Student
 from django.contrib import messages as messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
@@ -46,10 +45,10 @@ from django.shortcuts import render
 from django.utils import timezone
 from django_countries import countries
 
-from portal.app_settings import CONTACT_FORM_EMAILS
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
-from portal.models import EmailVerification
+from common.models import EmailVerification, School, Student, Teacher
 from common.permissions import logged_in_as_independent_student
+from portal.app_settings import CONTACT_FORM_EMAILS
 
 
 def verify_email(request, token):

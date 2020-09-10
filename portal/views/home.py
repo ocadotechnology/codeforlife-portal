@@ -44,7 +44,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
 from deploy import captcha
-from portal import email_messages
+from common import email_messages
 from portal.forms.newsletter_form import NewsletterForm
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm

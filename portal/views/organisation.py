@@ -47,7 +47,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 
 import common.permissions as permissions
-from portal import email_messages
+from common import email_messages
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
 from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 

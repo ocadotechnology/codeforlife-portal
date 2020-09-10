@@ -44,7 +44,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
-from portal import email_messages
+from common import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
