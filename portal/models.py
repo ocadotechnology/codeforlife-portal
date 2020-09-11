@@ -51,16 +51,3 @@ class Guardian(models.Model):
 
     def __str__(self):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
-
-
-class EmailVerification(models.Model):
-    user = models.ForeignKey(
-        User, related_name="email_verifications", null=True, blank=True
-    )
-    token = models.CharField(max_length=30)
-    email = models.CharField(max_length=200, null=True, default=None, blank=True)
-    expiry = models.DateTimeField()
-    verified = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Email verification for {self.user.username}, ({self.email})"

@@ -40,7 +40,7 @@ from django.conf import settings
 from django.template.defaultfilters import stringfilter
 from portal import __version__
 from portal import beta
-from portal.utils import using_two_factor
+from common.utils import using_two_factor
 
 register = template.Library()
 

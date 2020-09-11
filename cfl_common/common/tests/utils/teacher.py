@@ -34,15 +34,15 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from __future__ import absolute_import
 
 import random
 import sys
 
-from common.models import Teacher
 from django.core import mail
 
-from portal.helpers.emails import generate_token
+from common.helpers.emails import generate_token
+from common.models import Teacher
+
 from . import email
 
 

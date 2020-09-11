@@ -34,14 +34,14 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from __future__ import absolute_import
-
 from builtins import range
+from typing import Tuple
 
-from common.models import Class, Student
 from django.core import mail
 
-from portal.helpers.emails import generate_token
+from common.helpers.emails import generate_token
+from common.models import Class, Student
+
 from . import email
 
 
@@ -57,7 +57,15 @@ def generate_school_details():
 generate_school_details.next_id = 1
 
 
-def create_school_student_directly(access_code):
+def create_school_student_directly(access_code) -> Tuple[str, str, Student]:
+    """Creates a new student in the class with the specified access code.
+
+    Args:
+        access_code (str): The access code of the class the created student will be in
+
+    Returns:
+        Tuple[str, str, Student]: (name, password, student)
+    """
     name, password = generate_school_details()
 
     klass = Class.objects.get(access_code=access_code)

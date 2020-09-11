@@ -23,6 +23,19 @@ class UserProfile(models.Model):
         return now - timedelta(days=7) <= self.user.date_joined
 
 
+class EmailVerification(models.Model):
+    user = models.ForeignKey(
+        User, related_name="email_verifications", null=True, blank=True
+    )
+    token = models.CharField(max_length=30)
+    email = models.CharField(max_length=200, null=True, default=None, blank=True)
+    expiry = models.DateTimeField()
+    verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Email verification for {self.user.username}, ({self.email})"
+
+
 class School(models.Model):
     name = models.CharField(max_length=200)
     postcode = models.CharField(max_length=10)
@@ -131,14 +144,14 @@ class Class(models.Model):
                 "This class is currently set to always accept requests."
             )
         elif (
-                self.accept_requests_until is not None
-                and (self.accept_requests_until - timezone.now()) >= timedelta()
+            self.accept_requests_until is not None
+            and (self.accept_requests_until - timezone.now()) >= timedelta()
         ):
             external_requests_message = (
-                    "This class is accepting external requests until "
-                    + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
-                    + " "
-                    + timezone.get_current_timezone_name()
+                "This class is accepting external requests until "
+                + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
+                + " "
+                + timezone.get_current_timezone_name()
             )
         else:
             external_requests_message = (

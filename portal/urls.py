@@ -52,7 +52,7 @@ from two_factor.views import (
     SetupView,
 )
 
-from portal.permissions import teacher_verified
+from common.permissions import teacher_verified
 from portal.views.about import about
 from portal.views.admin import AdminLoginView, aggregated_data, schools_map
 from portal.views.aimmo.home import AimmoHomeView

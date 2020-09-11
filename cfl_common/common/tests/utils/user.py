@@ -13,7 +13,7 @@ def get_superuser():
 
 
 def create_user_directly(active=True, **kwargs):
-    """Create a inactive user on the database."""
+    """Create a user in the database."""
     days_to_subtract = 10 if active else 2000
     username = "old_user+{:d}".format(create_user_directly.next_id)
     user = User.objects.create_user(username, password="password")

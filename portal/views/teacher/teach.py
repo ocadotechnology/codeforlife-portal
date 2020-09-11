@@ -61,7 +61,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
-from portal import email_messages
+from common import email_messages
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -76,13 +76,13 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
-from portal.helpers.emails import INVITE_FROM, send_email, send_verification_email
-from portal.helpers.generators import (
+from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
+from common.helpers.generators import (
     generate_access_code,
     generate_new_student_name,
     generate_password,
 )
-from portal.permissions import logged_in_as_teacher
+from common.permissions import logged_in_as_teacher
 from portal.templatetags.app_tags import cloud_storage
 from portal.views.teacher.pdfs import PDF_DATA
 
@@ -223,10 +223,6 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
 
                 new_student = Student.objects.schoolFactory(
                     klass=klass, name=name, password=password
-                )
-
-                give_student_access_to_aimmo_games(
-                    student=new_student, new_teacher=teacher
                 )
 
             return render(
@@ -590,8 +586,6 @@ def process_dismiss_student_form(request, formset, klass, access_code):
             Student, class_field=klass, new_user__first_name__iexact=data["orig_name"]
         )
 
-        remove_access_from_all_aimmo_games(student, klass.teacher)
-
         student.class_field = None
         student.new_user.first_name = data["name"]
         student.new_user.username = data["name"]
@@ -667,54 +661,21 @@ def teacher_move_class(request, access_code):
         form = ClassMoveForm(other_teachers, request.POST)
         if form.is_valid():
             new_teacher_id = form.cleaned_data["new_teacher"]
-            new_teacher = Teacher.objects.get(id=new_teacher_id)
+            new_teacher = get_object_or_404(Teacher, id=new_teacher_id)
 
-            klass.teacher = get_object_or_404(Teacher, id=new_teacher_id)
+            klass.teacher = new_teacher
             klass.save()
-
-            students = Student.objects.filter(class_field=klass)
-
-            for student in students:
-                give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
 
             messages.success(
                 request,
                 "The class has been successfully assigned to a different teacher.",
             )
-
             return HttpResponseRedirect(reverse_lazy("dashboard"))
     else:
         form = ClassMoveForm(other_teachers)
     return render(
         request, "portal/teach/teacher_move_class.html", {"form": form, "class": klass}
     )
-
-
-def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
-    """
-    Give students access to all of their current teacher's (new_teacher) Kurono games,
-    Remove access to games from previous teacher
-    """
-    games_to_add = Game.objects.filter(owner=new_teacher.new_user)
-
-    if old_teacher:
-        games_to_remove = Game.objects.filter(owner=old_teacher.new_user)
-
-        for game_to_remove in games_to_remove:
-            game_to_remove.can_play.remove(student.new_user)
-
-    for game_to_add in games_to_add:
-        game_to_add.can_play.add(student.new_user)
-
-
-def remove_access_from_all_aimmo_games(student, teacher):
-    """
-    Remove access to all games (when the student becomes independent)
-    """
-    games_to_remove = Game.objects.filter(owner=teacher.new_user)
-
-    for game in games_to_remove:
-        game.can_play.remove(student.new_user)
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -836,8 +797,6 @@ def process_move_students_form(request, formset, old_class, new_class):
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
-
-        give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
 
         student.save()
         student.new_user.save()

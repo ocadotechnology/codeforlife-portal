@@ -37,21 +37,23 @@
 from __future__ import absolute_import
 
 from builtins import range
+
 from django.core import mail
 
+from common.tests.utils import email as email_utils
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import generate_details, signup_teacher_directly
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
+
 from .base_test import BaseTest
-from .utils import email as email_utils
-from .utils.classes import create_class_directly
 from .utils.messages import is_organisation_created_message_showing
 from .utils.organisation import (
     create_organisation,
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from .utils.student import create_school_student_directly
-from .utils.teacher import signup_teacher_directly, generate_details
 
 
 class TestOrganisation(BaseTest, BasePage):

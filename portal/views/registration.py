@@ -61,8 +61,8 @@ from portal.forms.registration import (
     StudentPasswordResetForm,
 )
 from portal.helpers.captcha import remove_captcha_from_form
-from portal.helpers.emails import PASSWORD_RESET_EMAIL
-from portal.permissions import not_logged_in, not_fully_logged_in
+from common.helpers.emails import PASSWORD_RESET_EMAIL
+from common.permissions import not_logged_in, not_fully_logged_in
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))

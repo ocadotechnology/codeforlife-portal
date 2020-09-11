@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 
-from portal.permissions import logged_in_as_teacher
+from common.permissions import logged_in_as_teacher
 from portal.strings.materials import MATERIALS_BANNER
 from portal.views.teacher.pdfs import PDF_DATA
 

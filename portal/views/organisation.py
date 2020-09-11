@@ -46,10 +46,10 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 
-import portal.permissions as permissions
-from portal import email_messages
+import common.permissions as permissions
+from common import email_messages
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
+from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 
 
 class OrganisationFuzzyLookup(APIView):

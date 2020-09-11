@@ -40,7 +40,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from rest_framework import permissions
 
-from portal.utils import using_two_factor
+from common.utils import using_two_factor
 
 
 def has_completed_auth_setup(u):

@@ -44,20 +44,19 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
-from portal import email_messages
+from common import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
     TeacherAddExternalStudentForm,
     TeacherEditAccountForm,
 )
-from portal.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
-from portal.helpers.generators import generate_access_code, get_random_username
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
+from common.helpers.generators import generate_access_code, get_random_username
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from portal.permissions import logged_in_as_teacher
-from portal.utils import using_two_factor
-from portal.views.teacher.teach import give_student_access_to_aimmo_games
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -449,8 +448,6 @@ def teacher_accept_student_request(request, pk):
             student.new_user.first_name = data["name"]
             student.new_user.last_name = ""
             student.new_user.email = ""
-
-            give_student_access_to_aimmo_games(student=student, new_teacher=teacher)
 
             student.save()
             student.new_user.save()

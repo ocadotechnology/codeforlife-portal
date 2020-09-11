@@ -43,11 +43,13 @@ from django.utils import timezone
 from requests import post
 from requests.exceptions import RequestException
 
-from portal import app_settings
-from portal.email_messages import emailChangeNotificationEmail
-from portal.email_messages import emailChangeVerificationEmail
-from portal.email_messages import emailVerificationNeededEmail
-from portal.models import EmailVerification
+from common.email_messages import (
+    emailChangeNotificationEmail,
+    emailChangeVerificationEmail,
+    emailVerificationNeededEmail,
+)
+from common.models import EmailVerification
+from common import app_settings
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
