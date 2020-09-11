@@ -46,7 +46,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
-from portal.permissions import logged_in_as_independent_student
+from common.permissions import logged_in_as_independent_student
 
 
 class StudentLoginForm(AuthenticationForm):

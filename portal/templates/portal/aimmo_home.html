@@ -38,7 +38,13 @@ button--menu--enabled button--menu--student--active">My Games</a>
                     <form autocomplete="off" id="create-game-form" method="post">
                         {% csrf_token %}
                         <div class="button-group">
-                            {{ form }}
+                            {% for field in form %}
+                                <div class="column">
+                                    {{ field.errors }}
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
                             <a id="create_game_button"
                                name="create_class"
                                class="button button--regular button-primary button--primary--general-educate"

@@ -39,7 +39,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client
 import pytest
 
-from portal.helpers.emails import add_to_dotmailer
+from common.helpers.emails import add_to_dotmailer
 
 
 @pytest.mark.django_db
@@ -51,7 +51,7 @@ def test_send_new_users_numbers_email():
 
 
 def test_newsletter_sends_correct_request(mocker, monkeypatch):
-    mocked_post = mocker.patch("portal.helpers.emails.post")
+    mocked_post = mocker.patch("common.helpers.emails.post")
 
     expected_body = {
         "email": "ray.charles@example.com",

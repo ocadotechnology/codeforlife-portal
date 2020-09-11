@@ -40,26 +40,12 @@ CONTACT_FORM_EMAILS = getattr(
     settings, "PORTAL_CONTACT_FORM_EMAIL", ("codeforlife@ocado.com",)
 )
 
-#: Email address to source notifications from
-EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education")
 
 #: Private key for Recaptcha
 RECAPTCHA_PRIVATE_KEY = getattr(settings, "RECAPTCHA_PRIVATE_KEY", None)
 
 #: Public key for Recaptcha
 RECAPTCHA_PUBLIC_KEY = getattr(settings, "RECAPTCHA_PUBLIC_KEY", None)
-
-#: Dotmailer URL for adding users to the newsletter address book
-DOTMAILER_URL = getattr(settings, "DOTMAILER_URL", "")
-
-#: Dotmailer username for API authentication
-DOTMAILER_USER = getattr(settings, "DOTMAILER_USER", "")
-
-#: Dotmailer password for API authentication
-DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
-
-#: Dotmailer default preferences to what users are signed up to
-DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
 
 DEBUG = getattr(settings, "DEBUG", False)
 

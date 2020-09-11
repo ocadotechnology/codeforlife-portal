@@ -45,9 +45,9 @@ from django.http import HttpResponseRedirect
 from django.views.generic.edit import FormView
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
-from portal.helpers.emails import update_email
+from common.helpers.emails import update_email
 from portal.helpers.password import check_update_password
-from portal.permissions import logged_in_as_student
+from common.permissions import logged_in_as_student
 
 
 def _get_form(self, form_class):
@@ -84,6 +84,7 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
     A FormView for editing a school student's account details. This forms enables a
     school student to change their password.
     """
+
     login_url = reverse_lazy("student_login")
     form_class = StudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
@@ -116,6 +117,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     A FormView for editing an independent student's account details. This forms enables
     an independent student to change their name, their email and / or their password.
     """
+
     login_url = reverse_lazy("independent_student_login")
     form_class = IndependentStudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"

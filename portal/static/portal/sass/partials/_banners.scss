@@ -1,9 +1,7 @@
 @import 'base';
 
 .banner {
-
   p {
-
     a,
     a:visited,
     a:active {
@@ -17,7 +15,6 @@
       color: $color-text-secondary;
       text-decoration: none;
     }
-
   }
 
   h1,
@@ -199,7 +196,6 @@
   .banner__text--center {
     @include _padding(97.5px, 0px, 97.5px, 0px);
   }
-
 }
 
 .banner--student--plain {
@@ -215,7 +211,6 @@
   .progress-arrow__body--in-progress p {
     color: $color-background-tertiary;
   }
-
 }
 
 .banner--aimmo-home {
@@ -268,20 +263,24 @@
 
   .button-group {
     display: flex;
+    align-items: flex-end;
   }
 
   #create-game-form {
     padding: 0;
 
-    label,
     .errorlist {
       display: none;
     }
 
-    input {
+    label {
+      color: white;
+    }
+
+    input,
+    select {
       height: auto;
       margin: 0;
-      width: 65%;
 
       &::placeholder {
         color: $color-error;
@@ -352,7 +351,6 @@
     height: 320px;
     width: 560px;
   }
-
 }
 
 .banner--error-page {
@@ -364,7 +362,6 @@
 }
 
 @media (max-width: 1200px) {
-
   .banner {
     .col-sm-offset-2 {
       margin-left: 0;
