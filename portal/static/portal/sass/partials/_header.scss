@@ -175,7 +175,7 @@
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
   .menu__right-side {
     align-items: center;
     display: flex;

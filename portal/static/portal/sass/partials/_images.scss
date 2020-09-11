@@ -125,7 +125,7 @@ img {
   object-fit: contain;
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
   .logo {
     margin-left: 1%;
   }
