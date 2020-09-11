@@ -1133,7 +1133,7 @@ h1 {
   font-family: 'Source Sans Pro', serif;
 }
 
-@media (max-width: $tablet-small-width - 1) {
+@media (max-width: $mobile-max-width) {
   body {
     padding-top: 0;
   }
@@ -1143,7 +1143,7 @@ h1 {
   display: none !important;
 }
 
-@media (max-width: $tablet-small-width - 1) {
+@media (max-width: $mobile-max-width) {
   .hidden-xs {
     display: none !important;
   }

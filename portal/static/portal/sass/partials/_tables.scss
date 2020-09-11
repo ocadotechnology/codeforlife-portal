@@ -240,7 +240,7 @@ td {
   }
 }
 
-@media (max-width: $tablet-small-width - 1) {
+@media (max-width: $mobile-max-width) {
   .games-table {
     width: 100%;
     word-break: keep-all;

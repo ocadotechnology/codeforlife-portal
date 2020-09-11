@@ -66,7 +66,26 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: $tablet-small-width) {
+.grid-worksheets {
+  @include _column-gap($spacing * 4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  text-align: start;
+
+  .card:last-child {
+    display: flex;
+    flex-direction: column;
+
+    .card__text {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+  }
+}
+
+@media (min-width: $tablet-small-min-width) {
   .card__text {
     @include _font-size(18px);
   }
@@ -143,24 +162,6 @@ $column--icon-width: 3%;
     grid-area: button3;
   }
 
-  .grid-worksheets {
-    @include _column-gap($spacing * 4);
-    display: grid;
-    text-align: start;
-
-    .card:last-child {
-      display: flex;
-      flex-direction: column;
-
-      .card__text {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        justify-content: space-between;
-      }
-    }
-  }
-
   $max-resource-sheets-numbers-per-key-stage: (
           ks1: 4,
           ks2: 3,
@@ -176,25 +177,7 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: $desktop-small-width) {
-  .grid-worksheets {
-    grid-template-columns: repeat(auto-fill, minmax($card-minimum-width-desktop, 30%));
-  }
-}
-
-@media (min-width: $tablet-large-width) and (max-width: $desktop-small-width - 1) {
-  .grid-worksheets {
-    grid-template-columns: repeat(auto-fill, minmax($card-minimum-width-tablet-large, 1fr));
-  }
-}
-
-@media (min-width: $tablet-small-width) and (max-width: $tablet-large-width - 1) {
-  .grid-worksheets {
-    grid-template-columns: repeat(auto-fill, minmax($card-minimum-width-tablet-small, 1fr));
-  }
-}
-
-@media (max-width: $tablet-small-width - 1) {
+@media (max-width: $mobile-max-width) {
   .grid-icon {
     display: none;
   }

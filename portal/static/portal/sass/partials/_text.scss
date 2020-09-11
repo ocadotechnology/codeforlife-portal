@@ -166,7 +166,7 @@ label {
 
 }
 
-@media (min-width: $desktop-large-width) {
+@media (min-width: $desktop-large-min-width) {
   html {
     font-size: 10px;
   }
@@ -176,7 +176,7 @@ label {
   }
 }
 
-@media (min-width: $desktop-small-width) and (max-width: $desktop-large-width - 1) {
+@media (min-width: $desktop-small-min-width) and (max-width: $desktop-small-max-width) {
   html {
     font-size: 9px;
   }
@@ -186,7 +186,7 @@ label {
   }
 }
 
-@media (min-width: $tablet-large-width) and (max-width: $desktop-small-width - 1) {
+@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
   html {
     font-size: 9px;
   }
@@ -196,7 +196,7 @@ label {
   }
 }
 
-@media (min-width: $tablet-small-width) and (max-width: $tablet-large-width - 1) {
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
   html {
     font-size: 8px;
   }
@@ -206,7 +206,7 @@ label {
   }
 }
 
-@media (max-width: $tablet-small-width - 1) {
+@media (max-width: $mobile-max-width) {
   html {
     font-size: 7px;
   }
