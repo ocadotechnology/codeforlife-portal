@@ -28,7 +28,7 @@ jobs:
         - pip install pytest-cov
         - pip install pipenv
         - pipenv install --dev --system
-        - pip install -U rapid-router
+        - pip install -U git+https://github.com/ocadotechnology/rapid-router.git@class_aimmo_game_permissions
         - pip install -U aimmo
       before_script:
         - wget https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_linux64.zip
