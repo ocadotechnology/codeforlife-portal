@@ -5,7 +5,7 @@ $column--icon-width: 3%;
 
 .card {
   @include _border-radius(16px, 16px, 16px, 16px);
-  @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
+  @include _box-shadow(0px, 5px, 8px, 0px, $color-background-box-shadow);
   @include _margin($spacing * 4, 0px, 0px, 0px);
   background-color: $color-background-secondary;
   padding: 0;
@@ -19,8 +19,25 @@ $column--icon-width: 3%;
     padding: 0;
   }
 
+  .card__images {
+    position: relative;
+    text-align: center;
+  }
+
   .card__image {
     @include _border-radius(16px, 16px, 0px, 0px);
+  }
+
+  .card__thumbnail {
+    color: $color-text-secondary;
+    left: 50%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    text-shadow: 3px 3px 3px $color-background-box-shadow;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
   }
 
   .button--big {
@@ -49,7 +66,30 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: 768px) {
+.grid-worksheets {
+  @include _column-gap($spacing * 4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($card-minimum-width, 1fr));
+  text-align: start;
+
+  .card:last-child {
+    display: flex;
+    flex-direction: column;
+
+    .card__text {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+  }
+}
+
+@media (min-width: $tablet-small-min-width) {
+  .card__text {
+    @include _font-size(18px);
+  }
+
   .grid-games {
     @include _column-gap($spacing * 10);
     display: grid;
@@ -97,7 +137,6 @@ $column--icon-width: 3%;
   .grid-benefits {
     @include _column-gap($spacing * 10);
     display: grid;
-    display: -ms-grid;
     grid-template-areas: "image1 image2 image3"
                           "title1 title2 title3"
                           "text1 text2 text3"
@@ -138,28 +177,13 @@ $column--icon-width: 3%;
   }
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  .grid-sessions,
-  .grid-resources {
-
-    & > * {
-      border: none;
-    }
-  }
-
-  .grid-icon {
-    display: none;
-  }
-}
-
-@media (max-width: 767px) {
+@media (max-width: $mobile-max-width) {
   .grid-icon {
     display: none;
   }
 
   .grid-benefits {
     display: grid;
-    display: -ms-grid;
     grid-template-areas: "image1"
                           "title1"
                           "text1"

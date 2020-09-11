@@ -361,7 +361,7 @@
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: $tablet-large-max-width) {
   .banner {
     .col-sm-offset-2 {
       margin-left: 0;
@@ -375,7 +375,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $tablet-small-min-width) {
   .banner__item,
   .button--banner__item {
     display: none;
@@ -388,7 +388,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max-width) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
     height: auto;

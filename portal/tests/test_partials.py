@@ -103,3 +103,56 @@ def test_hero_card(snapshot):
     rendered_template = template_to_render.render(context)
 
     snapshot.assert_match(rendered_template)
+
+
+def test_card_list(snapshot):
+    test_card_list = {
+        "cards": [
+            {
+                "image": "portal/img/get_creative.png",
+                "title": "Test card 1",
+                "description": "Test description 1",
+                "thumbnail_image": "portal/img/sadface.png",
+            },
+            {
+                "image": "portal/img/get_creative.png",
+                "title": "Test card 2",
+                "description": "Test description 2",
+                "thumbnail_text": "Coming Soon",
+            },
+            {
+                "image": "portal/img/get_creative.png",
+                "title": "Test card 3",
+                "description": "Test description 3",
+                "thumbnail_text": "Coming Soon",
+            },
+            {
+                "image": "portal/img/get_creative.png",
+                "title": "Test card 4",
+                "description": "Test description 4",
+                "thumbnail_text": "Coming Soon",
+            },
+            {
+                "image": "portal/img/get_creative.png",
+                "title": "Test card 5",
+                "description": "Test description 5",
+                "thumbnail_text": "Coming Soon",
+            },
+            {
+                "image": "portal/img/get_creative.png",
+                "title": "Test card 6",
+                "button_text": "Test button",
+                "button_link": "home",
+            }
+        ]
+    }
+
+    context = Context({"CARD_LIST": test_card_list})
+
+    template_to_render = Template(
+        "{% load card_list_tags %}" "{% card_list %}"
+    )
+
+    rendered_template = template_to_render.render(context)
+
+    snapshot.assert_match(rendered_template)
