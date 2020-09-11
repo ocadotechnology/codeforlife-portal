@@ -38,6 +38,7 @@ setup(
         "requests>=2.22.0,<2.23.0",
         "django-treebeard==4.3",
         "django-sekizai==1.0.0",
+        "django-classy-tags==1.*",
         "Pillow==5.4.1",
         "sqlparse",
         "libsass",

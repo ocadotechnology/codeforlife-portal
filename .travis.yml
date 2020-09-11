@@ -30,7 +30,6 @@ jobs:
         - pipenv install --dev --system
         - pip install -U rapid-router
         - pip install -U aimmo
-        - pip install ./cfl_common
       before_script:
         - wget https://chromedriver.storage.googleapis.com/85.0.4183.83/chromedriver_linux64.zip
         - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.7/bin/
