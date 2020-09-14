@@ -66,6 +66,25 @@ $column--icon-width: 3%;
   }
 }
 
+.grid-characters {
+  @include _column-gap($spacing * 4);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  text-align: start;
+
+  .card__title {
+    @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+    color: $color-teacher-blue;
+    margin: 0;
+    text-align: center;
+  }
+
+  .card__image {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
 .grid-worksheets {
   @include _column-gap($spacing * 4);
   display: grid;
@@ -86,8 +105,10 @@ $column--icon-width: 3%;
 }
 
 @media (min-width: $tablet-small-min-width) {
-  .card__text {
-    @include _font-size(18px);
+  .grid-worksheets {
+    .card__text {
+      @include _font-size(18px);
+    }
   }
 
   .grid-games {

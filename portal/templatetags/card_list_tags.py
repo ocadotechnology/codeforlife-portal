@@ -6,7 +6,7 @@ register = template.Library()
 @register.inclusion_tag("portal/partials/card_list.html", takes_context=True)
 def card_list(context):
     """
-    Registers the inclusion tag for the hero card partial.
+    Registers the inclusion tag for the card list partial.
     The template currently expects a list of elements which each contain the following:
     - image: the path to the card's image (top-half)
     - title: the heading of the card

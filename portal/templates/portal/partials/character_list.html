@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<div class="background">
+    <div class="grid-characters col-sm-8 col-center">
+        {% for character in characters %}
+            <div class="card">
+                <h1 class="card__title">{{ character.title }}</h1>
+                <img class="card__image" src="{% static character.image %}">
+                <p class="card__text">{{ character.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
