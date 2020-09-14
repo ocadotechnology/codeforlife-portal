@@ -69,7 +69,7 @@ $column--icon-width: 3%;
 .grid-characters {
   @include _column-gap($spacing * 4);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax($character-card-minimum-width, 1fr));
   text-align: start;
 
   .card__title {
