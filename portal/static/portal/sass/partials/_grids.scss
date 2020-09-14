@@ -105,10 +105,8 @@ $column--icon-width: 3%;
 }
 
 @media (min-width: $tablet-small-min-width) {
-  .grid-worksheets {
-    .card__text {
-      @include _font-size(18px);
-    }
+  .card__text {
+    @include _font-size(18px);
   }
 
   .grid-games {
