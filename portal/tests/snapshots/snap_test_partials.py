@@ -215,26 +215,28 @@ snapshots[
 ] = """
 
 <div class="background">
-    <div class="grid-characters col-sm-8 col-center">
-        
-            <div class="card">
-                <h1 class="card__title">Test character 1</h1>
-                <img class="card__image" src="/static/portal/img/dee.png">
-                <p class="card__text">Test description 1</p>
-            </div>
-        
-            <div class="card">
-                <h1 class="card__title">Test character 2</h1>
-                <img class="card__image" src="/static/portal/img/dee.png">
-                <p class="card__text">Test description 2</p>
-            </div>
-        
-            <div class="card">
-                <h1 class="card__title">Test character 3</h1>
-                <img class="card__image" src="/static/portal/img/dee.png">
-                <p class="card__text">Test description 3</p>
-            </div>
-        
+    <div class="col-sm-8 col-center">
+        <div class="grid-characters">
+            
+                <div class="card">
+                    <h1 class="card__title">Test character 1</h1>
+                    <img class="card__image" src="/static/portal/img/dee.png">
+                    <p class="card__text">Test description 1</p>
+                </div>
+            
+                <div class="card">
+                    <h1 class="card__title">Test character 2</h1>
+                    <img class="card__image" src="/static/portal/img/dee.png">
+                    <p class="card__text">Test description 2</p>
+                </div>
+            
+                <div class="card">
+                    <h1 class="card__title">Test character 3</h1>
+                    <img class="card__image" src="/static/portal/img/dee.png">
+                    <p class="card__text">Test description 3</p>
+                </div>
+            
+        </div>
     </div>
 </div>
 """
