@@ -108,13 +108,6 @@ $column--icon-width: 3%;
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
-  .grid-characters {
-    margin: auto;
-    width: 65%;
-  }
-}
-
 @media (min-width: $tablet-small-min-width) {
   .card__text {
     @include _font-size(18px);
