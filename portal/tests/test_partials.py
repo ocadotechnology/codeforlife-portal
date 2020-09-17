@@ -156,3 +156,35 @@ def test_card_list(snapshot):
     rendered_template = template_to_render.render(context)
 
     snapshot.assert_match(rendered_template)
+
+
+def test_character_list(snapshot):
+    test_character_list = {
+        "characters": [
+            {
+                "title": "Test character 1",
+                "image": "portal/img/dee.png",
+                "description": "Test description 1",
+            },
+            {
+                "title": "Test character 2",
+                "image": "portal/img/dee.png",
+                "description": "Test description 2",
+            },
+            {
+                "title": "Test character 3",
+                "image": "portal/img/dee.png",
+                "description": "Test description 3",
+            },
+        ]
+    }
+
+    context = Context({"CHARACTER_LIST": test_character_list})
+
+    template_to_render = Template(
+        "{% load character_list_tags %}" "{% character_list %}"
+    )
+
+    rendered_template = template_to_render.render(context)
+
+    snapshot.assert_match(rendered_template)

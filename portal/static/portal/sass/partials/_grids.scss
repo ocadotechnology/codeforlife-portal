@@ -66,6 +66,28 @@ $column--icon-width: 3%;
   }
 }
 
+.grid-characters {
+  @include _column-gap($spacing * 4);
+  display: grid;
+  float: none;
+  grid-template-columns: repeat(auto-fit, minmax($card-minimum-width, 1fr));
+  margin-left: auto;
+  margin-right: auto;
+  text-align: start;
+
+  .card__title {
+    @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+    color: $color-teacher-blue;
+    margin: 0;
+    text-align: center;
+  }
+
+  .card__image {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
 .grid-worksheets {
   @include _column-gap($spacing * 4);
   display: grid;
