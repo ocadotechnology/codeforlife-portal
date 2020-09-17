@@ -39,6 +39,8 @@ from aimmo.game_creator import create_game
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView
+from common.permissions import logged_in_as_teacher
+from common.models import Class
 
 
 class AimmoHomeView(LoginRequiredMixin, CreateView):
@@ -48,7 +50,10 @@ class AimmoHomeView(LoginRequiredMixin, CreateView):
 
     def get_form(self, form_class=None):
         user = self.request.user
-        classes = user.userprofile.teacher.class_teacher.all()
+        if logged_in_as_teacher(user):
+            classes = user.userprofile.teacher.class_teacher.all()
+        else:
+            classes = Class.objects.none()
         if form_class is None:
             form_class = self.get_form_class()
         return form_class(classes, **self.get_form_kwargs())
