@@ -18,6 +18,7 @@ setup(
         "djangorestframework>=3.8.2, < 3.9.0",
         "django-two-factor-auth>=1.9.1,<1.10.0",
         "django-countries==5.4",
+        "django-storages[google]==1.9.*",
     ],
     tests_require=[],
     test_suite="tests",

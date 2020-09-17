@@ -75,6 +75,7 @@ SETTINGS = {
     },
     "STATICFILES_FINDERS": ["pipeline.finders.PipelineFinder"],
     "STATICFILES_STORAGE": "pipeline.storage.PipelineStorage",
+    "DEFAULT_FILE_STORAGE": "storages.backends.gcloud.GoogleCloudStorage",
     "INSTALLED_APPS": [
         "aimmo",
         "game",
