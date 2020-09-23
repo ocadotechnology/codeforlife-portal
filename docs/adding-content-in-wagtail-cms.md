@@ -2,7 +2,7 @@
 
 ## Adding content in the Wagtail CMS
 
-Our common module provides access to a wagtail cms instance for use adding and editing content on the site. Since wagtail uses the same database as the rest of our content, it means we have three different databases (dev, staging, production) + local development databases we want to keep with similar data for non user-generated content.
+Our common module provides access to a wagtail cms instance for adding and editing content on the site. Since wagtail uses the same database as the rest of our content, it means we have three different databases (dev, staging, production) + local development databases we want to keep with similar data for non user-generated content.
 
 We have come up with a small process to achieve this as follows:
 
