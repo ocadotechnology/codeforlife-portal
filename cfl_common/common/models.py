@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.snippets.models import register_snippet
 
 
 class UserProfile(models.Model):
@@ -221,3 +223,10 @@ class Student(models.Model):
 
 def stripStudentName(name):
     return re.sub("[ \t]+", " ", name.strip())
+
+
+@register_snippet
+class AimmoCharacter(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=1023)
+    image_path = models.CharField(max_length=255)
