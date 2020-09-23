@@ -46,6 +46,7 @@ DEFAULT_SETTINGS = {
     "MEDIA_ROOT": os.path.join(
         os.path.join(os.path.dirname(__file__), "static"), "email_media/"
     ),
+    "MEDIA_URL": "/media/",
 }
 
 SETTINGS = {
@@ -54,6 +55,7 @@ SETTINGS = {
         "django_otp.plugins.otp_static",
         "django_otp.plugins.otp_totp",
     ],
+    "WAGTAIL_SITE_NAME": "Code for Life",
     "PIPELINE": {
         "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
         "STYLESHEETS": {
@@ -99,6 +101,19 @@ SETTINGS = {
         "hijack",
         "compat",
         "hijack_admin",
+        "wagtail.contrib.forms",
+        "wagtail.contrib.redirects",
+        "wagtail.embeds",
+        "wagtail.sites",
+        "wagtail.users",
+        "wagtail.snippets",
+        "wagtail.documents",
+        "wagtail.images",
+        "wagtail.search",
+        "wagtail.admin",
+        "wagtail.core",
+        "modelcluster",
+        "taggit",
     ],
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
@@ -114,6 +129,8 @@ SETTINGS = {
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
         "django_otp.middleware.OTPMiddleware",
+        "wagtail.core.middleware.SiteMiddleware",
+        "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     ],
     "TEMPLATES": [
         {

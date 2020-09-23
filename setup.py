@@ -30,7 +30,6 @@ setup(
         "django-recaptcha==2.0.5",
         "pyyaml==4.2b1",
         "rapid-router >= 1.0.0.post.dev1",
-        "six==1.11.0",
         "aimmo",
         "reportlab>=3.5.32,<3.6.0",
         "django-formtools==2.1",
