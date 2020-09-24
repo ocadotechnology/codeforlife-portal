@@ -157,11 +157,11 @@ def test_card_list(snapshot):
 
 @pytest.mark.django_db
 def test_character_list(snapshot):
+    context = Context()
+
     template_to_render = Template(
         "{% load character_list_tags %}" "{% character_list %}"
     )
-
-    context = Context()
 
     rendered_template = template_to_render.render(context)
 

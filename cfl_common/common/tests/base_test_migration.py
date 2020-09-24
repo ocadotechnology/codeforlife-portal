@@ -38,8 +38,6 @@ from django.apps import apps
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TestCase
-from django.conf import settings
-import sys
 
 
 class MigrationTestCase(TestCase):
