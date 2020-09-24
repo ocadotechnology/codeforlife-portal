@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Callable
 
 from django.core.management import call_command
@@ -11,6 +12,7 @@ def load_data_from_file(file_name) -> Callable:
     Args:
         file_name (str): The name of the file containing the data you want to load. Include `.json` at the end. The file must be in the fixtures directory.
     """
+    absolute_file_path = Path(__file__).resolve().parent.parent / "fixtures" / file_name
 
     def _load_fixture(apps, schema_editor):
         # Save the default _get_model() function
@@ -33,7 +35,7 @@ def load_data_from_file(file_name) -> Callable:
 
         try:
             # Call loaddata command
-            call_command("loaddata", file_name, app_label="common")
+            call_command("loaddata", absolute_file_path, app_label="common")
         finally:
             # Restore default _get_model() function
             python._get_model = default_get_model
