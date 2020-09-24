@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.snippets.models import register_snippet
 
 
 class UserProfile(models.Model):
@@ -221,3 +223,23 @@ class Student(models.Model):
 
 def stripStudentName(name):
     return re.sub("[ \t]+", " ", name.strip())
+
+
+class AimmoCharacterManager(models.Manager):
+    def sorted(self):
+        return self.get_queryset().order_by("sort_order")
+
+
+@register_snippet
+class AimmoCharacter(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    image_path = models.CharField(max_length=255)
+    sort_order = models.IntegerField()
+
+    objects = AimmoCharacterManager()
+
+    panels = [FieldPanel("name"), FieldPanel("description"), FieldPanel("image_path")]
+
+    def __str__(self) -> str:
+        return self.name
