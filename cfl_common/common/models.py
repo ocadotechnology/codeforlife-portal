@@ -230,3 +230,8 @@ class AimmoCharacter(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1023)
     image_path = models.CharField(max_length=255)
+
+    panels = [FieldPanel("name"), FieldPanel("description"), FieldPanel("image_path")]
+
+    def __str__(self) -> str:
+        return self.name

@@ -1,4 +1,5 @@
-from django.template import Template, Context
+import pytest
+from django.template import Context, Template
 
 
 def test_banner(snapshot):
@@ -96,9 +97,7 @@ def test_hero_card(snapshot):
 
     context = Context({"HERO_CARD": test_hero_card})
 
-    template_to_render = Template(
-        "{% load hero_card_tags %}" "{% hero_card %}"
-    )
+    template_to_render = Template("{% load hero_card_tags %}" "{% hero_card %}")
 
     rendered_template = template_to_render.render(context)
 
@@ -143,47 +142,26 @@ def test_card_list(snapshot):
                 "title": "Test card 6",
                 "button_text": "Test button",
                 "button_link": "home",
-            }
+            },
         ]
     }
 
     context = Context({"CARD_LIST": test_card_list})
 
-    template_to_render = Template(
-        "{% load card_list_tags %}" "{% card_list %}"
-    )
+    template_to_render = Template("{% load card_list_tags %}" "{% card_list %}")
 
     rendered_template = template_to_render.render(context)
 
     snapshot.assert_match(rendered_template)
 
 
+@pytest.mark.django_db
 def test_character_list(snapshot):
-    test_character_list = {
-        "characters": [
-            {
-                "title": "Test character 1",
-                "image": "portal/img/dee.png",
-                "description": "Test description 1",
-            },
-            {
-                "title": "Test character 2",
-                "image": "portal/img/dee.png",
-                "description": "Test description 2",
-            },
-            {
-                "title": "Test character 3",
-                "image": "portal/img/dee.png",
-                "description": "Test description 3",
-            },
-        ]
-    }
-
-    context = Context({"CHARACTER_LIST": test_character_list})
-
     template_to_render = Template(
         "{% load character_list_tags %}" "{% character_list %}"
     )
+
+    context = Context()
 
     rendered_template = template_to_render.render(context)
 

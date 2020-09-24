@@ -214,25 +214,26 @@ snapshots[
     "test_character_list 1"
 ] = """
 
+
 <div class="background">
     <div class="grid-characters col-lg-9 col-md-11 col-sm-8">
         
             <div class="card">
-                <h1 class="card__title">Test character 1</h1>
-                <img class="card__image" src="/static/portal/img/dee.png">
-                <p class="card__text">Test description 1</p>
+                <h1 class="card__title">Zayed</h1>
+                <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/Zayed.png">
+                <p class="card__text">A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in first place.</p>
             </div>
         
             <div class="card">
-                <h1 class="card__title">Test character 2</h1>
-                <img class="card__image" src="/static/portal/img/dee.png">
-                <p class="card__text">Test description 2</p>
+                <h1 class="card__title">Xian</h1>
+                <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/Xian.png">
+                <p class="card__text">Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
             </div>
         
             <div class="card">
-                <h1 class="card__title">Test character 3</h1>
-                <img class="card__image" src="/static/portal/img/dee.png">
-                <p class="card__text">Test description 3</p>
+                <h1 class="card__title">Jools</h1>
+                <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/Jools.png">
+                <p class="card__text">A quick-witted kid who wasn’t expecting to embark in a time-warping journey but can’t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
             </div>
         
     </div>
