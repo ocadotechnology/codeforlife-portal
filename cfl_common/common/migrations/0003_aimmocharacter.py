@@ -8,17 +8,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0002_emailverification'),
+        ("common", "0002_emailverification"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AimmoCharacter',
+            name="AimmoCharacter",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('description', models.CharField(max_length=1023)),
-                ('image_path', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("description", models.TextField()),
+                ("image_path", models.CharField(max_length=255)),
+                ("sort_order", models.IntegerField()),
             ],
         ),
     ]

@@ -225,11 +225,19 @@ def stripStudentName(name):
     return re.sub("[ \t]+", " ", name.strip())
 
 
+class AimmoCharacterManager(models.Manager):
+    def sorted(self):
+        return self.get_queryset().order_by("sort_order")
+
+
 @register_snippet
 class AimmoCharacter(models.Model):
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=1023)
+    description = models.TextField()
     image_path = models.CharField(max_length=255)
+    sort_order = models.IntegerField()
+
+    objects = AimmoCharacterManager()
 
     panels = [FieldPanel("name"), FieldPanel("description"), FieldPanel("image_path")]
 

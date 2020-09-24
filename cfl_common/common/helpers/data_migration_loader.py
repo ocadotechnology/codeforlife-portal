@@ -1,7 +1,7 @@
-import os
 from typing import Callable
-from django.core.serializers import base, python
+
 from django.core.management import call_command
+from django.core.serializers import base, python
 
 
 def load_data_from_file(file_name) -> Callable:
@@ -17,7 +17,7 @@ def load_data_from_file(file_name) -> Callable:
         default_get_model = python._get_model
 
         # Define new _get_model() function here, which utilizes the apps argument to
-        # get the historical version of a model. This piece of code is directly stolen
+        # get the historical version of a model. This piece of code is directly taken
         # from django.core.serializers.python._get_model, unchanged. However, here it
         # has a different context, specifically, the apps variable.
         def _get_model(model_identifier):
