@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -100,7 +100,11 @@ from portal.views.student.edit_account_details import (
     SchoolStudentEditAccountView,
     student_edit_account,
 )
-from portal.views.student.play import student_details, student_join_organisation
+from portal.views.student.play import (
+    student_details,
+    student_join_organisation,
+    student_kurono_dashboard,
+)
 from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
     dashboard_manage,
@@ -173,6 +177,11 @@ urlpatterns = [
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
     url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
+    url(
+        r"^student_kurono_dashboard/$",
+        student_kurono_dashboard,
+        name="student_kurono_dashboard",
+    ),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
         r"^favicon\.ico$",
@@ -209,16 +218,8 @@ urlpatterns = [
     url(r"^$", home, name="home"),
     url(r"^home-learning", home_learning, name="home-learning"),
     url(r"^register_form", register_view, name="register"),
-    url(
-        r"^login/teacher/$",
-        TeacherLoginView.as_view(),
-        name="teacher_login",
-    ),
-    url(
-        r"^login/student/$",
-        StudentLoginView.as_view(),
-        name="student_login",
-    ),
+    url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login"),
+    url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",
         IndependentStudentLoginView.as_view(),
