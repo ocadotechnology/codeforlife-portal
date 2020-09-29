@@ -45,6 +45,7 @@ from common.models import (
     Student,
     Teacher,
     UserProfile,
+    AimmoCharacter,
 )
 from portal.models import Guardian
 
@@ -141,3 +142,4 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(EmailVerification, EmailVerificationAdmin)
+admin.site.register(AimmoCharacter)
