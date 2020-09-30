@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from common.tests.base_test_migration import MigrationTestCase
 
 
-class TestMigrationAimmoCharacter(MigrationTestCase):
+class TestMigrationWorksheets(MigrationTestCase):
 
     start_migration = "0004_add_aimmocharacters"
     dest_migration = "0005_add_worksheets"
