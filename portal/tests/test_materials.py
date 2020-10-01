@@ -37,7 +37,7 @@
 from django.test import TestCase
 
 from portal.templatetags.table_tags import resource_sheets_table, lengthen_list
-from portal.views.teacher.teach import get_links
+from portal.views.materials_viewer import get_links
 
 
 class MaterialsTests(TestCase):
