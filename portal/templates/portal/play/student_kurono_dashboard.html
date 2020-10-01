@@ -1,12 +1,3 @@
 {% extends 'portal/base.html' %}
 {% load static %}
-{% load app_tags banner_tags hero_card_tags %}
-
-{% block subNav %}
-{{ block.super }}
-{% banner banner_name="KURONO_DASHBOARD_BANNER" %}
-{% endblock subNav %}
-
-{% block content %}
-{% hero_card hero_card_name="KURONO_DASHBOARD_HERO_CARD" %}
-{% endblock %}
+{% load app_tags %}

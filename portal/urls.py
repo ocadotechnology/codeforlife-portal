@@ -178,7 +178,7 @@ urlpatterns = [
     # The second AIMMO URL imports all the URLs from the AIMMO project.
     url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
     url(
-        r"^student_kurono_dashboard/$",
+        r"^play/kurono/dashboard/$",
         student_kurono_dashboard,
         name="student_kurono_dashboard",
     ),

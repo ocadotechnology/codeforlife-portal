@@ -144,7 +144,6 @@ def student_kurono_dashboard(request):
         request,
         "portal/play/student_kurono_dashboard.html",
         {
-            "KURONO_DASHBOARD_BANNER": KURONO_DASHBOARD_BANNER,
-            "KURONO_DASHBOARD_HERO_CARD": KURONO_DASHBOARD_HERO_CARD,
+            # context to be added here as we create the page
         },
     )
