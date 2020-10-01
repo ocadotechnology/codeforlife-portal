@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from aimmo.models import Game
 from common import email_messages
 from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 from common.permissions import logged_in_as_student, logged_in_as_independent_student
@@ -45,6 +46,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from portal.forms.play import StudentJoinOrganisationForm
+from portal.strings.student_kurono_dashboard import (
+    KURONO_DASHBOARD_BANNER
+)
 
 
 @login_required(login_url=reverse_lazy("student_login"))
@@ -136,10 +140,26 @@ def show_cancellation_message_if_student_not_in_class(student, request):
 @login_required(login_url=reverse_lazy("student_login"))
 @user_passes_test(logged_in_as_student, login_url=reverse_lazy("student_login"))
 def student_kurono_dashboard(request):
+    student = request.user.new_student
+    klass = student.class_field
+    kurono_game = Game.objects.get(game_class=klass)
+    worksheet = kurono_game.worksheet
+
+    hero_card = {
+        "image": worksheet.active_image_path,
+        "title": worksheet.name,
+        "description": worksheet.description,
+        "button1_text": "Read challenge",
+        "button1_link": "home",
+        "button2_text": "Start challenge",
+        "button2_link": "home"
+    }
+
     return render(
         request,
         "portal/play/student_kurono_dashboard.html",
         {
-            # context to be added here as we create the page
+            "BANNER": KURONO_DASHBOARD_BANNER,
+            "HERO_CARD": hero_card,
         },
     )

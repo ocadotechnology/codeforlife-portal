@@ -1,8 +1,9 @@
 {% load staticfiles %}
+{% load app_tags %}
 
 <div class="background">
     <div class="card col-sm-8 col-center">
-        <img class="card__image" src="{% static image %}">
+        <img class="card__image" src="https:{{ character.image_path | cloud_storage }}">
         <div class="card__text">
             <h3 class="card__title">{{ title }}</h3>
             <p>{{ description }}</p>
