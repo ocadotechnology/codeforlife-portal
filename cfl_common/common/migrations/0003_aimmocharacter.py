@@ -7,9 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("common", "0002_emailverification"),
-    ]
+    dependencies = [("common", "0002_emailverification")]
 
     operations = [
         migrations.CreateModel(
@@ -29,5 +27,5 @@ class Migration(migrations.Migration):
                 ("image_path", models.CharField(max_length=255)),
                 ("sort_order", models.IntegerField()),
             ],
-        ),
+        )
     ]
