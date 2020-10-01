@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,16 +35,16 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from common import email_messages
+from common.helpers.emails import send_email, NOTIFICATION_EMAIL
+from common.permissions import logged_in_as_student, logged_in_as_independent_student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from common import email_messages
 from portal.forms.play import StudentJoinOrganisationForm
-from common.helpers.emails import send_email, NOTIFICATION_EMAIL
-from common.permissions import logged_in_as_student, logged_in_as_independent_student
 
 
 @login_required(login_url=reverse_lazy("student_login"))
@@ -131,3 +131,15 @@ def show_cancellation_message_if_student_not_in_class(student, request):
         messages.success(
             request, "Your request to join a school has been cancelled successfully."
         )
+
+
+@login_required(login_url=reverse_lazy("student_login"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("student_login"))
+def student_kurono_dashboard(request):
+    return render(
+        request,
+        "portal/play/student_kurono_dashboard.html",
+        {
+            # context to be added here as we create the page
+        },
+    )
