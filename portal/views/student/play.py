@@ -45,10 +45,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from portal.forms.play import StudentJoinOrganisationForm
-from portal.strings.student_kurono_dashboard import (
-    KURONO_DASHBOARD_BANNER,
-    KURONO_DASHBOARD_HERO_CARD,
-)
 
 
 @login_required(login_url=reverse_lazy("student_login"))

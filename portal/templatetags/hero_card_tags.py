@@ -4,7 +4,7 @@ register = template.Library()
 
 
 @register.inclusion_tag("portal/partials/hero_card.html", takes_context=True)
-def hero_card(context, hero_card_name):
+def hero_card(context):
     """
     Registers the inclusion tag for the hero card partial.
     The template currently expects the following context elements:
@@ -16,4 +16,4 @@ def hero_card(context, hero_card_name):
     - button2_text: the text on the card's second button
     - button2_link: the link that the second button redirects to
     """
-    return context[hero_card_name]
+    return context["HERO_CARD"]
