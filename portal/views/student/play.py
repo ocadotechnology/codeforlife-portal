@@ -143,12 +143,12 @@ def student_kurono_dashboard(request):
     student = request.user.new_student
     klass = student.class_field
     kurono_game = Game.objects.get(game_class=klass)
-    worksheet = kurono_game.worksheet
+    active_worksheet = kurono_game.worksheet
 
     hero_card = {
-        "image": worksheet.active_image_path,
-        "title": worksheet.name,
-        "description": worksheet.description,
+        "image": active_worksheet.active_image_path,
+        "title": active_worksheet.name,
+        "description": active_worksheet.description,
         "button1_text": "Read challenge",
         "button1_link": "home",
         "button2_text": "Start challenge",
