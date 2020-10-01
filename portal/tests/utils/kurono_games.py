@@ -1,7 +1,7 @@
 from typing import Tuple
 
-from common.models import Class
 from aimmo.models import Game, Worksheet
+from common.models import Class
 
 
 def generate_name():
