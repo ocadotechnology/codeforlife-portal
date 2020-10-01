@@ -11,9 +11,13 @@ def hero_card(context, hero_card_name):
     - image: the path to the image at the top of the hero card
     - title: the heading of the hero card
     - description: the text paragraph of the hero card
-    - button1_text: the text on the card's first button
-    - button1_link: the link that the first button redirects to
-    - button2_text: the text on the card's second button
-    - button2_link: the link that the second button redirects to
+    - button1: dictionary which contains:
+        - text: the text on the card's first button
+        - url: the url the first button redirects to
+        - url_args: the args needed for the first button's url
+    - button2: dictionary which contains:
+        - text: the text on the card's second button
+        - url: the url the second button redirects to
+        - url_args: the args needed for the second button's url
     """
     return context[hero_card_name]

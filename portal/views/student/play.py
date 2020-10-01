@@ -41,7 +41,7 @@ from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 from common.permissions import logged_in_as_student, logged_in_as_independent_student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -149,10 +149,16 @@ def student_kurono_dashboard(request):
         "image": active_worksheet.active_image_path,
         "title": active_worksheet.name,
         "description": active_worksheet.description,
-        "button1_text": "Read challenge",
-        "button1_link": "home",
-        "button2_text": "Start challenge",
-        "button2_link": "home"
+        "button1": {
+            "text": "Read challenge",
+            "url": "materials_viewer",
+            "url_args": "Kurono_challenge_1"
+        },
+        "button2": {
+            "text": "Start challenge",
+            "url": "kurono/play",
+            "url_args": kurono_game.id
+        }
     }
 
     return render(

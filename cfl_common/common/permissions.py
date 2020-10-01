@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -69,6 +69,10 @@ def logged_in_as_student(u):
 
 def logged_in_as_independent_student(u):
     return logged_in_as_student(u) and u.userprofile.student.is_independent()
+
+
+def logged_in(u):
+    return logged_in_as_teacher(u) or logged_in_as_student(u)
 
 
 def not_logged_in(u):

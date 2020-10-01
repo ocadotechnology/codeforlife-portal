@@ -35,27 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from aimmo.urls import HOMEPAGE_REGEX
+from common.permissions import teacher_verified
+from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
 from game.views.level import play_default_level
-from two_factor.urls import urlpatterns as two_factor_urls
-from two_factor.views import (
-    BackupTokensView,
-    DisableView,
-    LoginView,
-    ProfileView,
-    QRGeneratorView,
-    SetupCompleteView,
-    SetupView,
-)
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.core import urls as wagtail_urls
-from wagtail.documents import urls as wagtaildocs_urls
-
-from common.permissions import teacher_verified
 from portal.views.about import about
 from portal.views.admin import AdminLoginView, aggregated_data, schools_map
 from portal.views.aimmo.home import AimmoHomeView
@@ -80,6 +68,7 @@ from portal.views.login import (
     TeacherLoginView,
     old_login_form_redirect,
 )
+from portal.views.materials_viewer import materials_viewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
     organisation_leave,
@@ -120,7 +109,6 @@ from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
     default_solution,
     invite_teacher,
-    materials_viewer,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
@@ -139,8 +127,19 @@ from portal.views.teacher.teach import (
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from django.conf import settings
-from django.conf.urls.static import static
+from two_factor.urls import urlpatterns as two_factor_urls
+from two_factor.views import (
+    BackupTokensView,
+    DisableView,
+    LoginView,
+    ProfileView,
+    QRGeneratorView,
+    SetupCompleteView,
+    SetupView,
+)
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.core import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -313,7 +312,7 @@ urlpatterns = [
     url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(
-        r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
+        r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
         materials_viewer,
         name="materials_viewer",
     ),
