@@ -134,7 +134,7 @@ def show_cancellation_message_if_student_not_in_class(student, request):
 
 
 @login_required(login_url=reverse_lazy("student_login"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("student_login"))
+@user_passes_test(logged_in_as_student, login_url=reverse_lazy("kurono"))
 def student_kurono_dashboard(request):
     return render(
         request,
