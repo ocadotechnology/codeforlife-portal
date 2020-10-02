@@ -68,7 +68,7 @@ from portal.views.login import (
     TeacherLoginView,
     old_login_form_redirect,
 )
-from portal.views.materials_viewer import materials_viewer
+from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
     organisation_leave,
@@ -313,7 +313,7 @@ urlpatterns = [
     url(r"^teach/materials/$", materials, name="materials"),
     url(
         r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
-        materials_viewer,
+        MaterialsViewer.as_view(),
         name="materials_viewer",
     ),
     url(r"^teach/resources/$", teacher_resources, name="teaching_resources"),

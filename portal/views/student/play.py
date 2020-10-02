@@ -148,10 +148,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
         return logged_in_as_student(self.request.user)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        pass
-
-    def get(self, request, *args, **kwargs):
-        student = request.user.new_student
+        student = self.request.user.new_student
         klass = student.class_field
         kurono_game = Game.objects.get(game_class=klass)
         active_worksheet = kurono_game.worksheet
@@ -172,11 +169,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             },
         }
 
-        return render(
-            request,
-            "portal/play/student_kurono_dashboard.html",
-            {
-                "BANNER": KURONO_DASHBOARD_BANNER,
-                "HERO_CARD": hero_card,
-            },
-        )
+        return {
+            "BANNER": KURONO_DASHBOARD_BANNER,
+            "HERO_CARD": hero_card,
+        }
