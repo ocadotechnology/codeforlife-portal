@@ -139,6 +139,7 @@ from portal.views.teacher.teach import (
     teacher_student_reset,
     teacher_view_class,
 )
+from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
@@ -171,10 +172,6 @@ two_factor_patterns = [
         name="disable",
     ),
 ]
-
-
-def materials_viewer_redirect(request, pdf_name):
-    return redirect(reverse_lazy("materials_viewer", args=pdf_name))
 
 
 urlpatterns = [
