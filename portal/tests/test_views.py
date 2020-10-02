@@ -34,7 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from aimmo.models import Worksheet
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.student import create_school_student_directly
@@ -48,6 +47,7 @@ from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
+from .utils.worksheets import create_worksheet_directly
 
 
 class TestTeacherViews(TestCase):
@@ -90,11 +90,9 @@ class TestStudentViews(TestCase):
         create_organisation_directly(teacher_email)
         klass, _, cls.access_code = create_class_directly(teacher_email)
         cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
+        worksheet, _, _, _ = create_worksheet_directly()
 
-        print(Worksheet.objects.all())
-        worksheet1 = Worksheet.objects.get(id=1)
-
-        create_kurono_game_directly(klass, worksheet1)
+        create_kurono_game_directly(klass, worksheet)
 
     def login(self):
         c = Client()
