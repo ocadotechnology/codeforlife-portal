@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from aimmo.models import Worksheet
 
 
@@ -16,15 +14,14 @@ def generate_details():
 generate_details.next_id = 1
 
 
-def create_worksheet_directly() -> Tuple[Worksheet, str, int, str]:
+def create_worksheet_directly() -> Worksheet:
     """Generate a Worksheet.
 
     Returns:
-        (worksheet: Worksheet, name: str, era: int, starter_code: str): A tuple with
-        the worksheet instance, its name, era and starter code.
+        worksheet: Worksheet: The worksheet model instance.
     """
     name, era, starter_code = generate_details()
 
     worksheet = Worksheet.objects.create(name=name, era=era, starter_code=starter_code)
 
-    return worksheet, name, era, starter_code
+    return worksheet

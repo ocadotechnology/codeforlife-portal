@@ -42,7 +42,7 @@ from deploy import captcha
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
-from .utils.kurono_games import create_kurono_game_directly
+from .utils.aimmo_games import create_aimmo_game_directly
 from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
@@ -92,7 +92,7 @@ class TestStudentViews(TestCase):
         cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
         worksheet, _, _, _ = create_worksheet_directly()
 
-        create_kurono_game_directly(klass, worksheet)
+        create_aimmo_game_directly(klass, worksheet)
 
     def login(self):
         c = Client()
@@ -107,7 +107,7 @@ class TestStudentViews(TestCase):
         c.post(url, data)
         return c
 
-    def test_student_kurono_dashboard(self):
+    def test_student_kurono_dashboard_loads(self):
         c = self.login()
         url = reverse("student_kurono_dashboard")
         response = c.get(url)
