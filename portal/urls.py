@@ -92,7 +92,7 @@ from portal.views.student.edit_account_details import (
 from portal.views.student.play import (
     student_details,
     student_join_organisation,
-    student_kurono_dashboard,
+    StudentAimmoDashboard,
 )
 from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
@@ -178,7 +178,7 @@ urlpatterns = [
     url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
     url(
         r"^play/kurono/dashboard/$",
-        student_kurono_dashboard,
+        StudentAimmoDashboard.as_view(),
         name="student_kurono_dashboard",
     ),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),

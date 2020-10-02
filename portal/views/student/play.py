@@ -35,20 +35,22 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from typing import Callable, Any, Dict
+
 from aimmo.models import Game
 from common import email_messages
 from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 from common.permissions import logged_in_as_student, logged_in_as_independent_student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 from portal.forms.play import StudentJoinOrganisationForm
-from portal.strings.student_kurono_dashboard import (
-    KURONO_DASHBOARD_BANNER
-)
+from portal.strings.student_kurono_dashboard import KURONO_DASHBOARD_BANNER
 
 
 @login_required(login_url=reverse_lazy("student_login"))
@@ -137,35 +139,44 @@ def show_cancellation_message_if_student_not_in_class(student, request):
         )
 
 
-@login_required(login_url=reverse_lazy("student_login"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("student_login"))
-def student_kurono_dashboard(request):
-    student = request.user.new_student
-    klass = student.class_field
-    kurono_game = Game.objects.get(game_class=klass)
-    active_worksheet = kurono_game.worksheet
+class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+    template_name = "portal/play/student_kurono_dashboard.html"
 
-    hero_card = {
-        "image": active_worksheet.active_image_path,
-        "title": active_worksheet.name,
-        "description": active_worksheet.description,
-        "button1": {
-            "text": "Read challenge",
-            "url": "materials_viewer",
-            "url_args": "Kurono_challenge_1"
-        },
-        "button2": {
-            "text": "Start challenge",
-            "url": "kurono/play",
-            "url_args": kurono_game.id
+    login_url = reverse_lazy("student_login")
+
+    def test_func(self) -> Callable:
+        return logged_in_as_student(self.request.user)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        pass
+
+    def get(self, request, *args, **kwargs):
+        student = request.user.new_student
+        klass = student.class_field
+        kurono_game = Game.objects.get(game_class=klass)
+        active_worksheet = kurono_game.worksheet
+
+        hero_card = {
+            "image": active_worksheet.active_image_path,
+            "title": active_worksheet.name,
+            "description": active_worksheet.description,
+            "button1": {
+                "text": "Read challenge",
+                "url": "materials_viewer",
+                "url_args": "Kurono_challenge_1",
+            },
+            "button2": {
+                "text": "Start challenge",
+                "url": "kurono/play",
+                "url_args": kurono_game.id,
+            },
         }
-    }
 
-    return render(
-        request,
-        "portal/play/student_kurono_dashboard.html",
-        {
-            "BANNER": KURONO_DASHBOARD_BANNER,
-            "HERO_CARD": hero_card,
-        },
-    )
+        return render(
+            request,
+            "portal/play/student_kurono_dashboard.html",
+            {
+                "BANNER": KURONO_DASHBOARD_BANNER,
+                "HERO_CARD": hero_card,
+            },
+        )
