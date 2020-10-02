@@ -28,20 +28,6 @@ $column--icon-width: 3%;
   }
 }
 
-.button-group__icon {
-  @include _padding($spacing * 3, 0px, 0px, 0px);
-
-  .button {
-    align-items: center;
-    display: inline-flex;
-
-    .glyphicon {
-      @include _font-size(25px);
-      @include _padding(0px, 0px, 0px, $spacing);
-    }
-  }
-}
-
 .card {
   @include _border-radius(16px, 16px, 16px, 16px);
   @include _box-shadow(0px, 5px, 8px, 0px, $color-background-box-shadow);
