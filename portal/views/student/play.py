@@ -145,7 +145,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
     login_url = reverse_lazy("student_login")
 
     def test_func(self) -> Callable:
-        return logged_in_as_student(self.request.user)
+        return logged_in_as_student
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         student = self.request.user.new_student

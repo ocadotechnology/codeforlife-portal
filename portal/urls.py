@@ -44,6 +44,20 @@ from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
 from game.views.level import play_default_level
+from two_factor.urls import urlpatterns as two_factor_urls
+from two_factor.views import (
+    BackupTokensView,
+    DisableView,
+    LoginView,
+    ProfileView,
+    QRGeneratorView,
+    SetupCompleteView,
+    SetupView,
+)
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.core import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
 from portal.views.about import about
 from portal.views.admin import AdminLoginView, aggregated_data, schools_map
 from portal.views.aimmo.home import AimmoHomeView
@@ -90,11 +104,12 @@ from portal.views.student.edit_account_details import (
     student_edit_account,
 )
 from portal.views.student.play import (
+    StudentAimmoDashboard,
     student_details,
     student_join_organisation,
-    StudentAimmoDashboard,
 )
 from portal.views.teach import teach
+from portal.views.teacher import old_materials_viewer_redirect
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_allow_join,
@@ -127,19 +142,6 @@ from portal.views.teacher.teach import (
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from two_factor.urls import urlpatterns as two_factor_urls
-from two_factor.views import (
-    BackupTokensView,
-    DisableView,
-    LoginView,
-    ProfileView,
-    QRGeneratorView,
-    SetupCompleteView,
-    SetupView,
-)
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.core import urls as wagtail_urls
-from wagtail.documents import urls as wagtaildocs_urls
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -311,6 +313,11 @@ urlpatterns = [
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
+    url(
+        r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
+        old_materials_viewer_redirect,
+        name="materials_viewer",
+    ),
     url(
         r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
         MaterialsViewer.as_view(),
