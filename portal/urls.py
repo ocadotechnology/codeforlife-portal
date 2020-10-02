@@ -40,6 +40,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
@@ -109,7 +110,6 @@ from portal.views.student.play import (
     student_join_organisation,
 )
 from portal.views.teach import teach
-from portal.views.teacher import old_materials_viewer_redirect
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_allow_join,
@@ -171,6 +171,10 @@ two_factor_patterns = [
         name="disable",
     ),
 ]
+
+
+def materials_viewer_redirect(request, pdf_name):
+    return redirect(reverse_lazy("materials_viewer", args=pdf_name))
 
 
 urlpatterns = [
@@ -315,7 +319,7 @@ urlpatterns = [
     url(r"^teach/materials/$", materials, name="materials"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
-        old_materials_viewer_redirect,
+        materials_viewer_redirect,
         name="materials_viewer",
     ),
     url(
