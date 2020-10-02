@@ -90,8 +90,7 @@ class TestStudentViews(TestCase):
         create_organisation_directly(teacher_email)
         klass, _, cls.access_code = create_class_directly(teacher_email)
         cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
-        worksheet, _, _, _ = create_worksheet_directly()
-
+        worksheet = create_worksheet_directly()
         create_aimmo_game_directly(klass, worksheet)
 
     def login(self):
