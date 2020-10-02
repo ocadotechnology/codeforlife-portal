@@ -1,3 +1,12 @@
 {% extends 'portal/base.html' %}
 {% load static %}
-{% load app_tags %}
+{% load app_tags banner_tags hero_card_tags %}
+
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+{% hero_card hero_card_name="HERO_CARD" %}
+{% endblock content %}

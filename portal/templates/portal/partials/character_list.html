@@ -6,7 +6,7 @@
         {% for character in characters %}
             <div class="card">
                 <h1 class="card__title">{{ character.name }}</h1>
-                <img class="card__image" src="https:{{ character.image_path | cloud_storage }}">
+                <img class="card__image" src="{{ character.image_path | cloud_storage }}">
                 <p class="card__text">{{ character.description }}</p>
             </div>
         {% endfor %}
