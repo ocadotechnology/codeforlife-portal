@@ -91,6 +91,7 @@ class TestStudentViews(TestCase):
         klass, _, cls.access_code = create_class_directly(teacher_email)
         cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
 
+        print(Worksheet.objects.all())
         worksheet1 = Worksheet.objects.get(id=1)
 
         create_kurono_game_directly(klass, worksheet1)
