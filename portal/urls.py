@@ -35,8 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from aimmo.urls import HOMEPAGE_REGEX
+from common.permissions import teacher_verified
+from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
@@ -55,7 +59,6 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
-from common.permissions import teacher_verified
 from portal.views.about import about
 from portal.views.admin import AdminLoginView, aggregated_data, schools_map
 from portal.views.aimmo.home import AimmoHomeView
@@ -80,6 +83,7 @@ from portal.views.login import (
     TeacherLoginView,
     old_login_form_redirect,
 )
+from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
     organisation_leave,
@@ -101,9 +105,9 @@ from portal.views.student.edit_account_details import (
     student_edit_account,
 )
 from portal.views.student.play import (
+    StudentAimmoDashboard,
     student_details,
     student_join_organisation,
-    student_kurono_dashboard,
 )
 from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
@@ -120,7 +124,6 @@ from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
     default_solution,
     invite_teacher,
-    materials_viewer,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
@@ -136,11 +139,10 @@ from portal.views.teacher.teach import (
     teacher_student_reset,
     teacher_view_class,
 )
+from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.teacher_materials import materials
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
-from django.conf import settings
-from django.conf.urls.static import static
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -179,7 +181,7 @@ urlpatterns = [
     url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
     url(
         r"^play/kurono/dashboard/$",
-        student_kurono_dashboard,
+        StudentAimmoDashboard.as_view(),
         name="student_kurono_dashboard",
     ),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
@@ -314,7 +316,12 @@ urlpatterns = [
     url(r"^teach/materials/$", materials, name="materials"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
-        materials_viewer,
+        materials_viewer_redirect,
+        name="materials_viewer",
+    ),
+    url(
+        r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
+        MaterialsViewer.as_view(),
         name="materials_viewer",
     ),
     url(r"^teach/resources/$", teacher_resources, name="teaching_resources"),

@@ -86,18 +86,26 @@ def test_game_banner(snapshot):
 
 def test_hero_card(snapshot):
     test_hero_card = {
-        "image": "portal/img/kurono_landing_hero.png",
+        "image": "images/worksheets/future_active.png",
         "title": "Test title",
         "description": "Test description",
-        "button1_text": "Test button 1",
-        "button1_link": "home",
-        "button2_text": "Test button 2",
-        "button2_link": "home",
+        "button1": {
+            "text": "Test button 1",
+            "url": "materials_viewer",
+            "url_args": "test_pdf_name"
+        },
+        "button2": {
+            "text": "Test button 2",
+            "url": "kurono/play",
+            "url_args": 1
+        }
     }
 
     context = Context({"HERO_CARD": test_hero_card})
 
-    template_to_render = Template("{% load hero_card_tags %}" "{% hero_card %}")
+    template_to_render = Template(
+        "{% load hero_card_tags %}" "{% hero_card hero_card_name='HERO_CARD' %}"
+    )
 
     rendered_template = template_to_render.render(context)
 
