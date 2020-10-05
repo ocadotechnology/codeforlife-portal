@@ -37,7 +37,7 @@
 
 from typing import Callable, Any, Dict
 
-from aimmo.models import Game
+from aimmo.models import Game, Worksheet
 from common import email_messages
 from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 from common.permissions import logged_in_as_student, logged_in_as_independent_student
@@ -150,6 +150,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         student = self.request.user.new_student
         klass = student.class_field
+        # TODO: Handle case where no game exists yet
         kurono_game = Game.objects.get(game_class=klass)
         active_worksheet = kurono_game.worksheet
 
@@ -169,7 +170,30 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             },
         }
 
+        card_list = []
+
+        inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
+
+        for inactive_worksheet in inactive_worksheets:
+            worksheet_info = {
+                "image": inactive_worksheet.image_path,
+                "title": inactive_worksheet.name,
+                "description": inactive_worksheet.short_description,
+                "thumbnail_text": inactive_worksheet.thumbnail_text,
+                "thumbnail_image": inactive_worksheet.thumbnail_image_path
+            }
+            card_list.append(worksheet_info)
+
+        kurono_feedback_card = {
+            "image": "images/worksheets/kurono_logo.svg",
+            "title": "Let us know what you think",
+            "button_text": "Give feedback",
+            "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link"
+        }
+        card_list.append(kurono_feedback_card)
+
         return {
             "BANNER": KURONO_DASHBOARD_BANNER,
             "HERO_CARD": hero_card,
+            "CARD_LIST": {"cards": card_list}
         }
