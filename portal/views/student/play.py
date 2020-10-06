@@ -188,7 +188,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
                 card_list.append(worksheet_info)
 
             kurono_feedback_card = {
-                "image": "images/worksheets/kurono_logo.svg",
+                "image": "images/worksheets/kurono_logo.png",
                 "title": "Let us know what you think",
                 "button_text": "Give feedback",
                 "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link",
