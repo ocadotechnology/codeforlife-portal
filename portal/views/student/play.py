@@ -44,6 +44,7 @@ from common.permissions import logged_in_as_student, logged_in_as_independent_st
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -150,50 +151,55 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         student = self.request.user.new_student
         klass = student.class_field
-        # TODO: Handle case where no game exists yet
-        kurono_game = Game.objects.get(game_class=klass)
-        active_worksheet = kurono_game.worksheet
 
-        hero_card = {
-            "image": active_worksheet.active_image_path,
-            "title": active_worksheet.name,
-            "description": active_worksheet.description,
-            "button1": {
-                "text": "Read challenge",
-                "url": "materials_viewer",
-                "url_args": "Kurono_challenge_1",
-            },
-            "button2": {
-                "text": "Start challenge",
-                "url": "kurono/play",
-                "url_args": kurono_game.id,
-            },
-        }
+        try:
+            kurono_game = Game.objects.get(game_class=klass)
 
-        card_list = []
+            active_worksheet = kurono_game.worksheet
 
-        inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
-
-        for inactive_worksheet in inactive_worksheets:
-            worksheet_info = {
-                "image": inactive_worksheet.image_path,
-                "title": inactive_worksheet.name,
-                "description": inactive_worksheet.short_description,
-                "thumbnail_text": inactive_worksheet.thumbnail_text,
-                "thumbnail_image": inactive_worksheet.thumbnail_image_path
+            hero_card = {
+                "image": active_worksheet.active_image_path,
+                "title": active_worksheet.name,
+                "description": active_worksheet.description,
+                "button1": {
+                    "text": "Read challenge",
+                    "url": "materials_viewer",
+                    "url_args": "Kurono_challenge_1",
+                },
+                "button2": {
+                    "text": "Start challenge",
+                    "url": "kurono/play",
+                    "url_args": kurono_game.id,
+                },
             }
-            card_list.append(worksheet_info)
 
-        kurono_feedback_card = {
-            "image": "images/worksheets/kurono_logo.svg",
-            "title": "Let us know what you think",
-            "button_text": "Give feedback",
-            "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link"
-        }
-        card_list.append(kurono_feedback_card)
+            card_list = []
 
-        return {
-            "BANNER": KURONO_DASHBOARD_BANNER,
-            "HERO_CARD": hero_card,
-            "CARD_LIST": {"cards": card_list}
-        }
+            inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
+
+            for inactive_worksheet in inactive_worksheets:
+                worksheet_info = {
+                    "image": inactive_worksheet.image_path,
+                    "title": inactive_worksheet.name,
+                    "description": inactive_worksheet.short_description,
+                    "thumbnail_text": inactive_worksheet.thumbnail_text,
+                    "thumbnail_image": inactive_worksheet.thumbnail_image_path,
+                }
+                card_list.append(worksheet_info)
+
+            kurono_feedback_card = {
+                "image": "images/worksheets/kurono_logo.svg",
+                "title": "Let us know what you think",
+                "button_text": "Give feedback",
+                "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link",
+            }
+            card_list.append(kurono_feedback_card)
+
+            return {
+                "BANNER": KURONO_DASHBOARD_BANNER,
+                "HERO_CARD": hero_card,
+                "CARD_LIST": {"cards": card_list}
+            }
+
+        except ObjectDoesNotExist:
+            return {"BANNER": KURONO_DASHBOARD_BANNER}
