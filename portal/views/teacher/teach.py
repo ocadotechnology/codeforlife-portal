@@ -37,12 +37,18 @@
 from __future__ import division
 
 import json
-from builtins import zip
 from datetime import timedelta
 from functools import partial, wraps
 
-from aimmo.models import Game
+from common import email_messages
+from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
+from common.helpers.generators import (
+    generate_access_code,
+    generate_new_student_name,
+    generate_password,
+)
 from common.models import Class, Student, Teacher
+from common.permissions import logged_in_as_teacher
 from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -54,14 +60,6 @@ from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
-from reportlab.lib.colors import black
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
-
-from common import email_messages
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -76,63 +74,12 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
-from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
-from common.helpers.generators import (
-    generate_access_code,
-    generate_new_student_name,
-    generate_password,
-)
-from common.permissions import logged_in_as_teacher
-from portal.templatetags.app_tags import cloud_storage
-from portal.views.teacher.pdfs import PDF_DATA
-
-
-def get_links(pdf_name):
-    links = PDF_DATA[pdf_name]["links"]
-    link_titles = []
-    for link in links:
-        link = link.replace("_", " ")
-        link_titles.append(link)
-
-    return list(zip(links, link_titles))
-
-
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def materials_viewer(request, pdf_name):
-    try:
-        title = PDF_DATA[pdf_name]["title"]
-        description = PDF_DATA[pdf_name]["description"]
-        url = cloud_storage(PDF_DATA[pdf_name]["url"])
-        page_origin = PDF_DATA[pdf_name]["page_origin"]
-
-    except KeyError:
-        raise Http404
-
-    links = None
-    video_link = None
-    video_download_link = None
-
-    if PDF_DATA[pdf_name]["links"] is not None:
-        links = get_links(pdf_name)
-
-    if "video" in PDF_DATA[pdf_name]:
-        video_link = PDF_DATA[pdf_name]["video"]
-        video_download_link = cloud_storage(PDF_DATA[pdf_name]["video_download_link"])
-
-    return render(
-        request,
-        "portal/teach/viewer.html",
-        {
-            "title": title,
-            "description": description,
-            "url": url,
-            "links": links,
-            "video_link": video_link,
-            "video_download_link": video_download_link,
-            "page_origin": page_origin,
-        },
-    )
+from reportlab.lib.colors import black
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))

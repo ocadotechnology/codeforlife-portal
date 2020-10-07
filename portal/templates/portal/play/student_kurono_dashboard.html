@@ -1,10 +1,14 @@
 {% extends 'portal/base.html' %}
 {% load static %}
-{% load app_tags %}
+{% load app_tags banner_tags hero_card_tags character_list_tags %}
 
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
 
 {% block content %}
-{{block.super}}
+{% hero_card hero_card_name="HERO_CARD" %}
 
 <section class="background background--primary row">
     <div class="col-sm-8 col-center grid">
@@ -28,5 +32,10 @@
         </div>
     </div>
 </section>
+
+<div class="background background--quinary background--quinary__title">
+    <h2 class="text-center">Meet the characters</h2>
+    {% character_list %}
+</div>
 
 {% endblock content %}

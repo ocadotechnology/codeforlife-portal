@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Limited
+# Copyright (C) 2020, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,19 +34,20 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.core.urlresolvers import reverse
-from django.test import Client, TestCase
-
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from deploy import captcha
+from django.core.urlresolvers import reverse
+from django.test import Client, TestCase
 
+from .utils.aimmo_games import create_aimmo_game_directly
 from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
+from .utils.worksheets import create_worksheet_directly
 
 
 class TestTeacherViews(TestCase):
@@ -80,6 +81,36 @@ class TestTeacherViews(TestCase):
         assert response.status_code == 405
         response = client.post(url)
         assert response.status_code == 302
+
+
+class TestStudentViews(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        teacher_email, _ = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, _, cls.access_code = create_class_directly(teacher_email)
+        cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
+        worksheet = create_worksheet_directly()
+        create_aimmo_game_directly(klass, worksheet)
+
+    def login(self):
+        c = Client()
+        url = reverse("student_login")
+        data = {
+            "username": self.name,
+            "password": self.password,
+            "access_code": self.access_code,
+            "g-recaptcha-response": "something"
+        }
+
+        c.post(url, data)
+        return c
+
+    def test_student_kurono_dashboard_loads(self):
+        c = self.login()
+        url = reverse("student_kurono_dashboard")
+        response = c.get(url)
+        self.assertEqual(response.status_code, 200)
 
 
 class TestLoginViews(TestCase):
