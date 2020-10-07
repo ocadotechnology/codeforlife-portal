@@ -156,50 +156,53 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             kurono_game = Game.objects.get(game_class=klass)
 
             active_worksheet = kurono_game.worksheet
-
-            hero_card = {
-                "image": active_worksheet.active_image_path,
-                "title": active_worksheet.name,
-                "description": active_worksheet.description,
-                "button1": {
-                    "text": "Read challenge",
-                    "url": "materials_viewer",
-                    "url_args": active_worksheet.student_pdf_name
-                },
-                "button2": {
-                    "text": "Start challenge",
-                    "url": "kurono/play",
-                    "url_args": kurono_game.id,
-                },
-            }
-
-            card_list = []
-
             inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
-
-            for inactive_worksheet in inactive_worksheets:
-                worksheet_info = {
-                    "image": inactive_worksheet.image_path,
-                    "title": inactive_worksheet.name,
-                    "description": inactive_worksheet.short_description,
-                    "thumbnail_text": inactive_worksheet.thumbnail_text,
-                    "thumbnail_image": inactive_worksheet.thumbnail_image_path,
-                }
-                card_list.append(worksheet_info)
-
-            kurono_feedback_card = {
-                "image": "images/worksheets/kurono_logo.png",
-                "title": "Let us know what you think",
-                "button_text": "Give feedback",
-                "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link",
-            }
-            card_list.append(kurono_feedback_card)
 
             return {
                 "BANNER": KURONO_DASHBOARD_BANNER,
-                "HERO_CARD": hero_card,
-                "CARD_LIST": {"cards": card_list}
+                "HERO_CARD": self._get_hero_card(active_worksheet, kurono_game),
+                "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)}
             }
 
         except ObjectDoesNotExist:
             return {"BANNER": KURONO_DASHBOARD_BANNER}
+
+    def _get_hero_card(self, active_worksheet, kurono_game):
+        return {
+            "image": active_worksheet.active_image_path,
+            "title": active_worksheet.name,
+            "description": active_worksheet.description,
+            "button1": {
+                "text": "Read challenge",
+                "url": "materials_viewer",
+                "url_args": active_worksheet.student_pdf_name
+            },
+            "button2": {
+                "text": "Start challenge",
+                "url": "kurono/play",
+                "url_args": kurono_game.id,
+            },
+        }
+
+    def _get_card_list(self, inactive_worksheets):
+        card_list = []
+
+        for inactive_worksheet in inactive_worksheets:
+            worksheet_info = {
+                "image": inactive_worksheet.image_path,
+                "title": inactive_worksheet.name,
+                "description": inactive_worksheet.short_description,
+                "thumbnail_text": inactive_worksheet.thumbnail_text,
+                "thumbnail_image": inactive_worksheet.thumbnail_image_path,
+            }
+            card_list.append(worksheet_info)
+
+        kurono_feedback_card = {
+            "image": "images/worksheets/kurono_logo.png",
+            "title": "Let us know what you think",
+            "button_text": "Give feedback",
+            "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link",
+        }
+        card_list.append(kurono_feedback_card)
+
+        return card_list

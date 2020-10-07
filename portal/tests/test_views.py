@@ -122,18 +122,18 @@ class TestStudentViews(TestCase):
         url = reverse("student_kurono_dashboard")
         response = c.get(url)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("HERO_CARD", response.context)
-        self.assertIn("CARD_LIST", response.context)
+        assert response.status_code == 200
+        assert "HERO_CARD" in response.context
+        assert "CARD_LIST" in response.context
 
         self.game.delete()
 
         url = reverse("student_kurono_dashboard")
         response = c.get(url)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertNotIn("HERO_CARD", response.context)
-        self.assertNotIn("CARD_LIST", response.context)
+        assert response.status_code == 200
+        assert "HERO_CARD" not in response.context
+        assert "CARD_LIST" not in response.context
 
 
 class TestLoginViews(TestCase):
