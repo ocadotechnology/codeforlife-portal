@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from typing import Callable, Any, Dict
+from typing import Callable, Any, Dict, List
 
 from aimmo.models import Game, Worksheet
 from common import email_messages
@@ -46,6 +46,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import QuerySet
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
@@ -161,13 +162,15 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             return {
                 "BANNER": KURONO_DASHBOARD_BANNER,
                 "HERO_CARD": self._get_hero_card(active_worksheet, kurono_game),
-                "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)}
+                "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)},
             }
 
         except ObjectDoesNotExist:
             return {"BANNER": KURONO_DASHBOARD_BANNER}
 
-    def _get_hero_card(self, active_worksheet, kurono_game):
+    def _get_hero_card(
+        self, active_worksheet: Worksheet, kurono_game: Game
+    ) -> Dict[str, Any]:
         return {
             "image": active_worksheet.active_image_path,
             "title": active_worksheet.name,
@@ -175,7 +178,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             "button1": {
                 "text": "Read challenge",
                 "url": "materials_viewer",
-                "url_args": active_worksheet.student_pdf_name
+                "url_args": active_worksheet.student_pdf_name,
             },
             "button2": {
                 "text": "Start challenge",
@@ -184,7 +187,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             },
         }
 
-    def _get_card_list(self, inactive_worksheets):
+    def _get_card_list(self, inactive_worksheets: QuerySet) -> List[Dict[str, Any]]:
         card_list = []
 
         for inactive_worksheet in inactive_worksheets:
