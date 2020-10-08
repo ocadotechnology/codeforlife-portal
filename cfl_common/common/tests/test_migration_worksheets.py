@@ -20,7 +20,7 @@ class TestMigrationAddPdfNamesToWorksheets(MigrationTestCase):
     start_migration = "0006_update_aimmo_character_image_path"
     dest_migration = "0007_add_pdf_names_to_first_two_worksheets"
 
-    def test_worksheets_added(self):
+    def test_worksheets_pdf_names_added(self):
         Worksheet = self.django_application.get_model("aimmo", "worksheet")
         worksheet1 = Worksheet.objects.get(id=1)
         worksheet2 = Worksheet.objects.get(id=2)
