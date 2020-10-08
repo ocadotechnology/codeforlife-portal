@@ -216,7 +216,7 @@ snapshots[
 ] = """
 
 
-<div class="grid grid-characters col-lg-9 col-md-11 col-sm-8 col-center">
+<div class="grid grid-characters grid__fit col-lg-9 col-md-11 col-sm-8 col-center">
     
         <div class="card">
             <h1 class="card__title">Xian</h1>
