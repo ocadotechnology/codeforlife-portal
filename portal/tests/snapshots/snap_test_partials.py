@@ -95,7 +95,7 @@ snapshots[
         <div class="card__text">
             <h3 class="card__title">Test title</h3>
             <p>Test description</p>
-            <div class="button-group">
+            <div class="button-group button-group__icon">
                 <a href="/materials/test_pdf_name" class="button button--primary--general-play">
                     Test button 1<div class="glyphicon glyphicon-menu-right"></div>
                 </a>
@@ -216,7 +216,7 @@ snapshots[
 ] = """
 
 
-<div class="grid-characters col-lg-9 col-md-11 col-sm-8">
+<div class="grid grid-characters grid__fit col-lg-9 col-md-11 col-sm-8 col-center">
     
         <div class="card">
             <h1 class="card__title">Xian</h1>

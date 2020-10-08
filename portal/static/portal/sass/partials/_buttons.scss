@@ -294,6 +294,20 @@ button,
   }
 }
 
+.button-group__icon {
+  @include _padding($spacing * 3, 0px, 0px, 0px);
+
+  .button {
+    align-items: center;
+    display: inline-flex;
+
+    .glyphicon {
+      @include _font-size(25px);
+      @include _padding(0px, 0px, 0px, $spacing);
+    }
+  }
+}
+
 .resource-buttons {
   @include _padding(40px, 0px, 0px, 0px);
 

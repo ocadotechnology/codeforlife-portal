@@ -977,7 +977,7 @@ PDF_DATA = {
     },
     # ...Resource Sheets...#
     "Kurono_API_guide": {
-        "title": "Kurono API guide",
+        "title": "Kurono Cheat Sheet",
         "description": "To be used to code the Kurono game.",
         "links": [],
         "url": "kurono_v2/resource_sheets/kurono_API_guide_v1.pdf",
