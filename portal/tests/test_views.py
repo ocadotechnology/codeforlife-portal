@@ -91,6 +91,8 @@ class TestStudentViews(TestCase):
         klass, _, cls.access_code = create_class_directly(teacher_email)
         cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
         worksheet = create_worksheet_directly()
+        worksheet.student_pdf_name = "TestPDFName"
+        worksheet.save()
         cls.game = create_aimmo_game_directly(klass, worksheet)
 
     def login(self):
