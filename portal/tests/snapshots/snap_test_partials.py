@@ -196,9 +196,9 @@ snapshots[
             <div class="card__text">
                 <h3 class="card__title">Test card 6</h3>
                 
-                    <div class="button-group">
+                    <div class="button-group button-group__icon">
                         <a target="_blank" href="home" class="button button--primary--general-play">
-                            Test button
+                            Test button<div class="glyphicon glyphicon-menu-right"></div>
                         </a>
                     </div>
                 
