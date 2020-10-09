@@ -1,9 +1,9 @@
-from django.test.client import Client
-from django.urls.base import reverse
 import pytest
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
+from django.test.client import Client
+from django.urls.base import reverse
 from portal.tests.utils.organisation import create_organisation_directly
 
 
