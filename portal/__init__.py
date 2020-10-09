@@ -35,4 +35,4 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-__version__ = "4.10.1"
+__version__ = "4.11.0"
