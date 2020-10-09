@@ -25,7 +25,7 @@
             <img class="kurono-logo" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
         </div>
         <div>
-            <a href="{% url 'kurono'  %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
+            <a href="{% url_for_aimmo_dashboard %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
         </div>
   </div>
 </div>
@@ -67,7 +67,7 @@
 <div class="background row">
     <section class="col-center">
         {% headline headline_name="PLAY_ONLINE" %}
-        <a  href="{% url 'kurono' %}">
+        <a href="{% url_for_aimmo_dashboard %}">
             <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
                 <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
             </video>
