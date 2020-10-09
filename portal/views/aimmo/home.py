@@ -34,26 +34,29 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from aimmo.forms import AddGameForm
-from aimmo.game_creator import create_game
-from django.contrib.auth.mixins import LoginRequiredMixin
+from typing import Optional
+
+from common.models import Class
+from common.permissions import logged_in_as_teacher
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView
-from common.permissions import logged_in_as_teacher
-from common.models import Class
+
+from aimmo.forms import AddGameForm
+from aimmo.game_creator import create_game
 
 
-class AimmoHomeView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy("student_login")
+class AimmoHomeView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    login_url = reverse_lazy("teacher_login")
     form_class = AddGameForm
     template_name = "portal/aimmo_home.html"
 
+    def test_func(self) -> Optional[bool]:
+        return logged_in_as_teacher(self.request.user)
+
     def get_form(self, form_class=None):
         user = self.request.user
-        if logged_in_as_teacher(user):
-            classes = user.userprofile.teacher.class_teacher.all()
-        else:
-            classes = Class.objects.none()
+        classes = user.userprofile.teacher.class_teacher.all()
         if form_class is None:
             form_class = self.get_form_class()
         return form_class(classes, **self.get_form_kwargs())

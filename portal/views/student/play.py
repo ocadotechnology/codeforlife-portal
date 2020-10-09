@@ -35,12 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from typing import Callable, Any, Dict
+from typing import Any, Dict, Optional
 
 from aimmo.models import Game
 from common import email_messages
-from common.helpers.emails import send_email, NOTIFICATION_EMAIL
-from common.permissions import logged_in_as_student, logged_in_as_independent_student
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email
+from common.permissions import logged_in_as_independent_student, logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -48,7 +48,6 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-
 from portal.forms.play import StudentJoinOrganisationForm
 from portal.strings.student_kurono_dashboard import KURONO_DASHBOARD_BANNER
 
@@ -144,8 +143,8 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
 
     login_url = reverse_lazy("student_login")
 
-    def test_func(self) -> Callable:
-        return logged_in_as_student
+    def test_func(self) -> Optional[bool]:
+        return logged_in_as_student(self.request.user)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         student = self.request.user.new_student
