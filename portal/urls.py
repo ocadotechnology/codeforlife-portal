@@ -187,7 +187,7 @@ urlpatterns = [
     url(
         r"^play/kurono/dashboard/$",
         StudentAimmoDashboard.as_view(),
-        name="student_kurono_dashboard",
+        name="student_aimmo_dashboard",
     ),
     url(
         r"^favicon\.ico$",
