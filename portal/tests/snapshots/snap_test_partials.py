@@ -111,7 +111,7 @@ snapshots[
 ] = """
 
 
-<div class="grid-worksheets col-sm-8 col-center">
+<div class="grid grid-worksheets grid__fit col-sm-8 col-center">
     
         <div class="card">
             <div class="card__images">
