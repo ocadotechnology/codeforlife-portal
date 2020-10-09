@@ -108,7 +108,7 @@ class TestStudentViews(TestCase):
         c.post(url, data)
         return c
 
-    def test_student_kurono_dashboard_loads(self):
+    def test_student_aimmo_dashboard_loads(self):
         """
         Given an aimmo game is linked to a class,
         When a student of that class goes on the Student Kurono Dashboard page,
@@ -121,7 +121,7 @@ class TestStudentViews(TestCase):
         or the card list elements.
         """
         c = self.login()
-        url = reverse("student_kurono_dashboard")
+        url = reverse("student_aimmo_dashboard")
         response = c.get(url)
 
         assert response.status_code == 200
@@ -130,7 +130,7 @@ class TestStudentViews(TestCase):
 
         self.game.delete()
 
-        url = reverse("student_kurono_dashboard")
+        url = reverse("student_aimmo_dashboard")
         response = c.get(url)
 
         assert response.status_code == 200

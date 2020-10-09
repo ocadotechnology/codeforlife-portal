@@ -182,7 +182,7 @@ urlpatterns = [
     url(
         r"^play/kurono/dashboard/$",
         StudentAimmoDashboard.as_view(),
-        name="student_kurono_dashboard",
+        name="student_aimmo_dashboard",
     ),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(

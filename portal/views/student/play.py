@@ -52,7 +52,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
 from portal.forms.play import StudentJoinOrganisationForm
-from portal.strings.student_kurono_dashboard import KURONO_DASHBOARD_BANNER
+from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
 
 @login_required(login_url=reverse_lazy("student_login"))
@@ -142,7 +142,7 @@ def show_cancellation_message_if_student_not_in_class(student, request):
 
 
 class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
-    template_name = "portal/play/student_kurono_dashboard.html"
+    template_name = "portal/play/student_aimmo_dashboard.html"
 
     login_url = reverse_lazy("student_login")
 
@@ -154,14 +154,14 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
         klass = student.class_field
 
         try:
-            kurono_game = Game.objects.get(game_class=klass)
+            aimmo_game = Game.objects.get(game_class=klass)
 
-            active_worksheet = kurono_game.worksheet
+            active_worksheet = aimmo_game.worksheet
             inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
 
             return {
                 "BANNER": KURONO_DASHBOARD_BANNER,
-                "HERO_CARD": self._get_hero_card(active_worksheet, kurono_game),
+                "HERO_CARD": self._get_hero_card(active_worksheet, aimmo_game),
                 "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)},
             }
 
@@ -169,7 +169,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             return {"BANNER": KURONO_DASHBOARD_BANNER}
 
     def _get_hero_card(
-        self, active_worksheet: Worksheet, kurono_game: Game
+        self, active_worksheet: Worksheet, aimmo_game: Game
     ) -> Dict[str, Any]:
         return {
             "image": active_worksheet.active_image_path,
@@ -183,7 +183,7 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             "button2": {
                 "text": "Start challenge",
                 "url": "kurono/play",
-                "url_args": kurono_game.id,
+                "url_args": aimmo_game.id,
             },
         }
 
