@@ -35,12 +35,14 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from aimmo.templatetags.players_utils import get_user_playable_games
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 from django import template
 from django.conf import settings
+from django.shortcuts import reverse
+from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
-from portal import __version__
-from portal import beta
-from common.utils import using_two_factor
+from portal import __version__, beta
 
 register = template.Library()
 
@@ -173,3 +175,11 @@ def cloud_storage(e):
 @register.filter(name="get_project_version")
 def get_project_version():
     return __version__
+
+
+@register.simple_tag(takes_context=True)
+def url_for_aimmo_dashboard(context: RequestContext):
+    if logged_in_as_teacher(context.request.user):
+        return reverse("teacher_aimmo_dashboard")
+    else:
+        return reverse("student_aimmo_dashboard")

@@ -122,7 +122,7 @@
                             {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
                             {% block rapidrouter %}<a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
                             {% block aimmo %}
-                                <a href="{% url 'play_aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
+                                <a href="{% url_for_aimmo_dashboard %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
                             {% endblock aimmo %}
                             {% block materials %}<a id="resources_button" href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
                         {% else %}
@@ -141,7 +141,7 @@
                             <div class="dropdown-content">
                                 <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
                                 {% if not user|is_independent_student %}
-                                    <a href="{% url 'play_aimmo' %}"><small>Kurono</small></a>
+                                    <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
                                 {% endif %}
                             </div>
                         </div>
@@ -261,7 +261,7 @@
                                href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
                             {% if not user|is_independent_student %}
                                 <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                                   href="{% url 'play_aimmo' %}">Kurono<div class="glyphicon glyphicon-chevron-right"></div></a>
+                                   href="{% url_for_aimmo_dashboard %}">Kurono<div class="glyphicon glyphicon-chevron-right"></div></a>
                             {% endif %}
                         </div>
                         <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"

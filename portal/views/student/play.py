@@ -35,24 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-from typing import Callable, Any, Dict, List
-
-from aimmo.models import Game, Worksheet
 from common import email_messages
-from common.helpers.emails import send_email, NOTIFICATION_EMAIL
-from common.permissions import logged_in_as_student, logged_in_as_independent_student
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email
+from common.permissions import logged_in_as_independent_student, logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
-from django.db.models import QuerySet
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
-
 from portal.forms.play import StudentJoinOrganisationForm
-from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
 
 @login_required(login_url=reverse_lazy("student_login"))
@@ -139,73 +130,3 @@ def show_cancellation_message_if_student_not_in_class(student, request):
         messages.success(
             request, "Your request to join a school has been cancelled successfully."
         )
-
-
-class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
-    template_name = "portal/play/student_aimmo_dashboard.html"
-
-    login_url = reverse_lazy("student_login")
-
-    def test_func(self) -> Callable:
-        return logged_in_as_student
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        student = self.request.user.new_student
-        klass = student.class_field
-
-        try:
-            aimmo_game = Game.objects.get(game_class=klass)
-
-            active_worksheet = aimmo_game.worksheet
-            inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
-
-            return {
-                "BANNER": AIMMO_DASHBOARD_BANNER,
-                "HERO_CARD": self._get_hero_card(active_worksheet, aimmo_game),
-                "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)},
-            }
-
-        except ObjectDoesNotExist:
-            return {"BANNER": AIMMO_DASHBOARD_BANNER}
-
-    def _get_hero_card(
-        self, active_worksheet: Worksheet, aimmo_game: Game
-    ) -> Dict[str, Any]:
-        return {
-            "image": active_worksheet.active_image_path,
-            "title": active_worksheet.name,
-            "description": active_worksheet.description,
-            "button1": {
-                "text": "Read challenge",
-                "url": "materials_viewer",
-                "url_args": active_worksheet.student_pdf_name,
-            },
-            "button2": {
-                "text": "Start challenge",
-                "url": "kurono/play",
-                "url_args": aimmo_game.id,
-            },
-        }
-
-    def _get_card_list(self, inactive_worksheets: QuerySet) -> List[Dict[str, Any]]:
-        card_list = []
-
-        for inactive_worksheet in inactive_worksheets:
-            worksheet_info = {
-                "image": inactive_worksheet.image_path,
-                "title": inactive_worksheet.name,
-                "description": inactive_worksheet.short_description,
-                "thumbnail_text": inactive_worksheet.thumbnail_text,
-                "thumbnail_image": inactive_worksheet.thumbnail_image_path,
-            }
-            card_list.append(worksheet_info)
-
-        kurono_feedback_card = {
-            "image": "images/worksheets/kurono_logo.png",
-            "title": "Let us know what you think",
-            "button_text": "Give feedback",
-            "button_link": "https://docs.google.com/forms/d/e/1FAIpQLSeI8Fu-tdtIseAaCrDbtOqtAK4x_-SWKttJYrbFx-j52fBYMA/viewform?usp=sf_link",
-        }
-        card_list.append(kurono_feedback_card)
-
-        return card_list
