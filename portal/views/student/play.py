@@ -160,13 +160,13 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
 
             return {
-                "BANNER": KURONO_DASHBOARD_BANNER,
+                "BANNER": AIMMO_DASHBOARD_BANNER,
                 "HERO_CARD": self._get_hero_card(active_worksheet, aimmo_game),
                 "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)},
             }
 
         except ObjectDoesNotExist:
-            return {"BANNER": KURONO_DASHBOARD_BANNER}
+            return {"BANNER": AIMMO_DASHBOARD_BANNER}
 
     def _get_hero_card(
         self, active_worksheet: Worksheet, aimmo_game: Game
