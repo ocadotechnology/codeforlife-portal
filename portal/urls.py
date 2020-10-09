@@ -61,7 +61,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.views.about import about
 from portal.views.admin import AdminLoginView, aggregated_data, schools_map
-from portal.views.aimmo.home import AimmoHomeView
+from portal.views.aimmo.dashboard import AimmoTeacherDashboard
 from portal.views.api import (
     InactiveUsersView,
     last_connected_since,
@@ -178,10 +178,14 @@ urlpatterns = [
     # The first AIMMO URL renders the new Kurono home page. It uses the same regex so as to overwrite the default
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
+    url(
+        r"^teach/kurono/dashboard/$",
+        AimmoTeacherDashboard.as_view(),
+        name="teacher_kurono_dashboard",
+    ),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
-        r"^play/kurono/$",
+        r"^play/kurono/dashboard/$",
         StudentAimmoDashboard.as_view(),
         name="student_kurono_dashboard",
     ),

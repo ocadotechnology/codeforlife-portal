@@ -46,7 +46,7 @@ from aimmo.forms import AddGameForm
 from aimmo.game_creator import create_game
 
 
-class AimmoHomeView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class AimmoTeacherDashboard(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     login_url = reverse_lazy("teacher_login")
     form_class = AddGameForm
     template_name = "portal/aimmo_home.html"
