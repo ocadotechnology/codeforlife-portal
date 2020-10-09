@@ -9,7 +9,7 @@
     <div class="dropdown-content">
         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
         {% if not user|is_independent_student %}
-            <a href="{% url 'play_aimmo' %}"><small>Kurono</small></a>
+            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
         {% endif %}
     </div>
 </div>

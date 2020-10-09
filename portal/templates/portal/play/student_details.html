@@ -9,7 +9,7 @@
     <div class="dropdown-content">
         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
         {% if not user|is_independent_student %}
-            <a href="{% url 'play_aimmo' %}"><small>Kurono</small></a>
+            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
         {% endif %}
     </div>
 </div>
@@ -59,10 +59,10 @@
         </div>
         {% if user.new_student.class_field %}
             <section>
-                <a href="{% url 'play_aimmo' %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
+                <a href="{% url_for_aimmo_dashboard %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
                 <h4>Take your coding to the next level!</h4>
                 <div class="background">
-                    <a href="{% url 'play_aimmo' %}" class="button button--regular button--primary--navigation">Play now</a>
+                    <a href="{% url_for_aimmo_dashboard %}" class="button button--regular button--primary--navigation">Play now</a>
                 </div>
             </section>
             <p>It is the year 3000 and the museum is in big trouble! 
