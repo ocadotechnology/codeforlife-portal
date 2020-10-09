@@ -74,7 +74,7 @@ from .utils.organisation import (
 class TestTeachers(TestCase):
     def test_new_student_can_play_games(self):
         """
-        Given a teacher has an teacher_kurono_dashboard game,
+        Given a teacher has an kurono game,
         When they add a new student to their class,
         Then the new student should be able to play that class's games
         """
@@ -89,7 +89,7 @@ class TestTeachers(TestCase):
             name="test", starter_code="test"
         )
         c.post(
-            reverse("teacher_kurono_dashboard"),
+            reverse("teacher_aimmo_dashboard"),
             {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
         )
         c.post(
@@ -133,7 +133,7 @@ class TestTeachers(TestCase):
             name="test", starter_code="test"
         )
         c.post(
-            reverse("teacher_kurono_dashboard"),
+            reverse("teacher_aimmo_dashboard"),
             {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
         )
         c.post(
@@ -177,7 +177,7 @@ class TestTeachers(TestCase):
         # Create game 1 under class 1
         c.login(username=email1, password=password1)
         c.post(
-            reverse("teacher_kurono_dashboard"),
+            reverse("teacher_aimmo_dashboard"),
             {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
         )
         c.logout()
@@ -185,7 +185,7 @@ class TestTeachers(TestCase):
         # Create game 2 under class 2
         c.login(username=email2, password=password2)
         c.post(
-            reverse("teacher_kurono_dashboard"),
+            reverse("teacher_aimmo_dashboard"),
             {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
         )
         c.logout()
@@ -264,14 +264,14 @@ class TestTeachers(TestCase):
         c = Client()
         c.login(username=email2, password=password2)
         c.post(
-            reverse("teacher_kurono_dashboard"),
+            reverse("teacher_aimmo_dashboard"),
             {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
         c.login(username=email1, password=password1)
         c.post(
-            reverse("teacher_kurono_dashboard"),
+            reverse("teacher_aimmo_dashboard"),
             {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
         )
 

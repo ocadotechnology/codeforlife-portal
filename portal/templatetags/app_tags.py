@@ -180,6 +180,6 @@ def get_project_version():
 @register.simple_tag(takes_context=True)
 def url_for_aimmo_dashboard(context: RequestContext):
     if logged_in_as_teacher(context.request.user):
-        return reverse("teacher_kurono_dashboard")
+        return reverse("teacher_aimmo_dashboard")
     else:
-        return reverse("student_kurono_dashboard")
+        return reverse("student_aimmo_dashboard")

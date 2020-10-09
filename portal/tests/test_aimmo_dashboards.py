@@ -30,7 +30,7 @@ def test_student_cannot_access_teacher_dashboard():
 
     c.post(url, data)
 
-    teacher_dashboard_url = reverse("teacher_kurono_dashboard")
+    teacher_dashboard_url = reverse("teacher_aimmo_dashboard")
 
     response = c.get(teacher_dashboard_url)
 
