@@ -179,12 +179,12 @@ urlpatterns = [
     # home page in the AIMMO project.
     # The second AIMMO URL imports all the URLs from the AIMMO project.
     url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
+    url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
-        r"^play/kurono/dashboard/$",
+        r"^play/kurono/$",
         StudentAimmoDashboard.as_view(),
         name="student_kurono_dashboard",
     ),
-    url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(
         r"^favicon\.ico$",
         RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
