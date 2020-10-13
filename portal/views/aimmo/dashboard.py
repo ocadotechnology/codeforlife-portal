@@ -49,6 +49,9 @@ class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
         student = self.request.user.new_student
         klass = student.class_field
 
+        if klass is None:
+            return {"BANNER": AIMMO_DASHBOARD_BANNER}
+
         try:
             aimmo_game = Game.objects.get(game_class=klass)
 

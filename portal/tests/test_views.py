@@ -42,12 +42,10 @@ from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
 from deploy import captcha
-from .utils.aimmo_games import create_aimmo_game_directly
 from .utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from .utils.worksheets import create_worksheet_directly
 
 
 class TestTeacherViews(TestCase):
@@ -81,61 +79,6 @@ class TestTeacherViews(TestCase):
         assert response.status_code == 405
         response = client.post(url)
         assert response.status_code == 302
-
-
-class TestStudentViews(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        teacher_email, _ = signup_teacher_directly()
-        create_organisation_directly(teacher_email)
-        klass, _, cls.access_code = create_class_directly(teacher_email)
-        cls.name, cls.password, _ = create_school_student_directly(cls.access_code)
-        worksheet = create_worksheet_directly()
-        worksheet.student_pdf_name = "TestPDFName"
-        worksheet.save()
-        cls.game = create_aimmo_game_directly(klass, worksheet)
-
-    def login(self):
-        c = Client()
-        url = reverse("student_login")
-        data = {
-            "username": self.name,
-            "password": self.password,
-            "access_code": self.access_code,
-            "g-recaptcha-response": "something",
-        }
-
-        c.post(url, data)
-        return c
-
-    def test_student_aimmo_dashboard_loads(self):
-        """
-        Given an aimmo game is linked to a class,
-        When a student of that class goes on the Student Kurono Dashboard page,
-        Then the page loads and the context contains the hero card and card list
-        associated to the aimmo game.
-
-        Then, given that the class no longer has a game linked to it,
-        When the student goes on the same page,
-        Then the page still loads but the context no longer contains the hero card
-        or the card list elements.
-        """
-        c = self.login()
-        url = reverse("student_aimmo_dashboard")
-        response = c.get(url)
-
-        assert response.status_code == 200
-        assert "HERO_CARD" in response.context
-        assert "CARD_LIST" in response.context
-
-        self.game.delete()
-
-        url = reverse("student_aimmo_dashboard")
-        response = c.get(url)
-
-        assert response.status_code == 200
-        assert "HERO_CARD" not in response.context
-        assert "CARD_LIST" not in response.context
 
 
 class TestLoginViews(TestCase):
