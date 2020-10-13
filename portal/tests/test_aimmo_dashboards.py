@@ -13,6 +13,27 @@ from .utils.aimmo_games import create_aimmo_game_directly
 from .utils.worksheets import create_worksheet_directly
 
 
+@pytest.fixture
+def class_for_student():
+    teacher_email, _ = signup_teacher_directly()
+    create_organisation_directly(teacher_email)
+    klass, _, access_code = create_class_directly(teacher_email)
+    name, password, _ = create_school_student_directly(access_code)
+    worksheet = create_worksheet_directly()
+    worksheet.student_pdf_name = "TestPDFName"
+    worksheet.save()
+    game = create_aimmo_game_directly(klass, worksheet)
+
+    return {
+        "student_details": {
+            "name": name,
+            "password": password,
+            "access_code": access_code,
+        },
+        "game": game
+    }
+
+
 @pytest.mark.django_db
 def test_student_cannot_access_teacher_dashboard():
     """
@@ -23,7 +44,7 @@ def test_student_cannot_access_teacher_dashboard():
     email, _ = signup_teacher_directly()
     create_organisation_directly(email)
     _, _, access_code = create_class_directly(email)
-    name, password, student = create_school_student_directly(access_code)
+    name, password, _ = create_school_student_directly(access_code)
 
     c = Client()
     url = reverse("student_login")
@@ -73,7 +94,7 @@ def test_indep_student_cannot_access_dashboard():
 
 
 @pytest.mark.django_db
-def test_student_aimmo_dashboard_loads():
+def test_student_aimmo_dashboard_loads(class_for_student):
     """
     Given an aimmo game is linked to a class,
     When a student of that class goes on the Student Kurono Dashboard page,
@@ -85,21 +106,12 @@ def test_student_aimmo_dashboard_loads():
     Then the page still loads but the context no longer contains the hero card
     or the card list elements.
     """
-    teacher_email, _ = signup_teacher_directly()
-    create_organisation_directly(teacher_email)
-    klass, _, access_code = create_class_directly(teacher_email)
-    name, password, _ = create_school_student_directly(access_code)
-    worksheet = create_worksheet_directly()
-    worksheet.student_pdf_name = "TestPDFName"
-    worksheet.save()
-    game = create_aimmo_game_directly(klass, worksheet)
-
     c = Client()
     student_login_url = reverse("student_login")
     data = {
-        "username": name,
-        "password": password,
-        "access_code": access_code,
+        "username": class_for_student["student_details"]["name"],
+        "password": class_for_student["student_details"]["password"],
+        "access_code": class_for_student["student_details"]["access_code"],
         "g-recaptcha-response": "something",
     }
 
@@ -112,7 +124,7 @@ def test_student_aimmo_dashboard_loads():
     assert "HERO_CARD" in response.context
     assert "CARD_LIST" in response.context
 
-    game.delete()
+    class_for_student["game"].delete()
 
     url = reverse("student_aimmo_dashboard")
     response = c.get(url)
