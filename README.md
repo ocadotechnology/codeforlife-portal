@@ -18,15 +18,14 @@
     * `sudo apt-get install libxml2-dev libxslt1-dev zlib1g-dev`
 * Make and activate a virtualenv (We recommend [pipenv]((https://docs.pipenv.org/)))
     * On **Mac**, run `brew install pipenv` using the `brew` package manager. Then run `pipenv install` followed by `pipenv shell`.
-    * On Linux, follow the instructions [here](https://docs.pipenv.org/install/#installing-pipenv) to install pipenv. Then run `pipenv install` followed by `pipenv shell`. 
-    * create settings file under `example_project/example_project/local_settings.py` with `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
+    * On Linux, follow the instructions [here](https://docs.pipenv.org/install/#installing-pipenv) to install pipenv. Then run `pipenv install` followed by `pipenv shell`.
 * `./run` - This will:
     * sync the database
     * collect the static files
     * run the server
 * Once you see `Quit the server with CONTROL-C`, you can open the portal in your browser at `localhost:8000`.
 
-* To setup test dependencies and run tests, you can use `python setup.py test`
+* To setup test dependencies run `pipenv install --dev` and then `pytest` to run tests.
 
 * If you have problems seeing the portal on machines with different locale (e.g. Polish), check the terminal for errors mentioning `ValueError: unknown locale: UTF-8`. If you see them, you need to have environment variables `LANG` and `LC_ALL` both set to `en_US.UTF-8`.
     * Either export them in your `.bashrc` or `.bash_profile`
@@ -49,7 +48,7 @@ On MacOS Mojave there is an error when installing `Pillow 3.3.2`.
 To fix this issue you need to run the following command:
 ```
 sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
-``` 
-cf: https://github.com/python-pillow/Pillow/issues/3438#issuecomment-435169249 
+```
+cf: https://github.com/python-pillow/Pillow/issues/3438#issuecomment-435169249
 
 [c4l-contact-form]: https://www.codeforlife.education/help/#contact
