@@ -25,7 +25,7 @@
     * run the server
 * Once you see `Quit the server with CONTROL-C`, you can open the portal in your browser at `localhost:8000`.
 
-* To setup test dependencies and run tests, you can use `python setup.py test`
+* To setup test dependencies run `pipenv install --dev` and then `pytest` to run tests.
 
 * If you have problems seeing the portal on machines with different locale (e.g. Polish), check the terminal for errors mentioning `ValueError: unknown locale: UTF-8`. If you see them, you need to have environment variables `LANG` and `LC_ALL` both set to `en_US.UTF-8`.
     * Either export them in your `.bashrc` or `.bash_profile`
