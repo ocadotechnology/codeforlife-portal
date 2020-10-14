@@ -56,9 +56,11 @@ class TestClass(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        page = self.go_to_homepage()
-        page = self.go_to_teacher_login_page()
-        page = self.login_no_class(email, password)
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login_no_class(email, password)
+        )
 
         assert page.does_not_have_classes()
 
