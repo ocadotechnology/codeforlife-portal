@@ -31,7 +31,7 @@
     {% include "portal/tag_manager/tag_manager_head.html" %}
 
     {% cache 3600 fragment-base_new-javascript %}
-    <script type="text/javascript" src="{% static 'portal/js/lib/jquery.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/lib/modernizr.custom.79639.js' %}"></script>
@@ -406,7 +406,7 @@
     });
 
     function animateScroll(bannerHeight) {
-        $('a[href*=#]').click(function() {
+        $('a[href*="#""]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
                 var $target = getTarget(this);
@@ -460,7 +460,7 @@
 <script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer></script>
 <script>
     FreshworksWidget('hide');
-    $('.freshdesk__contact-us').click(function() {
+    $('.freshdesk__contact-us').on('click', function() {
         FreshworksWidget('open');
     });
 </script>
