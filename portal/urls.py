@@ -317,7 +317,7 @@ urlpatterns = [
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
         materials_viewer_redirect,
-        name="materials_viewer",
+        name="materials_viewer_redirect",
     ),
     url(
         r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
