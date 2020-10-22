@@ -77,9 +77,7 @@ class MaterialsTests(TestCase):
         assert result == [("KS1_S3_1", "KS1 S3 1")]
 
 
-def test_materials_viewer_redirect(
-    live_server, client: Client, teacher1: TeacherLoginDetails
-):
+def test_materials_viewer_redirect(client: Client, teacher1: TeacherLoginDetails):
     client.login(email=teacher1.email, password=teacher1.password)
     response = client.get(
         reverse("materials_viewer_redirect", kwargs={"pdf_name": "KS1_S3_1"}),
