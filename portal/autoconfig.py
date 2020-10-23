@@ -124,7 +124,6 @@ SETTINGS = {
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
-        "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
