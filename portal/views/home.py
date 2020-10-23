@@ -78,7 +78,7 @@ def play_name_labeller(request):
 
 
 def register_view(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect_user_to_dashboard(request)
     else:
         return render_signup_form(request)
