@@ -22,7 +22,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "django>=1.10.8, <= 1.11.24",
+        "django>=1.11.24, <= 2.0.0",
         "django-countries==5.4",
         "djangorestframework>=3.8.2, < 3.9.0",
         "django-autoconfig==0.8.0",
