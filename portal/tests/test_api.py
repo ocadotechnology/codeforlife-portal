@@ -36,7 +36,7 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status

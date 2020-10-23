@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.core import mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client
 import pytest
 

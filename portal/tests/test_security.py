@@ -39,7 +39,7 @@ from __future__ import absolute_import
 from builtins import str
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.test import Client, TestCase
 
 from common.models import School, Student, UserProfile

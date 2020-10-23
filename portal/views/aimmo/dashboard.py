@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.db.models import QuerySet
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView

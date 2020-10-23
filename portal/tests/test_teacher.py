@@ -40,7 +40,7 @@ import time
 
 from aimmo.models import Game, Worksheet
 from django.core import mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client, TestCase
 from selenium.webdriver.support.wait import WebDriverWait
 

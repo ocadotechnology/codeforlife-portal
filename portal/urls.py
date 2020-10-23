@@ -39,7 +39,7 @@ from common.permissions import teacher_verified
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView

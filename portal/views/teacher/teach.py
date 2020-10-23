@@ -53,7 +53,7 @@ from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
