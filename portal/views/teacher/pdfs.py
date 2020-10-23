@@ -962,32 +962,39 @@ PDF_DATA = {
     # ...Kurono...#
     # ...Teacher Guides...#
     "Kurono_teacher_guide_1": {
-        "title": "Teacher Guide 1",
+        "title": "Teacher Challenge Guide 1",
         "description": "Challenge 1",
         "links": ["Kurono_challenge_1", "Kurono_teacher_guide_2"],
-        "url": "kurono_v2/teacher_guides/teacher_guide_S1_v1.pdf",
+        "url": "kurono_v3/teacher_guides/teacher_guide_S1_v1.pdf",
         "page_origin": "#ks3-sessions",
     },
     "Kurono_teacher_guide_2": {
-        "title": "Teacher Guide 2",
+        "title": "Teacher Challenge Guide 2",
         "description": "Challenge 2",
         "links": ["Kurono_challenge_2", "Kurono_teacher_guide_1"],
-        "url": "kurono_v2/teacher_guides/teacher_guide_S2_v1.pdf",
+        "url": "kurono_v3/teacher_guides/teacher_guide_S2_v1.pdf",
         "page_origin": "#ks3-sessions",
     },
     # ...Resource Sheets...#
-    "Kurono_API_guide": {
+    "Kurono_cheat_sheet": {
         "title": "Kurono Cheat Sheet",
         "description": "To be used to code the Kurono game.",
         "links": [],
-        "url": "kurono_v2/resource_sheets/kurono_API_guide_v1.pdf",
+        "url": "kurono_v3/resource_sheets/kurono_cheat_sheet_v1.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
-    "Kurono_user_guide": {
+    "Kurono_teacher_user_guide": {
+        "title": "Kurono Teacher User Guide",
+        "description": "",
+        "links": [],
+        "url": "kurono_v3/resource_sheets/teacher_user_guide_v1.pdf",
+        "page_origin": "#ks3-resource-sheets",
+    },
+    "Kurono_student_user_guide": {
         "title": "Kurono User Guide",
         "description": "",
         "links": [],
-        "url": "kurono_v2/resource_sheets/user_guide_v1.pdf",
+        "url": "kurono_v3/resource_sheets/student_user_guide_v1.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     # ...Intermediate Python Challenges...#
@@ -995,14 +1002,14 @@ PDF_DATA = {
         "title": "Student Challenge 1",
         "description": "Move your avatar",
         "links": ["Kurono_challenge_2"],
-        "url": "kurono_v2/student_challenges/SC1_v1.pdf",
+        "url": "kurono_v3/student_challenges/SC1_v1.pdf",
         "page_origin": "#ks3-challenges",
     },
     "Kurono_challenge_2": {
         "title": "Student Challenge 2",
         "description": "Obstacles and Artefacts",
         "links": ["Kurono_challenge_1"],
-        "url": "kurono_v2/student_challenges/SC2_v1.pdf",
+        "url": "kurono_v3/student_challenges/SC2_v1.pdf",
         "page_origin": "#ks3-challenges",
     },
 }
