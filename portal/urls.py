@@ -207,7 +207,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/locked_out.html"),
         name="locked_out",
     ),
-    url(r"^", include(two_factor_patterns, "two_factor")),
+    url(r"^", include((two_factor_patterns, "two_factor"), namespace="two_factor")),
     url(r"^i18n/", include("django.conf.urls.i18n")),
     url(r"^jsi18n/$", javascript_catalog, js_info_dict),
     url(r"^teach/solutions_navigation/$", levels, name="teacher_level_solutions"),
