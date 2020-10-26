@@ -37,6 +37,7 @@
 from __future__ import absolute_import
 
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
@@ -125,8 +126,21 @@ class APITests(APITestCase):
         create_user_directly(active=False)
         url = reverse("inactive_users")
         client.credentials(HTTP_X_APPENGINE_CRON=True)
+        response = client.get(url)
+        users = response.data
+        self.assertEqual(len(users), 2)
         response = client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        deleted_users = response.data["deleted_users"]
+        self.assertEqual(len(deleted_users), 2)
+        for user in users:
+            self.assertRaises(User.DoesNotExist, User.objects.get, username=user["username"])
+        for username in deleted_users:
+            user = User.objects.get(username=username)
+            self.assertEqual(user.first_name, "Deleted")
+            self.assertEqual(user.last_name, "User")
+            self.assertEqual(user.email, "")
+            self.assertFalse(user.is_active)
+            self.assertFalse(client.login(username=username, password="password"))
         response = client.get(url)
         self.assertEqual(len(response.data), 0)
 
