@@ -36,6 +36,7 @@
 # identified as the original program
 
 import datetime
+import uuid
 
 from common.models import Teacher, Student
 from django.contrib.auth.decorators import login_required
@@ -119,17 +120,29 @@ class InactiveUsersView(generics.ListAPIView):
     """
 
     queryset = User.objects.filter(
-        last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
-    ) | User.objects.filter(
-        last_login__isnull=True,
-        date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+        is_active=True
+    ) & (
+        User.objects.filter(
+            last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
+        ) | User.objects.filter(
+            last_login__isnull=True,
+            date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+        )
     )
     authentication_classes = (SessionAuthentication,)
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
     def delete(self, request):
-        """Delete all inactive users."""
+        """Delete all personal data from inactive users and mark them as inactive."""
         inactive_users = self.get_queryset()
-        inactive_users.delete()
+        deleted_users = []
+        for user in inactive_users:
+            user.username = uuid.uuid4().hex
+            user.first_name = "Deleted"
+            user.last_name = "User"
+            user.email = ""
+            user.is_active = False
+            user.save()
+            deleted_users.append(user.username)
         return Response(status=status.HTTP_204_NO_CONTENT)
