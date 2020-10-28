@@ -145,6 +145,4 @@ class InactiveUsersView(generics.ListAPIView):
             user.is_active = False
             user.save()
             deleted_users.append(user.username)
-        return Response({
-            'deleted_users': deleted_users
-        })
+        return Response(status=status.HTTP_204_NO_CONTENT)

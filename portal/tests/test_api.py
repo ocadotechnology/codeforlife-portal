@@ -131,18 +131,18 @@ class APITests(APITestCase):
         users = response.data
         assert len(users) == 2
         response = client.delete(url)
-        deleted_users = response.data["deleted_users"]
-        assert len(deleted_users) == 2
+        assert response.status_code == status.HTTP_204_NO_CONTENT
         for user in users:
             with pytest.raises(User.DoesNotExist):
                 User.objects.get(username=user["username"])
-        for username in deleted_users:
-            user = User.objects.get(username=username)
+        deleted_users = list(User.objects.filter(is_active=False))
+        assert len(deleted_users) == 2
+        for user in deleted_users:
             assert user.first_name == "Deleted"
             assert user.last_name == "User"
             assert user.email == ""
             assert not user.is_active
-            assert not client.login(username=username, password="password")
+            assert not client.login(username=user.username, password="password")
         response = client.get(url)
         assert len(response.data) == 0
 
