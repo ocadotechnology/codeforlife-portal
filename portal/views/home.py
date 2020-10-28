@@ -266,7 +266,8 @@ def redirect_teacher_to_correct_page(request, teacher):
                 return reverse_lazy("dashboard")
             else:
                 return reverse_lazy(
-                    "onboarding-class", kwargs={"access_code": classes[0].access_code},
+                    "onboarding-class",
+                    kwargs={"access_code": classes[0].access_code},
                 )
 
         else:

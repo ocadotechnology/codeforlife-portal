@@ -362,7 +362,8 @@ def organisation_kick(request, pk):
     teacher.save()
 
     messages.success(
-        request, "The teacher has been successfully removed from your school or club.",
+        request,
+        "The teacher has been successfully removed from your school or club.",
     )
 
     emailMessage = email_messages.kickedEmail(request, user.school.name)

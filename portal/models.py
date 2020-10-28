@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,9 +44,13 @@ from django.db import models
 class Guardian(models.Model):
     name = models.CharField(max_length=200)
     children = models.ManyToManyField(Student)
-    user = models.OneToOneField(UserProfile)
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(
-        User, related_name="new_guardian", null=True, blank=True
+        User,
+        related_name="new_guardian",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):

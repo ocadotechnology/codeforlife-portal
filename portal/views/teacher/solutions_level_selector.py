@@ -114,7 +114,7 @@ def get_level_title(i):
 @login_required(login_url=reverse_lazy("teach"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teach"))
 def levels(request):
-    """ Loads a page with all levels listed.
+    """Loads a page with all levels listed.
 
     **Context**
 

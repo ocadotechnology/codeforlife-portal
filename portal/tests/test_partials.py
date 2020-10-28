@@ -92,13 +92,9 @@ def test_hero_card(snapshot):
         "button1": {
             "text": "Test button 1",
             "url": "materials_viewer",
-            "url_args": "test_pdf_name"
+            "url_args": "test_pdf_name",
         },
-        "button2": {
-            "text": "Test button 2",
-            "url": "kurono/play",
-            "url_args": 1
-        }
+        "button2": {"text": "Test button 2", "url": "kurono/play", "url_args": 1},
     }
 
     context = Context({"HERO_CARD": test_hero_card})

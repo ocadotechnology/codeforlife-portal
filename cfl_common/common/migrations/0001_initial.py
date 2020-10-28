@@ -177,7 +177,7 @@ class Migration(migrations.Migration):
                             models.ForeignKey(
                                 blank=True,
                                 null=True,
-                                on_delete=django.db.models.deletion.CASCADE,
+                                on_delete=django.db.models.deletion.SET_NULL,
                                 related_name="join_request",
                                 to="common.School",
                             ),
@@ -186,7 +186,7 @@ class Migration(migrations.Migration):
                             "school",
                             models.ForeignKey(
                                 null=True,
-                                on_delete=django.db.models.deletion.CASCADE,
+                                on_delete=django.db.models.deletion.SET_NULL,
                                 related_name="teacher_school",
                                 to="common.School",
                             ),

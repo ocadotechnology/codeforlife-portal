@@ -11,7 +11,7 @@ from wagtail.snippets.models import register_snippet
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
 
@@ -27,7 +27,11 @@ class UserProfile(models.Model):
 
 class EmailVerification(models.Model):
     user = models.ForeignKey(
-        User, related_name="email_verifications", null=True, blank=True
+        User,
+        related_name="email_verifications",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
     )
     token = models.CharField(max_length=30)
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
@@ -83,14 +87,24 @@ class TeacherModelManager(models.Manager):
 
 class Teacher(models.Model):
     title = models.CharField(max_length=35)
-    user = models.OneToOneField(UserProfile)
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(
-        User, related_name="new_teacher", null=True, blank=True
+        User,
+        related_name="new_teacher",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
     )
-    school = models.ForeignKey(School, related_name="teacher_school", null=True)
+    school = models.ForeignKey(
+        School, related_name="teacher_school", null=True, on_delete=models.SET_NULL
+    )
     is_admin = models.BooleanField(default=False)
     pending_join_request = models.ForeignKey(
-        School, related_name="join_request", null=True, blank=True
+        School,
+        related_name="join_request",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     objects = TeacherModelManager()
@@ -125,7 +139,9 @@ class ClassModelManager(models.Manager):
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
-    teacher = models.ForeignKey(Teacher, related_name="class_teacher")
+    teacher = models.ForeignKey(
+        Teacher, related_name="class_teacher", on_delete=models.CASCADE
+    )
     access_code = models.CharField(max_length=5)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
@@ -203,13 +219,19 @@ class StudentModelManager(models.Manager):
 
 
 class Student(models.Model):
-    class_field = models.ForeignKey(Class, related_name="students", null=True)
-    user = models.OneToOneField(UserProfile)
+    class_field = models.ForeignKey(
+        Class, related_name="students", null=True, on_delete=models.CASCADE
+    )
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(
-        User, related_name="new_student", null=True, blank=True
+        User,
+        related_name="new_student",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
     )
     pending_class_request = models.ForeignKey(
-        Class, related_name="class_request", null=True
+        Class, related_name="class_request", null=True, on_delete=models.CASCADE
     )
 
     objects = StudentModelManager()
