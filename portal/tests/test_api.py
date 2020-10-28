@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Limited
+# Copyright (C) 2020, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,13 +36,14 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+import pytest
+from common.tests.utils.user import create_user_directly, get_superuser
+from django.contrib.auth.models import User
 from django.urls import reverse
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
-
-from common.tests.utils.user import create_user_directly, get_superuser
 
 
 class APITests(APITestCase):
@@ -125,10 +126,24 @@ class APITests(APITestCase):
         create_user_directly(active=False)
         url = reverse("inactive_users")
         client.credentials(HTTP_X_APPENGINE_CRON=True)
-        response = client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         response = client.get(url)
-        self.assertEqual(len(response.data), 0)
+        users = response.data
+        assert len(users) == 2
+        response = client.delete(url)
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        for user in users:
+            with pytest.raises(User.DoesNotExist):
+                User.objects.get(username=user["username"])
+        deleted_users = list(User.objects.filter(is_active=False))
+        assert len(deleted_users) == 2
+        for user in deleted_users:
+            assert user.first_name == "Deleted"
+            assert user.last_name == "User"
+            assert user.email == ""
+            assert not user.is_active
+            assert not client.login(username=user.username, password="password")
+        response = client.get(url)
+        assert len(response.data) == 0
 
 
 def has_status_code(status_code):
