@@ -46,7 +46,6 @@ from common.models import (
     Teacher,
     UserProfile,
 )
-from portal.models import Guardian
 
 
 class ClassAdmin(admin.ModelAdmin):
@@ -134,7 +133,6 @@ UserAdmin.list_filter += ("date_joined",)
 
 admin.site.register(Class, ClassAdmin)
 admin.site.register(Student, StudentAdmin)
-admin.site.register(Guardian)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)
