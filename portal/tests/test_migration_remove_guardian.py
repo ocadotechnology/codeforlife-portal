@@ -37,7 +37,7 @@
 from common.tests.base_test_migration import MigrationTestCase
 
 
-class TestMigrationRemoveFrontPageNews(MigrationTestCase):
+class TestMigrationRemoveGuardian(MigrationTestCase):
 
     start_migration = "0059_move_email_verifications_to_common"
     dest_migration = "0060_delete_guardian"
