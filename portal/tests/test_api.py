@@ -42,6 +42,7 @@ from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
+import pytest
 
 from common.tests.utils.user import create_user_directly, get_superuser
 
@@ -128,21 +129,22 @@ class APITests(APITestCase):
         client.credentials(HTTP_X_APPENGINE_CRON=True)
         response = client.get(url)
         users = response.data
-        self.assertEqual(len(users), 2)
+        assert len(users) == 2
         response = client.delete(url)
         deleted_users = response.data["deleted_users"]
-        self.assertEqual(len(deleted_users), 2)
+        assert len(deleted_users) == 2
         for user in users:
-            self.assertRaises(User.DoesNotExist, User.objects.get, username=user["username"])
+            with pytest.raises(User.DoesNotExist):
+                User.objects.get(username=user["username"])
         for username in deleted_users:
             user = User.objects.get(username=username)
-            self.assertEqual(user.first_name, "Deleted")
-            self.assertEqual(user.last_name, "User")
-            self.assertEqual(user.email, "")
-            self.assertFalse(user.is_active)
-            self.assertFalse(client.login(username=username, password="password"))
+            assert user.first_name == "Deleted"
+            assert user.last_name == "User"
+            assert user.email == ""
+            assert not user.is_active
+            assert not client.login(username=username, password="password")
         response = client.get(url)
-        self.assertEqual(len(response.data), 0)
+        assert len(response.data) == 0
 
 
 def has_status_code(status_code):
