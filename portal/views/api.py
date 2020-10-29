@@ -51,6 +51,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
 
+import pprint
+
 THREE_YEARS_IN_DAYS = 1095
 
 
@@ -112,13 +114,17 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
 
         verify_request = requests.Request()
 
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(request.META)
         auth_header = request.META.get("Authorization", None)
         if auth_header is None:
+            print("auth_header is None")
             return is_admin
 
         # auth_header is in the form Authorization: Bearer token
         bearer, token = auth_header.split()
         if bearer.lower() != "bearer":
+            print(f"bearer is not bearer but: {bearer}")
             return is_admin
 
         id_info = id_token.verify_oauth2_token(
