@@ -116,7 +116,7 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
 
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint(request.META)
-        auth_header = request.META.get("Authorization", None)
+        auth_header = request.META.get("HTTP_AUTHORIZATION", None)
         if auth_header is None:
             print("auth_header is None")
             return is_admin
