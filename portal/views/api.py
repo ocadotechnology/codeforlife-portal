@@ -38,12 +38,14 @@
 import datetime
 import uuid
 
-from common.models import Teacher, Student
+from common.models import Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import timezone
-from rest_framework import serializers, permissions, generics, status
+from google.auth.transport import requests
+from google.oauth2 import id_token
+from rest_framework import generics, permissions, serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -106,9 +108,36 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
     """Checks whether the request is from a Google App Engine cron job."""
 
     def has_permission(self, request, view):
-        return request.META.get("HTTP_X_APPENGINE_CRON") is not None or super(
-            IsAdminOrGoogleAppEngine, self
-        ).has_permission(request, view)
+        is_admin = super(IsAdminOrGoogleAppEngine, self).has_permission(request, view)
+
+        verify_request = requests.Request()
+
+        auth_header = request.META.get("Authorization", None)
+        if auth_header is None:
+            return is_admin
+
+        # auth_header is in the form Authorization: Bearer token
+        bearer, token = auth_header.split()
+        if bearer.lower() != "bearer":
+            return is_admin
+
+        id_info = id_token.verify_oauth2_token(
+            token,
+            verify_request,
+            "https://dev-dot-decent-digit-629.appspot.com/users/inactive/",
+        )
+
+        try:
+            id_info = id_token.verify_oauth2_token(
+                token,
+                verify_request,
+                "https://dev-dot-decent-digit-629.appspot.com/users/inactive/",
+            )
+            print(id_info)
+            return id_info["iss"] == "https://accounts.google.com" or is_admin
+        except Exception as e:
+            print("Request has bad OAuth2 id token: {}".format(e))
+            return is_admin
 
 
 class InactiveUsersView(generics.ListAPIView):
@@ -119,14 +148,15 @@ class InactiveUsersView(generics.ListAPIView):
     If the user has never logged in, we look at the date they registered with us instead.
     """
 
-    queryset = User.objects.filter(
-        is_active=True
-    ) & (
+    queryset = User.objects.filter(is_active=True) & (
         User.objects.filter(
-            last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
-        ) | User.objects.filter(
+            last_login__lte=timezone.now()
+            - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
+        )
+        | User.objects.filter(
             last_login__isnull=True,
-            date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+            date_joined__lte=timezone.now()
+            - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
         )
     )
     authentication_classes = (SessionAuthentication,)
