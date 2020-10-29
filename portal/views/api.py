@@ -127,20 +127,19 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
             print(f"bearer is not bearer but: {bearer}")
             return is_admin
 
-        id_info = id_token.verify_oauth2_token(
-            token,
-            verify_request,
-            "https://dev-dot-decent-digit-629.appspot.com/users/inactive/",
-        )
-
         try:
             id_info = id_token.verify_oauth2_token(
                 token,
                 verify_request,
-                "https://dev-dot-decent-digit-629.appspot.com/users/inactive/",
+                "https://dev-dot-decent-digit-629.appspot.com/users/inactive/",  # TODO: envvar
             )
             print(id_info)
-            return id_info["iss"] == "https://accounts.google.com" or is_admin
+            return (
+                id_info["iss"] == "https://accounts.google.com"
+                and id_info["email"]
+                == "cloud-scheduler@decent-digit-629.iam.gserviceaccount.com"  # TODO: constant/setting
+                and id_info["email_verified"]
+            ) or is_admin
         except Exception as e:
             print("Request has bad OAuth2 id token: {}".format(e))
             return is_admin
