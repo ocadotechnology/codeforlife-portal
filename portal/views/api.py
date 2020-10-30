@@ -41,17 +41,14 @@ import uuid
 from common.models import Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
-from google.auth.transport import requests
-from google.oauth2 import id_token
+from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
-
-import pprint
 
 THREE_YEARS_IN_DAYS = 1095
 
@@ -109,40 +106,9 @@ class InactiveUserSerializer(serializers.Serializer):
 class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
     """Checks whether the request is from a Google App Engine cron job."""
 
-    def has_permission(self, request, view):
+    def has_permission(self, request: HttpRequest, view):
         is_admin = super(IsAdminOrGoogleAppEngine, self).has_permission(request, view)
-
-        verify_request = requests.Request()
-
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(request.META)
-        auth_header = request.META.get("HTTP_AUTHORIZATION", None)
-        if auth_header is None:
-            print("auth_header is None")
-            return is_admin
-
-        # auth_header is in the form Authorization: Bearer token
-        bearer, token = auth_header.split()
-        if bearer.lower() != "bearer":
-            print(f"bearer is not bearer but: {bearer}")
-            return is_admin
-
-        try:
-            id_info = id_token.verify_oauth2_token(
-                token,
-                verify_request,
-                "https://dev-dot-decent-digit-629.appspot.com/users/inactive/",  # TODO: envvar
-            )
-            print(id_info)
-            return (
-                id_info["iss"] == "https://accounts.google.com"
-                and id_info["email"]
-                == "cloud-scheduler@decent-digit-629.iam.gserviceaccount.com"  # TODO: constant/setting
-                and id_info["email_verified"]
-            ) or is_admin
-        except Exception as e:
-            print("Request has bad OAuth2 id token: {}".format(e))
-            return is_admin
+        return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
 
 
 class InactiveUsersView(generics.ListAPIView):
@@ -168,7 +134,7 @@ class InactiveUsersView(generics.ListAPIView):
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
-    def delete(self, request):
+    def delete(self, request: HttpRequest):
         """Delete all personal data from inactive users and mark them as inactive."""
         inactive_users = self.get_queryset()
         deleted_users = []

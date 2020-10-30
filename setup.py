@@ -47,7 +47,6 @@ setup(
         "django-hijack>=2.1.10, <2.2.0",
         "django-hijack-admin>=2.1.10, <2.2.0",
         f"cfl-common=={version}",
-        "google-auth"
     ],
     classifiers=[
         "Programming Language :: Python",

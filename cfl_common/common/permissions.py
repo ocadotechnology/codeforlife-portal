@@ -106,3 +106,7 @@ class CanDeleteGame(permissions.BasePermission):
             return u.userprofile.teacher and has_completed_auth_setup(u)
         except AttributeError:
             return False
+
+
+def dummy_permission(request):
+    return False
