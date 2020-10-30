@@ -18,12 +18,14 @@
 
 <div id="pdf_viewer_page"></div>
 
+{% if user|is_logged_in_as_teacher %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <a href="{% url 'materials' %}#user_guide" class="button button--regular button--secondary button--secondary--light">User guide</a>
     <a href="{% url 'materials' %}#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
     <a href="{% url 'materials' %}#ks2" class="button button--regular button--secondary button--secondary--light">Key Stage 2</a>
     <a href="{% url 'materials' %}#ks3" class="button button--regular button--secondary button--secondary--light">Key Stage 3</a>
 </div>
+{% endif %}
 
 <div class="banner banner--resources">
     {% if video_link %}
@@ -61,6 +63,7 @@
     </div>
 </div>
 
+{% if user|is_logged_in_as_teacher %}
 <script type="text/javascript">
     $(document).ready(function(){
         if($(window).width() > 760) {
@@ -68,5 +71,6 @@
         }
     });
 </script>
+{% endif %}
 
 {% endblock content %}
