@@ -36,15 +36,16 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-from django.core.urlresolvers import reverse
+from unittest.mock import patch
+
+import pytest
+from common.tests.utils.user import create_user_directly, get_superuser
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
-import pytest
-
-from common.tests.utils.user import create_user_directly, get_superuser
 
 
 class APITests(APITestCase):
@@ -104,14 +105,16 @@ class APITests(APITestCase):
         response = client.get(url)
         self.assertEqual(len(response.data), 1)
 
-    def test_get_inactive_users_if_appengine(self):
+    @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
+    def test_get_inactive_users_if_appengine(self, mock_is_cloud_scheduler_function):
         client = APIClient()
         create_user_directly(active=False)
         create_user_directly(active=True)
         url = reverse("inactive_users")
-        client.credentials(HTTP_X_APPENGINE_CRON=True)
         response = client.get(url)
-        self.assertEqual(len(response.data), 1)
+        assert mock_is_cloud_scheduler_function.called
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data) == 1
 
     def test_get_inactive_users_if_unauthorised(self):
         client = APIClient()
@@ -121,16 +124,17 @@ class APITests(APITestCase):
         response = client.get(url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_delete_inactive_users_if_appengine(self):
+    @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
+    def test_delete_inactive_users_if_appengine(self, mock_is_cloud_scheduler_function):
         client = APIClient()
         create_user_directly(active=False)
         create_user_directly(active=False)
         url = reverse("inactive_users")
-        client.credentials(HTTP_X_APPENGINE_CRON=True)
         response = client.get(url)
         users = response.data
         assert len(users) == 2
         response = client.delete(url)
+        assert mock_is_cloud_scheduler_function.called
         assert response.status_code == status.HTTP_204_NO_CONTENT
         for user in users:
             with pytest.raises(User.DoesNotExist):
