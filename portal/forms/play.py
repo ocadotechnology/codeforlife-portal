@@ -211,6 +211,8 @@ class IndependentStudentSignupForm(forms.Form):
 
     newsletter_ticked = forms.BooleanField(initial=False, required=False)
 
+    is_over_required_age = forms.BooleanField(initial=False, required=True)
+
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
     confirm_password = forms.CharField(
