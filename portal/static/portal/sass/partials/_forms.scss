@@ -1,8 +1,8 @@
 @import 'base';
 
-input[type=text],
-input[type=email],
-input[type=password],
+input[type='text'],
+input[type='email'],
+input[type='password'],
 select {
   @include _border-radius(8px, 8px, 8px, 8px);
   @include _padding(0px, 0px, 0px, 10px);
@@ -12,7 +12,6 @@ select {
     border: 1px solid $color-message-border;
     outline: none;
   }
-
 }
 
 form {
@@ -24,9 +23,9 @@ form {
     @include _margin(20px, 0px, 10px, 0px);
   }
 
-  input[type=text],
-  input[type=email],
-  input[type=password],
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
   select {
     @include _font-size(20px);
     @include _margin(10px, 0px, 10px, 0px);
@@ -35,7 +34,7 @@ form {
     width: 100%;
   }
 
-  input[type=checkbox] {
+  input[type='checkbox'] {
     height: 20px;
   }
 
@@ -57,7 +56,6 @@ form {
     padding: 0;
     text-align: left;
   }
-
 }
 
 .form--login {
@@ -109,7 +107,6 @@ form {
     @include _padding(15px, 0px, 30px, 0px);
     text-align: center;
   }
-
 }
 
 .form--register--teacher {
@@ -131,12 +128,13 @@ form {
   color: $color-text-secondary;
   padding-bottom: 2.5%;
   padding-left: 1.2%;
+  padding-top: 1.2%;
 }
 
-.form__register-checkbox-newsletter {
+.form__register-checkbox-input {
   padding-right: 25px;
 
-  input[type=checkbox] {
+  input[type='checkbox'] {
     /* Double-sized Checkboxes */
     -ms-transform: scale(2); /* IE */
     -moz-transform: scale(2); /* FF */
@@ -211,7 +209,6 @@ form {
         @include _padding(0px, 15px, 0px, 15px);
         display: inline-block;
       }
-
     }
 
     img {
@@ -232,6 +229,5 @@ form {
     .social-media p {
       display: none;
     }
-
   }
 }
