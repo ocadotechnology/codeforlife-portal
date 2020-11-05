@@ -25,7 +25,7 @@ class SeleniumTestCase(LiveServerTestCase):
         # the LiveServerTestCase.live_server_url property.
         selenium.live_server_url = "http://%s:%s" % (
             cls.server_thread.host,
-            cls.server_thread.port,
+            cls.server_thread.port
         )
 
     def __call__(self, result=None):
