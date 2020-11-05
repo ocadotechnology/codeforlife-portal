@@ -102,6 +102,7 @@ class SignupPage(BasePage):
         confirm_password,
         success=True,
         newsletter=False,
+        is_over_required_age=True,
     ):
         self.browser.find_element_by_id("id_independent_student_signup-name").send_keys(
             name
@@ -121,7 +122,12 @@ class SignupPage(BasePage):
 
         if newsletter:
             self.browser.find_element_by_id(
-                "id_teacher_signup-newsletter_ticked"
+                "id_independent_signup-newsletter_ticked"
+            ).click()
+
+        if is_over_required_age:
+            self.browser.find_element_by_id(
+                "id_independent_signup-is_over_required_age"
             ).click()
 
         self.browser.find_element_by_name("independent_student_signup").click()
