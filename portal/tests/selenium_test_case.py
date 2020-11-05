@@ -7,6 +7,7 @@ see more information here: https://github.com/jazzband/django-pipeline/issues/59
 """
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.contrib.staticfiles.testing import LiveServerTestCase
 from django_selenium_clean import selenium
 
@@ -29,6 +30,10 @@ class SeleniumTestCase(LiveServerTestCase):
 
     def __call__(self, result=None):
         self.selenium = selenium
+
+        current_site = Site.objects.get_current()
+        current_site.domain = f"{self.server_thread.host}:{self.server_thread.port}"
+        current_site.save()
 
         if not selenium:
             return super(SeleniumTestCase, self).__call__(result)
