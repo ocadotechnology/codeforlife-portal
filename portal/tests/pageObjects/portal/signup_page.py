@@ -122,12 +122,12 @@ class SignupPage(BasePage):
 
         if newsletter:
             self.browser.find_element_by_id(
-                "id_independent_signup-newsletter_ticked"
+                "id_independent_student_signup-newsletter_ticked"
             ).click()
 
         if is_over_required_age:
             self.browser.find_element_by_id(
-                "id_independent_signup-is_over_required_age"
+                "id_independent_student_signup-is_over_required_age"
             ).click()
 
         self.browser.find_element_by_name("independent_student_signup").click()
