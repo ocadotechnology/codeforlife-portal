@@ -243,7 +243,7 @@ class StudentPasswordResetForm(forms.Form):
                     "email": user.email,
                     "domain": domain,
                     "site_name": site_name,
-                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     "user": user,
                     "token": token_generator.make_token(user),
                     "protocol": compute_protocol(use_https),
