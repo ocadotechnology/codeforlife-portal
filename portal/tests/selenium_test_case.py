@@ -31,9 +31,7 @@ class SeleniumTestCase(LiveServerTestCase):
     def __call__(self, result=None):
         self.selenium = selenium
 
-        current_site = Site.objects.get_current()
-        current_site.domain = f"{self.server_thread.host}:{self.server_thread.port}"
-        current_site.save()
+        self._set_site_to_local_domain()
 
         if not selenium:
             return super(SeleniumTestCase, self).__call__(result)
@@ -41,3 +39,12 @@ class SeleniumTestCase(LiveServerTestCase):
         for width in getattr(settings, "SELENIUM_WIDTHS", [1624]):
             selenium.set_window_size(width, 1024)
             super(SeleniumTestCase, self).__call__(result)
+
+    def _set_site_to_local_domain(self):
+        """
+        Sets the Site Django object to the local domain (locally, localhost:8000).
+        Needed to generate valid registration and password reset links in tests.
+        """
+        current_site = Site.objects.get_current()
+        current_site.domain = f"{self.server_thread.host}:{self.server_thread.port}"
+        current_site.save()
