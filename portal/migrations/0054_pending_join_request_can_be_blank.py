@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 to="portal.School",
                 null=True,
-                on_delete=models.CASCADE,
+                on_delete=models.SET_NULL,
             ),
         )
     ]
