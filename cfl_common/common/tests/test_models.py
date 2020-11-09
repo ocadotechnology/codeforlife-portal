@@ -11,8 +11,11 @@ class TestModels(TestCase):
             remote_fields = self._get_model_remote_fields(model)
 
             for field in remote_fields:
-                if model.__name__ == "Teacher" and (
-                    field.name == "school" or field.name == "pending_join_request"
+                if (
+                    model.__name__ == "Teacher"
+                    and (field.name == "school" or field.name == "pending_join_request")
+                    or model.__name__ == "Student"
+                    and field.name == "pending_class_request"
                 ):
                     assert field.remote_field.on_delete == models.SET_NULL
                 else:

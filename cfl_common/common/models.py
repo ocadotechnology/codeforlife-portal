@@ -231,7 +231,7 @@ class Student(models.Model):
         on_delete=models.CASCADE,
     )
     pending_class_request = models.ForeignKey(
-        Class, related_name="class_request", null=True, on_delete=models.CASCADE
+        Class, related_name="class_request", null=True, on_delete=models.SET_NULL
     )
 
     objects = StudentModelManager()
