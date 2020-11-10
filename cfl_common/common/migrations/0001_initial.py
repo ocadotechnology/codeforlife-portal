@@ -129,7 +129,7 @@ class Migration(migrations.Migration):
                             "pending_class_request",
                             models.ForeignKey(
                                 null=True,
-                                on_delete=django.db.models.deletion.CASCADE,
+                                on_delete=django.db.models.deletion.SET_NULL,
                                 related_name="class_request",
                                 to="common.Class",
                             ),
