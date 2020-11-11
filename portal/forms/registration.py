@@ -147,6 +147,7 @@ class TeacherPasswordResetForm(forms.Form):
                     "email": user.email,
                     "domain": domain,
                     "site_name": site_name,
+                    # TODO: Remove decoding in Django 2.2 upgrade
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     "user": user,
                     "token": token_generator.make_token(user),
@@ -243,6 +244,7 @@ class StudentPasswordResetForm(forms.Form):
                     "email": user.email,
                     "domain": domain,
                     "site_name": site_name,
+                    # TODO: Remove decoding in Django 2.2 upgrade
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                     "user": user,
                     "token": token_generator.make_token(user),
