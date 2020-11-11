@@ -31,7 +31,7 @@ jobs:
         - pip install --upgrade git+https://github.com/ocadotechnology/rapid-router@django_2_0_test
         - pip install --upgrade git+https://github.com/ocadotechnology/aimmo@django_2_0_test
         - pip install django==2.0
-        - pip uninstall cfl-common
+        - pip uninstall --no-input cfl-common
         - pipenv install
       before_script:
         - wget https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip
