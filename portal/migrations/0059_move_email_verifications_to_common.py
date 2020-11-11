@@ -7,7 +7,6 @@ from django.db.migrations.operations.special import SeparateDatabaseAndState
 
 
 class Migration(migrations.Migration):
-    atomic = False
 
     dependencies = [
         ("portal", "0058_move_to_common_models"),
