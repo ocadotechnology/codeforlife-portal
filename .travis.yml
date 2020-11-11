@@ -30,6 +30,7 @@ jobs:
         - pipenv install --dev --system
         - pip install -U rapid-router
         - pip install -U --pre aimmo
+        - pip install django==2.0
       before_script:
         - wget https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip
         - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.7/bin/
