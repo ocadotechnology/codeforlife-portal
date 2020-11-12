@@ -37,10 +37,10 @@
 from django.apps import apps
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 
-class MigrationTestCase(TestCase):
+class MigrationTestCase(TransactionTestCase):
     """A Test case for testing migrations."""
 
     # These must be defined by subclasses.

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,6 +35,8 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
 from django.core.cache import cache
 from django.core.exceptions import FieldDoesNotExist
 from two_factor.utils import default_device
@@ -75,3 +77,16 @@ def field_exists(model, field):
     except FieldDoesNotExist:
         return False
     return True
+
+
+class LoginRequiredMixinNoError(LoginRequiredMixin):
+    """
+    Overwrites Django's 2.2 LoginRequiredMixin so as to not raise an error and
+    redirect instead.
+    """
+    def handle_no_permission(self):
+        return redirect_to_login(
+            self.request.get_full_path(),
+            self.get_login_url(),
+            self.get_redirect_field_name(),
+        )
