@@ -9,7 +9,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-    atomic = False
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("common", "0001_initial"),

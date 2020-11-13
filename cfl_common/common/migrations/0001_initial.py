@@ -9,7 +9,6 @@ import django_countries.fields
 
 
 class Migration(migrations.Migration):
-    atomic = False
     initial = True
 
     dependencies = [
