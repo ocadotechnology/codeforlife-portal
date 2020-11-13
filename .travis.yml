@@ -30,7 +30,7 @@ jobs:
         - pipenv install --dev --system
         - pip install -U git+https://github.com/ocadotechnology/rapid-router@django_2_0_test
         - pip install -U git+https://github.com/ocadotechnology/aimmo@django_2_0_test
-        - pip install -U ./cfl_common
+        - pip install -U -e ./cfl_common
       before_script:
         - wget https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip
         - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.7/bin/
