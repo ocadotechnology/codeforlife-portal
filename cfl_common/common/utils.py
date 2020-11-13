@@ -79,7 +79,7 @@ def field_exists(model, field):
     return True
 
 
-class LoginRequiredMixinNoError(LoginRequiredMixin):
+class LoginRequiredNoErrorMixin(LoginRequiredMixin):
     """
     Overwrites Django's 2.2 LoginRequiredMixin so as to not raise an error and
     redirect instead.

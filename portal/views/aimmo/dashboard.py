@@ -4,7 +4,7 @@ from aimmo.forms import AddGameForm
 from aimmo.game_creator import create_game
 from aimmo.models import Game, Worksheet
 from common.permissions import logged_in_as_student, logged_in_as_teacher
-from common.utils import LoginRequiredMixinNoError
+from common.utils import LoginRequiredNoErrorMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import QuerySet
@@ -15,7 +15,7 @@ from django.views.generic.edit import CreateView
 from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
 
-class TeacherAimmoDashboard(LoginRequiredMixinNoError, UserPassesTestMixin, CreateView):
+class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, CreateView):
     login_url = reverse_lazy("teacher_login")
     form_class = AddGameForm
     template_name = "portal/teach/teacher_aimmo_dashboard.html"
@@ -39,7 +39,7 @@ class TeacherAimmoDashboard(LoginRequiredMixinNoError, UserPassesTestMixin, Crea
 
 
 class StudentAimmoDashboard(
-    LoginRequiredMixinNoError, UserPassesTestMixin, TemplateView
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
 ):
     template_name = "portal/play/student_aimmo_dashboard.html"
 
