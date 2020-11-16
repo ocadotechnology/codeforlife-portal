@@ -8,12 +8,12 @@ codeforlife-portal = {path = ".",editable = true}
 cfl-common = {editable = true,path = "./cfl_common"}
 
 [dev-packages]
-django-selenium-clean = "==0.2.1"
-responses = "==0.10.7"
-selenium = "==3.7.0"
-snapshottest = ">=0.5.1, <0.6.0"
-pytest-django = ">=3.7.0, <3.8.0"
-pytest = "==5.*"
+django-selenium-clean = "==0.3.2"
+responses = "==0.12.1"
+selenium = "==3.141.0"
+snapshottest = "==0.6.0"
+pytest-django = "==4.1.0"
+pytest = "==6.*"
 pyvirtualdisplay = "*"
 pytest-mock = "*"
 

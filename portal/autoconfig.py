@@ -128,7 +128,6 @@ SETTINGS = {
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
         "django_otp.middleware.OTPMiddleware",
-        "wagtail.core.middleware.SiteMiddleware",
         "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     ],
     "TEMPLATES": [
