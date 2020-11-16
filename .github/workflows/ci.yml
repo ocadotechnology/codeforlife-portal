@@ -22,11 +22,8 @@ jobs:
         pip install -U git+https://github.com/ocadotechnology/rapid-router@django_2_0_test
         pip install -U git+https://github.com/ocadotechnology/aimmo@django_2_0_test
         pip install -U -e ./cfl_common
-    # - name: Run headless chrome
-    #   run: google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
     - name: Collect static
       run: python example_project/manage.py collectstatic --noinput --settings test_settings
-    # - run: pip freeze
     - name: Run tests
       env:
         SELENIUM_WEBDRIVER: chrome-headless
