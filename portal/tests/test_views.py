@@ -36,16 +36,16 @@
 # identified as the original program.
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.student import create_school_student_directly
-from common.tests.utils.teacher import signup_teacher_directly
-from django.urls import reverse
-from django.test import Client, TestCase
-
-from deploy import captcha
-from .utils.organisation import (
+from common.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
+from django.test import Client, TestCase
+from django.urls import reverse
+
+from deploy import captcha
 
 
 class TestTeacherViews(TestCase):
