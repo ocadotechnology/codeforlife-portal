@@ -25,6 +25,7 @@ class TestModels(TestCase):
         assert indep_student.pending_class_request is None
 
         indep_student.pending_class_request = klass
+        indep_student.save()
 
         klass.delete()
 
@@ -70,6 +71,7 @@ class TestModels(TestCase):
         assert teacher2.pending_join_request is None
 
         teacher2.pending_join_request = school
+        teacher2.save()
 
         school.delete()
 
