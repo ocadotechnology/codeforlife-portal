@@ -182,7 +182,7 @@ class TestIndependentStudent(BaseTest):
 
         self.selenium.get(self.live_server_url)
         page = (
-            self.go_to_homepage()
+            HomePage(self.selenium)
             .go_to_independent_student_login_page()
             .independent_student_login(username, new_password)
         )
