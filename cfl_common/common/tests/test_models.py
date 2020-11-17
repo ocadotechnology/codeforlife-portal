@@ -1,4 +1,4 @@
-from common.models import Class, Student, Teacher, School
+from common.models import Student, Teacher, School
 from django.test import TestCase
 
 from .utils.classes import create_class_directly
@@ -32,7 +32,6 @@ class TestModels(TestCase):
 
         assert indep_student.pending_class_request is None
 
-
     def test_teacher_school_on_delete(self):
         """
         Given a school and a teacher in that school,
@@ -51,7 +50,6 @@ class TestModels(TestCase):
         teacher = Teacher.objects.get(new_user__email=teacher_email)
 
         assert teacher.school is None
-
 
     def test_teacher_pending_join_request_on_delete(self):
         """
