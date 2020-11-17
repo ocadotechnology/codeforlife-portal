@@ -2,7 +2,7 @@ name: CI
 on: pull_request
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     env:
       LANG: C.UTF-8
     steps:
@@ -29,3 +29,5 @@ jobs:
         SELENIUM_WEBDRIVER: chrome-headless
         SELENIUM_HEADLESS: True
       run: pytest --cov=. --cov-report=xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
