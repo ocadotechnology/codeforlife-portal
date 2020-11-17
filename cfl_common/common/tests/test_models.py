@@ -26,7 +26,7 @@ class TestModels(TestCase):
 
         indep_student.pending_class_request = klass
 
-        Class.objects.get(name=class_name).delete()
+        klass.delete()
 
         indep_student = Student.objects.get(new_user__username=username)
 
@@ -47,7 +47,7 @@ class TestModels(TestCase):
 
         assert teacher.school == school
 
-        School.objects.get(name=school_name).delete()
+        school.delete()
         teacher = Teacher.objects.get(new_user__email=teacher_email)
 
         assert teacher.school is None
@@ -73,7 +73,7 @@ class TestModels(TestCase):
 
         teacher2.pending_join_request = school
 
-        School.objects.get(name=school_name).delete()
+        school.delete()
 
         teacher2 = Teacher.objects.get(new_user__email=teacher2_email)
 
