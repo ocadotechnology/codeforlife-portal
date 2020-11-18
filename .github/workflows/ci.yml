@@ -31,9 +31,31 @@ jobs:
     #     SELENIUM_HEADLESS: True
     #   run: pytest --cov=. --cov-report=xml
   publish-pypi-packages:
+    name: Publish PyPi Packages
     needs: test
     if: github.ref == 'refs/pull/1309/merge'
     runs-on: ubuntu-latest
     steps:
-    - name: Echo
-      run: echo "${{ github.ref }}"
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+      - name: Set up Python 3.6.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6.7
+      - name: Setup git username
+        run: |
+          git config --global user.name "semantic-release (via Github Actions)"
+          git config --global user.email "semantic-release@github-actions"
+      - name: Release codeforlife-portal
+        uses: relekang/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+      - name: Publish cfl-common PyPi package
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
+          packages_dir: cfl_common/
+          skip_existing: true
