@@ -2,9 +2,18 @@ import os
 
 from selenium import webdriver
 
+headless_chrome_options = webdriver.ChromeOptions()
+headless_chrome_options.add_argument("--headless")
+headless_chrome_options.add_argument("--disable-gpu")
+headless_chrome_options.add_argument("--no-sandbox")
+headless_chrome_options.add_argument("--disable-dev-shm-usage")
+
 SELENIUM_WEBDRIVERS = {
     "default": {"callable": webdriver.Chrome, "args": (), "kwargs": {}},
     "firefox": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
+    "chrome-headless": {"callable": webdriver.Chrome, "args": (), "kwargs": {
+        'options': headless_chrome_options
+    }},
 }
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3"}}
