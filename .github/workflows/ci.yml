@@ -30,3 +30,9 @@ jobs:
     #     SELENIUM_WEBDRIVER: chrome-headless
     #     SELENIUM_HEADLESS: True
     #   run: pytest --cov=. --cov-report=xml
+  publish-pypi-packages:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo
+      run: echo "${{ github.ref }}"
