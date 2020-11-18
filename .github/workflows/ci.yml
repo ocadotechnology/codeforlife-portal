@@ -32,7 +32,7 @@ jobs:
     #   run: pytest --cov=. --cov-report=xml
   publish-pypi-packages:
     needs: test
-    if: github.ref == "refs/pull/1309/merge"
+    if: github.ref == 'refs/pull/1309/merge'
     runs-on: ubuntu-latest
     steps:
     - name: Echo
