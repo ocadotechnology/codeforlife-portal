@@ -55,6 +55,7 @@ jobs:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
       - name: Build cfl-common package
         run: |
+          pip install wheel
           pushd cfl_common
           python setup.py sdist bdist_wheel
           popd
