@@ -40,7 +40,7 @@ from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.permissions import logged_in_as_independent_student, logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from portal.forms.play import StudentJoinOrganisationForm

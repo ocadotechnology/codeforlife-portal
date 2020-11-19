@@ -19,6 +19,7 @@ class Migration(migrations.Migration):
                 related_name="email_verifications",
                 null=True,
                 blank=True,
+                on_delete=models.CASCADE,
             ),
         ),
         migrations.RunSQL(

@@ -39,11 +39,11 @@ from common.permissions import teacher_verified
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
-from django.views.i18n import javascript_catalog
+from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
 from two_factor.urls import urlpatterns as two_factor_urls
 from two_factor.views import (
@@ -207,9 +207,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/locked_out.html"),
         name="locked_out",
     ),
-    url(r"^", include(two_factor_patterns, "two_factor")),
+    url(r"^", include((two_factor_patterns, "two_factor"), namespace="two_factor")),
     url(r"^i18n/", include("django.conf.urls.i18n")),
-    url(r"^jsi18n/$", javascript_catalog, js_info_dict),
+    url(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
     url(r"^teach/solutions_navigation/$", levels, name="teacher_level_solutions"),
     url(
         r"^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$",

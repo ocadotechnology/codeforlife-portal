@@ -13,7 +13,11 @@ class Migration(migrations.Migration):
             model_name="teacher",
             name="pending_join_request",
             field=models.ForeignKey(
-                related_name="join_request", blank=True, to="portal.School", null=True
+                related_name="join_request",
+                blank=True,
+                to="portal.School",
+                null=True,
+                on_delete=models.SET_NULL,
             ),
         )
     ]

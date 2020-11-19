@@ -37,7 +37,7 @@
 import socket
 import time
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from deploy import captcha
 

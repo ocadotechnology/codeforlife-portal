@@ -41,11 +41,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import password_reset, password_reset_confirm
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.template.response import TemplateResponse
-from django.utils.deprecation import RemovedInDjango20Warning
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext as _
@@ -73,8 +71,7 @@ def student_password_reset(request):
         usertype,
         from_email=PASSWORD_RESET_EMAIL,
         template_name="portal/reset_password_student.html",
-        password_reset_form=StudentPasswordResetForm,
-        is_admin_site=True,
+        password_reset_form=StudentPasswordResetForm
     )
 
 
@@ -86,8 +83,7 @@ def teacher_password_reset(request):
         usertype,
         from_email=PASSWORD_RESET_EMAIL,
         template_name="portal/reset_password_teach.html",
-        password_reset_form=TeacherPasswordResetForm,
-        is_admin_site=True,
+        password_reset_form=TeacherPasswordResetForm
     )
 
 
@@ -95,7 +91,6 @@ def teacher_password_reset(request):
 def password_reset(
     request,
     usertype,
-    is_admin_site=False,
     template_name="portal/reset_password_teach.html",
     email_template_name="portal/reset_password_email.html",
     subject_template_name="registration/password_reset_subject.txt",
@@ -120,15 +115,6 @@ def password_reset(
                 "request": request,
                 "html_email_template_name": html_email_template_name,
             }
-            if is_admin_site:
-                warnings.warn(
-                    "The is_admin_site argument to "
-                    "django.contrib.auth.views.password_reset() is deprecated "
-                    "and will be removed in Django 2.0.",
-                    RemovedInDjango20Warning,
-                    3,
-                )
-                opts = dict(opts, domain_override=request.get_host())
             form.save(**opts)
 
             return render(

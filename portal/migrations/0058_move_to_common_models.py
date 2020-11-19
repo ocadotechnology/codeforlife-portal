@@ -26,6 +26,7 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
+    atomic = False
 
     dependencies = [
         ("common", "0001_initial"),
@@ -36,65 +37,91 @@ class Migration(migrations.Migration):
     operations = [
         migrations.SeparateDatabaseAndState(
             state_operations=[
-                migrations.RemoveField(model_name="class", name="teacher",),
-            ],
-            database_operations=[],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
-                migrations.RemoveField(model_name="student", name="class_field",),
-            ],
-            database_operations=[],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
-                migrations.RemoveField(model_name="student", name="new_user",),
-            ],
-            database_operations=[],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
                 migrations.RemoveField(
-                    model_name="student", name="pending_class_request",
+                    model_name="class",
+                    name="teacher",
                 ),
             ],
             database_operations=[],
         ),
         migrations.SeparateDatabaseAndState(
             state_operations=[
-                migrations.RemoveField(model_name="student", name="user",),
-            ],
-            database_operations=[],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
-                migrations.RemoveField(model_name="teacher", name="new_user",),
-            ],
-            database_operations=[],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[
                 migrations.RemoveField(
-                    model_name="teacher", name="pending_join_request",
+                    model_name="student",
+                    name="class_field",
                 ),
             ],
             database_operations=[],
         ),
         migrations.SeparateDatabaseAndState(
             state_operations=[
-                migrations.RemoveField(model_name="teacher", name="school",),
+                migrations.RemoveField(
+                    model_name="student",
+                    name="new_user",
+                ),
             ],
             database_operations=[],
         ),
         migrations.SeparateDatabaseAndState(
             state_operations=[
-                migrations.RemoveField(model_name="teacher", name="user",),
+                migrations.RemoveField(
+                    model_name="student",
+                    name="pending_class_request",
+                ),
             ],
             database_operations=[],
         ),
         migrations.SeparateDatabaseAndState(
             state_operations=[
-                migrations.RemoveField(model_name="userprofile", name="user",),
+                migrations.RemoveField(
+                    model_name="student",
+                    name="user",
+                ),
+            ],
+            database_operations=[],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.RemoveField(
+                    model_name="teacher",
+                    name="new_user",
+                ),
+            ],
+            database_operations=[],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.RemoveField(
+                    model_name="teacher",
+                    name="pending_join_request",
+                ),
+            ],
+            database_operations=[],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.RemoveField(
+                    model_name="teacher",
+                    name="school",
+                ),
+            ],
+            database_operations=[],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.RemoveField(
+                    model_name="teacher",
+                    name="user",
+                ),
+            ],
+            database_operations=[],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.RemoveField(
+                    model_name="userprofile",
+                    name="user",
+                ),
             ],
             database_operations=[],
         ),
@@ -124,34 +151,67 @@ class Migration(migrations.Migration):
             database_operations=[],
         ),
         migrations.SeparateDatabaseAndState(
-            state_operations=[migrations.DeleteModel(name="Class",),],
-            database_operations=[
-                migrations.AlterModelTable(name="Class", table="common_class",),
+            state_operations=[
+                migrations.DeleteModel(
+                    name="Class",
+                ),
             ],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[migrations.DeleteModel(name="School",),],
-            database_operations=[
-                migrations.AlterModelTable(name="School", table="common_school",),
-            ],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[migrations.DeleteModel(name="Student",),],
-            database_operations=[
-                migrations.AlterModelTable(name="Student", table="common_student",),
-            ],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[migrations.DeleteModel(name="Teacher",),],
-            database_operations=[
-                migrations.AlterModelTable(name="Teacher", table="common_teacher",),
-            ],
-        ),
-        migrations.SeparateDatabaseAndState(
-            state_operations=[migrations.DeleteModel(name="UserProfile",),],
             database_operations=[
                 migrations.AlterModelTable(
-                    name="UserProfile", table="common_userprofile",
+                    name="Class",
+                    table="common_class",
+                ),
+            ],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.DeleteModel(
+                    name="School",
+                ),
+            ],
+            database_operations=[
+                migrations.AlterModelTable(
+                    name="School",
+                    table="common_school",
+                ),
+            ],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.DeleteModel(
+                    name="Student",
+                ),
+            ],
+            database_operations=[
+                migrations.AlterModelTable(
+                    name="Student",
+                    table="common_student",
+                ),
+            ],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.DeleteModel(
+                    name="Teacher",
+                ),
+            ],
+            database_operations=[
+                migrations.AlterModelTable(
+                    name="Teacher",
+                    table="common_teacher",
+                ),
+            ],
+        ),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.DeleteModel(
+                    name="UserProfile",
+                ),
+            ],
+            database_operations=[
+                migrations.AlterModelTable(
+                    name="UserProfile",
+                    table="common_userprofile",
                 ),
             ],
         ),
