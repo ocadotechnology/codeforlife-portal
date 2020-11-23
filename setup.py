@@ -25,7 +25,7 @@ setup(
         "django==2.2.*",
         "django-countries==5.4",
         "djangorestframework==3.12.2",
-        "django-autoconfig==0.8.0",
+        # "django-autoconfig==0.8.0",
         "django-pipeline==1.6.14",
         "django-recaptcha==2.0.5",
         "pyyaml==4.2b1",
