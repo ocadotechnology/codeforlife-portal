@@ -112,6 +112,7 @@ SETTINGS = {
         "wagtail.search",
         "wagtail.admin",
         "wagtail.core",
+        "wagtail.contrib.search_promotions",
         "modelcluster",
         "taggit",
     ],
