@@ -14,10 +14,10 @@ setup(
     version=version,
     include_package_data=True,
     install_requires=[
-        "django==2.2.*",
+        "django==2.2.17",
         "djangorestframework==3.12.2",
-        "django-two-factor-auth>=1.9.1,<1.10.0",
-        "django-countries==5.4",
+        "django-two-factor-auth==1.13",
+        "django-countries==6.1.3",
         "wagtail==2.11.*",
     ],
     tests_require=[],
