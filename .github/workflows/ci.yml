@@ -31,6 +31,7 @@ jobs:
         SELENIUM_WEBDRIVER: chrome-headless
         SELENIUM_HEADLESS: True
       run: pytest --cov=. --cov-report=xml
+  
   publish-pypi-packages:
     name: Publish PyPi Packages
     needs: test
@@ -66,3 +67,5 @@ jobs:
           password: ${{ secrets.PYPI_TOKEN }}
           packages_dir: cfl_common/dist/
           skip_existing: true
+      - name: Notify Semaphore to deploy to staging
+        run: curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}
