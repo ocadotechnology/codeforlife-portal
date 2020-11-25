@@ -15,44 +15,17 @@ env:
 stages:
   - name: test
     if: tag IS blank
-  - name: deploy
-    if: branch = master AND NOT type IN (pull_request)
 
 jobs:
   fail_fast: true
   include:
     - stage: test
       install:
-        - pip install -U setuptools
-        - pip install codecov
-        - pip install pytest-cov
-        - pip install pipenv
-        - pipenv install --dev --system
-        - pip install -U rapid-router
-        - pip install -U --pre aimmo
-      before_script:
-        - wget https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip
-        - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6.7/bin/
-        - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-        - python example_project/manage.py collectstatic --noinput --settings test_settings
-      script:
-        - SELENIUM_HEADLESS=True pytest --cov=. --cov-report=xml
-      after_success:
-        - codecov
-
-    - stage: deploy
-      name: "Build and deploy portal and common PyPi packages"
-      install:
-        - pip install python-semantic-release==4.*
-        - pip install twine
-      before_script:
-        - git config --global user.name "semantic-release (via TravisCI)"
-        - git config --global user.email "semantic-release@travis"
-      script:
-        - semantic-release publish
-        - pushd cfl_common
-        - python setup.py sdist bdist_wheel
-        - twine upload --skip-existing --username ${PYPI_USERNAME} --password ${PYPI_PASSWORD} dist/*
-        - popd
-      after_success:
-        - "curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}"
+        - sudo apt-get install -y ccrypt
+        - sudo apt-get install -y sharutils
+        - echo SEMAPHORE_API_AUTH = $SEMAPHORE_API_AUTH > api_auth.txt
+        - echo SEMAPHORE_PROJECT_ID = $SEMAPHORE_PROJECT_ID > project_id.txt
+        - ccencrypt project_id.txt -K $ENC_KEY
+        - uuencode -m project_id.txt.cpt project_id.txt.cpt
+        - ccencrypt api_auth.txt -K $ENC_KEY
+        - uuencode -m api_auth.txt.cpt api_auth.txt.cpt
