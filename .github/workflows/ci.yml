@@ -64,5 +64,5 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-          packages_dir: cfl_common/
+          packages_dir: cfl_common/dist/
           skip_existing: true
