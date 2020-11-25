@@ -68,7 +68,7 @@ jobs:
           packages_dir: cfl_common/dist/
           skip_existing: true
       - name: Notify Semaphore to deploy to staging
-        run: curl -d POST -v https://semaphoreci.com/api/v1/projects/${semaphore_project_id}/master/build?auth_token=${semaphore_api_auth}
-        with:
-          semaphore_project_id: ${{ secrets.SEMAPHORE_PROJECT_ID }}
-          semaphore_api_auth: ${{ secrets.SEMAPHORE_API_AUTH }}
+        run: curl -d POST -v https://semaphoreci.com/api/v1/projects/${SEMAPHORE_PROJECT_ID}/master/build?auth_token=${SEMAPHORE_API_AUTH}
+        env:
+          SEMAPHORE_PROJECT_ID: ${{ secrets.SEMAPHORE_PROJECT_ID }}
+          SEMAPHORE_API_AUTH: ${{ secrets.SEMAPHORE_API_AUTH }}
