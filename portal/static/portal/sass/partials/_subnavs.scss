@@ -116,11 +116,3 @@
     display: none;
   }
 }
-
-@media (max-width: $mobile-max-width) {
-
-  .sub-nav--teacher,
-  .sub-nav--student {
-    display: none;
-  }
-}
