@@ -25,7 +25,7 @@ setup(
         "django==2.2.17",
         "django-countries==6.1.3",
         "djangorestframework==3.12.2",
-        "django-pipeline==2.0.5",
+        "django-pipeline==1.6.14",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
         "django-recaptcha==2.0.6",
         "django-autoconfig @ git+https://github.com/ocadotechnology/django-autoconfig@master#egg=django-autoconfig",
         "pyyaml==5.3.1",
