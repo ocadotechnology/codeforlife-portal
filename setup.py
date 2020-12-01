@@ -27,6 +27,7 @@ setup(
         "djangorestframework==3.12.2",
         "django-pipeline==2.0.5",
         "django-recaptcha==2.0.6",
+        "django-autoconfig @ git+https://github.com/ocadotechnology/django-autoconfig@master#egg=django-autoconfig",
         "pyyaml==5.3.1",
         # "rapid-router >= 1.0.0.post.dev1",
         # "aimmo",
