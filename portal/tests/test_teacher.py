@@ -342,7 +342,11 @@ class TestTeachers(TestCase):
         with pytest.raises(ValidationError):
             game2_response = c.post(
                 reverse("teacher_aimmo_dashboard"),
-                {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+                {
+                    "name": "Test Game",
+                    "game_class": klass.pk,
+                    "worksheet": worksheet.id,
+                },
             )
 
         assert len(klass.games_for_class.all()) == 1
