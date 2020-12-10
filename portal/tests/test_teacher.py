@@ -38,12 +38,8 @@ from __future__ import absolute_import
 
 import time
 
+import pytest
 from aimmo.models import Game, Worksheet
-from django.core import mail
-from django.core.urlresolvers import reverse
-from django.test import Client, TestCase
-from selenium.webdriver.support.wait import WebDriverWait
-
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -57,6 +53,11 @@ from common.tests.utils.teacher import (
     signup_teacher_directly,
     submit_teacher_signup_form,
 )
+from django.core import mail
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.test import Client, TestCase
+from selenium.webdriver.support.wait import WebDriverWait
 
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
@@ -338,12 +339,12 @@ class TestTeachers(TestCase):
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
-        game2_response = c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
-        )
+        with pytest.raises(ValidationError):
+            game2_response = c.post(
+                reverse("teacher_aimmo_dashboard"),
+                {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            )
 
-        assert game2_response.status_code == 200
         assert len(klass.games_for_class.all()) == 1
         messages = list(game2_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 1
