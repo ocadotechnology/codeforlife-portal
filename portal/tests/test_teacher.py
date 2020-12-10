@@ -90,7 +90,7 @@ class TestTeachers(TestCase):
         )
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            {"game_class": klass.pk, "worksheet": worksheet.id},
         )
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
@@ -134,7 +134,7 @@ class TestTeachers(TestCase):
         )
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            {"game_class": klass.pk, "worksheet": worksheet.id},
         )
         c.post(
             reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
@@ -160,13 +160,13 @@ class TestTeachers(TestCase):
         # Create teacher 1 -> class 1 -> student 1
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1, True)
+        klass1, _, access_code1 = create_class_directly(email1)
         create_school_student_directly(access_code1)
 
         # Create teacher 2 -> class 2 -> student 2
         email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, _, access_code2 = create_class_directly(email2, True)
+        klass2, _, access_code2 = create_class_directly(email2)
         create_school_student_directly(access_code2)
 
         teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
@@ -178,7 +178,7 @@ class TestTeachers(TestCase):
         c.login(username=email1, password=password1)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
+            {"game_class": klass1.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
@@ -186,7 +186,7 @@ class TestTeachers(TestCase):
         c.login(username=email2, password=password2)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
+            {"game_class": klass2.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
@@ -250,12 +250,12 @@ class TestTeachers(TestCase):
 
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1, True)
+        klass1, _, access_code1 = create_class_directly(email1)
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, _, access_code2 = create_class_directly(email2, True)
+        klass2, _, access_code2 = create_class_directly(email2)
         create_school_student_directly(access_code2)
 
         teacher1 = Teacher.objects.get(new_user__email=email1)
@@ -265,14 +265,14 @@ class TestTeachers(TestCase):
         c.login(username=email2, password=password2)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
+            {"game_class": klass2.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
         c.login(username=email1, password=password1)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
+            {"game_class": klass1.pk, "worksheet": worksheet.id},
         )
 
         game1 = Game.objects.get(owner=teacher1.new_user)
@@ -310,6 +310,46 @@ class TestTeachers(TestCase):
 
         self.assertTrue(not game1.can_user_play(student1.new_user))
         self.assertTrue(game2.can_user_play(student1.new_user))
+
+    def test_teacher_cannot_create_duplicate_game(self):
+        """
+        Given a teacher, a class and a worksheet,
+        When the teacher creates a game for that class and worksheet, and then tries to
+        create the exact same game again,
+        Then the class should only have one game, and an error message should appear.
+        """
+        worksheet: Worksheet = Worksheet.objects.create(
+            name="test", starter_code="test"
+        )
+
+        email, password = signup_teacher_directly()
+        _, _ = create_organisation_directly(email)
+        klass, _, _ = create_class_directly(email)
+
+        c = Client()
+        c.login(username=email, password=password)
+        game1_response = c.post(
+            reverse("teacher_aimmo_dashboard"),
+            {"game_class": klass.pk, "worksheet": worksheet.id},
+        )
+
+        assert game1_response.status_code == 302
+        assert len(klass.games_for_class.all()) == 1
+        messages = list(game1_response.wsgi_request._messages)
+        assert len([m for m in messages if m.tags == "warning"]) == 0
+
+        game2_response = c.post(
+            reverse("teacher_aimmo_dashboard"),
+            {"game_class": klass.pk, "worksheet": worksheet.id},
+        )
+
+        assert game2_response.status_code == 200
+        assert len(klass.games_for_class.all()) == 1
+        messages = list(game2_response.wsgi_request._messages)
+        assert len([m for m in messages if m.tags == "warning"]) == 1
+        assert (
+            messages[0].message == "Game with this Class and Worksheet already exists."
+        )
 
 
 class TestTeacher(BaseTest):
