@@ -161,13 +161,13 @@ class TestTeachers(TestCase):
         # Create teacher 1 -> class 1 -> student 1
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1)
+        klass1, _, access_code1 = create_class_directly(email1, "Class 1")
         create_school_student_directly(access_code1)
 
         # Create teacher 2 -> class 2 -> student 2
         email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, _, access_code2 = create_class_directly(email2)
+        klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
         teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
@@ -251,12 +251,12 @@ class TestTeachers(TestCase):
 
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1)
+        klass1, _, access_code1 = create_class_directly(email1, "Class 1")
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, _, access_code2 = create_class_directly(email2)
+        klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
         teacher1 = Teacher.objects.get(new_user__email=email1)
