@@ -90,7 +90,7 @@ class TestTeachers(TestCase):
         )
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk, "worksheet": worksheet.id},
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
         )
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
@@ -134,7 +134,7 @@ class TestTeachers(TestCase):
         )
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk, "worksheet": worksheet.id},
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
         )
         c.post(
             reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
@@ -178,7 +178,7 @@ class TestTeachers(TestCase):
         c.login(username=email1, password=password1)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass1.pk, "worksheet": worksheet.id},
+            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
@@ -186,7 +186,7 @@ class TestTeachers(TestCase):
         c.login(username=email2, password=password2)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass2.pk, "worksheet": worksheet.id},
+            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
@@ -265,14 +265,14 @@ class TestTeachers(TestCase):
         c.login(username=email2, password=password2)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass2.pk, "worksheet": worksheet.id},
+            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
         )
         c.logout()
 
         c.login(username=email1, password=password1)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass1.pk, "worksheet": worksheet.id},
+            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
         )
 
         game1 = Game.objects.get(owner=teacher1.new_user)
@@ -330,7 +330,7 @@ class TestTeachers(TestCase):
         c.login(username=email, password=password)
         game1_response = c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk, "worksheet": worksheet.id},
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
         )
 
         assert game1_response.status_code == 302
@@ -340,7 +340,7 @@ class TestTeachers(TestCase):
 
         game2_response = c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk, "worksheet": worksheet.id},
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
         )
 
         assert game2_response.status_code == 200
