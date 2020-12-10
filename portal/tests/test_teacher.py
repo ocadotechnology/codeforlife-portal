@@ -348,13 +348,13 @@ class TestTeachers(TestCase):
                     "worksheet": worksheet.id,
                 },
             )
-
-        assert len(klass.games_for_class.all()) == 1
-        messages = list(game2_response.wsgi_request._messages)
-        assert len([m for m in messages if m.tags == "warning"]) == 1
-        assert (
-            messages[0].message == "Game with this Class and Worksheet already exists."
-        )
+            assert len(klass.games_for_class.all()) == 1
+            messages = list(game2_response.wsgi_request._messages)
+            assert len([m for m in messages if m.tags == "warning"]) == 1
+            assert (
+                messages[0].message
+                == "Game with this Class and Worksheet already exists."
+            )
 
 
 class TestTeacher(BaseTest):
