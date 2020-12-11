@@ -339,22 +339,21 @@ class TestTeachers(TestCase):
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
-        with pytest.raises(ValidationError):
-            game2_response = c.post(
-                reverse("teacher_aimmo_dashboard"),
-                {
-                    "name": "Test Game",
-                    "game_class": klass.pk,
-                    "worksheet": worksheet.id,
-                },
-            )
-            assert len(klass.games_for_class.all()) == 1
-            messages = list(game2_response.wsgi_request._messages)
-            assert len([m for m in messages if m.tags == "warning"]) == 1
-            assert (
-                messages[0].message
-                == "Game with this Class and Worksheet already exists."
-            )
+        game2_response = c.post(
+            reverse("teacher_aimmo_dashboard"),
+            {
+                "name": "Test Game",
+                "game_class": klass.pk,
+                "worksheet": worksheet.id,
+            },
+        )
+        assert len(klass.games_for_class.all()) == 1
+        messages = list(game2_response.wsgi_request._messages)
+        assert len([m for m in messages if m.tags == "warning"]) == 1
+        assert (
+            messages[0].message
+            == "Game with this Class and Worksheet already exists."
+        )
 
 
 class TestTeacher(BaseTest):

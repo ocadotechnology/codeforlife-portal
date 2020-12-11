@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional
 
 from common.permissions import logged_in_as_student, logged_in_as_teacher
-from django.contrib import messages as messages
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
