@@ -116,9 +116,8 @@
     display: none;
   }
 }
-
 @media (max-width: $mobile-max-width) {
   .sub-nav .button--regular {
-    @include _margin(0px, 0px, 0px, 0px);
+    @include _margin(0px, 3px, 0px, 3px);
   }
 }
