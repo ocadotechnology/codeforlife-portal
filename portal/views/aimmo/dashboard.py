@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional
 
 from common.permissions import logged_in_as_student, logged_in_as_teacher
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
@@ -32,6 +33,10 @@ class TeacherAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, CreateView)
     def form_valid(self, form):
         create_game(self.request.user, form)
         return super().form_valid(form)
+
+    def form_invalid(self, form: AddGameForm):
+        messages.warning(self.request, ", ".join(form.errors.get("__all__", [])))
+        return super().form_invalid(form)
 
     def get_success_url(self):
         return reverse_lazy("kurono/play", args=(self.object.id,))

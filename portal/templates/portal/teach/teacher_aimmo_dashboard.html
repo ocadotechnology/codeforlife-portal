@@ -18,54 +18,59 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
 
 {% block subNav %}
 {{ block.super }}
-    <div class="banner banner--teacher banner--aimmo-home banner--teacher--create-aimmo-game row">
-        <div class="kurono-logo col-sm-4 col-sm-offset-2">
-            <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
-                <div id="join_game" class="button-group">
-                    <button id="create_new_game_button" class="button button--regular button-primary button--primary--general-educate">Create a new game</button>
-                </div>
-                <div id="create_game" class="hidden">
-                    <form autocomplete="off" id="create-game-form" method="post">
-                        {% csrf_token %}
-                        <div class="button-group">
-                            {% for field in form %}
-                                <div class="column">
-                                    {{ field.errors }}
-                                    {{ field.label_tag }}
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
-                            <a id="create_game_button"
-                               name="create_class"
-                               class="button button--regular button-primary button--primary--general-educate"
-                               onclick='send_event("Kurono", "Clicked", "Create game button");'>Create</a>
-                        </div>
-                    </form>
-                    <p><a id="back_button"><small>&#10229; Back</small></a></p>
-                </div>
+<div class="banner banner--teacher banner--aimmo-home banner--teacher--create-aimmo-game row">
+    <div class="kurono-logo col-sm-4 col-sm-offset-2">
+        <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
+        <div id="join_game" class="button-group">
+            <button id="create_new_game_button"
+                class="button button--regular button-primary button--primary--general-educate">Create a new
+                game</button>
         </div>
-        <div class="col-sm-6">
-            <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 banner--picture--aimmo"></div></div></div>
+        <div id="create_game" class="hidden">
+            <form autocomplete="off" id="create-game-form" method="post">
+                {% csrf_token %}
+                <div class="button-group">
+                    {% for field in form %}
+                    <div class="column">
+                        {{ field.errors }}
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <a id="create_game_button" name="create_class"
+                        class="button button--regular button-primary button--primary--general-educate"
+                        onclick='send_event("Kurono", "Clicked", "Create game button");'>Create</a>
+                </div>
+            </form>
+            <p><a id="back_button"><small>&#10229; Back</small></a></p>
         </div>
     </div>
+    <div class="col-sm-6">
+        <div class="banner--picture">
+            <div class="banner--picture__inside1">
+                <div class="banner--picture__inside2 banner--picture--aimmo"></div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock subNav %}
 
 {% block content %}
 {{block.super}}
 <section class="background">
-    <div class="col-sm-6 col-center">
-        <h3>My games</h3>
-        {% games_table 'kurono/play' %}
-    </div>
+    <h3>My games</h3>
+    {% games_table 'kurono/play' %}
 </section>
 
 <div id="aimmo_home_page">
     <div class="background--primary">
         <section class="background col-sm-6 col-center">
             <p>Your testing and
-                <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link">feedback</a>
+                <a target="_blank"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link">feedback</a>
                 will help Code for Life deliver an enjoyable game, and will allow us to consult with you on resources
-                that will be relevant to teaching computing classes in secondary schools<br>(13 &mdash; 18 year olds).</p>
+                that will be relevant to teaching computing classes in secondary schools<br>(13 &mdash; 18 year olds).
+            </p>
         </section>
         <div class="background col-sm-8 col-center">
             <div class="row pdf-list">
@@ -76,7 +81,8 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
                 </div>
                 <div class="col-sm-4">
                     <h3>Challenges</h3>
-                    <p>We have created two initial challenges for both teachers and students to become familiar with the game.</p>
+                    <p>We have created two initial challenges for both teachers and students to become familiar with the
+                        game.</p>
                     <p><a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_guide_1' %}">Teacher guide 1</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_guide_2' %}">Teacher guide 2</a></p>
                     <p><a href="{% url 'materials_viewer' pdf_name='Kurono_challenge_1' %}">Student challenge 1</a></p>
@@ -95,7 +101,8 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
         <div class="col-sm-6 col-center">
             <h3>Tell us what you think of Kurono...</h3>
             <div class="background">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link" class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
+                    class="button button--regular button--primary--navigation" target="_blank">Give feedback</a>
             </div>
         </div>
     </section>
