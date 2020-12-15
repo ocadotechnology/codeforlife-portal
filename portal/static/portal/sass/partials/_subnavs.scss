@@ -21,14 +21,12 @@
     .button {
       margin: 0;
     }
-
   }
 
   p {
     @include _padding(0px, 20px, 0px, 20px);
     text-align: left;
   }
-
 }
 
 .sub-nav--hidden {
@@ -111,6 +109,11 @@
   border-bottom: 1px solid $color-message-border;
 }
 
+.warning {
+  background-color: $color-background-warning;
+  border-bottom: 1px solid $color-message-border;
+}
+
 .hijacked-warning {
   .close {
     display: none;
@@ -118,7 +121,6 @@
 }
 
 @media (max-width: $mobile-max-width) {
-
   .sub-nav--teacher,
   .sub-nav--student {
     display: none;
