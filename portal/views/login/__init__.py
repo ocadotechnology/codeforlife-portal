@@ -3,7 +3,7 @@ from .independent_student import IndependentStudentLoginView
 from .student import StudentLoginView
 
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 
 def old_login_form_redirect(request):

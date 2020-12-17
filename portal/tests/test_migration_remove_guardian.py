@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,35 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-
-from django.urls import reverse
-
-from portal.tests.pageObjects.portal.base_page import BasePage
-from portal.tests.pageObjects.portal.forbidden_page import ForbiddenPage
+from common.tests.base_test_migration import MigrationTestCase
 
 
-class AdminBasePage(BasePage):
-    def __init__(self, browser, live_server_url):
-        super(AdminBasePage, self).__init__(browser)
-        self.live_server_url = live_server_url
+class TestMigrationRemoveGuardian(MigrationTestCase):
 
-    def go_to_admin_data_page_failure(self):
-        url = self.live_server_url + reverse("aggregated_data")
-        self.browser.get(url)
+    start_migration = "0059_move_email_verifications_to_common"
+    dest_migration = "0060_delete_guardian"
 
-        return ForbiddenPage(self.browser)
-
-    def go_to_admin_map_page_failure(self):
-        self._go_to_admin_map_page()
-        return ForbiddenPage(self.browser)
-
-    def go_to_admin_map_page(self):
-        self._go_to_admin_map_page()
-
-        from portal.tests.pageObjects.portal.admin.admin_map_page import AdminMapPage
-
-        return AdminMapPage(self.browser, self.live_server_url)
-
-    def _go_to_admin_map_page(self):
-        url = self.live_server_url + reverse("map")
-        self.browser.get(url)
+    def test_guardian_model_removed(self):
+        model_names = [
+            model._meta.db_table for model in self.django_application.get_models()
+        ]
+        assert "portal_guardian" not in model_names

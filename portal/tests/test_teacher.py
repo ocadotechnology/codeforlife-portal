@@ -43,6 +43,10 @@ from aimmo.models import Game, Worksheet
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
@@ -55,7 +59,7 @@ from common.tests.utils.teacher import (
 )
 from django.core import mail
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client, TestCase
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -65,10 +69,6 @@ from .utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
     is_teacher_email_updated_message_showing,
-)
-from .utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
 )
 
 

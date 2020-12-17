@@ -40,7 +40,7 @@ from builtins import str
 
 from common.models import UserProfile
 from django.contrib.auth.models import User, Permission
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from portal.tests.base_test import BaseTest
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage

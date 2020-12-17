@@ -37,7 +37,7 @@
 from common.models import Teacher, Student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.cache import cache_control
@@ -78,7 +78,7 @@ def play_name_labeller(request):
 
 
 def register_view(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect_user_to_dashboard(request)
     else:
         return render_signup_form(request)
@@ -266,7 +266,8 @@ def redirect_teacher_to_correct_page(request, teacher):
                 return reverse_lazy("dashboard")
             else:
                 return reverse_lazy(
-                    "onboarding-class", kwargs={"access_code": classes[0].access_code},
+                    "onboarding-class",
+                    kwargs={"access_code": classes[0].access_code},
                 )
 
         else:

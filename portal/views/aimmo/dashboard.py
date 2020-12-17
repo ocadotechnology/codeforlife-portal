@@ -1,21 +1,22 @@
 from typing import Any, Dict, List, Optional
 
-from common.permissions import logged_in_as_student, logged_in_as_teacher
-from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse_lazy
-from django.db.models import QuerySet
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
-from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
-
 from aimmo.forms import AddGameForm
 from aimmo.game_creator import create_game
 from aimmo.models import Game, Worksheet
+from common.permissions import logged_in_as_student, logged_in_as_teacher
+from common.utils import LoginRequiredNoErrorMixin
+from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import QuerySet
+from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
+
+from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
 
-class TeacherAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, CreateView):
     login_url = reverse_lazy("teacher_login")
     form_class = AddGameForm
     template_name = "portal/teach/teacher_aimmo_dashboard.html"
@@ -42,7 +43,9 @@ class TeacherAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, CreateView)
         return reverse_lazy("kurono/play", args=(self.object.id,))
 
 
-class StudentAimmoDashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class StudentAimmoDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
+):
     template_name = "portal/play/student_aimmo_dashboard.html"
 
     login_url = reverse_lazy("student_login")

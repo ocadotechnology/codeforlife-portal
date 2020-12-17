@@ -36,7 +36,7 @@
 # identified as the original program.
 from functools import wraps
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from rest_framework import permissions
 

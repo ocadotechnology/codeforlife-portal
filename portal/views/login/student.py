@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.views import LoginView
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.html import escape
 
 from portal.forms.play import StudentLoginForm
