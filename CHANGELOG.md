@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v4.15.0 (2020-12-17)
+### Feature
+* Upgrade to Django 2.2 ([#1304](https://github.com/ocadotechnology/codeforlife-portal/pull/1304)) ([`ed8a511`](https://github.com/ocadotechnology/codeforlife-portal/commit/ed8a511a89142bfe157b1ad19ca0ce9e66e929ce))
+
+### Fix
+* Bring back test setup ([`b2e8bd2`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2e8bd2f547cb6231cd0f9f5e9110405f4cd2c3f))
+* Update setup.py and pipfile ([`c5931a8`](https://github.com/ocadotechnology/codeforlife-portal/commit/c5931a896b0d7cf050313c54becedac0dc213608))
+* Merge in master ([`b5019b4`](https://github.com/ocadotechnology/codeforlife-portal/commit/b5019b40282d6c2fdb7b0310573c6cea60530d5c))
+* Upgrade dependencies ([#1314](https://github.com/ocadotechnology/codeforlife-portal/pull/1314)) ([`8c49368`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c49368bda6a7466c54cf368881afea325004fa5))
+* Add missing wagtail app ([#1310](https://github.com/ocadotechnology/codeforlife-portal/pull/1310)) ([`74dc2ad`](https://github.com/ocadotechnology/codeforlife-portal/commit/74dc2adaf4b4f90962e18d2cda014c4da331f03e))
+
 ## v4.14.2 (2020-12-14)
 ### Fix
 * Add game form ([#1306](https://github.com/ocadotechnology/codeforlife-portal/pull/1306)) ([`747b705`](https://github.com/ocadotechnology/codeforlife-portal/commit/747b7056d52c49a8664dee22b3ddbdd45bb97cb2))
