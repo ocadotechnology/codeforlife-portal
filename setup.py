@@ -27,10 +27,10 @@ setup(
         "djangorestframework==3.12.2",
         "django-pipeline==1.6.14",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
         "django-recaptcha==2.0.6",
-        "django-autoconfig @ git+https://github.com/ocadotechnology/django-autoconfig@master#egg=django-autoconfig",
+        "django-autoconfig",
         "pyyaml==5.3.1",
-        # "rapid-router >= 1.0.0.post.dev1",
-        # "aimmo",
+        "rapid-router >= 1.0.0.post.dev1",
+        "aimmo",
         "reportlab==3.5.55",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
@@ -46,7 +46,7 @@ setup(
         "django-hijack==2.1.10",
         "django-hijack-admin==2.1.10",
         "future==0.18.2",
-        # f"cfl-common=={version}",
+        f"cfl-common=={version}",
     ],
     classifiers=[
         "Programming Language :: Python",
