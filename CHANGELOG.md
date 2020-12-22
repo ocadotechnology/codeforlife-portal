@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.15.1 (2020-12-22)
+### Fix
+* Remove build dependencies ([#1329](https://github.com/ocadotechnology/codeforlife-portal/issues/1329)) ([`1b6532e`](https://github.com/ocadotechnology/codeforlife-portal/commit/1b6532e46f5dcb3189d5fa058369369081f56674))
+
 ## v4.15.0 (2020-12-17)
 ### Feature
 * Upgrade to Django 2.2 ([#1304](https://github.com/ocadotechnology/codeforlife-portal/pull/1304)) ([`ed8a511`](https://github.com/ocadotechnology/codeforlife-portal/commit/ed8a511a89142bfe157b1ad19ca0ce9e66e929ce))
