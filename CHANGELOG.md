@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.15.3 (2020-12-24)
+### Fix
+* Replace youtube embeds with youtube-nocookie ([#1331](https://github.com/ocadotechnology/codeforlife-portal/issues/1331)) ([`2f95d40`](https://github.com/ocadotechnology/codeforlife-portal/commit/2f95d4033c3662c32ea484cb4d5ce0b5a6adfbfe))
+
 ## v4.15.2 (2020-12-24)
 ### Fix
 * Remove magnificjs ([#1332](https://github.com/ocadotechnology/codeforlife-portal/issues/1332)) ([`14aa4fd`](https://github.com/ocadotechnology/codeforlife-portal/commit/14aa4fd8b634ebedcc5eab8857215464b2e85be4))
