@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.15.2 (2020-12-24)
+### Fix
+* Remove magnificjs ([#1332](https://github.com/ocadotechnology/codeforlife-portal/issues/1332)) ([`14aa4fd`](https://github.com/ocadotechnology/codeforlife-portal/commit/14aa4fd8b634ebedcc5eab8857215464b2e85be4))
+
 ## v4.15.1 (2020-12-22)
 ### Fix
 * Remove build dependencies ([#1329](https://github.com/ocadotechnology/codeforlife-portal/issues/1329)) ([`1b6532e`](https://github.com/ocadotechnology/codeforlife-portal/commit/1b6532e46f5dcb3189d5fa058369369081f56674))
