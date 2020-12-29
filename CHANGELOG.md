@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.15.4 (2020-12-29)
+### Fix
+* Make .sub-nav--teacher, .sub-nav--student visible on small screens ([#1315](https://github.com/ocadotechnology/codeforlife-portal/issues/1315)) ([`a2c64b6`](https://github.com/ocadotechnology/codeforlife-portal/commit/a2c64b6d81c24c6bd3ff6c8784ab38f6db66caa0))
+
 ## v4.15.3 (2020-12-24)
 ### Fix
 * Replace youtube embeds with youtube-nocookie ([#1331](https://github.com/ocadotechnology/codeforlife-portal/issues/1331)) ([`2f95d40`](https://github.com/ocadotechnology/codeforlife-portal/commit/2f95d4033c3662c32ea484cb4d5ce0b5a6adfbfe))
