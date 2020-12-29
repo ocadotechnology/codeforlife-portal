@@ -45,4 +45,4 @@ def is_on_beta_host(request):
 
 
 def is_developer(request):
-    return (not request.user.is_anonymous()) and request.user.userprofile.developer
+    return (not request.user.is_anonymous) and request.user.userprofile.developer

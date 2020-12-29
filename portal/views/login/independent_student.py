@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView
 from portal.forms.play import IndependentStudentLoginForm
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 
 class IndependentStudentLoginView(LoginView):

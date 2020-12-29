@@ -38,7 +38,7 @@ from common.models import Class, Student, Teacher
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
@@ -362,7 +362,8 @@ def organisation_kick(request, pk):
     teacher.save()
 
     messages.success(
-        request, "The teacher has been successfully removed from your school or club.",
+        request,
+        "The teacher has been successfully removed from your school or club.",
     )
 
     emailMessage = email_messages.kickedEmail(request, user.school.name)

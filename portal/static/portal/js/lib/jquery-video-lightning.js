@@ -394,7 +394,7 @@
         },
 
         youtubePlayer: function (settings, video_id) {
-            return $("<iframe src=\"https://www.youtube.com/embed/" + video_id +
+            return $("<iframe src=\"https://www.youtube-nocookie.com/embed/" + video_id +
                 "?autoplay=" + settings.videoAutoplay +
                 "&autohide=" + settings.videoAutohide +
                 "&controls=" + settings.videoControls +

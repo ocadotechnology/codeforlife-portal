@@ -38,15 +38,15 @@ from __future__ import absolute_import
 
 import time
 
+import pytest
 from aimmo.models import Game, Worksheet
-from django.core import mail
-from django.core.urlresolvers import reverse
-from django.test import Client, TestCase
-from selenium.webdriver.support.wait import WebDriverWait
-
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
@@ -57,6 +57,11 @@ from common.tests.utils.teacher import (
     signup_teacher_directly,
     submit_teacher_signup_form,
 )
+from django.core import mail
+from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.test import Client, TestCase
+from selenium.webdriver.support.wait import WebDriverWait
 
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
@@ -64,10 +69,6 @@ from .utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
     is_teacher_email_updated_message_showing,
-)
-from .utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
 )
 
 
@@ -160,13 +161,13 @@ class TestTeachers(TestCase):
         # Create teacher 1 -> class 1 -> student 1
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1, True)
+        klass1, _, access_code1 = create_class_directly(email1, "Class 1")
         create_school_student_directly(access_code1)
 
         # Create teacher 2 -> class 2 -> student 2
         email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, _, access_code2 = create_class_directly(email2, True)
+        klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
         teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
@@ -250,12 +251,12 @@ class TestTeachers(TestCase):
 
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1, True)
+        klass1, _, access_code1 = create_class_directly(email1, "Class 1")
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly()
         join_teacher_to_organisation(email2, school_name, postcode)
-        klass2, _, access_code2 = create_class_directly(email2, True)
+        klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
         teacher1 = Teacher.objects.get(new_user__email=email1)
@@ -310,6 +311,49 @@ class TestTeachers(TestCase):
 
         self.assertTrue(not game1.can_user_play(student1.new_user))
         self.assertTrue(game2.can_user_play(student1.new_user))
+
+    def test_teacher_cannot_create_duplicate_game(self):
+        """
+        Given a teacher, a class and a worksheet,
+        When the teacher creates a game for that class and worksheet, and then tries to
+        create the exact same game again,
+        Then the class should only have one game, and an error message should appear.
+        """
+        worksheet: Worksheet = Worksheet.objects.create(
+            name="test", starter_code="test"
+        )
+
+        email, password = signup_teacher_directly()
+        _, _ = create_organisation_directly(email)
+        klass, _, _ = create_class_directly(email)
+
+        c = Client()
+        c.login(username=email, password=password)
+        game1_response = c.post(
+            reverse("teacher_aimmo_dashboard"),
+            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+        )
+
+        assert game1_response.status_code == 302
+        assert len(klass.games_for_class.all()) == 1
+        messages = list(game1_response.wsgi_request._messages)
+        assert len([m for m in messages if m.tags == "warning"]) == 0
+
+        game2_response = c.post(
+            reverse("teacher_aimmo_dashboard"),
+            {
+                "name": "Test Game",
+                "game_class": klass.pk,
+                "worksheet": worksheet.id,
+            },
+        )
+        assert len(klass.games_for_class.all()) == 1
+        messages = list(game2_response.wsgi_request._messages)
+        assert len([m for m in messages if m.tags == "warning"]) == 1
+        assert (
+            messages[0].message
+            == "Game with this Class and Worksheet already exists."
+        )
 
 
 class TestTeacher(BaseTest):
