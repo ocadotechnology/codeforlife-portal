@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "af4f58e8ce25143087fc915da0a1d1c27de4d76e2e5252b67001e39c77ac0882"
+            "sha256": "d0c22011b247012a44d94e18452507d51dbe813c928d75cb32d2a3f1215ef570"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.6.7"
+            "python_version": "3.6"
         },
         "sources": [
             {
@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:514cf75c272085131866a30981c6122df4db7be56467d1e7c24587d1d2e4d287",
-                "sha256:e54832357fb824e4fb95015c5f927644fd48448eb3c21f78434c91497b3db1cd"
+                "sha256:444566b9f17a498fc20f755b8fcd4dd4677713ca76665cbad6b7943ac694bc3c",
+                "sha256:ae7ee4c937f9ce3a59a5214d4ae5c75b1d2f22735f1570d4c15ea43d46a61663"
             ],
-            "version": "==0.61.9"
+            "version": "==0.61.10"
         },
         "anyascii": {
             "hashes": [
@@ -399,10 +399,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:3e6b7dd2d1e0a59084bcee14a17af60c5c562cdc16d828e8eba2e683d3a7e268",
-                "sha256:5c55e189b682d420be27c6995ba6edce0c0a77dd67bfbe2ae6607134d5851ffd"
+                "sha256:16962c5fb8db4a8f63a26646d8886e9d769b6c511543557bc84e9569fb9a9cb4",
+                "sha256:180befebb1927b16f6b57101720075a984c019ac16b1b7575673bea42c6c3da5"
             ],
-            "version": "==2020.4"
+            "version": "==2020.5"
         },
         "pyyaml": {
             "hashes": [
@@ -431,10 +431,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:62baafde41ae7276b83de2a37f512e74573b2e385c641e1b765a5975b68ba092",
-                "sha256:c54c3e0d8a0bbf3529b27265038780522a052b3ff5e0682b098a4da23d9abf4c"
+                "sha256:1c8b8872f69c02947cf06e1e65fc714c90f595f98e15ce3e3dad9551308ae6ac",
+                "sha256:a1ae953fbcc32e8c001208fde25b7fa122cf365ed32821859816d69e3f051ca3"
             ],
-            "version": "==2.5.3"
+            "version": "==2.5.4"
         },
         "reportlab": {
             "hashes": [
@@ -724,10 +724,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:3e6b7dd2d1e0a59084bcee14a17af60c5c562cdc16d828e8eba2e683d3a7e268",
-                "sha256:5c55e189b682d420be27c6995ba6edce0c0a77dd67bfbe2ae6607134d5851ffd"
+                "sha256:16962c5fb8db4a8f63a26646d8886e9d769b6c511543557bc84e9569fb9a9cb4",
+                "sha256:180befebb1927b16f6b57101720075a984c019ac16b1b7575673bea42c6c3da5"
             ],
-            "version": "==2020.4"
+            "version": "==2020.5"
         },
         "pyvirtualdisplay": {
             "hashes": [
