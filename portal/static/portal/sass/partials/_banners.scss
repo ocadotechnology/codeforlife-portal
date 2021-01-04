@@ -109,6 +109,10 @@
   background-image: url('../img/kurono_hero.jpg');
 }
 
+.banner--picture--aimmo-teaching-packs {
+  background-image: url('../img/kurono_teaching_packs.svg');
+}
+
 .banner--homepage {
   height: calc(100vh - #{$menu-height});
   min-height: 768px;

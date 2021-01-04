@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from builtins import str
 from builtins import range
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.urls import reverse_lazy
-from django.shortcuts import render
+from builtins import str
+
+from aimmo.models import Worksheet
 
 from common.permissions import logged_in_as_teacher
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
+from django.urls import reverse_lazy
+
+from portal.strings.kurono_teaching_packs import KURONO_TEACHING_PACKS_BANNER
 from portal.strings.materials import MATERIALS_BANNER
 from portal.views.teacher.pdfs import PDF_DATA
 
@@ -177,3 +181,13 @@ def update_session_number_based_on_key_stage(key_stage_name):
         session_number = DEFAULT_KS_STARTING_SESSION_INDEX
 
     return session_number
+
+
+def kurono_teaching_packs(request):
+    worksheets = Worksheet.objects.all()
+    return render(
+        request,
+        "portal/teach/kurono_teaching_packs.html",
+        {"worksheets": worksheets,
+         "KURONO_TEACHING_PACKS_BANNER": KURONO_TEACHING_PACKS_BANNER},
+    )

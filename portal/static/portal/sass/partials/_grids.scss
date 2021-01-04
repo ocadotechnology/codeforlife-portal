@@ -154,6 +154,29 @@ $column--icon-width: 3%;
     }
   }
 
+  .grid-kurono-sessions {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns:
+      auto
+      30%;
+
+    .button {
+      @include _margin(0px, 0px, $spacing*3, 0px);
+    }
+
+    & > * {
+      align-items: center;
+      border-bottom: 1px solid $color-table-border;
+      display: grid;
+    }
+
+    .grid-icon {
+      max-height: 60%;
+      max-width: 60%;
+    }
+  }
+
   .grid-resources {
     border-top: 1px solid $color-table-border;
     display: grid;
