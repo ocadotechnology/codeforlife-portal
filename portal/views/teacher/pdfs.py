@@ -997,6 +997,13 @@ PDF_DATA = {
         "url": "kurono_v3/resource_sheets/student_user_guide.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
+    "Kurono_national_curriculum": {
+        "title": "Kurono and the National Curriculum for Computing (UK)",
+        "description": "",
+        "links": [],
+        "url": "kurono_v3/resource_sheets/kurono_national_curriculum.pdf",
+        "page_origin": "#ks3-resource-sheets",
+    },
     # ...Intermediate Python Challenges...#
     "Kurono_challenge_1": {
         "title": "Student Challenge 1",
