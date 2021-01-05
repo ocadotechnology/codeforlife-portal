@@ -418,6 +418,12 @@ button,
     }
   }
 
+  .grid-kurono_sessions__accordion-button[aria-expanded='true'] {
+    .glyphicon-triangle-bottom::before {
+      content: '\e253';
+    }
+  }
+
   .button--menu__item--navigation {
     background-color: $color-background-tint-quinary;
     color: $color-text-tertiary;

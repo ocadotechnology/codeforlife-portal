@@ -262,4 +262,27 @@ $column--icon-width: 3%;
       'button3';
     row-gap: 4 * $spacing;
   }
+
+  .grid-kurono-sessions {
+    .grid-kurono-sessions__item {
+      @include _padding(0px, 0px, $spacing*4, 0px);
+      border-bottom: 1px solid $color-table-border;
+    }
+
+    .grid-kurono_sessions__accordion-button {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
+      .button-group__icon {
+        width: -webkit-fill-available;
+        width: -moz-available;
+      }
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
