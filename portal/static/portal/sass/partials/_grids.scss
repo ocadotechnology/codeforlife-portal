@@ -158,11 +158,15 @@ $column--icon-width: 3%;
     display: grid;
     grid-auto-rows: auto;
     grid-template-columns:
-      auto
-      30%;
+      70%
+      auto;
 
     .button {
       @include _margin(0px, 0px, $spacing*3, 0px);
+    }
+
+    div p {
+      width: 90%;
     }
 
     & > * {

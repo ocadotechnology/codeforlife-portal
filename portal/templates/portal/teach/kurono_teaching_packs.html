@@ -23,13 +23,15 @@
 {{ block.super }}
 {% banner banner_name="KURONO_TEACHING_PACKS_BANNER" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
-    <p>Challenges to help embed Python skills, a list of useful resources, pupil activities<br>and guidance on share and
-        review following the sessions.</p>
-    <div class="button-group button-group__icon">
-        <a href="{{ 'kurono_v1.zip'|cloud_storage }}" onclick='send_event("kurono_v1.zip", "Downloaded");'
-           class="button button--secondary button--secondary--light">Download all resources
-            <div class="glyphicon glyphicon-menu-right"></div>
-        </a>
+    <div class="col-sm-8 col-center">
+        <p>Challenges to help embed Python skills, a list of useful resources, pupil activities<br>and guidance on share and
+            review following the sessions.</p>
+        <div class="button-group button-group__icon">
+            <a href="{{ 'kurono_v1.zip'|cloud_storage }}" onclick='send_event("kurono_v1.zip", "Downloaded");'
+               class="button button--secondary button--secondary--light">Download all resources
+                <div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+        </div>
     </div>
 </div>
 {% endblock subNav %}
@@ -42,7 +44,7 @@
 <div class="background col-sm-8 col-center">
     <div class="grid-kurono-sessions">
         <div>
-            <p><strong>Introduction to Kurono and how to use it</strong></p>
+            <p><strong>Introduction to Kurono and how to use the game</strong></p>
             <p>This user guide talks you through what you will be teaching and how to use our resources efficiently.</p>
         </div>
         <div class="button-group button-group__icon">
