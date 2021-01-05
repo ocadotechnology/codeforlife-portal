@@ -103,6 +103,19 @@
   }
 }
 
+.sub-nav__content {
+  align-items: center;
+  display: flex;
+
+  p {
+    width: 70%;
+  }
+
+  .button-group {
+    padding: 0;
+  }
+}
+
 .success {
   background-color: $color-background-tint-quaternary;
   border-bottom: 1px solid $color-message-border;
