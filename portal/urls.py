@@ -40,7 +40,6 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
@@ -109,6 +108,7 @@ from portal.views.student.play import (
     student_join_organisation,
 )
 from portal.views.teach import teach
+from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_allow_join,
@@ -138,9 +138,11 @@ from portal.views.teacher.teach import (
     teacher_student_reset,
     teacher_view_class,
 )
-from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.teacher_materials import materials
-from portal.views.teacher.teacher_resources import teacher_resources
+from portal.views.teacher.teacher_resources import (
+    teacher_rapid_router_resources,
+    teacher_kurono_resources,
+)
 from portal.views.terms import terms
 
 js_info_dict = {"packages": ("conf.locale",)}
@@ -324,7 +326,14 @@ urlpatterns = [
         MaterialsViewer.as_view(),
         name="materials_viewer",
     ),
-    url(r"^teach/resources/$", teacher_resources, name="teaching_resources"),
+    url(
+        r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"
+    ),
+    url(
+        r"^teach/kurono_resources/$",
+        teacher_kurono_resources,
+        name="teaching_kurono_resources",
+    ),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
