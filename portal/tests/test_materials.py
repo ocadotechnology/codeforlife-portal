@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import pytest
 from django.test import Client, TestCase
 from django.urls.base import reverse
 
@@ -86,7 +87,19 @@ def test_materials_viewer_redirect(client: Client, teacher1: TeacherLoginDetails
     assert response.status_code == 200
 
 
-def test_kurono_teaching_packs(client: Client, teacher1: TeacherLoginDetails):
-    client.login(email=teacher1.email, password=teacher1.password)
-    response = client.get(reverse("kurono_packs"), follow=True)
+@pytest.mark.django_db
+def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
+    c = Client()
+    teacher_login_url = reverse("teacher_login")
+    data = {
+        "username": teacher1.email,
+        "password": teacher1.password,
+        "g-recaptcha-response": "something",
+    }
+
+    c.post(teacher_login_url, data)
+
+    kurono_teaching_packs_url = reverse("kurono_packs")
+    response = c.get(kurono_teaching_packs_url)
+
     assert response.status_code == 200
