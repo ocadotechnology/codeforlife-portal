@@ -162,7 +162,7 @@ $column--icon-width: 3%;
       auto;
 
     .button {
-      @include _margin(0px, 0px, $spacing*3, 0px);
+      @include _margin(0px, 0px, $spacing * 3, 0px);
     }
 
     div p {
@@ -265,11 +265,11 @@ $column--icon-width: 3%;
 
   .grid-kurono-sessions {
     .grid-kurono-sessions__item {
-      @include _padding(0px, 0px, $spacing*4, 0px);
+      @include _padding(0px, 0px, $spacing * 4, 0px);
       border-bottom: 1px solid $color-table-border;
     }
 
-    .grid-kurono_sessions__accordion-button {
+    .grid-kurono-sessions__accordion-button {
       align-items: center;
       display: flex;
       justify-content: space-between;
