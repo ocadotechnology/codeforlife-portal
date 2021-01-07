@@ -112,6 +112,12 @@
   }
 }
 
+.sub-nav__content {
+  .button-group {
+    padding: 0;
+  }
+}
+
 .success {
   background-color: $color-background-tint-quaternary;
   border-bottom: 1px solid $color-message-border;
@@ -133,17 +139,23 @@
   }
 }
 
+@media (min-width: $tablet-large-min-width) {
+  .sub-nav__content {
+    p {
+      padding: 0;
+    }
+  }
+}
+
+
 @media (min-width: $tablet-small-min-width) {
   .sub-nav__content {
     align-items: center;
     display: flex;
+    justify-content: space-evenly;
 
     p {
-      width: 70%;
-    }
-
-    .button-group {
-      padding: 0;
+      width: 65%;
     }
   }
 }
@@ -155,6 +167,12 @@
 
     .button--regular {
       @include _margin(0px, 3px, 0px, 3px);
+    }
+  }
+
+  .sub-nav__content {
+    p {
+      display: none;
     }
   }
 }
