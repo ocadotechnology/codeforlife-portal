@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v4.15.4 (2020-12-29)
+### Fix
+* Make .sub-nav--teacher, .sub-nav--student visible on small screens ([#1315](https://github.com/ocadotechnology/codeforlife-portal/issues/1315)) ([`a2c64b6`](https://github.com/ocadotechnology/codeforlife-portal/commit/a2c64b6d81c24c6bd3ff6c8784ab38f6db66caa0))
+
+## v4.15.3 (2020-12-24)
+### Fix
+* Replace youtube embeds with youtube-nocookie ([#1331](https://github.com/ocadotechnology/codeforlife-portal/issues/1331)) ([`2f95d40`](https://github.com/ocadotechnology/codeforlife-portal/commit/2f95d4033c3662c32ea484cb4d5ce0b5a6adfbfe))
+
+## v4.15.2 (2020-12-24)
+### Fix
+* Remove magnificjs ([#1332](https://github.com/ocadotechnology/codeforlife-portal/issues/1332)) ([`14aa4fd`](https://github.com/ocadotechnology/codeforlife-portal/commit/14aa4fd8b634ebedcc5eab8857215464b2e85be4))
+
+## v4.15.1 (2020-12-22)
+### Fix
+* Remove build dependencies ([#1329](https://github.com/ocadotechnology/codeforlife-portal/issues/1329)) ([`1b6532e`](https://github.com/ocadotechnology/codeforlife-portal/commit/1b6532e46f5dcb3189d5fa058369369081f56674))
+
 ## v4.15.0 (2020-12-17)
 ### Feature
 * Upgrade to Django 2.2 ([#1304](https://github.com/ocadotechnology/codeforlife-portal/pull/1304)) ([`ed8a511`](https://github.com/ocadotechnology/codeforlife-portal/commit/ed8a511a89142bfe157b1ad19ca0ce9e66e929ce))
