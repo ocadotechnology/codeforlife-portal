@@ -96,6 +96,16 @@
                     </a>
                 </div>
                 <div>
+                    <p><strong>The Story</strong></p>
+                    <p>Set the scene with the story of the game.</p>
+                </div>
+                <div class="button-group button-group__icon">
+                    <a href="{% url 'materials_viewer' pdf_name="Kurono_story" %}"
+                       target="_blank" class="button button--primary--general-play">
+                        View story<div class="glyphicon glyphicon-new-window"></div>
+                    </a>
+                </div>
+                <div>
                     <p><strong>Kurono cheat sheet</strong></p>
                     <p>To be used with the Kurono game.</p>
                 </div>
@@ -182,6 +192,22 @@
                         <p>This document will be updated as we build it.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name="Kurono_national_curriculum" %}"
+                               target="_blank" class="button button--primary--general-play">
+                                View guide<div class="glyphicon glyphicon-new-window"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-kurono-sessions__item">
+                    <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse" data-target="#kurono_story">
+                        <p class="button-group__icon">
+                            <strong>Kurono story</strong>
+                        <div class="glyphicon glyphicon-triangle-bottom"></div></p>
+                    </div>
+                    <div id="kurono_story" class="collapse">
+                        <p>Set the scene with the story of the game.</p>
+                        <div class="button-group button-group__icon">
+                            <a href="{% url 'materials_viewer' pdf_name="Kurono_story" %}"
                                target="_blank" class="button button--primary--general-play">
                                 View guide<div class="glyphicon glyphicon-new-window"></div>
                             </a>
