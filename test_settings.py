@@ -29,6 +29,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "portal.context_processors.process_newsletter_form",
+                "portal.context_processors.cookie_management_enabled",
             ]
         },
     }
@@ -53,6 +54,8 @@ DOTMAILER_URL = "https://test/"
 DOTMAILER_USER = "username_here"
 DOTMAILER_PASSWORD = "password_here"
 DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
+
+COOKIE_MANAGEMENT_ENABLED = False
 
 from django_autoconfig.autoconfig import configure_settings
 

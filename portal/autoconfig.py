@@ -143,6 +143,7 @@ SETTINGS = {
                     "sekizai.context_processors.sekizai",
                     "portal.context_processors.process_newsletter_form",
                     "portal.context_processors.module_name",
+                    "portal.context_processors.cookie_management_enabled",
                 ]
             },
         }

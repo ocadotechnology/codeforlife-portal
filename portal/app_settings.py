@@ -56,3 +56,5 @@ MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
 IS_CLOUD_SCHEDULER_FUNCTION = getattr(
     settings, "IS_CLOUD_SCHEDULER_FUNCTION", lambda _: False
 )
+
+COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)

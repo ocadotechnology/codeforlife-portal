@@ -79,6 +79,8 @@ INSTALLED_APPS = ("portal", "captcha")
 
 PIPELINE_ENABLED = False
 
+COOKIE_MANAGEMENT_ENABLED = False
+
 try:
     from example_project.local_settings import *  # pylint: disable=E0611
 except ImportError:
