@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Limited
+# Copyright (C) 2020, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,11 +34,12 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import pytest
 from django.test import Client, TestCase
 from django.urls.base import reverse
+
 from portal.templatetags.table_tags import lengthen_list, resource_sheets_table
 from portal.views.materials_viewer import get_links
-
 from .conftest import TeacherLoginDetails
 
 
@@ -83,4 +84,22 @@ def test_materials_viewer_redirect(client: Client, teacher1: TeacherLoginDetails
         reverse("materials_viewer_redirect", kwargs={"pdf_name": "KS1_S3_1"}),
         follow=True,
     )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
+    c = Client()
+    teacher_login_url = reverse("teacher_login")
+    data = {
+        "username": teacher1.email,
+        "password": teacher1.password,
+        "g-recaptcha-response": "something",
+    }
+
+    c.post(teacher_login_url, data)
+
+    kurono_teaching_packs_url = reverse("kurono_packs")
+    response = c.get(kurono_teaching_packs_url)
+
     assert response.status_code == 200

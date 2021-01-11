@@ -109,6 +109,10 @@
   background-image: url('../img/kurono_hero.jpg');
 }
 
+.banner--picture--aimmo-teaching-packs {
+  background-image: url('../img/kurono_teaching_packs.svg');
+}
+
 .banner--homepage {
   height: calc(100vh - #{$menu-height});
   min-height: 768px;
@@ -158,12 +162,6 @@
     @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
     color: $color-text-secondary;
   }
-}
-
-.banner__text--primary,
-.banner__text--secondary {
-  @include _font-size(72px);
-  @include _line-height(75px);
 }
 
 .banner__text--primary {
@@ -372,6 +370,14 @@
     .col-sm-7 {
       width: 100%;
     }
+  }
+}
+
+@media (min-width: $tablet-large-min-width) {
+  .banner__text--primary,
+  .banner__text--secondary {
+    @include _font-size(72px);
+    @include _line-height(75px);
   }
 }
 

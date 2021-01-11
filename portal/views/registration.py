@@ -71,7 +71,7 @@ def student_password_reset(request):
         usertype,
         from_email=PASSWORD_RESET_EMAIL,
         template_name="portal/reset_password_student.html",
-        password_reset_form=StudentPasswordResetForm
+        password_reset_form=StudentPasswordResetForm,
     )
 
 
@@ -83,7 +83,7 @@ def teacher_password_reset(request):
         usertype,
         from_email=PASSWORD_RESET_EMAIL,
         template_name="portal/reset_password_teach.html",
-        password_reset_form=TeacherPasswordResetForm
+        password_reset_form=TeacherPasswordResetForm,
     )
 
 

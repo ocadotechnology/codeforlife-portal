@@ -139,7 +139,7 @@ from portal.views.teacher.teach import (
     teacher_view_class,
 )
 from portal.views.teacher import materials_viewer_redirect
-from portal.views.teacher.teacher_materials import materials
+from portal.views.teacher.teacher_materials import materials, kurono_teaching_packs
 from portal.views.teacher.teacher_resources import teacher_resources
 from portal.views.terms import terms
 
@@ -314,6 +314,7 @@ urlpatterns = [
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
+    url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
         materials_viewer_redirect,
