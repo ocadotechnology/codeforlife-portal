@@ -50,6 +50,10 @@ $column--icon-width: 3%;
 
   .card__text {
     @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
   }
 
   .card__images {
@@ -105,13 +109,6 @@ $column--icon-width: 3%;
   .card:last-child {
     display: flex;
     flex-direction: column;
-
-    .card__text {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
   }
 }
 

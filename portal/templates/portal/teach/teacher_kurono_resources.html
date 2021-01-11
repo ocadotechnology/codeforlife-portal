@@ -18,34 +18,50 @@
 <div id="resources_page"></div>
 
 <div class="background">
-    <div class="row row--regular homepage-info">
-        <div class="col-sm-9 col-center is-flex">
-            <div class="col-sm-4">
-                <img title="Teaching packs" alt="Packs image" src="{% static 'portal/img/teaching_resources.png' %}">
-                <h3>Teaching packs</h3>
+    <div class="grid grid-worksheets grid__fit col-sm-8 col-center">
+        <div class="card">
+            <div class="card__images">
+                <img title="Teaching packs" alt="Packs image" class="card__image"
+                     src="{% static 'portal/img/teaching_resources.png' %}">
+            </div>
+            <div class="card__text">
+                <h3 class="card__title">Teaching packs</h3>
                 <p>We&rsquo;ve created a comprehensive set of teaching materials that are aligned to Key Stages 3 and 4.</p>
-                <div class="background">
-                    <a id="materials_button" href="{% url 'kurono_packs' %}"
-                       class="button button--regular button--secondary button--secondary--dark">View teaching packs</a>
+                <div class="button-group button-group__icon">
+                    <a id="materials_button" href="{% url 'kurono_packs' %}" class="button button--primary--general-play">
+                        View teaching packs<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <img title="Kurono Common Room" alt="Kurono Common Room" src="{% static 'portal/img/kurono_common_room.svg' %}">
-                <h3>Kurono Common Room</h3>
+        </div>
+        <div class="card">
+            <div class="card__images">
+                <img title="Kurono Common Room" alt="Kurono Common Room" class="card__image"
+                     src="{% static 'portal/img/kurono_common_room.svg' %}">
+            </div>
+            <div class="card__text">
+                <h3 class="card__title">Kurono Common Room</h3>
                 <p>A place where teachers can share ideas and experiences through using Kurono in the classroom.</p>
-                <div class="background">
+                <div class="button-group button-group__icon">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpxFVxOl3AkCsQF0-aVHoiKFy5daS32jzszR1fFAsN_BqLow/viewform"
-                       class="button button--regular button--secondary button--secondary--dark" target="_blank">Join us</a>
+                       class="button button--primary--general-play" target="_blank">
+                        Join us<div class="glyphicon glyphicon-new-window"></div>
+                    </a>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <img title="Kurono Story" alt="Kurono Story" src="{% static 'portal/img/kurono_story.png' %}">
-                <h3>The Kurono Story</h3>
+        </div>
+        <div class="card">
+            <div class="card__images">
+                <img title="Kurono Story" alt="Kurono Story" class="card__image"
+                     src="{% static 'portal/img/kurono_story.png' %}">
+            </div>
+            <div class="card__text">
+                <h3 class="card__title">The Kurono Story</h3>
                 <p>Discover the background story to Kurono and the adventures the students will be taken on.</p>
-                <div class="background">
+                <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name="Kurono_story" %}"
-                       target="_blank" class="button button--regular button--secondary button--secondary--dark">
-                        View story
+                       target="_blank" class="button button--primary--general-play">
+                        View story<div class="glyphicon glyphicon-new-window"></div>
                     </a>
                 </div>
             </div>

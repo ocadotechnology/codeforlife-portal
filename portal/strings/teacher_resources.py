@@ -12,5 +12,5 @@ KURONO_RESOURCES_BANNER = {
     "subtitle": "We’ve created a comprehensive set of PDF teaching materials to help "
     "you teach students Key Stages 3 and 4 of the UK National Computing Curriculum.",
     "text": "",
-    "image_class": "banner--picture--tools",
+    "image_class": "banner--picture--aimmo-resources",
 }
