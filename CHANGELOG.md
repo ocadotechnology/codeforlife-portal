@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.16.0 (2021-01-11)
+### Feature
+* Create Kurono teaching packs page ([#1334](https://github.com/ocadotechnology/codeforlife-portal/issues/1334)) ([`e52cdc8`](https://github.com/ocadotechnology/codeforlife-portal/commit/e52cdc891e9967fe3357e40eae71d3544d496fa4))
+
 ## v4.15.4 (2020-12-29)
 ### Fix
 * Make .sub-nav--teacher, .sub-nav--student visible on small screens ([#1315](https://github.com/ocadotechnology/codeforlife-portal/issues/1315)) ([`a2c64b6`](https://github.com/ocadotechnology/codeforlife-portal/commit/a2c64b6d81c24c6bd3ff6c8784ab38f6db66caa0))
