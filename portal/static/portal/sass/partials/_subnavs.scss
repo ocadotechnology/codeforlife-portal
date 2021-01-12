@@ -24,7 +24,7 @@
   }
 
   p {
-    @include _padding(0px, 20px, 0px, 20px);
+    @include _padding(0px, 20px, 0px, 50px);
     text-align: left;
   }
 }
@@ -76,6 +76,15 @@
   z-index: $nav-bar-level - 1;
 }
 
+.sub-nav--key-stage {
+  background-color: $color-background-key-stage;
+
+  .sub-nav__text {
+    color: $color-text-secondary;
+    margin: 0;
+  }
+}
+
 .sub-nav--filler {
   padding-top: 160px;
 }
@@ -89,6 +98,10 @@
     background-color: $color-background-secondary;
     color: $color-teacher-blue;
   }
+
+  p {
+    color: $color-text-secondary;
+  }
 }
 
 .sub-nav--student {
@@ -96,6 +109,12 @@
 
   .button--secondary--background-light {
     color: $color-background-play;
+  }
+}
+
+.sub-nav__content {
+  .button-group {
+    padding: 0;
   }
 }
 
@@ -119,8 +138,41 @@
     display: none;
   }
 }
+
+@media (min-width: $tablet-large-min-width) {
+  .sub-nav__content {
+    p {
+      padding: 0;
+    }
+  }
+}
+
+
+@media (min-width: $tablet-small-min-width) {
+  .sub-nav__content {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+
+    p {
+      width: 65%;
+    }
+  }
+}
+
 @media (max-width: $mobile-max-width) {
-  .sub-nav .button--regular {
-    @include _margin(0px, 3px, 0px, 3px);
+  .sub-nav {
+    @include _padding(20px, 20px, 20px, 20px);
+    height: auto;
+
+    .button--regular {
+      @include _margin(0px, 3px, 0px, 3px);
+    }
+  }
+
+  .sub-nav__content {
+    p {
+      display: none;
+    }
   }
 }

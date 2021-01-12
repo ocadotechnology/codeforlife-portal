@@ -24,8 +24,10 @@ class SeleniumTestCase(LiveServerTestCase):
         # However, there is no "self" at this time, so we
         # essentially duplicate the code from the definition of
         # the LiveServerTestCase.live_server_url property.
-        cls.selenium.live_server_url = 'http://%s:%s' % (
-            cls.server_thread.host, cls.server_thread.port)
+        cls.selenium.live_server_url = "http://%s:%s" % (
+            cls.server_thread.host,
+            cls.server_thread.port,
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -35,8 +37,8 @@ class SeleniumTestCase(LiveServerTestCase):
 
     def __call__(self, result=None):
         self._set_site_to_local_domain()
-        if hasattr(self, 'selenium'):
-            for width in getattr(settings, 'SELENIUM_WIDTHS', [1624]):
+        if hasattr(self, "selenium"):
+            for width in getattr(settings, "SELENIUM_WIDTHS", [1624]):
                 self.selenium.set_window_size(width, 1024)
         return super(SeleniumTestCase, self).__call__(result)
 

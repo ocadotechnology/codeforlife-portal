@@ -300,6 +300,7 @@ button,
   .button {
     align-items: center;
     display: inline-flex;
+    justify-content: space-between;
 
     .glyphicon {
       @include _font-size(25px);
@@ -413,6 +414,12 @@ button,
 
   .button--menu__item--sub-header[aria-expanded='true'] {
     &:after {
+      content: '\e253';
+    }
+  }
+
+  .grid-kurono-sessions__accordion-button[aria-expanded='true'] {
+    .glyphicon-triangle-bottom::before {
       content: '\e253';
     }
   }

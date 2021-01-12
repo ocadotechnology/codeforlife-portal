@@ -14,7 +14,8 @@ img {
 }
 
 .background {
-  @include _padding(40px, 0px, 40px, 0px);
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .background--primary {
