@@ -25,8 +25,10 @@
                      src="{% static 'portal/img/teaching_resources.png' %}">
             </div>
             <div class="card__text">
-                <h3 class="card__title">Teaching packs</h3>
-                <p>We&rsquo;ve created a comprehensive set of teaching materials that are aligned to Key Stages 3 and 4.</p>
+                <div>
+                    <h4 class="card__title">Teaching packs</h4>
+                    <p>We&rsquo;ve created a comprehensive set of teaching materials that are aligned to Key Stages 3 and 4.</p>
+                </div>
                 <div class="button-group button-group__icon">
                     <a id="materials_button" href="{% url 'kurono_packs' %}" class="button button--primary--general-play">
                         View teaching packs<div class="glyphicon glyphicon-menu-right"></div>
@@ -40,8 +42,10 @@
                      src="{% static 'portal/img/kurono_common_room.png' %}">
             </div>
             <div class="card__text">
-                <h3 class="card__title">Kurono Common Room</h3>
-                <p>A place where teachers can share ideas and experiences through using Kurono in the classroom.</p>
+                <div>
+                    <h4 class="card__title">The Common Room</h4>
+                    <p>A place where teachers can share ideas and experiences through using Kurono in the classroom.</p>
+                </div>
                 <div class="button-group button-group__icon">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpxFVxOl3AkCsQF0-aVHoiKFy5daS32jzszR1fFAsN_BqLow/viewform"
                        class="button button--primary--general-play" target="_blank">
@@ -56,8 +60,10 @@
                      src="{% static 'portal/img/kurono_story.png' %}">
             </div>
             <div class="card__text">
-                <h3 class="card__title">The Kurono Story</h3>
-                <p>Discover the background story to Kurono and the adventures the students will be taken on.</p>
+                <div>
+                    <h4 class="card__title">The Kurono Story</h4>
+                    <p>Discover the background story to Kurono and the adventures the students will be taken on.</p>
+                </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name="Kurono_story" %}"
                        target="_blank" class="button button--primary--general-play">

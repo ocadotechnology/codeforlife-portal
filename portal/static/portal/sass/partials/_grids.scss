@@ -77,6 +77,10 @@ $column--icon-width: 3%;
     width: fit-content;
   }
 
+  .button {
+    min-width: 215px;
+  }
+
   .button--big {
     @include _margin($spacing * 4, 0px, 0px, 0px);
     width: 100%;
