@@ -114,7 +114,9 @@ class BasePage(object):
         return self.element_exists_by_id(pageName)
 
     def hover_over_resources_dropdown(self):
-        resources_dropdown = self.browser.find_element_by_id("teaching_resources_button")
+        resources_dropdown = self.browser.find_element_by_id(
+            "teaching_resources_button"
+        )
         hover = ActionChains(self.browser).move_to_element(resources_dropdown)
         hover.perform()
 
