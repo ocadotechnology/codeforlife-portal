@@ -137,11 +137,13 @@
                             {% endblock aimmo %}
                             <div class="dropdown">
                                 {% block materials %}<a id="teaching_resources_button"
-                                                        class="button--menu button--menu--secondary button--menu--enabled">
+                                    class="button--menu button--menu--secondary button--menu--enabled">
                                     Teaching Resources</a>{% endblock materials %}
                                 <div class="dropdown-content">
-                                    <a href="{% url 'teaching_resources' %}"><small>Rapid Router</small></a>
-                                    <a href="{% url 'teaching_kurono_resources' %}"><small>Kurono</small></a>
+                                    <a id="rapid_router_resources_button" href="{% url 'teaching_resources' %}">
+                                        <small>Rapid Router</small></a>
+                                    <a id="kurono_resources_button" href="{% url 'teaching_kurono_resources' %}">
+                                        <small>Kurono</small></a>
                                 </div>
                             </div>
                         {% else %}
