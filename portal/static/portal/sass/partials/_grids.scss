@@ -63,8 +63,6 @@ $column--icon-width: 3%;
 
   .card__image {
     @include _border-radius(16px, 16px, 0px, 0px);
-    width: -webkit-fill-available;
-    width: -moz-available;
   }
 
   .card__thumbnail {
@@ -115,6 +113,11 @@ $column--icon-width: 3%;
   .card:last-child {
     display: flex;
     flex-direction: column;
+  }
+
+  .card__image {
+    width: -webkit-fill-available;
+    width: -moz-available;
   }
 }
 
