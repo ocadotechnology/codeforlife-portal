@@ -333,7 +333,7 @@ urlpatterns = [
     url(
         r"^teach/kurono_resources/$",
         teacher_kurono_resources,
-        name="teaching_kurono_resources",
+        name="kurono_teaching_resources",
     ),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(
