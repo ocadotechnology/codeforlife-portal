@@ -444,4 +444,8 @@ button,
   .button--menu__item__sub {
     padding-left: $spacing * 6;
   }
+
+  .button--menu__item__sub__sub {
+    padding-left: $spacing * 10;
+  }
 }
