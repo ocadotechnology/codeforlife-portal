@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.17.0 (2021-01-15)
+### Feature
+* Kurono resources page ([#1337](https://github.com/ocadotechnology/codeforlife-portal/issues/1337)) ([`df12f76`](https://github.com/ocadotechnology/codeforlife-portal/commit/df12f764e164fdbfcaaea64d4dbdae10733c02d1))
+
 ## v4.16.1 (2021-01-13)
 ### Fix
 * Update Kurono zip link ([#1336](https://github.com/ocadotechnology/codeforlife-portal/issues/1336)) ([`fd5f6ec`](https://github.com/ocadotechnology/codeforlife-portal/commit/fd5f6ec5b62d887dd48e81deedda02cf0433af10))
