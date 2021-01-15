@@ -436,7 +436,7 @@ class TestTeacher(BaseTest):
 
         assert self.is_dashboard_page(page)
 
-        page = page.go_to_resources_page().go_to_materials_page()
+        page = page.go_to_rapid_router_resources_page().go_to_materials_page()
 
         assert self.is_materials_page(page)
 
@@ -444,9 +444,9 @@ class TestTeacher(BaseTest):
 
         assert self.is_pdf_viewer_page(page)
 
-        page = page.click_resources_button_link().go_to_materials_page()
+        page = page.go_to_kurono_resources_page().go_to_kurono_packs_page()
 
-        assert self.is_materials_page(page)
+        assert self.is_kurono_packs_page(page)
 
     def test_edit_details(self):
         email, password = signup_teacher_directly()
@@ -579,6 +579,9 @@ class TestTeacher(BaseTest):
 
     def is_materials_page(self, page):
         return page.__class__.__name__ == "MaterialsPage"
+
+    def is_kurono_packs_page(self, page):
+        return page.__class__.__name__ == "KuronoPacksPage"
 
     def is_pdf_viewer_page(self, page):
         return page.__class__.__name__ == "PDFViewerPage"

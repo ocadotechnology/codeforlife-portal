@@ -113,6 +113,10 @@
   background-image: url('../img/kurono_teaching_packs.svg');
 }
 
+.banner--picture--aimmo-resources {
+  background-image: url('../img/kurono_time_machine_hero.png');
+}
+
 .banner--homepage {
   height: calc(100vh - #{$menu-height});
   min-height: 768px;

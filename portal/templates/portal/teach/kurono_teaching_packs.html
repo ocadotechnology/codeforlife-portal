@@ -6,7 +6,7 @@
 {% load cache %}
 
 {% block materials %}
-<a href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+<a class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
 {% endblock materials %}
 
 {% block css %}
@@ -43,6 +43,8 @@
 {{ block.super }}
 
 {% cache 3600 fragment-aimmo-materials-page %}
+
+<div id="kurono_packs_page"></div>
 
 <div class="hidden-xs">
     <div class="background col-sm-8 col-center">

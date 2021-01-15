@@ -43,6 +43,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 
 FADE_TIME = 0.16
 
@@ -112,9 +113,22 @@ class BasePage(object):
     def on_correct_page(self, pageName):
         return self.element_exists_by_id(pageName)
 
-    def go_to_resources_page(self):
-        self.browser.find_element_by_id("resources_button").click()
-        return ResourcesPage(self.browser)
+    def hover_over_resources_dropdown(self):
+        resources_dropdown = self.browser.find_element_by_id(
+            "teaching_resources_button"
+        )
+        hover = ActionChains(self.browser).move_to_element(resources_dropdown)
+        hover.perform()
+
+    def go_to_rapid_router_resources_page(self):
+        self.hover_over_resources_dropdown()
+        self.browser.find_element_by_id("rapid_router_resources_button").click()
+        return RapidRouterResourcesPage(self.browser)
+
+    def go_to_kurono_resources_page(self):
+        self.hover_over_resources_dropdown()
+        self.browser.find_element_by_id("kurono_resources_button").click()
+        return KuronoResourcesPage(self.browser)
 
     def go_to_aimmo_home_page(self):
         self.browser.find_element_by_id("aimmo_home_button").click()
@@ -154,5 +168,6 @@ class BasePage(object):
         return self
 
 
-from .resources_page import ResourcesPage
+from .rapid_router_resources_page import RapidRouterResourcesPage
+from .kurono_resources_page import KuronoResourcesPage
 from . import aimmo_home_page
