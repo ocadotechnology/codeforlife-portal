@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from aimmo.templatetags.players_utils import get_user_playable_games
+from aimmo.models import Worksheet
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django import template
@@ -89,6 +90,14 @@ def games_table(context, base_url):
         and user.userprofile.student.class_field != None
     ):
         playable_games["can_delete_game"] = False
+
+    complete_worksheets = [
+        worksheet
+        for worksheet in Worksheet.objects.all()
+        if worksheet.thumbnail_text != "Coming Soon"
+    ]
+
+    playable_games["worksheets"] = complete_worksheets
 
     return playable_games
 

@@ -31,7 +31,15 @@
                 </td>
                 <td>
                     <div class="games-table__cell">
-                        <p><small>{{ game.worksheet.name }}</small></p>
+{#                        <p><small>{{ game.worksheet.name }}</small></p>#}
+                        <form method="post">
+                        {% csrf_token %}
+                            <select name="worksheets">
+                                {% for worksheet in worksheets %}
+                                    <option value="{{ worksheet.name }}">{{ worksheet.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
                     </div>
                 </td>
                 <td>
