@@ -15,6 +15,24 @@
     @include _margin(0px, 16px, 0px, 16px);
   }
 
+  .dropdown {
+    .button--regular,
+    .button--regular:hover,
+    .button--regular:focus,
+    .button--regular:visited {
+      border: 0;
+      margin: 0;
+    }
+  }
+
+  .dropdown-menu {
+    width: 100%;
+
+    .dropdown-menu__option .button--regular {
+      color: $color-text-tertiary;
+    }
+  }
+
   form {
     padding: 0;
 
@@ -113,8 +131,16 @@
 }
 
 .sub-nav__content {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+
   .button-group {
     padding: 0;
+  }
+
+  p {
+    width: 65%;
   }
 }
 
@@ -147,19 +173,6 @@
   }
 }
 
-
-@media (min-width: $tablet-small-min-width) {
-  .sub-nav__content {
-    align-items: center;
-    display: flex;
-    justify-content: space-evenly;
-
-    p {
-      width: 65%;
-    }
-  }
-}
-
 @media (max-width: $mobile-max-width) {
   .sub-nav {
     @include _padding(20px, 20px, 20px, 20px);
@@ -172,7 +185,7 @@
 
   .sub-nav__content {
     p {
-      display: none;
+      padding-left: 0;
     }
   }
 }

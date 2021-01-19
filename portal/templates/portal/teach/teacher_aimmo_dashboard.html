@@ -53,6 +53,29 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
         </div>
     </div>
 </div>
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+    <div class="col-sm-12 col-md-11 col-lg-9 sub-nav__content">
+        <p>Select a class from the dropdown menu to add a new game below</p>
+        <div id="add_class_dropdown" class="dropdown">
+            <button id="add_class_menu" class="button--regular button--secondary button--dropdown" data-toggle="dropdown" aria-expanded="false">
+                <div class="dropdown__text">Add class</div>
+            </button>
+            <ul class="dropdown-menu">
+                <!-- <li class="dropdown-menu__option">
+                    <a class="button--regular">
+                        <small class="dropdown-menu__option__text">Class 1</small></a>
+                </li> -->
+                {% for game_class in form.game_class.field.queryset %}
+                    <li class="dropdown-menu__option">
+                        <a class="btn button--regular {% if game_class.game %}disabled{% endif %}">
+                            <small class="dropdown-menu__option__text">{{ game_class.name }}</small>
+                        </a>
+                    </li> 
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock subNav %}
 
 {% block content %}

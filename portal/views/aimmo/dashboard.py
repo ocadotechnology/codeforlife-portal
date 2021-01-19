@@ -36,7 +36,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return super().form_valid(form)
 
     def form_invalid(self, form: AddGameForm):
-        messages.warning(self.request, ", ".join(form.errors.get("__all__", [])))
+        messages.warning(self.request, ", ".join(message for errors in form.errors.values() for message in errors))
         return super().form_invalid(form)
 
     def get_success_url(self):

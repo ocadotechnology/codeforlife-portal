@@ -37,59 +37,78 @@ identified as the original program.
 */
 
 $(document).ready(function () {
-    var game_name_input = $('#id_name');
-    var create_game_form = $('#create-game-form');
-    var join_game_section = $('#join_game');
-    var create_game_section = $('#create_game');
-    var create_game_button = $('#create_game_button');
-    var create_new_game_button = $('#create_new_game_button');
-    var back_button = $('#back_button');
+  var game_name_input = $("#id_name");
+  var game_class_select = $("#id_game_class");
+  var create_game_form = $("#create-game-form");
+  var join_game_section = $("#join_game");
+  var create_game_section = $("#create_game");
+  var create_game_button = $("#create_game_button");
+  var create_new_game_button = $("#create_new_game_button");
+  var back_button = $("#back_button");
+  var add_class_dropdown = $("#add_class_dropdown");
 
-    if (game_name_input.val()) {
-        showCreateGameForm();
-        game_name_input.val("");
-        showInputError("Sorry, a game with this name already exists...");
+  game_class_select.children("option").each(function () {
+    if ($(this).val() === "") {
+      return;
     }
-
-    create_new_game_button.click(function () {
-        showCreateGameForm();
+    let classId = $(this).val();
+    let className = $(this).text();
+    let classButton = $(`<a class="button--regular">
+                          <small class="dropdown-menu__option__text">${className}</small>
+                        </a>`);
+    classButton.click(function () {
+        game_class_select.val(classId);
+        create_game_form.submit();
     });
+    add_class_dropdown.children(".dropdown-menu").append(
+      $(`<li class="dropdown-menu__option" />`).append(classButton)
+    );
+  });
 
-    back_button.click(function () {
-        showJoinGameForm();
-    });
+  if (game_name_input.val()) {
+    showCreateGameForm();
+    game_name_input.val("");
+    showInputError("Sorry, a game with this name already exists...");
+  }
 
-    create_game_button.click(function () {
-        if (!game_name_input.val() || game_name_input.val() === "") {
-            showInputError("Give your new game a name...");
-        }
-        var exp = /^[\w- ]+$/;
-        if (!exp.test(game_name_input.val())) {
-            showInputError("Name cannot contain special characters.");
-        }
-        else {
-            create_game_form.submit();
-        }
-    });
+  create_new_game_button.click(function () {
+    showCreateGameForm();
+  });
 
-    game_name_input.click(function () {
-        game_name_input.attr("placeholder", "");
-        game_name_input.removeClass('input-invalid');
-    });
+  back_button.click(function () {
+    showJoinGameForm();
+  });
 
-    function showCreateGameForm() {
-        join_game_section.addClass("hidden");
-        create_game_section.removeClass("hidden");
+  create_game_button.click(function () {
+    if (!game_name_input.val() || game_name_input.val() === "") {
+      showInputError("Give your new game a name...");
     }
-
-    function showJoinGameForm() {
-        create_game_section.addClass("hidden");
-        join_game_section.removeClass("hidden");
+    var exp = /^[\w- ]+$/;
+    if (!exp.test(game_name_input.val())) {
+      showInputError("Name cannot contain special characters.");
+    } else {
+      create_game_form.submit();
     }
+  });
 
-    function showInputError(error_message) {
-        game_name_input.val("");
-        game_name_input.attr("placeholder", error_message);
-        game_name_input.addClass('input-invalid');
-    }
+  game_name_input.click(function () {
+    game_name_input.attr("placeholder", "");
+    game_name_input.removeClass("input-invalid");
+  });
+
+  function showCreateGameForm() {
+    join_game_section.addClass("hidden");
+    create_game_section.removeClass("hidden");
+  }
+
+  function showJoinGameForm() {
+    create_game_section.addClass("hidden");
+    join_game_section.removeClass("hidden");
+  }
+
+  function showInputError(error_message) {
+    game_name_input.val("");
+    game_name_input.attr("placeholder", error_message);
+    game_name_input.addClass("input-invalid");
+  }
 });
