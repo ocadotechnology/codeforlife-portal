@@ -91,13 +91,11 @@ def games_table(context, base_url):
     ):
         playable_games["can_delete_game"] = False
 
-    complete_worksheets = [
-        worksheet
-        for worksheet in Worksheet.objects.all()
-        if worksheet.thumbnail_text != "Coming Soon"
-    ]
+    complete_worksheets = Worksheet.objects.exclude(thumbnail_text="Coming Soon")
+    incomplete_worksheets = Worksheet.objects.filter(thumbnail_text="Coming Soon")
 
-    playable_games["worksheets"] = complete_worksheets
+    playable_games["complete_worksheets"] = complete_worksheets
+    playable_games["incomplete_worksheets"] = incomplete_worksheets
 
     return playable_games
 

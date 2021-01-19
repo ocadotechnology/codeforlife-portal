@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 {% block scripts %}
-<script type="text/javascript" src="{% static 'portal/js/delete_aimmo_game.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/aimmoGame.js' %}"></script>
 {% endblock scripts %}
 
 {% if open_play_games %}
@@ -31,15 +31,17 @@
                 </td>
                 <td>
                     <div class="games-table__cell">
-{#                        <p><small>{{ game.worksheet.name }}</small></p>#}
-                        <form method="post">
-                        {% csrf_token %}
-                            <select name="worksheets">
-                                {% for worksheet in worksheets %}
-                                    <option value="{{ worksheet.name }}">{{ worksheet.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </form>
+                        <select id="worksheets_dropdown" name="worksheets" onchange="changeWorksheetConfirmation('{{ game.id }}', '{{ game.game_class.name }}')">
+                            <option value="{{ game.worksheet.id }}">{{ game.worksheet.name }}</option>
+                            {% for worksheet in complete_worksheets %}
+                                {% if worksheet.name != game.worksheet.name %}
+                                    <option value="{{ worksheet.id }}">{{ worksheet.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            {% for worksheet in incomplete_worksheets %}
+                                <option value="{{ worksheet.id }}" disabled>{{ worksheet.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </td>
                 <td>
