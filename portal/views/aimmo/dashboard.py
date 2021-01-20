@@ -40,7 +40,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse_lazy("kurono/play", args=(self.object.id,))
+        return reverse_lazy("teacher_aimmo_dashboard")
 
 
 class StudentAimmoDashboard(
