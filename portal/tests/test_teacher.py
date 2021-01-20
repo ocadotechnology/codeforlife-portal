@@ -331,27 +331,23 @@ class TestTeachers(TestCase):
         c.login(username=email, password=password)
         game1_response = c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            {"name": "Test Game", "game_class": klass.pk},
         )
 
         assert game1_response.status_code == 302
-        assert len(klass.games_for_class.all()) == 1
+        assert hasattr(klass, "game")
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
         game2_response = c.post(
             reverse("teacher_aimmo_dashboard"),
-            {
-                "name": "Test Game",
-                "game_class": klass.pk,
-                "worksheet": worksheet.id,
-            },
+            {"name": "Test Game", "game_class": klass.pk},
         )
-        assert len(klass.games_for_class.all()) == 1
+        assert hasattr(klass, "game")
         messages = list(game2_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 1
         assert (
-            messages[0].message == "Game with this Class and Worksheet already exists."
+            messages[0].message == "Game with this Class already exists."
         )
 
 
