@@ -189,12 +189,21 @@ td {
 .games-table {
   table-layout: fixed;
   text-align: start;
+
+  select {
+    background-color: $color-background-secondary;
+    width: 100%;
+  }
 }
 
 .games-table__header {
 
   * {
     padding: auto;
+  }
+
+  .games-table__header--large {
+    width: 50%;
   }
 }
 

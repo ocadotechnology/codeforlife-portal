@@ -12,7 +12,7 @@
                 <th class="cell-left">
                     <p>Class</p>
                 </th>
-                <th class="cell-left">
+                <th class="cell-left games-table__header--large">
                     <p>Challenge</p>
                 </th>
                 <th class="cell-left">
@@ -32,14 +32,14 @@
                 <td>
                     <div class="games-table__cell">
                         <select id="worksheets_dropdown" name="worksheets" onchange="changeWorksheetConfirmation('{{ game.id }}', '{{ game.game_class.name }}')">
-                            <option value="{{ game.worksheet.id }}">{{ game.worksheet.name }}</option>
+                            <option value="{{ game.worksheet.id }}">{{ game.worksheet.id }} - {{ game.worksheet.name }}</option>
                             {% for worksheet in complete_worksheets %}
                                 {% if worksheet.name != game.worksheet.name %}
-                                    <option value="{{ worksheet.id }}">{{ worksheet.name }}</option>
+                                    <option value="{{ worksheet.id }}">{{ worksheet.id }} - {{ worksheet.name }}</option>
                                 {% endif %}
                             {% endfor %}
                             {% for worksheet in incomplete_worksheets %}
-                                <option value="{{ worksheet.id }}" disabled>{{ worksheet.name }}</option>
+                                <option value="{{ worksheet.id }}" disabled>{{ worksheet.id }} - {{ worksheet.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
