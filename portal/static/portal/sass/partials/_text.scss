@@ -95,7 +95,8 @@ a:focus {
   text-decoration: none;
 }
 
-p {
+p,
+div#ot-sdk-cookie-policy {
   @include _padding(10px, 0px, 10px, 0px);
   margin: 0;
 }
