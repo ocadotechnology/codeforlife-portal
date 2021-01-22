@@ -69,7 +69,8 @@ function deleteGame() {
 function changeWorksheetConfirmation(gameID, className) {
     let title = "Change Challenge"
     let text = "<div class='popup-text'><p>Please confirm that you would like to change the challenge for class: " +
-        "<strong class='popup__class-name'></strong>?</p></div>";
+        "<strong class='popup__class-name'></strong>. This will change the level for the students when they rejoin " +
+        "the game.</p></div>";
     let confirmHandler = "changeWorksheet()"
 
     showPopupConfirmation(title, text, confirmHandler);
