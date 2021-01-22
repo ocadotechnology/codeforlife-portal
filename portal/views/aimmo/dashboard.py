@@ -1,8 +1,7 @@
 from typing import Any, Dict, List, Optional
 
-from aimmo.forms import AddGameForm
-from aimmo.game_creator import create_game
 from aimmo.models import Game, Worksheet
+from common.models import Class
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
@@ -14,6 +13,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
 from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
+from portal.game_creator import create_game
+from portal.forms.add_game import AddGameForm
 
 
 class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, CreateView):
@@ -36,7 +37,10 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return super().form_valid(form)
 
     def form_invalid(self, form: AddGameForm):
-        messages.warning(self.request, ", ".join(message for errors in form.errors.values() for message in errors))
+        messages.warning(
+            self.request,
+            ", ".join(message for errors in form.errors.values() for message in errors),
+        )
         return super().form_invalid(form)
 
     def get_success_url(self):
