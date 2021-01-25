@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:64022d2d354cc573651938cedea8263ef160d3fc2bfcaada6638ab00fc2caea5",
-                "sha256:ba758b1870a0cd53da270ae4b714c57a07dade1d809c519c68cf6188e0db9b9c"
+                "sha256:b1eb331bc2a7ddd548021f2b337d1e03bd00a6105e1239fcda3c22bf25b0b301",
+                "sha256:f2dcaec4c34d3290f2051dc4c94b33cd7db7ce1142f55de0e732cfdbcab6d700"
             ],
-            "version": "==0.61.12"
+            "version": "==0.62.1"
         },
         "anyascii": {
             "hashes": [
@@ -727,11 +727,11 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:1969f797a1a0dbd8ccf0fecc80262312729afea9c17f1d70ebf85c5e76c6f7c8",
-                "sha256:66e419b1899bc27346cb2c993e12c5e5e8daba9073c1fbce33b9807abc95c306"
+                "sha256:9d1edf9e7d0b84d72ea3dbcdfd22b35fb543a5e8f2a60092dd578936bf63d7f9",
+                "sha256:b574b57423e818210672e07ca1fa90aaf194a4f63f3ab909a2c67ebb22913839"
             ],
             "index": "pypi",
-            "version": "==6.2.1"
+            "version": "==6.2.2"
         },
         "pytest-django": {
             "hashes": [
