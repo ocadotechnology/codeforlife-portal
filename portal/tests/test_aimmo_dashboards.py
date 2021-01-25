@@ -1,9 +1,17 @@
 import pytest
-from aimmo.models import Game
+from aimmo.models import Game, Worksheet
 from common.models import Class
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
 from django.urls.base import reverse
 
+from .base_test import BaseTest
 from .conftest import IndependentStudent, SchoolStudent
 
 
@@ -110,3 +118,28 @@ def test_student_aimmo_dashboard_loads(
     assert response.status_code == 200
     assert "HERO_CARD" not in response.context
     assert "CARD_LIST" not in response.context
+
+
+class TestAimmoDashboards(BaseTest):
+    def test_worksheet_drodpwon(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, class_name, access_code = create_class_directly(teacher_email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        worksheet1 = Worksheet.objects.get(id=1)
+        worksheet2 = Worksheet.objects.get(id=2)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            self.go_to_homepage().go_to_teacher_login_page().login(teacher_email, teacher_password)
+        )
+        page = page.go_to_kurono_teacher_dashboard_page().create_game(class_name, worksheet1.name)
+
+        game = Game.objects.get(game_class=klass)
+
+        assert game.worksheet == worksheet1
+
+        page = page.change_game_worksheet(1, worksheet2.name)
+
+        assert game.worksheet == worksheet2

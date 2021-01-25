@@ -36,31 +36,46 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from selenium.webdriver.support.ui import Select
+
 from .base_page import BasePage
 
 
-class AimmoHomePage(BasePage):
+class KuronoTeacherDashboardPage(BasePage):
     def __init__(self, browser):
-        super(AimmoHomePage, self).__init__(browser)
+        super(KuronoTeacherDashboardPage, self).__init__(browser)
 
-        assert self.on_correct_page("aimmo_home_page")
+        assert self.on_correct_page("kurono_teacher_dashboard_page")
 
-    def click_create_new_game_button(self):
-        self.browser.find_element_by_id("create_new_game_button").click()
+    def create_game(self, class_name, worksheet_name):
+        self._click_create_new_game_button()
 
-    def click_create_game_button(self):
-        self.browser.find_element_by_id("create_game_button").click()
+        Select(self.browser.find_element_by_id("id_game_class")).select_by_value(
+            class_name
+        )
 
-    def click_delete_game_button(self):
-        self.browser.find_element_by_link_text("Delete").click()
+        Select(self.browser.find_element_by_id("id_worksheet")).select_by_value(
+            worksheet_name
+        )
+
+        self._click_create_game_button()
+
+        return self
+
+    def change_game_worksheet(self, game_id, worksheet_name):
+        Select(self.browser.find_element_by_id("worksheets_dropdown")).select_by_value(
+            worksheet_name
+        )
+
+        self._click_change_worksheet_confirm_button()
+
+        return self
+
+    def _click_change_worksheet_confirm_button(self):
         self.browser.find_element_by_id("confirm_button").click()
 
-    def click_play_game_button(self):
-        self.browser.find_element_by_link_text("Play").click()
+    def _click_create_new_game_button(self):
+        self.browser.find_element_by_id("create_new_game_button").click()
 
-    def input_new_game_name(self, new_game_name):
-        self.browser.find_element_by_id("id_name").clear()
-        self.browser.find_element_by_id("id_name").send_keys(new_game_name)
-
-    def get_input_game_name_placeholder(self):
-        return self.browser.find_element_by_id("id_name").get_attribute("placeholder")
+    def _click_create_game_button(self):
+        self.browser.find_element_by_id("create_game_button").click()

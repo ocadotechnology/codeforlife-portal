@@ -130,9 +130,9 @@ class BasePage(object):
         self.browser.find_element_by_id("kurono_resources_button").click()
         return KuronoResourcesPage(self.browser)
 
-    def go_to_aimmo_home_page(self):
-        self.browser.find_element_by_id("aimmo_home_button").click()
-        return aimmo_home_page.AimmoHomePage(self.browser)
+    def go_to_kurono_teacher_dashboard_page(self):
+        self.browser.find_element_by_id("teacher_kurono_dashboard_button").click()
+        return KuronoTeacherDashboardPage(self.browser)
 
     def is_on_admin_login_page(self):
         return self.on_correct_page("administration_login")
@@ -170,4 +170,4 @@ class BasePage(object):
 
 from .rapid_router_resources_page import RapidRouterResourcesPage
 from .kurono_resources_page import KuronoResourcesPage
-from . import aimmo_home_page
+from .kurono_teacher_dashboard_page import KuronoTeacherDashboardPage
