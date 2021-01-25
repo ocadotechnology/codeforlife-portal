@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.18.0 (2021-01-25)
+### Feature
+* Add game dropdown ([#1339](https://github.com/ocadotechnology/codeforlife-portal/issues/1339)) ([`2c0f915`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c0f91573af847f7e7f25f1275a41e855d0e769d))
+
 ## v4.17.0 (2021-01-15)
 ### Feature
 * Kurono resources page ([#1337](https://github.com/ocadotechnology/codeforlife-portal/issues/1337)) ([`df12f76`](https://github.com/ocadotechnology/codeforlife-portal/commit/df12f764e164fdbfcaaea64d4dbdae10733c02d1))
