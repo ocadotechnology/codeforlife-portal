@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.18.1 (2021-01-25)
+### Fix
+* Cleanup add game dropdown ([#1341](https://github.com/ocadotechnology/codeforlife-portal/issues/1341)) ([`5768b60`](https://github.com/ocadotechnology/codeforlife-portal/commit/5768b606cea605b89b4bd9c61b875a88bc890f09))
+
 ## v4.18.0 (2021-01-25)
 ### Feature
 * Add game dropdown ([#1339](https://github.com/ocadotechnology/codeforlife-portal/issues/1339)) ([`2c0f915`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c0f91573af847f7e7f25f1275a41e855d0e769d))
