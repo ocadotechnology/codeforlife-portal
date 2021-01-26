@@ -95,7 +95,7 @@ function changeWorksheet() {
     $.ajax({
         url: '/kurono/api/code/' + gameID + '/',
         type: 'POST',
-        data: { "code": worksheetStarterCode },
+        data: { "code": worksheetStarterCode, "starter_code": worksheetStarterCode },
         headers: {
             "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
         }
