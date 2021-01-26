@@ -29,7 +29,7 @@
     .button--regular:focus,
     .button--regular:visited {
       @include _line-height($spacing * 5);
-      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
+      @include _padding($spacing * 2, 0px, $spacing * 2, $spacing * 3);
       align-items: center;
       border-bottom: 1px solid $color-button-secondary-border-light;
       color: $color-text-secondary;
