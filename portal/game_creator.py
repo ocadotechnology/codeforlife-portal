@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,4 +35,25 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-__version__ = "4.18.1"
+from aimmo.avatar_creator import create_avatar_for_user
+
+
+def create_game(main_user, form):
+    """
+    Creates a Game by:
+    - saving the form
+    - setting default values
+    - adding users who can play the game
+    - creating an avatar for the main user.
+    :param main_user: The user who requested game creation, and is the game owner.
+    :param form: The form used to submit the creation of the game.
+    :param users_to_add_to_game: List of User objects who are able to play this game.
+    :return: The initialised Game object.
+    """
+    game = form.save(commit=False)
+    game.generator = "Main"
+    game.owner = main_user
+    game.main_user = main_user
+    game.save()
+    create_avatar_for_user(main_user, game.id)
+    return game
