@@ -32,10 +32,10 @@
                 <td>
                     <div class="games-table__cell">
                         <div class="dropdown">
-                            <button class="button--regular button--secondary button--dropdown" data-toggle="dropdown" aria-expanded="false">
+                            <button id="worksheets_dropdown" class="button--regular button--secondary button--dropdown" data-toggle="dropdown" aria-expanded="false">
                                 <div class="dropdown__text">{{ game.worksheet.id }} - {{ game.worksheet.name }}</div>
                             </button>
-                            <ul id="add-class-dropdown-menu" class="dropdown-menu">
+                            <ul id="worksheets_dropdown_menu" class="dropdown-menu">
                                 {% for worksheet in complete_worksheets %}
                                     <li class="dropdown-menu__option">
                                         {% if worksheet.name == game.worksheet.name %}
@@ -44,7 +44,8 @@
                                                 <div class="glyphicon glyphicon-ok"></div>
                                             </a>
                                         {% else %}
-                                            <a class="btn button--regular" data-class-id="" onclick=''>
+                                            <a class="btn button--regular"
+                                               onclick="changeWorksheetConfirmation('{{ game.id }}', '{{ game.game_class.name }}', '{{ worksheet.id }}')">
                                                 <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
                                             </a>
                                         {% endif %}
@@ -59,17 +60,6 @@
                                 {% endfor %}
                             </ul>
                         </div>
-{#                        <select id="worksheets_dropdown" name="worksheets" onchange="changeWorksheetConfirmation('{{ game.id }}', '{{ game.game_class.name }}')">#}
-{#                            <option value="{{ game.worksheet.id }}">{{ game.worksheet.id }} - {{ game.worksheet.name }}</option>#}
-{#                            {% for worksheet in complete_worksheets %}#}
-{#                                {% if worksheet.name != game.worksheet.name %}#}
-{#                                    <option value="{{ worksheet.id }}">{{ worksheet.id }} - {{ worksheet.name }}</option>#}
-{#                                {% endif %}#}
-{#                            {% endfor %}#}
-{#                            {% for worksheet in incomplete_worksheets %}#}
-{#                                <option value="{{ worksheet.id }}" disabled>{{ worksheet.id }} - {{ worksheet.name }}</option>#}
-{#                            {% endfor %}#}
-{#                        </select>#}
                     </div>
                 </td>
                 <td>
