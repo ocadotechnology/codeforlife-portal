@@ -257,6 +257,10 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
+
+    img {
+      width: 123 * $spacing;
+    }
   }
 
   .button-group {
