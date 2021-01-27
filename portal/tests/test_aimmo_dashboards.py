@@ -12,6 +12,7 @@ from django.urls.base import reverse
 
 from .base_test import BaseTest
 from .conftest import IndependentStudent, SchoolStudent
+from .utils.worksheets import create_worksheet_directly
 
 
 @pytest.mark.django_db
@@ -126,12 +127,8 @@ class TestAimmoDashboards(BaseTest):
         klass, class_name, access_code = create_class_directly(teacher_email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        worksheets = Worksheet.objects.all()
-        print(worksheets)
-        print(len(worksheets))
-
-        worksheet1 = Worksheet.objects.get(id=1)
-        worksheet2 = Worksheet.objects.get(id=2)
+        worksheet1 = create_worksheet_directly(1)
+        worksheet2 = create_worksheet_directly(2)
 
         self.selenium.get(self.live_server_url)
         page = (

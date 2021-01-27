@@ -14,7 +14,7 @@ def generate_details():
 generate_details.next_id = 1
 
 
-def create_worksheet_directly() -> Worksheet:
+def create_worksheet_directly(id=None) -> Worksheet:
     """Generate a Worksheet.
 
     Returns:
@@ -22,6 +22,13 @@ def create_worksheet_directly() -> Worksheet:
     """
     name, era, starter_code = generate_details()
 
-    worksheet = Worksheet.objects.create(name=name, era=era, starter_code=starter_code)
+    if id:
+        worksheet = Worksheet.objects.create(
+            id=id, name=name, era=era, starter_code=starter_code
+        )
+    else:
+        worksheet = Worksheet.objects.create(
+            name=name, era=era, starter_code=starter_code
+        )
 
     return worksheet
