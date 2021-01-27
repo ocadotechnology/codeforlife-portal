@@ -36,6 +36,8 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+import time
+
 from .base_page import BasePage
 
 
@@ -58,6 +60,8 @@ class KuronoTeacherDashboardPage(BasePage):
         self.browser.find_element_by_id(f"worksheet_{worksheet_id}").click()
 
         self._click_change_worksheet_confirm_button()
+
+        time.sleep(1)
 
         return self
 
