@@ -126,6 +126,10 @@ class TestAimmoDashboards(BaseTest):
         klass, class_name, access_code = create_class_directly(teacher_email)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
+        worksheets = Worksheet.objects.all()
+        print(worksheets)
+        print(len(worksheets))
+
         worksheet1 = Worksheet.objects.get(id=1)
         worksheet2 = Worksheet.objects.get(id=2)
 
