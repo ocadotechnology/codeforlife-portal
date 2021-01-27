@@ -44,7 +44,7 @@
                                                 <div class="glyphicon glyphicon-ok"></div>
                                             </a>
                                         {% else %}
-                                            <a class="btn button--regular"
+                                            <a class="btn button--regular" id="worksheet_{{ worksheet.id }}"
                                                onclick='changeWorksheetConfirmation("{{ game.id }}",
                                                        "{{ game.game_class.name }}",
                                                        "{{ worksheet.id }}")'>
