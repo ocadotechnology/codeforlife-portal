@@ -70,15 +70,11 @@
                     <div class="games-table__buttons">
                         <a class="button btn-block button--regular button--primary--general-play"
                             href="{% url base_url id=game.id %}">Play</a>
-                        <!-- {% if can_delete_game %}
-                        <a class="button button--small button--primary--danger"
-                            onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
-                        {% endif %} -->
                     </div>
                 </td>
                 {% if can_delete_game %}
                 <td class="cell-center">
-                    <input type="checkbox" class="student" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
+                    <input type="checkbox" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
                 </td>
                 {% endif %}
             </tr>
