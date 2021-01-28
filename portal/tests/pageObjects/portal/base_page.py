@@ -166,6 +166,7 @@ class BasePage(object):
 
     def confirm_dialog(self):
         self.browser.find_element_by_id("confirm_button").click()
+        time.sleep(FADE_TIME)
         return self
 
     def cancel_dialog(self):

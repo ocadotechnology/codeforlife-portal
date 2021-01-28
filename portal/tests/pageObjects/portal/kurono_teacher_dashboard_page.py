@@ -59,9 +59,7 @@ class KuronoTeacherDashboardPage(BasePage):
 
         self.browser.find_element_by_id(f"worksheet_{worksheet_id}").click()
 
-        self._click_change_worksheet_confirm_button()
-
-        time.sleep(1)
+        self.confirm_dialog()
 
         return self
 
