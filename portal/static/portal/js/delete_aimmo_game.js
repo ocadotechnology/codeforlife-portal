@@ -39,28 +39,71 @@ identified as the original program.
 /* global showPopupConfirmation */
 /* global hidePopupConfirmation */
 
-function clickDeleteGame(game_id, game_name) {
-    var title = "Delete Game";
-    var text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
-        "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
-    var confirm_handler = "deleteGame()";
+let gameID;
 
-    showPopupConfirmation(title, text, confirm_handler);
-    var popup = $(".popup-wrapper");
-    popup.attr("data-game-id", game_id);
-    $(".popup__game-name").text(game_name);
+function clickDeleteGames() {
+  let selectedGameIds = [];
+  let selectedClasses = [];
+  $("input[name='game_ids']:checked").each(function () {
+    selectedGameIds.push($(this).val());
+    selectedClasses.push($(this).data("className"));
+  });
+
+  if (!selectedGameIds.length) {
+    return;
+  }
+
+  let title = "Delete class games";
+  let text = `
+    <div class='popup-text'>
+      <p>
+        Are you sure that you want to delete the class games for: ${selectedClasses
+          // .map((name) => `<strong>${name}</strong>`)
+          .join(", ")}?
+      </p>
+      <p>This action will permanently delete any class progress that class has made.</p>
+    </div>`;
+  let confirm_handler = "";
+
+  showPopupConfirmation(title, text, confirm_handler);
+}
+
+function deleteGames(gameIds) {
+  // $.post(`/kurono/api/games/delete_games`, { "game_ids[]": gameIds });
+  // $.ajax({
+  //   url: "/kurono/api/games/" + game_id + "/",
+  //   type: "DELETE",
+  //   data: { _method: "delete" },
+  //   headers: {
+  //     "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+  //   },
+  // });
+  // hidePopupConfirmation();
+}
+
+function clickDeleteGame(game_id, game_name) {
+  var title = "Delete Game";
+  var text =
+    "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
+    "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
+  var confirm_handler = "deleteGame()";
+
+  showPopupConfirmation(title, text, confirm_handler);
+  var popup = $(".popup-wrapper");
+  popup.attr("data-game-id", game_id);
+  $(".popup__game-name").text(game_name);
 }
 
 function deleteGame() {
-    var game_id = $("#popup").attr("data-game-id");
-    $.ajax({
-        url: '/kurono/api/games/' + game_id + '/',
-        type: 'DELETE',
-        data: { _method: 'delete' },
-        headers: {
-            "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
-        }
-    })
-    hidePopupConfirmation();
-    document.location.reload(true);
+  var game_id = $("#popup").attr("data-game-id");
+  $.ajax({
+    url: "/kurono/api/games/" + game_id + "/",
+    type: "DELETE",
+    data: { _method: "delete" },
+    headers: {
+      "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+    },
+  });
+  hidePopupConfirmation();
+  document.location.reload(true);
 }

@@ -15,12 +15,14 @@
                 <th class="cell-left">
                     <p>Challenge</p>
                 </th>
-                <th class="cell-left">
-                    <p>Status</p>
-                </th>
-                <th class="cell-left">
+                <th class="cell-center">
                     <p>Action</p>
                 </th>
+                {% if can_delete_game %}
+                <th class="cell-center">
+                    <p>Select</p>
+                </th>
+                {% endif %}
             </tr>
             {% for game in open_play_games %}
             <tr>
@@ -35,31 +37,36 @@
                     </div>
                 </td>
                 <td>
-                    <div class="games-table__cell">
-                        {% if game.status == 'r' %}
-                        <div class="status-indicator status-indicator--game status-indicator--on"></div>
-                        <small>Running</small>
-                        {% elif game.status == 's' %}
-                        <div class="status-indicator status-indicator--game status-indicator--off"></div>
-                        <small>Stopped</small>
-                        {% elif game.status == 'p' %}
-                        <div class="status-indicator status-indicator--game status-indicator--standby"></div>
-                        <small>Paused</small>
-                        {% endif %}
-                    </div>
-                </td>
-                <td>
                     <div class="games-table__buttons">
-                        <a class="button button--small button--primary--navigation"
+                        <a class="button btn-block button--regular button--primary--general-play"
                             href="{% url base_url id=game.id %}">Play</a>
-                        {% if can_delete_game %}
+                        <!-- {% if can_delete_game %}
                         <a class="button button--small button--primary--danger"
                             onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
-                        {% endif %}
+                        {% endif %} -->
+                    </div>
+                </td>
+                {% if can_delete_game %}
+                <td class="cell-center">
+                    <input type="checkbox" class="student" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% if can_delete_game %}
+            <tr>
+                <td colspan="3" class="no-bg"></td>
+                <td class="no-bg">
+                    <div class="button-group button-group__icon">
+                        <a class="button btn-block button--regular button--primary--navigation"
+                            onclick="clickDeleteGames()">
+                                Delete
+                                <div class="glyphicon glyphicon-trash"></div>
+                            </a>
                     </div>
                 </td>
             </tr>
-            {% endfor %}
+            {% endif %}
         </table>
     </div>
 {% else %}
