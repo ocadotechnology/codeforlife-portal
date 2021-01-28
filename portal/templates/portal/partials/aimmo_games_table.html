@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 {% block scripts %}
-<script type="text/javascript" src="{% static 'portal/js/delete_aimmo_game.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/aimmoGame.js' %}"></script>
 {% endblock scripts %}
 
 {% if open_play_games %}
@@ -12,7 +12,7 @@
                 <th class="cell-left">
                     <p>Class</p>
                 </th>
-                <th class="cell-left">
+                <th class="cell-left col-xs-6">
                     <p>Challenge</p>
                 </th>
                 <th class="cell-left">
@@ -31,7 +31,37 @@
                 </td>
                 <td>
                     <div class="games-table__cell">
-                        <p><small>{{ game.worksheet.name }}</small></p>
+                        <div class="dropdown">
+                            <button id="worksheets_dropdown" class="button--regular button--secondary button--dropdown" data-toggle="dropdown" aria-expanded="false">
+                                <div class="dropdown__text">{{ game.worksheet.id }} - {{ game.worksheet.name }}</div>
+                            </button>
+                            <ul id="worksheets_dropdown_menu" class="dropdown-menu">
+                                {% for worksheet in complete_worksheets %}
+                                    <li class="dropdown-menu__option">
+                                        {% if worksheet.name == game.worksheet.name %}
+                                            <a class="btn button--regular disabled">
+                                                <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
+                                                <div class="glyphicon glyphicon-ok"></div>
+                                            </a>
+                                        {% else %}
+                                            <a class="btn button--regular" id="worksheet_{{ worksheet.id }}"
+                                               onclick="changeWorksheetConfirmation('{{ game.id|escapejs }}',
+                                                       '{{ game.game_class.name|escapejs }}',
+                                                       '{{ worksheet.id|escapejs }}')">
+                                                <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                                {% for worksheet in incomplete_worksheets %}
+                                    <li class="dropdown-menu__option">
+                                        <a class="btn button--regular disabled">
+                                            <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </td>
                 <td>

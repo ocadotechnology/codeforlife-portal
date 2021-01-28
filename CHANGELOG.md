@@ -2,6 +2,27 @@
 
 <!--next-version-placeholder-->
 
+## v4.19.0 (2021-01-28)
+### Feature
+* Add challenge dropdown to Kurono Dashboard ([#1343](https://github.com/ocadotechnology/codeforlife-portal/issues/1343)) ([`4e0a2f1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4e0a2f1d9546842c122ab525013bde8404208520))
+
+## v4.18.2 (2021-01-28)
+### Fix
+* Static version for python-semantic-release ([#1345](https://github.com/ocadotechnology/codeforlife-portal/issues/1345)) ([`afdc029`](https://github.com/ocadotechnology/codeforlife-portal/commit/afdc02985b4d20358b087741b6cf90c7c84156ce))
+* Update resources section of Kurono dashboard ([#1344](https://github.com/ocadotechnology/codeforlife-portal/issues/1344)) ([`4b699b8`](https://github.com/ocadotechnology/codeforlife-portal/commit/4b699b8bd1a369e40d8ca6e7fb28b1ba4a2ead0a))
+
+## v4.18.1 (2021-01-25)
+### Fix
+* Cleanup add game dropdown ([#1341](https://github.com/ocadotechnology/codeforlife-portal/issues/1341)) ([`5768b60`](https://github.com/ocadotechnology/codeforlife-portal/commit/5768b606cea605b89b4bd9c61b875a88bc890f09))
+
+## v4.18.0 (2021-01-25)
+### Feature
+* Add game dropdown ([#1339](https://github.com/ocadotechnology/codeforlife-portal/issues/1339)) ([`2c0f915`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c0f91573af847f7e7f25f1275a41e855d0e769d))
+
+## v4.17.0 (2021-01-15)
+### Feature
+* Kurono resources page ([#1337](https://github.com/ocadotechnology/codeforlife-portal/issues/1337)) ([`df12f76`](https://github.com/ocadotechnology/codeforlife-portal/commit/df12f764e164fdbfcaaea64d4dbdae10733c02d1))
+
 ## v4.16.1 (2021-01-13)
 ### Fix
 * Update Kurono zip link ([#1336](https://github.com/ocadotechnology/codeforlife-portal/issues/1336)) ([`fd5f6ec`](https://github.com/ocadotechnology/codeforlife-portal/commit/fd5f6ec5b62d887dd48e81deedda02cf0433af10))

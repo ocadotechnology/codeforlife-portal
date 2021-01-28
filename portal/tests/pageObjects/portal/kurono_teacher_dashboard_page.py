@@ -34,5 +34,40 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 
-__version__ = "4.19.0"
+import time
+
+from .base_page import BasePage
+
+
+class KuronoTeacherDashboardPage(BasePage):
+    def __init__(self, browser):
+        super(KuronoTeacherDashboardPage, self).__init__(browser)
+
+        assert self.on_correct_page("kurono_teacher_dashboard_page")
+
+    def create_game(self, class_id):
+        self._click_add_game_dropdown()
+
+        self.browser.find_element_by_id(f"class_{class_id}").click()
+
+        return self
+
+    def change_game_worksheet(self, worksheet_id):
+        self._click_change_worksheet_dropdown()
+
+        self.browser.find_element_by_id(f"worksheet_{worksheet_id}").click()
+
+        self.confirm_dialog()
+
+        return self
+
+    def _click_change_worksheet_confirm_button(self):
+        self.browser.find_element_by_id("confirm_button").click()
+
+    def _click_add_game_dropdown(self):
+        self.browser.find_element_by_id("add_class_dropdown").click()
+
+    def _click_change_worksheet_dropdown(self):
+        self.browser.find_element_by_id("worksheets_dropdown").click()

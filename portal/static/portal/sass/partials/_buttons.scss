@@ -304,7 +304,7 @@ button,
 
     .glyphicon {
       @include _font-size(25px);
-      @include _padding(0px, 0px, 0px, $spacing);
+      @include _padding(0px, 0px, 0px, $spacing * 2);
     }
   }
 }
@@ -331,6 +331,36 @@ button,
 
 .button--login {
   margin-top: $spacing * 3;
+}
+
+.games-table__cell {
+  .dropdown {
+    width: 100%;
+  }
+
+  .button--dropdown {
+    border: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+
+    .dropdown-menu__option {
+      .button--regular {
+        color: $color-text-tertiary;
+      }
+
+      .button--regular:hover {
+        background: $color-background-teach;
+
+        .dropdown-menu__option__text {
+          color: $color-text-secondary;
+        }
+      }
+    }
+  }
 }
 
 @media (min-width: $tablet-small-min-width) {
@@ -443,5 +473,9 @@ button,
 
   .button--menu__item__sub {
     padding-left: $spacing * 6;
+  }
+
+  .button--menu__item__sub__sub {
+    padding-left: $spacing * 10;
   }
 }

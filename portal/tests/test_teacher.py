@@ -91,7 +91,7 @@ class TestTeachers(TestCase):
         )
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            {"game_class": klass.id},
         )
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
@@ -135,7 +135,7 @@ class TestTeachers(TestCase):
         )
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            {"game_class": klass.pk},
         )
         c.post(
             reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
@@ -179,7 +179,7 @@ class TestTeachers(TestCase):
         c.login(username=email1, password=password1)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
+            {"game_class": klass1.pk},
         )
         c.logout()
 
@@ -187,7 +187,7 @@ class TestTeachers(TestCase):
         c.login(username=email2, password=password2)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
+            {"game_class": klass2.pk},
         )
         c.logout()
 
@@ -266,14 +266,14 @@ class TestTeachers(TestCase):
         c.login(username=email2, password=password2)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 2", "game_class": klass2.pk, "worksheet": worksheet.id},
+            {"game_class": klass2.pk},
         )
         c.logout()
 
         c.login(username=email1, password=password1)
         c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Game 1", "game_class": klass1.pk, "worksheet": worksheet.id},
+            {"game_class": klass1.pk},
         )
 
         game1 = Game.objects.get(owner=teacher1.new_user)
@@ -331,28 +331,22 @@ class TestTeachers(TestCase):
         c.login(username=email, password=password)
         game1_response = c.post(
             reverse("teacher_aimmo_dashboard"),
-            {"name": "Test Game", "game_class": klass.pk, "worksheet": worksheet.id},
+            {"game_class": klass.pk},
         )
 
         assert game1_response.status_code == 302
-        assert len(klass.games_for_class.all()) == 1
+        assert hasattr(klass, "game")
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
         game2_response = c.post(
             reverse("teacher_aimmo_dashboard"),
-            {
-                "name": "Test Game",
-                "game_class": klass.pk,
-                "worksheet": worksheet.id,
-            },
+            {"game_class": klass.pk},
         )
-        assert len(klass.games_for_class.all()) == 1
+        assert hasattr(klass, "game")
         messages = list(game2_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 1
-        assert (
-            messages[0].message == "Game with this Class and Worksheet already exists."
-        )
+        assert messages[0].message == "Game with this Class already exists."
 
 
 class TestTeacher(BaseTest):
@@ -436,7 +430,7 @@ class TestTeacher(BaseTest):
 
         assert self.is_dashboard_page(page)
 
-        page = page.go_to_resources_page().go_to_materials_page()
+        page = page.go_to_rapid_router_resources_page().go_to_materials_page()
 
         assert self.is_materials_page(page)
 
@@ -444,9 +438,9 @@ class TestTeacher(BaseTest):
 
         assert self.is_pdf_viewer_page(page)
 
-        page = page.click_resources_button_link().go_to_materials_page()
+        page = page.go_to_kurono_resources_page().go_to_kurono_packs_page()
 
-        assert self.is_materials_page(page)
+        assert self.is_kurono_packs_page(page)
 
     def test_edit_details(self):
         email, password = signup_teacher_directly()
@@ -579,6 +573,9 @@ class TestTeacher(BaseTest):
 
     def is_materials_page(self, page):
         return page.__class__.__name__ == "MaterialsPage"
+
+    def is_kurono_packs_page(self, page):
+        return page.__class__.__name__ == "KuronoPacksPage"
 
     def is_pdf_viewer_page(self, page):
         return page.__class__.__name__ == "PDFViewerPage"

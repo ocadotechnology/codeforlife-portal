@@ -36,16 +36,11 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-from . import materials_page
 from .base_page import BasePage
 
 
-class ResourcesPage(BasePage):
+class KuronoPacksPage(BasePage):
     def __init__(self, browser):
-        super(ResourcesPage, self).__init__(browser)
+        super(KuronoPacksPage, self).__init__(browser)
 
-        assert self.on_correct_page("resources_page")
-
-    def go_to_materials_page(self):
-        self.browser.find_element_by_id("materials_button").click()
-        return materials_page.MaterialsPage(self.browser)
+        assert self.on_correct_page("kurono_packs_page")

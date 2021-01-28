@@ -32,7 +32,7 @@ $column--icon-width: 3%;
 .grid__fit {
   grid-template-columns: repeat(
     auto-fit,
-    minmax($card-minimum-width, max-content)
+    minmax($card-minimum-width, 1fr)
   );
 }
 
@@ -50,6 +50,10 @@ $column--icon-width: 3%;
 
   .card__text {
     @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
   }
 
   .card__images {
@@ -71,6 +75,10 @@ $column--icon-width: 3%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: fit-content;
+  }
+
+  .button {
+    min-width: 215px;
   }
 
   .button--big {
@@ -105,13 +113,11 @@ $column--icon-width: 3%;
   .card:last-child {
     display: flex;
     flex-direction: column;
+  }
 
-    .card__text {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
+  .card__image {
+    width: -webkit-fill-available;
+    width: -moz-available;
   }
 }
 

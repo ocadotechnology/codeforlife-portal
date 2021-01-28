@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,31 +36,16 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from . import kurono_packs_page
 from .base_page import BasePage
 
 
-class AimmoHomePage(BasePage):
+class KuronoResourcesPage(BasePage):
     def __init__(self, browser):
-        super(AimmoHomePage, self).__init__(browser)
+        super(KuronoResourcesPage, self).__init__(browser)
 
-        assert self.on_correct_page("aimmo_home_page")
+        assert self.on_correct_page("kurono_resources_page")
 
-    def click_create_new_game_button(self):
-        self.browser.find_element_by_id("create_new_game_button").click()
-
-    def click_create_game_button(self):
-        self.browser.find_element_by_id("create_game_button").click()
-
-    def click_delete_game_button(self):
-        self.browser.find_element_by_link_text("Delete").click()
-        self.browser.find_element_by_id("confirm_button").click()
-
-    def click_play_game_button(self):
-        self.browser.find_element_by_link_text("Play").click()
-
-    def input_new_game_name(self, new_game_name):
-        self.browser.find_element_by_id("id_name").clear()
-        self.browser.find_element_by_id("id_name").send_keys(new_game_name)
-
-    def get_input_game_name_placeholder(self):
-        return self.browser.find_element_by_id("id_name").get_attribute("placeholder")
+    def go_to_kurono_packs_page(self):
+        self.browser.find_element_by_id("kurono_packs_button").click()
+        return kurono_packs_page.KuronoPacksPage(self.browser)

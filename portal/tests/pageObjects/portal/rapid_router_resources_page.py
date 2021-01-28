@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2018, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,5 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from __future__ import absolute_import
 
-__version__ = "4.19.0"
+from . import materials_page
+from .base_page import BasePage
+
+
+class RapidRouterResourcesPage(BasePage):
+    def __init__(self, browser):
+        super(RapidRouterResourcesPage, self).__init__(browser)
+
+        assert self.on_correct_page("rapid_router_resources_page")
+
+    def go_to_materials_page(self):
+        self.browser.find_element_by_id("materials_button").click()
+        return materials_page.MaterialsPage(self.browser)
