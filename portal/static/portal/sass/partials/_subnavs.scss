@@ -28,8 +28,18 @@
   .dropdown-menu {
     width: 100%;
 
-    .dropdown-menu__option .button--regular {
-      color: $color-text-tertiary;
+    .dropdown-menu__option {
+      .button--regular {
+        color: $color-text-tertiary;
+      }
+
+      .button--regular:hover {
+        background: $color-background-teach;
+
+        .dropdown-menu__option__text {
+          color: $color-text-secondary;
+        }
+      }
     }
   }
 

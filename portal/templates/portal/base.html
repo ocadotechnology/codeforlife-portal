@@ -133,7 +133,8 @@
                             {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
                             {% block rapidrouter %}<a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
                             {% block aimmo %}
-                                <a href="{% url_for_aimmo_dashboard %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
+                                <a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button"
+                                   class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
                             {% endblock aimmo %}
                             <div class="dropdown">
                                 {% block materials %}<a id="teaching_resources_button"

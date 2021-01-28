@@ -81,29 +81,60 @@ function deleteGames(gameIds) {
   // hidePopupConfirmation();
 }
 
-function clickDeleteGame(game_id, game_name) {
-  var title = "Delete Game";
-  var text =
-    "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
-    "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
-  var confirm_handler = "deleteGame()";
+function clickDeleteGame(gameId, gameName) {
+  let title = "Delete Game";
+  let text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
+      "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
+  let confirmHandler = "deleteGame()";
 
-  showPopupConfirmation(title, text, confirm_handler);
-  var popup = $(".popup-wrapper");
-  popup.attr("data-game-id", game_id);
-  $(".popup__game-name").text(game_name);
+  showPopupConfirmation(title, text, confirmHandler);
+  let popup = $(".popup-wrapper");
+  popup.data("gameId", gameId);
+  $(".popup__game-name").text(gameName);
 }
 
 function deleteGame() {
-  var game_id = $("#popup").attr("data-game-id");
+  let gameId = $("#popup").data("gameId");
+
   $.ajax({
-    url: "/kurono/api/games/" + game_id + "/",
-    type: "DELETE",
-    data: { _method: "delete" },
-    headers: {
-      "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
-    },
-  });
-  hidePopupConfirmation();
-  document.location.reload(true);
+      url: '/kurono/api/games/' + gameId + '/',
+      type: 'DELETE',
+      data: { _method: 'delete' },
+      headers: {
+          "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
+      },
+      success: function(data)  {
+          hidePopupConfirmation();
+          document.location.reload(true);
+      }
+  })
+}
+
+function changeWorksheetConfirmation(gameID, className, worksheetID) {
+  let title = "Change Challenge"
+  let text = "<div class='popup-text'><p>Please confirm that you would like to change the challenge for class: " +
+      "<strong class='popup__class-name'></strong>. This will change the level for the students when they rejoin " +
+      "the game.</p></div>";
+  let confirmHandler = "changeWorksheet()"
+
+  showPopupConfirmation(title, text, confirmHandler);
+  let popup = $(".popup-wrapper");
+  popup.data("gameId", gameID);
+  popup.data("worksheetId", worksheetID);
+  $(".popup__class-name").text(className);
+}
+
+function changeWorksheet() {
+  let gameID = $("#popup").data("gameId");
+  let worksheetID = $("#popup").data("worksheetId");
+
+  $.ajax({
+      url: '/kurono/api/games/' + gameID + '/',
+      type: 'PUT',
+      data: { "worksheet_id": worksheetID },
+      success: function(data) {
+          hidePopupConfirmation();
+          document.location.reload(true);
+      }
+  })
 }
