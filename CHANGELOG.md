@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.19.0 (2021-01-28)
+### Feature
+* Add challenge dropdown to Kurono Dashboard ([#1343](https://github.com/ocadotechnology/codeforlife-portal/issues/1343)) ([`4e0a2f1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4e0a2f1d9546842c122ab525013bde8404208520))
+
 ## v4.18.2 (2021-01-28)
 ### Fix
 * Static version for python-semantic-release ([#1345](https://github.com/ocadotechnology/codeforlife-portal/issues/1345)) ([`afdc029`](https://github.com/ocadotechnology/codeforlife-portal/commit/afdc02985b4d20358b087741b6cf90c7c84156ce))
