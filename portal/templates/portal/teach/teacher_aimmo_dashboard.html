@@ -3,7 +3,7 @@
 {% load app_tags %}
 
 {% block aimmo %}
-<a href="{% url_for_aimmo_dashboard %}" id="aimmo_home_button" class="button--menu button--menu--secondary
+<a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button" class="button--menu button--menu--secondary
 button--menu--enabled button--menu--teacher--active">Kurono</a>
 {% endblock aimmo %}
 
@@ -38,7 +38,8 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
                 {% csrf_token %}
                 <input type="hidden" name="game_class" id="id_game_class">
             </form>
-            <button class="button--regular button--secondary button--dropdown" data-toggle="dropdown" aria-expanded="false">
+            <button class="button--regular button--secondary button--dropdown" data-toggle="dropdown"
+                    aria-expanded="false" id="add_class_dropdown">
                 <div class="dropdown__text">Add class</div>
             </button>
             <ul id="add-class-dropdown-menu" class="dropdown-menu">
@@ -47,7 +48,8 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
                         {% if game_class.game %}
                         <a class="btn button--regular disabled" data-class-id="{{ game_class.id }}">
                         {% else %}
-                        <a class="btn button--regular" data-class-id="{{ game_class.id }}" onclick='send_event("Kurono", "Clicked", "Create game button");'>
+                        <a class="btn button--regular" id="class_{{ game_class.id }}" data-class-id="{{ game_class.id }}"
+                           onclick='send_event("Kurono", "Clicked", "Create game button");'>
                         {% endif %}
                             <small class="dropdown-menu__option__text">{{ game_class.name }}</small>
                         </a>
@@ -66,7 +68,7 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
     {% games_table 'kurono/play' %}
 </section>
 
-<div id="aimmo_home_page"></div>
+<div id="kurono_teacher_dashboard_page"></div>
 <div class="background--quinary">
     <section class="background col-sm-8 col-center">
         <h3>Teaching resources</h3>

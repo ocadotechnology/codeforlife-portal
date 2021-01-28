@@ -36,31 +36,38 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+import time
+
 from .base_page import BasePage
 
 
-class AimmoHomePage(BasePage):
+class KuronoTeacherDashboardPage(BasePage):
     def __init__(self, browser):
-        super(AimmoHomePage, self).__init__(browser)
+        super(KuronoTeacherDashboardPage, self).__init__(browser)
 
-        assert self.on_correct_page("aimmo_home_page")
+        assert self.on_correct_page("kurono_teacher_dashboard_page")
 
-    def click_create_new_game_button(self):
-        self.browser.find_element_by_id("create_new_game_button").click()
+    def create_game(self, class_id):
+        self._click_add_game_dropdown()
 
-    def click_create_game_button(self):
-        self.browser.find_element_by_id("create_game_button").click()
+        self.browser.find_element_by_id(f"class_{class_id}").click()
 
-    def click_delete_game_button(self):
-        self.browser.find_element_by_link_text("Delete").click()
+        return self
+
+    def change_game_worksheet(self, worksheet_id):
+        self._click_change_worksheet_dropdown()
+
+        self.browser.find_element_by_id(f"worksheet_{worksheet_id}").click()
+
+        self.confirm_dialog()
+
+        return self
+
+    def _click_change_worksheet_confirm_button(self):
         self.browser.find_element_by_id("confirm_button").click()
 
-    def click_play_game_button(self):
-        self.browser.find_element_by_link_text("Play").click()
+    def _click_add_game_dropdown(self):
+        self.browser.find_element_by_id("add_class_dropdown").click()
 
-    def input_new_game_name(self, new_game_name):
-        self.browser.find_element_by_id("id_name").clear()
-        self.browser.find_element_by_id("id_name").send_keys(new_game_name)
-
-    def get_input_game_name_placeholder(self):
-        return self.browser.find_element_by_id("id_name").get_attribute("placeholder")
+    def _click_change_worksheet_dropdown(self):
+        self.browser.find_element_by_id("worksheets_dropdown").click()

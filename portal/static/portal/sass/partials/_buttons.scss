@@ -333,6 +333,36 @@ button,
   margin-top: $spacing * 3;
 }
 
+.games-table__cell {
+  .dropdown {
+    width: 100%;
+  }
+
+  .button--dropdown {
+    border: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+
+    .dropdown-menu__option {
+      .button--regular {
+        color: $color-text-tertiary;
+      }
+
+      .button--regular:hover {
+        background: $color-background-teach;
+
+        .dropdown-menu__option__text {
+          color: $color-text-secondary;
+        }
+      }
+    }
+  }
+}
+
 @media (min-width: $tablet-small-min-width) {
   .menu__item {
     display: none;

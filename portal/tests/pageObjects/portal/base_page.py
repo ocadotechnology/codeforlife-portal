@@ -123,16 +123,22 @@ class BasePage(object):
     def go_to_rapid_router_resources_page(self):
         self.hover_over_resources_dropdown()
         self.browser.find_element_by_id("rapid_router_resources_button").click()
+        from .rapid_router_resources_page import RapidRouterResourcesPage
+
         return RapidRouterResourcesPage(self.browser)
 
     def go_to_kurono_resources_page(self):
         self.hover_over_resources_dropdown()
         self.browser.find_element_by_id("kurono_resources_button").click()
+        from .kurono_resources_page import KuronoResourcesPage
+
         return KuronoResourcesPage(self.browser)
 
-    def go_to_aimmo_home_page(self):
-        self.browser.find_element_by_id("aimmo_home_button").click()
-        return aimmo_home_page.AimmoHomePage(self.browser)
+    def go_to_kurono_teacher_dashboard_page(self):
+        self.browser.find_element_by_id("teacher_kurono_dashboard_button").click()
+        from .kurono_teacher_dashboard_page import KuronoTeacherDashboardPage
+
+        return KuronoTeacherDashboardPage(self.browser)
 
     def is_on_admin_login_page(self):
         return self.on_correct_page("administration_login")
@@ -160,14 +166,10 @@ class BasePage(object):
 
     def confirm_dialog(self):
         self.browser.find_element_by_id("confirm_button").click()
+        time.sleep(FADE_TIME)
         return self
 
     def cancel_dialog(self):
         self.browser.find_element_by_id("cancel_button").click()
         time.sleep(FADE_TIME)
         return self
-
-
-from .rapid_router_resources_page import RapidRouterResourcesPage
-from .kurono_resources_page import KuronoResourcesPage
-from . import aimmo_home_page
