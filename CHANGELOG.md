@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.19.1 (2021-01-29)
+### Fix
+* Change recaptcha source to use their domain ([#1348](https://github.com/ocadotechnology/codeforlife-portal/issues/1348)) ([`11dd9c5`](https://github.com/ocadotechnology/codeforlife-portal/commit/11dd9c5024d48490ed4e7ca07a95fd56b8682b67))
+
 ## v4.19.0 (2021-01-28)
 ### Feature
 * Add challenge dropdown to Kurono Dashboard ([#1343](https://github.com/ocadotechnology/codeforlife-portal/issues/1343)) ([`4e0a2f1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4e0a2f1d9546842c122ab525013bde8404208520))
