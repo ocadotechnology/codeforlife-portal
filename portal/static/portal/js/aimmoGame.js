@@ -39,8 +39,6 @@ identified as the original program.
 /* global showPopupConfirmation */
 /* global hidePopupConfirmation */
 
-let gameID;
-
 function clickDeleteGames() {
   let selectedGameIds = [];
   let selectedClasses = [];
