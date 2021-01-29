@@ -18,11 +18,9 @@
                 <th class="cell-center">
                     <p>Action</p>
                 </th>
-                {% if can_delete_game %}
                 <th class="cell-center">
                     <p>Select</p>
                 </th>
-                {% endif %}
             </tr>
             {% for game in open_play_games %}
             <tr>
@@ -72,14 +70,11 @@
                             href="{% url base_url id=game.id %}">Play</a>
                     </div>
                 </td>
-                {% if can_delete_game %}
                 <td class="cell-center">
                     <input type="checkbox" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
-            {% if can_delete_game %}
             <tr>
                 <td colspan="3" class="no-bg"></td>
                 <td class="no-bg">
@@ -92,14 +87,9 @@
                     </div>
                 </td>
             </tr>
-            {% endif %}
         </table>
     </div>
 {% else %}
-    {% if can_delete_game %}
-        <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Add class&rsquo;
-            button above.</p>
-    {% else %}
-        <p>It doesn&rsquo;t look like you have access to any games, yet.</p>
-    {% endif %}
+    <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Add class&rsquo;
+        button above.</p>
 {% endif %}
