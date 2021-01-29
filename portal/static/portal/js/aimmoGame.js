@@ -61,9 +61,9 @@ function clickDeleteGames() {
       </p>
       <p>This action will permanently delete any class progress that class has made.</p>
     </div>`;
-  let confirm_handler = "deleteGames()";
+  let confirmHandler = "deleteGames()";
 
-  showPopupConfirmation(title, text, confirm_handler);
+  showPopupConfirmation(title, text, confirmHandler);
   let popup = $(".popup-wrapper");
   popup.data("gameIds", selectedGameIds);
 }
@@ -71,7 +71,6 @@ function clickDeleteGames() {
 function deleteGames() {
   let gameIds = $("#popup").data("gameIds");
 
-  // $.post(`/kurono/api/games/delete_games/`, { "game_ids[]": gameIds });
   $.ajax({
     url: "/kurono/api/games/delete_games/",
     type: "POST",
