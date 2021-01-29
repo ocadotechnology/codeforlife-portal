@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:b1eb331bc2a7ddd548021f2b337d1e03bd00a6105e1239fcda3c22bf25b0b301",
-                "sha256:f2dcaec4c34d3290f2051dc4c94b33cd7db7ce1142f55de0e732cfdbcab6d700"
+                "sha256:37aca7b4a94d1b637cba1b6638ea7f28dbedfa58a4bad88cfdb33e605bec147f",
+                "sha256:42c72bcc72524ce44767486de3d777218361bf5350c91c7dc4a675111e3be376"
             ],
-            "version": "==0.62.1"
+            "version": "==0.62.2"
         },
         "anyascii": {
             "hashes": [
@@ -568,11 +568,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:19188f96923873c92ccb987120ec4acaa12f0461fa9ce5d3d0772bc965a39e08",
-                "sha256:d8ff90d979214d7b4f8ce956e80f4028fc6860e4431f731ea4a8c08f23f99473"
+                "sha256:1b465e494e3e0d8939b50680403e3aedaa2bc434b7d5af64dfd3c958d7f5ae80",
+                "sha256:de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
-            "version": "==1.26.2"
+            "version": "==1.26.3"
         },
         "wagtail": {
             "hashes": [
@@ -837,11 +837,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:19188f96923873c92ccb987120ec4acaa12f0461fa9ce5d3d0772bc965a39e08",
-                "sha256:d8ff90d979214d7b4f8ce956e80f4028fc6860e4431f731ea4a8c08f23f99473"
+                "sha256:1b465e494e3e0d8939b50680403e3aedaa2bc434b7d5af64dfd3c958d7f5ae80",
+                "sha256:de3eedaad74a2683334e282005cd8d7f22f4d55fa690a2a1020a416cb0a47e73"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
-            "version": "==1.26.2"
+            "version": "==1.26.3"
         },
         "wasmer": {
             "hashes": [
