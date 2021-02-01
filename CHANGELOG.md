@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.19.2 (2021-01-29)
+### Fix
+* Add solutions file to Kurono packs ([#1346](https://github.com/ocadotechnology/codeforlife-portal/issues/1346)) ([`270b4aa`](https://github.com/ocadotechnology/codeforlife-portal/commit/270b4aaa4d72bdd7d7ca12682360029bec063998))
+
 ## v4.19.1 (2021-01-29)
 ### Fix
 * Change recaptcha source to use their domain ([#1348](https://github.com/ocadotechnology/codeforlife-portal/issues/1348)) ([`11dd9c5`](https://github.com/ocadotechnology/codeforlife-portal/commit/11dd9c5024d48490ed4e7ca07a95fd56b8682b67))
