@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.20.0 (2021-02-01)
+### Feature
+* Delete multiple games ([#1350](https://github.com/ocadotechnology/codeforlife-portal/issues/1350)) ([`e3156fe`](https://github.com/ocadotechnology/codeforlife-portal/commit/e3156fefb19c7d624da7b6eee1c051cfffe28ebb))
+
 ## v4.19.2 (2021-01-29)
 ### Fix
 * Add solutions file to Kurono packs ([#1346](https://github.com/ocadotechnology/codeforlife-portal/issues/1346)) ([`270b4aa`](https://github.com/ocadotechnology/codeforlife-portal/commit/270b4aaa4d72bdd7d7ca12682360029bec063998))
