@@ -63,6 +63,22 @@ class KuronoTeacherDashboardPage(BasePage):
 
         return self
 
+    def delete_games(self, game_ids):
+        # Tick checkboxes
+        for game_id in game_ids:
+            self.browser.find_element_by_xpath(
+                f"//input[@name='game_ids' and @value='{game_id}']"
+            ).click()
+
+        # Click delete
+        self.browser.find_element_by_xpath(
+            '//*[@id="games-table"]/tbody/tr[4]/td[2]/div/a'
+        ).click()
+
+        self.confirm_dialog()
+
+        return self
+
     def _click_change_worksheet_confirm_button(self):
         self.browser.find_element_by_id("confirm_button").click()
 
