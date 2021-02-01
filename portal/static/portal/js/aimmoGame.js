@@ -39,6 +39,21 @@ identified as the original program.
 /* global showPopupConfirmation */
 /* global hidePopupConfirmation */
 
+function classesText(classes) {
+  return classes
+    .map(
+      (name, index) =>
+        `${
+          index === 0
+            ? ""
+            : index === classes.length - 1
+            ? " and "
+            : ", "
+        }<strong>${name}</strong>`
+    )
+    .join("");
+}
+
 function clickDeleteGames() {
   let selectedGameIds = [];
   let selectedClasses = [];
@@ -51,26 +66,13 @@ function clickDeleteGames() {
     return;
   }
 
-  let classesText = selectedClasses
-    .map(
-      (name, index) =>
-        `${
-          index === 0
-            ? ""
-            : index === selectedClasses.length - 1
-            ? " and "
-            : ", "
-        }<strong>${name}</strong>`
-    )
-    .join("");
-
   let title = "Delete class games";
   let text = `
     <div class='popup-text'>
       <p>
         Are you sure that you want to delete the game${
           selectedClasses.length > 1 ? "s" : ""
-        } for ${classesText}?
+        } for ${classesText(selectedClasses)}?
       </p>
       <p>This action will delete any progress ${
         selectedClasses.length > 1 ? "those classes have" : "that class has"
