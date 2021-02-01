@@ -51,15 +51,30 @@ function clickDeleteGames() {
     return;
   }
 
+  let classesText = selectedClasses
+    .map(
+      (name, index) =>
+        `${
+          index === 0
+            ? ""
+            : index === selectedClasses.length - 1
+            ? " and "
+            : ", "
+        }<strong>${name}</strong>`
+    )
+    .join("");
+
   let title = "Delete class games";
   let text = `
     <div class='popup-text'>
       <p>
-        Are you sure that you want to delete the class games for: ${selectedClasses
-          .map((name) => `<strong>${name}</strong>`)
-          .join(", ")}?
+        Are you sure that you want to delete the game${
+          selectedClasses.length > 1 ? "s" : ""
+        } for ${classesText}?
       </p>
-      <p>This action will permanently delete any class progress that class has made.</p>
+      <p>This action will delete any progress ${
+        selectedClasses.length > 1 ? "those classes have" : "that class has"
+      } made.</p>
     </div>`;
   let confirmHandler = "deleteGames()";
 
