@@ -39,60 +39,96 @@ identified as the original program.
 /* global showPopupConfirmation */
 /* global hidePopupConfirmation */
 
-function clickDeleteGame(gameId, gameName) {
-    let title = "Delete Game";
-    let text = "<div class='popup-text'><p>Are you sure you want to delete the game: <strong class='popup__game-name'></strong>?</p>" +
-        "<p>Deleting will permanently delete players&rsquo; progress for this particular game.</p></div>";
-    let confirmHandler = "deleteGame()";
-
-    showPopupConfirmation(title, text, confirmHandler);
-    let popup = $(".popup-wrapper");
-    popup.data("gameId", gameId);
-    $(".popup__game-name").text(gameName);
+function classesText(classes) {
+  return classes
+    .map(
+      (name, index) =>
+        `${
+          index === 0
+            ? ""
+            : index === classes.length - 1
+            ? " and "
+            : ", "
+        }<strong>${name}</strong>`
+    )
+    .join("");
 }
 
-function deleteGame() {
-    let gameId = $("#popup").data("gameId");
+function clickDeleteGames() {
+  let selectedGameIds = [];
+  let selectedClasses = [];
+  $("input[name='game_ids']:checked").each(function () {
+    selectedGameIds.push($(this).val());
+    selectedClasses.push($(this).data("className"));
+  });
 
-    $.ajax({
-        url: '/kurono/api/games/' + gameId + '/',
-        type: 'DELETE',
-        data: { _method: 'delete' },
-        headers: {
-            "X-CSRFToken": $('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: function(data)  {
-            hidePopupConfirmation();
-            document.location.reload(true);
-        }
-    })
+  if (!selectedGameIds.length) {
+    return;
+  }
+
+  let title = "Delete class games";
+  let text = `
+    <div class='popup-text'>
+      <p>
+        Are you sure that you want to delete the game${
+          selectedClasses.length > 1 ? "s" : ""
+        } for ${classesText(selectedClasses)}?
+      </p>
+      <p>This action will delete any progress ${
+        selectedClasses.length > 1 ? "those classes have" : "that class has"
+      } made.</p>
+    </div>`;
+  let confirmHandler = "deleteGames()";
+
+  showPopupConfirmation(title, text, confirmHandler);
+  let popup = $(".popup-wrapper");
+  popup.data("gameIds", selectedGameIds);
+}
+
+function deleteGames() {
+  let gameIds = $("#popup").data("gameIds");
+
+  $.ajax({
+    url: "/kurono/api/games/delete_games/",
+    type: "POST",
+    data: { game_ids: gameIds },
+    traditional: true,
+    headers: {
+      "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+    },
+    success: function (data) {
+      hidePopupConfirmation();
+      document.location.reload(true);
+    },
+  });
 }
 
 function changeWorksheetConfirmation(gameID, className, worksheetID) {
-    let title = "Change Challenge"
-    let text = "<div class='popup-text'><p>Please confirm that you would like to change the challenge for class: " +
-        "<strong class='popup__class-name'></strong>. This will change the level for the students when they rejoin " +
-        "the game.</p></div>";
-    let confirmHandler = "changeWorksheet()"
+  let title = "Change Challenge";
+  let text =
+    "<div class='popup-text'><p>Please confirm that you would like to change the challenge for class: " +
+    "<strong class='popup__class-name'></strong>. This will change the level for the students when they rejoin " +
+    "the game.</p></div>";
+  let confirmHandler = "changeWorksheet()";
 
-    showPopupConfirmation(title, text, confirmHandler);
-    let popup = $(".popup-wrapper");
-    popup.data("gameId", gameID);
-    popup.data("worksheetId", worksheetID);
-    $(".popup__class-name").text(className);
+  showPopupConfirmation(title, text, confirmHandler);
+  let popup = $(".popup-wrapper");
+  popup.data("gameId", gameID);
+  popup.data("worksheetId", worksheetID);
+  $(".popup__class-name").text(className);
 }
 
 function changeWorksheet() {
-    let gameID = $("#popup").data("gameId");
-    let worksheetID = $("#popup").data("worksheetId");
+  let gameID = $("#popup").data("gameId");
+  let worksheetID = $("#popup").data("worksheetId");
 
-    $.ajax({
-        url: '/kurono/api/games/' + gameID + '/',
-        type: 'PUT',
-        data: { "worksheet_id": worksheetID },
-        success: function(data) {
-            hidePopupConfirmation();
-            document.location.reload(true);
-        }
-    })
+  $.ajax({
+    url: "/kurono/api/games/" + gameID + "/",
+    type: "PUT",
+    data: { worksheet_id: worksheetID },
+    success: function (data) {
+      hidePopupConfirmation();
+      document.location.reload(true);
+    },
+  });
 }

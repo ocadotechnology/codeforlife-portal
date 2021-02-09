@@ -55,8 +55,8 @@
             </div>
             <div class="button-group button-group__icon">
                 <a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_user_guide' %}"
-                   target="_blank" class="button button--primary--general-play">
-                    View user guide<div class="glyphicon glyphicon-new-window"></div>
+                   class="button button--primary--general-play">
+                    View user guide<div class="glyphicon glyphicon-menu-right"></div>
                 </a>
             </div>
             {% for worksheet in worksheets %}
@@ -67,12 +67,12 @@
                     </div>
                     <div class="button-group button-group__icon">
                         <a href="{% url 'materials_viewer' pdf_name=worksheet.student_pdf_name %}"
-                           target="_blank" class="button button--primary--general-play">
-                            View challenge<div class="glyphicon glyphicon-new-window"></div>
+                           class="button button--primary--general-play">
+                            View challenge<div class="glyphicon glyphicon-menu-right"></div>
                         </a>
                         <a href="{% url 'materials_viewer' pdf_name=worksheet.teacher_pdf_name %}"
-                           target="_blank" class="button button--primary--general-play">
-                            View guide<div class="glyphicon glyphicon-new-window"></div>
+                           class="button button--primary--general-play">
+                            View guide<div class="glyphicon glyphicon-menu-right"></div>
                         </a>
                     </div>
                 {% else %}
@@ -93,8 +93,8 @@
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name="Kurono_national_curriculum" %}"
-                       target="_blank" class="button button--primary--general-play">
-                        View guide<div class="glyphicon glyphicon-new-window"></div>
+                       class="button button--primary--general-play">
+                        View guide<div class="glyphicon glyphicon-menu-right"></div>
                     </a>
                 </div>
                 <div>
@@ -103,8 +103,8 @@
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name="Kurono_story" %}"
-                       target="_blank" class="button button--primary--general-play">
-                        View story<div class="glyphicon glyphicon-new-window"></div>
+                       class="button button--primary--general-play">
+                        View story<div class="glyphicon glyphicon-menu-right"></div>
                     </a>
                 </div>
                 <div>
@@ -113,8 +113,18 @@
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name="Kurono_cheat_sheet" %}"
-                       target="_blank" class="button button--primary--general-play">
-                        View guide<div class="glyphicon glyphicon-new-window"></div>
+                       class="button button--primary--general-play">
+                        View guide<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+                <div>
+                    <p><strong>Challenge solutions</strong></p>
+                    <p>Download a .py file of example solutions to copy and paste into your lessons.</p>
+                </div>
+                <div class="button-group button-group__icon">
+                    <a href="{{ 'kurono_v3/resource_sheets/kurono_teacher_solutions.py'|cloud_storage }}"
+                       class="button button--primary--general-play">
+                        Download solutions<div class="glyphicon glyphicon-save"></div>
                     </a>
                 </div>
                 <div>
@@ -123,8 +133,8 @@
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name="Kurono_student_user_guide" %}"
-                       target="_blank" class="button button--primary--general-play">
-                        View guide<div class="glyphicon glyphicon-new-window"></div>
+                       class="button button--primary--general-play">
+                        View guide<div class="glyphicon glyphicon-menu-right"></div>
                     </a>
                 </div>
             </div>
@@ -145,8 +155,8 @@
                     <p>This user guide talks you through what you will be teaching and how to use our resources efficiently.</p>
                     <div class="button-group button-group__icon">
                         <a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_user_guide' %}"
-                           target="_blank" class="button button--primary--general-play">
-                            View user guide<div class="glyphicon glyphicon-new-window"></div>
+                           class="button button--primary--general-play">
+                            View user guide<div class="glyphicon glyphicon-menu-right"></div>
                         </a>
                     </div>
                 </div>
@@ -163,12 +173,12 @@
                             <p>{{ worksheet.short_description}}</p>
                             <div class="button-group button-group__icon">
                                 <a href="{% url 'materials_viewer' pdf_name=worksheet.student_pdf_name %}"
-                                   target="_blank" class="button button--primary--general-play">
-                                    View challenge<div class="glyphicon glyphicon-new-window"></div>
+                                   class="button button--primary--general-play">
+                                    View challenge<div class="glyphicon glyphicon-menu-right"></div>
                                 </a>
                                 <a href="{% url 'materials_viewer' pdf_name=worksheet.teacher_pdf_name %}"
-                                   target="_blank" class="button button--primary--general-play">
-                                    View guide<div class="glyphicon glyphicon-new-window"></div>
+                                   class="button button--primary--general-play">
+                                    View guide<div class="glyphicon glyphicon-menu-right"></div>
                                 </a>
                             </div>
                         </div>
@@ -194,8 +204,8 @@
                         <p>This document will be updated as we build it.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name="Kurono_national_curriculum" %}"
-                               target="_blank" class="button button--primary--general-play">
-                                View guide<div class="glyphicon glyphicon-new-window"></div>
+                               class="button button--primary--general-play">
+                                View guide<div class="glyphicon glyphicon-menu-right"></div>
                             </a>
                         </div>
                     </div>
@@ -210,8 +220,8 @@
                         <p>Set the scene with the story of the game.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name="Kurono_story" %}"
-                               target="_blank" class="button button--primary--general-play">
-                                View guide<div class="glyphicon glyphicon-new-window"></div>
+                               class="button button--primary--general-play">
+                                View guide<div class="glyphicon glyphicon-menu-right"></div>
                             </a>
                         </div>
                     </div>
@@ -226,8 +236,24 @@
                         <p>To be used with the Kurono game.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name="Kurono_cheat_sheet" %}"
-                               target="_blank" class="button button--primary--general-play">
-                                View guide<div class="glyphicon glyphicon-new-window"></div>
+                               class="button button--primary--general-play">
+                                View guide<div class="glyphicon glyphicon-menu-right"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-kurono-sessions__item">
+                    <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse" data-target="#kurono_teacher_solutions">
+                        <p class="button-group__icon">
+                            <strong>Challenge solutions</strong>
+                        <div class="glyphicon glyphicon-triangle-bottom"></div></p>
+                    </div>
+                    <div id="kurono_teacher_solutions" class="collapse">
+                        <p>Download a .py file of example solutions to copy and paste into your lessons.</p>
+                        <div class="button-group button-group__icon">
+                            <a href="{{ 'kurono_v3/resource_sheets/kurono_teacher_solutions.py'|cloud_storage }}"
+                               class="button button--primary--general-play">
+                                Download solutions<div class="glyphicon glyphicon-save"></div>
                             </a>
                         </div>
                     </div>
@@ -242,8 +268,8 @@
                         <p>This guide will be available to the students.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name="Kurono_student_user_guide" %}"
-                               target="_blank" class="button button--primary--general-play">
-                                View guide<div class="glyphicon glyphicon-new-window"></div>
+                               class="button button--primary--general-play">
+                                View guide<div class="glyphicon glyphicon-menu-right"></div>
                             </a>
                         </div>
                     </div>

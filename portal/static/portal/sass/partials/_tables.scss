@@ -68,7 +68,7 @@ td {
 }
 
 .data-primary {
-  td {
+  td:not(.no-bg) {
     background-color: $color-background-tint-primary;
   }
 }

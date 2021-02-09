@@ -15,11 +15,11 @@
                 <th class="cell-left col-xs-6">
                     <p>Challenge</p>
                 </th>
-                <th class="cell-left">
-                    <p>Status</p>
-                </th>
-                <th class="cell-left">
+                <th class="cell-center">
                     <p>Action</p>
+                </th>
+                <th class="cell-center">
+                    <p>Select</p>
                 </th>
             </tr>
             {% for game in open_play_games %}
@@ -65,38 +65,31 @@
                     </div>
                 </td>
                 <td>
-                    <div class="games-table__cell">
-                        {% if game.status == 'r' %}
-                        <div class="status-indicator status-indicator--game status-indicator--on"></div>
-                        <small>Running</small>
-                        {% elif game.status == 's' %}
-                        <div class="status-indicator status-indicator--game status-indicator--off"></div>
-                        <small>Stopped</small>
-                        {% elif game.status == 'p' %}
-                        <div class="status-indicator status-indicator--game status-indicator--standby"></div>
-                        <small>Paused</small>
-                        {% endif %}
+                    <div class="games-table__buttons">
+                        <a class="button button--regular button--primary--general-play"
+                            href="{% url base_url id=game.id %}">Play</a>
                     </div>
                 </td>
-                <td>
-                    <div class="games-table__buttons">
-                        <a class="button button--small button--primary--navigation"
-                            href="{% url base_url id=game.id %}">Play</a>
-                        {% if can_delete_game %}
-                        <a class="button button--small button--primary--danger"
-                            onclick="clickDeleteGame('{{ game.id }}', '{{ game.name }}')"> Delete </a>
-                        {% endif %}
-                    </div>
+                <td class="cell-center">
+                    <input type="checkbox" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
                 </td>
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="3" class="no-bg"></td>
+                <td class="no-bg">
+                    <div class="button-group button-group__icon">
+                        <a class="button btn-block button--regular button--primary--navigation"
+                            onclick="clickDeleteGames()">
+                                Delete
+                                <div class="glyphicon glyphicon-trash"></div>
+                            </a>
+                    </div>
+                </td>
+            </tr>
         </table>
     </div>
 {% else %}
-    {% if can_delete_game %}
-        <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Create a new game&rsquo;
-            button above.</p>
-    {% else %}
-        <p>It doesn&rsquo;t look like you have access to any games, yet.</p>
-    {% endif %}
+    <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Add class&rsquo;
+        button above.</p>
 {% endif %}

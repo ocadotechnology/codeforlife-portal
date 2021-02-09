@@ -147,3 +147,30 @@ class TestAimmoDashboards(BaseTest):
         game = Game.objects.get(game_class=klass)
 
         assert game.worksheet == worksheet2
+
+    def test_delete_games(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        create_worksheet_directly(1)
+
+        klass1, _, _ = create_class_directly(teacher_email)
+        game1 = Game(game_class=klass1)
+        game1.save()
+
+        klass2, _, _ = create_class_directly(teacher_email)
+        game2 = Game(game_class=klass2)
+        game2.save()
+
+        assert Game.objects.count() == 2
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(teacher_email, teacher_password)
+        )
+        page = page.go_to_kurono_teacher_dashboard_page().delete_games(
+            [game1.id, game2.id]
+        )
+
+        assert Game.objects.count() == 0
