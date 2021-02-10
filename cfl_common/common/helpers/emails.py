@@ -34,22 +34,21 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from datetime import timedelta
+from datetime import timedelta, datetime
 from uuid import uuid4
 
-from django.core.mail import EmailMultiAlternatives
-from django.template import loader
-from django.utils import timezone
-from requests import post
-from requests.exceptions import RequestException
-
+from common import app_settings
 from common.email_messages import (
     emailChangeNotificationEmail,
     emailChangeVerificationEmail,
     emailVerificationNeededEmail,
 )
 from common.models import EmailVerification
-from common import app_settings
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
+from django.utils import timezone
+from requests import post
+from requests.exceptions import RequestException
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -142,15 +141,22 @@ def add_to_dotmailer(first_name: str, last_name: str, email: str):
 def add_contact_to_address_book(first_name, last_name, email):
     url = app_settings.DOTMAILER_URL
     body = {
-        "email": email,
-        "optInType": "VerifiedDouble",
-        "emailType": "Html",
-        "dataFields": [
-            {"key": "FIRSTNAME", "value": first_name},
-            {"key": "LASTNAME", "value": last_name},
-            {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
-        ],
-        "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
+        "contact": {
+            "email": email,
+            "optInType": "VerifiedDouble",
+            "emailType": "Html",
+            "dataFields": [
+                {"key": "FIRSTNAME", "value": first_name},
+                {"key": "LASTNAME", "value": last_name},
+                {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
+            ],
+            "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
+        },
+        "consentFields": {
+            "fields": [
+                {"key": "DATETIMECONSENTED", "value": datetime.now()},
+            ]
+        },
     }
     post(
         url,
