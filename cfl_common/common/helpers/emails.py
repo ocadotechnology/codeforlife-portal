@@ -152,11 +152,13 @@ def add_contact_to_address_book(first_name, last_name, email):
             ],
             "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
         },
-        "consentFields": {
-            "fields": [
-                {"key": "DATETIMECONSENTED", "value": datetime.now()},
-            ]
-        },
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": datetime.now()},
+                ]
+            }
+        ],
     }
     post(
         url,
