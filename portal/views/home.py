@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import logging
+
 from common.models import Teacher, Student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
@@ -278,10 +280,12 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @csrf_exempt
 def process_newsletter_form(request):
+    logging.debug("Processing newsletter form")
     if request.method == "POST":
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data["email"]
+            logging.debug("Adding contact to Dotmailer")
             add_to_dotmailer("", "", user_email)
             messages.success(request, "Thank you for signing up! 🎉")
             return HttpResponseRedirect(reverse_lazy("home"))
