@@ -34,6 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import logging
+
 from datetime import timedelta, datetime
 from uuid import uuid4
 
@@ -49,6 +51,8 @@ from django.template import loader
 from django.utils import timezone
 from requests import post
 from requests.exceptions import RequestException
+
+LOGGER = logging.getLogger(__name__)
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -162,11 +166,16 @@ def create_contact(first_name, last_name, email):
         "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
     }
 
-    post(
+    LOGGER.info("Creating Dotmailer contact")
+
+    response = post(
         url,
         json=body,
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
     )
+
+    LOGGER.info(response.status_code)
+    LOGGER.indo(response.content)
 
 
 def add_contact_to_address_book(first_name, last_name, email):
@@ -182,11 +191,16 @@ def add_contact_to_address_book(first_name, last_name, email):
         ],
     }
 
-    post(
+    LOGGER.info("Adding contact to address book")
+
+    response = post(
         url,
         json=body,
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
     )
+
+    LOGGER.info(response.status_code)
+    LOGGER.indo(response.content)
 
 
 def update_email(user, request, data):
