@@ -155,7 +155,7 @@ def create_contact(first_name, last_name, email):
         "consentFields": [
             {
                 "fields": [
-                    {"key": "DATETIMECONSENTED", "value": datetime.now()},
+                    {"key": "DATETIMECONSENTED", "value": datetime.now().__str__()},
                 ]
             }
         ],
