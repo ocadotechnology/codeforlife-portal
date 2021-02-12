@@ -136,7 +136,7 @@ def add_to_dotmailer(first_name: str, last_name: str, email: str):
         create_contact(first_name, last_name, email)
         add_contact_to_address_book(first_name, last_name, email)
     except RequestException:
-        return
+        return HttpResponse(status=404)
 
 
 def create_contact(first_name, last_name, email):
@@ -150,16 +150,16 @@ def create_contact(first_name, last_name, email):
                 {"key": "FIRSTNAME", "value": first_name},
                 {"key": "LASTNAME", "value": last_name},
                 {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
-            ],
-            "consentFields": [
-                {
-                    "fields": [
-                        {"key": "DATETIMECONSENTED", "value": datetime.now()},
-                    ]
-                }
-            ],
-            "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
-        }
+            ]
+        },
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": datetime.now()},
+                ]
+            }
+        ],
+        "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
     }
 
     post(
