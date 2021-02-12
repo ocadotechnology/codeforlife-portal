@@ -150,16 +150,17 @@ def add_contact_to_address_book(first_name, last_name, email):
                 {"key": "LASTNAME", "value": last_name},
                 {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
             ],
+            "consentFields": [
+                {
+                    "fields": [
+                        {"key": "DATETIMECONSENTED", "value": datetime.now()},
+                    ]
+                }
+            ],
             "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
-        },
-        "consentFields": [
-            {
-                "fields": [
-                    {"key": "DATETIMECONSENTED", "value": datetime.now()},
-                ]
-            }
-        ],
+        }
     }
+
     post(
         url,
         json=body,
