@@ -133,13 +133,14 @@ def is_verified(user):
 
 def add_to_dotmailer(first_name: str, last_name: str, email: str):
     try:
+        create_contact(first_name, last_name, email)
         add_contact_to_address_book(first_name, last_name, email)
     except RequestException:
         return
 
 
-def add_contact_to_address_book(first_name, last_name, email):
-    url = app_settings.DOTMAILER_URL
+def create_contact(first_name, last_name, email):
+    url = app_settings.DOTMAILER_CREATE_CONTACT_URL
     body = {
         "contact": {
             "email": email,
@@ -158,6 +159,28 @@ def add_contact_to_address_book(first_name, last_name, email):
                 }
             ],
             "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
+        }
+    }
+
+    post(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
+
+
+def add_contact_to_address_book(first_name, last_name, email):
+    url = app_settings.DOTMAILER_ADDRESS_BOOK_URL
+    body = {
+        "contact": {
+            "email": email,
+            "optInType": "VerifiedDouble",
+            "emailType": "Html",
+            "dataFields": [
+                {"key": "FIRSTNAME", "value": first_name},
+                {"key": "LASTNAME", "value": last_name},
+                {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
+            ]
         }
     }
 
