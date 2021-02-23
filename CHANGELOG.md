@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.20.2 (2021-02-23)
+### Fix
+* Update copyright to use current year ([#1361](https://github.com/ocadotechnology/codeforlife-portal/issues/1361)) ([`3e7c6d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/3e7c6d65968b399e10a582d6ee0129451dcefef6))
+
 ## v4.20.1 (2021-02-08)
 ### Fix
 * Rr migrations tests ([#1352](https://github.com/ocadotechnology/codeforlife-portal/issues/1352)) ([`ebfc285`](https://github.com/ocadotechnology/codeforlife-portal/commit/ebfc285d4e1c624135d63c57184838bc454c17aa))
