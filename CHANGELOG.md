@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.20.3 (2021-02-24)
+### Fix
+* Update copy of Kurono landing page ([#1362](https://github.com/ocadotechnology/codeforlife-portal/issues/1362)) ([`1ca988d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ca988d36a52d7762c71df0059637ed1f663f59a))
+
 ## v4.20.2 (2021-02-23)
 ### Fix
 * Update copyright to use current year ([#1361](https://github.com/ocadotechnology/codeforlife-portal/issues/1361)) ([`3e7c6d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/3e7c6d65968b399e10a582d6ee0129451dcefef6))
