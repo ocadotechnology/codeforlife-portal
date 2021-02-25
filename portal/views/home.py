@@ -34,30 +34,28 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import logging
-
-from common.models import Teacher, Student
-from django.contrib import messages as messages
-from django.contrib.auth import logout
-from django.urls import reverse, reverse_lazy
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.views.decorators.cache import cache_control
-from django.views.decorators.csrf import csrf_exempt
-
-from deploy import captcha
 from common import email_messages
-from portal.forms.newsletter_form import NewsletterForm
-from portal.forms.play import IndependentStudentSignupForm
-from portal.forms.teach import TeacherSignupForm
-from portal.helpers.captcha import remove_captcha_from_forms
 from common.helpers.emails import (
     send_verification_email,
     send_email,
     NOTIFICATION_EMAIL,
     add_to_dotmailer,
 )
+from common.models import Teacher, Student
 from common.permissions import logged_in_as_student, logged_in_as_teacher
+from django.contrib import messages as messages
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
+from django.views.decorators.cache import cache_control
+from django.views.decorators.csrf import csrf_exempt
+
+from deploy import captcha
+from portal.forms.newsletter_form import NewsletterForm
+from portal.forms.play import IndependentStudentSignupForm
+from portal.forms.teach import TeacherSignupForm
+from portal.helpers.captcha import remove_captcha_from_forms
 from portal.strings.home_learning import HOME_LEARNING_BANNER
 
 
@@ -280,12 +278,10 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @csrf_exempt
 def process_newsletter_form(request):
-    logging.debug("Processing newsletter form")
     if request.method == "POST":
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data["email"]
-            logging.debug("Adding contact to Dotmailer")
             add_to_dotmailer("", "", user_email)
             messages.success(request, "Thank you for signing up! 🎉")
             return HttpResponseRedirect(reverse_lazy("home"))
