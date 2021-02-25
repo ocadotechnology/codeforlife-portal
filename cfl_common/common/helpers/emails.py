@@ -34,7 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from datetime import timedelta, datetime
+import datetime
 from uuid import uuid4
 
 from common import app_settings
@@ -45,6 +45,7 @@ from common.email_messages import (
 )
 from common.models import EmailVerification
 from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
 from requests import post
@@ -93,7 +94,7 @@ def generate_token(user, email="", preverified=False):
         user=user,
         email=email,
         token=uuid4().hex[:30],
-        expiry=timezone.now() + timedelta(hours=1),
+        expiry=timezone.now() + datetime.timedelta(hours=1),
         verified=preverified,
     )
 
@@ -155,7 +156,10 @@ def create_contact(first_name, last_name, email):
         "consentFields": [
             {
                 "fields": [
-                    {"key": "DATETIMECONSENTED", "value": datetime.now().__str__()},
+                    {
+                        "key": "DATETIMECONSENTED",
+                        "value": datetime.datetime.now().__str__(),
+                    },
                 ]
             }
         ],

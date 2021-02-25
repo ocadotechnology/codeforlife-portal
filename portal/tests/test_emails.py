@@ -34,12 +34,25 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.core import mail
-from django.urls import reverse
-from django.test import Client
-import pytest
+import datetime
 
-from common.helpers.emails import add_to_dotmailer
+import pytest
+from common.helpers.emails import create_contact, add_contact_to_address_book
+from django.core import mail
+from django.test import Client
+from django.urls import reverse
+
+FAKE_TIME = datetime.datetime(2020, 12, 25, 17, 5, 55)
+
+
+@pytest.fixture
+def patch_datetime_now(monkeypatch):
+    class mydatetime:
+        @classmethod
+        def now(cls):
+            return FAKE_TIME
+
+    monkeypatch.setattr(datetime, "datetime", mydatetime)
 
 
 @pytest.mark.django_db
@@ -50,8 +63,35 @@ def test_send_new_users_numbers_email():
     assert len(mail.outbox) == 1
 
 
-def test_newsletter_sends_correct_request(mocker, monkeypatch):
+def test_newsletter_sends_correct_requests(mocker, monkeypatch, patch_datetime_now):
     mocked_post = mocker.patch("common.helpers.emails.post")
+
+    expected_body = {
+        "contact": {
+            "email": "ray.charles@example.com",
+            "optInType": "VerifiedDouble",
+            "emailType": "Html",
+            "dataFields": [
+                {"key": "FIRSTNAME", "value": "Ray"},
+                {"key": "LASTNAME", "value": "Charles"},
+                {"key": "FULLNAME", "value": "Ray Charles"},
+            ],
+        },
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": FAKE_TIME.__str__()},
+                ]
+            }
+        ],
+        "preferences": [{"trout": True}],
+    }
+
+    create_contact("Ray", "Charles", "ray.charles@example.com")
+
+    mocked_post.assert_called_with(
+        "", auth=("username_here", "password_here"), json=expected_body
+    )
 
     expected_body = {
         "email": "ray.charles@example.com",
@@ -62,11 +102,10 @@ def test_newsletter_sends_correct_request(mocker, monkeypatch):
             {"key": "LASTNAME", "value": "Charles"},
             {"key": "FULLNAME", "value": "Ray Charles"},
         ],
-        "preferences": [{"trout": True}],
     }
 
-    add_to_dotmailer("Ray", "Charles", "ray.charles@example.com")
+    add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
 
-    mocked_post.assert_called_once_with(
-        "https://test/", auth=("username_here", "password_here"), json=expected_body
+    mocked_post.assert_called_with(
+        "", auth=("username_here", "password_here"), json=expected_body
     )
