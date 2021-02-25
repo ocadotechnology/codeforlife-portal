@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v4.20.4 (2021-02-25)
+### Fix
+* Update PDF viewer nav buttons ([#1363](https://github.com/ocadotechnology/codeforlife-portal/issues/1363)) ([`0f3ef9c`](https://github.com/ocadotechnology/codeforlife-portal/commit/0f3ef9cda60125f90c12e4337ca04fcc9d418919))
+
+## v4.20.3 (2021-02-24)
+### Fix
+* Update copy of Kurono landing page ([#1362](https://github.com/ocadotechnology/codeforlife-portal/issues/1362)) ([`1ca988d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ca988d36a52d7762c71df0059637ed1f663f59a))
+
+## v4.20.2 (2021-02-23)
+### Fix
+* Update copyright to use current year ([#1361](https://github.com/ocadotechnology/codeforlife-portal/issues/1361)) ([`3e7c6d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/3e7c6d65968b399e10a582d6ee0129451dcefef6))
+
 ## v4.20.1 (2021-02-08)
 ### Fix
 * Rr migrations tests ([#1352](https://github.com/ocadotechnology/codeforlife-portal/issues/1352)) ([`ebfc285`](https://github.com/ocadotechnology/codeforlife-portal/commit/ebfc285d4e1c624135d63c57184838bc454c17aa))
