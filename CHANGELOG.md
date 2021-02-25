@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.21.0 (2021-02-25)
+### Feature
+* Capture consent data on newsletter signup ([#1365](https://github.com/ocadotechnology/codeforlife-portal/issues/1365)) ([`4c5b9b1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4c5b9b17ca642982cf84412a67152bdc64a35574))
+
 ## v4.20.4 (2021-02-25)
 ### Fix
 * Update PDF viewer nav buttons ([#1363](https://github.com/ocadotechnology/codeforlife-portal/issues/1363)) ([`0f3ef9c`](https://github.com/ocadotechnology/codeforlife-portal/commit/0f3ef9cda60125f90c12e4337ca04fcc9d418919))
