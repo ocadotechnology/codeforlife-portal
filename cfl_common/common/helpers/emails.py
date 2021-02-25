@@ -34,22 +34,22 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from datetime import timedelta
+import datetime
 from uuid import uuid4
 
-from django.core.mail import EmailMultiAlternatives
-from django.template import loader
-from django.utils import timezone
-from requests import post
-from requests.exceptions import RequestException
-
+from common import app_settings
 from common.email_messages import (
     emailChangeNotificationEmail,
     emailChangeVerificationEmail,
     emailVerificationNeededEmail,
 )
 from common.models import EmailVerification
-from common import app_settings
+from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse
+from django.template import loader
+from django.utils import timezone
+from requests import post
+from requests.exceptions import RequestException
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -94,7 +94,7 @@ def generate_token(user, email="", preverified=False):
         user=user,
         email=email,
         token=uuid4().hex[:30],
-        expiry=timezone.now() + timedelta(hours=1),
+        expiry=timezone.now() + datetime.timedelta(hours=1),
         verified=preverified,
     )
 
@@ -134,13 +134,47 @@ def is_verified(user):
 
 def add_to_dotmailer(first_name: str, last_name: str, email: str):
     try:
+        create_contact(first_name, last_name, email)
         add_contact_to_address_book(first_name, last_name, email)
     except RequestException:
-        return
+        return HttpResponse(status=404)
+
+
+def create_contact(first_name, last_name, email):
+    url = app_settings.DOTMAILER_CREATE_CONTACT_URL
+    body = {
+        "contact": {
+            "email": email,
+            "optInType": "VerifiedDouble",
+            "emailType": "Html",
+            "dataFields": [
+                {"key": "FIRSTNAME", "value": first_name},
+                {"key": "LASTNAME", "value": last_name},
+                {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
+            ],
+        },
+        "consentFields": [
+            {
+                "fields": [
+                    {
+                        "key": "DATETIMECONSENTED",
+                        "value": datetime.datetime.now().__str__(),
+                    },
+                ]
+            }
+        ],
+        "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
+    }
+
+    post(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
 
 
 def add_contact_to_address_book(first_name, last_name, email):
-    url = app_settings.DOTMAILER_URL
+    url = app_settings.DOTMAILER_ADDRESS_BOOK_URL
     body = {
         "email": email,
         "optInType": "VerifiedDouble",
@@ -150,8 +184,8 @@ def add_contact_to_address_book(first_name, last_name, email):
             {"key": "LASTNAME", "value": last_name},
             {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
         ],
-        "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
     }
+
     post(
         url,
         json=body,

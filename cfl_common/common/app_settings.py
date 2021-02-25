@@ -3,8 +3,9 @@ from django.conf import settings
 #: Email address to source notifications from
 EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education")
 
-#: Dotmailer URL for adding users to the newsletter address book
-DOTMAILER_URL = getattr(settings, "DOTMAILER_URL", "")
+#: Dotmailer URLs for adding users to the newsletter address book
+DOTMAILER_CREATE_CONTACT_URL = getattr(settings, "DOTMAILER_CREATE_CONTACT_URL", "")
+DOTMAILER_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_ADDRESS_BOOK_URL", "")
 
 #: Dotmailer username for API authentication
 DOTMAILER_USER = getattr(settings, "DOTMAILER_USER", "")
