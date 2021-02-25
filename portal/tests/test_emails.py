@@ -37,7 +37,11 @@
 import datetime
 
 import pytest
-from common.helpers.emails import create_contact, add_contact_to_address_book
+from common.helpers.emails import (
+    add_to_dotmailer,
+    create_contact,
+    add_contact_to_address_book,
+)
 from django.core import mail
 from django.test import Client
 from django.urls import reverse
@@ -63,10 +67,22 @@ def test_send_new_users_numbers_email():
     assert len(mail.outbox) == 1
 
 
-def test_newsletter_sends_correct_requests(mocker, monkeypatch, patch_datetime_now):
+def test_newsletter_calls_correct_requests(mocker, monkeypatch):
+    mocked_create_contact = mocker.patch("common.helpers.emails.create_contact")
+    mocked_add_to_address_book = mocker.patch(
+        "common.helpers.emails.add_contact_to_address_book"
+    )
+
+    add_to_dotmailer("Ray", "Charles", "ray.charles@example.com")
+
+    mocked_create_contact.assert_called_once()
+    mocked_add_to_address_book.assert_called_once()
+
+
+def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_datetime_now):
     mocked_post = mocker.patch("common.helpers.emails.post")
 
-    expected_body = {
+    expected_body1 = {
         "contact": {
             "email": "ray.charles@example.com",
             "optInType": "VerifiedDouble",
@@ -87,13 +103,7 @@ def test_newsletter_sends_correct_requests(mocker, monkeypatch, patch_datetime_n
         "preferences": [{"trout": True}],
     }
 
-    create_contact("Ray", "Charles", "ray.charles@example.com")
-
-    mocked_post.assert_called_with(
-        "", auth=("username_here", "password_here"), json=expected_body
-    )
-
-    expected_body = {
+    expected_body2 = {
         "email": "ray.charles@example.com",
         "optInType": "VerifiedDouble",
         "emailType": "Html",
@@ -104,8 +114,14 @@ def test_newsletter_sends_correct_requests(mocker, monkeypatch, patch_datetime_n
         ],
     }
 
+    create_contact("Ray", "Charles", "ray.charles@example.com")
+
+    mocked_post.assert_called_once_with(
+        "", auth=("username_here", "password_here"), json=expected_body1
+    )
+
     add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
 
     mocked_post.assert_called_with(
-        "", auth=("username_here", "password_here"), json=expected_body
+        "", auth=("username_here", "password_here"), json=expected_body2
     )
