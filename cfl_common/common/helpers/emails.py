@@ -166,7 +166,7 @@ def create_contact(first_name, last_name, email):
         "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
     }
 
-    response = post(
+    post(
         url,
         json=body,
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
@@ -186,7 +186,7 @@ def add_contact_to_address_book(first_name, last_name, email):
         ],
     }
 
-    response = post(
+    post(
         url,
         json=body,
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
