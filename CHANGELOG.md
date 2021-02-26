@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.21.1 (2021-02-26)
+### Fix
+* Update the home and about pages: text update, new icon ([#1364](https://github.com/ocadotechnology/codeforlife-portal/issues/1364)) ([`a24b22f`](https://github.com/ocadotechnology/codeforlife-portal/commit/a24b22fe41fb854a6892da027ef58bea58e31f0d))
+
 ## v4.21.0 (2021-02-25)
 ### Feature
 * Capture consent data on newsletter signup ([#1365](https://github.com/ocadotechnology/codeforlife-portal/issues/1365)) ([`4c5b9b1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4c5b9b17ca642982cf84412a67152bdc64a35574))
