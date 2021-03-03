@@ -25,7 +25,14 @@
             <img class="kurono-logo" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
         </div>
         <div>
-            <a href="{% url_for_aimmo_dashboard %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
+            <a href="{% url_for_aimmo_dashboard %}"
+               class="button button--big button-primary button--primary--general-educate">
+                {% if user|is_logged_in %}
+                    Play
+                {% else %}
+                    Log in to play
+                {% endif %}
+            </a>
         </div>
   </div>
 </div>
