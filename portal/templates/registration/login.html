@@ -1,48 +1,33 @@
-{% extends "portal/base_old.html" %}
+{% extends "portal/base.html" %}
 {% load static %}
 
 {% block content %}
 <div id="administration_login">
-<div class="span_centered_half">
-    <div class="login-card">
-        <h3>Admin login</h3><br/>
-        <p>This is for site admins to log in, if you are not part of the codeforlife development team then this is not the login form you are looking for.</p>
+    <div class="background background--primary">
+        <div class="col-sm-6 col-center">
+            <div class="form">
+                <h3>Admin login</h3>
+                <p>This is for site admins to log in. If you are not part of the Code for Life development team then
+                    this is not the login form you are looking for.</p>
 
-        <form method="post" action="{% url 'administration_login' %}">
+                <form method="post" action="{% url 'administration_login' %}">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {{ form.username.errors }}
+                    <label>{{ form.username.label_tag }}</label>
+                    {{ form.username }}
+                    {{ form.password.errors }}
+                    <label>{{ form.password.label_tag }}</label>
+                    {{ form.password }}
+                    {{ form.captcha }}
 
-            {% csrf_token %}
-
-            <table>
-                <tr>
-                    <td colspan="2">{{ form.non_field_errors }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">{{ form.username.errors }}</td>
-                </tr>
-                <tr>
-                    <td>{{ form.username.label_tag }}</td>
-                    <td>{{ form.username }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">{{ form.password.errors }}</td>
-                </tr>
-                <tr>
-                    <td>{{ form.password.label_tag }}</td>
-                    <td>{{ form.password }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        {{ form.captcha }}
-                    </td>
-                </tr>
-            </table>
-
-            <input type="submit" name="login_view" class="btn btn-primary wide" value="Log in">
-            <input type="hidden" name="next" value="{{ next }}" />
-
-        </form>
+                    <button type="submit" name="login_view"
+                            class="button--regular button--primary--general-educate button--login">Log in</button>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 </div>
 
 {% endblock %}
