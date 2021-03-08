@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.21.2 (2021-03-08)
+### Fix
+* Improve admin login form ([#1373](https://github.com/ocadotechnology/codeforlife-portal/issues/1373)) ([`b2c7b2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2c7b2d69114adc8666a2c64442943fe1ece44d9))
+
 ## v4.21.1 (2021-02-26)
 ### Fix
 * Update the home and about pages: text update, new icon ([#1364](https://github.com/ocadotechnology/codeforlife-portal/issues/1364)) ([`a24b22f`](https://github.com/ocadotechnology/codeforlife-portal/commit/a24b22fe41fb854a6892da027ef58bea58e31f0d))
