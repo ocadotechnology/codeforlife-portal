@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,10 +34,38 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import re
+
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
-from django.contrib.auth.forms import AuthenticationForm
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 
 class AdminLoginForm(AuthenticationForm):
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+
+
+class AdminPasswordChangeForm(PasswordChangeForm):
+    error_messages = {
+        **PasswordChangeForm.error_messages,
+        "password_too_weak": "Password is too weak. Please choose a password that's at "
+        "least 14 characters long, contains at least one "
+        "lowercase letter, one uppercase letter, one digit and "
+        "one special character.",
+    }
+
+    def clean_new_password1(self):
+        new_password1 = self.cleaned_data["new_password1"]
+
+        pattern = re.compile(
+            "^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]).{14,}$"
+        )
+
+        if not re.match(pattern, new_password1):
+            raise forms.ValidationError(
+                self.error_messages["password_too_weak"],
+                code="password_too_weak",
+            )
+
+        return new_password1
