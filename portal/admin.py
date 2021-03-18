@@ -47,6 +47,8 @@ from common.models import (
     UserProfile,
 )
 
+from portal.forms.admin_login import AdminUserCreationForm
+
 
 class ClassAdmin(admin.ModelAdmin):
     search_fields = [
@@ -129,6 +131,7 @@ class EmailVerificationAdmin(admin.ModelAdmin):
 
 UserAdmin.list_display += ("date_joined",)
 UserAdmin.list_filter += ("date_joined",)
+UserAdmin.add_form = AdminUserCreationForm
 
 
 admin.site.register(Class, ClassAdmin)
