@@ -44,7 +44,11 @@ from django.contrib import messages as messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import (
+    LoginView,
+    PasswordChangeView,
+    PasswordChangeDoneView,
+)
 from django.db.models import Avg, Count, Q
 from django.shortcuts import render
 from django.utils import timezone
@@ -55,7 +59,7 @@ from rest_framework.reverse import reverse_lazy
 from portal import handlers
 
 from portal import app_settings
-from portal.forms.admin_login import AdminLoginForm, AdminPasswordChangeForm
+from portal.forms.admin import AdminLoginForm, AdminChangeOwnPasswordForm
 from portal.helpers.location import lookup_coord
 
 block_limit = 5
@@ -96,8 +100,8 @@ class AdminLoginView(LoginView):
 
 
 class AdminChangePasswordView(PasswordChangeView):
-    form_class = AdminPasswordChangeForm
-    success_url = reverse_lazy('administration_password_change_done')
+    form_class = AdminChangeOwnPasswordForm
+    success_url = reverse_lazy("administration_password_change_done")
 
     def form_valid(self, form):
         return super(AdminChangePasswordView, self).form_valid(form)

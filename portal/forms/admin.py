@@ -39,7 +39,12 @@ import re
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordChangeForm,
+    UserCreationForm,
+    AdminPasswordChangeForm,
+)
 
 ADMIN_PASSWORD_TOO_WEAK_MESSAGE = """
 Password is too weak. Please choose a password that's at least 14 characters long,
@@ -56,7 +61,7 @@ class AdminLoginForm(AuthenticationForm):
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
 
-class AdminPasswordChangeForm(PasswordChangeForm):
+class AdminChangeOwnPasswordForm(PasswordChangeForm):
     error_messages = {
         **PasswordChangeForm.error_messages,
         "password_too_weak": ADMIN_PASSWORD_TOO_WEAK_MESSAGE,
@@ -77,6 +82,24 @@ class AdminPasswordChangeForm(PasswordChangeForm):
 class AdminUserCreationForm(UserCreationForm):
     error_messages = {
         **UserCreationForm.error_messages,
+        "password_too_weak": ADMIN_PASSWORD_TOO_WEAK_MESSAGE,
+    }
+
+    def clean_password1(self):
+        password1 = self.cleaned_data["password1"]
+
+        if not re.match(ADMIN_PASSWORD_PATTERN, password1):
+            raise forms.ValidationError(
+                self.error_messages["password_too_weak"],
+                code="password_too_weak",
+            )
+
+        return password1
+
+
+class AdminChangeUserPasswordForm(AdminPasswordChangeForm):
+    error_messages = {
+        **AdminPasswordChangeForm.error_messages,
         "password_too_weak": ADMIN_PASSWORD_TOO_WEAK_MESSAGE,
     }
 
