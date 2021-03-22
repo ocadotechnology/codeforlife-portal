@@ -1,0 +1,58 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id="homeWrapper"{% endblock %}
+
+{% block subNav %}
+{{ block.super }}
+<div id="student_login_page"></div>
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+<section class="row">
+    <div class="form--register is-flex form--register--student">
+        <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
+            <h1 class="center-block">Log in as a student</h1>
+            <form id="form-login-school" method="post">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <label for="id_{{ form.username.html_username }}">{{ form.username.label }}</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+
+                <label for="id_{{ form.access_code.html_name }}">{{ form.access_code.label }}</label>
+                {{ form.access_code }}
+                {{ form.access_code.errors }}
+
+                <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+
+                {{ form.captcha }}
+
+                <button type="submit" name="school_login" class="button--regular button--primary--general-play button--login"
+                        onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
+            </form>
+
+            <p><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
+            <p>Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
+            <p>Are you registered as an independent student who is not part of a school or club?
+                If so, <a href="{% url 'independent_student_login' %}">log in here</a>.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

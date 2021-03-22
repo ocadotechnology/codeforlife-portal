@@ -36,26 +36,31 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
+
+from portal.tests.utils.classes import create_class, transfer_class
 from .base_test import BaseTest
-from .utils.classes import create_class, create_class_directly, transfer_class
 from .utils.messages import (
     is_class_created_message_showing,
     is_class_nonempty_message_showing,
 )
-from .utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
-from .utils.student import create_school_student_directly
-from .utils.teacher import signup_teacher_directly
 
 
 class TestClass(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-
-        page = self.go_to_homepage().go_to_login_page().login_no_class(email, password)
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login_no_class(email, password)
+        )
 
         assert page.does_not_have_classes()
 
@@ -68,7 +73,7 @@ class TestClass(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
 
         page, class_name = create_class(page)
 
@@ -84,7 +89,9 @@ class TestClass(BaseTest):
         klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = self.go_to_homepage().go_to_login_page().login(email_2, password_2)
+        page = (
+            self.go_to_homepage().go_to_teacher_login_page().login(email_2, password_2)
+        )
 
         page, class_name_3 = create_class(page)
 
@@ -96,7 +103,7 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page()
 
         page = page.toggle_select_student().delete_students()
@@ -114,7 +121,7 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page()
 
         page = page.delete_class()
@@ -133,7 +140,7 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page().go_to_class_settings_page()
 
         new_class_name = "new " + class_name
@@ -157,7 +164,7 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_login_page().login(email, password)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page().go_to_class_settings_page()
 
         page = page.transfer_class()
@@ -173,13 +180,15 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email_1)
         student_name, student_password, _ = create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_login_page().login(email_1, password_1)
+        page = (
+            self.go_to_homepage().go_to_teacher_login_page().login(email_1, password_1)
+        )
         page = page.go_to_class_page().go_to_class_settings_page()
 
         page = transfer_class(page, 0)
         assert page.does_not_have_classes()
 
-        page = page.logout().go_to_login_page().login(email_2, password_2)
+        page = page.logout().go_to_teacher_login_page().login(email_2, password_2)
         assert page.does_class_exist(class_name, access_code)
         page = page.go_to_class_page()
         assert page.has_students()

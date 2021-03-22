@@ -1,6 +1,6 @@
 # coding=utf-8
 MATERIALS_BANNER = {
-    "title": "Teaching Packs",
+    "title": "Rapid Router Teaching Packs",
     "subtitle": "",
     "text": "We’ve created a comprehensive set of teaching materials to give you the "
     "confidence and resources to use Code for Life’s games to help you teach students "

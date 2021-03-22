@@ -1,0 +1,18 @@
+{% load staticfiles %}
+{% load app_tags %}
+
+<div class="card col-sm-8 col-center">
+    <img class="card__image" src="{{ image | cloud_storage }}">
+    <div class="card__text">
+        <h3 class="card__title">{{ title }}</h3>
+        <p>{{ description }}</p>
+        <div class="button-group button-group__icon">
+            <a href="{% url button1.url pdf_name=button1.url_args %}" class="button button--primary--general-play">
+                {{ button1.text }}<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+            <a href="{% url button2.url id=button2.url_args %}" class="button button--primary--general-play">
+                {{ button2.text }}<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+        </div>
+    </div>
+</div>

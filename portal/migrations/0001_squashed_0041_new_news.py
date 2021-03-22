@@ -557,7 +557,12 @@ class Migration(migrations.Migration):
                         blank=True,
                     ),
                 ),
-                ("user", models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+                    ),
+                ),
                 ("awaiting_email_verification", models.BooleanField(default=False)),
                 ("can_view_aggregated_data", models.BooleanField(default=False)),
                 ("developer", models.BooleanField(default=False)),
@@ -594,11 +599,19 @@ class Migration(migrations.Migration):
                         primary_key=True,
                     ),
                 ),
-                ("user", models.OneToOneField(to="portal.UserProfile")),
+                (
+                    "user",
+                    models.OneToOneField(
+                        to="portal.UserProfile", on_delete=models.CASCADE
+                    ),
+                ),
                 (
                     "pending_join_request",
                     models.ForeignKey(
-                        related_name="join_request", to="portal.School", null=True
+                        related_name="join_request",
+                        to="portal.School",
+                        null=True,
+                        on_delete=models.SET_NULL,
                     ),
                 ),
                 ("is_admin", models.BooleanField(default=False)),
@@ -606,7 +619,10 @@ class Migration(migrations.Migration):
                 (
                     "school",
                     models.ForeignKey(
-                        related_name="teacher_school", to="portal.School", null=True
+                        related_name="teacher_school",
+                        to="portal.School",
+                        null=True,
+                        on_delete=models.SET_NULL,
                     ),
                 ),
             ],
@@ -631,7 +647,9 @@ class Migration(migrations.Migration):
                 (
                     "teacher",
                     models.ForeignKey(
-                        related_name="class_teacher", to="portal.Teacher"
+                        related_name="class_teacher",
+                        to="portal.Teacher",
+                        on_delete=models.CASCADE,
                     ),
                 ),
             ],
@@ -652,14 +670,25 @@ class Migration(migrations.Migration):
                 (
                     "class_field",
                     models.ForeignKey(
-                        related_name="students", to="portal.Class", null=True
+                        related_name="students",
+                        to="portal.Class",
+                        null=True,
+                        on_delete=models.CASCADE,
                     ),
                 ),
-                ("user", models.OneToOneField(to="portal.UserProfile")),
+                (
+                    "user",
+                    models.OneToOneField(
+                        to="portal.UserProfile", on_delete=models.CASCADE
+                    ),
+                ),
                 (
                     "pending_class_request",
                     models.ForeignKey(
-                        related_name="class_request", to="portal.Class", null=True
+                        related_name="class_request",
+                        to="portal.Class",
+                        null=True,
+                        on_delete=models.CASCADE,
                     ),
                 ),
             ],
@@ -678,7 +707,12 @@ class Migration(migrations.Migration):
                 ),
                 ("name", models.CharField(max_length=200)),
                 ("children", models.ManyToManyField(to="portal.Student")),
-                ("user", models.OneToOneField(to="portal.UserProfile")),
+                (
+                    "user",
+                    models.OneToOneField(
+                        to="portal.UserProfile", on_delete=models.CASCADE
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -699,7 +733,9 @@ class Migration(migrations.Migration):
                 (
                     "user",
                     models.ForeignKey(
-                        related_name="email_verifications", to="portal.UserProfile"
+                        related_name="email_verifications",
+                        to="portal.UserProfile",
+                        on_delete=models.CASCADE,
                     ),
                 ),
                 (

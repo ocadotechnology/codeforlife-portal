@@ -34,13 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from aimmo.models import Worksheet
 from aimmo.templatetags.players_utils import get_user_playable_games
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 from django import template
 from django.conf import settings
+from django.shortcuts import reverse
+from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
-from portal import __version__
-from portal import beta
-from portal.utils import using_two_factor
+
+from portal import __version__, beta
 
 register = template.Library()
 
@@ -60,14 +64,14 @@ def has_2FA(u):
 def is_logged_in(u):
     return (
         u
-        and u.is_authenticated()
+        and u.is_authenticated
         and (not using_two_factor(u) or (hasattr(u, "is_verified") and u.is_verified()))
     )
 
 
 @register.filter
 def is_developer(u):
-    return not u.is_anonymous() and u.userprofile.developer
+    return not u.is_anonymous and u.userprofile.developer
 
 
 @register.filter
@@ -78,15 +82,12 @@ def has_beta_access(request):
 @register.inclusion_tag("portal/partials/aimmo_games_table.html", takes_context=True)
 def games_table(context, base_url):
     playable_games = get_user_playable_games(context, base_url)
-    playable_games["can_delete_game"] = True
 
-    user = context.request.user
-    if (
-        hasattr(user, "userprofile")
-        and hasattr(user.userprofile, "student")
-        and user.userprofile.student.class_field != None
-    ):
-        playable_games["can_delete_game"] = False
+    complete_worksheets = Worksheet.objects.exclude(thumbnail_text="Coming Soon")
+    incomplete_worksheets = Worksheet.objects.filter(thumbnail_text="Coming Soon")
+
+    playable_games["complete_worksheets"] = complete_worksheets
+    playable_games["incomplete_worksheets"] = incomplete_worksheets
 
     return playable_games
 
@@ -173,3 +174,11 @@ def cloud_storage(e):
 @register.filter(name="get_project_version")
 def get_project_version():
     return __version__
+
+
+@register.simple_tag(takes_context=True)
+def url_for_aimmo_dashboard(context: RequestContext):
+    if logged_in_as_teacher(context.request.user):
+        return reverse("teacher_aimmo_dashboard")
+    else:
+        return reverse("student_aimmo_dashboard")

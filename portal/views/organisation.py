@@ -34,64 +34,69 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from functools import partial
 import json
 
-from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
+from common.models import School, Teacher, Class
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.urls import reverse_lazy
+from django.db.models import Q
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.views import APIView
 
-from portal import app_settings, email_messages
-from portal.models import School, Teacher, Class
+import common.permissions as permissions
+from common import email_messages
 from portal.forms.organisation import OrganisationJoinForm, OrganisationForm
-from portal.permissions import logged_in_as_teacher
-from portal.helpers.emails import send_email, NOTIFICATION_EMAIL
-from portal.helpers.location import lookup_coord
+from common.helpers.emails import send_email, NOTIFICATION_EMAIL
 
 
-def organisation_fuzzy_lookup(request):
-    fuzzy_name = request.GET.get("fuzzy_name", None)
-    school_data = []
+class OrganisationFuzzyLookup(APIView):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (permissions.LoggedInAsTeacher,)
 
-    # The idea here is to return all schools that satisfy that each
-    # part of the fuzzy_name (separated by spaces) occurs in either
-    # school.name or school.postcode.
-    # So it is an intersection of unions.
+    def get(self, request):
+        fuzzy_name = request.GET.get("fuzzy_name", None)
+        school_data = []
 
-    if fuzzy_name and len(fuzzy_name) > 2:
-        schools = School.objects.all()
-        for part in fuzzy_name.split():
-            schools = schools.filter(
-                Q(name__icontains=part) | Q(postcode__icontains=part)
-            )
+        # The idea here is to return all schools that satisfy that each
+        # part of the fuzzy_name (separated by spaces) occurs in either
+        # school.name or school.postcode.
+        # So it is an intersection of unions.
 
+        if fuzzy_name and len(fuzzy_name) > 2:
+            schools = School.objects.all()
+            for part in fuzzy_name.split():
+                schools = schools.filter(
+                    Q(name__icontains=part) | Q(postcode__icontains=part)
+                )
+
+            self._search_schools(schools, school_data)
+
+        return HttpResponse(json.dumps(school_data), content_type="application/json")
+
+    def _search_schools(self, schools, school_data):
         for school in schools:
-            search_school(school, school_data)
-
-    return HttpResponse(json.dumps(school_data), content_type="application/json")
-
-
-def search_school(school, school_data):
-    admins = Teacher.objects.filter(school=school, is_admin=True)
-    admin = admins.first()
-    if admin:
-        email = admin.new_user.email
-        admin_domain = "*********" + email[email.find("@") :]
-        school_data.append(
-            {
-                "id": school.id,
-                "name": school.name,
-                "postcode": school.postcode,
-                "admin_domain": admin_domain,
-            }
-        )
+            admins = Teacher.objects.filter(school=school, is_admin=True)
+            admin = admins.first()
+            if admin:
+                email = admin.new_user.email
+                admin_domain = "*********" + email[email.find("@") :]
+                school_data.append(
+                    {
+                        "id": school.id,
+                        "name": school.name,
+                        "postcode": school.postcode,
+                        "admin_domain": admin_domain,
+                    }
+                )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(
+    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
+)
 def organisation_create(request):
 
     teacher = request.user.new_teacher
@@ -234,14 +239,18 @@ def process_revoke_request(request, teacher):
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(
+    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
+)
 def organisation_manage(request):
     return organisation_create(request)
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(
+    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
+)
 def organisation_leave(request):
     teacher = request.user.new_teacher
 

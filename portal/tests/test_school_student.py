@@ -36,13 +36,14 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
+
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .base_test import BaseTest
-from .utils.classes import create_class_directly
 from .utils.messages import is_student_details_updated_message_showing
-from .utils.organisation import create_organisation_directly
-from .utils.student import create_school_student_directly
-from .utils.teacher import signup_teacher_directly
 
 
 class TestSchoolStudent(BaseTest):
@@ -55,7 +56,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login(student_name, access_code, student_password)
         )
         assert self.is_dashboard(page)
@@ -69,7 +70,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login_failure(student_name, access_code, "some other password")
         )
 
@@ -86,7 +87,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login_failure(student_name, "WRONG", student_password)
         )
 
@@ -104,7 +105,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login_failure(student_name, access_code2, student_password)
         )
 
@@ -121,7 +122,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login(student_name, access_code, student_password)
         )
         assert self.is_dashboard(page)
@@ -143,7 +144,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login(student_name, access_code, student_password)
         )
         assert self.is_dashboard(page)
@@ -165,7 +166,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login(student_name, access_code, student_password)
         )
         assert self.is_dashboard(page)
@@ -188,7 +189,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login(student_name, access_code, student_password)
         )
         assert self.is_dashboard(page)
@@ -204,7 +205,7 @@ class TestSchoolStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_student_login_page()
             .student_login(student_name, access_code, new_password)
         )
         assert self.is_dashboard(page)

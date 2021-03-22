@@ -216,7 +216,6 @@
         <div class="row">
             <div class="col-sm-5">
                 <h3>Current classes</h3>
-                <!-- <p><strong>Please note:</strong> Kurono games will not be shown below, you can view them on the <a href="{% url 'kurono' %}">Kurono game page.</a></p> -->
                 {% if classes %}
                     <table id="classes-table" class="header-tertiary data-quaternary">
                         <tr>
@@ -265,10 +264,20 @@
                         <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                         <td><p><small>{{ join_request.pending_class_request.name }}
                             ({{ join_request.pending_class_request.access_code }})</small></p></td>
-                        <td><a id="allow_independent_button" class="button button--small button--primary--positive"
-                               href="{% url 'teacher_accept_student_request' join_request.id %}">Accept</a></td>
-                        <td><a id="deny_independent_button" class="button button--small button--primary--danger"
-                               href="{% url 'teacher_reject_student_request' join_request.id %}">Reject</a></td>
+                        <td>
+                            <form method="post" action="{% url 'teacher_accept_student_request' join_request.id %}">
+                                {% csrf_token %}
+                                <button id="allow_independent_button" type="submit"
+                                        class="button--small button--primary--positive">Accept</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="{% url 'teacher_reject_student_request' join_request.id %}">
+                                {% csrf_token %}
+                                <button id="deny_independent_button" type="submit"
+                                        class="button--small button--primary--danger">Reject</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>

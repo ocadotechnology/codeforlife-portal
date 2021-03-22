@@ -14,7 +14,8 @@ img {
 }
 
 .background {
-  @include _padding(40px, 0px, 40px, 0px);
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .background--primary {
@@ -125,19 +126,19 @@ img {
   object-fit: contain;
 }
 
-@media (min-width: 768px) and (max-width: 1400px) {
+@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
   .logo {
     margin-left: 1%;
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: $tablet-large-max-width) {
   .logo {
     height: 60px;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $tablet-small-min-width) {
   .logo {
     content: url('../img/logo_c4l_hexa.png');
     position: fixed;
@@ -146,7 +147,7 @@ img {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max-width) {
   .logo {
     position: relative;
     height: $cfl-logo-height-xs;

@@ -1,0 +1,75 @@
+{% extends 'portal/base.html' %}
+
+{% load app_tags %}
+{% load static %}
+
+{% block materials %}
+<a id="teaching_resources_button"
+   class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">
+    Teaching Resources
+</a>
+{% endblock materials %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="pdf_viewer_page"></div>
+
+{% if user|is_logged_in_as_teacher %}
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+    <a href="{% url 'materials' %}" class="button button--regular button--secondary button--secondary--light">KS1-3 teaching packs</a>
+    <a href="{% url 'kurono_packs' %}#ks1" class="button button--regular button--secondary button--secondary--light">KS3-4 teaching packs</a>
+</div>
+{% endif %}
+
+<div class="banner banner--resources">
+    {% if video_link %}
+    <div class="col-sm-4">
+    {% else %}
+    <div class="col-sm-8">
+    {% endif %}
+        <h3>{{ title }}</h3>
+        <h4>{{ description }}</h4>
+        <div class="resource-buttons">
+            <a href="{{ url }}" download class="button button--regular button--primary--general-educate">Download PDF</a>
+            {% if video_link %}
+            <a href="{{ video_download_link }}" download class="button button--regular button--primary--negative">Download Video</a>
+            {% endif %}
+        </div>
+    </div>
+    {% if video_link %}
+        <iframe class="resource-video" src="{{ video_link }}" allowfullscreen></iframe>
+    {% endif %}
+</div>
+
+<div class="background">
+    <div class="row--flex">
+        <iframe src="{{ url }}" class="col-sm-7 col-sm-offset-2 viewer-frame" scrolling="auto"></iframe>
+        {% if links %}
+        <div class="col-sm-3">
+            <h4>Related document(s)</h4>
+            <div>
+                {% for link, title in links %}
+                <p><a href="{% url 'materials_viewer' pdf_name=link %}">{{title}}</a></p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if user|is_logged_in_as_teacher %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($(window).width() > 760) {
+            toggleStickySubnav($('.menu').innerHeight());
+        }
+    });
+</script>
+{% endif %}
+
+{% endblock content %}

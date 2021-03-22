@@ -38,14 +38,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from portal.models import (
+from common.models import (
     Class,
-    Student,
-    Guardian,
-    Teacher,
-    School,
-    UserProfile,
     EmailVerification,
+    School,
+    Student,
+    Teacher,
+    UserProfile,
 )
 
 
@@ -134,7 +133,6 @@ UserAdmin.list_filter += ("date_joined",)
 
 admin.site.register(Class, ClassAdmin)
 admin.site.register(Student, StudentAdmin)
-admin.site.register(Guardian)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)

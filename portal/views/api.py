@@ -36,18 +36,19 @@
 # identified as the original program
 
 import datetime
+import uuid
 
+from common.models import Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
-from rest_framework import serializers, permissions, generics, status
+from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
+from rest_framework import generics, permissions, serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
-
-from portal.models import Teacher, Student
 
 THREE_YEARS_IN_DAYS = 1095
 
@@ -105,10 +106,9 @@ class InactiveUserSerializer(serializers.Serializer):
 class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
     """Checks whether the request is from a Google App Engine cron job."""
 
-    def has_permission(self, request, view):
-        return request.META.get("HTTP_X_APPENGINE_CRON") is not None or super(
-            IsAdminOrGoogleAppEngine, self
-        ).has_permission(request, view)
+    def has_permission(self, request: HttpRequest, view):
+        is_admin = super(IsAdminOrGoogleAppEngine, self).has_permission(request, view)
+        return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
 
 
 class InactiveUsersView(generics.ListAPIView):
@@ -119,18 +119,31 @@ class InactiveUsersView(generics.ListAPIView):
     If the user has never logged in, we look at the date they registered with us instead.
     """
 
-    queryset = User.objects.filter(
-        last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
-    ) | User.objects.filter(
-        last_login__isnull=True,
-        date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+    queryset = User.objects.filter(is_active=True) & (
+        User.objects.filter(
+            last_login__lte=timezone.now()
+            - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
+        )
+        | User.objects.filter(
+            last_login__isnull=True,
+            date_joined__lte=timezone.now()
+            - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+        )
     )
     authentication_classes = (SessionAuthentication,)
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
-    def delete(self, request):
-        """Delete all inactive users."""
+    def delete(self, request: HttpRequest):
+        """Delete all personal data from inactive users and mark them as inactive."""
         inactive_users = self.get_queryset()
-        inactive_users.delete()
+        deleted_users = []
+        for user in inactive_users:
+            user.username = uuid.uuid4().hex
+            user.first_name = "Deleted"
+            user.last_name = "User"
+            user.email = ""
+            user.is_active = False
+            user.save()
+            deleted_users.append(user.username)
         return Response(status=status.HTTP_204_NO_CONTENT)

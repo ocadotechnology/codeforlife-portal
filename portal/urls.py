@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2020, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,98 +35,114 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from aimmo.urls import HOMEPAGE_REGEX
+from common.permissions import teacher_verified
+from django.conf import settings
 from django.conf.urls import include, url
-from django.core.urlresolvers import reverse_lazy
+from django.conf.urls.static import static
+from django.urls import reverse_lazy
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
-from django.views.i18n import javascript_catalog
+from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
 from two_factor.urls import urlpatterns as two_factor_urls
 from two_factor.views import (
-    DisableView,
     BackupTokensView,
-    SetupCompleteView,
-    SetupView,
+    DisableView,
+    LoginView,
     ProfileView,
     QRGeneratorView,
-    LoginView,
+    SetupCompleteView,
+    SetupView,
 )
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.core import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
 
-from portal.permissions import teacher_verified
 from portal.views.about import about
-from portal.views.admin import aggregated_data, schools_map, AdminLoginView
-from portal.views.aimmo.home import AimmoHomeView
+from portal.views.admin import AdminLoginView, aggregated_data, schools_map
+from portal.views.aimmo.dashboard import TeacherAimmoDashboard, StudentAimmoDashboard
 from portal.views.api import (
-    registered_users,
+    InactiveUsersView,
     last_connected_since,
     number_users_per_country,
-    InactiveUsersView,
+    registered_users,
 )
-from portal.views.email import send_new_users_report
-from portal.views.email import verify_email
+from portal.views.email import send_new_users_report, verify_email
 from portal.views.help_and_support import contact
 from portal.views.home import (
-    login_view,
-    logout_view,
-    register_view,
-    process_newsletter_form,
     home,
     home_learning,
+    logout_view,
+    process_newsletter_form,
+    register_view,
 )
+from portal.views.login import (
+    IndependentStudentLoginView,
+    StudentLoginView,
+    TeacherLoginView,
+    old_login_form_redirect,
+)
+from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
-    organisation_fuzzy_lookup,
-    organisation_manage,
+    OrganisationFuzzyLookup,
     organisation_leave,
+    organisation_manage,
 )
 from portal.views.play_aimmo import play_aimmo
 from portal.views.play_landing_page import play_landing_page
 from portal.views.play_rapid_router import play_rapid_router
 from portal.views.privacy_policy import privacy_policy
 from portal.views.registration import (
-    teacher_password_reset,
+    password_reset_check_and_confirm,
     password_reset_done,
     student_password_reset,
-    password_reset_check_and_confirm,
+    teacher_password_reset,
 )
 from portal.views.student.edit_account_details import (
-    student_edit_account,
-    SchoolStudentEditAccountView,
     IndependentStudentEditAccountView,
+    SchoolStudentEditAccountView,
+    student_edit_account,
 )
-from portal.views.student.play import student_details, student_join_organisation
+from portal.views.student.play import (
+    student_details,
+    student_join_organisation,
+)
 from portal.views.teach import teach
+from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_allow_join,
     organisation_deny_join,
     organisation_kick,
     organisation_toggle_admin,
+    teacher_accept_student_request,
     teacher_disable_2FA,
     teacher_reject_student_request,
-    teacher_accept_student_request,
 )
 from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
-    teacher_onboarding_create_class,
-    teacher_onboarding_edit_class,
-    teacher_view_class,
-    teacher_edit_class,
-    teacher_move_class,
-    teacher_edit_student,
-    teacher_student_reset,
-    materials_viewer,
-    teacher_print_reminder_cards,
-    teacher_delete_students,
-    teacher_delete_class,
+    default_solution,
+    invite_teacher,
     teacher_class_password_reset,
+    teacher_delete_class,
+    teacher_delete_students,
+    teacher_dismiss_students,
+    teacher_edit_class,
+    teacher_edit_student,
+    teacher_move_class,
     teacher_move_students,
     teacher_move_students_to_class,
-    default_solution,
-    teacher_dismiss_students,
-    invite_teacher,
+    teacher_onboarding_create_class,
+    teacher_onboarding_edit_class,
+    teacher_print_reminder_cards,
+    teacher_student_reset,
+    teacher_view_class,
 )
-from portal.views.teacher.teacher_materials import materials
-from portal.views.teacher.teacher_resources import teacher_resources
+from portal.views.teacher.teacher_materials import materials, kurono_teaching_packs
+from portal.views.teacher.teacher_resources import (
+    teacher_rapid_router_resources,
+    teacher_kurono_resources,
+)
 from portal.views.terms import terms
 
 js_info_dict = {"packages": ("conf.locale",)}
@@ -160,11 +176,17 @@ two_factor_patterns = [
 
 
 urlpatterns = [
-    # The first AIMMO URL renders the new Kurono home page. It uses the same regex so as to overwrite the default
-    # home page in the AIMMO project.
-    # The second AIMMO URL imports all the URLs from the AIMMO project.
-    url(r"^kurono/$", AimmoHomeView.as_view(), name="kurono"),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
+    url(
+        r"^teach/kurono/dashboard/$",
+        TeacherAimmoDashboard.as_view(),
+        name="teacher_aimmo_dashboard",
+    ),
+    url(
+        r"^play/kurono/dashboard/$",
+        StudentAimmoDashboard.as_view(),
+        name="student_aimmo_dashboard",
+    ),
     url(
         r"^favicon\.ico$",
         RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
@@ -187,9 +209,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/locked_out.html"),
         name="locked_out",
     ),
-    url(r"^", include(two_factor_patterns, "two_factor")),
+    url(r"^", include((two_factor_patterns, "two_factor"), namespace="two_factor")),
     url(r"^i18n/", include("django.conf.urls.i18n")),
-    url(r"^jsi18n/$", javascript_catalog, js_info_dict),
+    url(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
     url(r"^teach/solutions_navigation/$", levels, name="teacher_level_solutions"),
     url(
         r"^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$",
@@ -200,7 +222,14 @@ urlpatterns = [
     url(r"^$", home, name="home"),
     url(r"^home-learning", home_learning, name="home-learning"),
     url(r"^register_form", register_view, name="register"),
-    url(r"^login_form", login_view, name="login_view"),
+    url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login"),
+    url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
+    url(
+        r"^login/independent/$",
+        IndependentStudentLoginView.as_view(),
+        name="independent_student_login",
+    ),
+    url(r"^login_form", old_login_form_redirect, name="old_login_form"),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
     url(
@@ -237,7 +266,7 @@ urlpatterns = [
     url(r"^teach/$", teach, name="teach"),
     url(
         r"^teach/fuzzy_lookup/$",
-        organisation_fuzzy_lookup,
+        OrganisationFuzzyLookup.as_view(),
         name="organisation_fuzzy_lookup",
     ),
     url(
@@ -272,18 +301,7 @@ urlpatterns = [
     url(
         r"^play/account/independent/$",
         IndependentStudentEditAccountView.as_view(),
-        name="indenpendent_edit_account",
-    ),
-    url(
-        r"^play/account/school_student/$",
-        SchoolStudentEditAccountView.as_view(),
-        name="school_student_edit_account",
-    ),
-    url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
-    url(
-        r"^play/account/independent/$",
-        IndependentStudentEditAccountView.as_view(),
-        name="indenpendent_edit_account",
+        name="independent_edit_account",
     ),
     url(
         r"^play/account/school_student/$",
@@ -298,12 +316,25 @@ urlpatterns = [
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
+    url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
     url(
         r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
-        materials_viewer,
+        materials_viewer_redirect,
+        name="materials_viewer_redirect",
+    ),
+    url(
+        r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
+        MaterialsViewer.as_view(),
         name="materials_viewer",
     ),
-    url(r"^teach/resources/$", teacher_resources, name="teaching_resources"),
+    url(
+        r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"
+    ),
+    url(
+        r"^teach/kurono_resources/$",
+        teacher_kurono_resources,
+        name="kurono_teaching_resources",
+    ),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
@@ -423,4 +454,11 @@ urlpatterns = [
         ),
     ),
     url(r"^hijack/", include("hijack.urls", namespace="hijack")),
+    url(r"^cms/", include(wagtailadmin_urls)),
+    url(r"^documents/", include(wagtaildocs_urls)),
+    url(r"^pages/", include(wagtail_urls)),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

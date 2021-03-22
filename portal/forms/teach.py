@@ -34,19 +34,20 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from builtins import map
-from builtins import str
-from builtins import range
 import re
+from builtins import map
+from builtins import range
+from builtins import str
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.models import Student, stripStudentName
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
 from portal.helpers.password import form_clean_password
-from portal.models import Student, stripStudentName
 
 choices = [
     ("Miss", "Miss"),
@@ -164,18 +165,18 @@ class TeacherEditAccountForm(forms.Form):
             raise forms.ValidationError("Your current password was incorrect")
 
 
-class TeacherLoginForm(forms.Form):
-    teacher_email = forms.EmailField(
+class TeacherLoginForm(AuthenticationForm):
+    username = forms.EmailField(
         label="Email address",
         widget=forms.EmailInput(attrs={"placeholder": "my.email@address.com"}),
     )
-    teacher_password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean(self):
-        email = self.cleaned_data.get("teacher_email", None)
-        password = self.cleaned_data.get("teacher_password", None)
+        email = self.cleaned_data.get("username", None)
+        password = self.cleaned_data.get("password", None)
 
         if email and password:
 
@@ -188,7 +189,7 @@ class TeacherLoginForm(forms.Form):
 
             self.check_email_errors(user)
 
-            self.user = user
+            self.user_cache = user
 
         return self.cleaned_data
 

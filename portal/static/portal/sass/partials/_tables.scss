@@ -68,7 +68,7 @@ td {
 }
 
 .data-primary {
-  td {
+  td:not(.no-bg) {
     background-color: $color-background-tint-primary;
   }
 }
@@ -189,7 +189,6 @@ td {
 .games-table {
   table-layout: fixed;
   text-align: start;
-  word-break: break-all;
 }
 
 .games-table__header {
@@ -240,7 +239,7 @@ td {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max-width) {
   .games-table {
     width: 100%;
     word-break: keep-all;

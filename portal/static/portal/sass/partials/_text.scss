@@ -104,6 +104,10 @@ small {
   font-size: 80%;
 }
 
+.disabled {
+  color: $color-text-disabled;
+}
+
 blockquote {
   border-left: none;
 
@@ -166,7 +170,7 @@ label {
 
 }
 
-@media (min-width: 1400px) {
+@media (min-width: $desktop-large-min-width) {
   html {
     font-size: 10px;
   }
@@ -176,7 +180,7 @@ label {
   }
 }
 
-@media (min-width: 1200px) and (max-width: 1400px) {
+@media (min-width: $desktop-small-min-width) and (max-width: $desktop-small-max-width) {
   html {
     font-size: 9px;
   }
@@ -186,7 +190,7 @@ label {
   }
 }
 
-@media (min-width: 1036px) and (max-width: 1200px) {
+@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
   html {
     font-size: 9px;
   }
@@ -196,7 +200,7 @@ label {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1036px) {
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
   html {
     font-size: 8px;
   }
@@ -206,7 +210,7 @@ label {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max-width) {
   html {
     font-size: 7px;
   }

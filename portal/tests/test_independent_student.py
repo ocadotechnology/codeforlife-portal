@@ -38,27 +38,27 @@ from __future__ import absolute_import
 
 import time
 
+from common.tests.utils import email as email_utils
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.student import (
+    create_independent_student,
+    create_independent_student_directly,
+    create_school_student_directly,
+    signup_duplicate_independent_student_fail,
+    submit_independent_student_signup_form,
+)
+from common.tests.utils.teacher import signup_teacher_directly
 from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
-from portal.tests.utils.classes import create_class_directly
-from portal.tests.utils.organisation import create_organisation_directly
-from portal.tests.utils.student import create_school_student_directly
-from portal.tests.utils.teacher import signup_teacher_directly
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
-from .utils import email as email_utils
 from .utils.messages import (
     is_email_verified_message_showing,
     is_indep_student_join_request_received_message_showing,
     is_indep_student_join_request_revoked_message_showing,
     is_student_details_updated_message_showing,
-)
-from .utils.student import (
-    create_independent_student,
-    create_independent_student_directly,
-    submit_independent_student_signup_form,
-    signup_duplicate_independent_student_fail,
 )
 
 
@@ -86,7 +86,7 @@ class TestIndependentStudent(BaseTest):
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
 
-        assert page.__class__.__name__ == "LoginPage"
+        assert page.__class__.__name__ == "IndependentStudentLoginPage"
 
     def test_signup_duplicate_username_failure(self):
         username, _, _ = create_independent_student_directly()
@@ -99,7 +99,7 @@ class TestIndependentStudent(BaseTest):
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Code for Life: Username already taken"
 
-        assert page.__class__.__name__ == "LoginPage"
+        assert page.__class__.__name__ == "IndependentStudentLoginPage"
 
     def test_signup_failure_short_password(self):
         page = self.go_to_homepage()
@@ -148,13 +148,14 @@ class TestIndependentStudent(BaseTest):
 
     def test_login_failure(self):
         page = self.go_to_homepage()
-        page = page.go_to_login_page()
+        page = page.go_to_independent_student_login_page()
         page = page.independent_student_login_failure(
             "Non existent username", "Incorrect password"
         )
 
         assert page.has_login_failed(
-            "independent_student_login_form", "Incorrect username or password"
+            "independent_student_login_form",
+            "Please enter a correct username and password. Note that both fields may be case-sensitive.",
         )
 
     def test_login_success(self):
@@ -181,8 +182,8 @@ class TestIndependentStudent(BaseTest):
 
         self.selenium.get(self.live_server_url)
         page = (
-            self.go_to_homepage()
-            .go_to_login_page()
+            HomePage(self.selenium)
+            .go_to_independent_student_login_page()
             .independent_student_login(username, new_password)
         )
 
@@ -325,8 +326,8 @@ class TestIndependentStudent(BaseTest):
     def test_join_class_accepted(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
-        klass, _, accesss_code = create_class_directly(teacher_email)
-        create_school_student_directly(accesss_code)
+        klass, _, access_code = create_class_directly(teacher_email)
+        create_school_student_directly(access_code)
         klass.always_accept_requests = True
         klass.save()
 
@@ -343,7 +344,7 @@ class TestIndependentStudent(BaseTest):
         page = (
             play_page.independent_student_login(student_username, password)
             .go_to_join_a_school_or_club_page()
-            .join_a_school_or_club(accesss_code)
+            .join_a_school_or_club(access_code)
         )
 
         page.logout()
@@ -351,7 +352,7 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
 
         page = (
-            page.go_to_login_page()
+            page.go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
             .accept_independent_join_request()
             .save(student_name)
@@ -385,7 +386,7 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
 
         dashboard_page = (
-            page.go_to_login_page()
+            page.go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
             .deny_independent_join_request()
         )
@@ -403,7 +404,7 @@ class TestIndependentStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_independent_student_login_page()
             .go_to_indep_forgotten_password_page()
         )
         return page

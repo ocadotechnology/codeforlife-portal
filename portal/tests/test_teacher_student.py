@@ -38,19 +38,20 @@ from __future__ import absolute_import
 
 import time
 
-from portal.tests.pageObjects.portal.home_page import HomePage
-from .base_test import BaseTest
-from .utils.classes import create_class_directly
-from .utils.organisation import (
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from .utils.student import (
-    create_school_student,
+from common.tests.utils.student import (
     create_many_school_students,
+    create_school_student,
     create_school_student_directly,
 )
-from .utils.teacher import signup_teacher_directly
+from common.tests.utils.teacher import signup_teacher_directly
+
+from portal.tests.pageObjects.portal.home_page import HomePage
+from .base_test import BaseTest
 
 
 class TestTeacherStudent(BaseTest):
@@ -62,7 +63,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_students(email, password)
         )
 
@@ -81,7 +82,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_students(email, password)
         )
 
@@ -101,7 +102,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_students(email, password)
         )
 
@@ -121,7 +122,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_students(email, password)
         )
 
@@ -141,7 +142,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_students(email, password)
         )
 
@@ -160,7 +161,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login_no_students(email, password)
         )
 
@@ -181,7 +182,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
         )
@@ -202,7 +203,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
             .go_to_edit_student_page()
@@ -226,7 +227,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
             .go_to_edit_student_page()
@@ -250,7 +251,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
             .go_to_edit_student_page()
@@ -274,7 +275,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
             .go_to_edit_student_page()
@@ -302,7 +303,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
             .go_to_edit_student_page()
@@ -329,7 +330,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(email, password)
             .go_to_class_page()
             .go_to_edit_student_page()
@@ -348,7 +349,7 @@ class TestTeacherStudent(BaseTest):
         student_name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page()
         assert page.student_exists(student_name)
 
@@ -365,7 +366,7 @@ class TestTeacherStudent(BaseTest):
         student_name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page()
         assert page.student_exists(student_name)
 
@@ -383,7 +384,7 @@ class TestTeacherStudent(BaseTest):
         _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page()
 
         page = page.move_students_none_selected()
@@ -407,7 +408,7 @@ class TestTeacherStudent(BaseTest):
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
-            .go_to_login_page()
+            .go_to_teacher_login_page()
             .login(old_teacher_email, password_1)
         )
         page = page.go_to_class_page()
@@ -430,7 +431,11 @@ class TestTeacherStudent(BaseTest):
         student_name_2, _, _ = create_school_student_directly(access_code_1)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email_1, password_1)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email_1, password_1)
+        )
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
         assert page.student_exists(student_name_2)
@@ -440,7 +445,12 @@ class TestTeacherStudent(BaseTest):
         assert not page.student_exists(student_name_1)
 
         page = page.go_to_dashboard()
-        page = page.go_to_top().logout().go_to_login_page().login(email_2, password_2)
+        page = (
+            page.go_to_top()
+            .logout()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+        )
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
 
@@ -452,7 +462,7 @@ class TestTeacherStudent(BaseTest):
         _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_login_page().login(email, password)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
         page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
 

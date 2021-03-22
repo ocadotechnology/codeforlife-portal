@@ -37,21 +37,43 @@
 from __future__ import division
 
 import json
-from builtins import zip
 from datetime import timedelta
 from functools import partial, wraps
 
-from aimmo.models import Game
+from common import email_messages
+from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
+from common.helpers.generators import (
+    generate_access_code,
+    generate_new_student_name,
+    generate_password,
+)
+from common.models import Class, Student, Teacher
+from common.permissions import logged_in_as_teacher
 from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.forms.formsets import formset_factory
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, get_object_or_404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 from past.utils import old_div
+from portal.forms.invite_teacher import InviteTeacherForm
+from portal.forms.teach import (
+    BaseTeacherDismissStudentsFormSet,
+    BaseTeacherMoveStudentsDisambiguationFormSet,
+    ClassCreationForm,
+    ClassEditForm,
+    ClassMoveForm,
+    StudentCreationForm,
+    TeacherDismissStudentsForm,
+    TeacherEditStudentForm,
+    TeacherMoveStudentDisambiguationForm,
+    TeacherMoveStudentsDestinationForm,
+    TeacherSetStudentPass,
+)
 from reportlab.lib.colors import black
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
@@ -59,83 +81,9 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
-from portal import email_messages
-from portal.forms.invite_teacher import InviteTeacherForm
-from portal.forms.teach import (
-    ClassCreationForm,
-    ClassEditForm,
-    ClassMoveForm,
-    TeacherEditStudentForm,
-    TeacherSetStudentPass,
-    TeacherMoveStudentsDestinationForm,
-    TeacherMoveStudentDisambiguationForm,
-    BaseTeacherMoveStudentsDisambiguationFormSet,
-    StudentCreationForm,
-    TeacherDismissStudentsForm,
-    BaseTeacherDismissStudentsFormSet,
-)
-from portal.helpers.emails import send_email, send_verification_email, INVITE_FROM
-from portal.helpers.generators import (
-    generate_access_code,
-    generate_password,
-    generate_new_student_name,
-)
-from portal.models import Teacher, Class, Student
-from portal.permissions import logged_in_as_teacher
-from portal.templatetags.app_tags import cloud_storage
-from portal.views.teacher.pdfs import PDF_DATA
 
-
-def get_links(pdf_name):
-    links = PDF_DATA[pdf_name]["links"]
-    link_titles = []
-    for link in links:
-        link = link.replace("_", " ")
-        link_titles.append(link)
-
-    return list(zip(links, link_titles))
-
-
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
-def materials_viewer(request, pdf_name):
-    try:
-        title = PDF_DATA[pdf_name]["title"]
-        description = PDF_DATA[pdf_name]["description"]
-        url = cloud_storage(PDF_DATA[pdf_name]["url"])
-        page_origin = PDF_DATA[pdf_name]["page_origin"]
-
-    except KeyError:
-        raise Http404
-
-    links = None
-    video_link = None
-    video_download_link = None
-
-    if PDF_DATA[pdf_name]["links"] is not None:
-        links = get_links(pdf_name)
-
-    if "video" in PDF_DATA[pdf_name]:
-        video_link = PDF_DATA[pdf_name]["video"]
-        video_download_link = cloud_storage(PDF_DATA[pdf_name]["video_download_link"])
-
-    return render(
-        request,
-        "portal/teach/viewer.html",
-        {
-            "title": title,
-            "description": description,
-            "url": url,
-            "links": links,
-            "video_link": video_link,
-            "video_download_link": video_download_link,
-            "page_origin": page_origin,
-        },
-    )
-
-
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def default_solution(request, levelName):
     if 80 <= int(levelName) <= 91:
         return render(
@@ -147,8 +95,8 @@ def default_solution(request, levelName):
         )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_onboarding_create_class(request):
     """
     Onboarding view for creating a class (and organisation if there isn't one, yet)
@@ -224,10 +172,6 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     klass=klass, name=name, password=password
                 )
 
-                give_student_access_to_aimmo_games(
-                    student=new_student, new_teacher=teacher
-                )
-
             return render(
                 request,
                 "portal/teach/onboarding_print.html",
@@ -256,8 +200,8 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_onboarding_edit_class(request, access_code):
     """
     Adding students to a class during the onboarding process
@@ -276,8 +220,8 @@ def check_user_is_authorised(request, klass):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_view_class(request, access_code):
     """
     Adding students to a class after the onboarding process has been completed
@@ -287,8 +231,9 @@ def teacher_view_class(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@require_POST
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
@@ -310,8 +255,8 @@ def teacher_delete_class(request, access_code):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
@@ -334,8 +279,8 @@ def teacher_delete_students(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_edit_class(request, access_code):
     """
     Editing class details
@@ -423,8 +368,8 @@ def process_edit_class_form(request, klass, form):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_edit_student(request, pk):
     """
     Changing a student's details
@@ -497,8 +442,8 @@ def check_if_reset_authorised(request, student):
         raise Http404
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_student_reset(request, pk):
     """
     Reset a student's password
@@ -526,8 +471,8 @@ def teacher_student_reset(request, pk):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_dismiss_students(request, access_code):
     """
     Dismiss a student (make them independent)
@@ -588,8 +533,6 @@ def process_dismiss_student_form(request, formset, klass, access_code):
             Student, class_field=klass, new_user__first_name__iexact=data["orig_name"]
         )
 
-        remove_access_from_all_aimmo_games(student, klass.teacher)
-
         student.class_field = None
         student.new_user.first_name = data["name"]
         student.new_user.username = data["name"]
@@ -608,8 +551,8 @@ def process_dismiss_student_form(request, formset, klass, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_class_password_reset(request, access_code):
     """
     Reset passwords for one or more students
@@ -645,8 +588,8 @@ def teacher_class_password_reset(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_move_class(request, access_code):
     """
     Move a class to another teacher
@@ -665,21 +608,15 @@ def teacher_move_class(request, access_code):
         form = ClassMoveForm(other_teachers, request.POST)
         if form.is_valid():
             new_teacher_id = form.cleaned_data["new_teacher"]
-            new_teacher = Teacher.objects.get(id=new_teacher_id)
+            new_teacher = get_object_or_404(Teacher, id=new_teacher_id)
 
-            klass.teacher = get_object_or_404(Teacher, id=new_teacher_id)
+            klass.teacher = new_teacher
             klass.save()
-
-            students = Student.objects.filter(class_field=klass)
-
-            for student in students:
-                give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
 
             messages.success(
                 request,
                 "The class has been successfully assigned to a different teacher.",
             )
-
             return HttpResponseRedirect(reverse_lazy("dashboard"))
     else:
         form = ClassMoveForm(other_teachers)
@@ -688,35 +625,8 @@ def teacher_move_class(request, access_code):
     )
 
 
-def give_student_access_to_aimmo_games(student, old_teacher=None, new_teacher=None):
-    """
-    Give students access to all of their current teacher's (new_teacher) Kurono games,
-    Remove access to games from previous teacher
-    """
-    games_to_add = Game.objects.filter(owner=new_teacher.new_user)
-
-    if old_teacher:
-        games_to_remove = Game.objects.filter(owner=old_teacher.new_user)
-
-        for game_to_remove in games_to_remove:
-            game_to_remove.can_play.remove(student.new_user)
-
-    for game_to_add in games_to_add:
-        game_to_add.can_play.add(student.new_user)
-
-
-def remove_access_from_all_aimmo_games(student, teacher):
-    """
-    Remove access to all games (when the student becomes independent)
-    """
-    games_to_remove = Game.objects.filter(owner=teacher.new_user)
-
-    for game in games_to_remove:
-        game.can_play.remove(student.new_user)
-
-
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_move_students(request, access_code):
     """
     Move students
@@ -744,8 +654,8 @@ def teacher_move_students(request, access_code):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_move_students_to_class(request, access_code):
     """
     Disambiguation for moving students (teacher gets to rename the students to avoid clashes)
@@ -835,8 +745,6 @@ def process_move_students_form(request, formset, old_class, new_class):
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
 
-        give_student_access_to_aimmo_games(student, old_teacher, new_teacher)
-
         student.save()
         student.new_user.save()
 
@@ -846,8 +754,8 @@ def process_move_students_form(request, formset, old_class, new_class):
     )
 
 
-@login_required(login_url=reverse_lazy("login_view"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("login_view"))
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_print_reminder_cards(request, access_code):
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="student_reminder_cards.pdf"'

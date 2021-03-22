@@ -34,14 +34,14 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from builtins import str
-import uuid
 import time
+import uuid
+from builtins import str
 
+from common.models import UserProfile
 from django.contrib.auth.models import User, Permission
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
-from portal.models import UserProfile
 from portal.tests.base_test import BaseTest
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
 from portal.views import admin

@@ -2,13 +2,14 @@
 $color-teacher-blue: #0c52a3;
 $color-student-orange: #f37300;
 $color-text-gray: #4a4a4a;
-$color-error: #ff0000;
+$color-error: #d60026;
 // Text
 $color-text-primary: #000000;
 $color-text-secondary: #ffffff;
 $color-text-tertiary: $color-text-gray;
 $color-text-login-error: #ffff00;
 $color-text-materials-tag: #808080;
+$color-text-disabled: #9b9b9b;
 // Quotes
 $color-quote-text: $color-teacher-blue;
 $color-quote-name: $color-text-gray;
@@ -59,9 +60,10 @@ $color-background-teach: $color-teacher-blue;
 $color-background-play: $color-student-orange;
 $color-background-play-indep: #ff637d;
 $color-banner-games: rgba(0, 0, 0, 0.5);
-$color-background-warning: #fab300;
+$color-background-warning: #ffbc50;
 $color-background-positive: #7ed321;
 $color-background-danger: #ff0000;
+$color-background-key-stage: #b800d2;
 $color-background-tint-primary: #d6e7ed;
 $color-background-tint-secondary: #f7ecc8;
 $color-background-tint-tertiary: #f8dfe5;

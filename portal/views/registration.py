@@ -37,36 +37,33 @@
 
 import warnings
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_decode
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.utils.encoding import force_text
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.views import password_reset, password_reset_confirm
-from django.contrib.auth import get_user_model
-from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.utils.deprecation import RemovedInDjango20Warning
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext as _
-from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from deploy import captcha
+from django.views.decorators.debug import sensitive_post_parameters
 
+from deploy import captcha
+from portal import app_settings
 from portal.forms.registration import (
     TeacherPasswordResetForm,
     PasswordResetSetPasswordForm,
     StudentPasswordResetForm,
 )
-from portal.permissions import not_logged_in, not_fully_logged_in
-from portal.helpers.emails import PASSWORD_RESET_EMAIL
-from portal import app_settings
 from portal.helpers.captcha import remove_captcha_from_form
+from common.helpers.emails import PASSWORD_RESET_EMAIL
+from common.permissions import not_logged_in, not_fully_logged_in
 
 
-@user_passes_test(not_logged_in, login_url=reverse_lazy("login_view"))
+@user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
 def student_password_reset(request):
     usertype = "STUDENT"
     return password_reset(
@@ -75,11 +72,10 @@ def student_password_reset(request):
         from_email=PASSWORD_RESET_EMAIL,
         template_name="portal/reset_password_student.html",
         password_reset_form=StudentPasswordResetForm,
-        is_admin_site=True,
     )
 
 
-@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("login_view"))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))
 def teacher_password_reset(request):
     usertype = "TEACHER"
     return password_reset(
@@ -88,7 +84,6 @@ def teacher_password_reset(request):
         from_email=PASSWORD_RESET_EMAIL,
         template_name="portal/reset_password_teach.html",
         password_reset_form=TeacherPasswordResetForm,
-        is_admin_site=True,
     )
 
 
@@ -96,7 +91,6 @@ def teacher_password_reset(request):
 def password_reset(
     request,
     usertype,
-    is_admin_site=False,
     template_name="portal/reset_password_teach.html",
     email_template_name="portal/reset_password_email.html",
     subject_template_name="registration/password_reset_subject.txt",
@@ -121,15 +115,6 @@ def password_reset(
                 "request": request,
                 "html_email_template_name": html_email_template_name,
             }
-            if is_admin_site:
-                warnings.warn(
-                    "The is_admin_site argument to "
-                    "django.contrib.auth.views.password_reset() is deprecated "
-                    "and will be removed in Django 2.0.",
-                    RemovedInDjango20Warning,
-                    3,
-                )
-                opts = dict(opts, domain_override=request.get_host())
             form.save(**opts)
 
             return render(
@@ -232,7 +217,7 @@ def user_is_authenticated(user, token_generator, token):
     return user is not None and token_generator.check_token(user, token)
 
 
-@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("login_view"))
+@user_passes_test(not_fully_logged_in, login_url=reverse_lazy("home"))
 def password_reset_check_and_confirm(request, uidb64=None, token=None):
     """
     Customised standard django auth view with customised form to incorporate checking the password set is strong enough

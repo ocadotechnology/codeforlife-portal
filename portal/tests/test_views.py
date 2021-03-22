@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Limited
+# Copyright (C) 2020, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,16 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from __future__ import absolute_import
-
-from django.core.urlresolvers import reverse
+from common.models import Teacher
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
+from django.urls import reverse
 
 from deploy import captcha
-from .utils.classes import create_class_directly
-from .utils.organisation import create_organisation_directly
-from .utils.student import create_school_student_directly
-from .utils.teacher import signup_teacher_directly
 
 
 class TestTeacherViews(TestCase):
@@ -64,6 +66,20 @@ class TestTeacherViews(TestCase):
         response = c.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_organisation_kick_has_correct_permissions(self):
+        teacher2_email, _ = signup_teacher_directly()
+        org_name, org_postcode = create_organisation_directly(self.email)
+        join_teacher_to_organisation(self.email, org_name, org_postcode, is_admin=True)
+        join_teacher_to_organisation(teacher2_email, org_name, org_postcode)
+        teacher2_id = Teacher.objects.get(new_user__email=teacher2_email).id
+
+        client = self.login()
+        url = reverse("organisation_kick", args=[teacher2_id])
+        response = client.get(url)
+        assert response.status_code == 405
+        response = client.post(url)
+        assert response.status_code == 302
+
 
 class TestLoginViews(TestCase):
     @classmethod
@@ -77,7 +93,7 @@ class TestLoginViews(TestCase):
         captcha.CAPTCHA_ENABLED = cls.orig_captcha_enabled
         super(TestLoginViews, cls).tearDownClass()
 
-    def _set_up_test_data(self, next_url=False):
+    def _set_up_test_data(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
         _, _, class_access_code = create_class_directly(teacher_email)
@@ -85,48 +101,48 @@ class TestLoginViews(TestCase):
             class_access_code
         )
 
-        if next_url:
-            url = reverse("login_view") + "/?next=/"
-        else:
-            url = reverse("login_view")
-
         return (
             teacher_email,
             teacher_password,
             student_name,
             student_password,
             class_access_code,
-            url,
         )
 
     def _create_and_login_teacher(self, next_url=False):
-        email, password, _, _, _, url = self._set_up_test_data(next_url)
+        email, password, _, _, _ = self._set_up_test_data()
 
         if next_url:
-            url = reverse("login_view") + "/?next=/"
+            url = reverse("teacher_login") + "?next=/"
         else:
-            url = reverse("login_view")
+            url = reverse("teacher_login")
+
         c = Client()
         response = c.post(
             url,
             {
-                "login-teacher_email": email,
-                "login-teacher_password": password,
+                "username": email,
+                "password": password,
                 "g-recaptcha-response": "something",
             },
         )
         return response, c
 
     def _create_and_login_school_student(self, next_url=False):
-        _, _, name, password, class_access_code, url = self._set_up_test_data(next_url)
+        _, _, name, password, class_access_code = self._set_up_test_data()
+
+        if next_url:
+            url = reverse("student_login") + "?next=/"
+        else:
+            url = reverse("student_login")
 
         c = Client()
         response = c.post(
             url,
             {
-                "login-name": name,
-                "login-access_code": class_access_code,
-                "login-password": password,
+                "username": name,
+                "access_code": class_access_code,
+                "password": password,
                 "g-recaptcha-response": "something",
             },
         )
@@ -143,14 +159,14 @@ class TestLoginViews(TestCase):
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()
 
-        url = reverse("login_view")
+        url = reverse("teacher_login")
         response = c.get(url)
         self.assertRedirects(response, "/teach/dashboard/")
 
     def test_student_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_school_student()
 
-        url = reverse("login_view")
+        url = reverse("student_login")
         response = c.get(url)
         self.assertRedirects(response, "/play/details/")
 

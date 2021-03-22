@@ -1,0 +1,68 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+{% load banner_tags %}
+
+{% block materials %}
+<a class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
+{% endblock materials %}
+
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+
+<div id="rapid_router_resources_page"></div>
+
+<div class="background">
+    <div class="grid grid-worksheets grid__fit col-sm-8 col-center">
+        <div class="card">
+            <div class="card__images">
+                <img title="Teaching packs" alt="Packs image" class="card__image" src="{% static 'portal/img/teaching_packs.jpg' %}">
+            </div>
+            <div class="card__text">
+                <div>
+                    <h4 class="card__title">Teaching packs</h4>
+                    <p>We&rsquo;ve created a comprehensive set of teaching materials that are aligned to the curriculum.</p>
+                </div>
+                <div class="button-group button-group__icon">
+                    <a id="materials_button" href="{% url 'materials' %}" class="button button--primary--general-play">
+                        View teaching packs<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card__images">
+                <img title="Level Solutions" alt="Level Solutions" class="card__image" src="{% static 'portal/img/teaching_tools.jpg' %}">
+            </div>
+            <div class="card__text">
+                <div>
+                    <h4 class="card__title">Level Solutions</h4>
+                    <p>Need the answers? View the solutions for each level in Rapid Router.</p>
+                </div>
+                <div class="button-group button-group__icon">
+                    <a href="{% url 'teacher_level_solutions' %}" class="button button--primary--general-play">
+                        View level solutions<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card__images">
+                <img title="Certificates" alt="Certificates" class="card__image" src="{% static 'portal/img/certificates.jpg' %}">
+            </div>
+            <div class="card__text">
+                <h4 class="card__title">Student Certificates</h4>
+                <p>Printable PDF certificates to reward student progress.</p>
+                <p><a href="{{ 'general_resources/CFL_Pupil_Certificates_Colour.pdf'|cloud_storage }}" onclick='send_event("CFL_Pupil_Certificates.pdf","Clicked");'>Colour</a></p>
+                <p><a href="{{ 'general_resources/CFL_Pupil_Certificates_Black_and_White.pdf'|cloud_storage }}" onclick='send_event("CFL_Pupil_Certificates.pdf","Clicked");'>Black and white</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

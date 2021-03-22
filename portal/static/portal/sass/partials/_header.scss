@@ -29,14 +29,16 @@
     .button--regular:focus,
     .button--regular:visited {
       @include _line-height($spacing * 5);
-      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
+      @include _padding($spacing * 2, 0px, $spacing * 2, $spacing * 3);
       align-items: center;
-      background: $color-background-tertiary;
+      border-bottom: 1px solid $color-button-secondary-border-light;
       color: $color-text-secondary;
       display: flex;
+      justify-content: space-between;
+      margin: 0;
 
       .dropdown-menu__option__text {
-        border-bottom: 1px dotted transparent;
+        font-weight: 600;
         text-decoration: none;
       }
 
@@ -48,7 +50,6 @@
 
     .button--regular:hover {
       .dropdown-menu__option__text {
-        border-bottom: 1px solid $color-text-secondary;
         cursor: pointer;
         text-decoration: none;
       }
@@ -58,6 +59,26 @@
       .button--regular {
         border: none;
       }
+    }
+
+    .button--primary--general-play:hover,
+    .button--primary--general-play:focus {
+      background-color: $color-button-primary-action-general-play-hover;
+    }
+
+    .button--primary--general-educate:hover,
+    .button--primary--general-educate:focus {
+      background-color: $color-button-primary-action-general-educate-hover;
+    }
+
+    .button--primary--negative:hover,
+    .button--primary--negative:focus {
+      background-color: $color-button-primary-action-negative-hover;
+    }
+
+    .button--primary--navigation:hover,
+    .button--primary--navigation:focus {
+      background: $color-button-primary-action-navigation-hover;
     }
   }
 }
@@ -100,7 +121,7 @@
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: $desktop-large-min-width) {
   .menu__right-side {
     align-items: center;
     display: flex;
@@ -117,19 +138,19 @@
   }
 }
 
-@media (min-width: 1200px) and (max-width: 1400px) {
+@media (min-width: $desktop-small-min-width) and (max-width: $desktop-small-max-width) {
   .menu__brand {
     margin-left: 13%;
   }
 }
 
-@media (min-width: 1036px) and (max-width: 1200px) {
+@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
   .menu__brand {
     margin-left: 8%;
   }
 }
 
-@media (min-width: 1036px) {
+@media (min-width: $tablet-large-min-width) {
   .menu__brand {
     @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
     width: 15%;
@@ -141,7 +162,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1036px) {
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
   .menu__brand {
     @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
     margin-left: 11%;
@@ -154,14 +175,14 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1400px) {
+@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
   .menu__right-side {
     align-items: center;
     display: flex;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $tablet-small-min-width) {
   .menu {
     background-color: $color-background-secondary;
     border-bottom: 1px solid $color-background-tertiary;
@@ -217,13 +238,17 @@
   .button--menu__item__sub {
     display: none;
   }
+
+  .header__login-options-dropdown-menu {
+    width: 100%;
+  }
 }
 
 .header__ot-logo--no-tagline {
   height: 30px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: $mobile-max-width) {
   .menu {
     height: $menu-height-xs;
 

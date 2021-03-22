@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load app_tags %}
+
+<div class="grid grid-worksheets grid__fit col-sm-8 col-center">
+    {% for card in cards %}
+        <div class="card">
+            <div class="card__images">
+                <img class="card__image" src="{{ card.image | cloud_storage }}">
+                {% if card.thumbnail_text %}
+                    <h3 class="card__thumbnail">{{ card.thumbnail_text }}</h3>
+                {% elif card.thumbnail_image %}
+                    <img class="card__thumbnail" src="{{ card.thumbnail_image | cloud_storage }}">
+                {% endif %}
+            </div>
+            <div class="card__text">
+                <h3 class="card__title">{{ card.title }}</h3>
+                {% if card.description %}
+                    <p>{{ card.description }}</p>
+                {% elif card.button_text %}
+                    <div class="button-group button-group__icon">
+                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary--general-play">
+                            {{ card.button_text }}<div class="glyphicon glyphicon-menu-right"></div>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

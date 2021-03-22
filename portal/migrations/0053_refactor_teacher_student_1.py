@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
                 related_name="new_teacher",
                 null=True,
                 blank=True,
+                on_delete=models.CASCADE,
             ),
         ),
         migrations.AddField(
@@ -27,6 +28,7 @@ class Migration(migrations.Migration):
                 related_name="new_student",
                 null=True,
                 blank=True,
+                on_delete=models.CASCADE,
             ),
         ),
         migrations.AddField(
@@ -37,6 +39,7 @@ class Migration(migrations.Migration):
                 related_name="new_guardian",
                 null=True,
                 blank=True,
+                on_delete=models.CASCADE,
             ),
         ),
         migrations.RunSQL(

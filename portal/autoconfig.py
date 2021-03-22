@@ -46,6 +46,7 @@ DEFAULT_SETTINGS = {
     "MEDIA_ROOT": os.path.join(
         os.path.join(os.path.dirname(__file__), "static"), "email_media/"
     ),
+    "MEDIA_URL": "/media/",
 }
 
 SETTINGS = {
@@ -54,6 +55,7 @@ SETTINGS = {
         "django_otp.plugins.otp_static",
         "django_otp.plugins.otp_totp",
     ],
+    "WAGTAIL_SITE_NAME": "Code for Life",
     "PIPELINE": {
         "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
         "STYLESHEETS": {
@@ -80,6 +82,7 @@ SETTINGS = {
         "game",
         "pipeline",
         "portal",
+        "common",
         "django.contrib.admin",
         "django.contrib.admindocs",
         "django.contrib.auth",
@@ -98,6 +101,20 @@ SETTINGS = {
         "hijack",
         "compat",
         "hijack_admin",
+        "wagtail.contrib.forms",
+        "wagtail.contrib.redirects",
+        "wagtail.embeds",
+        "wagtail.sites",
+        "wagtail.users",
+        "wagtail.snippets",
+        "wagtail.documents",
+        "wagtail.images",
+        "wagtail.search",
+        "wagtail.admin",
+        "wagtail.core",
+        "wagtail.contrib.search_promotions",
+        "modelcluster",
+        "taggit",
     ],
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
@@ -108,11 +125,11 @@ SETTINGS = {
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
-        "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
         "django_otp.middleware.OTPMiddleware",
+        "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     ],
     "TEMPLATES": [
         {
@@ -131,7 +148,7 @@ SETTINGS = {
         }
     ],
     "CODEFORLIFE_WEBSITE": "www.codeforlife.education",
-    "CLOUD_STORAGE_PREFIX": "//storage.googleapis.com/codeforlife-assets/",
+    "CLOUD_STORAGE_PREFIX": "https://storage.googleapis.com/codeforlife-assets/",
     "LOGGING": {
         "version": 1,
         "disable_existing_loggers": False,
@@ -139,8 +156,6 @@ SETTINGS = {
         "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
     },
     "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
-    "CAN_DELETE_GAME_CLASS": "portal.permissions.CanDeleteGame",
-    "USERS_FOR_NEW_AIMMO_GAME": "portal.aimmo_game.get_users_for_new_game",
     "SECURE_CONTENT_TYPE_NOSNIFF": True,
     "HIJACK_LOGIN_REDIRECT_URL": "/",
     "HIJACK_LOGOUT_REDIRECT_URL": "/administration/",

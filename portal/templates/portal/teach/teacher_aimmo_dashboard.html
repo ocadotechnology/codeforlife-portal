@@ -1,0 +1,102 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block aimmo %}
+<a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button" class="button--menu button--menu--secondary
+button--menu--enabled button--menu--teacher--active">Kurono</a>
+{% endblock aimmo %}
+
+{% block css %}
+{{block.super}}
+{% endblock css %}
+
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'portal/js/join_create_game_toggle.js' %}"></script>
+{% endblock scripts %}
+
+{% block subNav %}
+{{ block.super }}
+<div class="banner banner--teacher banner--aimmo-home banner--teacher--create-aimmo-game row">
+    <div class="kurono-logo col-sm-4 col-sm-offset-2">
+        <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
+    </div>
+    <div class="col-sm-6">
+        <div class="banner--picture">
+            <div class="banner--picture__inside1">
+                <div class="banner--picture__inside2 banner--picture--aimmo"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+    <div class="col-sm-12 col-md-11 col-lg-9 sub-nav__content">
+        <p>Select a class from the dropdown menu to add a new game below</p>
+        <div class="dropdown">
+            <form autocomplete="off" id="create-game-form" method="post" class="hidden">
+                {% csrf_token %}
+                <input type="hidden" name="game_class" id="id_game_class">
+            </form>
+            <button class="button--regular button--secondary button--dropdown" data-toggle="dropdown"
+                    aria-expanded="false" id="add_class_dropdown">
+                <div class="dropdown__text">Add class</div>
+            </button>
+            <ul id="add-class-dropdown-menu" class="dropdown-menu">
+                {% for game_class in form.game_class.field.queryset %}
+                    <li class="dropdown-menu__option">
+                        {% if game_class.game %}
+                        <a class="btn button--regular disabled" data-class-id="{{ game_class.id }}">
+                        {% else %}
+                        <a class="btn button--regular" id="class_{{ game_class.id }}" data-class-id="{{ game_class.id }}"
+                           onclick='send_event("Kurono", "Clicked", "Create game button");'>
+                        {% endif %}
+                            <small class="dropdown-menu__option__text">{{ game_class.name }}</small>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+<section class="background">
+    <h3>My games</h3>
+    {% games_table 'kurono/play' %}
+</section>
+
+<div id="kurono_teacher_dashboard_page"></div>
+<div class="background--quinary">
+    <section class="background col-sm-8 col-center">
+        <h3>Teaching resources</h3>
+        <p>A set of individual and collaborative worksheets keep the students engaged and having fun whilst embedding
+            important Python skills, supported by lesson guides and resource sheets.</p>
+        <div class="background button-group button-group__icon">
+            <a href="{% url 'kurono_packs' %}" class="button button--primary--general-play">
+                View Kurono teaching packs<div class="glyphicon glyphicon-menu-right"></div>
+            </a>
+            <a href="{{ 'kurono_v3.zip'|cloud_storage }}" onclick='send_event("kurono_v3.zip", "Downloaded");'
+               class="button button--primary--general-play">Download all resources
+                <div class="glyphicon glyphicon-save"></div>
+            </a>
+        </div>
+    </section>
+</div>
+<div class="background--primary">
+    <section class="background col-sm-8 col-center">
+        <h3>Tell us what you think of Kurono...</h3>
+        <p>Your testing and feedback will help Code for Life deliver an enjoyable game, and will allow us to consult
+            with you on resources that will be relevant to teaching computing classes in secondary schools
+            (13 &mdash; 18 year olds).</p>
+        <div class="background button-group button-group__icon">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
+               class="button button--regular button--primary--navigation" target="_blank">Give feedback
+                <div class="glyphicon glyphicon-new-window"></div></a>
+        </div>
+    </section>
+</div>
+
+{% endblock content %}

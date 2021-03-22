@@ -5,8 +5,8 @@
 {% load benefits_tags %}
 {% load cache %}
 
-{% block nav_play %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block aimmo %}<a href="{% url 'play_aimmo' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
+{% block nav_play %}<a href="{% url_for_aimmo_dashboard %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
+{% block aimmo %}<a href="{% url_for_aimmo_dashboard %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
 
 
 {% block css %}
@@ -25,7 +25,14 @@
             <img class="kurono-logo" src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo">
         </div>
         <div>
-            <a href="{% url 'kurono'  %}" class="button button--big button-primary button--primary--general-educate">Play Now</a>
+            <a href="{% url_for_aimmo_dashboard %}"
+               class="button button--big button-primary button--primary--general-educate">
+                {% if user|is_logged_in %}
+                    Play
+                {% else %}
+                    Log in to play
+                {% endif %}
+            </a>
         </div>
   </div>
 </div>
@@ -67,7 +74,7 @@
 <div class="background row">
     <section class="col-center">
         {% headline headline_name="PLAY_ONLINE" %}
-        <a  href="{% url 'kurono' %}">
+        <a href="{% url_for_aimmo_dashboard %}">
             <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
                 <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
             </video>

@@ -39,16 +39,18 @@ from datetime import timedelta
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.models import Class, Student, stripStudentName
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.helpers.password import form_clean_password
-from portal.models import Student, Class, stripStudentName
+from common.permissions import logged_in_as_independent_student
 
 
-class StudentLoginForm(forms.Form):
-    name = forms.CharField(
+class StudentLoginForm(AuthenticationForm):
+    username = forms.CharField(
         label="Name", widget=forms.TextInput(attrs={"placeholder": "Jane"})
     )
     access_code = forms.CharField(
@@ -59,8 +61,13 @@ class StudentLoginForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
+    error_messages = {
+        "invalid_login": "Invalid name, class access code or password",
+        "inactive": "This account is inactive.",
+    }
+
     def clean(self):
-        name = self.cleaned_data.get("name", None)
+        name = self.cleaned_data.get("username", None)
         access_code = self.cleaned_data.get("access_code", None)
         password = self.cleaned_data.get("password", None)
 
@@ -69,8 +76,7 @@ class StudentLoginForm(forms.Form):
             student, user = self.check_for_errors(name, access_code, password)
 
             self.student = student
-            self.user = user
-
+            self.user_cache = user
         return self.cleaned_data
 
     def check_for_errors(self, name, access_code, password):
@@ -205,6 +211,8 @@ class IndependentStudentSignupForm(forms.Form):
 
     newsletter_ticked = forms.BooleanField(initial=False, required=False)
 
+    is_over_required_age = forms.BooleanField(initial=False, required=True)
+
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
     confirm_password = forms.CharField(
@@ -245,7 +253,7 @@ class IndependentStudentSignupForm(forms.Form):
         return self.cleaned_data
 
 
-class IndependentStudentLoginForm(forms.Form):
+class IndependentStudentLoginForm(AuthenticationForm):
     username = forms.CharField(
         label="Username", widget=forms.TextInput(attrs={"placeholder": "rosie_f"})
     )
@@ -253,30 +261,9 @@ class IndependentStudentLoginForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def clean(self):
-        username = self.cleaned_data.get("username", None)
-        password = self.cleaned_data.get("password", None)
-
-        if username and password:
-            students = Student.objects.filter(
-                class_field=None, new_user__username=username
-            )
-            if not students.exists():
-                raise forms.ValidationError("Incorrect username or password")
-
-            user = authenticate(username=username, password=password)
-
-            self.check_for_errors(user)
-
-            self.user = user
-
-        return self.cleaned_data
-
-    def check_for_errors(self, user):
-        if user is None:
+    def confirm_login_allowed(self, user):
+        if not logged_in_as_independent_student(user):
             raise forms.ValidationError("Incorrect username or password")
-        if not user.is_active:
-            raise forms.ValidationError("This user account has been deactivated")
 
 
 class StudentJoinOrganisationForm(forms.Form):

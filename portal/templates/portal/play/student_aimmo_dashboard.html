@@ -1,0 +1,63 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags banner_tags hero_card_tags card_list_tags character_list_tags %}
+
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+{% if not user|is_independent_student %}
+    {% if HERO_CARD %}
+        <div class="background">
+            {% hero_card hero_card_name="HERO_CARD" %}
+        </div>
+
+        <div class="background">
+            {% card_list %}
+        </div>
+    {% else %}
+        <div class="background text-center">
+            <h2>My Games</h2>
+            <p>Oh no! It doesn’t look like you have access to any games, yet.<br>
+                You’ll need to ask your teacher to set some up.</p>
+        </div>
+    {% endif %}
+
+    <section class="background background--primary row">
+        <div class="col-sm-8 col-center grid">
+            <div>
+                <h3 class="grid-item__title">User Guide</h3>
+                <p class="grid-item__expand">Find out more about the game and learn the basics for using the code editor and game map.</p>
+                <div class="button-group button-group__icon">
+                    <a href="{% url 'materials_viewer' pdf_name='Kurono_student_user_guide' %}" class="button button--primary--general-play">
+                        User Guide<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h3 class="grid-item__title">Cheat Sheet</h3>
+                <p class="grid-item__expand">This cheat sheet will give you what you need to communicate with Kurono in Python.</p>
+                <div class="button-group button-group__icon">
+                    <a href="{% url 'materials_viewer' pdf_name='Kurono_cheat_sheet' %}" class="button button--primary--general-play">
+                        Cheat Sheet<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="background background--quinary background--quinary__title">
+        <h2 class="text-center">Meet the characters</h2>
+        {% character_list %}
+    </div>
+{% else %}
+    <div class="background text-center col-sm-8 col-center">
+        <h2>My Games</h2>
+        <p>Hi there! 👋 We are sorry, but Kurono is designed to be used in a classroom, and therefore it is not
+            available to independent students at this time.</p>
+    </div>
+{% endif %}
+
+{% endblock content %}

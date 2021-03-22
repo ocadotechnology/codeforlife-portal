@@ -9,7 +9,7 @@
     <div class="dropdown-content">
         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
         {% if not user|is_independent_student %}
-            <a href="{% url 'play_aimmo' %}"><small>Kurono</small></a>
+            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
         {% endif %}
     </div>
 </div>
@@ -46,7 +46,7 @@
             <a href="{% url 'levels'%}"><img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/RR_logo.png' %}"></a>
             <h4>Anyone can code &mdash; you can, too!</h4>
             <div class="background">
-                <a href="{% url 'levels' %}" class="button button--regular button--primary--navigation">Play now</a>
+                <a href="{% url 'levels' %}" class="button button--regular button--primary--navigation">Enter</a>
             </div>
         </section>
         <p>Rapid Router guides you, and makes learning to code easy and great fun.
@@ -59,14 +59,14 @@
         </div>
         {% if user.new_student.class_field %}
             <section>
-                <a href="{% url 'play_aimmo' %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
+                <a href="{% url_for_aimmo_dashboard %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
                 <h4>Take your coding to the next level!</h4>
                 <div class="background">
-                    <a href="{% url 'play_aimmo' %}" class="button button--regular button--primary--navigation">Play now</a>
+                    <a href="{% url_for_aimmo_dashboard %}" class="button button--regular button--primary--navigation">Enter</a>
                 </div>
             </section>
-            <p>It is the year 3000 and the museum is in big trouble! 
-            The priceless artifacts are lost and scattered across timelines. 
+            <p>It is the year 3000 and the museum is in big trouble!
+            The priceless artifacts are lost and scattered across timelines.
             Your team&rsquo;s mission is to travel through time and bring them back into the museum.</p>
             <div>
                 <p><a href="{% url 'play_aimmo' %}">Learn more about Kurono</a></p>

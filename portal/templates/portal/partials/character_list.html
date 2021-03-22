@@ -1,0 +1,12 @@
+{% load staticfiles %}
+{% load app_tags %}
+
+<div class="grid grid-characters grid__fit col-lg-9 col-md-11 col-sm-8 col-center">
+    {% for character in characters %}
+        <div class="card">
+            <h1 class="card__title">{{ character.name }}</h1>
+            <img class="card__image" src="{{ character.image_path | cloud_storage }}">
+            <p class="card__text">{{ character.description }}</p>
+        </div>
+    {% endfor %}
+</div>

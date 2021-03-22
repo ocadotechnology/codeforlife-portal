@@ -1,0 +1,55 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id="homeWrapper"{% endblock %}
+
+{% block subNav %}
+{{ block.super }}
+<div id="teacher_login_page"></div>
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+<section class="row">
+    <div class="form--register is-flex form--register--teacher">
+        <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
+            <h1 class="center-block">Log in as a teacher</h1>
+            <form id="form-login-teacher" method="post">
+
+                {% csrf_token %}
+                {{ wizard.management_form }}
+
+                {{ form.non_field_errors }}
+
+                <label for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+
+                <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+
+                {{ form.captcha }}
+
+                <button type="submit" name="login_view" class="button--regular button--primary--general-educate button--login"
+                            onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
+            </form>
+
+            <p><strong>Forgotten your password?</strong></p>
+            <p>Don&rsquo;t worry, you can
+                <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
+            </p>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+// Desktop sizes
+$desktop-extra-large-min-width: 1570px;
+$desktop-large-max-width: $desktop-extra-large-min-width - 1;
+$desktop-large-min-width: 1400px;
+$desktop-small-max-width: $desktop-large-min-width - 1;
+$desktop-small-min-width: 1200px;
+
+// Tablet sizes
+$tablet-large-max-width: $desktop-small-min-width - 1;
+$tablet-large-min-width: 1036px;
+$tablet-small-max-width: $tablet-large-min-width - 1;
+$tablet-small-min-width: 768px;
+
+// Mobile sizes
+$mobile-max-width: $tablet-small-min-width - 1;

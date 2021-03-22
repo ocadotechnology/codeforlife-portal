@@ -35,12 +35,12 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from builtins import object
+
+from common.models import School
 from django import forms
-
-from portal.models import School
-
-from django_countries.widgets import CountrySelectWidget
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import EmailValidator
+from django_countries.widgets import CountrySelectWidget
 
 
 class OrganisationForm(forms.ModelForm):
@@ -88,6 +88,24 @@ class OrganisationForm(forms.ModelForm):
                 )
 
         return self.cleaned_data
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name", None)
+        validator = EmailValidator()
+
+        if name:
+            try:
+                validator(name)
+                is_email = True
+            except forms.ValidationError:
+                is_email = False
+
+            if is_email:
+                raise forms.ValidationError(
+                    "Please make sure your organisation name is valid"
+                )
+
+        return name
 
     def clean_postcode(self):
         postcode = self.cleaned_data.get("postcode", None)

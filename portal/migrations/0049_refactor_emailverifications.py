@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 related_name="email_verifications_old",
                 null=True,
                 blank=True,
+                on_delete=models.CASCADE,
             ),
         ),
         migrations.AddField(

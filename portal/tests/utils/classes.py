@@ -34,35 +34,9 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import re
-
-from portal.models import Teacher, Class
-from portal.helpers.generators import generate_access_code
 
 
-def generate_details():
-    name = "Class %d" % generate_details.next_id
-    accesss_code = generate_access_code()
-
-    generate_details.next_id += 1
-
-    return name, accesss_code
-
-
-generate_details.next_id = 1
-
-
-def create_class_directly(teacher_email, class_name=None):
-    name, accesss_code = generate_details()
-
-    if class_name is not None:
-        name = class_name
-
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
-
-    klass = Class.objects.create(name=name, access_code=accesss_code, teacher=teacher)
-
-    return klass, name, accesss_code
+from common.tests.utils.classes import generate_details
 
 
 def create_class(page):

@@ -38,9 +38,18 @@
     {% include "portal/tag_manager/tag_manager_head.html" %}
 
     {% cache 3600 fragment-base_old-javascript %}
-    <script type="text/javascript" src="{% static 'portal/js/lib/jquery.js' %}"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script type="text/javascript" src="/static/portal/js/lib/jquery-3.5.1.min.js">\x3C/script>')</script>
+    <script 
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" 
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" 
+        crossorigin="anonymous"></script>
+    <script>window.jQuery.ui || document.write('<script type="text/javascript" src="/static/portal/js/lib/jquery-ui-1.12.1.min.js">\x3C/script>')</script>
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery-ui.js' %}"></script>
-    <script type="text/javascript" src="{% static 'portal/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/lib/modernizr.custom.79639.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/deleteWorkspaces.js' %}"></script>
@@ -57,7 +66,7 @@
     </script>
     {% endblock check_user_status %}
 
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.recaptcha.net/recaptcha/api.js" async defer></script>
 
     {% block google_analytics %}
     <script>
@@ -103,106 +112,114 @@
                 <a class="visible-xs" href="{% url 'home' %}">
                     <img class="logo" src="{% static 'portal/img/logo_c4l_hexa.png' %}">
                 </a>
-                <a target="_blank" href="https://www.ocadotechnology.com/">
+                <a target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers">
                     <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Technology"
-                         class="hidden-xs" src="{% static 'portal/img/logo_ocado_tech_tagline.svg' %}">
+                    class="hidden-xs" src="{% static 'portal/img/logo_ocado_tech_tagline.svg' %}">
                     <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Technology"
-                         class="header__ot-logo--no-tagline visible-xs" src="{% static 'portal/img/logo_ocado_tech_no_tagline.svg' %}">
+                    class="header__ot-logo--no-tagline visible-xs" src="{% static 'portal/img/logo_ocado_tech_no_tagline.svg' %}">
                 </a>
                 <span class="glyphicon glyphicon-menu-hamburger header__hamburger visible-xs"
                       data-toggle="collapse" data-target="#menu-items"></span>
             </div>
             {% block leftMenuButtons %}
                 {% if user|is_logged_in %}
-                    <div class="menu__left-side col-sm-7">
+                <div class="menu__left-side col-sm-7">
                     {% if user|is_logged_in_as_teacher %}
                         <a href="{% url 'teach' %}" class="button--menu button--menu--primary"><b>Teacher</b></a>
                         {% block secondaryButtons %}
-                            {% if user|has_teacher_finished_onboarding %}
-                                {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
-                                {% block rapidrouter %}<a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
-                                {% block aimmo %}
-                                    <a href="{% url 'play_aimmo' %}" id="aimmo_home_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
-                                {% endblock aimmo %}
-                                {% block materials %}<a id="resources_button" href="{% url 'teaching_resources' %}" class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>{% endblock materials %}
-                            {% else %}
-                                <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
-                                <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
-                                <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
-                                <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
-                            {% endif %}
+                        {% if user|has_teacher_finished_onboarding %}
+                            {% block dashboard %}<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>{% endblock dashboard %}
+                            {% block rapidrouter %}<a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>{% endblock rapidrouter %}
+                            {% block aimmo %}
+                                <a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button" class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
+                            {% endblock aimmo %}
+                            <div class="dropdown">
+                                {% block materials %}<a id="teaching_resources_button"
+                                                        class="button--menu button--menu--secondary button--menu--enabled">
+                                    Teaching Resources</a>{% endblock materials %}
+                                <div class="dropdown-content">
+                                    <a href="{% url 'teaching_resources' %}"><small>Rapid Router</small></a>
+                                    <a href="{% url 'kurono_teaching_resources' %}"><small>Kurono</small></a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
+                            <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                        {% endif %}
                         {% endblock secondaryButtons %}
                     {% else %}
                         <a href="{% url 'play' %}" class="button--menu button--menu--primary"><b>Student</b></a>
                         {% block studentButtons %}
-                            <div class="dropdown">
-                                {% block myGames %}<a href="{% url 'student_details' %}" id="student_dashboard_button"
-                                                      class="button--menu button--menu--secondary button--menu--enabled">My Games</a>{% endblock myGames %}
-                                <div class="dropdown-content">
-                                    <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-                                    {% if not user|is_independent_student %}
-                                        <a href="{% url 'play_aimmo' %}"><small>Kurono</small></a>
-                                    {% endif %}
-                                </div>
+                        <div class="dropdown">
+                            {% block myGames %}<a href="{% url 'student_details' %}" id="student_dashboard_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">My Games</a>{% endblock myGames %}
+                            <div class="dropdown-content">
+                                <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
+                                {% if not user|is_independent_student %}
+                                    <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
+                                {% endif %}
                             </div>
-                            {% if user|is_logged_in_as_school_user %}
-                                <div class="dropdown">
-                                    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
-                                       class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
-                                    <div class="dropdown-content">
-                                        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if not user.new_student.class_field %}
-                                <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
-                                   class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
-                            {% endif %}
+                        </div>
+                        {% if user|is_logged_in_as_school_user %}
+                        <div class="dropdown">
+                            <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if not user.new_student.class_field %}
+                            <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
+                               class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
+                        {% endif %}
                         {% endblock studentButtons %}
                     {% endif %}
                 {% else %}
                     <div class="menu__left-side col-sm-5">
-                    {% block nav_teach %}<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
-                    {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
+                        {% block nav_teach %}<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
+                        {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
                 {% endif %}
-            </div>
+                </div>
             {% endblock leftMenuButtons %}
             {% block rightMenuButtons %}
                 {% if user|is_logged_in %}
                 <div class="menu__right-side col-sm-4">
                     <div class="dropdown header__account-details-dropdown">
-                        <button id="logout_menu" class="button button--regular button--secondary button--secondary--dark button--dropdown header__account-details-dropdown"
+                        <button id="logout_menu" class="button--regular button--secondary button--dropdown header__account-details-dropdown"
                                 data-toggle="dropdown">
                             <div class="dropdown__text">{{ user|make_into_username }}</div>
-                            <div class="glyphicon glyphicon-user"></div></button>
+                        </button>
                         <ul class="dropdown-menu header__account-details-dropdown-menu">
                             {% if not request|is_hijacked %}
-                                <li class="dropdown-menu__option">
-                                    <a class="button--regular button--logout" id="logout_button" aria-labelledby="Log out"
-                                       href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
-                                        <div class="glyphicon glyphicon-log-out"></div>
-                                        <small class="dropdown-menu__option__text">Log out</small></a>
-                                </li>
+                            <li class="dropdown-menu__option">
+                                <a class="button--regular button--primary--navigation" id="logout_button" aria-labelledby="Log out"
+                                   href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
+                                    <small class="dropdown-menu__option__text">Log out</small>
+                                    <div class="glyphicon glyphicon-log-out"></div></a>
+                            </li>
                             {% endif %}
                             {% if user|is_logged_in_as_teacher %}
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--logout" aria-labelledby="Change password"
+                                    <a class="button--regular button--primary--navigation" aria-labelledby="Change password"
                                        href="{% url 'dashboard' %}#edit_account_details_password">
-                                        <div class="glyphicon glyphicon-lock"></div>
-                                        <small class="dropdown-menu__option__text">Change password</small></a>
+                                        <small class="dropdown-menu__option__text">Change password</small>
+                                        <div class="glyphicon glyphicon-lock"></div></a>
                                 </li>
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--logout" aria-labelledby="Update my details"
+                                    <a class="button--regular button--primary--navigation" aria-labelledby="Update my details"
                                        href="{% url 'dashboard' %}#account">
-                                        <div class="glyphicon glyphicon-user"></div>
-                                        <small class="dropdown-menu__option__text">Update my details</small></a>
+                                        <small class="dropdown-menu__option__text">Update my details</small>
+                                        <div class="glyphicon glyphicon-user"></div></a>
                                 </li>
                             {% else %}
                                 <li class="dropdown-menu__option">
-                                    <a class="button--regular button--logout" aria-labelledby="Change password"
+                                    <a class="button--regular button--primary--navigation" aria-labelledby="Change password"
                                        href="{% url 'student_edit_account' %}" id="student_edit_account_button">
-                                        <div class="glyphicon glyphicon-lock"></div>
-                                        <small class="dropdown-menu__option__text">Change password</small></a>
+                                        <small class="dropdown-menu__option__text">Change password</small>
+                                        <div class="glyphicon glyphicon-lock"></div></a>
                                 </li>
                             {% endif %}
                         </ul>
@@ -210,7 +227,26 @@
                     {% else %}
                     <div class="menu__right-side col-sm-5">
                         <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--primary--general-play register">Register now</a>
-                        <a href="{% url 'login_view' %}" id="login_button" class="button button--regular button--secondary button--secondary--dark login">Log in<div class="glyphicon glyphicon-user"></div></a>
+                        <div class="dropdown">
+                            <button id="login_dropdown" class="button--regular button--secondary login button--dropdown"
+                                    data-toggle="dropdown">
+                                <div class="dropdown__text">Log in</div>
+                            </button>
+                            <ul class="dropdown-menu header__login-options-dropdown-menu">
+                                <li class="dropdown-menu__option">
+                                    <a id="teacher_login_button" class="button--regular button--primary--general-play" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
+                                        <small class="dropdown-menu__option__text">Teacher</small></a>
+                                </li>
+                                <li class="dropdown-menu__option">
+                                    <a class="button--regular button--primary--general-educate" aria-labelledby="Student" href="{% url 'student_login' %}">
+                                        <small class="dropdown-menu__option__text">Student</small></a>
+                                </li>
+                                <li class="dropdown-menu__option">
+                                    <a class="button--regular button--primary--negative" aria-labelledby="Independent" href="{% url 'independent_student_login' %}">
+                                        <small class="dropdown-menu__option__text">Independent</small></a>
+                                </li>
+                            </ul>
+                        </div>
                     {% endif %}
                 </div>
             {% endblock rightMenuButtons %}
@@ -218,33 +254,80 @@
         <div id="menu-items" class="collapse">
             {% if user|is_logged_in %}
                 <div class="menu__item">
-                    <div class="button button--jumbo button--secondary button--secondary--dark">
-                        {{ user|make_into_username }} <div class="glyphicon glyphicon-user"></div></div>
+                    <h1>{{ user|make_into_username }}</h1>
                 </div>
-                <button class="button--menu__item" data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
-                <div id="teacher-tabs" class="collapse">
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'teach' %}">Educate</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'dashboard' %}">School / Club</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'levels' %}">Rapid Router</a>
-                    <a class="button button--menu__item button--menu__item__sub" href="{% url 'teaching_resources' %}">Resources</a>
-                </div>
+                {% if user|is_logged_in_as_teacher %}
+                    <button class="button--menu__item button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+                    <div id="teacher-tabs" class="collapse">
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'dashboard' %}">School / Club<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                           href="{% url 'teaching_resources' %}">Teaching Resources<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    </div>
+                {% else %}
+                    <button class="button--menu__item button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#student-tabs">Student</button>
+                    <div id="student-tabs" class="collapse">
+                        <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                                data-toggle="collapse" data-target="#games-tabs">My Games</button>
+                        <div id="games-tabs" class="collapse">
+                            <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                               href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                            {% if not user|is_independent_student %}
+                                <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                                   href="{% url_for_aimmo_dashboard %}">Kurono<div class="glyphicon glyphicon-chevron-right"></div></a>
+                            {% endif %}
+                        </div>
+                        <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                                data-toggle="collapse" data-target="#scoreboards-tabs">View Scoreboards</button>
+                        <div id="scoreboards-tabs" class="collapse">
+                            <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                               href="{% url 'scoreboard' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                        </div>
+                    {% if not user.new_student.class_field %}
+                        <a class="button button--menu__item button--menu__item--student"
+                           href="{% url 'student_join_organisation' %}">Join a school<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    {% endif %}
+                    </div>
+                {% endif %}
             {% else %}
-                <div class="menu__item">
-                    <a href="{% url 'register' %}" class="button button--jumbo button--primary--general-play register">Register now</a>
-                    <a href="{% url 'login_view' %}" class="button button--jumbo button--secondary button--secondary--dark login">Log in <div class="glyphicon glyphicon-user"></div></a>
+                <a class="button button--menu__item button--menu__item--teacher"
+                   href="{% url 'register' %}">Register now<div class="glyphicon glyphicon-chevron-right"></div></a>
+                <button class="button--menu__item button--menu__item--navigation button--menu__item--sub-header"
+                        data-toggle="collapse" data-target="#login-tabs">Log in</button>
+                <div id="login-tabs" class="collapse">
+                    <a class="button button--menu__item button--menu__item--teacher button--menu__item__sub"
+                       href="{% url 'teacher_login' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                       href="{% url 'student_login' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <a class="button button--menu__item button--menu__item--independent button--menu__item__sub"
+                       href="{% url 'independent_student_login' %}">Independent<div class="glyphicon glyphicon-chevron-right"></div></a>
                 </div>
-                <a class="button button--menu__item" href="{% url 'teach' %}">Teacher</a>
+                <a class="button button--menu__item" href="{% url 'teach' %}">Teacher
+                    <div class="glyphicon glyphicon-chevron-right"></div></a>
+                <a class="button button--menu__item" href="{% url 'play' %}">Student
+                    <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% endif %}
-            <a class="button button--menu__item" href="{% url 'play' %}">Student</a>
-            <a class="button button--menu__item" href="{% url 'about' %}">About</a>
-            <a class="button button--menu__item" href="{% url 'help' %}">Help and support</a>
-            <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use</a>
+            <a class="button button--menu__item" href="{% url 'about' %}">About
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <a class="button button--menu__item" href="{% url 'help' %}">Help and support
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <a class="button button--menu__item" href="{% url 'privacy_policy' %}">Privacy policy
+                <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
-                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password</a>
-                    <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details</a>
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password
+                        <div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details
+                        <div class="glyphicon glyphicon-chevron-right"></div></a>
                 {% endif %}
-                <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout</a>
+                <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
+                    <div class="glyphicon glyphicon-chevron-right"></div></a>
             {% endif %}
         </div>
     </div>
@@ -300,13 +383,14 @@
         <p><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
         <p><a class="freshdesk__contact-us">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
+        <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
     </div>
     <div class="row social-media"><br>
         <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
         <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
     </div>
-    <a target="_blank" href="http://www.ocadotechnology.com/"><img src="{% static "portal/img/logo_ocado.png" %}"></a>
-    <p><small>&copy; Ocado Technology 2019</small></p>
+    <a target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers"><img src="{% static "portal/img/logo_ocado.png" %}"></a>
+    <p><small>&copy; Ocado Technology {% now "Y" %}</small></p>
 </div>
 {% endcache %}
 {% endblock footer %}
@@ -320,7 +404,7 @@
     });
 
     function animateScroll() {
-        $('a[href*=#]').click(function() {
+        $('a[href*="#"]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
                 var $target = getTarget(this);
@@ -365,7 +449,7 @@
 <script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer></script>
 <script>
     FreshworksWidget('hide');
-    $('.freshdesk__contact-us').click(function() {
+    $('.freshdesk__contact-us').on('click', function() {
         FreshworksWidget('open');
     });
 </script>

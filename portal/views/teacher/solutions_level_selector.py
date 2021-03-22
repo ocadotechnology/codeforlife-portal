@@ -43,9 +43,9 @@ from django.utils.safestring import mark_safe
 from game.models import Episode
 from django.core.cache import cache
 from game import app_settings
-from portal.permissions import logged_in_as_teacher
+from common.permissions import logged_in_as_teacher
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 
 
@@ -114,7 +114,7 @@ def get_level_title(i):
 @login_required(login_url=reverse_lazy("teach"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teach"))
 def levels(request):
-    """ Loads a page with all levels listed.
+    """Loads a page with all levels listed.
 
     **Context**
 

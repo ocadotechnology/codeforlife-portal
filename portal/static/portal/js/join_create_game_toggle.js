@@ -37,59 +37,16 @@ identified as the original program.
 */
 
 $(document).ready(function () {
-    var game_name_input = $('#id_name');
-    var create_game_form = $('#create-game-form');
-    var join_game_section = $('#join_game');
-    var create_game_section = $('#create_game');
-    var create_game_button = $('#create_game_button');
-    var create_new_game_button = $('#create_new_game_button');
-    var back_button = $('#back_button');
+  var formGameClassId = $("#id_game_class");
+  var createGameForm = $("#create-game-form");
 
-    if (game_name_input.val()) {
-        showCreateGameForm();
-        game_name_input.val("");
-        showInputError("Sorry, a game with this name already exists...");
-    }
-
-    create_new_game_button.click(function () {
-        showCreateGameForm();
+  $("#add-class-dropdown-menu > li > a")
+    .filter(":not(.disabled)")
+    .each(function () {
+      let classId = $(this).data("classId");
+      $(this).click(function () {
+        formGameClassId.val(classId);
+        createGameForm.submit();
+      });
     });
-
-    back_button.click(function () {
-        showJoinGameForm();
-    });
-
-    create_game_button.click(function () {
-        if (!game_name_input.val() || game_name_input.val() === "") {
-            showInputError("Give your new game a name...");
-        }
-        var exp = /^[\w- ]+$/;
-        if (!exp.test(game_name_input.val())) {
-            showInputError("Name cannot contain special characters.");
-        }
-        else {
-            create_game_form.submit();
-        }
-    });
-
-    game_name_input.click(function () {
-        game_name_input.attr("placeholder", "");
-        game_name_input.removeClass('input-invalid');
-    });
-
-    function showCreateGameForm() {
-        join_game_section.addClass("hidden");
-        create_game_section.removeClass("hidden");
-    }
-
-    function showJoinGameForm() {
-        create_game_section.addClass("hidden");
-        join_game_section.removeClass("hidden");
-    }
-
-    function showInputError(error_message) {
-        game_name_input.val("");
-        game_name_input.attr("placeholder", error_message);
-        game_name_input.addClass('input-invalid');
-    }
 });

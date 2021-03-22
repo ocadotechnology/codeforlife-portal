@@ -1,0 +1,98 @@
+[
+  {
+    "model": "aimmo.worksheet",
+    "pk": 1,
+    "fields": {
+      "name": "Present Day I: The Museum",
+      "description": "While working at the Scriptsonian museum for class credit, you have accidentally activated the mysterious Kurono time machine! The museum\u2019s valuable artefacts are scattered across the shelves, the floor, the whole spacetime continuum. It\u2019s going to take more than just a backpack to collect them all. You need to use the Kurono time machine to get them back \u2013 but before jumping in you need to learn how to use its navigation system. This challenge shows you how to move around the map so you don\u2019t run into problems in the future\u2026or past.",
+      "short_description": "While working at the Scriptsonian museum for class credit, you have accidentally activated the mysterious Kurono time machine!",
+      "image_path": "images/worksheets/future.jpg",
+      "active_image_path": "images/worksheets/future_active.png",
+      "era": 1,
+      "thumbnail_text": "",
+      "thumbnail_image_path": "images/worksheets/lock.png",
+      "sort_order": 100,
+      "starter_code": "def next_turn(world_state, avatar_state):\r\n    new_dir = direction.NORTH\r\n    # Your code goes here\r\n    action = MoveAction(new_dir)\r\n    return action"
+    }
+  },
+  {
+    "model": "aimmo.worksheet",
+    "pk": 2,
+    "fields": {
+      "name": "Present Day II",
+      "description": "Now that you know how to navigate, it\u2019s time to clean up the evidence before leaving this timeline!  Some of the artefacts escaped the vortex and ended up all over the museum - if each of you picks ten of them up, you should be done in time to embark in your journey. But beware! The blue artefacts will need to be separated from the red ones, as they have opposing magnetic fields. Can you tell which one is what type?",
+      "short_description": "Now that you know how to navigate, it\u2019s time to clean up the evidence before leaving this timeline!",
+      "image_path": "images/worksheets/future.jpg",
+      "active_image_path": "images/worksheets/future2_active.png",
+      "era": 1,
+      "thumbnail_text": "",
+      "thumbnail_image_path": "images/worksheets/lock.png",
+      "sort_order": 200,
+      "starter_code": "def next_turn(world_state, avatar_state):\r\n    new_dir = direction.NORTH\r\n    # Your code goes here\r\n    action = MoveAction(new_dir)\r\n    return action"
+    }
+  },
+  {
+    "model": "aimmo.worksheet",
+    "pk": 3,
+    "fields": {
+      "name": "Ancient",
+      "description": "You are now familiar with your equipment and have managed to unlock the gateway to the first time checkpoint. You find yourself in a strange place, full of familiar structures in the form of ruins. After a few minutes, you hear steps and realise you\u2019re not alone! No time to move around aimlessly now, or you might run into someone! Use your navigating system to scan your surroundings and move only towards the artefacts you want to pick up. Be stealthy!",
+      "short_description": "You find yourself in a strange place, full of familiar structures in the form of ruins.",
+      "image_path": "images/worksheets/ancient.jpg",
+      "active_image_path": "images/worksheets/ancient_active.png",
+      "era": 2,
+      "thumbnail_text": "Coming Soon",
+      "thumbnail_image_path": "",
+      "sort_order": 300,
+      "starter_code": "def next_turn(world_state, avatar_state):\r\n    new_dir = direction.NORTH\r\n    # Your code goes here\r\n    action = MoveAction(new_dir)\r\n    return action"
+    }
+  },
+  {
+    "model": "aimmo.worksheet",
+    "pk": 4,
+    "fields": {
+      "name": "21st Century",
+      "description": "After successfully collecting all the missing artefacts from the first time checkpoint, you arrive at what looks like the 21st century. You recognise some cars parked here and there, old-fashioned roads and houses like the ones your history teacher told you about. On the bright side, you seem to be alone and safe to walk around... for now. A more recent timeline doesn\u2019t make artefacts easier to find, though. Or at least not the right ones. In this timeline there seems to be an amount of falsified objects that resemble the ones you\u2019re looking for, but aren\u2019t quite genuine. These will have no value in the museum. Your navigation system will be able to tell you whether an object is genuine or not, but it\u2019s up to you to decide which ones to bring back!",
+      "short_description": "After successfully collecting all the missing artefacts from the first time checkpoint, you arrive at what looks like the 21st century.",
+      "image_path": "images/worksheets/modern.jpg",
+      "active_image_path": "images/worksheets/modern_active.png",
+      "era": 3,
+      "thumbnail_text": "Coming Soon",
+      "thumbnail_image_path": "",
+      "sort_order": 400,
+      "starter_code": "def next_turn(world_state, avatar_state):\r\n    new_dir = direction.NORTH\r\n    # Your code goes here\r\n    action = MoveAction(new_dir)\r\n    return action"
+    }
+  },
+  {
+    "model": "aimmo.worksheet",
+    "pk": 5,
+    "fields": {
+      "name": "Prehistoric",
+      "description": "Oh no! Looks like the time machine has taken you even further back in time. You find yourself in a place that looks very\u2026 wild. You can hear the occasional distant roaring, added to the buzzing of what sound like  gigantic  insects. Vegetation is so abundant around you that you can barely move. It might be a good idea to use your navigation system to scan all around you before even trying! And don\u2019t forget to keep track of the portal that\u2019ll send you back to your original timeline - just in case something with sharp teeth starts running towards you.",
+      "short_description": "Oh no! Looks like the time machine has taken you even further back in time. You find yourself in a place that looks very\u2026 wild.",
+      "image_path": "images/worksheets/prehistory.jpg",
+      "active_image_path": "images/worksheets/prehistory_active.png",
+      "era": 4,
+      "thumbnail_text": "Coming Soon",
+      "thumbnail_image_path": "",
+      "sort_order": 500,
+      "starter_code": "def next_turn(world_state, avatar_state):\r\n    new_dir = direction.NORTH\r\n    # Your code goes here\r\n    action = MoveAction(new_dir)\r\n    return action"
+    }
+  },
+  {
+    "model": "aimmo.worksheet",
+    "pk": 6,
+    "fields": {
+      "name": "Back to the Future",
+      "description": "You\u2019ve made it! Well, almost. You\u2019re back to your original time, but something seems to be off. The museum is still there, with all the chaos you still need to tidy up, but the environment isn\u2019t quite right. The electronic containers and shelves seem slightly different, and when the AI interlocutor speaks, you don\u2019t recognise the language. It looks like you\u2019ve changed something in the past that affected events in your present! If you manage to extract the metadata from the recovered artefacts, you should be able to find out which timelines they were found in. You can input this text into the Kurono machine to get things back to normal.",
+      "short_description": "You\u2019ve made it! Well, almost. You\u2019re back to your original time, but something seems to be off.",
+      "image_path": "images/worksheets/broken_future.jpg",
+      "active_image_path": "images/worksheets/broken_future_active.png",
+      "era": 5,
+      "thumbnail_text": "Coming Soon",
+      "thumbnail_image_path": "",
+      "sort_order": 600,
+      "starter_code": "def next_turn(world_state, avatar_state):\r\n    new_dir = direction.NORTH\r\n    # Your code goes here\r\n    action = MoveAction(new_dir)\r\n    return action"
+    }
+  }
+]
