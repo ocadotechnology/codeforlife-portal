@@ -26,3 +26,5 @@ codeforlife_portal.egg-info
 *.egg-info/
 build/
 dist/
+cypress
+node_modules
