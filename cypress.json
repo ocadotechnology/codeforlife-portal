@@ -2,5 +2,6 @@
   "baseUrl": "http://localhost:8000",
   "integrationFolder": "portal/tests/",
   "testFiles": "**/*.spec.js",
-  "video": false
+  "video": false,
+  "supportFile": "portal/tests/cypress/support/index.js"
 }
