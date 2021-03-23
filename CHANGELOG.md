@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.21.3 (2021-03-23)
+### Fix
+* Version bump ([#1381](https://github.com/ocadotechnology/codeforlife-portal/issues/1381)) ([`5254d3b`](https://github.com/ocadotechnology/codeforlife-portal/commit/5254d3b4e5e52272cd28107224b56b00ba67e0c9))
+
 ## v4.21.2 (2021-03-08)
 ### Fix
 * Improve admin login form ([#1373](https://github.com/ocadotechnology/codeforlife-portal/issues/1373)) ([`b2c7b2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2c7b2d69114adc8666a2c64442943fe1ece44d9))
