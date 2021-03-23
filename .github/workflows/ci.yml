@@ -21,18 +21,31 @@ jobs:
         with:
           python-version: '3.6.7'
           architecture: 'x64'
-      - name: Install pip requirements
+      - name: Install dependencies
         run: |
           pip install codecov
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
+          yarn --frozen-lockfile
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
-      - name: Run tests
+      - name: Run Python tests
         run: pytest --cov=. --cov-report=xml
         env:
           SELENIUM_WEBDRIVER: chrome-headless
           SELENIUM_HEADLESS: True
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: python run.py
+          working-directory: portal/tests
+          wait-on: http://localhost:8000
+          wait-on-timeout: 400
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
