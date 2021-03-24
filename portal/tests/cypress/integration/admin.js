@@ -2,6 +2,7 @@
 /**
  * Checks that the admin password policy is implemented properly.
  * Checks both when creating a new user, and when changing one's own password.
+ * Cleanup includes deleting the test user created for this test.
  */
 export const adminPasswordPolicyTest = () => {
   const ADMIN_PASSWORD_TOO_WEAK_MESSAGE = `
