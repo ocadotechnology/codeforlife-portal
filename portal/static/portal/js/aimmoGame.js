@@ -69,11 +69,9 @@ function clickDeleteGames() {
   let title = "Delete class games";
   let text = `
     <div class='popup-text'>
-      <p>
-        Are you sure that you want to delete the game${
+      <p>Are you sure that you want to delete the game${
           selectedClasses.length > 1 ? "s" : ""
-        } <strong class='popup__classes-text'></strong>?
-      </p>
+        } <strong class='popup__classes-text'></strong>?</p>
       <p>This action will delete any progress ${
         selectedClasses.length > 1 ? "those classes have" : "that class has"
       } made.</p>
