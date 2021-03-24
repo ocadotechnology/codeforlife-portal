@@ -30,16 +30,18 @@ jobs:
           yarn --frozen-lockfile
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
-      - name: Run Python tests
-        run: pytest --cov=. --cov-report=xml
-        env:
-          SELENIUM_WEBDRIVER: chrome-headless
-          SELENIUM_HEADLESS: True
+#      - name: Run Python tests
+#        run: pytest --cov=. --cov-report=xml
+#        env:
+#          SELENIUM_WEBDRIVER: chrome-headless
+#          SELENIUM_HEADLESS: True
       - name: Run Cypress tests
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: ../../run
+          start: |
+          ls
+          ../../run
           working-directory: portal/tests
           wait-on: http://localhost:8000
           wait-on-timeout: 400
