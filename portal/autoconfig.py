@@ -161,6 +161,7 @@ SETTINGS = {
     "HIJACK_LOGOUT_REDIRECT_URL": "/administration/",
     "HIJACK_USE_BOOTSTRAP": True,
     "HIJACK_ALLOW_GET_REQUESTS": True,
+    "RECAPTCHA_DOMAIN": "www.recaptcha.net",
 }
 
 RELATIONSHIPS = [

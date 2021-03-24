@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.21.4 (2021-03-24)
+### Fix
+* Remove recaptcha from header ([#1383](https://github.com/ocadotechnology/codeforlife-portal/issues/1383)) ([`0712e7a`](https://github.com/ocadotechnology/codeforlife-portal/commit/0712e7a9fa44cfbd71b180832444a85c3a6b4e38))
+
 ## v4.21.3 (2021-03-23)
 ### Fix
 * Version bump ([#1381](https://github.com/ocadotechnology/codeforlife-portal/issues/1381)) ([`5254d3b`](https://github.com/ocadotechnology/codeforlife-portal/commit/5254d3b4e5e52272cd28107224b56b00ba67e0c9))
