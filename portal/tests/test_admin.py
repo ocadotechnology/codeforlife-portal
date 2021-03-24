@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import re
 import time
 import uuid
 from builtins import str
@@ -42,6 +43,7 @@ from common.models import UserProfile
 from django.contrib.auth.models import User, Permission
 from django.urls import reverse
 
+from portal.forms.admin import ADMIN_PASSWORD_PATTERN
 from portal.tests.base_test import BaseTest
 from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
 from portal.views import admin
@@ -149,3 +151,23 @@ class TestAdmin(BaseTest):
 
     def randomId(self):
         return str(uuid.uuid4())
+
+
+def test_admin_password_regex():
+    password_too_short = "Password!1234"
+    password_no_special_char = "Password123456"
+    password_no_uppercase = "password!12345"
+    password_no_digit = "Password!!!!!!"
+    password_correct = "Password!12345"
+
+    bad_passwords = [
+        password_too_short,
+        password_no_special_char,
+        password_no_uppercase,
+        password_no_digit,
+    ]
+
+    for bad_password in bad_passwords:
+        assert not re.match(ADMIN_PASSWORD_PATTERN, bad_password)
+
+    assert re.match(ADMIN_PASSWORD_PATTERN, password_correct)
