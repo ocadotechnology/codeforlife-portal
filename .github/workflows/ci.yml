@@ -39,7 +39,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: ./run
+          start: ../../run
           working-directory: portal/tests
           wait-on: http://localhost:8000
           wait-on-timeout: 400
