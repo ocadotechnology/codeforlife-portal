@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,7 +44,11 @@ from django.contrib import messages as messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import (
+    LoginView,
+    PasswordChangeView,
+    PasswordChangeDoneView,
+)
 from django.db.models import Avg, Count, Q
 from django.shortcuts import render
 from django.utils import timezone
@@ -55,7 +59,7 @@ from rest_framework.reverse import reverse_lazy
 from portal import handlers
 
 from portal import app_settings
-from portal.forms.admin_login import AdminLoginForm
+from portal.forms.admin import AdminLoginForm, AdminChangeOwnPasswordForm
 from portal.helpers.location import lookup_coord
 
 block_limit = 5
@@ -93,6 +97,18 @@ class AdminLoginView(LoginView):
             )
 
         return super(AdminLoginView, self).form_valid(form)
+
+
+class AdminChangePasswordView(PasswordChangeView):
+    form_class = AdminChangeOwnPasswordForm
+    success_url = reverse_lazy("administration_password_change_done")
+
+    def form_valid(self, form):
+        return super(AdminChangePasswordView, self).form_valid(form)
+
+
+class AdminChangePasswordDoneView(PasswordChangeDoneView):
+    pass
 
 
 @login_required(login_url=reverse_lazy("administration_login"))

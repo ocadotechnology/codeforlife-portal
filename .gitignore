@@ -26,3 +26,4 @@ codeforlife_portal.egg-info
 *.egg-info/
 build/
 dist/
+node_modules

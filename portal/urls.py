@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2020, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -59,7 +59,13 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.views.about import about
-from portal.views.admin import AdminLoginView, aggregated_data, schools_map
+from portal.views.admin import (
+    AdminLoginView,
+    AdminChangePasswordView,
+    AdminChangePasswordDoneView,
+    aggregated_data,
+    schools_map,
+)
 from portal.views.aimmo.dashboard import TeacherAimmoDashboard, StudentAimmoDashboard
 from portal.views.api import (
     InactiveUsersView,
@@ -195,6 +201,16 @@ urlpatterns = [
         r"^administration/login/$",
         AdminLoginView.as_view(),
         name="administration_login",
+    ),
+    url(
+        r"^administration/password_change/$",
+        AdminChangePasswordView.as_view(),
+        name="administration_password_change",
+    ),
+    url(
+        r"^administration/password_change_done/$",
+        AdminChangePasswordDoneView.as_view(),
+        name="administration_password_change_done",
     ),
     url(
         r"^admin/$",

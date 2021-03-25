@@ -23,5 +23,7 @@ def create_user_directly(active=True, **kwargs):
 
     create_user_directly.next_id += 1
 
+    return user
+
 
 create_user_directly.next_id = 1
