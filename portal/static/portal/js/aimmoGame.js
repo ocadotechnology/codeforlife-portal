@@ -49,7 +49,7 @@ function classesText(classes) {
             : index === classes.length - 1
             ? " and "
             : ", "
-        }${name}`
+        }<strong>${$("<div>").text(name).html()}</strong>`
     )
     .join("");
 }
@@ -71,7 +71,7 @@ function clickDeleteGames() {
     <div class='popup-text'>
       <p>Are you sure that you want to delete the game${
           selectedClasses.length > 1 ? "s" : ""
-        } <strong class='popup__classes-text'></strong>?</p>
+        } for ${classesText(selectedClasses)}?
       <p>This action will delete any progress ${
         selectedClasses.length > 1 ? "those classes have" : "that class has"
       } made.</p>
@@ -81,7 +81,6 @@ function clickDeleteGames() {
   showPopupConfirmation(title, text, confirmHandler);
   let popup = $(".popup-wrapper");
   popup.data("gameIds", selectedGameIds);
-  $(".popup__classes-text").text(classesText(selectedClasses));
 }
 
 function deleteGames() {
