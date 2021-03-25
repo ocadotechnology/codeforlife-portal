@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.22.0 (2021-03-25)
+### Feature
+* Improve admin forms ([#1378](https://github.com/ocadotechnology/codeforlife-portal/issues/1378)) ([`721aabb`](https://github.com/ocadotechnology/codeforlife-portal/commit/721aabbb45fd13e0ee53a775e60c8ba2d6846183))
+
 ## v4.21.5 (2021-03-25)
 ### Fix
 * Improve popup text generation ([#1384](https://github.com/ocadotechnology/codeforlife-portal/issues/1384)) ([`d9f7bf3`](https://github.com/ocadotechnology/codeforlife-portal/commit/d9f7bf32b9790688917de56a475c4d7fc78f36f3))
