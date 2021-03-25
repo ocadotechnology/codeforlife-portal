@@ -27,7 +27,7 @@ setup(
         "djangorestframework==3.12.2",
         "django-pipeline==1.6.14",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
         "django-recaptcha==2.0.6",
-        "pyyaml==5.3.1",
+        "pyyaml==5.4",
         "rapid-router >= 1.0.0.post.dev1",
         "aimmo",
         "reportlab==3.5.55",
