@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.21.5 (2021-03-25)
+### Fix
+* Improve popup text generation ([#1384](https://github.com/ocadotechnology/codeforlife-portal/issues/1384)) ([`d9f7bf3`](https://github.com/ocadotechnology/codeforlife-portal/commit/d9f7bf32b9790688917de56a475c4d7fc78f36f3))
+
 ## v4.21.4 (2021-03-24)
 ### Fix
 * Remove recaptcha from header ([#1383](https://github.com/ocadotechnology/codeforlife-portal/issues/1383)) ([`0712e7a`](https://github.com/ocadotechnology/codeforlife-portal/commit/0712e7a9fa44cfbd71b180832444a85c3a6b4e38))
