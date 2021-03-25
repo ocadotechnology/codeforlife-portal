@@ -1,7 +1,7 @@
 /*
 Code for Life
 
-Copyright (C) 2019, Ocado Innovation Limited
+Copyright (C) 2021, Ocado Innovation Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -49,7 +49,7 @@ function classesText(classes) {
             : index === classes.length - 1
             ? " and "
             : ", "
-        }<strong>${name}</strong>`
+        }<strong>${$("<div>").text(name).html()}</strong>`
     )
     .join("");
 }
@@ -69,11 +69,9 @@ function clickDeleteGames() {
   let title = "Delete class games";
   let text = `
     <div class='popup-text'>
-      <p>
-        Are you sure that you want to delete the game${
+      <p>Are you sure that you want to delete the game${
           selectedClasses.length > 1 ? "s" : ""
-        } for ${classesText(selectedClasses)}?
-      </p>
+        } for ${classesText(selectedClasses)}?</p>
       <p>This action will delete any progress ${
         selectedClasses.length > 1 ? "those classes have" : "that class has"
       } made.</p>
