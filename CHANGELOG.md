@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.23.0 (2021-03-31)
+### Feature
+* Add and update kurono files for w3 etc ([#1404](https://github.com/ocadotechnology/codeforlife-portal/issues/1404)) ([`e086809`](https://github.com/ocadotechnology/codeforlife-portal/commit/e0868094e1e2b2f8afccdfb68cb3336bb1617367))
+
 ## v4.22.0 (2021-03-25)
 ### Feature
 * Improve admin forms ([#1378](https://github.com/ocadotechnology/codeforlife-portal/issues/1378)) ([`721aabb`](https://github.com/ocadotechnology/codeforlife-portal/commit/721aabbb45fd13e0ee53a775e60c8ba2d6846183))
