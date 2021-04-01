@@ -1,0 +1,20 @@
+[
+  {
+    "model": "aimmo.worksheet",
+    "pk": 3,
+    "fields": {
+      "name": "Ancient",
+      "description": "You are now familiar with your equipment and have managed to unlock the gateway to the first time checkpoint. You find yourself in a strange place, full of familiar structures in the form of ruins. After a few minutes, you hear steps and realise you\u2019re not alone! No time to move around aimlessly now, or you might run into someone! Use your navigating system to scan your surroundings and move only towards the artefacts you want to pick up. Be stealthy!",
+      "short_description": "You find yourself in a strange place, full of familiar structures in the form of ruins.",
+      "image_path": "images/worksheets/ancient.jpg",
+      "active_image_path": "images/worksheets/ancient_active.png",
+      "era": 2,
+      "thumbnail_text": "",
+      "thumbnail_image_path": "images/worksheets/lock.png",
+      "teacher_pdf_name": "Kurono_teacher_guide_3",
+      "student_pdf_name": "Kurono_challenge_3",
+      "sort_order": 300,
+      "starter_code": "#-----------------------------------------------------------------\r\n# Worksheet 3 challenges:\r\n#     - scan surroundings for artefacts\r\n#     - move towards the nearest artefact\r\n#     - pick up the artefact\r\n#\r\n# Previous subroutines: \r\n#     - MoveAction(DIRECTION)\r\n#     - world_state.get_cell(LOCATION) -> Cell\r\n#\r\n# New subroutines:\r\n#     - world_state.scan_nearby(LOCATION) -> List(Artefact)\r\n#     - MoveTowardsAction(ARTEFACT)\r\n#     - PickupAction()\r\n#-----------------------------------------------------------------\r\n\r\ndef next_turn(world_state, avatar_state):\r\n    # Your code goes here\r\n\r\n    # Scan your surroundings\r\n    \r\n    # Change this to Move action to move the avatar\r\n    action = WaitAction()\r\n    return action"
+    }
+  }
+]

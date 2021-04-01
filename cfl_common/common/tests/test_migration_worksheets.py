@@ -30,3 +30,18 @@ class TestMigrationAddPdfNamesToWorksheets(MigrationTestCase):
 
         assert worksheet2.teacher_pdf_name == "Kurono_teacher_guide_2"
         assert worksheet2.student_pdf_name == "Kurono_challenge_2"
+
+
+class TestMigrationUnlockWorksheet3(MigrationTestCase):
+
+    start_migration = "0007_add_pdf_names_to_first_two_worksheets"
+    dest_migration = "0008_unlock_worksheet_3"
+
+    def test_worksheet_3_is_unlocked(self):
+        Worksheet = self.django_application.get_model("aimmo", "worksheet")
+        worksheet3 = Worksheet.objects.get(id=3)
+
+        assert worksheet3.thumbnail_text == ""
+        assert worksheet3.thumbnail_image_path == "images/worksheets/lock.png"
+        assert worksheet3.teacher_pdf_name == "Kurono_teacher_guide_3"
+        assert worksheet3.student_pdf_name == "Kurono_challenge_3"
