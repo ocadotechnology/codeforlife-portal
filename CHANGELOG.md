@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.24.1 (2021-04-01)
+### Fix
+* Update links to new kurono_teacher_solutions ([`db016df`](https://github.com/ocadotechnology/codeforlife-portal/commit/db016df4121fb0e97aeaca881a6231ba3b8f928e))
+
 ## v4.24.0 (2021-04-01)
 ### Feature
 * Enable worksheet 3 ([#1405](https://github.com/ocadotechnology/codeforlife-portal/issues/1405)) ([`d91a0b5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d91a0b5265a16aac577a5f53ae80ac0b2c449814))
