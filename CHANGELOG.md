@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.24.0 (2021-04-01)
+### Feature
+* Enable worksheet 3 ([#1405](https://github.com/ocadotechnology/codeforlife-portal/issues/1405)) ([`d91a0b5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d91a0b5265a16aac577a5f53ae80ac0b2c449814))
+
 ## v4.23.0 (2021-03-31)
 ### Feature
 * Add and update kurono files for w3 etc ([#1404](https://github.com/ocadotechnology/codeforlife-portal/issues/1404)) ([`e086809`](https://github.com/ocadotechnology/codeforlife-portal/commit/e0868094e1e2b2f8afccdfb68cb3336bb1617367))
