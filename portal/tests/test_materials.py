@@ -35,11 +35,17 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import pytest
+import logging
+import requests
 from django.test import Client, TestCase
 from django.urls.base import reverse
 
 from portal.templatetags.table_tags import lengthen_list, resource_sheets_table
 from portal.views.materials_viewer import get_links
+
+from portal.templatetags.app_tags import cloud_storage
+from portal.views.teacher.pdfs import PDF_DATA
+
 from .conftest import TeacherLoginDetails
 
 
@@ -103,3 +109,13 @@ def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
     response = c.get(kurono_teaching_packs_url)
 
     assert response.status_code == 200
+
+
+# check all the urls are valid and accessible
+def test_pdfs(caplog):
+    caplog.set_level(logging.INFO)
+    for pdf_name, data in PDF_DATA.items():
+        url = cloud_storage(data["url"])
+        logging.getLogger().info("get %s", url)
+        response = requests.get(url)
+        assert response.status_code == 200, "File inaccesible: %s" % url

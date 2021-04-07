@@ -1027,7 +1027,7 @@ PDF_DATA = {
         "title": "The story of Kurono",
         "description": "",
         "links": [],
-        "url": "kurono_/latest/the_story_of_kurono.pdf",
+        "url": "kurono/latest/the_story_of_kurono.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     # ...Intermediate Python Challenges...#
