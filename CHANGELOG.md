@@ -2,6 +2,38 @@
 
 <!--next-version-placeholder-->
 
+## v4.24.1 (2021-04-01)
+### Fix
+* Update links to new kurono_teacher_solutions ([`db016df`](https://github.com/ocadotechnology/codeforlife-portal/commit/db016df4121fb0e97aeaca881a6231ba3b8f928e))
+
+## v4.24.0 (2021-04-01)
+### Feature
+* Enable worksheet 3 ([#1405](https://github.com/ocadotechnology/codeforlife-portal/issues/1405)) ([`d91a0b5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d91a0b5265a16aac577a5f53ae80ac0b2c449814))
+
+## v4.23.0 (2021-03-31)
+### Feature
+* Add and update kurono files for w3 etc ([#1404](https://github.com/ocadotechnology/codeforlife-portal/issues/1404)) ([`e086809`](https://github.com/ocadotechnology/codeforlife-portal/commit/e0868094e1e2b2f8afccdfb68cb3336bb1617367))
+
+## v4.22.0 (2021-03-25)
+### Feature
+* Improve admin forms ([#1378](https://github.com/ocadotechnology/codeforlife-portal/issues/1378)) ([`721aabb`](https://github.com/ocadotechnology/codeforlife-portal/commit/721aabbb45fd13e0ee53a775e60c8ba2d6846183))
+
+## v4.21.5 (2021-03-25)
+### Fix
+* Improve popup text generation ([#1384](https://github.com/ocadotechnology/codeforlife-portal/issues/1384)) ([`d9f7bf3`](https://github.com/ocadotechnology/codeforlife-portal/commit/d9f7bf32b9790688917de56a475c4d7fc78f36f3))
+
+## v4.21.4 (2021-03-24)
+### Fix
+* Remove recaptcha from header ([#1383](https://github.com/ocadotechnology/codeforlife-portal/issues/1383)) ([`0712e7a`](https://github.com/ocadotechnology/codeforlife-portal/commit/0712e7a9fa44cfbd71b180832444a85c3a6b4e38))
+
+## v4.21.3 (2021-03-23)
+### Fix
+* Version bump ([#1381](https://github.com/ocadotechnology/codeforlife-portal/issues/1381)) ([`5254d3b`](https://github.com/ocadotechnology/codeforlife-portal/commit/5254d3b4e5e52272cd28107224b56b00ba67e0c9))
+
+## v4.21.2 (2021-03-08)
+### Fix
+* Improve admin login form ([#1373](https://github.com/ocadotechnology/codeforlife-portal/issues/1373)) ([`b2c7b2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2c7b2d69114adc8666a2c64442943fe1ece44d9))
+
 ## v4.21.1 (2021-02-26)
 ### Fix
 * Update the home and about pages: text update, new icon ([#1364](https://github.com/ocadotechnology/codeforlife-portal/issues/1364)) ([`a24b22f`](https://github.com/ocadotechnology/codeforlife-portal/commit/a24b22fe41fb854a6892da027ef58bea58e31f0d))

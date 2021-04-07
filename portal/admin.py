@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,10 +34,6 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
-
 from common.models import (
     Class,
     EmailVerification,
@@ -46,6 +42,11 @@ from common.models import (
     Teacher,
     UserProfile,
 )
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+
+from portal.forms.admin import AdminUserCreationForm, AdminChangeUserPasswordForm
 
 
 class ClassAdmin(admin.ModelAdmin):
@@ -129,6 +130,8 @@ class EmailVerificationAdmin(admin.ModelAdmin):
 
 UserAdmin.list_display += ("date_joined",)
 UserAdmin.list_filter += ("date_joined",)
+UserAdmin.add_form = AdminUserCreationForm
+UserAdmin.change_password_form = AdminChangeUserPasswordForm
 
 
 admin.site.register(Class, ClassAdmin)

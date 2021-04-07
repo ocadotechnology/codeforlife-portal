@@ -39,21 +39,22 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
                 <input type="hidden" name="game_class" id="id_game_class">
             </form>
             <button class="button--regular button--secondary button--dropdown" data-toggle="dropdown"
-                    aria-expanded="false" id="add_class_dropdown">
+                aria-expanded="false" id="add_class_dropdown">
                 <div class="dropdown__text">Add class</div>
             </button>
             <ul id="add-class-dropdown-menu" class="dropdown-menu">
                 {% for game_class in form.game_class.field.queryset %}
-                    <li class="dropdown-menu__option">
-                        {% if game_class.game %}
-                        <a class="btn button--regular disabled" data-class-id="{{ game_class.id }}">
+                <li class="dropdown-menu__option">
+                    {% if game_class.game %}
+                    <a class="btn button--regular disabled" data-class-id="{{ game_class.id }}">
                         {% else %}
-                        <a class="btn button--regular" id="class_{{ game_class.id }}" data-class-id="{{ game_class.id }}"
-                           onclick='send_event("Kurono", "Clicked", "Create game button");'>
-                        {% endif %}
+                        <a class="btn button--regular" id="class_{{ game_class.id }}"
+                            data-class-id="{{ game_class.id }}"
+                            onclick='send_event("Kurono", "Clicked", "Create game button");'>
+                            {% endif %}
                             <small class="dropdown-menu__option__text">{{ game_class.name }}</small>
                         </a>
-                    </li>
+                </li>
                 {% endfor %}
             </ul>
         </div>
@@ -78,8 +79,9 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
             <a href="{% url 'kurono_packs' %}" class="button button--primary--general-play">
                 View Kurono teaching packs<div class="glyphicon glyphicon-menu-right"></div>
             </a>
-            <a href="{{ 'kurono_v3.zip'|cloud_storage }}" onclick='send_event("kurono_v3.zip", "Downloaded");'
-               class="button button--primary--general-play">Download all resources
+            <a href="{{ 'kurono/latest/kurono.zip'|cloud_storage }}"
+                onclick='send_event("kurono/latest/kurono.zip", "Downloaded");'
+                class="button button--primary--general-play">Download all resources
                 <div class="glyphicon glyphicon-save"></div>
             </a>
         </div>
@@ -93,8 +95,9 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
             (13 &mdash; 18 year olds).</p>
         <div class="background button-group button-group__icon">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
-               class="button button--regular button--primary--navigation" target="_blank">Give feedback
-                <div class="glyphicon glyphicon-new-window"></div></a>
+                class="button button--regular button--primary--navigation" target="_blank">Give feedback
+                <div class="glyphicon glyphicon-new-window"></div>
+            </a>
         </div>
     </section>
 </div>

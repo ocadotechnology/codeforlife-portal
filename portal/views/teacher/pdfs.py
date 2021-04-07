@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -964,15 +964,34 @@ PDF_DATA = {
     "Kurono_teacher_guide_1": {
         "title": "Teacher Challenge Guide 1",
         "description": "Challenge 1",
-        "links": ["Kurono_challenge_1", "Kurono_teacher_guide_2"],
-        "url": "kurono_v3/teacher_guides/teacher_guide_S1.pdf",
+        "links": [
+            "Kurono_challenge_1",
+            "Kurono_teacher_guide_2",
+            "Kurono_teacher_guide_3",
+        ],
+        "url": "kurono/latest/teacher_challenge_guide_1.pdf",
         "page_origin": "#ks3-sessions",
     },
     "Kurono_teacher_guide_2": {
         "title": "Teacher Challenge Guide 2",
         "description": "Challenge 2",
-        "links": ["Kurono_challenge_2", "Kurono_teacher_guide_1"],
-        "url": "kurono_v3/teacher_guides/teacher_guide_S2.pdf",
+        "links": [
+            "Kurono_challenge_2",
+            "Kurono_teacher_guide_1",
+            "Kurono_teacher_guide_3",
+        ],
+        "url": "kurono/latest/teacher_challenge_guide_2.pdf",
+        "page_origin": "#ks3-sessions",
+    },
+    "Kurono_teacher_guide_3": {
+        "title": "Teacher Challenge Guide 3",
+        "description": "Challenge 3",
+        "links": [
+            "Kurono_challenge_3",
+            "Kurono_teacher_guide_1",
+            "Kurono_teacher_guide_2",
+        ],
+        "url": "kurono/latest/teacher_challenge_guide_3.pdf",
         "page_origin": "#ks3-sessions",
     },
     # ...Resource Sheets...#
@@ -980,50 +999,57 @@ PDF_DATA = {
         "title": "Kurono Cheat Sheet",
         "description": "To be used to code the Kurono game.",
         "links": [],
-        "url": "kurono_v3/resource_sheets/kurono_cheat_sheet.pdf",
+        "url": "kurono/latest/kurono_cheat_sheet.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     "Kurono_teacher_user_guide": {
         "title": "Kurono Teacher User Guide",
         "description": "",
         "links": [],
-        "url": "kurono_v3/resource_sheets/teacher_user_guide.pdf",
+        "url": "kurono/latest/teacher_user_guide.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     "Kurono_student_user_guide": {
         "title": "Kurono User Guide",
         "description": "",
         "links": [],
-        "url": "kurono_v3/resource_sheets/student_user_guide.pdf",
+        "url": "kurono/latest/student_user_guide.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     "Kurono_national_curriculum": {
         "title": "Kurono and the National Curriculum for Computing (UK)",
         "description": "",
         "links": [],
-        "url": "kurono_v3/resource_sheets/kurono_national_curriculum.pdf",
+        "url": "kurono/latest/kurono_and_the_national_curriculum_for_computing.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     "Kurono_story": {
         "title": "The story of Kurono",
         "description": "",
         "links": [],
-        "url": "kurono_v3/resource_sheets/kurono_story.pdf",
+        "url": "kurono_/latest/the_story_of_kurono.pdf",
         "page_origin": "#ks3-resource-sheets",
     },
     # ...Intermediate Python Challenges...#
     "Kurono_challenge_1": {
         "title": "Student Challenge 1",
         "description": "Move your avatar",
-        "links": ["Kurono_challenge_2"],
-        "url": "kurono_v3/student_challenges/SC1.pdf",
+        "links": ["Kurono_challenge_2", "Kurono_challenge_3"],
+        "url": "kurono/latest/student_challenge_1.pdf",
         "page_origin": "#ks3-challenges",
     },
     "Kurono_challenge_2": {
         "title": "Student Challenge 2",
         "description": "Obstacles and Artefacts",
-        "links": ["Kurono_challenge_1"],
-        "url": "kurono_v3/student_challenges/SC2.pdf",
+        "links": ["Kurono_challenge_1", "Kurono_challenge_3"],
+        "url": "kurono/latest/student_challenge_2.pdf",
+        "page_origin": "#ks3-challenges",
+    },
+    "Kurono_challenge_3": {
+        "title": "Student Challenge 3",
+        "description": "Interacting with Artefacts",
+        "links": ["Kurono_challenge_1", "Kurono_challenge_2"],
+        "url": "kurono/latest/student_challenge_3.pdf",
         "page_origin": "#ks3-challenges",
     },
 }
