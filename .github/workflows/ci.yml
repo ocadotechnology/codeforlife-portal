@@ -38,10 +38,11 @@ jobs:
       - name: Run Cypress tests
         uses: cypress-io/github-action@v2
         with:
+          browser: chrome
           install: false
           start: bash ./run
           wait-on: http://localhost:8000
-          wait-on-timeout: 400
+          wait-on-timeout: 300
           record: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
