@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.24.2 (2021-04-07)
+### Fix
+* Fix pdf url, add and adjust tests ([#1408](https://github.com/ocadotechnology/codeforlife-portal/issues/1408)) ([`701ed05`](https://github.com/ocadotechnology/codeforlife-portal/commit/701ed059042f704f631f6de6bc0297fdd3b4e4f2))
+
 ## v4.24.1 (2021-04-01)
 ### Fix
 * Update links to new kurono_teacher_solutions ([`db016df`](https://github.com/ocadotechnology/codeforlife-portal/commit/db016df4121fb0e97aeaca881a6231ba3b8f928e))
