@@ -75,6 +75,12 @@ def is_developer(u):
 
 
 @register.filter
+def is_production(request):
+    hostname = request.META.get("HTTP_HOST")
+    return "codeforlife.education" in hostname  # skipping localhost/dev/staging
+
+
+@register.filter
 def has_beta_access(request):
     return beta.has_beta_access(request)
 
