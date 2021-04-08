@@ -60,7 +60,6 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.views.about import about
 from portal.views.admin import (
-    AdminLoginView,
     AdminChangePasswordView,
     AdminChangePasswordDoneView,
     aggregated_data,
@@ -196,11 +195,6 @@ urlpatterns = [
     url(
         r"^favicon\.ico$",
         RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
-    ),
-    url(
-        r"^administration/login/$",
-        AdminLoginView.as_view(),
-        name="administration_login",
     ),
     url(
         r"^administration/password_change/$",

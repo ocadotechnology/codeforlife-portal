@@ -39,13 +39,10 @@ from datetime import timedelta
 from time import sleep
 
 from common.models import Teacher, School, Class, Student
-from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import (
-    LoginView,
     PasswordChangeView,
     PasswordChangeDoneView,
 )
@@ -55,48 +52,10 @@ from django.utils import timezone
 from django_otp import device_classes
 from rest_framework.reverse import reverse_lazy
 
-# This import is required so that 2FA works properly
-from portal import handlers
-
-from portal import app_settings
-from portal.forms.admin import AdminLoginForm, AdminChangeOwnPasswordForm
+from portal.forms.admin import AdminChangeOwnPasswordForm
 from portal.helpers.location import lookup_coord
 
 block_limit = 5
-
-
-def is_post_request(request, response):
-    return request.method == "POST"
-
-
-class AdminLoginView(LoginView):
-    form_class = AdminLoginForm
-    template_name = "registration/login.html"
-    extra_context = {"settings": app_settings}
-    authentication_form = None
-
-    def get_form_kwargs(self):
-        kwargs = super(LoginView, self).get_form_kwargs()
-        return kwargs
-
-    def get_form(self, form_class=None):
-        user = self.request.user
-        return self.form_class(user, **self.get_form_kwargs())
-
-    def form_valid(self, form):
-        user = form.get_user()
-        if using_two_factor(user):
-            return render(
-                self.request,
-                "portal/2FA_redirect.html",
-                {
-                    "form": AuthenticationForm(),
-                    "username": user.username,
-                    "password": form.cleaned_data["password"],
-                },
-            )
-
-        return super(AdminLoginView, self).form_valid(form)
 
 
 class AdminChangePasswordView(PasswordChangeView):
