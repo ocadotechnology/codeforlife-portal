@@ -70,7 +70,7 @@ class AdminChangePasswordDoneView(PasswordChangeDoneView):
     pass
 
 
-@login_required(login_url=reverse_lazy("administration_login"))
+@login_required(login_url=reverse_lazy("teacher_login"))
 @permission_required("common.view_aggregated_data", raise_exception=True)
 def aggregated_data(request):
 
@@ -382,7 +382,7 @@ def fill_in_missing_school_locations(request):
     messages.info(request, "%d school have no town" % town0)
 
 
-@login_required(login_url=reverse_lazy("administration_login"))
+@login_required(login_url=reverse_lazy("teacher_login"))
 @permission_required("common.view_map_data", raise_exception=True)
 def schools_map(request):
     fill_in_missing_school_locations(request)
