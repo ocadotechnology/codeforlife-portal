@@ -45,6 +45,7 @@ from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
 
 from portal import __version__, beta
+from portal import app_settings
 
 register = template.Library()
 
@@ -76,10 +77,8 @@ def is_developer(u):
 
 @register.filter
 def is_production(request):
-    hostname = request.META.get("HTTP_HOST")
-    return (
-        hostname and "codeforlife.education" in hostname
-    )  # skipping localhost/dev/staging
+    # 'production' excludes localhost/dev/staging
+    return app_settings.MODULE_NAME == "default"
 
 
 @register.filter
