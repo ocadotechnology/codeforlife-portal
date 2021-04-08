@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.25.0 (2021-04-08)
+### Feature
+* Call google analytics only on production ([#1411](https://github.com/ocadotechnology/codeforlife-portal/issues/1411)) ([`ecd25a9`](https://github.com/ocadotechnology/codeforlife-portal/commit/ecd25a9ab8d19d2443574cfeaf4e475e99550981))
+
 ## v4.24.2 (2021-04-07)
 ### Fix
 * Fix pdf url, add and adjust tests ([#1408](https://github.com/ocadotechnology/codeforlife-portal/issues/1408)) ([`701ed05`](https://github.com/ocadotechnology/codeforlife-portal/commit/701ed059042f704f631f6de6bc0297fdd3b4e4f2))
