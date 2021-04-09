@@ -6,5 +6,7 @@ from portal.strings.privacy_policy import PRIVACY_POLICY_BANNER
 
 def privacy_policy(request):
     return render(
-        request, "portal/privacy_policy.html", {"BANNER": PRIVACY_POLICY_BANNER}
+        request,
+        "portal/privacy_policy.html",
+        {"BANNER": PRIVACY_POLICY_BANNER, "last_updated": "8th April 2021"},
     )

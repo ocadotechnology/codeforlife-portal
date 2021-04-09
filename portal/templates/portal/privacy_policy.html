@@ -23,7 +23,7 @@
 <div class="col-sm-8 col-center">
     <div id="privacy"></div>
     <div class="background">
-        <p><strong>Last Updated: 8th April 2021</strong></p>
+        <p><strong>Last Updated: {{ last_updated }}</strong></p>
         <p>Please read this policy carefully. This policy contains important information on who we are, how and why we
             collect, store, use and share your personal information, your rights in relation to your personal
             information, including your right to object in certain circumstances, and on how to contact us.</p>
@@ -273,14 +273,13 @@
                     on and the length of time between clicks).  We use this information to improve the user experience
                     and performance of the website. We use third-party web analytics software on our website and apps
                     (such as Google Analytics), further information about these partners can be found
-                    <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage"
-                       target="_blank">here</a>.</p>
+                    <a href="#third-party-cookies">here</a>.</p>
                 </td>
                 <td><p>24</p></td>
             </tr>
         </table>
 
-        <h4>7.3 Third party cookies</h4>
+        <h4 id="third-party-cookies">7.3 Third party cookies</h4>
         <p>Ocado Innovation Limited does not allow third party advertising, or affiliation on our site.</p>
         <p>We have enabled Google Analytics and Mouseflow. If you choose to allow analytics/performance cookies, this
             would provide us with, amongst other things, a summary as to how you use our site and would enable us to
@@ -294,7 +293,10 @@
             may also transfer this information to third parties where required to do so by law, or where such third
             parties process the information on Google's behalf. Google will not associate your IP address with any
             other data held by Google. By using this website, and allowing performance cookies, you consent to the
-            processing of data about you by Google in the manner and for the purposes set out above.</p>
+            processing of data about you by Google in the manner and for the purposes set out above. Further
+            information can be found
+            <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage"
+            target="_blank">here</a>.</p>
         <p><strong>Mouseflow</strong>. We also use Mouseflow on our website; this provider offers a website analytics
             tool that provides services such as session replay, heatmaps, funnels, form analytics, feedback campaigns,
             and similar features/functionality. Mouseflow uses cookies to  record your clicks, mouse movements,
@@ -306,7 +308,8 @@
             information, you can do so at
             <a href="https://mouseflow.com/opt-out" target="_blank">https://mouseflow.com/opt-out</a>. If you’d like to
             exercise your data protection rights in relation to information that Mouseflow holds about you, please
-            contact us first or, as a secondary option, contact Mouseflow at privacy@mouseflow.com.</p>
+            contact us first or, as a secondary option, contact Mouseflow at
+            <a href="mailto:privacy@mouseflow.com">privacy@mouseflow.com</a>.</p>
         <p><strong>Freshdesk</strong> is our third party customer support tool that enables customers to contact us
             through a ticketing system on the website.</p>
         <p>For more information on Freshdesk’s Privacy Notice, visit
@@ -405,7 +408,8 @@
             rely when responding to any request you make.</p>
         <p>If you would like to exercise any of those rights, please:</p>
         <ul>
-            <li><p>email our Data Protection Officer at privacy_codeforlife@ocado.com;</p></li>
+            <li><p>email our Data Protection Officer at
+                <a href="mailto:privacy_codeforlife@ocado.com">privacy_codeforlife@ocado.com</a>;</p></li>
             <li><p>let us have enough information to identify you (eg username, full name and email address); and</p></li>
             <li><p>let us know (if possible) the information to which your request relates.</p></li>
         </ul>
@@ -442,14 +446,15 @@
 
     <div class="background">
         <h3 id="changes">13. Changes to this Privacy Policy</h3>
-        <p>This Privacy Policy was last updated on 8 April 2021.</p>
+        <p>This Privacy Policy was last updated on {{ last_updated }}.</p>
         <p>We may change this Privacy Policy from time to time and you should check it regularly. If we make any
             material changes to this notice we will inform via appropriate means (eg  email).</p>
     </div>
 
     <div class="background">
         <h3 id="contact-us">14. How to contact Us</h3>
-        <p>Please contact our Data Protection Officer or us at privacy_codeforlife@ocado.com if you have any questions
+        <p>Please contact our Data Protection Officer or us at
+            <a href="mailto:privacy_codeforlife@ocado.com">privacy_codeforlife@ocado.com</a> if you have any questions
             about this Privacy Policy or the information we hold about you.</p>
     </div>
 
