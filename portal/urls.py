@@ -330,7 +330,7 @@ urlpatterns = [
     url(r"^about", about, name="about"),
     url(r"^help/$", contact, name="help"),
     url(r"^terms", terms, name="terms"),
-    url(r"^privacy-policy", privacy_policy, name="privacy_policy"),
+    url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
     url(
