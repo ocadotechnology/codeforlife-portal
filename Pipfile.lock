@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d0c22011b247012a44d94e18452507d51dbe813c928d75cb32d2a3f1215ef570"
+            "sha256": "cd952cf328a3196f09e175025537471e6df697121fd4073b934c4cd4722b7d86"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.6"
+            "python_version": "3.7"
         },
         "sources": [
             {
@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:f3842403763d65f9d357f6d19963bbb926e8b5c1309b2ca427594ff09e4b2f42",
-                "sha256:f45a71dde44e610dc5c57251b0a92d2f852382fddbf9eaf12988b186951b9be8"
+                "sha256:a4dcfa82d79b8c52f0a9223680e4c62cfc82269372072e60fa07b3587ec05308",
+                "sha256:fefde514265d39f987dbf73476e0c14eebd789da9eed7b6c6c5a260deccea20e"
             ],
-            "version": "==0.67.2"
+            "version": "==0.68.2"
         },
         "anyascii": {
             "hashes": [
@@ -706,10 +706,10 @@
         },
         "xlsxwriter": {
             "hashes": [
-                "sha256:9b1ade2d1ba5d9b40a6d1de1d55ded4394ab8002718092ae80a08532c2add2e6",
-                "sha256:b807c2d3e379bf6a925f472955beef3e07495c1bac708640696876e68675b49b"
+                "sha256:2b7e22b1268c2ed85d73e5629097c9a63357f2429667ada9863cd05ff8ee33aa",
+                "sha256:30ebc19d0f201fafa34a6c622050ed2a268ac8dee24037a61605caa801dc8af5"
             ],
-            "version": "==1.3.7"
+            "version": "==1.3.8"
         },
         "xlwt": {
             "hashes": [
@@ -781,11 +781,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71",
-                "sha256:b74159469b464a99cb8cc3e21973e4d96e05d3024d337313fedb618a6e86e6f4"
+                "sha256:c9db46394197244adf2f0b08ec5bc3cf16757e9590b02af1fca085c16c0d600a",
+                "sha256:d2d46ef77ffc85cbf7dac7e81dd663fde71c45326131bea8033b9bad42268ebe"
             ],
             "markers": "python_version < '3.8'",
-            "version": "==3.7.3"
+            "version": "==3.10.0"
         },
         "iniconfig": {
             "hashes": [
@@ -828,11 +828,11 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:9d1edf9e7d0b84d72ea3dbcdfd22b35fb543a5e8f2a60092dd578936bf63d7f9",
-                "sha256:b574b57423e818210672e07ca1fa90aaf194a4f63f3ab909a2c67ebb22913839"
+                "sha256:671238a46e4df0f3498d1c3270e5deb9b32d25134c99b7d75370a68cfbe9b634",
+                "sha256:6ad9c7bdf517a808242b998ac20063c41532a570d088d77eec1ee12b0b5574bc"
             ],
             "index": "pypi",
-            "version": "==6.2.2"
+            "version": "==6.2.3"
         },
         "pytest-django": {
             "hashes": [
