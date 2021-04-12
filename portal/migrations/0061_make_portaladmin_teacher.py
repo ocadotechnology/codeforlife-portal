@@ -25,7 +25,7 @@ def give_portaladmin_teacher_profile(apps, schema_editor):
     portaladmin_userprofile = UserProfile.objects.create(user=portaladmin)
 
     # Find test school
-    portaladmin_school = School.objects.get(name="Swiss Federal Polytechnic")
+    portaladmin_school, _ = School.objects.get_or_create(name="Swiss Federal Polytechnic")
 
     # Create Teacher object and link it to School
     portaladmin_teacher = Teacher.objects.create(
