@@ -61,38 +61,40 @@
     {% endblock check_user_status %}
 
     {% block google_analytics %}
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    {% if request|is_production %}
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+                        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 
-        ga('create', 'UA-49883146-1', 'auto');
-        ga('send', 'pageview');
+            ga('create', 'UA-49883146-1', 'auto');
+            ga('send', 'pageview');
 
-        function send_event(category_name, action, label_name) {
-            ga('send', {
+            function send_event(category_name, action, label_name) {
+                ga('send', {
+                    hitType: 'event',
+                    eventCategory: category_name,
+                    eventAction: action,
+                    eventLabel: label_name
+                });
+            }
+        </script>
+
+        <script src="/static/portal/js/riveted.min.js"></script>
+        <script>riveted.init();</script>
+        <script> 
+            function send_event(name_of_file, action){
+                ga('send', {
                 hitType: 'event',
-                eventCategory: category_name,
+                eventCategory: 'PDFs',
                 eventAction: action,
-                eventLabel: label_name
-            });
-        }
-    </script>
-
-    <script src="/static/portal/js/riveted.min.js"></script>
-    <script>riveted.init();</script>
-    <script> 
-        function send_event(name_of_file, action){
-            ga('send', {
-              hitType: 'event',
-              eventCategory: 'PDFs',
-              eventAction: action,
-              eventLabel: name_of_file
-            });
-        }
-    </script>
+                eventLabel: name_of_file
+                });
+            }
+        </script>
+    {% endif %}
     {% endblock google_analytics %}
 </head>
 
@@ -435,7 +437,7 @@
         $('a[href*="#"]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
-                var $target = getTarget(this);
+                let $target = getTarget(this);
                 if ($target.length) {
                     animate($target.offset().top - bannerHeight);
                     return false;
@@ -445,7 +447,7 @@
     }
 
     function getTarget(clickTarget) {
-        var $target = $(clickTarget.hash);
+        let $target = $(clickTarget.hash);
         $target = $target.length && $target || $('[name=' + clickTarget.hash.slice(1) +']');
         return $target;
     }
@@ -465,12 +467,17 @@
     }
 
     $(document).ready(function() {
-        var bannerHeight = $('.sticky-subnav').height();
-        animateScroll(bannerHeight);
+        let bannerHeight = $('.sticky-subnav').height();
+        if(bannerHeight) {
+            animateScroll(bannerHeight);
+        }
+        else {
+            animateScroll($('.menu').height() * 1.25);
+        }
     });
 
     $(window).on('scroll', function() {
-        var scroll = $(window).scrollTop();
+        let scroll = $(window).scrollTop();
         if (scroll > 0 && $('.dropdown').hasClass('open')) {
             $('.dropdown').removeClass('open');
             $('.button--dropdown').attr("aria-expanded", "false");
