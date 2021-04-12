@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.26.0 (2021-04-12)
+### Feature
+* Update python version to 3.7 ([#1415](https://github.com/ocadotechnology/codeforlife-portal/issues/1415)) ([`4deb4f7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4deb4f7010c15913907c3e637218122e1c8d9c8c))
+
 ## v4.25.0 (2021-04-08)
 ### Feature
 * Call google analytics only on production ([#1411](https://github.com/ocadotechnology/codeforlife-portal/issues/1411)) ([`ecd25a9`](https://github.com/ocadotechnology/codeforlife-portal/commit/ecd25a9ab8d19d2443574cfeaf4e475e99550981))
