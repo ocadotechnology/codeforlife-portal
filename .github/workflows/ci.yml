@@ -45,6 +45,10 @@ jobs:
             ls
             python example_project/manage.py migrate --noinput --settings test_settings
             python example_project/manage.py collectstatic --noinput
+            python example_project/manage.py shell
+            >>> from django.contrib.sites.models import Site
+            >>> site = Site.objects.create(domain='example.com', name='example.com')
+            >>> site.save()
             python example_project/manage.py runserver --settings test_settings
           wait-on: http://localhost:8000
           wait-on-timeout: 300
