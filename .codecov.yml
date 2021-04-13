@@ -13,6 +13,7 @@ ignore:
   - "cfl_common/setup.py"
   - "cfl_common/common/apps.py"
   - "docs/**/*"
+  - "create_test_site.py"
 
 comment:
   layout: "reach, diff, flags, files"
