@@ -23,7 +23,7 @@ exclude_paths:
 - portal/static/portal/css/bootstrap.css
 - portal/static/portal/js/bootstrap.js
 - portal/tests/**
-- example_project/example_project/static/**
+- example_project/static/**
 - .eggs
 ratings:
   paths:
