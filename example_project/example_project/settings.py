@@ -79,11 +79,11 @@ INSTALLED_APPS = ("portal", "captcha")
 
 PIPELINE_ENABLED = False
 
+from django_autoconfig import autoconfig
+
+autoconfig.configure_settings(globals())
+
 try:
     from example_project.local_settings import *  # pylint: disable=E0611
 except ImportError:
     pass
-
-from django_autoconfig import autoconfig
-
-autoconfig.configure_settings(globals())
