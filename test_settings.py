@@ -47,8 +47,8 @@ if os.environ.get("SELENIUM_HEADLESS", None):
 
 INSTALLED_APPS = ["portal"]
 PIPELINE_ENABLED = False
-ROOT_URLCONF = "example_project.example_project.urls"
-STATIC_ROOT = "example_project/example_project/static"
+ROOT_URLCONF = "example_project.urls"
+STATIC_ROOT = "example_project/static"
 SECRET_KEY = "bad_test_secret"
 
 DOTMAILER_URL = "https://test/"
