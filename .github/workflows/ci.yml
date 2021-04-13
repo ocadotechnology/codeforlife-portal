@@ -40,7 +40,12 @@ jobs:
         with:
           browser: chrome
           install: false
-          start: bash ./run -v 3 --settings test_settings
+#          start: bash ./run -v 3 --settings test_settings
+          start: |
+            ls
+            python example_project/manage.py migrate --noinput --settings test_settings
+            python example_project/manage.py collectstatic --noinput
+            python example_project/manage.py runserver --settings test_settings
           wait-on: http://localhost:8000
           wait-on-timeout: 300
           record: true
