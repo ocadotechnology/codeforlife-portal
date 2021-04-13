@@ -1,7 +1,17 @@
 #!/bin/bash
+export SETTINGS="$1"
+
 set -e
 cd "${BASH_SOURCE%/*}"
 
-./example_project/manage.py migrate --noinput
-./example_project/manage.py collectstatic --noinput
-./example_project/manage.py runserver "$@"
+if [ "$SETTINGS" ]
+then
+  ./example_project/manage.py migrate --noinput --settings "$SETTINGS"
+  ./example_project/manage.py collectstatic --noinput --settings "$SETTINGS"
+  ./example_project/manage.py shell --settings "$SETTINGS" < create_test_site.py
+  ./example_project/manage.py runserver --settings "$SETTINGS"
+else
+  ./example_project/manage.py migrate --noinput
+  ./example_project/manage.py collectstatic --noinput
+  ./example_project/manage.py runserver "$@"
+fi
