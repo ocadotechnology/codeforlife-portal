@@ -21,6 +21,6 @@ class AdminAccessMiddleware(object):
         if request.path.startswith(reverse("admin:index")):
             if request.user.is_authenticated:
                 if not request.user.is_superuser or not using_two_factor(request.user):
-                    return HttpResponseRedirect(reverse_lazy("teacher_login"))
+                    return HttpResponseRedirect(reverse_lazy("dashboard"))
             else:
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
