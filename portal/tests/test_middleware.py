@@ -57,6 +57,9 @@ class TestAdminAccessMiddleware(TestCase):
     - An authenticated user who is a superuser, OR has 2FA enabled, or neither, is
     redirected to the teacher dashboard.
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
+
+    N.B.: These tests call the AdminAccessMiddleware class directly as opposed to
+    simply performing requests because the middleware is not actually enabled for tests.
     """
     def setUp(self):
         self.middleware = AdminAccessMiddleware("response")
