@@ -40,11 +40,9 @@ from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.test import Client, TestCase, RequestFactory
-
-from deploy.middleware.admin_access import AdminAccessMiddleware
+from django.test import Client, TestCase
 
 
 class TestAdminAccessMiddleware(TestCase):
@@ -56,56 +54,52 @@ class TestAdminAccessMiddleware(TestCase):
     - An authenticated user who is a superuser, OR has 2FA enabled, or neither, is
     redirected to the teacher dashboard.
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
-
-    N.B.: These tests call the AdminAccessMiddleware class directly as opposed to
-    simply performing requests because the middleware is not actually enabled for tests.
     """
+
     def setUp(self):
-        self.middleware = AdminAccessMiddleware("response")
-        self.factory = RequestFactory()
-        self.view = lambda x: None
-        self.request = self.factory.get("/administration/")
+        self.client = Client()
+        self.email, self.password = self._setup_user()
 
     def _setup_user(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        klass, _, access_code = create_class_directly(email)
+        _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        client = Client()
+        return email, password
 
-        return client, User.objects.get(email=email)
+    def _make_user_superuser(self):
+        user = User.objects.get(email=self.email)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
 
     def test_unauthenticated_user_is_redirected(self):
-        self.request.user = AnonymousUser()
-        response = self.middleware.process_view(self.request, self.view, [], {})
+        response = self.client.get("/administration/")
 
         assert response.status_code == 302
         assert type(response) == HttpResponseRedirect
         assert response.url == "/login/teacher/"
 
     def test_authenticated_user_with_no_permissions_is_redirected(self):
-        client, user = self._setup_user()
-        client.login(username=user.email, password=user.password)
-        self.request.user = user
+        self.client.login(username=self.email, password=self.password)
 
-        response = self.middleware.process_view(self.request, self.view, [], {})
+        response = self.client.get("/administration/")
 
-        client.logout()
+        self.client.logout()
 
         assert response.status_code == 302
         assert type(response) == HttpResponseRedirect
         assert response.url == "/teach/dashboard/"
 
     def test_superuser_without_2FA_is_redirected(self):
-        client, user = self._setup_user()
-        client.login(username=user.email, password=user.password)
-        user.is_superuser = True
-        self.request.user = user
+        self._make_user_superuser()
 
-        response = self.middleware.process_view(self.request, self.view, [], {})
+        self.client.login(username=self.email, password=self.password)
 
-        client.logout()
+        response = self.client.get("/administration/")
+
+        self.client.logout()
 
         assert response.status_code == 302
         assert type(response) == HttpResponseRedirect
@@ -117,13 +111,11 @@ class TestAdminAccessMiddleware(TestCase):
         autospec=True,
     )
     def test_non_superuser_with_2FA_is_redirected(self, mock_using_two_factor):
-        client, user = self._setup_user()
-        client.login(username=user.email, password=user.password)
-        self.request.user = user
+        self.client.login(username=self.email, password=self.password)
 
-        response = self.middleware.process_view(self.request, self.view, [], {})
+        response = self.client.get("/administration/")
 
-        client.logout()
+        self.client.logout()
 
         assert response.status_code == 302
         assert type(response) == HttpResponseRedirect
@@ -135,13 +127,12 @@ class TestAdminAccessMiddleware(TestCase):
         autospec=True,
     )
     def test_superuser_with_2FA_can_access_admin_site(self, mock_using_two_factor):
-        client, user = self._setup_user()
-        client.login(username=user.email, password=user.password)
-        user.is_superuser = True
-        self.request.user = user
+        self._make_user_superuser()
 
-        response = self.middleware.process_view(self.request, self.view, [], {})
+        self.client.login(username=self.email, password=self.password)
 
-        client.logout()
+        response = self.client.get("/administration/")
 
-        assert response is None
+        self.client.logout()
+
+        assert response.status_code == 200

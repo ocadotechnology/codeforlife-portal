@@ -20,7 +20,12 @@ class AdminAccessMiddleware(object):
     def process_view(self, request, callback, callback_args, callback_kwargs):
         if request.path.startswith(reverse("admin:index")):
             if request.user.is_authenticated:
-                if not request.user.is_superuser or not using_two_factor(request.user):
+                if not self._has_admin_access(request):
                     return HttpResponseRedirect(reverse_lazy("dashboard"))
             else:
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
+
+    def _has_admin_access(self, request):
+        full_request_path = request.build_absolute_uri()
+        is_local = full_request_path.startswith("http://localhost:8000")
+        return request.user.is_superuser and request.user.is_staff and (using_two_factor(request.user) or is_local)

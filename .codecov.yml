@@ -8,11 +8,11 @@ ignore:
   - "portal/tests/**/*.py"
   - "example_project/*.py"
   - "example_project/**/*.py"
-  - "pytest_settings.py"
+  - "test_settings.py"
   - "setup.py"
   - "cfl_common/setup.py"
   - "cfl_common/common/apps.py"
-  - "docs/**/*"
+  - "docs/*"
   - "create_test_site.py"
 
 comment:

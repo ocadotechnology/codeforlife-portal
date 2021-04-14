@@ -66,17 +66,3 @@ DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
 from django_autoconfig.autoconfig import configure_settings
 
 configure_settings(globals())
-
-MIDDLEWARE = [
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
-    "django_otp.middleware.OTPMiddleware",
-    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-]
