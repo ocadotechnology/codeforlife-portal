@@ -42,8 +42,7 @@ from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpResponseRedirect
-from django.test import Client, TestCase
-from django.test import RequestFactory
+from django.test import Client, TestCase, RequestFactory
 
 from deploy.middleware.admin_access import AdminAccessMiddleware
 
