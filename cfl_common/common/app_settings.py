@@ -15,3 +15,9 @@ DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
 
 #: Dotmailer default preferences to what users are signed up to
 DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
+
+# The name of the google app engine service the application is running on, local otherwise
+MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
+
+# Boolean indicating if OneTrust cookie management is enabled or not
+COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)

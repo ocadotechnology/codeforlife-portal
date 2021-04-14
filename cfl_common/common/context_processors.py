@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,12 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.forms.newsletter_form import NewsletterForm
+from common import app_settings
 
 
-def process_newsletter_form(request):
-    return {"news_form": NewsletterForm()}
+def module_name(request):
+    return {"module_name": app_settings.MODULE_NAME}
+
+
+def cookie_management_enabled(request):
+    return {"cookie_management_enabled": app_settings.COOKIE_MANAGEMENT_ENABLED}

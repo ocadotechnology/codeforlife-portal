@@ -141,9 +141,9 @@ SETTINGS = {
                     "django.template.context_processors.request",
                     "django.contrib.messages.context_processors.messages",
                     "sekizai.context_processors.sekizai",
+                    "common.context_processors.module_name",
+                    "common.context_processors.cookie_management_enabled",
                     "portal.context_processors.process_newsletter_form",
-                    "portal.context_processors.module_name",
-                    "portal.context_processors.cookie_management_enabled",
                 ]
             },
         }
