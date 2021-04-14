@@ -24,8 +24,11 @@ exclude_patterns:
 - "portal/static/portal/css/bootstrap.css"
 - "portal/static/portal/js/bootstrap.js"
 - "portal/tests/"
+- "portal/migrations/"
 - "cfl_common/common/tests/"
-- "example_project/static/"
+- "cfl_common/common/migrations/"
+- "example_project/"
+- "test_settings.py"
 - "**/*.eggs"
 ratings:
   paths:
