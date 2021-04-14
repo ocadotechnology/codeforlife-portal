@@ -67,6 +67,8 @@ from django_autoconfig.autoconfig import configure_settings
 
 configure_settings(globals())
 
+# This list purposefully omits the AdminAccessMiddleware from the deploy project so
+# that the tests can access the admin pages without having to setup 2FA.
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",

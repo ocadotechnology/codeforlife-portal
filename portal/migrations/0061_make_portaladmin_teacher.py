@@ -7,6 +7,10 @@ from django.db import migrations
 
 
 def give_portaladmin_teacher_profile(apps, schema_editor):
+    """
+    This migration is so that we can still log in using the portaladmin User, but from
+    the teacher login form, which requires school data to be linked to the User.
+    """
     User = apps.get_model("auth", "User")
     UserProfile = apps.get_model("common", "UserProfile")
     School = apps.get_model("common", "School")
@@ -25,7 +29,9 @@ def give_portaladmin_teacher_profile(apps, schema_editor):
     portaladmin_userprofile = UserProfile.objects.create(user=portaladmin)
 
     # Find test school
-    portaladmin_school, _ = School.objects.get_or_create(name="Swiss Federal Polytechnic")
+    portaladmin_school, _ = School.objects.get_or_create(
+        name="Swiss Federal Polytechnic"
+    )
 
     # Create Teacher object and link it to School
     portaladmin_teacher = Teacher.objects.create(

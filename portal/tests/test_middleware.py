@@ -49,6 +49,15 @@ from deploy.middleware.admin_access import AdminAccessMiddleware
 
 
 class TestAdminAccessMiddleware(TestCase):
+    """
+    This tests the AdminAccessMiddleware class by checking that users are redirected
+    to the correct pages depending on their permissions, upon request to access the
+    admin pages. Specifically:
+    - An unauthenticated user should be redirected to the teacher login.
+    - An authenticated user who is a superuser, OR has 2FA enabled, or neither, is
+    redirected to the teacher dashboard.
+    - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
+    """
     def setUp(self):
         self.middleware = AdminAccessMiddleware("response")
         self.factory = RequestFactory()
