@@ -19,8 +19,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.7'
-          architecture: 'x64'
+          python-version: "3.7"
+          architecture: "x64"
       - name: Install dependencies
         run: |
           pip install codecov
@@ -47,5 +47,7 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test env vars
+        run: env
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
