@@ -56,11 +56,21 @@ class TestAdminAccessMiddleware(TestCase):
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
+        self.patcher = mock.patch(
+            "deploy.middleware.admin_access.MODULE_NAME",
+            return_value="test",
+            autospec=True,
+        )
+        self.mock_module_name = self.patcher.start()
+
         self.client = Client()
         self.email, self.password = self._setup_user()
 
-    def _setup_user(self):
+    def tearDown(self) -> None:
+        self.patcher.stop()
+
+    def _setup_user(self) -> (str, str):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -68,7 +78,7 @@ class TestAdminAccessMiddleware(TestCase):
 
         return email, password
 
-    def _make_user_superuser(self):
+    def _make_user_superuser(self) -> None:
         user = User.objects.get(email=self.email)
         user.is_superuser = True
         user.is_staff = True

@@ -1,7 +1,8 @@
 from common.utils import using_two_factor
-
-from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
+
+from portal.app_settings import MODULE_NAME
 
 
 class AdminAccessMiddleware(object):
@@ -26,6 +27,9 @@ class AdminAccessMiddleware(object):
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     def _has_admin_access(self, request):
-        full_request_path = request.build_absolute_uri()
-        is_local = full_request_path.startswith("http://localhost:8000")
-        return request.user.is_superuser and request.user.is_staff and (using_two_factor(request.user) or is_local)
+        is_local = MODULE_NAME == "local"
+        return (
+            request.user.is_superuser
+            and request.user.is_staff
+            and (using_two_factor(request.user) or is_local)
+        )
