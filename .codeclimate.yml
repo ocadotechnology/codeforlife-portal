@@ -17,14 +17,19 @@ engines:
     enabled: true
     exclude_paths:
     - "**/*.css"
-exclude_paths:
-- portal/_version.py
-- portal/static/portal/sass/bootstrap.*
-- portal/static/portal/css/bootstrap.css
-- portal/static/portal/js/bootstrap.js
-- portal/tests/**
-- example_project/example_project/static/**
-- .eggs
+exclude_patterns:
+- "portal/_version.py"
+- "portal/static/portal/sass/bootstrap.scss"
+- "portal/static/portal/sass/bootstrap*/"
+- "portal/static/portal/css/bootstrap.css"
+- "portal/static/portal/js/bootstrap.js"
+- "portal/tests/"
+- "portal/migrations/"
+- "cfl_common/common/tests/"
+- "cfl_common/common/migrations/"
+- "example_project/"
+- "test_settings.py"
+- "**/*.eggs"
 ratings:
   paths:
   - "**.css"
