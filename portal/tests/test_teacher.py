@@ -122,16 +122,14 @@ class TestTeachers(TestCase):
 
         c = Client()
 
-        login = c.login(username=indep_username, password=indep_password)
-        print(login)
+        c.login(username=indep_username, password=indep_password)
         c.post(
             reverse("student_join_organisation"),
             {"access_code": access_code, "class_join_request": "Request"},
         )
         c.logout()
 
-        t_login = c.login(username=email, password=password)
-        print(t_login)
+        c.login(username=email, password=password)
         worksheet: Worksheet = Worksheet.objects.create(
             name="test", starter_code="test"
         )
