@@ -14,6 +14,8 @@
     <meta name="msapplication-config" content="none"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+    {% include "common/onetrust_cookies_consent_notice.html" %}
+
     {% block head %}
     {% endblock head %}
 
@@ -398,6 +400,7 @@
         <p><a class="freshdesk__contact-us">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
         <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
+        <p><a class="optanon-toggle-display">Cookies settings</a></p>
     </div>
     <div class="row">
         <div class="col-sm-8 col-center">

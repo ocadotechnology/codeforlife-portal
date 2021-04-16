@@ -1,8 +1,7 @@
+from common.app_settings import MODULE_NAME
 from common.utils import using_two_factor
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-
-from portal.app_settings import MODULE_NAME
 
 
 class AdminAccessMiddleware(object):
