@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.28.1 (2021-04-16)
+### Fix
+* Include templates in common manifest ([`f7ec37b`](https://github.com/ocadotechnology/codeforlife-portal/commit/f7ec37baaf1322d839194c0ae0bbf04895e8887e))
+
 ## v4.28.0 (2021-04-16)
 ### Feature
 * Managed cookies ([#1338](https://github.com/ocadotechnology/codeforlife-portal/issues/1338)) ([`f034424`](https://github.com/ocadotechnology/codeforlife-portal/commit/f034424e3986778e3afc18ed43427a92f0a60004))
