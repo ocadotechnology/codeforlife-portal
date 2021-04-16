@@ -119,6 +119,7 @@ SETTINGS = {
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
     "MIDDLEWARE": [
+        "deploy.middleware.admin_access.AdminAccessMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
