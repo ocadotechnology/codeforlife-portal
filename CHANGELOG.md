@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.28.2 (2021-04-16)
+### Fix
+* Add bullet points to privacy policy table ([#1421](https://github.com/ocadotechnology/codeforlife-portal/issues/1421)) ([`98a8692`](https://github.com/ocadotechnology/codeforlife-portal/commit/98a8692085ca5f0be96170586fa3eb2c3bb263c9))
+
 ## v4.28.1 (2021-04-16)
 ### Fix
 * Include templates in common manifest ([`f7ec37b`](https://github.com/ocadotechnology/codeforlife-portal/commit/f7ec37baaf1322d839194c0ae0bbf04895e8887e))
