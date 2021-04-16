@@ -34,16 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import time
-import uuid
-from builtins import str
-
-from common.models import UserProfile
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib.auth.models import User, Permission
 from django.urls import reverse
 
 from portal.tests.base_test import BaseTest
-from portal.tests.pageObjects.portal.admin.admin_login_page import AdminLoginPage
+from portal.tests.pageObjects.portal.admin.admin_data_page import AdminDataPage
+from portal.tests.pageObjects.portal.admin.admin_map_page import AdminMapPage
+from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
 from portal.views import admin
 
 
@@ -55,97 +56,111 @@ class TestAdmin(BaseTest):
 
     # NB: Users are not expected to navigate to admin login page directly
     def navigate_to_admin_login(self):
-        url = self.live_server_url + reverse("administration_login")
+        url = self.live_server_url + reverse("teacher_login")
         self.selenium.get(url)
-        return AdminLoginPage(self.selenium, self.live_server_url)
+        return TeacherLoginPage(self.selenium)
+
+    def navigate_to_admin_data_not_logged_in(self):
+        url = self.live_server_url + reverse("aggregated_data")
+        self.selenium.get(url)
+        # gets redirected to login page when not logged in
+        return TeacherLoginPage(self.selenium)
+
+    def navigate_to_admin_map_not_logged_in(self):
+        url = self.live_server_url + reverse("map")
+        self.selenium.get(url)
+        # gets redirected to login page when not logged in
+        return TeacherLoginPage(self.selenium)
+
+    def navigate_to_admin_data_logged_in(self):
+        url = self.live_server_url + reverse("aggregated_data")
+        self.selenium.get(url)
+        # gets redirected to login page when not logged in
+        return AdminDataPage(self.selenium, self.live_server_url)
+
+    def navigate_to_admin_map_logged_in(self):
+        url = self.live_server_url + reverse("map")
+        self.selenium.get(url)
+        # gets redirected to login page when not logged in
+        return AdminMapPage(self.selenium, self.live_server_url)
 
     def navigate_to_admin_data(self):
         url = self.live_server_url + reverse("aggregated_data")
         self.selenium.get(url)
         # gets redirected to login page when not logged in
-        return AdminLoginPage(self.selenium, self.live_server_url)
+        return AdminDataPage(self.selenium, self.live_server_url)
 
     def navigate_to_admin_map(self):
         url = self.live_server_url + reverse("map")
         self.selenium.get(url)
         # gets redirected to login page when not logged in
-        return AdminLoginPage(self.selenium, self.live_server_url)
+        return AdminMapPage(self.selenium, self.live_server_url)
 
     # Checks all admin pages goes to admin_login when user is not logged in
     def test_navigate_to_admin_login(self):
-        page = self.navigate_to_admin_login()
+        self.navigate_to_admin_login()
 
     def test_navigate_to_admin_data(self):
-        page = self.navigate_to_admin_data()
+        self.navigate_to_admin_data_not_logged_in()
 
     def test_navigate_to_admin_map(self):
-        page = self.navigate_to_admin_map()
+        self.navigate_to_admin_map_not_logged_in()
 
     # Check superuser access to each admin pages
     def test_superuser_access(self):
-        username = self.randomId()
-        password = "abc123"
-        user = User.objects.create_superuser(
-            username=username, password=password, email=""
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        user = User.objects.get(username=email)
+        user.is_superuser = True
+        user.save()
+
+        self.go_to_homepage().go_to_teacher_login_page().login(
+            email, password
         )
-        UserProfile.objects.create(user=user)
-        page = self.navigate_to_admin_data().login_to_data(username, password)
-        self.assertTrue(page.is_on_admin_data_page())
+        page = self.navigate_to_admin_data_logged_in()
+        assert page.is_on_admin_data_page()
         page = page.go_to_admin_map_page()
-        self.assertTrue(page.is_on_admin_map_page())
+        assert page.is_on_admin_map_page()
 
     # Check user with view_map_data permission can access to /admin/map but not /admin/data
     def test_view_map_data_permission_access(self):
-        username = self.randomId()
-        password = "abc123"
-        user = User.objects.create_user(username=username, password=password)
-        UserProfile.objects.create(user=user)
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        user = User.objects.get(username=email)
         permission = Permission.objects.get(codename="view_map_data")
         user.user_permissions.add(permission)
-        page = self.navigate_to_admin_map().login_to_map(username, password)
-        self.assertTrue(page.is_on_admin_map_page())
+        user.save()
+
+        self.go_to_homepage().go_to_teacher_login_page().login(
+            email, password
+        )
+        page = self.navigate_to_admin_map_logged_in()
+        assert page.is_on_admin_map_page()
         page = page.go_to_admin_data_page_failure()
-        self.assertTrue(page.is_on_403_forbidden())
+        assert page.is_on_403_forbidden()
 
     # Check user with view_aggregated_data permission can access to /admin/data but not /admin/map
     def test_view_aggregated_data_permission_access(self):
-        username = self.randomId()
-        password = "abc123"
-        user = User.objects.create_user(username=username, password=password)
-        UserProfile.objects.create(user=user)
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        user = User.objects.get(username=email)
         permission = Permission.objects.get(codename="view_aggregated_data")
         user.user_permissions.add(permission)
-        page = self.navigate_to_admin_data().login_to_data(username, password)
-        self.assertTrue(page.is_on_admin_data_page())
-        page = page.go_to_admin_map_page_failure()
-        self.assertTrue(page.is_on_403_forbidden())
+        user.save()
 
-    def test_no_view_aggregated_data_permission_access(self):
-        username = self.randomId()
-        password = "abc123"
-        User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_data().login_to_forbidden(username, password)
-        self.assertTrue(page.is_on_403_forbidden())
-
-    def test_no_view_map_data_permission_access(self):
-        username = self.randomId()
-        password = "abc123"
-        User.objects.create_user(username=username, password=password)
-        page = self.navigate_to_admin_map().login_to_forbidden(username, password)
-        self.assertTrue(page.is_on_403_forbidden())
-
-    def test_wrong_username(self):
-        username = self.randomId()
-        password = "abc123"
-        user = User.objects.create_user(username=username, password=password)
-        UserProfile.objects.create(user=user)
-        page = self.navigate_to_admin_data().login_failure("user123", password)
-        time.sleep(1.5)
-        self.assertTrue(page.is_on_admin_login_page())
-        self.assertIn(
-            "Please enter a correct username and password. Note that both fields may be case-sensitive.",
-            page.browser.find_element_by_class_name("errorlist").text,
+        self.go_to_homepage().go_to_teacher_login_page().login(
+            email, password
         )
-
-    def randomId(self):
-        return str(uuid.uuid4())
+        page = self.navigate_to_admin_data_logged_in()
+        assert page.is_on_admin_data_page()
+        page = page.go_to_admin_map_page_failure()
+        assert page.is_on_403_forbidden()

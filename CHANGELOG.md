@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.27.0 (2021-04-15)
+### Feature
+* Update admin access ([#1416](https://github.com/ocadotechnology/codeforlife-portal/issues/1416)) ([`f6156c8`](https://github.com/ocadotechnology/codeforlife-portal/commit/f6156c8feb9edb491461eece8d7cc91a552c5a5e))
+
 ## v4.26.0 (2021-04-12)
 ### Feature
 * Update python version to 3.7 ([#1415](https://github.com/ocadotechnology/codeforlife-portal/issues/1415)) ([`4deb4f7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4deb4f7010c15913907c3e637218122e1c8d9c8c))

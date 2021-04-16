@@ -12,7 +12,12 @@ one special character.
 `
 
   // Login as main superuser
-  cy.loginAsSuperuser("portaladmin", "abc123")
+  cy.loginAsSuperuser("codeforlife-portal@ocado.com", "abc123")
+
+  cy.wait(2000)
+
+  // Go to admin site
+  cy.visit("administration/")
 
   // Go to user list
   cy.get('[href="/administration/auth/user/add/"]').click()
@@ -31,37 +36,17 @@ one special character.
   cy.get('#id_password2').type('ThisIsAStr0ngPassw0rd!')
   cy.get('[name="_save"]').click()
 
-  // Make test user a superuser
-  cy.get('#id_is_staff').check()
-  cy.get('#id_is_superuser').check()
-  cy.get('[name="_save"]').click()
-
-  // Logout from main superuser
-  cy.get('[href="/administration/logout/"]').click()
-
-  // Login as new superuser
-  cy.loginAsSuperuser("testadmin", "ThisIsAStr0ngPassw0rd!")
-
   // Go to password change page
   cy.get('[href="/administration/password_change/"]').click()
 
   // Try changing password to a weak password
-  cy.changeAdminPassword('ThisIsAStr0ngPassw0rd!', 'weak')
+  cy.changeAdminPassword('abc123', 'weak')
 
   cy.get('.errorlist').should('be.visible')
   cy.get('.errorlist').should('have.text', ADMIN_PASSWORD_TOO_WEAK_MESSAGE)
 
-  // Change password successfully
-  cy.changeAdminPassword('ThisIsAStr0ngPassw0rd!', 'ThisIsAnotherStr0ngPassw0rd!')
-
-  cy.get('#content').should('contain', "Password change successful")
-
-  // Logout of new superuser
+  // Back to admin home
   cy.get('[href="/administration/"]').contains("Home").click()
-  cy.get('[href="/administration/logout/"]').click()
-
-  // Log back in as main superuser
-  cy.loginAsSuperuser("portaladmin", "abc123")
 
   // Delete the test user
   cy.deleteUser('testadmin')

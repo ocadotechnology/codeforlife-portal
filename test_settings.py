@@ -2,6 +2,8 @@ import os
 
 from selenium import webdriver
 
+DEBUG = True
+
 headless_chrome_options = webdriver.ChromeOptions()
 headless_chrome_options.add_argument("--headless")
 headless_chrome_options.add_argument("--disable-gpu")
@@ -11,12 +13,19 @@ headless_chrome_options.add_argument("--disable-dev-shm-usage")
 SELENIUM_WEBDRIVERS = {
     "default": {"callable": webdriver.Chrome, "args": (), "kwargs": {}},
     "firefox": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
-    "chrome-headless": {"callable": webdriver.Chrome, "args": (), "kwargs": {
-        'options': headless_chrome_options
-    }},
+    "chrome-headless": {
+        "callable": webdriver.Chrome,
+        "args": (),
+        "kwargs": {"options": headless_chrome_options},
+    },
 }
 
-DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3"}}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(os.path.abspath(os.path.dirname(__file__)), "db.sqlite3"),
+    }
+}
 
 TEMPLATES = [
     {
@@ -45,8 +54,8 @@ if os.environ.get("SELENIUM_HEADLESS", None):
 
 INSTALLED_APPS = ["portal"]
 PIPELINE_ENABLED = False
-ROOT_URLCONF = "example_project.example_project.urls"
-STATIC_ROOT = "example_project/example_project/static"
+ROOT_URLCONF = "example_project.urls"
+STATIC_ROOT = "static"
 SECRET_KEY = "bad_test_secret"
 
 DOTMAILER_URL = "https://test/"
