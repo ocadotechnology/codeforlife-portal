@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v4.28.0 (2021-04-16)
+### Feature
+* Managed cookies ([#1338](https://github.com/ocadotechnology/codeforlife-portal/issues/1338)) ([`f034424`](https://github.com/ocadotechnology/codeforlife-portal/commit/f034424e3986778e3afc18ed43427a92f0a60004))
+* Update privacy policy ([#1410](https://github.com/ocadotechnology/codeforlife-portal/issues/1410)) ([`4db4a95`](https://github.com/ocadotechnology/codeforlife-portal/commit/4db4a95932dc680e137a211ae957f045bb932f9d))
+
 ## v4.27.0 (2021-04-15)
 ### Feature
 * Update admin access ([#1416](https://github.com/ocadotechnology/codeforlife-portal/issues/1416)) ([`f6156c8`](https://github.com/ocadotechnology/codeforlife-portal/commit/f6156c8feb9edb491461eece8d7cc91a552c5a5e))
