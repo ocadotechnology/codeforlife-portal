@@ -79,6 +79,8 @@ INSTALLED_APPS = ("portal", "captcha")
 
 PIPELINE_ENABLED = False
 
+COOKIE_MANAGEMENT_ENABLED = False
+
 from django_autoconfig import autoconfig
 
 autoconfig.configure_settings(globals())
