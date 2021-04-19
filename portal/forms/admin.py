@@ -36,11 +36,8 @@
 # identified as the original program.
 import re
 
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 from django.contrib.auth.forms import (
-    AuthenticationForm,
     PasswordChangeForm,
     UserCreationForm,
     AdminPasswordChangeForm,
@@ -55,10 +52,6 @@ one special character.
 ADMIN_PASSWORD_PATTERN = re.compile(
     "^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]).{14,}$"
 )
-
-
-class AdminLoginForm(AuthenticationForm):
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
 
 class AdminChangeOwnPasswordForm(PasswordChangeForm):

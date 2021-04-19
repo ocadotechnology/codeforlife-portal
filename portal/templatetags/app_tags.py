@@ -38,6 +38,7 @@ from aimmo.models import Worksheet
 from aimmo.templatetags.players_utils import get_user_playable_games
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
+from common import app_settings as common_app_settings
 from django import template
 from django.conf import settings
 from django.shortcuts import reverse
@@ -45,7 +46,6 @@ from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
 
 from portal import __version__, beta
-from portal import app_settings
 
 register = template.Library()
 
@@ -78,7 +78,7 @@ def is_developer(u):
 @register.filter
 def is_production(request):
     # 'production' excludes localhost/dev/staging
-    return app_settings.MODULE_NAME == "default"
+    return common_app_settings.MODULE_NAME == "default"
 
 
 @register.filter

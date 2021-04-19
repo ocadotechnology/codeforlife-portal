@@ -14,6 +14,8 @@
     <meta name="msapplication-config" content="none"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+    {% include "common/onetrust_cookies_consent_notice.html" %}
+
     {% block head %}
     {% endblock head %}
 
@@ -398,6 +400,7 @@
         <p><a class="freshdesk__contact-us">Contact us</a></p>
         <p><a href="{% url 'terms' %}">Terms of use</a></p>
         <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
+        <p><a class="optanon-toggle-display">Cookies settings</a></p>
     </div>
     <div class="row">
         <div class="col-sm-8 col-center">
@@ -434,7 +437,7 @@
         $('a[href*="#"]').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
-                var $target = getTarget(this);
+                let $target = getTarget(this);
                 if ($target.length) {
                     animate($target.offset().top - bannerHeight);
                     return false;
@@ -444,7 +447,7 @@
     }
 
     function getTarget(clickTarget) {
-        var $target = $(clickTarget.hash);
+        let $target = $(clickTarget.hash);
         $target = $target.length && $target || $('[name=' + clickTarget.hash.slice(1) +']');
         return $target;
     }
@@ -464,12 +467,17 @@
     }
 
     $(document).ready(function() {
-        var bannerHeight = $('.sticky-subnav').height();
-        animateScroll(bannerHeight);
+        let bannerHeight = $('.sticky-subnav').height();
+        if(bannerHeight) {
+            animateScroll(bannerHeight);
+        }
+        else {
+            animateScroll($('.menu').height() * 1.25);
+        }
     });
 
     $(window).on('scroll', function() {
-        var scroll = $(window).scrollTop();
+        let scroll = $(window).scrollTop();
         if (scroll > 0 && $('.dropdown').hasClass('open')) {
             $('.dropdown').removeClass('open');
             $('.button--dropdown').attr("aria-expanded", "false");

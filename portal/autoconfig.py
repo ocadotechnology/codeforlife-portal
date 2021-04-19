@@ -119,6 +119,7 @@ SETTINGS = {
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
     "MIDDLEWARE": [
+        "deploy.middleware.admin_access.AdminAccessMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
@@ -141,8 +142,9 @@ SETTINGS = {
                     "django.template.context_processors.request",
                     "django.contrib.messages.context_processors.messages",
                     "sekizai.context_processors.sekizai",
+                    "common.context_processors.module_name",
+                    "common.context_processors.cookie_management_enabled",
                     "portal.context_processors.process_newsletter_form",
-                    "portal.context_processors.module_name",
                 ]
             },
         }

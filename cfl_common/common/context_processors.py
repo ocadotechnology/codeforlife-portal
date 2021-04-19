@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,25 +34,12 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-"""
-WSGI config for example_project project.
+from common import app_settings
 
-This module contains the WSGI application used by Django's development server
-and any production WSGI deployments. It should expose a module-level variable
-named ``application``. Django's ``runserver`` and ``runfcgi`` commands discover
-this application via the ``WSGI_APPLICATION`` setting.
 
-Usually you will have the standard Django WSGI application here, but it also
-might make sense to replace the whole Django WSGI application with a custom one
-that later delegates to the Django one. For example, you could introduce WSGI
-middleware here, or combine a Django application with an application of another
-framework.
+def module_name(request):
+    return {"module_name": app_settings.MODULE_NAME}
 
-"""
-import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "example_project.settings")
-
-from django.core.wsgi import get_wsgi_application
-
-application = get_wsgi_application()
+def cookie_management_enabled(request):
+    return {"cookie_management_enabled": app_settings.COOKIE_MANAGEMENT_ENABLED}

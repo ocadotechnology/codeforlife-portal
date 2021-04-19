@@ -2,6 +2,27 @@
 
 <!--next-version-placeholder-->
 
+## v4.28.3 (2021-04-19)
+### Fix
+* Update functional cookies in privacy policy ([`d905d92`](https://github.com/ocadotechnology/codeforlife-portal/commit/d905d92a0f0d5318cb0eaa99c9d74d778b4ae4ce))
+
+## v4.28.2 (2021-04-16)
+### Fix
+* Add bullet points to privacy policy table ([#1421](https://github.com/ocadotechnology/codeforlife-portal/issues/1421)) ([`98a8692`](https://github.com/ocadotechnology/codeforlife-portal/commit/98a8692085ca5f0be96170586fa3eb2c3bb263c9))
+
+## v4.28.1 (2021-04-16)
+### Fix
+* Include templates in common manifest ([`f7ec37b`](https://github.com/ocadotechnology/codeforlife-portal/commit/f7ec37baaf1322d839194c0ae0bbf04895e8887e))
+
+## v4.28.0 (2021-04-16)
+### Feature
+* Managed cookies ([#1338](https://github.com/ocadotechnology/codeforlife-portal/issues/1338)) ([`f034424`](https://github.com/ocadotechnology/codeforlife-portal/commit/f034424e3986778e3afc18ed43427a92f0a60004))
+* Update privacy policy ([#1410](https://github.com/ocadotechnology/codeforlife-portal/issues/1410)) ([`4db4a95`](https://github.com/ocadotechnology/codeforlife-portal/commit/4db4a95932dc680e137a211ae957f045bb932f9d))
+
+## v4.27.0 (2021-04-15)
+### Feature
+* Update admin access ([#1416](https://github.com/ocadotechnology/codeforlife-portal/issues/1416)) ([`f6156c8`](https://github.com/ocadotechnology/codeforlife-portal/commit/f6156c8feb9edb491461eece8d7cc91a552c5a5e))
+
 ## v4.26.0 (2021-04-12)
 ### Feature
 * Update python version to 3.7 ([#1415](https://github.com/ocadotechnology/codeforlife-portal/issues/1415)) ([`4deb4f7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4deb4f7010c15913907c3e637218122e1c8d9c8c))
