@@ -73,14 +73,13 @@ from portal.views.api import (
     number_users_per_country,
     registered_users,
 )
+from portal.views.dotmailer import process_newsletter_form, dotmailer_consent_form
 from portal.views.email import send_new_users_report, verify_email
 from portal.views.help_and_support import contact
 from portal.views.home import (
     home,
     home_learning,
     logout_view,
-    process_newsletter_form,
-    dotmailer_consent_form,
     register_view,
 )
 from portal.views.login import (
