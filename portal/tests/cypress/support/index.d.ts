@@ -3,7 +3,7 @@
 declare namespace Cypress {
   interface Chainable {
     /**
-     * Custom command to login as a superuser (admin) by navigating to the admin login form.
+     * Custom command to login as a superuser (admin) by navigating to the teacher login form.
      * @example cy.login("test_admin", "test_password")
      */
     loginAsSuperuser(username, password): Chainable<Element>

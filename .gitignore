@@ -21,7 +21,7 @@ testdbfile
 portal/tests/chromedriver
 
 db.sqlite3
-example_project/example_project/static/
+example_project/static/
 codeforlife_portal.egg-info
 *.egg-info/
 build/

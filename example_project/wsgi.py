@@ -34,44 +34,25 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.tests.pageObjects.portal.admin.admin_base_page import AdminBasePage
+"""
+WSGI config for example_project project.
 
+This module contains the WSGI application used by Django's development server
+and any production WSGI deployments. It should expose a module-level variable
+named ``application``. Django's ``runserver`` and ``runfcgi`` commands discover
+this application via the ``WSGI_APPLICATION`` setting.
 
-class AdminLoginPage(AdminBasePage):
-    def __init__(self, browser, live_server_url):
-        super(AdminLoginPage, self).__init__(browser, live_server_url)
+Usually you will have the standard Django WSGI application here, but it also
+might make sense to replace the whole Django WSGI application with a custom one
+that later delegates to the Django one. For example, you could introduce WSGI
+middleware here, or combine a Django application with an application of another
+framework.
 
-        assert self.on_correct_page("administration_login")
+"""
+import os
 
-    def login_to_forbidden(self, username, password):
-        self._login(username, password)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
-        from portal.tests.pageObjects.portal.forbidden_page import ForbiddenPage
+from django.core.wsgi import get_wsgi_application
 
-        return ForbiddenPage(self.browser)
-
-    def login_failure(self, username, password):
-        self._login(username, password)
-        return self
-
-    def login_to_data(self, username, password):
-        self._login(username, password)
-        from portal.tests.pageObjects.portal.admin.admin_data_page import AdminDataPage
-
-        return AdminDataPage(self.browser, self.live_server_url)
-
-    def login_to_map(self, username, password):
-        self._login(username, password)
-        from portal.tests.pageObjects.portal.admin.admin_map_page import AdminMapPage
-
-        return AdminMapPage(self.browser, self.live_server_url)
-
-    def _login(self, username, password):
-        id_username_field = self.browser.find_element_by_id("id_username")
-        id_password_field = self.browser.find_element_by_id("id_password")
-        login_field = self.browser.find_element_by_name("login_view")
-        id_username_field.clear()
-        id_password_field.clear()
-        id_username_field.send_keys(username)
-        id_password_field.send_keys(password)
-        login_field.click()
+application = get_wsgi_application()

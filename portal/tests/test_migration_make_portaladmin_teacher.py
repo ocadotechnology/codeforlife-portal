@@ -34,8 +34,44 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.forms.dotmailer import NewsletterForm
+from common.tests.base_test_migration import MigrationTestCase
 
 
-def process_newsletter_form(request):
-    return {"news_form": NewsletterForm()}
+class TestMigrationMakePortaladminTeacher(MigrationTestCase):
+
+    start_migration = "0060_delete_guardian"
+    dest_migration = "0061_make_portaladmin_teacher"
+
+    def test_portaladmin_has_teacher_profile(self):
+        User = self.django_application.get_model("auth", "User")
+        UserProfile = self.django_application.get_model("common", "UserProfile")
+        School = self.django_application.get_model("common", "School")
+        Teacher = self.django_application.get_model("common", "Teacher")
+        Class = self.django_application.get_model("common", "Class")
+        Student = self.django_application.get_model("common", "Student")
+
+        portaladmin = User.objects.get(username="portaladmin")
+
+        assert portaladmin.first_name == "Portal"
+        assert portaladmin.last_name == "Admin"
+        assert portaladmin.email == "codeforlife-portal@ocado.com"
+
+        portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
+        portaladmin_school = School.objects.get(name="Swiss Federal Polytechnic")
+
+        portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
+
+        assert portaladmin_teacher.user == portaladmin_userprofile
+        assert portaladmin_teacher.school == portaladmin_school
+
+        portaladmin_class = Class.objects.get(access_code="PO123")
+
+        assert portaladmin_class.teacher == portaladmin_teacher
+
+        portaladmin_student_user = User.objects.get(username="portaladmin student")
+        portaladmin_student_userprofile = UserProfile.objects.get(
+            user=portaladmin_student_user
+        )
+        portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
+
+        assert portaladmin_student.class_field == portaladmin_class

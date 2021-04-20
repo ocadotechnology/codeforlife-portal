@@ -1,0 +1,15 @@
+<!-- OneTrust Cookies Consent Notice start for codeforlife.education -->
+{% if module_name == "default" %}
+    <script type="text/javascript" src="https://cdn-ukwest.onetrust.com/consent/26fc0b44-90c4-44e3-aaa7-335ac3d03d13/OtAutoBlock.js" ></script>
+    <script src="https://cdn-ukwest.onetrust.com/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="26fc0b44-90c4-44e3-aaa7-335ac3d03d13" ></script>
+    <script type="text/javascript">
+    function OptanonWrapper() { }
+    </script>
+{% elif cookie_management_enabled %}
+    <script type="text/javascript" src="https://cdn-ukwest.onetrust.com/consent/26fc0b44-90c4-44e3-aaa7-335ac3d03d13-test/OtAutoBlock.js" ></script>
+    <script src="https://cdn-ukwest.onetrust.com/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="26fc0b44-90c4-44e3-aaa7-335ac3d03d13-test" ></script>
+    <script type="text/javascript">
+    function OptanonWrapper() { }
+    </script>
+{% endif %}
+<!-- OneTrust Cookies Consent Notice end for codeforlife.education -->

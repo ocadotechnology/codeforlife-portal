@@ -65,9 +65,9 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
 SECRET_KEY = "not-a-secret"
 
-ROOT_URLCONF = "example_project.urls"
+ROOT_URLCONF = "urls"
 
-WSGI_APPLICATION = "example_project.wsgi.application"
+WSGI_APPLICATION = "wsgi.application"
 
 LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
@@ -79,11 +79,13 @@ INSTALLED_APPS = ("portal", "captcha")
 
 PIPELINE_ENABLED = False
 
-try:
-    from example_project.local_settings import *  # pylint: disable=E0611
-except ImportError:
-    pass
+COOKIE_MANAGEMENT_ENABLED = False
 
 from django_autoconfig import autoconfig
 
 autoconfig.configure_settings(globals())
+
+try:
+    from example_project.local_settings import *  # pylint: disable=E0611
+except ImportError:
+    pass

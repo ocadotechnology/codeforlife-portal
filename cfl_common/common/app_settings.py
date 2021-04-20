@@ -26,3 +26,9 @@ DOTMAILER_PUT_CONSENT_DATA_URL = getattr(settings, "DOTMAILER_PUT_CONSENT_DATA_U
 
 #: Dotmailer URL for sending a triggered campaign to a users
 DOTMAILER_SEND_CAMPAIGN_URL = getattr(settings, "DOTMAILER_SEND_CAMPAIGN_URL", "")
+
+# The name of the google app engine service the application is running on, local otherwise
+MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
+
+# Boolean indicating if OneTrust cookie management is enabled or not
+COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)
