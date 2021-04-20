@@ -41,6 +41,8 @@ from common.helpers.emails import (
     add_to_dotmailer,
     create_contact,
     add_contact_to_address_book,
+    add_consent_record_to_dotmailer_user,
+    send_dotmailer_consent_confirmation_email_to_user,
 )
 from django.core import mail
 from django.test import Client
@@ -121,6 +123,63 @@ def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_dateti
     )
 
     add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
+
+    mocked_post.assert_called_with(
+        "", auth=("username_here", "password_here"), json=expected_body2
+    )
+
+
+def test_consent_calls_send_correct_request_data(
+    mocker, monkeypatch, patch_datetime_now
+):
+    mocked_post = mocker.patch("common.helpers.emails.post")
+    mocked_put = mocker.patch("common.helpers.emails.put")
+
+    user = {
+        "id": 1,
+        "email": "ray.charles@example.com",
+        "optInType": "VerifiedDouble",
+        "emailType": "Html",
+        "dataFields": [
+            {"key": "FIRSTNAME", "value": "Ray"},
+            {"key": "LASTNAME", "value": "Charles"},
+            {"key": "FULLNAME", "value": "Ray Charles"},
+        ],
+        "status": "Subscribed",
+    }
+
+    expected_body1 = {
+        "contact": {
+            "email": "ray.charles@example.com",
+            "optInType": "VerifiedDouble",
+            "emailType": "Html",
+            "dataFields": [
+                {"key": "FIRSTNAME", "value": "Ray"},
+                {"key": "LASTNAME", "value": "Charles"},
+                {"key": "FULLNAME", "value": "Ray Charles"},
+            ],
+        },
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": FAKE_TIME.__str__()},
+                ]
+            }
+        ],
+    }
+
+    expected_body2 = {
+        "campaignID": "765431",
+        "contactIds": ["1"],
+    }
+
+    add_consent_record_to_dotmailer_user(user)
+
+    mocked_put.assert_called_once_with(
+        "", auth=("username_here", "password_here"), json=expected_body1
+    )
+
+    send_dotmailer_consent_confirmation_email_to_user(user)
 
     mocked_post.assert_called_with(
         "", auth=("username_here", "password_here"), json=expected_body2

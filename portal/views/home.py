@@ -301,18 +301,21 @@ def process_newsletter_form(request):
 def dotmailer_consent_form(request):
     if request.method == "POST":
         consent_form = ConsentForm(data=request.POST)
+
         if consent_form.is_valid():
             user_email = consent_form.cleaned_data["email"]
             user = get_dotmailer_user_by_email(user_email)
             add_consent_record_to_dotmailer_user(user)
             send_dotmailer_consent_confirmation_email_to_user(user)
             return HttpResponseRedirect(reverse_lazy("home"))
+
         messages.error(
             request,
-            "Invalid email address. Please try again.",
+            "Valid email address and consent required. Please try again.",
             extra_tags="sub-nav--warning",
         )
         return HttpResponseRedirect(reverse_lazy("consent_form"))
+
     else:
         consent_form = ConsentForm()
 
