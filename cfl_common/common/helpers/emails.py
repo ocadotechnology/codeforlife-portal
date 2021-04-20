@@ -201,7 +201,7 @@ def get_dotmailer_user_by_email(email):
         url,
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
     )
-    print(json.loads(response.content))
+
     return json.loads(response.content)
 
 
