@@ -40,6 +40,9 @@ from common.helpers.emails import (
     send_email,
     NOTIFICATION_EMAIL,
     add_to_dotmailer,
+    get_dotmailer_user_by_email,
+    send_dotmailer_consent_confirmation_email_to_user,
+    add_consent_record_to_dotmailer_user,
 )
 from common.models import Teacher, Student
 from common.permissions import logged_in_as_student, logged_in_as_teacher
@@ -52,7 +55,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
 from deploy import captcha
-from portal.forms.newsletter_form import NewsletterForm
+from portal.forms.dotmailer import NewsletterForm, ConsentForm
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
@@ -293,6 +296,31 @@ def process_newsletter_form(request):
         return HttpResponseRedirect(reverse_lazy("home"))
 
     return HttpResponse(status=405)
+
+
+def dotmailer_consent_form(request):
+    if request.method == "POST":
+        consent_form = ConsentForm(data=request.POST)
+        if consent_form.is_valid():
+            user_email = consent_form.cleaned_data["email"]
+            user = get_dotmailer_user_by_email(user_email)
+            add_consent_record_to_dotmailer_user(user)
+            send_dotmailer_consent_confirmation_email_to_user(user)
+            return HttpResponseRedirect(reverse_lazy("home"))
+        messages.error(
+            request,
+            "Invalid email address. Please try again.",
+            extra_tags="sub-nav--warning",
+        )
+        return HttpResponseRedirect(reverse_lazy("consent_form"))
+    else:
+        consent_form = ConsentForm()
+
+    return render(
+        request,
+        "portal/dotmailer_consent_form.html",
+        {"form": consent_form},
+    )
 
 
 @cache_control(private=True)

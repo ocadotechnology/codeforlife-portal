@@ -15,3 +15,14 @@ DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
 
 #: Dotmailer default preferences to what users are signed up to
 DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
+
+#: Dotmailer URL for getting a user by email
+DOTMAILER_GET_USER_BY_EMAIL_URL = getattr(
+    settings, "DOTMAILER_GET_USER_BY_EMAIL_URL", ""
+)
+
+#: Dotmailer URL for adding consent data to a user
+DOTMAILER_PUT_CONSENT_DATA_URL = getattr(settings, "DOTMAILER_PUT_CONSENT_DATA_URL", "")
+
+#: Dotmailer URL for sending a triggered campaign to a users
+DOTMAILER_SEND_CAMPAIGN_URL = getattr(settings, "DOTMAILER_SEND_CAMPAIGN_URL", "")

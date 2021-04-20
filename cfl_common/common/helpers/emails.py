@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import datetime
+import json
 from uuid import uuid4
 
 from common import app_settings
@@ -48,7 +49,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
-from requests import post
+from requests import post, get, put
 from requests.exceptions import RequestException
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -184,6 +185,61 @@ def add_contact_to_address_book(first_name, last_name, email):
             {"key": "LASTNAME", "value": last_name},
             {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
         ],
+    }
+
+    post(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
+
+
+def get_dotmailer_user_by_email(email):
+    url = app_settings.DOTMAILER_GET_USER_BY_EMAIL_URL.replace("EMAIL", email)
+
+    response = get(
+        url,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
+    print(json.loads(response.content))
+    return json.loads(response.content)
+
+
+def add_consent_record_to_dotmailer_user(user):
+    consent_date_time = datetime.datetime.now().__str__()
+
+    url = app_settings.DOTMAILER_PUT_CONSENT_DATA_URL.replace(
+        "USER_ID", str(user["id"])
+    )
+    body = {
+        "contact": {
+            "email": user["email"],
+            "optInType": user["optInType"],
+            "emailType": user["emailType"],
+            "dataFields": user["dataFields"],
+        },
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": consent_date_time},
+                ]
+            }
+        ],
+    }
+
+    put(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
+
+
+def send_dotmailer_consent_confirmation_email_to_user(user):
+    url = app_settings.DOTMAILER_SEND_CAMPAIGN_URL
+    campaign_id = "765431"  # ID of the "Thanks for staying!" campaign
+    body = {
+        "campaignID": campaign_id,
+        "contactIds": [str(user["id"])],
     }
 
     post(
