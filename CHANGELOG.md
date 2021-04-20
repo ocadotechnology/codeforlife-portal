@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.28.4 (2021-04-20)
+### Fix
+* Bump version ([#1423](https://github.com/ocadotechnology/codeforlife-portal/issues/1423)) ([`0aadf49`](https://github.com/ocadotechnology/codeforlife-portal/commit/0aadf4976c3324b7aa87f8417e165afad8201c6b))
+
 ## v4.28.3 (2021-04-19)
 ### Fix
 * Update functional cookies in privacy policy ([`d905d92`](https://github.com/ocadotechnology/codeforlife-portal/commit/d905d92a0f0d5318cb0eaa99c9d74d778b4ae4ce))
