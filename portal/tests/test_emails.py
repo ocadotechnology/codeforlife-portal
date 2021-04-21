@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -199,11 +199,11 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     c = Client()
     consent_form_url = reverse("consent_form")
 
-    mocked_get_user_by_email = mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
-    mocked_add_consent_record_to_user = mocker.patch(
+    mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
+    mocker.patch(
         "portal.views.dotmailer.add_consent_record_to_dotmailer_user"
     )
-    mocked_send_dotmailer_campaign = mocker.patch(
+    mocker.patch(
         "portal.views.dotmailer.send_dotmailer_consent_confirmation_email_to_user"
     )
 
@@ -228,9 +228,6 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     good_request_response = c.post(consent_form_url, data=good_request_data)
 
     assert good_request_response.status_code == 302
-    # assert mocked_get_user_by_email.assert_called_once()
-    # assert mocked_add_consent_record_to_user.assert_called_once()
-    # assert mocked_send_dotmailer_campaign.assert_called_once()
 
 
 def _is_warning_message_showing(response):
