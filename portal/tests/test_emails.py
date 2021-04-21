@@ -133,7 +133,7 @@ def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_dateti
     add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
 
     mocked_post.assert_called_with(
-        "https://test-address-book", auth=("username_here", "password_here"), json=expected_body2
+        "https://test-address-book/", auth=("username_here", "password_here"), json=expected_body2
     )
 
 
@@ -177,7 +177,7 @@ def test_consent_calls_send_correct_request_data(
     }
 
     expected_body2 = {
-        "campaignID": "765431",
+        "campaignID": "1",
         "contactIds": ["1"],
     }
 
