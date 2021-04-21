@@ -59,7 +59,11 @@ ROOT_URLCONF = "example_project.urls"
 STATIC_ROOT = "static"
 SECRET_KEY = "bad_test_secret"
 
-DOTMAILER_URL = "https://test/"
+DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
+DOTMAILER_ADDRESS_BOOK_URL = "https://test-address-book"
+DOTMAILER_GET_USER_BY_EMAIL_URL = "https://test-get-user/"
+DOTMAILER_PUT_CONSENT_DATA_URL = "https://test-consent-data/"
+DOTMAILER_SEND_CAMPAIGN_URL = "https://test-send-campaign/"
 DOTMAILER_USER = "username_here"
 DOTMAILER_PASSWORD = "password_here"
 DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]

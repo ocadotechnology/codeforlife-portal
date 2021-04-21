@@ -81,6 +81,14 @@ def test_newsletter_calls_correct_requests(mocker, monkeypatch):
     mocked_add_to_address_book.assert_called_once()
 
 
+def test_newsletter_get_not_allowed():
+    c = Client()
+
+    response = c.get(reverse("process_newsletter_form"))
+
+    assert response.status_code == 405
+
+
 def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_datetime_now):
     mocked_post = mocker.patch("common.helpers.emails.post")
 
@@ -119,13 +127,13 @@ def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_dateti
     create_contact("Ray", "Charles", "ray.charles@example.com")
 
     mocked_post.assert_called_once_with(
-        "", auth=("username_here", "password_here"), json=expected_body1
+        "https://test-create-contact/", auth=("username_here", "password_here"), json=expected_body1
     )
 
     add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
 
     mocked_post.assert_called_with(
-        "", auth=("username_here", "password_here"), json=expected_body2
+        "https://test-address-book", auth=("username_here", "password_here"), json=expected_body2
     )
 
 
@@ -176,11 +184,55 @@ def test_consent_calls_send_correct_request_data(
     add_consent_record_to_dotmailer_user(user)
 
     mocked_put.assert_called_once_with(
-        "", auth=("username_here", "password_here"), json=expected_body1
+        "https://test-consent-data/", auth=("username_here", "password_here"), json=expected_body1
     )
 
     send_dotmailer_consent_confirmation_email_to_user(user)
 
     mocked_post.assert_called_with(
-        "", auth=("username_here", "password_here"), json=expected_body2
+        "https://test-send-campaign/", auth=("username_here", "password_here"), json=expected_body2
     )
+
+
+@pytest.mark.django_db
+def test_dotmailer_consent_form(mocker, monkeypatch):
+    c = Client()
+    consent_form_url = reverse("consent_form")
+
+    mocked_get_user_by_email = mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
+    mocked_add_consent_record_to_user = mocker.patch(
+        "portal.views.dotmailer.add_consent_record_to_dotmailer_user"
+    )
+    mocked_send_dotmailer_campaign = mocker.patch(
+        "portal.views.dotmailer.send_dotmailer_consent_confirmation_email_to_user"
+    )
+
+    get_consent_form_response = c.get(consent_form_url)
+
+    assert get_consent_form_response.status_code == 200
+
+    bad_email_data = {"email": "fakeemail", "consent_ticked": True}
+    no_consent_data = {"email": "real@email.com", "consent_ticked": False}
+    good_request_data = {"email": "real@email.com", "consent_ticked": True}
+
+    bad_email_response = c.post(consent_form_url, data=bad_email_data)
+
+    assert bad_email_response.status_code == 302
+    _is_warning_message_showing(bad_email_response)
+
+    no_consent_response = c.post(consent_form_url, data=no_consent_data)
+
+    assert no_consent_response.status_code == 302
+    _is_warning_message_showing(no_consent_response)
+
+    good_request_response = c.post(consent_form_url, data=good_request_data)
+
+    assert good_request_response.status_code == 302
+    # assert mocked_get_user_by_email.assert_called_once()
+    # assert mocked_add_consent_record_to_user.assert_called_once()
+    # assert mocked_send_dotmailer_campaign.assert_called_once()
+
+
+def _is_warning_message_showing(response):
+    messages = list(response.wsgi_request._messages)
+    assert messages[0].message == "Valid email address and consent required. Please try again."
