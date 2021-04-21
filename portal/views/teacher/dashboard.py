@@ -258,6 +258,7 @@ def dashboard_manage(request):
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_allow_join(request, pk):
@@ -286,6 +287,7 @@ def organisation_allow_join(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_deny_join(request, pk):
@@ -378,6 +380,7 @@ def organisation_kick(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_toggle_admin(request, pk):
@@ -425,6 +428,7 @@ def teacher_disable_2FA(request, pk):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_accept_student_request(request, pk):
@@ -488,6 +492,7 @@ def check_student_can_be_accepted(request, student):
         raise Http404
 
 
+@require_POST
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_reject_student_request(request, pk):
