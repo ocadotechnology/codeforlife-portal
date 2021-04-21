@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.28.6 (2021-04-21)
+### Fix
+* Add tests for 2FA ([#1425](https://github.com/ocadotechnology/codeforlife-portal/issues/1425)) ([`28f4651`](https://github.com/ocadotechnology/codeforlife-portal/commit/28f46511c19ea187ccae595c29b3d56df45a45c4))
+
 ## v4.28.5 (2021-04-21)
 ### Fix
 * Require post ([#1426](https://github.com/ocadotechnology/codeforlife-portal/issues/1426)) ([`cbade7f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cbade7ff96f151f51082f4d93277ac5d8f89e4a8))
