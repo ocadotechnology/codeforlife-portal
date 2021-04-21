@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -236,7 +236,7 @@ def add_consent_record_to_dotmailer_user(user):
 
 def send_dotmailer_consent_confirmation_email_to_user(user):
     url = app_settings.DOTMAILER_SEND_CAMPAIGN_URL
-    campaign_id = "765431"  # ID of the "Thanks for staying!" campaign
+    campaign_id = app_settings.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID
     body = {
         "campaignID": campaign_id,
         "contactIds": [str(user["id"])],
