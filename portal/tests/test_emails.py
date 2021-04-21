@@ -47,6 +47,15 @@ from common.helpers.emails import (
 from django.core import mail
 from django.test import Client
 from django.urls import reverse
+from test_settings import (
+    DOTMAILER_USER,
+    DOTMAILER_PASSWORD,
+    DOTMAILER_SEND_CAMPAIGN_URL,
+    DOTMAILER_PUT_CONSENT_DATA_URL,
+    DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID,
+    DOTMAILER_CREATE_CONTACT_URL,
+    DOTMAILER_ADDRESS_BOOK_URL,
+)
 
 FAKE_TIME = datetime.datetime(2020, 12, 25, 17, 5, 55)
 
@@ -127,13 +136,17 @@ def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_dateti
     create_contact("Ray", "Charles", "ray.charles@example.com")
 
     mocked_post.assert_called_once_with(
-        "https://test-create-contact/", auth=("username_here", "password_here"), json=expected_body1
+        DOTMAILER_CREATE_CONTACT_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body1,
     )
 
     add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
 
     mocked_post.assert_called_with(
-        "https://test-address-book/", auth=("username_here", "password_here"), json=expected_body2
+        DOTMAILER_ADDRESS_BOOK_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
     )
 
 
@@ -177,20 +190,24 @@ def test_consent_calls_send_correct_request_data(
     }
 
     expected_body2 = {
-        "campaignID": "1",
+        "campaignID": DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID,
         "contactIds": ["1"],
     }
 
     add_consent_record_to_dotmailer_user(user)
 
     mocked_put.assert_called_once_with(
-        "https://test-consent-data/", auth=("username_here", "password_here"), json=expected_body1
+        DOTMAILER_PUT_CONSENT_DATA_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body1,
     )
 
     send_dotmailer_consent_confirmation_email_to_user(user)
 
     mocked_post.assert_called_with(
-        "https://test-send-campaign/", auth=("username_here", "password_here"), json=expected_body2
+        DOTMAILER_SEND_CAMPAIGN_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
     )
 
 
@@ -200,9 +217,7 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     consent_form_url = reverse("consent_form")
 
     mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
-    mocker.patch(
-        "portal.views.dotmailer.add_consent_record_to_dotmailer_user"
-    )
+    mocker.patch("portal.views.dotmailer.add_consent_record_to_dotmailer_user")
     mocker.patch(
         "portal.views.dotmailer.send_dotmailer_consent_confirmation_email_to_user"
     )
@@ -232,4 +247,7 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
 
 def _is_warning_message_showing(response):
     messages = list(response.wsgi_request._messages)
-    assert messages[0].message == "Valid email address and consent required. Please try again."
+    assert (
+        messages[0].message
+        == "Valid email address and consent required. Please try again."
+    )
