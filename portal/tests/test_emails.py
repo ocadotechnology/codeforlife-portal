@@ -213,12 +213,20 @@ def test_consent_calls_send_correct_request_data(
 
 @pytest.mark.django_db
 def test_dotmailer_consent_form(mocker, monkeypatch):
+    """
+    Checks the various success / failures conditions of the Dotmailer consent form. The form contains two widgets,
+    an email input field and a consent checkbox. The cases are as follows:
+    - (invalid email format, consent given) -> form is invalid, error message is shown
+    - (valid email format, consent not given) -> form is invalid, error message is shown
+    - (valid email format, consent given) -> form is valid, user is redirected to home page
+    - (non-existent email - Key Error, consent given) -> form is invalid, error is message is shown
+    """
     c = Client()
     consent_form_url = reverse("consent_form")
 
-    mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
-    mocker.patch("portal.views.dotmailer.add_consent_record_to_dotmailer_user")
-    mocker.patch(
+    mocked_get_user_success = mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
+    mocked_add_consent = mocker.patch("portal.views.dotmailer.add_consent_record_to_dotmailer_user")
+    mocked_send_campaign = mocker.patch(
         "portal.views.dotmailer.send_dotmailer_consent_confirmation_email_to_user"
     )
 
@@ -233,16 +241,30 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     bad_email_response = c.post(consent_form_url, data=bad_email_data)
 
     assert bad_email_response.status_code == 302
+    assert bad_email_response.url == consent_form_url
     _is_warning_message_showing(bad_email_response)
 
     no_consent_response = c.post(consent_form_url, data=no_consent_data)
 
     assert no_consent_response.status_code == 302
+    assert no_consent_response.url == consent_form_url
     _is_warning_message_showing(no_consent_response)
 
     good_request_response = c.post(consent_form_url, data=good_request_data)
 
     assert good_request_response.status_code == 302
+    assert good_request_response.url == reverse("home")
+    mocked_get_user_success.assert_called_once()
+    mocked_add_consent.assert_called_once()
+    mocked_send_campaign.assert_called_once()
+
+    mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email", side_effect=KeyError)
+
+    wrong_email_response = c.post(consent_form_url, data=good_request_data)
+
+    assert wrong_email_response.status_code == 302
+    assert wrong_email_response.url == consent_form_url
+    _is_warning_message_showing(wrong_email_response)
 
 
 def _is_warning_message_showing(response):

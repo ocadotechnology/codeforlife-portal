@@ -74,10 +74,16 @@ def dotmailer_consent_form(request):
 
         if consent_form.is_valid():
             user_email = consent_form.cleaned_data["email"]
-            user = get_dotmailer_user_by_email(user_email)
-            add_consent_record_to_dotmailer_user(user)
-            send_dotmailer_consent_confirmation_email_to_user(user)
-            return HttpResponseRedirect(reverse_lazy("home"))
+            try:
+                user = get_dotmailer_user_by_email(user_email)
+            except KeyError:
+                # if no user is registered with that email, show error message
+                pass
+            else:
+                # no error
+                add_consent_record_to_dotmailer_user(user)
+                send_dotmailer_consent_confirmation_email_to_user(user)
+                return HttpResponseRedirect(reverse_lazy("home"))
 
         messages.error(
             request,
