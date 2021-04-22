@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.29.0 (2021-04-22)
+### Feature
+* Add Dotmailer consent form ([#1424](https://github.com/ocadotechnology/codeforlife-portal/issues/1424)) ([`5e3d67a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5e3d67a5c42e223950e72d6d86c78e66ab8847b6))
+
 ## v4.28.6 (2021-04-21)
 ### Fix
 * Add tests for 2FA ([#1425](https://github.com/ocadotechnology/codeforlife-portal/issues/1425)) ([`28f4651`](https://github.com/ocadotechnology/codeforlife-portal/commit/28f46511c19ea187ccae595c29b3d56df45a45c4))
