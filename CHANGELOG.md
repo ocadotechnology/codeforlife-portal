@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.29.1 (2021-04-22)
+### Fix
+* Handle if user not registered ([#1427](https://github.com/ocadotechnology/codeforlife-portal/issues/1427)) ([`76969bb`](https://github.com/ocadotechnology/codeforlife-portal/commit/76969bbe75244d1f07e787a90dfdd5a283da9e13))
+
 ## v4.29.0 (2021-04-22)
 ### Feature
 * Add Dotmailer consent form ([#1424](https://github.com/ocadotechnology/codeforlife-portal/issues/1424)) ([`5e3d67a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5e3d67a5c42e223950e72d6d86c78e66ab8847b6))
