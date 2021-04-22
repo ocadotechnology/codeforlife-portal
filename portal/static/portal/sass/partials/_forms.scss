@@ -121,15 +121,14 @@ form {
   background-color: $color-background-play-indep;
 }
 
-.form__register-checkbox {
+.form__checkbox {
   display: flex;
   align-items: center;
   font-size: 75%;
-  color: $color-text-secondary;
   padding: 1.2% 0% 2.5% 1.2%;
 }
 
-.form__register-checkbox-input {
+.form__checkbox-input {
   padding-right: 25px;
 
   input[type='checkbox'] {

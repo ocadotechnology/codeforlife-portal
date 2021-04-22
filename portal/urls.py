@@ -72,13 +72,13 @@ from portal.views.api import (
     number_users_per_country,
     registered_users,
 )
+from portal.views.dotmailer import process_newsletter_form, dotmailer_consent_form
 from portal.views.email import send_new_users_report, verify_email
 from portal.views.help_and_support import contact
 from portal.views.home import (
     home,
     home_learning,
     logout_view,
-    process_newsletter_form,
     register_view,
 )
 from portal.views.login import (
@@ -242,6 +242,7 @@ urlpatterns = [
     url(r"^login_form", old_login_form_redirect, name="old_login_form"),
     url(r"^logout/$", logout_view, name="logout_view"),
     url(r"^news_signup/$", process_newsletter_form, name="process_newsletter_form"),
+    url(r"^consent_form/$", dotmailer_consent_form, name="consent_form"),
     url(
         r"^verify_email/$",
         TemplateView.as_view(template_name="portal/email_verification_needed.html"),

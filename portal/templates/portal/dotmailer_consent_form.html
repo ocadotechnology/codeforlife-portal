@@ -1,0 +1,33 @@
+{% extends 'portal/base.html' %}
+
+{% block subNav %}
+{{ block.super }}
+{% endblock subNav %}
+
+{% block content %}
+{{block.super}}
+<div class="background background--primary">
+    <div class="col-sm-6 col-center">
+        <h3>Your communication preferences</h3>
+        <form name="signup" method="post" autocomplete="off">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <label for="id_{{ form.email.html_name }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+
+            <div class="form__checkbox">
+                <div class="form__checkbox-input">
+                    {{ form.consent_ticked }}
+                </div>
+                <p>I confirm that I am happy to continue receiving email communication from Code for Life.</p>
+            </div>
+
+            <button class="button button-primary button--primary--general-educate" type="submit"
+                    value="Confirm">Confirm</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
