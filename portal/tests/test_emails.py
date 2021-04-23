@@ -258,7 +258,7 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     mocked_add_consent.assert_called_once()
     mocked_send_campaign.assert_called_once()
 
-    mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email", side_effect=KeyError)
+    mocker.patch("portal.views.dotmailer.add_consent_record_to_dotmailer_user", side_effect=KeyError)
 
     wrong_email_response = c.post(consent_form_url, data=good_request_data)
 
