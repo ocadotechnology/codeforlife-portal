@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.29.2 (2021-04-23)
+### Fix
+* Fix try except in Dotmailer form view ([#1428](https://github.com/ocadotechnology/codeforlife-portal/issues/1428)) ([`36a1885`](https://github.com/ocadotechnology/codeforlife-portal/commit/36a1885585f0449bee8994c68fffe29f40263d02))
+
 ## v4.29.1 (2021-04-22)
 ### Fix
 * Handle if user not registered ([#1427](https://github.com/ocadotechnology/codeforlife-portal/issues/1427)) ([`76969bb`](https://github.com/ocadotechnology/codeforlife-portal/commit/76969bbe75244d1f07e787a90dfdd5a283da9e13))
