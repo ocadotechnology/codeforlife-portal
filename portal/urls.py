@@ -58,6 +58,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from portal.helpers.decorators import ratelimit
 from portal.views.about import about
 from portal.views.admin import (
     AdminChangePasswordView,
@@ -232,7 +233,13 @@ urlpatterns = [
     url(r"^$", home, name="home"),
     url(r"^home-learning", home_learning, name="home-learning"),
     url(r"^register_form", register_view, name="register"),
-    url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login"),
+    url(
+        r"^login/teacher/$",
+        ratelimit(key="ip", method="POST", rate="5/d", block=True)(
+            TeacherLoginView.as_view()
+        ),
+        name="teacher_login",
+    ),
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",

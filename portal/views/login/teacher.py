@@ -2,11 +2,13 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.cache import cache
 
 # This import is required so that 2FA works properly
 from portal import handlers
 
 from portal.forms.teach import TeacherLoginForm
+from portal.helpers.ratelimit import get_cache_key
 from portal.views.home import redirect_teacher_to_correct_page
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
@@ -30,6 +32,7 @@ class TeacherLoginView(LoginView):
         )
 
     def form_valid(self, form):
+        cache.delete(get_cache_key())
         user = form.get_user()
         if using_two_factor(user):
             return render(
