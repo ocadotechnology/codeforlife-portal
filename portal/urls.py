@@ -154,7 +154,9 @@ from portal.views.terms import terms
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"^account/login/$", LoginView.as_view(), name="login"),
+    url(r"^account/login/$", ratelimit(key="post:username", method="POST", rate="5/d", block=True)(
+        LoginView.as_view()
+    ), name="login"),
     url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
