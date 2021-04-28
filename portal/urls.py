@@ -235,7 +235,7 @@ urlpatterns = [
     url(r"^register_form", register_view, name="register"),
     url(
         r"^login/teacher/$",
-        ratelimit(key="ip", method="POST", rate="5/d", block=True)(
+        ratelimit(key="post:username", method="POST", rate="5/d", block=True)(
             TeacherLoginView.as_view()
         ),
         name="teacher_login",
@@ -243,7 +243,7 @@ urlpatterns = [
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",
-        ratelimit(key="ip", method="POST", rate="5/d", block=True, is_teacher=False)(
+        ratelimit(key="post:username", method="POST", rate="5/d", block=True, is_teacher=False)(
             IndependentStudentLoginView.as_view()
         ),
         name="independent_student_login",
