@@ -58,12 +58,19 @@ cache_key = None
 
 
 def get_cache_key():
+    """
+    Getter function used to access the ratelimit cache outside of this file.
+    """
     return cache_key
 
 
 def is_ratelimited(
     request, group=None, fn=None, key=None, rate=None, method=ALL, increment=False
 ):
+    """
+    As in django-ratelimit. Calls "get_usage" defined below to enable the usage of
+    the custom cache_key functionality.
+    """
     usage = get_usage(request, group, fn, key, rate, method, increment)
     if usage is None:
         return False
@@ -74,6 +81,10 @@ def is_ratelimited(
 def get_usage(
     request, group=None, fn=None, key=None, rate=None, method=ALL, increment=False
 ):
+    """
+    As in django-ratelimit. Makes cache_key global so it can be called outside the scope
+    and the cache can be accessed at later times.
+    """
     global cache_key
 
     if group is None and fn is None:
@@ -158,8 +169,6 @@ def get_usage(
                 pass
         else:
             count = cache.get(cache_key, initial_value)
-
-    print(count)
 
     # Getting or setting the count from the cache failed
     if count is None:

@@ -32,7 +32,10 @@ class TeacherLoginView(LoginView):
         )
 
     def form_valid(self, form):
-        cache.delete(get_cache_key())
+        # Reset ratelimit cache upon successful login
+        ratelimit_cache_key = get_cache_key()
+        cache.delete(ratelimit_cache_key)
+
         user = form.get_user()
         if using_two_factor(user):
             return render(
