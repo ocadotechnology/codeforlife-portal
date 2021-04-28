@@ -243,7 +243,9 @@ urlpatterns = [
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",
-        IndependentStudentLoginView.as_view(),
+        ratelimit(key="ip", method="POST", rate="5/d", block=True, is_teacher=False)(
+            IndependentStudentLoginView.as_view()
+        ),
         name="independent_student_login",
     ),
     url(r"^login_form", old_login_form_redirect, name="old_login_form"),
