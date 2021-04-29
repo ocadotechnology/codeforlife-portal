@@ -7,12 +7,13 @@
         <div class="banner banner--error-page banner--homepage--teacher row">
             <div class="col-sm-5 col-sm-offset-2">
                 <h1>Blocked!</h1>
-                <h4>Your account has been blocked because there have been too many unsuccessful login attempts.</h4>
+                <h4>Your account has been blocked because there have been too many unsuccessful requests.</h4>
                 {% if is_teacher %}
                     <p>Please <a href="{% url 'teacher_password_reset' %}">reset your password</a>.</p>
                 {% else %}
                     <p>Please <a href="{% url 'student_password_reset' %}">reset your password</a>.</p>
                 {% endif %}
+                <p>Alternatively, you can wait 24 hours for your account to be unlocked.</p>
             </div>
         </div>
 
