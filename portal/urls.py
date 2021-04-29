@@ -154,9 +154,13 @@ from portal.views.terms import terms
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"^account/login/$", ratelimit(key="post:username", method="POST", rate="5/d", block=True)(
-        LoginView.as_view()
-    ), name="login"),
+    url(
+        r"^account/login/$",
+        ratelimit(key="post:username", method="POST", rate="5/d", block=True)(
+            LoginView.as_view()
+        ),
+        name="login",
+    ),
     url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
@@ -245,9 +249,9 @@ urlpatterns = [
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",
-        ratelimit(key="post:username", method="POST", rate="5/d", block=True, is_teacher=False)(
-            IndependentStudentLoginView.as_view()
-        ),
+        ratelimit(
+            key="post:username", method="POST", rate="5/d", block=True, is_teacher=False
+        )(IndependentStudentLoginView.as_view()),
         name="independent_student_login",
     ),
     url(r"^login_form", old_login_form_redirect, name="old_login_form"),
@@ -322,7 +326,9 @@ urlpatterns = [
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
     url(
         r"^play/account/independent/$",
-        IndependentStudentEditAccountView.as_view(),
+        ratelimit(
+            key="post:name", method="POST", rate="5/d", block=True, is_teacher=False
+        )(IndependentStudentEditAccountView.as_view()),
         name="independent_edit_account",
     ),
     url(

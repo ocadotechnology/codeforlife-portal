@@ -38,10 +38,12 @@ from __future__ import absolute_import
 
 from functools import wraps
 
+from django.contrib.auth import logout
 from django.shortcuts import render
 from ratelimit import ALL, UNSAFE
 
 from portal.helpers.ratelimit import is_ratelimited
+from portal.templatetags.app_tags import is_logged_in
 
 __all__ = ["ratelimit"]
 
@@ -50,9 +52,9 @@ def ratelimit(
     group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True
 ):
     """
-    Ratelimit decorator, adding custom functionality to django-ratelimit's default decorator.
-    On block, the user is redirected to the "locked out" page, and passes in whether the user
-    is a teacher or not, depending on the is_teacher argument.
+    Ratelimit decorator, adding custom functionality to django-ratelimit's default
+    decorator. On block, the user is redirected to the "locked out" page, and passes in
+    whether the user is a teacher or not, depending on the is_teacher argument.
     """
     def decorator(fn):
         @wraps(fn)
@@ -69,6 +71,9 @@ def ratelimit(
             )
             request.limited = ratelimited or old_limited
             if ratelimited and block:
+                if is_logged_in(request.user):
+                    logout(request)
+
                 return render(
                     request,
                     "portal/locked_out.html",

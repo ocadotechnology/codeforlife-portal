@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,19 +35,21 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from common.helpers.emails import update_email
 from common.models import Student
+from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.core.cache import cache
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
-from common.helpers.emails import update_email
 from portal.helpers.password import check_update_password
-from common.permissions import logged_in_as_student
+from portal.helpers.ratelimit import get_cache_key
 
 
 def _get_form(self, form_class):
@@ -159,6 +161,9 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         self.changing_email, new_email = update_email(student.new_user, request, data)
 
         self.update_name(student, data)
+
+        ratelimit_cache_key = get_cache_key()
+        cache.delete(ratelimit_cache_key)
 
         messages.success(
             request, "Your account details have been changed successfully."

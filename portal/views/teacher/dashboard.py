@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,33 +34,43 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from common import email_messages
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
+from common.helpers.generators import generate_access_code, get_random_username
 from common.models import Class, Student, Teacher
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.urls import reverse_lazy
+from django.core.cache import cache
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
-from common import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
     TeacherAddExternalStudentForm,
     TeacherEditAccountForm,
 )
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
-from common.helpers.generators import generate_access_code, get_random_username
+from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from common.permissions import logged_in_as_teacher
-from common.utils import using_two_factor
+from portal.helpers.ratelimit import get_cache_key
+
+
+def _get_update_account_rate():
+    return lambda g, r: "5/d" if "update_account" in r.POST else None
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
+@ratelimit(
+    key="post:first_name", method="POST", rate=_get_update_account_rate(), block=True
+)
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
@@ -236,7 +246,10 @@ def process_update_account_form(request, teacher, old_anchor):
         teacher.save()
         teacher.new_user.save()
 
-        anchor = "#"
+        anchor = ""
+
+        ratelimit_cache_key = get_cache_key()
+        cache.delete(ratelimit_cache_key)
 
         messages.success(
             request, "Your account details have been successfully changed."
