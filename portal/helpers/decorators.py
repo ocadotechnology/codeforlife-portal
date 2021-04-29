@@ -36,8 +36,11 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+import datetime
+import pytz
 from functools import wraps
 
+from common.models import Teacher, Student
 from django.contrib.auth import logout
 from django.shortcuts import render
 from ratelimit import ALL, UNSAFE
@@ -53,8 +56,9 @@ def ratelimit(
 ):
     """
     Ratelimit decorator, adding custom functionality to django-ratelimit's default
-    decorator. On block, the user is redirected to the "locked out" page, and passes in
-    whether the user is a teacher or not, depending on the is_teacher argument.
+    decorator. On block, the user is logged out, redirected to the "locked out" page,
+    and passes in whether the user is a teacher or not, depending on the is_teacher
+    argument. The user is blocked and the time at which they are blocked is saved.
     """
     def decorator(fn):
         @wraps(fn)
@@ -71,6 +75,16 @@ def ratelimit(
             )
             request.limited = ratelimited or old_limited
             if ratelimited and block:
+                if is_teacher:
+                    model = Teacher
+                else:
+                    model = Student
+
+                user = model.objects.get(new_user=request.user)
+                user.is_blocked = True
+                user.blocked_date = datetime.datetime.now(tz=pytz.utc)
+                user.save()
+
                 if is_logged_in(request.user):
                     logout(request)
 

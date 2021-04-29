@@ -1,4 +1,9 @@
+from datetime import datetime, timedelta
+
+import pytz
+from common.models import Student
 from django.contrib.auth.views import LoginView
+from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from portal.forms.play import IndependentStudentLoginForm
@@ -15,8 +20,30 @@ class IndependentStudentLoginView(LoginView):
         url = self.get_redirect_url()
         return url or self.success_url
 
-    def form_valid(self, form):
-        # Reset ratelimit cache upon successful login
-        clear_ratelimit_cache()
+    def post(self, request, *args, **kwargs):
+        """
+        If the email address inputted in the form corresponds to that of a blocked
+        account, this redirects the user to the locked out page. However, if the lockout
+        time is more than 24 hours before this is executed, the account is unlocked.
+        """
+        form = self.get_form()
 
-        return super(IndependentStudentLoginView, self).form_valid(form)
+        username = request.POST.get("username")
+        student = Student.objects.get(new_user__username=username)
+
+        if student.is_blocked:
+            if datetime.now(tz=pytz.utc) - student.blocked_date < timedelta(hours=24):
+                return render(
+                    self.request,
+                    "portal/locked_out.html",
+                    {"is_teacher": False},
+                )
+            else:
+                student.is_blocked = False
+                student.save()
+
+        if form.is_valid():
+            # Reset ratelimit cache upon successful login
+            clear_ratelimit_cache()
+
+        return super(IndependentStudentLoginView, self).post(request, *args, **kwargs)

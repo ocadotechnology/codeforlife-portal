@@ -106,6 +106,8 @@ class Teacher(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
     )
+    is_blocked = models.BooleanField(default=False)
+    blocked_date = models.DateTimeField(null=True)
 
     objects = TeacherModelManager()
 
@@ -233,6 +235,8 @@ class Student(models.Model):
     pending_class_request = models.ForeignKey(
         Class, related_name="class_request", null=True, on_delete=models.SET_NULL
     )
+    is_blocked = models.BooleanField(default=False)
+    blocked_date = models.DateTimeField(null=True)
 
     objects = StudentModelManager()
 
