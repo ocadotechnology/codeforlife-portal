@@ -42,14 +42,13 @@ from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import get_cache_key
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 def _get_form(self, form_class):
@@ -162,8 +161,8 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
 
         self.update_name(student, data)
 
-        ratelimit_cache_key = get_cache_key()
-        cache.delete(ratelimit_cache_key)
+        # Reset ratelimit cache after successful account details update
+        clear_ratelimit_cache()
 
         messages.success(
             request, "Your account details have been changed successfully."

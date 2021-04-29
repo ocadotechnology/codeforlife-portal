@@ -1,9 +1,8 @@
 from django.contrib.auth.views import LoginView
-from django.core.cache import cache
 from django.urls import reverse_lazy
 
 from portal.forms.play import IndependentStudentLoginForm
-from portal.helpers.ratelimit import get_cache_key
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 class IndependentStudentLoginView(LoginView):
@@ -18,7 +17,6 @@ class IndependentStudentLoginView(LoginView):
 
     def form_valid(self, form):
         # Reset ratelimit cache upon successful login
-        ratelimit_cache_key = get_cache_key()
-        cache.delete(ratelimit_cache_key)
+        clear_ratelimit_cache()
 
         return super(IndependentStudentLoginView, self).form_valid(form)

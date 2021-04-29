@@ -40,7 +40,7 @@ import functools
 import time
 
 from django.conf import settings
-from django.core.cache import caches
+from django.core.cache import caches, cache
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.module_loading import import_string
 from ratelimit import ALL, UNSAFE
@@ -57,11 +57,8 @@ from ratelimit.core import (
 cache_key = None
 
 
-def get_cache_key():
-    """
-    Getter function used to access the ratelimit cache outside of this file.
-    """
-    return cache_key
+def clear_ratelimit_cache():
+    cache.delete(cache_key)
 
 
 def is_ratelimited(
@@ -169,6 +166,8 @@ def get_usage(
                 pass
         else:
             count = cache.get(cache_key, initial_value)
+
+    print(count)
 
     # Getting or setting the count from the cache failed
     if count is None:

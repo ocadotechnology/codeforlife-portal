@@ -40,7 +40,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
-from django.core.cache import cache
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
@@ -59,7 +58,7 @@ from portal.forms.registration import (
     StudentPasswordResetForm,
 )
 from portal.helpers.captcha import remove_captcha_from_form
-from portal.helpers.ratelimit import get_cache_key
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
@@ -193,8 +192,7 @@ def password_reset_confirm(
                 form.save()
 
                 # Reset ratelimit cache upon successful password reset
-                ratelimit_cache_key = get_cache_key()
-                cache.delete(ratelimit_cache_key)
+                clear_ratelimit_cache()
 
                 return render(
                     request, "portal/reset_password_done.html", {"usertype": usertype}

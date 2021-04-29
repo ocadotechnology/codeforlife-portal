@@ -43,7 +43,6 @@ from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.cache import cache
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
@@ -59,7 +58,7 @@ from portal.forms.teach import (
 from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import get_cache_key
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 def _get_update_account_rate():
@@ -248,8 +247,8 @@ def process_update_account_form(request, teacher, old_anchor):
 
         anchor = ""
 
-        ratelimit_cache_key = get_cache_key()
-        cache.delete(ratelimit_cache_key)
+        # Reset ratelimit cache after successful account details update
+        clear_ratelimit_cache()
 
         messages.success(
             request, "Your account details have been successfully changed."
