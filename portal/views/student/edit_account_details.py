@@ -103,11 +103,19 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
         # check not default value for CharField
-        check_update_password(form, student.new_user, request, data)
+        changing_password = check_update_password(form, student.new_user, request, data)
 
         messages.success(
             request, "Your account details have been changed successfully."
         )
+
+        if changing_password:
+            logout(request)
+            messages.success(
+                request,
+                "Please login using your new password.",
+            )
+            return HttpResponseRedirect(reverse_lazy("student_login"))
 
     def get_form(self, form_class=None):
         return _get_form(self, form_class)
@@ -125,6 +133,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     model = Student
     initial = {"name": "Could not find name"}
     changing_email = False
+    changing_password = False
 
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
@@ -139,6 +148,8 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     def get_success_url(self):
         if self.changing_email:
             return reverse_lazy("email_verification")
+        elif self.changing_password:
+            return reverse_lazy("independent_student_login")
         else:
             return reverse_lazy("student_details")
 
@@ -154,7 +165,9 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         data = form.cleaned_data
 
         # check not default value for CharField
-        check_update_password(form, student.new_user, request, data)
+        self.changing_password = check_update_password(
+            form, student.new_user, request, data
+        )
 
         # allow individual students to update more
         self.changing_email, new_email = update_email(student.new_user, request, data)
@@ -170,6 +183,18 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
 
         if self.changing_email:
             logout(request)
+            messages.success(
+                request,
+                "Your email will be changed once you have verified it, until then "
+                "you can still log in with your old email.",
+            )
+
+        if self.changing_password:
+            logout(request)
+            messages.success(
+                request,
+                "Please login using your new password.",
+            )
 
     def update_name(self, student, data):
         student.new_user.first_name = data["name"]

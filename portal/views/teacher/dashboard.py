@@ -127,22 +127,32 @@ def dashboard_teacher_view(request, is_admin):
         else:
             anchor = "account"
             update_account_form = TeacherEditAccountForm(request.user, request.POST)
-            changing_email, new_email, anchor = process_update_account_form(
-                request, teacher, anchor
-            )
+            (
+                changing_email,
+                new_email,
+                changing_password,
+                anchor,
+            ) = process_update_account_form(request, teacher, anchor)
             if changing_email:
                 logout(request)
                 messages.success(
                     request,
-                    "Your account details have been successfully changed. Your email "
-                    "will be changed once you have verified it, until then you can "
-                    "still log in with your old email.",
+                    "Your email will be changed once you have verified it, until then "
+                    "you can still log in with your old email.",
                 )
                 return render(
                     request,
                     "portal/email_verification_needed.html",
                     {"userprofile": teacher.user, "email": new_email},
                 )
+
+            if changing_password:
+                logout(request)
+                messages.success(
+                    request,
+                    "Please login using your new password.",
+                )
+                return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     classes = Class.objects.filter(teacher=teacher)
 
@@ -229,12 +239,15 @@ def create_class_new(form, teacher):
 def process_update_account_form(request, teacher, old_anchor):
     update_account_form = TeacherEditAccountForm(request.user, request.POST)
     changing_email = False
+    changing_password = False
     new_email = ""
     if update_account_form.is_valid():
         data = update_account_form.cleaned_data
 
         # check not default value for CharField
-        check_update_password(update_account_form, teacher.new_user, request, data)
+        changing_password = check_update_password(
+            update_account_form, teacher.new_user, request, data
+        )
 
         teacher.title = data["title"]
         teacher.new_user.first_name = data["first_name"]
@@ -256,7 +269,7 @@ def process_update_account_form(request, teacher, old_anchor):
     else:
         anchor = old_anchor
 
-    return changing_email, new_email, anchor
+    return changing_email, new_email, changing_password, anchor
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
