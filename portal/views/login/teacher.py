@@ -43,18 +43,21 @@ class TeacherLoginView(LoginView):
         form = self.get_form()
 
         email = request.POST.get("username")
-        teacher = Teacher.objects.get(new_user__email=email)
+        if Teacher.objects.filter(new_user__email=email).exists():
+            teacher = Teacher.objects.get(new_user__email=email)
 
-        if teacher.is_blocked:
-            if datetime.now(tz=pytz.utc) - teacher.blocked_date < timedelta(hours=24):
-                return render(
-                    self.request,
-                    "portal/locked_out.html",
-                    {"is_teacher": True},
-                )
-            else:
-                teacher.is_blocked = False
-                teacher.save()
+            if teacher.is_blocked:
+                if datetime.now(tz=pytz.utc) - teacher.blocked_date < timedelta(
+                    hours=24
+                ):
+                    return render(
+                        self.request,
+                        "portal/locked_out.html",
+                        {"is_teacher": True},
+                    )
+                else:
+                    teacher.is_blocked = False
+                    teacher.save()
 
         if form.is_valid():
             # Reset ratelimit cache upon successful login

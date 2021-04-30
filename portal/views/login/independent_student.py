@@ -29,18 +29,21 @@ class IndependentStudentLoginView(LoginView):
         form = self.get_form()
 
         username = request.POST.get("username")
-        student = Student.objects.get(new_user__username=username)
+        if Student.objects.filter(new_user__username=username).exists():
+            student = Student.objects.get(new_user__username=username)
 
-        if student.is_blocked:
-            if datetime.now(tz=pytz.utc) - student.blocked_date < timedelta(hours=24):
-                return render(
-                    self.request,
-                    "portal/locked_out.html",
-                    {"is_teacher": False},
-                )
-            else:
-                student.is_blocked = False
-                student.save()
+            if student.is_blocked:
+                if datetime.now(tz=pytz.utc) - student.blocked_date < timedelta(
+                    hours=24
+                ):
+                    return render(
+                        self.request,
+                        "portal/locked_out.html",
+                        {"is_teacher": False},
+                    )
+                else:
+                    student.is_blocked = False
+                    student.save()
 
         if form.is_valid():
             # Reset ratelimit cache upon successful login

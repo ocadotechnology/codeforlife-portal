@@ -7,6 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('common', '0008_unlock_worksheet_3'),
+        ('portal', '0058_move_to_common_models'),
     ]
 
     operations = [

@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from common.helpers.emails import PASSWORD_RESET_EMAIL
+from common.models import Teacher, Student
 from common.permissions import not_logged_in, not_fully_logged_in
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
@@ -194,6 +195,8 @@ def password_reset_confirm(
                 # Reset ratelimit cache upon successful password reset
                 clear_ratelimit_cache()
 
+                _check_and_unblock_user(user.username, usertype)
+
                 return render(
                     request, "portal/reset_password_done.html", {"usertype": usertype}
                 )
@@ -209,6 +212,17 @@ def password_reset_confirm(
     update_context_and_apps(request, context, current_app, extra_context)
 
     return TemplateResponse(request, template_name, context)
+
+
+def _check_and_unblock_user(username, usertype):
+    if usertype == "TEACHER":
+        user = Teacher.objects.get(new_user__username=username)
+    else:
+        user = Student.objects.get(new_user__username=username)
+
+    if user.is_blocked:
+        user.is_blocked = False
+    user.save()
 
 
 def check_uidb64(uidb64, token):

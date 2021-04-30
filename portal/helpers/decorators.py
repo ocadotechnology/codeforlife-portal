@@ -60,6 +60,7 @@ def ratelimit(
     and passes in whether the user is a teacher or not, depending on the is_teacher
     argument. The user is blocked and the time at which they are blocked is saved.
     """
+
     def decorator(fn):
         @wraps(fn)
         def _wrapped(request, *args, **kw):
@@ -74,25 +75,38 @@ def ratelimit(
                 increment=True,
             )
             request.limited = ratelimited or old_limited
+
             if ratelimited and block:
                 if is_teacher:
                     model = Teacher
                 else:
                     model = Student
 
-                user = model.objects.get(new_user=request.user)
-                user.is_blocked = True
-                user.blocked_date = datetime.datetime.now(tz=pytz.utc)
-                user.save()
+                user = None
 
-                if is_logged_in(request.user):
-                    logout(request)
+                if request.user.is_anonymous:
+                    data = request.POST
+                    username = data.get("username")
 
-                return render(
-                    request,
-                    "portal/locked_out.html",
-                    {"is_teacher": is_teacher},
-                )
+                    if model.objects.filter(new_user__username=username).exists():
+                        user = model.objects.get(new_user__username=username)
+                else:
+                    user = model.objects.get(new_user=request.user)
+
+                if user:
+                    user.is_blocked = True
+                    user.blocked_date = datetime.datetime.now(tz=pytz.utc)
+                    user.save()
+
+                    if is_logged_in(request.user):
+                        logout(request)
+
+                    return render(
+                        request,
+                        "portal/locked_out.html",
+                        {"is_teacher": is_teacher},
+                    )
+
             return fn(request, *args, **kw)
 
         return _wrapped

@@ -57,6 +57,10 @@ from ratelimit.core import (
 cache_key = None
 
 
+def get_ratelimit_count():
+    return cache.get(cache_key)
+
+
 def clear_ratelimit_cache():
     cache.delete(cache_key)
 
@@ -166,8 +170,6 @@ def get_usage(
                 pass
         else:
             count = cache.get(cache_key, initial_value)
-
-    print(count)
 
     # Getting or setting the count from the cache failed
     if count is None:
