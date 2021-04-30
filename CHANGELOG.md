@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.29.3 (2021-04-30)
+### Fix
+* Upgrade modernizr to 3.11.0 ([#1429](https://github.com/ocadotechnology/codeforlife-portal/issues/1429)) ([`c720e63`](https://github.com/ocadotechnology/codeforlife-portal/commit/c720e63d1c215bb4e3c198954cc13dd622f1924f))
+
 ## v4.29.2 (2021-04-23)
 ### Fix
 * Fix try except in Dotmailer form view ([#1428](https://github.com/ocadotechnology/codeforlife-portal/issues/1428)) ([`36a1885`](https://github.com/ocadotechnology/codeforlife-portal/commit/36a1885585f0449bee8994c68fffe29f40263d02))
