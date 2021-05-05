@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from builtins import str
 import re
+from builtins import str
 
 
 def follow_verify_email_link_to_onboarding(page, email):
@@ -98,6 +98,12 @@ def follow_change_email_link_to_dashboard(page, email):
     _follow_change_email_link(page, email)
 
     return go_to_teacher_login_page(page.browser)
+
+
+def follow_change_email_link_to_independent_dashboard(page, email):
+    _follow_change_email_link(page, email)
+
+    return go_to_independent_student_login_page(page.browser)
 
 
 def _follow_change_email_link(page, email):

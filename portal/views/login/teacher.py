@@ -46,8 +46,8 @@ class TeacherLoginView(LoginView):
         if Teacher.objects.filter(new_user__email=email).exists():
             teacher = Teacher.objects.get(new_user__email=email)
 
-            if teacher.is_blocked:
-                if datetime.now(tz=pytz.utc) - teacher.blocked_date < timedelta(
+            if teacher.blocked_time is not None:
+                if datetime.now(tz=pytz.utc) - teacher.blocked_time < timedelta(
                     hours=24
                 ):
                     return render(
@@ -56,7 +56,7 @@ class TeacherLoginView(LoginView):
                         {"is_teacher": True},
                     )
                 else:
-                    teacher.is_blocked = False
+                    teacher.blocked_time = None
                     teacher.save()
 
         if form.is_valid():

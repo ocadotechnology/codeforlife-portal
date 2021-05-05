@@ -110,7 +110,7 @@ class TestRatelimit(TestCase):
         :return: Whether or not the model object is marked as blocked.
         """
         user = model.objects.get(new_user__username=username)
-        return user.is_blocked
+        return user.blocked_time is not None
 
     def _block_user(self, model: Teacher or Student, username: str) -> None:
         """
@@ -120,8 +120,7 @@ class TestRatelimit(TestCase):
         :param username: The username of the Teacher or Student.
         """
         user = model.objects.get(new_user__username=username)
-        user.is_blocked = True
-        user.blocked_date = datetime.now(tz=pytz.utc)
+        user.blocked_time = datetime.now(tz=pytz.utc)
         user.save()
 
     def test_teacher_login_ratelimit(self):
@@ -219,7 +218,7 @@ class TestRatelimit(TestCase):
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
         teacher = Teacher.objects.get(new_user__username=email)
-        teacher.blocked_date = datetime.now(tz=pytz.utc) - timedelta(hours=24)
+        teacher.blocked_time = datetime.now(tz=pytz.utc) - timedelta(hours=24)
         teacher.save()
 
         login_response = self._login("teacher_login", email, password)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -43,7 +43,10 @@ from common.tests.utils.teacher import signup_teacher_directly
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .base_test import BaseTest
-from .utils.messages import is_student_details_updated_message_showing
+from .utils.messages import (
+    is_student_details_updated_message_showing,
+    is_password_updated_message_showing,
+)
 
 
 class TestSchoolStudent(BaseTest):
@@ -177,7 +180,8 @@ class TestSchoolStudent(BaseTest):
         assert self.is_account_page(page)
         assert page.was_form_invalid(
             "student_account_form",
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers",
+            "Password not strong enough, consider using at least 8 characters, "
+            "upper and lower case letters, and numbers",
         )
 
     def test_update_password_success(self):
@@ -196,18 +200,14 @@ class TestSchoolStudent(BaseTest):
 
         new_password = "NewPassword1"
 
-        page = page.go_to_account_page().update_password_failure(
-            new_password, new_password, student_password
+        page = page.go_to_account_page().update_password_success(
+            new_password, student_password
         )
         assert is_student_details_updated_message_showing(self.selenium)
+        assert is_password_updated_message_showing(self.selenium)
+        assert self.is_login_page(page)
 
-        page.logout()
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_student_login_page()
-            .student_login(student_name, access_code, new_password)
-        )
+        page = page.student_login(student_name, access_code, new_password)
         assert self.is_dashboard(page)
 
     def is_dashboard(self, page):
@@ -215,3 +215,6 @@ class TestSchoolStudent(BaseTest):
 
     def is_account_page(self, page):
         return page.__class__.__name__ == "PlayAccountPage"
+
+    def is_login_page(self, page):
+        return page.__class__.__name__ == "StudentLoginPage"

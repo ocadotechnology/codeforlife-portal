@@ -94,8 +94,7 @@ def ratelimit(
                     user = model.objects.get(new_user=request.user)
 
                 if user:
-                    user.is_blocked = True
-                    user.blocked_date = datetime.datetime.now(tz=pytz.utc)
+                    user.blocked_time = datetime.datetime.now(tz=pytz.utc)
                     user.save()
 
                     if is_logged_in(request.user):

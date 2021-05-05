@@ -220,8 +220,8 @@ def _check_and_unblock_user(username, usertype):
     else:
         user = Student.objects.get(new_user__username=username)
 
-    if user.is_blocked:
-        user.is_blocked = False
+    if user.blocked_time is not None:
+        user.blocked_time = None
     user.save()
 
 

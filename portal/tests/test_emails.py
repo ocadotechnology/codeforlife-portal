@@ -224,8 +224,12 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     c = Client()
     consent_form_url = reverse("consent_form")
 
-    mocked_get_user_success = mocker.patch("portal.views.dotmailer.get_dotmailer_user_by_email")
-    mocked_add_consent = mocker.patch("portal.views.dotmailer.add_consent_record_to_dotmailer_user")
+    mocked_get_user_success = mocker.patch(
+        "portal.views.dotmailer.get_dotmailer_user_by_email"
+    )
+    mocked_add_consent = mocker.patch(
+        "portal.views.dotmailer.add_consent_record_to_dotmailer_user"
+    )
     mocked_send_campaign = mocker.patch(
         "portal.views.dotmailer.send_dotmailer_consent_confirmation_email_to_user"
     )
@@ -258,7 +262,10 @@ def test_dotmailer_consent_form(mocker, monkeypatch):
     mocked_add_consent.assert_called_once()
     mocked_send_campaign.assert_called_once()
 
-    mocker.patch("portal.views.dotmailer.add_consent_record_to_dotmailer_user", side_effect=KeyError)
+    mocker.patch(
+        "portal.views.dotmailer.add_consent_record_to_dotmailer_user",
+        side_effect=KeyError,
+    )
 
     wrong_email_response = c.post(consent_form_url, data=good_request_data)
 

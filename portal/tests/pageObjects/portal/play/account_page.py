@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,7 +39,11 @@ from __future__ import absolute_import
 from portal.tests.pageObjects.portal.email_verification_needed_page import (
     EmailVerificationNeededPage,
 )
+from portal.tests.pageObjects.portal.independent_login_page import (
+    IndependentStudentLoginPage,
+)
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
+from portal.tests.pageObjects.portal.student_login_page import StudentLoginPage
 from .play_base_page import PlayBasePage
 
 
@@ -74,9 +78,12 @@ class PlayAccountPage(PlayBasePage):
         self._update_password(new_password, confirm_new_password, old_password)
         return self
 
-    def update_password_success(self, new_password, confirm_new_password, old_password):
-        self._update_password(new_password, confirm_new_password, old_password)
-        return PlayDashboardPage(self.browser)
+    def update_password_success(self, new_password, old_password, is_independent=False):
+        self._update_password(new_password, new_password, old_password)
+        if is_independent:
+            return IndependentStudentLoginPage(self.browser)
+        else:
+            return StudentLoginPage(self.browser)
 
     def update_name_failure(self, new_name, password):
         self._update_name(new_name, password)

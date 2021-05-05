@@ -32,8 +32,8 @@ class IndependentStudentLoginView(LoginView):
         if Student.objects.filter(new_user__username=username).exists():
             student = Student.objects.get(new_user__username=username)
 
-            if student.is_blocked:
-                if datetime.now(tz=pytz.utc) - student.blocked_date < timedelta(
+            if student.blocked_time is not None:
+                if datetime.now(tz=pytz.utc) - student.blocked_time < timedelta(
                     hours=24
                 ):
                     return render(
@@ -42,7 +42,7 @@ class IndependentStudentLoginView(LoginView):
                         {"is_teacher": False},
                     )
                 else:
-                    student.is_blocked = False
+                    student.blocked_time = None
                     student.save()
 
         if form.is_valid():
