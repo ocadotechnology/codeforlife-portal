@@ -222,7 +222,7 @@ def _check_and_unblock_user(username, usertype):
 
     if user.blocked_time is not None:
         user.blocked_time = None
-    user.save()
+        user.save()
 
 
 def check_uidb64(uidb64, token):

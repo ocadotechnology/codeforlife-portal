@@ -14,6 +14,7 @@ ignore:
   - "cfl_common/common/apps.py"
   - "docs/*"
   - "create_test_site.py"
+  - "portal/helpers/ratelimit.py"
 
 comment:
   layout: "reach, diff, flags, files"

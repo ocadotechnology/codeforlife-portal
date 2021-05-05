@@ -39,6 +39,7 @@ from __future__ import absolute_import
 from datetime import datetime, timedelta
 
 import pytz
+import re
 from common.models import Teacher, Student
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
@@ -47,6 +48,7 @@ from common.tests.utils.student import (
     create_school_student_directly,
 )
 from common.tests.utils.teacher import signup_teacher_directly
+from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -99,6 +101,24 @@ class TestRatelimit(TestCase):
                 "password": "",
                 "confirm_password": "",
                 "current_password": "bad_password",
+            },
+        )
+
+    def _reset_password_request(self, email):
+        return self.client.post(
+            reverse("teacher_password_reset"),
+            {
+                "email": email,
+                "g-recaptcha-response": "something",
+            },
+        )
+
+    def _reset_password(self, url, new_password):
+        return self.client.post(
+            url,
+            {
+                "new_password1": new_password,
+                "new_password2": new_password,
             },
         )
 
@@ -198,7 +218,7 @@ class TestRatelimit(TestCase):
 
         assert self._is_user_blocked(Student, username)
 
-    def test_account_lockout(self):
+    def test_teacher_account_lockout(self):
         """
         Given a blocked teacher,
         When they try to login,
@@ -226,6 +246,34 @@ class TestRatelimit(TestCase):
         assert login_response.status_code == 302
         assert not self._is_user_blocked(Teacher, email)
 
+    def test_student_account_lockout(self):
+        """
+        Given a blocked student,
+        When they try to login,
+        They should not be redirected anywhere.
+        Then, given they've waited the time to unlock their account,
+        When they try to login,
+        They should be able to login, and not be blocked anymore.
+        """
+        username, password, _ = create_independent_student_directly()
+
+        self._block_user(Student, username)
+
+        login_response = self._login("independent_student_login", username, password)
+
+        # Check for a 200, instead of the usual 302.
+        assert login_response.status_code == 200
+
+        # Manually change the blocked date to over 24 hours ago to emulate waiting.
+        student = Student.objects.get(new_user__username=username)
+        student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(hours=24)
+        student.save()
+
+        login_response = self._login("independent_student_login", username, password)
+
+        assert login_response.status_code == 302
+        assert not self._is_user_blocked(Student, username)
+
     def test_successful_request_resets_cache(self):
         """
         Given a teacher who's performed some failed login attempts,
@@ -251,3 +299,36 @@ class TestRatelimit(TestCase):
         self._login("teacher_login", email, "bad_password")
 
         assert get_ratelimit_count() == 1
+
+    def test_teacher_reset_password_unblocks_user(self):
+        """
+        Given a blocked teacher,
+        When they reset they password,
+        They should be unblocked and be able to login.
+        """
+        email, password = signup_teacher_directly()
+
+        self._block_user(Teacher, email)
+
+        login_response = self._login("teacher_login", email, password)
+
+        # Check for a 200, instead of the usual 302.
+        assert login_response.status_code == 200
+
+        # Ask for reset password link
+        self._reset_password_request(email)
+
+        assert len(mail.outbox) == 1
+
+        # Get reset link from email
+        message = str(mail.outbox[0].body)
+        url = re.search("http.+/", message).group(0)
+
+        new_password = "AnotherPassword12"
+
+        self._reset_password(url, new_password)
+
+        login_response = self._login("teacher_login", email, new_password)
+
+        assert login_response.status_code == 302
+        assert not self._is_user_blocked(Teacher, email)
