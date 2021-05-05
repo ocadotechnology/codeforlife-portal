@@ -68,7 +68,7 @@ def _get_update_account_rate():
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 @ratelimit(
-    key="post:first_name", method="POST", rate=_get_update_account_rate(), block=True
+    key="post:last_name", method="POST", rate=_get_update_account_rate(), block=True
 )
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher

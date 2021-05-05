@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -38,21 +38,21 @@
 import random
 import sys
 
-from django.core import mail
-
 from common.helpers.emails import generate_token
 from common.models import Teacher
+from django.core import mail
 
 from . import email
 
 
 def generate_details(**kwargs):
+    random_int = random.randint(1, sys.maxsize)
     title = kwargs.get("title", "Mr")
     first_name = kwargs.get("first_name", "Test")
-    last_name = kwargs.get("last_name", "Teacher")
+    last_name = kwargs.get("last_name", f"Teacher {random_int}")
     email_address = kwargs.get(
         "email_address",
-        "testteacher%d@codeforlife.com" % random.randint(1, sys.maxsize),
+        f"testteacher{random_int}@codeforlife.com",
     )
     password = kwargs.get("password", "Password2")
 

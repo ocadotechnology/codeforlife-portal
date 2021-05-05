@@ -44,6 +44,7 @@ from .add_independent_student_to_class_page import AddIndependentStudentToClassP
 from .class_page import TeachClassPage
 from .move_classes_page import TeachMoveClassesPage
 from .teach_base_page import TeachBasePage
+from ..email_verification_needed_page import EmailVerificationNeededPage
 
 
 class TeachDashboardPage(TeachBasePage):
@@ -118,10 +119,6 @@ class TeachDashboardPage(TeachBasePage):
                 "email": new_email,
                 "current_password": password,
             }
-        )
-
-        from portal.tests.pageObjects.portal.email_verification_needed_page import (
-            EmailVerificationNeededPage,
         )
 
         return EmailVerificationNeededPage(self.browser)
