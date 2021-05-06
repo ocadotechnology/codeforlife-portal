@@ -44,7 +44,6 @@ from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
-from two_factor.urls import urlpatterns as two_factor_urls
 from two_factor.views import (
     BackupTokensView,
     DisableView,
@@ -149,11 +148,11 @@ from portal.views.teacher.teacher_resources import (
     teacher_kurono_resources,
 )
 from portal.views.terms import terms
+from portal.two_factor_urls import urlpatterns as two_factor_urls
 
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"^account/login/$", LoginView.as_view(), name="login"),
     url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
