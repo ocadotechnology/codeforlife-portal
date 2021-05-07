@@ -1,6 +1,3 @@
-from datetime import datetime, timedelta
-
-import pytz
 from common.models import Student
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
@@ -8,6 +5,7 @@ from django.urls import reverse_lazy
 
 from portal.forms.play import IndependentStudentLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache
+from . import has_user_lockout_expired
 
 
 class IndependentStudentLoginView(LoginView):
@@ -33,17 +31,15 @@ class IndependentStudentLoginView(LoginView):
             student = Student.objects.get(new_user__username=username)
 
             if student.blocked_time is not None:
-                if datetime.now(tz=pytz.utc) - student.blocked_time < timedelta(
-                    hours=24
-                ):
+                if has_user_lockout_expired(student):
+                    student.blocked_time = None
+                    student.save()
+                else:
                     return render(
                         self.request,
                         "portal/locked_out.html",
                         {"is_teacher": False},
                     )
-                else:
-                    student.blocked_time = None
-                    student.save()
 
         if form.is_valid():
             # Reset ratelimit cache upon successful login

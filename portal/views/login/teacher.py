@@ -1,20 +1,18 @@
-from datetime import datetime, timedelta
-import pytz
-
-from django.urls import reverse_lazy
-from django.shortcuts import redirect, render
-from django.contrib.auth.views import LoginView
+from common.models import Teacher
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 from django.contrib.auth.forms import AuthenticationForm
-
-# This import is required so that 2FA works properly
-from portal import handlers
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 
 from portal.forms.teach import TeacherLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache
 from portal.views.home import redirect_teacher_to_correct_page
-from common.models import Teacher
-from common.permissions import logged_in_as_teacher
-from common.utils import using_two_factor
+from . import has_user_lockout_expired
+
+# This import is required so that 2FA works properly
+from portal import handlers
 
 
 class TeacherLoginView(LoginView):
@@ -47,17 +45,15 @@ class TeacherLoginView(LoginView):
             teacher = Teacher.objects.get(new_user__email=email)
 
             if teacher.blocked_time is not None:
-                if datetime.now(tz=pytz.utc) - teacher.blocked_time < timedelta(
-                    hours=24
-                ):
+                if has_user_lockout_expired(teacher):
+                    teacher.blocked_time = None
+                    teacher.save()
+                else:
                     return render(
                         self.request,
                         "portal/locked_out.html",
                         {"is_teacher": True},
                     )
-                else:
-                    teacher.blocked_time = None
-                    teacher.save()
 
         if form.is_valid():
             # Reset ratelimit cache upon successful login

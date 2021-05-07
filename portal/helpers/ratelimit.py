@@ -34,6 +34,23 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+"""
+This file is a customisation of the django-ratelimit library. The purpose of this
+customisation is to give us the ability to access and the delete the cache key
+associated with the ratelimit counter. We want this so that we can reset the
+ratelimit counter whenever a successful request is performed on any ratelimited
+view.
+
+is_ratelimited() and get_usage() are the same as in django-ratelimit, with the
+exception of the line `global cache_key` at the start of get_usage().
+is_ratelimited() is called in the customised django-ratelimit ratelimit
+decorator found in portal/helpers/decorators.py.
+
+get_ratelimit_count() and clear_ratelimit_cache() are custom functions.
+
+More info on the core methods of django-ratelimit can be found here:
+https://django-ratelimit.readthedocs.io/en/stable/usage.html#core-methods
+"""
 from __future__ import absolute_import
 
 import functools

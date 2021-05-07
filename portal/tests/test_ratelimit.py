@@ -53,6 +53,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from portal.helpers.ratelimit import get_ratelimit_count
+from portal.views.login import has_user_lockout_expired
 
 
 class TestRatelimit(TestCase):
@@ -124,13 +125,17 @@ class TestRatelimit(TestCase):
 
     def _is_user_blocked(self, model: Teacher or Student, username: str) -> bool:
         """
-        Checks if a Teacher or a Student object is blocked.
+        Checks if a Teacher or a Student object is blocked, by checking if they
+        have a blocked_time value, and if so, if it the lockout has expired or not.
         :param model: The model Class to be checked against.
         :param username: The username of the Teacher or Student.
         :return: Whether or not the model object is marked as blocked.
         """
         user = model.objects.get(new_user__username=username)
-        return user.blocked_time is not None
+        if user.blocked_time:
+            return not has_user_lockout_expired(user)
+        else:
+            return False
 
     def _block_user(self, model: Teacher or Student, username: str) -> None:
         """

@@ -82,12 +82,10 @@ from portal.views.home import (
     logout_view,
     register_view,
 )
-from portal.views.login import (
-    IndependentStudentLoginView,
-    StudentLoginView,
-    TeacherLoginView,
-    old_login_form_redirect,
-)
+from portal.views.login import old_login_form_redirect
+from portal.views.login.teacher import TeacherLoginView
+from portal.views.login.student import StudentLoginView
+from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
@@ -154,6 +152,9 @@ from portal.views.terms import terms
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
+    # The ratelimit decorator checks how often a POST request is performed on that view.
+    # It checks against the username value specifically. If the number of requests
+    # exceeds the specified rate, then the user will be blocked (if block = True).
     url(
         r"^account/login/$",
         ratelimit(key="post:username", method="POST", rate="5/d", block=True)(

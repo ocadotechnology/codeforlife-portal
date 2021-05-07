@@ -62,6 +62,14 @@ from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 def _get_update_account_rate():
+    """
+    Custom rate which checks in a POST request is performed on the update
+    account form on the teacher dashboard. It needs to check if
+    "update_account" is in the POST request because there are 2 other forms
+    on the teacher dashboard that can also perform POST request, but we
+    do not want to ratelimit those.
+    :return: the rate used in the decorator below.
+    """
     return lambda g, r: "5/d" if "update_account" in r.POST else None
 
 
