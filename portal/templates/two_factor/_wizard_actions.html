@@ -3,7 +3,7 @@
 {% load i18n %}
 
 <a href="{% url 'dashboard' %}"
-   class="pull-right btn btn-link">{% trans "Cancel" %}</a>
+   class="pull-right btn btn-default">{% trans "Cancel" %}</a>
 {% if wizard.steps.prev %}
   <button name="wizard_goto_step" type="submit"
           value="{{ wizard.steps.prev }}"

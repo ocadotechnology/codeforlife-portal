@@ -4,6 +4,15 @@
 
 {% block css %}
 {{ block.super }}
+<style>
+    .content > .container > form > table {
+        margin: 20px 0;
+        width: auto;
+    }
+    .content > .container > form > table > tbody > tr > th {
+        padding-left: 0;
+    }
+</style>
 {% endblock css %}
 
 {% block scripts %}
@@ -19,37 +28,41 @@
 
 {% block content %}
 {{ block.super }}
-<section class="row">
-    <div class="form--register is-flex form--register--teacher">
-        <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
-            <h1 class="center-block">Log in as a teacher</h1>
-            <form id="form-login-teacher" method="post">
+{% if wizard.steps.current == 'auth' %}
+    <section class="row">
+        <div class="form--register is-flex form--register--teacher">
+            <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
+                <h1 class="center-block">Log in as a teacher</h1>
+                <form id="form-login-teacher" method="post">
 
-                {% csrf_token %}
-                {{ wizard.management_form }}
+                    {% csrf_token %}
+                    {{ wizard.management_form }}
 
-                {{ form.non_field_errors }}
+                    {{ form.non_field_errors }}
 
-                <label for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
-                {{ form.username }}
-                {{ form.username.errors }}
+                    <label for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
 
-                <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
-                {{ form.password }}
-                {{ form.password.errors }}
+                    <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
 
-                {{ form.captcha }}
+                    {{ form.captcha }}
 
-                <button type="submit" name="login_view" class="button--regular button--primary--general-educate button--login"
-                            onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
-            </form>
+                    <button type="submit" name="login_view" class="button--regular button--primary--general-educate button--login"
+                                onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
+                </form>
 
-            <p><strong>Forgotten your password?</strong></p>
-            <p>Don&rsquo;t worry, you can
-                <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
-            </p>
+                <p><strong>Forgotten your password?</strong></p>
+                <p>Don&rsquo;t worry, you can
+                    <a id="teacher_forgotten_password_button" href="{% url 'teacher_password_reset' %}">reset your password</a>.
+                </p>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+{% else %}
+    {% include "two_factor/core/login.html" %}
+{% endif %}
 
 {% endblock content %}

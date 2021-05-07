@@ -27,3 +27,6 @@ codeforlife_portal.egg-info
 build/
 dist/
 node_modules
+
+# Cypress generated folder
+/cypress

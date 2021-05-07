@@ -19,8 +19,8 @@ class TeacherLoginPage(BasePage):
         return teach_dashboard_page.TeachDashboardPage(self.browser)
 
     def _login(self, email, password):
-        self.browser.find_element_by_id("id_username").send_keys(email)
-        self.browser.find_element_by_id("id_password").send_keys(password)
+        self.browser.find_element_by_id("id_auth-username").send_keys(email)
+        self.browser.find_element_by_id("id_auth-password").send_keys(password)
         self.browser.find_element_by_name("login_view").click()
 
     def login_no_school(self, email, password):
