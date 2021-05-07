@@ -44,11 +44,9 @@ from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
-from two_factor.urls import urlpatterns as two_factor_urls
 from two_factor.views import (
     BackupTokensView,
     DisableView,
-    LoginView,
     ProfileView,
     QRGeneratorView,
     SetupCompleteView,
@@ -59,6 +57,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.helpers.decorators import ratelimit
+from portal.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about
 from portal.views.admin import (
     AdminChangePasswordView,
@@ -83,9 +82,9 @@ from portal.views.home import (
     register_view,
 )
 from portal.views.login import old_login_form_redirect
-from portal.views.login.teacher import TeacherLoginView
-from portal.views.login.student import StudentLoginView
 from portal.views.login.independent_student import IndependentStudentLoginView
+from portal.views.login.student import StudentLoginView
+from portal.views.login.teacher import TeacherLoginView
 from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
@@ -152,16 +151,6 @@ from portal.views.terms import terms
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    # The ratelimit decorator checks how often a POST request is performed on that view.
-    # It checks against the username value specifically. If the number of requests
-    # exceeds the specified rate, then the user will be blocked (if block = True).
-    url(
-        r"^account/login/$",
-        ratelimit(key="post:username", method="POST", rate="5/d", block=True)(
-            LoginView.as_view()
-        ),
-        name="login",
-    ),
     url(r"", include(two_factor_urls, "two_factor")),
     url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
@@ -242,7 +231,10 @@ urlpatterns = [
     url(r"^register_form", register_view, name="register"),
     url(
         r"^login/teacher/$",
-        ratelimit(key="post:username", method="POST", rate="5/d", block=True)(
+        # The ratelimit decorator checks how often a POST request is performed on that view.
+        # It checks against the username value specifically. If the number of requests
+        # exceeds the specified rate, then the user will be blocked (if block = True).
+        ratelimit(key="post:auth-username", method="POST", rate="5/d", block=True)(
             TeacherLoginView.as_view()
         ),
         name="teacher_login",

@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.29.6 (2021-05-07)
+### Fix
+* Recaptcha and login form improvements ([#1432](https://github.com/ocadotechnology/codeforlife-portal/issues/1432)) ([`29f68d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/29f68d6fd574aa2156fee3e91ebbeb28c390a151))
+
 ## v4.29.5 (2021-05-07)
 ### Fix
 * CrossOrigin is case sensitive via js ([#1434](https://github.com/ocadotechnology/codeforlife-portal/issues/1434)) ([`b2e1034`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2e1034cfee08c8d838a61e6cc59a7a7fae6f0b6))

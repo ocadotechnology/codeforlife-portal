@@ -1,10 +1,9 @@
 from common.models import Teacher
 from common.permissions import logged_in_as_teacher
-from common.utils import using_two_factor
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from two_factor.views import LoginView
+from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
 
 from portal.forms.teach import TeacherLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache
@@ -17,7 +16,11 @@ from portal import handlers
 
 class TeacherLoginView(LoginView):
     template_name = "portal/login/teacher.html"
-    form_class = TeacherLoginForm
+    form_list = (
+        ("auth", TeacherLoginForm),
+        ("token", AuthenticationTokenForm),
+        ("backup", BackupTokenForm),
+    )
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -40,7 +43,7 @@ class TeacherLoginView(LoginView):
         """
         form = self.get_form()
 
-        email = request.POST.get("username")
+        email = request.POST.get("auth-username")
         if Teacher.objects.filter(new_user__email=email).exists():
             teacher = Teacher.objects.get(new_user__email=email)
 
@@ -59,15 +62,4 @@ class TeacherLoginView(LoginView):
             # Reset ratelimit cache upon successful login
             clear_ratelimit_cache()
 
-            user = form.get_user()
-            if using_two_factor(user):
-                return render(
-                    self.request,
-                    "portal/2FA_redirect.html",
-                    {
-                        "form": AuthenticationForm(),
-                        "username": user.username,
-                        "password": form.cleaned_data["password"],
-                    },
-                )
         return super(TeacherLoginView, self).post(request, *args, **kwargs)

@@ -34,10 +34,10 @@ class Test2FA(TestCase):
 
         return email, password
 
-    @override_settings(LOGIN_REDIRECT_URL="/teach/dashboard")
+    @override_settings(LOGIN_REDIRECT_URL="/teach/dashboard/")
     def test_token(self):
         def _post(data=None):
-            return self.client.post("/account/login/", data=data)
+            return self.client.post("/login/teacher/", data=data)
 
         user = User.objects.get(email=self.email)
 
@@ -52,7 +52,8 @@ class Test2FA(TestCase):
             {
                 "auth-username": self.email,
                 "auth-password": self.password,
-                "login_view-current_step": "auth",
+                "g-recaptcha-response": "something",
+                "teacher_login_view-current_step": "auth",
             }
         )
         self.assertContains(response, "Token:")
@@ -63,7 +64,7 @@ class Test2FA(TestCase):
         response = _post(
             {
                 "token-otp_token": "123456",
-                "login_view-current_step": "token",
+                "teacher_login_view-current_step": "token",
             },
         )
         INVALID_ERR = {
@@ -81,7 +82,7 @@ class Test2FA(TestCase):
         response = _post(
             {
                 "token-otp_token": totp(device.bin_key, drift=-1),
-                "login_view-current_step": "token",
+                "teacher_login_view-current_step": "token",
             }
         )
         assert response.context_data["wizard"]["form"].errors == INVALID_ERR
@@ -93,7 +94,7 @@ class Test2FA(TestCase):
         response = _post(
             {
                 "token-otp_token": totp(device.bin_key, drift=0),
-                "login_view-current_step": "token",
+                "teacher_login_view-current_step": "token",
             }
         )
 

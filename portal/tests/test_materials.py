@@ -98,9 +98,10 @@ def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
     c = Client()
     teacher_login_url = reverse("teacher_login")
     data = {
-        "username": teacher1.email,
-        "password": teacher1.password,
+        "auth-username": teacher1.email,
+        "auth-password": teacher1.password,
         "g-recaptcha-response": "something",
+        "teacher_login_view-current_step": "auth",
     }
 
     c.post(teacher_login_url, data)

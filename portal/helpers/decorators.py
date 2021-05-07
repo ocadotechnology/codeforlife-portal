@@ -86,7 +86,10 @@ def ratelimit(
 
                 if request.user.is_anonymous:
                     data = request.POST
-                    username = data.get("username")
+                    if is_teacher:
+                        username = data.get("auth-username")
+                    else:
+                        username = data.get("username")
 
                     if model.objects.filter(new_user__username=username).exists():
                         user = model.objects.get(new_user__username=username)

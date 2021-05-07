@@ -60,9 +60,20 @@ class TestRatelimit(TestCase):
     def setUp(self) -> None:
         self.client = Client()
 
-    def _login(self, login_url, username, password):
+    def _teacher_login(self, username, password):
         return self.client.post(
-            reverse(login_url),
+            reverse("teacher_login"),
+            {
+                "auth-username": username,
+                "auth-password": password,
+                "g-recaptcha-response": "something",
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+    def _student_login(self, username, password):
+        return self.client.post(
+            reverse("independent_student_login"),
             {
                 "username": username,
                 "password": password,
@@ -157,11 +168,11 @@ class TestRatelimit(TestCase):
         email, password = signup_teacher_directly()
 
         for i in range(5):
-            _ = self._login("teacher_login", email, "bad_password")
+            _ = self._teacher_login(email, "bad_password")
 
             assert not self._is_user_blocked(Teacher, email)
 
-        _ = self._login("teacher_login", email, "bad_password")
+        _ = self._teacher_login(email, "bad_password")
 
         assert self._is_user_blocked(Teacher, email)
 
@@ -174,11 +185,11 @@ class TestRatelimit(TestCase):
         username, password, _ = create_independent_student_directly()
 
         for i in range(5):
-            _ = self._login("independent_student_login", username, "bad_password")
+            _ = self._student_login(username, "bad_password")
 
             assert not self._is_user_blocked(Student, username)
 
-        _ = self._login("independent_student_login", username, "bad_password")
+        _ = self._student_login(username, "bad_password")
 
         assert self._is_user_blocked(Student, username)
 
@@ -193,7 +204,7 @@ class TestRatelimit(TestCase):
         klass, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        _ = self._login("teacher_login", email, password)
+        _ = self._teacher_login(email, password)
 
         for i in range(5):
             self._teacher_update_account_bad_request()
@@ -212,7 +223,7 @@ class TestRatelimit(TestCase):
         """
         username, password, _ = create_independent_student_directly()
 
-        _ = self._login("independent_student_login", username, password)
+        _ = self._student_login(username, password)
 
         for i in range(5):
             self._independent_student_edit_account_bad_request()
@@ -236,7 +247,7 @@ class TestRatelimit(TestCase):
 
         self._block_user(Teacher, email)
 
-        login_response = self._login("teacher_login", email, password)
+        login_response = self._teacher_login(email, password)
 
         # Check for a 200, instead of the usual 302.
         assert login_response.status_code == 200
@@ -246,7 +257,7 @@ class TestRatelimit(TestCase):
         teacher.blocked_time = datetime.now(tz=pytz.utc) - timedelta(hours=24)
         teacher.save()
 
-        login_response = self._login("teacher_login", email, password)
+        login_response = self._teacher_login(email, password)
 
         assert login_response.status_code == 302
         assert not self._is_user_blocked(Teacher, email)
@@ -264,7 +275,7 @@ class TestRatelimit(TestCase):
 
         self._block_user(Student, username)
 
-        login_response = self._login("independent_student_login", username, password)
+        login_response = self._student_login(username, password)
 
         # Check for a 200, instead of the usual 302.
         assert login_response.status_code == 200
@@ -274,7 +285,7 @@ class TestRatelimit(TestCase):
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(hours=24)
         student.save()
 
-        login_response = self._login("independent_student_login", username, password)
+        login_response = self._student_login(username, password)
 
         assert login_response.status_code == 302
         assert not self._is_user_blocked(Student, username)
@@ -289,19 +300,19 @@ class TestRatelimit(TestCase):
 
         # Fail login 3 times
         for i in range(3):
-            self._login("teacher_login", email, "bad_password")
+            self._teacher_login(email, "bad_password")
 
         assert get_ratelimit_count() == 3
 
         # Login successfully
-        self._login("teacher_login", email, password)
+        self._teacher_login(email, password)
 
         assert get_ratelimit_count() is None
 
         self.client.logout()
 
         # Fail login again one more time
-        self._login("teacher_login", email, "bad_password")
+        self._teacher_login(email, "bad_password")
 
         assert get_ratelimit_count() == 1
 
@@ -315,7 +326,7 @@ class TestRatelimit(TestCase):
 
         self._block_user(Teacher, email)
 
-        login_response = self._login("teacher_login", email, password)
+        login_response = self._teacher_login(email, password)
 
         # Check for a 200, instead of the usual 302.
         assert login_response.status_code == 200
@@ -333,7 +344,7 @@ class TestRatelimit(TestCase):
 
         self._reset_password(url, new_password)
 
-        login_response = self._login("teacher_login", email, new_password)
+        login_response = self._teacher_login(email, new_password)
 
         assert login_response.status_code == 302
         assert not self._is_user_blocked(Teacher, email)

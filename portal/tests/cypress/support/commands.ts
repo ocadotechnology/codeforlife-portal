@@ -12,8 +12,8 @@ Cypress.Commands.add('loginAsSuperuser', (username, password) => {
   cy.visit('/login/teacher/')
 
   cy.log('go to Teacher Login page')
-  cy.get('#id_username').type(username)
-  cy.get('#id_password').type(password)
+  cy.get('#id_auth-username').type(username)
+  cy.get('#id_auth-password').type(password)
   cy.get('.button--login').click()
 })
 
