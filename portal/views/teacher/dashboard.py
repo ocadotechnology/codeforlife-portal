@@ -61,7 +61,7 @@ from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
-def _get_update_account_rate():
+def _get_update_account_rate(group, request):
     """
     Custom rate which checks in a POST request is performed on the update
     account form on the teacher dashboard. It needs to check if
@@ -70,13 +70,13 @@ def _get_update_account_rate():
     do not want to ratelimit those.
     :return: the rate used in the decorator below.
     """
-    return lambda g, r: "5/d" if "update_account" in r.POST else None
+    return "5/d" if "update_account" in request.POST else None
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 @ratelimit(
-    key="post:last_name", method="POST", rate=_get_update_account_rate(), block=True
+    key="post:last_name", method="POST", rate=_get_update_account_rate, block=True
 )
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
