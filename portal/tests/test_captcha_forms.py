@@ -35,17 +35,15 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import pytest
-from common.models import Class
-from portal.tests.conftest import IndependentStudent, SchoolStudent, TeacherLoginDetails
-
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.models import Class
 from django import forms
 from django.test import TestCase
 from django.test.client import Client
 from django.urls.base import reverse
-
-from portal.helpers.captcha import remove_captcha_from_forms, is_captcha_in_form
+from portal.helpers.captcha import is_captcha_in_form, remove_captcha_from_forms
+from portal.tests.conftest import IndependentStudent, SchoolStudent, TeacherLoginDetails
 
 
 class FormCaptchaTest(TestCase):
