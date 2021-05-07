@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v4.29.5 (2021-05-07)
+### Fix
+* CrossOrigin is case sensitive via js ([#1434](https://github.com/ocadotechnology/codeforlife-portal/issues/1434)) ([`b2e1034`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2e1034cfee08c8d838a61e6cc59a7a7fae6f0b6))
+
+## v4.29.4 (2021-05-06)
+### Fix
+* Add integrity hash and fix js links ([#1431](https://github.com/ocadotechnology/codeforlife-portal/issues/1431)) ([`2dced59`](https://github.com/ocadotechnology/codeforlife-portal/commit/2dced59496453959207c630a7c9e686044826bfa))
+
 ## v4.29.3 (2021-04-30)
 ### Fix
 * Upgrade modernizr to 3.11.0 ([#1429](https://github.com/ocadotechnology/codeforlife-portal/issues/1429)) ([`c720e63`](https://github.com/ocadotechnology/codeforlife-portal/commit/c720e63d1c215bb4e3c198954cc13dd622f1924f))
