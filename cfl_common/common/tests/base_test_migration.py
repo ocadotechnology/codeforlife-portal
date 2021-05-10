@@ -35,6 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from django.apps import apps
+from django.core import management
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
@@ -68,3 +69,7 @@ class MigrationTestCase(TransactionTestCase):
         self.django_application = executor.loader.project_state(
             [(self.app_name, self.dest_migration)]
         ).apps
+
+    def tearDown(self) -> None:
+        # After the test, migrate all migrations for all apps to restore test DB state
+        management.call_command("migrate")

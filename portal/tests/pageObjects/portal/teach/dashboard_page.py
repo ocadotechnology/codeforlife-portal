@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -44,6 +44,7 @@ from .add_independent_student_to_class_page import AddIndependentStudentToClassP
 from .class_page import TeachClassPage
 from .move_classes_page import TeachMoveClassesPage
 from .teach_base_page import TeachBasePage
+from ..email_verification_needed_page import EmailVerificationNeededPage
 
 
 class TeachDashboardPage(TeachBasePage):
@@ -120,11 +121,24 @@ class TeachDashboardPage(TeachBasePage):
             }
         )
 
-        from portal.tests.pageObjects.portal.email_verification_needed_page import (
-            EmailVerificationNeededPage,
+        return EmailVerificationNeededPage(self.browser)
+
+    def change_password(self, first_name, last_name, new_password, password):
+        self._change_details(
+            {
+                "first_name": first_name,
+                "last_name": last_name,
+                "password": new_password,
+                "confirm_password": new_password,
+                "current_password": password,
+            }
         )
 
-        return EmailVerificationNeededPage(self.browser)
+        from portal.tests.pageObjects.portal.teacher_login_page import (
+            TeacherLoginPage,
+        )
+
+        return TeacherLoginPage(self.browser)
 
     def _change_details(self, details):
         if "title" in details:

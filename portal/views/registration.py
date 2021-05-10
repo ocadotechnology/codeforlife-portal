@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,16 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-
-import warnings
-
+from common.helpers.emails import PASSWORD_RESET_EMAIL
+from common.models import Teacher, Student
+from common.permissions import not_logged_in, not_fully_logged_in
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
-from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.template.response import TemplateResponse
+from django.urls import reverse_lazy
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext as _
@@ -59,8 +59,7 @@ from portal.forms.registration import (
     StudentPasswordResetForm,
 )
 from portal.helpers.captcha import remove_captcha_from_form
-from common.helpers.emails import PASSWORD_RESET_EMAIL
-from common.permissions import not_logged_in, not_fully_logged_in
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
@@ -192,6 +191,12 @@ def password_reset_confirm(
             form = set_password_form(user, request.POST)
             if form.is_valid():
                 form.save()
+
+                # Reset ratelimit cache upon successful password reset
+                clear_ratelimit_cache()
+
+                _check_and_unblock_user(user.username, usertype)
+
                 return render(
                     request, "portal/reset_password_done.html", {"usertype": usertype}
                 )
@@ -207,6 +212,17 @@ def password_reset_confirm(
     update_context_and_apps(request, context, current_app, extra_context)
 
     return TemplateResponse(request, template_name, context)
+
+
+def _check_and_unblock_user(username, usertype):
+    if usertype == "TEACHER":
+        user = Teacher.objects.get(new_user__username=username)
+    else:
+        user = Student.objects.get(new_user__username=username)
+
+    if user.blocked_time is not None:
+        user.blocked_time = None
+        user.save()
 
 
 def check_uidb64(uidb64, token):

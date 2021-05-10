@@ -65,7 +65,11 @@ def form_clean_password(self, forms, password_field_name):
 
 
 def check_update_password(form, user, request, data):
+    changing_password = False
     if data["password"] != "":
+        changing_password = True
         user.set_password(data["password"])
         user.save()
         update_session_auth_hash(request, form.user)
+
+    return changing_password

@@ -47,7 +47,6 @@ from game.views.level import play_default_level
 from two_factor.views import (
     BackupTokensView,
     DisableView,
-    LoginView,
     ProfileView,
     QRGeneratorView,
     SetupCompleteView,
@@ -57,6 +56,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from portal.helpers.decorators import ratelimit
+from portal.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about
 from portal.views.admin import (
     AdminChangePasswordView,
@@ -80,12 +81,10 @@ from portal.views.home import (
     logout_view,
     register_view,
 )
-from portal.views.login import (
-    IndependentStudentLoginView,
-    StudentLoginView,
-    TeacherLoginView,
-    old_login_form_redirect,
-)
+from portal.views.login import old_login_form_redirect
+from portal.views.login.independent_student import IndependentStudentLoginView
+from portal.views.login.student import StudentLoginView
+from portal.views.login.teacher import TeacherLoginView
 from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
@@ -148,7 +147,6 @@ from portal.views.teacher.teacher_resources import (
     teacher_kurono_resources,
 )
 from portal.views.terms import terms
-from portal.two_factor_urls import urlpatterns as two_factor_urls
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -231,11 +229,22 @@ urlpatterns = [
     url(r"^$", home, name="home"),
     url(r"^home-learning", home_learning, name="home-learning"),
     url(r"^register_form", register_view, name="register"),
-    url(r"^login/teacher/$", TeacherLoginView.as_view(), name="teacher_login"),
+    url(
+        r"^login/teacher/$",
+        # The ratelimit decorator checks how often a POST request is performed on that view.
+        # It checks against the username value specifically. If the number of requests
+        # exceeds the specified rate, then the user will be blocked (if block = True).
+        ratelimit(key="post:auth-username", method="POST", rate="5/d", block=True)(
+            TeacherLoginView.as_view()
+        ),
+        name="teacher_login",
+    ),
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",
-        IndependentStudentLoginView.as_view(),
+        ratelimit(
+            key="post:username", method="POST", rate="5/d", block=True, is_teacher=False
+        )(IndependentStudentLoginView.as_view()),
         name="independent_student_login",
     ),
     url(r"^login_form", old_login_form_redirect, name="old_login_form"),
@@ -310,7 +319,9 @@ urlpatterns = [
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
     url(
         r"^play/account/independent/$",
-        IndependentStudentEditAccountView.as_view(),
+        ratelimit(
+            key="post:name", method="POST", rate="5/d", block=True, is_teacher=False
+        )(IndependentStudentEditAccountView.as_view()),
         name="independent_edit_account",
     ),
     url(

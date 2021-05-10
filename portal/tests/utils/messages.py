@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -70,12 +70,18 @@ def is_indep_student_join_request_revoked_message_showing(browser):
     )
 
 
-def is_teacher_email_updated_message_showing(browser):
+def is_email_updated_message_showing(browser):
     return is_message_showing(
         browser,
-        "Your account details have been successfully changed. Your email will be "
-        "changed once you have verified it, until then you can still log in with your "
-        "old email.",
+        "Your email will be changed once you have verified it, until then "
+        "you can still log in with your old email.",
+    )
+
+
+def is_password_updated_message_showing(browser):
+    return is_message_showing(
+        browser,
+        "Please login using your new password.",
     )
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -59,6 +59,8 @@ from .utils.messages import (
     is_indep_student_join_request_received_message_showing,
     is_indep_student_join_request_revoked_message_showing,
     is_student_details_updated_message_showing,
+    is_email_updated_message_showing,
+    is_password_updated_message_showing,
 )
 
 
@@ -86,7 +88,7 @@ class TestIndependentStudent(BaseTest):
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
 
-        assert page.__class__.__name__ == "IndependentStudentLoginPage"
+        assert self.is_login_page(page)
 
     def test_signup_duplicate_username_failure(self):
         username, _, _ = create_independent_student_directly()
@@ -99,7 +101,7 @@ class TestIndependentStudent(BaseTest):
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Code for Life: Username already taken"
 
-        assert page.__class__.__name__ == "IndependentStudentLoginPage"
+        assert self.is_login_page(page)
 
     def test_signup_failure_short_password(self):
         page = self.go_to_homepage()
@@ -162,7 +164,7 @@ class TestIndependentStudent(BaseTest):
         page = self.go_to_homepage()
         page, _, username, _, password = create_independent_student(page)
         page = page.independent_student_login(username, password)
-        assert page.__class__.__name__ == "PlayDashboardPage"
+        assert self.is_dashboard(page)
 
     def test_reset_password(self):
         page = self.go_to_homepage()
@@ -187,7 +189,7 @@ class TestIndependentStudent(BaseTest):
             .independent_student_login(username, new_password)
         )
 
-        assert page.__class__.__name__ == "PlayDashboardPage"
+        assert self.is_dashboard(page)
 
         page = page.go_to_account_page()
         assert page.check_account_details({"name": name})
@@ -253,8 +255,40 @@ class TestIndependentStudent(BaseTest):
         new_email = "another-email@codeforlife.com"
         page = page.change_email(new_email, password)
 
-        assert page.__class__.__name__ == "EmailVerificationNeededPage"
+        assert self.is_email_verification_page(page)
         assert is_student_details_updated_message_showing(self.selenium)
+        assert is_email_updated_message_showing(self.selenium)
+
+        page = email_utils.follow_change_email_link_to_independent_dashboard(
+            page, mail.outbox[0]
+        )
+        mail.outbox = []
+
+        page = page.independent_student_login(student_username, password)
+
+        assert self.is_dashboard(page)
+
+    def test_change_password(self):
+        homepage = self.go_to_homepage()
+
+        play_page, _, student_username, _, password = create_independent_student(
+            homepage
+        )
+
+        page = play_page.independent_student_login(
+            student_username, password
+        ).go_to_account_page()
+
+        new_password = "AnotherPassword12"
+        page = page.update_password_success(new_password, password, is_independent=True)
+
+        assert self.is_login_page(page)
+        assert is_student_details_updated_message_showing(self.selenium)
+        assert is_password_updated_message_showing(self.selenium)
+
+        page = page.independent_student_login(student_username, new_password)
+
+        assert self.is_dashboard(page)
 
     def test_join_class_nonexistent_class(self):
         homepage = self.go_to_homepage()
@@ -423,3 +457,9 @@ class TestIndependentStudent(BaseTest):
 
     def is_join_class_page(self, page):
         return page.__class__.__name__ == "JoinSchoolOrClubPage"
+
+    def is_login_page(self, page):
+        return page.__class__.__name__ == "IndependentStudentLoginPage"
+
+    def is_email_verification_page(self, page):
+        return page.__class__.__name__ == "EmailVerificationNeededPage"

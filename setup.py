@@ -46,6 +46,7 @@ setup(
         "django-hijack-admin==2.1.10",
         "future==0.18.2",
         f"cfl-common=={version}",
+        "django-ratelimit==3.0.1",
     ],
     classifiers=[
         "Programming Language :: Python",

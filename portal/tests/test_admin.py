@@ -117,9 +117,7 @@ class TestAdmin(BaseTest):
         user.is_superuser = True
         user.save()
 
-        self.go_to_homepage().go_to_teacher_login_page().login(
-            email, password
-        )
+        self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = self.navigate_to_admin_data_logged_in()
         assert page.is_on_admin_data_page()
         page = page.go_to_admin_map_page()
@@ -137,9 +135,7 @@ class TestAdmin(BaseTest):
         user.user_permissions.add(permission)
         user.save()
 
-        self.go_to_homepage().go_to_teacher_login_page().login(
-            email, password
-        )
+        self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = self.navigate_to_admin_map_logged_in()
         assert page.is_on_admin_map_page()
         page = page.go_to_admin_data_page_failure()
@@ -157,9 +153,7 @@ class TestAdmin(BaseTest):
         user.user_permissions.add(permission)
         user.save()
 
-        self.go_to_homepage().go_to_teacher_login_page().login(
-            email, password
-        )
+        self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         page = self.navigate_to_admin_data_logged_in()
         assert page.is_on_admin_data_page()
         page = page.go_to_admin_map_page_failure()

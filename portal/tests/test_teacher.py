@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -38,7 +38,6 @@ from __future__ import absolute_import
 
 import time
 
-import pytest
 from aimmo.models import Game, Worksheet
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
@@ -58,9 +57,8 @@ from common.tests.utils.teacher import (
     submit_teacher_signup_form,
 )
 from django.core import mail
-from django.core.exceptions import ValidationError
-from django.urls import reverse
 from django.test import Client, TestCase
+from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
 
 from .base_test import BaseTest
@@ -68,7 +66,8 @@ from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
     is_email_verified_message_showing,
     is_teacher_details_updated_message_showing,
-    is_teacher_email_updated_message_showing,
+    is_email_updated_message_showing,
+    is_password_updated_message_showing,
 )
 
 
@@ -371,7 +370,7 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page, _, _ = signup_duplicate_teacher_fail(page, email)
-        assert page.__class__.__name__ == "TeacherLoginPage"
+        assert self.is_login_page(page)
 
     def test_signup_failure_short_password(self):
         self.selenium.get(self.live_server_url)
@@ -509,8 +508,8 @@ class TestTeacher(BaseTest):
 
         new_email = "another-email@codeforlife.com"
         page = page.change_email("Test", "Teacher", new_email, password)
-        assert page.__class__.__name__ == "EmailVerificationNeededPage"
-        assert is_teacher_email_updated_message_showing(self.selenium)
+        assert self.is_email_verification_page(page)
+        assert is_email_updated_message_showing(self.selenium)
 
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
@@ -520,6 +519,24 @@ class TestTeacher(BaseTest):
         assert page.check_account_details(
             {"title": "Mr", "first_name": "Test", "last_name": "Teacher"}
         )
+
+    def test_change_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+
+        new_password = "AnotherPassword12"
+        page = page.change_password("Test", "Teacher", new_password, password)
+        assert self.is_login_page(page)
+        assert is_password_updated_message_showing(self.selenium)
+
+        page = page.login(email, new_password)
+
+        assert self.is_dashboard_page(page)
 
     def test_reset_password(self):
         email, _ = signup_teacher_directly()
@@ -582,3 +599,9 @@ class TestTeacher(BaseTest):
 
     def is_onboarding_page(self, page):
         return page.__class__.__name__ == "OnboardingOrganisationPage"
+
+    def is_login_page(self, page):
+        return page.__class__.__name__ == "TeacherLoginPage"
+
+    def is_email_verification_page(self, page):
+        return page.__class__.__name__ == "EmailVerificationNeededPage"

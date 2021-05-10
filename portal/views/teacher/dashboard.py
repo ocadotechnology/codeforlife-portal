@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2018, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,33 +34,50 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from common import email_messages
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
+from common.helpers.generators import generate_access_code, get_random_username
 from common.models import Class, Student, Teacher
+from common.permissions import logged_in_as_teacher
+from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.urls import reverse_lazy
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
-from common import email_messages
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
     TeacherAddExternalStudentForm,
     TeacherEditAccountForm,
 )
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
-from common.helpers.generators import generate_access_code, get_random_username
+from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from common.permissions import logged_in_as_teacher
-from common.utils import using_two_factor
+from portal.helpers.ratelimit import clear_ratelimit_cache
+
+
+def _get_update_account_rate(group, request):
+    """
+    Custom rate which checks in a POST request is performed on the update
+    account form on the teacher dashboard. It needs to check if
+    "update_account" is in the POST request because there are 2 other forms
+    on the teacher dashboard that can also perform POST request, but we
+    do not want to ratelimit those.
+    :return: the rate used in the decorator below.
+    """
+    return "5/d" if "update_account" in request.POST else None
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
+@ratelimit(
+    key="post:last_name", method="POST", rate=_get_update_account_rate, block=True
+)
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
@@ -118,22 +135,32 @@ def dashboard_teacher_view(request, is_admin):
         else:
             anchor = "account"
             update_account_form = TeacherEditAccountForm(request.user, request.POST)
-            changing_email, new_email, anchor = process_update_account_form(
-                request, teacher, anchor
-            )
+            (
+                changing_email,
+                new_email,
+                changing_password,
+                anchor,
+            ) = process_update_account_form(request, teacher, anchor)
             if changing_email:
                 logout(request)
                 messages.success(
                     request,
-                    "Your account details have been successfully changed. Your email "
-                    "will be changed once you have verified it, until then you can "
-                    "still log in with your old email.",
+                    "Your email will be changed once you have verified it, until then "
+                    "you can still log in with your old email.",
                 )
                 return render(
                     request,
                     "portal/email_verification_needed.html",
                     {"userprofile": teacher.user, "email": new_email},
                 )
+
+            if changing_password:
+                logout(request)
+                messages.success(
+                    request,
+                    "Please login using your new password.",
+                )
+                return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     classes = Class.objects.filter(teacher=teacher)
 
@@ -220,12 +247,15 @@ def create_class_new(form, teacher):
 def process_update_account_form(request, teacher, old_anchor):
     update_account_form = TeacherEditAccountForm(request.user, request.POST)
     changing_email = False
+    changing_password = False
     new_email = ""
     if update_account_form.is_valid():
         data = update_account_form.cleaned_data
 
         # check not default value for CharField
-        check_update_password(update_account_form, teacher.new_user, request, data)
+        changing_password = check_update_password(
+            update_account_form, teacher.new_user, request, data
+        )
 
         teacher.title = data["title"]
         teacher.new_user.first_name = data["first_name"]
@@ -236,7 +266,10 @@ def process_update_account_form(request, teacher, old_anchor):
         teacher.save()
         teacher.new_user.save()
 
-        anchor = "#"
+        anchor = ""
+
+        # Reset ratelimit cache after successful account details update
+        clear_ratelimit_cache()
 
         messages.success(
             request, "Your account details have been successfully changed."
@@ -244,7 +277,7 @@ def process_update_account_form(request, teacher, old_anchor):
     else:
         anchor = old_anchor
 
-    return changing_email, new_email, anchor
+    return changing_email, new_email, changing_password, anchor
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))

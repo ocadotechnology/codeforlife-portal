@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,19 +35,20 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
+from common.helpers.emails import update_email
 from common.models import Student
+from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
-from common.helpers.emails import update_email
 from portal.helpers.password import check_update_password
-from common.permissions import logged_in_as_student
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 
 def _get_form(self, form_class):
@@ -102,11 +103,19 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
     def process_student_edit_account_form(self, form, student, request):
         data = form.cleaned_data
         # check not default value for CharField
-        check_update_password(form, student.new_user, request, data)
+        changing_password = check_update_password(form, student.new_user, request, data)
 
         messages.success(
             request, "Your account details have been changed successfully."
         )
+
+        if changing_password:
+            logout(request)
+            messages.success(
+                request,
+                "Please login using your new password.",
+            )
+            return HttpResponseRedirect(reverse_lazy("student_login"))
 
     def get_form(self, form_class=None):
         return _get_form(self, form_class)
@@ -124,6 +133,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     model = Student
     initial = {"name": "Could not find name"}
     changing_email = False
+    changing_password = False
 
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
@@ -138,6 +148,8 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     def get_success_url(self):
         if self.changing_email:
             return reverse_lazy("email_verification")
+        elif self.changing_password:
+            return reverse_lazy("independent_student_login")
         else:
             return reverse_lazy("student_details")
 
@@ -153,12 +165,17 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         data = form.cleaned_data
 
         # check not default value for CharField
-        check_update_password(form, student.new_user, request, data)
+        self.changing_password = check_update_password(
+            form, student.new_user, request, data
+        )
 
         # allow individual students to update more
         self.changing_email, new_email = update_email(student.new_user, request, data)
 
         self.update_name(student, data)
+
+        # Reset ratelimit cache after successful account details update
+        clear_ratelimit_cache()
 
         messages.success(
             request, "Your account details have been changed successfully."
@@ -166,6 +183,18 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
 
         if self.changing_email:
             logout(request)
+            messages.success(
+                request,
+                "Your email will be changed once you have verified it, until then "
+                "you can still log in with your old email.",
+            )
+
+        if self.changing_password:
+            logout(request)
+            messages.success(
+                request,
+                "Please login using your new password.",
+            )
 
     def update_name(self, student, data):
         student.new_user.first_name = data["name"]
