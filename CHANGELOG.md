@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.0 (2021-05-10)
+### Feature
+* Add ratelimit to certain forms ([#1430](https://github.com/ocadotechnology/codeforlife-portal/issues/1430)) ([`ca4104f`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca4104f0d0b4273fff1da95b8a61174e9ff195ca))
+
 ## v4.29.6 (2021-05-07)
 ### Fix
 * Recaptcha and login form improvements ([#1432](https://github.com/ocadotechnology/codeforlife-portal/issues/1432)) ([`29f68d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/29f68d6fd574aa2156fee3e91ebbeb28c390a151))
