@@ -41,9 +41,9 @@ class TeacherLoginView(LoginView):
         account, this redirects the user to the locked out page. However, if the lockout
         time is more than 24 hours before this is executed, the account is unlocked.
         """
-        wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
+        wizard_step = self.request.POST.get('teacher_login_view-current_step', None)
 
-        if wizard_goto_step == 'auth':
+        if wizard_step == 'auth':
             form = self.get_form(data=self.request.POST)
 
             email = request.POST.get("auth-username")
