@@ -51,13 +51,16 @@ from common.permissions import logged_in_as_independent_student
 
 class StudentLoginForm(AuthenticationForm):
     username = forms.CharField(
-        label="Name", widget=forms.TextInput(attrs={"placeholder": "Jane"})
+        label="Name",
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Jane"}),
     )
     access_code = forms.CharField(
         label="Class Access Code",
-        widget=forms.TextInput(attrs={"placeholder": "AB123"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "AB123"}),
     )
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password = forms.CharField(
+        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+    )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
@@ -197,19 +200,24 @@ class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
         label="Name",
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "Rosalind Franklin"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Rosalind Franklin"}
+        ),
     )
 
     username = forms.CharField(
         label="Username",
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "rosie_f"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "rosie_f"}),
     )
 
     email = forms.EmailField(
         label="Email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "rosalind.franklin@cambridge.ac.uk"}
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "rosalind.franklin@cambridge.ac.uk",
+            }
         ),
     )
 
@@ -217,10 +225,13 @@ class IndependentStudentSignupForm(forms.Form):
 
     is_over_required_age = forms.BooleanField(initial=False, required=True)
 
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password = forms.CharField(
+        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+    )
 
     confirm_password = forms.CharField(
-        label="Confirm Password", widget=forms.PasswordInput
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "off"}),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)

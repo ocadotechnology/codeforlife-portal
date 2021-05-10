@@ -71,7 +71,9 @@ class TeacherPasswordResetForm(forms.Form):
     email = forms.EmailField(
         label="Email address",
         max_length=254,
-        widget=forms.EmailInput(attrs={"placeholder": "my.email@address.com"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "my.email@address.com"}
+        ),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -165,7 +167,8 @@ class TeacherPasswordResetForm(forms.Form):
 
 class StudentPasswordResetForm(forms.Form):
     username = forms.CharField(
-        label="Username", widget=forms.TextInput(attrs={"placeholder": "rosie_f"})
+        label="Username",
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "rosie_f"}),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)

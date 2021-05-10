@@ -33,7 +33,7 @@
         <div class="form--register is-flex form--register--teacher">
             <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
                 <h1 class="center-block">Log in as a teacher</h1>
-                <form id="form-login-teacher" method="post">
+                <form id="form-login-teacher" method="post" autocomplete="off">
 
                     {% csrf_token %}
                     {{ wizard.management_form }}
