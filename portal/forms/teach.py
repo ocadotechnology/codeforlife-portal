@@ -34,11 +34,8 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from portal.helpers.ratelimit import clear_ratelimit_cache
 import re
-from builtins import map
-from builtins import range
-from builtins import str
+from builtins import map, range, str
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
@@ -47,8 +44,8 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-
 from portal.helpers.password import form_clean_password
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 choices = [
     ("Miss", "Miss"),
