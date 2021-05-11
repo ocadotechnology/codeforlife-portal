@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.1 (2021-05-11)
+### Fix
+* Remove autocomplete ([#1435](https://github.com/ocadotechnology/codeforlife-portal/issues/1435)) ([`6a7a9ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/6a7a9ca082227d1d2d308d81adbcf2d035b1ed17))
+
 ## v4.30.0 (2021-05-10)
 ### Feature
 * Add ratelimit to certain forms ([#1430](https://github.com/ocadotechnology/codeforlife-portal/issues/1430)) ([`ca4104f`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca4104f0d0b4273fff1da95b8a61174e9ff195ca))
