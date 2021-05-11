@@ -52,11 +52,11 @@ from common.permissions import logged_in_as_independent_student
 class StudentLoginForm(AuthenticationForm):
     username = forms.CharField(
         label="Name",
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Jane"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
     access_code = forms.CharField(
         label="Class Access Code",
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "AB123"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
     password = forms.CharField(
         label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
