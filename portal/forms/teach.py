@@ -35,9 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 import re
-from builtins import map
-from builtins import range
-from builtins import str
+from builtins import map, range, str
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
@@ -46,8 +44,8 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-
 from portal.helpers.password import form_clean_password
+from portal.helpers.ratelimit import clear_ratelimit_cache
 
 choices = [
     ("Miss", "Miss"),
@@ -203,6 +201,9 @@ class TeacherLoginForm(AuthenticationForm):
             self.check_email_errors(user)
 
             self.user_cache = user
+
+            # Reset ratelimit cache upon successful login
+            clear_ratelimit_cache()
 
         return self.cleaned_data
 
