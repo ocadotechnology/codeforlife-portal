@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.2 (2021-05-11)
+### Fix
+* Change location of ratelimit checks ([#1436](https://github.com/ocadotechnology/codeforlife-portal/issues/1436)) ([`fc6ff11`](https://github.com/ocadotechnology/codeforlife-portal/commit/fc6ff112f7bf239eb434016232b68d9e2da971c0))
+
 ## v4.30.1 (2021-05-11)
 ### Fix
 * Remove autocomplete ([#1435](https://github.com/ocadotechnology/codeforlife-portal/issues/1435)) ([`6a7a9ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/6a7a9ca082227d1d2d308d81adbcf2d035b1ed17))
