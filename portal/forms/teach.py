@@ -67,25 +67,30 @@ class TeacherSignupForm(forms.Form):
     teacher_first_name = forms.CharField(
         label="First name",
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "Grace"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Grace"}),
     )
     teacher_last_name = forms.CharField(
         label="Last name",
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "Hopper"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Hopper"}),
     )
     teacher_email = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(attrs={"placeholder": "grace.hopper@navy.mil"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "grace.hopper@navy.mil"}
+        ),
     )
 
     newsletter_ticked = forms.BooleanField(
         widget=forms.CheckboxInput(), initial=False, required=False
     )
 
-    teacher_password = forms.CharField(label="Password", widget=forms.PasswordInput())
+    teacher_password = forms.CharField(
+        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+    )
     teacher_confirm_password = forms.CharField(
-        label="Confirm Password", widget=forms.PasswordInput()
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "off"}),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -166,9 +171,13 @@ class TeacherEditAccountForm(forms.Form):
 class TeacherLoginForm(AuthenticationForm):
     username = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(attrs={"placeholder": "my.email@address.com"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "my.email@address.com"}
+        ),
     )
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password = forms.CharField(
+        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+    )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 

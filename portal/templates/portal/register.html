@@ -22,7 +22,7 @@
         <div class="form col-sm-8 col-center">
             <h1>Register as a teacher</h1>
             <p>Once you&rsquo;ve registered your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.<br/></p>
-            <form method="post" id="form-reg-teacher">
+            <form method="post" id="form-reg-teacher" autocomplete="off">
 
                 {% csrf_token %}
 
@@ -75,7 +75,7 @@
             <h1>Register as an independent student</h1>
             <p>Are you part of a school or club? If so, please <a href="{% url 'student_login' %}">log in</a> or speak to your teacher.
             </p>
-            <form id="form-signup-independent-student" method="post">
+            <form id="form-signup-independent-student" method="post" autocomplete="off">
 
                 {% csrf_token %}
 
