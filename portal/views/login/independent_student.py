@@ -41,8 +41,9 @@ class IndependentStudentLoginView(LoginView):
                         {"is_teacher": False},
                     )
 
-        if form.is_valid():
-            # Reset ratelimit cache upon successful login
-            clear_ratelimit_cache()
-
         return super(IndependentStudentLoginView, self).post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        # Reset ratelimit cache upon successful login
+        clear_ratelimit_cache()
+        return super().form_valid(form)

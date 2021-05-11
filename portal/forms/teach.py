@@ -34,6 +34,7 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+from portal.helpers.ratelimit import clear_ratelimit_cache
 import re
 from builtins import map
 from builtins import range
@@ -194,6 +195,9 @@ class TeacherLoginForm(AuthenticationForm):
             self.check_email_errors(user)
 
             self.user_cache = user
+
+            # Reset ratelimit cache upon successful login
+            clear_ratelimit_cache()
 
         return self.cleaned_data
 
