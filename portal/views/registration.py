@@ -61,6 +61,10 @@ from portal.forms.registration import (
 from portal.helpers.captcha import remove_captcha_from_form
 from portal.helpers.ratelimit import clear_ratelimit_cache
 
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
 def student_password_reset(request):
@@ -175,6 +179,7 @@ def password_reset_confirm(
     View that checks the hash in a password reset link and presents a
     form for entering a new password.
     """
+    LOGGER.info("password_reset_confirm")
     UserModel = get_user_model()
     check_uidb64(uidb64, token)
 
@@ -185,13 +190,16 @@ def password_reset_confirm(
         user = None
 
     if user_is_authenticated(user, token_generator, token):
+        LOGGER.info("user_is_authenticated")
         validlink = True
         title = _("Enter new password")
         if request.method == "POST":
+            LOGGER.info('request.method == "POST"')
             form = set_password_form(user, request.POST)
             if form.is_valid():
                 form.save()
 
+                LOGGER.info("resetting ratelimit cache")
                 # Reset ratelimit cache upon successful password reset
                 clear_ratelimit_cache()
 
@@ -219,6 +227,10 @@ def _check_and_unblock_user(username, usertype):
         user = Teacher.objects.get(new_user__username=username)
     else:
         user = Student.objects.get(new_user__username=username)
+
+    LOGGER.info(f"username: {username}")
+    LOGGER.info(f"usertype: {usertype}")
+    LOGGER.info(f"user.blocked_time: {user.blocked_time}")
 
     if user.blocked_time is not None:
         user.blocked_time = None

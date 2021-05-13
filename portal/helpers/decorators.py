@@ -48,6 +48,10 @@ from ratelimit import ALL, UNSAFE
 from portal.helpers.ratelimit import is_ratelimited
 from portal.templatetags.app_tags import is_logged_in
 
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 __all__ = ["ratelimit"]
 
 
@@ -64,6 +68,7 @@ def ratelimit(
     def decorator(fn):
         @wraps(fn)
         def _wrapped(request, *args, **kw):
+            LOGGER.info("ratelimit decorator")
             old_limited = getattr(request, "limited", False)
             ratelimited = is_ratelimited(
                 request=request,
@@ -75,6 +80,11 @@ def ratelimit(
                 increment=True,
             )
             request.limited = ratelimited or old_limited
+
+            LOGGER.info(f"ratelimited: {ratelimited}")
+            LOGGER.info(f"block: {block}")
+            LOGGER.info(f"is_teacher: {is_teacher}")
+            LOGGER.info(f"request.user.is_anonymous: {request.user.is_anonymous}")
 
             if ratelimited and block:
                 if is_teacher:
@@ -91,12 +101,15 @@ def ratelimit(
                     else:
                         username = data.get("username")
 
+                    LOGGER.info(f"username: {username}")
+
                     if model.objects.filter(new_user__username=username).exists():
                         user = model.objects.get(new_user__username=username)
                 else:
                     user = model.objects.get(new_user=request.user)
 
                 if user:
+                    LOGGER.info("blocking user")
                     user.blocked_time = datetime.datetime.now(tz=pytz.utc)
                     user.save()
 
