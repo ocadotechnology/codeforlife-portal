@@ -52,7 +52,7 @@ jobs:
       - name: Test trigger dev deployment
         uses: actions/github-script@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           script: |
             github.actions.createWorkflowDispatch({
               owner: 'ocadotechnology',
