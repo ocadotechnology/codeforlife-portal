@@ -142,6 +142,11 @@ def get_usage(
     cache = caches[cache_name]
     cache_key = _make_cache_key(group, window, rate, value, method)
 
+    LOGGER.info(f"group: {group}")
+    LOGGER.info(f"window: {window}")
+    LOGGER.info(f"rate: {rate}")
+    LOGGER.info(f"value: {value}")
+    LOGGER.info(f"method: {method}")
     LOGGER.info(f"cache_key: {cache_key}")
 
     count = None
