@@ -19,8 +19,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.7'
-          architecture: 'x64'
+          python-version: "3.7"
+          architecture: "x64"
       - name: Install dependencies
         run: |
           pip install codecov
@@ -49,3 +49,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
+      - name: Test trigger dev deployment
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.actions.createWorkflowDispatch({
+              owner: 'ocadotechnology',
+              repo: 'codeforlife-deploy-appengine',
+              workflow_id: 'deploy_dev.yml',
+              ref: 'portal published',
+            });
