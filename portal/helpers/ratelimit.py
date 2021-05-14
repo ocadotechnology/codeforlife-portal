@@ -35,14 +35,20 @@ from ratelimit.core import (
     _make_cache_key,
 )
 
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 cache_key = None
 
 
 def get_ratelimit_count():
+    LOGGER.info(f"get_ratelimit_count cache_key: {cache_key}")
     return cache.get(cache_key)
 
 
 def clear_ratelimit_cache():
+    LOGGER.info(f"clear_ratelimit_cache cache_key: {cache_key}")
     cache.delete(cache_key)
 
 
@@ -136,12 +142,16 @@ def get_usage(
     cache = caches[cache_name]
     cache_key = _make_cache_key(group, window, rate, value, method)
 
+    LOGGER.info(f"cache_key: {cache_key}")
+
     count = None
     added = cache.add(cache_key, initial_value, period + EXPIRATION_FUDGE)
     if added:
         count = initial_value
+        LOGGER.info("cache added")
     else:
         if increment:
+            LOGGER.info("cache increment")
             try:
                 # python3-memcached will throw a ValueError if the server is
                 # unavailable or (somehow) the key doesn't exist. redis, on the
@@ -150,7 +160,10 @@ def get_usage(
             except ValueError:
                 pass
         else:
+            LOGGER.info("cache get")
             count = cache.get(cache_key, initial_value)
+
+    LOGGER.info(f"count: {count}")
 
     # Getting or setting the count from the cache failed
     if count is None:
