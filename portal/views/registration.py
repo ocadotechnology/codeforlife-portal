@@ -59,7 +59,7 @@ from portal.forms.registration import (
     StudentPasswordResetForm,
 )
 from portal.helpers.captcha import remove_captcha_from_form
-from portal.helpers.ratelimit import clear_ratelimit_cache
+from portal.helpers.ratelimit import clear_login_ratelimit_cache_for_user
 
 import logging
 
@@ -201,7 +201,7 @@ def password_reset_confirm(
 
                 LOGGER.info("resetting ratelimit cache")
                 # Reset ratelimit cache upon successful password reset
-                clear_ratelimit_cache()
+                clear_login_ratelimit_cache_for_user(user.username)
 
                 _check_and_unblock_user(user.username, usertype)
 

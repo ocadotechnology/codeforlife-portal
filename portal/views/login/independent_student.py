@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from portal.forms.play import IndependentStudentLoginForm
-from portal.helpers.ratelimit import clear_ratelimit_cache
+from portal.helpers.ratelimit import clear_login_ratelimit_cache_for_user
 from . import has_user_lockout_expired
 
 
@@ -24,8 +24,6 @@ class IndependentStudentLoginView(LoginView):
         account, this redirects the user to the locked out page. However, if the lockout
         time is more than 24 hours before this is executed, the account is unlocked.
         """
-        form = self.get_form()
-
         username = request.POST.get("username")
         if Student.objects.filter(new_user__username=username).exists():
             student = Student.objects.get(new_user__username=username)
@@ -45,5 +43,5 @@ class IndependentStudentLoginView(LoginView):
 
     def form_valid(self, form):
         # Reset ratelimit cache upon successful login
-        clear_ratelimit_cache()
+        clear_login_ratelimit_cache_for_user(form.cleaned_data["username"])
         return super().form_valid(form)

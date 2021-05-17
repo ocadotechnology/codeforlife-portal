@@ -58,7 +58,7 @@ from portal.forms.teach import (
 from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import clear_ratelimit_cache
+from portal.helpers.ratelimit import clear_login_ratelimit_cache_for_user
 
 
 def _get_update_account_rate(group, request):
@@ -269,7 +269,7 @@ def process_update_account_form(request, teacher, old_anchor):
         anchor = ""
 
         # Reset ratelimit cache after successful account details update
-        clear_ratelimit_cache()
+        clear_login_ratelimit_cache_for_user(teacher.new_user.username)
 
         messages.success(
             request, "Your account details have been successfully changed."

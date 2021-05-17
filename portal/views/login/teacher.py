@@ -6,7 +6,6 @@ from two_factor.views import LoginView
 from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
 
 from portal.forms.teach import TeacherLoginForm
-from portal.helpers.ratelimit import clear_ratelimit_cache
 from portal.views.home import redirect_teacher_to_correct_page
 from . import has_user_lockout_expired
 
@@ -44,8 +43,6 @@ class TeacherLoginView(LoginView):
         wizard_step = self.request.POST.get("teacher_login_view-current_step", None)
 
         if wizard_step == "auth":
-            form = self.get_form(data=self.request.POST)
-
             email = request.POST.get("auth-username")
             if Teacher.objects.filter(new_user__email=email).exists():
                 teacher = Teacher.objects.get(new_user__email=email)
