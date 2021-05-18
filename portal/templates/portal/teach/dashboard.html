@@ -32,12 +32,22 @@
         <a href="#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
     </div>
 </div>
+{% if not user|is_verified %}
+    <div id="sticky-warning" class="sub-nav sub-nav--warning">
+        <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
+        <p><i>Your email address is still not verified. Please verify your email address before xx/xx/xxxx</i>.</p>
+        <form method="post" action="{% url 'email_verification_resend' %}">
+            {% csrf_token %}
+            <button class="button--regular button--primary--navigation" type="submit">Verify email</button>
+        </form>
+    </div>
+{% endif %}
 {% if is_admin and join_requests %}
-<div id="sticky-warning" class="sub-nav sub-nav--warning">
-    <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
-    <p><i>You have pending requests from teachers wanting to join your school or club.
-        <a id="requests_button" href="#requests">View the requests</a></i></p>
-</div>
+    <div id="sticky-warning" class="sub-nav sub-nav--warning">
+        <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
+        <p><i>You have pending requests from teachers wanting to join your school or club.
+            <a id="requests_button" href="#requests">View the requests</a></i></p>
+    </div>
 {% endif %}
 
 {% endblock subNav %}
@@ -110,9 +120,9 @@
             </tr>
             {% endfor %}
         </table>
-        <p>Select &lsquo;Remove&rsquo; to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
+        <p>Select ‘Remove’ to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
             teacher to other teachers in your school or club.</p>
-        <p>If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting &lsquo;Disable 2FA&rsquo;.
+        <p>If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting ‘Disable 2FA’.
             We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
             with their smartphone or tablet.</p>
     </div>
@@ -176,7 +186,7 @@
     <div id="school-details" class="background background--primary">
         <div class="col-sm-7 col-center">
             <h3>Change details of your school or club</h3>
-            <p>Update your school or club&rsquo;s name and/or postcode.
+            <p>Update your school or club’s name and/or postcode.
             <strong>These details are used to allow other teachers to join your team.</strong></p>
             <form id="edit_form" method="post">
                 {% csrf_token %}
@@ -244,9 +254,9 @@
                 <p><small>The following users have made requests to join your classes. If you accept a request, you will be able to choose a
                     name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them
                     like any other student.</small></p>
-                <p><small>To conform to our security policy, the requested student&rsquo;s username and email will be deleted on acceptance.
+                <p><small>To conform to our security policy, the requested student’s username and email will be deleted on acceptance.
                     These details are displayed here to enable you to identify them as genuine.</small></p>
-                <p><small>You should not accept a request from a student whose email and username you do not recognise, or if you weren&rsquo;t
+                <p><small>You should not accept a request from a student whose email and username you do not recognise, or if you weren’t
                     expecting such a request.</small></p>
 
                 <table id="independent_request_table" class="header-tertiary data-quaternary">
@@ -382,13 +392,13 @@
 
     <div class="background col-sm-7 col-center">
         <h3>Two Factor Authentication</h3>
-        <p>Use your smartphone or tablet to enhance your account&rsquo;s security.</p>
+        <p>Use your smartphone or tablet to enhance your account’s security.</p>
 
         {% if user|has_2FA %}
             <div class="row row--regular">
                 <div class="col-sm-5">
                     <h4>Backup tokens</h4>
-                    <p>If you don&rsquo;t have your smartphone or tablet with you, you can access your account using backup tokens.
+                    <p>If you don’t have your smartphone or tablet with you, you can access your account using backup tokens.
                         {% if backup_tokens == 1 %}
                         You have only one backup token remaining.
                         {% else %}

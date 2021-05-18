@@ -17,7 +17,11 @@
 
 <div id="emailVerificationNeeded_page"></div>
 
+{% if is_teacher %}
 <div class="background form--register form--register--teacher col-sm-12">
+{% else %}
+<div class="background form--register form--register--indep-student col-sm-12">
+{% endif %}
     <div class="background">
         <div class="background">
             <h1>We need to verify your email address</h1>
