@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.3 (2021-05-17)
+### Fix
+* Trigger staging deployment ([#1438](https://github.com/ocadotechnology/codeforlife-portal/issues/1438)) ([`61548ea`](https://github.com/ocadotechnology/codeforlife-portal/commit/61548ea5cd949515e2a0e10f47f7946b905963db))
+
+### Documentation
+* Update license file ([#1437](https://github.com/ocadotechnology/codeforlife-portal/issues/1437)) ([`360c758`](https://github.com/ocadotechnology/codeforlife-portal/commit/360c7583dd20c1fa9380adc25694707f325703d3))
+
 ## v4.30.2 (2021-05-11)
 ### Fix
 * Change location of ratelimit checks ([#1436](https://github.com/ocadotechnology/codeforlife-portal/issues/1436)) ([`fc6ff11`](https://github.com/ocadotechnology/codeforlife-portal/commit/fc6ff112f7bf239eb434016232b68d9e2da971c0))
