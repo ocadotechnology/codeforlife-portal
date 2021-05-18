@@ -47,8 +47,6 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
-from two_factor.utils import devices_for_user
-
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
@@ -58,7 +56,13 @@ from portal.forms.teach import (
 from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import clear_login_ratelimit_cache_for_user
+from portal.helpers.ratelimit import (
+    RATELIMIT_LOGIN_GROUP,
+    RATELIMIT_LOGIN_METHOD,
+    RATELIMIT_LOGIN_RATE,
+    clear_login_ratelimit_cache_for_user,
+)
+from two_factor.utils import devices_for_user
 
 
 def _get_update_account_rate(group, request):
@@ -70,13 +74,25 @@ def _get_update_account_rate(group, request):
     do not want to ratelimit those.
     :return: the rate used in the decorator below.
     """
-    return "5/d" if "update_account" in request.POST else None
+    return RATELIMIT_LOGIN_RATE if "update_account" in request.POST else None
+
+
+def _get_update_account_ratelimit_key(group, request):
+    """
+    Get the username from the request as a ratelimit cache key.
+    :return: the username from the request.
+    """
+    return request.user.username
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 @ratelimit(
-    key="post:last_name", method="POST", rate=_get_update_account_rate, block=True
+    group=RATELIMIT_LOGIN_GROUP,
+    key=_get_update_account_ratelimit_key,
+    method=RATELIMIT_LOGIN_METHOD,
+    rate=_get_update_account_rate,
+    block=True,
 )
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
