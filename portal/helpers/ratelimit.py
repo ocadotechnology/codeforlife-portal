@@ -10,7 +10,8 @@ exception of the line `global cache_key` at the start of get_usage().
 is_ratelimited() is called in the customised django-ratelimit ratelimit
 decorator found in portal/helpers/decorators.py.
 
-get_ratelimit_count() and clear_login_ratelimit_cache_for_user() are custom functions.
+`get_login_ratelimit_cache_key_for_user`, `get_login_ratelimit_count_for_user`
+and `clear_login_ratelimit_cache_for_user` are custom functions.
 
 More info on the core methods of django-ratelimit can be found here:
 https://django-ratelimit.readthedocs.io/en/stable/usage.html#core-methods
@@ -35,19 +36,13 @@ from ratelimit.core import (
     _make_cache_key,
 )
 
-import logging
-
-LOGGER = logging.getLogger(__name__)
 
 RATELIMIT_LOGIN_GROUP = "login"
 RATELIMIT_LOGIN_RATE = "5/d"
 RATELIMIT_LOGIN_METHOD = "POST"
 
-cache_key = None
-
 
 def get_login_ratelimit_cache_key_for_user(user: str):
-    LOGGER.info(f"get_login_ratelimit_cache_key_for_user user: {user}")
     _, period = _split_rate(rate=RATELIMIT_LOGIN_RATE)
     window = _get_window(value=user, period=period)
     cache_key = _make_cache_key(
@@ -57,19 +52,17 @@ def get_login_ratelimit_cache_key_for_user(user: str):
         value=user,
         methods=RATELIMIT_LOGIN_METHOD,
     )
-    LOGGER.info(f"get_login_ratelimit_cache_key_for_user cache_key: {cache_key}")
     return cache_key
 
 
-def get_ratelimit_count():
-    LOGGER.info(f"get_ratelimit_count cache_key: {cache_key}")
+def get_login_ratelimit_count_for_user(user: str):
+    cache_key = get_login_ratelimit_cache_key_for_user(user)
     return cache.get(cache_key)
 
 
 def clear_login_ratelimit_cache_for_user(user: str):
-    LOGGER.info(f"clear_login_ratelimit_cache_for_user cache_key: {cache_key}")
-    cache_key2 = get_login_ratelimit_cache_key_for_user(user)
-    cache.delete(cache_key2)
+    cache_key = get_login_ratelimit_cache_key_for_user(user)
+    cache.delete(cache_key)
 
 
 def is_ratelimited(
@@ -162,21 +155,12 @@ def get_usage(
     cache = caches[cache_name]
     cache_key = _make_cache_key(group, window, rate, value, method)
 
-    LOGGER.info(f"group: {group}")
-    LOGGER.info(f"window: {window}")
-    LOGGER.info(f"rate: {rate}")
-    LOGGER.info(f"value: {value}")
-    LOGGER.info(f"method: {method}")
-    LOGGER.info(f"cache_key: {cache_key}")
-
     count = None
     added = cache.add(cache_key, initial_value, period + EXPIRATION_FUDGE)
     if added:
         count = initial_value
-        LOGGER.info("cache added")
     else:
         if increment:
-            LOGGER.info("cache increment")
             try:
                 # python3-memcached will throw a ValueError if the server is
                 # unavailable or (somehow) the key doesn't exist. redis, on the
@@ -185,10 +169,7 @@ def get_usage(
             except ValueError:
                 pass
         else:
-            LOGGER.info("cache get")
             count = cache.get(cache_key, initial_value)
-
-    LOGGER.info(f"count: {count}")
 
     # Getting or setting the count from the cache failed
     if count is None:
