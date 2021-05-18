@@ -59,12 +59,12 @@ def generate_details(**kwargs):
     return title, first_name, last_name, email_address, password
 
 
-def signup_teacher_directly(**kwargs):
+def signup_teacher_directly(preverified=True, **kwargs):
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
     teacher = Teacher.objects.factory(
         title, first_name, last_name, email_address, password
     )
-    generate_token(teacher.new_user, preverified=True)
+    generate_token(teacher.new_user, preverified=preverified)
     teacher.user.save()
     return email_address, password
 
@@ -105,6 +105,13 @@ def signup_teacher(page, newsletter=False):
     mail.outbox = []
 
     return page, email_address, password
+
+
+def verify_email(page):
+    page = email.follow_verify_email_link_to_teacher_dashboard(page, mail.outbox[0])
+    mail.outbox = []
+
+    return page
 
 
 def submit_teacher_signup_form(page, password="test"):

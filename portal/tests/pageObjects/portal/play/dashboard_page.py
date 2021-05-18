@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -40,6 +40,7 @@ from portal.tests.pageObjects.portal.play.join_school_or_club_page import (
     JoinSchoolOrClubPage,
 )
 from .play_base_page import PlayBasePage
+from ..email_verification_needed_page import EmailVerificationNeededPage
 
 
 class PlayDashboardPage(PlayBasePage):
@@ -52,3 +53,8 @@ class PlayDashboardPage(PlayBasePage):
         self.browser.find_element_by_id("student_join_school_button").click()
 
         return JoinSchoolOrClubPage(self.browser)
+
+    def click_verify_email_banner_button(self):
+        self.browser.find_element_by_id("verify-email-button").click()
+
+        return EmailVerificationNeededPage(self.browser)
