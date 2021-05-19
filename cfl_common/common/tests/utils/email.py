@@ -44,6 +44,18 @@ def follow_verify_email_link_to_onboarding(page, email):
     return go_to_teacher_login_page(page.browser)
 
 
+def follow_verify_email_link_to_teacher_dashboard(page, email):
+    _follow_verify_email_link(page, email)
+
+    return go_to_teacher_dashboard_page(page.browser)
+
+
+def follow_verify_email_link_to_independent_student_dashboard(page, email):
+    _follow_verify_email_link(page, email)
+
+    return go_to_independent_student_dashboard_page(page.browser)
+
+
 def follow_verify_email_link_to_login(page, email, user_type):
     _follow_verify_email_link(page, email)
 
@@ -127,3 +139,15 @@ def go_to_independent_student_login_page(browser):
     )
 
     return IndependentStudentLoginPage(browser)
+
+
+def go_to_teacher_dashboard_page(browser):
+    from portal.tests.pageObjects.portal.teach.dashboard_page import TeachDashboardPage
+
+    return TeachDashboardPage(browser)
+
+
+def go_to_independent_student_dashboard_page(browser):
+    from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
+
+    return PlayDashboardPage(browser)

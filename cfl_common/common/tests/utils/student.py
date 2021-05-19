@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -74,13 +74,20 @@ def create_school_student_directly(access_code) -> Tuple[str, str, Student]:
     return name, password, student
 
 
-def create_independent_student_directly():
+def create_independent_student_directly(preverified=True):
+    """
+    Creates a Student object and makes it independent by generating random details.
+    Also verifies the student's email if preverified is True.
+    :param preverified: whether or not the independent student's email should be
+    verified.
+    :return: the student's username, password and the student object itself.
+    """
     name, username, email, password = generate_independent_student_details()
 
     student = Student.objects.independentStudentFactory(username, name, email, password)
 
     # verify student
-    generate_token(student.new_user, preverified=True)
+    generate_token(student.new_user, preverified=preverified)
 
     return username, password, student
 
@@ -171,6 +178,17 @@ def create_independent_student(page, newsletter=False):
     mail.outbox = []
 
     return page, name, username, email_address, password
+
+
+def verify_email(page):
+    assert len(mail.outbox) > 0
+
+    page = email.follow_verify_email_link_to_independent_student_dashboard(
+        page, mail.outbox[0]
+    )
+    mail.outbox = []
+
+    return page
 
 
 def submit_independent_student_signup_form(page, password="test"):
