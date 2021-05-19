@@ -77,9 +77,10 @@ def is_logged_in(u):
 def is_verified(u: User) -> bool:
     try:
         verification = EmailVerification.objects.get(user=u)
-        return verification.verified
     except ObjectDoesNotExist:
         return False
+
+    return verification.verified
 
 
 @register.filter
