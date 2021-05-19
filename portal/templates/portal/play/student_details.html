@@ -36,7 +36,7 @@
 {% if user|is_independent_student and not user|is_verified %}
     <div id="sticky-warning-verify-email" class="sub-nav sub-nav--warning">
         <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
-        <p><i>Your email address is still not verified. Please verify your email address before xx/xx/xxxx</i>.</p>
+        <p><i>You have not verified your email address. Please do this before 21/06/21 to avoid disruption.</i></p>
         <form method="post" action="{% url 'email_verification_resend' %}">
             {% csrf_token %}
             <button id="verify-email-button" class="button--regular button--primary--navigation" type="submit">Verify email</button>
