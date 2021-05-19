@@ -75,6 +75,13 @@ def create_school_student_directly(access_code) -> Tuple[str, str, Student]:
 
 
 def create_independent_student_directly(preverified=True):
+    """
+    Creates a Student object and makes it independent by generating random details.
+    Also verifies the student's email if preverified is True.
+    :param preverified: whether or not the independent student's email should be
+    verified.
+    :return: the student's username, password and the student object itself.
+    """
     name, username, email, password = generate_independent_student_details()
 
     student = Student.objects.independentStudentFactory(username, name, email, password)
@@ -174,10 +181,11 @@ def create_independent_student(page, newsletter=False):
 
 
 def verify_email(page):
-    page = email.follow_verify_email_link_to_independent_student_dashboard(
-        page, mail.outbox[0]
-    )
-    mail.outbox = []
+    if len(mail.outbox) != 0:
+        page = email.follow_verify_email_link_to_independent_student_dashboard(
+            page, mail.outbox[0]
+        )
+        mail.outbox = []
 
     return page
 

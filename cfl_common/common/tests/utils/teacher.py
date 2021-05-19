@@ -60,6 +60,13 @@ def generate_details(**kwargs):
 
 
 def signup_teacher_directly(preverified=True, **kwargs):
+    """
+    Creates a Teacher object by using the details passed in as kwargs, or by
+    generating random details. Also verifies the teacher's email if preverified
+    is True.
+    :param preverified: whether or not the teacher's email should be verified.
+    :return: the teacher's email and password.
+    """
     title, first_name, last_name, email_address, password = generate_details(**kwargs)
     teacher = Teacher.objects.factory(
         title, first_name, last_name, email_address, password
@@ -108,8 +115,9 @@ def signup_teacher(page, newsletter=False):
 
 
 def verify_email(page):
-    page = email.follow_verify_email_link_to_teacher_dashboard(page, mail.outbox[0])
-    mail.outbox = []
+    if len(mail.outbox) != 0:
+        page = email.follow_verify_email_link_to_teacher_dashboard(page, mail.outbox[0])
+        mail.outbox = []
 
     return page
 
