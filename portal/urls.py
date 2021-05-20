@@ -80,7 +80,13 @@ from portal.views.api import (
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
 from portal.views.help_and_support import contact
-from portal.views.home import home, home_learning, logout_view, register_view
+from portal.views.home import (
+    home,
+    home_learning,
+    logout_view,
+    register_view,
+    resend_email_verification,
+)
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import StudentLoginView
@@ -261,6 +267,11 @@ urlpatterns = [
         r"^verify_email/$",
         TemplateView.as_view(template_name="portal/email_verification_needed.html"),
         name="email_verification",
+    ),
+    url(
+        r"^verify_email_resend/$",
+        resend_email_verification,
+        name="email_verification_resend",
     ),
     url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
     url(

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,11 +36,14 @@
 # identified as the original program.
 from aimmo.models import Worksheet
 from aimmo.templatetags.players_utils import get_user_playable_games
+from common.models import EmailVerification
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from common import app_settings as common_app_settings
 from django import template
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import reverse
 from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
@@ -68,6 +71,16 @@ def is_logged_in(u):
         and u.is_authenticated
         and (not using_two_factor(u) or (hasattr(u, "is_verified") and u.is_verified()))
     )
+
+
+@register.filter
+def is_verified(u: User) -> bool:
+    try:
+        verification = EmailVerification.objects.get(user=u)
+    except ObjectDoesNotExist:
+        return False
+
+    return verification.verified
 
 
 @register.filter

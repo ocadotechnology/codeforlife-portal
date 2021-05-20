@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.4 (2021-05-19)
+### Fix
+* Add verification banner ([#1442](https://github.com/ocadotechnology/codeforlife-portal/issues/1442)) ([`6fcd3ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/6fcd3cab31d10b6431b26f9c757c1a003713d5b2))
+
 ## v4.30.3 (2021-05-17)
 ### Fix
 * Trigger staging deployment ([#1438](https://github.com/ocadotechnology/codeforlife-portal/issues/1438)) ([`61548ea`](https://github.com/ocadotechnology/codeforlife-portal/commit/61548ea5cd949515e2a0e10f47f7946b905963db))

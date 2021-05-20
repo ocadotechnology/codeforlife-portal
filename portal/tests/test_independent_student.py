@@ -47,6 +47,7 @@ from common.tests.utils.student import (
     create_school_student_directly,
     signup_duplicate_independent_student_fail,
     submit_independent_student_signup_form,
+    verify_email,
 )
 from common.tests.utils.teacher import signup_teacher_directly
 from django.core import mail
@@ -165,6 +166,24 @@ class TestIndependentStudent(BaseTest):
         page, _, username, _, password = create_independent_student(page)
         page = page.independent_student_login(username, password)
         assert self.is_dashboard(page)
+
+    def test_not_verified_banner(self):
+        username, password, _ = create_independent_student_directly(preverified=False)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = page.go_to_independent_student_login_page()
+        page = page.independent_student_login(username, password)
+        assert self.is_dashboard(page)
+
+        assert page.element_exists_by_id("sticky-warning-verify-email")
+
+        page = page.click_verify_email_banner_button()
+
+        assert self.is_email_verification_page(page)
+
+        verify_email(page)
+
+        assert is_email_verified_message_showing(self.selenium)
 
     def test_reset_password(self):
         page = self.go_to_homepage()

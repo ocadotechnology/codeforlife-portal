@@ -55,6 +55,7 @@ from common.tests.utils.teacher import (
     signup_teacher,
     signup_teacher_directly,
     submit_teacher_signup_form,
+    verify_email,
 )
 from django.core import mail
 from django.test import Client, TestCase
@@ -409,6 +410,27 @@ class TestTeacher(BaseTest):
         page = page.go_to_teacher_login_page()
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
+
+    def test_not_verified_banner(self):
+        email, password = signup_teacher_directly(preverified=False)
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page = page.go_to_teacher_login_page()
+        page = page.login(email, password)
+        assert self.is_dashboard_page(page)
+
+        assert page.element_exists_by_id("sticky-warning-verify-email")
+
+        page = page.click_verify_email_banner_button()
+
+        assert self.is_email_verification_page(page)
+
+        verify_email(page)
+
+        assert is_email_verified_message_showing(self.selenium)
 
     def test_signup_login_success(self):
         self.selenium.get(self.live_server_url)
