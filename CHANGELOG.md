@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.5 (2021-05-20)
+### Fix
+* Ratelimit ([#1443](https://github.com/ocadotechnology/codeforlife-portal/issues/1443)) ([`1fe2e4d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1fe2e4d0367d889318e8dd9be2f42f9c46a2b866))
+
 ## v4.30.4 (2021-05-19)
 ### Fix
 * Add verification banner ([#1442](https://github.com/ocadotechnology/codeforlife-portal/issues/1442)) ([`6fcd3ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/6fcd3cab31d10b6431b26f9c757c1a003713d5b2))
