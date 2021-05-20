@@ -10,8 +10,8 @@ exception of the line `global cache_key` at the start of get_usage().
 is_ratelimited() is called in the customised django-ratelimit ratelimit
 decorator found in portal/helpers/decorators.py.
 
-`get_login_ratelimit_cache_key_for_user`, `get_login_ratelimit_count_for_user`
-and `clear_login_ratelimit_cache_for_user` are custom functions.
+`get_ratelimit_cache_key_for_user`, `get_ratelimit_count_for_user`
+and `clear_ratelimit_cache_for_user` are custom functions.
 
 More info on the core methods of django-ratelimit can be found here:
 https://django-ratelimit.readthedocs.io/en/stable/usage.html#core-methods
@@ -37,31 +37,31 @@ from ratelimit.core import (
 )
 
 
-RATELIMIT_LOGIN_GROUP = "login"
-RATELIMIT_LOGIN_RATE = "5/d"
-RATELIMIT_LOGIN_METHOD = "POST"
+RATELIMIT_GROUP = "login"
+RATELIMIT_RATE = "5/d"
+RATELIMIT_METHOD = "POST"
 
 
-def get_login_ratelimit_cache_key_for_user(user: str):
-    _, period = _split_rate(rate=RATELIMIT_LOGIN_RATE)
+def get_ratelimit_cache_key_for_user(user: str):
+    _, period = _split_rate(rate=RATELIMIT_RATE)
     window = _get_window(value=user, period=period)
     cache_key = _make_cache_key(
-        group=RATELIMIT_LOGIN_GROUP,
+        group=RATELIMIT_GROUP,
         window=window,
-        rate=RATELIMIT_LOGIN_RATE,
+        rate=RATELIMIT_RATE,
         value=user,
-        methods=RATELIMIT_LOGIN_METHOD,
+        methods=RATELIMIT_METHOD,
     )
     return cache_key
 
 
-def get_login_ratelimit_count_for_user(user: str):
-    cache_key = get_login_ratelimit_cache_key_for_user(user)
+def get_ratelimit_count_for_user(user: str):
+    cache_key = get_ratelimit_cache_key_for_user(user)
     return cache.get(cache_key)
 
 
-def clear_login_ratelimit_cache_for_user(user: str):
-    cache_key = get_login_ratelimit_cache_key_for_user(user)
+def clear_ratelimit_cache_for_user(user: str):
+    cache_key = get_ratelimit_cache_key_for_user(user)
     cache.delete(cache_key)
 
 

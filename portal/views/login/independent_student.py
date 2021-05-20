@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from portal.forms.play import IndependentStudentLoginForm
-from portal.helpers.ratelimit import clear_login_ratelimit_cache_for_user
+from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from . import has_user_lockout_expired
 
 
@@ -43,5 +43,5 @@ class IndependentStudentLoginView(LoginView):
 
     def form_valid(self, form):
         # Reset ratelimit cache upon successful login
-        clear_login_ratelimit_cache_for_user(form.cleaned_data["username"])
+        clear_ratelimit_cache_for_user(form.cleaned_data["username"])
         return super().form_valid(form)

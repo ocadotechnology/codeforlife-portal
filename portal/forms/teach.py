@@ -45,7 +45,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from portal.helpers.password import form_clean_password
-from portal.helpers.ratelimit import clear_login_ratelimit_cache_for_user
+from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
 choices = [
     ("Miss", "Miss"),
@@ -203,7 +203,7 @@ class TeacherLoginForm(AuthenticationForm):
             self.user_cache = user
 
             # Reset ratelimit cache upon successful login
-            clear_login_ratelimit_cache_for_user(user.username)
+            clear_ratelimit_cache_for_user(user.username)
 
         return self.cleaned_data
 

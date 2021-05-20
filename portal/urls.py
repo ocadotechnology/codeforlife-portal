@@ -58,9 +58,9 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
-    RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_LOGIN_METHOD,
-    RATELIMIT_LOGIN_RATE,
+    RATELIMIT_GROUP,
+    RATELIMIT_METHOD,
+    RATELIMIT_RATE,
 )
 from portal.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about
@@ -232,10 +232,10 @@ urlpatterns = [
         # It checks against the username value specifically. If the number of requests
         # exceeds the specified rate, then the user will be blocked (if block = True).
         ratelimit(
-            group=RATELIMIT_LOGIN_GROUP,
+            group=RATELIMIT_GROUP,
             key="post:auth-username",
-            method=RATELIMIT_LOGIN_METHOD,
-            rate=RATELIMIT_LOGIN_RATE,
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_RATE,
             block=True,
         )(TeacherLoginView.as_view()),
         name="teacher_login",
@@ -244,10 +244,10 @@ urlpatterns = [
     url(
         r"^login/independent/$",
         ratelimit(
-            group=RATELIMIT_LOGIN_GROUP,
+            group=RATELIMIT_GROUP,
             key="post:username",
-            method=RATELIMIT_LOGIN_METHOD,
-            rate=RATELIMIT_LOGIN_RATE,
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_RATE,
             block=True,
             is_teacher=False,
         )(IndependentStudentLoginView.as_view()),
@@ -326,10 +326,10 @@ urlpatterns = [
     url(
         r"^play/account/independent/$",
         ratelimit(
-            group=RATELIMIT_LOGIN_GROUP,
+            group=RATELIMIT_GROUP,
             key="post:name",
-            method=RATELIMIT_LOGIN_METHOD,
-            rate=RATELIMIT_LOGIN_RATE,
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_RATE,
             block=True,
             is_teacher=False,
         )(IndependentStudentEditAccountView.as_view()),

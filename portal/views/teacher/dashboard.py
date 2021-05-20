@@ -57,10 +57,10 @@ from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
-    RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_LOGIN_METHOD,
-    RATELIMIT_LOGIN_RATE,
-    clear_login_ratelimit_cache_for_user,
+    RATELIMIT_GROUP,
+    RATELIMIT_METHOD,
+    RATELIMIT_RATE,
+    clear_ratelimit_cache_for_user,
 )
 from two_factor.utils import devices_for_user
 
@@ -74,7 +74,7 @@ def _get_update_account_rate(group, request):
     do not want to ratelimit those.
     :return: the rate used in the decorator below.
     """
-    return RATELIMIT_LOGIN_RATE if "update_account" in request.POST else None
+    return RATELIMIT_RATE if "update_account" in request.POST else None
 
 
 def _get_update_account_ratelimit_key(group, request):
@@ -88,9 +88,9 @@ def _get_update_account_ratelimit_key(group, request):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 @ratelimit(
-    group=RATELIMIT_LOGIN_GROUP,
+    group=RATELIMIT_GROUP,
     key=_get_update_account_ratelimit_key,
-    method=RATELIMIT_LOGIN_METHOD,
+    method=RATELIMIT_METHOD,
     rate=_get_update_account_rate,
     block=True,
 )
@@ -285,7 +285,7 @@ def process_update_account_form(request, teacher, old_anchor):
         anchor = ""
 
         # Reset ratelimit cache after successful account details update
-        clear_login_ratelimit_cache_for_user(teacher.new_user.username)
+        clear_ratelimit_cache_for_user(teacher.new_user.username)
 
         messages.success(
             request, "Your account details have been successfully changed."
