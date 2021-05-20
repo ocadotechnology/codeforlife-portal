@@ -57,22 +57,27 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.helpers.decorators import ratelimit
+from portal.helpers.ratelimit import (
+    RATELIMIT_GROUP,
+    RATELIMIT_METHOD,
+    RATELIMIT_RATE,
+)
 from portal.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about
 from portal.views.admin import (
-    AdminChangePasswordView,
     AdminChangePasswordDoneView,
+    AdminChangePasswordView,
     aggregated_data,
     schools_map,
 )
-from portal.views.aimmo.dashboard import TeacherAimmoDashboard, StudentAimmoDashboard
+from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
     InactiveUsersView,
     last_connected_since,
     number_users_per_country,
     registered_users,
 )
-from portal.views.dotmailer import process_newsletter_form, dotmailer_consent_form
+from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
 from portal.views.help_and_support import contact
 from portal.views.home import (
@@ -107,10 +112,7 @@ from portal.views.student.edit_account_details import (
     SchoolStudentEditAccountView,
     student_edit_account,
 )
-from portal.views.student.play import (
-    student_details,
-    student_join_organisation,
-)
+from portal.views.student.play import student_details, student_join_organisation
 from portal.views.teach import teach
 from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.dashboard import (
@@ -142,10 +144,10 @@ from portal.views.teacher.teach import (
     teacher_student_reset,
     teacher_view_class,
 )
-from portal.views.teacher.teacher_materials import materials, kurono_teaching_packs
+from portal.views.teacher.teacher_materials import kurono_teaching_packs, materials
 from portal.views.teacher.teacher_resources import (
-    teacher_rapid_router_resources,
     teacher_kurono_resources,
+    teacher_rapid_router_resources,
 )
 from portal.views.terms import terms
 
@@ -235,16 +237,25 @@ urlpatterns = [
         # The ratelimit decorator checks how often a POST request is performed on that view.
         # It checks against the username value specifically. If the number of requests
         # exceeds the specified rate, then the user will be blocked (if block = True).
-        ratelimit(key="post:auth-username", method="POST", rate="5/d", block=True)(
-            TeacherLoginView.as_view()
-        ),
+        ratelimit(
+            group=RATELIMIT_GROUP,
+            key="post:auth-username",
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_RATE,
+            block=True,
+        )(TeacherLoginView.as_view()),
         name="teacher_login",
     ),
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
         r"^login/independent/$",
         ratelimit(
-            key="post:username", method="POST", rate="5/d", block=True, is_teacher=False
+            group=RATELIMIT_GROUP,
+            key="post:username",
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_RATE,
+            block=True,
+            is_teacher=False,
         )(IndependentStudentLoginView.as_view()),
         name="independent_student_login",
     ),
@@ -326,7 +337,12 @@ urlpatterns = [
     url(
         r"^play/account/independent/$",
         ratelimit(
-            key="post:name", method="POST", rate="5/d", block=True, is_teacher=False
+            group=RATELIMIT_GROUP,
+            key="post:name",
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_RATE,
+            block=True,
+            is_teacher=False,
         )(IndependentStudentEditAccountView.as_view()),
         name="independent_edit_account",
     ),

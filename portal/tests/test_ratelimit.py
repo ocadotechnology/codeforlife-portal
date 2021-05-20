@@ -52,7 +52,7 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from portal.helpers.ratelimit import get_ratelimit_count
+from portal.helpers.ratelimit import get_ratelimit_count_for_user
 from portal.views.login import has_user_lockout_expired
 
 
@@ -302,19 +302,19 @@ class TestRatelimit(TestCase):
         for i in range(3):
             self._teacher_login(email, "bad_password")
 
-        assert get_ratelimit_count() == 3
+        assert get_ratelimit_count_for_user(email) == 3
 
         # Login successfully
         self._teacher_login(email, password)
 
-        assert get_ratelimit_count() is None
+        assert get_ratelimit_count_for_user(email) is None
 
         self.client.logout()
 
         # Fail login again one more time
         self._teacher_login(email, "bad_password")
 
-        assert get_ratelimit_count() == 1
+        assert get_ratelimit_count_for_user(email) == 1
 
     def test_teacher_reset_password_unblocks_user(self):
         """
