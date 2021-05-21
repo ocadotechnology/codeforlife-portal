@@ -1,4 +1,4 @@
-# Summary​
+# Table of contents
 
-- [README](/README.md)
-  - [Testing](/docs/testing.md)
+* [Initial page](README.md)
+
