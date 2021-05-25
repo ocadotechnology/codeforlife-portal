@@ -49,7 +49,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.cache import cache_control
-from django.views.decorators.http import require_POST
 
 from deploy import captcha
 from portal.forms.play import IndependentStudentSignupForm
@@ -234,7 +233,7 @@ def process_independent_student_signup_form(request, data):
     send_verification_email(request, student.new_user)
 
     return render(
-        request, "portal/email_verification_needed.html", {"is_teacher": False}
+        request, "portal/email_verification_needed.html", {"user": student.new_user}
     )
 
 
