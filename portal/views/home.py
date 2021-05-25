@@ -176,19 +176,6 @@ def process_signup_form(request, data):
     )
 
 
-@require_POST
-def resend_email_verification(request):
-    send_verification_email(request, request.user)
-
-    is_teacher = Teacher.objects.filter(new_user=request.user).exists()
-
-    return render(
-        request,
-        "portal/email_verification_needed.html",
-        {"is_teacher": is_teacher},
-    )
-
-
 def process_independent_student_signup_form(request, data):
     email = data["email"]
     username = data["username"]
