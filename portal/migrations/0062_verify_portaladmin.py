@@ -3,6 +3,7 @@
 import datetime
 from uuid import uuid4
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import migrations
 from django.utils import timezone
 
@@ -30,10 +31,12 @@ def revert_portaladmin_verification(apps, schema_editor):
     User = apps.get_model("auth", "User")
     EmailVerification = apps.get_model("common", "EmailVerification")
 
-    portaladmin = User.objects.get(username="portaladmin")
-
-    portaladmin_verification = EmailVerification.objects.get(user=portaladmin)
-    portaladmin_verification.delete()
+    try:
+        portaladmin = User.objects.get(username="portaladmin")
+        portaladmin_verification = EmailVerification.objects.get(user=portaladmin)
+        portaladmin_verification.delete()
+    except ObjectDoesNotExist:
+        pass
 
 
 class Migration(migrations.Migration):

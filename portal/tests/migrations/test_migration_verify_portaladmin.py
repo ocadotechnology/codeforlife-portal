@@ -42,7 +42,7 @@ class TestMigrationVerifyPortaladmin(MigrationTestCase):
     start_migration = "0061_make_portaladmin_teacher"
     dest_migration = "0062_verify_portaladmin"
 
-    def test_portaladmin_has_teacher_profile(self):
+    def test_portaladmin_verify_portaladmin(self):
         User = self.django_application.get_model("auth", "User")
         EmailVerification = self.django_application.get_model(
             "common", "EmailVerification"
