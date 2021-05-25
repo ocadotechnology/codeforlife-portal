@@ -220,7 +220,7 @@ def process_independent_student_signup_form(request, data):
     send_verification_email(request, student.new_user)
 
     return render(
-        request, "portal/email_verification_needed.html", {"user": student.new_user}
+        request, "portal/email_verification_needed.html", {"is_teacher": False}
     )
 
 
