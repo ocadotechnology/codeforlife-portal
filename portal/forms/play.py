@@ -294,9 +294,12 @@ class IndependentStudentLoginForm(AuthenticationForm):
             send_verification_email(self.request, user)
             self.show_invalid_login_message()
 
+    def get_invalid_login_error(self):
+        self.show_invalid_login_message()
+
     def show_invalid_login_message(self):
-        raise forms.ValidationError("Login failed. Please double check you inputted your details correctly, or "
-                                    "check your emails in case you still haven’t verified your email address.")
+        raise forms.ValidationError("Something is wrong! Please check that you typed your details correctly and that "
+                                    "you have verified your account via email.")
 
 
 class StudentJoinOrganisationForm(forms.Form):
