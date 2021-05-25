@@ -117,7 +117,7 @@ def signup_teacher(page, newsletter=False):
 def verify_email(page):
     assert len(mail.outbox) > 0
 
-    page = email.follow_verify_email_link_to_teacher_dashboard(page, mail.outbox[0])
+    page = email.follow_verify_email_link_to_login(page, mail.outbox[0])
     mail.outbox = []
 
     return page
