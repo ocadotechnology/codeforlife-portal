@@ -298,8 +298,10 @@ class IndependentStudentLoginForm(AuthenticationForm):
         self.show_invalid_login_message()
 
     def show_invalid_login_message(self):
-        raise forms.ValidationError("Something is wrong! Please check that you typed your details correctly and that "
-                                    "you have verified your account via email.")
+        raise forms.ValidationError(
+            "Something is wrong! Please check that you typed your details correctly and that "
+            "you have verified your account via email."
+        )
 
 
 class StudentJoinOrganisationForm(forms.Form):

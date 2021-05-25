@@ -11,8 +11,14 @@ class TestMigrationBlockedTime(MigrationTestCase):
     def test_blocked_time_added(self):
         teacher_model = self.django_application.get_model(self.app_name, "Teacher")
 
-        assert teacher_model._meta.get_field("blocked_time").get_internal_type() == "DateTimeField"
+        assert (
+            teacher_model._meta.get_field("blocked_time").get_internal_type()
+            == "DateTimeField"
+        )
 
         student_model = self.django_application.get_model(self.app_name, "Student")
 
-        assert student_model._meta.get_field("blocked_time").get_internal_type() == "DateTimeField"
+        assert (
+            student_model._meta.get_field("blocked_time").get_internal_type()
+            == "DateTimeField"
+        )

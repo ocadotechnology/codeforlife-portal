@@ -237,8 +237,10 @@ class TeacherLoginForm(AuthenticationForm):
             raise forms.ValidationError("User account has been deactivated")
 
     def show_invalid_login_message(self):
-        raise forms.ValidationError("Something is wrong! Please check that you typed your details correctly and that "
-                                    "you have verified your account via email.")
+        raise forms.ValidationError(
+            "Something is wrong! Please check that you typed your details correctly and that "
+            "you have verified your account via email."
+        )
 
 
 class ClassCreationForm(forms.Form):

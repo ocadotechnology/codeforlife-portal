@@ -399,7 +399,7 @@ class TestTeacher(BaseTest):
         assert page.has_login_failed(
             "form-login-teacher",
             "Something is wrong! Please check that you typed your details correctly and that you have verified your "
-            "account via email."
+            "account via email.",
         )
 
     def test_login_success(self):
@@ -426,7 +426,7 @@ class TestTeacher(BaseTest):
         assert page.has_login_failed(
             "form-login-teacher",
             "Something is wrong! Please check that you typed your details correctly and that you have verified your "
-            "account via email."
+            "account via email.",
         )
 
         verify_email(page)
