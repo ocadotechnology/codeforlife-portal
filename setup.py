@@ -47,6 +47,7 @@ setup(
         "future==0.18.2",
         f"cfl-common=={version}",
         "django-ratelimit==3.0.1",
+        "django-preventconcurrentlogins==0.8.2",
     ],
     classifiers=[
         "Programming Language :: Python",

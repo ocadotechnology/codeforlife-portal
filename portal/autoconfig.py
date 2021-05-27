@@ -115,6 +115,7 @@ SETTINGS = {
         "wagtail.contrib.search_promotions",
         "modelcluster",
         "taggit",
+        "preventconcurrentlogins",
     ],
     "LANGUAGES": [("en-gb", "English")],
     "MESSAGE_STORAGE": "django.contrib.messages.storage.session.SessionStorage",
@@ -131,6 +132,7 @@ SETTINGS = {
         "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
         "django_otp.middleware.OTPMiddleware",
         "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+        "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     ],
     "TEMPLATES": [
         {
@@ -172,7 +174,13 @@ RELATIONSHIPS = [
         "django_otp.middleware.OTPMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
-    )
+    ),
+    OrderingRelationship(
+        "MIDDLEWARE",
+        "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
+        add_missing=False,
+    ),
 ]
 
 try:
