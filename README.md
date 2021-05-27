@@ -1,5 +1,3 @@
-# Initial page
-
 # [Code for Life](https://www.codeforlife.education/) Portal
 
 [![Workflow Status](https://github.com/ocadotechnology/codeforlife-portal/actions/workflows/ci.yml/badge.svg)](https://github.com/ocadotechnology/codeforlife-portal/actions/workflows/ci.yml)
