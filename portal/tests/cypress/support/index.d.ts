@@ -20,5 +20,23 @@ declare namespace Cypress {
      * @example cy.deleteUser("test_user")
      */
     deleteUser(username): Chainable<Element>
+
+    /**
+     * Custom command to login with the default teacher account that's created on the test server.
+     * @example cy.login()
+     */
+    loginAsTeacher(): Chainable<Element>
+
+    /**
+     * Custom command to login with the default student account that's created on the test server.
+     * @example cy.login()
+     */
+    loginAsStudent(): Chainable<Element>
+
+    /**
+     * Custom command to login with the default independent student account that's created on the test server.
+     * @example cy.login()
+     */
+      loginAsIndependentStudent(): Chainable<Element>
   }
 }
