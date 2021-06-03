@@ -24,7 +24,8 @@ export function testMultipleLoginSessions(loginFunction, loggedInUserUrl) {
       loginFunction();
       cy.get("#logout_menu").should("exist");
 
-      // set the initial session cookie, visit a logged in page and the user should be logged out
+      // clear cookies, set the initial session cookie, visit a logged in page and the user should be logged out
+      cy.clearCookies();
       cy.setCookie("sessionid", initialSessionId);
       cy.visit(loggedInUserUrl);
       cy.get("#logout_menu").should("not.exist");
