@@ -34,21 +34,18 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from common.tests.base_test_migration import MigrationTestCase
+import pytest
 
 
-class TestMigrationVerifyPortaladmin(MigrationTestCase):
+@pytest.mark.django_db
+def test_portaladmin_verify_portaladmin(migrator):
+    migrator.apply_initial_migration(("portal", "0061_make_portaladmin_teacher"))
+    new_state = migrator.apply_tested_migration(("portal", "0062_verify_portaladmin"))
 
-    start_migration = "0061_make_portaladmin_teacher"
-    dest_migration = "0062_verify_portaladmin"
+    User = new_state.apps.get_model("auth", "User")
+    EmailVerification = new_state.apps.get_model("common", "EmailVerification")
 
-    def test_portaladmin_verify_portaladmin(self):
-        User = self.django_application.get_model("auth", "User")
-        EmailVerification = self.django_application.get_model(
-            "common", "EmailVerification"
-        )
+    portaladmin = User.objects.get(username="portaladmin")
+    portaladmin_verification = EmailVerification.objects.get(user=portaladmin)
 
-        portaladmin = User.objects.get(username="portaladmin")
-        portaladmin_verification = EmailVerification.objects.get(user=portaladmin)
-
-        assert portaladmin_verification.verified
+    assert portaladmin_verification.verified
