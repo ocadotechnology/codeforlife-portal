@@ -23,20 +23,20 @@ declare namespace Cypress {
 
     /**
      * Custom command to login with the default teacher account that's created on the test server.
-     * @example cy.login()
+     * @example cy.loginAsTeacher()
      */
     loginAsTeacher(): Chainable<Element>
 
     /**
      * Custom command to login with the default student account that's created on the test server.
-     * @example cy.login()
+     * @example cy.loginAsStudent()
      */
     loginAsStudent(): Chainable<Element>
 
     /**
      * Custom command to login with the default independent student account that's created on the test server.
-     * @example cy.login()
+     * @example cy.loginAsIndependentStudent()
      */
-      loginAsIndependentStudent(): Chainable<Element>
+    loginAsIndependentStudent(): Chainable<Element>
   }
 }
