@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.6 (2021-06-04)
+### Fix
+* Prevent concurrent logins ([#1451](https://github.com/ocadotechnology/codeforlife-portal/issues/1451)) ([`b2886ab`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2886ab03504760b116bd7b3f88b24f7a6b9abf9))
+
+### Documentation
+* Refer contributing to our docs subdomain ([#1448](https://github.com/ocadotechnology/codeforlife-portal/issues/1448)) ([`45c13cf`](https://github.com/ocadotechnology/codeforlife-portal/commit/45c13cfdf2ad1d89a93b7ec927fc1f351be2fa36))
+* Revert gitbook changes ([#1445](https://github.com/ocadotechnology/codeforlife-portal/issues/1445)) ([`d81de62`](https://github.com/ocadotechnology/codeforlife-portal/commit/d81de62b03288e5cb839e52ccd9e6e3f4baa2084))
+* Updates related to gitbook ([#1444](https://github.com/ocadotechnology/codeforlife-portal/issues/1444)) ([`5ade0e5`](https://github.com/ocadotechnology/codeforlife-portal/commit/5ade0e52c6dd8af0716dec2d4e5e7bffc7f3daab))
+
 ## v4.30.5 (2021-05-20)
 ### Fix
 * Ratelimit ([#1443](https://github.com/ocadotechnology/codeforlife-portal/issues/1443)) ([`1fe2e4d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1fe2e4d0367d889318e8dd9be2f42f9c46a2b866))

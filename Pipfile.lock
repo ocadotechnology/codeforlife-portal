@@ -187,6 +187,12 @@
             ],
             "version": "==1.6.14"
         },
+        "django-preventconcurrentlogins": {
+            "hashes": [
+                "sha256:9cb45fcd63edeec55e5ac29bbd2ee96974dc2a72d74ab88088dbf6a1f52978e9"
+            ],
+            "version": "==0.8.2"
+        },
         "django-ratelimit": {
             "hashes": [
                 "sha256:73223d860abd5c5d7b9a807fabb39a6220068129b514be8d78044b52607ab154",
