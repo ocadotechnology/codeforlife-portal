@@ -3,7 +3,6 @@
 import os
 
 from django.contrib.auth.hashers import make_password
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import migrations
 
 
@@ -83,29 +82,22 @@ def revert_portaladmin_data(apps, schema_editor):
     Class = apps.get_model("common", "Class")
     Student = apps.get_model("common", "Student")
 
-    portaladmin, created = User.objects.get_or_create(username="portaladmin")
+    portaladmin = User.objects.get(username="portaladmin")
+    portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
+    portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
+    portaladmin_class = Class.objects.get(teacher=portaladmin_teacher)
+    portaladmin_student_user = User.objects.get(username="portaladmin student")
+    portaladmin_student_userprofile = UserProfile.objects.get(
+        user=portaladmin_student_user
+    )
+    portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
 
-    if not created:
-        try:
-            portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
-            portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
-            portaladmin_class = Class.objects.get(teacher=portaladmin_teacher)
-            portaladmin_student_user = User.objects.get(username="portaladmin student")
-            portaladmin_student_userprofile = UserProfile.objects.get(
-                user=portaladmin_student_user
-            )
-            portaladmin_student = Student.objects.get(
-                user=portaladmin_student_userprofile
-            )
-
-            portaladmin_student.delete()
-            portaladmin_student_userprofile.delete()
-            portaladmin_student_user.delete()
-            portaladmin_class.delete()
-            portaladmin_teacher.delete()
-            portaladmin_userprofile.delete()
-        except ObjectDoesNotExist:
-            pass
+    portaladmin_student.delete()
+    portaladmin_student_userprofile.delete()
+    portaladmin_student_user.delete()
+    portaladmin_class.delete()
+    portaladmin_teacher.delete()
+    portaladmin_userprofile.delete()
 
     portaladmin.first_name = ""
     portaladmin.last_name = ""

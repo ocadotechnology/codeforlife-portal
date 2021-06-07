@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,19 +34,17 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
+import pytest
 from common.utils import field_exists
-from common.tests.base_test_migration import MigrationTestCase
 
 
-class TestMigrationPreviewUserRemove(MigrationTestCase):
+@pytest.mark.django_db
+def test_preview_user_field_removed(migrator):
+    migrator.apply_initial_migration(("portal", "0055_add_preview_user"))
+    new_state = migrator.apply_tested_migration(("portal", "0056_remove_preview_user"))
 
-    start_migration = "0055_add_preview_user"
-    dest_migration = "0056_remove_preview_user"
+    userprofile_model = new_state.apps.get_model("portal", "UserProfile")
+    assert not field_exists(userprofile_model, "preview_user")
 
-    def test_preview_user_field_removed(self):
-        model = self.django_application.get_model(self.app_name, "UserProfile")
-        self.assertEquals(field_exists(model, "preview_user"), False)
-
-    def test_eligible_for_testing_field_added(self):
-        model = self.django_application.get_model(self.app_name, "School")
-        self.assertEquals(field_exists(model, "eligible_for_testing"), False)
+    school_model = new_state.apps.get_model("portal", "School")
+    assert not field_exists(school_model, "eligible_for_testing")

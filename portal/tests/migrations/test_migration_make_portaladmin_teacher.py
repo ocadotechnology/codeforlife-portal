@@ -34,44 +34,45 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from common.tests.base_test_migration import MigrationTestCase
+import pytest
 
 
-class TestMigrationMakePortaladminTeacher(MigrationTestCase):
+@pytest.mark.django_db
+def test_portaladmin_has_teacher_profile(migrator):
+    migrator.apply_initial_migration(("portal", "0060_delete_guardian"))
+    new_state = migrator.apply_tested_migration(
+        ("portal", "0061_make_portaladmin_teacher")
+    )
 
-    start_migration = "0060_delete_guardian"
-    dest_migration = "0061_make_portaladmin_teacher"
+    User = new_state.apps.get_model("auth", "User")
+    UserProfile = new_state.apps.get_model("common", "UserProfile")
+    School = new_state.apps.get_model("common", "School")
+    Teacher = new_state.apps.get_model("common", "Teacher")
+    Class = new_state.apps.get_model("common", "Class")
+    Student = new_state.apps.get_model("common", "Student")
 
-    def test_portaladmin_has_teacher_profile(self):
-        User = self.django_application.get_model("auth", "User")
-        UserProfile = self.django_application.get_model("common", "UserProfile")
-        School = self.django_application.get_model("common", "School")
-        Teacher = self.django_application.get_model("common", "Teacher")
-        Class = self.django_application.get_model("common", "Class")
-        Student = self.django_application.get_model("common", "Student")
+    portaladmin = User.objects.get(username="portaladmin")
 
-        portaladmin = User.objects.get(username="portaladmin")
+    assert portaladmin.first_name == "Portal"
+    assert portaladmin.last_name == "Admin"
+    assert portaladmin.email == "codeforlife-portal@ocado.com"
 
-        assert portaladmin.first_name == "Portal"
-        assert portaladmin.last_name == "Admin"
-        assert portaladmin.email == "codeforlife-portal@ocado.com"
+    portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
+    portaladmin_school = School.objects.get(name="Swiss Federal Polytechnic")
 
-        portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
-        portaladmin_school = School.objects.get(name="Swiss Federal Polytechnic")
+    portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
 
-        portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
+    assert portaladmin_teacher.user == portaladmin_userprofile
+    assert portaladmin_teacher.school == portaladmin_school
 
-        assert portaladmin_teacher.user == portaladmin_userprofile
-        assert portaladmin_teacher.school == portaladmin_school
+    portaladmin_class = Class.objects.get(access_code="PO123")
 
-        portaladmin_class = Class.objects.get(access_code="PO123")
+    assert portaladmin_class.teacher == portaladmin_teacher
 
-        assert portaladmin_class.teacher == portaladmin_teacher
+    portaladmin_student_user = User.objects.get(username="portaladmin student")
+    portaladmin_student_userprofile = UserProfile.objects.get(
+        user=portaladmin_student_user
+    )
+    portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
 
-        portaladmin_student_user = User.objects.get(username="portaladmin student")
-        portaladmin_student_userprofile = UserProfile.objects.get(
-            user=portaladmin_student_user
-        )
-        portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
-
-        assert portaladmin_student.class_field == portaladmin_class
+    assert portaladmin_student.class_field == portaladmin_class
