@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:7704520d000e8c11d60055c6cd07943049f22efb0e9037ef2fe9bea299e68a0c",
-                "sha256:c4718f68898768a679a4725c012a3be69d861a5d7678c66b9b620401fb431bd1"
+                "sha256:269f248df0c4ed199536cf574b3840ba143f00ee63c1023c1f1b420ea89da650",
+                "sha256:56a01428140c977a605ae20656084e43425ef10fc57993bdd54b815b3387bd06"
             ],
-            "version": "==0.69.9"
+            "version": "==0.69.11"
         },
         "anyascii": {
             "hashes": [
@@ -87,11 +87,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:db2214db1c99017cbd971e58824e6f424375154fe358afc30e976f5b99fc6060",
-                "sha256:e831105edb153af1324de44d06091ca75520a227456387dda4a47d2f1cc2731a"
+                "sha256:3339ff0e03dee13045aef6ae7b523edff75b6d726adf7a7a48f53d5a501f7db7",
+                "sha256:f2084ceecff86b1e631c2cd4107d435daf4e12f1efcdf11061a73bf0b5e95f92"
             ],
             "markers": "python_version >= '3.5'",
-            "version": "==2.2.22"
+            "version": "==2.2.24"
         },
         "django-autoconfig": {
             "git": "https://github.com/ocadotechnology/django-autoconfig.git",
@@ -557,10 +557,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:625dd47a843e8f39e67fd3b91599bd07a90f2fcfeab1262c520735d679dcf6e1",
-                "sha256:b54911c20db4a790a6c69ca3ba293f0a66541607f16224e35c6b55b12671d7c8"
+                "sha256:6fc415ae0e0d87de0a3fc8386f86179c034307eb54a831f1f247cc65d84a514f",
+                "sha256:c868e614b5dd91b860249812d828e31dc870646959489b0b904f9d50eb296881"
             ],
-            "version": "==2.7.6"
+            "version": "==2.7.7"
         },
         "reportlab": {
             "hashes": [
@@ -766,11 +766,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:db2214db1c99017cbd971e58824e6f424375154fe358afc30e976f5b99fc6060",
-                "sha256:e831105edb153af1324de44d06091ca75520a227456387dda4a47d2f1cc2731a"
+                "sha256:3339ff0e03dee13045aef6ae7b523edff75b6d726adf7a7a48f53d5a501f7db7",
+                "sha256:f2084ceecff86b1e631c2cd4107d435daf4e12f1efcdf11061a73bf0b5e95f92"
             ],
             "markers": "python_version >= '3.5'",
-            "version": "==2.2.22"
+            "version": "==2.2.24"
         },
         "django-selenium-clean": {
             "hashes": [
