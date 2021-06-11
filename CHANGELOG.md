@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.10 (2021-06-11)
+### Fix
+* Update lockfile - Django 2.2.22 ([#1458](https://github.com/ocadotechnology/codeforlife-portal/issues/1458)) ([`d5dac6a`](https://github.com/ocadotechnology/codeforlife-portal/commit/d5dac6a8ada399659681b56922e604052bf85f06))
+
 ## v4.30.9 (2021-06-10)
 ### Fix
 * **deps:** Bump django from 2.2.21 to 2.2.22 ([#1455](https://github.com/ocadotechnology/codeforlife-portal/issues/1455)) ([`e24c6a7`](https://github.com/ocadotechnology/codeforlife-portal/commit/e24c6a7f26c999f958a2ad04968817bac7aad049))
