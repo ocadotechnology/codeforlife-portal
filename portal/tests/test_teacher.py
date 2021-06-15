@@ -62,6 +62,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
 
+from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -396,11 +397,7 @@ class TestTeacher(BaseTest):
         page = page.login_failure(
             "non-existent-email@codeforlife.com", "Incorrect password"
         )
-        assert page.has_login_failed(
-            "form-login-teacher",
-            "Something is wrong! Please check that you typed your details correctly and that you have verified your "
-            "account via email.",
-        )
+        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
     def test_login_success(self):
         email, password = signup_teacher_directly()

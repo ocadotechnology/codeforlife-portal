@@ -53,6 +53,7 @@ from common.tests.utils.teacher import signup_teacher_directly
 from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
+from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -176,9 +177,7 @@ class TestIndependentStudent(BaseTest):
         page = page.independent_student_login_failure(username, password)
 
         assert page.has_login_failed(
-            "independent_student_login_form",
-            "Something is wrong! Please check that you typed your details correctly and that you have verified your "
-            "account via email.",
+            "independent_student_login_form", INVALID_LOGIN_MESSAGE
         )
 
         verify_email(page)

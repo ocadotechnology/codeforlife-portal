@@ -46,6 +46,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
+from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import form_clean_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.templatetags.app_tags import is_verified
@@ -237,10 +238,7 @@ class TeacherLoginForm(AuthenticationForm):
             raise forms.ValidationError("User account has been deactivated")
 
     def show_invalid_login_message(self):
-        raise forms.ValidationError(
-            "Something is wrong! Please check that you typed your details correctly and that "
-            "you have verified your account via email."
-        )
+        raise forms.ValidationError(INVALID_LOGIN_MESSAGE)
 
 
 class ClassCreationForm(forms.Form):
