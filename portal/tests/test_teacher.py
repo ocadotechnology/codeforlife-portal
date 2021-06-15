@@ -420,11 +420,7 @@ class TestTeacher(BaseTest):
         page = page.go_to_teacher_login_page()
         page = page.login_failure(email, password)
 
-        assert page.has_login_failed(
-            "form-login-teacher",
-            "Something is wrong! Please check that you typed your details correctly and that you have verified your "
-            "account via email.",
-        )
+        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
         verify_email(page)
 

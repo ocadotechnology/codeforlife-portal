@@ -158,9 +158,7 @@ class TestIndependentStudent(BaseTest):
         )
 
         assert page.has_login_failed(
-            "independent_student_login_form",
-            "Something is wrong! Please check that you typed your details correctly and that you have verified your "
-            "account via email.",
+            "independent_student_login_form", INVALID_LOGIN_MESSAGE
         )
 
     def test_login_success(self):
