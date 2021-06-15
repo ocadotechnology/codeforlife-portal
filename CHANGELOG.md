@@ -2,6 +2,26 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.11 (2021-06-11)
+### Fix
+* **deps:** Bump django from 2.2.22 to 2.2.24 ([#1457](https://github.com/ocadotechnology/codeforlife-portal/issues/1457)) ([`01d16f8`](https://github.com/ocadotechnology/codeforlife-portal/commit/01d16f8ca03a6493d7feb375ebbf0667d9a55066))
+
+## v4.30.10 (2021-06-11)
+### Fix
+* Update lockfile - Django 2.2.22 ([#1458](https://github.com/ocadotechnology/codeforlife-portal/issues/1458)) ([`d5dac6a`](https://github.com/ocadotechnology/codeforlife-portal/commit/d5dac6a8ada399659681b56922e604052bf85f06))
+
+## v4.30.9 (2021-06-10)
+### Fix
+* **deps:** Bump django from 2.2.21 to 2.2.22 ([#1455](https://github.com/ocadotechnology/codeforlife-portal/issues/1455)) ([`e24c6a7`](https://github.com/ocadotechnology/codeforlife-portal/commit/e24c6a7f26c999f958a2ad04968817bac7aad049))
+
+## v4.30.8 (2021-06-09)
+### Fix
+* Update lock file for django2.2.21 ([#1454](https://github.com/ocadotechnology/codeforlife-portal/issues/1454)) ([`8eff0d1`](https://github.com/ocadotechnology/codeforlife-portal/commit/8eff0d1e1288ba8cc1ad661044f64c60443d3d29))
+
+## v4.30.7 (2021-06-07)
+### Fix
+* Bump django from 2.2.20 to 2.2.21 ([#1452](https://github.com/ocadotechnology/codeforlife-portal/issues/1452)) ([`55e5a4e`](https://github.com/ocadotechnology/codeforlife-portal/commit/55e5a4ea29a5f1ed115316daa23673add74d16c4))
+
 ## v4.30.6 (2021-06-04)
 ### Fix
 * Prevent concurrent logins ([#1451](https://github.com/ocadotechnology/codeforlife-portal/issues/1451)) ([`b2886ab`](https://github.com/ocadotechnology/codeforlife-portal/commit/b2886ab03504760b116bd7b3f88b24f7a6b9abf9))
