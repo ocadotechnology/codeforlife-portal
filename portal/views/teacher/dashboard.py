@@ -167,7 +167,7 @@ def dashboard_teacher_view(request, is_admin):
                 return render(
                     request,
                     "portal/email_verification_needed.html",
-                    {"userprofile": teacher.user, "email": new_email},
+                    {"is_teacher": True},
                 )
 
             if changing_password:
@@ -277,7 +277,7 @@ def process_update_account_form(request, teacher, old_anchor):
         teacher.new_user.first_name = data["first_name"]
         teacher.new_user.last_name = data["last_name"]
 
-        changing_email, new_email = update_email(teacher.new_user, request, data)
+        changing_email, new_email = update_email(teacher, request, data)
 
         teacher.save()
         teacher.new_user.save()
