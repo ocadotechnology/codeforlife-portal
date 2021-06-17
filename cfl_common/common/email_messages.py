@@ -38,7 +38,7 @@ from django.urls import reverse
 
 
 def emailSubjectPrefix():
-    return f"Code for Life"
+    return "Code for Life"
 
 
 def emailBodySignOff(request):
