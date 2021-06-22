@@ -6,6 +6,12 @@ from django.utils.deprecation import MiddlewareMixin
 
 
 class SecurityMiddleware(MiddlewareMixin):
+    """
+    Follows the architecture of Django's Security Middleware.
+    See https://docs.djangoproject.com/en/2.2/_modules/django/middleware/security/ for
+    the source code, as well as https://docs.djangoproject.com/en/2.2/ref/middleware/#module-django.middleware.security
+    for docs on security middleware.
+    """
     def __init__(self, get_response=None):
         self.sts_seconds = settings.SECURE_HSTS_SECONDS
         self.sts_include_subdomains = settings.SECURE_HSTS_INCLUDE_SUBDOMAINS
@@ -28,6 +34,10 @@ class SecurityMiddleware(MiddlewareMixin):
             )
 
     def process_response(self, request, response):
+        """
+        Diverges from the original security middleware to ensure the
+        X-XSS-Protection header is set to 0.
+        """
         if (self.sts_seconds and request.is_secure() and
                 'Strict-Transport-Security' not in response):
             sts_header = "max-age=%s" % self.sts_seconds
@@ -40,6 +50,7 @@ class SecurityMiddleware(MiddlewareMixin):
         if self.content_type_nosniff:
             response.setdefault('X-Content-Type-Options', 'nosniff')
 
+        # Custom behaviour
         if self.xss_filter:
             response.setdefault('X-XSS-Protection', '0')
 
