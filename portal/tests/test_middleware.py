@@ -146,3 +146,19 @@ class TestAdminAccessMiddleware(TestCase):
         self.client.logout()
 
         assert response.status_code == 200
+
+
+class TestSecurityMiddleware(TestCase):
+    """
+    This tests the SecurityMiddleware class and checks the correct security headers
+    are in place.
+    """
+    def test_security_headers(self):
+        client = Client()
+        response = client.get("/")
+
+        assert response.status_code == 200
+        assert response._headers["cache-control"][1] == "private"
+        assert response._headers["x-content-type-options"][1] == "nosniff"
+        assert response._headers["x-frame-options"][1] == "SAMEORIGIN"
+        assert response._headers["x-xss-protection"][1] == "0"
