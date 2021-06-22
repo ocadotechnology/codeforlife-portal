@@ -12,6 +12,7 @@ class SecurityMiddleware(MiddlewareMixin):
     the source code, as well as https://docs.djangoproject.com/en/2.2/ref/middleware/#module-django.middleware.security
     for docs on security middleware.
     """
+
     def __init__(self, get_response=None):
         self.sts_seconds = settings.SECURE_HSTS_SECONDS
         self.sts_include_subdomains = settings.SECURE_HSTS_INCLUDE_SUBDOMAINS
@@ -25,9 +26,11 @@ class SecurityMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         path = request.path.lstrip("/")
-        if (self.redirect and not request.is_secure() and
-                not any(pattern.search(path)
-                        for pattern in self.redirect_exempt)):
+        if (
+            self.redirect
+            and not request.is_secure()
+            and not any(pattern.search(path) for pattern in self.redirect_exempt)
+        ):
             host = self.redirect_host or request.get_host()
             return HttpResponsePermanentRedirect(
                 "https://%s%s" % (host, request.get_full_path())
@@ -38,20 +41,23 @@ class SecurityMiddleware(MiddlewareMixin):
         Diverges from the original security middleware to ensure the
         X-XSS-Protection header is set to 0.
         """
-        if (self.sts_seconds and request.is_secure() and
-                'Strict-Transport-Security' not in response):
+        if (
+            self.sts_seconds
+            and request.is_secure()
+            and "Strict-Transport-Security" not in response
+        ):
             sts_header = "max-age=%s" % self.sts_seconds
             if self.sts_include_subdomains:
                 sts_header = sts_header + "; includeSubDomains"
             if self.sts_preload:
                 sts_header = sts_header + "; preload"
-            response['Strict-Transport-Security'] = sts_header
+            response["Strict-Transport-Security"] = sts_header
 
         if self.content_type_nosniff:
-            response.setdefault('X-Content-Type-Options', 'nosniff')
+            response.setdefault("X-Content-Type-Options", "nosniff")
 
         # Custom behaviour
         if self.xss_filter:
-            response.setdefault('X-XSS-Protection', '0')
+            response.setdefault("X-XSS-Protection", "0")
 
         return response
