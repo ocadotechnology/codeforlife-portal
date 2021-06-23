@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.14 (2021-06-23)
+### Fix
+* Add kurono link on onboarding phase ([#1468](https://github.com/ocadotechnology/codeforlife-portal/issues/1468)) ([`8c9afff`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c9afff4a74b8ff6ba05056c93b7c548cadf0673))
+
 ## v4.30.13 (2021-06-22)
 ### Fix
 * Set header to 0 ([#1466](https://github.com/ocadotechnology/codeforlife-portal/issues/1466)) ([`6e33d22`](https://github.com/ocadotechnology/codeforlife-portal/commit/6e33d22ddb3d86d275836ec4ccf8c8532d0c8373))
