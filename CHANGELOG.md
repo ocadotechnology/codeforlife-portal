@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v4.31.0 (2021-06-24)
+### Feature
+* Verification check on login ([#1447](https://github.com/ocadotechnology/codeforlife-portal/issues/1447)) ([`ceebd25`](https://github.com/ocadotechnology/codeforlife-portal/commit/ceebd2569f0a15ac31643e1049a4f5f6bf58e01a))
+
+### Documentation
+* Update ci to ignore md files ([#1469](https://github.com/ocadotechnology/codeforlife-portal/issues/1469)) ([`6cb7516`](https://github.com/ocadotechnology/codeforlife-portal/commit/6cb7516ac0f5399d08e7f73c2e1f30207dba37cb))
+
 ## v4.30.14 (2021-06-23)
 ### Fix
 * Add kurono link on onboarding phase ([#1468](https://github.com/ocadotechnology/codeforlife-portal/issues/1468)) ([`8c9afff`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c9afff4a74b8ff6ba05056c93b7c548cadf0673))
