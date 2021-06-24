@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,24 +34,22 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from common.tests.base_test_migration import MigrationTestCase
+import pytest
 
 
-class TestMigrationPreviewUsers(MigrationTestCase):
+@pytest.mark.django_db
+def test_preview_user_field_added(migrator):
+    migrator.apply_initial_migration(
+        ("portal", "0054_pending_join_request_can_be_blank")
+    )
+    new_state = migrator.apply_tested_migration(("portal", "0055_add_preview_user"))
 
-    start_migration = "0054_pending_join_request_can_be_blank"
-    dest_migration = "0055_add_preview_user"
+    userprofile_model = new_state.apps.get_model("portal", "UserProfile")
+    assert userprofile_model._meta.get_field(
+        "preview_user"
+    ).get_internal_type(), "BooleanField"
 
-    def test_preview_user_field_added(self):
-        model = self.django_application.get_model(self.app_name, "UserProfile")
-        # Test will fail automatically if get_field() raises an exception()
-        self.assertEquals(
-            model._meta.get_field("preview_user").get_internal_type(), "BooleanField"
-        )
-
-    def test_eligible_for_testing_field_added(self):
-        model = self.django_application.get_model(self.app_name, "School")
-        self.assertEquals(
-            model._meta.get_field("eligible_for_testing").get_internal_type(),
-            "BooleanField",
-        )
+    school_model = new_state.apps.get_model("portal", "School")
+    assert school_model._meta.get_field(
+        "eligible_for_testing"
+    ).get_internal_type(), "BooleanField"

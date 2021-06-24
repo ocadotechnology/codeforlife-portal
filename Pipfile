@@ -10,6 +10,7 @@ django-autoconfig = { git = 'https://github.com/ocadotechnology/django-autoconfi
 
 [dev-packages]
 django-selenium-clean = "==0.3.2"
+django-test-migrations = "==1.1.0"
 responses = "==0.12.1"
 selenium = "==3.141.0"
 snapshottest = "==0.6.0"

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,14 +39,17 @@ from datetime import timedelta
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.helpers.emails import send_verification_email
 from common.models import Class, Student, stripStudentName
+from common.permissions import logged_in_as_independent_student
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
+from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import form_clean_password
-from common.permissions import logged_in_as_independent_student
+from portal.templatetags.app_tags import is_verified
 
 
 class StudentLoginForm(AuthenticationForm):
@@ -286,7 +289,17 @@ class IndependentStudentLoginForm(AuthenticationForm):
 
     def confirm_login_allowed(self, user):
         if not logged_in_as_independent_student(user):
-            raise forms.ValidationError("Incorrect username or password")
+            self.show_invalid_login_message()
+
+        if not is_verified(user):
+            send_verification_email(self.request, user)
+            self.show_invalid_login_message()
+
+    def get_invalid_login_error(self):
+        self.show_invalid_login_message()
+
+    def show_invalid_login_message(self):
+        raise forms.ValidationError(INVALID_LOGIN_MESSAGE)
 
 
 class StudentJoinOrganisationForm(forms.Form):
