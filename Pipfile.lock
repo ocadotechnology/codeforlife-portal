@@ -557,10 +557,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:6fc415ae0e0d87de0a3fc8386f86179c034307eb54a831f1f247cc65d84a514f",
-                "sha256:c868e614b5dd91b860249812d828e31dc870646959489b0b904f9d50eb296881"
+                "sha256:6a451763e6be8722f713c300a755c3b316fb67e59851008bc88a524449a675d4",
+                "sha256:9d8b02c7b2452658b482ea1e59add05c9d03e9e644ad9e64b7199e6ce691e905"
             ],
-            "version": "==2.7.7"
+            "version": "==2.7.9"
         },
         "reportlab": {
             "hashes": [
@@ -691,11 +691,11 @@
         },
         "wagtail": {
             "hashes": [
-                "sha256:5159b569eacd4460d1584899353bd0f4088d8c6672cd389c02f20504bf98139a",
-                "sha256:530b01fc20829b1c954ae14fa1d47f8e908f1300ea6f3edcbfe7619660da3144"
+                "sha256:460c4da96ecb84f817b80cfb5f9907a5be215df2f271c7569d6f58bd72e3c126",
+                "sha256:4b280742a7a97401b4c10dbcf7336dc99e367b5b95c21b9b3560abc697a9a627"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==2.11.7"
+            "version": "==2.11.8"
         },
         "webencodings": {
             "hashes": [

@@ -42,9 +42,10 @@ from common import app_settings
 from common.email_messages import (
     emailChangeNotificationEmail,
     emailChangeVerificationEmail,
+    emailChangeDuplicateNotificationEmail,
     emailVerificationNeededEmail,
 )
-from common.models import EmailVerification
+from common.models import EmailVerification, Teacher, Student
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 from django.template import loader
@@ -249,11 +250,30 @@ def send_dotmailer_consent_confirmation_email_to_user(user):
     )
 
 
-def update_email(user, request, data):
+def update_email(user: Teacher or Student, request, data):
     changing_email = False
     new_email = data["email"]
-    if new_email != "" and new_email != user.email:
-        # new email to set and verify
+
+    if new_email != "" and new_email != user.new_user.email:
         changing_email = True
-        send_verification_email(request, user, new_email)
+        if _is_email_already_taken(new_email, user):
+            email_message = emailChangeDuplicateNotificationEmail(request, new_email)
+            send_email(
+                NOTIFICATION_EMAIL,
+                [user.new_user.email],
+                email_message["subject"],
+                email_message["message"],
+            )
+        else:
+            # new email to set and verify
+            send_verification_email(request, user.new_user, new_email)
     return changing_email, new_email
+
+
+def _is_email_already_taken(new_email, user):
+    teachers_with_email = Teacher.objects.filter(new_user__email=new_email)
+    students_with_email = Student.objects.filter(new_user__email=new_email)
+
+    return (teachers_with_email.exists() and teachers_with_email[0] != user) or (
+        students_with_email.exists() and students_with_email[0] != user
+    )

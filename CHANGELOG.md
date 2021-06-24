@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v4.30.14 (2021-06-23)
+### Fix
+* Add kurono link on onboarding phase ([#1468](https://github.com/ocadotechnology/codeforlife-portal/issues/1468)) ([`8c9afff`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c9afff4a74b8ff6ba05056c93b7c548cadf0673))
+
+## v4.30.13 (2021-06-22)
+### Fix
+* Set header to 0 ([#1466](https://github.com/ocadotechnology/codeforlife-portal/issues/1466)) ([`6e33d22`](https://github.com/ocadotechnology/codeforlife-portal/commit/6e33d22ddb3d86d275836ec4ccf8c8532d0c8373))
+
+## v4.30.12 (2021-06-17)
+### Fix
+* Check for existing user on email change + change username ([#1464](https://github.com/ocadotechnology/codeforlife-portal/issues/1464)) ([`43c7833`](https://github.com/ocadotechnology/codeforlife-portal/commit/43c7833ab90d9f230a558cc00aa9dc96f398349f))
+
 ## v4.30.11 (2021-06-11)
 ### Fix
 * **deps:** Bump django from 2.2.22 to 2.2.24 ([#1457](https://github.com/ocadotechnology/codeforlife-portal/issues/1457)) ([`01d16f8`](https://github.com/ocadotechnology/codeforlife-portal/commit/01d16f8ca03a6493d7feb375ebbf0667d9a55066))

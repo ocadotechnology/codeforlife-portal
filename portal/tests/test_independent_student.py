@@ -264,14 +264,31 @@ class TestIndependentStudent(BaseTest):
     def test_change_email(self):
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        _, _, student_username, _, password = create_independent_student(homepage)
+        play_page, _, _, other_email, _ = create_independent_student(homepage)
 
         page = play_page.independent_student_login(
             student_username, password
         ).go_to_account_page()
 
+        # Try changing email to an existing email, should fail
+        page = page.change_email(other_email, password)
+        assert self.is_email_verification_page(page)
+        assert is_student_details_updated_message_showing(self.selenium)
+        assert is_email_updated_message_showing(self.selenium)
+
+        subject = str(mail.outbox[0].subject)
+        assert subject == "Code for Life: Duplicate account error"
+        mail.outbox = []
+
+        page = (
+            self.go_to_homepage()
+            .go_to_independent_student_login_page()
+            .independent_student_login(student_username, password)
+            .go_to_account_page()
+        )
+
+        # Try changing email to a new one, should succeed
         new_email = "another-email@codeforlife.com"
         page = page.change_email(new_email, password)
 

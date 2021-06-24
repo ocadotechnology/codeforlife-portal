@@ -170,7 +170,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         )
 
         # allow individual students to update more
-        self.changing_email, new_email = update_email(student.new_user, request, data)
+        self.changing_email, new_email = update_email(student, request, data)
 
         self.update_name(student, data)
 

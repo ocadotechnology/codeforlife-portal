@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -125,7 +125,7 @@ SETTINGS = {
         "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
-        "django.middleware.security.SecurityMiddleware",
+        "deploy.middleware.security.CustomSecurityMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -161,6 +161,7 @@ SETTINGS = {
     },
     "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
     "SECURE_CONTENT_TYPE_NOSNIFF": True,
+    "SECURE_BROWSER_XSS_FILTER": True,
     "HIJACK_LOGIN_REDIRECT_URL": "/",
     "HIJACK_LOGOUT_REDIRECT_URL": "/administration/",
     "HIJACK_USE_BOOTSTRAP": True,

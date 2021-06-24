@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -47,7 +47,7 @@ from django_countries import countries
 
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.models import EmailVerification, School, Student, Teacher
-from common.permissions import logged_in_as_independent_student
+from common.permissions import logged_in_as_independent_student, logged_in_as_teacher
 from portal.app_settings import CONTACT_FORM_EMAILS
 
 
@@ -66,6 +66,8 @@ def verify_email(request, token):
 
     if verification.email:  # verifying change of email address
         user.email = verification.email
+        if logged_in_as_teacher(user):
+            user.username = verification.email
         user.save()
 
         user.email_verifications.exclude(email=user.email).delete()

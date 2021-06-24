@@ -523,9 +523,24 @@ class TestTeacher(BaseTest):
         _, _, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
+        other_email, _ = signup_teacher_directly()
+
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
+        # Try changing email to an existing email, should fail
+        page = page.change_email("Test", "Teacher", other_email, password)
+        assert self.is_email_verification_page(page)
+        assert is_email_updated_message_showing(self.selenium)
+
+        subject = str(mail.outbox[0].subject)
+        assert subject == "Code for Life: Duplicate account error"
+        mail.outbox = []
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+
+        # Try changing email to a new one, should succeed
         new_email = "another-email@codeforlife.com"
         page = page.change_email("Test", "Teacher", new_email, password)
         assert self.is_email_verification_page(page)
