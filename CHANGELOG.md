@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.31.1 (2021-06-25)
+### Fix
+* Temporarily revert verification changes ([#1471](https://github.com/ocadotechnology/codeforlife-portal/issues/1471)) ([`9d37db7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9d37db78ca516e134ac97880deeeb29bb43c0e1a))
+
 ## v4.31.0 (2021-06-24)
 ### Feature
 * Verification check on login ([#1447](https://github.com/ocadotechnology/codeforlife-portal/issues/1447)) ([`ceebd25`](https://github.com/ocadotechnology/codeforlife-portal/commit/ceebd2569f0a15ac31643e1049a4f5f6bf58e01a))
