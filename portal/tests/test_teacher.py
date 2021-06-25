@@ -546,6 +546,13 @@ class TestTeacher(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
+        # Check user can still log in with old account before verifying new email
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+        assert self.is_dashboard_page(page)
+
+        page = page.logout()
+
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
 

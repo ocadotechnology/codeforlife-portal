@@ -76,11 +76,12 @@ def is_logged_in(u):
 @register.filter
 def is_verified(u: User) -> bool:
     try:
-        verification = EmailVerification.objects.get(user=u)
+        verifications = EmailVerification.objects.filter(user=u)
+        latest_verification = verifications.latest("user")
     except ObjectDoesNotExist:
         return False
 
-    return verification.verified
+    return latest_verification.verified
 
 
 @register.filter

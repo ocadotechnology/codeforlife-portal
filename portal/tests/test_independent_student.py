@@ -296,6 +296,17 @@ class TestIndependentStudent(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
+        # Check user can still log in with old account before verifying new email
+        self.selenium.get(self.live_server_url)
+        page = (
+            self.go_to_homepage()
+            .go_to_independent_student_login_page()
+            .independent_student_login(student_username, password)
+        )
+        assert self.is_dashboard(page)
+
+        page = page.logout()
+
         page = email_utils.follow_change_email_link_to_independent_dashboard(
             page, mail.outbox[0]
         )
