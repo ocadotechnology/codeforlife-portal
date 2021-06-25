@@ -33,6 +33,16 @@
 <section class="banner banner--teacher row">
     <h1 class="banner__text--primary">Welcome, {{ user|make_into_username }}</h1>
 </section>
+{% if user|is_independent_student and not user|is_verified %}
+    <div id="sticky-warning-verify-email" class="sub-nav sub-nav--warning">
+        <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
+        <p><i>You have not verified your email address. Please do this before 21 June 2021 to avoid disruption.</i></p>
+        <form method="post" action="{% url 'email_verification_resend' %}">
+            {% csrf_token %}
+            <button id="verify-email-button" class="button--regular button--primary--navigation" type="submit">Verify email</button>
+        </form>
+    </div>
+{% endif %}
 {% endblock subNav %}
 
 {% block content %}

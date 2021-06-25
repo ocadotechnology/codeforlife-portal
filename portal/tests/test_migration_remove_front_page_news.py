@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2021, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,27 +34,16 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-from __future__ import absolute_import
-
-from portal.tests.pageObjects.portal.play.join_school_or_club_page import (
-    JoinSchoolOrClubPage,
-)
-from .play_base_page import PlayBasePage
-from ..email_verification_needed_page import EmailVerificationNeededPage
+from common.tests.base_test_migration import MigrationTestCase
 
 
-class PlayDashboardPage(PlayBasePage):
-    def __init__(self, browser):
-        super(PlayDashboardPage, self).__init__(browser)
+class TestMigrationRemoveFrontPageNews(MigrationTestCase):
 
-        assert self.on_correct_page("play_dashboard_page")
+    start_migration = "0056_remove_preview_user"
+    dest_migration = "0057_delete_frontpagenews"
 
-    def go_to_join_a_school_or_club_page(self):
-        self.browser.find_element_by_id("student_join_school_button").click()
-
-        return JoinSchoolOrClubPage(self.browser)
-
-    def click_verify_email_banner_button(self):
-        self.browser.find_element_by_id("verify-email-button").click()
-
-        return EmailVerificationNeededPage(self.browser)
+    def test_front_page_news_model_removed(self):
+        model_names = [
+            model._meta.db_table for model in self.django_application.get_models()
+        ]
+        assert "portal_frontpagenews" not in model_names

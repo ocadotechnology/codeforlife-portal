@@ -6,19 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("common", "0008_unlock_worksheet_3"),
-        ("portal", "0058_move_to_common_models"),
+        ('common', '0008_unlock_worksheet_3'),
+        ('portal', '0058_move_to_common_models')
     ]
 
     operations = [
         migrations.AddField(
-            model_name="student",
-            name="blocked_time",
+            model_name='student',
+            name='blocked_time',
             field=models.DateTimeField(null=True),
         ),
         migrations.AddField(
-            model_name="teacher",
-            name="blocked_time",
+            model_name='teacher',
+            name='blocked_time',
             field=models.DateTimeField(null=True),
         ),
     ]

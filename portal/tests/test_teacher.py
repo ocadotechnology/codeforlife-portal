@@ -62,7 +62,6 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
 
-from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -397,7 +396,9 @@ class TestTeacher(BaseTest):
         page = page.login_failure(
             "non-existent-email@codeforlife.com", "Incorrect password"
         )
-        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
+        assert page.has_login_failed(
+            "form-login-teacher", "Incorrect email address or password"
+        )
 
     def test_login_success(self):
         email, password = signup_teacher_directly()
@@ -410,7 +411,7 @@ class TestTeacher(BaseTest):
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
 
-    def test_login_not_verified(self):
+    def test_not_verified_banner(self):
         email, password = signup_teacher_directly(preverified=False)
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -418,17 +419,18 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_teacher_login_page()
-        page = page.login_failure(email, password)
+        page = page.login(email, password)
+        assert self.is_dashboard_page(page)
 
-        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
+        assert page.element_exists_by_id("sticky-warning-verify-email")
+
+        page = page.click_verify_email_banner_button()
+
+        assert self.is_email_verification_page(page)
 
         verify_email(page)
 
         assert is_email_verified_message_showing(self.selenium)
-
-        page = page.login(email, password)
-
-        assert self.is_dashboard_page(page)
 
     def test_signup_login_success(self):
         self.selenium.get(self.live_server_url)

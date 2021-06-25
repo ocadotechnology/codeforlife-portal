@@ -1,23 +1,18 @@
-import pytest
+from django.db.models.query import QuerySet
+
+from common.tests.base_test_migration import MigrationTestCase
 
 
-@pytest.mark.django_db
-def test_blocked_time_added(migrator):
-    migrator.apply_initial_migration(("common", "0008_unlock_worksheet_3"))
-    new_state = migrator.apply_tested_migration(
-        ("common", "0009_add_blocked_time_to_teacher_and_student")
-    )
+class TestMigrationBlockedTime(MigrationTestCase):
 
-    teacher_model = new_state.apps.get_model("common", "Teacher")
+    start_migration = "0008_unlock_worksheet_3"
+    dest_migration = "0009_add_blocked_time_to_teacher_and_student"
 
-    assert (
-        teacher_model._meta.get_field("blocked_time").get_internal_type()
-        == "DateTimeField"
-    )
+    def test_blocked_time_added(self):
+        teacher_model = self.django_application.get_model(self.app_name, "Teacher")
 
-    student_model = new_state.apps.get_model("common", "Student")
+        assert teacher_model._meta.get_field("blocked_time").get_internal_type() == "DateTimeField"
 
-    assert (
-        student_model._meta.get_field("blocked_time").get_internal_type()
-        == "DateTimeField"
-    )
+        student_model = self.django_application.get_model(self.app_name, "Student")
+
+        assert student_model._meta.get_field("blocked_time").get_internal_type() == "DateTimeField"

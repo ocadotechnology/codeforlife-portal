@@ -85,6 +85,7 @@ from portal.views.home import (
     home_learning,
     logout_view,
     register_view,
+    resend_email_verification,
 )
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
@@ -266,6 +267,11 @@ urlpatterns = [
         r"^verify_email/$",
         TemplateView.as_view(template_name="portal/email_verification_needed.html"),
         name="email_verification",
+    ),
+    url(
+        r"^verify_email_resend/$",
+        resend_email_verification,
+        name="email_verification_resend",
     ),
     url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
     url(
