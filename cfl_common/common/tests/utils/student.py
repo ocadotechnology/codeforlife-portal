@@ -183,9 +183,7 @@ def create_independent_student(page, newsletter=False):
 def verify_email(page):
     assert len(mail.outbox) > 0
 
-    page = email.follow_verify_email_link_to_independent_student_dashboard(
-        page, mail.outbox[0]
-    )
+    page = email.follow_verify_email_link_to_login(page, mail.outbox[0], "independent")
     mail.outbox = []
 
     return page

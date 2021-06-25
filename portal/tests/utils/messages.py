@@ -41,7 +41,9 @@ def is_message_showing(browser, message):
 
 
 def is_email_verified_message_showing(browser):
-    return is_message_showing(browser, "Your email address was successfully verified.")
+    return is_message_showing(
+        browser, "Your email address was successfully verified, please log in."
+    )
 
 
 def is_teacher_details_updated_message_showing(browser):

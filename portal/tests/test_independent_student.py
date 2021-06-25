@@ -53,6 +53,7 @@ from common.tests.utils.teacher import signup_teacher_directly
 from django.core import mail
 from selenium.webdriver.support.wait import WebDriverWait
 
+from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -157,8 +158,7 @@ class TestIndependentStudent(BaseTest):
         )
 
         assert page.has_login_failed(
-            "independent_student_login_form",
-            "Please enter a correct username and password. Note that both fields may be case-sensitive.",
+            "independent_student_login_form", INVALID_LOGIN_MESSAGE
         )
 
     def test_login_success(self):
@@ -167,23 +167,24 @@ class TestIndependentStudent(BaseTest):
         page = page.independent_student_login(username, password)
         assert self.is_dashboard(page)
 
-    def test_not_verified_banner(self):
+    def test_login_not_verified(self):
         username, password, _ = create_independent_student_directly(preverified=False)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_independent_student_login_page()
-        page = page.independent_student_login(username, password)
-        assert self.is_dashboard(page)
+        page = page.independent_student_login_failure(username, password)
 
-        assert page.element_exists_by_id("sticky-warning-verify-email")
-
-        page = page.click_verify_email_banner_button()
-
-        assert self.is_email_verification_page(page)
+        assert page.has_login_failed(
+            "independent_student_login_form", INVALID_LOGIN_MESSAGE
+        )
 
         verify_email(page)
 
         assert is_email_verified_message_showing(self.selenium)
+
+        page = page.independent_student_login(username, password)
+
+        assert self.is_dashboard(page)
 
     def test_reset_password(self):
         page = self.go_to_homepage()

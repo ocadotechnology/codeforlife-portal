@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -39,13 +39,17 @@ from builtins import map, range, str
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.helpers.emails import send_verification_email
 from common.models import Student, stripStudentName
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+
+from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import form_clean_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
+from portal.templatetags.app_tags import is_verified
 
 choices = [
     ("Miss", "Miss"),
@@ -218,16 +222,23 @@ class TeacherLoginForm(AuthenticationForm):
                 break
 
         if user is None:
-            raise forms.ValidationError("Incorrect email address or password")
+            self.show_invalid_login_message()
 
         return user
 
     def check_email_errors(self, user):
         if user is None:
-            raise forms.ValidationError("Incorrect email address or password")
+            self.show_invalid_login_message()
+
+        if not is_verified(user):
+            send_verification_email(self.request, user)
+            self.show_invalid_login_message()
 
         if not user.is_active:
             raise forms.ValidationError("User account has been deactivated")
+
+    def show_invalid_login_message(self):
+        raise forms.ValidationError(INVALID_LOGIN_MESSAGE)
 
 
 class ClassCreationForm(forms.Form):
