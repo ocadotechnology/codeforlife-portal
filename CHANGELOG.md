@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.31.2 (2021-06-25)
+### Fix
+* Revert the revert of the verification changes but with a fix ([#1472](https://github.com/ocadotechnology/codeforlife-portal/issues/1472)) ([`057ac92`](https://github.com/ocadotechnology/codeforlife-portal/commit/057ac92accf8c4cdcbef2e40b62d95f76b0b1db0))
+
 ## v4.31.1 (2021-06-25)
 ### Fix
 * Temporarily revert verification changes ([#1471](https://github.com/ocadotechnology/codeforlife-portal/issues/1471)) ([`9d37db7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9d37db78ca516e134ac97880deeeb29bb43c0e1a))
