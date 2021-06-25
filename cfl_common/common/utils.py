@@ -84,6 +84,7 @@ class LoginRequiredNoErrorMixin(LoginRequiredMixin):
     Overwrites Django's 2.2 LoginRequiredMixin so as to not raise an error and
     redirect instead.
     """
+
     def handle_no_permission(self):
         return redirect_to_login(
             self.request.get_full_path(),

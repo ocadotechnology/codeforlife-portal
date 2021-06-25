@@ -72,7 +72,9 @@ def verify_email(request, token):
 
         user.email_verifications.exclude(email=user.email).delete()
 
-    messages.success(request, "Your email address was successfully verified.")
+    messages.success(
+        request, "Your email address was successfully verified, please log in."
+    )
 
     if logged_in_as_independent_student(user):
         login_url = "independent_student_login"
