@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2021, Ocado Innovation Limited
+# Copyright (C) 2019, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -34,17 +34,42 @@
 # copyright notice and these terms. You must not misrepresent the origins of this
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
-import pytest
-from common.utils import field_exists
+from django.apps import apps
+from django.core import management
+from django.db import connection
+from django.db.migrations.executor import MigrationExecutor
+from django.test import TransactionTestCase
 
 
-@pytest.mark.django_db
-def test_preview_user_field_removed(migrator):
-    migrator.apply_initial_migration(("portal", "0055_add_preview_user"))
-    new_state = migrator.apply_tested_migration(("portal", "0056_remove_preview_user"))
+class MigrationTestCase(TransactionTestCase):
+    """A Test case for testing migrations."""
 
-    userprofile_model = new_state.apps.get_model("portal", "UserProfile")
-    assert not field_exists(userprofile_model, "preview_user")
+    # These must be defined by subclasses.
+    start_migration = None
+    dest_migration = None
 
-    school_model = new_state.apps.get_model("portal", "School")
-    assert not field_exists(school_model, "eligible_for_testing")
+    django_application = None
+
+    @property
+    def app_name(self):
+        return apps.get_containing_app_config(type(self).__module__).name
+
+    def setUp(self):
+        executor = MigrationExecutor(connection)
+        # Migrate to start_migration (the migration before the one you want to test)
+        executor.migrate([(self.app_name, self.start_migration)])
+
+        # Rebuild graph. Done between invocations of migrate()
+        executor.loader.build_graph()
+
+        # Run the migration you want to test
+        executor.migrate([(self.app_name, self.dest_migration)])
+
+        # This application can now be used to get the latest models for testing
+        self.django_application = executor.loader.project_state(
+            [(self.app_name, self.dest_migration)]
+        ).apps
+
+    def tearDown(self) -> None:
+        # After the test, migrate all migrations for all apps to restore test DB state
+        management.call_command("migrate")

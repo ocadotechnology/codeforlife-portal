@@ -67,7 +67,7 @@ def give_portaladmin_teacher_profile(apps, schema_editor):
     )
 
     # Create the Student
-    Student.objects.create(
+    portaladmin_student = Student.objects.create(
         class_field=portaladmin_class,
         user=portaladmin_student_userprofile,
         new_user=portaladmin_student_user,
@@ -82,22 +82,24 @@ def revert_portaladmin_data(apps, schema_editor):
     Class = apps.get_model("common", "Class")
     Student = apps.get_model("common", "Student")
 
-    portaladmin = User.objects.get(username="portaladmin")
-    portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
-    portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
-    portaladmin_class = Class.objects.get(teacher=portaladmin_teacher)
-    portaladmin_student_user = User.objects.get(username="portaladmin student")
-    portaladmin_student_userprofile = UserProfile.objects.get(
-        user=portaladmin_student_user
-    )
-    portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
+    portaladmin, created = User.objects.get_or_create(username="portaladmin")
 
-    portaladmin_student.delete()
-    portaladmin_student_userprofile.delete()
-    portaladmin_student_user.delete()
-    portaladmin_class.delete()
-    portaladmin_teacher.delete()
-    portaladmin_userprofile.delete()
+    if not created:
+        portaladmin_userprofile = UserProfile.objects.get(user=portaladmin)
+        portaladmin_teacher = Teacher.objects.get(new_user=portaladmin)
+        portaladmin_class = Class.objects.get(teacher=portaladmin_teacher)
+        portaladmin_student_user = User.objects.get(username="portaladmin student")
+        portaladmin_student_userprofile = UserProfile.objects.get(
+            user=portaladmin_student_user
+        )
+        portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
+
+        portaladmin_student.delete()
+        portaladmin_student_userprofile.delete()
+        portaladmin_student_user.delete()
+        portaladmin_class.delete()
+        portaladmin_teacher.delete()
+        portaladmin_userprofile.delete()
 
     portaladmin.first_name = ""
     portaladmin.last_name = ""

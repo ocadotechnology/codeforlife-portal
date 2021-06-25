@@ -261,3 +261,8 @@ class TeachDashboardPage(TeachBasePage):
         self.confirm_dialog()
 
         return TeachMoveClassesPage(self.browser)
+
+    def click_verify_email_banner_button(self):
+        self.browser.find_element_by_id("verify-email-button").click()
+
+        return EmailVerificationNeededPage(self.browser)
