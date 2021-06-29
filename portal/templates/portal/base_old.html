@@ -442,19 +442,7 @@
         animateScroll();
     })
 </script>
-<script>
-    window.fwSettings={
-        'widget_id':77000000397
-    };
-    !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}()
-</script>
-<script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer></script>
-<script>
-    FreshworksWidget('hide');
-    $('.freshdesk__contact-us').on('click', function() {
-        FreshworksWidget('open');
-    });
-</script>
+{% include "common/freshdesk_widget.html" %}
 {% endblock scripts %}
 
 </body>
