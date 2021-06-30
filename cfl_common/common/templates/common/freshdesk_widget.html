@@ -6,8 +6,10 @@
 </script>
 <script type='text/javascript' src='https://euc-widget.freshworks.com/widgets/77000000397.js' async defer></script>
 <script>
-    FreshworksWidget('hide');
-    document.querySelector('.freshdesk__contact-us').addEventListener('click', function() {
-        FreshworksWidget('open');
-    });
+    window.onload = () => {
+        FreshworksWidget('hide');
+        document.querySelector('.freshdesk__contact-us').addEventListener('click', function() {
+            FreshworksWidget('open');
+        });
+    }
 </script>
