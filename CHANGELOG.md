@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.31.3 (2021-06-30)
+### Fix
+* Move Freshdesk HTML to common ([#1474](https://github.com/ocadotechnology/codeforlife-portal/issues/1474)) ([`3b8b9ee`](https://github.com/ocadotechnology/codeforlife-portal/commit/3b8b9ee1abc69f885dca35420966126f0d93fcde))
+
 ## v4.31.2 (2021-06-25)
 ### Fix
 * Revert the revert of the verification changes but with a fix ([#1472](https://github.com/ocadotechnology/codeforlife-portal/issues/1472)) ([`057ac92`](https://github.com/ocadotechnology/codeforlife-portal/commit/057ac92accf8c4cdcbef2e40b62d95f76b0b1db0))
