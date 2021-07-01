@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  codeforlifeportal:
+    image: codeforlifeportal
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ./run
+    volumes: 
+        - .:/app/
+    ports:
+      - 8000:8000
