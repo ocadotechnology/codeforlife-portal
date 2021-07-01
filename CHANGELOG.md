@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v4.31.4 (2021-07-01)
+### Fix
+* Move Freshdesk selector back to portal ([#1479](https://github.com/ocadotechnology/codeforlife-portal/issues/1479)) ([`77485f3`](https://github.com/ocadotechnology/codeforlife-portal/commit/77485f3ca92608340536d068ad439932fb51853a))
+
+### Documentation
+* Update readme and docs ([#1478](https://github.com/ocadotechnology/codeforlife-portal/issues/1478)) ([`5b53362`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b533624b3a59123bb203fa65e5c8776c28af994))
+
 ## v4.31.3 (2021-06-30)
 ### Fix
 * Move Freshdesk HTML to common ([#1474](https://github.com/ocadotechnology/codeforlife-portal/issues/1474)) ([`3b8b9ee`](https://github.com/ocadotechnology/codeforlife-portal/commit/3b8b9ee1abc69f885dca35420966126f0d93fcde))
