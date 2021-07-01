@@ -5,9 +5,11 @@ on:
       - master
     paths-ignore:
       - "**.md"
+      - "docs/**"
   pull_request:
     paths-ignore:
       - "**.md"
+      - "docs/**"
 jobs:
   test:
     name: Run tests
