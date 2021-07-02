@@ -4,4 +4,4 @@ cd "${BASH_SOURCE%/*}"
 
 ./example_project/manage.py migrate --noinput
 ./example_project/manage.py collectstatic --noinput
-./example_project/manage.py runserver 0.0.0.0:8000
+./example_project/manage.py runserver "$@"
