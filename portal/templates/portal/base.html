@@ -485,6 +485,12 @@
     });
 </script>
 {% include "common/freshdesk_widget.html" %}
+<script>
+    FreshworksWidget('hide');
+    $('.freshdesk__contact-us').on('click', function() {
+        FreshworksWidget('open');
+    });
+</script>
 {% endblock scripts %}
 </body>
 </html>
