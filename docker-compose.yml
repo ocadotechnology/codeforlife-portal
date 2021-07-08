@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  codeforlifeportal:
-    image: codeforlifeportal
+  codeforlife-portal:
+    image: codeforlife-portal
     build:
       context: .
       dockerfile: ./Dockerfile
