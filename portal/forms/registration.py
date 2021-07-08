@@ -35,7 +35,7 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
+from captcha.widgets import ReCaptchaV3
 from common.models import Student, Teacher
 from django import forms
 from django.contrib.auth import forms as django_auth_forms
@@ -76,7 +76,7 @@ class TeacherPasswordResetForm(forms.Form):
         ),
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
@@ -171,7 +171,7 @@ class StudentPasswordResetForm(forms.Form):
         widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "rosie_f"}),
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def clean_username(self):
         username = self.cleaned_data.get("username", None)

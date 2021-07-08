@@ -66,7 +66,7 @@ class TestRatelimit(TestCase):
             {
                 "auth-username": username,
                 "auth-password": password,
-                "g-recaptcha-response": "something",
+                "auth-captcha": "something",
                 "teacher_login_view-current_step": "auth",
             },
         )
@@ -77,7 +77,7 @@ class TestRatelimit(TestCase):
             {
                 "username": username,
                 "password": password,
-                "g-recaptcha-response": "something",
+                "captcha": "something",
             },
         )
 
@@ -121,7 +121,7 @@ class TestRatelimit(TestCase):
             reverse("teacher_password_reset"),
             {
                 "email": email,
-                "g-recaptcha-response": "something",
+                "captcha": "something",
             },
         )
 

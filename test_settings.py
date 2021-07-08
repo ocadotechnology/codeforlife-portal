@@ -74,3 +74,8 @@ COOKIE_MANAGEMENT_ENABLED = False
 from django_autoconfig.autoconfig import configure_settings
 
 configure_settings(globals())
+
+RECAPTCHA_PUBLIC_KEY = "put_local_public_key_here"
+RECAPTCHA_PRIVATE_KEY = "put_local_private_key_here"
+
+RECAPTCHA_REQUIRED_SCORE = 0
