@@ -81,12 +81,11 @@ PIPELINE_ENABLED = False
 
 COOKIE_MANAGEMENT_ENABLED = False
 
-RECAPTCHA_PUBLIC_KEY = "put_local_public_key_here"
-RECAPTCHA_PRIVATE_KEY = "put_local_private_key_here"
-
 from django_autoconfig import autoconfig
 
 autoconfig.configure_settings(globals())
+
+RECAPTCHA_REQUIRED_SCORE = 0
 
 try:
     from example_project.local_settings import *  # pylint: disable=E0611

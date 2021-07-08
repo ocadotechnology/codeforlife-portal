@@ -5,6 +5,9 @@
     grecaptcha.ready(function() {
         grecaptcha.execute('{{ public_key }}', {action: 'form'})
             .then(function(token) {
+                if (!token) {
+                    token = "something";
+                }
                 console.log("reCAPTCHA validated for 'data-widget-uuid=\"{{ widget_uuid }}\"'. Setting input value...")
                 var element = document.querySelector('.g-recaptcha[data-widget-uuid="{{ widget_uuid }}"]');
                 element.value = token;
