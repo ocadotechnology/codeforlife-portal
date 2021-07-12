@@ -36,7 +36,7 @@
 # identified as the original program.
 import pytest
 from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
+from captcha.widgets import ReCaptchaV3
 from common.models import Class
 from django import forms
 from django.test import TestCase
@@ -48,7 +48,7 @@ from portal.tests.conftest import IndependentStudent, SchoolStudent, TeacherLogi
 
 class FormCaptchaTest(TestCase):
     class FormWithCaptcha(forms.Form):
-        captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+        captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def test_is_captcha_in_form(self):
         form_with_captcha = FormCaptchaTest.FormWithCaptcha()
@@ -76,7 +76,7 @@ def test_teacher_login_invalid_recaptcha(teacher1: TeacherLoginDetails):
     data = {
         "auth-username": teacher1.email,
         "auth-password": teacher1.password,
-        "g-recaptcha-response": "",
+        "auth-captcha": "",
         "teacher_login_view-current_step": "auth",
     }
 
@@ -93,7 +93,7 @@ def test_student_login_invalid_recaptcha(student1: SchoolStudent, class1: Class)
         "username": student1.username,
         "password": student1.password,
         "access_code": class1.access_code,
-        "g-recaptcha-response": "",
+        "captcha": "",
     }
 
     response = c.post(url, data)
@@ -110,7 +110,7 @@ def test_independent_student_login_invalid_recaptcha(
     data = {
         "username": independent_student1.username,
         "password": independent_student1.password,
-        "g-recaptcha-response": "",
+        "captcha": "",
     }
 
     response = c.post(url, data)
