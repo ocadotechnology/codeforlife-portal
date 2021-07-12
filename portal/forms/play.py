@@ -38,7 +38,7 @@ import re
 from datetime import timedelta
 
 from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3
+from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
 from common.models import Class, Student, stripStudentName
 from common.permissions import logged_in_as_independent_student
@@ -65,7 +65,7 @@ class StudentLoginForm(AuthenticationForm):
         label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     error_messages = {
         "invalid_login": "Invalid name, class access code or password",
@@ -237,7 +237,7 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.PasswordInput(attrs={"autocomplete": "off"}),
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
@@ -277,7 +277,7 @@ class IndependentStudentLoginForm(AuthenticationForm):
     )
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean(self):
         captcha = self.cleaned_data.get("captcha", None)

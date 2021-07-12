@@ -123,7 +123,7 @@ class TestLoginViews(TestCase):
             {
                 "auth-username": email,
                 "auth-password": password,
-                "auth-captcha": "something",
+                "g-recaptcha-response": "something",
                 "teacher_login_view-current_step": "auth",
             },
         )
@@ -144,7 +144,7 @@ class TestLoginViews(TestCase):
                 "username": name,
                 "access_code": class_access_code,
                 "password": password,
-                "captcha": "something",
+                "g-recaptcha-response": "something",
             },
         )
         return response, c
