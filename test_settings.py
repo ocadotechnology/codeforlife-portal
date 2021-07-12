@@ -74,6 +74,3 @@ COOKIE_MANAGEMENT_ENABLED = False
 from django_autoconfig.autoconfig import configure_settings
 
 configure_settings(globals())
-
-# Needs to be after the autoconfig import to override the main score setting
-RECAPTCHA_REQUIRED_SCORE = 0
