@@ -85,9 +85,6 @@ from django_autoconfig import autoconfig
 
 autoconfig.configure_settings(globals())
 
-# Needs to be after the autoconfig import to override the main score setting
-RECAPTCHA_REQUIRED_SCORE = 0
-
 try:
     from example_project.local_settings import *  # pylint: disable=E0611
 except ImportError:

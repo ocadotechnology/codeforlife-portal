@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2019, Ocado Innovation Limited
+# Copyright (C) 2021, Ocado Innovation Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -40,12 +40,14 @@ CONTACT_FORM_EMAILS = getattr(
     settings, "PORTAL_CONTACT_FORM_EMAIL", ("codeforlife@ocado.com",)
 )
 
-
 # Private key for Recaptcha
 RECAPTCHA_PRIVATE_KEY = getattr(settings, "RECAPTCHA_PRIVATE_KEY", None)
 
 # Public key for Recaptcha
 RECAPTCHA_PUBLIC_KEY = getattr(settings, "RECAPTCHA_PUBLIC_KEY", None)
+
+# Required score for Recaptcha
+RECAPTCHA_REQUIRED_SCORE = getattr(settings, "RECAPTCHA_REQUIRED_SCORE", 0)
 
 DEBUG = getattr(settings, "DEBUG", False)
 
