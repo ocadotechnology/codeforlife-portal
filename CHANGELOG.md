@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.32.1 (2021-07-13)
+### Fix
+* Replace ReCaptcha score setting with env var ([#1488](https://github.com/ocadotechnology/codeforlife-portal/issues/1488)) ([`cc8640d`](https://github.com/ocadotechnology/codeforlife-portal/commit/cc8640deb5a632a9e9398455beb5fe783166e971))
+
 ## v4.32.0 (2021-07-12)
 ### Feature
 * Upgrade ReCaptcha to v3 ([#1487](https://github.com/ocadotechnology/codeforlife-portal/issues/1487)) ([`80309d3`](https://github.com/ocadotechnology/codeforlife-portal/commit/80309d38e80bdadc8cb31b56e697f5e301e4ef4f))
