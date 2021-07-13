@@ -13,7 +13,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
 from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
-from portal.game_creator import create_game
+from aimmo.game_creator import create_game
 from portal.forms.add_game import AddGameForm
 
 
