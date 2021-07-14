@@ -30,7 +30,7 @@ def test_student_cannot_access_teacher_dashboard(
         "username": student1.username,
         "password": student1.password,
         "access_code": class1.access_code,
-        "captcha": "something",
+        "g-recaptcha-response": "something",
     }
 
     c.post(url, data)
@@ -62,7 +62,7 @@ def test_indep_student_cannot_access_dashboard(
     data = {
         "username": independent_student1.username,
         "password": independent_student1.password,
-        "captcha": "something",
+        "g-recaptcha-response": "something",
     }
 
     c.post(url, data)
@@ -98,7 +98,7 @@ def test_student_aimmo_dashboard_loads(
         "username": student1.username,
         "password": student1.password,
         "access_code": class1.access_code,
-        "captcha": "something",
+        "g-recaptcha-response": "something",
     }
 
     c.post(student_login_url, data)

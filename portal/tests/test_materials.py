@@ -100,7 +100,7 @@ def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
     data = {
         "auth-username": teacher1.email,
         "auth-password": teacher1.password,
-        "auth-captcha": "something",
+        "g-recaptcha-response": "something",
         "teacher_login_view-current_step": "auth",
     }
 
