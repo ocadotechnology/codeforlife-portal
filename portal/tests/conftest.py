@@ -1,4 +1,5 @@
 from collections import namedtuple
+from unittest.mock import MagicMock
 
 import pytest
 from aimmo.models import Game
@@ -49,3 +50,9 @@ def aimmo_game1(db, class1) -> Game:
     worksheet.student_pdf_name = "TestPDFName"
     worksheet.save()
     return create_aimmo_game_directly(class1, worksheet)
+
+
+@pytest.fixture(autouse=True)
+def mock_game_manager(monkeypatch):
+    """Mock GameManager for all tests."""
+    monkeypatch.setattr("aimmo.game_creator.GameManager", MagicMock())
