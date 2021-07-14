@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v4.32.2 (2021-07-14)
+### Fix
+* Revert ReCaptcha v3 ([#1489](https://github.com/ocadotechnology/codeforlife-portal/issues/1489)) ([`fb4720a`](https://github.com/ocadotechnology/codeforlife-portal/commit/fb4720aa8c37c1f2f616a1f37b5802eeda43d50e))
+
+## v4.32.1 (2021-07-13)
+### Fix
+* Replace ReCaptcha score setting with env var ([#1488](https://github.com/ocadotechnology/codeforlife-portal/issues/1488)) ([`cc8640d`](https://github.com/ocadotechnology/codeforlife-portal/commit/cc8640deb5a632a9e9398455beb5fe783166e971))
+
+## v4.32.0 (2021-07-12)
+### Feature
+* Upgrade ReCaptcha to v3 ([#1487](https://github.com/ocadotechnology/codeforlife-portal/issues/1487)) ([`80309d3`](https://github.com/ocadotechnology/codeforlife-portal/commit/80309d38e80bdadc8cb31b56e697f5e301e4ef4f))
+
 ## v4.31.4 (2021-07-01)
 ### Fix
 * Move Freshdesk selector back to portal ([#1479](https://github.com/ocadotechnology/codeforlife-portal/issues/1479)) ([`77485f3`](https://github.com/ocadotechnology/codeforlife-portal/commit/77485f3ca92608340536d068ad439932fb51853a))
