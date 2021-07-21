@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.32.3 (2021-07-21)
+### Fix
+* Games not stopping ([#1491](https://github.com/ocadotechnology/codeforlife-portal/issues/1491)) ([`d1d6112`](https://github.com/ocadotechnology/codeforlife-portal/commit/d1d6112df246d4983245b4125ae2cce606de6201))
+
 ## v4.32.2 (2021-07-14)
 ### Fix
 * Revert ReCaptcha v3 ([#1489](https://github.com/ocadotechnology/codeforlife-portal/issues/1489)) ([`fb4720a`](https://github.com/ocadotechnology/codeforlife-portal/commit/fb4720aa8c37c1f2f616a1f37b5802eeda43d50e))
