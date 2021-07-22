@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2020, Ocado Limited
+# Copyright (C) 2021, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -100,7 +100,6 @@ def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
     data = {
         "auth-username": teacher1.email,
         "auth-password": teacher1.password,
-        "g-recaptcha-response": "something",
         "teacher_login_view-current_step": "auth",
     }
 
