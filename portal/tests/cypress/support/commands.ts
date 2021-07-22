@@ -51,7 +51,6 @@ Cypress.Commands.add('loginAsTeacher', () => {
         'auth-username': teacherUsername,
         'auth-password': teacherPassword,
         csrfmiddlewaretoken: csrfToken.value,
-        'g-recaptcha-response': 'something',
         'teacher_login_view-current_step': 'auth'
       }
     })
@@ -71,8 +70,7 @@ Cypress.Commands.add('loginAsStudent', () => {
         username: studentUsername,
         password: studentPassword,
         access_code: studentAccessCode,
-        csrfmiddlewaretoken: csrfToken.value,
-        'g-recaptcha-response': 'something'
+        csrfmiddlewaretoken: csrfToken.value
       }
     })
     cy.visit('/')
@@ -90,8 +88,7 @@ Cypress.Commands.add('loginAsIndependentStudent', () => {
       body: {
         username: independentStudentUsername,
         password: independentStudentPassword,
-        csrfmiddlewaretoken: csrfToken.value,
-        'g-recaptcha-response': 'something'
+        csrfmiddlewaretoken: csrfToken.value
       }
     })
     cy.visit('/')

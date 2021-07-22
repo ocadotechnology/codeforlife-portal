@@ -52,7 +52,6 @@ class Test2FA(TestCase):
             {
                 "auth-username": self.email,
                 "auth-password": self.password,
-                "g-recaptcha-response": "something",
                 "teacher_login_view-current_step": "auth",
             }
         )
