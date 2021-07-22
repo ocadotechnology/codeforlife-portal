@@ -1,0 +1,79 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+{% load banner_tags %}
+
+{% block css %}
+{{ block.super }}
+{% endblock css %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}
+
+{% block pageID %}id="homeWrapper"{% endblock %}
+
+{% block subNav %}
+{{ block.super }}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="background">
+    <div class="grid grid-worksheets grid__fit col-sm-8 col-center">
+        <div class="card">
+            <div class="card__images">
+                <img title="Start a coding club" alt="Club image" class="card__image" src="{% static 'portal/img/clubs.jpg' %}">
+            </div>
+            <div class="card__text">
+                <div>
+                    <h4 class="card__title">Start a coding club</h4>
+                    <p>Become a Code for Life ambassador by starting up a coding club. Find out more about
+                    how you can get involved with this or other methods by contacting us.
+                    </p>
+                </div>
+                <div class="button-group button-group__icon">
+                    <a href="mailto:codeforlife@ocado.com" class="button button--primary--general-play">
+                        Get in touch<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card__images">
+                <img title="Contribute through code" alt="Github image" class="card__image" src="{% static 'portal/img/github.png' %}">
+            </div>
+            <div class="card__text">
+                <div>
+                    <h4 class="card__title">Contribute through code</h4>
+                    <p>We welcome volunteers from all backgrounds to help us with our coding adventure.
+                    Take a look at our contribution guide to find out how to get involved.
+                    </p>
+                </div>
+                <div class="button-group button-group__icon">
+                    <a href="{% url 'contribute' %}" class="button button--primary--general-play">
+                        Read more<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card__images">
+                <img title="University projects" alt="University image" class="card__image" src="{% static 'portal/img/university.jpg' %}">
+            </div>
+            <div class="card__text">
+                <h4 class="card__title">University projects</h4>
+                <p>Please get in touch if you are interested in developing live projects for your students with us.</p>
+                <div class="button-group button-group__icon">
+                    <a href="mailto:codeforlife@ocado.com" class="button button--primary--general-play">
+                        Get in touch<div class="glyphicon glyphicon-menu-right"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
