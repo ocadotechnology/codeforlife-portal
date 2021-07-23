@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Code for Life
 #
-# Copyright (C) 2020, Ocado Limited
+# Copyright (C) 2021, Ocado Limited
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -123,7 +123,6 @@ class TestLoginViews(TestCase):
             {
                 "auth-username": email,
                 "auth-password": password,
-                "g-recaptcha-response": "something",
                 "teacher_login_view-current_step": "auth",
             },
         )
@@ -144,7 +143,6 @@ class TestLoginViews(TestCase):
                 "username": name,
                 "access_code": class_access_code,
                 "password": password,
-                "g-recaptcha-response": "something",
             },
         )
         return response, c

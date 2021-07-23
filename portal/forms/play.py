@@ -65,8 +65,6 @@ class StudentLoginForm(AuthenticationForm):
         label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
     error_messages = {
         "invalid_login": "Invalid name, class access code or password",
         "inactive": "This account is inactive.",
@@ -76,10 +74,6 @@ class StudentLoginForm(AuthenticationForm):
         name = self.cleaned_data.get("username", None)
         access_code = self.cleaned_data.get("access_code", None)
         password = self.cleaned_data.get("password", None)
-        captcha = self.cleaned_data.get("captcha", None)
-
-        if captcha is None:
-            raise forms.ValidationError("Invalid ReCAPTCHA response")
 
         if name and access_code and password:
 
@@ -277,14 +271,7 @@ class IndependentStudentLoginForm(AuthenticationForm):
     )
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
     def clean(self):
-        captcha = self.cleaned_data.get("captcha", None)
-
-        if captcha is None:
-            raise forms.ValidationError("Invalid ReCAPTCHA response")
-
         super().clean()
 
     def confirm_login_allowed(self, user):

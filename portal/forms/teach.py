@@ -183,15 +183,9 @@ class TeacherLoginForm(AuthenticationForm):
         label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
     def clean(self):
         email = self.cleaned_data.get("username", None)
         password = self.cleaned_data.get("password", None)
-        captcha = self.cleaned_data.get("captcha", None)
-
-        if captcha is None:
-            raise forms.ValidationError("Invalid ReCAPTCHA response")
 
         if email and password:
 
