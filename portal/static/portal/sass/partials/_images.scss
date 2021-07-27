@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 img {
   max-height: 100%;
@@ -9,7 +9,7 @@ img {
   @include _padding(0px, 0px, 15px, 0px);
 }
 
-.homepage-info div[class*='col-'] {
+.homepage-info div[class*="col-"] {
   @include _padding(0px, 30px, 0px, 30px);
 }
 
@@ -43,7 +43,7 @@ img {
 }
 
 .background--swirl {
-  background-image: url('../img/ocado-swirl.svg');
+  background-image: url("../img/ocado-swirl.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -71,7 +71,7 @@ img {
 }
 
 .logo {
-  content: url('../img/logo_c4l_hexa.png');
+  content: url("../img/logo_cfl.png");
   position: fixed;
   top: 10px;
   z-index: $nav-bar-level + 2;
@@ -116,12 +116,12 @@ img {
 }
 
 .educate-homepage {
-  content: url('../img/home_educate_hero_hexagon.png');
+  content: url("../img/home_educate_hero_hexagon.png");
   height: 350px;
 }
 
 .play-homepage {
-  content: url('../img/home_play_hero_hexagon_games.png');
+  content: url("../img/home_play_hero_hexagon_games.png");
   height: 350px;
   width: 100%;
   object-fit: contain;
@@ -141,7 +141,7 @@ img {
 
 @media (min-width: $tablet-small-min-width) {
   .logo {
-    content: url('../img/logo_c4l_hexa.png');
+    content: url("../img/logo_cfl.png");
     position: fixed;
     top: 10px;
     z-index: $nav-bar-level + 2;

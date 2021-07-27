@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 a {
   cursor: pointer;
@@ -19,7 +19,6 @@ button,
 .button,
 .hijacked-warning .btn {
   @include _padding(10px, 15px, 10px, 15px);
-  border-radius: 0.8rem;
 }
 
 .button,
@@ -33,7 +32,7 @@ button,
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
-  font-family: 'Baloo', serif;
+  font-family: "Baloo", serif;
   font-weight: 500;
 }
 
@@ -42,7 +41,7 @@ button,
   @include _line-height(28px);
   @include _padding(15px, 20px, 15px, 20px);
   display: inline-block;
-  font-family: 'Baloo', serif;
+  font-family: "Baloo", serif;
   font-weight: 500;
 }
 
@@ -103,8 +102,8 @@ button,
 }
 
 .button--menu--primary {
-  @include _font-size(30px);
-  @include _line-height(25px);
+  @include _font-size(27px);
+  // @include _line-height(25px);
   @include _margin(0px, 40px, 0px, 10px);
 
   &:hover {
@@ -114,8 +113,8 @@ button,
 }
 
 .button--menu--secondary {
-  @include _font-size(22px);
-  @include _line-height(20px);
+  @include _font-size(18px);
+  // @include _line-height(20px);
   @include _margin(0px, 20px, 0px, 20px);
 }
 
@@ -245,10 +244,9 @@ button,
 }
 
 .button--dropdown {
-  @include _border-radius(8px, 8px, 8px, 8px);
   @extend .dropdown;
-  background: $color-background-secondary;
-  border: 1px solid $color-text-tertiary;
+  background: $color-orange;
+  border: 2px solid $color-orange;
   color: $color-text-tertiary;
   display: flex;
   flex-wrap: nowrap;
@@ -262,18 +260,10 @@ button,
   }
 
   &:after {
-    @include _font-size(12px);
+    @include _font-size(24px);
     @include _padding(0px, 0px, 0px, $spacing * 5);
-    content: '\e252';
-    font-family: 'Glyphicons Halflings';
-  }
-}
-
-.button--dropdown[aria-expanded='true'] {
-  @include _border-radius(8px, 8px, 0px, 0px);
-
-  &:after {
-    content: '\e253';
+    content: "\e5cf";
+    font-family: "Material Icons Outlined";
   }
 }
 
@@ -286,6 +276,15 @@ button,
   background-color: $color-background-secondary;
   border-color: transparent;
   color: $color-text-primary;
+}
+
+.button--register {
+  border: 2px solid $color-orange;
+  color: $color-text-tertiary;
+
+  &:hover {
+    color: $color-text-tertiary;
+  }
 }
 
 .button-group {
@@ -437,20 +436,20 @@ button,
 
   .button--menu__item--sub-header {
     &:after {
-      content: '\e252';
-      font-family: 'Glyphicons Halflings';
+      content: "\e252";
+      font-family: "Glyphicons Halflings";
     }
   }
 
-  .button--menu__item--sub-header[aria-expanded='true'] {
+  .button--menu__item--sub-header[aria-expanded="true"] {
     &:after {
-      content: '\e253';
+      content: "\e253";
     }
   }
 
-  .grid-kurono-sessions__accordion-button[aria-expanded='true'] {
+  .grid-kurono-sessions__accordion-button[aria-expanded="true"] {
     .glyphicon-triangle-bottom::before {
-      content: '\e253';
+      content: "\e253";
     }
   }
 

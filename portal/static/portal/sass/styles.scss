@@ -1,20 +1,21 @@
-@import 'partials/base';
+@import "partials/base";
 
-@import 'partials/banners';
-@import 'partials/buttons';
-@import 'partials/footer';
-@import 'partials/forms';
-@import 'partials/grids';
-@import 'partials/header';
-@import 'partials/images';
-@import 'partials/onboarding';
-@import 'partials/popup';
-@import 'partials/subnavs';
-@import 'partials/tables';
-@import 'partials/text';
-@import 'partials/ui-dialog';
-@import 'partials/utils';
-@import 'partials/videos';
+@import "partials/banners";
+@import "partials/buttons";
+@import "partials/footer";
+@import "partials/forms";
+@import "partials/grids";
+@import "partials/header";
+@import "partials/icons";
+@import "partials/images";
+@import "partials/onboarding";
+@import "partials/popup";
+@import "partials/subnavs";
+@import "partials/tables";
+@import "partials/text";
+@import "partials/ui-dialog";
+@import "partials/utils";
+@import "partials/videos";
 
 @media (min-width: $tablet-small-min-width) {
   body {
