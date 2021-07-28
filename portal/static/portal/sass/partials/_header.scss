@@ -2,6 +2,10 @@
 
 .dropdown {
   display: flex;
+
+  &.header__account-details-dropdown {
+    justify-content: flex-end;
+  }
 }
 
 .dropdown__text {
@@ -81,6 +85,11 @@
       background: $color-button-primary-action-navigation-hover;
     }
   }
+
+  &.header__account-details-dropdown-menu {
+    left: auto;
+    right: 0;
+  }
 }
 
 .dropdown-content {
@@ -121,19 +130,40 @@
   }
 }
 
+.button--dropdown {
+  &.header__account-details-dropdown {
+    justify-content: space-between;
+
+    &::after {
+      content: "\e8a6";
+    }
+  }
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+}
+
 @media (min-width: $desktop-large-min-width) {
   .menu__right-side {
     align-items: center;
+    justify-content: flex-end;
     display: flex;
   }
 
   .menu__brand {
-    margin-left: 19%;
+    margin-left: 220px;
+    margin-right: 38px;
 
     a {
       align-items: center;
       display: flex;
       height: 100%;
+
+      img {
+        height: 68px;
+      }
     }
   }
 }
@@ -152,13 +182,13 @@
 
 @media (min-width: $tablet-large-min-width) {
   .menu__brand {
-    @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
-    width: 15%;
+    // @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
   }
 
   .header__account-details-dropdown,
   .header__account-details-dropdown-menu {
     width: 80%;
+    background: transparent;
   }
 }
 
@@ -197,10 +227,6 @@
       border-radius: 0;
     }
 
-    .button--menu--primary {
-      @include _padding($spacing * 2, 0px, 16px, 0px);
-    }
-
     .button--menu--secondary {
       @include _padding($spacing * 2, 0px, 18px, 0px);
     }
@@ -234,7 +260,7 @@
   }
 
   .menu__left-side {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
   }
 
@@ -289,7 +315,7 @@
 
   .menu__left-side {
     @include _padding(0px, 0px, $spacing * 2, 0px);
-    align-items: flex-end;
+    align-items: center;
     display: inline;
   }
 }
