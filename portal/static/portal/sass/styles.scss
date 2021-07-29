@@ -17,8 +17,14 @@
 @import "partials/utils";
 @import "partials/videos";
 
-@media (min-width: $tablet-small-min-width) {
+@media (min-width: $desktop-small-min-width) {
   body {
     padding-top: $menu-height;
+  }
+}
+
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+  body {
+    padding-top: $menu-height-sm;
   }
 }

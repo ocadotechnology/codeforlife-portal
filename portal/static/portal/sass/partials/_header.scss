@@ -146,14 +146,7 @@
 }
 
 @media (min-width: $desktop-large-min-width) {
-  .menu__right-side {
-    align-items: center;
-    justify-content: flex-end;
-    display: flex;
-  }
-
   .menu__brand {
-    margin-left: 220px;
     margin-right: 38px;
 
     a {
@@ -161,22 +154,12 @@
       display: flex;
       height: 100%;
 
-      img {
-        height: 68px;
+      &.menu__brand--ocado {
+        img {
+          height: 68px;
+        }
       }
     }
-  }
-}
-
-@media (min-width: $desktop-small-min-width) and (max-width: $desktop-small-max-width) {
-  .menu__brand {
-    margin-left: 13%;
-  }
-}
-
-@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
-  .menu__brand {
-    margin-left: 8%;
   }
 }
 
@@ -195,8 +178,6 @@
 @media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
   .menu__brand {
     @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
-    margin-left: 11%;
-    width: 15%;
   }
 
   .header__account-details-dropdown,
@@ -205,19 +186,30 @@
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
+@media (min-width: $tablet-small-min-width) {
   .menu__right-side {
     align-items: center;
+    justify-content: flex-end;
     display: flex;
+  }
+}
+
+@media (min-width: $desktop-small-min-width) {
+  .menu {
+    height: $menu-height;
+  }
+}
+
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+  .menu {
+    height: $menu-height-sm;
   }
 }
 
 @media (min-width: $tablet-small-min-width) {
   .menu {
     background-color: $color-background-secondary;
-    border-bottom: 1px solid $color-background-tertiary;
     display: flex;
-    height: $menu-height;
     position: fixed;
     top: 0;
     width: 100%;
@@ -286,18 +278,14 @@
       @include _padding($spacing * 3, $spacing * 4, $spacing * 3, $spacing * 4);
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       align-items: center;
       height: 100%;
     }
 
     .logo {
-      @include _padding($spacing, $spacing * 3, $spacing, 0px);
+      @include _padding(0px, 0px, 0px, 0px);
       height: 50px;
-      top: initial;
-    }
-
-    .header__hamburger {
-      margin: auto 0 auto auto;
     }
 
     button {

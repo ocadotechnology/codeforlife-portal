@@ -3,15 +3,12 @@
 {% load hijack_tags %}
 
 <div class="header">
-    <a class="hidden-xs" href="{% url 'home' %}">
-        <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
-    </a>
     <div class="menu">
         <div class="menu__brand">
-            <a class="visible-xs" href="{% url 'home' %}">
+            <a href="{% url 'home' %}">
                 <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
             </a>
-            <a target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers">
+            <a class="menu__brand--ocado" target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers">
                 <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Group"
                 src="{% static 'portal/img/logo_ocado_group.svg' %}">
             </a>
