@@ -390,16 +390,30 @@ button,
   .button--menu__item {
     @include _font-size(30px);
     align-items: center;
-    background-color: $color-background-tertiary;
-    border-radius: 0;
-    border-top: 1px solid $color-text-secondary;
-    color: $color-text-secondary;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    color: $color-text-tertiary;
     display: flex;
-    font-weight: 600;
     height: 60px;
     justify-content: space-between;
     text-align: left;
     width: 100%;
+
+    &.button--register {
+      background: $color-orange;
+      border: 0;
+      justify-content: center;
+    }
+
+    &.login {
+      border: 2px solid $color-orange;
+      margin: 0;
+    }
+
+    #login-tabs > & {
+      border: 2px solid $color-orange;
+      border-top: 0;
+    }
   }
 
   .menu__item {
