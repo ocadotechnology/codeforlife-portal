@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 .banner {
   p {
@@ -40,7 +40,7 @@
     justify-content: center;
   }
 
-  div[class^='col-sm'] {
+  div[class^="col-sm"] {
     padding: 0;
   }
 }
@@ -85,36 +85,44 @@
 }
 
 .banner--picture--educate {
-  background-image: url('../img/home_educate_hero.jpg');
+  background-image: url("../img/home_educate_hero.jpg");
 }
 
 .banner--picture--play {
-  background-image: url('../img/home_play_hero.jpg');
+  background-image: url("../img/home_play_hero.jpg");
 }
 
 .banner--picture--about {
-  background-image: url('../img/about_us_hero.jpg');
+  background-image: url("../img/about_us_hero.jpg");
+}
+
+.banner--picture--getinvolved {
+  background-image: url("../img/get_involved_hero.png");
+}
+
+.banner--picture--contribute {
+  background-image: url("../img/github_hero.png");
 }
 
 .banner--picture--help {
-  background-image: url('../img/help_and_support_hero.jpg');
+  background-image: url("../img/help_and_support_hero.jpg");
 }
 
 .banner--picture--terms,
 .banner--picture--tools {
-  background-image: url('../img/teaching_resources_hero.jpg');
+  background-image: url("../img/teaching_resources_hero.jpg");
 }
 
 .banner--picture--aimmo {
-  background-image: url('../img/kurono_hero.jpg');
+  background-image: url("../img/kurono_hero.jpg");
 }
 
 .banner--picture--aimmo-teaching-packs {
-  background-image: url('../img/kurono_teaching_packs.svg');
+  background-image: url("../img/kurono_teaching_packs.svg");
 }
 
 .banner--picture--aimmo-resources {
-  background-image: url('../img/kurono_time_machine_hero.png');
+  background-image: url("../img/kurono_time_machine_hero.png");
 }
 
 .banner--homepage {
@@ -152,7 +160,7 @@
   }
 
   .banner--game__ages {
-    font-family: 'Baloo', serif;
+    font-family: "Baloo", serif;
     font-weight: 500;
   }
 
@@ -178,13 +186,13 @@
 
 .banner--homepage--teacher,
 .banner--teacher {
-  background-image: url('../img/background_blue.png');
+  background-image: url("../img/background_blue.png");
   background-position: top right;
 }
 
 .banner--homepage--student,
 .banner--student {
-  background-image: url('../img/background_orange.png');
+  background-image: url("../img/background_orange.png");
   background-position: top left;
 }
 
@@ -296,21 +304,21 @@
 }
 
 .banner--rapid-router--background {
-  background-image: url('../img/rapid_router_landing_hero.png');
+  background-image: url("../img/rapid_router_landing_hero.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .banner--aimmo--background {
-  background-image: url('../img/kurono_landing_hero.png');
+  background-image: url("../img/kurono_landing_hero.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .banner--aimmo--blurred-background {
-  background-image: url('../img/kurono_landing_hero_blurred.jpg');
+  background-image: url("../img/kurono_landing_hero_blurred.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -343,7 +351,7 @@
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
   align-items: center;
-  background-image: url('../img/background_blue.png');
+  background-image: url("../img/background_blue.png");
   background-position: top right;
   display: flex;
   justify-content: center;
