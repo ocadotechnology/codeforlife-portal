@@ -37,6 +37,7 @@
 """Portal autoconfig"""
 import os
 
+import common.app_settings
 from django_autoconfig.autoconfig import OrderingRelationship
 
 DEFAULT_SETTINGS = {
@@ -48,6 +49,14 @@ DEFAULT_SETTINGS = {
     ),
     "MEDIA_URL": "/media/",
 }
+
+DOMAIN = "https://www.codeforlife.education"
+MODULE_NAME = common.app_settings.MODULE_NAME
+
+if MODULE_NAME == "local":
+    DOMAIN = "localhost:8000"
+elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
+    DOMAIN = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com/"
 
 SETTINGS = {
     "AUTOCONFIG_DISABLED_APPS": [
@@ -133,6 +142,7 @@ SETTINGS = {
         "django_otp.middleware.OTPMiddleware",
         "wagtail.contrib.redirects.middleware.RedirectMiddleware",
         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+        "csp.middleware.CSPMiddleware",
     ],
     "TEMPLATES": [
         {
@@ -167,6 +177,27 @@ SETTINGS = {
     "HIJACK_USE_BOOTSTRAP": True,
     "HIJACK_ALLOW_GET_REQUESTS": True,
     "RECAPTCHA_DOMAIN": "www.recaptcha.net",
+    # CSP STUFF -------------------------------------------------------------------
+    "CSP_DEFAULT_SRC": ("'self'", ),
+    "CSP_CONNECT_SRC": ("https://*.onetrust.com",
+                        "https://euc-widget.freshworks.com/widgets/77000000397.json",
+                        "https://euc-widget.freshworks.com/widgetBase/locales/en.json",),
+    "CSP_FONT_SRC": ("'self'",
+                     "https://fonts.gstatic.com/s/baloo/v7/6xKhdSpJJ92I9MWPCm4.woff2",
+                     "https://fonts.gstatic.com/s/sourcesanspro/v14/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"),
+    "CSP_IMG_SRC": (f"{DOMAIN}/static/portal/img/"),
+    "CSP_SCRIPT_SRC": ("'self'",
+                       "https://*.onetrust.com",
+                       "https://code.jquery.com",
+                       "https://euc-widget.freshworks.com",
+                       "https://www.googletagmanager.com/gtm.js?id=GTM-M32M5N5"),
+    "CSP_STYLE_SRC": ("'self'",
+                      f"{DOMAIN}/static/hijack/hijack-styles.css",
+                      "euc-widget.freshworks.com/widgetBase/static/media/styles.5fe92f64.css",
+                      "https://fonts.googleapis.com/css?family=Baloo"),
+    "CSP_OBJECT_SRC": ("'none'", ),
+    "CSP_UPGRADE_INSECURE_REQUESTS": True,
+    "CSP_REPORT_ONLY": True,
 }
 
 RELATIONSHIPS = [

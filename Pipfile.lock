@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:53491040b6f37520cf2ee291edb603320a28ee27134bdd918aa70cbb7e7b8659",
-                "sha256:7b77851398f7ec4cf4621af13dd59cc6c1ed82736b24f97fe3b1b7aaf21c5564"
+                "sha256:609d11565f87498d6f42bd2860e8fb7d4e1f78bddc6245eca14872f6171be993",
+                "sha256:70847f5fbe90ae4201035df2e39f9b6a814c7d63f7c76a317d2ee8ac2b708122"
             ],
-            "version": "==0.69.18"
+            "version": "==0.69.19"
         },
         "anyascii": {
             "hashes": [
@@ -116,6 +116,13 @@
                 "sha256:a0f77154ae08cb38a0d65530a399ead5f5837ebf6c74f7576e71bb7acdacca94"
             ],
             "version": "==6.1.3"
+        },
+        "django-csp": {
+            "hashes": [
+                "sha256:01443a07723f9a479d498bd7bb63571aaa771e690f64bde515db6cdb76e8041a",
+                "sha256:01eda02ad3f10261c74131cdc0b5a6a62b7c7ad4fd017fbefb7a14776e0a9727"
+            ],
+            "version": "==3.7"
         },
         "django-filter": {
             "hashes": [
@@ -282,11 +289,11 @@
         },
         "google-auth": {
             "hashes": [
-                "sha256:036dd68c1e8baa422b6b61619b8e02793da2e20f55e69514612de6c080468755",
-                "sha256:7665c04f2df13cc938dc7d9066cddb1f8af62b038bc8b2306848c1b23121865f"
+                "sha256:bd6aa5916970a823e76ffb3d5c3ad3f0bedafca0a7fa53bc15149ab21cb71e05",
+                "sha256:f1094088bae046fb06f3d1a3d7df14717e8d959e9105b79c57725bd4e17597a2"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-            "version": "==1.33.1"
+            "version": "==1.34.0"
         },
         "greenlet": {
             "hashes": [
@@ -557,10 +564,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:aacf645192f073f02cca2c22ce1a47e63d1f9d2189129ad9068f462609d5b317",
-                "sha256:de3d4222b31eddfaf5ac1b7b2c74ce18d1a63390a4aa39846883e827940b4dee"
+                "sha256:ac88c247cc560b7ee776322f7e2113eb6457000a437af96e18281d0d55b1fcf7",
+                "sha256:f8fda10dc13d1791de79605b0c621185ce95ad4618cb6f4aefbe599352a7364c"
             ],
-            "version": "==2.7.12"
+            "version": "==2.7.13"
         },
         "reportlab": {
             "hashes": [
