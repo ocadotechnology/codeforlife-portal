@@ -6,6 +6,10 @@
   &.header__account-details-dropdown {
     justify-content: flex-end;
   }
+
+  > .button--menu--enabled:hover {
+    text-decoration: none;
+  }
 }
 
 .dropdown__text {
@@ -75,7 +79,7 @@
 
 .dropdown-content {
   @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
-  @include _margin(54px, 0px, 0px, $spacing * 4);
+  @include _margin(54px, 0px, 0px, 0px);
   background-color: $color-background-secondary;
   display: none;
   position: absolute;
@@ -201,7 +205,7 @@
     }
 
     .button--menu--secondary {
-      @include _padding($spacing * 2, 0px, 18px, 0px);
+      @include _padding($spacing * 3, 0px, $spacing * 3, 0px);
     }
 
     .button--menu--enabled {
