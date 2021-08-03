@@ -149,10 +149,6 @@
 }
 
 @media (min-width: $tablet-large-min-width) {
-  .menu__brand {
-    // @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
-  }
-
   .header__account-details-dropdown,
   .header__account-details-dropdown-menu {
     width: 80%;

@@ -101,7 +101,6 @@ button,
 
 .button--menu--primary {
   @include _font-size(27px);
-  // @include _line-height(25px);
   @include _margin(0px, 40px, 0px, 10px);
 
   &:hover {
@@ -112,7 +111,6 @@ button,
 
 .button--menu--secondary {
   @include _font-size(18px);
-  // @include _line-height(20px);
   @include _margin(0px, 20px, 0px, 20px);
 }
 
