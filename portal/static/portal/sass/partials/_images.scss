@@ -126,12 +126,6 @@ img {
   object-fit: contain;
 }
 
-@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
-  .logo {
-    @include _padding(0px, $spacing * 7, 0px, $spacing * 3);
-  }
-}
-
 @media (max-width: $mobile-max-width) {
   .logo {
     height: $cfl-logo-height-xs;
