@@ -5,6 +5,10 @@ img {
   max-width: 100%;
 }
 
+.img-border {
+  border: 1px solid #4a4a4a;
+}
+
 .homepage-info img {
   @include _padding(0px, 0px, 15px, 0px);
 }
@@ -40,6 +44,10 @@ img {
   .background--quinary__title {
     margin: 0;
   }
+}
+
+.bg-image {
+  margin-top: 1.5em;
 }
 
 .background--swirl {
