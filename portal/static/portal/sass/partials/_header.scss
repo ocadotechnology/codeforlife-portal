@@ -212,7 +212,7 @@
   }
 }
 
-@media (min-width: $tablet-small-min-width) {
+@media (min-width: $tablet-large-min-width) {
   .menu {
     background-color: $color-background-secondary;
     display: flex;
@@ -286,7 +286,7 @@
   height: 30px;
 }
 
-@media (max-width: $mobile-max-width) {
+@media (max-width: $tablet-small-max-width) {
   .menu {
     height: $menu-height-xs;
 

@@ -364,13 +364,13 @@ button,
   }
 }
 
-@media (min-width: $tablet-small-min-width) {
+@media (min-width: $tablet-large-min-width) {
   .menu__item {
     display: none;
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
   .button--menu--primary {
     @include _margin(0px, $spacing * 6, 0px, 0px);
   }
@@ -384,7 +384,7 @@ button,
   }
 }
 
-@media (max-width: $mobile-max-width) {
+@media (max-width: $tablet-small-max-width) {
   .button--secondary--dark {
     background-color: $color-background-secondary;
   }

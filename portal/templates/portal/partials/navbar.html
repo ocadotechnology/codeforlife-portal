@@ -12,13 +12,13 @@
                 <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Group"
                 src="{% static 'portal/img/logo_ocado_group.svg' %}">
             </a>
-            <span class="material-icons-outlined visible-xs" data-toggle="collapse" data-target="#menu-items">
+            <span class="material-icons-outlined visible-sm visible-xs" data-toggle="collapse" data-target="#menu-items">
                 menu
             </span>
         </div>
         {% block leftMenuButtons %}
             {% if user|is_logged_in %}
-            <div class="menu__left-side col-sm-7">
+            <div class="menu__left-side col-md-7">
                 {% if user|is_logged_in_as_teacher %}
                     <a href="{% url 'teach' %}" class="button--menu button--menu--primary">Teacher</a>
                     {% block secondaryButtons %}
@@ -76,7 +76,7 @@
                     {% endblock studentButtons %}
                 {% endif %}
             {% else %}
-                <div class="menu__left-side col-sm-5">
+                <div class="menu__left-side col-md-5">
                     {% block nav_teach %}<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>{% endblock nav_teach %}
                     {% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>{% endblock nav_play %}
             {% endif %}
@@ -84,7 +84,7 @@
         {% endblock leftMenuButtons %}
         {% block rightMenuButtons %}
             {% if user|is_logged_in %}
-            <div class="menu__right-side col-sm-4">
+            <div class="menu__right-side col-md-4">
                 <div class="dropdown header__account-details-dropdown">
                     <button id="logout_menu" class="button--regular button--secondary button--dropdown header__account-details-dropdown"
                             data-toggle="dropdown">
@@ -123,7 +123,7 @@
                     </ul>
                 </div>
                 {% else %}
-                <div class="menu__right-side col-sm-5">
+                <div class="menu__right-side col-md-5">
                     <a href="{% url 'register' %}" id="signup_button" class="button button--regular button--register register">Register</a>
                     <div class="dropdown">
                         <button id="login_dropdown" class="button--regular button--secondary login button--dropdown"

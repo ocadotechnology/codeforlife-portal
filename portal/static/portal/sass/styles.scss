@@ -23,7 +23,7 @@
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
   body {
     padding-top: $menu-height-sm;
   }
