@@ -61,16 +61,6 @@
       }
     }
 
-    .button--primary--general-play:hover,
-    .button--primary--general-play:focus {
-      background-color: $color-button-primary-action-general-play-hover;
-    }
-
-    .button--primary--general-educate:hover,
-    .button--primary--general-educate:focus {
-      background-color: $color-button-primary-action-general-educate-hover;
-    }
-
     .button--primary--negative:hover,
     .button--primary--negative:focus {
       background-color: $color-button-primary-action-negative-hover;
@@ -78,7 +68,7 @@
 
     .button--primary--navigation:hover,
     .button--primary--navigation:focus {
-      background: $color-button-primary-action-navigation-hover;
+      background: $color-button-contained-hover;
     }
   }
 }

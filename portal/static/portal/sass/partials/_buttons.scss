@@ -4,13 +4,6 @@ a {
   cursor: pointer;
 }
 
-a,
-a:hover,
-a:active,
-a:focus {
-  color: $color-text-tertiary;
-}
-
 button {
   border: none;
 }
@@ -18,44 +11,45 @@ button {
 button,
 .button,
 .hijacked-warning .btn {
-  @include _padding(10px, 15px, 10px, 15px);
+  @include _padding(5px, 15px, 10px, 15px);
+  @include _font-size(16px);
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
 }
 
 .button,
 .button:hover,
 .button:active,
 .button:focus {
-  color: $color-text-secondary;
   text-decoration: none;
 }
 
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
-  font-family: "Baloo", serif;
+  font-family: "Space Grotesk", sans-serif;
   font-weight: 500;
 }
 
 .button--big {
-  @include _font-size(28px);
-  @include _line-height(28px);
-  @include _padding(15px, 20px, 15px, 20px);
+  @include _font-size(16px);
   display: inline-block;
-  font-family: "Baloo", serif;
-  font-weight: 500;
+
+  .material-icons-outlined {
+    position: relative;
+    top: 5px;
+  }
 }
 
 .button--regular,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {
-  @include _font-size(20px);
-  @include _line-height(25px);
+  @include _font-size(16px);
   @include _padding(10px, 15px, 10px, 15px);
 }
 
 .button--small {
   @include _font-size(16px);
-  @include _line-height(25px);
   @include _padding(2px, 10px, 2px, 10px);
 }
 
@@ -134,21 +128,25 @@ button,
   }
 }
 
+.button--primary--home,
+.button--primary--general-educate,
 .button--primary--general-play {
-  background: $color-button-primary-action-general-play;
-  color: $color-text-secondary;
+  background: $color-button-home;
+  color: $color-text-primary;
+  text-align: center;
+  width: 170px;
+  padding: 0.2em 1em 0.5em 1em;
 
   &:hover {
-    background: $color-button-primary-action-general-play-hover;
+    @include material-shadow();
+    opacity: 0.82;
+    text-decoration: none;
   }
-}
 
-.button--primary--general-educate {
-  background: $color-button-primary-action-general-educate;
-  color: $color-text-secondary;
-
-  &:hover {
-    background: $color-button-primary-action-general-educate-hover;
+  &:active {
+    border: 1px solid $color-button-home-border;
+    opacity: 0.82;
+    box-shadow: none;
   }
 }
 
@@ -192,11 +190,19 @@ button,
 }
 
 .button--primary--navigation {
-  background: $color-button-primary-action-navigation;
-  color: $color-text-secondary;
+  background: $color-button-contained;
+  color: $color-text-primary;
 
   &:hover {
-    background: $color-button-primary-action-navigation-hover;
+    @include material-shadow();
+    background: $color-button-contained-hover;
+    color: $color-text-primary;
+  }
+
+  &:active {
+    background: $color-button-contained-active;
+    color: $color-text-primary;
+    box-shadow: none;
   }
 }
 
@@ -219,12 +225,16 @@ button,
 
 .button--secondary {
   background-color: transparent;
-  border: 1px solid;
+  border: 2px solid;
 }
 
 .button--secondary--light {
-  border-color: $color-button-secondary-border-light;
+  border-color: $color-button-subnav-border;
   color: $color-text-secondary;
+
+  &:active {
+    border: 3px solid;
+  }
 }
 
 .button--secondary--dark {
@@ -246,24 +256,27 @@ button,
 .button--dropdown {
   @extend .dropdown;
   background: $color-orange;
-  border: 2px solid $color-orange;
   color: $color-text-tertiary;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   outline: none;
+  padding: 0.7em 1em 0.1em 1em;
 
   .glyphicon {
     @include _font-size(20px);
     @include _padding(0px, 0px, 0px, 10px);
     display: inline-flex;
+    position: relative;
+    top: 5px;
   }
 
   &:after {
     @include _font-size(24px);
-    @include _padding(0px, 0px, 0px, $spacing * 5);
     content: "\e5cf";
     font-family: "Material Icons Outlined";
+    position: relative;
+    top: -4px;
   }
 }
 
@@ -418,19 +431,6 @@ button,
       .glyphicon {
         @include _font-size(32px);
       }
-    }
-  }
-
-  .button--banner__item {
-    @include _font-size(30px);
-    font-weight: 500;
-    width: 50%;
-
-    &:focus,
-    &:hover,
-    &:active {
-      background-color: $color-background-secondary;
-      color: $color-teacher-blue;
     }
   }
 

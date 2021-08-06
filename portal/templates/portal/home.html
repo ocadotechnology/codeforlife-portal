@@ -18,80 +18,113 @@
 <div id="home_page"></div>
 
 <div class="row row--flex">
-    <section class="banner--homepage banner--homepage--teacher col-sm-6">
-        <div class="banner col-sm-7">
-            <a href="{% url 'teach' %}" class="educate-homepage"></a>
-            <h1 class="banner__text--primary"><a href="{% url 'teach' %}">Educate</a></h1>
-            <p>Helping teachers and families to inspire the next generation of computer scientists.</p>
-            <a href="{% url 'teach' %}" class="button button--big button-primary button--primary--general-educate">Learn more</a>
+    <div class="banner--homepage banner--homepage--teacher col-sm-6">
+        <div class="banner col-sm-10">
+            <div class="banner__item">
+                <a href="{% url 'teach' %}" class="educate-homepage"></a>
+            </div>
+            
+            <div style="display: table;">
+                <div style="float: left; display: table-cell;">
+                    <h1><a href="{% url 'teach' %}">Educate</a></h1>
+                    <p>Helping teachers and families to inspire the next generation of computer scientists.</p>
+                </div>
+                <div style="display: table-cell; vertical-align: bottom;">
+                    <a href="{% url 'teach' %}" class="button button--big button-primary button--primary--home">
+                        Learn more
+                        <span class="material-icons-outlined">navigate_next</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </section>
-    <section class="banner--homepage banner--homepage--student col-sm-6">
-        <div class="banner col-sm-7">
-            <a href="{% url 'play' %}" class="play-homepage"></a>
-            <h1 class="banner__text--primary"><a href="{% url 'play' %}">Play</a></h1>
-            <p>Anyone can learn how to code. We will help you learn how. It&rsquo;s fun, free and easy.</p>
-            <a href="{% url 'play' %}" class="button button--big button-primary button--primary--general-play">Get started</a>
+    </div>
+    <div class="banner--homepage banner--homepage--student col-sm-6">
+        <div class="banner col-sm-10">
+            <div class="banner__item">
+                <a href="{% url 'play' %}" class="play-homepage"></a>
+            </div>
+            <div style="display: table;">
+                <div style="float: left; display: table-cell;">
+                    <h1><a href="{% url 'play' %}">Play</a></h1>
+                    <p>Anyone can learn how to code. We will help you learn how. It's fun, free and easy.</p>
+                </div>
+                <div style="display: table-cell; vertical-align: bottom;">
+                    <a href="{% url 'play' %}" class="button button--big button-primary button--primary--home">
+                        Get started
+                        <span class="material-icons-outlined">navigate_next</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 
 <section>
-    <h3>Giving everyone the ability to shape technology&rsquo;s future</h3>
-    <div class="col-sm-8 col-center">
-        <div class="row row--regular homepage-info">
+    <h4>Giving everyone the ability to shape technology's future</h4>
+    <div class="col-sm-10 col-center">
+        <div class="row">
             <div class="col-sm-3">
-                <img title="16%" alt="16% graph" src="{% static 'portal/img/16-percent-icon.png' %}">
-                <p class="col-sm-11 col-center"><strong>Just 16%</strong> of university computer science graduates (2018/19) in the UK were women
-                    <a href="https://www.wisecampaign.org.uk/statistics/core-stem-graduates-2019/">*</a>, we want to change that.</p>
+                <img title="16%" alt="16% graph" src="{% static 'portal/img/icon_piechart.png' %}">
+                <p class="col-sm-11 col-center">Just 16% of university computer science graduates (2018/19) in the UK were
+                    women<a href="https://www.wisecampaign.org.uk/statistics/core-stem-graduates-2019/">*</a>, we want to change that.</p>
             </div>
             <div class="col-sm-3">
-                <img title="Controller" alt="Controller image" src="{% static 'portal/img/icon_game.png' %}">
-                <p class="col-sm-11 col-center">Gamification helps children <strong>learn whilst having fun!</strong></p>
+                <img title="Controller" alt="Controller image" src="{% static 'portal/img/icon_controller.png' %}">
+                <p class="col-sm-11 col-center">Gamification helps children learn whilst having fun!</p>
             </div>
             <div class="col-sm-3">
                 <img title="Free" alt="Free image" src="{% static 'portal/img/icon_free.png' %}">
-                <p class="col-sm-11 col-center">That&rsquo;s right, <strong>free forever:</strong> our gift to you! We&rsquo;re also
-                    <strong><a target="_blank" href="https://github.com/ocadotechnology/codeforlife-portal">Open Source</a></strong>.</p>
+                <p class="col-sm-11 col-center">That's right, free forever: our gift to you! We're also
+                    Open Source.</p>
             </div>
             <div class="col-sm-3">
                 <img title="Planet" alt="Planet image" src="{% static 'portal/img/icon_globe.png' %}">
-                <p class="col-sm-11 col-center">Code for Life has over <strong>350,000 registered users</strong> across the world.</p>
+                <p class="col-sm-11 col-center">Code for Life has over 350,000 registered users across the world.</p>
             </div>
         </div>
     </div>
 
     <div class="background">
-        <a class="button button--big button--primary--navigation" href="{% url 'about' %}">Learn more about us</a>
+        <a class="button button--big button--primary--navigation" href="{% url 'about' %}">About us 
+        <span class="material-icons-outlined">navigate_next</span>
+        </a>
     </div>
 
 </section>
 
 <section class="background background--primary">
-    <h3>Why you&rsquo;ll love Code for Life</h3>
-    <h4 class="col-sm-6 col-center">Don&rsquo;t just take our word for it, here are some lovely quotes from our fabulous teacher friends:</h4>
+    <h3>Why you'll love Code for Life</h3>
+    <div class="col-sm-6 col-center subtitle1">Don't just take our word for it, here are some lovely quotes from our fabulous teacher friends.
+        Interested in getting involved? Get in touch.
+    </div>
 
-    <div class="row row--regular">
+    <div class="row">
         <div class="col-sm-9 col-center">
             <div class="col-sm-4">
-                <img title="Mandy" alt="Mandy portrait" class="portrait" src="{% static 'portal/img/teacher1.png' %}">
+                <img title="Reuben" alt="Reuben portrait" class="portrait" src="{% static 'portal/img/reuben.png' %}">
                 <blockquote>
-                    <p class="says">The kids love it! They all want to move onto the next level, they want to be further on than anyone else.</p>
-                    <p>Mandy, ICT Teacher</p>
+                    <p class="says">"My year 10's have been using Rapid Router to develop their Python skills and it has been a great transition into the Python IDE."</p>
+                    <p><small><b>Reuben</b>
+                    <br />Computer Science teacher
+                    </small></p>
                 </blockquote>
             </div>
             <div class="col-sm-4">
-                <img title="Rob" alt="Rob portrait" class="portrait" src="{% static 'portal/img/teacher2.png' %}">
+                <img title="Sian" alt="Sian portrait" class="portrait" src="{% static 'portal/img/sian.png' %}">
                 <blockquote>
-                    <p class="says">You can hit all of the computing curriculum, in a structured way. It is perfect for teachers who are struggling.</p>
-                    <p>Rob, ICT Teacher</p>
+                    <p class="says">"I like the slow build of layers of block coding that allows students to work at their own pace and fully embed their understanding of the different blocks."</p>
+                    <p><small><b>Sian</b>
+                    <br />Head of ICT
+                    </small></p>
                 </blockquote>
             </div>
             <div class="col-sm-4">
-                <img title="Dale" alt="Dale portrait" class="portrait" src="{% static 'portal/img/teacher3.png' %}">
+                <img title="Rob" alt="Rob portrait" class="portrait" src="{% static 'portal/img/rob.png' %}">
                 <blockquote>
-                    <p class="says">When I came across Code for Life, I thought, yeah, that fits in well, but to have the assessment, that&rsquo;s great!</p>
-                    <p>Dale, IT Technician</p>
+                    <p class="says">"You can hit all of the computing curriculum, in a structured way. It is perfect for teachers who are struggling."</p>
+                    <p><small><b>Rob</b>
+                    <br />ICT teacher
+                    </small></p>
                 </blockquote>
             </div>
         </div>

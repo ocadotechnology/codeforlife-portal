@@ -1,7 +1,7 @@
-@import 'base';
+@import "base";
 
 .footer {
-  background-color: $color-background-tertiary;
+  background-color: $color-background-primary;
   text-align: center;
 
   p {
@@ -79,5 +79,4 @@
     vertical-align: middle;
     width: 6%;
   }
-
 }

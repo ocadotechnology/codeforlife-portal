@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 .banner {
   p {
@@ -21,9 +21,10 @@
   h2,
   h3,
   h4,
-  p,
-  a {
+  h5,
+  p {
     color: $color-text-secondary;
+    opacity: 0.8;
   }
 
   .row {
@@ -40,7 +41,7 @@
     justify-content: center;
   }
 
-  div[class^='col-sm'] {
+  div[class^="col-sm"] {
     padding: 0;
   }
 }
@@ -85,50 +86,47 @@
 }
 
 .banner--picture--educate {
-  background-image: url('../img/home_educate_hero.jpg');
+  background-image: url("../img/home_educate_hero.jpg");
 }
 
 .banner--picture--play {
-  background-image: url('../img/home_play_hero.jpg');
+  background-image: url("../img/home_play_hero.jpg");
 }
 
 .banner--picture--about {
-  background-image: url('../img/about_us_hero.jpg');
+  background-image: url("../img/about_us_hero.jpg");
 }
 
 .banner--picture--help {
-  background-image: url('../img/help_and_support_hero.jpg');
+  background-image: url("../img/help_and_support_hero.jpg");
 }
 
 .banner--picture--terms,
 .banner--picture--tools {
-  background-image: url('../img/teaching_resources_hero.jpg');
+  background-image: url("../img/teaching_resources_hero.jpg");
 }
 
 .banner--picture--aimmo {
-  background-image: url('../img/kurono_hero.jpg');
+  background-image: url("../img/kurono_hero.jpg");
 }
 
 .banner--picture--aimmo-teaching-packs {
-  background-image: url('../img/kurono_teaching_packs.svg');
+  background-image: url("../img/kurono_teaching_packs.svg");
 }
 
 .banner--picture--aimmo-resources {
-  background-image: url('../img/kurono_time_machine_hero.png');
+  background-image: url("../img/kurono_time_machine_hero.png");
 }
 
 .banner--homepage {
   height: calc(100vh - #{$menu-height});
-  min-height: 768px;
-  @include _padding(4 * $spacing, 0px, 4 * $spacing, 0px);
+  min-height: 750px;
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
 
   p {
-    @include _font-size(24px);
-    @include _padding(0px, 0px, 60px, 10px);
+    @include _font-size(22px);
   }
 }
 
@@ -152,7 +150,7 @@
   }
 
   .banner--game__ages {
-    font-family: 'Baloo', serif;
+    font-family: "Space Grotesk", sans-serif;
     font-weight: 500;
   }
 
@@ -178,14 +176,24 @@
 
 .banner--homepage--teacher,
 .banner--teacher {
-  background-image: url('../img/background_blue.png');
+  background-color: $color-primary;
   background-position: top right;
+
+  h1 a,
+  p {
+    opacity: 0.8;
+  }
 }
 
 .banner--homepage--student,
 .banner--student {
-  background-image: url('../img/background_orange.png');
+  background-color: $color-tertiary;
   background-position: top left;
+
+  h1 a,
+  p {
+    opacity: 0.8;
+  }
 }
 
 .banner--teacher,
@@ -296,21 +304,21 @@
 }
 
 .banner--rapid-router--background {
-  background-image: url('../img/rapid_router_landing_hero.png');
+  background-image: url("../img/rapid_router_landing_hero.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .banner--aimmo--background {
-  background-image: url('../img/kurono_landing_hero.png');
+  background-image: url("../img/kurono_landing_hero.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .banner--aimmo--blurred-background {
-  background-image: url('../img/kurono_landing_hero_blurred.jpg');
+  background-image: url("../img/kurono_landing_hero_blurred.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -343,7 +351,7 @@
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
   align-items: center;
-  background-image: url('../img/background_blue.png');
+  background-image: url("../img/background_blue.png");
   background-position: top right;
   display: flex;
   justify-content: center;
@@ -377,20 +385,14 @@
   }
 }
 
+.banner__item {
+  text-align: center;
+}
+
 @media (min-width: $tablet-large-min-width) {
-  .banner__text--primary,
-  .banner__text--secondary {
-    @include _font-size(72px);
-    @include _line-height(75px);
-  }
 }
 
 @media (min-width: $tablet-small-min-width) {
-  .banner__item,
-  .button--banner__item {
-    display: none;
-  }
-
   .banner--aimmo-landing--content {
     .kurono-logo {
       width: 615px;
@@ -404,30 +406,9 @@
     height: auto;
   }
 
-  .banner__item {
-    align-items: center;
-    display: flex;
-    height: 120px;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-
-  .banner__item--teacher {
-    background-color: $color-background-teach;
-  }
-
-  .banner__item--student {
-    background-color: $color-background-play;
-  }
-
   .banner {
     @include _padding(10px, 10px, 50px, 10px);
     text-align: center;
-
-    p a {
-      color: $color-text-secondary;
-    }
 
     .banner--picture {
       display: none;
