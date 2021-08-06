@@ -63,7 +63,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_RATE,
 )
 from portal.two_factor_urls import urlpatterns as two_factor_urls
-from portal.views.about import about
+from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
     AdminChangePasswordView,
@@ -349,6 +349,8 @@ urlpatterns = [
     url(r"^play/rapid-router/$", play_rapid_router, name="play_rapid_router"),
     url(r"^play/kurono/$", play_aimmo, name="play_aimmo"),
     url(r"^about", about, name="about"),
+    url(r"^getinvolved", getinvolved, name="getinvolved"),
+    url(r"^contribute", contribute, name="contribute"),
     url(r"^help/$", contact, name="help"),
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),

@@ -217,3 +217,13 @@ class TestViews(TestCase):
         response = c.get(page_url)
 
         self.assertEquals(200, response.status_code)
+
+    def test_contributor(self):
+        c = Client()
+        page_url = reverse("getinvolved")
+        response = c.get(page_url)
+        assert response.status_code == 200
+
+        page_url = reverse("contribute")
+        response = c.get(page_url)
+        assert response.status_code == 200

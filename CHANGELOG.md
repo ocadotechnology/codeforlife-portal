@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.33.0 (2021-08-03)
+### Feature
+* Add contributor pages ([#1493](https://github.com/ocadotechnology/codeforlife-portal/issues/1493)) ([`47c6833`](https://github.com/ocadotechnology/codeforlife-portal/commit/47c683346c17eba91e7e574c95ef04836e499414))
+
 ## v4.32.4 (2021-07-22)
 ### Fix
 * Remove ReCaptcha from certain forms ([#1494](https://github.com/ocadotechnology/codeforlife-portal/issues/1494)) ([`f21cbd4`](https://github.com/ocadotechnology/codeforlife-portal/commit/f21cbd41cd9478c5d4b80aaa1be74a4c48da5cd2))
