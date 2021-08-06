@@ -261,6 +261,10 @@ button,
     content: "\e5cf";
     font-family: "Material Icons Outlined";
   }
+
+  &[aria-expanded="true"]:after {
+    content: "\e5ce";
+  }
 }
 
 .button--secondary--no-border {
@@ -448,14 +452,15 @@ button,
 
   .button--menu__item--sub-header {
     &:after {
-      content: "\e252";
-      font-family: "Glyphicons Halflings";
+      content: "\e5c5";
+      font-family: "Material Icons Outlined";
+      font-size: 32px;
     }
   }
 
   .button--menu__item--sub-header[aria-expanded="true"] {
     &:after {
-      content: "\e253";
+      content: "\e5c7";
     }
   }
 

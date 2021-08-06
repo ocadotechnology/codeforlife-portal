@@ -12,8 +12,9 @@
                 <img title="Proudly developed by Ocado Technology" alt="Proudly developed by Ocado Group"
                 src="{% static 'portal/img/logo_ocado_group.svg' %}">
             </a>
-            <span class="glyphicon glyphicon-menu-hamburger header__hamburger visible-xs"
-                  data-toggle="collapse" data-target="#menu-items"></span>
+            <span class="material-icons-outlined visible-xs" data-toggle="collapse" data-target="#menu-items">
+                menu
+            </span>
         </div>
         {% block leftMenuButtons %}
             {% if user|is_logged_in %}
@@ -95,7 +96,7 @@
                             <a class="button--regular" id="logout_button" aria-labelledby="Log out"
                               href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
                                 <small class="dropdown-menu__option__text">Log out</small>
-                                <div class="glyphicon glyphicon-log-out"></div></a>
+                                <span class="material-icons-outlined">logout</span></a>
                         </li>
                         {% endif %}
                         {% if user|is_logged_in_as_teacher %}
@@ -103,20 +104,20 @@
                                 <a class="button--regular" aria-labelledby="Change password"
                                   href="{% url 'dashboard' %}#edit_account_details_password">
                                     <small class="dropdown-menu__option__text">Change password</small>
-                                    <div class="glyphicon glyphicon-lock"></div></a>
+                                    <span class="material-icons-outlined">lock</span></a>
                             </li>
                             <li class="dropdown-menu__option">
                                 <a class="button--regular" aria-labelledby="Update my details"
                                   href="{% url 'dashboard' %}#account">
                                     <small class="dropdown-menu__option__text">Update my details</small>
-                                    <div class="glyphicon glyphicon-user"></div></a>
+                                    <span class="material-icons-outlined">manage_accounts</span></a>
                             </li>
                         {% else %}
                             <li class="dropdown-menu__option">
                                 <a class="button--regular" aria-labelledby="Change password"
                                   href="{% url 'student_edit_account' %}" id="student_edit_account_button">
                                     <small class="dropdown-menu__option__text">Change password</small>
-                                    <div class="glyphicon glyphicon-lock"></div></a>
+                                    <span class="material-icons-outlined">lock</span></a>
                             </li>
                         {% endif %}
                     </ul>
@@ -164,16 +165,16 @@
                         data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
                 <div id="teacher-tabs" class="collapse">
                     <a class="button button--menu__item button--menu__item__sub"
-                      href="{% url 'dashboard' %}">School / Club<div class="glyphicon glyphicon-chevron-right"></div></a>
+                      href="{% url 'dashboard' %}">School / Club<span class="material-icons-outlined md-32">chevron_right</span></a>
                     <a class="button button--menu__item button--menu__item__sub"
-                      href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                      href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                     <button class="button--menu__item button--menu__item__sub
                     button--menu__item--sub-header" data-toggle="collapse" data-target="#resources-tabs">Teaching Resources</button>
                     <div id="resources-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item__sub__sub"
-                          href="{% url 'teaching_resources' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                          href="{% url 'teaching_resources' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                         <a class="button button--menu__item button--menu__item__sub__sub"
-                          href="{% url 'kurono_teaching_resources' %}">Kurono<div class="glyphicon glyphicon-chevron-right"></div></a>
+                          href="{% url 'kurono_teaching_resources' %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
                     </div>
                 </div>
             {% else %}
@@ -184,21 +185,21 @@
                             data-toggle="collapse" data-target="#games-tabs">My Games</button>
                     <div id="games-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                          href="{% url 'levels' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                          href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% if not user|is_independent_student %}
                             <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                              href="{% url_for_aimmo_dashboard %}">Kurono<div class="glyphicon glyphicon-chevron-right"></div></a>
+                              href="{% url_for_aimmo_dashboard %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% endif %}
                     </div>
                     <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
                             data-toggle="collapse" data-target="#scoreboards-tabs">View Scoreboards</button>
                     <div id="scoreboards-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                          href="{% url 'scoreboard' %}">Rapid Router<div class="glyphicon glyphicon-chevron-right"></div></a>
+                          href="{% url 'scoreboard' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                     </div>
                 {% if not user.new_student.class_field %}
                     <a class="button button--menu__item button--menu__item--student"
-                      href="{% url 'student_join_organisation' %}">Join a school<div class="glyphicon glyphicon-chevron-right"></div></a>
+                      href="{% url 'student_join_organisation' %}">Join a school<span class="material-icons-outlined md-32">chevron_right</span></a>
                 {% endif %}
                 </div>
             {% endif %}
@@ -209,34 +210,34 @@
                     data-toggle="collapse" data-target="#login-tabs">Log in</button>
             <div id="login-tabs" class="collapse">
                 <a class="button button--menu__item button--menu__item__sub"
-                  href="{% url 'teacher_login' %}">Teacher<div class="glyphicon glyphicon-chevron-right"></div></a>
+                  href="{% url 'teacher_login' %}">Teacher<span class="material-icons-outlined md-32">chevron_right</span></a>
                 <a class="button button--menu__item button--menu__item__sub"
-                  href="{% url 'student_login' %}">Student<div class="glyphicon glyphicon-chevron-right"></div></a>
+                  href="{% url 'student_login' %}">Student<span class="material-icons-outlined md-32">chevron_right</span></a>
                 <a class="button button--menu__item button--menu__item__sub"
-                  href="{% url 'independent_student_login' %}">Independent<div class="glyphicon glyphicon-chevron-right"></div></a>
+                  href="{% url 'independent_student_login' %}">Independent<span class="material-icons-outlined md-32">chevron_right</span></a>
             </div>
             <a class="button button--menu__item" href="{% url 'teach' %}">Teacher
-                <div class="glyphicon glyphicon-chevron-right"></div></a>
+                <span class="material-icons-outlined md-32">chevron_right</span></a>
             <a class="button button--menu__item" href="{% url 'play' %}">Student
-                <div class="glyphicon glyphicon-chevron-right"></div></a>
+                <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% endif %}
         <a class="button button--menu__item" href="{% url 'about' %}">About
-            <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" href="{% url 'help' %}">Help and support
-            <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
-            <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" href="{% url 'privacy_policy' %}">Privacy policy
-            <div class="glyphicon glyphicon-chevron-right"></div></a>
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% if user|is_logged_in %}
             {% if user|is_logged_in_as_teacher %}
                 <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password
-                    <div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <span class="material-icons-outlined md-32">chevron_right</span></a>
                 <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details
-                    <div class="glyphicon glyphicon-chevron-right"></div></a>
+                    <span class="material-icons-outlined md-32">chevron_right</span></a>
             {% endif %}
             <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
-                <div class="glyphicon glyphicon-chevron-right"></div></a>
+                <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% endif %}
     </div>
 </div>
