@@ -56,7 +56,7 @@ MODULE_NAME = common.app_settings.MODULE_NAME
 if MODULE_NAME == "local":
     DOMAIN = "localhost:8000"
 elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
-    DOMAIN = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com/"
+    DOMAIN = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
 
 SETTINGS = {
     "AUTOCONFIG_DISABLED_APPS": [
@@ -183,6 +183,7 @@ SETTINGS = {
                         "https://euc-widget.freshworks.com/widgets/77000000397.json",
                         "https://euc-widget.freshworks.com/widgetBase/locales/en.json",),
     "CSP_FONT_SRC": ("'self'",
+                     "https://fonts.gstatic.com",
                      "https://fonts.gstatic.com/s/baloo/v7/6xKhdSpJJ92I9MWPCm4.woff2",
                      "https://fonts.gstatic.com/s/sourcesanspro/v14/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"),
     "CSP_IMG_SRC": (f"{DOMAIN}/static/portal/img/"),
@@ -194,9 +195,10 @@ SETTINGS = {
     "CSP_STYLE_SRC": ("'self'",
                       f"{DOMAIN}/static/hijack/hijack-styles.css",
                       "euc-widget.freshworks.com/widgetBase/static/media/styles.5fe92f64.css",
+                      "https://fonts.googleapis.com",
                       "https://fonts.googleapis.com/css?family=Baloo"),
     "CSP_OBJECT_SRC": ("'none'", ),
-    "CSP_UPGRADE_INSECURE_REQUESTS": True,
+    # "CSP_UPGRADE_INSECURE_REQUESTS": True,
     "CSP_REPORT_ONLY": True,
 }
 
