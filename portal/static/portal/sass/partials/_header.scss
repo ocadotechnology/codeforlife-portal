@@ -14,10 +14,15 @@
 
 .dropdown__text {
   display: block;
+  overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
   width: 80%;
   white-space: nowrap;
+
+  .login > & {
+    overflow: visible;
+  }
 }
 
 .dropdown-menu {
@@ -39,7 +44,7 @@
       @include _line-height($spacing * 5);
       @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
-      background: #ffffff;
+      background: $color-background-secondary;
       border-bottom: 2px solid $color-orange;
       color: $color-text-tertiary;
       display: flex;
@@ -300,7 +305,7 @@
     }
 
     .logo {
-      @include _padding(0px, 0px, 0px, 0px);
+      padding: 0;
       height: 60px;
     }
 

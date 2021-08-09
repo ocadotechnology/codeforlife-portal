@@ -392,14 +392,18 @@ button,
   .button--menu__item {
     @include _font-size(30px);
     align-items: center;
-    background: white;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: $color-background-secondary;
+    border-bottom: 1px solid $color-button-border-light-grey;
     color: $color-text-tertiary;
     display: flex;
     height: 60px;
     justify-content: space-between;
     text-align: left;
     width: 100%;
+
+    &:hover {
+      color: $color-text-tertiary;
+    }
 
     &.button--register {
       background: $color-orange;

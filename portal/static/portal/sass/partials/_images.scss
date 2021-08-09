@@ -81,7 +81,6 @@ img {
 .logo {
   @include _padding(0px, $spacing * 14, 0px, $spacing * 3);
   content: url("../img/logo_cfl.png");
-  z-index: $nav-bar-level + 2;
 }
 
 .glyphicon {
