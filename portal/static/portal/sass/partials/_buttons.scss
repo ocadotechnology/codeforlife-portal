@@ -131,7 +131,7 @@ button,
 .button--primary--home,
 .button--primary--general-educate,
 .button--primary--general-play {
-  background: $color-button-home;
+  background-color: $color-button-home;
   color: $color-text-primary;
   text-align: center;
   width: 170px;
@@ -139,13 +139,13 @@ button,
 
   &:hover {
     @include material-shadow();
-    opacity: 0.82;
+    color: $color-text-primary;
+    background-color: $color-button-home-hover;
     text-decoration: none;
   }
 
   &:active {
     border: 1px solid $color-button-home-border;
-    opacity: 0.82;
     box-shadow: none;
   }
 }
