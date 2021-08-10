@@ -54,7 +54,7 @@ class TeachDashboardPage(TeachBasePage):
         assert self.on_correct_page("teach_dashboard_page")
 
     def go_to_class_page(self):
-        time.sleep(1)
+        time.sleep(3)
         self.browser.find_element_by_id("class_button").click()
         return TeachClassPage(self.browser)
 
@@ -185,12 +185,12 @@ class TeachDashboardPage(TeachBasePage):
         return self
 
     def accept_independent_join_request(self):
-        time.sleep(1)
+        time.sleep(3)
         self.browser.find_element_by_id("allow_independent_button").click()
         return AddIndependentStudentToClassPage(self.browser)
 
     def deny_independent_join_request(self):
-        time.sleep(1)
+        time.sleep(3)
         self.browser.find_element_by_id("deny_independent_button").click()
         return self
 
@@ -243,7 +243,7 @@ class TeachDashboardPage(TeachBasePage):
         return self
 
     def click_make_admin_button(self):
-        time.sleep(1)
+        time.sleep(3)
         self.browser.find_element_by_id("make_admin_button").click()
 
         return self
