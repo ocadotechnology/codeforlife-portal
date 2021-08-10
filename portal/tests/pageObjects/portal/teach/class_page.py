@@ -36,6 +36,8 @@
 # identified as the original program.
 from __future__ import absolute_import
 
+import time
+
 from .teach_base_page import TeachBasePage
 
 
@@ -63,6 +65,7 @@ class TeachClassPage(TeachBasePage):
         return name in self.browser.find_element_by_id("student_table").text
 
     def delete_class(self):
+        time.sleep(1)
         self.browser.find_element_by_id("deleteClass").click()
         return self
 
@@ -128,6 +131,7 @@ class TeachClassPage(TeachBasePage):
         return self.element_exists_by_id("student_table")
 
     def go_to_class_settings_page(self):
+        time.sleep(1)
         self.browser.find_element_by_id("class_settings_button").click()
 
         import portal.tests.pageObjects.portal.teach.class_settings_page as class_settings_page
