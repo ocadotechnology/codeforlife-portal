@@ -10,8 +10,11 @@
     {% include "common/onetrust_cookies_consent_notice.html" %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'portal.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
     <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">  
 </head>
@@ -19,7 +22,7 @@
 
 <div id="contentWrapper">
     {% block topBar %}
-    {% include 'portal/partials/navbar.html' %}
+    {% include 'portal/partials/header.html' %}
     {% endblock topBar %}
 
     <div class="content">

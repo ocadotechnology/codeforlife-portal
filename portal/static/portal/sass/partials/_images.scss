@@ -78,10 +78,8 @@ img {
 }
 
 .logo {
+  @include _padding(0px, $spacing * 14, 0px, $spacing * 3);
   content: url("../img/logo_cfl.png");
-  position: fixed;
-  top: 10px;
-  z-index: $nav-bar-level + 2;
 }
 
 .glyphicon {
@@ -130,30 +128,8 @@ img {
   content: url("../img/home_play.png");
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
-  .logo {
-    margin-left: 1%;
-  }
-}
-
-@media (max-width: $tablet-large-max-width) {
-  .logo {
-    height: 60px;
-  }
-}
-
-@media (min-width: $tablet-small-min-width) {
-  .logo {
-    content: url("../img/logo_cfl.png");
-    position: fixed;
-    top: 10px;
-    z-index: $nav-bar-level + 2;
-  }
-}
-
 @media (max-width: $mobile-max-width) {
   .logo {
-    position: relative;
     height: $cfl-logo-height-xs;
   }
 

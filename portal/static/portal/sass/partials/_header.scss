@@ -2,6 +2,14 @@
 
 .dropdown {
   display: flex;
+
+  &.header__account-details-dropdown {
+    justify-content: flex-end;
+  }
+
+  > .button--menu--enabled:hover {
+    text-decoration: none;
+  }
 }
 
 .dropdown__text {
@@ -11,11 +19,16 @@
   text-overflow: ellipsis;
   width: 80%;
   white-space: nowrap;
+
+  .login > & {
+    overflow: visible;
+  }
 }
 
 .dropdown-menu {
-  @include _border-radius(0px, 0px, $spacing * 2, $spacing * 2);
-  border: none;
+  @include _border-radius(0px, 0px, 0px, 0px);
+  border: 2px solid $color-secondary-600;
+  border-top: 0;
   font-weight: 300;
   margin: 0;
   max-height: 300px;
@@ -29,16 +42,16 @@
     .button--regular:focus,
     .button--regular:visited {
       @include _line-height($spacing * 5);
-      @include _padding($spacing * 2, 0px, $spacing * 2, $spacing * 3);
+      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
-      border-bottom: 1px solid $color-button-secondary-border-light;
-      color: $color-text-secondary;
+      background: $color-background-secondary;
+      border-bottom: 2px solid $color-secondary-600;
+      color: $color-text-tertiary;
       display: flex;
       justify-content: space-between;
       margin: 0;
 
       .dropdown-menu__option__text {
-        font-weight: 600;
         text-decoration: none;
       }
 
@@ -60,25 +73,21 @@
         border: none;
       }
     }
-
-    .button--primary--negative:hover,
-    .button--primary--negative:focus {
-      background-color: $color-button-primary-action-negative-hover;
-    }
-
-    .button--primary--navigation:hover,
-    .button--primary--navigation:focus {
-      background: $color-button-contained-hover;
+  
+    &.header__account-details-dropdown-menu {
+      left: auto;
+      right: 0;
     }
   }
 }
 
 .dropdown-content {
   @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
-  @include _margin(54px, 0px, 0px, $spacing * 4);
+  @include _margin(54px, 0px, 0px, 0px);
   background-color: $color-background-secondary;
   display: none;
   position: absolute;
+  min-width: 140px;
   width: 100%;
   z-index: $hover-content-level;
 
@@ -88,7 +97,6 @@
     padding: 12px 16px;
 
     small {
-      border-bottom: 1px dotted $color-text-tertiary;
       text-decoration: none;
     }
   }
@@ -111,15 +119,27 @@
   }
 }
 
-@media (min-width: $desktop-large-min-width) {
-  .menu__right-side {
-    align-items: center;
-    display: flex;
+.button--dropdown {
+  &.header__account-details-dropdown {
+    justify-content: space-between;
+
+    &::after {
+      content: "\e8a6";
+    }
   }
+}
 
+.menu {
+  box-shadow: 0px 2px 7px 1px rgba(0, 0, 0, 0.1);
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (min-width: $desktop-large-min-width) {
   .menu__brand {
-    margin-left: 19%;
-
     a {
       align-items: center;
       display: flex;
@@ -128,35 +148,18 @@
   }
 }
 
-@media (min-width: $desktop-small-min-width) and (max-width: $desktop-small-max-width) {
-  .menu__brand {
-    margin-left: 13%;
-  }
-}
-
-@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
-  .menu__brand {
-    margin-left: 8%;
-  }
-}
-
 @media (min-width: $tablet-large-min-width) {
-  .menu__brand {
-    @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
-    width: 15%;
-  }
-
   .header__account-details-dropdown,
   .header__account-details-dropdown-menu {
+    min-width: 190px;
     width: 80%;
+    background: transparent;
   }
 }
 
 @media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
   .menu__brand {
     @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
-    margin-left: 11%;
-    width: 15%;
   }
 
   .header__account-details-dropdown,
@@ -165,19 +168,59 @@
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
+@media (min-width: $tablet-small-min-width) {
   .menu__right-side {
     align-items: center;
+    justify-content: flex-end;
     display: flex;
   }
 }
 
-@media (min-width: $tablet-small-min-width) {
+@media (min-width: $desktop-small-min-width) {
+  .menu {
+    height: $menu-height;
+
+    .logo {
+      height: 106px;
+    }
+
+    .menu__brand {
+      @include _margin(0px, $spacing * 7, 0px, 0px);
+    }
+
+    .menu__brand--ocado {
+      img {
+        height: 68px;
+      }
+    }
+  }
+}
+
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+  .menu {
+    height: $menu-height-sm;
+
+    .logo {
+      @include _padding(0px, $spacing * 9, 0px, $spacing * 3);
+      height: 78px;
+    }
+
+    .menu__brand {
+      @include _margin(0px, $spacing * 7, 0px, 0px);
+    }
+
+    .menu__brand--ocado {
+      img {
+        height: 50px;
+      }
+    }
+  }
+}
+
+@media (min-width: $tablet-large-min-width) {
   .menu {
     background-color: $color-background-secondary;
-    border-bottom: 1px solid $color-background-tertiary;
     display: flex;
-    height: $menu-height;
     position: fixed;
     top: 0;
     width: 100%;
@@ -187,12 +230,8 @@
       border-radius: 0;
     }
 
-    .button--menu--primary {
-      @include _padding($spacing * 2, 0px, 16px, 0px);
-    }
-
     .button--menu--secondary {
-      @include _padding($spacing * 2, 0px, 18px, 0px);
+      @include _padding($spacing * 3, 0px, $spacing * 3, 0px);
     }
 
     .button--menu--enabled {
@@ -214,6 +253,12 @@
 
     .button--register {
       @include _margin(0px, $spacing * 6, 0px, 0px);
+      justify-content: center;
+      width: 155px;
+    }
+
+    .login {
+      width: 155px;
     }
   }
 
@@ -221,10 +266,14 @@
     align-items: center;
     display: flex;
     justify-content: center;
+
+    img {
+      max-width: none;
+    }
   }
 
   .menu__left-side {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
   }
 
@@ -242,26 +291,20 @@
   height: 30px;
 }
 
-@media (max-width: $mobile-max-width) {
+@media (max-width: $tablet-small-max-width) {
   .menu {
-    height: $menu-height-xs;
-
     .menu__brand {
       @include _padding($spacing * 3, $spacing * 4, $spacing * 3, $spacing * 4);
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       align-items: center;
       height: 100%;
     }
 
     .logo {
-      @include _padding($spacing, $spacing * 3, $spacing, 0px);
-      height: 50px;
-      top: initial;
-    }
-
-    .header__hamburger {
-      margin: auto 0 auto auto;
+      padding: 0;
+      height: 60px;
     }
 
     button {
@@ -279,7 +322,266 @@
 
   .menu__left-side {
     @include _padding(0px, 0px, $spacing * 2, 0px);
-    align-items: flex-end;
+    align-items: center;
     display: inline;
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  .menu {
+    height: $menu-height-xs;
+  }
+}
+
+
+.dropdown-content {
+  @include _box-shadow(0px, 8px, 16px, 0px, $color-background-box-shadow);
+  @include _margin(54px, 0px, 0px, 0px);
+  background-color: $color-background-secondary;
+  display: none;
+  position: absolute;
+  min-width: 140px;
+  width: 100%;
+  z-index: $hover-content-level;
+
+  a {
+    color: $color-text-tertiary;
+    display: block;
+    padding: 12px 16px;
+
+    small {
+      text-decoration: none;
+    }
+  }
+
+  a:hover {
+    small {
+      border-bottom: 1px solid $color-text-tertiary;
+      text-decoration: none;
+    }
+  }
+}
+
+.dropdown:hover {
+  .button--menu--student--active {
+    border-bottom: 6px solid $color-button-secondary-border-light;
+  }
+
+  .dropdown-content {
+    display: block;
+  }
+}
+
+.button--dropdown {
+  &.header__account-details-dropdown {
+    justify-content: space-between;
+
+    &::after {
+      content: "\e8a6";
+    }
+  }
+}
+
+.menu {
+  box-shadow: 0px 2px 7px 1px rgba(0, 0, 0, 0.1);
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (min-width: $desktop-large-min-width) {
+  .menu__brand {
+    a {
+      align-items: center;
+      display: flex;
+      height: 100%;
+    }
+  }
+}
+
+@media (min-width: $tablet-large-min-width) {
+  .header__account-details-dropdown,
+  .header__account-details-dropdown-menu {
+    min-width: 190px;
+    width: 80%;
+    background: transparent;
+  }
+}
+
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-small-max-width) {
+  .menu__brand {
+    @include _padding($spacing * 2, 0px, $spacing * 2, 0px);
+  }
+
+  .header__account-details-dropdown,
+  .header__account-details-dropdown-menu {
+    width: 100%;
+  }
+}
+
+@media (min-width: $tablet-small-min-width) {
+  .menu__right-side {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+  }
+}
+
+@media (min-width: $desktop-small-min-width) {
+  .menu {
+    height: $menu-height;
+
+    .logo {
+      height: 106px;
+    }
+
+    .menu__brand {
+      @include _margin(0px, $spacing * 7, 0px, 0px);
+    }
+
+    .menu__brand--ocado {
+      img {
+        height: 68px;
+      }
+    }
+  }
+}
+
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+  .menu {
+    height: $menu-height-sm;
+
+    .logo {
+      @include _padding(0px, $spacing * 9, 0px, $spacing * 3);
+      height: 78px;
+    }
+
+    .menu__brand {
+      @include _margin(0px, $spacing * 7, 0px, 0px);
+    }
+
+    .menu__brand--ocado {
+      img {
+        height: 50px;
+      }
+    }
+  }
+}
+
+@media (min-width: $tablet-large-min-width) {
+  .menu {
+    background-color: $color-background-secondary;
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: $nav-bar-level;
+
+    .button--menu {
+      border-radius: 0;
+    }
+
+    .button--menu--secondary {
+      @include _padding($spacing * 3, 0px, $spacing * 3, 0px);
+    }
+
+    .button--menu--enabled {
+      color: $color-text-tertiary;
+    }
+
+    .button--menu--disabled {
+      color: $color-button-disabled;
+    }
+
+    .button--secondary--no-border {
+      @include _font-size(30px);
+      font-weight: 500;
+    }
+
+    .button--primary--general-play {
+      @include _margin(0px, $spacing * 6, 0px, 0px);
+    }
+
+    .button--register {
+      @include _margin(0px, $spacing * 6, 0px, 0px);
+      justify-content: center;
+      width: 155px;
+    }
+
+    .login {
+      width: 155px;
+    }
+  }
+
+  .menu__brand {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: none;
+    }
+  }
+
+  .menu__left-side {
+    align-items: center;
+    display: flex;
+  }
+
+  .button--menu__item,
+  .button--menu__item__sub {
+    display: none;
+  }
+
+  .header__login-options-dropdown-menu {
+    width: 100%;
+  }
+}
+
+.header__ot-logo--no-tagline {
+  height: 30px;
+}
+
+@media (max-width: $tablet-small-max-width) {
+  .menu {
+    .menu__brand {
+      @include _padding($spacing * 3, $spacing * 4, $spacing * 3, $spacing * 4);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .logo {
+      padding: 0;
+      height: 60px;
+    }
+
+    button {
+      @include _margin($spacing * 3, $spacing, 0px, $spacing);
+    }
+
+    .button--menu {
+      display: none;
+    }
+  }
+
+  .menu__right-side {
+    display: none;
+  }
+
+  .menu__left-side {
+    @include _padding(0px, 0px, $spacing * 2, 0px);
+    align-items: center;
+    display: inline;
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  .menu {
+    height: $menu-height-xs;
   }
 }
