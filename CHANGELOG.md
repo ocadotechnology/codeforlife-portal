@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.34.0 (2021-08-11)
+### Feature
+* Add function teacher_logout to HomePage ([#1497](https://github.com/ocadotechnology/codeforlife-portal/issues/1497)) ([`aaa9ace`](https://github.com/ocadotechnology/codeforlife-portal/commit/aaa9ace3be5bb19156fa7bf973782759ccd97e85))
+
 ## v4.33.0 (2021-08-03)
 ### Feature
 * Add contributor pages ([#1493](https://github.com/ocadotechnology/codeforlife-portal/issues/1493)) ([`47c6833`](https://github.com/ocadotechnology/codeforlife-portal/commit/47c683346c17eba91e7e574c95ef04836e499414))
