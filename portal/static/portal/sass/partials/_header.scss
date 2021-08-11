@@ -293,8 +293,6 @@
 
 @media (max-width: $tablet-small-max-width) {
   .menu {
-    height: $menu-height-xs;
-
     .menu__brand {
       @include _padding($spacing * 3, $spacing * 4, $spacing * 3, $spacing * 4);
       display: flex;
@@ -326,5 +324,11 @@
     @include _padding(0px, 0px, $spacing * 2, 0px);
     align-items: center;
     display: inline;
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  .menu {
+    height: $menu-height-xs;
   }
 }

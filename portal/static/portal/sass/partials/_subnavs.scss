@@ -181,7 +181,7 @@
   }
 
   .sub-nav--filler {
-    padding-top: 210px;
+    padding-top: $menu-height + 80px;
   }
 }
 
@@ -194,6 +194,10 @@
   .sub-nav--message--fixed {
     top: $menu-height-sm;
   }
+
+  .sub-nav--filler {
+    padding-top: $menu-height-sm + 80px;
+  }
 }
 
 @media (min-width: $tablet-large-min-width) {
@@ -201,10 +205,6 @@
     p {
       padding: 0;
     }
-  }
-
-  .sub-nav--filler {
-    padding-top: 180px;
   }
 }
 
@@ -227,5 +227,9 @@
   .sub-nav--warning--fixed,
   .sub-nav--message--fixed {
     position: static;
+  }
+
+  .sub-nav--filler {
+    padding-top: 80px;
   }
 }
