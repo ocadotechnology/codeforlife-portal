@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 a {
   cursor: pointer;
@@ -19,7 +19,6 @@ button,
 .button,
 .hijacked-warning .btn {
   @include _padding(10px, 15px, 10px, 15px);
-  border-radius: 0.8rem;
 }
 
 .button,
@@ -33,7 +32,7 @@ button,
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
-  font-family: 'Baloo', serif;
+  font-family: "Baloo", serif;
   font-weight: 500;
 }
 
@@ -42,7 +41,7 @@ button,
   @include _line-height(28px);
   @include _padding(15px, 20px, 15px, 20px);
   display: inline-block;
-  font-family: 'Baloo', serif;
+  font-family: "Baloo", serif;
   font-weight: 500;
 }
 
@@ -50,7 +49,7 @@ button,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {
   @include _font-size(20px);
-  @include _line-height(25px);
+  @include _line-height(21px);
   @include _padding(10px, 15px, 10px, 15px);
 }
 
@@ -84,14 +83,12 @@ button,
 }
 
 .button--menu {
-  @include _padding(10px, 0px, 21px, 0px);
   background-color: transparent;
-  border-bottom: 6px solid $color-background-secondary;
   border-radius: 0;
 }
 
 .button--menu--enabled:hover {
-  font-weight: 600;
+  text-decoration: underline;
 }
 
 .button--menu--disabled {
@@ -103,8 +100,7 @@ button,
 }
 
 .button--menu--primary {
-  @include _font-size(30px);
-  @include _line-height(25px);
+  @include _font-size(27px);
   @include _margin(0px, 40px, 0px, 10px);
 
   &:hover {
@@ -114,8 +110,7 @@ button,
 }
 
 .button--menu--secondary {
-  @include _font-size(22px);
-  @include _line-height(20px);
+  @include _font-size(18px);
   @include _margin(0px, 20px, 0px, 20px);
 }
 
@@ -245,10 +240,9 @@ button,
 }
 
 .button--dropdown {
-  @include _border-radius(8px, 8px, 8px, 8px);
   @extend .dropdown;
-  background: $color-background-secondary;
-  border: 1px solid $color-text-tertiary;
+  background: transparent;
+  border: 2px solid $color-orange;
   color: $color-text-tertiary;
   display: flex;
   flex-wrap: nowrap;
@@ -262,18 +256,14 @@ button,
   }
 
   &:after {
-    @include _font-size(12px);
+    @include _font-size(24px);
     @include _padding(0px, 0px, 0px, $spacing * 5);
-    content: '\e252';
-    font-family: 'Glyphicons Halflings';
+    content: "\e5cf";
+    font-family: "Material Icons Outlined";
   }
-}
 
-.button--dropdown[aria-expanded='true'] {
-  @include _border-radius(8px, 8px, 0px, 0px);
-
-  &:after {
-    content: '\e253';
+  &[aria-expanded="true"]:after {
+    content: "\e5ce";
   }
 }
 
@@ -286,6 +276,17 @@ button,
   background-color: $color-background-secondary;
   border-color: transparent;
   color: $color-text-primary;
+}
+
+.button--register {
+  @include _padding(10px, 30px, 10px, 30px);
+  background: $color-orange;
+  border: 2px solid $color-orange;
+  color: $color-text-tertiary;
+
+  &:hover {
+    color: $color-text-tertiary;
+  }
 }
 
 .button-group {
@@ -363,13 +364,13 @@ button,
   }
 }
 
-@media (min-width: $tablet-small-min-width) {
+@media (min-width: $tablet-large-min-width) {
   .menu__item {
     display: none;
   }
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
   .button--menu--primary {
     @include _margin(0px, $spacing * 6, 0px, 0px);
   }
@@ -383,7 +384,7 @@ button,
   }
 }
 
-@media (max-width: $mobile-max-width) {
+@media (max-width: $tablet-small-max-width) {
   .button--secondary--dark {
     background-color: $color-background-secondary;
   }
@@ -391,16 +392,34 @@ button,
   .button--menu__item {
     @include _font-size(30px);
     align-items: center;
-    background-color: $color-background-tertiary;
-    border-radius: 0;
-    border-top: 1px solid $color-text-secondary;
-    color: $color-text-secondary;
+    background-color: $color-background-secondary;
+    border-bottom: 1px solid $color-button-border-light-grey;
+    color: $color-text-tertiary;
     display: flex;
-    font-weight: 600;
     height: 60px;
     justify-content: space-between;
     text-align: left;
     width: 100%;
+
+    &:hover {
+      color: $color-text-tertiary;
+    }
+
+    &.button--register {
+      background: $color-orange;
+      border: 0;
+      justify-content: center;
+    }
+
+    &.login {
+      border: 2px solid $color-orange;
+      margin: 0;
+    }
+
+    #login-tabs > & {
+      border: 2px solid $color-orange;
+      border-top: 0;
+    }
   }
 
   .menu__item {
@@ -437,20 +456,21 @@ button,
 
   .button--menu__item--sub-header {
     &:after {
-      content: '\e252';
-      font-family: 'Glyphicons Halflings';
+      content: "\e5c5";
+      font-family: "Material Icons Outlined";
+      font-size: 32px;
     }
   }
 
-  .button--menu__item--sub-header[aria-expanded='true'] {
+  .button--menu__item--sub-header[aria-expanded="true"] {
     &:after {
-      content: '\e253';
+      content: "\e5c7";
     }
   }
 
-  .grid-kurono-sessions__accordion-button[aria-expanded='true'] {
+  .grid-kurono-sessions__accordion-button[aria-expanded="true"] {
     .glyphicon-triangle-bottom::before {
-      content: '\e253';
+      content: "\e253";
     }
   }
 

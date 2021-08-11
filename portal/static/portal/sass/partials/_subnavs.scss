@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 .sub-nav,
 .hijacked-warning {
@@ -91,7 +91,7 @@
 .sub-nav--warning--fixed {
   margin: 0;
   position: fixed;
-  top: 80px;
+  top: $menu-height;
   width: 100%;
   z-index: $nav-bar-level - 1;
 }
@@ -99,7 +99,7 @@
 .sub-nav--message--fixed {
   margin: 0;
   position: fixed;
-  top: 80px;
+  top: $menu-height;
   width: 100%;
   z-index: $nav-bar-level - 1;
 }
@@ -114,7 +114,7 @@
 }
 
 .sub-nav--filler {
-  padding-top: 160px;
+  padding-top: 0;
 }
 
 .sub-nav--teacher {
@@ -175,6 +175,31 @@
   }
 }
 
+@media (min-width: $desktop-small-min-width) {
+  .sub-nav--fixed {
+    height: $menu-height;
+  }
+
+  .sub-nav--filler {
+    padding-top: $menu-height + 80px;
+  }
+}
+
+@media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
+  .sub-nav--fixed {
+    height: $menu-height-sm;
+  }
+
+  .sub-nav--warning--fixed,
+  .sub-nav--message--fixed {
+    top: $menu-height-sm;
+  }
+
+  .sub-nav--filler {
+    padding-top: $menu-height-sm + 80px;
+  }
+}
+
 @media (min-width: $tablet-large-min-width) {
   .sub-nav__content {
     p {
@@ -183,7 +208,7 @@
   }
 }
 
-@media (max-width: $mobile-max-width) {
+@media (max-width: $tablet-small-max-width) {
   .sub-nav {
     @include _padding(20px, 20px, 20px, 20px);
     height: auto;
@@ -197,5 +222,14 @@
     p {
       padding-left: 0;
     }
+  }
+
+  .sub-nav--warning--fixed,
+  .sub-nav--message--fixed {
+    position: static;
+  }
+
+  .sub-nav--filler {
+    padding-top: 80px;
   }
 }

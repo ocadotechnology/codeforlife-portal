@@ -1,8 +1,9 @@
 // General Palette
 $color-teacher-blue: #0c52a3;
 $color-student-orange: #f37300;
-$color-text-gray: #4a4a4a;
+$color-text-gray: #383b3b;
 $color-error: #d60026;
+$color-orange: #fdd23c;
 // Text
 $color-text-primary: #000000;
 $color-text-secondary: #ffffff;
@@ -32,6 +33,7 @@ $color-button-secondary-border-light: #ffffff;
 $color-button-secondary-border-dark: $color-text-gray;
 $color-button-border-teacher: $color-teacher-blue;
 $color-button-border-student: $color-student-orange;
+$color-button-border-light-grey: #e0e0e0;
 $color-button-disabled: #d8d8d8;
 $color-button-menu-item: #f0f0f0;
 // Tabs

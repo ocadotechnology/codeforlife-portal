@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 body {
   color: $color-text-tertiary;
@@ -7,7 +7,7 @@ body {
 h1 {
   @include _font-size(55px);
   @include _line-height(60px);
-  font-family: 'Baloo', serif;
+  font-family: "Baloo", serif;
   font-weight: 500;
 
   a,
@@ -16,14 +16,13 @@ h1 {
   a:visited,
   a:focus {
     color: $color-text-secondary;
-    font-family: 'Baloo', serif;
+    font-family: "Baloo", serif;
     font-weight: 500;
   }
-
 }
 
 :not(h1) {
-  font-family: 'Source Sans Pro', serif;
+  font-family: "Inter", sans-serif;
 }
 
 h2 {
@@ -129,7 +128,7 @@ blockquote {
 
       &:before {
         @include _font-size(48px);
-        content: '“';
+        content: "“";
         font-weight: bold;
         left: 0;
         line-height: 150%;
@@ -141,7 +140,7 @@ blockquote {
       &:after {
         @include _font-size(48px);
         color: $color-quote-text;
-        content: '”';
+        content: "”";
         font-weight: bold;
         line-height: 150%;
         vertical-align: top;
@@ -153,7 +152,6 @@ blockquote {
 h4,
 p,
 label {
-
   a,
   a:visited,
   a:active {
@@ -168,7 +166,6 @@ label {
     cursor: pointer;
     text-decoration: none;
   }
-
 }
 
 @media (min-width: $desktop-large-min-width) {
