@@ -1,10 +1,12 @@
 @import 'base';
 
 .footer {
-  background-color: $color-background-tertiary;
+  background-color: #E0004D;
   text-align: center;
 
-  p {
+  p,
+  small,
+  .material-icons-outlined {
     color: $color-text-secondary;
 
     a,
@@ -80,4 +82,13 @@
     width: 6%;
   }
 
+  table {
+    border: none;
+    text-align: left;
+
+    tr,
+    td {
+      border: none;
+    }
+  }
 }

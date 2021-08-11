@@ -161,12 +161,13 @@ form {
 }
 
 .form--news-signup {
+  align-items: start;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 
-  > * {
-    margin-left: 10px;
-    margin-right: 10px;
+  div {
+    display: flex;
   }
 
   label {

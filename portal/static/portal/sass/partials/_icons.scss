@@ -1,3 +1,7 @@
 .material-icons-outlined.md-32 {
-  font-size: 32px;
+  @include _font_size(32px);
+}
+
+.material-icons-outlined.md-54 {
+  @include _font_size(54px);
 }
