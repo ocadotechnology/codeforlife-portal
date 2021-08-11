@@ -155,43 +155,9 @@
 {% endblock contentWrapper %}
 
 {% block footer %}
-{% cache 3600 fragment-base_new-footer %}
-<div class="footer">
-    <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src="{% static 'portal/img/footer_arrow.png' %}"></a>
-    <p><a href="#top"><small>BACK TO TOP</small></a></p>
-    <img class="col-sm-3" src="{% static 'portal/img/logo_c4l_horizontal.png' %}">
-    <div class="row">
-        <p><a href="{% url 'about' %}">About us</a></p>
-        <p><a href="{% url 'getinvolved' %}">Get involved</a></p>
-        <p><a href="{% url 'teach' %}">Teachers</a></p>
-        <p><a href="{% url 'play' %}">Students</a></p>
-        <p><a id="help_and_support_button" href="{% url 'help' %}">Help and support</a></p>
-        <p><a class="freshdesk__contact-us">Contact us</a></p>
-        <p><a href="{% url 'terms' %}">Terms of use</a></p>
-        <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
-        <p><a class="optanon-toggle-display">Cookies settings</a></p>
-    </div>
-    <div class="row">
-        <div class="col-sm-8 col-center">
-            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-10">
-                {{ news_form.non_field_errors }}
-                <div class="form--news-signup">
-                    <label>{{ news_form.email.label }}</label>
-                    {{ news_form.email }}
-                    {{ news_form.email.errors }}
-                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
-                </div>
-            </form>
-            <div class="social-media col-md-2">
-                <a target="_blank" href="https://twitter.com/codeforlifeuk"><img src="{% static 'portal/img/twitter.png' %}"></a>
-                <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><img src="{% static 'portal/img/facebook.png' %}"></a>
-            </div>
-        </div>
-    </div>
-    <a target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
-    <p><small>&copy; Ocado Technology {% now "Y" %}</small></p>
-</div>
-{% endcache %}
+{#    {% cache 3600 fragment-base_new-footer %}#}
+        {% include 'portal/partials/footer.html' %}
+{#    {% endcache %}#}
 {% endblock footer %}
 
 <div id="confirmation-dialog" title=""></div>
