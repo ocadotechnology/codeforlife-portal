@@ -128,10 +128,12 @@
 
 .banner--homepage {
   height: calc(100vh - #{$menu-height});
-  min-height: 750px;
+  max-height: 750px;
   display: flex;
   justify-content: center;
+  text-align: center;
   align-items: center;
+  padding-bottom: 30px;
 
   p {
     @include _font-size(22px);
