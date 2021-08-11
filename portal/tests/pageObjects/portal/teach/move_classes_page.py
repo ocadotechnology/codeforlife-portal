@@ -36,8 +36,6 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-import time
-
 from .teach_base_page import TeachBasePage
 
 
@@ -54,7 +52,6 @@ class TeachMoveClassesPage(TeachBasePage):
         return dashboard_page.TeachDashboardPage(self.browser)
 
     def move_and_leave(self):
-        time.sleep(3)
         self.browser.find_element_by_id("move_classes_button").click()
         import portal.tests.pageObjects.portal.teach.onboarding_organisation_page as onboarding_organisation_page
 
