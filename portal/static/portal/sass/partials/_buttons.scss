@@ -259,7 +259,6 @@ button,
   flex-wrap: nowrap;
   justify-content: space-between;
   outline: none;
-  padding: 0.7em 1em 0.1em 1em;
 
   .glyphicon {
     @include _font-size(20px);
@@ -272,6 +271,7 @@ button,
   &:after {
     @include _font-size(24px);
     @include _padding(0px, 0px, 0px, $spacing * 5);
+    line-height: 1;
     content: "\e5cf";
     font-family: "Material Icons Outlined";
   }
