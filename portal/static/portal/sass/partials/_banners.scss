@@ -27,6 +27,11 @@
     opacity: 0.8;
   }
 
+  a,
+  a:hover {
+    text-decoration: none
+  }
+
   .row {
     @include _padding(0px, 0px, 30px, 0px);
   }
@@ -398,9 +403,6 @@
   text-align: center;
 }
 
-@media (min-width: $tablet-large-min-width) {
-}
-
 @media (min-width: $tablet-small-min-width) {
   .banner--aimmo-landing--content {
     .kurono-logo {
@@ -417,7 +419,6 @@
 
   .banner {
     @include _padding(10px, 10px, 50px, 10px);
-    text-align: center;
 
     .banner--picture {
       display: none;

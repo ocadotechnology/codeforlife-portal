@@ -36,6 +36,10 @@
   overflow: auto;
   padding: 0;
 
+  a {
+    text-decoration: none;
+  }
+
   .dropdown-menu__option {
     .button--regular,
     .button--regular:hover,
@@ -95,16 +99,13 @@
     color: $color-text-tertiary;
     display: block;
     padding: 12px 16px;
-
-    small {
-      text-decoration: none;
-    }
+    text-decoration: none;
   }
 
   a:hover {
+    text-decoration: none;
     small {
       border-bottom: 1px solid $color-text-tertiary;
-      text-decoration: none;
     }
   }
 }

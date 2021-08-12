@@ -79,6 +79,7 @@ button,
 .button--menu {
   background-color: transparent;
   border-radius: 0;
+  text-decoration: none;
 }
 
 .button--menu--enabled:hover {
@@ -131,8 +132,8 @@ button,
   background-color: $color-button-home;
   color: $color-text-primary;
   text-align: center;
-  width: 170px;
-  padding: 0.2em 1em 0.5em 1em;
+  padding: 0.1em 0.5em 0.5em 1em;
+  white-space: nowrap;
 
   &:hover {
     @include material-shadow();

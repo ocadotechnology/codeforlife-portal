@@ -59,6 +59,17 @@ h6 {
   font-weight: 500;
 }
 
+a {
+  color: $color-text-tertiary;
+  text-decoration: underline dotted;
+}
+
+a:hover,
+a:focus {
+  color: $color-text-tertiary;
+  text-decoration: underline;
+}
+
 .kurono-overview__paragraph {
   @include _font-size(25px);
   @include _line-height(35px);
@@ -94,11 +105,6 @@ h6 {
 
 .grid-benefits__title3 {
   grid-area: title3;
-}
-
-a:hover,
-a:focus {
-  text-decoration: none;
 }
 
 p,
