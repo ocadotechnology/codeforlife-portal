@@ -1,7 +1,7 @@
-@import 'base';
+@import "base";
 
 .footer {
-  background-color: #E0004D;
+  background-color: #e0004d;
   text-align: center;
 
   p,
@@ -50,9 +50,11 @@
   .social-media a,
   .social-media a:hover {
     border-bottom: none;
+    color: $color-text-secondary;
   }
 
   .social-media {
+    @include _font-size(54px);
     align-items: center;
     display: flex;
     margin-top: 10px;
