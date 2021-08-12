@@ -84,6 +84,20 @@
     width: 6%;
   }
 
+  .form--news-signup {
+    position: relative;
+
+    #newsletter_email_field {
+      padding-right: 40px;
+    }
+
+    .iconify-email-outline {
+      position: absolute;
+      top: 76px;
+      left: 334px;
+    }
+  }
+
   table {
     border: none;
     text-align: left;
