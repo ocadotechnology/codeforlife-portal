@@ -7,7 +7,12 @@
   p,
   label {
     @include _padding(0px, 0px, 10px, 0px);
+    font-weight: 600;
     margin: 0;
+  }
+
+  small {
+    @include _padding(0px, 0px, 10px, 0px);
   }
 
   .material-icons-outlined {
@@ -21,6 +26,7 @@
 
   p,
   label,
+  small,
   .material-icons-outlined {
     color: $color-text-secondary;
 
