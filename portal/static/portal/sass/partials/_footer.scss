@@ -1,11 +1,10 @@
-@import 'base';
+@import "base";
 
 .footer {
-  background-color: #E0004D;
+  background-color: #e0004d;
   text-align: center;
 
   p,
-  small,
   .material-icons-outlined {
     color: $color-text-secondary;
 
@@ -45,9 +44,11 @@
   .social-media a,
   .social-media a:hover {
     border-bottom: none;
+    color: $color-text-secondary;
   }
 
   .social-media {
+    @include _font-size(58px);
     @include _margin(20px, 0px, 0px, 0px);
     align-items: center;
     display: flex;
@@ -79,6 +80,20 @@
     height: 50px;
     vertical-align: middle;
     width: 6%;
+  }
+
+  .form--news-signup {
+    position: relative;
+
+    #newsletter_email_field {
+      padding-right: 40px;
+    }
+
+    .iconify-email-outline {
+      position: absolute;
+      top: 76px;
+      left: 334px;
+    }
   }
 
   table {

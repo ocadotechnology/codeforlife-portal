@@ -4,7 +4,7 @@
 
 <div class="footer">
     <span class="material-icons-outlined">arrow_upward</span>
-    <p><a href="#top"><small>BACK TO TOP</small></a></p>
+    <p><a href="#top"><small>Back to top</small></a></p>
     <div class="row">
         <div class="col-sm-5 col-sm-offset-2">
             <table>
@@ -28,8 +28,8 @@
         <div class="col-sm-2 col-sm-offset-1">
             <img title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
             <div class="social-media">
-                <span class="material-icons-outlined md-58">facebook</span>
-                <span class="material-icons-outlined md-58">facebook</span>
+                <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><span class="iconify" data-icon="mdi:facebook"></span></a>
+                <a target="_blank" href="https://twitter.com/codeforlifeuk"><span class="iconify" data-icon="mdi:twitter"></span></a>
                 <a target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
                     <img src="{% static 'portal/img/logo_ocado_group_white2.svg' %}"></a>
             </div>
@@ -43,10 +43,11 @@
                 <label>{{ news_form.email.label }}</label>
                 <div>
                     {{ news_form.email }}
+                    <span class="iconify iconify-email-outline" data-icon="mdi:email-outline"></span>
                     {{ news_form.email.errors }}
                     <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
                 </div>
-                <small>{{ news_form.email.help_text }}</small>
+                <p><small>{{ news_form.email.help_text }}</small></p>
             </div>
         </form>
     </div>
