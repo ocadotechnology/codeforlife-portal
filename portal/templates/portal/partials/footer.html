@@ -42,8 +42,10 @@
             <div class="form--news-signup">
                 <label>{{ news_form.email.label }}</label>
                 <div>
-                    {{ news_form.email }}
-                    <span class="iconify iconify-email-outline" data-icon="mdi:email-outline"></span>
+                    <div class="input--icon">
+                        {{ news_form.email }}
+                        <span class="iconify iconify-email-outline" data-icon="mdi:email-outline"></span>
+                    </div>
                     {{ news_form.email.errors }}
                     <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
                 </div>

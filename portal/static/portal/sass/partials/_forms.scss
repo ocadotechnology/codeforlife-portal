@@ -167,6 +167,7 @@ form {
   justify-content: space-around;
 
   div {
+    align-items: center;
     display: flex;
   }
 
@@ -180,6 +181,12 @@ form {
     margin-top: 10px;
     white-space: nowrap;
   }
+}
+
+.input--icon {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (max-width: $mobile-max-width) {

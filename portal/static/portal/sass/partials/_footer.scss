@@ -4,6 +4,10 @@
   background-color: #e0004d;
   text-align: center;
 
+  p {
+    @include _padding(0px, 0px, 10px, 0px);
+  }
+
   p,
   .material-icons-outlined {
     color: $color-text-secondary;
@@ -36,10 +40,6 @@
     }
   }
 
-  .no-padding {
-    padding: 0;
-  }
-
   .back-to-top,
   .social-media a,
   .social-media a:hover {
@@ -58,17 +58,16 @@
     }
   }
 
-  input {
+  input[type='email'] {
     @include _font-size(20px);
-    @include _margin(0px, -3px, 0px, 5px);
-    @include _padding(0px, 0px, 0px, 15px);
     border: none;
+    border-radius: 0;
     height: 50px;
+    margin: 0;
     vertical-align: middle;
-    width: 20%;
   }
 
-  input:focus {
+  input[type='email']:focus {
     border: none;
     outline: none;
   }
@@ -86,13 +85,17 @@
     position: relative;
 
     #newsletter_email_field {
-      padding-right: 40px;
+      @include _padding(0px, 40px, 0px, 15px);
     }
 
     .iconify-email-outline {
+      @include _font_size(24px);
+      @include _margin(0px, 15px, 0px, 0px);
       position: absolute;
-      top: 76px;
-      left: 334px;
+    }
+
+    .button {
+      @include _margin(0px, 0px, 0px, 20px);
     }
   }
 
