@@ -4,17 +4,16 @@ a {
   cursor: pointer;
 }
 
-button {
-  border: none;
-}
-
 button,
 .button,
 .hijacked-warning .btn {
-  @include _padding(5px, 15px, 10px, 15px);
   @include _font-size(16px);
+  @include _padding(5px, 15px, 10px, 15px);
+  display: inline-block;
   font-family: "Inter", sans-serif;
   font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .button,
@@ -24,16 +23,41 @@ button,
   text-decoration: none;
 }
 
-.button--jumbo {
-  @include _font-size(38px);
-  @include _line-height(38px);
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 500;
+.button--home,
+.button--primary--general-educate,
+.button--primary--general-play {
+  background-color: $color-button-home;
+  color: $color-text-primary;
+
+  &:hover {
+    @include material-shadow();
+    color: $color-text-primary;
+    background-color: $color-button-home-hover;
+    text-decoration: none;
+  }
+
+  &:active {
+    border: 1px solid $color-button-home-border;
+    box-shadow: none;
+  }
 }
 
-.button--big {
-  @include _font-size(16px);
-  display: inline-block;
+.button--primary,
+.button--primary--navigation {
+  background: $color-button-contained;
+  color: $color-text-primary;
+
+  &:hover {
+    @include material-shadow();
+    background: $color-button-contained-hover;
+    color: $color-text-primary;
+  }
+
+  &:active {
+    background: $color-button-contained-active;
+    color: $color-text-primary;
+    box-shadow: none;
+  }
 
   .material-icons-outlined {
     position: relative;
@@ -41,15 +65,30 @@ button,
   }
 }
 
+.button-right-arrow {
+  &:after {
+    content: "\e5e1";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    left: 5px;
+  }
+}
+
+.button--jumbo {
+  @include _font-size(38px);
+  @include _line-height(38px);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 500;
+}
+
 .button--regular,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {
-  @include _font-size(16px);
   @include _padding(10px, 15px, 10px, 15px);
 }
 
 .button--small {
-  @include _font-size(16px);
   @include _padding(2px, 10px, 2px, 10px);
 }
 
@@ -126,28 +165,6 @@ button,
   }
 }
 
-.button--primary--home,
-.button--primary--general-educate,
-.button--primary--general-play {
-  background-color: $color-button-home;
-  color: $color-text-primary;
-  text-align: center;
-  padding: 0.1em 0.5em 0.5em 1em;
-  white-space: nowrap;
-
-  &:hover {
-    @include material-shadow();
-    color: $color-text-primary;
-    background-color: $color-button-home-hover;
-    text-decoration: none;
-  }
-
-  &:active {
-    border: 1px solid $color-button-home-border;
-    box-shadow: none;
-  }
-}
-
 .button--primary--positive {
   background: $color-button-primary-action-positive;
   color: $color-text-secondary;
@@ -185,23 +202,6 @@ button,
 
 .django-hijack-button-bootstrap {
   @include _margin(0px, 0px, 0px, 50px);
-}
-
-.button--primary--navigation {
-  background: $color-button-contained;
-  color: $color-text-primary;
-
-  &:hover {
-    @include material-shadow();
-    background: $color-button-contained-hover;
-    color: $color-text-primary;
-  }
-
-  &:active {
-    background: $color-button-contained-active;
-    color: $color-text-primary;
-    box-shadow: none;
-  }
 }
 
 .button--primary--setup {
