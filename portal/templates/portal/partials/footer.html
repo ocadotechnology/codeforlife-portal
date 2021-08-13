@@ -24,7 +24,7 @@
                     <td></td>
                 </tr>
             </table>
-            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-10">
+            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post">
                 {{ news_form.non_field_errors }}
                 <div class="form--news-signup">
                     <div class="form--news-signup__input">
@@ -36,7 +36,7 @@
                         <p><small>{{ news_form.email.help_text }}</small></p>
                         {{ news_form.email.errors }}
                     </div>
-                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate">Sign up</button>
+                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button--primary button-right-arrow">Sign up</button>
                 </div>
             </form>
         </div>

@@ -27,27 +27,13 @@
     a,
     a:visited,
     a:active {
-      border-bottom: 1px dotted $color-text-secondary;
-      text-decoration: none;
+      border: none;
       color: $color-text-secondary;
     }
 
     a:hover {
       border-bottom: 1px solid $color-text-secondary;
-      text-decoration: none;
       color: $color-text-secondary;
-    }
-
-    a {
-      color: $color-text-secondary;
-    }
-  }
-
-  .row {
-    padding: 0;
-
-    p {
-      display: inline;
     }
   }
 
@@ -127,13 +113,16 @@
       padding: 0;
     }
   }
+
+  .button {
+    border: 0;
+  }
 }
 
 @media (min-width: $tablet-large-min-width) {
   .footer {
     .button {
       @include _margin(0px, 0px, 0px, 20px);
-      white-space: nowrap;
     }
 
     .social-media a {
@@ -146,31 +135,10 @@
   .footer {
     text-align: center;
 
-    p {
-      color: $color-text-secondary;
-    }
-
-    .row {
-      padding: 0;
-
-      p {
-        display: inline-block;
-      }
-    }
-
     img {
       @include _padding(25px, 15px, 25px, 15px);
       float: none;
-    }
-
-    a {
-      color: $color-text-secondary;
-    }
-
-    b,
-    .input-button,
-    .social-media p {
-      display: none;
+      max-width: 50%;
     }
 
     tr {
