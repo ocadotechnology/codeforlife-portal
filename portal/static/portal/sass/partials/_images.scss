@@ -18,7 +18,7 @@ img {
 }
 
 .background {
-  padding-top: 4rem;
+  padding-top: 2rem;
   padding-bottom: 4rem;
 }
 
@@ -73,7 +73,6 @@ img {
 }
 
 .portrait {
-  border-radius: 50%;
   display: block;
   margin: auto;
 }
@@ -122,14 +121,14 @@ img {
 }
 
 .educate-homepage {
-  content: url("../img/home_educate_hero_hexagon.png");
-  height: 350px;
+  content: url("../img/home_educate.png");
+  width: 80%;
+  object-fit: contain;
 }
 
 .play-homepage {
-  content: url("../img/home_play_hero_hexagon_games.png");
-  height: 350px;
-  width: 100%;
+  content: url("../img/home_play.png");
+  width: 80%;
   object-fit: contain;
 }
 

@@ -34,10 +34,10 @@
       }
 
       .button--regular:hover {
-        background: $color-background-teach;
+        background: $color-secondary;
 
         .dropdown-menu__option__text {
-          color: $color-text-secondary;
+          color: $color-text-primary;
         }
       }
     }
@@ -118,17 +118,21 @@
 }
 
 .sub-nav--teacher {
-  background-color: $color-background-teach;
+  background-color: $color-primary-300;
+  color: $color-text-secondary;
 
-  a:focus,
   a:hover,
+  a:focus,
   a:active {
-    background-color: $color-background-secondary;
-    color: $color-teacher-blue;
+    color: $color-text-secondary;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   p {
-    color: $color-text-secondary;
+    opacity: 0.8;
   }
 }
 

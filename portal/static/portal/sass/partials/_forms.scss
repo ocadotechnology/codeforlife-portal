@@ -1,8 +1,8 @@
-@import 'base';
+@import "base";
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
+input[type="text"],
+input[type="email"],
+input[type="password"],
 select {
   @include _border-radius(8px, 8px, 8px, 8px);
   @include _padding(0px, 0px, 0px, 10px);
@@ -23,9 +23,9 @@ form {
     @include _margin(20px, 0px, 10px, 0px);
   }
 
-  input[type='text'],
-  input[type='email'],
-  input[type='password'],
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
   select {
     @include _font-size(20px);
     @include _margin(10px, 0px, 10px, 0px);
@@ -34,7 +34,7 @@ form {
     width: 100%;
   }
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     height: 20px;
   }
 
@@ -131,7 +131,7 @@ form {
 .form__checkbox-input {
   padding-right: 25px;
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     /* Double-sized Checkboxes */
     -ms-transform: scale(2); /* IE */
     -moz-transform: scale(2); /* FF */
