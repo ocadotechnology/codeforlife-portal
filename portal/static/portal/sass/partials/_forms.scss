@@ -84,12 +84,10 @@ form {
 
   h1,
   p {
-    color: $color-text-secondary;
     text-align: center;
   }
 
   label {
-    color: $color-text-secondary;
     display: block;
     font-weight: 200;
     text-align: left;
@@ -110,15 +108,18 @@ form {
 }
 
 .form--register--teacher {
-  background-color: $color-background-teach;
+  color: $color-text-secondary;
+  background-color: $color-primary-400;
 }
 
 .form--register--student {
-  background-color: $color-background-play;
+  color: $color-text-secondary;
+  background-color: $color-tertiary;
 }
 
 .form--register--indep-student {
-  background-color: $color-background-play-indep;
+  color: $color-text-primary;
+  background-color: $color-secondary-400;
 }
 
 .form__checkbox {
