@@ -5,34 +5,33 @@
 <div class="footer">
     <span class="material-icons-outlined">arrow_upward</span>
     <p><a href="#top"><small>BACK TO TOP</small></a></p>
-{#    <img class="col-sm-3" src="{% static 'portal/img/logo_c4l_horizontal.png' %}">#}
     <div class="row">
         <div class="col-sm-5 col-sm-offset-2">
             <table>
                 <tr>
                     <td><p><a href="{% url 'about' %}">About us</a></p></td>
+                    <td><p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p></td>
+                    <td><p><a href="{% url 'home-learning' %}">Home learning</a></p></td>
+                </tr>
+                <tr>
                     <td><p><a class="freshdesk__contact-us">Help and support</a></p></td>
                     <td><p><a href="{% url 'terms' %}">Terms of use</a></p></td>
-
-                </tr>
-                <tr>
                     <td><p><a href="{% url 'getinvolved' %}">Get involved</a></p></td>
-                    <td><p><a class="optanon-toggle-display">Cookie settings</a></p></td>
-                    <td><p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p></td>
                 </tr>
                 <tr>
+                    <td><p><a class="optanon-toggle-display">Cookie settings</a></p></td>
                     <td></td>
-                    <td><p><a href="{% url 'home-learning' %}">Home learning</a></p></td>
                     <td></td>
                 </tr>
             </table>
         </div>
-        <div class="col-sm-4 col-sm-offset-1">
+        <div class="col-sm-2 col-sm-offset-1">
+            <img title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
             <div class="social-media">
-                <span class="material-icons-outlined md-54">facebook</span>
-                <span class="material-icons-outlined md-54">facebook</span>
+                <span class="material-icons-outlined md-58">facebook</span>
+                <span class="material-icons-outlined md-58">facebook</span>
                 <a target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
-                    <img src="{% static 'portal/img/logo_ocado_group.svg' %}"></a>
+                    <img src="{% static 'portal/img/logo_ocado_group_white2.svg' %}"></a>
             </div>
         </div>
     </div>

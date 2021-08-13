@@ -37,11 +37,6 @@
     }
   }
 
-  img {
-    @include _padding(25px, 15px, 25px, 15px);
-    float: none;
-  }
-
   .no-padding {
     padding: 0;
   }
@@ -53,9 +48,13 @@
   }
 
   .social-media {
+    @include _margin(20px, 0px, 0px, 0px);
     align-items: center;
     display: flex;
-    margin-top: 10px;
+
+    img {
+      @include _padding(0px, 15px, 0px, 15px);
+    }
   }
 
   input {
@@ -84,11 +83,14 @@
 
   table {
     border: none;
+    margin: 0;
     text-align: left;
 
     tr,
     td {
       border: none;
+      margin: 0;
+      padding: 0;
     }
   }
 }
