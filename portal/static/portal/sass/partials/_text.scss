@@ -61,13 +61,14 @@ h6 {
 
 a {
   color: $color-text-tertiary;
-  text-decoration: underline dotted;
+  text-decoration: underline;
 }
 
 a:hover,
 a:focus {
   color: $color-text-tertiary;
   text-decoration: underline;
+  font-weight: 600;
 }
 
 .kurono-overview__paragraph {
