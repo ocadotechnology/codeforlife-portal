@@ -3,10 +3,10 @@
 {% load hijack_tags %}
 
 <div class="footer">
-    <span class="material-icons-outlined">arrow_upward</span>
+    <a href="#top"><span class="material-icons-outlined">arrow_upward</span></a>
     <p><a href="#top"><small>Back to top</small></a></p>
     <div class="row">
-        <div class="col-sm-5 col-sm-offset-2">
+        <div class="col-md-5 col-md-offset-2">
             <table>
                 <tr>
                     <td><p><a href="{% url 'about' %}">About us</a></p></td>
@@ -24,34 +24,33 @@
                     <td></td>
                 </tr>
             </table>
-        </div>
-        <div class="col-sm-2 col-sm-offset-1">
-            <img title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
-            <div class="social-media">
-                <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><span class="iconify" data-icon="mdi:facebook"></span></a>
-                <a target="_blank" href="https://twitter.com/codeforlifeuk"><span class="iconify" data-icon="mdi:twitter"></span></a>
-                <a target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
-                    <img src="{% static 'portal/img/logo_ocado_group_white2.svg' %}"></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-10 col-sm-offset-2">
-        <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-10">
-            {{ news_form.non_field_errors }}
-            <div class="form--news-signup">
-                <label>{{ news_form.email.label }}</label>
-                <div>
-                    <div class="input--icon">
-                        {{ news_form.email }}
-                        <span class="iconify iconify-email-outline" data-icon="mdi:email-outline"></span>
+            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post" class="col-md-10">
+                {{ news_form.non_field_errors }}
+                <div class="form--news-signup">
+                    <div class="form--news-signup__input">
+                        <label>{{ news_form.email.label }}</label>
+                        <div class="input--icon">
+                            {{ news_form.email }}
+                            <span class="iconify iconify-email-outline" data-icon="mdi:email-outline"></span>
+                        </div>
+                        <p><small>{{ news_form.email.help_text }}</small></p>
+                        {{ news_form.email.errors }}
                     </div>
-                    {{ news_form.email.errors }}
-                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
+                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate">Sign up</button>
                 </div>
-                <p><small>{{ news_form.email.help_text }}</small></p>
+            </form>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <img title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
+            <div class="external-links">
+                <div class="social-media">
+                    <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><span class="iconify" data-icon="mdi:facebook"></span></a>
+                    <a target="_blank" href="https://twitter.com/codeforlifeuk"><span class="iconify" data-icon="mdi:twitter"></span></a>
+                </div>
+                <a target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
+                    <img title="Ocado Group" alt="Ocado Group" src="{% static 'portal/img/logo_ocado_group_white.svg' %}"></a>
             </div>
-        </form>
+        </div>
     </div>
     <p><small>Ocado Group {% now "Y" %}</small></p>
 </div>

@@ -4,11 +4,23 @@
   background-color: #e0004d;
   text-align: center;
 
-  p {
+  p,
+  label {
     @include _padding(0px, 0px, 10px, 0px);
+    margin: 0;
+  }
+
+  .material-icons-outlined {
+    @include _margin(20px, 0px, 0px, 0px);
+  }
+
+  form {
+    @include _margin(20px, 0px, 20px, 0px);
+    padding: 0;
   }
 
   p,
+  label,
   .material-icons-outlined {
     color: $color-text-secondary;
 
@@ -35,27 +47,28 @@
     padding: 0;
 
     p {
-      @include _padding(0px, 15px, 0px, 15px);
       display: inline;
     }
   }
 
-  .back-to-top,
   .social-media a,
   .social-media a:hover {
     border-bottom: none;
     color: $color-text-secondary;
+    display: flex;
+  }
+
+  .external-links {
+    @include _margin(20px, 0px, 0px, 0px);
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
   }
 
   .social-media {
     @include _font-size(58px);
-    @include _margin(20px, 0px, 0px, 0px);
     align-items: center;
     display: flex;
-
-    img {
-      @include _padding(0px, 15px, 0px, 15px);
-    }
   }
 
   input[type='email'] {
@@ -82,7 +95,14 @@
   }
 
   .form--news-signup {
-    position: relative;
+    align-items: center;
+    display: flex;
+
+    .form--news-signup__input {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+    }
 
     #newsletter_email_field {
       @include _padding(0px, 40px, 0px, 15px);
@@ -92,10 +112,6 @@
       @include _font_size(24px);
       @include _margin(0px, 15px, 0px, 0px);
       position: absolute;
-    }
-
-    .button {
-      @include _margin(0px, 0px, 0px, 20px);
     }
   }
 
@@ -109,6 +125,71 @@
       border: none;
       margin: 0;
       padding: 0;
+    }
+  }
+}
+
+@media (min-width: $tablet-large-min-width) {
+  .footer {
+    .button {
+      @include _margin(0px, 0px, 0px, 20px);
+      white-space: nowrap;
+    }
+
+    .social-media a {
+      @include _margin(0px, 20px, 0px, 0px);
+    }
+  }
+}
+
+@media (max-width: $tablet-small-max-width) {
+  .footer {
+    text-align: center;
+
+    p {
+      color: $color-text-secondary;
+    }
+
+    .row {
+      padding: 0;
+
+      p {
+        display: inline-block;
+      }
+    }
+
+    img {
+      @include _padding(25px, 15px, 25px, 15px);
+      float: none;
+    }
+
+    a {
+      color: $color-text-secondary;
+    }
+
+    b,
+    .input-button,
+    .social-media p {
+      display: none;
+    }
+
+    tr {
+      display: grid;
+    }
+
+    .external-links,
+    .form--news-signup {
+      flex-direction: column;
+    }
+
+    .social-media a {
+      @include _margin(0px, 10px, 0px, 10px);
+    }
+
+    .form--news-signup__input,
+    .input--icon,
+    .button {
+      width: 100%;
     }
   }
 }

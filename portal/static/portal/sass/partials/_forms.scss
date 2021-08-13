@@ -160,29 +160,6 @@ form {
   }
 }
 
-.form--news-signup {
-  align-items: start;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-  div {
-    align-items: center;
-    display: flex;
-  }
-
-  label {
-    color: $color-text-secondary;
-    white-space: nowrap;
-    margin-top: 20px;
-  }
-
-  button {
-    margin-top: 10px;
-    white-space: nowrap;
-  }
-}
-
 .input--icon {
   align-items: center;
   display: flex;
@@ -197,42 +174,5 @@ form {
   .form--register {
     @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
-  }
-
-  .footer {
-    background-color: $color-background-tertiary;
-    text-align: center;
-
-    p {
-      color: $color-text-secondary;
-    }
-
-    .row {
-      padding: 0;
-
-      p {
-        @include _padding(0px, 15px, 0px, 15px);
-        display: inline-block;
-      }
-    }
-
-    img {
-      @include _padding(25px, 15px, 25px, 15px);
-      float: none;
-    }
-
-    .no-padding {
-      padding: 0;
-    }
-
-    a {
-      color: $color-text-secondary;
-    }
-
-    b,
-    .input-button,
-    .social-media p {
-      display: none;
-    }
   }
 }
