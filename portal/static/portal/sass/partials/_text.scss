@@ -145,25 +145,6 @@ blockquote {
   }
 }
 
-h4,
-p,
-label {
-  a,
-  a:visited,
-  a:active {
-    border-bottom: 1px dotted $color-text-tertiary;
-    color: $color-text-tertiary;
-    text-decoration: none;
-  }
-
-  a:hover {
-    border-bottom: 1px solid $color-text-tertiary;
-    color: $color-text-tertiary;
-    cursor: pointer;
-    text-decoration: none;
-  }
-}
-
 @media (min-width: $desktop-large-min-width) {
   html {
     font-size: 10px;

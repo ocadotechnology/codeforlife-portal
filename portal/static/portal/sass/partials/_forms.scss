@@ -66,30 +66,12 @@ form {
   @include _padding(100px, 0px, 30px, 0px);
   text-align: center;
 
-  p {
-    a,
-    a:visited,
-    a:active {
-      border-bottom: 1px dotted $color-text-secondary;
-      color: $color-text-secondary;
-      text-decoration: none;
-    }
-
-    a:hover {
-      border-bottom: 1px solid $color-text-secondary;
-      color: $color-text-secondary;
-      text-decoration: none;
-    }
-  }
-
-  h1,
-  p {
+  h1 {
     text-align: center;
   }
 
   label {
     display: block;
-    font-weight: 200;
     text-align: left;
   }
 
@@ -110,16 +92,28 @@ form {
 .form--register--teacher {
   color: $color-text-secondary;
   background-color: $color-primary-400;
+  a,
+  a:hover {
+    color: $color-text-secondary;
+  }
 }
 
 .form--register--student {
   color: $color-text-secondary;
   background-color: $color-tertiary;
+  a,
+  a:hover {
+    color: $color-text-secondary;
+  }
 }
 
 .form--register--indep-student {
   color: $color-text-primary;
   background-color: $color-secondary-400;
+  a,
+  a:hover {
+    color: $color-text-primary;
+  }
 }
 
 .form__checkbox {
