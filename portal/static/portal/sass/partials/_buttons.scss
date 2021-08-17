@@ -277,6 +277,10 @@ button,
   &[aria-expanded="true"]:after {
     content: "\e5ce";
   }
+
+  &:hover .dropdown__text {
+    text-decoration: underline;
+  }
 }
 
 .button--secondary--no-border {
