@@ -41,7 +41,7 @@
                                         {% if worksheet.name == game.worksheet.name %}
                                             <a class="btn button--regular disabled">
                                                 <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
-                                                <div class="glyphicon glyphicon-ok"></div>
+                                                <span class="material-icons-outlined">check</span>
                                             </a>
                                         {% else %}
                                             <a class="btn button--regular" id="worksheet_{{ worksheet.id }}"
@@ -82,7 +82,7 @@
                         <a class="button btn-block button--regular button--primary--navigation"
                             onclick="clickDeleteGames()">
                                 Delete
-                                <div class="glyphicon glyphicon-trash"></div>
+                                <span class="material-icons-outlined">delete</span>
                             </a>
                     </div>
                 </td>

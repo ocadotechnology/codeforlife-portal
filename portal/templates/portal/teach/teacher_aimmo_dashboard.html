@@ -77,12 +77,12 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
             important Python skills, supported by lesson guides and resource sheets.</p>
         <div class="background button-group button-group__icon">
             <a href="{% url 'kurono_packs' %}" class="button button--primary--general-play">
-                View Kurono teaching packs<div class="glyphicon glyphicon-menu-right"></div>
+                View Kurono teaching packs<span class="material-icons-outlined">arrow_forward_ios</span>
             </a>
             <a href="{{ 'kurono/latest/kurono.zip'|cloud_storage }}"
                 onclick='send_event("kurono/latest/kurono.zip", "Downloaded");'
                 class="button button--primary--general-play">Download all resources
-                <div class="glyphicon glyphicon-save"></div>
+                <span class="material-icons-outlined">file_download</span>
             </a>
         </div>
     </section>
@@ -96,7 +96,7 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
         <div class="background button-group button-group__icon">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
                 class="button button--regular button--primary--navigation" target="_blank">Give feedback
-                <div class="glyphicon glyphicon-new-window"></div>
+                <span class="material-icons-outlined">open_in_new</span>
             </a>
         </div>
     </section>

@@ -88,9 +88,8 @@ $column--icon-width: 3%;
     @include _margin($spacing * 4, 0px, 0px, 0px);
     width: 100%;
 
-    .glyphicon {
-      @include _font-size(25px);
-      @include _padding(0px, $spacing, 0px, 0px);
+    .material-icons-outlined {
+      @include _margin(0px, $spacing * 2, 0px, 0px);
       float: left;
     }
   }
@@ -235,12 +234,17 @@ $column--icon-width: 3%;
     ks2: 3,
     lower-ks3: 4,
     intermediate-ks3: 2,
-    upper-ks3: 3
+    upper-ks3: 3,
   );
 
-  @each $key-stage, $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage {
+  @each $key-stage,
+    $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage
+  {
     .grid-resources--#{$key-stage} {
-      grid-template-columns: $column--info-width repeat($max-resource-sheets-number, auto);
+      grid-template-columns: $column--info-width repeat(
+          $max-resource-sheets-number,
+          auto
+        );
     }
   }
 }
