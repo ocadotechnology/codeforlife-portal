@@ -115,7 +115,6 @@ def dashboard_teacher_view(request, is_admin):
     create_class_form = ClassCreationForm()
 
     update_account_form = TeacherEditAccountForm(request.user)
-    update_account_form.fields["title"].initial = teacher.title
     update_account_form.fields["first_name"].initial = request.user.first_name
     update_account_form.fields["last_name"].initial = request.user.last_name
 
@@ -273,7 +272,6 @@ def process_update_account_form(request, teacher, old_anchor):
             update_account_form, teacher.new_user, request, data
         )
 
-        teacher.title = data["title"]
         teacher.new_user.first_name = data["first_name"]
         teacher.new_user.last_name = data["last_name"]
 
