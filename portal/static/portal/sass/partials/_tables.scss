@@ -5,7 +5,7 @@ table {
   width: 100%;
 
   button {
-    @include _font-size(16px);
+    @include _font-size(14px);
     @include _padding(2px, 10px, 2px, 10px);
   }
 }

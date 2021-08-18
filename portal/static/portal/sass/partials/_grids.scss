@@ -187,6 +187,10 @@ $column--icon-width: 3%;
       max-height: 60%;
       max-width: 60%;
     }
+
+    h6 {
+      margin: 20px 0 10px 0;
+    }
   }
 
   .grid-resources {
@@ -274,7 +278,6 @@ $column--icon-width: 3%;
 
   .grid-kurono-sessions {
     .grid-kurono-sessions__item {
-      @include _padding(0px, 0px, $spacing * 4, 0px);
       border-bottom: 1px solid $color-table-border;
     }
 

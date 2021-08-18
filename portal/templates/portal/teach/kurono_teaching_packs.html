@@ -53,34 +53,36 @@
     <div class="background col-sm-8 col-center">
         <div class="grid-kurono-sessions">
             <div>
-                <p><strong>Introduction to Kurono and how to use the game</strong></p>
+                <h6>Introduction to Kurono and how to use the game</h6>
                 <p>This user guide talks you through what you will be teaching and how to use our resources efficiently.
                 </p>
             </div>
             <div class="button-group button-group__icon">
                 <a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_user_guide' %}"
-                    class="button button--primary--general-play">
-                    View user guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                    class="button button--primary button-right-arrow">
+                    View user guide
                 </a>
             </div>
             {% for worksheet in worksheets %}
             {% if worksheet.thumbnail_text == "" %}
             <div>
-                <p><strong>Challenge {{ worksheet.id }}: {{ worksheet.name }}</strong></p>
+                <h6>Challenge {{ worksheet.id }}: {{ worksheet.name }}</h6>
                 <p>{{ worksheet.short_description}}</p>
             </div>
             <div class="button-group button-group__icon">
                 <a href="{% url 'materials_viewer' pdf_name=worksheet.student_pdf_name %}"
-                    class="button button--primary--general-play">
-                    View challenge<span class="material-icons-outlined">arrow_forward_ios</span>
+                    class="button button--primary button-right-arrow">
+                    View challenge
                 </a>
                 <a href="{% url 'materials_viewer' pdf_name=worksheet.teacher_pdf_name %}"
-                    class="button button--primary--general-play">
-                    View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                    class="button button--primary button-right-arrow">
+                    View guide
                 </a>
             </div>
             {% else %}
-            <p class="disabled"><strong>Challenge {{ worksheet.id }}: COMING SOON</strong></p>
+            <div class="disabled">
+                <h6>Challenge {{ worksheet.id }}: COMING SOON</h6>                
+            </div>
             <div></div>
             {% endif %}
             {% endfor %}
@@ -89,56 +91,56 @@
 
     <div class="background background--quinary">
         <div class="col-sm-8 col-center">
-            <h3>KS3 - Extra Resources</h3>
+            <h4>KS3 - Extra Resources</h4>
             <div class="grid-kurono-sessions">
                 <div>
-                    <p><strong>How Kurono relates to Key Stages 3 & 4 of the English National Curriculum.</strong></p>
+                    <h6>How Kurono relates to Key Stages 3 & 4 of the English National Curriculum.</h6>
                     <p>This document will be updated as we build it.</p>
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name='Kurono_national_curriculum' %}"
-                        class="button button--primary--general-play">
-                        View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                        class="button button--primary button-right-arrow">
+                        View guide
                     </a>
                 </div>
                 <div>
-                    <p><strong>The Story</strong></p>
+                    <h6>The Story</h6>
                     <p>Set the scene with the story of the game.</p>
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name='Kurono_story' %}"
-                        class="button button--primary--general-play">
-                        View story<span class="material-icons-outlined">arrow_forward_ios</span>
+                        class="button button--primary button-right-arrow">
+                        View story
                     </a>
                 </div>
                 <div>
-                    <p><strong>Kurono cheat sheet</strong></p>
+                    <h6>Kurono cheat sheet</h6>
                     <p>To be used with the Kurono game.</p>
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name='Kurono_cheat_sheet' %}"
-                        class="button button--primary--general-play">
-                        View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                        class="button button--primary button-right-arrow">
+                        View guide
                     </a>
                 </div>
                 <div>
-                    <p><strong>Challenge solutions</strong></p>
+                    <h6>Challenge solutions</h6>
                     <p>Download a .py file of example solutions to copy and paste into your lessons.</p>
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{{ 'kurono/latest/kurono_teacher_solutions.py'|cloud_storage }}"
-                        class="button button--primary--general-play">
-                        Download solutions <span class="material-icons-outlined">file_download</span>
+                        class="button button--primary button-right-arrow">
+                        Download solutions
                     </a>
                 </div>
                 <div>
-                    <p><strong>See student user guide</strong></p>
+                    <h6>See student user guide</h6>
                     <p>This guide will be available to the students.</p>
                 </div>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name='Kurono_student_user_guide' %}"
-                        class="button button--primary--general-play">
-                        View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                        class="button button--primary button-right-arrow">
+                        View guide
                     </a>
                 </div>
             </div>
@@ -152,7 +154,7 @@
             <div class="grid-kurono-sessions__item">
                 <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                     data-target="#intro_kurono_pdf">
-                    <strong>Introduction to Kurono and how to use the game</strong>
+                    <h6>Introduction to Kurono and how to use the game</h6>
                     <span class="material-icons-outlined md-32 icon-drop-down"></span>
                 </div>
                 <div id="intro_kurono_pdf" class="collapse">
@@ -160,8 +162,8 @@
                         efficiently.</p>
                     <div class="button-group button-group__icon">
                         <a href="{% url 'materials_viewer' pdf_name='Kurono_teacher_user_guide' %}"
-                            class="button button--primary--general-play">
-                            View user guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                            class="button button--primary button-right-arrow">
+                            View user guide
                         </a>
                     </div>
                 </div>
@@ -171,24 +173,24 @@
                 {% if worksheet.thumbnail_text == "" %}
                 <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                     data-target="#{{ worksheet.id }}">
-                    <strong>Challenge {{ worksheet.id }}</strong>
+                    <h6>Challenge {{ worksheet.id }}</h6>
                     <span class="material-icons-outlined md-32 icon-drop-down"></span>
                 </div>
                 <div id="{{ worksheet.id }}" class="collapse">
                     <p>{{ worksheet.short_description}}</p>
                     <div class="button-group button-group__icon">
                         <a href="{% url 'materials_viewer' pdf_name=worksheet.student_pdf_name %}"
-                            class="button button--primary--general-play">
-                            View challenge<span class="material-icons-outlined">arrow_forward_ios</span>
+                            class="button button--primary button-right-arrow">
+                            View challenge
                         </a>
                         <a href="{% url 'materials_viewer' pdf_name=worksheet.teacher_pdf_name %}"
-                            class="button button--primary--general-play">
-                            View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                            class="button button--primary button-right-arrow">
+                            View guide
                         </a>
                     </div>
                 </div>
                 {% else %}
-                <p class="disabled"><strong>Challenge {{ worksheet.id }}: COMING SOON</strong></p>
+                <h6 class="disabled">Challenge {{ worksheet.id }}: COMING SOON</h6>
                 {% endif %}
             </div>
             {% endfor %}
@@ -197,20 +199,20 @@
 
     <div class="background background--quinary">
         <div class="col-sm-8 col-center">
-            <h3>KS3 - Extra Resources</h3>
+            <h4>KS3 - Extra Resources</h4>
             <div class="grid-kurono-sessions">
                 <div class="grid-kurono-sessions__item">
                     <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                         data-target="#kurono_curriculum_pdf">
-                        <strong>How Kurono relates to Key Stages 3 & 4 of the English National Curriculum.</strong>
+                        <h6>How Kurono relates to Key Stages 3 & 4 of the English National Curriculum.</h6>
                         <span class="material-icons-outlined md-32 icon-drop-down"></span>
                     </div>
                     <div id="kurono_curriculum_pdf" class="collapse">
                         <p>This document will be updated as we build it.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name='Kurono_national_curriculum' %}"
-                                class="button button--primary--general-play">
-                                View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                                class="button button--primary button-right-arrow">
+                                View guide
                             </a>
                         </div>
                     </div>
@@ -218,15 +220,15 @@
                 <div class="grid-kurono-sessions__item">
                     <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                         data-target="#kurono_story">
-                        <strong>Kurono story</strong>
+                        <h6>Kurono story</h6>
                         <span class="material-icons-outlined md-32 icon-drop-down"></span>
                     </div>
                     <div id="kurono_story" class="collapse">
                         <p>Set the scene with the story of the game.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name='Kurono_story' %}"
-                                class="button button--primary--general-play">
-                                View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                                class="button button--primary button-right-arrow">
+                                View guide
                             </a>
                         </div>
                     </div>
@@ -234,15 +236,15 @@
                 <div class="grid-kurono-sessions__item">
                     <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                         data-target="#kurono_cheat_sheet">
-                        <strong>Kurono cheat sheet</strong>
+                        <h6>Kurono cheat sheet</h6>
                         <span class="material-icons-outlined md-32 icon-drop-down"></span>
                     </div>
                     <div id="kurono_cheat_sheet" class="collapse">
                         <p>To be used with the Kurono game.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name='Kurono_cheat_sheet' %}"
-                                class="button button--primary--general-play">
-                                View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                                class="button button--primary button-right-arrow">
+                                View guide
                             </a>
                         </div>
                     </div>
@@ -250,14 +252,14 @@
                 <div class="grid-kurono-sessions__item">
                     <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                         data-target="#kurono_teacher_solutions">
-                        <strong>Challenge solutions</strong>
+                        <h6>Challenge solutions</h6>
                         <span class="material-icons-outlined md-32 icon-drop-down"></span>
                     </div>
                     <div id="kurono_teacher_solutions" class="collapse">
                         <p>Download a .py file of example solutions to copy and paste into your lessons.</p>
                         <div class="button-group button-group__icon">
                             <a href="{{ 'kurono/latest/kurono_teacher_solutions.py'|cloud_storage }}"
-                                class="button button--primary--general-play">
+                                class="button button--primary">
                                 Download solutions<span class="material-icons-outlined">file_download</span>
                             </a>
                         </div>
@@ -266,15 +268,15 @@
                 <div class="grid-kurono-sessions__item">
                     <div class="grid-kurono-sessions__accordion-button" data-toggle="collapse"
                         data-target="#kurono_student_guide">
-                        <strong>See student user guide</strong>
+                        <h6>See student user guide</h6>
                         <span class="material-icons-outlined md-32 icon-drop-down"></span>
                     </div>
                     <div id="kurono_student_guide" class="collapse">
                         <p>This guide will be available to the students.</p>
                         <div class="button-group button-group__icon">
                             <a href="{% url 'materials_viewer' pdf_name='Kurono_student_user_guide' %}"
-                                class="button button--primary--general-play">
-                                View guide<span class="material-icons-outlined">arrow_forward_ios</span>
+                                class="button button--primary button-right-arrow">
+                                View guide
                             </a>
                         </div>
                     </div>

@@ -71,6 +71,16 @@ button,
   }
 }
 
+.button-drop-down {
+  &:after {
+    content: "\e5c5";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    left: 5px;
+  }
+}
+
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
@@ -369,10 +379,10 @@ button,
       }
 
       .button--regular:hover {
-        background: $color-background-teach;
+        background: $color-secondary;
 
         .dropdown-menu__option__text {
-          color: $color-text-secondary;
+          color: $color-text-primary;
         }
       }
     }
