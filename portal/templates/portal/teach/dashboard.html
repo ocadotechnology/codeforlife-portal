@@ -110,6 +110,7 @@
             </tr>
             {% endfor %}
         </table>
+        <div id="requests"></div> <!-- Mark for the "View the requests" link -->
         <p>Select ‘Remove’ to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
             teacher to other teachers in your school or club.</p>
         <p>If another teacher is having problems with their Two Factor Authentication, you can disable it for them by selecting ‘Disable 2FA’.
@@ -140,7 +141,7 @@
 
     {% if is_admin %}
         {% if join_requests %}
-        <div id="requests">
+        <div>
             <div class="background col-sm-7 col-center">
                 <h5>These teachers have requested to join your school or club</h5>
                 {% if join_requests %}
