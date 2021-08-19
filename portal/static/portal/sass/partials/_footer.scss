@@ -44,7 +44,7 @@
   }
 
   .external-links {
-    @include _margin(20px, 0px, 0px, 0px);
+    @include _margin(20px, 0px, 20px, 0px);
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -125,7 +125,7 @@
     text-align: center;
 
     img {
-      @include _padding(25px, 15px, 25px, 15px);
+      @include _padding(25px, 15px, 0px, 15px);
       float: none;
     }
 
