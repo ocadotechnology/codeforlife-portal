@@ -472,7 +472,6 @@ class TestTeacher(BaseTest):
 
         page = page.change_teacher_details(
             {
-                "title": "Mrs",
                 "first_name": "Paulina",
                 "last_name": "Koch",
                 "current_password": "Password2",
@@ -482,7 +481,7 @@ class TestTeacher(BaseTest):
         assert is_teacher_details_updated_message_showing(self.selenium)
 
         assert page.check_account_details(
-            {"title": "Mrs", "first_name": "Paulina", "last_name": "Koch"}
+            {"first_name": "Paulina", "last_name": "Koch"}
         )
 
     def test_edit_details_non_admin(self):
@@ -504,7 +503,6 @@ class TestTeacher(BaseTest):
 
         page = page.change_teacher_details(
             {
-                "title": "Mr",
                 "first_name": "Florian",
                 "last_name": "Aucomte",
                 "current_password": "Password2",
@@ -514,7 +512,7 @@ class TestTeacher(BaseTest):
         assert is_teacher_details_updated_message_showing(self.selenium)
 
         assert page.check_account_details(
-            {"title": "Mr", "first_name": "Florian", "last_name": "Aucomte"}
+            {"first_name": "Florian", "last_name": "Aucomte"}
         )
 
     def test_change_email(self):
@@ -559,7 +557,7 @@ class TestTeacher(BaseTest):
         page = page.login(new_email, password)
 
         assert page.check_account_details(
-            {"title": "Mr", "first_name": "Test", "last_name": "Teacher"}
+            {"first_name": "Test", "last_name": "Teacher"}
         )
 
     def test_change_password(self):
