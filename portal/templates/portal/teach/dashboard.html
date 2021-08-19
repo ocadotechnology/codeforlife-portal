@@ -79,7 +79,7 @@
             </tr>
             {% for coworker in coworkers %}
             <tr>
-                <td><p><small>{{ coworker.title }} {{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }}
+                <td><p><small>{{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }}
                     {% if coworker.new_user == user %}<b>(you)</b>{% endif %}</small></p></td>
                 <td><p><small>{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</small></p></td>
@@ -127,7 +127,7 @@
                 </tr>
                 {% for coworker in coworkers %}
                 <tr>
-                    <td><p><small>{{ coworker.title }} {{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }}
+                    <td><p><small>{{ coworker.new_user.first_name }} {{ coworker.new_user.last_name }}
                         {% if coworker.new_user == user %}<b>(you)</b>{% endif %}</small></p></td>
                     <td><p><small>{% if coworker.is_admin %}Administrator{% else %}Standard Teacher{% endif %}{% if coworker.is_admin or is_admin %}
                         ({{ coworker.new_user.email|emaildomain }}){% endif %}</small></p></td>
@@ -152,8 +152,7 @@
                         </tr>
                         {% for join_request in join_requests %}
                             <tr>
-                                <td><p><small>{{ join_request.title }} {{ join_request.new_user.first_name }}
-                                    {{ join_request.new_user.last_name }}</small></p></td>
+                                <td><p><small>{{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</small></p></td>
                                 <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                                 <td class="cell-center">
                                      <button id="allow_button" class="button button--small button-primary button--primary--positive"
@@ -336,17 +335,12 @@
                 {{ update_account_form.non_field_errors }}
 
                 <div class="row row--under">
-                    <div class="col-sm-2">
-                        <label for="id_{{ form.title.html_name }}">{{ update_account_form.title.label }}</label>
-                        {{ update_account_form.title }}
-                        {{ update_account_form.title.errors }}
-                    </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <label for="id_{{ form.first_name.html_name }}">{{ update_account_form.first_name.label }}</label>
                         {{ update_account_form.first_name }}
                         {{ update_account_form.first_name.errors }}
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <label for="id_{{ form.last_name.html_name }}">{{ update_account_form.last_name.label }}</label>
                         {{ update_account_form.last_name }}
                         {{ update_account_form.last_name.errors }}

@@ -51,7 +51,6 @@ class SignupPage(BasePage):
 
     def signup(
         self,
-        title,
         first_name,
         last_name,
         email,
@@ -60,9 +59,6 @@ class SignupPage(BasePage):
         success=True,
         newsletter=False,
     ):
-        Select(
-            self.browser.find_element_by_id("id_teacher_signup-teacher_title")
-        ).select_by_value(title)
         self.browser.find_element_by_id(
             "id_teacher_signup-teacher_first_name"
         ).send_keys(first_name)
