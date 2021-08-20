@@ -92,24 +92,35 @@ form {
 .form--register--teacher {
   color: $color-text-secondary;
   background-color: $color-primary-400;
+
   a,
   a:hover {
     color: $color-text-secondary;
+  }
+
+  input {
+    color: $color-text-primary;
   }
 }
 
 .form--register--student {
   color: $color-text-secondary;
   background-color: $color-tertiary;
+
   a,
   a:hover {
     color: $color-text-secondary;
+  }
+
+  input {
+    color: $color-text-primary;
   }
 }
 
 .form--register--indep-student {
   color: $color-text-primary;
   background-color: $color-secondary-400;
+
   a,
   a:hover {
     color: $color-text-primary;
