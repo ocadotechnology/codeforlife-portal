@@ -43,7 +43,6 @@ button,
 }
 
 /* Yellow contained button */
-button,
 .button--primary,
 .button--primary--navigation {
   @include _padding(5px, 15px, 7px, 15px);
@@ -385,20 +384,6 @@ button,
 
   .dropdown-menu {
     width: 100%;
-
-    .dropdown-menu__option {
-      .button--regular {
-        color: $color-text-tertiary;
-      }
-
-      .button--regular:hover {
-        background: $color-secondary;
-
-        .dropdown-menu__option__text {
-          color: $color-text-primary;
-        }
-      }
-    }
   }
 }
 

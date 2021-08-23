@@ -72,7 +72,7 @@ form {
     text-align: left;
   }
 
-  ul {
+  .errorlist {
     color: $color-error;
     font-style: italic;
     list-style: none;
@@ -97,6 +97,10 @@ form {
 
   input {
     color: $color-text-primary;
+  }
+
+  .errorlist {
+    color: $color-text-secondary;
   }
 }
 

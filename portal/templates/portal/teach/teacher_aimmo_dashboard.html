@@ -52,7 +52,7 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
                             data-class-id="{{ game_class.id }}"
                             onclick='send_event("Kurono", "Clicked", "Create game button");'>
                             {% endif %}
-                            <small class="dropdown-menu__option__text">{{ game_class.name }}</small>
+                            <p class="dropdown-menu__option__text">{{ game_class.name }}</p>
                         </a>
                 </li>
                 {% endfor %}
