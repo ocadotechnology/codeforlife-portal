@@ -46,7 +46,7 @@
 
         <div class="span_1_of_2">
 
-            <div class="login-card">
+            <div>
                 <h4>{% if user.new_student.class_field %}Update password{% else %}Update account details{% endif %}</h4><br>
 
                 {% if user.new_student.class_field %}
@@ -107,7 +107,7 @@
             </div>
             {% if not user.new_student.class_field %}
                 <br>
-                <div class="login-card">
+                <div>
                     <h4>Join a school or club</h4><br>
                     <div class="section group">
                         <div class="col span_2_of_3">

@@ -35,9 +35,9 @@
         <div class="background">
             <div class="col-sm-8 text-center col-center">
                 {% if user|is_logged_in %}
-                    <a href="{% url 'levels' %}" class="button button--big button-primary button--primary--general-educate">Play now</a>
+                    <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
                 {% else %}
-                    <a href="{% url 'register' %}" class="button button--big button--primary--general-play register">Register</a>
+                    <a href="{% url 'register' %}" class="button button--primary register">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -58,7 +58,7 @@
                             algorithms, and learn how to create and debug simple programs. Designed for children aged 5–7,
                             but start here if you’ve never played Rapid Router.</h4>
                         <a href="{{ 'covid-19_response/codeforlife-KS1.zip'|cloud_storage }}">
-                            <button class="button--big button--primary--general-play">
+                            <button class="button--big button--primary">
                                 <span class="material-icons-outlined">file_download</span>Download lessons
                             </button>
                         </a>
@@ -100,7 +100,7 @@
                             programming constructs. Designed for children aged 8–11, but anyone can progress here if
                             ready.</h4>
                         <a href="{{ 'covid-19_response/codeforlife-KS2.zip'|cloud_storage }}">
-                            <button class="button--big button--primary--general-play">
+                            <button class="button--big button--primary">
                                 <span class="material-icons-outlined">file_download</span>Download lessons
                             </button>
                         </a>
@@ -141,7 +141,7 @@
                         <h4>Let’s get advanced! Learn about repeat loops and selection, variables, and how to create
                             efficient code. Designed for children aged 12–14, but open to all.</h4>
                         <a href="{{ 'covid-19_response/codeforlife-KS3.zip'|cloud_storage }}">
-                            <button class="button--big button--primary--general-play">
+                            <button class="button--big button--primary">
                                 <span class="material-icons-outlined">file_download</span>Download lessons
                             </button>
                         </a>

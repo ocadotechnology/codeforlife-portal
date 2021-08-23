@@ -8,7 +8,6 @@ button,
 .button,
 .hijacked-warning .btn {
   @include _font-size(16px);
-  @include _padding(5px, 15px, 7px, 15px);
   display: inline-block;
   font-family: "Inter", sans-serif;
   font-weight: 600;
@@ -24,9 +23,9 @@ button,
   text-decoration: none;
 }
 
-.button--home,
-.button--primary--general-educate,
-.button--primary--general-play {
+/* White contained button */
+.button--home {
+  @include _padding(5px, 15px, 7px, 15px);
   background-color: $color-button-home;
   color: $color-text-primary;
 
@@ -43,8 +42,11 @@ button,
   }
 }
 
+/* Yellow contained button */
+button,
 .button--primary,
 .button--primary--navigation {
+  @include _padding(5px, 15px, 7px, 15px);
   background: $color-button-contained;
   color: $color-text-primary;
 
@@ -58,6 +60,46 @@ button,
     background: $color-button-contained-active;
     color: $color-text-primary;
     box-shadow: none;
+  }
+}
+
+/* Outlined button */
+.button--secondary {
+  @include _padding(4px, 15px, 4px, 15px);
+  background-color: transparent;
+  border: 2px solid;
+}
+
+/* Outlined button white border and text */
+.button--secondary--light {
+  border-color: $color-button-subnav-border;
+  color: $color-text-secondary;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active,
+  &:focus {
+    border: 3px solid $color-button-subnav-border;
+    text-decoration: none;
+  }
+}
+
+/* Outlined button yellow border with black text */
+.button--secondary--dark {
+  border-color: $color-button-secondary-border-dark;
+  color: $color-text-primary;
+
+  &:hover {
+    text-decoration: underline;
+    color: $color-text-primary;
+  }
+  
+  &:active,
+  &:focus {
+    border: 3px solid $color-button-secondary-border-dark;
+    text-decoration: none;
   }
 }
 
@@ -204,6 +246,7 @@ button,
 
   &:hover {
     background: $color-button-primary-action-danger-hover;
+    color: $color-text-secondary;
   }
 }
 
@@ -225,36 +268,6 @@ button,
 
   &:hover {
     background: $color-button-disabled;
-  }
-}
-
-.button--secondary {
-  background-color: transparent;
-  border: 2px solid;
-}
-
-.button--secondary--light {
-  border-color: $color-button-subnav-border;
-  color: $color-text-secondary;
-
-  &:active {
-    border: 3px solid;
-  }
-}
-
-.button--secondary--dark {
-  border-color: $color-button-secondary-border-dark;
-  color: $color-text-tertiary;
-
-  .glyphicon {
-    @include _font-size(20px);
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: $color-background-tertiary;
-    color: $color-text-secondary;
   }
 }
 
@@ -410,10 +423,6 @@ button,
 }
 
 @media (max-width: $tablet-small-max-width) {
-  .button--secondary--dark {
-    background-color: $color-background-secondary;
-  }
-
   .button--menu__item {
     @include _font-size(30px);
     align-items: center;
@@ -490,11 +499,6 @@ button,
         content: "arrow_drop_up";
       }
     }
-  }
-
-  .button--menu__item--navigation {
-    background-color: $color-background-tint-quinary;
-    color: $color-text-tertiary;
   }
 
   .button--menu__item--teacher {

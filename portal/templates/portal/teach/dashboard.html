@@ -85,16 +85,16 @@
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</small></p></td>
                 {% if coworker.new_user != user %}
                     <td class="cell-center">
-                        <button id="kick_button" class="button--small button--primary--danger"
+                        <button id="kick_button" class="button button--small button--primary--danger"
                                 onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
                             Remove</button>
                     </td>
                     <td class="cell-center">
                         {% if coworker.is_admin %}
-                            <button id="make_non_admin_button" class='button button--small button--primary--navigation'
+                            <button id="make_non_admin_button" class='button button--small button--primary'
                                onclick="postWithCsrf('{% url 'organisation_toggle_admin' coworker.id %}');">Make non-admin</button>
                         {% else %}
-                            <button id="make_admin_button" class="button--small button--primary--navigation"
+                            <button id="make_admin_button" class="button button--small button--primary"
                                     onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                                 Make admin</button></td>
                         {% endif %}
@@ -156,11 +156,11 @@
                                 <td><p><small>{{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</small></p></td>
                                 <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                                 <td class="cell-center">
-                                     <button id="allow_button" class="button button--small button-primary button--primary--positive"
+                                     <button id="allow_button" class="button button--small button--primary"
                                             onclick="postWithCsrf('{% url 'organisation_allow_join' join_request.id %}');">Allow</button>
                                 </td>
                                 <td class="cell-center">
-                                     <button id="deny_button" class="button button--small button-primary button--primary--danger"
+                                     <button id="deny_button" class="button button--small button--primary--danger"
                                         onclick="postWithCsrf('{% url 'organisation_deny_join' join_request.id %}');">Deny</button>
                                 </td>
                             </tr>
@@ -268,7 +268,7 @@
                             <form method="post" action="{% url 'teacher_accept_student_request' join_request.id %}">
                                 {% csrf_token %}
                                 <button id="allow_independent_button" type="submit"
-                                        class="button--small button--primary--positive">Accept</button>
+                                        class="button--small button--primary">Accept</button>
                             </form>
                         </td>
                         <td>

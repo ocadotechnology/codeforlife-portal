@@ -10,13 +10,13 @@
 <div id="dismiss_students_page"></div>
 
 <section class="background col-sm-6 col-center">
-    <h2>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h2><br>
-    <h4>Convert students into independent students.</h4>
+    <h4>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h4><br>
+    <h6>Convert students into independent students.</h6>
 </section>
 
-<div class="background background--quaternary">
+<div class="background background--primary">
     <div class="col-sm-6 col-center">
-        <h3>Students to release from school</h3>
+        <h4>Students to release from school</h4>
 
         <p>You are about to remove students from your class and set them up as independent students. Neither you nor your school will
             be able to manage them once you have submitted this request.</p>
@@ -65,8 +65,8 @@
             {% endfor %}
 
             <div class="button-group">
-                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button--regular button--primary--danger">Remove student</button>
-                <a id="cancel_button" class="button button--regular button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
+                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary--danger">Remove student</button>
+                <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
             </div>
         </form>
     </div>

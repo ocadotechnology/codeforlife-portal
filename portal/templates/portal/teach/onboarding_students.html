@@ -38,7 +38,7 @@
         <h4>{{ user.new_teacher.school.name }}</h4>
         {% if classes %}
             {% for class in classes %}
-                <h3>Add students to class: {{ class.name }}</h3>
+                <h4>Add students to class: {{ class.name }}</h4>
             {% endfor %}
         {% else %}
         <p>It doesn&rsquo;t look like you have any classes assigned to you. To create a class, use the &lsquo;New Class&rsquo; box on the right.</p>
@@ -56,7 +56,7 @@
             {{ new_students_form.names.errors }}
             {{ new_students_form.names }}
 
-            <button id="submitStudents" type="submit" class="button--regular button-primary button--primary--general-play" name="new_students" value="Add students">Add Students</button>
+            <button id="submitStudents" type="submit" class="button button--primary" name="new_students" value="Add students">Add Students</button>
         </form>
     </div>
 </div>

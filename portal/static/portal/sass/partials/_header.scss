@@ -254,10 +254,6 @@
       font-weight: 500;
     }
 
-    .button--primary--general-play {
-      @include _margin(0px, $spacing * 6, 0px, 0px);
-    }
-
     .button--register {
       @include _margin(0px, $spacing * 6, 0px, 0px);
       justify-content: center;

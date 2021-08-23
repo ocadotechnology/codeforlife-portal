@@ -7,11 +7,11 @@
         <h3 class="card__title">{{ title }}</h3>
         <p>{{ description }}</p>
         <div class="button-group button-group__icon">
-            <a href="{% url button1.url pdf_name=button1.url_args %}" class="button button--primary--general-play">
-                {{ button1.text }}<span class="material-icons-outlined">arrow_forward_ios</span>
+            <a href="{% url button1.url pdf_name=button1.url_args %}" class="button button--primary button-right-arrow">
+                {{ button1.text }}
             </a>
-            <a href="{% url button2.url id=button2.url_args %}" class="button button--primary--general-play">
-                {{ button2.text }}<span class="material-icons-outlined">arrow_forward_ios</span>
+            <a href="{% url button2.url id=button2.url_args %}" class="button button--primary button-right-arrow">
+                {{ button2.text }}
             </a>
         </div>
     </div>

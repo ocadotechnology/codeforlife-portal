@@ -13,10 +13,7 @@ table {
 th {
   @include _padding(5px, 10px, 5px, 10px);
   font-weight: 500;
-
-  p {
-    color: $color-text-secondary;
-  }
+  color: $color-text-secondary;
 }
 
 td {
@@ -40,68 +37,9 @@ td {
   }
 }
 
-.header-secondary {
-  width: 500px;
-
-  th {
-    background-color: $color-table-header-secondary;
-
-    p {
-      color: $color-text-secondary;
-      text-align: center;
-      vertical-align: top;
-    }
-
-    small {
-      @include _font-size(12px);
-    }
-  }
-}
-
-.header-tertiary {
-  th {
-    background-color: $color-background-positive;
-  }
-}
-
 .data-primary {
   td:not(.no-bg) {
     background-color: $color-background-tint-primary;
-  }
-}
-
-.data-secondary {
-  td {
-    background-color: $color-background-tint-secondary;
-  }
-}
-
-.data-tertiary {
-  td {
-    background-color: $color-background-tint-tertiary;
-  }
-}
-
-.data-quaternary {
-  td {
-    background-color: $color-background-tint-quaternary;
-  }
-}
-
-.data-quinary {
-  td {
-    background-color: $color-background-tint-quinary;
-  }
-}
-
-.secondary-table {
-  td {
-    background-color: $color-background-secondary;
-  }
-
-  th,
-  td {
-    border: 2px solid $color-background-tint-primary;
   }
 }
 
@@ -114,8 +52,6 @@ td {
 }
 
 .table-footer {
-  background-color: $color-background-tint-quinary;
-
   button {
     @include _margin(0px, 19px, 0px, 19px);
     float: left;
@@ -210,7 +146,7 @@ td {
 .table--move {
   td {
     background-color: $color-background-secondary;
-    border: 2px solid $color-background-tint-quaternary;
+    border: 2px solid $color-background-tint-primary;
   }
 
   input {

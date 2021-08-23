@@ -18,8 +18,8 @@
                     <p>{{ card.description }}</p>
                 {% elif card.button_text %}
                     <div class="button-group button-group__icon">
-                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary--general-play">
-                            {{ card.button_text }}<span class="material-icons-outlined">arrow_forward_ios</span>
+                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary button-right-arrow">
+                            {{ card.button_text }}
                         </a>
                     </div>
                 {% endif %}
