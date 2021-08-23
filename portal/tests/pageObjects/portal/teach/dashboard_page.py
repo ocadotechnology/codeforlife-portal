@@ -141,11 +141,6 @@ class TeachDashboardPage(TeachBasePage):
         return TeacherLoginPage(self.browser)
 
     def _change_details(self, details):
-        if "title" in details:
-            Select(self.browser.find_element_by_id("id_title")).select_by_value(
-                details["title"]
-            )
-            del details["title"]
         for field, value in list(details.items()):
             self.browser.find_element_by_id("id_" + field).clear()
             self.browser.find_element_by_id("id_" + field).send_keys(value)
@@ -153,15 +148,6 @@ class TeachDashboardPage(TeachBasePage):
 
     def check_account_details(self, details):
         correct = True
-
-        if "title" in details:
-            correct &= (
-                Select(
-                    self.browser.find_element_by_id("id_title")
-                ).first_selected_option.text
-                == details["title"]
-            )
-            del details["title"]
 
         for field, value in list(details.items()):
             correct &= (

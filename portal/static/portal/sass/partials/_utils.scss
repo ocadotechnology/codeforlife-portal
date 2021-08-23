@@ -90,7 +90,6 @@
 
 .password-strength-text {
   @include _padding(0px, 0px, 0px, $spacing * 2);
-  color: $color-text-secondary;
   font-style: italic;
 }
 

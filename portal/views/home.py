@@ -156,7 +156,6 @@ def process_signup_form(request, data):
         )
     else:
         teacher = Teacher.objects.factory(
-            title=data["teacher_title"],
             first_name=data["teacher_first_name"],
             last_name=data["teacher_last_name"],
             email=data["teacher_email"],

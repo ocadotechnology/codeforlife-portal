@@ -8,12 +8,12 @@ button,
 .button,
 .hijacked-warning .btn {
   @include _font-size(16px);
-  @include _padding(5px, 15px, 10px, 15px);
   display: inline-block;
   font-family: "Inter", sans-serif;
   font-weight: 600;
   text-align: center;
   white-space: nowrap;
+  border: 0;
 }
 
 .button,
@@ -23,9 +23,9 @@ button,
   text-decoration: none;
 }
 
-.button--home,
-.button--primary--general-educate,
-.button--primary--general-play {
+/* White contained button */
+.button--home {
+  @include _padding(5px, 15px, 7px, 15px);
   background-color: $color-button-home;
   color: $color-text-primary;
 
@@ -35,6 +35,92 @@ button,
     background-color: $color-button-home-hover;
     text-decoration: none;
   }
+
+  &:active {
+    border: 1px solid $color-button-home-border;
+    box-shadow: none;
+  }
+}
+
+/* Yellow contained button */
+.button--primary,
+.button--primary--navigation {
+  @include _padding(5px, 15px, 7px, 15px);
+  background: $color-button-contained;
+  color: $color-text-primary;
+
+  &:hover {
+    @include material-shadow();
+    background: $color-button-contained-hover;
+    color: $color-text-primary;
+  }
+
+  &:active {
+    background: $color-button-contained-active;
+    color: $color-text-primary;
+    box-shadow: none;
+  }
+}
+
+/* Outlined button */
+.button--secondary {
+  @include _padding(4px, 15px, 4px, 15px);
+  background-color: transparent;
+  border: 2px solid;
+}
+
+/* Outlined button white border and text */
+.button--secondary--light {
+  border-color: $color-button-subnav-border;
+  color: $color-text-secondary;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active,
+  &:focus {
+    border: 3px solid $color-button-subnav-border;
+    text-decoration: none;
+  }
+}
+
+/* Outlined button yellow border with black text */
+.button--secondary--dark {
+  border-color: $color-button-secondary-border-dark;
+  color: $color-text-primary;
+
+  &:hover {
+    text-decoration: underline;
+    color: $color-text-primary;
+  }
+
+  &:active,
+  &:focus {
+    border: 3px solid $color-button-secondary-border-dark;
+    text-decoration: none;
+  }
+}
+
+.button-right-arrow {
+  &:after {
+    content: "\e5e1";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    left: 5px;
+  }
+}
+
+.button-drop-down {
+  &:after {
+    content: "\e5c5";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    left: 5px;
+  }
+}
 
   &:active {
     border: 1px solid $color-button-home-border;
@@ -89,6 +175,7 @@ button,
 }
 
 .button--small {
+  @include _font-size(14px);
   @include _padding(2px, 10px, 2px, 10px);
 }
 
@@ -197,6 +284,7 @@ button,
 
   &:hover {
     background: $color-button-primary-action-danger-hover;
+    color: $color-text-secondary;
   }
 }
 
@@ -218,36 +306,6 @@ button,
 
   &:hover {
     background: $color-button-disabled;
-  }
-}
-
-.button--secondary {
-  background-color: transparent;
-  border: 2px solid;
-}
-
-.button--secondary--light {
-  border-color: $color-button-subnav-border;
-  color: $color-text-secondary;
-
-  &:active {
-    border: 3px solid;
-  }
-}
-
-.button--secondary--dark {
-  border-color: $color-button-secondary-border-dark;
-  color: $color-text-tertiary;
-
-  .glyphicon {
-    @include _font-size(20px);
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: $color-background-tertiary;
-    color: $color-text-secondary;
   }
 }
 
@@ -279,6 +337,10 @@ button,
 
   &[aria-expanded="true"]:after {
     content: "\e5ce";
+  }
+
+  &:hover .dropdown__text {
+    text-decoration: underline;
   }
 }
 
@@ -318,9 +380,8 @@ button,
     display: inline-flex;
     justify-content: space-between;
 
-    .glyphicon {
-      @include _font-size(25px);
-      @include _padding(0px, 0px, 0px, $spacing * 2);
+    .material-icons-outlined {
+      @include _margin(0px, 0px, 0px, $spacing * 2);
     }
   }
 }
@@ -362,20 +423,6 @@ button,
 
   .dropdown-menu {
     width: 100%;
-
-    .dropdown-menu__option {
-      .button--regular {
-        color: $color-text-tertiary;
-      }
-
-      .button--regular:hover {
-        background: $color-background-teach;
-
-        .dropdown-menu__option__text {
-          color: $color-text-secondary;
-        }
-      }
-    }
   }
 }
 
@@ -400,10 +447,6 @@ button,
 }
 
 @media (max-width: $tablet-small-max-width) {
-  .button--secondary--dark {
-    background-color: $color-background-secondary;
-  }
-
   .button--menu__item {
     @include _font-size(30px);
     align-items: center;
@@ -470,15 +513,16 @@ button,
     }
   }
 
-  .grid-kurono-sessions__accordion-button[aria-expanded="true"] {
-    .glyphicon-triangle-bottom::before {
-      content: "\e253";
+  .grid-kurono-sessions__accordion-button {
+    .icon-drop-down:before {
+      content: "arrow_drop_down";
     }
-  }
 
-  .button--menu__item--navigation {
-    background-color: $color-background-tint-quinary;
-    color: $color-text-tertiary;
+    &[aria-expanded="true"] {
+      .icon-drop-down:before {
+        content: "arrow_drop_up";
+      }
+    }
   }
 
   .button--menu__item--teacher {

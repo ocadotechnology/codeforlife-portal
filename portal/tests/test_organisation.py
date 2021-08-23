@@ -196,7 +196,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
 
-        title, first_name, _, email_2, password_2 = generate_details()
+        first_name, _, email_2, password_2 = generate_details()
 
         new_last_name = "New Teacher"
 
@@ -204,7 +204,7 @@ class TestOrganisation(BaseTest, BasePage):
         page = (
             HomePage(self.selenium)
             .go_to_signup_page()
-            .signup(title, first_name, new_last_name, email_2, password_2, password_2)
+            .signup(first_name, new_last_name, email_2, password_2, password_2)
         )
 
         page = email_utils.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
@@ -232,7 +232,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
 
-        title, first_name, _, email_2, password_2 = generate_details()
+        first_name, _, email_2, password_2 = generate_details()
 
         new_last_name = "New Teacher"
 
@@ -240,7 +240,7 @@ class TestOrganisation(BaseTest, BasePage):
         page = (
             HomePage(self.selenium)
             .go_to_signup_page()
-            .signup(title, first_name, new_last_name, email_2, password_2, password_2)
+            .signup(first_name, new_last_name, email_2, password_2, password_2)
         )
 
         page = email_utils.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
@@ -273,7 +273,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
 
-        title, first_name, _, email_2, password_2 = generate_details()
+        first_name, _, email_2, password_2 = generate_details()
 
         new_last_name = "New Teacher"
 
@@ -281,7 +281,7 @@ class TestOrganisation(BaseTest, BasePage):
         page = (
             HomePage(self.selenium)
             .go_to_signup_page()
-            .signup(title, first_name, new_last_name, email_2, password_2, password_2)
+            .signup(first_name, new_last_name, email_2, password_2, password_2)
         )
 
         page = email_utils.follow_verify_email_link_to_onboarding(page, mail.outbox[0])

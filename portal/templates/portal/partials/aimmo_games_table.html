@@ -26,13 +26,13 @@
             <tr>
                 <td>
                     <div class="games-table__cell">
-                        <p><small>{{ game.game_class.name }}</small></p>
+                        <p>{{ game.game_class.name }}</p>
                     </div>
                 </td>
                 <td>
                     <div class="games-table__cell">
                         <div class="dropdown">
-                            <button id="worksheets_dropdown" class="button--regular button--secondary button--dropdown" data-toggle="dropdown" aria-expanded="false">
+                            <button id="worksheets_dropdown" class="button button--dropdown" data-toggle="dropdown" aria-expanded="false">
                                 <div class="dropdown__text">{{ game.worksheet.id }} - {{ game.worksheet.name }}</div>
                             </button>
                             <ul id="worksheets_dropdown_menu" class="dropdown-menu">
@@ -40,15 +40,15 @@
                                     <li class="dropdown-menu__option">
                                         {% if worksheet.name == game.worksheet.name %}
                                             <a class="btn button--regular disabled">
-                                                <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
-                                                <div class="glyphicon glyphicon-ok"></div>
+                                                <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
+                                                <span class="material-icons-outlined">check</span>
                                             </a>
                                         {% else %}
                                             <a class="btn button--regular" id="worksheet_{{ worksheet.id }}"
                                                onclick="changeWorksheetConfirmation('{{ game.id|escapejs }}',
                                                        '{{ game.game_class.name|escapejs }}',
                                                        '{{ worksheet.id|escapejs }}')">
-                                                <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
+                                                <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
                                             </a>
                                         {% endif %}
                                     </li>
@@ -56,7 +56,7 @@
                                 {% for worksheet in incomplete_worksheets %}
                                     <li class="dropdown-menu__option">
                                         <a class="btn button--regular disabled">
-                                            <small class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</small>
+                                            <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
                                         </a>
                                     </li>
                                 {% endfor %}
@@ -66,7 +66,7 @@
                 </td>
                 <td>
                     <div class="games-table__buttons">
-                        <a class="button button--regular button--primary--general-play"
+                        <a class="button button--primary"
                             href="{% url base_url id=game.id %}">Play</a>
                     </div>
                 </td>
@@ -79,10 +79,10 @@
                 <td colspan="3" class="no-bg"></td>
                 <td class="no-bg">
                     <div class="button-group button-group__icon">
-                        <a class="button btn-block button--regular button--primary--navigation"
+                        <a class="button button--primary"
                             onclick="clickDeleteGames()">
                                 Delete
-                                <div class="glyphicon glyphicon-trash"></div>
+                                <span class="material-icons-outlined">delete</span>
                             </a>
                     </div>
                 </td>

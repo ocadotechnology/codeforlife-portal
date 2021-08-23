@@ -32,14 +32,6 @@
       .button--regular {
         color: $color-text-tertiary;
       }
-
-      .button--regular:hover {
-        background: $color-secondary;
-
-        .dropdown-menu__option__text {
-          color: $color-text-primary;
-        }
-      }
     }
   }
 
@@ -70,7 +62,7 @@
 }
 
 .sub-nav--warning {
-  background-color: $color-background-warning;
+  background-color: $color-background-sub-banner;
 
   p,
   a,
@@ -159,7 +151,7 @@
 }
 
 .success {
-  background-color: $color-background-tint-quaternary;
+  background-color: $color-background-sub-banner;
   border-bottom: 1px solid $color-message-border;
 }
 

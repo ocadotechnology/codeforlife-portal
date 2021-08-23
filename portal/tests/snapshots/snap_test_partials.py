@@ -11,7 +11,7 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher row">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Test title</h1>
         
-            <h5>Test subtitle</h5>
+            <h4>Test subtitle</h4>
         
         
             <p>Test text</p>
@@ -25,18 +25,18 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher row">
 
 snapshots['test_benefits 1'] = '''
 
-<div class="grid-benefits row col-sm-10 col-lg-8 col-center">
+<div class="grid-benefits col-sm-10 col-center">
     
     
     
     
-        <h3 class="grid-benefits__title grid-benefits__title1">Test title</h3>
+        <h5 class="grid-benefits__title grid-benefits__title1">Test title</h5>
     
     
-        <h3 class="grid-benefits__title grid-benefits__title2">Test title</h3>
+        <h5 class="grid-benefits__title grid-benefits__title2">Test title</h5>
     
     
-        <h3 class="grid-benefits__title grid-benefits__title3">Test title</h3>
+        <h5 class="grid-benefits__title grid-benefits__title3">Test title</h5>
     
     <p class="grid-benefits__text1">Test text</p>
     <p class="grid-benefits__text2">Test text</p>
@@ -148,8 +148,8 @@ snapshots['test_card_list 1'] = '''
                 <h3 class="card__title">Test card 6</h3>
                 
                     <div class="button-group button-group__icon">
-                        <a target="_blank" href="home" class="button button--primary--general-play">
-                            Test button<div class="glyphicon glyphicon-menu-right"></div>
+                        <a target="_blank" href="home" class="button button--primary button-right-arrow">
+                            Test button
                         </a>
                     </div>
                 
@@ -187,19 +187,19 @@ snapshots['test_character_list 1'] = '''
 
 snapshots['test_game_banner 1'] = '''
 
-<div class="banner--game col-center col-lg-10 col-sm-12 test--class">
+<div class="banner--game col-center col-lg-8 col-sm-12 test--class">
     <div>
-        <h4 class="banner--game__text banner--game__ages">Test ages</h4>
-        <h1 class="banner--game__title">Test title</h1>
+        <h4>Test ages</h4>
+        <h2>Test title</h2>
         <p class="banner--game__text"><strong>Test description</strong></p>
         <a href="/play/"
-           class="button button--big button-primary button--primary--general-educate">Test button</a>
+           class="button button--home button-right-arrow">Test button</a>
     </div>
 </div>
 '''
 
-snapshots['test_headline 1'] = '''<h1>Test title</h1>
-<h6 class="col-sm-6 col-center">Test description</h6>
+snapshots['test_headline 1'] = '''<h4>Test title</h4>
+<div class="col-sm-6 col-center">Test description</div>
 '''
 
 snapshots['test_hero_card 1'] = '''
@@ -211,11 +211,11 @@ snapshots['test_hero_card 1'] = '''
         <h3 class="card__title">Test title</h3>
         <p>Test description</p>
         <div class="button-group button-group__icon">
-            <a href="/materials/test_pdf_name" class="button button--primary--general-play">
-                Test button 1<div class="glyphicon glyphicon-menu-right"></div>
+            <a href="/materials/test_pdf_name" class="button button--primary button-right-arrow">
+                Test button 1
             </a>
-            <a href="/kurono/play/1/" class="button button--primary--general-play">
-                Test button 2<div class="glyphicon glyphicon-menu-right"></div>
+            <a href="/kurono/play/1/" class="button button--primary button-right-arrow">
+                Test button 2
             </a>
         </div>
     </div>

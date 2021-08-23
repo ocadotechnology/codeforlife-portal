@@ -20,17 +20,13 @@
 <div class="row is-flex">
     <div class="form--register--text form--register form--register--teacher col-sm-6 is-flex-item">
         <div class="form col-sm-8 col-center">
-            <h1>Register as a teacher</h1>
-            <p>Once you&rsquo;ve registered your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.<br/></p>
+            <h2>Register as a teacher</h2>
+            <p>Once you've registered your personal details and logged in, you'll be able to create your school or club, or join other teachers at your institution.<br/></p>
             <form method="post" id="form-reg-teacher" autocomplete="off">
 
                 {% csrf_token %}
 
                 {{ teacher_signup_form.non_field_errors }}
-
-                <label for="id_teacher_signup-teacher_title">{{ teacher_signup_form.teacher_title.label }}</label>
-                {{ teacher_signup_form.teacher_title }}
-                {{ teacher_signup_form.teacher_title.errors }}
 
                 <label for="id_teacher_signup-teacher_first_name">{{ teacher_signup_form.teacher_first_name.label }}</label>
                 {{ teacher_signup_form.teacher_first_name }}
@@ -65,14 +61,14 @@
                     {{ teacher_signup_form.captcha }}
                 </div>
 
-                <button class="button--big button--primary--general-educate" type="submit" name="teacher_signup">Register</button>
+                <button class="button button--home" type="submit" name="teacher_signup">Register</button>
             </form>
 
         </div>
     </div>
     <div class="form--register--text form--register form--register--indep-student col-sm-6">
         <div class="form col-sm-8 col-center">
-            <h1>Register as an independent student</h1>
+            <h3>Register as an independent student</h3>
             <p>Are you part of a school or club? If so, please <a href="{% url 'student_login' %}">log in</a> or speak to your teacher.
             </p>
             <form id="form-signup-independent-student" method="post" autocomplete="off">
@@ -116,7 +112,7 @@
                     {{ independent_student_signup_form.captcha }}
                 </div>
 
-                <button type="submit" name="independent_student_signup" class="button--big button--primary--general-play" value="Register">Register</button>
+                <button type="submit" name="independent_student_signup" class="button button--home" value="Register">Register</button>
             </form>
         </div>
     </div>

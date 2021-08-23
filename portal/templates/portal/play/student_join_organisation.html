@@ -39,7 +39,7 @@
 
     {% if student.pending_class_request %}
         <div class="span_1_of_2">
-            <div class="login-card">
+            <div>
                 <h4>Request pending</h4><br>
 
                 <p>Your request to join class <b>{{ student.pending_class_request.access_code }}</b> in the school or club <b>{{ student.pending_class_request.teacher.school.name }}</b> is still pending.</p>
@@ -74,7 +74,7 @@
     {% else %}
         <div class="span_1_of_2">
 
-            <div class="login-card">
+            <div>
                 <h4>Request to join a school or club</h4><br>
 
                 <p>If you want to link your Code For Life account with a school or club, ask a teacher to enable external requests and provide you with the Class Access Code for the class you want to join. Simply add the Class Access Code to the form below and submit.</p>

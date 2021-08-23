@@ -55,8 +55,8 @@
 <div class="background background--primary">
     <div class="form col-sm-8 col-center">
         <section class="background">
-            <h3>It looks like you&rsquo;ve already created your school ({{ user.new_teacher.school.name }})</h3>
-            <a href="{% url 'onboarding-classes' %}" class="button button--regular button--primary--general-play" >Add a class</a>
+            <h4>It looks like you've already created your school ({{ user.new_teacher.school.name }})</h4>
+            <a href="{% url 'onboarding-classes' %}" class="button button--primary">Add a class</a>
         </section>
     </div>
 </div>
@@ -87,7 +87,7 @@
                 {% endfor %}
 
                 <div class="section group">
-                    <button type="submit" class="button--regular button-primary button--primary--general-play" name="create_organisation">Create school or club</button>
+                    <button type="submit" class="button button--primary" name="create_organisation">Create school or club</button>
                 </div>
 
             </form>
@@ -108,7 +108,7 @@
                 {{ join_form.chosen_org.errors }}
 
                 <div class="section group">
-                    <button type="submit" class="button--regular button-primary button--primary--general-play" name="join_organisation">Join school or club</button>
+                    <button type="submit" class="button button--primary" name="join_organisation">Join school or club</button>
                 </div>
 
             </form>

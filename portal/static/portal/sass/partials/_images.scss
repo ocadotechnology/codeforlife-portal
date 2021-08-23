@@ -26,26 +26,6 @@ img {
   background-color: $color-background-tint-primary;
 }
 
-.background--secondary {
-  background-color: $color-background-tint-secondary;
-}
-
-.background--tertiary {
-  background-color: $color-background-tint-tertiary;
-}
-
-.background--quaternary {
-  background-color: $color-background-tint-quaternary;
-}
-
-.background--quinary {
-  background-color: $color-background-tint-quinary;
-
-  .background--quinary__title {
-    margin: 0;
-  }
-}
-
 .bg-image {
   margin-top: 1.5em;
 }
