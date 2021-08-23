@@ -26,13 +26,13 @@
 <div id="edit_student_page"></div>
 
 <section id="student_details" class="background col-sm-6 col-center">
-    <h2>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h2>
-    <h4>Edit this student&rsquo;s name and manage their password.</h4>
+    <h4>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h4>
+    <h6>Edit this student&rsquo;s name and manage their password.</h6>
 </section>
 
-<div class="background background--quaternary">
+<div class="background background--primary">
     <div class="col-sm-6 col-center">
-        <h3>Update name</h3>
+        <h4>Update name</h4>
 
         <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
 
@@ -45,21 +45,21 @@
             {{ name_form.name }}
             {{ name_form.name.errors }}
 
-            <button id="update_name_button" type="submit" name="update_details" class="button--regular button--primary--navigation">Update</button>
+            <button id="update_name_button" type="submit" name="update_details" class="button button--primary">Update</button>
 
         </form>
 
-        <h3 id="set-password">Set or reset password</h3>
+        <h4 id="set-password">Set or reset password</h4>
 
-        <p>You can either set this student&rsquo;s password by clicking &lsquo;Set password&rsquo;, or you can let us generate a random and
-            secure password by clicking &lsquo;Generate random&rsquo;.</p>
+        <p>You can either set this student's password by clicking 'Set password', or you can let us generate a random and
+            secure password by clicking 'Generate random'.</p>
 
         <form method="post" action="{% url 'teacher_student_reset' student.id %}">
             {% csrf_token %}
-            <div class="background button-group">
+            <div class="button-group">
                 <button id="generate_password_button" type="submit"
-                        class="button--regular button--primary--navigation">Generate random</button>
-                <a href="#set-password" class="button button--regular button--secondary button--secondary--dark" id="request-password-setter">Set password</a>
+                        class="button button--primary">Generate random</button>
+                <a href="#set-password" class="button button--secondary button--secondary--dark" id="request-password-setter">Set password</a>
             </div>
         </form>
 
@@ -78,8 +78,8 @@
                 {{ password_form.confirm_password }}
                 {{ password_form.confirm_password.errors }}
                 <div class="background button-group">
-                    <button id="set_new_password_button" type="submit" name="set_password" class="button--regular button--primary--navigation">Set</button>
-                    <a id="cancel-password-setter" class="button button--regular button--secondary button--secondary--dark">Cancel</a>
+                    <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Set</button>
+                    <a id="cancel-password-setter" class="button button--secondary button--secondary--dark">Cancel</a>
                 </div>
             </div>
         </form>

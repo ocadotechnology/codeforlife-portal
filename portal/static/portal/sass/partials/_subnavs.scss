@@ -32,14 +32,6 @@
       .button--regular {
         color: $color-text-tertiary;
       }
-
-      .button--regular:hover {
-        background: $color-background-teach;
-
-        .dropdown-menu__option__text {
-          color: $color-text-secondary;
-        }
-      }
     }
   }
 
@@ -70,7 +62,7 @@
 }
 
 .sub-nav--warning {
-  background-color: $color-background-warning;
+  background-color: $color-background-sub-banner;
 
   p,
   a,
@@ -118,17 +110,21 @@
 }
 
 .sub-nav--teacher {
-  background-color: $color-background-teach;
+  background-color: $color-primary-300;
+  color: $color-text-secondary;
 
-  a:focus,
   a:hover,
+  a:focus,
   a:active {
-    background-color: $color-background-secondary;
-    color: $color-teacher-blue;
+    color: $color-text-secondary;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   p {
-    color: $color-text-secondary;
+    opacity: 0.8;
   }
 }
 
@@ -155,7 +151,7 @@
 }
 
 .success {
-  background-color: $color-background-tint-quaternary;
+  background-color: $color-background-sub-banner;
   border-bottom: 1px solid $color-message-border;
 }
 

@@ -24,10 +24,9 @@
     <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon"> 
     <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
@@ -159,7 +158,6 @@
 <div class="footer">
     <a id="back_to_top_button" class="back-to-top" href="#top"><img class="no-padding" src="{% static 'portal/img/footer_arrow.png' %}"></a>
     <p><a href="#top"><small>BACK TO TOP</small></a></p>
-    <img class="col-sm-3" src="{% static 'portal/img/logo_c4l_horizontal.png' %}">
     <div class="row">
         <p><a href="{% url 'about' %}">About us</a></p>
         <p><a href="{% url 'getinvolved' %}">Get involved</a></p>
@@ -179,7 +177,7 @@
                     <label>{{ news_form.email.label }}</label>
                     {{ news_form.email }}
                     {{ news_form.email.errors }}
-                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--general-educate"> Sign up</button>
+                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button-primary button--primary--navigation"> Sign up</button>
                 </div>
             </form>
             <div class="social-media col-md-2">
@@ -189,7 +187,7 @@
         </div>
     </div>
     <a target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers"><img src="{% static 'portal/img/logo_ocado.png' %}"></a>
-    <p><small>&copy; Ocado Technology {% now "Y" %}</small></p>
+    <p><small>Ocado Technology {% now "Y" %}</small></p>
 </div>
 {% endcache %}
 {% endblock footer %}
