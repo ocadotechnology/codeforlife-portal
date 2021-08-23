@@ -43,8 +43,8 @@ $color-student-orange: #f37300;
 $color-text-gray: #383b3b;
 $color-error: #d60026;
 // Text
-$color-text-primary: #000000;
-$color-text-secondary: #ffffff;
+$color-text-primary: black;
+$color-text-secondary: white;
 $color-text-tertiary: $color-text-gray;
 $color-text-login-error: #ffff00;
 $color-text-materials-tag: #808080;
@@ -73,7 +73,7 @@ $color-button-primary-action-danger: #ff0000;
 $color-button-primary-action-danger-hover: #df0531;
 $color-button-primary-action-setup: #fab300;
 $color-button-primary-action-setup-hover: #ff9500;
-$color-button-secondary-border-light: #ffffff;
+$color-button-secondary-border-light: white;
 $color-button-secondary-border-dark: $color-secondary-600;
 $color-button-border: $color-secondary-600;
 $color-button-border-teacher: $color-teacher-blue;
@@ -83,24 +83,24 @@ $color-button-disabled: #d8d8d8;
 $color-button-menu-item: #f0f0f0;
 // Tabs
 $color-tab-border: $color-teacher-blue;
-$color-tab-selected-text: #ffffff;
+$color-tab-selected-text: white;
 $color-tab-selected-background: $color-teacher-blue;
 $color-tab-unselected-text: $color-teacher-blue;
-$color-tab-unselected-background: #ffffff;
+$color-tab-unselected-background: white;
 // Onboarding Arrows
-$color-onboarding-step-done-background: $color-teacher-blue;
-$color-onboarding-step-done-text: #ffffff;
-$color-onboarding-step-in-progress-background: #ffffff;
+$color-onboarding-step-done-background: $color-primary-variant;
+$color-onboarding-step-done-text: white;
+$color-onboarding-step-in-progress-background: white;
 $color-onboarding-step-in-progress-text: $color-text-gray;
 $color-onboarding-step-todo-background: $color-text-gray;
-$color-onboarding-step-todo-text: #ffffff;
+$color-onboarding-step-todo-text: white;
 // Tables
 $color-table-header-primary: #6e7171;
 $color-table-header-secondary: $color-text-gray;
 $color-table-border: #9b9b9b;
 // Backgrounds
 $color-background-primary: $color-primary;
-$color-background-secondary: #ffffff;
+$color-background-secondary: white;
 $color-background-tertiary: $color-text-gray;
 $color-background-materials-tag: #cccccc;
 $color-background-teach: $color-teacher-blue;
@@ -120,4 +120,4 @@ $color-ui-widget-overlay: #666666;
 $color-popup-overlay: rgba(0, 0, 0, 0.5);
 $color-message-border: #808080;
 // Password strength checker
-$color-password-strength-icon-border: #ffffff;
+$color-password-strength-icon-border: white;
