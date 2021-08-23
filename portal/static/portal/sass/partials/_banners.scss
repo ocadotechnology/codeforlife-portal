@@ -207,7 +207,7 @@
 
 .banner--teacher--plain {
   @include _padding(20px, 0px, 50px, 0px);
-  background-color: $color-background-teach;
+  background-color: $color-primary;
   background-image: none;
 
   .progress-arrow__body--in-progress p {
