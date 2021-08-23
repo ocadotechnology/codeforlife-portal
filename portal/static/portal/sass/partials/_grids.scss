@@ -189,7 +189,7 @@ $column--icon-width: 3%;
     }
 
     h6 {
-      margin: 20px 0 10px 0;
+      @include _margin(20px, 0px, 10px, 0px);
     }
   }
 
@@ -213,7 +213,7 @@ $column--icon-width: 3%;
       "button1 button2 button3";
     grid-template-columns: repeat(3, 1fr);
     text-align: start;
-    padding: 30px;
+    @include _padding(30px, 30px, 30px, 30px);
   }
 
   .grid-benefits__button {
