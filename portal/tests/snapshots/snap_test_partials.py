@@ -148,8 +148,8 @@ snapshots['test_card_list 1'] = '''
                 <h3 class="card__title">Test card 6</h3>
                 
                     <div class="button-group button-group__icon">
-                        <a target="_blank" href="home" class="button button--primary--general-play">
-                            Test button<span class="material-icons-outlined">arrow_forward_ios</span>
+                        <a target="_blank" href="home" class="button button--primary button-right-arrow">
+                            Test button
                         </a>
                     </div>
                 
@@ -211,11 +211,11 @@ snapshots['test_hero_card 1'] = '''
         <h3 class="card__title">Test title</h3>
         <p>Test description</p>
         <div class="button-group button-group__icon">
-            <a href="/materials/test_pdf_name" class="button button--primary--general-play">
-                Test button 1<span class="material-icons-outlined">arrow_forward_ios</span>
+            <a href="/materials/test_pdf_name" class="button button--primary button-right-arrow">
+                Test button 1
             </a>
-            <a href="/kurono/play/1/" class="button button--primary--general-play">
-                Test button 2<span class="material-icons-outlined">arrow_forward_ios</span>
+            <a href="/kurono/play/1/" class="button button--primary button-right-arrow">
+                Test button 2
             </a>
         </div>
     </div>
