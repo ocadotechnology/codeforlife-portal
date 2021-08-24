@@ -277,8 +277,9 @@ def home(request):
 
     messages.success(request, "message text here", extra_tags="tag classes here")
 
-    This example uses the success function which will display a welcoming green message,
-    other functions can be used to indicate a warning, an error or a simple information.
+    This example uses the success function which will display a welcoming message on the
+    sub banner (right under the page header). Other functions can be used to indicate a
+    warning, an error or a simple information.
     """
     return render(request, "portal/home.html")
 

@@ -49,7 +49,7 @@
 </div>
 
 {% block footer %}
-    {% cache 3600 fragment-base_new-footer %}
+    {% cache 3600 footer %}
         {% include 'portal/partials/footer.html' %}
     {% endcache %}
 {% endblock footer %}

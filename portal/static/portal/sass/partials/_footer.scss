@@ -2,7 +2,20 @@
 
 .footer {
   background-color: $color-background-primary;
+  box-shadow: 0 -2px 7px 1px rgba(0, 0, 0, 0.1);
   text-align: center;
+
+  p {
+    @include _font-size(17px);
+  }
+
+  label {
+    @include _font-size(16px);
+  }
+
+  small {
+    @include _font_size(12px);
+  }
 
   p,
   label {
@@ -84,7 +97,12 @@
     .form--news-signup__input {
       align-items: flex-start;
       display: flex;
+      flex: 1;
       flex-direction: column;
+    }
+
+    .input--icon {
+      width: 100%
     }
 
     #newsletter_email_field {
@@ -143,8 +161,7 @@
       @include _margin(0px, 10px, 0px, 10px);
     }
 
-    .form--news-signup__input,
-    .input--icon {
+    .form--news-signup__input {
       width: 100%;
     }
 
