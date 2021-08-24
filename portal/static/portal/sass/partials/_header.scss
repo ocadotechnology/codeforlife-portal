@@ -134,6 +134,10 @@
 .menu {
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1);
 
+  .material-icons-outlined.md-32 {
+    @include _font_size(32px);
+  }
+
   a {
     display: flex;
     align-items: center;

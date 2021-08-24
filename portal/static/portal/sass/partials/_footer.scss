@@ -10,7 +10,8 @@
     @include _font-size(17px);
   }
 
-  label {
+  label,
+  .copyright {
     @include _font-size(16px);
   }
 
