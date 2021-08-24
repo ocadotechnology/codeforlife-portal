@@ -446,8 +446,7 @@ class TestTeacherStudent(BaseTest):
 
         page = page.go_to_dashboard()
         page = (
-            page.go_to_top()
-            .logout()
+            page.logout()
             .go_to_teacher_login_page()
             .login(email_2, password_2)
         )

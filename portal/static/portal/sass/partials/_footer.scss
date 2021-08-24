@@ -1,6 +1,7 @@
 @import "base";
 
 .footer {
+  @include _padding(15px, 0px, 0px, 0px);
   background-color: $color-background-primary;
   box-shadow: 0 -2px 7px 1px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -28,10 +29,6 @@
     @include _padding(0px, 0px, 10px, 0px);
   }
 
-  .material-icons-outlined {
-    @include _margin(20px, 0px, 0px, 0px);
-  }
-
   form {
     @include _margin(20px, 0px, 20px, 0px);
     padding: 0;
@@ -39,8 +36,7 @@
 
   p,
   label,
-  small,
-  .material-icons-outlined {
+  small {
     color: $color-text-secondary;
 
     a,

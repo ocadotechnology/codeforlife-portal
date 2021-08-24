@@ -57,11 +57,6 @@ class TeachDashboardPage(TeachBasePage):
         self.browser.find_element_by_id("class_button").click()
         return TeachClassPage(self.browser)
 
-    def go_to_top(self):
-        self.browser.find_element_by_id("back_to_top_button").click()
-        time.sleep(3)
-        return self
-
     def check_organisation_details(self, details):
         correct = True
 
