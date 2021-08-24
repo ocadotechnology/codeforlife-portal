@@ -4,7 +4,6 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 select {
-  @include _border-radius(8px, 8px, 8px, 8px);
   @include _padding(0px, 0px, 0px, 10px);
   border: 1px solid $color-message-border;
 
@@ -167,25 +166,10 @@ form {
   }
 }
 
-.form--news-signup {
+.input--icon {
+  align-items: center;
   display: flex;
-  justify-content: space-around;
-
-  > * {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  label {
-    color: $color-text-secondary;
-    white-space: nowrap;
-    margin-top: 20px;
-  }
-
-  button {
-    margin-top: 10px;
-    white-space: nowrap;
-  }
+  justify-content: flex-end;
 }
 
 @media (max-width: $mobile-max-width) {
@@ -196,42 +180,5 @@ form {
   .form--register {
     @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
-  }
-
-  .footer {
-    background-color: $color-background-primary;
-    text-align: center;
-
-    p {
-      color: $color-text-secondary;
-    }
-
-    .row {
-      padding: 0;
-
-      p {
-        @include _padding(0px, 15px, 0px, 15px);
-        display: inline-block;
-      }
-    }
-
-    img {
-      @include _padding(25px, 15px, 25px, 15px);
-      float: none;
-    }
-
-    .no-padding {
-      padding: 0;
-    }
-
-    a {
-      color: $color-text-secondary;
-    }
-
-    b,
-    .input-button,
-    .social-media p {
-      display: none;
-    }
   }
 }

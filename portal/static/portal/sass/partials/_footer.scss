@@ -1,82 +1,182 @@
 @import "base";
 
 .footer {
+  @include _padding(45px, 0px, 0px, 0px);
   background-color: $color-background-primary;
+  box-shadow: 0 -2px 7px 1px rgba(0, 0, 0, 0.1);
   text-align: center;
 
   p {
+    @include _font-size(17px);
+  }
+
+  label,
+  .copyright {
+    @include _font-size(16px);
+  }
+
+  small {
+    @include _font_size(12px);
+  }
+
+  p,
+  label {
+    @include _padding(0px, 0px, 10px, 0px);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  small {
+    @include _padding(0px, 0px, 10px, 0px);
+  }
+
+  form {
+    @include _margin(20px, 0px, 20px, 0px);
+    padding: 0;
+  }
+
+  p,
+  label,
+  small {
     color: $color-text-secondary;
 
     a,
     a:visited,
     a:active {
-      border-bottom: 1px dotted $color-text-secondary;
-      text-decoration: none;
+      border: none;
       color: $color-text-secondary;
+      text-decoration: none;
     }
 
     a:hover {
       border-bottom: 1px solid $color-text-secondary;
-      text-decoration: none;
-      color: $color-text-secondary;
-    }
-
-    a {
       color: $color-text-secondary;
     }
   }
 
-  .row {
-    padding: 0;
-
-    p {
-      @include _padding(0px, 15px, 0px, 15px);
-      display: inline;
-    }
+  .external-links {
+    @include _margin(20px, 0px, 20px, 0px);
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
   }
 
-  img {
-    @include _padding(25px, 15px, 25px, 15px);
-    float: none;
-  }
-
-  .no-padding {
-    padding: 0;
-  }
-
-  .back-to-top,
   .social-media a,
   .social-media a:hover {
-    border-bottom: none;
+    color: $color-text-secondary;
+    display: flex;
   }
 
   .social-media {
+    @include _font-size(58px);
     align-items: center;
     display: flex;
-    margin-top: 10px;
   }
 
-  input {
+  input[type="email"] {
     @include _font-size(20px);
-    @include _margin(0px, -3px, 0px, 5px);
-    @include _padding(0px, 0px, 0px, 15px);
     border: none;
+    border-radius: 0;
     height: 50px;
+    margin: 0;
     vertical-align: middle;
-    width: 20%;
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
   }
 
-  input:focus {
-    border: none;
-    outline: none;
+  .form--news-signup {
+    align-items: center;
+    display: flex;
+
+    .form--news-signup__input {
+      align-items: flex-start;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .input--icon {
+      width: 100%
+    }
+
+    #newsletter_email_field {
+      @include _padding(0px, 40px, 0px, 15px);
+    }
+
+    .iconify-email-outline {
+      @include _font_size(24px);
+      @include _margin(0px, 15px, 0px, 0px);
+      position: absolute;
+    }
   }
 
-  .input-button {
-    @include _padding(2px, 0px, 0px, 13px);
-    background-color: $color-background-secondary;
-    display: inline-block;
-    height: 50px;
-    vertical-align: middle;
-    width: 6%;
+  .footer-links {
+    @include _margin(0px, -15px, 0px, -15px);
+
+    text-align: left;
+  }
+
+  .button {
+    border: 0;
+  }
+}
+
+@media (min-width: $tablet-large-min-width) {
+  .footer {
+    .button {
+      @include _margin(0px, 0px, 0px, 20px);
+    }
+
+    .social-media a {
+      @include _margin(0px, 20px, 0px, 0px);
+    }
+  }
+}
+
+@media (max-width: $tablet-small-max-width) {
+  .footer {
+    @include _padding(15px, 0px, 0px, 0px);
+    text-align: center;
+
+    img {
+      @include _padding(25px, 15px, 0px, 15px);
+      float: none;
+    }
+
+    tr {
+      display: grid;
+    }
+
+    .external-links,
+    .form--news-signup {
+      flex-direction: column;
+    }
+
+    .social-media a {
+      @include _margin(0px, 10px, 0px, 10px);
+    }
+
+    .form--news-signup__input {
+      width: 100%;
+    }
+
+    .landscape-logo {
+      max-width: 50%;
+    }
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  .footer {
+    .button {
+      width: 100%;
+    }
+
+    .landscape-logo {
+      max-width: 75%;
+    }
   }
 }

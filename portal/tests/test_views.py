@@ -195,22 +195,7 @@ class TestViews(TestCase):
 
         page_url = reverse("home-learning")
 
-        expected_html = f"""    <div id="messages">
-        
-        <div class="sub-nav--message">
-            
-            <div class="sub-nav safe message__home-learning success">
-                
-                <img title="Information" alt="Information sign" src="/static/portal/img/icon_info.png">
-                
-                <p>
-                    Families: #KeepKidsCoding! <a href='{page_url}'>Tap here</a> for free, easy, home coding lessons.</p>
-                <a class="x-icon"><img title="Close" alt="Close sign" src="/static/portal/img/icon_close.png"></a>
-            </div>
-            
-        </div>
-        
-    </div>"""
+        expected_html = '<a href="/home-learning">Home learning</a>'
 
         self.assertIn(expected_html, html)
 
