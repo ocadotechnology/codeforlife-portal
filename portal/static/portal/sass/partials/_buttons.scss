@@ -122,45 +122,6 @@ button,
   }
 }
 
-  &:active {
-    border: 1px solid $color-button-home-border;
-    box-shadow: none;
-  }
-}
-
-.button--primary,
-.button--primary--navigation {
-  background: $color-button-contained;
-  color: $color-text-primary;
-
-  &:hover {
-    @include material-shadow();
-    background: $color-button-contained-hover;
-    color: $color-text-primary;
-  }
-
-  &:active {
-    background: $color-button-contained-active;
-    color: $color-text-primary;
-    box-shadow: none;
-  }
-
-  .material-icons-outlined {
-    position: relative;
-    top: 5px;
-  }
-}
-
-.button-right-arrow {
-  &:after {
-    content: "\e5e1";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    left: 5px;
-  }
-}
-
 .button--jumbo {
   @include _font-size(38px);
   @include _line-height(38px);
