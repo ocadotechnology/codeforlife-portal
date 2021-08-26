@@ -25,7 +25,7 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher row">
 
 snapshots['test_benefits 1'] = '''
 
-<div class="grid-benefits col-sm-10 col-center">
+<div class="grid-benefits col-sm-8 col-center">
     
     
     
