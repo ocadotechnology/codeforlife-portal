@@ -1,111 +1,53 @@
-{% extends 'portal/base_old.html' %}
+{% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
-
-{% block studentButtons %}
-<div class="dropdown">
-    <a href="{% url 'student_details' %}" id="student_dashboard_button"
-       class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
-    <div class="dropdown-content">
-        <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-        {% if not user|is_independent_student %}
-            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
-        {% endif %}
-    </div>
-</div>
-{% if user|is_logged_in_as_school_user %}
-<div class="dropdown">
-    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
-       class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
-    <div class="dropdown-content">
-        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
-    </div>
-</div>
-{% endif %}
-{% if not user.new_student.class_field %}
-<a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
-   class="button--menu button--menu--secondary button--menu--enabled button--menu--student--active">Join a school</a>
-{% endif %}
-{% endblock studentButtons %}
 
 {% block content %}
 
 <div id="play_join_organisation_page"></div>
 
-<h1>Account</h1><br>
-<h2>Join a school or club</h2><br>
-
-<div class="section group">
-
+<div class="background col-sm-8 col-center">
+    <h4>Join a school or club</h4>
     {% if student.pending_class_request %}
         <div class="span_1_of_2">
             <div>
-                <h4>Request pending</h4><br>
-
+                <h5>Request pending</h5>
                 <p>Your request to join class <b>{{ student.pending_class_request.access_code }}</b> in the school or club <b>{{ student.pending_class_request.teacher.school.name }}</b> is still pending.</p>
-
                 <p>The teacher for that class must review and approve the request to complete the process.</p>
-
                 <p>If successful, the teacher will then contact you with your new login details.</p>
-
                 <p><b>Warning:</b> once the teacher accepts you to their class, that teacher and the school or club will manage your account.</p>
-
                 <p>You may cancel your request now, before the teacher makes their decision.</p>
 
                 <form method="post">
-
                     {% csrf_token %}
-
-                    <div class="section group">
-                        <div class="col span_1_of_2">
-                            <a class="btn btn-default wide" href="{% url 'student_details' %}">Back</a>
-                        </div>
-
-                        <div class="col span_1_of_2">
-                            <input type="submit" name="revoke_join_request" class="btn btn-primary wide" value="Cancel request"/>
-                        </div>
+                    <div class="button-group">
+                        <a class="button button--secondary button--secondary--dark" href="{% url 'student_details' %}">Back</a>
+                        <input type="submit" name="revoke_join_request" class="button button--primary" value="Cancel request"/>
                     </div>
-
                 </form>
-
             </div>
         </div>
-
     {% else %}
         <div class="span_1_of_2">
-
             <div>
-                <h4>Request to join a school or club</h4><br>
-
+                <h5>Request to join a school or club</h5>
                 <p>If you want to link your Code For Life account with a school or club, ask a teacher to enable external requests and provide you with the Class Access Code for the class you want to join. Simply add the Class Access Code to the form below and submit.</p>
-
                 <p><b>Warning:</b> once the teacher accepts you to their class, that teacher and the school or club will manage your account.</p>
-
                 <p>If successful, the teacher will contact you with your new login details.</p>
 
                 <form id="join_class_form" method="post">
-
                     {% csrf_token %}
-
                     {{ request_form.non_field_errors }}
-
                     {{ request_form.access_code.errors }}
                     <label for="id_{{ request_form.access_code.html_name }}">{{ request_form.access_code.label }}</label>
                     {{ request_form.access_code }}
 
-                    <div class="section group">
-                        <div class="col span_1_of_2">
-                            <a class="btn btn-default wide" href="{% url 'student_details' %}">Cancel</a>
-                        </div>
-
-                        <div class="col span_1_of_2">
-                            <input id="request_join_a_school_or_club_button" type="submit" name="class_join_request" class="btn btn-primary wide" value="Request"/>
-                        </div>
+                    <div class="button-group">
+                        <a class="button button--secondary button--secondary--dark" href="{% url 'student_details' %}">Cancel</a>
+                        <input id="request_join_a_school_or_club_button" type="submit" name="class_join_request" class="button button--primary" value="Request"/>
                     </div>
                 </form>
-
             </div>
-
         </div>
     {% endif %}
 </div>
