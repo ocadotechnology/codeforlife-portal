@@ -40,7 +40,6 @@ $column--icon-width: 3%;
 }
 
 .card {
-  @include _border-radius(16px, 16px, 16px, 16px);
   @include _box-shadow(0px, 5px, 8px, 0px, $color-background-box-shadow);
   @include _margin($spacing * 4, 0px, 0px, 0px);
   background-color: $color-background-secondary;
@@ -81,17 +80,7 @@ $column--icon-width: 3%;
   }
 
   .button {
-    min-width: 200px;
-  }
-
-  .button--big {
     @include _margin($spacing * 4, 0px, 0px, 0px);
-    width: 100%;
-
-    .material-icons-outlined {
-      @include _margin(0px, $spacing * 2, 0px, 0px);
-      float: left;
-    }
   }
 }
 

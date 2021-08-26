@@ -22,9 +22,9 @@
 {{ block.super }}
 {% banner banner_name="BANNER" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
-    <a href="#overview" class="button button--regular button--secondary button--secondary--light">Overview</a>
-    <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
-    <a href="#assessment" class="button button--regular button--secondary button--secondary--light">Assessment</a>
+    <a href="#overview" class="button button--secondary button--secondary--light">Overview</a>
+    <a href="#curriculum" class="button button--secondary button--secondary--light">Curriculum</a>
+    <a href="#assessment" class="button button--secondary button--secondary--light">Assessment</a>
 </div>
 {% endblock subNav %}
 
@@ -32,7 +32,7 @@
 {{block.super}}
 
 <section id="overview" class="background">
-    <h3>We're with you every step of the way</h3>
+    <h4>We're with you every step of the way</h4>
     <div class="background">
     {% benefits %}
     </div>
@@ -40,10 +40,10 @@
 
 <div id="curriculum">
     <div class="background background--primary">
-        <div class="col-sm-10 col-center">
+        <div class="col-sm-8 col-center">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>Aligned to the curriculum</h3>
+                    <h4>Aligned to the curriculum</h4>
                     <p>Rapid Router has been created to teach the first principles of computer programming that are covered in the new Computing curriculum.</p>
 
                     <p>Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming.
@@ -53,30 +53,32 @@
                     <p><a href="{{ 'user_guide_v1/introduction_to_coding.pdf'|cloud_storage }}">See how the app relates to Key Stages 1, 2 and 3 of the computer science strand here</a>.</p>
                     <p><a href="{{ 'user_guide_v1/introduction_to_coding_scotland.pdf'|cloud_storage }}">See how the app relates to the Scottish computer science strand here</a>.</p>
                 </div>
-                <section class="col-sm-6">
+                <div class="col-sm-6 text-right">
                     <a href="https://www.youtube-nocookie.com/embed/xP-U-MJLk-g?rel=0&amp;autoplay=1" class="youtube">
                         <img title="Watch Video" alt="Watch Video" src="{% static 'portal/img/thumbnail_intro_c4l.jpg' %}">
                     </a>
-                    <br><a href="{% url 'play' %}" class="button button--primary button-right-arrow">Get started</a>
-                </section>
+                    <div class="background">
+                        <a href="{% url 'play' %}" class="button button--primary button-right-arrow">Get started</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div id="assessment">
-    <div class="background col-sm-10 col-center">
+    <div class="background col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
-                <h3>Resources and scoring</h3>
+                <h4>Resources and scoring</h4>
                 <p>Once you&rsquo;ve <a href="{% url 'register' %}">registered</a> your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.</p>
 
                 <p><strong>Sign up your class, track each pupil&rsquo;s progress, download free teaching packs</strong>, which include sessions plans, pupil resources and
                     assessment tools. There are even videos to help you and your class understand what you&rsquo;ll be learning next.</p>
 
-                <section class="background">
+                <div class="background">
                     <a href="{% url 'register' %}" class="button button--primary button-right-arrow">Register now</a>
-                </section>
+                </div>
             </div>
             <img class="col-sm-6" title="Teaching Resources" alt="Resources image" src="{% static 'portal/img/resources_montage.jpg' %}">
         </div>

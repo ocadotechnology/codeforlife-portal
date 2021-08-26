@@ -23,10 +23,10 @@
 {{ block.super }}
 {% banner banner_name="BANNER" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
-    <a href="#user_guide" class="button button--regular button--secondary button--secondary--light">User guide</a>
-    <a href="#ks1" class="button button--regular button--secondary button--secondary--light">Key Stage 1</a>
-    <a href="#ks2" class="button button--regular button--secondary button--secondary--light">Key Stage 2</a>
-    <a href="#ks3" class="button button--regular button--secondary button--secondary--light">Key Stage 3</a>
+    <a href="#user_guide" class="button button--secondary button--secondary--light">User guide</a>
+    <a href="#ks1" class="button button--secondary button--secondary--light">Key Stage 1</a>
+    <a href="#ks2" class="button button--secondary button--secondary--light">Key Stage 2</a>
+    <a href="#ks3" class="button button--secondary button--secondary--light">Key Stage 3</a>
 </div>
 {% endblock subNav %}
 
@@ -67,8 +67,8 @@
             <img title="KS1" alt="KS1 icon" src="{% static 'portal/img/stage_icon_ks1.svg' %}">
             <h6>Students will learn the basics of coding by programming a delivery van to drive around simple routes.</h6>
             <div class="background">
-                <a href="{{ 'KS1_v1.zip'|cloud_storage }}" onclick='send_event("KS1_v1.zip","Downloaded");' class="button button--primary">
-                Download all KS1 resources <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}"></a>
+                <a href="{{ 'KS1_v1.zip'|cloud_storage }}" onclick='send_event("KS1_v1.zip","Downloaded");' class="button button--primary button-file-download">
+                Download all KS1 resources</a>
             </div>
         </section>
         <h5>Sessions <span class="ks-tag">KS1</span></h5>
@@ -143,8 +143,8 @@
             <h6>Students will develop their understanding of programming principles by learning how to use repeat loops,
                 in a visual programming language.</h6>
             <div class="background">
-                <a href="{{ 'KS2_v1.zip'|cloud_storage }}"  onclick='send_event("KS2_v1.zip","Downloaded");'class="button button--primary">Download all KS2 resources
-                <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}"></a>
+                <a href="{{ 'KS2_v1.zip'|cloud_storage }}"  onclick='send_event("KS2_v1.zip","Downloaded");'class="button button--primary button-file-download">
+                Download all KS2 resources</a>
             </div>
         </section>
         <h5>Sessions <span class="ks-tag">KS2</span></h5>
@@ -222,8 +222,8 @@
             also learn the basics of the text-based language: Python. Throughout, they will be designing, creating and
             debugging their own programs.</h6>
             <div class="background">
-                <a href="{{ 'KS3_v1.zip'|cloud_storage }}" class="button button--primary">Download all KS3 resources
-                <img title="ZIP" alt="ZIP icon" src="{% static 'portal/img/icon_zip.png' %}"></a>
+                <a href="{{ 'KS3_v1.zip'|cloud_storage }}" class="button button--primary button-file-download">
+                Download all KS3 resources</a>
             </div>
         </section>
         <h5>Sessions <span class="ks-tag">KS3</span></h5>

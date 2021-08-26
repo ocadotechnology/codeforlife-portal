@@ -74,10 +74,8 @@
   }
 
   input[type="email"] {
-    @include _font-size(20px);
     border: none;
     border-radius: 0;
-    height: 50px;
     margin: 0;
     vertical-align: middle;
 
@@ -120,19 +118,13 @@
   }
 
   .button {
+    @include _padding(9px, 15px, 11px, 15px);
+    @include _margin(5px, 20px, 0px, 20px);
     border: 0;
   }
-}
 
-@media (min-width: $tablet-large-min-width) {
-  .footer {
-    .button {
-      @include _margin(0px, 0px, 0px, 20px);
-    }
-
-    .social-media a {
-      @include _margin(0px, 20px, 0px, 0px);
-    }
+  .social-media a {
+    @include _margin(0px, 20px, 0px, 0px);
   }
 }
 
