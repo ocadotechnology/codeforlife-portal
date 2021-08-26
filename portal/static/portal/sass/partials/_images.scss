@@ -113,10 +113,6 @@ img {
 }
 
 @media (max-width: $mobile-max-width) {
-  .logo {
-    height: $cfl-logo-height-xs;
-  }
-
   .image-row {
     align-items: center;
     flex-direction: column;
