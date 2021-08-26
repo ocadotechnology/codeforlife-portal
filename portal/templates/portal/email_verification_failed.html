@@ -15,17 +15,13 @@
 {% block content %}
 {{ block.super }}
 
-<div class="background form--register form--register--student col-sm-12">
-    <div class="background">
-        <div class="background">
-            <h1>Your email address verification failed</h1>
-            <img title="Sad Face" alt="Verification failure" src="{% static 'portal/img/sadface.png' %}">
-            <p>You used an invalid link, either you mistyped the URL or that link is expired.</p><br>
-            <p>When you next attempt to log in, you will be sent a new verification email.</p>
-        </div>
-        <section>
-            <a href="{% url 'home' %}" class="button button--primary">Back to homepage</a>
-        </section>
+<div class="form--register form--register--teacher is-flex">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
+        <h4>Your email address verification failed</h4>
+        <img class="background" title="Sad Face" alt="Verification failure" src="{% static 'portal/img/sadface.png' %}">
+        <p>You used an invalid link, either you mistyped the URL or that link is expired.</p>
+        <p>When you next attempt to log in, you will be sent a new verification email.</p>
+        <a id="home_button" href="{% url 'home' %}">Back to homepage</a>
     </div>
 </div>
 

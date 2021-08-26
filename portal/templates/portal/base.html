@@ -130,7 +130,7 @@
                 {% endif %}
                 <p>
                 {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
-                <span class="material-icons-outlined">close</span>
+                <a class="x-icon"><span class="material-icons-outlined">close</span></a>
             </div>
             {% endfor %}
         </div>
