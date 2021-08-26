@@ -5,11 +5,15 @@
   @include _padding(0px, 20px, 0px, 20px);
   align-items: center;
   display: flex;
-  height: 80px;
+  height: 60px;
   justify-content: center;
   text-align: center;
   width: 100%;
   z-index: $nav-bar-level - 1;
+
+  .material-icons-outlined.md-32 {
+    @include _font_size(32px);
+  }
 
   .button--regular {
     @include _margin(0px, 16px, 0px, 16px);
@@ -44,7 +48,7 @@
   }
 
   p {
-    @include _padding(0px, 20px, 0px, 50px);
+    @include _padding(0px, 20px, 0px, 20px);
     text-align: left;
   }
 }
@@ -150,18 +154,10 @@
   }
 }
 
-.success {
+.success,
+.info,
+.warning, {
   background-color: $color-background-sub-banner;
-  border-bottom: 1px solid $color-message-border;
-}
-
-.info {
-  background-color: $color-background-tint-primary;
-  border-bottom: 1px solid $color-message-border;
-}
-
-.warning {
-  background-color: $color-background-warning;
   border-bottom: 1px solid $color-message-border;
 }
 
