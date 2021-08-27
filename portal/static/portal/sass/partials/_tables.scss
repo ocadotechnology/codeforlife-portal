@@ -12,9 +12,8 @@ table {
 
 th {
   @include _padding(5px, 10px, 5px, 10px);
-  background: $color-table-header-primary;
-  color: $color-text-secondary;
   font-weight: 500;
+  color: $color-text-secondary;
 }
 
 td {
