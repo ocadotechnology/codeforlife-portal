@@ -13,11 +13,12 @@ form {
   select {
     @include _margin(10px, 0px, 10px, 0px);
     @include _padding(0px, 10px, 0px, 10px);
-    border: 0;
+    border: 1px solid $color-message-border;
     height: 42px;
     width: 100%;
 
     &:focus {
+      border: 1px solid $color-message-border;
       outline: none;
     }
   }
