@@ -41,7 +41,7 @@
 {% block content %}
 {{block.super}}
 
-{#{% cache 3600 play_aimmo_page %}#}
+{% cache 3600 play_aimmo_page %}
 
 <section>
     {% headline headline_name="HEADLINE" %}
@@ -74,5 +74,5 @@
     </a>
 </section>
 
-{#{% endcache %}#}
+{% endcache %}
 {% endblock content %}
