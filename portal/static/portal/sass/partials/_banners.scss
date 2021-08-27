@@ -131,25 +131,38 @@
 }
 
 .banner--homepage {
-  height: calc(100vh - #{$menu-height});
-  max-height: 750px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
+  @include _padding(20px, 0px, 50px, 0px);
+
+  h1 {
+    margin-top: 0;
+  }
 
   p {
     @include _font-size(22px);
+    @include _margin(0px, 10px, 0px, 0px);
+    padding: 0;
+  }
+
+  .button {
+    @include _margin(0px, 20px, 7px, 0px);
   }
 }
 
-.banner--homepage__text {
-  @include _font-size(140px);
-  @include _line-height(120px);
-  @include _padding(0px, 0px, 50px, 0px);
-  background-color: transparent;
-  color: $color-text-secondary;
+.banner--homepage--teacher,
+.banner--teacher {
+  background-color: $color-primary;
+  background-position: top right;
 }
+
+.banner--homepage--student,
+.banner--student {
+  background-color: $color-tertiary;
+  background-position: top left;
+}
+
 
 .banner--game {
   @include _margin(8 * $spacing, auto, 0px, auto);
@@ -174,18 +187,6 @@
 
 .banner__text--secondary {
   color: $color-text-primary;
-}
-
-.banner--homepage--teacher,
-.banner--teacher {
-  background-color: $color-primary;
-  background-position: top right;
-}
-
-.banner--homepage--student,
-.banner--student {
-  background-color: $color-tertiary;
-  background-position: top left;
 }
 
 .banner--teacher,
@@ -391,7 +392,6 @@
 @media (max-width: $mobile-max-width) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
-    height: auto;
   }
 
   .banner {

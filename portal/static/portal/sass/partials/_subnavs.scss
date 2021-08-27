@@ -11,7 +11,7 @@
   width: 100%;
   z-index: $nav-bar-level - 1;
 
-  .button--regular {
+  .button {
     @include _margin(0px, 16px, 0px, 16px);
   }
 
@@ -121,10 +121,6 @@
 
   a:hover {
     text-decoration: underline;
-  }
-
-  p {
-    opacity: 0.8;
   }
 }
 
