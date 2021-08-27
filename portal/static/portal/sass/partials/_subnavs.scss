@@ -173,7 +173,7 @@
   }
 
   .sub-nav--filler {
-    padding-top: $menu-height + 80px;
+    @include _padding($menu-height + 60px, 0px, 0px, 0px);
   }
 }
 
@@ -188,7 +188,7 @@
   }
 
   .sub-nav--filler {
-    padding-top: $menu-height-sm + 80px;
+    @include _padding($menu-height-sm + 60px, 0px, 0px, 0px);
   }
 }
 
@@ -222,6 +222,6 @@
   }
 
   .sub-nav--filler {
-    padding-top: 80px;
+    @include _padding(60px, 0px, 0px, 0px);
   }
 }
