@@ -22,9 +22,9 @@
 {{ block.super }}
 {% banner banner_name="BANNER" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
-    <a href="#overview" class="button button--regular button--secondary button--secondary--light">Overview</a>
-    <a href="#curriculum" class="button button--regular button--secondary button--secondary--light">Curriculum</a>
-    <a href="#assessment" class="button button--regular button--secondary button--secondary--light">Assessment</a>
+    <a href="#overview" class="button button--secondary button--secondary--light">Overview</a>
+    <a href="#curriculum" class="button button--secondary button--secondary--light">Curriculum</a>
+    <a href="#assessment" class="button button--secondary button--secondary--light">Assessment</a>
 </div>
 {% endblock subNav %}
 
@@ -32,7 +32,7 @@
 {{block.super}}
 
 <section id="overview" class="background">
-    <h3>We're with you every step of the way</h3>
+    <h4>We're with you every step of the way</h4>
     <div class="background">
     {% benefits %}
     </div>
@@ -43,7 +43,7 @@
         <div class="col-sm-8 col-center">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>Aligned to the curriculum</h3>
+                    <h4>Aligned to the curriculum</h4>
                     <p>Rapid Router has been created to teach the first principles of computer programming that are covered in the new Computing curriculum.</p>
 
                     <p>Rapid Router is a fun and engaging education resource which includes a coding game that helps teach children the basic principles of programming.
@@ -68,7 +68,7 @@
     <div class="background col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
-                <h3>Resources and scoring</h3>
+                <h4>Resources and scoring</h4>
                 <p>Once you&rsquo;ve <a href="{% url 'register' %}">registered</a> your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.</p>
                 <p><strong>Sign up your class, track each pupil&rsquo;s progress, download free teaching packs</strong>, which include sessions plans, pupil resources and
                     assessment tools. There are even videos to help you and your class understand what you&rsquo;ll be learning next.</p>

@@ -1,20 +1,6 @@
 @import "base";
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-  @include _padding(0px, 0px, 0px, 10px);
-  border: 1px solid $color-message-border;
-
-  &:focus {
-    border: 1px solid $color-message-border;
-    outline: none;
-  }
-}
-
 form {
-  @include _line-height(25px);
   @include _padding(20px, 0px, 30px, 0px);
 
   button {
@@ -26,9 +12,14 @@ form {
   input[type="password"],
   select {
     @include _margin(10px, 0px, 10px, 0px);
-    background-color: $color-background-secondary;
-    height: 50px;
+    @include _padding(0px, 10px, 0px, 10px);
+    border: 0;
+    height: 42px;
     width: 100%;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   input[type="checkbox"] {
@@ -181,4 +172,10 @@ form {
     @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
   }
+}
+
+/* This is to fix the font in input boxes on the first load of the page  */
+input:-webkit-autofill::first-line {
+  font-size: 18px;
+  font-family: "Inter";
 }
