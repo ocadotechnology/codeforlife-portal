@@ -36,7 +36,7 @@
   }
 
   .banner--rapid-router--content {
-    @include _padding(70px, 0px, 100px, 0px);
+    @include _padding(30px, 0px, 30px, 0px);
   }
 
   .banner--aimmo--content {
@@ -51,7 +51,7 @@
 }
 
 .banner--aimmo-landing--content {
-  @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
+  @include _padding(14 * $spacing, 0px, 14 * $spacing, 0px);
   align-items: center;
   display: flex;
   flex-direction: column;

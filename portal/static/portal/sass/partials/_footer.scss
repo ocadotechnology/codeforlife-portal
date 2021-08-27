@@ -1,7 +1,7 @@
 @import "base";
 
 .footer {
-  @include _padding(45px, 0px, 0px, 0px);
+  @include _padding(45px, 0px, 45px, 0px);
   background-color: $color-background-primary;
   box-shadow: 0 -2px 7px 1px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -31,7 +31,7 @@
   }
 
   form {
-    @include _margin(20px, 0px, 20px, 0px);
+    @include _margin(45px, 0px, 45px, 0px);
     padding: 0;
   }
 

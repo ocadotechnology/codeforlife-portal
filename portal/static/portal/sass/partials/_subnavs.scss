@@ -5,11 +5,15 @@
   @include _padding(0px, 20px, 0px, 20px);
   align-items: center;
   display: flex;
-  height: 80px;
+  height: 60px;
   justify-content: center;
   text-align: center;
   width: 100%;
   z-index: $nav-bar-level - 1;
+
+  .material-icons-outlined.md-32 {
+    @include _font_size(32px);
+  }
 
   .button {
     @include _margin(0px, 16px, 0px, 16px);
@@ -44,7 +48,7 @@
   }
 
   p {
-    @include _padding(0px, 20px, 0px, 50px);
+    @include _padding(0px, 20px, 0px, 20px);
     text-align: left;
   }
 }
@@ -146,18 +150,10 @@
   }
 }
 
-.success {
+.success,
+.info,
+.warning, {
   background-color: $color-background-sub-banner;
-  border-bottom: 1px solid $color-message-border;
-}
-
-.info {
-  background-color: $color-background-tint-primary;
-  border-bottom: 1px solid $color-message-border;
-}
-
-.warning {
-  background-color: $color-background-warning;
   border-bottom: 1px solid $color-message-border;
 }
 
@@ -173,7 +169,7 @@
   }
 
   .sub-nav--filler {
-    padding-top: $menu-height + 80px;
+    @include _padding($menu-height + 60px, 0px, 0px, 0px);
   }
 }
 
@@ -188,7 +184,7 @@
   }
 
   .sub-nav--filler {
-    padding-top: $menu-height-sm + 80px;
+    @include _padding($menu-height-sm + 60px, 0px, 0px, 0px);
   }
 }
 
@@ -222,6 +218,6 @@
   }
 
   .sub-nav--filler {
-    padding-top: 80px;
+    @include _padding(60px, 0px, 0px, 0px);
   }
 }

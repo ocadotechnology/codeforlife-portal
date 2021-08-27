@@ -53,14 +53,12 @@
                     <p><a href="{{ 'user_guide_v1/introduction_to_coding.pdf'|cloud_storage }}">See how the app relates to Key Stages 1, 2 and 3 of the computer science strand here</a>.</p>
                     <p><a href="{{ 'user_guide_v1/introduction_to_coding_scotland.pdf'|cloud_storage }}">See how the app relates to the Scottish computer science strand here</a>.</p>
                 </div>
-                <div class="col-sm-6 text-right">
+                <section class="col-sm-6 text-right">
                     <a href="https://www.youtube-nocookie.com/embed/xP-U-MJLk-g?rel=0&amp;autoplay=1" class="youtube">
                         <img title="Watch Video" alt="Watch Video" src="{% static 'portal/img/thumbnail_intro_c4l.jpg' %}">
                     </a>
-                    <div class="background">
-                        <a href="{% url 'play' %}" class="button button--primary button-right-arrow">Get started</a>
-                    </div>
-                </div>
+                    <a href="{% url 'play' %}" class="button button--primary button-right-arrow">Get started</a>
+                </section>
             </div>
         </div>
     </div>
@@ -72,10 +70,8 @@
             <div class="col-sm-6">
                 <h4>Resources and scoring</h4>
                 <p>Once you&rsquo;ve <a href="{% url 'register' %}">registered</a> your personal details and logged in, you&rsquo;ll be able to create your school or club, or join other teachers at your institution.</p>
-
                 <p><strong>Sign up your class, track each pupil&rsquo;s progress, download free teaching packs</strong>, which include sessions plans, pupil resources and
                     assessment tools. There are even videos to help you and your class understand what you&rsquo;ll be learning next.</p>
-
                 <div class="background">
                     <a href="{% url 'register' %}" class="button button--primary button-right-arrow">Register now</a>
                 </div>

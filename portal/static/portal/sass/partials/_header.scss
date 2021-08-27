@@ -187,7 +187,7 @@
     height: $menu-height;
 
     .logo {
-      height: 106px;
+      height: $cfl-logo-height;
     }
 
     .menu__brand {
@@ -208,7 +208,7 @@
 
     .logo {
       @include _padding(0px, $spacing * 9, 0px, $spacing * 3);
-      height: 78px;
+      height: $cfl-logo-height-md;
     }
 
     .menu__brand {
@@ -296,10 +296,6 @@
   }
 }
 
-.header__ot-logo--no-tagline {
-  height: 30px;
-}
-
 @media (max-width: $tablet-small-max-width) {
   .menu {
     .menu__brand {
@@ -313,7 +309,7 @@
 
     .logo {
       padding: 0;
-      height: 60px;
+      height: $cfl-logo-height-sm;
     }
 
     button {

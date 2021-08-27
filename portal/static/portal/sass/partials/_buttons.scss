@@ -137,13 +137,6 @@ button,
   }
 }
 
-.button--jumbo {
-  @include _font-size(38px);
-  @include _line-height(38px);
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 500;
-}
-
 .button--regular,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {

@@ -1,5 +1,5 @@
 import pytest
-from aimmo.models import Game, Worksheet
+from aimmo.models import Game
 from common.models import Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -166,7 +166,7 @@ class TestAimmoDashboards(BaseTest):
             .go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
         )
-        page = page.go_to_kurono_teacher_dashboard_page().delete_games(
+        page.go_to_kurono_teacher_dashboard_page().delete_games(
             [game1.id, game2.id]
         )
 
