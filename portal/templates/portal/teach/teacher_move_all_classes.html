@@ -13,9 +13,9 @@
 </section>
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <div class="col-sm-12">
-        <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
-        <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
-        <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
+        <a href="{% url 'dashboard' %}#school" class="button button--secondary button--secondary--light">Your school</a>
+        <a href="{% url 'dashboard' %}#classes" class="button button--secondary button--secondary--light">Classes</a>
+        <a href="{% url 'dashboard' %}#account" class="button button--secondary button--secondary--light">Your Account</a>
     </div>
 </div>
 {% endblock subNav %}
@@ -58,8 +58,8 @@
                 {% endfor %}
             </table>
             <div class="background button-group">
-                <a class="button button--regular button--secondary button--secondary--dark" href="{% url 'dashboard' %}">Cancel</a>
-                <button type="submit" id="move_classes_button" class="button--regular button--primary--navigation">{{ submit_button_text }}</button>
+                <a class="button button--secondary button--secondary--dark" href="{% url 'dashboard' %}">Cancel</a>
+                <button type="submit" id="move_classes_button" class="button button--primary">{{ submit_button_text }}</button>
             </div>
         </form>
     </div>

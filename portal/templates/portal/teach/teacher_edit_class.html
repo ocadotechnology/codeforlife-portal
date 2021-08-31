@@ -48,16 +48,16 @@
             </div>
 
             <div class="button-group">
-                <button id="update_button" type="submit" class="button--regular button--primary--navigation" value="Update">Update</button>
-                <a id="cancel_button" class="button button--regular button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
+                <button id="update_button" type="submit" class="button button--primary" value="Update">Update</button>
+                <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
             </div>
         </form>
 
         <div class="background alternative-section">
-            <h3>Transfer class to another teacher</h3>
+            <h5>Transfer class to another teacher</h5>
             <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
         </div>
-        <a id="transfer_button" class="button button--regular button--primary--navigation" href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
+        <a id="transfer_button" class="button button--primary" href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
     </div>
 </div>
 

@@ -45,8 +45,7 @@ button,
 }
 
 /* Yellow contained button */
-.button--primary,
-.button--primary--navigation {
+.button--primary {
   @include _padding(9px, 15px, 11px, 15px);
   background: $color-button-contained;
   color: $color-text-primary;
@@ -383,11 +382,12 @@ button,
   .dropdown {
     width: 100%;
   }
-
+  
   .button--dropdown {
     border: none;
     margin: 0;
     width: 100%;
+    max-width: 100%;
   }
 
   .dropdown-menu {
