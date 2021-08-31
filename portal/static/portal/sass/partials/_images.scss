@@ -58,7 +58,7 @@ img {
 }
 
 .logo {
-  @include _padding(0px, $spacing * 14, 0px, $spacing * 3);
+  @include _padding($spacing * 3, $spacing * 14, $spacing * 3, $spacing * 3);
   content: url("../img/logo_cfl.png");
 }
 

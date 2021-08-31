@@ -141,20 +141,11 @@
   a {
     display: flex;
     align-items: center;
+    height: 100%;
   }
 
   button {
     max-width: 350px;
-  }
-}
-
-@media (min-width: $desktop-large-min-width) {
-  .menu__brand {
-    a {
-      align-items: center;
-      display: flex;
-      height: 100%;
-    }
   }
 }
 
@@ -191,7 +182,7 @@
     height: $menu-height;
 
     .logo {
-      height: $cfl-logo-height;
+      height: 100%;
     }
 
     .menu__brand {
@@ -200,7 +191,7 @@
 
     .menu__brand--ocado {
       img {
-        height: 68px;
+        height: 52px;
       }
     }
   }
@@ -208,11 +199,10 @@
 
 @media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
   .menu {
-    height: $menu-height-sm;
+    height: $menu-height-xs;
 
     .logo {
-      @include _padding(0px, $spacing * 9, 0px, $spacing * 3);
-      height: $cfl-logo-height-md;
+      @include _padding($spacing * 3, $spacing * 9, $spacing * 3, $spacing * 3);
     }
 
     .menu__brand {
@@ -221,7 +211,7 @@
 
     .menu__brand--ocado {
       img {
-        height: 50px;
+        height: 42px;
       }
     }
   }
@@ -313,7 +303,6 @@
 
     .logo {
       padding: 0;
-      height: $cfl-logo-height-sm;
     }
 
     button {
@@ -339,5 +328,11 @@
 @media (max-width: $mobile-max-width) {
   .menu {
     height: $menu-height-xs;
+
+    .menu__brand--ocado {
+      img {
+        height: 42px;
+      }
+    }
   }
 }
