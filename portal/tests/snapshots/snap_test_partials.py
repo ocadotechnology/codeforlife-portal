@@ -43,17 +43,17 @@ snapshots['test_benefits 1'] = '''
     <p class="grid-benefits__text3">Test text</p>
     
         <div class="grid-benefits__button grid-benefits__button1">
-            <a href="/" class="button button--regular button--secondary button--secondary--dark">Test button</a>
+            <a href="/" class="button button--secondary button--secondary--dark">Test button</a>
         </div>
     
     
         <div class="grid-benefits__button grid-benefits__button2">
-            <a href="/" class="button button--regular button--secondary button--secondary--dark">Test button</a>
+            <a href="/" class="button button--secondary button--secondary--dark">Test button</a>
         </div>
     
     
         <div class="grid-benefits__button grid-benefits__button3">
-            <a href="/" class="button button--regular button--secondary button--secondary--dark">Test button</a>
+            <a href="/" class="button button--secondary button--secondary--dark">Test button</a>
         </div>
     
 </div>
