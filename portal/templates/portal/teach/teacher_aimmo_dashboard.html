@@ -46,9 +46,9 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
                 {% for game_class in form.game_class.field.queryset %}
                 <li class="dropdown-menu__option">
                     {% if game_class.game %}
-                    <a class="btn button--regular disabled" data-class-id="{{ game_class.id }}">
+                    <a class="button button--regular disabled" data-class-id="{{ game_class.id }}">
                         {% else %}
-                        <a class="btn button--regular" id="class_{{ game_class.id }}"
+                        <a class="button button--regular" id="class_{{ game_class.id }}"
                             data-class-id="{{ game_class.id }}"
                             onclick='send_event("Kurono", "Clicked", "Create game button");'>
                             {% endif %}
