@@ -152,7 +152,7 @@
 
 .success,
 .info,
-.warning, {
+.warning {
   background-color: $color-background-sub-banner;
   border-bottom: 1px solid $color-message-border;
 }
@@ -175,16 +175,16 @@
 
 @media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
   .sub-nav--fixed {
-    height: $menu-height-sm;
+    height: $menu-height-xs;
   }
 
   .sub-nav--warning--fixed,
   .sub-nav--message--fixed {
-    top: $menu-height-sm;
+    top: $menu-height-xs;
   }
 
   .sub-nav--filler {
-    @include _padding($menu-height-sm + 60px, 0px, 0px, 0px);
+    @include _padding($menu-height-xs + 60px, 0px, 0px, 0px);
   }
 }
 

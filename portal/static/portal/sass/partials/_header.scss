@@ -199,7 +199,7 @@
 
 @media (min-width: $tablet-small-min-width) and (max-width: $tablet-large-max-width) {
   .menu {
-    height: $menu-height-sm;
+    height: $menu-height-xs;
 
     .logo {
       @include _padding($spacing * 3, $spacing * 9, $spacing * 3, $spacing * 3);
@@ -331,7 +331,7 @@
 
     .menu__brand--ocado {
       img {
-        height: 32px;
+        height: 42px;
       }
     }
   }
