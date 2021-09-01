@@ -3,7 +3,6 @@ plugin_directories: ['.scss-linters']
 exclude:
   - "**/bootstrap*/*"
   - "**/bootstrap.scss"
-  - "**/old_styles.scss"
   - "**/colorbox.scss"
   - "example_project/**/*"
 
