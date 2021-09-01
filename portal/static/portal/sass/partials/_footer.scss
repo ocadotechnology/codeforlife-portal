@@ -156,6 +156,19 @@
   }
 }
 
+@media (max-width: $tablet-small-max-width) and (min-width: $tablet-small-min-width) {
+  .footer {
+    .button,
+    .external-links {
+      margin: 0;
+    }
+
+    .form--news-signup {
+      align-items: baseline;
+    }
+  }
+}
+
 @media (max-width: $mobile-max-width) {
   .footer {
     .button {
