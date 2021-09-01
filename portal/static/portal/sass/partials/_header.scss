@@ -323,6 +323,13 @@
     align-items: center;
     display: inline;
   }
+
+  #menu-items {
+    button,
+    .button {
+      max-width: none;
+    }
+  }
 }
 
 @media (max-width: $mobile-max-width) {
