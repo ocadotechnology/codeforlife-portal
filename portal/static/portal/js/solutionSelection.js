@@ -2,7 +2,7 @@
 
 $(function() {
     $('#episodes').accordion({ collapsible: true, heightStyle: "content", active: false });
-    var normalEpisodes = $('#episodes').children('h3').not('.customLevelsEpisode');
+    var normalEpisodes = $('#episodes').children('h5').not('.customLevelsEpisode');
     var minOpacity = 0.1;
     var maxOpacity = 0.7;
     var numEpisodes = normalEpisodes.length;
