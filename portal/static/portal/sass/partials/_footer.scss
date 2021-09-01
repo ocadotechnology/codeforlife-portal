@@ -130,11 +130,10 @@
 
 @media (max-width: $tablet-small-max-width) {
   .footer {
-    @include _padding(15px, 0px, 0px, 0px);
     text-align: center;
 
     img {
-      @include _padding(25px, 15px, 0px, 15px);
+      @include _padding(25px, 0px, 0px, 0px);
       float: none;
     }
 
@@ -154,10 +153,6 @@
     .form--news-signup__input {
       width: 100%;
     }
-
-    .landscape-logo {
-      max-width: 50%;
-    }
   }
 }
 
@@ -168,7 +163,7 @@
     }
 
     .landscape-logo {
-      max-width: 75%;
+      max-width: 60%;
     }
   }
 }
