@@ -5,20 +5,7 @@
 {% load benefits_tags %}
 {% load cache %}
 
-{% block nav_play %}<a href="{% url_for_aimmo_dashboard %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block aimmo %}<a href="{% url_for_aimmo_dashboard %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
-
-
-{% block css %}
-{{block.super}}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
 {% block subNav %}
-{{ block.super }}
 <div class="banner--aimmo--blurred-background">
     <div class="banner--aimmo-landing--content">
         <div>
@@ -39,8 +26,6 @@
 {% endblock subNav %}
 
 {% block content %}
-{{block.super}}
-
 {% cache 3600 play_aimmo_page %}
 
 <section>

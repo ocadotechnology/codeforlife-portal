@@ -5,23 +5,7 @@
 {% load table_tags %}
 {% load cache %}
 
-{% block materials %}
-<a class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching
-    Resources</a>
-{% endblock materials %}
-
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="KURONO_TEACHING_PACKS_BANNER" %}
 <div class="sub-nav sub-nav--key-stage hidden visible-xs">
     <h2 class="sub-nav__text">Key Stage 3+ (Python)</h2>
@@ -43,8 +27,6 @@
 {% endblock subNav %}
 
 {% block content %}
-{{ block.super }}
-
 {% cache 3600 fragment-aimmo-materials-page %}
 
 <div id="kurono_packs_page"></div>

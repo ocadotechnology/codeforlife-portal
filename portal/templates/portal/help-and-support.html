@@ -3,11 +3,6 @@
 {% load app_tags %}
 {% load banner_tags %}
 
-{% block css %}
-{{ block.super }}
-
-{% endblock css %}
-
 {% block scripts %}
 {{ block.super }}
 <script>
@@ -15,18 +10,12 @@
 </script>
 {% endblock scripts %}
 
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
-<div id="help_and_support_page"></div>
-
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{{ block.super }}
-
+<div id="help_and_support_page"></div>
 <div class="background col-sm-8 col-center">
     <h3>Browser support</h3>
     <p>The Code for Life website and the Rapid Router app should be supported by all modern browsers. Please note this means that Internet Explorer 8

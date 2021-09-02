@@ -2,20 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% if not onboarding_done %}
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
@@ -41,8 +27,6 @@
 {% endif %}
 
 {% block content %}
-{{ block.super }}
-
 <div id="onboarding_student_list_page"></div>
 
 <div id="sticky-warning" class="sub-nav sub-nav--warning">

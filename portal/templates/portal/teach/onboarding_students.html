@@ -2,16 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
@@ -29,8 +19,6 @@
 {% endblock addStudentsStep %}
 
 {% block content %}
-{{ block.super }}
-
 <div id="onboarding_students_page"></div>
 
 <div class="background background--primary">

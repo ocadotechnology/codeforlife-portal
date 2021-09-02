@@ -4,22 +4,7 @@
 {% load benefits_tags %}
 {% load banner_tags %}
 
-{% block nav_teach %}
-<a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--teacher--active">
-    Teachers
-</a>
-{% endblock nav_teach %}
-
-{% block css %}
-{{block.super}}
-{% endblock css %}
-
-{% block scripts %}
-{{block.super}}
-{% endblock scripts %}
-
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="BANNER" %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <a href="#overview" class="button button--secondary button--secondary--light">Overview</a>
@@ -29,8 +14,6 @@
 {% endblock subNav %}
 
 {% block content %}
-{{block.super}}
-
 <section id="overview" class="background">
     <h4>We're with you every step of the way</h4>
     <div class="background">

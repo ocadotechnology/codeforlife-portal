@@ -3,8 +3,7 @@
 #episodes .ui-accordion-header {
   color: #000;
   margin-bottom: 5px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding: 10px;
   text-align: left;
 }
 

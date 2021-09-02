@@ -1,16 +1,11 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
 {% block content %}
-
 <div id="added_independent_student_to_class"></div>
 
 <section class="background col-sm-6 col-center">
-    <h2>External student added to class {{ class.name }} ({{ class.access_code }})</h2>
+    <h4>External student added to class {{ class.name }} ({{ class.access_code }})</h4>
 </section>
 
 <div class="col-sm-8 col-center">
@@ -18,7 +13,7 @@
     <p>Please provide the student with their new login details:</p>
 </div>
 
-<div class="background--quaternary">
+<div class="background--primary">
     <div class="col-sm-8 col-center">
         <p><strong>Class Access Code:</strong> {{ class.access_code }}</p>
         <p><strong>Name:</strong> {{ student.new_user.first_name }}</p>

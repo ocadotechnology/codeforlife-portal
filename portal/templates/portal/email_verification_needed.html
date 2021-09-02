@@ -2,19 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block content %}
-{{ block.super }}
-
 <div id="emailVerificationNeeded_page"></div>
 
 {% if is_teacher %}

@@ -2,10 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
 {% block css %}
 {{ block.super }}
 <link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
@@ -17,10 +13,7 @@
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 {% endblock scripts %}
 
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <a href="{% url 'dashboard' %}#school" class="button button--secondary button--secondary--light">Your school</a>
     <a href="{% url 'dashboard' %}#classes" class="button button--secondary button--secondary--light">Classes</a>
@@ -30,7 +23,6 @@
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
-{{ block.super }}
 
 <div id="teach_class_page"></div>
 

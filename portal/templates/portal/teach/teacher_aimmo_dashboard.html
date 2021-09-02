@@ -2,22 +2,12 @@
 {% load static %}
 {% load app_tags %}
 
-{% block aimmo %}
-<a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button" class="button--menu button--menu--secondary
-button--menu--enabled button--menu--teacher--active">Kurono</a>
-{% endblock aimmo %}
-
-{% block css %}
-{{block.super}}
-{% endblock css %}
-
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'portal/js/join_create_game_toggle.js' %}"></script>
 {% endblock scripts %}
 
 {% block subNav %}
-{{ block.super }}
 <div class="banner banner--teacher banner--aimmo-home banner--teacher--create-aimmo-game row">
     <div class="kurono-logo col-sm-4 col-sm-offset-2">
         <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
@@ -63,7 +53,6 @@ button--menu--enabled button--menu--teacher--active">Kurono</a>
 {% endblock subNav %}
 
 {% block content %}
-{{block.super}}
 <section class="background">
     <h4>My games</h4>
     {% games_table 'kurono/play' %}
