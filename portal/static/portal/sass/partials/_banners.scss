@@ -28,7 +28,7 @@
 
   a,
   a:hover {
-    text-decoration: none
+    text-decoration: none;
   }
 
   .row {
@@ -162,7 +162,6 @@
   background-color: $color-tertiary;
   background-position: top left;
 }
-
 
 .banner--game {
   @include _margin(8 * $spacing, auto, 0px, auto);
@@ -431,5 +430,11 @@
 
   .banner--aimmo--video--container {
     @include _padding(0px, 0px, 0px, 0px);
+  }
+
+  .banner--game {
+    .banner--game__text {
+      @include _padding(10px, 50px, 30px, 50px);
+    }
   }
 }

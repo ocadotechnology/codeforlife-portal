@@ -57,18 +57,16 @@ class TeacherSignupForm(forms.Form):
     teacher_first_name = forms.CharField(
         label="First name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": ""}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
     teacher_last_name = forms.CharField(
         label="Last name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": ""}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
     teacher_email = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(
-            attrs={"autocomplete": "off", "placeholder": ""}
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off"}),
     )
 
     newsletter_ticked = forms.BooleanField(

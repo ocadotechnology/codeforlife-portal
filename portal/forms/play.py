@@ -197,25 +197,18 @@ class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
         label="Name",
         max_length=100,
-        widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": ""}
-        ),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
 
     username = forms.CharField(
         label="Username",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": ""}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
 
     email = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "",
-            }
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off"}),
     )
 
     newsletter_ticked = forms.BooleanField(initial=False, required=False)
@@ -266,9 +259,7 @@ class IndependentStudentSignupForm(forms.Form):
 
 
 class IndependentStudentLoginForm(AuthenticationForm):
-    username = forms.CharField(
-        label="Username", widget=forms.TextInput(attrs={"placeholder": ""})
-    )
+    username = forms.CharField(label="Username", widget=forms.TextInput())
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
     def clean(self):

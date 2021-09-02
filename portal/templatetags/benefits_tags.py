@@ -5,20 +5,15 @@ register = template.Library()
 
 @register.inclusion_tag("portal/partials/benefits.html", takes_context=True)
 def benefits(context):
-    link1_external = False
+
     button1_link = context["BENEFITS"]["first"]["button"]["link"]
-    if button1_link.startswith("http"):
-        link1_external = True
+    link1_external = button1_link.startswith("http")
 
-    link2_external = False
     button2_link = context["BENEFITS"]["second"]["button"]["link"]
-    if button2_link.startswith("http"):
-        link2_external = True
+    link2_external = button2_link.startswith("http")
 
-    link3_external = False
     button3_link = context["BENEFITS"]["third"]["button"]["link"]
-    if button3_link.startswith("http"):
-        link3_external = True
+    link3_external = button3_link.startswith("http")
 
     return {
         "image1": context["BENEFITS"]["first"]["image"],
