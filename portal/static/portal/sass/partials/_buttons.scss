@@ -298,6 +298,7 @@ button,
   &:after {
     @include _font-size(24px);
     @include _padding(0px, 0px, 0px, $spacing * 5);
+    font-weight: normal;
     line-height: 1;
     content: "\e5cf";
     font-family: "Material Icons Outlined";
@@ -382,7 +383,7 @@ button,
   .dropdown {
     width: 100%;
   }
-  
+
   .button--dropdown {
     border: none;
     margin: 0;

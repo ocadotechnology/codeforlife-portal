@@ -144,7 +144,8 @@
     height: 100%;
   }
 
-  button {
+  button,
+  .dropdown-menu {
     max-width: 350px;
   }
 }
@@ -203,10 +204,6 @@
 
     .logo {
       @include _padding($spacing * 3, $spacing * 9, $spacing * 3, $spacing * 3);
-    }
-
-    .menu__brand {
-      @include _margin(0px, $spacing * 7, 0px, 0px);
     }
 
     .menu__brand--ocado {
@@ -299,6 +296,10 @@
       justify-content: space-between;
       align-items: center;
       height: 100%;
+
+      .menu__brand--ocado {
+        margin-right: 33px; // align Ocado logo to the middle of the screen
+      }
     }
 
     .logo {
@@ -322,6 +323,30 @@
     @include _padding(0px, 0px, $spacing * 2, 0px);
     align-items: center;
     display: inline;
+  }
+
+  #menu-items {
+    button,
+    .button {
+      @include _padding(0px, $spacing * 3, 0px, $spacing * 3);
+      max-width: none;
+
+      &.login {
+        padding-left: calculate-rem($spacing * 4);
+      }
+
+      &.button--menu__item__sub {
+        padding-left: calculate-rem($spacing * 6);
+      }
+
+      &.button--menu__item__sub__sub {
+        padding-left: calculate-rem($spacing * 10);
+      }
+    }
+
+    #login-tabs > .button {
+      padding-left: calculate-rem($spacing * 2);
+    }
   }
 }
 
