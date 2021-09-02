@@ -28,7 +28,7 @@
 
   a,
   a:hover {
-    text-decoration: none
+    text-decoration: none;
   }
 
   .row {
@@ -163,7 +163,6 @@
   background-position: top left;
 }
 
-
 .banner--game {
   @include _margin(8 * $spacing, auto, 0px, auto);
   @include _padding(15 * $spacing, 4 * $spacing, 15 * $spacing, 4 * $spacing);
@@ -177,7 +176,7 @@
   }
 
   .banner--game__text {
-    @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
+    @include _padding(10px, 150px, 30px, 150px);
   }
 }
 
@@ -431,5 +430,11 @@
 
   .banner--aimmo--video--container {
     @include _padding(0px, 0px, 0px, 0px);
+  }
+
+  .banner--game {
+    .banner--game__text {
+      @include _padding(10px, 50px, 30px, 50px);
+    }
   }
 }

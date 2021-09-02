@@ -36,7 +36,6 @@ $column--icon-width: 3%;
 
 .grid__fit {
   grid-template-columns: repeat(auto-fit, minmax($card-minimum-width, 1fr));
-  padding: 0;
 }
 
 .card {
@@ -64,7 +63,8 @@ $column--icon-width: 3%;
   }
 
   .card__image {
-    @include _border-radius(16px, 16px, 0px, 0px);
+    display: block;
+    margin: auto;
   }
 
   .card__thumbnail {

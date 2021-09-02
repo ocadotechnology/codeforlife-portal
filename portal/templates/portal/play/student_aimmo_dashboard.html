@@ -18,7 +18,7 @@
         </div>
     {% else %}
         <div class="background text-center">
-            <h2>My Games</h2>
+            <h4>My Games</h4>
             <p>Oh no! It doesn’t look like you have access to any games, yet.<br>
                 You’ll need to ask your teacher to set some up.</p>
         </div>
@@ -27,7 +27,7 @@
     <section class="background background--primary row">
         <div class="col-sm-8 col-center grid">
             <div>
-                <h3 class="grid-item__title">User Guide</h3>
+                <h5 class="grid-item__title">User Guide</h5>
                 <p class="grid-item__expand">Find out more about the game and learn the basics for using the code editor and game map.</p>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name='Kurono_student_user_guide' %}" class="button button--primary">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div>
-                <h3 class="grid-item__title">Cheat Sheet</h3>
+                <h5 class="grid-item__title">Cheat Sheet</h5>
                 <p class="grid-item__expand">This cheat sheet will give you what you need to communicate with Kurono in Python.</p>
                 <div class="button-group button-group__icon">
                     <a href="{% url 'materials_viewer' pdf_name='Kurono_cheat_sheet' %}" class="button button--primary">
@@ -47,13 +47,13 @@
         </div>
     </section>
 
-    <div class="background background--quinary background--quinary__title">
-        <h2 class="text-center">Meet the characters</h2>
+    <div class="background">
+        <h4 class="text-center">Meet the characters</h4>
         {% character_list %}
     </div>
 {% else %}
     <div class="background text-center col-sm-8 col-center">
-        <h2>My Games</h2>
+        <h4>My Games</h4>
         <p>Hi there! 👋 We are sorry, but Kurono is designed to be used in a classroom, and therefore it is not
             available to independent students at this time.</p>
     </div>
