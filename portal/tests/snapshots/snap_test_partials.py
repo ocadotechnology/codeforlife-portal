@@ -43,17 +43,23 @@ snapshots['test_benefits 1'] = '''
     <p class="grid-benefits__text3">Test text</p>
     
         <div class="grid-benefits__button grid-benefits__button1">
+        
             <a href="/" class="button button--secondary button--secondary--dark">Test button</a>
+        
         </div>
     
     
         <div class="grid-benefits__button grid-benefits__button2">
+        
             <a href="/" class="button button--secondary button--secondary--dark">Test button</a>
+        
         </div>
     
     
         <div class="grid-benefits__button grid-benefits__button3">
+        
             <a href="/" class="button button--secondary button--secondary--dark">Test button</a>
+        
         </div>
     
 </div>
@@ -72,7 +78,7 @@ snapshots['test_card_list 1'] = '''
                 
             </div>
             <div class="card__text">
-                <h3 class="card__title">Test card 1</h3>
+                <h5 class="card__title">Test card 1</h5>
                 
                     <p>Test description 1</p>
                 
@@ -87,7 +93,7 @@ snapshots['test_card_list 1'] = '''
                 
             </div>
             <div class="card__text">
-                <h3 class="card__title">Test card 2</h3>
+                <h5 class="card__title">Test card 2</h5>
                 
                     <p>Test description 2</p>
                 
@@ -102,7 +108,7 @@ snapshots['test_card_list 1'] = '''
                 
             </div>
             <div class="card__text">
-                <h3 class="card__title">Test card 3</h3>
+                <h5 class="card__title">Test card 3</h5>
                 
                     <p>Test description 3</p>
                 
@@ -117,7 +123,7 @@ snapshots['test_card_list 1'] = '''
                 
             </div>
             <div class="card__text">
-                <h3 class="card__title">Test card 4</h3>
+                <h5 class="card__title">Test card 4</h5>
                 
                     <p>Test description 4</p>
                 
@@ -132,7 +138,7 @@ snapshots['test_card_list 1'] = '''
                 
             </div>
             <div class="card__text">
-                <h3 class="card__title">Test card 5</h3>
+                <h5 class="card__title">Test card 5</h5>
                 
                     <p>Test description 5</p>
                 
@@ -145,7 +151,7 @@ snapshots['test_card_list 1'] = '''
                 
             </div>
             <div class="card__text">
-                <h3 class="card__title">Test card 6</h3>
+                <h5 class="card__title">Test card 6</h5>
                 
                     <div class="button-group button-group__icon">
                         <a target="_blank" href="home" class="button button--primary button-right-arrow">
@@ -165,19 +171,19 @@ snapshots['test_character_list 1'] = '''
 <div class="grid grid-characters grid__fit col-lg-9 col-md-11 col-sm-8 col-center">
     
         <div class="card">
-            <h1 class="card__title">Xian</h1>
+            <h5 class="card__title">Xian</h5>
             <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png">
             <p class="card__text">Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
         </div>
     
         <div class="card">
-            <h1 class="card__title">Jools</h1>
+            <h5 class="card__title">Jools</h5>
             <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png">
             <p class="card__text">A quick-witted kid who wasn’t expecting to embark in a time-warping journey but can’t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
         </div>
     
         <div class="card">
-            <h1 class="card__title">Zayed</h1>
+            <h5 class="card__title">Zayed</h5>
             <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png">
             <p class="card__text">A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in first place.</p>
         </div>
@@ -208,7 +214,7 @@ snapshots['test_hero_card 1'] = '''
 <div class="card col-sm-8 col-center">
     <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/worksheets/future_active.png">
     <div class="card__text">
-        <h3 class="card__title">Test title</h3>
+        <h4 class="card__title">Test title</h4>
         <p>Test description</p>
         <div class="button-group button-group__icon">
             <a href="/materials/test_pdf_name" class="button button--primary button-right-arrow">
