@@ -327,7 +327,24 @@
   #menu-items {
     button,
     .button {
+      @include _padding(0px, $spacing * 3, 0px, $spacing * 3);
       max-width: none;
+
+      &.login {
+        padding-left: calculate-rem($spacing * 4);
+      }
+
+      &.button--menu__item__sub {
+        padding-left: calculate-rem($spacing * 6);
+      }
+
+      &.button--menu__item__sub__sub {
+        padding-left: calculate-rem($spacing * 10);
+      }
+    }
+
+    #login-tabs > .button {
+      padding-left: calculate-rem($spacing * 2);
     }
   }
 }
