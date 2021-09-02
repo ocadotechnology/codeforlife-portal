@@ -44,7 +44,7 @@
     {% endif %}
         <section>
             <a href="{% url 'levels'%}"><img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/RR_logo.png' %}"></a>
-            <h4>Anyone can code &mdash; you can, too!</h4>
+            <h5>Anyone can code &mdash; you can, too!</h5>
             <div class="background">
                 <a href="{% url 'levels' %}" class="button button--primary">Enter</a>
             </div>
@@ -60,7 +60,7 @@
         {% if user.new_student.class_field %}
             <section>
                 <a href="{% url_for_aimmo_dashboard %}"><img title="Kurono" alt="Kurono" src="{% static 'portal/img/kurono_logo.svg' %}"></a>
-                <h4>Take your coding to the next level!</h4>
+                <h5>Take your coding to the next level!</h5>
                 <div class="background">
                     <a href="{% url_for_aimmo_dashboard %}" class="button button--primary">Enter</a>
                 </div>

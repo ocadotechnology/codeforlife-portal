@@ -4,7 +4,7 @@
 <div class="card col-sm-8 col-center">
     <img class="card__image" src="{{ image | cloud_storage }}">
     <div class="card__text">
-        <h3 class="card__title">{{ title }}</h3>
+        <h4 class="card__title">{{ title }}</h4>
         <p>{{ description }}</p>
         <div class="button-group button-group__icon">
             <a href="{% url button1.url pdf_name=button1.url_args %}" class="button button--primary button-right-arrow">

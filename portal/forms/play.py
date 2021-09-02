@@ -198,14 +198,14 @@ class IndependentStudentSignupForm(forms.Form):
         label="Name",
         max_length=100,
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "Rosalind Franklin"}
+            attrs={"autocomplete": "off", "placeholder": ""}
         ),
     )
 
     username = forms.CharField(
         label="Username",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "rosie_f"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": ""}),
     )
 
     email = forms.EmailField(
@@ -213,7 +213,7 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 "autocomplete": "off",
-                "placeholder": "rosalind.franklin@cambridge.ac.uk",
+                "placeholder": "",
             }
         ),
     )
@@ -267,7 +267,7 @@ class IndependentStudentSignupForm(forms.Form):
 
 class IndependentStudentLoginForm(AuthenticationForm):
     username = forms.CharField(
-        label="Username", widget=forms.TextInput(attrs={"placeholder": "rosie_f"})
+        label="Username", widget=forms.TextInput(attrs={"placeholder": ""})
     )
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 

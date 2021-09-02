@@ -177,7 +177,7 @@
   }
 
   .banner--game__text {
-    @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
+    @include _padding(10px, 150px, 30px, 150px);
   }
 }
 
