@@ -2,23 +2,9 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
-{% block subNav %}
-{{ block.super }}
-<div id="independent_login_page"></div>
-{% endblock subNav %}
-
 {% block content %}
-{{ block.super }}
+<div id="independent_login_page"></div>
+
 <section class="row">
     <div class="form--register is-flex form--register--indep-student">
         <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">

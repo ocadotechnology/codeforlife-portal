@@ -3,18 +3,11 @@
 {% load app_tags %}
 {% load banner_tags %}
 
-{% block materials %}
-<a class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Teaching Resources</a>
-{% endblock materials %}
-
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{{ block.super }}
-
 <div id="rapid_router_resources_page"></div>
 
 <div class="background">

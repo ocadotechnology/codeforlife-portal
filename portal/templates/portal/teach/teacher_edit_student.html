@@ -1,25 +1,16 @@
 {% extends 'portal/base.html' %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
-{% block subNav %}
-{{ block.super }}
-{% endblock subNav %}
-
 {% block content %}
-
 <script>
     $( document ).ready(function() {
         $('#password-setter').hide();
         $('#request-password-setter').click(function(){$('#password-setter').show();});
         $('#cancel-password-setter').click(function(){$('#password-setter').hide();});
 
-        {%if set_password_mode%}
+        {% if set_password_mode %}
         $('#password-setter').show();
         window.location = '#set-password';
-        {%endif%}
+        {% endif %}
     });
 </script>
 

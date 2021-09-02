@@ -2,14 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
@@ -18,10 +10,7 @@
 </script>
 {% endblock scripts %}
 
-{% block pageID %}id='homeWrapper'{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 <section class="banner banner--teacher row">
     <h1 class="banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
 </section>
@@ -44,7 +33,6 @@
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
-{{ block.super }}
 
 <div id="teach_dashboard_page"></div>
 
@@ -99,7 +87,7 @@
                                 Make admin</button></td>
                         {% endif %}
                     <td class="cell-center">{% if coworker.new_user|has_2FA %}
-                        <button class="button--small button--primary--setup"
+                        <button class="button button--small button--primary"
                                 onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                             Disable 2FA</button>{% endif %}</td>
                 {% else %}

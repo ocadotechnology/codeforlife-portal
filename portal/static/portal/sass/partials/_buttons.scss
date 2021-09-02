@@ -147,29 +147,6 @@ button,
   @include _padding(2px, 10px, 2px, 10px);
 }
 
-.button--bottom {
-  margin-top: auto;
-}
-
-.button--confirm {
-  background-color: $color-teacher-blue;
-  border: 1px solid;
-  border-color: $color-teacher-blue;
-  color: $color-button-secondary-border-light;
-}
-
-.button--cancel {
-  background-color: $color-background-secondary;
-  border: 1px solid;
-  color: $color-text-primary;
-}
-
-.button--cancel:hover,
-.button--cancel:active,
-.button--cancel:focus {
-  color: $color-text-primary;
-}
-
 .button--menu {
   background-color: transparent;
   border-radius: 0;
@@ -204,43 +181,9 @@ button,
   @include _margin(0px, 20px, 0px, 20px);
 }
 
-.button--menu--teacher--active {
-  border-bottom: 6px solid $color-button-border-teacher;
-
-  &:hover {
-    font-weight: 600;
-  }
-}
-
-.button--menu--student--active {
-  border-bottom: 6px solid $color-button-border-student;
-
-  &:hover {
-    font-weight: 600;
-  }
-}
-
-.button--primary--positive {
-  background: $color-button-primary-action-positive;
-  color: $color-text-secondary;
-
-  &:hover {
-    background: $color-button-primary-action-positive-hover;
-  }
-}
-
 #classes-table {
   .button {
     display: inline-block;
-  }
-}
-
-.button--primary--negative {
-  background: $color-button-primary-action-negative;
-  color: $color-text-secondary;
-
-  &:hover {
-    background: $color-button-primary-action-negative-hover;
   }
 }
 
@@ -258,23 +201,6 @@ button,
 
 .django-hijack-button-bootstrap {
   @include _margin(0px, 0px, 0px, 50px);
-}
-
-.button--primary--setup {
-  background: $color-button-primary-action-setup;
-  color: $color-text-secondary;
-
-  &:hover {
-    background: $color-button-primary-action-setup-hover;
-  }
-}
-
-.button--primary--disabled {
-  background: $color-button-disabled;
-
-  &:hover {
-    background: $color-button-disabled;
-  }
 }
 
 .button--dropdown {

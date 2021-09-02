@@ -2,18 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block pageID %}id='homeWrapper'{% endblock %}
-
 {% block content %}
-
 <div class="form--register form--register--teacher is-flex">
     <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
         <h4>Invite a teacher</h4>

@@ -15,19 +15,9 @@
 </style>
 {% endblock css %}
 
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
-{% block subNav %}
-{{ block.super }}
-<div id="teacher_login_page"></div>
-{% endblock subNav %}
-
 {% block content %}
-{{ block.super }}
+<div id="teacher_login_page"></div>
+
 {% if wizard.steps.current == 'auth' %}
     <section class="row">
         <div class="form--register is-flex form--register--teacher">

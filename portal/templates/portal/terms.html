@@ -3,23 +3,11 @@
 {% load app_tags %}
 {% load banner_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{{ block.super }}
 <div class="col-sm-8 col-center background">
     <div id="introduction"></div>
     <section>
