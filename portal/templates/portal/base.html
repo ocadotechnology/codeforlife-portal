@@ -157,9 +157,7 @@
 {% endblock contentWrapper %}
 
 {% block footer %}
-    {% cache 3600 footer %}
-        {% include 'portal/partials/footer.html' %}
-    {% endcache %}
+    {% include 'portal/partials/footer.html' %}
 {% endblock footer %}
 
 <div id="confirmation-dialog" title=""></div>
