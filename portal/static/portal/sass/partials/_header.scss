@@ -205,10 +205,6 @@
       @include _padding($spacing * 3, $spacing * 9, $spacing * 3, $spacing * 3);
     }
 
-    .menu__brand {
-      @include _margin(0px, $spacing * 7, 0px, 0px);
-    }
-
     .menu__brand--ocado {
       img {
         height: 42px;
@@ -299,6 +295,10 @@
       justify-content: space-between;
       align-items: center;
       height: 100%;
+
+      .menu__brand--ocado {
+        margin-right: 33px; // align Ocado logo to the middle of the screen
+      }
     }
 
     .logo {
