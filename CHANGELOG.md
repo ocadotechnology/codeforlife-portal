@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.36.0 (2021-09-03)
+### Feature
+* Version bump ([#1525](https://github.com/ocadotechnology/codeforlife-portal/issues/1525)) ([`ec6d589`](https://github.com/ocadotechnology/codeforlife-portal/commit/ec6d5896f7b571c91aca489da590a7cda24236c4))
+
 ## v4.35.0 (2021-09-03)
 ### Feature
 * Rebranding 1 - footer ([#1511](https://github.com/ocadotechnology/codeforlife-portal/issues/1511)) ([`249df12`](https://github.com/ocadotechnology/codeforlife-portal/commit/249df12bbe91085115ee25f1a7fb63f29d64dcd1))
