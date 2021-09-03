@@ -3,7 +3,6 @@
 {% load app_tags %}
 {% load banner_tags %}
 {% load table_tags %}
-{% load cache %}
 
 {% block subNav %}
 {% banner banner_name="KURONO_TEACHING_PACKS_BANNER" %}
@@ -27,7 +26,6 @@
 {% endblock subNav %}
 
 {% block content %}
-{% cache 3600 fragment-aimmo-materials-page %}
 
 <div id="kurono_packs_page"></div>
 
@@ -276,5 +274,4 @@
     });
 </script>
 
-{% endcache %}
 {% endblock content %}

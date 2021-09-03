@@ -3,7 +3,6 @@
 {% load app_tags %}
 {% load headline_tags %}
 {% load benefits_tags %}
-{% load cache %}
 
 {% block subNav %}
 <div class="banner--aimmo--blurred-background">
@@ -26,7 +25,6 @@
 {% endblock subNav %}
 
 {% block content %}
-{% cache 3600 play_aimmo_page %}
 
 <section>
     {% headline headline_name="HEADLINE" %}
@@ -59,5 +57,4 @@
     </a>
 </section>
 
-{% endcache %}
 {% endblock content %}
