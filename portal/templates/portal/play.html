@@ -5,14 +5,12 @@
 {% load game_banner_tags %}
 {% load headline_tags %}
 {% load benefits_tags %}
-{% load cache %}
 
 {% block subNav %}
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{% cache 3600 play_page %}
 
 <section class="background">
     {% headline headline_name="HEADLINE" %}
@@ -27,5 +25,4 @@
     {% game_banner game_banner_name="KURONO_BANNER" %}
 </div>
 
-{% endcache %}
 {% endblock content %}
