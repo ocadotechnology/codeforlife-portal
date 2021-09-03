@@ -67,10 +67,6 @@ SETTINGS = {
                 ),
                 "output_filename": "portal.css",
             },
-            "base": {
-                "source_filenames": ("portal/sass/old_styles.scss",),
-                "output_filename": "base.css",
-            },
         },
         "CSS_COMPRESSOR": None,
         "SASS_ARGUMENTS": "--quiet",

@@ -4,25 +4,13 @@
 {% load headline_tags %}
 {% load benefits_tags %}
 
-{% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block rapidrouter %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
-
-{% block css %}
-{{block.super}}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
 {% block subNav %}
-{{ block.super }}
 <div class="banner banner--rapid-router--background row">
     <div class="row banner--rapid-router--content">
         <div class="col-sm-5 col-sm-offset-2">
-            <h1 class="banner--homepage__text banner__text--center">Rapid Router</h1>
+            <h1 class="banner__text--center">Rapid Router</h1>
             <div class="background">
-                <a href="{% url 'levels' %}" class="button button--jumbo button--primary--general-educate">Play now</a>
+                <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
             </div>
         </div>
         <div class="col-sm-4">
@@ -35,8 +23,6 @@
 {% endblock subNav %}
 
 {% block content %}
-{{block.super}}
-
 <div class="background">
     <section>
         {% headline headline_name="HEADLINE" %}

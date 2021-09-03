@@ -3,24 +3,11 @@
 {% load app_tags %}
 {% load banner_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{{ block.super }}
-
 <div class="background">
     <div class="grid grid__fit col-sm-8 col-center">
         <div class="card">
@@ -34,9 +21,9 @@
                     how you can get involved with this or other methods by contacting us at codeforlife@ocado.com.
                     </p>
                 </div>
-                <div class="button-group button-group__icon">
-                    <a href="mailto:codeforlife@ocado.com" target="_blank" class="button button--primary--general-play">
-                        Get in touch<div class="glyphicon glyphicon-menu-right"></div>
+                <div>
+                    <a href="mailto:codeforlife@ocado.com" target="_blank" class="button button--primary button-right-arrow">
+                        Get in touch
                     </a>
                 </div>
             </div>
@@ -52,9 +39,9 @@
                     Take a look at our contribution guide to find out how to get involved in our open source projects.
                     </p>
                 </div>
-                <div class="button-group button-group__icon">
-                    <a href="{% url 'contribute' %}" class="button button--primary--general-play">
-                        Read more<div class="glyphicon glyphicon-menu-right"></div>
+                <div>
+                    <a href="{% url 'contribute' %}" class="button button--primary button-right-arrow">
+                        Read more
                     </a>
                 </div>
             </div>
@@ -68,9 +55,9 @@
                 <p>Please get in touch at codeforlife@ocado.com if you are interested in working on Code for Life projects with
                 your students including: coding, user experience, data analytics and new feature design.
                 </p>
-                <div class="button-group button-group__icon">
-                    <a href="mailto:codeforlife@ocado.com" target="_blank" class="button button--primary--general-play">
-                        Get in touch<div class="glyphicon glyphicon-menu-right"></div>
+                <div>
+                    <a href="mailto:codeforlife@ocado.com" target="_blank" class="button button--primary button-right-arrow">
+                        Get in touch
                     </a>
                 </div>
             </div>

@@ -1,26 +1,21 @@
 {% extends 'portal/base.html' %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
 {% block content %}
-
 <div id="move_students_disambiguate_page"></div>
 
 <section class="background col-sm-6 col-center">
-    <h2>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h2>
-    <h4>Move students to another class.</h4>
+    <h4>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h4>
+    <h6>Move students to another class.</h6>
 </section>
 
-<div class="background background--quaternary">
+<div class="background">
     <div class="col-sm-6 col-center">
-        <h3>Students currently in destination class</h3>
+        <h5>Students currently in destination class</h5>
 
         {% if new_class_students %}
             <p>The following students are in class {{ new_class.name }} ({{ new_class.access_code }}) into which you
                 are about to move students from class {{ old_class.name }} ({{ old_class.access_code }}).</p>
-            <table class="student-table table--move header-secondary">
+            <table class="student-table table--move header-primary data-primary">
                 <tr>
                     <th><p>Student Name</p></th>
                 </tr>
@@ -34,7 +29,7 @@
             <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
         {% endif %}
 
-        <h3>Students to transfer</h3>
+        <h5>Students to transfer</h5>
 
         <p>Please confirm the names of the following students being moved to class {{ new_class.name }} ({{ new_class.access_code }})
             from class {{ old_class.name }} ({{ old_class.access_code }}). Their names will be used in their new login details, so please ensure it is
@@ -46,7 +41,7 @@
 
             {{ formset.management_form }}
 
-            <table class="student-table table--move header-secondary">
+            <table class="student-table table--move header-primary data-primary">
                 <tr>
                     <th><p>Original Student Name</p></th>
                     <th><p>New Student Name</p></th>
@@ -67,8 +62,8 @@
 
             <section class="background button-group">
                 <input type="hidden" name="new_class" value="{{ new_class.id }}"/>
-                <button id="move_button" name="submit_disambiguation" type="submit" class="button--regular button--primary--navigation">Save</button>
-                <a id="cancel_button" class="button button--regular button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+                <button id="move_button" name="submit_disambiguation" type="submit" class="button button--primary">Save</button>
+                <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
             </section>
 
         </form>

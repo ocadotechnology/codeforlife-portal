@@ -156,7 +156,6 @@ def process_signup_form(request, data):
         )
     else:
         teacher = Teacher.objects.factory(
-            title=data["teacher_title"],
             first_name=data["teacher_first_name"],
             last_name=data["teacher_last_name"],
             email=data["teacher_email"],
@@ -272,15 +271,16 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
-    link = reverse("home-learning")
-    messages.success(
-        request,
-        "Families: #KeepKidsCoding! <a href='"
-        + link
-        + "'>Tap here</a> for free, easy, home coding lessons.",
-        extra_tags="safe message__home-learning",
-    )
+    """
+    This view is where we can add any messages to be shown upon loading the home page.
+    Following this format:
 
+    messages.success(request, "message text here", extra_tags="tag classes here")
+
+    This example uses the success function which will display a welcoming message on the
+    sub banner (right under the page header). Other functions can be used to indicate a
+    warning, an error or a simple information.
+    """
     return render(request, "portal/home.html")
 
 

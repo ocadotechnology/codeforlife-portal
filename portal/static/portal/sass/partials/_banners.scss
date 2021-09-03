@@ -21,9 +21,14 @@
   h2,
   h3,
   h4,
-  p,
-  a {
+  h5,
+  p {
     color: $color-text-secondary;
+  }
+
+  a,
+  a:hover {
+    text-decoration: none;
   }
 
   .row {
@@ -31,7 +36,7 @@
   }
 
   .banner--rapid-router--content {
-    @include _padding(70px, 0px, 100px, 0px);
+    @include _padding(30px, 0px, 30px, 0px);
   }
 
   .banner--aimmo--content {
@@ -46,7 +51,7 @@
 }
 
 .banner--aimmo-landing--content {
-  @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
+  @include _padding(14 * $spacing, 0px, 14 * $spacing, 0px);
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -126,53 +131,52 @@
 }
 
 .banner--homepage {
-  height: calc(100vh - #{$menu-height});
-  min-height: 768px;
-  @include _padding(4 * $spacing, 0px, 4 * $spacing, 0px);
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
+  @include _padding(20px, 0px, 50px, 0px);
+
+  h1 {
+    margin-top: 0;
+  }
 
   p {
-    @include _font-size(24px);
-    @include _padding(0px, 0px, 60px, 10px);
+    @include _font-size(22px);
+    @include _margin(0px, 10px, 0px, 0px);
+    padding: 0;
+  }
+
+  .button {
+    @include _margin(0px, 20px, 7px, 0px);
   }
 }
 
-.banner--homepage__text {
-  @include _font-size(140px);
-  @include _line-height(120px);
-  @include _padding(0px, 0px, 50px, 0px);
-  background-color: transparent;
-  color: $color-text-secondary;
+.banner--homepage--teacher,
+.banner--teacher {
+  background-color: $color-primary;
+  background-position: top right;
+}
+
+.banner--homepage--student,
+.banner--student {
+  background-color: $color-tertiary;
+  background-position: top left;
 }
 
 .banner--game {
   @include _margin(8 * $spacing, auto, 0px, auto);
-  @include _padding(25 * $spacing, 4 * $spacing, 25 * $spacing, 4 * $spacing);
+  @include _padding(15 * $spacing, 4 * $spacing, 15 * $spacing, 4 * $spacing);
   display: flex;
   justify-content: center;
   text-align: center;
+  color: $color-text-secondary;
 
   + .banner--game {
     @include _margin(8 * $spacing, auto, 8 * $spacing, auto);
   }
 
-  .banner--game__ages {
-    font-family: "Baloo", serif;
-    font-weight: 500;
-  }
-
-  .banner--game__title {
-    @include _font-size($game-banner-title-font-size);
-    @include _line-height($game-banner-title-line-height);
-    color: $color-text-secondary;
-  }
-
   .banner--game__text {
-    @include _padding(5 * $spacing, 0px, 5 * $spacing, 0px);
-    color: $color-text-secondary;
+    @include _padding(10px, 150px, 30px, 150px);
   }
 }
 
@@ -182,18 +186,6 @@
 
 .banner__text--secondary {
   color: $color-text-primary;
-}
-
-.banner--homepage--teacher,
-.banner--teacher {
-  background-image: url("../img/background_blue.png");
-  background-position: top right;
-}
-
-.banner--homepage--student,
-.banner--student {
-  background-image: url("../img/background_orange.png");
-  background-position: top left;
 }
 
 .banner--teacher,
@@ -215,7 +207,7 @@
 
 .banner--teacher--plain {
   @include _padding(20px, 0px, 50px, 0px);
-  background-color: $color-background-teach;
+  background-color: $color-primary;
   background-image: none;
 
   .progress-arrow__body--in-progress p {
@@ -351,8 +343,7 @@
 .banner--resources {
   @include _padding(0px, 0px, 30px, 0px);
   align-items: center;
-  background-image: url("../img/background_blue.png");
-  background-position: top right;
+  background-color: $color-primary;
   display: flex;
   justify-content: center;
 
@@ -385,20 +376,11 @@
   }
 }
 
-@media (min-width: $tablet-large-min-width) {
-  .banner__text--primary,
-  .banner__text--secondary {
-    @include _font-size(72px);
-    @include _line-height(75px);
-  }
+.banner__item {
+  text-align: center;
 }
 
 @media (min-width: $tablet-small-min-width) {
-  .banner__item,
-  .button--banner__item {
-    display: none;
-  }
-
   .banner--aimmo-landing--content {
     .kurono-logo {
       width: 615px;
@@ -409,33 +391,10 @@
 @media (max-width: $mobile-max-width) {
   .banner--homepage {
     @include _padding(50px, 0px, 50px, 10px);
-    height: auto;
-  }
-
-  .banner__item {
-    align-items: center;
-    display: flex;
-    height: 120px;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-
-  .banner__item--teacher {
-    background-color: $color-background-teach;
-  }
-
-  .banner__item--student {
-    background-color: $color-background-play;
   }
 
   .banner {
     @include _padding(10px, 10px, 50px, 10px);
-    text-align: center;
-
-    p a {
-      color: $color-text-secondary;
-    }
 
     .banner--picture {
       display: none;
@@ -460,15 +419,6 @@
     }
   }
 
-  .banner--game {
-    @include _padding(4 * $spacing, 4 * $spacing, 4 * $spacing, 4 * $spacing);
-
-    .banner--game__title {
-      @include _font-size($game-banner-title-font-size-small);
-      @include _line-height($game-banner-title-line-height-small);
-    }
-  }
-
   .banner--aimmo-landing--content {
     @include _padding(8 * $spacing, 8 * $spacing, 8 * $spacing, 8 * $spacing);
   }
@@ -480,5 +430,11 @@
 
   .banner--aimmo--video--container {
     @include _padding(0px, 0px, 0px, 0px);
+  }
+
+  .banner--game {
+    .banner--game__text {
+      @include _padding(10px, 50px, 30px, 50px);
+    }
   }
 }

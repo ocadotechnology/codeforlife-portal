@@ -1,0 +1,235 @@
+{% load staticfiles %}
+{% load app_tags %}
+{% load hijack_tags %}
+
+<div class="header">
+    <div class="menu">
+        <div class="menu__brand">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
+            </a>
+            <a class="menu__brand--ocado" target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
+                <img title="Proudly developed by Ocado Group" alt="Proudly developed by Ocado Group"
+                src="{% static 'portal/img/logo_ocado_group.svg' %}">
+            </a>
+            <span class="material-icons-outlined visible-sm visible-xs" data-toggle="collapse" data-target="#menu-items">
+                menu
+            </span>
+        </div>
+        {% if user|is_logged_in %}
+        <div class="menu__left-side col-md-7">
+            {% if user|is_logged_in_as_teacher %}
+                <a href="{% url 'teach' %}" class="button--menu button--menu--primary">Teacher</a>
+                {% if user|has_teacher_finished_onboarding %}
+                    <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                    <a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
+                    <a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button"
+                       class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
+                    <div class="dropdown">
+                        <a id="teaching_resources_button"
+                            class="button--menu button--menu--secondary button--menu--enabled">
+                            Teaching Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
+                        <div class="dropdown-content">
+                            <a id="rapid_router_resources_button" href="{% url 'teaching_resources' %}">
+                                <small>Rapid Router</small></a>
+                            <a id="kurono_resources_button" href="{% url 'kurono_teaching_resources' %}">
+                                <small>Kurono</small></a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
+                    <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
+                    <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
+                    <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'play' %}" class="button--menu button--menu--primary">Student</a>
+                <div class="dropdown">
+                    <a href="{% url 'student_details' %}" id="student_dashboard_button"
+                      class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
+                        {% if not user|is_independent_student %}
+                            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if user|is_logged_in_as_school_user %}
+                <div class="dropdown">
+                    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
+                      class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
+                    </div>
+                </div>
+                {% endif %}
+                {% if not user.new_student.class_field %}
+                    <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
+                      class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <div class="menu__left-side col-md-5">
+                <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>
+                <a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>
+        {% endif %}
+        </div>
+        {% if user|is_logged_in %}
+        <div class="menu__right-side col-md-4">
+            <div class="dropdown header__account-details-dropdown">
+                <button id="logout_menu" class="button--regular button--secondary button--dropdown header__account-details-dropdown"
+                        data-toggle="dropdown">
+                    <div class="dropdown__text">{{ user|make_into_username }}</div>
+                </button>
+                <ul class="dropdown-menu header__account-details-dropdown-menu">
+                    {% if not request|is_hijacked %}
+                    <li class="dropdown-menu__option">
+                        <a class="button--regular" id="logout_button" aria-labelledby="Log out"
+                          href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
+                            <div class="dropdown-menu__option__text">Log out</div>
+                            <span class="material-icons-outlined">logout</span></a>
+                    </li>
+                    {% endif %}
+                    {% if user|is_logged_in_as_teacher %}
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular" aria-labelledby="Change password"
+                              href="{% url 'dashboard' %}#edit_account_details_password">
+                                <div class="dropdown-menu__option__text">Change password</div>
+                                <span class="material-icons-outlined">lock</span></a>
+                        </li>
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular" aria-labelledby="Update my details"
+                              href="{% url 'dashboard' %}#account">
+                                <div class="dropdown-menu__option__text">Update my details</div>
+                                <span class="material-icons-outlined">manage_accounts</span></a>
+                        </li>
+                    {% else %}
+                        <li class="dropdown-menu__option">
+                            <a class="button--regular" aria-labelledby="Change password"
+                              href="{% url 'student_edit_account' %}" id="student_edit_account_button">
+                                <div class="dropdown-menu__option__text">Change password</div>
+                                <span class="material-icons-outlined">lock</span></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="menu__right-side col-md-5">
+                <a href="{% url 'register' %}" id="signup_button" class="button button--primary button--register register">Register</a>
+                <div class="dropdown">
+                    <button id="login_dropdown" class="button--regular button--secondary login button--dropdown"
+                            data-toggle="dropdown">
+                        <div class="dropdown__text">Log in</div>
+                    </button>
+                    <ul class="dropdown-menu header__login-options-dropdown-menu">
+                        <li class="dropdown-menu__option">
+                            <a id="teacher_login_button" class="button--regular" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
+                                <div class="dropdown-menu__option__text">Teacher</div>
+                                <span class="material-icons-outlined">chevron_right</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-menu__option">
+                            <a id="student_login_button" class="button--regular" aria-labelledby="Student" href="{% url 'student_login' %}">
+                                <div class="dropdown-menu__option__text">Student</div>
+                                <span class="material-icons-outlined">chevron_right</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-menu__option">
+                            <a id="independent_login_button" class="button--regular" aria-labelledby="Independent" href="{% url 'independent_student_login' %}">
+                                <div class="dropdown-menu__option__text">Independent</div>
+                                <span class="material-icons-outlined">chevron_right</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="menu-items" class="collapse">
+        {% if user|is_logged_in %}
+            <div class="menu__item">
+                <h1>{{ user|make_into_username }}</h1>
+            </div>
+            {% if user|is_logged_in_as_teacher %}
+                <button class="button--menu__item button--menu__item--sub-header"
+                        data-toggle="collapse" data-target="#teacher-tabs">Teacher</button>
+                <div id="teacher-tabs" class="collapse">
+                    <a class="button button--menu__item button--menu__item__sub"
+                      href="{% url 'dashboard' %}">School / Club<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    <a class="button button--menu__item button--menu__item__sub"
+                      href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    <button class="button--menu__item button--menu__item__sub
+                    button--menu__item--sub-header" data-toggle="collapse" data-target="#resources-tabs">Teaching Resources</button>
+                    <div id="resources-tabs" class="collapse">
+                        <a class="button button--menu__item button--menu__item__sub__sub"
+                          href="{% url 'teaching_resources' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                        <a class="button button--menu__item button--menu__item__sub__sub"
+                          href="{% url 'kurono_teaching_resources' %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    </div>
+                </div>
+            {% else %}
+                <button class="button--menu__item button--menu__item--sub-header"
+                        data-toggle="collapse" data-target="#student-tabs">Student</button>
+                <div id="student-tabs" class="collapse">
+                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#games-tabs">My Games</button>
+                    <div id="games-tabs" class="collapse">
+                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                          href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                        {% if not user|is_independent_student %}
+                            <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                              href="{% url_for_aimmo_dashboard %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
+                        {% endif %}
+                    </div>
+                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#scoreboards-tabs">View Scoreboards</button>
+                    <div id="scoreboards-tabs" class="collapse">
+                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                          href="{% url 'scoreboard' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    </div>
+                {% if not user.new_student.class_field %}
+                    <a class="button button--menu__item button--menu__item--student"
+                      href="{% url 'student_join_organisation' %}">Join a school<span class="material-icons-outlined md-32">chevron_right</span></a>
+                {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <a class="button button--menu__item button--register"
+              href="{% url 'register' %}">Register now</a>
+            <button class="button--menu__item button--menu__item--sub-header login"
+                    data-toggle="collapse" data-target="#login-tabs">Log in</button>
+            <div id="login-tabs" class="collapse">
+                <a class="button button--menu__item button--menu__item__sub"
+                  href="{% url 'teacher_login' %}">Teacher<span class="material-icons-outlined md-32">chevron_right</span></a>
+                <a class="button button--menu__item button--menu__item__sub"
+                  href="{% url 'student_login' %}">Student<span class="material-icons-outlined md-32">chevron_right</span></a>
+                <a class="button button--menu__item button--menu__item__sub"
+                  href="{% url 'independent_student_login' %}">Independent<span class="material-icons-outlined md-32">chevron_right</span></a>
+            </div>
+            <a class="button button--menu__item" href="{% url 'teach' %}">Teacher
+                <span class="material-icons-outlined md-32">chevron_right</span></a>
+            <a class="button button--menu__item" href="{% url 'play' %}">Student
+                <span class="material-icons-outlined md-32">chevron_right</span></a>
+        {% endif %}
+        <a class="button button--menu__item" href="{% url 'about' %}">About
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'getinvolved' %}">Get involved
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'help' %}">Help and support
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'privacy_policy' %}">Privacy policy
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        {% if user|is_logged_in %}
+            {% if user|is_logged_in_as_teacher %}
+                <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password
+                    <span class="material-icons-outlined md-32">chevron_right</span></a>
+                <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details
+                    <span class="material-icons-outlined md-32">chevron_right</span></a>
+            {% endif %}
+            <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
+                <span class="material-icons-outlined md-32">chevron_right</span></a>
+        {% endif %}
+    </div>
+</div>

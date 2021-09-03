@@ -1,13 +1,11 @@
-@import 'base';
+@import "base";
 
 body {
   color: $color-text-tertiary;
 }
 
 h1 {
-  @include _font-size(55px);
-  @include _line-height(60px);
-  font-family: 'Baloo', serif;
+  @include _font-size(60px);
   font-weight: 500;
 
   a,
@@ -16,36 +14,61 @@ h1 {
   a:visited,
   a:focus {
     color: $color-text-secondary;
-    font-family: 'Baloo', serif;
     font-weight: 500;
   }
-
-}
-
-:not(h1) {
-  font-family: 'Source Sans Pro', serif;
 }
 
 h2 {
-  @include _font-size(45px);
-  @include _line-height(50px);
-  font-weight: 600;
+  @include _font-size(55px);
+  font-weight: 500;
 }
 
 h3 {
-  @include _font-size(35px);
-  @include _line-height(40px);
-  @include _padding(0px, 0px, 20px, 0px);
-  font-weight: 600;
+  @include _font-size(45px);
+  font-weight: 500;
 }
 
 h4 {
   @include _font-size(30px);
-  @include _line-height(35px);
+  font-weight: 500;
+}
+
+h5 {
+  @include _font-size(24px);
+  font-weight: 500;
 }
 
 h6 {
-  @include _font-size(28px);
+  @include _font-size(20px);
+  font-weight: 500;
+}
+
+.subtitle1 {
+  font-family: "Inter", sans-serif;
+  @include _font-size(22px);
+}
+
+.subtitle2 {
+  font-family: "Inter", sans-serif;
+  @include _font-size(20px);
+  font-weight: 500;
+}
+
+.quote {
+  @include _font-size(24px);
+  font-weight: 500;
+}
+
+a {
+  color: $color-text-tertiary;
+  text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+  color: $color-text-tertiary;
+  text-decoration: underline;
+  font-weight: 600;
 }
 
 .kurono-overview__paragraph {
@@ -85,16 +108,6 @@ h6 {
   grid-area: title3;
 }
 
-a {
-  color: $color-text-tertiary;
-}
-
-a:hover,
-a:focus {
-  color: $color-text-tertiary;
-  text-decoration: none;
-}
-
 p,
 div#ot-sdk-cookie-policy {
   @include _padding(10px, 0px, 10px, 0px);
@@ -120,55 +133,16 @@ blockquote {
     text-align: right;
 
     &.says {
-      @include _font-size(25px);
+      font-family: "Space Grotesk", sans-serif;
+      @include _font-size(24px);
       @include _line-height(30px);
+      font-weight: 500;
       color: $color-quote-text;
       padding: 0 0 0 2.5rem;
       position: relative;
       text-align: left;
-
-      &:before {
-        @include _font-size(48px);
-        content: '“';
-        font-weight: bold;
-        left: 0;
-        line-height: 150%;
-        position: absolute;
-        top: -2px;
-        vertical-align: top;
-      }
-
-      &:after {
-        @include _font-size(48px);
-        color: $color-quote-text;
-        content: '”';
-        font-weight: bold;
-        line-height: 150%;
-        vertical-align: top;
-      }
     }
   }
-}
-
-h4,
-p,
-label {
-
-  a,
-  a:visited,
-  a:active {
-    border-bottom: 1px dotted $color-text-tertiary;
-    color: $color-text-tertiary;
-    text-decoration: none;
-  }
-
-  a:hover {
-    border-bottom: 1px solid $color-text-tertiary;
-    color: $color-text-tertiary;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
 }
 
 @media (min-width: $desktop-large-min-width) {
@@ -177,7 +151,7 @@ label {
   }
 
   body {
-    font-size: 21px;
+    font-size: 18px;
   }
 }
 
@@ -187,7 +161,7 @@ label {
   }
 
   body {
-    font-size: 20px;
+    font-size: 17px;
   }
 }
 
@@ -197,7 +171,7 @@ label {
   }
 
   body {
-    font-size: 19px;
+    font-size: 16px;
   }
 }
 
@@ -207,7 +181,7 @@ label {
   }
 
   body {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
@@ -217,6 +191,6 @@ label {
   }
 
   body {
-    font-size: 17px;
+    font-size: 14px;
   }
 }

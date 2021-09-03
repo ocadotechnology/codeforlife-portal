@@ -43,10 +43,11 @@ class NewsletterForm(forms.Form):
         label_suffix="",
         widget=forms.EmailInput(
             attrs={
-                "placeholder": "your.name@yourdomain.com",
+                "placeholder": "Your email address",
                 "id": "newsletter_email_field",
             }
         ),
+        help_text="Enter email address above",
     )
 
 

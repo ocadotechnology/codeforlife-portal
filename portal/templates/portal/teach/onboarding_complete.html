@@ -2,20 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
@@ -43,8 +29,6 @@
 {% endblock setupCompleteStep %}
 
 {% block content %}
-{{ block.super }}
-
 <div class="background">
     <section>
         <h2>Congratulations! Your setup is now complete</h2>
@@ -57,7 +41,7 @@
                 <p>We&rsquo;ve designed a comprehensive range of teaching resources including session plans, pupil resources and assessment tools.</p>
                 <p>There are also videos to help you and your class understand what you and your class will be learning next.</p>
                 <div class="background">
-                    <a href="{% url 'teaching_resources' %}" class="button button--regular button--secondary button--secondary--dark">View resources</a>
+                    <a href="{% url 'teaching_resources' %}" class="button button--secondary button--secondary--dark">View resources</a>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -69,7 +53,7 @@
                     <a href="{% url 'scoreboard' %}">scoreboards</a> and find
                     <a href="{% url 'teacher_level_solutions' %}">solutions</a> to the levels.</p>
                 <div class="background">
-                    <a href="{% url 'levels' %}" class="button button--regular button--secondary button--secondary--dark">Play Rapid Router</a>
+                    <a href="{% url 'levels' %}" class="button button--secondary button--secondary--dark">Play Rapid Router</a>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -79,7 +63,7 @@
                     administrate your school or club.</p>
                 <p>If you are the school administrator you can invite other teachers to join your school.</p>
                 <div class="background">
-                    <a href="{% url 'dashboard' %}" class="button button--regular button--secondary button--secondary--dark">Go to my dashboard</a>
+                    <a href="{% url 'dashboard' %}" class="button button--secondary button--secondary--dark">Go to my dashboard</a>
                 </div>
             </div>
         </div>

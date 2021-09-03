@@ -2,21 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block secondaryButtons %}
-<a class="button--menu button--menu--secondary button--menu--teacher--active">School / Club</a>
-{% if onboarding_done %}
-<a class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
-<a class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
-<a class="button--menu button--menu--secondary button--menu--enabled">Teaching Resources</a>
-{% else %}
-<a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
-<a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
-<a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
-{% endif %}
-{% endblock secondaryButtons %}
-
 {% block subNav %}
-{{ block.super }}
 {% if not onboarding_done %}
 <div class="banner banner--teacher--plain">
     <h1 class="col-sm-offset-2">Welcome, {{ user|make_into_username }}</h1>
