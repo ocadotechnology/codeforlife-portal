@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v4.36.1 (2021-09-03)
+### Fix
+* Privacy Policy update ([#1526](https://github.com/ocadotechnology/codeforlife-portal/issues/1526)) ([`e6943f5`](https://github.com/ocadotechnology/codeforlife-portal/commit/e6943f59b9db192e309eb7abd347f360cd6abb4c))
+
 ## v4.36.0 (2021-09-03)
 ### Feature
 * Version bump ([#1525](https://github.com/ocadotechnology/codeforlife-portal/issues/1525)) ([`ec6d589`](https://github.com/ocadotechnology/codeforlife-portal/commit/ec6d5896f7b571c91aca489da590a7cda24236c4))
