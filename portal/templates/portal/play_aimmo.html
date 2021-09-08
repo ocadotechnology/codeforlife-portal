@@ -3,22 +3,8 @@
 {% load app_tags %}
 {% load headline_tags %}
 {% load benefits_tags %}
-{% load cache %}
-
-{% block nav_play %}<a href="{% url_for_aimmo_dashboard %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block aimmo %}<a href="{% url_for_aimmo_dashboard %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Kurono</a>{% endblock aimmo %}
-
-
-{% block css %}
-{{block.super}}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
 
 {% block subNav %}
-{{ block.super }}
 <div class="banner--aimmo--blurred-background">
     <div class="banner--aimmo-landing--content">
         <div>
@@ -26,7 +12,7 @@
         </div>
         <div>
             <a href="{% url_for_aimmo_dashboard %}"
-               class="button button--big button-primary button--primary--general-educate">
+               class="button button--primary">
                 {% if user|is_logged_in %}
                     Play
                 {% else %}
@@ -39,48 +25,36 @@
 {% endblock subNav %}
 
 {% block content %}
-{{block.super}}
 
-{% cache 3600 play_aimmo_page %}
-
-<div class="background">
-    <section>
-        {% headline headline_name="HEADLINE" %}
-    </section>
-</div>
-<section class="background">
-    {% benefits %}
+<section>
+    {% headline headline_name="HEADLINE" %}
 </section>
-<div class="background">
-    <section class="banner--aimmo--video--container">
-        <video autoplay muted loop class="banner banner--aimmo--video">
-            <source src="{% static 'portal/video/aimmo_challenges_background_video.mp4' %}">
-        </video>
-        <div class="banner banner--aimmo--video--text">
-            <h1>Challenges</h1>
-            <h4 class="col-sm-6 col-center">Individual and collaborative challenges keep students engaged and having fun.</h4>
-            <h4>(Coming soon)</h4>
-        </div>
-    </section>
-</div>
-<div class="background">
-    <section>
+{% benefits %}
+<section class="banner--aimmo--video--container">
+    <video autoplay muted loop class="banner banner--aimmo--video">
+        <source src="{% static 'portal/video/aimmo_challenges_background_video.mp4' %}">
+    </video>
+    <div class="banner banner--aimmo--video--text">
+        <h1>Challenges</h1>
+        <h4 class="col-sm-6 col-center">Individual and collaborative challenges keep students engaged and having fun.</h4>
+        <h4>(Coming soon)</h4>
+    </div>
+</section>
+<section class="background--primary">
+    <div class="background">
         {% headline headline_name="TEACHING_RESOURCES" %}
-        <a href="{% url 'teaching_resources' %}" >
-            <img src="{% static 'portal/img/teaching_resources.png' %}">
-        </a>
-    </section>
-</div>
-<div class="background row">
-    <section class="col-center">
-        {% headline headline_name="PLAY_ONLINE" %}
-        <a href="{% url_for_aimmo_dashboard %}">
-            <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
-                <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
-            </video>
-        </a>
-    </section>
-</div>
+    </div>
+    <a href="{% url 'teaching_resources' %}" >
+        <img src="{% static 'portal/img/teaching_resources.png' %}">
+    </a>
+</section>
+<section class="background">
+    {% headline headline_name="PLAY_ONLINE" %}
+    <a href="{% url_for_aimmo_dashboard %}">
+        <video autoplay muted loop class="col-sm-12 col-md-8 col-lg-8 col-center video--aimmo--play-online">
+            <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
+        </video>
+    </a>
+</section>
 
-{% endcache %}
 {% endblock content %}

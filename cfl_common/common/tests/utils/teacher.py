@@ -47,7 +47,6 @@ from . import email
 
 def generate_details(**kwargs):
     random_int = random.randint(1, sys.maxsize)
-    title = kwargs.get("title", "Mr")
     first_name = kwargs.get("first_name", "Test")
     last_name = kwargs.get("last_name", f"Teacher {random_int}")
     email_address = kwargs.get(
@@ -56,7 +55,7 @@ def generate_details(**kwargs):
     )
     password = kwargs.get("password", "Password2")
 
-    return title, first_name, last_name, email_address, password
+    return first_name, last_name, email_address, password
 
 
 def signup_teacher_directly(preverified=True, **kwargs):
@@ -67,10 +66,8 @@ def signup_teacher_directly(preverified=True, **kwargs):
     :param preverified: whether or not the teacher's email should be verified.
     :return: the teacher's email and password.
     """
-    title, first_name, last_name, email_address, password = generate_details(**kwargs)
-    teacher = Teacher.objects.factory(
-        title, first_name, last_name, email_address, password
-    )
+    first_name, last_name, email_address, password = generate_details(**kwargs)
+    teacher = Teacher.objects.factory(first_name, last_name, email_address, password)
     generate_token(teacher.new_user, preverified=preverified)
     teacher.user.save()
     return email_address, password
@@ -79,10 +76,8 @@ def signup_teacher_directly(preverified=True, **kwargs):
 def signup_duplicate_teacher_fail(page, duplicate_email):
     page = page.go_to_signup_page()
 
-    title, first_name, last_name, email_address, password = generate_details()
-    page = page.signup(
-        title, first_name, last_name, duplicate_email, password, password
-    )
+    first_name, last_name, email_address, password = generate_details()
+    page = page.signup(first_name, last_name, duplicate_email, password, password)
 
     page = page.return_to_home_page()
 
@@ -95,9 +90,8 @@ def signup_duplicate_teacher_fail(page, duplicate_email):
 def signup_teacher(page, newsletter=False):
     page = page.go_to_signup_page()
 
-    title, first_name, last_name, email_address, password = generate_details()
+    first_name, last_name, email_address, password = generate_details()
     page = page.signup(
-        title,
         first_name,
         last_name,
         email_address,
@@ -126,9 +120,8 @@ def verify_email(page):
 def submit_teacher_signup_form(page, password="test"):
     page = page.go_to_signup_page()
 
-    title, first_name, last_name, email_address, _ = generate_details()
+    first_name, last_name, email_address, _ = generate_details()
     return page.signup(
-        title,
         first_name,
         last_name,
         email_address,

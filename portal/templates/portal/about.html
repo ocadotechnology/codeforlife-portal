@@ -3,24 +3,11 @@
 {% load app_tags %}
 {% load banner_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{{ block.super }}
-
 <div class="background">
     <section>
         <div class="col-sm-6 col-center">
@@ -29,27 +16,27 @@
         <div class="col-sm-8 col-center">
             <div class="row homepage-info">
                 <div class="col-sm-4">
-                    <h1>16%</h1>
+                    <h2>16%</h2>
                     <p class="col-sm-11 col-center">of university computer science graduates (2018/19) in the UK were women
                         <a href="https://www.wisecampaign.org.uk/statistics/core-stem-graduates-2019/">*</a>.
                         We want both boys and girls to feel inspired and
                     confident about technology from a young age.</p>
                 </div>
                 <div class="col-sm-4">
-                    <h1>350,000</h1>
+                    <h2>> 350,000</h2>
                     <p class="col-sm-11 col-center">registered users across the world, and growing everyday.</p>
                 </div>
                 <div class="col-sm-4">
-                    <h1>2014</h1>
-                    <p class="col-sm-11 col-center">The year that computing was added to the UK curriculum. We&rsquo;ve been supporting teachers and students ever since.</p>
+                    <h2>2014</h2>
+                    <p class="col-sm-11 col-center">The year that computing was added to the UK curriculum. We've been supporting teachers and students ever since.</p>
                 </div>
             </div>
         </div>
     </section>
-    <div class="col-sm-8 col-center">
+    <div class="col-sm-8 col-center background">
         <div class="row">
             <div class="col-sm-7">
-                <h3>Ocado Technology</h3>
+                <h5>Ocado Technology</h5>
                 <p><a target="_blank" href="https://www.ocadogroup.com/technology/technology-pioneers">Ocado Technology</a>,
                     the UK-based online grocery technology pioneer, is powering the future of online retail through disruptive innovation.
                     Our mission is to transform online grocery retail and enable some of the world's most forward-thinking retailers
@@ -62,10 +49,10 @@
                 </p>
             </div>
             <div class="col-sm-5">
-                <h3>In partnership with teachers</h3>
+                <h5>In partnership with teachers</h5>
                 <p>The Ocado Technology Code for Life resources are designed for and tested by, primary school teachers.</p>
                 <p>Our aim is to teach children the basic principles of coding, to help them flourish in an increasingly digital world. And in the coming
-                    years, we&rsquo;ll extend our resources to support pupils throughout their school career and beyond.</p>
+                    years, we'll extend our resources to support pupils throughout their school career and beyond.</p>
             </div>
         </div>
     </div>
@@ -73,16 +60,16 @@
 
 <div class="background background--primary">
     <section>
-        <h2>We couldn&rsquo;t do it without you!</h2>
+        <h4>We couldn't do it without you!</h4>
     </section>
     <div class="row">
         <div class="col-sm-8 col-center">
             <div class="col-sm-6">
-                <h3>Our team and volunteers</h3>
+                <h5>Our team and volunteers</h5>
                 <p>Code for Life would not have been possible without the time and skills volunteered by our talented
                     developers and creatives at Ocado Technology. Thank you to everyone who has helped us get to where we are now.</p>
 
-                <h3>Want to get involved?</h3>
+                <h5>Want to get involved?</h5>
                 <p>We are open source, so anyone can ask to contribute. You can play with game-running JavaScript, Python/Django, animation
                     using SVG and Raphael, and a lot more. We&rsquo;d like input from all sorts of backgrounds, whether you&rsquo;re: a programmer looking for a
                     creative outlet; a teacher hoping to shape the resources;
@@ -91,17 +78,17 @@
                     or even a pupil putting your skills to the test.</p>
             </div>
             <div class="col-sm-6">
-                <h4>Developers</h4>
+                <h5>Developers</h5>
                 <p>To contribute, head over to <a target="_blank" href="https://github.com/ocadotechnology/codeforlife-portal">GitHub</a>,
                     check out the issue tracker, and get started. There you can suggest new features or assign yourself an issue to develop (you&rsquo;ll find
                     more info about how to do this on GitHub).</p>
-                <h4>Teachers, parents, and creatives</h4>
+                <h5>Teachers, parents, and creatives</h5>
                 <p>Please get in touch through our <a class="freshdesk__contact-us">contact</a> form and let us know how you would like to get involved.</p>
             </div>
         </div>
     </div>
-    <section class="col-sm-8 col-center">
-        <h3>We would like to thank our friends who have contributed to this initiative</h3>
+    <section class="col-sm-8 col-center background">
+        <h6>We would like to thank our friends who have contributed to this initiative</h6>
         <div class="row image-row">
             <img title="10x" alt="10x logo" src="{% static 'portal/img/10x_logo.png' %}">
             <img title="BCS" alt="BCS logo" src="{% static 'portal/img/bcs_logo.png' %}">
@@ -119,9 +106,9 @@
 </div>
 
 <section class="background col-sm-5 col-center">
-    <h3>Dedicated to Sharon Harrison</h3>
+    <h4>Dedicated to Sharon Harrison</h4>
     <img title="Sharon Harrison" alt="Sharon Harrison portrait" class="portrait" src="{% static 'portal/img/sharon_harrison.jpg' %}">
-    <h4>1956 &mdash; 2015</h4>
+    <h5>1956 &mdash; 2015</h5>
     <p>Sharon was instrumental in helping to create Code for Life. At the beginning of 2014 she was recruited to act as our Educational Consultant.
         The project drew on her previous skills as a pioneering computing teacher and education consultant.</p>
     <p>Sharon has left a lasting legacy by creating something which will help teach STEM skills to the next generation of computer scientists across

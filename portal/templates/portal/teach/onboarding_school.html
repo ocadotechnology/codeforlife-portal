@@ -2,19 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block content %}
-{{ block.super }}
-
 <script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
 <script>
     var FUZZY_NAME_FIELD_ID = "{{ join_form.fuzzy_name.auto_id }}";
@@ -43,7 +31,7 @@
             {% csrf_token %}
 
             <div class="section group">
-                <button class="button--regular button--secondary button--secondary--dark" type="submit"
+                <button class="button button--secondary button--secondary--dark" type="submit"
                         name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}</button>
             </div>
 
@@ -55,8 +43,8 @@
 <div class="background background--primary">
     <div class="form col-sm-8 col-center">
         <section class="background">
-            <h3>It looks like you&rsquo;ve already created your school ({{ user.new_teacher.school.name }})</h3>
-            <a href="{% url 'onboarding-classes' %}" class="button button--regular button--primary--general-play" >Add a class</a>
+            <h4>It looks like you've already created your school ({{ user.new_teacher.school.name }})</h4>
+            <a href="{% url 'onboarding-classes' %}" class="button button--primary">Add a class</a>
         </section>
     </div>
 </div>
@@ -87,7 +75,7 @@
                 {% endfor %}
 
                 <div class="section group">
-                    <button type="submit" class="button--regular button-primary button--primary--general-play" name="create_organisation">Create school or club</button>
+                    <button type="submit" class="button button--primary" name="create_organisation">Create school or club</button>
                 </div>
 
             </form>
@@ -108,7 +96,7 @@
                 {{ join_form.chosen_org.errors }}
 
                 <div class="section group">
-                    <button type="submit" class="button--regular button-primary button--primary--general-play" name="join_organisation">Join school or club</button>
+                    <button type="submit" class="button button--primary" name="join_organisation">Join school or club</button>
                 </div>
 
             </form>

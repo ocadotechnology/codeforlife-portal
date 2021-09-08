@@ -18,32 +18,12 @@ img {
 }
 
 .background {
-  padding-top: 4rem;
+  padding-top: 2rem;
   padding-bottom: 4rem;
 }
 
 .background--primary {
   background-color: $color-background-tint-primary;
-}
-
-.background--secondary {
-  background-color: $color-background-tint-secondary;
-}
-
-.background--tertiary {
-  background-color: $color-background-tint-tertiary;
-}
-
-.background--quaternary {
-  background-color: $color-background-tint-quaternary;
-}
-
-.background--quinary {
-  background-color: $color-background-tint-quinary;
-
-  .background--quinary__title {
-    margin: 0;
-  }
 }
 
 .bg-image {
@@ -73,16 +53,13 @@ img {
 }
 
 .portrait {
-  border-radius: 50%;
   display: block;
   margin: auto;
 }
 
 .logo {
-  content: url("../img/logo_c4l_hexa.png");
-  position: fixed;
-  top: 10px;
-  z-index: $nav-bar-level + 2;
+  @include _padding($spacing * 3, $spacing * 14, $spacing * 3, $spacing * 3);
+  content: url("../img/logo_cfl.png");
 }
 
 .glyphicon {
@@ -124,44 +101,18 @@ img {
 }
 
 .educate-homepage {
-  content: url("../img/home_educate_hero_hexagon.png");
-  height: 350px;
-}
-
-.play-homepage {
-  content: url("../img/home_play_hero_hexagon_games.png");
-  height: 350px;
-  width: 100%;
+  content: url("../img/home_educate.png");
+  width: 70%;
   object-fit: contain;
 }
 
-@media (min-width: $tablet-small-min-width) and (max-width: $desktop-large-max-width) {
-  .logo {
-    margin-left: 1%;
-  }
-}
-
-@media (max-width: $tablet-large-max-width) {
-  .logo {
-    height: 60px;
-  }
-}
-
-@media (min-width: $tablet-small-min-width) {
-  .logo {
-    content: url("../img/logo_c4l_hexa.png");
-    position: fixed;
-    top: 10px;
-    z-index: $nav-bar-level + 2;
-  }
+.play-homepage {
+  content: url("../img/home_play.png");
+  width: 70%;
+  object-fit: contain;
 }
 
 @media (max-width: $mobile-max-width) {
-  .logo {
-    position: relative;
-    height: $cfl-logo-height-xs;
-  }
-
   .image-row {
     align-items: center;
     flex-direction: column;

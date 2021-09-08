@@ -87,7 +87,6 @@ class TestRatelimit(TestCase):
         self.client.post(
             reverse("dashboard"),
             {
-                "title": "Mr",
                 "first_name": "Test",
                 "last_name": "User",
                 "email": "",

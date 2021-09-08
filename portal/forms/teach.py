@@ -51,38 +51,22 @@ from portal.helpers.password import form_clean_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.templatetags.app_tags import is_verified
 
-choices = [
-    ("Miss", "Miss"),
-    ("Mrs", "Mrs"),
-    ("Ms", "Ms"),
-    ("Mr", "Mr"),
-    ("Dr", "Dr"),
-    ("Rev", "Rev"),
-    ("Sir", "Sir"),
-    ("Dame", "Dame"),
-]
-
 
 class TeacherSignupForm(forms.Form):
 
-    teacher_title = forms.ChoiceField(
-        label="Title", choices=choices, widget=forms.Select(attrs={"class": "wide"})
-    )
     teacher_first_name = forms.CharField(
         label="First name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Grace"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
     teacher_last_name = forms.CharField(
         label="Last name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Hopper"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
     )
     teacher_email = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(
-            attrs={"autocomplete": "off", "placeholder": "grace.hopper@navy.mil"}
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off"}),
     )
 
     newsletter_ticked = forms.BooleanField(
@@ -116,11 +100,6 @@ class TeacherSignupForm(forms.Form):
 
 class TeacherEditAccountForm(forms.Form):
 
-    title = forms.ChoiceField(
-        label="Title",
-        choices=choices,
-        widget=forms.Select(attrs={"placeholder": "Title", "class": "wide"}),
-    )
     first_name = forms.CharField(
         label="First name",
         max_length=100,

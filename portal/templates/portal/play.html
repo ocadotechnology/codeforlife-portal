@@ -5,28 +5,12 @@
 {% load game_banner_tags %}
 {% load headline_tags %}
 {% load benefits_tags %}
-{% load cache %}
-
-{% block nav_play %}<a href="{% url 'play' %}" class="button--menu button--menu--primary button--menu--enabled button--menu--student--active">Students</a>{% endblock nav_play %}
-{% block rapidrouter %}<a href="{% url 'play_rapid_router' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">Rapid Router</a>{% endblock rapidrouter %}
-
-{% block css %}
-{{block.super}}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
 
 {% block subNav %}
-{{ block.super }}
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
 {% block content %}
-{{block.super}}
-
-{% cache 3600 play_page %}
 
 <section class="background">
     {% headline headline_name="HEADLINE" %}
@@ -41,5 +25,4 @@
     {% game_banner game_banner_name="KURONO_BANNER" %}
 </div>
 
-{% endcache %}
 {% endblock content %}

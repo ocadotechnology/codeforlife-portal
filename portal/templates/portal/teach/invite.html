@@ -2,34 +2,20 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block pageID %}id='homeWrapper'{% endblock %}
-
 {% block content %}
-
-<div class="background form--register form--register--teacher col-sm-12">
-    <div class="background">
-        <div class="background">
-            <h1>Invite a teacher</h1>
-            <p>To invite another teacher from your school or club to join Code for Life,</p>
-            <p>Just put <b>their email address</b> in the field below.</p>
-        </div>
-        <form action="{% url 'invite_teacher' %}" method="post" class="col-md-6 col-md-offset-3">
+<div class="form--register form--register--teacher is-flex">
+    <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
+        <h4>Invite a teacher</h4>
+        <p>To invite another teacher from your school or club to join Code for Life, just put <b>their email address</b> in the field below.</p>
+        <form action="{% url 'invite_teacher' %}" method="post">
             {{ invite_form.non_field_errors }}
             <div class="btn-toolbar" >
                 {% csrf_token %}
                 {{ invite_form.email }}
                 {{ invite_form.email.errors }}
                 <div class="background button-group">
-                    <a href="{% url 'dashboard' %}" class="button button--regular button--secondary button--secondary--light">Cancel</a>
-                    <button type="submit" name="submit" value="Submit" class="button button-primary button--primary--general-educate">Submit</button>
+                    <a href="{% url 'dashboard' %}" class="button button--secondary button--secondary--light">Cancel</a>
+                    <button type="submit" name="submit" value="Submit" class="button button--primary">Submit</button>
                 </div>
             </div>
         </form>

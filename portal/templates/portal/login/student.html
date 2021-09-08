@@ -2,27 +2,13 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
-{% block subNav %}
-{{ block.super }}
-<div id="student_login_page"></div>
-{% endblock subNav %}
-
 {% block content %}
-{{ block.super }}
+<div id="student_login_page"></div>
+
 <section class="row">
     <div class="form--register is-flex form--register--student">
         <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
-            <h1 class="center-block">Log in as a student</h1>
+            <h4 class="center-block">Log in as a student</h4>
             <form id="form-login-school" method="post" autocomplete="off">
 
                 {% csrf_token %}
@@ -43,7 +29,7 @@
 
                 {{ form.captcha }}
 
-                <button type="submit" name="school_login" class="button--regular button--primary--general-play button--login"
+                <button type="submit" name="school_login" class="button button--primary button--login"
                         onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
             </form>
 

@@ -8,5 +8,5 @@ def privacy_policy(request):
     return render(
         request,
         "portal/privacy_policy.html",
-        {"BANNER": PRIVACY_POLICY_BANNER, "last_updated": "19th April 2021"},
+        {"BANNER": PRIVACY_POLICY_BANNER, "last_updated": "3rd September 2021"},
     )

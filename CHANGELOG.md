@@ -2,6 +2,45 @@
 
 <!--next-version-placeholder-->
 
+## v5.0.0 (2021-09-04)
+### Feature
+* Major version bump for rebranding phase 1 ([#1527](https://github.com/ocadotechnology/codeforlife-portal/issues/1527)) ([`592857f`](https://github.com/ocadotechnology/codeforlife-portal/commit/592857fd4524bba82f96171e6e66a357795daea4))
+
+### Breaking
+* major version bump for rebranding phase 1 ([#1527](https://github.com/ocadotechnology/codeforlife-portal/issues/1527)) ([`592857f`](https://github.com/ocadotechnology/codeforlife-portal/commit/592857fd4524bba82f96171e6e66a357795daea4))
+
+## v4.36.1 (2021-09-03)
+### Fix
+* Privacy Policy update ([#1526](https://github.com/ocadotechnology/codeforlife-portal/issues/1526)) ([`e6943f5`](https://github.com/ocadotechnology/codeforlife-portal/commit/e6943f59b9db192e309eb7abd347f360cd6abb4c))
+
+## v4.36.0 (2021-09-03)
+### Feature
+* Version bump ([#1525](https://github.com/ocadotechnology/codeforlife-portal/issues/1525)) ([`ec6d589`](https://github.com/ocadotechnology/codeforlife-portal/commit/ec6d5896f7b571c91aca489da590a7cda24236c4))
+
+## v4.35.0 (2021-09-03)
+### Feature
+* Rebranding 1 - footer ([#1511](https://github.com/ocadotechnology/codeforlife-portal/issues/1511)) ([`249df12`](https://github.com/ocadotechnology/codeforlife-portal/commit/249df12bbe91085115ee25f1a7fb63f29d64dcd1))
+* Rebranding colours, fonts, landing page ([#1496](https://github.com/ocadotechnology/codeforlife-portal/issues/1496)) ([`eab81ee`](https://github.com/ocadotechnology/codeforlife-portal/commit/eab81eeab3a66d9482e340e56101e620c591bb86))
+* Remove teacher title ([#1508](https://github.com/ocadotechnology/codeforlife-portal/issues/1508)) ([`1d0c9b5`](https://github.com/ocadotechnology/codeforlife-portal/commit/1d0c9b559e4a8c223312bfb476f6706f9b17e28e))
+* Rebranding navbar ([#1495](https://github.com/ocadotechnology/codeforlife-portal/issues/1495)) ([`717a765`](https://github.com/ocadotechnology/codeforlife-portal/commit/717a765cde126bb91336a3eb1408e95702897f53))
+
+### Fix
+* Remove page caches ([#1522](https://github.com/ocadotechnology/codeforlife-portal/issues/1522)) ([`de51c42`](https://github.com/ocadotechnology/codeforlife-portal/commit/de51c4226fb9029bae6f760818f8c8df7feb90d8))
+* Rebranding adjustments ([#1521](https://github.com/ocadotechnology/codeforlife-portal/issues/1521)) ([`a00b6b1`](https://github.com/ocadotechnology/codeforlife-portal/commit/a00b6b115337ee028e058dc936fda956b20fe2fa))
+* Footer fixes and old base removal ([#1519](https://github.com/ocadotechnology/codeforlife-portal/issues/1519)) ([`fa2d9ad`](https://github.com/ocadotechnology/codeforlife-portal/commit/fa2d9ad64ad29b8c989e01245467ba8225247d70))
+* Mobile navbar buttons max width, padding, Ocado logo, account icon, dropdown ([#1520](https://github.com/ocadotechnology/codeforlife-portal/issues/1520)) ([`e242f9c`](https://github.com/ocadotechnology/codeforlife-portal/commit/e242f9cc5d3c9089d0cfb87ded0ef3bc11b04216))
+* Fix test ([`c9c2381`](https://github.com/ocadotechnology/codeforlife-portal/commit/c9c2381a994315985045102704d96e881e8de2ac))
+* Button updates etc ([#1517](https://github.com/ocadotechnology/codeforlife-portal/issues/1517)) ([`1e599e6`](https://github.com/ocadotechnology/codeforlife-portal/commit/1e599e602592890b14da3bed9f8ee169d5964846))
+* Rebranding logo spacing ([#1516](https://github.com/ocadotechnology/codeforlife-portal/issues/1516)) ([`1614ac0`](https://github.com/ocadotechnology/codeforlife-portal/commit/1614ac0d20af98f26f53e88b0f10220db49813fe))
+* Rebranding1 button fixes ([#1515](https://github.com/ocadotechnology/codeforlife-portal/issues/1515)) ([`86514e3`](https://github.com/ocadotechnology/codeforlife-portal/commit/86514e3aeb9a0fd1f31ea3f72d301d5d91f3fa07))
+* Rebranding amends ([#1513](https://github.com/ocadotechnology/codeforlife-portal/issues/1513)) ([`487d214`](https://github.com/ocadotechnology/codeforlife-portal/commit/487d2145bf9019a8d629b20200a2b598eecb753a))
+* Rebranding1 updates - buttons and such ([#1514](https://github.com/ocadotechnology/codeforlife-portal/issues/1514)) ([`8882b92`](https://github.com/ocadotechnology/codeforlife-portal/commit/8882b92c333bc216ccfe026b313e33e2a40e2a50))
+* Update icons on home page ([#1512](https://github.com/ocadotechnology/codeforlife-portal/issues/1512)) ([`6436e23`](https://github.com/ocadotechnology/codeforlife-portal/commit/6436e23543f72e62694e5b0bbbd666a450e2ed45))
+
+## v4.34.0 (2021-08-11)
+### Feature
+* Add function teacher_logout to HomePage ([#1497](https://github.com/ocadotechnology/codeforlife-portal/issues/1497)) ([`aaa9ace`](https://github.com/ocadotechnology/codeforlife-portal/commit/aaa9ace3be5bb19156fa7bf973782759ccd97e85))
+
 ## v4.33.0 (2021-08-03)
 ### Feature
 * Add contributor pages ([#1493](https://github.com/ocadotechnology/codeforlife-portal/issues/1493)) ([`47c6833`](https://github.com/ocadotechnology/codeforlife-portal/commit/47c683346c17eba91e7e574c95ef04836e499414))

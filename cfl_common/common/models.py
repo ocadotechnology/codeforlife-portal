@@ -71,7 +71,7 @@ class School(models.Model):
 
 
 class TeacherModelManager(models.Manager):
-    def factory(self, title, first_name, last_name, email, password):
+    def factory(self, first_name, last_name, email, password):
         user = User.objects.create_user(
             username=email,
             email=email,
@@ -82,11 +82,10 @@ class TeacherModelManager(models.Manager):
 
         user_profile = UserProfile.objects.create(user=user)
 
-        return Teacher.objects.create(user=user_profile, new_user=user, title=title)
+        return Teacher.objects.create(user=user_profile, new_user=user)
 
 
 class Teacher(models.Model):
-    title = models.CharField(max_length=35)
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(
         User,

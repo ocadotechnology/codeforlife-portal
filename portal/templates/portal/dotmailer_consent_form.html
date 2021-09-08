@@ -1,11 +1,7 @@
 {% extends 'portal/base.html' %}
 
-{% block subNav %}
-{{ block.super }}
-{% endblock subNav %}
-
 {% block content %}
-{{block.super}}
+
 <div class="background background--primary">
     <div class="col-sm-6 col-center">
         <h3>Your communication preferences</h3>
@@ -24,8 +20,7 @@
                 <p>I confirm that I am happy to continue receiving email communication from Code for Life.</p>
             </div>
 
-            <button class="button button-primary button--primary--general-educate" type="submit"
-                    value="Confirm">Confirm</button>
+            <button class="button button-primary" type="submit" value="Confirm">Confirm</button>
         </form>
     </div>
 </div>

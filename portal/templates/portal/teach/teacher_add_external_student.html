@@ -1,22 +1,17 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
 {% block content %}
-
 <div id="add_independent_student_to_class"></div>
 
 <section class="background col-sm-6 col-center">
-    <h2>Add external student to class {{ class.name }} ({{ class.access_code }})</h2>
+    <h4>Add external student to class {{ class.name }} ({{ class.access_code }})</h4>
 </section>
 
 <div class="col-sm-8 col-center">
     <div class="row">
         <div class="col-sm-5">
-            <h3>Students currently in class</h3>
+            <h4>Students currently in class</h4>
             {% if students %}
             <p>{{ student.new_user.username }}, the new external student, will be joining students in the class
                 {{ class.name }} ({{ class.access_code }}).</p>
@@ -35,8 +30,8 @@
                 ({{ class.access_code }}) in which there are currently no other students.</p>
             {% endif %}
         </div>
-        <div class="col-sm-6 col-sm-offset-1 background--quaternary">
-            <h3>Add external student</h3>
+        <div class="col-sm-6 col-sm-offset-1 background--primary">
+            <h4>Add external student</h4>
             <p>Please confirm the name of the new external student joining your class. Their name will be used in their new
                 login details, so please ensure it is different from any other existing student in the class.</p>
 
@@ -53,8 +48,8 @@
                 {% endfor %}
 
                 <section class="background button-group">
-                    <a class="button button--regular button--secondary button--secondary--dark" href="{% url 'dashboard' %}#classes">Cancel</a>
-                    <button id="save_student_name_button" type="submit" class="button--regular button--primary--navigation">Save</button>
+                    <a class="button button--secondary button--secondary--dark" href="{% url 'dashboard' %}#classes">Cancel</a>
+                    <button id="save_student_name_button" type="submit" class="button button--primary">Save</button>
                 </section>
             </form>
         </div>

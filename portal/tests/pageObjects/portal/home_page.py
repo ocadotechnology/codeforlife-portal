@@ -52,6 +52,11 @@ class HomePage(BasePage):
 
         return TeacherLoginPage(self.browser)
 
+    def teacher_logout(self):
+        self.browser.find_element_by_id("logout_menu").click()
+        self.browser.find_element_by_id("logout_button").click()
+        return HomePage(self.browser)
+
     def go_to_independent_student_login_page(self):
         self.browser.find_element_by_id("login_dropdown").click()
         self.browser.find_element_by_id("independent_login_button").click()

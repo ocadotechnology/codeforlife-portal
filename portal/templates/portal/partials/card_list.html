@@ -13,13 +13,13 @@
                 {% endif %}
             </div>
             <div class="card__text">
-                <h3 class="card__title">{{ card.title }}</h3>
+                <h5 class="card__title">{{ card.title }}</h5>
                 {% if card.description %}
                     <p>{{ card.description }}</p>
                 {% elif card.button_text %}
                     <div class="button-group button-group__icon">
-                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary--general-play">
-                            {{ card.button_text }}<div class="glyphicon glyphicon-menu-right"></div>
+                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary button-right-arrow">
+                            {{ card.button_text }}
                         </a>
                     </div>
                 {% endif %}

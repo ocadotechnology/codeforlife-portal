@@ -2,16 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block css %}
-{{ block.super }}
-{% endblock css %}
-
-{% block scripts %}
-{{ block.super }}
-{% endblock scripts %}
-
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
@@ -24,8 +14,6 @@
 {% endblock createClassStep %}
 
 {% block content %}
-{{ block.super }}
-
 <div id="onboarding_classes_page"></div>
 
 {% if classes %}
@@ -33,8 +21,8 @@
     <div class="form col-sm-8 col-center">
         {% for class in classes %}
         <section class="background">
-            <h3>It looks like you&rsquo;ve already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
-            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class="button button--regular button--primary--general-play" >Add students</a>
+            <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
+            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class="button button--primary" >Add students</a>
         </section>
         {% endfor %}
     </div>
@@ -62,7 +50,7 @@
                 <div class="col span_1_of_3">
                     {{ form.classmate_progress }}
                 </div>
-                <button id="create_class_button" type="submit" class="button--regular button-primary button--primary--general-play">Create class</button>
+                <button id="create_class_button" type="submit" class="button button-primary">Create class</button>
             </div>
         </form>
     </div>

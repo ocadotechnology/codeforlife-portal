@@ -2,10 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block dashboard %}
-<a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled button--menu--teacher--active">School / Club</a>
-{% endblock dashboard %}
-
 {% block css %}
 {{ block.super }}
 <link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
@@ -17,40 +13,36 @@
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 {% endblock scripts %}
 
-{% block pageID %}id="homeWrapper"{% endblock %}
-
 {% block subNav %}
-{{ block.super }}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
-    <a href="{% url 'dashboard' %}#school" class="button button--regular button--secondary button--secondary--light">Your school</a>
-    <a href="{% url 'dashboard' %}#classes" class="button button--regular button--secondary button--secondary--light">Classes</a>
-    <a href="{% url 'dashboard' %}#account" class="button button--regular button--secondary button--secondary--light">Your Account</a>
+    <a href="{% url 'dashboard' %}#school" class="button button--secondary button--secondary--light">Your school</a>
+    <a href="{% url 'dashboard' %}#classes" class="button button--secondary button--secondary--light">Classes</a>
+    <a href="{% url 'dashboard' %}#account" class="button button--secondary button--secondary--light">Your Account</a>
 </div>
 {% endblock subNav %}
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
-{{ block.super }}
 
 <div id="teach_class_page"></div>
 
 <section class="background">
-    <h2>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h2>
-    <h4 class="col-sm-6 col-center">Here you can view and manage all of your students within this class. You can add new students, transfer
-        existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</h4>
-    <a href="#add_new_students" class="button button--regular button--secondary button--secondary--dark">Add students</a>
+    <h4>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h4>
+    <h6 class="col-sm-6 col-center">Here you can view and manage all of your students within this class. You can add new students, transfer
+        existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</h6>
+    <a href="#add_new_students" class="button button--secondary button--secondary--dark">Add students</a>
 </section>
 
 <div class="background col-sm-8 col-center">
     <div class="row">
         <div class="col-sm-6">
-            <h3>Current students</h3>
+            <h5>Current students</h5>
             <p>Select an individual student to change their details, including their name and password.</p>
             <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
                 make them an independent Code for Life user, or delete them permanently.</p>
         </div>
         <div class="col-sm-6">
-            <table id="student_table" class="student-table header-secondary data-quaternary">
+            <table id="student_table" class="student-table header-primary data-primary">
                 <tr class="student-table__header">
                     <th class="cell-center">
                         <p>Select</p>
@@ -59,7 +51,7 @@
                             <p><small>Select all</small></p>
                         </div>
                     </th>
-                    <th><p>Student details</p></th>
+                    <th class="cell-center">Student details</th>
                 </tr>
                 {% for student in students %}
                 <tr>
@@ -67,7 +59,7 @@
                     <td>
                         <div class="student-table__cell">
                             <p><small>{{ student.new_user.first_name }}</small></p>
-                            <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--small button--primary--positive">Edit</a>
+                            <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--small button--secondary button--secondary--dark">Edit</a>
                         </div>
                     </td>
                 </tr>
@@ -76,9 +68,9 @@
                     <td class="table-footer" colspan="3" rowspan="2">
                         <p><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
                         <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-                                id="moveSelectedStudents" class="button--small button--primary--navigation">Move</button>
+                                id="moveSelectedStudents" class="button--small button--primary">Move</button>
                         <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
-                                id="dismissSelectedStudents" class="button--small button--primary--navigation">Release</button>
+                                id="dismissSelectedStudents" class="button--small button--primary">Release</button>
                         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
                                 id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
                         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
@@ -91,14 +83,14 @@
     <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
-<div id="add_new_students" class="background background--quaternary">
+<div id="add_new_students" class="background background--primary">
     <div class="col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
-                <h3>Add new students</h3>
-                <p>Add the students&rsquo; names to the box below with one student name per line. Students&rsquo; names will be used in their login
+                <h4>Add new students</h4>
+                <p>Add the students' names to the box below with one student name per line. Students' names will be used in their login
                     details, and so each name should be unique.</p>
-                <p>You have the option to use students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
+                <p>You have the option to use students' first names only, or first and last names. Students' names and the class access code
                     are required to sign in.</p>
             </div>
             <div class="col-sm-6">
@@ -111,7 +103,7 @@
                     {{ new_students_form.names.errors }}
                     {{ new_students_form.names }}
 
-                    <button id="submitStudents" type="submit" class="button--regular button--primary--positive" name="new_students" value="Add students">Add students</button>
+                    <button id="submitStudents" type="submit" class="button button--primary" name="new_students" value="Add students">Add students</button>
                 </form>
             </div>
         </div>
@@ -119,14 +111,14 @@
 </div>
 
 <div class="background col-sm-8 col-center">
-    <h3>Edit other class settings</h3>
+    <h4>Edit other class settings</h4>
     <p>Here you may change the name of the class, transfer the class to another teacher in the school or club, create permissions for the class to
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
-        their classmates&rsquo; progress.</p>
+        their classmates' progress.</p>
     <div class="background button-group">
-        <a id="class_settings_button" href="{% url 'teacher_edit_class' class.access_code %}" class="button button--regular button--primary--positive">Edit settings</a>
+        <a id="class_settings_button" href="{% url 'teacher_edit_class' class.access_code %}" class="button button--primary">Edit settings</a>
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class' class.access_code %}')"
-                id="deleteClass" class="button--regular button--primary--danger">Delete class</button>
+                id="deleteClass" class="button button--primary button--primary--danger">Delete class</button>
     </div>
     <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>

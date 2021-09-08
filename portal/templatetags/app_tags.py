@@ -120,7 +120,7 @@ def make_into_username(u):
         if hasattr(u.userprofile, "student"):
             username = u.first_name
         elif hasattr(u.userprofile, "teacher"):
-            username = u.userprofile.teacher.title + " " + u.last_name
+            username = u.first_name + " " + u.last_name
 
     return username
 

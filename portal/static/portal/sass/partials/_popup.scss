@@ -19,7 +19,6 @@
 
   .popup-box {
     background-color: $color-background-secondary;
-    border-radius: $spacing;
     box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
     margin: 20% auto 0;
     overflow: hidden;
@@ -45,7 +44,6 @@
       .button {
         @include _margin(0px, 2 * $spacing, 2 * $spacing, 2 * $spacing);
         @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
-        border-radius: $spacing;
         border-style: solid;
       }
     }
