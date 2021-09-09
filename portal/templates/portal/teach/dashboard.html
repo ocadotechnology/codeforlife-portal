@@ -86,7 +86,7 @@
                         <button id="kick_button" class="button button--small button--primary--danger button-remove"
                                 onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
                             Remove</button>
-                    </td>                    
+                    </td>
                     <td class="cell-center">{% if coworker.new_user|has_2FA %}
                         <button class="button button--small button--primary--danger button-remove"
                                 onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
