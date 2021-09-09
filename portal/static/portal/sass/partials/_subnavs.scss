@@ -20,12 +20,8 @@
   }
 
   .dropdown {
-    .button--regular,
-    .button--regular:hover,
-    .button--regular:focus,
-    .button--regular:visited {
-      border: none;
-      margin: 0;
+    .button {
+      @include _margin(0px, 1px, 0px, 1px);
     }
   }
 
@@ -33,8 +29,8 @@
     width: 100%;
 
     .dropdown-menu__option {
-      .button--regular {
-        color: $color-text-tertiary;
+      .button {
+        border-bottom: 1px solid $color-button-outlined-border;
       }
     }
   }
@@ -130,10 +126,6 @@
 
 .sub-nav--student {
   background-color: $color-background-play;
-
-  .button--secondary--background-light {
-    color: $color-background-play;
-  }
 }
 
 .sub-nav__content {
@@ -201,7 +193,7 @@
     @include _padding(20px, 20px, 20px, 20px);
     height: auto;
 
-    .button--regular {
+    .button {
       @include _margin(0px, 3px, 0px, 3px);
     }
   }

@@ -18,10 +18,10 @@
 <div class="background background--primary">
     <div class="col-sm-6 col-center">
         <section>
-            <h2>Join a school</h2><br>
+            <h4>Join a school</h4><br>
         </section>
-        <h4>You have a pending request to join <b>{{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}</b>.<br>Once the administrator of your school or club has approved your request you will be able
-            to continue.</h4>
+        <h6>You have a pending request to join <b>{{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}</b>.<br>Once the administrator of your school or club has approved your request you will be able
+            to continue.</h6>
     </div>
     <div class="col-sm-6 col-center">
         <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
@@ -31,8 +31,9 @@
             {% csrf_token %}
 
             <div class="section group">
-                <button class="button button--secondary button--secondary--dark" type="submit"
-                        name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}</button>
+                <button class="button button--secondary button--secondary--dark button-block" type="submit"
+                    name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}
+                </button>
             </div>
 
         </form>
