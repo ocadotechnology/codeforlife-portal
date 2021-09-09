@@ -244,11 +244,6 @@
       color: $color-button-disabled;
     }
 
-    .button--secondary--no-border {
-      @include _font-size(30px);
-      font-weight: 500;
-    }
-
     .button--register {
       @include _margin(0px, $spacing * 6, 0px, 0px);
       justify-content: center;
