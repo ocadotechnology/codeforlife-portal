@@ -38,7 +38,7 @@ setup(
         "django-sekizai==2.0.0",
         "django-classy-tags==2.0.0",
         "Pillow==8.0.1",
-        "sqlparse==0.4.1",
+        "sqlparse==0.4.2",
         "libsass==0.20.1",
         "phonenumbers==8.12.12",
         "more-itertools==8.6.0",
