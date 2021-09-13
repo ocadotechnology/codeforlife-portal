@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.2.0 (2021-09-13)
+### Feature
+* Remove flags ([#1541](https://github.com/ocadotechnology/codeforlife-portal/issues/1541)) ([`4a6a0b3`](https://github.com/ocadotechnology/codeforlife-portal/commit/4a6a0b34ebc83fefa9f9dab1adf416a15939c29a))
+
 ## v5.1.0 (2021-09-13)
 ### Feature
 * Add index to terms of use ([#1538](https://github.com/ocadotechnology/codeforlife-portal/issues/1538)) ([`56a19ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/56a19ca97a5f193d1df1c747cc78412d366e6886))
