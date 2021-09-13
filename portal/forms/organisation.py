@@ -63,7 +63,7 @@ class OrganisationForm(forms.ModelForm):
             "postcode": forms.TextInput(
                 attrs={"autocomplete": "off", "placeholder": "Postcode"}
             ),
-            "country": CountrySelectWidget(attrs={"class": "wide"}),
+            "country": CountrySelectWidget(attrs={"class": "wide"}, layout="{widget}"),
         }
 
     def __init__(self, *args, **kwargs):
