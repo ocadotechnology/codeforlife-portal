@@ -44,7 +44,7 @@
                 administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
                 joining your organisation.</p>
 
-                  <a href="{% url 'invite_teacher' %}" class="button button--primary button-right-arrow" name="invite_teacher" >Invite Teacher</a>
+                  <a href="{% url 'invite_teacher' %}" class="button button--primary button-add-person" name="invite_teacher" >Invite a teacher</a>
         {% else %}
             <h5 class="col-sm-6 col-center">You can see which other teachers in your school or club are registered here. Should you need to leave the
                 school or club, you can do so below.</h5>
@@ -63,7 +63,7 @@
             <tr>
                 <th><p>Name</p></th>
                 <th><p>Administrator status</p></th>
-                <th colspan="3"><p>Status actions</p></th>
+                <th colspan="3"><p>Actions</p></th>
             </tr>
             {% for coworker in coworkers %}
             <tr>
@@ -73,23 +73,24 @@
                     ({{ coworker.new_user.email|emaildomain }}){% endif %}</small></p></td>
                 {% if coworker.new_user != user %}
                     <td class="cell-center">
-                        <button id="kick_button" class="button button--small button--primary--danger"
-                                onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
-                            Remove</button>
-                    </td>
-                    <td class="cell-center">
                         {% if coworker.is_admin %}
                             <button id="make_non_admin_button" class='button button--small button--primary'
                                onclick="postWithCsrf('{% url 'organisation_toggle_admin' coworker.id %}');">Make non-admin</button>
                         {% else %}
                             <button id="make_admin_button" class="button button--small button--primary"
-                                    onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
-                                Make admin</button></td>
+                                onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
+                                Make admin</button>
                         {% endif %}
+                    </td>
+                    <td class="cell-center">
+                        <button id="kick_button" class="button button--small button--primary--danger button-remove"
+                                onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
+                            Remove</button>
+                    </td>
                     <td class="cell-center">{% if coworker.new_user|has_2FA %}
-                        <button class="button button--small button--primary"
+                        <button class="button button--small button--primary--danger button-remove"
                                 onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
-                            Disable 2FA</button>{% endif %}</td>
+                            Remove 2FA</button>{% endif %}</td>
                 {% else %}
                     <td></td>
                     <td></td>
@@ -106,10 +107,10 @@
             with their smartphone or tablet.</p>
     </div>
     {% else %}
-    <div class="background background--primary secondary-table">
+    <div class="background secondary-table">
         <div class="col-sm-7 col-center">
             <h5>These teachers are already part of your school or club</h5>
-            <table class="header-primary">
+            <table class="header-primary data-primary">
                 <tr>
                     <th><p>Name</p></th>
                     <th><p>Administrator status</p></th>
@@ -148,7 +149,7 @@
                                             onclick="postWithCsrf('{% url 'organisation_allow_join' join_request.id %}');">Allow</button>
                                 </td>
                                 <td class="cell-center">
-                                     <button id="deny_button" class="button button--small button--primary--danger"
+                                     <button id="deny_button" class="button button--small button--primary--danger button-block"
                                         onclick="postWithCsrf('{% url 'organisation_deny_join' join_request.id %}');">Deny</button>
                                 </td>
                             </tr>
@@ -263,7 +264,7 @@
                             <form method="post" action="{% url 'teacher_reject_student_request' join_request.id %}">
                                 {% csrf_token %}
                                 <button id="deny_independent_button" type="submit"
-                                        class="button--small button--primary--danger">Reject</button>
+                                        class="button--small button--primary--danger button-block">Reject</button>
                             </form>
                         </td>
                     </tr>

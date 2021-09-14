@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.2.0 (2021-09-13)
+### Feature
+* Remove flags ([#1541](https://github.com/ocadotechnology/codeforlife-portal/issues/1541)) ([`4a6a0b3`](https://github.com/ocadotechnology/codeforlife-portal/commit/4a6a0b34ebc83fefa9f9dab1adf416a15939c29a))
+
+## v5.1.0 (2021-09-13)
+### Feature
+* Add index to terms of use ([#1538](https://github.com/ocadotechnology/codeforlife-portal/issues/1538)) ([`56a19ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/56a19ca97a5f193d1df1c747cc78412d366e6886))
+
+## v5.0.1 (2021-09-09)
+### Fix
+* Button and table updates (rebranding 1 amends) ([#1536](https://github.com/ocadotechnology/codeforlife-portal/issues/1536)) ([`57291aa`](https://github.com/ocadotechnology/codeforlife-portal/commit/57291aa0d692062dc48402d78793f07efc8e5ca1))
+
 ## v5.0.0 (2021-09-04)
 ### Feature
 * Major version bump for rebranding phase 1 ([#1527](https://github.com/ocadotechnology/codeforlife-portal/issues/1527)) ([`592857f`](https://github.com/ocadotechnology/codeforlife-portal/commit/592857fd4524bba82f96171e6e66a357795daea4))

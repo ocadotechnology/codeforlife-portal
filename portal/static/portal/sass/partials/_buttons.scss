@@ -15,7 +15,6 @@ button,
   white-space: nowrap;
   border: 0;
   min-width: 150px;
-  max-width: 280px;
 }
 
 .button,
@@ -130,9 +129,42 @@ button,
     content: "file_download";
     font-family: "Material Icons Outlined";
     position: relative;
+    top: 5px;
+    left: 5px;
+    line-height: 0.9em;
+  }
+}
+
+.button-block {
+  &:after {
+    content: "block";
+    font-family: "Material Icons Outlined";
+    position: relative;
     top: 2px;
     left: 5px;
     line-height: 0.9em;
+  }
+}
+
+.button-remove {
+  &:after {
+    content: "remove_circle_outline";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    left: 5px;
+    line-height: 0.9em;
+  }
+}
+
+.button-add-person {
+  &:after {
+    content: "person_add";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    line-height: 0.9em;
+    @include _margin(0px, 5px, 0px, 20px);
   }
 }
 
@@ -237,17 +269,6 @@ button,
   &:hover .dropdown__text {
     text-decoration: underline;
   }
-}
-
-.button--secondary--no-border {
-  border-color: transparent;
-  color: $color-text-tertiary;
-}
-
-.button--secondary--background-light {
-  background-color: $color-background-secondary;
-  border-color: transparent;
-  color: $color-text-primary;
 }
 
 .button--register {

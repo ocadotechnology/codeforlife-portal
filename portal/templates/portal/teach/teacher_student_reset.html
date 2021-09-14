@@ -15,7 +15,7 @@
             {% csrf_token %}
             <input type="hidden" name="data" value="{{ query_data }}"/>
             <div class="background button-group">
-                <button class="button button-primary" type="submit">Print reminder cards</button>
+                <button class="button button--primary" type="submit">Print reminder cards</button>
                 <a href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">Back to class</a>
             </div>
         </form>

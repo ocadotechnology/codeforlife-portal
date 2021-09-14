@@ -39,12 +39,12 @@
                                 {% for worksheet in complete_worksheets %}
                                     <li class="dropdown-menu__option">
                                         {% if worksheet.name == game.worksheet.name %}
-                                            <a class="btn button--regular disabled">
+                                            <a class="button button--regular disabled">
                                                 <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
                                                 <span class="material-icons-outlined">check</span>
                                             </a>
                                         {% else %}
-                                            <a class="btn button--regular" id="worksheet_{{ worksheet.id }}"
+                                            <a class="button button--regular" id="worksheet_{{ worksheet.id }}"
                                                onclick="changeWorksheetConfirmation('{{ game.id|escapejs }}',
                                                        '{{ game.game_class.name|escapejs }}',
                                                        '{{ worksheet.id|escapejs }}')">
@@ -55,7 +55,7 @@
                                 {% endfor %}
                                 {% for worksheet in incomplete_worksheets %}
                                     <li class="dropdown-menu__option">
-                                        <a class="btn button--regular disabled">
+                                        <a class="button button--regular disabled">
                                             <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
                                         </a>
                                     </li>
