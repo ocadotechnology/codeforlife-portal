@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.2.1 (2021-09-14)
+### Fix
+* Reposition banner image ([#1545](https://github.com/ocadotechnology/codeforlife-portal/issues/1545)) ([`5da3972`](https://github.com/ocadotechnology/codeforlife-portal/commit/5da39724cf43f03c102f6b83c724a911252a9441))
+
 ## v5.2.0 (2021-09-13)
 ### Feature
 * Remove flags ([#1541](https://github.com/ocadotechnology/codeforlife-portal/issues/1541)) ([`4a6a0b3`](https://github.com/ocadotechnology/codeforlife-portal/commit/4a6a0b34ebc83fefa9f9dab1adf416a15939c29a))
