@@ -1,14 +1,13 @@
 {# Overriden the original "two_factor" template to direct us somewhere more sensible #}
 
-
 {% extends "two_factor/_base_focus.html" %}
 {% load i18n future %}
 
 {% block content %}
-<h1>{% block title %}{% trans "Enable Two-Factor Authentication" %}{% endblock %}</h1>
+<h4>{% block title %}{% trans "Enable Two-Factor Authentication" %}{% endblock %}</h4>
 
 <p>{% blocktrans %}Congratulations, you've successfully enabled two-factor
     authentication.{% endblocktrans %}
 
-<p><a href="{% url 'dashboard' %}" class="btn btn-block btn-default">{% trans "OK" %}</a></p>
+<p><a href="{% url 'dashboard' %}" class="button button--primary">{% trans "OK" %}</a></p>
 {% endblock %}
