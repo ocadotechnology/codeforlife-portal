@@ -11,6 +11,11 @@ class StudentClassCodeView(FormView):
     template_name = "portal/login/student_class_code.html"
     form_class = StudentClassCodeForm
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse_lazy("student_details"))
+        return super(StudentClassCodeView, self).get(request, *args, **kwargs)
+
     def form_valid(self, form):
         self.form = form
         return HttpResponseRedirect(self.get_success_url())

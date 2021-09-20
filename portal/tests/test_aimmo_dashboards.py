@@ -25,11 +25,10 @@ def test_student_cannot_access_teacher_dashboard(
     Then you cannot access it and are instead redirected.
     """
     c = Client()
-    url = reverse("student_login")
+    url = reverse("student_login", kwargs={"access_code": class1.access_code})
     data = {
         "username": student1.username,
         "password": student1.password,
-        "access_code": class1.access_code,
     }
 
     c.post(url, data)
@@ -91,11 +90,12 @@ def test_student_aimmo_dashboard_loads(
     or the card list elements.
     """
     c = Client()
-    student_login_url = reverse("student_login")
+    student_login_url = reverse(
+        "student_login", kwargs={"access_code": class1.access_code}
+    )
     data = {
         "username": student1.username,
         "password": student1.password,
-        "access_code": class1.access_code,
     }
 
     c.post(student_login_url, data)
