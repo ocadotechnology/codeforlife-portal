@@ -1,39 +1,3 @@
-# -*- coding: utf-8 -*-
-# Code for Life
-#
-# Copyright (C) 2021, Ocado Innovation Limited
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# ADDITIONAL TERMS – Section 7 GNU General Public Licence
-#
-# This licence does not grant any right, title or interest in any “Ocado” logos,
-# trade names or the trademark “Ocado” or any other trademarks or domain names
-# owned by Ocado Innovation Limited or the Ocado group of companies or any other
-# distinctive brand features of “Ocado” as may be secured from time to time. You
-# must not distribute any modification of this program using the trademark
-# “Ocado” or claim any affiliation or association with Ocado or its employees.
-#
-# You are not authorised to use the name Ocado (or any of its trade names) or
-# the names of any author or contributor in advertising or for publicity purposes
-# pertaining to the distribution of this program, without the prior written
-# authorisation of Ocado.
-#
-# Any propagation, distribution or conveyance of this program must include this
-# copyright notice and these terms. You must not misrepresent the origins of this
-# program; modified versions of the program must be marked as such and not
-# identified as the original program.
 import re
 from datetime import timedelta
 
@@ -52,32 +16,61 @@ from portal.helpers.password import form_clean_password
 from portal.templatetags.app_tags import is_verified
 
 
-class StudentLoginForm(AuthenticationForm):
-    username = forms.CharField(
-        label="Name",
-        widget=forms.TextInput(attrs={"autocomplete": "off"}),
-    )
+class StudentClassCodeForm(forms.Form):
     access_code = forms.CharField(
-        label="Class Access Code",
-        widget=forms.TextInput(attrs={"autocomplete": "off"}),
-    )
-    password = forms.CharField(
-        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "Class code",
+            }
+        ),
+        help_text="Enter your class code",
     )
 
-    error_messages = {
-        "invalid_login": "Invalid name, class access code or password",
-        "inactive": "This account is inactive.",
-    }
+    def clean(self):
+        access_code = self.cleaned_data.get("access_code", None)
+
+        if access_code:
+
+            if re.match(re.compile("^[A-Z0-9]{5}$"), access_code) is None:
+                raise forms.ValidationError(
+                    "Uh oh! You didn't input a valid class code."
+                )
+
+        return self.cleaned_data
+
+
+class StudentLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "Username",
+            }
+        ),
+        help_text="Enter your username",
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "Password",
+            }
+        ),
+        help_text="Enter your password",
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.access_code = kwargs.pop("access_code", None)
+        super(StudentLoginForm, self).__init__(*args, **kwargs)
 
     def clean(self):
         name = self.cleaned_data.get("username", None)
-        access_code = self.cleaned_data.get("access_code", None)
         password = self.cleaned_data.get("password", None)
 
-        if name and access_code and password:
+        if name and self.access_code and password:
 
-            student, user = self.check_for_errors(name, access_code, password)
+            student, user = self.check_for_errors(name, self.access_code, password)
 
             self.student = student
             self.user_cache = user

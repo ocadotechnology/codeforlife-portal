@@ -166,8 +166,6 @@ class TestAimmoDashboards(BaseTest):
             .go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
         )
-        page.go_to_kurono_teacher_dashboard_page().delete_games(
-            [game1.id, game2.id]
-        )
+        page.go_to_kurono_teacher_dashboard_page().delete_games([game1.id, game2.id])
 
         assert Game.objects.count() == 0
