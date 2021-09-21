@@ -48,7 +48,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.helpers.password import form_clean_password
+from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.templatetags.app_tags import is_verified
 
 
@@ -97,7 +97,13 @@ class StudentLoginForm(AuthenticationForm):
             raise forms.ValidationError("Invalid name, class access code or password")
 
         student = students[0]
-        user = authenticate(username=student.new_user.username, password=password)
+        user = authenticate(
+            username=student.new_user.username, password=password.lower()
+        )
+
+        # Try the case sensitive password too, for previous accounts that don't have the lowercase one stored
+        if user is None:
+            user = authenticate(username=student.new_user.username, password=password)
 
         if user is None:
             raise forms.ValidationError("Invalid name, class access code or password")
@@ -123,10 +129,10 @@ class StudentEditAccountForm(forms.Form):
         super(StudentEditAccountForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
-        return form_clean_password(self, forms, "password")
+        return form_clean_password(self, "password", PasswordStrength.STUDENT)
 
     def clean(self):
-        return clean_confirm_password(self)
+        return clean_confirm_password(self, independent=False)
 
 
 class IndependentStudentEditAccountForm(forms.Form):
@@ -169,22 +175,31 @@ class IndependentStudentEditAccountForm(forms.Form):
         return name
 
     def clean_password(self):
-        return form_clean_password(self, forms, "password")
+        return form_clean_password(self, "password", PasswordStrength.INDEPENDENT)
 
     def clean(self):
-        return clean_confirm_password(self)
+        return clean_confirm_password(self, independent=True)
 
 
-def clean_confirm_password(self):
+def clean_confirm_password(self, independent=True):
     password = self.cleaned_data.get("password", None)
     confirm_password = self.cleaned_data.get("confirm_password", None)
     current_password = self.cleaned_data.get("current_password", None)
+
+    # Password is lowercase for non-independent students
+    if not independent:
+        if password is not None:
+            password = password.lower()
+        if confirm_password is not None:
+            confirm_password = confirm_password.lower()
 
     if are_password_and_confirm_password_different(password, confirm_password):
         raise forms.ValidationError("Your new passwords do not match")
 
     if current_password and not self.user.check_password(current_password):
-        raise forms.ValidationError("Your current password was incorrect")
+        # If it's not an independent student, check their lowercase password as well
+        if independent or not self.user.check_password(current_password.lower()):
+            raise forms.ValidationError("Your current password was incorrect")
 
     return self.cleaned_data
 
@@ -246,7 +261,7 @@ class IndependentStudentSignupForm(forms.Form):
         return username
 
     def clean_password(self):
-        return form_clean_password(self, forms, "password")
+        return form_clean_password(self, "password", PasswordStrength.INDEPENDENT)
 
     def clean(self):
         password = self.cleaned_data.get("password", None)
