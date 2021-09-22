@@ -189,14 +189,17 @@ class StudentModelManager(models.Manager):
             if not User.objects.filter(username=random_username).exists():
                 return random_username
 
-    def schoolFactory(self, klass, name, password):
+    def schoolFactory(self, klass, name, password, urlid):
         user = User.objects.create_user(
             username=self.get_random_username(), password=password, first_name=name
         )
         user_profile = UserProfile.objects.create(user=user)
 
         return Student.objects.create(
-            class_field=klass, user=user_profile, new_user=user
+            class_field=klass,
+            user=user_profile,
+            new_user=user,
+            urlid=urlid,
         )
 
     def independentStudentFactory(self, username, name, email, password):
@@ -222,6 +225,7 @@ class Student(models.Model):
     class_field = models.ForeignKey(
         Class, related_name="students", null=True, on_delete=models.CASCADE
     )
+    urlid = models.UUIDField(null=True)  # used for the unique url
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(
         User,
