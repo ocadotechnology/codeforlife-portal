@@ -13,6 +13,7 @@ from django.utils import timezone
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password
+from portal.helpers.regexes import ACCESS_CODE_REGEX
 from portal.templatetags.app_tags import is_verified
 
 
@@ -32,7 +33,8 @@ class StudentClassCodeForm(forms.Form):
 
         if access_code:
 
-            if re.match(re.compile("^[A-Z]{5}|[A-Z]{2}[0-9]{3}$"), access_code) is None:
+            access_code_pattern = re.compile(rf"^{ACCESS_CODE_REGEX}$")
+            if re.match(access_code_pattern, access_code) is None:
                 raise forms.ValidationError(
                     "Uh oh! You didn't input a valid class code."
                 )
