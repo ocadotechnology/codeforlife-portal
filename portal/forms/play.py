@@ -32,7 +32,7 @@ class StudentClassCodeForm(forms.Form):
 
         if access_code:
 
-            if re.match(re.compile("^[A-Z0-9]{5}$"), access_code) is None:
+            if re.match(re.compile("^[A-Z]{5}|[A-Z]{2}[0-9]{3}$"), access_code) is None:
                 raise forms.ValidationError(
                     "Uh oh! You didn't input a valid class code."
                 )

@@ -210,7 +210,7 @@ urlpatterns = [
         name="teacher_login",
     ),
     url(
-        r"^login/student/(?P<access_code>[A-Z0-9]+)$",
+        r"^login/student/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})$",
         StudentLoginView.as_view(),
         name="student_login",
     ),
@@ -283,12 +283,12 @@ urlpatterns = [
         name="onboarding-classes",
     ),
     url(
-        r"^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$",
+        r"^teach/onboarding-class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/$",
         teacher_onboarding_edit_class,
         name="onboarding-class",
     ),
     url(
-        r"^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$",
+        r"^teach/onboarding-class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/print_reminder_cards/$",
         teacher_print_reminder_cards,
         name="teacher_print_reminder_cards",
     ),
@@ -389,22 +389,22 @@ urlpatterns = [
         name="teacher_reject_student_request",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/$",
+        r"^teach/class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/$",
         teacher_view_class,
         name="view_class",
     ),
     url(
-        r"^teach/class/delete/(?P<access_code>[A-Z0-9]+)/$",
+        r"^teach/class/delete/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/$",
         teacher_delete_class,
         name="teacher_delete_class",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$",
+        r"^teach/class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/students/delete/$",
         teacher_delete_students,
         name="teacher_delete_students",
     ),
     url(
-        r"^teach/class/edit/(?P<access_code>[A-Z0-9]+)/$",
+        r"^teach/class/edit/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/$",
         teacher_edit_class,
         name="teacher_edit_class",
     ),
@@ -419,27 +419,27 @@ urlpatterns = [
         name="teacher_student_reset",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$",
+        r"^teach/class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/password_reset/$",
         teacher_class_password_reset,
         name="teacher_class_password_reset",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/dismiss/$",
+        r"^teach/class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/students/dismiss/$",
         teacher_dismiss_students,
         name="teacher_dismiss_students",
     ),
     url(
-        r"^teach/class/move/(?P<access_code>[A-Z0-9]+)/$",
+        r"^teach/class/move/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/$",
         teacher_move_class,
         name="teacher_move_class",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$",
+        r"^teach/class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/students/move/$",
         teacher_move_students,
         name="teacher_move_students",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$",
+        r"^teach/class/(?P<access_code>[A-Z]{5}|[A-Z]{2}[0-9]{3})/students/move/disambiguate/$",
         teacher_move_students_to_class,
         name="teacher_move_students_to_class",
     ),
