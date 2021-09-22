@@ -2,14 +2,7 @@
 
 {% load i18n %}
 
-<a href="{% url 'dashboard' %}"
-   class="pull-right btn btn-default">{% trans "Cancel" %}</a>
-{% if wizard.steps.prev %}
-  <button name="wizard_goto_step" type="submit"
-          value="{{ wizard.steps.prev }}"
-          class="btn btn-default">{% trans "Back" %}</button>
-{% else %}
-  <button disabled name="" type="button"
-          class="btn btn-disabled">{% trans "Back" %}</button>
-{% endif %}
-<button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
+<div class="button-group">
+    <a href="{% url 'dashboard' %}" class="button button--secondary button--secondary--dark">{% trans "Cancel" %}</a>
+    <button type="submit" class="button--primary">{% trans "Next" %}</button>
+</div>

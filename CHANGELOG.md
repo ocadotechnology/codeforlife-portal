@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v5.2.3 (2021-09-17)
+### Fix
+* Fix home page on smaller screen sizes ([#1549](https://github.com/ocadotechnology/codeforlife-portal/issues/1549)) ([`2a7f885`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a7f885ba16a883748f07236182d288316f3411e))
+
+## v5.2.2 (2021-09-17)
+### Fix
+* Improve 2FA pages styles ([#1548](https://github.com/ocadotechnology/codeforlife-portal/issues/1548)) ([`9cbd5a1`](https://github.com/ocadotechnology/codeforlife-portal/commit/9cbd5a1ca515dfb3b03962c704af3b2ef0452237))
+
 ## v5.2.1 (2021-09-14)
 ### Fix
 * Reposition banner image ([#1545](https://github.com/ocadotechnology/codeforlife-portal/issues/1545)) ([`5da3972`](https://github.com/ocadotechnology/codeforlife-portal/commit/5da39724cf43f03c102f6b83c724a911252a9441))

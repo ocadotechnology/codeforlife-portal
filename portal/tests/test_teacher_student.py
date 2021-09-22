@@ -283,7 +283,7 @@ class TestTeacherStudent(BaseTest):
         time.sleep(1)
         page = page.click_set_password_button()
 
-        assert page.is_student_password(new_student_password)
+        assert page.is_student_password(new_student_password.lower())
 
     def test_generate_random_student_password(self):
         email, password = signup_teacher_directly()
