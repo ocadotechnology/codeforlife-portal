@@ -1,9 +1,31 @@
 from django.contrib import messages
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, FormView
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.html import escape
 
-from portal.forms.play import StudentLoginForm
+from portal.forms.play import StudentLoginForm, StudentClassCodeForm
+
+
+class StudentClassCodeView(FormView):
+    template_name = "portal/login/student_class_code.html"
+    form_class = StudentClassCodeForm
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse_lazy("student_details"))
+        return super(StudentClassCodeView, self).get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.form = form
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        class_code = self.form.cleaned_data["access_code"]
+        return reverse_lazy(
+            "student_login",
+            kwargs={"access_code": class_code},
+        )
 
 
 class StudentLoginView(LoginView):
@@ -11,6 +33,11 @@ class StudentLoginView(LoginView):
     form_class = StudentLoginForm
     success_url = reverse_lazy("student_details")
     redirect_authenticated_user = reverse_lazy("student_details")
+
+    def get_form_kwargs(self):
+        kwargs = super(StudentLoginView, self).get_form_kwargs()
+        kwargs["access_code"] = self.kwargs["access_code"]
+        return kwargs
 
     def _add_logged_in_as_message(self, request):
         student = request.user.userprofile.student

@@ -153,6 +153,7 @@ class TestSecurityMiddleware(TestCase):
     This tests the SecurityMiddleware class and checks the correct security headers
     are in place.
     """
+
     def test_security_headers(self):
         client = Client()
         response = client.get("/")

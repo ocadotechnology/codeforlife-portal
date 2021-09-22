@@ -59,17 +59,16 @@ Cypress.Commands.add('loginAsTeacher', () => {
 })
 
 Cypress.Commands.add('loginAsStudent', () => {
-  cy.request('/login/student/')
+  cy.request(`/login/student/${studentAccessCode}`)
   cy.getCookie('csrftoken').then(csrfToken => {
     cy.request({
       method: 'POST',
-      url: '/login/student/',
+      url: `/login/student/${studentAccessCode}`,
       failOnStatusCode: true,
       form: true,
       body: {
         username: studentUsername,
         password: studentPassword,
-        access_code: studentAccessCode,
         csrfmiddlewaretoken: csrfToken.value
       }
     })
