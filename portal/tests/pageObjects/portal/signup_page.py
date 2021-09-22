@@ -135,7 +135,6 @@ class SignupPage(BasePage):
             return self
 
     def has_independent_student_signup_failed(self, error):
-        time.sleep(1.5)
         errors = (
             self.browser.find_element_by_id("form-signup-independent-student")
             .find_element_by_class_name("errorlist")
@@ -144,7 +143,6 @@ class SignupPage(BasePage):
         return error in errors
 
     def has_teacher_signup_failed(self, error):
-        time.sleep(1.5)
         errors = (
             self.browser.find_element_by_id("form-reg-teacher")
             .find_element_by_class_name("errorlist")
