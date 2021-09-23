@@ -37,22 +37,13 @@
         {% csrf_token %}
         <input type="hidden" name="data" value="{{ query_data }}"/>
         <div class="section">
-            <button class="button button--home" type="submit">Print reminder cards</button>
-            {% if onboarding_done %}
-            <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--home">Back to class</a>
-            {% else %}
-            <a href="{% url 'onboarding-complete' %}" class="button button--home">Finish setup</a>
-            {% endif %}
+            <button class="button button--primary" type="submit">Print reminder cards</button>
         </div>
     </form>
 </div>
 
-{% if onboarding_done %}
-<div class="background">
-{% else %}
-<div class="background">
-{% endif %}
-    <div class="form col-sm-4 col-center">
+<div class="background container">
+    <div class="form col-sm-12 col-center">
         <h4>{{ user.new_teacher.school.name }}</h4>
         {% if passwords_reset %}
         <h5>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
@@ -63,15 +54,35 @@
             passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p><br>
         {% endif %}
         <p>The Class Access Code for this class is: {{ class.access_code }}.</p>
-        <table id="student_table" class="header-primary data-primary">
+        <table id="student_table" class="col-sm-12 header-primary data-primary">
             <tr>
+                <th class="col-xs-6" colspan="2"><p>Option 1 Login details</p></th>
+                <th class="no-bg"></th>
+                <th class="col-xs-6"><p>Option 2 Login links</p></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="d-flex align-items-center">
+                        <div><small>Class link:</small></div>
+                        <div class="flex-grow-1 mx-1"><small>{{ class_url }}</small></div>
+                        <div><span class="iconify" data-icon="mdi:content-copy"></span></div>
+                    </div>
+                </td>
+                <td class="no-bg"><div class="or-circle">OR</div></td>
+                <td><p><small>No class code or password required</small></p></td>
+            </tr>
+            <tr class="header-secondary">
                 <th><p>Name</p></th>
                 <th><p>Password</p></th>
+                <th class="no-bg"></th>
+                <th><p>Copy the links below and share with the student</p></th>
             </tr>
             {% for name_token in name_tokens %}
             <tr>
                 <td><p><small>{{ name_token.name }}</small></p></td>
                 <td><p><small>{{ name_token.password }}</small></p></td>
+                <td class="no-bg"></td>
+                <td><p><small>TODO</small></p></td>
             </tr>
             {% endfor %}
         </table>
@@ -79,13 +90,13 @@
             <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
                 {% csrf_token %}
                 <input type="hidden" name="data" value="{{ query_data }}"/>
-                <div class="button-group">
-                    <button class="button button--primary" type="submit">Print reminder cards</button>
-                    {% if onboarding_done %}
-                        <a href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">Back to class</a>
-                    {% else %}
-                        <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark">Finish setup</a>
-                    {% endif %}
+
+                <button class="button button--primary pull-left margin-0" type="submit">Print reminder cards</button>
+                {% if onboarding_done %}
+                    <a href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark pull-right">Back to class</a>
+                {% else %}
+                    <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark pull-right">Finish setup</a>
+                {% endif %}
                 </div>
             </form>
         </section>
