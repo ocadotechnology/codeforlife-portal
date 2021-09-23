@@ -211,7 +211,7 @@ urlpatterns = [
     ),
     url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
     url(
-        r"^u/(?P<usrid>[0-9]+)/(?P<urlid>[a-z0-9]+)/$",
+        r"^u/(?P<user_id>[0-9]+)/(?P<urlid>[a-z0-9]+)/$",
         student_direct_login,
         name="student_direct_login",
     ),
