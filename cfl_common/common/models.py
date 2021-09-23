@@ -225,7 +225,7 @@ class Student(models.Model):
     class_field = models.ForeignKey(
         Class, related_name="students", null=True, on_delete=models.CASCADE
     )
-    urlid = models.UUIDField(null=True)  # used for the unique url
+    urlid = models.CharField(max_length=32, null=True)  # used for the unique direct url
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(
         User,

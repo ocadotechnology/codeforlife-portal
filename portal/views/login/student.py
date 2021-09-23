@@ -1,7 +1,9 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.utils.html import escape
+from django.http import HttpResponseRedirect
 
 from portal.forms.play import StudentLoginForm
 
@@ -38,3 +40,12 @@ class StudentLoginView(LoginView):
         self._add_logged_in_as_message(self.request)
 
         return self.success_url
+
+
+def student_direct_login(request, user_id, urlid):
+    """Direct login for student with unique url without username and password"""
+    user = authenticate(request, user_id=user_id, urlid=urlid)
+    if user:
+        login(request, user)
+        return HttpResponseRedirect(reverse_lazy("student_details"))
+    return HttpResponseRedirect(reverse_lazy("home"))

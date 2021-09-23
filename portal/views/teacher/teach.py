@@ -1,5 +1,6 @@
 from __future__ import division
 
+import re
 import json
 import hashlib
 from uuid import uuid4
@@ -134,9 +135,9 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
             for name in new_students_form.strippedNames:
                 password = generate_password(8)
 
-                # use uuid for url and store the hashed
-                urlid = uuid4().hex
-                hashed_id = get_hashed_urlid(urlid)
+                # generate uuid for url and store the hashed
+                uuidstr = uuid4().hex
+                hashed_id = get_hashed_urlid(uuidstr)
 
                 new_student = Student.objects.schoolFactory(
                     klass=klass,
@@ -145,9 +146,16 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     urlid=hashed_id,
                 )
 
-                url = "https://www.codeforlife.education/u/%s/%s" % (
-                    new_student.id,
-                    urlid,
+                # get the host/domain
+                abs_uri = request.build_absolute_uri()
+                m = re.match("(https*:\/\/[\w.:-]+)\/*", abs_uri)
+                host = m.groups()[0]
+
+                # generate unique url for student login
+                url = "%s/u/%s/%s" % (
+                    host,
+                    new_student.user.id,
+                    uuidstr,
                 )
                 name_tokens.append({"name": name, "password": password, "url": url})
 
