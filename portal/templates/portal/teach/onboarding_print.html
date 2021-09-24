@@ -64,8 +64,8 @@
                 <td colspan="2">
                     <div class="d-flex align-items-center">
                         <div><small>Class link:</small></div>
-                        <div class="flex-grow-1 mx-1"><small>{{ class_url }}</small></div>
-                        <div><span class="iconify" data-icon="mdi:content-copy"></span></div>
+                        <div id="class_url" class="flex-grow-1 mx-1"><small>{{ class_url }}</small></div>
+                        <div><a onclick="copyToClipboardFromElement('#class_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
                     </div>
                 </td>
                 <td class="no-bg"><div class="or-circle">OR</div></td>
@@ -82,7 +82,12 @@
                 <td><p><small>{{ name_token.name }}</small></p></td>
                 <td><p><small>{{ name_token.password }}</small></p></td>
                 <td class="no-bg"></td>
-                <td><p><small>TODO</small></p></td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1"><small>http://localhost:8000/u/{{ name_token.id }}/thisisatest04e16882faef39a7b1297</small></div>
+                        <div><a onclick="copyToClipboardFromElement('#student_{{ name_token.id }}_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </table>

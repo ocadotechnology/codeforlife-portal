@@ -132,10 +132,13 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
             name_tokens = []
             for name in new_students_form.strippedNames:
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
-                name_tokens.append({"name": name, "password": password})
 
                 new_student = Student.objects.schoolFactory(
                     klass=klass, name=name, password=password
+                )
+
+                name_tokens.append(
+                    {"id": new_student.new_user.id, "name": name, "password": password}
                 )
 
             return render(
