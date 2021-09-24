@@ -15,9 +15,10 @@ class StudentLoginBackend:
         """Check the credentials and return a user."""
         # Get the student by the user id
         user = self.get_user(user_id)
-        student = Student.objects.get(new_user=user)
+        if user:
+            student = Student.objects.get(new_user=user)
 
-        # Check the url against the stored hash then return a user.
-        if get_hashed_urlid(urlid) == student.urlid:
-            return user
+            # Check the url against the student's stored hash then return the user.
+            if get_hashed_urlid(urlid) == student.urlid:
+                return user
         return None

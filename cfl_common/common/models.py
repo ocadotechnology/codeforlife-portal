@@ -189,7 +189,7 @@ class StudentModelManager(models.Manager):
             if not User.objects.filter(username=random_username).exists():
                 return random_username
 
-    def schoolFactory(self, klass, name, password, urlid):
+    def schoolFactory(self, klass, name, password, urlid=None):
         user = User.objects.create_user(
             username=self.get_random_username(), password=password, first_name=name
         )
