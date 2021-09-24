@@ -99,16 +99,18 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
         if next_url:
-            url = reverse("student_login") + "?next=/"
+            url = (
+                reverse("student_login", kwargs={"access_code": class_access_code})
+                + "?next=/"
+            )
         else:
-            url = reverse("student_login")
+            url = reverse("student_login", kwargs={"access_code": class_access_code})
 
         c = Client()
         response = c.post(
             url,
             {
                 "username": name,
-                "access_code": class_access_code,
                 "password": password,
             },
         )
@@ -154,7 +156,7 @@ class TestLoginViews(TestCase):
     def test_student_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_school_student()
 
-        url = reverse("student_login")
+        url = reverse("student_login_access_code")
         response = c.get(url)
         self.assertRedirects(response, "/play/details/")
 

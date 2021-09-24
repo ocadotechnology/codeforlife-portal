@@ -119,6 +119,12 @@ form {
   }
 }
 
+.form__input {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
 .form__checkbox {
   display: flex;
   align-items: center;

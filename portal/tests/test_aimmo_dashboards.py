@@ -25,11 +25,10 @@ def test_student_cannot_access_teacher_dashboard(
     Then you cannot access it and are instead redirected.
     """
     c = Client()
-    url = reverse("student_login")
+    url = reverse("student_login", kwargs={"access_code": class1.access_code})
     data = {
         "username": student1.username,
         "password": student1.password,
-        "access_code": class1.access_code,
     }
 
     c.post(url, data)
@@ -91,11 +90,12 @@ def test_student_aimmo_dashboard_loads(
     or the card list elements.
     """
     c = Client()
-    student_login_url = reverse("student_login")
+    student_login_url = reverse(
+        "student_login", kwargs={"access_code": class1.access_code}
+    )
     data = {
         "username": student1.username,
         "password": student1.password,
-        "access_code": class1.access_code,
     }
 
     c.post(student_login_url, data)
@@ -166,8 +166,6 @@ class TestAimmoDashboards(BaseTest):
             .go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
         )
-        page.go_to_kurono_teacher_dashboard_page().delete_games(
-            [game1.id, game2.id]
-        )
+        page.go_to_kurono_teacher_dashboard_page().delete_games([game1.id, game2.id])
 
         assert Game.objects.count() == 0

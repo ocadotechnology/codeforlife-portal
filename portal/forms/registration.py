@@ -48,7 +48,7 @@ from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from portal.helpers.password import form_clean_password
+from portal.helpers.password import PasswordStrength, form_clean_password
 
 
 class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
@@ -64,7 +64,8 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
         ] = "Please repeat your new password"
 
     def clean_new_password1(self):
-        return form_clean_password(self, forms, "new_password1")
+        # Note this is used for both teachers and independent students
+        return form_clean_password(self, "new_password1", PasswordStrength.TEACHER)
 
 
 class TeacherPasswordResetForm(forms.Form):

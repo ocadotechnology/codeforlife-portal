@@ -50,6 +50,9 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
 
+STUDENT_PASSWORD_LENGTH = 6
+
+
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def default_solution(request, levelName):
@@ -133,8 +136,8 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
         if new_students_form.is_valid():
             name_tokens = []
             for name in new_students_form.strippedNames:
-                password = generate_password(8)
-
+                password = generate_password(STUDENT_PASSWORD_LENGTH)
+                
                 # generate uuid for url and store the hashed
                 uuidstr = uuid4().hex
                 hashed_id = get_hashed_urlid(uuidstr)
@@ -441,7 +444,7 @@ def teacher_student_reset(request, pk):
     if request.user.new_teacher != student.class_field.teacher:
         raise Http404
 
-    new_password = generate_password(8)
+    new_password = generate_password(STUDENT_PASSWORD_LENGTH)
     student.new_user.set_password(new_password)
     student.new_user.save()
     name_pass = [{"name": student.new_user.first_name, "password": new_password}]
@@ -557,7 +560,7 @@ def teacher_class_password_reset(request, access_code):
 
     name_tokens = []
     for student in students:
-        password = generate_password(8)
+        password = generate_password(STUDENT_PASSWORD_LENGTH)
         name_tokens.append({"name": student.new_user.first_name, "password": password})
         student.new_user.set_password(password)
         student.new_user.save()
