@@ -4,7 +4,10 @@ from common.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.student import (
+    create_school_student_directly,
+    create_student_with_direct_login,
+)
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -120,6 +123,31 @@ class TestLoginViews(TestCase):
     def test_student_login_redirect(self):
         response, _ = self._create_and_login_school_student(True)
         self.assertRedirects(response, "/")
+
+    def test_student_direct_login(self):
+        with self.settings(
+            AUTHENTICATION_BACKENDS=[
+                "django.contrib.auth.backends.ModelBackend",
+                "portal.backends.StudentLoginBackend",
+            ]
+        ):
+            _, _, _, _, class_access_code = self._set_up_test_data()
+            student, uuidstr = create_student_with_direct_login(class_access_code)
+
+            c = Client()
+            assert c.login(user_id=student.user.id, login_id=uuidstr) == True
+
+            url = f"/u/{student.user.id}/{uuidstr}/"
+            response = c.get(url)
+            # assert redirects
+            assert response.url == "/play/details/"
+            assert response.status_code == 302
+
+            # incorrect url
+            url = "/u/123/4567890/"
+            response = c.get(url)
+            assert response.url == "/"
+            assert response.status_code == 302
 
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()
