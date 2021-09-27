@@ -69,9 +69,9 @@ class StudentLoginView(LoginView):
         return self.success_url
 
 
-def student_direct_login(request, user_id, urlid):
+def student_direct_login(request, user_id, login_id):
     """Direct login for student with unique url without username and password"""
-    user = authenticate(request, user_id=user_id, urlid=urlid)
+    user = authenticate(request, user_id=user_id, login_id=login_id)
     if user:
         login(request, user)
         return HttpResponseRedirect(reverse_lazy("student_details"))

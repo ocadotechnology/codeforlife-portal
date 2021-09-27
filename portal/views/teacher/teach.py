@@ -13,7 +13,7 @@ from common.helpers.generators import (
     generate_access_code,
     generate_new_student_name,
     generate_password,
-    get_hashed_urlid,
+    get_hashed_login_id,
 )
 from common.models import Class, Student, Teacher
 from common.permissions import logged_in_as_teacher
@@ -137,16 +137,16 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
             name_tokens = []
             for name in new_students_form.strippedNames:
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
-                
+
                 # generate uuid for url and store the hashed
                 uuidstr = uuid4().hex
-                hashed_id = get_hashed_urlid(uuidstr)
+                login_id = get_hashed_login_id(uuidstr)
 
                 new_student = Student.objects.schoolFactory(
                     klass=klass,
                     name=name,
                     password=password,
-                    urlid=hashed_id,
+                    login_id=login_id,
                 )
 
                 # get the host/domain

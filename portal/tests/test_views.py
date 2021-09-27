@@ -135,16 +135,19 @@ class TestLoginViews(TestCase):
             student, uuidstr = create_student_with_direct_login(class_access_code)
 
             c = Client()
-            assert c.login(user_id=student.user.id, urlid=uuidstr) == True
+            assert c.login(user_id=student.user.id, login_id=uuidstr) == True
 
-            url = "/u/%s/%s/" % (student.user.id, uuidstr)
-            response = c.get(url, follow=True)
-            self.assertRedirects(response, "/play/details/")
+            url = f"/u/{student.user.id}/{uuidstr}/"
+            response = c.get(url)
+            # assert redirects
+            assert response.url == "/play/details/"
+            assert response.status_code == 302
 
             # incorrect url
             url = "/u/123/4567890/"
-            response = c.get(url, follow=True)
-            self.assertRedirects(response, "/")
+            response = c.get(url)
+            assert response.url == "/"
+            assert response.status_code == 302
 
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()

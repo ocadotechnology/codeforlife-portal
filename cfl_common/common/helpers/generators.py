@@ -38,5 +38,6 @@ def generate_access_code():
 def generate_password(length):
     return "".join(random.choice(string.ascii_lowercase) for _ in range(length))
 
-def get_hashed_urlid(urlid):
-    return hashlib.sha256(urlid.encode()).hexdigest()[0:32]
+
+def get_hashed_login_id(login_id):
+    return hashlib.sha256(login_id.encode()).hexdigest()

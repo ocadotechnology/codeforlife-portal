@@ -52,7 +52,11 @@ from portal.views.home import (
 )
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
-from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
+from portal.views.login.student import (
+    StudentLoginView,
+    StudentClassCodeView,
+    student_direct_login,
+)
 from portal.views.login.teacher import TeacherLoginView
 from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
@@ -220,7 +224,7 @@ urlpatterns = [
         name="student_login_access_code",
     ),
     url(
-        r"^u/(?P<user_id>[0-9]+)/(?P<urlid>[a-z0-9]+)/$",
+        r"^u/(?P<user_id>[0-9]+)/(?P<login_id>[a-z0-9]+)/$",
         student_direct_login,
         name="student_direct_login",
     ),
