@@ -1,6 +1,9 @@
 from __future__ import division
 
+import re
 import json
+import hashlib
+from uuid import uuid4
 from datetime import timedelta
 from functools import partial, wraps
 
@@ -10,6 +13,7 @@ from common.helpers.generators import (
     generate_access_code,
     generate_new_student_name,
     generate_password,
+    get_hashed_login_id,
 )
 from common.models import Class, Student, Teacher
 from common.permissions import logged_in_as_teacher
@@ -133,12 +137,37 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
             for name in new_students_form.strippedNames:
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
 
+                # generate uuid for url and store the hashed
+                uuidstr = uuid4().hex
+                login_id = get_hashed_login_id(uuidstr)
+
                 new_student = Student.objects.schoolFactory(
-                    klass=klass, name=name, password=password
+                    klass=klass,
+                    name=name,
+                    password=password,
+                    login_id=login_id,
+                )
+
+                # get the host/domain
+                abs_uri = request.build_absolute_uri()
+                m = re.match("(https*:\/\/[\w.:-]+)\/*", abs_uri)
+                host = m.groups()[0]
+
+                # generate unique url for student login
+                # FIXME: generate like class_url below
+                url = "%s/u/%s/%s" % (
+                    host,
+                    new_student.user.id,
+                    uuidstr,
                 )
 
                 name_tokens.append(
-                    {"id": new_student.new_user.id, "name": name, "password": password}
+                    {
+                        "id": new_student.new_user.id,
+                        "name": name,
+                        "password": password,
+                        "url": url,
+                    }
                 )
 
             return render(
