@@ -37,11 +37,6 @@ LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "portal.backends.StudentLoginBackend",
-]
-
 SILENCED_SYSTEM_CHECKS = ["captcha.recaptcha_test_key_error"]
 
 INSTALLED_APPS = ("portal", "captcha")

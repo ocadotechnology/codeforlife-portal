@@ -125,29 +125,23 @@ class TestLoginViews(TestCase):
         self.assertRedirects(response, "/")
 
     def test_student_direct_login(self):
-        with self.settings(
-            AUTHENTICATION_BACKENDS=[
-                "django.contrib.auth.backends.ModelBackend",
-                "portal.backends.StudentLoginBackend",
-            ]
-        ):
-            _, _, _, _, class_access_code = self._set_up_test_data()
-            student, uuidstr = create_student_with_direct_login(class_access_code)
+        _, _, _, _, class_access_code = self._set_up_test_data()
+        student, uuidstr = create_student_with_direct_login(class_access_code)
 
-            c = Client()
-            assert c.login(user_id=student.user.id, login_id=uuidstr) == True
+        c = Client()
+        assert c.login(user_id=student.user.id, login_id=uuidstr) == True
 
-            url = f"/u/{student.user.id}/{uuidstr}/"
-            response = c.get(url)
-            # assert redirects
-            assert response.url == "/play/details/"
-            assert response.status_code == 302
+        url = f"/u/{student.user.id}/{uuidstr}/"
+        response = c.get(url)
+        # assert redirects
+        assert response.url == "/play/details/"
+        assert response.status_code == 302
 
-            # incorrect url
-            url = "/u/123/4567890/"
-            response = c.get(url)
-            assert response.url == "/"
-            assert response.status_code == 302
+        # incorrect url
+        url = "/u/123/4567890/"
+        response = c.get(url)
+        assert response.url == "/"
+        assert response.status_code == 302
 
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()
