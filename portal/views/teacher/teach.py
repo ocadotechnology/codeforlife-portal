@@ -148,17 +148,14 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     login_id=login_id,
                 )
 
-                # get the host/domain
-                abs_uri = request.build_absolute_uri()
-                m = re.match("(https*:\/\/[\w.:-]+)\/*", abs_uri)
-                host = m.groups()[0]
-
-                # generate unique url for student login
-                # FIXME: generate like class_url below
-                url = "%s/u/%s/%s" % (
-                    host,
-                    new_student.user.id,
-                    uuidstr,
+                login_url = request.build_absolute_uri(
+                    reverse(
+                        "student_direct_login",
+                        kwargs={
+                            "user_id": new_student.new_user.id,
+                            "login_id": uuidstr,
+                        },
+                    )
                 )
 
                 name_tokens.append(
@@ -166,7 +163,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                         "id": new_student.new_user.id,
                         "name": name,
                         "password": password,
-                        "url": url,
+                        "login_url": login_url,
                     }
                 )
 
@@ -574,9 +571,32 @@ def teacher_class_password_reset(request, access_code):
     name_tokens = []
     for student in students:
         password = generate_password(STUDENT_PASSWORD_LENGTH)
-        name_tokens.append({"name": student.new_user.first_name, "password": password})
+
+        # generate uuid for url and store the hashed
+        uuidstr = uuid4().hex
+        login_id = get_hashed_login_id(uuidstr)
+        login_url = request.build_absolute_uri(
+            reverse(
+                "student_direct_login",
+                kwargs={
+                    "user_id": student.new_user.id,
+                    "login_id": uuidstr,
+                },
+            )
+        )
+
+        name_tokens.append(
+            {
+                "id": student.new_user.id,
+                "name": student.new_user.first_name,
+                "password": password,
+                "login_url": login_url,
+            }
+        )
         student.new_user.set_password(password)
         student.new_user.save()
+        student.login_id = login_id
+        student.save()
 
     return render(
         request,
@@ -587,6 +607,9 @@ def teacher_class_password_reset(request, access_code):
             "passwords_reset": True,
             "name_tokens": name_tokens,
             "query_data": json.dumps(name_tokens),
+            "class_url": request.build_absolute_uri(
+                reverse("student_login", kwargs={"access_code": klass.access_code})
+            ),
         },
     )
 

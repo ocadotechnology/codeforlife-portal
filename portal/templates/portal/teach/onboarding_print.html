@@ -3,6 +3,7 @@
 {% load app_tags %}
 
 {% if not onboarding_done %}
+
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
@@ -27,6 +28,15 @@
 {% endif %}
 
 {% block content %}
+
+{% if onboarding_done %}
+<section class="banner banner--teacher row flex-column">
+    <h5>Class and class access code:</h5>
+    <h1 class="banner__text--primary mt-3 mb-4">{{ class.name }}, ({{ class.access_code }})</h1>
+    <h5>{{ user.new_teacher.school.name }}</h5>
+</section>
+{% endif %}
+
 <div id="onboarding_student_list_page"></div>
 
 <div id="sticky-warning" class="sub-nav--warning">
@@ -52,7 +62,7 @@
 </div>
 
 <div class="background container">
-    <div class="form col-sm-12 col-center">
+    <div class="form col-sm-12">
         {% if passwords_reset %}
         <h5>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
         <p>The following students have had their passwords reset:</p><br>
@@ -101,7 +111,7 @@
                     <td class="no-bg"></td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1"><small>{{ name_token.url }}</small></div>
+                            <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1"><small>{{ name_token.login_url }}</small></div>
                             <div><a onclick="copyToClipboardFromElement('#student_{{ name_token.id }}_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
                         </div>
                     </td>
@@ -125,9 +135,9 @@
                 
                 {% if onboarding_done %}
                     <div class="d-flex">
-                        <a href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">
+                        <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">
                             <div class="d-flex align-items-center">
-                                <span class="iconify mr-3" data-icon="mdi:mdi:chevron-left"></span>
+                                <span class="iconify mr-3" data-icon="mdi:chevron-left"></span>
                                 <div>Back to class</div>
                             </div>
                         </a>
@@ -150,11 +160,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         if($(window).width() > 760) {
-            {% if not onboarding_done %}
-                toggleStickySubnav($('.banner').outerHeight());
-            {% else %}
-                toggleStickySubnav(0);
-            {% endif %}
+            toggleStickySubnav($('.banner').outerHeight());
         }
     });
 </script>
