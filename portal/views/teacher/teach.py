@@ -969,15 +969,6 @@ def teacher_download_csv(request, access_code):
 def get_student_data(request, klass, student_data):
     if request.method == "POST":
         student_data = json.loads(request.POST.get("data", "[]"))
-
-    else:
-        students = Student.objects.filter(class_field=klass)
-
-        for student in students:
-            student_data.append(
-                {"name": student.new_user.first_name, "password": "__________"}
-            )
-
     return student_data
 
 
