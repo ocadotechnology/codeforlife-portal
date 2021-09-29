@@ -1,6 +1,7 @@
 from __future__ import division
 
 import re
+import csv
 import json
 import hashlib
 from uuid import uuid4
@@ -940,6 +941,28 @@ def teacher_print_reminder_cards(request, access_code):
     compute_show_page_end(p, x, y)
 
     p.save()
+    return response
+
+
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
+def teacher_download_csv(request, access_code):
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="student_login_urls.csv"'
+
+    klass = get_object_or_404(Class, access_code=access_code)
+    # Check auth
+    if klass.teacher.new_user != request.user:
+        raise Http404
+
+    # Use data from the query string if given
+    student_data = []
+    student_data = get_student_data(request, klass, student_data)
+
+    writer = csv.writer(response)
+    for student in student_data:
+        writer.writerow([student["name"], student["url"]])
+
     return response
 
 

@@ -108,6 +108,7 @@ from portal.views.teacher.teach import (
     teacher_onboarding_create_class,
     teacher_onboarding_edit_class,
     teacher_print_reminder_cards,
+    teacher_download_csv,
     teacher_student_reset,
     teacher_view_class,
 )
@@ -300,6 +301,11 @@ urlpatterns = [
         rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})/print_reminder_cards/$",
         teacher_print_reminder_cards,
         name="teacher_print_reminder_cards",
+    ),
+    url(
+        rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})/download_csv/$",
+        teacher_download_csv,
+        name="teacher_download_csv",
     ),
     url(
         r"^teach/onboarding-complete",
