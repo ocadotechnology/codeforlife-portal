@@ -47,7 +47,9 @@ from portal.forms.play import StudentJoinOrganisationForm
 
 
 @login_required(login_url=reverse_lazy("student_login_access_code"))
-@user_passes_test(logged_in_as_student, login_url=reverse_lazy("student_login_access_code"))
+@user_passes_test(
+    logged_in_as_student, login_url=reverse_lazy("student_login_access_code")
+)
 def student_details(request):
     return render(request, "portal/play/student_details.html")
 

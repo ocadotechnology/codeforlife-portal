@@ -180,7 +180,8 @@ class TestTeacherStudent(BaseTest):
         page = page.type_student_name(new_student_name)
         page = page.click_update_button()
 
-        assert page.is_student_name(new_student_name)
+        assert page.__class__.__name__ == "TeachClassPage"
+        assert page.student_exists(new_student_name)
 
     def test_update_student_valid_name_dash(self):
         email, password = signup_teacher_directly()
@@ -204,7 +205,8 @@ class TestTeacherStudent(BaseTest):
         page = page.type_student_name(new_student_name)
         page = page.click_update_button()
 
-        assert page.is_student_name(new_student_name)
+        assert page.__class__.__name__ == "TeachClassPage"
+        assert page.student_exists(new_student_name)
 
     def test_update_student_valid_name_underscore(self):
         email, password = signup_teacher_directly()
@@ -228,7 +230,8 @@ class TestTeacherStudent(BaseTest):
         page = page.type_student_name(new_student_name)
         page = page.click_update_button()
 
-        assert page.is_student_name(new_student_name)
+        assert page.__class__.__name__ == "TeachClassPage"
+        assert page.student_exists(new_student_name)
 
     def test_update_student_invalid_name(self):
         email, password = signup_teacher_directly()
@@ -250,7 +253,7 @@ class TestTeacherStudent(BaseTest):
         new_student_name = "new name!"
 
         page = page.type_student_name(new_student_name)
-        page = page.click_update_button()
+        page = page.click_update_button_fail()
 
         assert page.is_student_name(name)
         assert page.was_form_invalid(
@@ -277,34 +280,12 @@ class TestTeacherStudent(BaseTest):
 
         new_student_password = "New_password1"
 
-        page = page.click_set_password_form_button().type_student_password(
-            new_student_password
-        )
+        page = page.type_student_password(new_student_password)
         time.sleep(1)
         page = page.click_set_password_button()
 
+        assert page.student_exists(name)
         assert page.is_student_password(new_student_password.lower())
-
-    def test_generate_random_student_password(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .go_to_class_page()
-            .go_to_edit_student_page()
-        )
-
-        assert page.is_student_name(name)
-
-        page = page.click_generate_password_button()
-
-        assert page.__class__.__name__ == "EditStudentPasswordPage"
 
     def test_delete(self):
         email, password = signup_teacher_directly()
