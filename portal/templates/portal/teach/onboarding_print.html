@@ -88,14 +88,14 @@
                     <th class="col-xs-6"><p>Option 2 Login links</p></th>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" class="mw-0">
                         <div class="d-flex align-items-center">
                             <div><small>Class link:</small></div>
-                            <div id="class_url" class="flex-grow-1 mx-1"><small>{{ class_url }}</small></div>
+                            <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
                             <div><a onclick="copyToClipboardFromElement('#class_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
                         </div>
                     </td>
-                    <td class="no-bg"><div class="or-circle">OR</div></td>
+                    <td class="no-bg"><div class="or-circle d-none d-lg-block">OR</div></td>
                     <td><p><small>No class code or password required</small></p></td>
                 </tr>
                 <tr class="header-secondary">
@@ -109,9 +109,9 @@
                     <td><p><small>{{ name_token.name }}</small></p></td>
                     <td><p><small>{{ name_token.password }}</small></p></td>
                     <td class="no-bg"></td>
-                    <td>
+                    <td class="mw-0">
                         <div class="d-flex align-items-center">
-                            <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1"><small>{{ name_token.login_url }}</small></div>
+                            <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ name_token.login_url }}</small></div>
                             <div><a onclick="copyToClipboardFromElement('#student_{{ name_token.id }}_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
                         </div>
                     </td>

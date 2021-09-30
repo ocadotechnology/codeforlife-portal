@@ -15,6 +15,9 @@
 @import "mixins/text-emphasis";
 @import "mixins/text-overflow";
 @import "mixins/vendor-prefixes";
+// Bootstrap 4 utilities
+@import "mixins/breakpoints";
+@import "mixins/text-truncate";
 
 // Components
 @import "mixins/alerts";
