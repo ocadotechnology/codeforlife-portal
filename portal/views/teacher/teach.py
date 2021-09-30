@@ -947,7 +947,7 @@ def teacher_print_reminder_cards(request, access_code):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_download_csv(request, access_code):
-    response = HttpResponse(content_type="application/pdf")
+    response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="student_login_urls.csv"'
 
     klass = get_object_or_404(Class, access_code=access_code)

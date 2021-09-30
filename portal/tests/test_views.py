@@ -30,13 +30,13 @@ class TestTeacherViews(TestCase):
     def test_reminder_cards(self):
         c = self.login()
         url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
-        response = c.post(url, {"access_code": self.class_access_code})
+        response = c.post(url)
         assert response.status_code == 200
 
     def test_csv(self):
         c = self.login()
         url = reverse("teacher_download_csv", args=[self.class_access_code])
-        response = c.post(url, {"access_code": self.class_access_code})
+        response = c.post(url)
         assert response.status_code == 200
 
     def test_organisation_kick_has_correct_permissions(self):
