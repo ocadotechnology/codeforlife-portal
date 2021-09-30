@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This migration essentially "replaces" the majority of the models in models.py with
 the models in common/models.py.

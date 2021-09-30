@@ -1,4 +1,3 @@
-# coding=utf-8
 RAPID_ROUTER_HEADLINE = {
     "title": "Anyone can code, you can too!",
     "description": "Whether you’re a teacher or a student, Rapid Router guides you, "
@@ -26,6 +25,9 @@ RAPID_ROUTER_BENEFITS = {
         "title": "About Blockly",
         "text": "Built on ‘Blockly’, an easy-to-use visual programming language "
         "that’s similar to Scratch, so you don’t need to worry about syntax.",
-        "button": {"text": "Learn more", "link": "https://docs.codeforlife.education/rapid-router/blockly-guide"},
+        "button": {
+            "text": "Learn more",
+            "link": "https://docs.codeforlife.education/rapid-router/blockly-guide",
+        },
     },
 }
