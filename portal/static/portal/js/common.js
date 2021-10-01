@@ -47,7 +47,29 @@ function disableOnClick(id) {
   };
 }
 
-function copyToClipboardFromElement(elementSelector) {
+function copyToClipboardFromElement(tooltipElement, elementSelector) {
   let value = document.querySelector(elementSelector).textContent;
   navigator.clipboard.writeText(value);
+
+  // Show the tooltip
+  $(tooltipElement).tooltip("show");
+
+  // Clear the previous timeout
+  clearTimeout($(tooltipElement).data("timeout"));
+
+  // Set a timeout to hide the tooltip after 2 seconds
+  let timeout = setTimeout(() => {
+    $(tooltipElement).tooltip("hide");
+    $(tooltipElement).removeData("timeout");
+  }, 2000);
+  $(tooltipElement).data("timeout", timeout);
 }
+
+// Enable copy-to-clipboard tooltips
+$(document).ready(function () {
+  $('[data-toggle="copyToClipboardTooltip"]').tooltip({
+    title: "Copied to clipboard!",
+    trigger: "manual",
+    placement: "auto top",
+  });
+});

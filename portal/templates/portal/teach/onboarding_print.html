@@ -92,7 +92,7 @@
                         <div class="d-flex align-items-center">
                             <div><small>Class link:</small></div>
                             <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
-                            <div><a onclick="copyToClipboardFromElement('#class_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
+                            <div><a onclick="copyToClipboardFromElement(this, '#class_url')" data-toggle="copyToClipboardTooltip"><span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span></a></div>
                         </div>
                     </td>
                     <td class="no-bg"><div class="or-circle d-none d-lg-block">OR</div></td>
@@ -112,7 +112,7 @@
                     <td class="mw-0">
                         <div class="d-flex align-items-center">
                             <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ name_token.login_url }}</small></div>
-                            <div><a onclick="copyToClipboardFromElement('#student_{{ name_token.id }}_url')"><span class="iconify" data-icon="mdi:content-copy"></span></a></div>
+                            <div><a onclick="copyToClipboardFromElement(this, '#student_{{ name_token.id }}_url')" data-toggle="copyToClipboardTooltip"><span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span></a></div>
                         </div>
                     </td>
                 </tr>
