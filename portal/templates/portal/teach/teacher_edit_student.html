@@ -5,7 +5,7 @@
 
 <section id="student_details" class="background col-sm-6 col-center">
     <h4>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h4>
-    <h5>Edit this student&rsquo;s name and manage their password.</h5>
+    <h5>Edit this student&rsquo;s name and manage their password and direct access link.</h5>
 </section>
 
 <div class="background background--primary">
@@ -29,7 +29,7 @@
 
         <h5 id="set-password">Set password</h5>
 
-        <p>You can set this student's password.</p>
+        <p>You can set this student's password. Setting the password will also regenerate their direct access link.</p>
 
         <form method="post">
 
