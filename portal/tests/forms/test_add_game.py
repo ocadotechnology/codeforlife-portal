@@ -1,10 +1,6 @@
 import pytest
-
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-
 from aimmo.models import Worksheet
-from common.models import Class, Teacher
+from common.models import Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
 

@@ -1,4 +1,3 @@
-# coding=utf-8
 AIMMO_DASHBOARD_BANNER = {
     "title": "Kurono dashboard",
     "subtitle": "Let the adventures begin! A collection of challenges await your "

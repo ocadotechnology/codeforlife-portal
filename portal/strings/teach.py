@@ -1,4 +1,3 @@
-# coding=utf-8
 TEACH_BANNER = {
     "title": "Educate",
     "subtitle": "Get ready to teach the next generation of computer scientists",

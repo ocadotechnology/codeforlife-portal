@@ -1,4 +1,3 @@
-# coding=utf-8
 HELP_BANNER = {
     "title": "Help and support",
     "subtitle": "",
