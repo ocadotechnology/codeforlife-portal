@@ -37,11 +37,11 @@ identified as the original program.
 */
 var TEACHER_PASSWORD_FIELD_ID = '';
 var INDEP_STUDENT_PASSWORD_FIELD_ID = '';
-var teacher_password_field = '';
-var indep_student_password_field = '';
-var most_used_passwords_2018 = ['Abcd1234', 'Password1', 'Qwerty123'];
+let teacher_password_field = '';
+let indep_student_password_field = '';
+let most_used_passwords = ['Abcd1234', 'Password1', 'Qwerty123'];
 
-var password_strengths = [
+let password_strengths = [
     { name: 'No password!', colour: '#FF0000' },
     { name: 'Password too weak', colour: '#DBA901' },
     { name: 'Strong password', colour: '#088A08' },
@@ -78,7 +78,7 @@ function updatePasswordStrength(isTeacher) {
     // things this way, so maybe there is no better workaround.
 
     setTimeout(function() {
-        var password;
+        let password;
 
         if (isTeacher) {
             password = $('#' + TEACHER_PASSWORD_FIELD_ID).val();
@@ -87,10 +87,11 @@ function updatePasswordStrength(isTeacher) {
             password = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID).val();
         }
 
-        var strength = 0;
+        let strength = 0;
         if (password.length > 0) { strength++; }
-        if (password.length >= 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)) { strength++; }
-        if ($.inArray(password, most_used_passwords_2018) >= 0 && strength == 2) { strength = 3; }
+        if (isPasswordStrong(password, isTeacher)) { strength++; }
+
+        if ($.inArray(password, most_used_passwords) >= 0 && strength == 2) { strength = 3; }
 
         if (isTeacher) {
             updatePasswordCSS('#teacher-password-sign', '#teacher-password-text', strength);
@@ -100,6 +101,15 @@ function updatePasswordStrength(isTeacher) {
         }
 
     });
+}
+
+function isPasswordStrong(password, isTeacher) {
+    if (isTeacher) {
+        return password.length >= 10 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1 || password.search(/[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/) === -1)
+    }
+    else {
+        return password.length >= 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)
+    }
 }
 
 function updatePasswordCSS(passwordStrengthSign, passwordStrengthText, strength) {
