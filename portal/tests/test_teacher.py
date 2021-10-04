@@ -474,7 +474,7 @@ class TestTeacher(BaseTest):
             {
                 "first_name": "Paulina",
                 "last_name": "Koch",
-                "current_password": "Password2",
+                "current_password": "Password2!",
             }
         )
         assert self.is_dashboard_page(page)
@@ -505,7 +505,7 @@ class TestTeacher(BaseTest):
             {
                 "first_name": "Florian",
                 "last_name": "Aucomte",
-                "current_password": "Password2",
+                "current_password": "Password2!",
             }
         )
         assert self.is_dashboard_page(page)
@@ -569,7 +569,7 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
-        new_password = "AnotherPassword12"
+        new_password = "AnotherPassword12!"
         page = page.change_password("Test", "Teacher", new_password, password)
         assert self.is_login_page(page)
         assert is_password_updated_message_showing(self.selenium)
@@ -592,7 +592,7 @@ class TestTeacher(BaseTest):
 
         page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
 
-        new_password = "AnotherPassword12"
+        new_password = "AnotherPassword12!"
 
         page.teacher_reset_password(new_password)
 

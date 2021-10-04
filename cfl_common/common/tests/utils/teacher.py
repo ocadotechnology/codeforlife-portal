@@ -53,7 +53,7 @@ def generate_details(**kwargs):
         "email_address",
         f"testteacher{random_int}@codeforlife.com",
     )
-    password = kwargs.get("password", "Password2")
+    password = kwargs.get("password", "Password2!")
 
     return first_name, last_name, email_address, password
 
