@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-from tkinter import Tk
 import time
 
 from common.tests.utils.classes import create_class_directly
@@ -176,10 +175,9 @@ class TestTeacherStudent(BaseTest):
         page, new_student_name = create_school_student(page)
         assert page.student_exists(new_student_name)
 
-        # copy login url to clipboard, then open it and check if the student is logged in
-        page.click_copy_first_login_url_to_clipboard()
-        copied_login_url = Tk().clipboard_get()
-        page.browser.get(copied_login_url)
+        # get login url, then open it and check if the student is logged in
+        login_url = page.get_first_login_url()
+        page.browser.get(login_url)
         assert page.on_correct_page("play_dashboard_page")
         assert (
             new_student_name

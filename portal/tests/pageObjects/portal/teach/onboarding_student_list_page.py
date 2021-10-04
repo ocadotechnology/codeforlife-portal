@@ -36,8 +36,6 @@
 # identified as the original program.
 from __future__ import absolute_import
 
-import time
-
 from . import class_page
 from .teach_base_page import TeachBasePage
 
@@ -55,8 +53,7 @@ class OnboardingStudentListPage(TeachBasePage):
         self.browser.find_element_by_id("back_to_class_button").click()
         return class_page.TeachClassPage(self.browser)
 
-    def click_copy_first_login_url_to_clipboard(self):
-        time.sleep(1)
-        self.browser.find_element_by_xpath(
-            "//table[@id='student_table']/tbody/tr[4]/td[4]/div/div[2]/a"
-        ).click()
+    def get_first_login_url(self):
+        return self.browser.find_element_by_xpath(
+            "//table[@id='student_table']/tbody/tr[4]/td[4]/div/div[1]"
+        ).text
