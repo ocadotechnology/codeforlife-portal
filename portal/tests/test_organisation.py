@@ -403,7 +403,7 @@ class TestOrganisation(BaseTest, BasePage):
         email, password = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        _, password, _ = create_school_student_directly(access_code)
+        create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
