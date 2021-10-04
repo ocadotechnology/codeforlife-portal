@@ -94,7 +94,12 @@ class PasswordStrength(Enum):
 
 
 def password_strength_test(
-    password, minimum_password_length, upper=True, lower=True, numbers=True, special_char=True,
+    password,
+    minimum_password_length,
+    upper=True,
+    lower=True,
+    numbers=True,
+    special_char=True,
 ):
     most_used_passwords = [
         "Abcd1234",
@@ -109,7 +114,10 @@ def password_strength_test(
         and (not upper or re.search(r"[A-Z]", password))
         and (not lower or re.search(r"[a-z]", password))
         and (not numbers or re.search(r"[0-9]", password))
-        and (not special_char or re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]", password))
+        and (
+            not special_char
+            or re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]", password)
+        )
         and (password not in most_used_passwords)
     )
 
