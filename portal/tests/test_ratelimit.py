@@ -337,7 +337,7 @@ class TestRatelimit(TestCase):
         message = str(mail.outbox[0].body)
         url = re.search("http.+/", message).group(0)
 
-        new_password = "AnotherPassword12"
+        new_password = "AnotherPassword12!"
 
         self._reset_password(url, new_password)
 

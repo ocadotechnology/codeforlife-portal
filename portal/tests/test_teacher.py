@@ -379,7 +379,7 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page = submit_teacher_signup_form(page, password="test")
         assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers and special characters"
         )
 
     def test_signup_failure_common_password(self):
@@ -387,7 +387,7 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page = submit_teacher_signup_form(page, password="Password1")
         assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers and special characters"
         )
 
     def test_login_failure(self):
