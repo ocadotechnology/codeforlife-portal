@@ -179,14 +179,13 @@ class TeacherLoginForm(AuthenticationForm):
 
 
 class ClassCreationForm(forms.Form):
-    classmate_choices = [("True", "Yes"), ("False", "No")]
     class_name = forms.CharField(
-        label="Class Name", widget=forms.TextInput(attrs={"placeholder": "Lower KS2"})
+        widget=forms.TextInput(attrs={"placeholder": "Class name"}),
+        help_text="Enter a class name",
     )
-    classmate_progress = forms.ChoiceField(
-        label="Allow students to see their classmates' progress?",
-        choices=classmate_choices,
-        widget=forms.Select(attrs={"class": "wide"}),
+    classmate_progress = forms.BooleanField(
+        label="Allow students to see their classmates' progress",
+        widget=forms.CheckboxInput(), initial=False, required=False,
     )
 
 

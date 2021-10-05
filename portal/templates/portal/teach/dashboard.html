@@ -8,7 +8,8 @@
 <script>
     var CONFIRMATION_DATA = {};
 
-    $('#classes').hide();
+    {#$('#classes').hide();#}
+    $('#school').hide();
     $('#account').hide();
 
     $('#tab-school').on('click', () => {
@@ -191,16 +192,16 @@
                 {{ update_school_form.non_field_errors }}
                 <div class="form--row">
                 {% for field in update_school_form %}
-                        <div class="form--row__input">
-                            <div class="input--icon">
-                                {{ field }}
-                                {% if not field == update_school_form.country %}
-                                    <span class="iconify" data-icon="mdi:city-variant-outline"></span>
-                                {% endif %}
-                            </div>
-                            <small>{{ field.help_text }}</small>
-                            {{ field.errors }}
+                    <div class="form--row__input">
+                        <div class="input--icon">
+                            {{ field }}
+                            {% if not field == update_school_form.country %}
+                                <span class="iconify" data-icon="mdi:city-variant-outline"></span>
+                            {% endif %}
                         </div>
+                        <small>{{ field.help_text }}</small>
+                        {{ field.errors }}
+                    </div>
                 {% endfor %}
                 </div>
                 <div class="section group">
@@ -213,99 +214,79 @@
 </div>
 
 <div id="classes">
-    <div class="background col-sm-6 col-center">
+    <div class="background col-sm-8 col-center">
         <section>
-            <h4>Classes</h4>
-            <div class="button-group background">
-                <a href="{% url 'scoreboard' %}"
-                   class="button button--secondary button--secondary--dark">Scoreboard</a>
-                <a href="#new-class" class="button button--secondary button--secondary--dark">Add class</a>
-                <a href="{% url 'level_moderation' %}"
-                   class="button button--secondary button--secondary--dark">Level moderation</a>
-            </div>
-            <div>Below is a list of all the classes you teach. You can add a class or edit your existing classes. You can also accept or deny
-                requests from independent students wanting to join one of your classes.</div>
+            <h4>Your classes</h4>
         </section>
+        <p>Below is a list of all the classes you teach. You can add a class or edit your existing classes. You can also accept or deny
+            requests from independent students wanting to join one of your classes.</p>
     </div>
     <div class="col-sm-8 col-center">
-        <div class="row">
-            <div class="col-sm-5">
-                <h5>Current classes</h5>
-                {% if classes %}
-                    <table id="classes-table" class="header-primary data-primary">
-                        <tr>
-                            <th><p>Class name</p></th>
-                            <th><p>Access code</p></th>
-                            <th><p>Action</p></th>
-                        </tr>
-                        {% for class in classes %}
-                            <tr>
-                                <td><p><small>{{ class.name }}</small></p></td>
-                                <td><p><small>{{ class.access_code }}</small></p></td>
-                                <td class="cell-center">
-                                    <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button button--small button--primary">Edit class</a></td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                {% else %}
-                    <p>It doesn't look like you have any classes assigned to you. To create a class, use the 'New Class' box below.</p>
-                {% endif %}
-            </div>
-            <div class="col-sm-6 col-sm-offset-1">
-                <h5>External requests to join your classes</h5>
-                <p>External, or independent students may request to join your classes, if the student has been given a Class Access Code, and provided you
-                    have enabled external requests for that class.</p>
-                {% if requests %}
-                <p><small>The following users have made requests to join your classes. If you accept a request, you will be able to choose a
-                    name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them
-                    like any other student.</small></p>
-                <p><small>To conform to our security policy, the requested student’s username and email will be deleted on acceptance.
-                    These details are displayed here to enable you to identify them as genuine.</small></p>
-                <p><small>You should not accept a request from a student whose email and username you do not recognise, or if you weren’t
-                    expecting such a request.</small></p>
-
-                <table id="independent_request_table" class="header-primary data-primary">
+        {% if classes %}
+            <table id="classes-table" class="header-primary data-primary">
+                <tr>
+                    <th><p>Class name</p></th>
+                    <th><p>Access code</p></th>
+                    <th><p>Action</p></th>
+                </tr>
+                {% for class in classes %}
                     <tr>
-                        <th><p>Username</p></th>
-                        <th><p>Name</p></th>
-                        <th><p>Email</p></th>
-                        <th><p>Class</p></th>
-                        <th colspan="2"></th>
+                        <td><p><small>{{ class.name }}</small></p></td>
+                        <td><p><small>{{ class.access_code }}</small></p></td>
+                        <td class="cell-center">
+                            <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button button--small button--primary">Edit details</a></td>
                     </tr>
-                    {% for join_request in requests %}
+                {% endfor %}
+            </table>
+        {% else %}
+            <h5>It doesn't look like you have any classes assigned to you. To create a class, use the 'New Class' box below.</h5>
+        {% endif %}
+        <section>
+            <h4>External requests to join your classes</h4>
+        </section>
+        <p>External, or independent students may request to join your classes, if the student has been given a Class Access Code, and provided you
+            have enabled external requests for that class.</p>
+        {% if requests %}
+            <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a
+                name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them
+                like any other student.</p>
+            <p>To conform to our security policy, the requested student’s username and email will be deleted on acceptance.
+                These details are displayed here to enable you to identify them as genuine.</p>
+            <p>You should not accept a request from a student whose email and username you do not recognise, or if you weren’t
+                expecting such a request.</p>
+
+            <table id="independent_request_table" class="header-primary data-primary">
+                <tr>
+                    <th><p>Username</p></th>
+                    <th><p>Name</p></th>
+                    <th><p>Email address</p></th>
+                    <th><p>Class</p></th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                {% for join_request in requests %}
                     <tr>
                         <td><p><small>{{ join_request.new_user.username }}</small></p></td>
                         <td><p><small>{{ join_request.new_user.first_name }}</small></p></td>
                         <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                         <td><p><small>{{ join_request.pending_class_request.name }}
                             ({{ join_request.pending_class_request.access_code }})</small></p></td>
-                        <td>
-                            <form method="post" action="{% url 'teacher_accept_student_request' join_request.id %}">
-                                {% csrf_token %}
-                                <button id="allow_independent_button" type="submit"
-                                        class="button--small button--primary">Accept</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method="post" action="{% url 'teacher_reject_student_request' join_request.id %}">
-                                {% csrf_token %}
-                                <button id="deny_independent_button" type="submit"
-                                        class="button--small button--primary--danger button-block">Reject</button>
-                            </form>
+                        <td colspan="2" class="cell-center">
+                            <button id="allow_independent_button" class="button--small button--primary"
+                                    onclick="postWithCsrf('{% url 'teacher_accept_student_request' join_request.id %}');">Add to class</button>
+                            <button id="deny_independent_button" class="button--small button--primary--danger button-block"
+                                    onclick="postWithCsrf('{% url 'teacher_reject_student_request' join_request.id %}');">Reject request</button>
                         </td>
                     </tr>
-                    {% endfor %}
-                </table>
-                <br>
-                {% else %}
-                <p><strong>No students have currently requested to join your classes.</strong></p>
-                {% endif %}
-            </div>
-        </div>
+                {% endfor %}
+            </table>
+            <br>
+        {% else %}
+            <p><strong>No students have currently requested to join your classes.</strong></p>
+        {% endif %}
     </div>
 
     <div id="new-class" class="background background--primary">
-        <div class="col-sm-7 col-center">
+        <div class="col-sm-8 col-center">
             <h4>Create a new class</h4>
             <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                 class.</p>
@@ -315,20 +296,25 @@
 
                 {{ create_class_form.non_field_errors }}
 
-                <div class="section group">
-
-                    <label for="id_{{ form.class_name.html_name }}">{{ create_class_form.class_name.label }}</label>
-                    {{ create_class_form.class_name }}
-                    {{ create_class_form.class_name.errors }}
-                    <div class="col span_1_of_3">
-                        <label for="id_{{ form.classmate_progress.html_name }}">{{ create_class_form.classmate_progress.label }}</label>
+                <div class="form--row">
+                    <div class="form--row__input">
+                        <div class="input--icon">
+                            {{ create_class_form.class_name }}<span class="iconify" data-icon="mdi:account-multiple"></span>
+                        </div>
+                        <small>{{ create_class_form.class_name.help_text }}</small>
+                        {{ create_class_form.class_name.errors }}
                     </div>
-                    <div class="col span_1_of_3">
-                        {{ create_class_form.classmate_progress }}
+                    <div class="form--row__input">
+                        <div class="form__checkbox">
+                            <div class="form__checkbox-input">
+                                {{ create_class_form.classmate_progress }}
+                            </div>
+                            <label for="id_{{ form.classmate_progress.html_name }}">{{ create_class_form.classmate_progress.label }}</label>
+                        </div>
                         {{ create_class_form.classmate_progress.errors }}
                     </div>
-                    <button id="create_class_button" type="submit" class="button button--primary" name="create_class">Create</button>
                 </div>
+                <button id="create_class_button" type="submit" class="button button--primary" name="create_class">Create class</button>
             </form>
         </div>
     </div>

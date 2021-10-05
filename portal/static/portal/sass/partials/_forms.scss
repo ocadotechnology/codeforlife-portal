@@ -165,6 +165,12 @@ form {
   justify-content: flex-end;
 }
 
+.checkbox--labelled {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .form--row {
   align-items: center;
   display: flex;
@@ -174,6 +180,10 @@ form {
     display: flex;
     flex: 1;
     flex-direction: column;
+
+    .form__checkbox {
+      font-size: 100%;
+    }
   }
 
   .iconify {
