@@ -172,6 +172,7 @@ SETTINGS = {
                       f"{DOMAIN}/static/portal/",),
     "CSP_FRAME_SRC": ("https://storage.googleapis.com/",
                       "https://www.youtube-nocookie.com/",
+                      "https://www.recaptcha.net/",
                       "https://www.google.com/recaptcha/",),
     "CSP_OBJECT_SRC": ("'none'",),
     # "CSP_UPGRADE_INSECURE_REQUESTS": True,
