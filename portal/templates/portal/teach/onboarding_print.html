@@ -55,12 +55,12 @@
     <div class="form col-sm-4 col-center">
         <h4>{{ user.new_teacher.school.name }}</h4>
         {% if passwords_reset %}
-        <h5>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
+        <h5>Students' passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
         <p>The following students have had their passwords reset:</p><br>
         {% else %}
         <h5>New students created in class: {{ class.name }} ({{ class.access_code }})</h5>
         <p>The following students have been created for your class. When they log in for the first time, you may want students to change their
-            passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p><br>
+            passwords to something more memorable. You will be able to reset these students' passwords at any time.</p><br>
         {% endif %}
         <p>The Class Access Code for this class is: {{ class.access_code }}.</p>
         <table id="student_table" class="header-primary data-primary">
@@ -88,6 +88,13 @@
                     {% else %}
                         <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark">Finish setup</a>
                     {% endif %}
+                </div>
+            </form>
+            <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}">
+                {% csrf_token %}
+                <input type="hidden" name="data" value="{{ query_data }}"/>
+                <div class="button-group">
+                    <button class="button button--primary button-file-download" type="submit">Download CSV</button>
                 </div>
             </form>
         </section>

@@ -1,3 +1,6 @@
+import io
+import csv
+import json
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -30,8 +33,50 @@ class TestTeacherViews(TestCase):
     def test_reminder_cards(self):
         c = self.login()
         url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
+        response = c.post(url)
+        assert response.status_code == 200
+
+    def test_csv(self):
+        c = self.login()
+        url = reverse("teacher_download_csv", args=[self.class_access_code])
+        NAME1 = "Test name"
+        NAME2 = "Another name"
+        URL_PLACEHOLDER = "http://_____"
+
+        studentlist = [
+            {"name": NAME1, "url": URL_PLACEHOLDER},
+            {"name": NAME2, "url": URL_PLACEHOLDER},
+        ]
+        data = {"data": json.dumps(studentlist)}
+
+        response = c.post(
+            url,
+            data,
+        )
+
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        reader = csv.reader(io.StringIO(content))
+
+        row0 = next(reader)
+        assert row0[0].strip() == self.class_access_code
+        row1 = next(reader)
+        assert row1[0] == NAME1
+        assert row1[1] == URL_PLACEHOLDER
+        row2 = next(reader)
+        assert row2[0] == NAME2
+
+        # post without any data should return empty
+        response = c.post(url)
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        assert content == ""
+
+        # as well as GET method
         response = c.get(url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        assert content == ""
 
     def test_organisation_kick_has_correct_permissions(self):
         teacher2_email, _ = signup_teacher_directly()
