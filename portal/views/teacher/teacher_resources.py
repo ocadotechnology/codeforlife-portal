@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from common.permissions import logged_in_as_teacher
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render

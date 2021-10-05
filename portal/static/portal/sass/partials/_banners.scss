@@ -65,7 +65,7 @@
 
 .banner--picture {
   height: 64 * $spacing;
-  margin: 0 auto 0;
+  margin: 0 auto 0 70px;
   overflow: hidden;
   transform: rotate(120deg);
   visibility: hidden;
@@ -161,6 +161,20 @@
 .banner--student {
   background-color: $color-tertiary;
   background-position: top left;
+}
+
+.banner-home-content {
+  display: table;
+
+  .banner-home-text {
+    float: left;
+    display: table-cell;
+  }
+
+  .banner-home-button {
+    display: table-cell;
+    vertical-align: bottom;
+  }
 }
 
 .banner--game {
@@ -362,6 +376,10 @@
   }
 }
 
+.banner__item {
+  text-align: center;
+}
+
 @media (max-width: $tablet-large-max-width) {
   .banner {
     .col-sm-offset-2 {
@@ -370,14 +388,22 @@
   }
 
   .banner--homepage {
-    .col-sm-7 {
+    @include _padding(50px, 0px, 50px, 10px);
+    .col-sm-11 {
       width: 100%;
     }
   }
-}
 
-.banner__item {
-  text-align: center;
+  .banner-home-content {
+    .banner-home-text {
+      display: block;
+    }
+
+    .banner-home-button {
+      float: right;
+      margin-top: 20px;
+    }
+  }
 }
 
 @media (min-width: $tablet-small-min-width) {
@@ -388,17 +414,23 @@
   }
 }
 
+@media (max-width: $tablet-small-min-width) {
+  .banner--picture {
+    margin: 0 auto 0 auto;
+  }
+}
+
 @media (max-width: $mobile-max-width) {
   .banner--homepage {
-    @include _padding(50px, 0px, 50px, 10px);
+    @include _padding(30px, 0px, 20px, 10px);
   }
 
   .banner {
     @include _padding(10px, 10px, 50px, 10px);
+  }
 
-    .banner--picture {
-      display: none;
-    }
+  .banner--picture {
+    display: none;
   }
 
   .banner--rapid-router {

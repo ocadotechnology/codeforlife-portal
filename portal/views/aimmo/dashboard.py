@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional
 
+from aimmo.game_creator import create_game
 from aimmo.models import Game, Worksheet
-from common.models import Class
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
@@ -12,9 +12,8 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
-from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
-from aimmo.game_creator import create_game
 from portal.forms.add_game import AddGameForm
+from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
 
 class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, CreateView):

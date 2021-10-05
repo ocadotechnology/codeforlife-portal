@@ -1,6 +1,8 @@
-from django.http import HttpResponse
-from django.conf import settings
 import os
+
+from django.conf import settings
+from django.http import HttpResponse
+
 
 class BasicAuthMiddleware:
     def unauthed(self):
