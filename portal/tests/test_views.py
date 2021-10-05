@@ -55,7 +55,6 @@ class TestTeacherViews(TestCase):
         )
 
         assert response.status_code == 200
-
         content = response.content.decode("utf-8")
         reader = csv.reader(io.StringIO(content))
 
@@ -69,6 +68,12 @@ class TestTeacherViews(TestCase):
 
         # post without any data should return empty
         response = c.post(url)
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        assert content == ""
+
+        # as well as GET method
+        response = c.get(url)
         assert response.status_code == 200
         content = response.content.decode("utf-8")
         assert content == ""
