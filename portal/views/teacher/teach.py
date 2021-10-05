@@ -822,9 +822,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Work out the data we're going to display, use data from the query string
     # if given, else display everyone in the class without passwords
-    student_data = []
-
-    student_data = get_student_data(request, klass, student_data)
+    student_data = get_student_data(request, klass)
 
     # Now draw everything
     x = 0
