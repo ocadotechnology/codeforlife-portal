@@ -471,6 +471,3 @@ class TestTeacherStudent(BaseTest):
             .dismiss()
         )
         assert not page.student_exists(student_name_1)
-
-    def is_student_dashboard(self, page):
-        return page.__class__.__name__ == "PlayDashboardPage"

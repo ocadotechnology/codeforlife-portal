@@ -51,10 +51,10 @@ td {
 }
 
 .or-circle {
+  @include _font-size(14px);
   background-color: $color-primary;
   border-radius: 50%;
   color: $color-text-secondary;
-  font-size: 14px;
   font-weight: 600;
   line-height: 40px;
   width: 40px;

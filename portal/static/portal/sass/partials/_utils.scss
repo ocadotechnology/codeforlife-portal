@@ -233,10 +233,6 @@ input.input-invalid {
   border-color: $color-error;
 }
 
-.margin-0 {
-  margin: 0;
-}
-
 @media (max-width: $tablet-large-max-width) {
   .col-sm-offset-2 {
     margin-left: 8.333%;

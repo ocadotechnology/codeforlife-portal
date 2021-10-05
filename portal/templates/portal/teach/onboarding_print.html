@@ -43,8 +43,9 @@
     <div class="container">
         <div class="col-sm-12 sub-nav">
             <span class="iconify font-size-40" data-icon="mdi:alert-outline"></span>
-            <p><small><i>This is the only time you will be able to view this page. You can print PDF format reminder cards that populate these details which can
-                be given to the students.</i></small></p>
+            <p class="flex-grow-1">
+                <small><i>This is the only time you will be able to view this page. You can print reminder cards or download as a CSV file.</i></small>
+            </p>
             <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
                 {% csrf_token %}
                 <input type="hidden" name="data" value="{{ query_data }}"/>
@@ -92,7 +93,11 @@
                         <div class="d-flex align-items-center">
                             <div><small>Class link:</small></div>
                             <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
-                            <div><a onclick="copyToClipboardFromElement(this, '#class_url')" data-toggle="copyToClipboardTooltip"><span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span></a></div>
+                            <div>
+                                <a onclick="copyToClipboardFromElement(this, '#class_url')" data-toggle="copyToClipboardTooltip">
+                                    <span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span>
+                                </a>
+                            </div>
                         </div>
                     </td>
                     <td class="no-bg"><div class="or-circle d-none d-lg-block">OR</div></td>
@@ -104,15 +109,19 @@
                     <th class="no-bg"></th>
                     <th><p>Copy the links below and share with the student</p></th>
                 </tr>
-                {% for name_token in name_tokens %}
+                {% for student_info in students_info %}
                 <tr>
-                    <td><p><small>{{ name_token.name }}</small></p></td>
-                    <td><p><small>{{ name_token.password }}</small></p></td>
+                    <td><p><small>{{ student_info.name }}</small></p></td>
+                    <td><p><small>{{ student_info.password }}</small></p></td>
                     <td class="no-bg"></td>
                     <td class="mw-0">
                         <div class="d-flex align-items-center">
-                            <div id="student_{{ name_token.id }}_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ name_token.login_url }}</small></div>
-                            <div><a onclick="copyToClipboardFromElement(this, '#student_{{ name_token.id }}_url')" data-toggle="copyToClipboardTooltip"><span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span></a></div>
+                            <div id="student_{{ student_info.id }}_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ student_info.login_url }}</small></div>
+                            <div>
+                                <a onclick="copyToClipboardFromElement(this, '#student_{{ student_info.id }}_url')" data-toggle="copyToClipboardTooltip">
+                                    <span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span>
+                                </a>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -125,14 +134,14 @@
                 <input type="hidden" name="data" value="{{ query_data }}"/>
 
                 <div class="d-flex mb-5">
-                    <button class="button button--primary margin-0" type="submit">
+                    <button class="button button--primary m-0" type="submit">
                         <div class="d-flex align-items-center">
                             <div>Print password reminder cards</div>
                             <span class="iconify ml-3" data-icon="mdi:printer"></span>
                         </div>
                     </button>
                 </div>
-                
+
                 {% if onboarding_done %}
                     <div class="d-flex">
                         <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">

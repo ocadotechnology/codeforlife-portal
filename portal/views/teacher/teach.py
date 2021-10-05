@@ -133,7 +133,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     if request.method == "POST":
         new_students_form = StudentCreationForm(klass, request.POST)
         if new_students_form.is_valid():
-            name_tokens = []
+            students_info = []
             for name in new_students_form.strippedNames:
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
 
@@ -158,7 +158,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     )
                 )
 
-                name_tokens.append(
+                students_info.append(
                     {
                         "id": new_student.new_user.id,
                         "name": name,
@@ -172,9 +172,9 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                 "portal/teach/onboarding_print.html",
                 {
                     "class": klass,
-                    "name_tokens": name_tokens,
+                    "students_info": students_info,
                     "onboarding_done": onboarding_done,
-                    "query_data": json.dumps(name_tokens),
+                    "query_data": json.dumps(students_info),
                     "class_url": request.build_absolute_uri(
                         reverse(
                             "student_login", kwargs={"access_code": klass.access_code}
@@ -568,7 +568,7 @@ def teacher_class_password_reset(request, access_code):
         get_object_or_404(Student, id=i, class_field=klass) for i in student_ids
     ]
 
-    name_tokens = []
+    students_info = []
     for student in students:
         password = generate_password(STUDENT_PASSWORD_LENGTH)
 
@@ -585,7 +585,7 @@ def teacher_class_password_reset(request, access_code):
             )
         )
 
-        name_tokens.append(
+        students_info.append(
             {
                 "id": student.new_user.id,
                 "name": student.new_user.first_name,
@@ -605,8 +605,8 @@ def teacher_class_password_reset(request, access_code):
             "class": klass,
             "onboarding_done": True,
             "passwords_reset": True,
-            "name_tokens": name_tokens,
-            "query_data": json.dumps(name_tokens),
+            "students_info": students_info,
+            "query_data": json.dumps(students_info),
             "class_url": request.build_absolute_uri(
                 reverse("student_login", kwargs={"access_code": klass.access_code})
             ),
