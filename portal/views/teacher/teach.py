@@ -820,9 +820,8 @@ def teacher_print_reminder_cards(request, access_code):
 
     COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
 
-    # Work out the data we're going to display, use data from the query string
-    # if given, else display everyone in the class without passwords
-    student_data = get_student_data(request, klass)
+    # Use data from the query string if given
+    student_data = get_student_data(request)
 
     # Now draw everything
     x = 0
@@ -954,16 +953,17 @@ def teacher_download_csv(request, access_code):
         raise Http404
 
     # Use data from the query string if given
-    student_data = get_student_data(request, klass)
-
-    writer = csv.writer(response)
-    for student in student_data:
-        writer.writerow([student["name"], student["url"]])
+    student_data = get_student_data(request)
+    if student_data:
+        writer = csv.writer(response)
+        writer.writerow([access_code])
+        for student in student_data:
+            writer.writerow([student["name"], student["url"]])
 
     return response
 
 
-def get_student_data(request, klass):
+def get_student_data(request):
     if request.method == "POST":
         data = request.POST.get("data", "[]")
         return json.loads(data)
