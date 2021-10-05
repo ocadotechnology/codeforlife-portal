@@ -44,8 +44,8 @@ class TestTeacherViews(TestCase):
         URL_PLACEHOLDER = "http://_____"
 
         studentlist = [
-            {"name": NAME1, "url": URL_PLACEHOLDER},
-            {"name": NAME2, "url": URL_PLACEHOLDER},
+            {"name": NAME1, "login_url": URL_PLACEHOLDER},
+            {"name": NAME2, "login_url": URL_PLACEHOLDER},
         ]
         data = {"data": json.dumps(studentlist)}
 

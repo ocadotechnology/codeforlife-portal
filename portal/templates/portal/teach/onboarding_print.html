@@ -129,46 +129,47 @@
             </table>
         </div>
         <section>
-            <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
-                {% csrf_token %}
-                <input type="hidden" name="data" value="{{ query_data }}"/>
 
-                <div class="d-flex mb-5">
+            <div class="d-flex justify-content-between b-5">
+                <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="data" value="{{ query_data }}"/>
                     <button class="button button--primary m-0" type="submit">
                         <div class="d-flex align-items-center">
                             <div>Print password reminder cards</div>
                             <span class="iconify ml-3" data-icon="mdi:printer"></span>
                         </div>
                     </button>
-                </div>
+                </form>
 
-                {% if onboarding_done %}
-                    <div class="d-flex">
-                        <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">
-                            <div class="d-flex align-items-center">
-                                <span class="iconify mr-3" data-icon="mdi:chevron-left"></span>
-                                <div>Back to class</div>
-                            </div>
-                        </a>
+                <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="data" value="{{ query_data }}"/>
+                    <div class="button-group">
+                        <button class="button button--primary button-file-download" type="submit">Download CSV</button>
                     </div>
-                {% else %}
-                    <div class="d-flex justify-content-end">
-                        <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark">
-                            <div class="d-flex align-items-center">
-                                <div>Complete set up </div>
-                                <span class="iconify ml-3" data-icon="mdi:check"></span>
-                            </div>
-                        </a>
-                    </div>
-                {% endif %}
-            </form>
-            <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}">
-                {% csrf_token %}
-                <input type="hidden" name="data" value="{{ query_data }}"/>
-                <div class="button-group">
-                    <button class="button button--primary button-file-download" type="submit">Download CSV</button>
+                </form>
+            </div>
+
+            {% if onboarding_done %}
+                <div class="d-flex">
+                    <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">
+                        <div class="d-flex align-items-center">
+                            <span class="iconify mr-3" data-icon="mdi:chevron-left"></span>
+                            <div>Back to class</div>
+                        </div>
+                    </a>
                 </div>
-            </form>
+            {% else %}
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark">
+                        <div class="d-flex align-items-center">
+                            <div>Complete set up </div>
+                            <span class="iconify ml-3" data-icon="mdi:check"></span>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
         </section>
     </div>
 </div>

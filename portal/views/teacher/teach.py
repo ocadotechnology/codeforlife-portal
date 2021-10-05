@@ -994,7 +994,7 @@ def teacher_download_csv(request, access_code):
         writer = csv.writer(response)
         writer.writerow([access_code])
         for student in student_data:
-            writer.writerow([student["name"], student["url"]])
+            writer.writerow([student["name"], student["login_url"]])
 
     return response
 
