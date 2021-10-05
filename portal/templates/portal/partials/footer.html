@@ -22,12 +22,12 @@
             </div>
             <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post">
                 {{ news_form.non_field_errors }}
-                <div class="form--news-signup">
-                    <div class="form--news-signup__input">
+                <div class="form--row">
+                    <div class="form--row__input">
                         <label>{{ news_form.email.label }}</label>
                         <div class="input--icon">
                             {{ news_form.email }}
-                            <span class="iconify iconify-email-outline" data-icon="mdi:email-outline"></span>
+                            <span class="iconify" data-icon="mdi:email-outline"></span>
                         </div>
                         <small>{{ news_form.email.help_text }}</small>
                         {{ news_form.email.errors }}

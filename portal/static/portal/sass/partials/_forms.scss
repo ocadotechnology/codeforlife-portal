@@ -13,6 +13,7 @@ form {
   select {
     @include _margin(10px, 0px, 10px, 0px);
     @include _padding(0px, 10px, 0px, 10px);
+    background: white;
     border: 1px solid $color-message-border;
     height: 42px;
     width: 100%;
@@ -162,6 +163,28 @@ form {
   align-items: center;
   display: flex;
   justify-content: flex-end;
+}
+
+.form--row {
+  align-items: center;
+  display: flex;
+
+  .form--row__input {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .iconify {
+    @include _font_size(24px);
+    @include _margin(0px, 15px, 0px, 0px);
+    position: absolute;
+  }
+
+  input[type="text"] {
+    @include _padding(0px, 40px, 0px, 15px);
+  }
 }
 
 @media (max-width: $mobile-max-width) {
