@@ -65,7 +65,7 @@
 <div class="background container">
     <div class="form col-sm-12">
         {% if passwords_reset %}
-        <h5>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
+        <h5>Students' passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
         <p>The following students have had their passwords reset:</p><br>
         {% else %}
         <p>
@@ -161,6 +161,13 @@
                         </a>
                     </div>
                 {% endif %}
+            </form>
+            <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}">
+                {% csrf_token %}
+                <input type="hidden" name="data" value="{{ query_data }}"/>
+                <div class="button-group">
+                    <button class="button button--primary button-file-download" type="submit">Download CSV</button>
+                </div>
             </form>
         </section>
     </div>
