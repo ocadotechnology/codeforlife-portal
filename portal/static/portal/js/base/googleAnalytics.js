@@ -17,3 +17,12 @@ function send_event(category_name, action, label_name) {
 }
 
 riveted.init();
+
+function send_event(name_of_file, action){
+    ga('send', {
+        hitType: 'event',
+        eventCategory: 'PDFs',
+        eventAction: action,
+        eventLabel: name_of_file
+    });
+}
