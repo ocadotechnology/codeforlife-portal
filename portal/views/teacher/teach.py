@@ -956,8 +956,7 @@ def teacher_download_csv(request, access_code):
         raise Http404
 
     # Use data from the query string if given
-    student_data = []
-    student_data = get_student_data(request, klass, student_data)
+    student_data = get_student_data(request, klass)
 
     writer = csv.writer(response)
     for student in student_data:
@@ -966,10 +965,11 @@ def teacher_download_csv(request, access_code):
     return response
 
 
-def get_student_data(request, klass, student_data):
+def get_student_data(request, klass):
     if request.method == "POST":
-        student_data = json.loads(request.POST.get("data", "[]"))
-    return student_data
+        data = request.POST.get("data", "[]")
+        return json.loads(data)
+    return []
 
 
 def compute_show_page_character(p, x, y, NUM_Y):

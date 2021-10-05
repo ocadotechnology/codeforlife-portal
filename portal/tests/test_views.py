@@ -1,3 +1,4 @@
+import io, csv
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -36,8 +37,28 @@ class TestTeacherViews(TestCase):
     def test_csv(self):
         c = self.login()
         url = reverse("teacher_download_csv", args=[self.class_access_code])
-        response = c.post(url)
+        NAME1 = "Test name"
+        NAME2 = "Another name"
+        URL_PLACEHOLDER = "http://_____"
+        data = {
+            "data": """[{"name": "%s", "url": "%s"}, {"name": "%s", "url": "%s"}]"""
+            % (NAME1, URL_PLACEHOLDER, NAME2, URL_PLACEHOLDER)
+        }
+
+        response = c.post(
+            url,
+            data,
+        )
+
         assert response.status_code == 200
+
+        content = response.content.decode("utf-8")
+        reader = csv.reader(io.StringIO(content))
+        row1 = next(reader)
+        assert row1[0] == NAME1
+        assert row1[1] == URL_PLACEHOLDER
+        row2 = next(reader)
+        assert row2[0] == NAME2
 
     def test_organisation_kick_has_correct_permissions(self):
         teacher2_email, _ = signup_teacher_directly()
