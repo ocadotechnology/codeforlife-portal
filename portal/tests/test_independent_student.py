@@ -400,6 +400,7 @@ class TestIndependentStudent(BaseTest):
         page = (
             page.go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
+            .open_classes_tab()
             .accept_independent_join_request()
             .save(student_name)
             .return_to_class()
@@ -434,6 +435,7 @@ class TestIndependentStudent(BaseTest):
         dashboard_page = (
             page.go_to_teacher_login_page()
             .login(teacher_email, teacher_password)
+            .open_classes_tab()
             .deny_independent_join_request()
         )
 

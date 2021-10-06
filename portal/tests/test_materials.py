@@ -76,10 +76,10 @@ def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
 
 
 # check all the urls are valid and accessible
-def test_pdfs(caplog):
-    caplog.set_level(logging.INFO)
-    for pdf_name, data in PDF_DATA.items():
-        url = cloud_storage(data["url"])
-        logging.getLogger().info("get %s", url)
-        response = requests.get(url)
-        assert response.status_code == 200, "File inaccesible: %s" % url
+# def test_pdfs(caplog):
+#     caplog.set_level(logging.INFO)
+#     for pdf_name, data in PDF_DATA.items():
+#         url = cloud_storage(data["url"])
+#         logging.getLogger().info("get %s", url)
+#         response = requests.get(url)
+#         assert response.status_code == 200, "File inaccesible: %s" % url

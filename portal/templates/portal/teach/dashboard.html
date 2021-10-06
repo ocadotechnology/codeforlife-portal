@@ -108,7 +108,7 @@
                                 Make admin</button>
                         {% endif %}
                         {% if coworker.new_user|has_2FA %}
-                            <button class="button button--small button--primary--danger button-remove"
+                            <button id="disable_2fa_button" class="button button--small button--primary--danger button-remove"
                                     onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                                 Remove 2FA</button>
                         {% endif %}

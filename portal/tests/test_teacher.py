@@ -432,7 +432,12 @@ class TestTeacher(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         page = page.change_teacher_details(
             {
@@ -463,6 +468,7 @@ class TestTeacher(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email_2, password_2)
+            .open_account_tab()
         )
 
         page = page.change_teacher_details(
@@ -488,7 +494,12 @@ class TestTeacher(BaseTest):
         other_email, _ = signup_teacher_directly()
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         # Try changing email to an existing email, should fail
         page = page.change_email("Test", "Teacher", other_email, password)
@@ -500,7 +511,12 @@ class TestTeacher(BaseTest):
         mail.outbox = []
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         # Try changing email to a new one, should succeed
         new_email = "another-email@codeforlife.com"
@@ -518,7 +534,7 @@ class TestTeacher(BaseTest):
         page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
         mail.outbox = []
 
-        page = page.login(new_email, password)
+        page = page.login(new_email, password).open_account_tab()
 
         assert page.check_account_details(
             {"first_name": "Test", "last_name": "Teacher"}
@@ -531,7 +547,12 @@ class TestTeacher(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         new_password = "AnotherPassword12"
         page = page.change_password("Test", "Teacher", new_password, password)
