@@ -442,8 +442,9 @@ def process_reset_password_form(request, student, password_form):
             )
         )
 
-        name_pass = [
+        students_info = [
             {
+                "id": student.new_user.id,
                 "name": student.new_user.first_name,
                 "password": new_password,
                 "login_url": login_url,
@@ -460,10 +461,9 @@ def process_reset_password_form(request, student, password_form):
             "portal/teach/onboarding_print.html",
             {
                 "class": student.class_field,
+                "students_info": students_info,
                 "onboarding_done": True,
-                "passwords_reset": True,
-                "name_tokens": name_pass,
-                "query_data": json.dumps(name_pass),
+                "query_data": json.dumps(students_info),
                 "class_url": request.build_absolute_uri(
                     reverse(
                         "student_login",
