@@ -169,7 +169,7 @@ class TeachDashboardPage(TeachBasePage):
 
     def is_teacher_admin(self):
         return (
-            "Make non-admin" in self.browser.find_element_by_id("teachers_table").text
+            "Revoke admin" in self.browser.find_element_by_id("teachers_table").text
         )
 
     def have_classes(self):

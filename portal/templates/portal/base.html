@@ -183,7 +183,12 @@
     }
 
     function animate(targetOffset) {
-        $('html,body').animate({scrollTop: targetOffset}, 1000);
+        let stickyWarningHeight = 0;
+        let stickyWarning = $('#sticky-warning');
+        if (stickyWarning.length) {
+            stickyWarningHeight = stickyWarning.height();
+        }
+        $('html,body').animate({scrollTop: targetOffset - $('.menu').height() - stickyWarningHeight}, 1000);
     }
 
     function invokeColorbox() {
