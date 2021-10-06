@@ -119,11 +119,11 @@ def create_class(form, teacher):
     return klass
 
 
-def generate_student_url(request, student, uuidstr):
+def generate_student_url(request, student, login_id):
     return request.build_absolute_uri(
         reverse(
             "student_direct_login",
-            kwargs={"user_id": student.new_user.id, "login_id": uuidstr},
+            kwargs={"user_id": student.new_user.id, "login_id": login_id},
         )
     )
 
@@ -148,16 +148,16 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
 
                 # generate uuid for url and store the hashed
-                uuidstr, login_id = generate_login_id()
+                login_id, hashed_login_id = generate_login_id()
 
                 new_student = Student.objects.schoolFactory(
                     klass=klass,
                     name=name,
                     password=password,
-                    login_id=login_id,
+                    login_id=hashed_login_id,
                 )
 
-                login_url = generate_student_url(request, new_student, uuidstr)
+                login_url = generate_student_url(request, new_student, login_id)
                 students_info.append(
                     {
                         "id": new_student.new_user.id,
@@ -573,8 +573,8 @@ def teacher_class_password_reset(request, access_code):
         password = generate_password(STUDENT_PASSWORD_LENGTH)
 
         # generate uuid for url and store the hashed
-        uuidstr, login_id = generate_login_id()
-        login_url = generate_student_url(request, student, uuidstr)
+        login_id, hashed_login_id = generate_login_id()
+        login_url = generate_student_url(request, student, login_id)
 
         students_info.append(
             {
@@ -586,7 +586,7 @@ def teacher_class_password_reset(request, access_code):
         )
         student.new_user.set_password(password)
         student.new_user.save()
-        student.login_id = login_id
+        student.login_id = hashed_login_id
         student.save()
 
     return render(

@@ -171,12 +171,12 @@ class TestLoginViews(TestCase):
 
     def test_student_direct_login(self):
         _, _, _, _, class_access_code = self._set_up_test_data()
-        student, uuidstr = create_student_with_direct_login(class_access_code)
+        student, login_id = create_student_with_direct_login(class_access_code)
 
         c = Client()
-        assert c.login(user_id=student.user.id, login_id=uuidstr) == True
+        assert c.login(user_id=student.user.id, login_id=login_id) == True
 
-        url = f"/u/{student.user.id}/{uuidstr}/"
+        url = f"/u/{student.user.id}/{login_id}/"
         response = c.get(url)
         # assert redirects
         assert response.url == "/play/details/"

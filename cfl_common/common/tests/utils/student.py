@@ -46,10 +46,10 @@ def create_student_with_direct_login(access_code) -> Tuple[Student, str]:
     klass = Class.objects.get(access_code=access_code)
 
     # use random string for direct login)
-    uuidstr, login_id = generate_login_id()
-    student = Student.objects.schoolFactory(klass, name, password, login_id)
+    login_id, hashed_login_id = generate_login_id()
+    student = Student.objects.schoolFactory(klass, name, password, hashed_login_id)
 
-    return student, uuidstr
+    return student, login_id
 
 
 def create_independent_student_directly(preverified=True):

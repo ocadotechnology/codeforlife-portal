@@ -42,9 +42,9 @@ def generate_password(length):
 def generate_login_id():
     """Returns the uuid string and its hashed.
     The string is used for URL, and the hashed is stored in the DB."""
-    uuidstr = uuid4().hex
-    login_id = get_hashed_login_id(uuidstr)
-    return uuidstr, login_id
+    login_id = uuid4().hex
+    hashed_login_id = get_hashed_login_id(login_id)
+    return login_id, hashed_login_id
 
 
 def get_hashed_login_id(login_id):
