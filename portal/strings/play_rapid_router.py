@@ -1,4 +1,3 @@
-# coding=utf-8
 RAPID_ROUTER_HEADLINE = {
     "title": "Anyone can code, you can too!",
     "description": "Whether you’re a teacher or a student, Rapid Router guides you, "

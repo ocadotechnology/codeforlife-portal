@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.shortcuts import render
 
 from portal.strings.about import ABOUT_BANNER, GETINVOLVED_BANNER, CONTRIBUTE_BANNER

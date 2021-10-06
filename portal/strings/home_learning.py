@@ -1,4 +1,3 @@
-# coding=utf-8
 HOME_LEARNING_BANNER = {
     "title": "#KeepKidsCoding",
     "subtitle": "Teach your child to code at home — our Rapid Router game supports the "

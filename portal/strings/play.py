@@ -1,4 +1,3 @@
-# coding=utf-8
 PLAY_BANNER = {
     "title": "Play",
     "subtitle": "Anyone can learn how to code. We will help you learn how. It’s "

@@ -1,4 +1,3 @@
-# coding=utf-8
 MATERIALS_BANNER = {
     "title": "Rapid Router Teaching Packs",
     "subtitle": "A set of teaching materials to give you the confidence "
