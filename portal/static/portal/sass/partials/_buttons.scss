@@ -168,6 +168,50 @@ button,
   }
 }
 
+.button-add {
+  &:after {
+    content: "add";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    line-height: 0.9em;
+    @include _margin(0px, 5px, 0px, 20px);
+  }
+}
+
+.button-edit {
+  &:after {
+    content: "edit";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    line-height: 0.9em;
+    @include _margin(0px, 5px, 0px, 20px);
+  }
+}
+
+.button-warning {
+  &:after {
+    content: "error_outline";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    line-height: 0.9em;
+    @include _margin(0px, 5px, 0px, 20px);
+  }
+}
+
+.button-delete {
+  &:after {
+    content: "delete";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    line-height: 0.9em;
+    @include _margin(0px, 5px, 0px, 20px);
+  }
+}
+
 .button--regular,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {

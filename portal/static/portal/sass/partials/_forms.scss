@@ -191,10 +191,6 @@ form {
     @include _margin(0px, 15px, 0px, 0px);
     position: absolute;
   }
-
-  input[type="text"] {
-    @include _padding(0px, 40px, 0px, 15px);
-  }
 }
 
 @media (max-width: $mobile-max-width) {

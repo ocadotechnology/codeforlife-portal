@@ -8,8 +8,7 @@
 <script>
     var CONFIRMATION_DATA = {};
 
-    {#$('#classes').hide();#}
-    $('#school').hide();
+    $('#classes').hide();
     $('#account').hide();
 
     $('#tab-school').on('click', () => {
@@ -49,8 +48,8 @@
 {% if is_admin and join_requests %}
 <div id="sticky-warning" class="sub-nav sub-nav--warning">
     <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
-    <p><i>You have pending requests from teachers wanting to join your school or club.
-        <a id="requests_button" href="#requests">View the requests</a></i></p>
+    <p>You have pending requests from teachers wanting to join your school or club.
+        <a id="requests_button" href="#requests">View the requests</a></p>
 </div>
 {% endif %}
 
@@ -62,23 +61,26 @@
 <div id="teach_dashboard_page"></div>
 
 <div id="school">
-    <section class="background">
-        <h4>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h4>
+    <div class="background">
+        <section>
+            <h4>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h4>
+        </section>
         {% if is_admin %}
             <p class="col-sm-8 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
                 administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
                 joining your organisation.</p>
-            <a href="{% url 'invite_teacher' %}" class="button button--primary button-add-person" name="invite_teacher" >Invite a teacher</a>
+            <section>
+                <a href="{% url 'invite_teacher' %}" class="button button--primary button-add-person" name="invite_teacher" >Invite a teacher</a>
+            </section>
         {% else %}
-            <h5 class="col-sm-6 col-center">You can see which other teachers in your school or club are registered here. Should you need to leave the
+            <h5 class="col-sm-8 col-center">You can see which other teachers in your school or club are registered here. Should you need to leave the
                 school or club, you can do so below.</h5>
-            <form method="post" action="{% url 'organisation_leave' %}">
-                {% csrf_token %}
+            <section>
                 <button id="leave_organisation_button" class="button button--secondary button--secondary--dark"
-                        type="submit">Leave school or club</button>
-            </form>
+                        onclick="postWithCsrf('{% url 'organisation_leave' %}');">Leave school or club</button>
+            </section>
         {% endif %}
-    </section>
+    </div>
 
     {% if is_admin %}
     <div class="background col-sm-8 col-center">
@@ -98,10 +100,10 @@
                 {% if coworker.new_user != user %}
                     <td class="cell-center" colspan="3">
                         {% if coworker.is_admin %}
-                            <button id="make_non_admin_button" class='button button--small button--primary--danger'
+                            <button id="make_non_admin_button" class='button button--small button--primary--danger button-block'
                                onclick="postWithCsrf('{% url 'organisation_toggle_admin' coworker.id %}');">Revoke admin</button>
                         {% else %}
-                            <button id="make_admin_button" class="button button--small button--primary"
+                            <button id="make_admin_button" class="button button--small button--primary button-add"
                                 onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                                 Make admin</button>
                         {% endif %}
@@ -110,23 +112,23 @@
                                     onclick="showDisable2FAConfirmation('{% url 'teacher_disable_2FA' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
                                 Remove 2FA</button>
                         {% endif %}
-                        <button id="kick_button" class="button button--small button--primary--danger button-remove"
+                        <button id="kick_button" class="button button--small button--primary--danger button-delete"
                                 onclick="showRemoveConfirmation('{% url 'organisation_kick' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs }}', '{True}')">
                             Delete</button>
                     </td>
                 {% else %}
                     <td class="cell-center" colspan="3">
-                        <a id="update-details" class="button button--small button--primary">Update details</a>
+                        <a id="update-details" class="button button--small button--primary button-add">Update details</a>
                     </td>
                 {% endif %}
             </tr>
             {% endfor %}
         </table>
-        <div class="row col-center">
+        <div class="row">
             <p class="col-sm-6">Select ‘Delete’ to delete a teacher from your school or club. You will be able to move any existing classes assigned to that
                 teacher to other teachers in your school or club.</p>
-            <p class="col-sm-6 text-danger">We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
-                with their smartphone or tablet.</p>
+            <strong class="col-sm-6 text-danger">We strongly recommend that administrators who are using 2FA ensure there is another administrator who will be able to disable their 2FA should they have problems
+                with their smartphone or tablet.</strong>
         </div>
     </div>
     {% else %}
@@ -152,38 +154,36 @@
     {% endif %}
 
     {% if is_admin %}
-    <div id="requests">
-        <div class="background col-sm-8 col-center">
-            {% if join_requests %}
-            <h5>These teachers have requested to join your school or club</h5>
-            <table id="request_table" class="header-primary data-primary">
+    <div id="requests" class="background col-sm-8 col-center">
+        {% if join_requests %}
+        <h5>These teachers have requested to join your school or club</h5>
+        <table id="request_table" class="header-primary data-primary">
+            <tr>
+                <th><p>Name</p></th>
+                <th><p>Email address</p></th>
+                <th colspan="3"><p>Actions</p></th>
+            </tr>
+            {% for join_request in join_requests %}
                 <tr>
-                    <th><p>Name</p></th>
-                    <th><p>Email address</p></th>
-                    <th colspan="3"><p>Actions</p></th>
+                    <td><p><small>{{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</small></p></td>
+                    <td><p><small>{{ join_request.new_user.email }}</small></p></td>
+                    <td class="cell-center" colspan="3">
+                        <button id="allow_button" class="button button--small button--primary button-add"
+                                onclick="postWithCsrf('{% url 'organisation_allow_join' join_request.id %}');">Allow</button>
+                        <button id="deny_button" class="button button--small button--primary--danger button-block"
+                                onclick="postWithCsrf('{% url 'organisation_deny_join' join_request.id %}');">Deny</button>
+                    </td>
                 </tr>
-                {% for join_request in join_requests %}
-                    <tr>
-                        <td><p><small>{{ join_request.new_user.first_name }} {{ join_request.new_user.last_name }}</small></p></td>
-                        <td><p><small>{{ join_request.new_user.email }}</small></p></td>
-                        <td class="cell-center" colspan="3">
-                            <button id="allow_button" class="button button--small button--primary"
-                                    onclick="postWithCsrf('{% url 'organisation_allow_join' join_request.id %}');">Allow</button>
-                            <button id="deny_button" class="button button--small button--primary--danger button-block"
-                                    onclick="postWithCsrf('{% url 'organisation_deny_join' join_request.id %}');">Deny</button>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-            {% else %}
-            <h5>No teachers have currently requested to join your school or club.</h5>
-            {% endif %}
-        </div>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h5>No teachers have currently requested to join your school or club.</h5>
+        {% endif %}
     </div>
 
     <div id="school-details" class="background background--primary">
         <div class="col-sm-8 col-center">
-            <h4>Update details of your school or club</h4>
+            <h5>Update details of your school or club</h5>
             <p>Update your school or club’s name and/or postcode.</p>
             <strong>These details are used to allow other teachers to join your team.</strong>
             <form id="edit_form" method="post">
@@ -234,7 +234,8 @@
                         <td><p><small>{{ class.name }}</small></p></td>
                         <td><p><small>{{ class.access_code }}</small></p></td>
                         <td class="cell-center">
-                            <a id="class_button" href="{% url 'view_class' class.access_code %}" class="button button--small button--primary">Edit details</a></td>
+                            <a id="class_button" href="{% url 'view_class' class.access_code %}"
+                               class="button button--small button--primary button-edit">Edit details</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -271,7 +272,7 @@
                         <td><p><small>{{ join_request.pending_class_request.name }}
                             ({{ join_request.pending_class_request.access_code }})</small></p></td>
                         <td colspan="2" class="cell-center">
-                            <button id="allow_independent_button" class="button--small button--primary"
+                            <button id="allow_independent_button" class="button--small button--primary button-add"
                                     onclick="postWithCsrf('{% url 'teacher_accept_student_request' join_request.id %}');">Add to class</button>
                             <button id="deny_independent_button" class="button--small button--primary--danger button-block"
                                     onclick="postWithCsrf('{% url 'teacher_reject_student_request' join_request.id %}');">Reject request</button>
@@ -287,7 +288,7 @@
 
     <div id="new-class" class="background background--primary">
         <div class="col-sm-8 col-center">
-            <h4>Create a new class</h4>
+            <h5>Create a new class</h5>
             <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                 class.</p>
             <form method="post">
@@ -321,110 +322,120 @@
 </div>
 
 <div id="account">
-    <section class="background col-sm-6 col-center">
-        <h4>Your account</h4>
-        <div>You may update your account details here, including your name, password and email address.
-        Should you update your email address, verification will be required.</div>
-    </section>
+    <div class="background col-sm-8 col-center">
+        <section>
+            <h4>Your account</h4>
+        </section>
+        <p>You can update your account details below.</p>
+        <form method="post" id="form-edit-teacher">
 
-    <div class="background background--primary">
-        <div class="col-sm-7 col-center">
-            <h4>Update details</h4>
-            <form method="post" id="form-edit-teacher">
+            {% csrf_token %}
 
-                {% csrf_token %}
+            {{ update_account_form.non_field_errors }}
 
-                {{ update_account_form.non_field_errors }}
-
-                <div class="row row--under">
-                    <div class="col-sm-6">
-                        <label for="id_{{ form.first_name.html_name }}">{{ update_account_form.first_name.label }}</label>
+            <div class="form--row">
+                <div class="form--row__input">
+                    <div class="input--icon">
                         {{ update_account_form.first_name }}
-                        {{ update_account_form.first_name.errors }}
                     </div>
-                    <div class="col-sm-6">
-                        <label for="id_{{ form.last_name.html_name }}">{{ update_account_form.last_name.label }}</label>
+                    <small>{{ update_account_form.first_name.help_text }}</small>
+                    {{ update_account_form.first_name.errors }}
+                </div>
+                <div class="form--row__input">
+                    <div class="input--icon">
                         {{ update_account_form.last_name }}
-                        {{ update_account_form.last_name.errors }}
                     </div>
+                    <small>{{ update_account_form.last_name.help_text }}</small>
+                    {{ update_account_form.last_name.errors }}
                 </div>
-                <div class="row row--under">
-                    <div class="col-sm-12">
-                        <label for="id_{{ form.email.html_name }}">{{ update_account_form.email.label }}</label>
+            </div>
+            <div class="form--row">
+                <div class="form--row__input">
+                    <div class="input--icon">
                         {{ update_account_form.email }}
-                        {{ update_account_form.email.errors }}
+                        <span class="iconify" data-icon="mdi:email-outline"></span>
                     </div>
+                    <small>{{ update_account_form.email.help_text }}</small>
+                    {{ update_account_form.email.errors }}
                 </div>
-                <div id="edit_account_details_password" class="row row--under">
-                    <div class="col-sm-4">
-                        <label for="id_{{ form.password.html_name }}">{{ update_account_form.password.label }}</label>
+            </div>
+            <div id="edit_account_details_password" class="form--row">
+                <div class="form--row__input">
+                    <div class="input--icon">
                         {{ update_account_form.password }}
-                        {{ update_account_form.password.errors }}
+                        <span class="iconify" data-icon="mdi:shield-half-full"></span>
                     </div>
-                    <div class="col-sm-4">
-                        <label for="id_{{ form.confirm_password.html_name }}">{{ update_account_form.confirm_password.label }}</label>
-                        {{ update_account_form.confirm_password }}
-                        {{ update_account_form.confirm_password.errors }}
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="id_{{ form.current_password.html_name }}">{{ update_account_form.current_password.label }}</label>
-                        {{ update_account_form.current_password }}
-                        {{ update_account_form.current_password.errors }}
-                    </div>
+                    <small>{{ update_account_form.password.help_text }}</small>
+                    {{ update_account_form.password.errors }}
                 </div>
-                <button id="update_button" type="submit" class="button button--primary" name="update_account">Update</button>
-            </form>
-        </div>
+                <div class="form--row__input">
+                    <div class="input--icon">
+                        {{ update_account_form.confirm_password }}
+                    </div>
+                    <small>{{ update_account_form.confirm_password.help_text }}</small>
+                    {{ update_account_form.confirm_password.errors }}
+                </div>
+                <div class="form--row__input">
+                    <div class="input--icon">
+                        {{ update_account_form.current_password }}
+                        <span class="iconify" data-icon="mdi:lock-outline"></span>
+                    </div>
+                    <small>{{ update_account_form.current_password.help_text }}</small>
+                    {{ update_account_form.current_password.errors }}
+                </div>
+            </div>
+            <button id="update_button" type="submit" class="button button--primary" name="update_account">Update details</button>
+        </form>
     </div>
 
-    <div class="background col-sm-7 col-center">
-        <h4>Two Factor Authentication</h4>
-        <p>Use your smartphone or tablet to enhance your account’s security.</p>
+    <div class="background background--primary">
+        <div class="col-sm-8 col-center">
+            <h5>Two Factor Authentication</h5>
+            <p>Use your smartphone or tablet to enhance your account's security by installing an authenticator app.</p>
 
-        {% if user|has_2FA %}
-            <div class="row row--regular">
-                <div class="col-sm-5">
-                    <h4>Backup tokens</h4>
-                    <p>If you don’t have your smartphone or tablet with you, you can access your account using backup tokens.
-                        {% if backup_tokens == 1 %}
-                        You have only one backup token remaining.
-                        {% else %}
-                        You have {{ backup_tokens }} backup tokens remaining.
-                        {% endif %}</p>
-                    <p>View and create backup tokens for your account.</p>
-                    <div class="background">
-                        <a class="button button--primary"
-                           href="{% url 'two_factor:backup_tokens' %}">Manage backup tokens</a>
+            {% if user|has_2FA %}
+                <div class="row row--regular">
+                    <div class="col-sm-6">
+                        <h6>Backup tokens</h6>
+                        <p>If you don't have your smartphone or tablet with you, you can access your account using backup tokens.
+                            {% if backup_tokens == 1 %}
+                            You have only one backup token remaining.
+                            {% else %}
+                            You have {{ backup_tokens }} backup tokens remaining.
+                            {% endif %}
+                        </p>
+                        <p>View and create backup tokens for your account.</p>
+                        <div class="background">
+                            <a class="button button--primary"
+                               href="{% url 'two_factor:backup_tokens' %}">Manage backup tokens</a>
+                        </div>
+                        <small class="text-danger"><strong>Note: Please make sure that you store any login details in a secure place.</strong></small>
+                    </div>
+                    <div class="col-sm-6">
+                        <h6>Disable Two Factor Authentication (2FA)</h6>
+                        <p>We recommend you to continue using 2FA, however you can disable 2FA for your account using the button below.</p>
+                        <div class="background">
+                            <a class="button button--primary button--primary--danger button-warning"
+                               href="{% url 'two_factor:disable' %}">Disable 2FA</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-sm-offset-1">
-                    <h4>Disable Two Factor Authentication</h4>
-                    <p>We recommend you to continue using Two Factor Authentication, however you can disable two factor authentication for your account.</p>
-                    <div class="background">
-                        <a class="button button--primary"
-                           href="{% url 'two_factor:disable' %}">Disable Two-Factor Authentication</a>
-                    </div>
+            {% else %}
+                <p>Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
+                <div class="background">
+                    <a class="button button--primary"
+                       href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
                 </div>
-            </div>
-        {% else %}
-            <p>Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
-            <div class="background">
-                <a class="button button--primary"
-                   href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function(){
         if($(window).width() > 760) {
-            toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
+            toggleStickySubnav($('.banner').outerHeight());
         }
-
-        {% if anchor %}
-            window.location = '#{{anchor}}';
-        {% endif %}
     });
 </script>
 
