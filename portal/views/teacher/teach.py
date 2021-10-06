@@ -1,7 +1,8 @@
 from __future__ import division
 
-import json
 import re
+import csv
+import json
 from datetime import timedelta
 from functools import partial, wraps
 from uuid import uuid4
@@ -133,7 +134,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     if request.method == "POST":
         new_students_form = StudentCreationForm(klass, request.POST)
         if new_students_form.is_valid():
-            name_tokens = []
+            students_info = []
             for name in new_students_form.strippedNames:
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
 
@@ -148,27 +149,38 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     login_id=login_id,
                 )
 
-                # get the host/domain
-                abs_uri = request.build_absolute_uri()
-                m = re.match("(https*:\/\/[\w.:-]+)\/*", abs_uri)
-                host = m.groups()[0]
-
-                # generate unique url for student login
-                url = "%s/u/%s/%s" % (
-                    host,
-                    new_student.user.id,
-                    uuidstr,
+                login_url = request.build_absolute_uri(
+                    reverse(
+                        "student_direct_login",
+                        kwargs={
+                            "user_id": new_student.new_user.id,
+                            "login_id": uuidstr,
+                        },
+                    )
                 )
-                name_tokens.append({"name": name, "password": password, "url": url})
+
+                students_info.append(
+                    {
+                        "id": new_student.new_user.id,
+                        "name": name,
+                        "password": password,
+                        "login_url": login_url,
+                    }
+                )
 
             return render(
                 request,
                 "portal/teach/onboarding_print.html",
                 {
                     "class": klass,
-                    "name_tokens": name_tokens,
+                    "students_info": students_info,
                     "onboarding_done": onboarding_done,
-                    "query_data": json.dumps(name_tokens),
+                    "query_data": json.dumps(students_info),
+                    "class_url": request.build_absolute_uri(
+                        reverse(
+                            "student_login", kwargs={"access_code": klass.access_code}
+                        )
+                    ),
                 },
             )
     else:
@@ -565,12 +577,35 @@ def teacher_class_password_reset(request, access_code):
         get_object_or_404(Student, id=i, class_field=klass) for i in student_ids
     ]
 
-    name_tokens = []
+    students_info = []
     for student in students:
         password = generate_password(STUDENT_PASSWORD_LENGTH)
-        name_tokens.append({"name": student.new_user.first_name, "password": password})
+
+        # generate uuid for url and store the hashed
+        uuidstr = uuid4().hex
+        login_id = get_hashed_login_id(uuidstr)
+        login_url = request.build_absolute_uri(
+            reverse(
+                "student_direct_login",
+                kwargs={
+                    "user_id": student.new_user.id,
+                    "login_id": uuidstr,
+                },
+            )
+        )
+
+        students_info.append(
+            {
+                "id": student.new_user.id,
+                "name": student.new_user.first_name,
+                "password": password,
+                "login_url": login_url,
+            }
+        )
         student.new_user.set_password(password)
         student.new_user.save()
+        student.login_id = login_id
+        student.save()
 
     return render(
         request,
@@ -579,8 +614,11 @@ def teacher_class_password_reset(request, access_code):
             "class": klass,
             "onboarding_done": True,
             "passwords_reset": True,
-            "name_tokens": name_tokens,
-            "query_data": json.dumps(name_tokens),
+            "students_info": students_info,
+            "query_data": json.dumps(students_info),
+            "class_url": request.build_absolute_uri(
+                reverse("student_login", kwargs={"access_code": klass.access_code})
+            ),
         },
     )
 
@@ -826,11 +864,8 @@ def teacher_print_reminder_cards(request, access_code):
 
     COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
 
-    # Work out the data we're going to display, use data from the query string
-    # if given, else display everyone in the class without passwords
-    student_data = []
-
-    student_data = get_student_data(request, klass, student_data)
+    # Use data from the query string if given
+    student_data = get_student_data(request)
 
     # Now draw everything
     x = 0
@@ -950,19 +985,33 @@ def teacher_print_reminder_cards(request, access_code):
     return response
 
 
-def get_student_data(request, klass, student_data):
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
+def teacher_download_csv(request, access_code):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="student_login_urls.csv"'
+
+    klass = get_object_or_404(Class, access_code=access_code)
+    # Check auth
+    if klass.teacher.new_user != request.user:
+        raise Http404
+
+    # Use data from the query string if given
+    student_data = get_student_data(request)
+    if student_data:
+        writer = csv.writer(response)
+        writer.writerow([access_code])
+        for student in student_data:
+            writer.writerow([student["name"], student["login_url"]])
+
+    return response
+
+
+def get_student_data(request):
     if request.method == "POST":
-        student_data = json.loads(request.POST.get("data", "[]"))
-
-    else:
-        students = Student.objects.filter(class_field=klass)
-
-        for student in students:
-            student_data.append(
-                {"name": student.new_user.first_name, "password": "__________"}
-            )
-
-    return student_data
+        data = request.POST.get("data", "[]")
+        return json.loads(data)
+    return []
 
 
 def compute_show_page_character(p, x, y, NUM_Y):

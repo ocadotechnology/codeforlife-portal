@@ -1,4 +1,3 @@
-# coding=utf-8
 AIMMO_MAIN_HEADLINE = {
     "title": "Join a coding adventure with your class!",
     "description": "Whether you’re a teacher or a student in a school or club, Kurono guides you and makes learning to code great fun. Using Python, you can travel with your classmates through time to collect all the museum artefacts.",

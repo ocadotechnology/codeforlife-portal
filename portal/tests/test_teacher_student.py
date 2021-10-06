@@ -158,6 +158,32 @@ class TestTeacherStudent(BaseTest):
 
         assert page.student_exists(new_student_name)
 
+    def test_new_student_can_login_with_url(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .go_to_class_page()
+        )
+
+        page, new_student_name = create_school_student(page)
+        assert page.student_exists(new_student_name)
+
+        # get login url, then open it and check if the student is logged in
+        login_url = page.get_first_login_url()
+        page.browser.get(login_url)
+        assert page.on_correct_page("play_dashboard_page")
+        assert (
+            new_student_name
+            in page.browser.find_element_by_xpath("//div[@class='header']").text
+        )
+
     def test_update_student_name(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
