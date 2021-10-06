@@ -21,11 +21,12 @@ class PasswordStrength(Enum):
                 upper=False,
                 lower=False,
                 numbers=False,
+                special_char=False,
             ):
                 raise forms.ValidationError(
                     f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
                 )
-        else:
+        elif self is PasswordStrength.INDEPENDENT:
             minimum_password_length = 8
             if password and not password_strength_test(
                 password=password,
@@ -33,16 +34,36 @@ class PasswordStrength(Enum):
                 upper=True,
                 lower=True,
                 numbers=True,
+                special_char=False,
             ):
                 raise forms.ValidationError(
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
                     "upper and lower case letters, and numbers and making it hard to guess."
                 )
+        else:
+            minimum_password_length = 10
+            if password and not password_strength_test(
+                password=password,
+                minimum_password_length=minimum_password_length,
+                upper=True,
+                lower=True,
+                numbers=True,
+                special_char=True,
+            ):
+                raise forms.ValidationError(
+                    f"Password not strong enough, consider using at least {minimum_password_length} characters, "
+                    "upper and lower case letters, numbers, special characters and making it hard to guess."
+                )
         return password
 
 
 def password_strength_test(
-    password, minimum_password_length, upper=True, lower=True, numbers=True
+    password,
+    minimum_password_length,
+    upper=True,
+    lower=True,
+    numbers=True,
+    special_char=True,
 ):
     most_used_passwords = [
         "Abcd1234",
@@ -57,6 +78,10 @@ def password_strength_test(
         and (not upper or re.search(r"[A-Z]", password))
         and (not lower or re.search(r"[a-z]", password))
         and (not numbers or re.search(r"[0-9]", password))
+        and (
+            not special_char
+            or re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]", password)
+        )
         and (password not in most_used_passwords)
     )
 
