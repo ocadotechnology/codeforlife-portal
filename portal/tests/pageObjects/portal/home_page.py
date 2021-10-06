@@ -35,7 +35,9 @@ class HomePage(BasePage):
         self.browser.find_element_by_id("login_dropdown").click()
         self.browser.find_element_by_id("student_login_button").click()
 
-        from portal.tests.pageObjects.portal.student_login_class_code import StudentLoginClassCodePage
+        from portal.tests.pageObjects.portal.student_login_class_code import (
+            StudentLoginClassCodePage,
+        )
 
         return StudentLoginClassCodePage(self.browser)
 

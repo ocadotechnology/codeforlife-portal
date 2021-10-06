@@ -343,7 +343,7 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page = submit_teacher_signup_form(page, password="test")
         assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers and special characters"
         )
 
     def test_signup_failure_common_password(self):
@@ -351,7 +351,7 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page = submit_teacher_signup_form(page, password="Password1")
         assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
+            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers and special characters"
         )
 
     def test_login_failure(self):
@@ -438,7 +438,7 @@ class TestTeacher(BaseTest):
             {
                 "first_name": "Paulina",
                 "last_name": "Koch",
-                "current_password": "Password2",
+                "current_password": "Password2!",
             }
         )
         assert self.is_dashboard_page(page)
@@ -469,7 +469,7 @@ class TestTeacher(BaseTest):
             {
                 "first_name": "Florian",
                 "last_name": "Aucomte",
-                "current_password": "Password2",
+                "current_password": "Password2!",
             }
         )
         assert self.is_dashboard_page(page)
@@ -533,7 +533,7 @@ class TestTeacher(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
-        new_password = "AnotherPassword12"
+        new_password = "AnotherPassword12!"
         page = page.change_password("Test", "Teacher", new_password, password)
         assert self.is_login_page(page)
         assert is_password_updated_message_showing(self.selenium)
@@ -556,7 +556,7 @@ class TestTeacher(BaseTest):
 
         page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
 
-        new_password = "AnotherPassword12"
+        new_password = "AnotherPassword12!"
 
         page.teacher_reset_password(new_password)
 

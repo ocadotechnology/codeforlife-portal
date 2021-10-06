@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import time
-
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -188,7 +186,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
+        name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -212,7 +210,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
+        name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -236,7 +234,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
+        name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -260,7 +258,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
+        name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -288,7 +286,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
+        name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -306,7 +304,6 @@ class TestTeacherStudent(BaseTest):
         page = page.click_set_password_form_button().type_student_password(
             new_student_password
         )
-        time.sleep(1)
         page = page.click_set_password_button()
 
         assert page.is_student_password(new_student_password.lower())
@@ -315,7 +312,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        name, password, _ = create_school_student_directly(access_code)
+        name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
