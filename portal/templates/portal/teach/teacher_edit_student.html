@@ -35,10 +35,11 @@
 
             {% csrf_token %}
 
-            {{ password_form.non_field_errors }}
-
             <p>Enter and confirm the password in the boxes below. Try to prevent others from being able to guess the new
                 password when making this decision.</p>
+
+            {{ password_form.non_field_errors }}
+
             {{ password_form.password }}
             {{ password_form.password.errors }}
 
