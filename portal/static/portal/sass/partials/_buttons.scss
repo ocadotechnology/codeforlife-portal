@@ -102,6 +102,10 @@ button,
   }
 }
 
+.button-border {
+  border: 2px solid $color-text-primary;
+}
+
 .button-right-arrow {
   &:after {
     content: "\e5e1";

@@ -54,3 +54,18 @@
 // Utility classes
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
+
+// More bootstrap utilities - uncomment as needed and patch bootstrap/variables
+// @import "bootstrap_utilities/align";
+// @import "bootstrap_utilities/background";
+// @import "bootstrap_utilities/borders";
+// @import "bootstrap_utilities/clearfix";
+@import "bootstrap_utilities/display";
+@import "bootstrap_utilities/flex";
+// @import "bootstrap_utilities/float";
+// @import "bootstrap_utilities/position";
+// @import "bootstrap_utilities/screenreaders";
+// @import "bootstrap_utilities/sizing";
+@import "bootstrap_utilities/spacing";
+@import "bootstrap_utilities/text";
+// @import "bootstrap_utilities/visibility";

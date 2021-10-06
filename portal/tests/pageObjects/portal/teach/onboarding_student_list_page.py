@@ -16,3 +16,8 @@ class OnboardingStudentListPage(TeachBasePage):
     def go_back_to_class(self):
         self.browser.find_element_by_id("back_to_class_button").click()
         return class_page.TeachClassPage(self.browser)
+
+    def get_first_login_url(self):
+        return self.browser.find_element_by_xpath(
+            "//table[@id='student_table']/tbody/tr[4]/td[4]/div/div[1]"
+        ).text
