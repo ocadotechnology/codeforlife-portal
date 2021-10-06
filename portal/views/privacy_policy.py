@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.shortcuts import render
 
 from portal.strings.privacy_policy import PRIVACY_POLICY_BANNER

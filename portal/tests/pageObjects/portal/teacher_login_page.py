@@ -1,3 +1,5 @@
+import time
+
 from .base_page import BasePage
 from .teach import dashboard_page as teach_dashboard_page
 from .teach import onboarding_classes_page

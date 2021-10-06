@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.2.4 (2021-10-01)
+### Fix
+* Update license ([#1562](https://github.com/ocadotechnology/codeforlife-portal/issues/1562)) ([`4c6dcce`](https://github.com/ocadotechnology/codeforlife-portal/commit/4c6dcce3ee9b78313ac45bf6887dbf773f00ea81))
+
 ## v5.2.3 (2021-09-17)
 ### Fix
 * Fix home page on smaller screen sizes ([#1549](https://github.com/ocadotechnology/codeforlife-portal/issues/1549)) ([`2a7f885`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a7f885ba16a883748f07236182d288316f3411e))
