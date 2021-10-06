@@ -35,13 +35,13 @@
 
 <div class="background col-sm-8 col-center">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <h5>Current students</h5>
             <p>Select an individual student to change their details, including their name and password.</p>
             <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
                 make them an independent Code for Life user, or delete them permanently.</p>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <table id="student_table" class="student-table header-primary data-primary">
                 <tr class="student-table__header">
                     <th class="cell-center">
@@ -74,7 +74,7 @@
                         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
                                 id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
                         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
-                                id="resetSelectedStudents" class="button--small button--primary--danger">Reset passwords</button>
+                                id="resetSelectedStudents" class="button--small button--primary--danger">Reset password and login link</button>
                     </td>
                 </tr>
             </table>

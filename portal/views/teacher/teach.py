@@ -14,7 +14,7 @@ from common.helpers.generators import (
     generate_access_code,
     generate_new_student_name,
     generate_password,
-    get_hashed_login_id,
+    generate_login_id,
 )
 from common.models import Class, Student, Teacher
 from common.permissions import logged_in_as_teacher
@@ -119,6 +119,15 @@ def create_class(form, teacher):
     return klass
 
 
+def generate_student_url(request, student, uuidstr):
+    return request.build_absolute_uri(
+        reverse(
+            "student_direct_login",
+            kwargs={"user_id": student.new_user.id, "login_id": uuidstr},
+        )
+    )
+
+
 def process_edit_class(request, access_code, onboarding_done, next_url):
     """
     Handles student creation both during onboarding or on the class page
@@ -139,8 +148,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                 password = generate_password(STUDENT_PASSWORD_LENGTH)
 
                 # generate uuid for url and store the hashed
-                uuidstr = uuid4().hex
-                login_id = get_hashed_login_id(uuidstr)
+                uuidstr, login_id = generate_login_id()
 
                 new_student = Student.objects.schoolFactory(
                     klass=klass,
@@ -149,16 +157,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     login_id=login_id,
                 )
 
-                login_url = request.build_absolute_uri(
-                    reverse(
-                        "student_direct_login",
-                        kwargs={
-                            "user_id": new_student.new_user.id,
-                            "login_id": uuidstr,
-                        },
-                    )
-                )
-
+                login_url = generate_student_url(request, new_student, uuidstr)
                 students_info.append(
                     {
                         "id": new_student.new_user.id,
@@ -574,17 +573,8 @@ def teacher_class_password_reset(request, access_code):
         password = generate_password(STUDENT_PASSWORD_LENGTH)
 
         # generate uuid for url and store the hashed
-        uuidstr = uuid4().hex
-        login_id = get_hashed_login_id(uuidstr)
-        login_url = request.build_absolute_uri(
-            reverse(
-                "student_direct_login",
-                kwargs={
-                    "user_id": student.new_user.id,
-                    "login_id": uuidstr,
-                },
-            )
-        )
+        uuidstr, login_id = generate_login_id()
+        login_url = generate_student_url(request, student, uuidstr)
 
         students_info.append(
             {
