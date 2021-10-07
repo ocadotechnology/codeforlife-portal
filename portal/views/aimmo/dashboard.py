@@ -51,7 +51,7 @@ class StudentAimmoDashboard(
 ):
     template_name = "portal/play/student_aimmo_dashboard.html"
 
-    login_url = reverse_lazy("student_login")
+    login_url = reverse_lazy("student_login_access_code")
 
     def test_func(self) -> Optional[bool]:
         return logged_in_as_student(self.request.user)

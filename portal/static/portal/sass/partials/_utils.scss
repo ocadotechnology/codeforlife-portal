@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 .alternative-section {
   border-top: 1px solid $color-text-tertiary;
@@ -33,7 +33,7 @@
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 
-  [class^='col-'] {
+  [class^="col-"] {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -48,6 +48,14 @@
   img {
     align-self: center;
   }
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.mw-0 {
+  max-width: 0;
 }
 
 .img-aspect-fill {
@@ -129,14 +137,14 @@ section {
   }
 
   input:checked + label:before {
-    content: '\2013';
+    content: "\2013";
   }
 
   input:checked ~ answer {
     display: block;
   }
   input + label:before {
-    content: '+';
+    content: "+";
   }
 }
 
@@ -184,9 +192,7 @@ section {
       background-color: $color-tab-selected-background;
       color: $color-tab-selected-text;
     }
-
   }
-
 }
 
 .tabcontent {
@@ -208,9 +214,9 @@ iframe {
   p:not(:first-of-type) {
     &:after {
       @include _margin(0px, $spacing, 0px, $spacing * 2);
-      background: url('../img/icon_pdf.png') no-repeat center;
+      background: url("../img/icon_pdf.png") no-repeat center;
       background-size: contain;
-      content: '';
+      content: "";
       display: inline-block;
       height: 20px;
       vertical-align: sub;
@@ -234,7 +240,6 @@ input.input-invalid {
 }
 
 @media (min-width: $tablet-small-min-width) {
-
   .row--flex {
     display: flex;
   }
@@ -242,11 +247,9 @@ input.input-invalid {
   .col-sm-3 {
     width: 25%;
   }
-
 }
 
 @media (max-width: $mobile-max-width) {
-
   .col-sm-offset-2 {
     margin-left: 0;
   }
@@ -254,5 +257,4 @@ input.input-invalid {
   .row--regular {
     padding: 0;
   }
-
 }

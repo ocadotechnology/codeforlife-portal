@@ -8,35 +8,31 @@
 <section class="row">
     <div class="form--register is-flex form--register--student">
         <div class="form col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
-            <h4 class="center-block">Log in as a student</h4>
+            <h4 class="center-block">Welcome to class: {{ form.access_code }}</h4>
+            <h5>Please enter your login details.</h5>
             <form id="form-login-school" method="post" autocomplete="off">
 
                 {% csrf_token %}
 
                 {{ form.non_field_errors }}
 
-                <label for="id_{{ form.username.html_username }}">{{ form.username.label }}</label>
-                {{ form.username }}
-                {{ form.username.errors }}
+                <div class="form__input">
+                    {{ form.username }}
+                    <small>{{ form.username.help_text }}</small>
+                    {{ form.username.errors }}
+                </div>
 
-                <label for="id_{{ form.access_code.html_name }}">{{ form.access_code.label }}</label>
-                {{ form.access_code }}
-                {{ form.access_code.errors }}
-
-                <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
-                {{ form.password }}
-                {{ form.password.errors }}
-
-                {{ form.captcha }}
+                <div class="form__input">
+                    {{ form.password }}
+                    <small>{{ form.password.help_text }}</small>
+                    {{ form.password.errors }}
+                </div>
 
                 <button type="submit" name="school_login" class="button button--primary button--login"
                         onclick="deleteAllLocalStorageWorkspaces();">Log in</button>
             </form>
 
-            <p><strong>Can&rsquo;t remember your user name or class access code?</strong></p>
-            <p>Don&rsquo;t worry, just ask your school or club teacher who will have these details.</p>
-            <p>Are you registered as an independent student who is not part of a school or club?
-                If so, <a href="{% url 'independent_student_login' %}">log in here</a>.</p>
+            <p>Forgotten your login details? Please check with your teacher.</p>
         </div>
     </div>
 </section>

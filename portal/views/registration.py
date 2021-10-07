@@ -19,8 +19,9 @@ from deploy import captcha
 from portal import app_settings
 from portal.forms.registration import (
     TeacherPasswordResetForm,
-    PasswordResetSetPasswordForm,
+    TeacherPasswordResetSetPasswordForm,
     StudentPasswordResetForm,
+    StudentPasswordResetSetPasswordForm,
 )
 from portal.helpers.captcha import remove_captcha_from_form
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
@@ -210,13 +211,21 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None):
         user = None
     if user and hasattr(user, "new_student"):
         usertype = "STUDENT"
+        return password_reset_confirm(
+            request,
+            usertype,
+            set_password_form=StudentPasswordResetSetPasswordForm,
+            uidb64=uidb64,
+            token=token,
+            extra_context={"usertype": usertype},
+        )
     else:
         usertype = "TEACHER"
-    return password_reset_confirm(
-        request,
-        usertype,
-        set_password_form=PasswordResetSetPasswordForm,
-        uidb64=uidb64,
-        token=token,
-        extra_context={"usertype": usertype},
-    )
+        return password_reset_confirm(
+            request,
+            usertype,
+            set_password_form=TeacherPasswordResetSetPasswordForm,
+            uidb64=uidb64,
+            token=token,
+            extra_context={"usertype": usertype},
+        )

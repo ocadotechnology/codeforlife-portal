@@ -12,12 +12,28 @@ from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from portal.helpers.password import form_clean_password
+from portal.helpers.password import PasswordStrength, form_clean_password
 
 
-class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
+class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
-        super(PasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
+        super(TeacherPasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
+        self.fields["new_password1"].label = "Enter your new password"
+        self.fields["new_password1"].widget.attrs[
+            "placeholder"
+        ] = "Try at least 10 characters, uppercase, digit and special characters"
+        self.fields["new_password2"].label = "Confirm your new password"
+        self.fields["new_password2"].widget.attrs[
+            "placeholder"
+        ] = "Please repeat your new password"
+
+    def clean_new_password1(self):
+        return form_clean_password(self, "new_password1", PasswordStrength.TEACHER)
+
+
+class StudentPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
+    def __init__(self, user, *args, **kwargs):
+        super(StudentPasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
         self.fields["new_password1"].label = "Enter your new password"
         self.fields["new_password1"].widget.attrs[
             "placeholder"
@@ -28,7 +44,7 @@ class PasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
         ] = "Please repeat your new password"
 
     def clean_new_password1(self):
-        return form_clean_password(self, forms, "new_password1")
+        return form_clean_password(self, "new_password1", PasswordStrength.INDEPENDENT)
 
 
 class TeacherPasswordResetForm(forms.Form):
