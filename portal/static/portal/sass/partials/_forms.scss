@@ -163,6 +163,12 @@ form {
   align-items: center;
   display: flex;
   justify-content: flex-end;
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    @include _padding(0px, 40px, 0px, 15px);
+  }
 }
 
 .checkbox--labelled {

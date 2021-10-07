@@ -116,10 +116,6 @@
       width: 100%
     }
 
-    #newsletter_email_field {
-      @include _padding(0px, 40px, 0px, 15px);
-    }
-
     .iconify-email-outline {
       @include _font_size(24px);
       @include _margin(0px, 15px, 0px, 0px);
