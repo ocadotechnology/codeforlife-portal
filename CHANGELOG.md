@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.3.1 (2021-10-07)
+### Fix
+* Student one time details fixes ([#1573](https://github.com/ocadotechnology/codeforlife-portal/issues/1573)) ([`3573624`](https://github.com/ocadotechnology/codeforlife-portal/commit/3573624020bf696e4c800b94543ee258c33f244e))
+
 ## v5.3.0 (2021-10-07)
 ### Feature
 * Student login one time details ([#1563](https://github.com/ocadotechnology/codeforlife-portal/issues/1563)) ([`b7e7e62`](https://github.com/ocadotechnology/codeforlife-portal/commit/b7e7e625b9b70f4737673967e16880b947099582))
