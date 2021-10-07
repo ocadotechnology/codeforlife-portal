@@ -3,6 +3,7 @@
 {% load app_tags %}
 
 {% if not onboarding_done %}
+
 {% block createJoinSchoolStep %}
 <div class="onboarding-step onboarding-step--done">
     <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
@@ -27,67 +28,148 @@
 {% endif %}
 
 {% block content %}
-<div id="onboarding_student_list_page"></div>
-
-<div id="sticky-warning" class="sub-nav sub-nav--warning">
-    <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
-    <p><small><i>This is the only time you will be able to view this page. You can print PDF format <br>reminder cards that populate these details which can
-        be given to the students.</i></small></p>
-    <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
-        {% csrf_token %}
-        <input type="hidden" name="data" value="{{ query_data }}"/>
-        <div class="section">
-            <button class="button button--home" type="submit">Print reminder cards</button>
-            {% if onboarding_done %}
-            <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--home">Back to class</a>
-            {% else %}
-            <a href="{% url 'onboarding-complete' %}" class="button button--home">Finish setup</a>
-            {% endif %}
-        </div>
-    </form>
-</div>
 
 {% if onboarding_done %}
-<div class="background">
-{% else %}
-<div class="background">
+<section class="banner banner--teacher row flex-column">
+    <h5>Class and class access code:</h5>
+    <h1 class="banner__text--primary mt-3 mb-4">{{ class.name }}, ({{ class.access_code }})</h1>
+    <h5>{{ user.new_teacher.school.name }}</h5>
+</section>
 {% endif %}
-    <div class="form col-sm-4 col-center">
-        <h4>{{ user.new_teacher.school.name }}</h4>
-        {% if passwords_reset %}
-        <h5>Students&rsquo; passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
-        <p>The following students have had their passwords reset:</p><br>
-        {% else %}
-        <h5>New students created in class: {{ class.name }} ({{ class.access_code }})</h5>
-        <p>The following students have been created for your class. When they log in for the first time, you may want students to change their
-            passwords to something more memorable. You will be able to reset these students&rsquo; passwords at any time.</p><br>
-        {% endif %}
-        <p>The Class Access Code for this class is: {{ class.access_code }}.</p>
-        <table id="student_table" class="header-primary data-primary">
-            <tr>
-                <th><p>Name</p></th>
-                <th><p>Password</p></th>
-            </tr>
-            {% for name_token in name_tokens %}
-            <tr>
-                <td><p><small>{{ name_token.name }}</small></p></td>
-                <td><p><small>{{ name_token.password }}</small></p></td>
-            </tr>
-            {% endfor %}
-        </table>
-        <section>
+
+<div id="onboarding_student_list_page"></div>
+
+<div id="sticky-warning" class="sub-nav--warning">
+    <div class="container">
+        <div class="col-sm-12 sub-nav">
+            <span class="iconify sub-nav--icon" data-icon="mdi:alert-outline"></span>
+            <p class="flex-grow-1">
+                <small><i>This is the only time you will be able to view this page. You can print reminder cards or download as a CSV file.</i></small>
+            </p>
             <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
                 {% csrf_token %}
                 <input type="hidden" name="data" value="{{ query_data }}"/>
-                <div class="button-group">
-                    <button class="button button--primary" type="submit">Print reminder cards</button>
-                    {% if onboarding_done %}
-                        <a href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">Back to class</a>
-                    {% else %}
-                        <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark">Finish setup</a>
-                    {% endif %}
+                <div class="section">
+                    <button class="button button--primary button-border" type="submit">
+                        <div class="d-flex align-items-center">
+                            <div>Print reminder cards</div>
+                            <span class="iconify ml-3" data-icon="mdi:printer-outline"></span>
+                        </div>
+                    </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="background container">
+    <div class="form col-sm-12">
+        {% if passwords_reset %}
+        <h5>Students' passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
+        <p>The following students have had their passwords reset:</p><br>
+        {% else %}
+        <p>
+            The following credentials have been created for your class. When they log in for the first time, you may want students to change their
+            passwords to something more memorable. You can reset these details for them at any time.
+        </p>
+        <p>
+            To log on, they will need to enter their name and passwords. Alternatively, you can provide them with a direct access link from the
+            table below.
+        </p>
+        <p class="text-danger">
+            You will not be shown this page again, so please make sure you retain a copy of the passwords for your records. You can print the
+            reminder cards from the button below. Please ensure you share student passwords securely.
+        </p>
+        {% endif %}
+        <div class="row">
+            <table id="student_table" class="col-sm-12 header-primary data-primary">
+                <tr>
+                    <th class="col-xs-6" colspan="2"><p>Option 1 Login details</p></th>
+                    <th class="no-bg"></th>
+                    <th class="col-xs-6"><p>Option 2 Login links</p></th>
+                </tr>
+                <tr>
+                    <td colspan="2" class="mw-0">
+                        <div class="d-flex align-items-center">
+                            <div><small>Class link:</small></div>
+                            <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
+                            <div>
+                                <a onclick="copyToClipboardFromElement(this, '#class_url')" data-toggle="copyToClipboardTooltip">
+                                    <span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="no-bg"><div class="or-circle d-none d-lg-block">OR</div></td>
+                    <td><p><small>No class code or password required</small></p></td>
+                </tr>
+                <tr class="header-secondary">
+                    <th><p>Name</p></th>
+                    <th><p>Password</p></th>
+                    <th class="no-bg"></th>
+                    <th><p>Copy the links below and share with the student</p></th>
+                </tr>
+                {% for student_info in students_info %}
+                <tr>
+                    <td><p><small>{{ student_info.name }}</small></p></td>
+                    <td><p><small>{{ student_info.password }}</small></p></td>
+                    <td class="no-bg"></td>
+                    <td class="mw-0">
+                        <div class="d-flex align-items-center">
+                            <div id="student_{{ student_info.id }}_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ student_info.login_url }}</small></div>
+                            <div>
+                                <a onclick="copyToClipboardFromElement(this, '#student_{{ student_info.id }}_url')" data-toggle="copyToClipboardTooltip">
+                                    <span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <section>
+
+            <div class="d-flex justify-content-between b-5">
+                <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="data" value="{{ query_data }}"/>
+                    <button class="button button--primary m-0" type="submit">
+                        <div class="d-flex align-items-center">
+                            <div>Print password reminder cards</div>
+                            <span class="iconify ml-3" data-icon="mdi:printer"></span>
+                        </div>
+                    </button>
+                </form>
+
+                <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="data" value="{{ query_data }}"/>
+                    <div class="button-group">
+                        <button class="button button--primary button-file-download" type="submit">Download CSV</button>
+                    </div>
+                </form>
+            </div>
+
+            {% if onboarding_done %}
+                <div class="d-flex">
+                    <a id="back_to_class_button" href="{% url 'view_class' class.access_code %}" class="button button--secondary button--secondary--dark">
+                        <div class="d-flex align-items-center">
+                            <span class="iconify mr-3" data-icon="mdi:chevron-left"></span>
+                            <div>Back to class</div>
+                        </div>
+                    </a>
+                </div>
+            {% else %}
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark">
+                        <div class="d-flex align-items-center">
+                            <div>Complete set up </div>
+                            <span class="iconify ml-3" data-icon="mdi:check"></span>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
         </section>
     </div>
 </div>
@@ -95,11 +177,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         if($(window).width() > 760) {
-            {% if not onboarding_done %}
-                toggleStickySubnav($('.banner').outerHeight());
-            {% else %}
-                toggleStickySubnav(0);
-            {% endif %}
+            toggleStickySubnav($('.banner').outerHeight());
         }
     });
 </script>

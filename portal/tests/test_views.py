@@ -1,10 +1,16 @@
+import io
+import csv
+import json
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.student import (
+    create_school_student_directly,
+    create_student_with_direct_login,
+)
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -27,8 +33,50 @@ class TestTeacherViews(TestCase):
     def test_reminder_cards(self):
         c = self.login()
         url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
+        response = c.post(url)
+        assert response.status_code == 200
+
+    def test_csv(self):
+        c = self.login()
+        url = reverse("teacher_download_csv", args=[self.class_access_code])
+        NAME1 = "Test name"
+        NAME2 = "Another name"
+        URL_PLACEHOLDER = "http://_____"
+
+        studentlist = [
+            {"name": NAME1, "login_url": URL_PLACEHOLDER},
+            {"name": NAME2, "login_url": URL_PLACEHOLDER},
+        ]
+        data = {"data": json.dumps(studentlist)}
+
+        response = c.post(
+            url,
+            data,
+        )
+
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        reader = csv.reader(io.StringIO(content))
+
+        row0 = next(reader)
+        assert row0[0].strip() == self.class_access_code
+        row1 = next(reader)
+        assert row1[0] == NAME1
+        assert row1[1] == URL_PLACEHOLDER
+        row2 = next(reader)
+        assert row2[0] == NAME2
+
+        # post without any data should return empty
+        response = c.post(url)
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        assert content == ""
+
+        # as well as GET method
         response = c.get(url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
+        content = response.content.decode("utf-8")
+        assert content == ""
 
     def test_organisation_kick_has_correct_permissions(self):
         teacher2_email, _ = signup_teacher_directly()
@@ -96,16 +144,18 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
         if next_url:
-            url = reverse("student_login") + "?next=/"
+            url = (
+                reverse("student_login", kwargs={"access_code": class_access_code})
+                + "?next=/"
+            )
         else:
-            url = reverse("student_login")
+            url = reverse("student_login", kwargs={"access_code": class_access_code})
 
         c = Client()
         response = c.post(
             url,
             {
                 "username": name,
-                "access_code": class_access_code,
                 "password": password,
             },
         )
@@ -119,6 +169,25 @@ class TestLoginViews(TestCase):
         response, _ = self._create_and_login_school_student(True)
         self.assertRedirects(response, "/")
 
+    def test_student_direct_login(self):
+        _, _, _, _, class_access_code = self._set_up_test_data()
+        student, login_id = create_student_with_direct_login(class_access_code)
+
+        c = Client()
+        assert c.login(user_id=student.user.id, login_id=login_id) == True
+
+        url = f"/u/{student.user.id}/{login_id}/"
+        response = c.get(url)
+        # assert redirects
+        assert response.url == "/play/details/"
+        assert response.status_code == 302
+
+        # incorrect url
+        url = "/u/123/4567890/"
+        response = c.get(url)
+        assert response.url == "/"
+        assert response.status_code == 302
+
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()
 
@@ -129,7 +198,7 @@ class TestLoginViews(TestCase):
     def test_student_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_school_student()
 
-        url = reverse("student_login")
+        url = reverse("student_login_access_code")
         response = c.get(url)
         self.assertRedirects(response, "/play/details/")
 

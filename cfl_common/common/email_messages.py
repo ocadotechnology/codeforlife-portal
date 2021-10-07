@@ -42,8 +42,7 @@ def emailChangeNotificationEmail(request):
         "subject": f"{emailSubjectPrefix()}: Email address changed",
         "message": (
             f"Someone has tried to change the email address of your account. If this "
-            f"was not you, please get in contact with us via "
-            f"{request.build_absolute_uri(reverse('help'))}#contact."
+            f"was not you, please get in contact with us."
             f"{emailBodySignOff(request)}"
         ),
     }

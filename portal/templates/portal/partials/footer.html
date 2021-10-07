@@ -23,7 +23,7 @@
             <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post">
                 {{ news_form.non_field_errors }}
                 <div class="form--news-signup">
-                    <div class="form--news-signup__input">
+                    <div class="form__input form--news-signup__input">
                         <label>{{ news_form.email.label }}</label>
                         <div class="input--icon">
                             {{ news_form.email }}

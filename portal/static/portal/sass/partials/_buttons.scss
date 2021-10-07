@@ -102,6 +102,10 @@ button,
   }
 }
 
+.button-border {
+  border: 2px solid $color-text-primary;
+}
+
 .button-right-arrow {
   &:after {
     content: "\e5e1";
@@ -129,7 +133,7 @@ button,
     content: "file_download";
     font-family: "Material Icons Outlined";
     position: relative;
-    top: 5px;
+    top: 2px;
     left: 5px;
     line-height: 0.9em;
   }
