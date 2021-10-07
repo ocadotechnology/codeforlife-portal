@@ -138,6 +138,7 @@
 
 .sub-nav--icon {
   @include _font-size(40px);
+  color: $color-text-primary;
 }
 
 .success,

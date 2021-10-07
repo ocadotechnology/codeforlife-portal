@@ -36,9 +36,9 @@
     <div id="school" class="tab-pane active">
         {% if is_admin and join_requests %}
             <div id="sticky-warning" class="sub-nav sub-nav--warning">
-                <img title="Warning" alt="Warning sign" src="{% static 'portal/img/warning.png' %}">
-                <p><strong>You have pending requests from teachers wanting to join your school or club.
-                    <a id="requests_button" href="#requests">View the requests</a></strong></p>
+                <span class="iconify sub-nav--icon" data-icon="mdi:alert-outline"></span>
+                <p><small><strong>You have pending requests from teachers wanting to join your school or club.
+                    <a id="requests_button" href="#requests">View the requests</a></strong></small></p>
             </div>
         {% endif %}
         <div class="background">
