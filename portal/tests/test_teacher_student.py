@@ -168,6 +168,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
         )
 
