@@ -49,7 +49,7 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
     school student to change their password.
     """
 
-    login_url = reverse_lazy("student_login")
+    login_url = reverse_lazy("student_login_access_code")
     form_class = StudentEditAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     success_url = reverse_lazy("student_details")
@@ -78,7 +78,7 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
                 request,
                 "Please login using your new password.",
             )
-            return HttpResponseRedirect(reverse_lazy("student_login"))
+            return HttpResponseRedirect(reverse_lazy("student_login_access_code"))
 
     def get_form(self, form_class=None):
         return _get_form(self, form_class)

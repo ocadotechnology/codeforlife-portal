@@ -7,7 +7,9 @@ from portal.tests.pageObjects.portal.independent_login_page import (
     IndependentStudentLoginPage,
 )
 from portal.tests.pageObjects.portal.play.dashboard_page import PlayDashboardPage
-from portal.tests.pageObjects.portal.student_login_page import StudentLoginPage
+from portal.tests.pageObjects.portal.student_login_class_code import (
+    StudentLoginClassCodePage,
+)
 from .play_base_page import PlayBasePage
 
 
@@ -47,7 +49,7 @@ class PlayAccountPage(PlayBasePage):
         if is_independent:
             return IndependentStudentLoginPage(self.browser)
         else:
-            return StudentLoginPage(self.browser)
+            return StudentLoginClassCodePage(self.browser)
 
     def update_name_failure(self, new_name, password):
         self._update_name(new_name, password)

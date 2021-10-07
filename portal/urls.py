@@ -26,6 +26,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_METHOD,
     RATELIMIT_RATE,
 )
+from portal.helpers.regexes import ACCESS_CODE_REGEX
 from portal.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
@@ -43,7 +44,6 @@ from portal.views.api import (
 )
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
-from portal.views.help_and_support import contact
 from portal.views.home import (
     home,
     home_learning,
@@ -52,7 +52,11 @@ from portal.views.home import (
 )
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
-from portal.views.login.student import StudentLoginView
+from portal.views.login.student import (
+    StudentLoginView,
+    StudentClassCodeView,
+    student_direct_login,
+)
 from portal.views.login.teacher import TeacherLoginView
 from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
@@ -104,7 +108,7 @@ from portal.views.teacher.teach import (
     teacher_onboarding_create_class,
     teacher_onboarding_edit_class,
     teacher_print_reminder_cards,
-    teacher_student_reset,
+    teacher_download_csv,
     teacher_view_class,
 )
 from portal.views.teacher.teacher_materials import kurono_teaching_packs, materials
@@ -209,7 +213,21 @@ urlpatterns = [
         )(TeacherLoginView.as_view()),
         name="teacher_login",
     ),
-    url(r"^login/student/$", StudentLoginView.as_view(), name="student_login"),
+    url(
+        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})$",
+        StudentLoginView.as_view(),
+        name="student_login",
+    ),
+    url(
+        r"^login/student/$",
+        StudentClassCodeView.as_view(),
+        name="student_login_access_code",
+    ),
+    url(
+        r"^u/(?P<user_id>[0-9]+)/(?P<login_id>[a-z0-9]+)/$",
+        student_direct_login,
+        name="student_direct_login",
+    ),
     url(
         r"^login/independent/$",
         ratelimit(
@@ -274,14 +292,19 @@ urlpatterns = [
         name="onboarding-classes",
     ),
     url(
-        r"^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/$",
+        rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_onboarding_edit_class,
         name="onboarding-class",
     ),
     url(
-        r"^teach/onboarding-class/(?P<access_code>[A-Z0-9]+)/print_reminder_cards/$",
+        rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})/print_reminder_cards/$",
         teacher_print_reminder_cards,
         name="teacher_print_reminder_cards",
+    ),
+    url(
+        rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})/download_csv/$",
+        teacher_download_csv,
+        name="teacher_download_csv",
     ),
     url(
         r"^teach/onboarding-complete",
@@ -315,7 +338,6 @@ urlpatterns = [
     url(r"^about", about, name="about"),
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),
-    url(r"^help/$", contact, name="help"),
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
@@ -380,22 +402,22 @@ urlpatterns = [
         name="teacher_reject_student_request",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/$",
+        rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_view_class,
         name="view_class",
     ),
     url(
-        r"^teach/class/delete/(?P<access_code>[A-Z0-9]+)/$",
+        rf"^teach/class/delete/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_delete_class,
         name="teacher_delete_class",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/delete/$",
+        rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/delete/$",
         teacher_delete_students,
         name="teacher_delete_students",
     ),
     url(
-        r"^teach/class/edit/(?P<access_code>[A-Z0-9]+)/$",
+        rf"^teach/class/edit/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_edit_class,
         name="teacher_edit_class",
     ),
@@ -405,32 +427,27 @@ urlpatterns = [
         name="teacher_edit_student",
     ),
     url(
-        r"^teach/class/student/reset/(?P<pk>[0-9]+)/$",
-        teacher_student_reset,
-        name="teacher_student_reset",
-    ),
-    url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/password_reset/$",
+        rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/password_reset/$",
         teacher_class_password_reset,
         name="teacher_class_password_reset",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/dismiss/$",
+        rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/dismiss/$",
         teacher_dismiss_students,
         name="teacher_dismiss_students",
     ),
     url(
-        r"^teach/class/move/(?P<access_code>[A-Z0-9]+)/$",
+        rf"^teach/class/move/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_move_class,
         name="teacher_move_class",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/$",
+        rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/$",
         teacher_move_students,
         name="teacher_move_students",
     ),
     url(
-        r"^teach/class/(?P<access_code>[A-Z0-9]+)/students/move/disambiguate/$",
+        rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/disambiguate/$",
         teacher_move_students_to_class,
         name="teacher_move_students_to_class",
     ),

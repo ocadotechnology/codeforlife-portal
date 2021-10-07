@@ -127,6 +127,10 @@ SETTINGS = {
     "HIJACK_USE_BOOTSTRAP": True,
     "HIJACK_ALLOW_GET_REQUESTS": True,
     "RECAPTCHA_DOMAIN": "www.recaptcha.net",
+    "AUTHENTICATION_BACKENDS": [
+        "django.contrib.auth.backends.ModelBackend",
+        "portal.backends.StudentLoginBackend",
+    ],
 }
 
 RELATIONSHIPS = [

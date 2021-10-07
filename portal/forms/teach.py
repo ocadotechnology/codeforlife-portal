@@ -11,7 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.helpers.password import form_clean_password
+from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.templatetags.app_tags import is_verified
 
@@ -48,7 +48,7 @@ class TeacherSignupForm(forms.Form):
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_teacher_password(self):
-        return form_clean_password(self, forms, "teacher_password")
+        return form_clean_password(self, "teacher_password", PasswordStrength.TEACHER)
 
     def clean(self):
         if any(self.errors):
@@ -99,7 +99,7 @@ class TeacherEditAccountForm(forms.Form):
         super(TeacherEditAccountForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
-        return form_clean_password(self, forms, "password")
+        return form_clean_password(self, "password", PasswordStrength.TEACHER)
 
     def clean(self):
         if any(self.errors):
@@ -311,11 +311,18 @@ class TeacherSetStudentPass(forms.Form):
     )
 
     def clean_password(self):
-        return form_clean_password(self, forms, "password")
+        return form_clean_password(self, "password", PasswordStrength.STUDENT)
 
     def clean(self):
         password = self.cleaned_data.get("password", None)
         confirm_password = self.cleaned_data.get("confirm_password", None)
+
+        # Student password is case insensitive
+        if password is not None:
+            password = password.lower()
+
+        if confirm_password is not None:
+            confirm_password = confirm_password.lower()
 
         check_passwords(password, confirm_password)
 
