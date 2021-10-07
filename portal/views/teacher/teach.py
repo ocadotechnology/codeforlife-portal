@@ -1,6 +1,5 @@
 from __future__ import division
 
-import re
 import csv
 import json
 from datetime import timedelta
@@ -11,9 +10,10 @@ from common import email_messages
 from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
 from common.helpers.generators import (
     generate_access_code,
+    generate_login_id,
     generate_new_student_name,
     generate_password,
-    generate_login_id,
+    get_hashed_login_id,
 )
 from common.models import Class, Student, Teacher
 from common.permissions import logged_in_as_teacher
@@ -24,17 +24,10 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
-from reportlab.lib.colors import black
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
-
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -49,6 +42,12 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
+from reportlab.lib.colors import black
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
 
 STUDENT_PASSWORD_LENGTH = 6
 
