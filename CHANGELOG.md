@@ -2,6 +2,21 @@
 
 <!--next-version-placeholder-->
 
+## v5.3.0 (2021-10-07)
+### Feature
+* Student login one time details ([#1563](https://github.com/ocadotechnology/codeforlife-portal/issues/1563)) ([`b7e7e62`](https://github.com/ocadotechnology/codeforlife-portal/commit/b7e7e625b9b70f4737673967e16880b947099582))
+* Add csv download ([#1561](https://github.com/ocadotechnology/codeforlife-portal/issues/1561)) ([`e2ebd1e`](https://github.com/ocadotechnology/codeforlife-portal/commit/e2ebd1ecbf667bf6a2728a4854d7b660d533a853))
+* Random url for student login ([#1556](https://github.com/ocadotechnology/codeforlife-portal/issues/1556)) ([`5b71a74`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b71a74c4e67b747f00fa37031f36559fb134fed))
+* Split student login process in two steps ([#1551](https://github.com/ocadotechnology/codeforlife-portal/issues/1551)) ([`cf7d521`](https://github.com/ocadotechnology/codeforlife-portal/commit/cf7d5210376365e5b38d8ca66d0a017543e6f528))
+* Class code and student password format ([#1550](https://github.com/ocadotechnology/codeforlife-portal/issues/1550)) ([`f736c23`](https://github.com/ocadotechnology/codeforlife-portal/commit/f736c235f69d8f3fd8095ad824d2f04947c85938))
+
+### Fix
+* Import get_hashed_login_id in teach.py ([`d4536ad`](https://github.com/ocadotechnology/codeforlife-portal/commit/d4536ad786b745d1f7ebee544617e0a6d0899277))
+* Update single student edit page ([#1571](https://github.com/ocadotechnology/codeforlife-portal/issues/1571)) ([`ca9a46d`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca9a46da206cf96473f9afc3391e049227ab6b9d))
+* Add login url on reset password + refactor ([#1572](https://github.com/ocadotechnology/codeforlife-portal/issues/1572)) ([`43ec60f`](https://github.com/ocadotechnology/codeforlife-portal/commit/43ec60fbc296f7a3d492e179044ea8f37d20b469))
+* Teacher password update ([#1569](https://github.com/ocadotechnology/codeforlife-portal/issues/1569)) ([`3d37fbd`](https://github.com/ocadotechnology/codeforlife-portal/commit/3d37fbdb0c72eee1e83365774e4c7e77df425a2d))
+* Update autoconfig settings for random URL ([#1557](https://github.com/ocadotechnology/codeforlife-portal/issues/1557)) ([`e14a0dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/e14a0dc88fee84b4be5ec6c6bea33d34442a2d8e))
+
 ## v5.2.4 (2021-10-01)
 ### Fix
 * Update license ([#1562](https://github.com/ocadotechnology/codeforlife-portal/issues/1562)) ([`4c6dcce`](https://github.com/ocadotechnology/codeforlife-portal/commit/4c6dcce3ee9b78313ac45bf6887dbf773f00ea81))
