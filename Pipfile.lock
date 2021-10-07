@@ -384,6 +384,7 @@
         },
         "l18n": {
             "hashes": [
+                "sha256:6906b2041a95b3e05d3cce3654476b6eb917e46617c9aa0de2d0e277621116fb",
                 "sha256:ea7a65b2f0935b14601a3295f2c5e5e8b54126dd1e6a7fef4e44d2b8dd5b695a"
             ],
             "version": "==2020.6.1"
@@ -524,10 +525,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da",
-                "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"
+                "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c",
+                "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"
             ],
-            "version": "==2021.1"
+            "version": "==2021.3"
         },
         "pyyaml": {
             "hashes": [
@@ -565,10 +566,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:ad5d10c944e24bccb2e547bf87bd69ef12ac4e570b04b803f318c84945ece087",
-                "sha256:b3faa5530cee1a02f4931201e9d8d21474dd3f8295e08e77dc07c67d07a3eeba"
+                "sha256:177d2dc30b7f66f2f1dab82a5079c61c14adaed805aa3e5145810c60bcd42bcb",
+                "sha256:e864986e8e3465400454388f4318dc6f32e55b83c07f7991b05b93f7e0373ef0"
             ],
-            "version": "==3.0.4"
+            "version": "==3.0.5"
         },
         "reportlab": {
             "hashes": [
@@ -893,10 +894,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da",
-                "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"
+                "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c",
+                "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"
             ],
-            "version": "==2021.1"
+            "version": "==2021.3"
         },
         "pyvirtualdisplay": {
             "hashes": [
