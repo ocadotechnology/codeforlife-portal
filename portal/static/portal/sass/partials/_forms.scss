@@ -13,7 +13,7 @@ form {
   select {
     @include _margin(10px, 0px, 10px, 0px);
     @include _padding(0px, 10px, 0px, 10px);
-    background: white;
+    background: $color-background-secondary;
     border: 1px solid $color-message-border;
     height: 42px;
     width: 100%;
@@ -202,7 +202,6 @@ form {
   .iconify {
     @include _font_size(24px);
     @include _margin(0px, 15px, 0px, 0px);
-    position: absolute;
   }
 }
 

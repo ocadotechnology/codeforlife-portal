@@ -181,7 +181,7 @@
                                     <div class="input--icon">
                                         {{ field }}
                                         {% if not field == update_school_form.country %}
-                                            <span class="iconify" data-icon="mdi:city-variant-outline"></span>
+                                            <span class="iconify" data-icon="mdi:domain"></span>
                                         {% endif %}
                                     </div>
                                     <small>{{ field.help_text }}</small>
@@ -217,7 +217,16 @@
                     {% for class in classes %}
                         <tr>
                             <td><p><small>{{ class.name }}</small></p></td>
-                            <td><p><small>{{ class.access_code }}</small></p></td>
+                            <td class="mw-0">
+                                <div class="d-flex justify-content-between">
+                                    <div id="class-code-{{ class.access_code }}"><small>{{ class.access_code }}</small></div>
+                                    <div>
+                                        <a onclick="copyToClipboardFromElement(this, '#class-code-{{ class.access_code }}')" data-toggle="copyToClipboardTooltip">
+                                            <span class="iconify" data-icon="mdi:content-copy" title="Copy to clipboard"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="cell-center">
                                 <a id="class_button" href="{% url 'view_class' class.access_code %}"
                                    class="button button--small button--primary button--icon">

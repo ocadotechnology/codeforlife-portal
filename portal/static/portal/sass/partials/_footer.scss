@@ -101,26 +101,8 @@
     @include _margin(0px, 20px, 0px, 0px);
   }
 
-  .form--row {
-    align-items: center;
-    display: flex;
-
-    .form--row__input {
-      align-items: flex-start;
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-    }
-
-    .input--icon {
-      width: 100%
-    }
-
-    .iconify-email-outline {
-      @include _font_size(24px);
-      @include _margin(0px, 15px, 0px, 0px);
-      position: absolute;
-    }
+  .form--row__input {
+    flex: 1;
   }
 }
 
