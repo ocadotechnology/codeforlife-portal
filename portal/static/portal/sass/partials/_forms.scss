@@ -193,6 +193,20 @@ form {
   }
 }
 
+@media (max-width: $tablet-small-max-width) {
+  .form--row {
+    flex-direction: column;
+
+    .form--row__input {
+      width: 100%;
+
+      .input--icon {
+        width: 100%;
+      }
+    }
+  }
+}
+
 @media (max-width: $mobile-max-width) {
   .form__choice {
     display: none;
@@ -201,6 +215,18 @@ form {
   .form--register {
     @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
+  }
+
+  .form--row {
+    flex-direction: column;
+
+    .form--row__input {
+      width: 100%;
+
+      .input--icon {
+        width: 100%;
+      }
+    }
   }
 }
 

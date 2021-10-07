@@ -113,12 +113,6 @@
   background-color: $color-primary-300;
   color: $color-text-secondary;
 
-  a:hover,
-  a:focus,
-  a:active {
-    color: $color-text-secondary;
-  }
-
   a:hover {
     text-decoration: underline;
   }

@@ -76,6 +76,7 @@ button,
 
   &:hover {
     text-decoration: underline;
+    color: $color-text-secondary;
   }
 
   &:active,
@@ -99,6 +100,31 @@ button,
   &:focus {
     border: 3px solid $color-button-secondary-border-dark;
     text-decoration: none;
+  }
+}
+
+/* Inverted outline button for sub nav bar */
+.sub-nav--teacher {
+  .button:hover {
+    background: none;
+    text-decoration: underline;
+  }
+
+  .active .button {
+    background-color: $color-background-secondary;
+    border-color: $color-button-subnav-border;
+    color: $color-primary-300;
+
+    &:hover {
+      text-decoration: underline;
+      color: $color-primary-300;
+    }
+
+    &:active,
+    &:focus {
+      border: 2px solid $color-button-subnav-border;
+      text-decoration: none;
+    }
   }
 }
 
