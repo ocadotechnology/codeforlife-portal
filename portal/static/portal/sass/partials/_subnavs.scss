@@ -63,12 +63,7 @@
 
 .sub-nav--warning {
   background-color: $color-background-sub-banner;
-
-  p,
-  a,
-  a:hover {
-    color: $color-text-primary;
-  }
+  color: $color-text-primary;
 
   .button--secondary--dark {
     &:hover,
