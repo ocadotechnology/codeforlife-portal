@@ -84,14 +84,9 @@ button,
   border-color: $color-button-subnav-border;
   color: $color-text-secondary;
 
-  &:hover {
-    text-decoration: underline;
-  }
-
   &:active,
   &:focus {
-    border: 3px solid $color-button-subnav-border;
-    text-decoration: none;
+    border-color: $color-button-subnav-border;
   }
 }
 
@@ -100,15 +95,9 @@ button,
   border-color: $color-button-secondary-border-dark;
   color: $color-text-primary;
 
-  &:hover {
-    text-decoration: underline;
-    color: $color-text-primary;
-  }
-
   &:active,
   &:focus {
-    border: 3px solid $color-button-secondary-border-dark;
-    text-decoration: none;
+    border-color: $color-button-secondary-border-dark;
   }
 }
 
