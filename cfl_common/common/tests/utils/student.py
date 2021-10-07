@@ -7,7 +7,7 @@ from django.core import mail
 from common.helpers.emails import generate_token
 from common.models import Class, Student
 
-from common.helpers.generators import get_hashed_login_id
+from common.helpers.generators import generate_login_id
 
 from . import email
 
@@ -45,11 +45,11 @@ def create_student_with_direct_login(access_code) -> Tuple[Student, str]:
     name, password = generate_school_details()
     klass = Class.objects.get(access_code=access_code)
 
-    # use random string for direct login
-    uuidstr = uuid4().hex
-    hashed_id = get_hashed_login_id(uuidstr)
-    student = Student.objects.schoolFactory(klass, name, password, hashed_id)
-    return student, uuidstr
+    # use random string for direct login)
+    login_id, hashed_login_id = generate_login_id()
+    student = Student.objects.schoolFactory(klass, name, password, hashed_login_id)
+
+    return student, login_id
 
 
 def create_independent_student_directly(preverified=True):
