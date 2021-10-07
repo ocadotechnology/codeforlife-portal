@@ -109,7 +109,6 @@ from portal.views.teacher.teach import (
     teacher_onboarding_edit_class,
     teacher_print_reminder_cards,
     teacher_download_csv,
-    teacher_student_reset,
     teacher_view_class,
 )
 from portal.views.teacher.teacher_materials import kurono_teaching_packs, materials
@@ -426,11 +425,6 @@ urlpatterns = [
         r"^teach/class/student/edit/(?P<pk>[0-9]+)/$",
         teacher_edit_student,
         name="teacher_edit_student",
-    ),
-    url(
-        r"^teach/class/student/reset/(?P<pk>[0-9]+)/$",
-        teacher_student_reset,
-        name="teacher_student_reset",
     ),
     url(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/password_reset/$",

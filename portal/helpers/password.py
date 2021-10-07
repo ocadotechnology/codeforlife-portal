@@ -24,7 +24,7 @@ class PasswordStrength(Enum):
                 special_char=False,
             ):
                 raise forms.ValidationError(
-                    f"Password not strong enough, consider using at least {minimum_password_length} characters."
+                    f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
                 )
         elif self is PasswordStrength.INDEPENDENT:
             minimum_password_length = 8
@@ -38,7 +38,7 @@ class PasswordStrength(Enum):
             ):
                 raise forms.ValidationError(
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
-                    "upper and lower case letters, and numbers."
+                    "upper and lower case letters, and numbers and making it hard to guess."
                 )
         else:
             minimum_password_length = 10
@@ -52,7 +52,7 @@ class PasswordStrength(Enum):
             ):
                 raise forms.ValidationError(
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
-                    "upper and lower case letters, numbers and special characters."
+                    "upper and lower case letters, numbers, special characters and making it hard to guess."
                 )
         return password
 

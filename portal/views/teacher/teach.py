@@ -3,10 +3,9 @@ from __future__ import division
 import re
 import csv
 import json
-import hashlib
-from uuid import uuid4
 from datetime import timedelta
 from functools import partial, wraps
+from uuid import uuid4
 
 from common import email_messages
 from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
@@ -25,10 +24,17 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
+from reportlab.lib.colors import black
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
+
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -43,12 +49,6 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
-from reportlab.lib.colors import black
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
 
 STUDENT_PASSWORD_LENGTH = 6
 
@@ -376,7 +376,7 @@ def teacher_edit_student(request, pk):
     """
     student = get_object_or_404(Student, id=pk)
 
-    check_if_reset_authorised(request, student)
+    check_if_edit_authorised(request, student)
 
     name_form = TeacherEditStudentForm(
         student, initial={"name": student.new_user.first_name}
@@ -396,6 +396,13 @@ def teacher_edit_student(request, pk):
 
                 messages.success(
                     request, "The student's details have been changed successfully."
+                )
+
+                return HttpResponseRedirect(
+                    reverse_lazy(
+                        "view_class",
+                        kwargs={"access_code": student.class_field.access_code},
+                    )
                 )
 
         else:
@@ -421,54 +428,55 @@ def process_reset_password_form(request, student, password_form):
     # check not default value for CharField
     new_password = password_form.cleaned_data["password"]
     if new_password:
+        # generate uuid for url and store the hashed
+        uuidstr = uuid4().hex
+        login_id = get_hashed_login_id(uuidstr)
+        login_url = request.build_absolute_uri(
+            reverse(
+                "student_direct_login",
+                kwargs={
+                    "user_id": student.new_user.id,
+                    "login_id": uuidstr,
+                },
+            )
+        )
+
+        students_info = [
+            {
+                "id": student.new_user.id,
+                "name": student.new_user.first_name,
+                "password": new_password,
+                "login_url": login_url,
+            }
+        ]
+
         student.new_user.set_password(new_password)
         student.new_user.save()
-        name_pass = [{"name": student.new_user.first_name, "password": new_password}]
+        student.login_id = login_id
+        student.save()
+
         return render(
             request,
-            "portal/teach/teacher_student_reset.html",
+            "portal/teach/onboarding_print.html",
             {
-                "student": student,
                 "class": student.class_field,
-                "password": new_password,
-                "query_data": json.dumps(name_pass),
+                "students_info": students_info,
+                "onboarding_done": True,
+                "query_data": json.dumps(students_info),
+                "class_url": request.build_absolute_uri(
+                    reverse(
+                        "student_login",
+                        kwargs={"access_code": student.class_field.access_code},
+                    )
+                ),
             },
         )
 
 
-def check_if_reset_authorised(request, student):
+def check_if_edit_authorised(request, student):
     # check user is authorised to edit student
     if request.user.new_teacher != student.class_field.teacher:
         raise Http404
-
-
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def teacher_student_reset(request, pk):
-    """
-    Reset a student's password
-    """
-    student = get_object_or_404(Student, id=pk)
-
-    # check user is authorised to edit student
-    if request.user.new_teacher != student.class_field.teacher:
-        raise Http404
-
-    new_password = generate_password(STUDENT_PASSWORD_LENGTH)
-    student.new_user.set_password(new_password)
-    student.new_user.save()
-    name_pass = [{"name": student.new_user.first_name, "password": new_password}]
-
-    return render(
-        request,
-        "portal/teach/teacher_student_reset.html",
-        {
-            "student": student,
-            "class": student.class_field,
-            "password": new_password,
-            "query_data": json.dumps(name_pass),
-        },
-    )
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))

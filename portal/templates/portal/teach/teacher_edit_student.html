@@ -1,29 +1,16 @@
 {% extends 'portal/base.html' %}
 
 {% block content %}
-<script>
-    $( document ).ready(function() {
-        $('#password-setter').hide();
-        $('#request-password-setter').click(function(){$('#password-setter').show();});
-        $('#cancel-password-setter').click(function(){$('#password-setter').hide();});
-
-        {% if set_password_mode %}
-        $('#password-setter').show();
-        window.location = '#set-password';
-        {% endif %}
-    });
-</script>
-
 <div id="edit_student_page"></div>
 
 <section id="student_details" class="background col-sm-6 col-center">
     <h4>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h4>
-    <h6>Edit this student&rsquo;s name and manage their password.</h6>
+    <h5>Edit this student&rsquo;s name and manage their password and direct access link.</h5>
 </section>
 
 <div class="background background--primary">
     <div class="col-sm-6 col-center">
-        <h4>Update name</h4>
+        <h5>Update name</h5>
 
         <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
 
@@ -40,39 +27,25 @@
 
         </form>
 
-        <h4 id="set-password">Set or reset password</h4>
+        <h5 id="set-password">Set password</h5>
 
-        <p>You can either set this student's password by clicking 'Set password', or you can let us generate a random and
-            secure password by clicking 'Generate random'.</p>
-
-        <form method="post" action="{% url 'teacher_student_reset' student.id %}">
-            {% csrf_token %}
-            <div class="button-group">
-                <button id="generate_password_button" type="submit"
-                        class="button button--primary">Generate random</button>
-                <a href="#set-password" class="button button--secondary button--secondary--dark" id="request-password-setter">Set password</a>
-            </div>
-        </form>
+        <p>You can set this student's password. Setting the password will also regenerate their direct access link.</p>
 
         <form method="post">
 
             {% csrf_token %}
 
+            <p>Enter and confirm the password in the boxes below. Try to prevent others from being able to guess the new
+                password when making this decision.</p>
+
             {{ password_form.non_field_errors }}
 
-            <div id="password-setter">
-                <p>Enter and confirm the password in the boxes below. Try to prevent others from being able to guess the new
-                    password when making this decision.</p>
-                {{ password_form.password }}
-                {{ password_form.password.errors }}
+            {{ password_form.password }}
+            {{ password_form.password.errors }}
 
-                {{ password_form.confirm_password }}
-                {{ password_form.confirm_password.errors }}
-                <div class="background button-group">
-                    <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Set</button>
-                    <a id="cancel-password-setter" class="button button--secondary button--secondary--dark">Cancel</a>
-                </div>
-            </div>
+            {{ password_form.confirm_password }}
+            {{ password_form.confirm_password.errors }}
+            <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Set</button>
         </form>
     </div>
 </div>

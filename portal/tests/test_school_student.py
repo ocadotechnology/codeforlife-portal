@@ -169,7 +169,7 @@ class TestSchoolStudent(BaseTest):
         assert self.is_account_page(page)
         assert page.was_form_invalid(
             "student_account_form",
-            "Password not strong enough, consider using at least 6 characters.",
+            "Password not strong enough, consider using at least 6 characters and making it hard to guess.",
         )
 
     def test_update_password_success(self):
