@@ -408,8 +408,8 @@
                             <h6>Disable Two Factor Authentication (2FA)</h6>
                             <p>We recommend you to continue using 2FA, however you can disable 2FA for your account using the button below.</p>
                             <div class="background">
-                                <a class="button button--primary button--primary--danger button-warning"
-                                   href="{% url 'two_factor:disable' %}">Disable 2FA</a>
+                                <a class="button button--primary button--primary--danger button--icon" href="{% url 'two_factor:disable' %}">
+                                    Disable 2FA<span class="iconify" data-icon="mdi:alert-circle-outline"></span></a>
                             </div>
                         </div>
                     </div>
