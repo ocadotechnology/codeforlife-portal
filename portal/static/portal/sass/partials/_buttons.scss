@@ -95,6 +95,10 @@ button,
   border-color: $color-button-secondary-border-dark;
   color: $color-text-primary;
 
+  &:hover {
+    color: $color-text-primary;
+  }
+
   &:active,
   &:focus {
     border-color: $color-button-secondary-border-dark;
