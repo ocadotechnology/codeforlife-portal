@@ -44,16 +44,16 @@
         <div class="col-sm-12 sub-nav">
             <span class="iconify sub-nav--icon" data-icon="mdi:alert-outline"></span>
             <p class="flex-grow-1">
-                <small><i>This is the only time you will be able to view this page. You can print reminder cards or download as a CSV file.</i></small>
+                <small><strong>This is the only time you will be able to view this page. You can print reminder cards or download as a CSV file.</strong></small>
             </p>
             <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
                 {% csrf_token %}
                 <input type="hidden" name="data" value="{{ query_data }}"/>
                 <div class="section">
-                    <button class="button button--primary button-border" type="submit">
+                    <button class="button button--secondary" type="submit">
                         <div class="d-flex align-items-center">
                             <div>Print reminder cards</div>
-                            <span class="iconify ml-3" data-icon="mdi:printer-outline"></span>
+                            <span class="iconify ml-3" data-icon="mdi:printer"></span>
                         </div>
                     </button>
                 </div>
@@ -77,8 +77,10 @@
             table below.
         </p>
         <p class="text-danger">
-            You will not be shown this page again, so please make sure you retain a copy of the passwords for your records. You can print the
-            reminder cards from the button below. Please ensure you share student passwords securely.
+            <strong>
+                You will not be shown this page again, so please make sure you retain a copy of the passwords for your records. You can print the
+                reminder cards from the button below. Please ensure you share student passwords securely.
+            </strong>
         </p>
         {% endif %}
         <div class="row">
@@ -101,7 +103,7 @@
                         </div>
                     </td>
                     <td class="no-bg"><div class="or-circle d-none d-lg-block">OR</div></td>
-                    <td><p><small>No class code or password required</small></p></td>
+                    <td><p><small><strong>No class code or password required</strong></small></p></td>
                 </tr>
                 <tr class="header-secondary">
                     <th><p>Name</p></th>

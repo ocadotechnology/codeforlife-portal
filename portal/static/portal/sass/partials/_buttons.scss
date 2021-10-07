@@ -67,6 +67,16 @@ button,
   @include _padding(8px, 15px, 8px, 15px);
   background-color: transparent;
   border: 2px solid;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active,
+  &:focus {
+    border-width: 3px;
+    text-decoration: none;
+  }
 }
 
 /* Outlined button white border and text */
@@ -100,10 +110,6 @@ button,
     border: 3px solid $color-button-secondary-border-dark;
     text-decoration: none;
   }
-}
-
-.button-border {
-  border: 2px solid $color-text-primary;
 }
 
 .button-right-arrow {
