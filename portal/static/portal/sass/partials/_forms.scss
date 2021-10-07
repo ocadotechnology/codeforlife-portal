@@ -163,6 +163,7 @@ form {
   align-items: center;
   display: flex;
   justify-content: flex-end;
+  width: 100%;
 
   input[type="text"],
   input[type="password"],
@@ -180,11 +181,11 @@ form {
 .form--row {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
 
   .form--row__input {
     align-items: flex-start;
     display: flex;
-    flex: 1;
     flex-direction: column;
 
     .form__checkbox {
@@ -199,20 +200,6 @@ form {
   }
 }
 
-@media (max-width: $tablet-small-max-width) {
-  .form--row {
-    flex-direction: column;
-
-    .form--row__input {
-      width: 100%;
-
-      .input--icon {
-        width: 100%;
-      }
-    }
-  }
-}
-
 @media (max-width: $mobile-max-width) {
   .form__choice {
     display: none;
@@ -224,8 +211,6 @@ form {
   }
 
   .form--row {
-    flex-direction: column;
-
     .form--row__input {
       width: 100%;
 
