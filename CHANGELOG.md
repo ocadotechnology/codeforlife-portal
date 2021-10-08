@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.4.0 (2021-10-08)
+### Feature
+* Teacher dashboard update ([#1574](https://github.com/ocadotechnology/codeforlife-portal/issues/1574)) ([`f70c95a`](https://github.com/ocadotechnology/codeforlife-portal/commit/f70c95a70d7f8f9b270d8c35862d5962322f058b))
+
 ## v5.3.2 (2021-10-08)
 ### Fix
 * Remove underline from dropdown icon ([#1575](https://github.com/ocadotechnology/codeforlife-portal/issues/1575)) ([`0ca1332`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ca133293038af1e46b525dc922371786c6252f9))
