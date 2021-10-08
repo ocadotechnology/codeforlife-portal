@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.5.0 (2021-10-08)
+### Feature
+* Login pages design with shapes ([`99996b0`](https://github.com/ocadotechnology/codeforlife-portal/commit/99996b0cf3c2f5c1f8d2750c38437b206ee972db))
+
 ## v5.4.0 (2021-10-08)
 ### Feature
 * Teacher dashboard update ([#1574](https://github.com/ocadotechnology/codeforlife-portal/issues/1574)) ([`f70c95a`](https://github.com/ocadotechnology/codeforlife-portal/commit/f70c95a70d7f8f9b270d8c35862d5962322f058b))

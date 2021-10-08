@@ -112,7 +112,68 @@ img {
   object-fit: contain;
 }
 
+.oval-blue {
+  content: url("../img/oval_blue.svg");
+}
+
+.oval-pink {
+  content: url("../img/oval_pink.svg");
+}
+
+.oval-yellow {
+  content: url("../img/oval_yellow.svg");
+}
+
+.polygon-blue {
+  content: url("../img/polygon_blue.svg");
+}
+
+.polygon-pink {
+  content: url("../img/polygon_pink.svg");
+}
+
+.polygon-yellow {
+  content: url("../img/polygon_yellow.svg");
+}
+
+.login-shape-left {
+  position: relative;
+  left: -17vw;
+  @include _top(250px);
+  @include _margin(-250px, 0px, 0px, 0px);
+}
+
+.login-shape-right {
+  position: relative;
+  left: 17vw;
+  @include _top(500px);
+  @include _margin(-500px, 0px, 0px, 0px);
+}
+
+@media (max-width: $tablet-large-max-width) {
+  .login-shape-left {
+    position: relative;
+    left: -30vw;
+    width: 150px;
+    @include _top(300px);
+    @include _margin(-300px, 0px, 0px, 0px);
+  }
+
+  .login-shape-right {
+    position: relative;
+    left: 30vw;
+    width: 130px;
+    @include _top(550px);
+    @include _margin(-550px, 0px, 0px, 0px);
+  }
+}
+
 @media (max-width: $mobile-max-width) {
+  .login-shape-left,
+  .login-shape-right {
+    display: none;
+  }
+
   .image-row {
     align-items: center;
     flex-direction: column;

@@ -78,6 +78,13 @@ form {
   }
 }
 
+.form--login {
+  @include _margin(30px, auto, 50px, auto);
+  @include _padding(30px, 0px, 30px, 0px);
+  text-align: center;
+  width: 40%;
+}
+
 .form--register--teacher {
   color: $color-text-secondary;
   background-color: $color-primary-400;
@@ -206,7 +213,18 @@ form {
   }
 }
 
+@media (max-width: $tablet-large-max-width) {
+  .form--login {
+    width: 70%;
+  }
+}
+
 @media (max-width: $mobile-max-width) {
+  .form--login {
+    width: 85%;
+    @include _margin(30px, auto, 30px, auto);
+  }
+
   .form__choice {
     display: none;
   }
@@ -245,4 +263,3 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
 }
-
