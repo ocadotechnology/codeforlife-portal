@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.6.1 (2021-10-08)
+### Fix
+* Fix teacher dashboard subnav button styles ([#1576](https://github.com/ocadotechnology/codeforlife-portal/issues/1576)) ([`ad61d0d`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad61d0dfb7e35fd215a12eb9ab4b07237caa4fec))
+
 ## v5.6.0 (2021-10-08)
 ### Feature
 * Login page design with shapes ([#1577](https://github.com/ocadotechnology/codeforlife-portal/issues/1577)) ([`2a02e45`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a02e45fb4919d869e9c7bf7491605be3719d765))
