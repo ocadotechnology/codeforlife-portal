@@ -239,8 +239,12 @@ table {
     content: "\e5ce";
   }
 
-  &:hover .dropdown__text {
-    text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+
+    .dropdown__text {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -375,7 +379,7 @@ table {
       justify-content: center;
     }
 
-    &.login {
+    &.button--header--login {
       border: 2px solid $color-secondary-600;
       margin: 0;
     }
