@@ -200,8 +200,9 @@ form {
   }
 
   .iconify {
-    @include _font_size(24px);
+    @include _font_size(22px);
     @include _margin(0px, 15px, 0px, 0px);
+    position: absolute;
   }
 }
 

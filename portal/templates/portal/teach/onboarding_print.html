@@ -148,7 +148,8 @@
                     {% csrf_token %}
                     <input type="hidden" name="data" value="{{ query_data }}"/>
                     <div class="button-group">
-                        <button class="button button--primary button-file-download" type="submit">Download CSV</button>
+                        <button class="button button--primary button--icon" type="submit">
+                            Download CSV<span class="iconify" data-icon="mdi:tray-arrow-down"></button>
                     </div>
                 </form>
             </div>

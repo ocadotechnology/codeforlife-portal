@@ -91,11 +91,10 @@ table {
   color: $color-text-secondary;
 
   &:hover {
-    text-decoration: underline;
     color: $color-text-secondary;
   }
 
-    &:active,
+  &:active,
   &:focus {
     border-color: $color-button-subnav-border;
   }
