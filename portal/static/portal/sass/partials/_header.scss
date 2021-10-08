@@ -20,7 +20,7 @@
   width: 80%;
   white-space: nowrap;
 
-  .login > & {
+  .button--header--login > & {
     overflow: visible;
   }
 }
@@ -250,7 +250,7 @@
     }
 
     .button--register,
-    .login {
+    .button--header--login {
       @include _padding(10px, 15px, 10px, 15px);
       width: 155px;
       height: 45px;
@@ -326,7 +326,7 @@
       @include _padding(0px, $spacing * 3, 0px, $spacing * 3);
       max-width: none;
 
-      &.login {
+      &.button--header--login {
         padding-left: calculate-rem($spacing * 4);
       }
 
