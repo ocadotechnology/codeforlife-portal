@@ -90,7 +90,12 @@ table {
   border-color: $color-button-subnav-border;
   color: $color-text-secondary;
 
-  &:active,
+  &:hover {
+    text-decoration: underline;
+    color: $color-text-secondary;
+  }
+
+    &:active,
   &:focus {
     border-color: $color-button-subnav-border;
   }
