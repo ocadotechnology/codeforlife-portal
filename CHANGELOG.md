@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.3.2 (2021-10-08)
+### Fix
+* Remove underline from dropdown icon ([#1575](https://github.com/ocadotechnology/codeforlife-portal/issues/1575)) ([`0ca1332`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ca133293038af1e46b525dc922371786c6252f9))
+
 ## v5.3.1 (2021-10-07)
 ### Fix
 * Student one time details fixes ([#1573](https://github.com/ocadotechnology/codeforlife-portal/issues/1573)) ([`3573624`](https://github.com/ocadotechnology/codeforlife-portal/commit/3573624020bf696e4c800b94543ee258c33f244e))
