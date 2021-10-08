@@ -37,7 +37,12 @@ class TestClass(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+        )
 
         page, class_name = create_class(page)
 
@@ -54,7 +59,10 @@ class TestClass(BaseTest):
         create_school_student_directly(access_code_2)
 
         page = (
-            self.go_to_homepage().go_to_teacher_login_page().login(email_2, password_2)
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_classes_tab()
         )
 
         page, class_name_3 = create_class(page)
@@ -67,8 +75,13 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
 
         page = page.toggle_select_student().delete_students()
         assert page.is_dialog_showing()
@@ -85,8 +98,13 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
 
         page = page.delete_class()
         assert page.is_dialog_showing()
@@ -104,8 +122,14 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page().go_to_class_settings_page()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+            .go_to_class_settings_page()
+        )
 
         new_class_name = "new " + class_name
         assert not page.check_class_details(
@@ -128,8 +152,14 @@ class TestClass(BaseTest):
         _, class_name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page().go_to_class_settings_page()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+            .go_to_class_settings_page()
+        )
 
         page = page.transfer_class()
         assert page.get_list_length() == 0
@@ -145,14 +175,23 @@ class TestClass(BaseTest):
         student_name, student_password, _ = create_school_student_directly(access_code)
 
         page = (
-            self.go_to_homepage().go_to_teacher_login_page().login(email_1, password_1)
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email_1, password_1)
+            .open_classes_tab()
+            .go_to_class_page()
+            .go_to_class_settings_page()
         )
-        page = page.go_to_class_page().go_to_class_settings_page()
 
         page = transfer_class(page, 0)
         assert page.does_not_have_classes()
 
-        page = page.logout().go_to_teacher_login_page().login(email_2, password_2)
+        page = (
+            page.logout()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_classes_tab()
+        )
         assert page.does_class_exist(class_name, access_code)
         page = page.go_to_class_page()
         assert page.has_students()

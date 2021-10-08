@@ -65,28 +65,33 @@ class TeacherSignupForm(forms.Form):
 class TeacherEditAccountForm(forms.Form):
 
     first_name = forms.CharField(
-        label="First name",
         max_length=100,
         widget=forms.TextInput(attrs={"placeholder": "First name", "class": "fName"}),
+        help_text="First name",
     )
     last_name = forms.CharField(
-        label="Last name",
         max_length=100,
         widget=forms.TextInput(attrs={"placeholder": "Last name", "class": "lName"}),
+        help_text="Last name",
     )
     email = forms.EmailField(
-        label="Change email address (optional)",
         required=False,
-        widget=forms.EmailInput(attrs={"placeholder": "new.email@address.com"}),
+        widget=forms.EmailInput(attrs={"placeholder": "New email address (optional)"}),
+        help_text="New email address (optional)",
     )
     password = forms.CharField(
-        label="New password (optional)", required=False, widget=forms.PasswordInput
+        required=False,
+        widget=forms.PasswordInput(attrs={"placeholder": "New password (optional)"}),
+        help_text="New password (optional)",
     )
     confirm_password = forms.CharField(
-        label="Confirm new password", required=False, widget=forms.PasswordInput
+        required=False,
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password (optional)"}),
+        help_text="Confirm new password (optional)",
     )
     current_password = forms.CharField(
-        label="Current password", widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
+        help_text="Enter your current password",
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -179,14 +184,13 @@ class TeacherLoginForm(AuthenticationForm):
 
 
 class ClassCreationForm(forms.Form):
-    classmate_choices = [("True", "Yes"), ("False", "No")]
     class_name = forms.CharField(
-        label="Class Name", widget=forms.TextInput(attrs={"placeholder": "Lower KS2"})
+        widget=forms.TextInput(attrs={"placeholder": "Class name"}),
+        help_text="Enter a class name",
     )
-    classmate_progress = forms.ChoiceField(
-        label="Allow students to see their classmates' progress?",
-        choices=classmate_choices,
-        widget=forms.Select(attrs={"class": "wide"}),
+    classmate_progress = forms.BooleanField(
+        label="Allow students to see their classmates' progress",
+        widget=forms.CheckboxInput(), initial=False, required=False,
     )
 
 

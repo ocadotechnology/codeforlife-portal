@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="mw-0">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex">
                             <div><small>Class link:</small></div>
                             <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
                             <div>
@@ -148,7 +148,8 @@
                     {% csrf_token %}
                     <input type="hidden" name="data" value="{{ query_data }}"/>
                     <div class="button-group">
-                        <button class="button button--primary button-file-download" type="submit">Download CSV</button>
+                        <button class="button button--primary button--icon" type="submit">
+                            Download CSV<span class="iconify" data-icon="mdi:tray-arrow-down"></button>
                     </div>
                 </form>
             </div>

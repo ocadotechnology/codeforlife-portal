@@ -164,7 +164,7 @@
     });
 
     function animateScroll(bannerHeight) {
-        $('a[href*="#"]').click(function() {
+        $('a[href*="#"]:not(a[data-toggle="tab"])').on('click', function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
                 history.pushState({}, "", this.href);
                 let $target = getTarget(this);
@@ -183,7 +183,12 @@
     }
 
     function animate(targetOffset) {
-        $('html,body').animate({scrollTop: targetOffset}, 1000);
+        let stickyWarningHeight = 0;
+        let stickyWarning = $('#sticky-warning');
+        if (stickyWarning.length) {
+            stickyWarningHeight = stickyWarning.height();
+        }
+        $('html,body').animate({scrollTop: targetOffset - $('.menu').height() - stickyWarningHeight}, 1000);
     }
 
     function invokeColorbox() {

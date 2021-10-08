@@ -17,6 +17,12 @@ button,
   min-width: 150px;
 }
 
+table {
+  .button {
+    min-width: 100px;
+  }
+}
+
 .button,
 .button:hover,
 .button:active,
@@ -84,9 +90,11 @@ button,
   border-color: $color-button-subnav-border;
   color: $color-text-secondary;
 
+  &:hover,
   &:active,
   &:focus {
     border-color: $color-button-subnav-border;
+    color: $color-text-secondary;
   }
 }
 
@@ -127,50 +135,6 @@ button,
   }
 }
 
-.button-file-download {
-  &:after {
-    content: "file_download";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    left: 5px;
-    line-height: 0.9em;
-  }
-}
-
-.button-block {
-  &:after {
-    content: "block";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    left: 5px;
-    line-height: 0.9em;
-  }
-}
-
-.button-remove {
-  &:after {
-    content: "remove_circle_outline";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    left: 5px;
-    line-height: 0.9em;
-  }
-}
-
-.button-add-person {
-  &:after {
-    content: "person_add";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    line-height: 0.9em;
-    @include _margin(0px, 5px, 0px, 20px);
-  }
-}
-
 .button--regular,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {
@@ -179,7 +143,7 @@ button,
 
 .button--small {
   @include _font-size(14px);
-  @include _padding(2px, 10px, 2px, 10px);
+  @include _padding(5px, 10px, 5px, 10px);
 }
 
 .button--menu {
@@ -216,12 +180,6 @@ button,
   @include _margin(0px, 20px, 0px, 20px);
 }
 
-#classes-table {
-  .button {
-    display: inline-block;
-  }
-}
-
 .button--primary--danger,
 .ui-dialog-buttonset button,
 .hijacked-warning .btn {
@@ -229,8 +187,20 @@ button,
   color: $color-text-secondary;
 
   &:hover {
+    @include material-shadow();
     background: $color-button-primary-action-danger-hover;
     color: $color-text-secondary;
+  }
+}
+
+.button--icon {
+  align-items: center;
+  display: inline-flex;
+  justify-content: space-between;
+
+  .iconify {
+    @include _font-size(22px);
+    @include _margin(0px, 0px, 0px, 20px);
   }
 }
 
@@ -347,6 +317,22 @@ button,
 
   .dropdown-menu {
     width: 100%;
+  }
+}
+
+@media (max-width: $tablet-large-max-width) {
+  .button--icon {
+    justify-content: center;
+
+    .iconify {
+      display: none;
+    }
+  }
+
+  table {
+    .button {
+      min-width: 70px;
+    }
   }
 }
 

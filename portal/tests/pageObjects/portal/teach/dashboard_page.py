@@ -2,8 +2,6 @@ from __future__ import absolute_import
 
 import time
 
-from selenium.webdriver.support.ui import Select
-
 from .add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from .class_page import TeachClassPage
 from .move_classes_page import TeachMoveClassesPage
@@ -20,6 +18,18 @@ class TeachDashboardPage(TeachBasePage):
     def go_to_class_page(self):
         self.browser.find_element_by_id("class_button").click()
         return TeachClassPage(self.browser)
+
+    def open_school_tab(self):
+        self.browser.find_element_by_id("tab-school").click()
+        return self
+
+    def open_classes_tab(self):
+        self.browser.find_element_by_id("tab-classes").click()
+        return self
+
+    def open_account_tab(self):
+        self.browser.find_element_by_id("tab-account").click()
+        return self
 
     def check_organisation_details(self, details):
         correct = True
@@ -57,9 +67,8 @@ class TeachDashboardPage(TeachBasePage):
 
     def create_class(self, name, classmate_progress):
         self.browser.find_element_by_id("id_class_name").send_keys(name)
-        Select(
-            self.browser.find_element_by_id("id_classmate_progress")
-        ).select_by_value(classmate_progress)
+        if classmate_progress:
+            self.browser.find_element_by_id("id_classmate_progress").click()
 
         self.browser.find_element_by_id("create_class_button").click()
 
@@ -160,7 +169,7 @@ class TeachDashboardPage(TeachBasePage):
 
     def is_teacher_admin(self):
         return (
-            "Make non-admin" in self.browser.find_element_by_id("teachers_table").text
+            "Revoke admin" in self.browser.find_element_by_id("teachers_table").text
         )
 
     def have_classes(self):
