@@ -221,7 +221,7 @@ form {
 
 @media (max-width: $mobile-max-width) {
   .form--login {
-    width: 90%;
+    width: 85%;
     @include _margin(30px, auto, 30px, auto);
   }
 
