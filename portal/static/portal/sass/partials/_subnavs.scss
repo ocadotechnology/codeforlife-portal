@@ -75,6 +75,26 @@
   }
 }
 
+/* Inverted outline button for sub nav bar */
+.sub-nav--teacher {
+  .button:hover,
+  .button:focus {
+    background: none;
+    text-decoration: underline;
+  }
+
+  .active {
+    .button,
+    .button:hover,
+    .button:active,
+    .button:focus {
+      background-color: $color-background-secondary;
+      color: $color-primary-300;
+      text-decoration: none;
+    }
+  }
+}
+
 .sub-nav--warning--fixed {
   margin: 0;
   position: fixed;
