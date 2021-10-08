@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.6.0 (2021-10-08)
+### Feature
+* Login page design with shapes ([#1577](https://github.com/ocadotechnology/codeforlife-portal/issues/1577)) ([`2a02e45`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a02e45fb4919d869e9c7bf7491605be3719d765))
+
 ## v5.5.0 (2021-10-08)
 ### Feature
 * Login pages design with shapes ([`99996b0`](https://github.com/ocadotechnology/codeforlife-portal/commit/99996b0cf3c2f5c1f8d2750c38437b206ee972db))
