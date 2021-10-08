@@ -108,8 +108,8 @@
   background-color: $color-primary-300;
   color: $color-text-secondary;
 
-  a:hover,
-  a:focus {
+  .button:hover,
+  .button:focus {
     background: none;
     text-decoration: underline;
   }
