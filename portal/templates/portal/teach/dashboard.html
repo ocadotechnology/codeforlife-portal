@@ -8,6 +8,10 @@
 <script>
     var CONFIRMATION_DATA = {};
 
+    if (window.location.href.endsWith("#account")) {
+        $("#tab-account").click();
+    }
+
     $("#update-details").on("click", () => {
         $("#tab-account").click();
     })
