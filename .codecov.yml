@@ -15,6 +15,7 @@ ignore:
   - "docs/*"
   - "create_test_site.py"
   - "portal/helpers/ratelimit.py"
+  - "portal/autoconfig.py"
 
 comment:
   layout: "reach, diff, flags, files"
