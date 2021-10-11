@@ -1,2 +1,0 @@
-window.jQuery || document.write('<script type="text/javascript" src="/static/portal/js/lib/jquery-3.5.1.min.js">\x3C/script>')
-window.jQuery.ui || document.write('<script type="text/javascript" src="/static/portal/js/lib/jquery-ui-1.12.1.min.js">\x3C/script>')
