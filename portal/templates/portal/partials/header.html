@@ -92,15 +92,9 @@
                     {% endif %}
                     {% if user|is_logged_in_as_teacher %}
                         <li class="dropdown-menu__option">
-                            <a class="button--regular" aria-labelledby="Change password"
-                              href="{% url 'dashboard' %}#edit_account_details_password">
-                                <div class="dropdown-menu__option__text">Change password</div>
-                                <span class="material-icons-outlined">lock</span></a>
-                        </li>
-                        <li class="dropdown-menu__option">
                             <a class="button--regular" aria-labelledby="Update my details"
                               href="{% url 'dashboard' %}#account">
-                                <div class="dropdown-menu__option__text">Update my details</div>
+                                <div class="dropdown-menu__option__text">Update account details</div>
                                 <span class="material-icons-outlined">manage_accounts</span></a>
                         </li>
                     {% else %}
@@ -211,19 +205,23 @@
             <a class="button button--menu__item" href="{% url 'play' %}">Student
                 <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% endif %}
-        <a class="button button--menu__item" href="{% url 'about' %}">About
+        <a class="button button--menu__item" href="{% url 'about' %}">About us
             <span class="material-icons-outlined md-32">chevron_right</span></a>
-        <a class="button button--menu__item" href="{% url 'getinvolved' %}">Get involved
+        <a class="button button--menu__item freshdesk__contact-us">Help and support
             <span class="material-icons-outlined md-32">chevron_right</span></a>
-        <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
+        <a class="button button--menu__item optanon-toggle-display">Cookie settings
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" href="{% url 'privacy_policy' %}">Privacy policy
             <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'home-learning' %}">Home learning
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" href="{% url 'getinvolved' %}">Get involved
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% if user|is_logged_in %}
             {% if user|is_logged_in_as_teacher %}
-                <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Change password
-                    <span class="material-icons-outlined md-32">chevron_right</span></a>
-                <a class="button button--menu__item" href="{% url 'dashboard' %}#password">Update my details
+                <a class="button button--menu__item" href="{% url 'dashboard' %}#account">Update account details
                     <span class="material-icons-outlined md-32">chevron_right</span></a>
             {% endif %}
             <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
