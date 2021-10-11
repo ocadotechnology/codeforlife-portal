@@ -146,6 +146,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
         )
 
@@ -167,6 +168,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
         )
 
@@ -193,6 +195,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
             .go_to_edit_student_page()
         )
@@ -218,6 +221,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
             .go_to_edit_student_page()
         )
@@ -243,6 +247,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
             .go_to_edit_student_page()
         )
@@ -268,6 +273,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
             .go_to_edit_student_page()
         )
@@ -296,6 +302,7 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email, password)
+            .open_classes_tab()
             .go_to_class_page()
             .go_to_edit_student_page()
         )
@@ -317,8 +324,13 @@ class TestTeacherStudent(BaseTest):
         student_name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
         assert page.student_exists(student_name)
 
         page = page.toggle_select_student().delete_students()
@@ -334,8 +346,13 @@ class TestTeacherStudent(BaseTest):
         student_name, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
         assert page.student_exists(student_name)
 
         page = page.toggle_select_student().reset_passwords()
@@ -352,8 +369,13 @@ class TestTeacherStudent(BaseTest):
         _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
 
         page = page.move_students_none_selected()
         assert page.__class__.__name__ == "TeachClassPage"
@@ -378,8 +400,9 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(old_teacher_email, password_1)
+            .open_classes_tab()
+            .go_to_class_page()
         )
-        page = page.go_to_class_page()
         assert page.has_students()
         assert page.student_exists(student_name)
 
@@ -403,8 +426,9 @@ class TestTeacherStudent(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login(email_1, password_1)
+            .open_classes_tab()
+            .go_to_class_page()
         )
-        page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
         assert page.student_exists(student_name_2)
 
@@ -414,15 +438,13 @@ class TestTeacherStudent(BaseTest):
 
         page = page.go_to_dashboard()
 
-        # Temporary fix to scroll back to the top of the page, until we make the subnav
-        # not stick to the header
-        element = self.selenium.driver.find_element_by_tag_name("body")
-        self.selenium.driver.execute_script(
-            "return arguments[0].scrollIntoView(true);", element
+        page = (
+            page.logout()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_classes_tab()
+            .go_to_class_page()
         )
-
-        page = page.logout().go_to_teacher_login_page().login(email_2, password_2)
-        page = page.go_to_class_page()
         assert page.student_exists(student_name_1)
 
     def test_dismiss(self):
@@ -433,8 +455,13 @@ class TestTeacherStudent(BaseTest):
         _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
-        page = page.go_to_class_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
         assert page.student_exists(student_name_1)
 
         page = page.toggle_select_student().dismiss_students()

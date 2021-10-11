@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-from selenium.webdriver.support.ui import Select
-
 from . import onboarding_students_page
 from .teach_base_page import TeachBasePage
 
@@ -14,9 +12,8 @@ class OnboardingClassesPage(TeachBasePage):
 
     def create_class(self, name, classmate_progress):
         self.browser.find_element_by_id("id_class_name").send_keys(name)
-        Select(
-            self.browser.find_element_by_id("id_classmate_progress")
-        ).select_by_value(classmate_progress)
+        if classmate_progress:
+            self.browser.find_element_by_id("id_classmate_progress").click()
 
         self._click_create_class_button()
 

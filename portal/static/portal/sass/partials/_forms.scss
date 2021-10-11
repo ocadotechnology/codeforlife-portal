@@ -13,6 +13,7 @@ form {
   select {
     @include _margin(10px, 0px, 10px, 0px);
     @include _padding(0px, 10px, 0px, 10px);
+    background: $color-background-secondary;
     border: 1px solid $color-message-border;
     height: 42px;
     width: 100%;
@@ -75,6 +76,13 @@ form {
     @include _padding(15px, 0px, 30px, 0px);
     text-align: center;
   }
+}
+
+.form--login {
+  @include _margin(30px, auto, 50px, auto);
+  @include _padding(30px, 0px, 30px, 0px);
+  text-align: center;
+  width: 40%;
 }
 
 .form--register--teacher {
@@ -168,9 +176,55 @@ form {
   align-items: center;
   display: flex;
   justify-content: flex-end;
+  width: 100%;
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    @include _padding(0px, 40px, 0px, 15px);
+  }
+}
+
+.checkbox--labelled {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form--row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+
+  .form--row__input {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+
+    .form__checkbox {
+      font-size: 100%;
+    }
+  }
+
+  .iconify {
+    @include _font_size(24px);
+    @include _margin(0px, 15px, 0px, 0px);
+    position: absolute;
+  }
+}
+
+@media (max-width: $tablet-large-max-width) {
+  .form--login {
+    width: 70%;
+  }
 }
 
 @media (max-width: $mobile-max-width) {
+  .form--login {
+    width: 85%;
+    @include _margin(30px, auto, 30px, auto);
+  }
+
   .form__choice {
     display: none;
   }
@@ -178,6 +232,16 @@ form {
   .form--register {
     @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
+  }
+
+  .form--row {
+    .form--row__input {
+      width: 100%;
+
+      .input--icon {
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -199,4 +263,3 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
 }
-

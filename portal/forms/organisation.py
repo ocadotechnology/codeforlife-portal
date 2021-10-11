@@ -12,22 +12,22 @@ class OrganisationForm(forms.ModelForm):
 
         model = School
         fields = ["name", "postcode", "country"]
-        labels = {
-            "name": "Name of your school or club",
-            "postcode": "Postcode",
-            "country": "Country",
-        }
         widgets = {
             "name": forms.TextInput(
                 attrs={
                     "autocomplete": "off",
-                    "placeholder": "Name of your school or club",
-                }
+                    "placeholder": "School",
+                },
             ),
             "postcode": forms.TextInput(
-                attrs={"autocomplete": "off", "placeholder": "Postcode"}
+                attrs={"autocomplete": "off", "placeholder": "Postcode / Zipcode"}
             ),
             "country": CountrySelectWidget(attrs={"class": "wide"}, layout="{widget}"),
+        }
+        help_texts = {
+            "name": "Name of school or club",
+            "postcode": "Postcode / Zipcode",
+            "country": "Country",
         }
 
     def __init__(self, *args, **kwargs):

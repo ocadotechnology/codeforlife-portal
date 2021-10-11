@@ -2,6 +2,30 @@
 
 <!--next-version-placeholder-->
 
+## v5.6.1 (2021-10-08)
+### Fix
+* Fix teacher dashboard subnav button styles ([#1576](https://github.com/ocadotechnology/codeforlife-portal/issues/1576)) ([`ad61d0d`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad61d0dfb7e35fd215a12eb9ab4b07237caa4fec))
+
+## v5.6.0 (2021-10-08)
+### Feature
+* Login page design with shapes ([#1577](https://github.com/ocadotechnology/codeforlife-portal/issues/1577)) ([`2a02e45`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a02e45fb4919d869e9c7bf7491605be3719d765))
+
+## v5.5.0 (2021-10-08)
+### Feature
+* Login pages design with shapes ([`99996b0`](https://github.com/ocadotechnology/codeforlife-portal/commit/99996b0cf3c2f5c1f8d2750c38437b206ee972db))
+
+## v5.4.0 (2021-10-08)
+### Feature
+* Teacher dashboard update ([#1574](https://github.com/ocadotechnology/codeforlife-portal/issues/1574)) ([`f70c95a`](https://github.com/ocadotechnology/codeforlife-portal/commit/f70c95a70d7f8f9b270d8c35862d5962322f058b))
+
+## v5.3.2 (2021-10-08)
+### Fix
+* Remove underline from dropdown icon ([#1575](https://github.com/ocadotechnology/codeforlife-portal/issues/1575)) ([`0ca1332`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ca133293038af1e46b525dc922371786c6252f9))
+
+## v5.3.1 (2021-10-07)
+### Fix
+* Student one time details fixes ([#1573](https://github.com/ocadotechnology/codeforlife-portal/issues/1573)) ([`3573624`](https://github.com/ocadotechnology/codeforlife-portal/commit/3573624020bf696e4c800b94543ee258c33f244e))
+
 ## v5.3.0 (2021-10-07)
 ### Feature
 * Student login one time details ([#1563](https://github.com/ocadotechnology/codeforlife-portal/issues/1563)) ([`b7e7e62`](https://github.com/ocadotechnology/codeforlife-portal/commit/b7e7e625b9b70f4737673967e16880b947099582))

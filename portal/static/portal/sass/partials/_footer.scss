@@ -85,29 +85,6 @@
     }
   }
 
-  .form--news-signup {
-    align-items: center;
-    display: flex;
-
-    .form--news-signup__input {
-      flex: 1;
-    }
-
-    .input--icon {
-      width: 100%
-    }
-
-    #newsletter_email_field {
-      @include _padding(0px, 40px, 0px, 15px);
-    }
-
-    .iconify-email-outline {
-      @include _font_size(24px);
-      @include _margin(0px, 15px, 0px, 0px);
-      position: absolute;
-    }
-  }
-
   .footer-links {
     @include _margin(0px, -15px, 0px, -15px);
 
@@ -122,6 +99,10 @@
 
   .social-media a {
     @include _margin(0px, 20px, 0px, 0px);
+  }
+
+  .form--row__input {
+    flex: 1;
   }
 }
 
@@ -139,16 +120,12 @@
     }
 
     .external-links,
-    .form--news-signup {
+    .form--row {
       flex-direction: column;
     }
 
     .social-media a {
       @include _margin(0px, 10px, 0px, 10px);
-    }
-
-    .form--news-signup__input {
-      width: 100%;
     }
   }
 }
@@ -160,7 +137,7 @@
       margin: 0;
     }
 
-    .form--news-signup {
+    .form--row {
       align-items: baseline;
     }
   }

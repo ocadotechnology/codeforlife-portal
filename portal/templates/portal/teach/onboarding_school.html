@@ -31,8 +31,8 @@
             {% csrf_token %}
 
             <div class="section group">
-                <button class="button button--secondary button--secondary--dark button-block" type="submit"
-                    name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}
+                <button class="button button--secondary button--secondary--dark button--icon" type="submit"
+                    name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}<span class="iconify" data-icon="mdi:block"></span>
                 </button>
             </div>
 

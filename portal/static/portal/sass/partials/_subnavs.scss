@@ -63,12 +63,7 @@
 
 .sub-nav--warning {
   background-color: $color-background-sub-banner;
-
-  p,
-  a,
-  a:hover {
-    color: $color-text-primary;
-  }
+  color: $color-text-primary;
 
   .button--secondary--dark {
     &:hover,
@@ -113,14 +108,22 @@
   background-color: $color-primary-300;
   color: $color-text-secondary;
 
-  a:hover,
-  a:focus,
-  a:active {
-    color: $color-text-secondary;
+  .button:hover,
+  .button:focus {
+    background: none;
+    text-decoration: underline;
   }
 
-  a:hover {
-    text-decoration: underline;
+  /* Inverted outline button for sub nav bar */
+  .active {
+    .button,
+    .button:hover,
+    .button:active,
+    .button:focus {
+      background-color: $color-background-secondary;
+      color: $color-primary-300;
+      text-decoration: none;
+    }
   }
 }
 
@@ -144,6 +147,7 @@
 
 .sub-nav--icon {
   @include _font-size(40px);
+  color: $color-text-primary;
 }
 
 .success,
