@@ -1,4 +1,3 @@
-from app_settings import MODULE_NAME
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 from django.core.cache import cache
@@ -41,18 +40,6 @@ def field_exists(model, field):
     except FieldDoesNotExist:
         return False
     return True
-
-
-def domain():
-    """Returns the full domain depending on whether it's local, dev, staging or prod."""
-    domain = "https://www.codeforlife.education"
-
-    if MODULE_NAME == "local":
-        domain = "localhost:8000"
-    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
-        domain = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
-
-    return domain
 
 
 class LoginRequiredNoErrorMixin(LoginRequiredMixin):

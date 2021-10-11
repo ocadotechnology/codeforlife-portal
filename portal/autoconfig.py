@@ -1,7 +1,7 @@
 """Portal autoconfig"""
 import os
 
-from common.utils import domain
+from common.app_settings import domain
 from django_autoconfig.autoconfig import OrderingRelationship
 
 DEFAULT_SETTINGS = {
@@ -150,7 +150,7 @@ SETTINGS = {
     ),
     "CSP_IMG_SRC": (
         "https://cdn-ukwest.onetrust.com/",
-        f"{domain}/static/portal/img/",
+        f"{domain()}/static/portal/img/",
     ),
     "CSP_SCRIPT_SRC": (
         "'self'",
@@ -166,8 +166,8 @@ SETTINGS = {
         "https://www.recaptcha.net/",
         "https://www.google.com/recaptcha/",
         "https://www.gstatic.com/recaptcha/",
-        f"{domain}/static/portal/",
-        f"{domain}/static/common/",
+        f"{domain()}/static/portal/",
+        f"{domain()}/static/common/",
     ),
     "CSP_STYLE_SRC": (
         "'self'",
@@ -175,8 +175,8 @@ SETTINGS = {
         "https://euc-widget.freshworks.com/",
         "https://cdn-ukwest.onetrust.com/",
         "https://fonts.googleapis.com/",
-        f"{domain}/static/hijack/",
-        f"{domain}/static/portal/",
+        f"{domain()}/static/hijack/",
+        f"{domain()}/static/portal/",
     ),
     "CSP_FRAME_SRC": (
         "https://storage.googleapis.com/",
