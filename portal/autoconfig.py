@@ -1,7 +1,7 @@
 """Portal autoconfig"""
 import os
 
-import common.app_settings
+from common.utils import domain
 from django_autoconfig.autoconfig import OrderingRelationship
 
 DEFAULT_SETTINGS = {
@@ -13,14 +13,6 @@ DEFAULT_SETTINGS = {
     ),
     "MEDIA_URL": "/media/",
 }
-
-DOMAIN = "https://www.codeforlife.education"
-MODULE_NAME = common.app_settings.MODULE_NAME
-
-if MODULE_NAME == "local":
-    DOMAIN = "localhost:8000"
-elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
-    DOMAIN = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
 
 SETTINGS = {
     "AUTOCONFIG_DISABLED_APPS": [
@@ -158,7 +150,7 @@ SETTINGS = {
     ),
     "CSP_IMG_SRC": (
         "https://cdn-ukwest.onetrust.com/",
-        f"{DOMAIN}/static/portal/img/",
+        f"{domain}/static/portal/img/",
     ),
     "CSP_SCRIPT_SRC": (
         "'self'",
@@ -174,8 +166,8 @@ SETTINGS = {
         "https://www.recaptcha.net/",
         "https://www.google.com/recaptcha/",
         "https://www.gstatic.com/recaptcha/",
-        f"{DOMAIN}/static/portal/",
-        f"{DOMAIN}/static/common/",
+        f"{domain}/static/portal/",
+        f"{domain}/static/common/",
     ),
     "CSP_STYLE_SRC": (
         "'self'",
@@ -183,8 +175,8 @@ SETTINGS = {
         "https://euc-widget.freshworks.com/",
         "https://cdn-ukwest.onetrust.com/",
         "https://fonts.googleapis.com/",
-        f"{DOMAIN}/static/hijack/",
-        f"{DOMAIN}/static/portal/",
+        f"{domain}/static/hijack/",
+        f"{domain}/static/portal/",
     ),
     "CSP_FRAME_SRC": (
         "https://storage.googleapis.com/",
