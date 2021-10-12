@@ -16,6 +16,7 @@ ignore:
   - "create_test_site.py"
   - "portal/helpers/ratelimit.py"
   - "portal/autoconfig.py"
+  - "cfl_common/common/app_settings.py"
 
 comment:
   layout: "reach, diff, flags, files"
