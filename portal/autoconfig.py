@@ -142,6 +142,9 @@ SETTINGS = {
         "https://*.onetrust.com/",
         "https://euc-widget.freshworks.com/",
         "https://codeforlife.freshdesk.com/",
+        "https://api.iconify.design/",
+        "https://api.simplesvg.com/",
+        "https://api.unisvg.com/",
     ),
     "CSP_FONT_SRC": (
         "'self'",
