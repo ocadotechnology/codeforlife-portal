@@ -184,7 +184,6 @@ SETTINGS = {
         "https://www.recaptcha.net/",
         "https://www.google.com/recaptcha/",
     ),
-    "CSP_OBJECT_SRC": ("'none'",),
     "CSP_REPORT_ONLY": False,
 }
 
