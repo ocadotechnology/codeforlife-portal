@@ -787,7 +787,7 @@ def teacher_print_reminder_cards(request, access_code):
     # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
     PAGE_MARGIN = old_div(PAGE_WIDTH, 16)
-    INNER_CARD_MARGIN = old_div(PAGE_WIDTH, 64)
+    INTER_CARD_MARGIN = old_div(PAGE_WIDTH, 64)
     CARD_PADDING = old_div(PAGE_WIDTH, 48)
 
     # rows and columns on page
@@ -833,9 +833,9 @@ def teacher_print_reminder_cards(request, access_code):
                 "Please ensure students keep login details in a secure place",
             )
 
-        left = PAGE_MARGIN + x * CARD_WIDTH + x * INNER_CARD_MARGIN * 2
+        left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN * 2
         bottom = (
-            PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INNER_CARD_MARGIN
+            PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INTER_CARD_MARGIN
         )
 
         inner_bottom = bottom + CARD_PADDING
@@ -848,8 +848,8 @@ def teacher_print_reminder_cards(request, access_code):
         p.drawImage(
             logo_image,
             left,
-            bottom + INNER_CARD_MARGIN,
-            height=CARD_HEIGHT - INNER_CARD_MARGIN * 2,
+            bottom + INTER_CARD_MARGIN,
+            height=CARD_HEIGHT - INTER_CARD_MARGIN * 2,
             preserveAspectRatio=True,
         )
 
