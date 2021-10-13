@@ -791,15 +791,11 @@ def teacher_print_reminder_cards(request, access_code):
     CARD_PADDING = old_div(PAGE_WIDTH, 48)
 
     # rows and columns on page
-    NUM_X = 2
-    NUM_Y = 4
+    NUM_X = 1
+    NUM_Y = 8
 
-    CARD_WIDTH = old_div(
-        (PAGE_WIDTH - PAGE_MARGIN * 2 - INNER_CARD_MARGIN * NUM_X), NUM_X
-    )
-    CARD_HEIGHT = old_div(
-        (PAGE_HEIGHT - PAGE_MARGIN * 3 - INNER_CARD_MARGIN * NUM_Y), NUM_Y
-    )
+    CARD_WIDTH = old_div(PAGE_WIDTH - PAGE_MARGIN * 2, NUM_X)
+    CARD_HEIGHT = old_div(PAGE_HEIGHT - PAGE_MARGIN * 4, NUM_Y)
 
     CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2
 
@@ -814,6 +810,12 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Use data from the query string if given
     student_data = get_student_data(request)
+    student_login_link = request.build_absolute_uri(
+        reverse("student_login_access_code")
+    )
+    class_login_link = request.build_absolute_uri(
+        reverse("student_login", kwargs={"access_code": access_code})
+    )
 
     # Now draw everything
     x = 0
@@ -821,60 +823,61 @@ def teacher_print_reminder_cards(request, access_code):
 
     current_student_count = 0
     for student in student_data:
+        # warning text for every new page
+        if current_student_count % (NUM_X * NUM_Y) == 0:
+            p.setFillColor(red)
+            p.setFont("Helvetica-Bold", 10)
+            p.drawString(
+                PAGE_MARGIN,
+                PAGE_MARGIN / 2,
+                "Please ensure students keep login details in a secure place",
+            )
+
         left = PAGE_MARGIN + x * CARD_WIDTH + x * INNER_CARD_MARGIN * 2
         bottom = (
             PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INNER_CARD_MARGIN
         )
 
-        inner_left = left + CARD_PADDING
         inner_bottom = bottom + CARD_PADDING
-
-        logo_y = bottom + CARD_HEIGHT - logo_image.getSize()[1]
 
         # card border
         p.setStrokeColor(black)
         p.rect(left, bottom, CARD_WIDTH, CARD_HEIGHT)
 
         # logo
-        p.drawImage(logo_image, inner_left, logo_y - INNER_CARD_MARGIN)
+        p.drawImage(
+            logo_image,
+            left,
+            bottom + INNER_CARD_MARGIN,
+            height=CARD_HEIGHT - INNER_CARD_MARGIN * 2,
+            preserveAspectRatio=True,
+        )
+
+        text_left = left + logo_image.getSize()[0]
 
         # student details
         p.setFillColor(black)
-        p.setFont("Helvetica", 16)
-        p.drawString(inner_left, inner_bottom, f"Password: {student['password']}")
+        p.setFont("Helvetica", 12)
         p.drawString(
-            inner_left,
-            inner_bottom + CARD_INNER_HEIGHT * 0.15,
-            f"Class: {klass.access_code}",
+            text_left,
+            inner_bottom + CARD_INNER_HEIGHT * 0.9,
+            f"Class code: {klass.access_code} at {student_login_link}",
         )
         p.drawString(
-            inner_left,
+            text_left,
+            inner_bottom + CARD_INNER_HEIGHT * 0.6,
+            f"OR class link: {class_login_link}",
+        )
+        p.drawString(
+            text_left,
             inner_bottom + CARD_INNER_HEIGHT * 0.3,
             f"Name: {student['name']}",
         )
+        p.drawString(text_left, inner_bottom, f"Password: {student['password']}")
 
         x = (x + 1) % NUM_X
         y = compute_show_page_character(p, x, y, NUM_Y)
         current_student_count += 1
-
-        if current_student_count == NUM_X * NUM_Y - 1:
-            # warning text
-            p.setFillColor(red)
-            p.setFont("Helvetica-Bold", 12)
-            p.drawString(
-                PAGE_MARGIN,
-                PAGE_MARGIN,
-                "Please ensure students keep login details in a secure place",
-            )
-
-    # warning text
-    p.setFillColor(red)
-    p.setFont("Helvetica-Bold", 12)
-    p.drawString(
-        PAGE_MARGIN,
-        PAGE_MARGIN,
-        "Please ensure students keep login details in a secure place",
-    )
 
     compute_show_page_end(p, x, y)
 
