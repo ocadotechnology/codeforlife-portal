@@ -8,12 +8,31 @@
 <script>
     var CONFIRMATION_DATA = {};
 
-    if (window.location.href.endsWith("#account")) {
-        $("#tab-account").click();
+    function updateLocationHash(hash) {
+        // using replaceState as changing hash directly will scroll to element
+        history.replaceState({}, '', hash)
     }
 
-    $("#update-details").on("click", () => {
-        $("#tab-account").click();
+    $(document).ready(function(){
+        // select the tab based on the current location hash
+        const tabs = $('.sub-nav [data-toggle="tab"]')
+        const tabNames = tabs.map((index, element) => $(element).attr('href')).toArray()
+        const currentTabIndex = tabNames.indexOf(window.location.hash)
+        if (currentTabIndex < 0) {
+            updateLocationHash(tabNames[0])
+        }
+        else {
+            tabs[currentTabIndex].click()
+        }
+
+        // make each tab update the current location hash on click
+        tabs.on('shown.bs.tab', (event) => {
+            updateLocationHash(event.target.hash)
+        })
+
+        $("#update-details").on("click", () => {
+            $("#tab-account").click()
+        })
     })
 </script>
 {% endblock scripts %}
