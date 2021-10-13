@@ -17,7 +17,6 @@ from common.helpers.generators import (
 )
 from common.models import Class, Student, Teacher
 from common.permissions import logged_in_as_teacher
-from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -28,6 +27,11 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
+from reportlab.lib.colors import black, red
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -42,12 +46,6 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
-from reportlab.lib.colors import black
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
 
 STUDENT_PASSWORD_LENGTH = 6
 
@@ -788,7 +786,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
-    PAGE_MARGIN = old_div(PAGE_WIDTH, 32)
+    PAGE_MARGIN = old_div(PAGE_WIDTH, 16)
     INNER_CARD_MARGIN = old_div(PAGE_WIDTH, 64)
     CARD_PADDING = old_div(PAGE_WIDTH, 48)
 
@@ -797,15 +795,17 @@ def teacher_print_reminder_cards(request, access_code):
     NUM_Y = 4
 
     CARD_WIDTH = old_div(
-        (PAGE_WIDTH - PAGE_MARGIN * 2 - INNER_CARD_MARGIN * (NUM_X - 1)), NUM_X
+        (PAGE_WIDTH - PAGE_MARGIN * 2 - INNER_CARD_MARGIN * NUM_X), NUM_X
     )
     CARD_HEIGHT = old_div(
-        (PAGE_HEIGHT - PAGE_MARGIN * 2 - INNER_CARD_MARGIN * (NUM_Y - 1)), NUM_Y
+        (PAGE_HEIGHT - PAGE_MARGIN * 3 - INNER_CARD_MARGIN * NUM_Y), NUM_Y
     )
 
     CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2
 
-    logo_image = ImageReader(staticfiles_storage.path("portal/img/logo_cfl.png"))
+    logo_image = ImageReader(
+        staticfiles_storage.path("portal/img/logo_cfl_reminder_cards.jpg")
+    )
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
@@ -821,7 +821,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     current_student_count = 0
     for student in student_data:
-        left = PAGE_MARGIN + x * CARD_WIDTH + x * INNER_CARD_MARGIN
+        left = PAGE_MARGIN + x * CARD_WIDTH + x * INNER_CARD_MARGIN * 2
         bottom = (
             PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INNER_CARD_MARGIN
         )
@@ -829,20 +829,14 @@ def teacher_print_reminder_cards(request, access_code):
         inner_left = left + CARD_PADDING
         inner_bottom = bottom + CARD_PADDING
 
-        card_center_y = (bottom * 2 + CARD_HEIGHT) / 2
+        logo_y = bottom + CARD_HEIGHT - logo_image.getSize()[1]
 
         # card border
         p.setStrokeColor(black)
-        p.roundRect(left, bottom, CARD_WIDTH, CARD_HEIGHT, 0)
+        p.rect(left, bottom, CARD_WIDTH, CARD_HEIGHT)
 
         # logo
-        p.drawImage(
-            logo_image,
-            inner_left,
-            card_center_y,
-            CARD_INNER_HEIGHT / 2 * 1.16,
-            CARD_INNER_HEIGHT / 2,
-        )
+        p.drawImage(logo_image, inner_left, logo_y - INNER_CARD_MARGIN)
 
         # student details
         p.setFillColor(black)
@@ -862,6 +856,25 @@ def teacher_print_reminder_cards(request, access_code):
         x = (x + 1) % NUM_X
         y = compute_show_page_character(p, x, y, NUM_Y)
         current_student_count += 1
+
+        if current_student_count == NUM_X * NUM_Y - 1:
+            # warning text
+            p.setFillColor(red)
+            p.setFont("Helvetica-Bold", 12)
+            p.drawString(
+                PAGE_MARGIN,
+                PAGE_MARGIN,
+                "Please ensure students keep login details in a secure place",
+            )
+
+    # warning text
+    p.setFillColor(red)
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(
+        PAGE_MARGIN,
+        PAGE_MARGIN,
+        "Please ensure students keep login details in a secure place",
+    )
 
     compute_show_page_end(p, x, y)
 
