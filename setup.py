@@ -30,7 +30,7 @@ setup(
         "pyyaml==5.4",
         "rapid-router >= 1.0.0.post.dev1",
         "aimmo",
-        "reportlab==3.5.55",
+        "reportlab==3.6.1",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
         "requests==2.25.0",
