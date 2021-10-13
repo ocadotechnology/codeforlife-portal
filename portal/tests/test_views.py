@@ -1,7 +1,11 @@
 import io
 import csv
 import json
-from common.models import Teacher
+
+from datetime import timedelta
+from django.utils import timezone
+from django.contrib.auth.models import User
+from common.models import Teacher, UserSession, Student, Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -10,6 +14,7 @@ from common.tests.utils.organisation import (
 from common.tests.utils.student import (
     create_school_student_directly,
     create_student_with_direct_login,
+    create_independent_student_directly,
 )
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
@@ -169,12 +174,78 @@ class TestLoginViews(TestCase):
         response, _ = self._create_and_login_school_student(True)
         self.assertRedirects(response, "/")
 
+    def test_teacher_session(self):
+        email, password, _, _, _ = self._set_up_test_data()
+        c = Client()
+        response = c.post(
+            reverse("teacher_login"),
+            {
+                "auth-username": email,
+                "auth-password": password,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+        # check if there's a UserSession data within the last minute
+        now = timezone.now()
+        oneminago = now - timedelta(minutes=1)
+
+        user = User.objects.get(email=email)
+        q = UserSession.objects.filter(user=user)
+        q = q.filter(login_time__range=(oneminago, now))
+        assert len(q) == 1
+
+    def test_student_session(self):
+        _, _, name, password, class_access_code = self._set_up_test_data()
+
+        c = Client()
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
+        response = c.post(
+            url,
+            {
+                "username": name,
+                "password": password,
+            },
+        )
+        # check if there's a UserSession data within the last minute
+        now = timezone.now()
+        oneminago = now - timedelta(minutes=1)
+
+        klass = Class.objects.get(access_code=class_access_code)
+        students = Student.objects.filter(
+            new_user__first_name__iexact=name, class_field=klass
+        )
+        assert len(students) == 1
+        user = students[0].new_user
+        q = UserSession.objects.filter(user=user)
+        q = q.filter(login_time__range=(oneminago, now))
+        assert len(q) == 1
+
+    def test_indep_student_session(self):
+        username, password, student = create_independent_student_directly()
+        c = Client()
+        url = reverse("independent_student_login")
+        response = c.post(
+            url,
+            {
+                "username": username,
+                "password": password,
+            },
+        )
+        # check if there's a UserSession data within the last minute
+        now = timezone.now()
+        oneminago = now - timedelta(minutes=1)
+
+        user = User.objects.get(username=username)
+        q = UserSession.objects.filter(user=user)
+        q = q.filter(login_time__range=(oneminago, now))
+        assert len(q) == 1
+
     def test_student_direct_login(self):
         _, _, _, _, class_access_code = self._set_up_test_data()
         student, login_id = create_student_with_direct_login(class_access_code)
 
         c = Client()
-        assert c.login(user_id=student.user.id, login_id=login_id) == True
+        assert c.login(user_id=student.new_user.id, login_id=login_id) == True
 
         url = f"/u/{student.user.id}/{login_id}/"
         response = c.get(url)
@@ -187,6 +258,13 @@ class TestLoginViews(TestCase):
         response = c.get(url)
         assert response.url == "/"
         assert response.status_code == 302
+
+        # check if there's a UserSession data within the last minute
+        now = timezone.now()
+        oneminago = now - timedelta(minutes=1)
+        q = UserSession.objects.filter(user=student.new_user)
+        q = q.filter(login_time__range=(oneminago, now))
+        assert len(q) == 1
 
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()

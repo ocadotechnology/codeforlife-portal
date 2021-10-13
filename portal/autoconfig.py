@@ -131,6 +131,7 @@ SETTINGS = {
         "django.contrib.auth.backends.ModelBackend",
         "portal.backends.StudentLoginBackend",
     ],
+    "USE_TZ": True,
 }
 
 RELATIONSHIPS = [
