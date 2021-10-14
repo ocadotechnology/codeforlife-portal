@@ -76,10 +76,8 @@ class TestTeacherViews(TestCase):
         # Add students to the dummy data list until it goes over the max students per
         # page number
         students_per_page = REMINDER_CARDS_PDF_ROWS * REMINDER_CARDS_PDF_COLUMNS
-        [
+        for _ in range(len(studentlist), students_per_page + 1):
             studentlist.append({"name": NAME1, "password": PASSWORD1, "login_url": URL})
-            for _ in range(len(studentlist), students_per_page + 1)
-        ]
 
         assert len(studentlist) == students_per_page + 1
 
