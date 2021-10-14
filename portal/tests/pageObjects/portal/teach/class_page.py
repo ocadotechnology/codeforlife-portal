@@ -107,6 +107,8 @@ class TeachClassPage(TeachBasePage):
 
     def go_to_dashboard(self):
         self.browser.find_element_by_id("return_to_classes_button").click()
+        # scroll to top as the classes page will scroll to classes by default
+        self.browser.execute_script("window.scrollTo(0, 0)")
 
         import portal.tests.pageObjects.portal.teach.dashboard_page as dashboard_page
 

@@ -8,7 +8,7 @@ snapshots = Snapshot()
 
 snapshots[
     "test_banner 1"
-] = """<div class="banner banner--teacher row">
+] = """<div class="banner banner--teacher row mx-0">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Test title</h1>
         

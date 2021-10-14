@@ -30,7 +30,7 @@
 {% block content %}
 
 {% if onboarding_done %}
-<section class="banner banner--teacher row flex-column">
+<section class="banner banner--teacher row mx-0 flex-column">
     <h5>Class and class access code:</h5>
     <h1 class="banner__text--primary mt-3 mb-4">{{ class.name }}, ({{ class.access_code }})</h1>
     <h5>{{ user.new_teacher.school.name }}</h5>
