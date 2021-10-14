@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.7.0 (2021-10-14)
+### Feature
+* Add UserSession for login data ([#1585](https://github.com/ocadotechnology/codeforlife-portal/issues/1585)) ([`12f52a7`](https://github.com/ocadotechnology/codeforlife-portal/commit/12f52a7b6daf1f7a0a40473cbcd88be61ff67488))
+
 ## v5.6.2 (2021-10-11)
 ### Fix
 * Fix update account details link ([#1582](https://github.com/ocadotechnology/codeforlife-portal/issues/1582)) ([`ee06d14`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee06d14ab3ddbd7e4dffb1b9f03d1144e17697ec))
