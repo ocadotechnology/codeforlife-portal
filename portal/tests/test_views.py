@@ -50,10 +50,11 @@ class TestTeacherViews(TestCase):
         NAME2 = "Another name"
         PASSWORD1 = "password1"
         PASSWORD2 = "password2"
+        URL = "url"
 
         studentlist = [
-            {"name": NAME1, "password": PASSWORD1, "login_url": "url"},
-            {"name": NAME2, "password": PASSWORD2, "login_url": "url"},
+            {"name": NAME1, "password": PASSWORD1, "login_url": URL},
+            {"name": NAME2, "password": PASSWORD2, "login_url": URL},
         ]
         data = {"data": json.dumps(studentlist)}
 
@@ -76,9 +77,7 @@ class TestTeacherViews(TestCase):
         # page number
         students_per_page = REMINDER_CARDS_PDF_ROWS * REMINDER_CARDS_PDF_COLUMNS
         [
-            studentlist.append(
-                {"name": "name", "password": "password", "login_url": "url"}
-            )
+            studentlist.append({"name": NAME1, "password": PASSWORD1, "login_url": URL})
             for _ in range(len(studentlist), students_per_page + 1)
         ]
 
