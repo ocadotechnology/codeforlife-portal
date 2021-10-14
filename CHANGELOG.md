@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.8.0 (2021-10-14)
+### Feature
+* Update reminder cards design ([#1584](https://github.com/ocadotechnology/codeforlife-portal/issues/1584)) ([`18ba6ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/18ba6ae725eaf630a0250492050ef2c908ac7982))
+
 ## v5.7.1 (2021-10-14)
 ### Fix
 * Dashboard fixes ([#1583](https://github.com/ocadotechnology/codeforlife-portal/issues/1583)) ([`e70db7a`](https://github.com/ocadotechnology/codeforlife-portal/commit/e70db7a5bbba53945e8fb884dfba0f3f6606ecca))
