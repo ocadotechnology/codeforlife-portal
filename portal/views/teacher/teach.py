@@ -48,6 +48,11 @@ from portal.forms.teach import (
 )
 
 STUDENT_PASSWORD_LENGTH = 6
+REMINDER_CARDS_PDF_ROWS = 8
+REMINDER_CARDS_PDF_COLUMNS = 1
+REMINDER_CARDS_PDF_WARNING_TEXT = (
+    "Please ensure students keep login details in a secure place"
+)
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -791,8 +796,8 @@ def teacher_print_reminder_cards(request, access_code):
     CARD_PADDING = old_div(PAGE_WIDTH, 48)
 
     # rows and columns on page
-    NUM_X = 1
-    NUM_Y = 8
+    NUM_X = REMINDER_CARDS_PDF_COLUMNS
+    NUM_Y = REMINDER_CARDS_PDF_ROWS
 
     CARD_WIDTH = old_div(PAGE_WIDTH - PAGE_MARGIN * 2, NUM_X)
     CARD_HEIGHT = old_div(PAGE_HEIGHT - PAGE_MARGIN * 4, NUM_Y)
@@ -827,11 +832,7 @@ def teacher_print_reminder_cards(request, access_code):
         if current_student_count % (NUM_X * NUM_Y) == 0:
             p.setFillColor(red)
             p.setFont("Helvetica-Bold", 10)
-            p.drawString(
-                PAGE_MARGIN,
-                PAGE_MARGIN / 2,
-                "Please ensure students keep login details in a secure place",
-            )
+            p.drawString(PAGE_MARGIN, PAGE_MARGIN / 2, REMINDER_CARDS_PDF_WARNING_TEXT)
 
         left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN * 2
         bottom = (
