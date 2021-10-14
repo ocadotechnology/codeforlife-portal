@@ -1,10 +1,9 @@
-import io
 import csv
+import io
 import json
-
 from datetime import timedelta
-from django.utils import timezone
-from django.contrib.auth.models import User
+
+import PyPDF2
 from common.models import Teacher, UserSession, Student, Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -17,10 +16,17 @@ from common.tests.utils.student import (
     create_independent_student_directly,
 )
 from common.tests.utils.teacher import signup_teacher_directly
+from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from deploy import captcha
+from portal.views.teacher.teach import (
+    REMINDER_CARDS_PDF_ROWS,
+    REMINDER_CARDS_PDF_COLUMNS,
+    REMINDER_CARDS_PDF_WARNING_TEXT,
+)
 
 
 class TestTeacherViews(TestCase):
@@ -38,8 +44,56 @@ class TestTeacherViews(TestCase):
     def test_reminder_cards(self):
         c = self.login()
         url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
-        response = c.post(url)
+
+        # First test with 2 dummy students
+        NAME1 = "Test name"
+        NAME2 = "Another name"
+        PASSWORD1 = "password1"
+        PASSWORD2 = "password2"
+        URL = "url"
+
+        studentlist = [
+            {"name": NAME1, "password": PASSWORD1, "login_url": URL},
+            {"name": NAME2, "password": PASSWORD2, "login_url": URL},
+        ]
+        data = {"data": json.dumps(studentlist)}
+
+        response = c.post(url, data)
         assert response.status_code == 200
+
+        # read PDF, check there's only 1 page and that the correct student details show
+        with io.BytesIO(response.content) as pdf_file:
+            file_reader = PyPDF2.PdfFileReader(pdf_file)
+            assert file_reader.getNumPages() == 1
+
+            page_text = file_reader.getPage(0).extractText()
+            assert NAME1 in page_text
+            assert NAME2 in page_text
+            assert PASSWORD1 in page_text
+            assert PASSWORD2 in page_text
+            assert REMINDER_CARDS_PDF_WARNING_TEXT in page_text
+
+        # Add students to the dummy data list until it goes over the max students per
+        # page number
+        students_per_page = REMINDER_CARDS_PDF_ROWS * REMINDER_CARDS_PDF_COLUMNS
+        for _ in range(len(studentlist), students_per_page + 1):
+            studentlist.append({"name": NAME1, "password": PASSWORD1, "login_url": URL})
+
+        assert len(studentlist) == students_per_page + 1
+
+        data = {"data": json.dumps(studentlist)}
+        response = c.post(url, data)
+        assert response.status_code == 200
+
+        # Check there are 2 pages and that each page contains the warning text
+        with io.BytesIO(response.content) as pdf_file:
+            file_reader = PyPDF2.PdfFileReader(pdf_file)
+            assert file_reader.getNumPages() == 2
+
+            page1_text = file_reader.getPage(0).extractText()
+            page2_text = file_reader.getPage(1).extractText()
+            assert REMINDER_CARDS_PDF_WARNING_TEXT in page1_text
+            assert REMINDER_CARDS_PDF_WARNING_TEXT in page2_text
 
     def test_csv(self):
         c = self.login()
@@ -54,10 +108,7 @@ class TestTeacherViews(TestCase):
         ]
         data = {"data": json.dumps(studentlist)}
 
-        response = c.post(
-            url,
-            data,
-        )
+        response = c.post(url, data)
 
         assert response.status_code == 200
         content = response.content.decode("utf-8")

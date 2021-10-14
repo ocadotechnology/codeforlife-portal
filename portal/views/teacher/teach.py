@@ -17,7 +17,6 @@ from common.helpers.generators import (
 )
 from common.models import Class, Student, Teacher
 from common.permissions import logged_in_as_teacher
-from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -28,6 +27,11 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
+from reportlab.lib.colors import black, red
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -42,14 +46,13 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
-from reportlab.lib.colors import black
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
 
 STUDENT_PASSWORD_LENGTH = 6
+REMINDER_CARDS_PDF_ROWS = 8
+REMINDER_CARDS_PDF_COLUMNS = 1
+REMINDER_CARDS_PDF_WARNING_TEXT = (
+    "Please ensure students keep login details in a secure place"
+)
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -788,181 +791,97 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
-    PAGE_MARGIN = old_div(PAGE_WIDTH, 32)
+    PAGE_MARGIN = old_div(PAGE_WIDTH, 16)
     INTER_CARD_MARGIN = old_div(PAGE_WIDTH, 64)
     CARD_PADDING = old_div(PAGE_WIDTH, 48)
 
-    NUM_X = 2
-    NUM_Y = 4
+    # rows and columns on page
+    NUM_X = REMINDER_CARDS_PDF_COLUMNS
+    NUM_Y = REMINDER_CARDS_PDF_ROWS
 
-    CARD_WIDTH = old_div(
-        (PAGE_WIDTH - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_X - 1)), NUM_X
-    )
-    CARD_HEIGHT = old_div(
-        (PAGE_HEIGHT - PAGE_MARGIN * 2 - INTER_CARD_MARGIN * (NUM_Y - 1)), NUM_Y
-    )
+    CARD_WIDTH = old_div(PAGE_WIDTH - PAGE_MARGIN * 2, NUM_X)
+    CARD_HEIGHT = old_div(PAGE_HEIGHT - PAGE_MARGIN * 4, NUM_Y)
 
-    HEADER_HEIGHT = CARD_HEIGHT * 0.16
-    FOOTER_HEIGHT = CARD_HEIGHT * 0.1
-
-    CARD_INNER_WIDTH = CARD_WIDTH - CARD_PADDING * 2
-    CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2 - HEADER_HEIGHT - FOOTER_HEIGHT
-
-    CARD_IMAGE_WIDTH = CARD_INNER_WIDTH * 0.25
-
-    CORNER_RADIUS = old_div(CARD_WIDTH, 32)
-
-    # Setup various character images to cycle round
-    CHARACTER_FILES = [
-        "portal/img/dee.png",
-        "portal/img/kirsty.png",
-        "portal/img/wes.png",
-        "portal/img/nigel.png",
-        "portal/img/phil.png",
-    ]
-    CHARACTERS = []
+    CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2
 
     logo_image = ImageReader(
-        staticfiles_storage.path("portal/img/logo_c4l_reminder_card.png")
+        staticfiles_storage.path("portal/img/logo_cfl_reminder_cards.jpg")
     )
-
-    for character_file in CHARACTER_FILES:
-        character_image = ImageReader(staticfiles_storage.path(character_file))
-        character_height = CARD_INNER_HEIGHT
-        character_width = CARD_IMAGE_WIDTH
-        character_height = old_div(
-            character_width * character_image.getSize()[1], character_image.getSize()[0]
-        )
-        if character_height > CARD_INNER_HEIGHT:
-            character_height = CARD_INNER_HEIGHT
-            character_width = old_div(
-                character_height * character_image.getSize()[0],
-                character_image.getSize()[1],
-            )
-        character = {
-            "image": character_image,
-            "height": character_height,
-            "width": character_width,
-        }
-        CHARACTERS.append(character)
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
     if klass.teacher.new_user != request.user:
         raise Http404
 
-    COLUMN_WIDTH = (CARD_INNER_WIDTH - CARD_IMAGE_WIDTH) * 0.45
-
     # Use data from the query string if given
     student_data = get_student_data(request)
+    student_login_link = request.build_absolute_uri(
+        reverse("student_login_access_code")
+    )
+    class_login_link = request.build_absolute_uri(
+        reverse("student_login", kwargs={"access_code": access_code})
+    )
 
     # Now draw everything
     x = 0
     y = 0
 
-    def drawParagraph(text, position):
-        style = ParagraphStyle("test")
-        style.font = "Helvetica-Bold"
-
-        font_size = 16
-        while font_size > 0:
-            style.fontSize = font_size
-            style.leading = font_size
-
-            para = Paragraph(text, style)
-            (para_width, para_height) = para.wrap(
-                CARD_INNER_WIDTH - COLUMN_WIDTH - CARD_IMAGE_WIDTH, CARD_INNER_HEIGHT
-            )
-
-            if para_height <= 48:
-                para.drawOn(
-                    p,
-                    inner_left + COLUMN_WIDTH,
-                    inner_bottom
-                    + CARD_INNER_HEIGHT * position
-                    + 8
-                    - old_div(para_height, 2),
-                )
-                return
-
-            font_size = font_size - 1
-
     current_student_count = 0
     for student in student_data:
-        character_index = current_student_count % len(CHARACTERS)
+        # warning text for every new page
+        if current_student_count % (NUM_X * NUM_Y) == 0:
+            p.setFillColor(red)
+            p.setFont("Helvetica-Bold", 10)
+            p.drawString(PAGE_MARGIN, PAGE_MARGIN / 2, REMINDER_CARDS_PDF_WARNING_TEXT)
 
-        left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN
+        left = PAGE_MARGIN + x * CARD_WIDTH + x * INTER_CARD_MARGIN * 2
         bottom = (
             PAGE_HEIGHT - PAGE_MARGIN - (y + 1) * CARD_HEIGHT - y * INTER_CARD_MARGIN
         )
 
-        inner_left = left + CARD_PADDING
-        inner_bottom = bottom + CARD_PADDING + FOOTER_HEIGHT
+        inner_bottom = bottom + CARD_PADDING
 
-        header_bottom = bottom + CARD_HEIGHT - HEADER_HEIGHT
-        footer_bottom = bottom
-
-        # header rect
-        p.setFillColorRGB(0.0, 0.027, 0.172)
-        p.setStrokeColorRGB(0.0, 0.027, 0.172)
-        p.roundRect(
-            left, header_bottom, CARD_WIDTH, HEADER_HEIGHT, CORNER_RADIUS, fill=1
-        )
-        p.rect(left, header_bottom, CARD_WIDTH, old_div(HEADER_HEIGHT, 2), fill=1)
-
-        # footer rect
-        p.roundRect(left, bottom, CARD_WIDTH, FOOTER_HEIGHT, CORNER_RADIUS, fill=1)
-        p.rect(
-            left,
-            bottom + old_div(FOOTER_HEIGHT, 2),
-            CARD_WIDTH,
-            old_div(FOOTER_HEIGHT, 2),
-            fill=1,
-        )
-
-        # outer box
+        # card border
         p.setStrokeColor(black)
-        p.roundRect(left, bottom, CARD_WIDTH, CARD_HEIGHT, CORNER_RADIUS)
+        p.rect(left, bottom, CARD_WIDTH, CARD_HEIGHT)
 
-        # header image
+        # logo
         p.drawImage(
             logo_image,
-            inner_left,
-            header_bottom + 5,
-            CARD_INNER_WIDTH,
-            HEADER_HEIGHT * 0.6,
+            left,
+            bottom + INTER_CARD_MARGIN,
+            height=CARD_HEIGHT - INTER_CARD_MARGIN * 2,
+            preserveAspectRatio=True,
         )
 
-        # footer text
-        p.setFont("Helvetica", 10)
-        p.drawCentredString(
-            inner_left + old_div(CARD_INNER_WIDTH, 2),
-            footer_bottom + FOOTER_HEIGHT * 0.32,
-            settings.CODEFORLIFE_WEBSITE,
-        )
+        text_left = left + logo_image.getSize()[0]
 
-        # left hand side writing
+        # student details
         p.setFillColor(black)
         p.setFont("Helvetica", 12)
-        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.12, "Password:")
-        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.45, "Class Code:")
-        p.drawString(inner_left, inner_bottom + CARD_INNER_HEIGHT * 0.78, "Name:")
-
-        # right hand side writing
-        drawParagraph(student["password"], 0.10)
-        drawParagraph(klass.access_code, 0.43)
-        drawParagraph(student["name"], 0.76)
-
-        # character image
-        character = CHARACTERS[character_index]
-        p.drawImage(
-            character["image"],
-            inner_left + CARD_INNER_WIDTH - character["width"],
-            inner_bottom,
-            character["width"],
-            character["height"],
-            mask="auto",
+        p.drawString(
+            text_left,
+            inner_bottom + CARD_INNER_HEIGHT * 0.9,
+            f"Class code: {klass.access_code} at {student_login_link}",
         )
+        p.setFont("Helvetica-BoldOblique", 12)
+        p.drawString(
+            text_left,
+            inner_bottom + CARD_INNER_HEIGHT * 0.6,
+            "OR",
+        )
+        p.setFont("Helvetica", 12)
+        p.drawString(
+            text_left + 22,
+            inner_bottom + CARD_INNER_HEIGHT * 0.6,
+            f"class link: {class_login_link}",
+        )
+        p.drawString(
+            text_left,
+            inner_bottom + CARD_INNER_HEIGHT * 0.3,
+            f"Name: {student['name']}",
+        )
+        p.drawString(text_left, inner_bottom, f"Password: {student['password']}")
 
         x = (x + 1) % NUM_X
         y = compute_show_page_character(p, x, y, NUM_Y)
