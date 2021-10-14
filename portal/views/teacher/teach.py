@@ -863,10 +863,17 @@ def teacher_print_reminder_cards(request, access_code):
             inner_bottom + CARD_INNER_HEIGHT * 0.9,
             f"Class code: {klass.access_code} at {student_login_link}",
         )
+        p.setFont("Helvetica-BoldOblique", 12)
         p.drawString(
             text_left,
             inner_bottom + CARD_INNER_HEIGHT * 0.6,
-            f"OR class link: {class_login_link}",
+            "OR",
+        )
+        p.setFont("Helvetica", 12)
+        p.drawString(
+            text_left + 22,
+            inner_bottom + CARD_INNER_HEIGHT * 0.6,
+            f"class link: {class_login_link}",
         )
         p.drawString(
             text_left,
