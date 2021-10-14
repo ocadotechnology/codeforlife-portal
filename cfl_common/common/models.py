@@ -25,6 +25,14 @@ class UserProfile(models.Model):
         return now - timedelta(days=7) <= self.user.date_joined
 
 
+class UserSession(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user} login: {self.login_time}"
+
+
 class EmailVerification(models.Model):
     user = models.ForeignKey(
         User,
