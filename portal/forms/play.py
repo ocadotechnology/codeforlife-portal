@@ -80,11 +80,12 @@ class StudentLoginForm(AuthenticationForm):
         classes = Class.objects.filter(access_code__iexact=access_code)
         if len(classes) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
+        klass = classes[0]
 
         name = stripStudentName(name)
 
         students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=classes[0]
+            new_user__first_name__iexact=name, class_field=klass
         )
         if len(students) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
@@ -103,8 +104,8 @@ class StudentLoginForm(AuthenticationForm):
         if not user.is_active:
             raise forms.ValidationError("This user account has been deactivated")
 
-        # Log the login time
-        session = UserSession(user=user)
+        # Log the login time and class
+        session = UserSession(user=user, class_field=klass)
         session.save()
 
         return student, user

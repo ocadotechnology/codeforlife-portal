@@ -8,7 +8,7 @@ from django.utils.html import escape
 from django.http import HttpResponseRedirect
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
-from common.models import UserSession
+from common.models import UserSession, Student
 
 
 class StudentClassCodeView(FormView):
@@ -76,8 +76,9 @@ def student_direct_login(request, user_id, login_id):
     user = authenticate(request, user_id=user_id, login_id=login_id)
 
     if user:
-        # Log the login time
-        session = UserSession(user=user)
+        # Log the login time and class
+        student = Student.objects.get(new_user=user)
+        session = UserSession(user=user, class_field=student.class_field)
         session.save()
 
         login(request, user)

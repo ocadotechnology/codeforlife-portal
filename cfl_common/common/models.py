@@ -25,14 +25,6 @@ class UserProfile(models.Model):
         return now - timedelta(days=7) <= self.user.date_joined
 
 
-class UserSession(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    login_time = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return f"{self.user} login: {self.login_time}"
-
-
 class EmailVerification(models.Model):
     user = models.ForeignKey(
         User,
@@ -57,6 +49,7 @@ class School(models.Model):
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
     country = CountryField(blank_label="(select country)")
+    creation_time = models.DateTimeField(default=timezone.now, null=True)
 
     class Meta(object):
         permissions = (
@@ -154,6 +147,7 @@ class Class(models.Model):
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
     accept_requests_until = models.DateTimeField(null=True)
+    creation_time = models.DateTimeField(default=timezone.now, null=True)
 
     objects = ClassModelManager()
 
@@ -188,6 +182,16 @@ class Class(models.Model):
 
     class Meta(object):
         verbose_name_plural = "classes"
+
+
+class UserSession(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(default=timezone.now)
+    school = models.ForeignKey(School, null=True, on_delete=models.SET_NULL)
+    class_field = models.ForeignKey(Class, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f"{self.user} login: {self.login_time}"
 
 
 class StudentModelManager(models.Manager):

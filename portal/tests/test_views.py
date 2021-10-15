@@ -245,6 +245,9 @@ class TestLoginViews(TestCase):
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
 
+        teacher = Teacher.objects.get(new_user=user)
+        assert q[0].school == teacher.school
+
     def test_student_session(self):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
@@ -270,6 +273,7 @@ class TestLoginViews(TestCase):
         q = UserSession.objects.filter(user=user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
+        assert q[0].class_field == klass
 
     def test_indep_student_session(self):
         username, password, student = create_independent_student_directly()
@@ -316,6 +320,8 @@ class TestLoginViews(TestCase):
         q = UserSession.objects.filter(user=student.new_user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
+        klass = Class.objects.get(access_code=class_access_code)
+        assert q[0].class_field == klass
 
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()

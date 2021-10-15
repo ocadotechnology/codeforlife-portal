@@ -4,7 +4,7 @@ from builtins import map, range, str
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
-from common.models import Student, stripStudentName, UserSession
+from common.models import Student, stripStudentName, UserSession, Teacher
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
@@ -153,8 +153,9 @@ class TeacherLoginForm(AuthenticationForm):
             # Reset ratelimit cache upon successful login
             clear_ratelimit_cache_for_user(user.username)
 
-            # Log the login time
-            session = UserSession(user=user)
+            # Log the login time and school
+            teacher = Teacher.objects.get(new_user=user)
+            session = UserSession(user=user, school=teacher.school)
             session.save()
 
         return self.cleaned_data
