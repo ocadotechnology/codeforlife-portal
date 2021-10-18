@@ -97,7 +97,7 @@ def teacher_onboarding_create_class(request):
                 )
             )
     else:
-        form = ClassCreationForm(initial={"classmate_progress": "False"})
+        form = ClassCreationForm()
 
     classes = Class.objects.filter(teacher=teacher)
 

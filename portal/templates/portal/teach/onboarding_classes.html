@@ -28,31 +28,54 @@
     </div>
 </div>
 {% else %}
-<div class="background background--primary">
-    <div class="form col-sm-4 col-center">
-        <h4>{{ user.new_teacher.school.name }}</h4>
-        <h3>Create a class</h3>
-        <form id="form-create-class" method="post">
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            <h4>Create a class</h4>
 
-            {% csrf_token %}
-
-            {{ form.non_field_errors }}
-
-            <div class="section group">
-
-                <label for="id_{{ form.class_name.html_name }}">{{ form.class_name.label }}</label>
-                {{ form.class_name.errors }}
-                {{ form.class_name }}
-                <div class="col span_1_of_3">
-                    <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
-                    {{ form.classmate_progress.errors }}
+            <p class="mb-3">Progress &lt; 2 of 4 &gt;</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                    <span class="sr-only">50% Complete</span>
                 </div>
-                <div class="col span_1_of_3">
-                    {{ form.classmate_progress }}
-                </div>
-                <button id="create_class_button" type="submit" class="button button--primary">Create class</button>
             </div>
-        </form>
+
+            <p>
+                When you set up a new class, a unique class access code will automatically be generated, with you being
+                identified as the teacher for that class.
+            </p>
+
+            <form id="form-create-class" method="post">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class="row form--row">
+                    <div class="form--row__input col-sm-4 col-xs-12">
+                        <div class="input--icon">
+                            {{ form.class_name }}
+                            <span class="iconify" data-icon="mdi:account-multiple"></span>
+                        </div>
+                        <small>{{ form.class_name.help_text }}</small>
+                        {{ form.class_name.errors }}
+                    </div>
+                </div>
+                <div class="row form--row">
+                    <div class="form--row__input col-xs-12">
+                        <div class="form__checkbox p-0 mt-5">
+                            <label for="id_{{ form.classmate_progress.html_name }}" class="font-weight-normal">{{ form.classmate_progress.label }}</label>
+                            <div class="form__checkbox-input pr-0 pl-4">
+                                {{ form.classmate_progress }}
+                            </div>
+                        </div>
+                        {{ form.classmate_progress.errors }}
+                    </div>
+                </div>
+                
+                <button id="create_class_button" type="submit" class="button button--primary">Create class</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endif %}
