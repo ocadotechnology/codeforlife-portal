@@ -53,20 +53,27 @@
 <div class="background container">
     <div class="row">
         <div class="form col-sm-12">
-            <div class="d-flex justify-content-between align-items-end">
-                <h4>Create a school or club</h4>
-                <a id="join-button" class="button button--secondary button--secondary--dark" href="#join" aria-controls="join" role="tab" data-toggle="tab">
-                    <div class="d-flex align-items-center">
-                        <div>Join an existing school</div>
-                        <span class="iconify ml-3" data-icon="mdi:arrow-right"></span>
-                    </div>
-                </a>
-                <a id="create-button" class="button button--secondary button--secondary--dark hidden" href="#create" aria-controls="create" role="tab" data-toggle="tab">
-                    <div class="d-flex align-items-center">
-                        <span class="iconify mr-3" data-icon="mdi:arrow-left"></span>
-                        <div>Create a school or club</div>
-                    </div>
-                </a>
+            <div id="create-header">
+                <div class="d-flex justify-content-between align-items-end">
+                    <h4>Create a school or club</h4>
+                    <a id="join-button" class="button button--secondary button--secondary--dark" href="#join" aria-controls="join" role="tab" data-toggle="tab">
+                        <div class="d-flex align-items-center">
+                            <div>Join an existing school</div>
+                            <span class="iconify ml-3" data-icon="mdi:arrow-right"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div id="join-header" class="hidden">
+                <div class="d-flex justify-content-between align-items-end">
+                    <h4>Join an existing school or club</h4>
+                    <a id="create-button" class="button button--secondary button--secondary--dark" href="#create" aria-controls="create" role="tab" data-toggle="tab">
+                        <div class="d-flex align-items-center">
+                            <span class="iconify mr-3" data-icon="mdi:arrow-left"></span>
+                            <div>Create a school or club</div>
+                        </div>
+                    </a>
+                </div>
             </div>
 
             <p class="mb-3">Progress &lt; 1 of 4 &gt;</p>
@@ -165,12 +172,14 @@
 
 <script>
     $('#join-button').on('show.bs.tab', function() {
-        $('#join-button').addClass('hidden')
-        $('#create-button').removeClass('hidden')
+        // hide create header and show join header
+        $('#create-header').addClass('hidden')
+        $('#join-header').removeClass('hidden')
     })
     $('#create-button').on('show.bs.tab', function() {
-        $('#create-button').addClass('hidden')
-        $('#join-button').removeClass('hidden')
+        // hide join header and show create header
+        $('#join-header').addClass('hidden')
+        $('#create-header').removeClass('hidden')
     })
 </script>
 {% endif %}
