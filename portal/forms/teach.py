@@ -546,7 +546,8 @@ class StudentCreationForm(forms.Form):
         label="names",
         widget=forms.Textarea(
             attrs={
-                "placeholder": "You may type students names or copy and paste them from a spreadsheet into this text box."
+                "placeholder": "You may type students names or copy and paste them from a spreadsheet into this text box.",
+                "class": "m-0",
             }
         ),
     )

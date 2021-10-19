@@ -2,50 +2,50 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block createJoinSchoolStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
-</div>
-{% endblock createJoinSchoolStep %}
-{% block createClassStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create class</p>
-</div>
-{% endblock createClassStep %}
-{% block addStudentsStep %}
-<div class="onboarding-step onboarding-step--in-progress">
-    <p><img title="In progress" alt="Step in progress" src="{% static 'portal/img/step_in_progress.png' %}">Add students</p>
-</div>
-{% endblock addStudentsStep %}
-
 {% block content %}
 <div id="onboarding_students_page"></div>
 
-<div class="background background--primary">
-    <div class="form col-sm-4 col-center">
-        <h4>{{ user.new_teacher.school.name }}</h4>
-        {% if classes %}
-            {% for class in classes %}
-                <h4>Add students to class: {{ class.name }}</h4>
-            {% endfor %}
-        {% else %}
-        <p>It doesn&rsquo;t look like you have any classes assigned to you. To create a class, use the &lsquo;New Class&rsquo; box on the right.</p>
-        {% endif %}
-        <p>Add the students&rsquo; names to the box with one student name per line. Students&rsquo; names will be used in their login details, and so
-            each name should be unique.</p><br>
-        <p>You have the option the use the students&rsquo; first names only, or first and last names. Students&rsquo; names and the class access code
-            are required to sign in.</p>
-        <form id="form-create-students" method="POST">
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            <h4>Add students to class</h4>
 
-            {% csrf_token %}
+            <p class="mb-3">Progress &lt; 3 of 4 &gt;</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                    <span class="sr-only">75% Complete</span>
+                </div>
+            </div>
 
-            {{ new_students_form.non_field_errors }}
+            <p>
+                Add the students' names to the box with one student name per line. Students' names will be used in
+                their login details, and so each name should be unique.
+            </p>
+            <p>
+                You have the option to use students' first names only, or first and last names. Students' names and the
+                class access code are required to sign in.
+            </p>
 
-            {{ new_students_form.names.errors }}
-            {{ new_students_form.names }}
+            <form id="form-create-students" method="POST">
 
-            <button id="submitStudents" type="submit" class="button button--primary" name="new_students" value="Add students">Add Students</button>
-        </form>
+                {% csrf_token %}
+
+                {{ new_students_form.non_field_errors }}
+
+                <div class="row d-flex align-items-end">
+                    <div class="col-md-6 col-xs-9 d-flex">
+                        {{ new_students_form.names.errors }}
+                        {{ new_students_form.names }}
+                    </div>
+
+                    <div class="col-md-6 col-xs-3">
+                        <button id="submitStudents" type="submit" class="button button--primary button--icon m-0" name="new_students" value="Add students">
+                            Add Students<span class="iconify" data-icon="mdi:plus"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

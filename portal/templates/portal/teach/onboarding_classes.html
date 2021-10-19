@@ -2,29 +2,20 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block createJoinSchoolStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
-</div>
-{% endblock createJoinSchoolStep %}
-{% block createClassStep %}
-<div class="onboarding-step onboarding-step--in-progress">
-    <p><img title="In progress" alt="Step in progress" src="{% static 'portal/img/step_in_progress.png' %}">Create class</p>
-</div>
-{% endblock createClassStep %}
-
 {% block content %}
 <div id="onboarding_classes_page"></div>
 
 {% if classes %}
-<div class="background background--primary">
-    <div class="form col-sm-8 col-center">
-        {% for class in classes %}
-        <section class="background">
-            <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
-            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class="button button--primary" >Add students</a>
-        </section>
-        {% endfor %}
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            {% for class in classes %}
+            <section class="background">
+                <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
+                <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class="button button--primary" >Add students</a>
+            </section>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% else %}
