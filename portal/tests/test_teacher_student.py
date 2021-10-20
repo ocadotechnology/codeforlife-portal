@@ -1,5 +1,13 @@
 from __future__ import absolute_import
 
+import json
+import pytest
+
+from django.test import Client
+from django.urls import reverse
+from django.contrib.auth.models import User
+from common.models import Teacher, UserSession, Student, Class
+
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -317,11 +325,11 @@ class TestTeacherStudent(BaseTest):
         assert page.student_exists(name)
         assert page.is_student_password(new_student_password.lower())
 
-    def test_delete(self):
+    def test_delete_student(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        student_name, _, _ = create_school_student_directly(access_code)
+        student_name, _, student = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -338,6 +346,38 @@ class TestTeacherStudent(BaseTest):
         page = page.confirm_delete_student_dialog()
 
         assert not page.student_exists(student_name)
+
+        # user/student is removed if they never log in (see below for active student)
+        with pytest.raises(User.DoesNotExist):
+            u = User.objects.get(id=student.new_user.id)
+
+    def test_delete_active_student(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        student_name, student_password, student = create_school_student_directly(
+            access_code
+        )
+
+        # "active student" is one who has logged in
+        c = Client()
+        c.post(
+            f"/login/student/{access_code}",
+            {"username": student_name, "password": student_password},
+        )
+
+        # teacher login
+        c.login(username=email, password=password)
+
+        # delete the student
+        url = reverse("teacher_delete_students", args=[access_code])
+        data = {"transfer_students": json.dumps([student.id])}
+        c.post(url, data)
+
+        # user should be anonymised
+        u = User.objects.get(id=student.new_user.id)
+        assert u.first_name == "Deleted"
+        assert u.is_active == False
 
     def test_reset_passwords(self):
         email, password = signup_teacher_directly()
