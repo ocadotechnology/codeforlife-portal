@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.10.0 (2021-10-20)
+### Feature
+* Anonymise active student on delete ([#1590](https://github.com/ocadotechnology/codeforlife-portal/issues/1590)) ([`652866e`](https://github.com/ocadotechnology/codeforlife-portal/commit/652866e7ad2fe6b3856b548e4e94a8b90ba8e2e7))
+
 ## v5.9.0 (2021-10-15)
 ### Feature
 * Add school and class data ([#1589](https://github.com/ocadotechnology/codeforlife-portal/issues/1589)) ([`add1f8f`](https://github.com/ocadotechnology/codeforlife-portal/commit/add1f8ffb138451ef6d2e2eb3543ea5b589f8416))
