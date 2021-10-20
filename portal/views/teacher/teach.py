@@ -272,9 +272,22 @@ def teacher_delete_students(request, access_code):
         get_object_or_404(Student, id=i, class_field=klass) for i in student_ids
     ]
 
+    def __anonymise(user):
+        # Delete all personal data from inactive user and mark as inactive.
+        # Student only has random username, password, first_name
+        user.first_name = "Deleted"
+        user.last_name = "User"
+        user.is_active = False
+        user.save()
+
     # Delete all of the students
     for student in students:
-        student.new_user.delete()
+        # If the student has previously logged in, anonymise
+        user = student.new_user
+        if user.last_login:
+            __anonymise(user)
+        else:  # otherwise, just delete
+            student.new_user.delete()
 
     return HttpResponseRedirect(
         reverse_lazy("view_class", kwargs={"access_code": access_code})
