@@ -2,31 +2,6 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% if not onboarding_done %}
-
-{% block createJoinSchoolStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
-</div>
-{% endblock createJoinSchoolStep %}
-{% block createClassStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create class</p>
-</div>
-{% endblock createClassStep %}
-{% block addStudentsStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Add students</p>
-</div>
-{% endblock addStudentsStep %}
-{% block printStudentCardsStep %}
-<div class="onboarding-step onboarding-step--in-progress">
-    <p><img title="In progress" alt="Step in progress" src="{% static 'portal/img/step_in_progress.png' %}">Print student IDs</p>
-</div>
-{% endblock printStudentCardsStep %}
-
-{% endif %}
-
 {% block content %}
 
 {% if onboarding_done %}
