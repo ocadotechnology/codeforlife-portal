@@ -6,7 +6,6 @@ import pytest
 from django.test import Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from common.models import Teacher, UserSession, Student, Class
 
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (

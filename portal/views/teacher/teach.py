@@ -2,7 +2,6 @@ from __future__ import division
 
 import csv
 import json
-import uuid
 from datetime import timedelta
 from functools import partial, wraps
 from uuid import uuid4
