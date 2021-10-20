@@ -19,10 +19,10 @@ function post(path, params) {
 }
 
 function showPopupConfirmation(title, text, confirm_handler) {
-  let popup = $(".popup-wrapper");
-  $(".popup-box__title").text(title);
-  $(".popup-box__msg").append(text);
-  $("#confirm_button").attr("onclick", confirm_handler);
+  let popup = $("#popup");
+  popup.find(".popup-box__title").text(title);
+  popup.find(".popup-box__msg").append(text);
+  popup.find("#confirm_button").attr("onclick", confirm_handler);
 
   popup.addClass("popup--fade");
 }
@@ -30,6 +30,18 @@ function showPopupConfirmation(title, text, confirm_handler) {
 function hidePopupConfirmation() {
   $(".popup-wrapper").removeClass("popup--fade");
   $(".popup-text").remove();
+}
+
+function showInfoPopup(title, text) {
+  let popup = $("#info-popup");
+  popup.find(".popup-box__title > h5").text(title);
+  popup.find(".popup-box__msg").append(text);
+
+  popup.addClass("popup--fade");
+}
+
+function hideInfoPopup() {
+  $("#info-popup").removeClass("popup--fade");
 }
 
 function postWithCsrf(path) {

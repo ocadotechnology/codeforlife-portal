@@ -134,7 +134,7 @@
             <section>
 
                 <div class="d-flex justify-content-between mb-5">
-                    <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}">
+                    <form target="_blank" method="post" action="{% url 'teacher_print_reminder_cards' class.access_code %}" class="p-0">
                         {% csrf_token %}
                         <input type="hidden" name="data" value="{{ query_data }}"/>
                         <button class="button button--primary button--icon m-0" type="submit">
@@ -143,7 +143,7 @@
                         </button>
                     </form>
 
-                    <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}">
+                    <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}" class="p-0">
                         {% csrf_token %}
                         <input type="hidden" name="data" value="{{ query_data }}"/>
                         <button class="button button--primary button--icon m-0" type="submit">
@@ -164,10 +164,14 @@
                     </div>
                 {% else %}
                     <div class="d-flex justify-content-end">
-                        <a href="{% url 'onboarding-complete' %}" class="button button--secondary button--secondary--dark button--icon">
-                            Complete set up
-                            <span class="iconify" data-icon="mdi:check"></span>
-                        </a>
+                        <form method="post" action="{% url 'dashboard' %}" class="p-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="show_onboarding_complete" value="1"/>
+                            <button class="button button--secondary button--secondary--dark button--icon m-0" type="submit">
+                                Complete set up
+                                <span class="iconify" data-icon="mdi:check"></span>
+                            </button>
+                        </form>
                     </div>
                 {% endif %}
             </section>

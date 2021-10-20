@@ -88,6 +88,8 @@ def dashboard_teacher_view(request, is_admin):
 
     backup_tokens = check_backup_tokens(request)
 
+    show_onboarding_complete = False
+
     if request.method == "POST":
         if can_process_update_school_form(request, is_admin):
             anchor = "school-details"
@@ -112,6 +114,9 @@ def dashboard_teacher_view(request, is_admin):
                         "view_class", kwargs={"access_code": created_class.access_code}
                     )
                 )
+
+        elif request.POST.get("show_onboarding_complete") == "1":
+            show_onboarding_complete = True
 
         else:
             anchor = "account"
@@ -160,6 +165,7 @@ def dashboard_teacher_view(request, is_admin):
             "update_account_form": update_account_form,
             "anchor": anchor,
             "backup_tokens": backup_tokens,
+            "show_onboarding_complete": show_onboarding_complete,
         },
     )
 

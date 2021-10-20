@@ -33,6 +33,13 @@
         $("#update-details").on("click", () => {
             $("#tab-account").click()
         })
+        
+        {% if show_onboarding_complete %}
+            let title = "Registration complete! 🎉";
+            let text = "<div class='popup-text'><small>You have successfully completed your registration and can now access and edit all of the information for your students through the teacher dashboard.</small></div>";
+
+            showInfoPopup(title, text);
+        {% endif %}
     })
 </script>
 {% endblock scripts %}
@@ -52,6 +59,10 @@
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
+
+{% if show_onboarding_complete %}
+    {% include "portal/partials/info_popup.html" %}
+{% endif %}
 
 <div id="teach_dashboard_page"></div>
 
