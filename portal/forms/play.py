@@ -4,7 +4,7 @@ from datetime import timedelta
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
-from common.models import Class, Student, stripStudentName
+from common.models import Class, Student, stripStudentName, UserSession
 from common.permissions import logged_in_as_independent_student
 from django import forms
 from django.contrib.auth import authenticate
@@ -32,8 +32,7 @@ class StudentClassCodeForm(forms.Form):
         access_code = self.cleaned_data.get("access_code", None)
 
         if access_code:
-
-            if re.match(ACCESS_CODE_PATTERN, access_code) is None:
+            if re.match(ACCESS_CODE_PATTERN, access_code.upper()) is None:
                 raise forms.ValidationError(
                     "Uh oh! You didn't input a valid class code."
                 )
@@ -81,11 +80,12 @@ class StudentLoginForm(AuthenticationForm):
         classes = Class.objects.filter(access_code__iexact=access_code)
         if len(classes) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
+        klass = classes[0]
 
         name = stripStudentName(name)
 
         students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=classes[0]
+            new_user__first_name__iexact=name, class_field=klass
         )
         if len(students) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
@@ -103,6 +103,10 @@ class StudentLoginForm(AuthenticationForm):
             raise forms.ValidationError("Invalid name, class access code or password")
         if not user.is_active:
             raise forms.ValidationError("This user account has been deactivated")
+
+        # Log the login time and class
+        session = UserSession(user=user, class_field=klass)
+        session.save()
 
         return student, user
 

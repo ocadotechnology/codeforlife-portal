@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v5.9.0 (2021-10-15)
+### Feature
+* Add school and class data ([#1589](https://github.com/ocadotechnology/codeforlife-portal/issues/1589)) ([`add1f8f`](https://github.com/ocadotechnology/codeforlife-portal/commit/add1f8ffb138451ef6d2e2eb3543ea5b589f8416))
+
+## v5.8.0 (2021-10-14)
+### Feature
+* Update reminder cards design ([#1584](https://github.com/ocadotechnology/codeforlife-portal/issues/1584)) ([`18ba6ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/18ba6ae725eaf630a0250492050ef2c908ac7982))
+
+## v5.7.1 (2021-10-14)
+### Fix
+* Dashboard fixes ([#1583](https://github.com/ocadotechnology/codeforlife-portal/issues/1583)) ([`e70db7a`](https://github.com/ocadotechnology/codeforlife-portal/commit/e70db7a5bbba53945e8fb884dfba0f3f6606ecca))
+
+## v5.7.0 (2021-10-14)
+### Feature
+* Add UserSession for login data ([#1585](https://github.com/ocadotechnology/codeforlife-portal/issues/1585)) ([`12f52a7`](https://github.com/ocadotechnology/codeforlife-portal/commit/12f52a7b6daf1f7a0a40473cbcd88be61ff67488))
+
 ## v5.6.2 (2021-10-11)
 ### Fix
 * Fix update account details link ([#1582](https://github.com/ocadotechnology/codeforlife-portal/issues/1582)) ([`ee06d14`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee06d14ab3ddbd7e4dffb1b9f03d1144e17697ec))

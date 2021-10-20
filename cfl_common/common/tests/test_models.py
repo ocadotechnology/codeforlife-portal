@@ -1,5 +1,6 @@
 from common.models import Student, Teacher, School
 from django.test import TestCase
+from django.utils import timezone
 
 from .utils.classes import create_class_directly
 from .utils.organisation import create_organisation_directly
@@ -79,3 +80,18 @@ class TestModels(TestCase):
 
         assert teacher2.school is None
         assert teacher2.pending_join_request is None
+
+    def test_creation_time(self):
+        teacher_email, _ = signup_teacher_directly()
+
+        sometime = timezone.now()  # mark time before the school creation
+        school_name, _ = create_organisation_directly(teacher_email)
+
+        school = School.objects.get(name=school_name)
+        # check the creation time
+        assert school.creation_time > sometime
+
+        sometime = timezone.now()  # mark time before the class creation
+        klass, name, access_code = create_class_directly(teacher_email)
+        # check the creation time
+        assert klass.creation_time > sometime

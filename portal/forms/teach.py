@@ -4,7 +4,7 @@ from builtins import map, range, str
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
-from common.models import Student, stripStudentName
+from common.models import Student, stripStudentName, UserSession, Teacher
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
@@ -86,7 +86,9 @@ class TeacherEditAccountForm(forms.Form):
     )
     confirm_password = forms.CharField(
         required=False,
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password (optional)"}),
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Confirm new password (optional)"}
+        ),
         help_text="Confirm new password (optional)",
     )
     current_password = forms.CharField(
@@ -151,6 +153,11 @@ class TeacherLoginForm(AuthenticationForm):
             # Reset ratelimit cache upon successful login
             clear_ratelimit_cache_for_user(user.username)
 
+            # Log the login time and school
+            teacher = Teacher.objects.get(new_user=user)
+            session = UserSession(user=user, school=teacher.school)
+            session.save()
+
         return self.cleaned_data
 
     def find_user(self, email, user):
@@ -190,7 +197,9 @@ class ClassCreationForm(forms.Form):
     )
     classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress",
-        widget=forms.CheckboxInput(), initial=False, required=False,
+        widget=forms.CheckboxInput(),
+        initial=False,
+        required=False,
     )
 
 

@@ -1,5 +1,6 @@
-from common.models import Student
+from common.models import Student, UserSession
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -44,4 +45,11 @@ class IndependentStudentLoginView(LoginView):
     def form_valid(self, form):
         # Reset ratelimit cache upon successful login
         clear_ratelimit_cache_for_user(form.cleaned_data["username"])
+
+        # Log the login time
+        username = self.request.POST.get("username")
+        user = User.objects.get(username=username)
+        session = UserSession(user=user)
+        session.save()
+
         return super().form_valid(form)

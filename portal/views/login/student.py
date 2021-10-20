@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, FormView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -7,6 +8,7 @@ from django.utils.html import escape
 from django.http import HttpResponseRedirect
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
+from common.models import UserSession, Student
 
 
 class StudentClassCodeView(FormView):
@@ -72,7 +74,13 @@ class StudentLoginView(LoginView):
 def student_direct_login(request, user_id, login_id):
     """Direct login for student with unique url without username and password"""
     user = authenticate(request, user_id=user_id, login_id=login_id)
+
     if user:
+        # Log the login time and class
+        student = Student.objects.get(new_user=user)
+        session = UserSession(user=user, class_field=student.class_field)
+        session.save()
+
         login(request, user)
         return HttpResponseRedirect(reverse_lazy("student_details"))
     return HttpResponseRedirect(reverse_lazy("home"))
