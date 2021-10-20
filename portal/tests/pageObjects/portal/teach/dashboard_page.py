@@ -161,6 +161,13 @@ class TeachDashboardPage(TeachBasePage):
     def has_no_independent_join_requests(self):
         return self.element_does_not_exist_by_id("independent_request_table")
 
+    def has_onboarding_complete_popup(self):
+        return self.element_exists_by_id("info-popup") and (
+            self.browser.find_element_by_id("info-popup").text.startswith(
+                "Registration complete!"
+            )
+        )
+
     def is_teacher_in_school(self, name):
         return name in self.browser.find_element_by_id("teachers_table").text
 
@@ -168,9 +175,7 @@ class TeachDashboardPage(TeachBasePage):
         return name not in self.browser.find_element_by_id("teachers_table").text
 
     def is_teacher_admin(self):
-        return (
-            "Revoke admin" in self.browser.find_element_by_id("teachers_table").text
-        )
+        return "Revoke admin" in self.browser.find_element_by_id("teachers_table").text
 
     def have_classes(self):
         return self.element_exists_by_id("classes-table")

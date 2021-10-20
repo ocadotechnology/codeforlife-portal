@@ -167,7 +167,7 @@
                         <form method="post" action="{% url 'dashboard' %}" class="p-0">
                             {% csrf_token %}
                             <input type="hidden" name="show_onboarding_complete" value="1"/>
-                            <button class="button button--secondary button--secondary--dark button--icon m-0" type="submit">
+                            <button id="complete_setup_button" class="button button--secondary button--secondary--dark button--icon m-0" type="submit">
                                 Complete set up
                                 <span class="iconify" data-icon="mdi:check"></span>
                             </button>
