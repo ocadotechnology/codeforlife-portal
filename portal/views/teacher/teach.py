@@ -97,7 +97,7 @@ def teacher_onboarding_create_class(request):
                 )
             )
     else:
-        form = ClassCreationForm(initial={"classmate_progress": "False"})
+        form = ClassCreationForm()
 
     classes = Class.objects.filter(teacher=teacher)
 
@@ -109,9 +109,7 @@ def teacher_onboarding_create_class(request):
 
 
 def create_class(form, teacher):
-    classmate_progress = False
-    if form.cleaned_data["classmate_progress"] == "True":
-        classmate_progress = True
+    classmate_progress = bool(form.cleaned_data["classmate_progress"])
     klass = Class.objects.create(
         name=form.cleaned_data["class_name"],
         teacher=teacher,

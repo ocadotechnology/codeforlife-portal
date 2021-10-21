@@ -306,11 +306,6 @@ urlpatterns = [
         teacher_download_csv,
         name="teacher_download_csv",
     ),
-    url(
-        r"^teach/onboarding-complete",
-        TemplateView.as_view(template_name="portal/teach/onboarding_complete.html"),
-        name="onboarding-complete",
-    ),
     url(r"^teach/invite", invite_teacher, name="invite_teacher"),
     url(r"^play/$", play_landing_page, name="play"),
     url(r"^play/details/$", student_details, name="student_details"),

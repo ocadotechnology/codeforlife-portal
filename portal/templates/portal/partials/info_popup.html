@@ -1,0 +1,13 @@
+{% load staticfiles %}
+{# An info popup with a close button in the top-right corner. #}
+<section id="info-popup" class="popup-wrapper">
+    <div class="popup-box">
+        <div class="popup-box__title justify-content-end">
+            <button type="button" onclick="hideInfoPopup()" class="close m-0" aria-label="Close" style="min-width:0;">
+                <span class="iconify" data-icon="mdi:close"></span>
+            </button>
+        </div>
+        <div class="popup-box__title pt-0"><h5 class="mt-1"></h5></div>
+        <div class="popup-box__msg"></div>
+    </div>
+</section>

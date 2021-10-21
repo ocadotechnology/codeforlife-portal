@@ -598,6 +598,25 @@ class TestTeacher(BaseTest):
 
         assert len(mail.outbox) == 0
 
+    def test_onboarding_complete(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        create_class_directly(email)
+
+        student_name = "Test Student"
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_students(email, password)
+            .type_student_name(student_name)
+            .create_students()
+            .complete_setup()
+        )
+
+        assert page.has_onboarding_complete_popup()
+
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
         page = (

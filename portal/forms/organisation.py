@@ -16,13 +16,13 @@ class OrganisationForm(forms.ModelForm):
             "name": forms.TextInput(
                 attrs={
                     "autocomplete": "off",
-                    "placeholder": "School",
+                    "placeholder": "Name of school or club",
                 },
             ),
             "postcode": forms.TextInput(
                 attrs={"autocomplete": "off", "placeholder": "Postcode / Zipcode"}
             ),
-            "country": CountrySelectWidget(attrs={"class": "wide"}, layout="{widget}"),
+            "country": CountrySelectWidget(layout="{widget}"),
         }
         help_texts = {
             "name": "Name of school or club",
@@ -86,14 +86,16 @@ class OrganisationForm(forms.ModelForm):
 
 class OrganisationJoinForm(forms.Form):
     fuzzy_name = forms.CharField(
-        label="Search for school or club by name or postcode",
-        widget=forms.TextInput(attrs={"placeholder": "Enrico Fermi High School"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "School or club by name or postcode"}
+        ),
+        help_text="Enter school or club by name or postcode",
     )
 
     # Note: the reason this is a CharField rather than a ChoiceField is to avoid having to
     # provide choices which was problematic given that the options are dynamically generated.
     chosen_org = forms.CharField(
-        label="Select school or club", widget=forms.Select(attrs={"class": "wide"})
+        widget=forms.Select(), help_text="Select school or club"
     )
 
     def clean_chosen_org(self):
