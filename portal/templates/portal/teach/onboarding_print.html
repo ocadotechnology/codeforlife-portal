@@ -40,6 +40,17 @@
 <div class="background container">
     <div class="row">
         <div class="form col-sm-12">
+            {% if not onboarding_done %}
+                <h4>Student login details</h4>
+
+                <p class="mb-3">Progress &lt; 4 of 4 &gt;</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                        <span class="sr-only">100% Complete</span>
+                    </div>
+                </div>
+            {% endif %}
+
             {% if passwords_reset %}
             <h5>Students' passwords reset for class {{ class.name }} ({{ class.access_code }})</h5>
             <p>The following students have had their passwords reset:</p><br>

@@ -43,7 +43,7 @@
                 {{ form.non_field_errors }}
 
                 <div class="row form--row">
-                    <div class="form--row__input col-md-4 col-sm-6 col-xs-12">
+                    <div class="form--row__input col-sm-6 col-md-6">
                         <div class="input--icon">
                             {{ form.class_name }}
                             <span class="iconify" data-icon="mdi:account-multiple"></span>
@@ -51,14 +51,12 @@
                         <small>{{ form.class_name.help_text }}</small>
                         {{ form.class_name.errors }}
                     </div>
-                </div>
-                <div class="row form--row">
-                    <div class="form--row__input col-xs-12">
-                        <div class="form__checkbox p-0 mt-5">
-                            <label for="id_{{ form.classmate_progress.html_name }}" class="font-weight-normal">{{ form.classmate_progress.label }}</label>
-                            <div class="form__checkbox-input pr-0 pl-4">
+                    <div class="form--row__input col-sm-12 col-md-6">
+                        <div class="form__checkbox">
+                            <div class="form__checkbox-input">
                                 {{ form.classmate_progress }}
                             </div>
+                            <label for="id_{{ form.classmate_progress.html_name }}" class="font-weight-normal">{{ form.classmate_progress.label }}</label>
                         </div>
                         {{ form.classmate_progress.errors }}
                     </div>

@@ -90,53 +90,37 @@
                     <form id="form-create-organisation" method="post">
 
                         {% csrf_token %}
-            
+
                         {{ create_form.non_field_errors }}
-            
-                        {# using fields manually and they need reordering #}
-                        <div class="row form--row">
-                            <div class="form--row__input col-sm-6 col-xs-12">
-                                <div class="input--icon">
-                                    {{ create_form.name }}
-                                    <span class="iconify" data-icon="mdi:domain"></span>
+
+                        {% for field in create_form %}
+                            <div class="row form--row">
+                                <div class="form--row__input col-sm-6 col-xs-12">
+                                    <div class="input--icon">
+                                        {{ field }}
+                                        {% if not field == create_form.country %}
+                                            <span class="iconify" data-icon="mdi:domain"></span>
+                                        {% endif %}
+                                    </div>
+                                    <small>{{ field.help_text }}</small>
+                                    {{ field.errors }}
                                 </div>
-                                <small>{{ create_form.name.help_text }}</small>
-                                {{ create_form.name.errors }}
                             </div>
-                        </div>
-                        <div class="row form--row">
-                            <div class="form--row__input col-sm-6 col-xs-12">
-                                <div class="input--icon">
-                                    {{ create_form.country }}
-                                </div>
-                                <small>{{ create_form.country.help_text }}</small>
-                                {{ create_form.country.errors }}
-                            </div>
-                        </div>
-                        <div class="row form--row">
-                            <div class="form--row__input col-sm-3 col-xs-12">
-                                <div class="input--icon">
-                                    {{ create_form.postcode }}
-                                    <span class="iconify" data-icon="mdi:domain"></span>
-                                </div>
-                                <small>{{ create_form.postcode.help_text }}</small>
-                                {{ create_form.postcode.errors }}
-                            </div>
-                        </div>
-            
+                        {% endfor %}
+
                         <div class="section group">
                             <button type="submit" class="button button--primary" name="create_organisation">Create school or club</button>
                         </div>
-            
+
                     </form>
                 </div>
 
                 <div role="tabpanel" class="tab-pane" id="join">
                     <p>You can search for your school or club by name and/or postcode below. A request will be sent to the school or club administrator for processing.</p>
                     <form id="form-join-organisation" method="post">
-        
+
                         {% csrf_token %}
-        
+
                         {{ join_form.non_field_errors }}
 
                         <div class="row form--row">
@@ -146,7 +130,7 @@
                                     <span class="iconify" data-icon="mdi:magnify"></span>
                                 </div>
                                 <small>{{ join_form.fuzzy_name.help_text }}</small>
-                                {{ oin_form.fuzzy_name.errors }}
+                                {{ join_form.fuzzy_name.errors }}
                             </div>
                         </div>
                         <div class="row form--row">
@@ -155,17 +139,17 @@
                                     {{ join_form.chosen_org }}
                                 </div>
                                 <small>{{ join_form.chosen_org.help_text }}</small>
-                                {{ oin_form.chosen_org.errors }}
+                                {{ join_form.chosen_org.errors }}
                             </div>
                         </div>
-        
+
                         <div class="section group">
                             <button type="submit" class="button button--primary" name="join_organisation">Join school or club</button>
                         </div>
-        
+
                     </form>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>

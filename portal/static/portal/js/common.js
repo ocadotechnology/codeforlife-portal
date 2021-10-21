@@ -18,6 +18,12 @@ function post(path, params) {
   form.submit();
 }
 
+/**
+ * Show a confirmation popup with Cancel and Confirm buttons.
+ * @param {String} title The title of the popup.
+ * @param {String} text The message of the popup.
+ * @param {String} confirm_handler The Confirm button onclick attribute.
+ */
 function showPopupConfirmation(title, text, confirm_handler) {
   let popup = $("#popup");
   popup.find(".popup-box__title").text(title);
@@ -28,10 +34,15 @@ function showPopupConfirmation(title, text, confirm_handler) {
 }
 
 function hidePopupConfirmation() {
-  $(".popup-wrapper").removeClass("popup--fade");
-  $(".popup-text").remove();
+  $("#popup").removeClass("popup--fade");
+  $("#popup").find(".popup-text").remove();
 }
 
+/**
+ * Show an info popup with a close button in the top-right corner.
+ * @param {String} title The title of the popup.
+ * @param {String} text The message of the popup.
+ */
 function showInfoPopup(title, text) {
   let popup = $("#info-popup");
   popup.find(".popup-box__title > h5").text(title);

@@ -601,7 +601,7 @@ class TestTeacher(BaseTest):
     def test_onboarding_complete(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         student_name = "Test Student"
 

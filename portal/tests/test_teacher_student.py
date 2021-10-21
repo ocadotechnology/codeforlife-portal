@@ -27,7 +27,7 @@ class TestTeacherStudent(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -44,7 +44,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_valid_name_dash(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         student_name = "Florian-Gilbert"
 
@@ -64,7 +64,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_valid_name_underscore(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         student_name = "Florian_Gilbert"
 
@@ -84,7 +84,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_invalid_name(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         student_name = "Florian!"
 
@@ -106,7 +106,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_multiple(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -123,7 +123,7 @@ class TestTeacherStudent(BaseTest):
     def test_create_duplicate(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        _, _, _ = create_class_directly(email)
+        create_class_directly(email)
 
         student_name = "bob"
 
