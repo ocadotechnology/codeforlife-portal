@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.10.1 (2021-10-21)
+### Fix
+* Update onboarding pending request page ([#1592](https://github.com/ocadotechnology/codeforlife-portal/issues/1592)) ([`ebc9daa`](https://github.com/ocadotechnology/codeforlife-portal/commit/ebc9daa5f964c40937400e1166e802091982a508))
+
 ## v5.10.0 (2021-10-20)
 ### Feature
 * Anonymise active student on delete ([#1590](https://github.com/ocadotechnology/codeforlife-portal/issues/1590)) ([`652866e`](https://github.com/ocadotechnology/codeforlife-portal/commit/652866e7ad2fe6b3856b548e4e94a8b90ba8e2e7))
