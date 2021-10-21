@@ -118,14 +118,21 @@
         <div class="sub-nav--message">
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
-                {% if 'error' in message.tags or 'warning' in message.tags %}
-                    <span class="material-icons-outlined md-32">error</span>
-                {% else %}
-                    <span class="material-icons-outlined md-32">info</span>
-                {% endif %}
-                <p>
-                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
-                <a class="x-icon"><span class="material-icons-outlined">close</span></a>
+                <div class="container">
+                    <div class="row">
+                        <div class="d-flex col-sm-12 align-items-center">
+                            {% if 'error' in message.tags or 'warning' in message.tags %}
+                                <span class="material-icons-outlined md-32">error</span>
+                            {% else %}
+                                <span class="material-icons-outlined md-32">info</span>
+                            {% endif %}
+                            <p class="flex-grow-1">
+                                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                            </p>
+                            <a class="x-icon"><span class="sr-only">Close</span> <span class="iconify" data-icon="mdi:close"></span></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>

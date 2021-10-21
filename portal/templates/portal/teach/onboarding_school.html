@@ -15,28 +15,35 @@
 {% if teacher.pending_join_request %}
 <div id="onboarding_revoke_request_page"></div>
 
-<div class="background background--primary">
-    <div class="col-sm-6 col-center">
-        <section>
-            <h4>Join a school</h4><br>
-        </section>
-        <h6>You have a pending request to join <b>{{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}</b>.<br>Once the administrator of your school or club has approved your request you will be able
-            to continue.</h6>
-    </div>
-    <div class="col-sm-6 col-center">
-        <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
-            your pending request first.</p><br>
-        <form id="revoke_form" method="post">
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            <h4>Join an existing school or club</h4>
 
-            {% csrf_token %}
+            <p class="text-danger">
+                <b>
+                    You have a pending request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}.<br>
+                    Once the administrator of your school or club has approved your request, you will be able to continue.
+                </b>
+            </p>
 
-            <div class="section group">
-                <button class="button button--secondary button--secondary--dark button--icon" type="submit"
-                    name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}<span class="iconify" data-icon="mdi:block"></span>
-                </button>
-            </div>
+            <p>
+                Please note: You may only have one request to join a school or club at a time. If you wish to join
+                another school or club, you must withdraw your pending request first.
+            </p>
 
-        </form>
+            <form id="revoke_form" method="post" class="p-0">
+
+                {% csrf_token %}
+
+                <div class="section group">
+                    <button class="button button--primary" type="submit"
+                        name="revoke_join_request">Withdraw request
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
 {% else %}
