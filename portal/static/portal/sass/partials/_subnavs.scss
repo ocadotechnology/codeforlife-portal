@@ -165,9 +165,6 @@
 
 .x-icon {
   @include _font-size(24px);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   text-decoration: none;
 
   &:hover,
