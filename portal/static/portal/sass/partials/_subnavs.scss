@@ -163,6 +163,20 @@
   }
 }
 
+.x-icon {
+  @include _font-size(24px);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    font-weight: normal;
+  }
+}
+
 @media (min-width: $desktop-small-min-width) {
   .sub-nav--fixed {
     height: $menu-height;

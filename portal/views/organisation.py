@@ -177,7 +177,7 @@ def process_join_form(
 
         messages.success(
             request,
-            "Your request to join the school or club has been sent successfully.",
+            "Your request to join a school or club has been sent.",
         )
 
         return render(
