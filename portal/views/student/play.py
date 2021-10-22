@@ -1,20 +1,119 @@
+from typing import Any, Dict, Optional
+
+from aimmo.models import Game
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
-from common.permissions import logged_in_as_independent_student, logged_in_as_student
-from django.contrib import messages as messages
+from common.models import Student
+from common.permissions import (
+    logged_in_as_independent_student,
+    logged_in_as_school_student,
+)
+from common.utils import LoginRequiredNoErrorMixin
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.urls import reverse_lazy
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
+from game.models import Level, Attempt, sort_levels
+
 from portal.forms.play import StudentJoinOrganisationForm
 
 
-@login_required(login_url=reverse_lazy("student_login_access_code"))
-@user_passes_test(
-    logged_in_as_student, login_url=reverse_lazy("student_login_access_code")
-)
-def student_details(request):
-    return render(request, "portal/play/student_details.html")
+class SchoolStudentDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
+):
+    template_name = "portal/play/student_dashboard.html"
+    login_url = reverse_lazy("student_login_access_code")
+
+    def test_func(self) -> Optional[bool]:
+        return logged_in_as_school_student(self.request.user)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        student = self.request.user.new_student
+        (
+            num_completed,
+            num_top_scores_20,
+            num_top_scores_10,
+            total_score,
+        ) = _compute_rapid_router_scores(student)
+
+        context_data = {
+            "num_completed": num_completed,
+            "num_top_scores_20": num_top_scores_20,
+            "num_top_scores_10": num_top_scores_10,
+            "total_score": total_score,
+        }
+
+        klass = student.class_field
+        try:
+            aimmo_game = Game.objects.get(game_class=klass)
+            active_worksheet = aimmo_game.worksheet
+
+            context_data["worksheet_id"] = active_worksheet.id
+            context_data["worksheet_image"] = active_worksheet.active_image_path
+
+        except ObjectDoesNotExist:
+            pass
+
+        return context_data
+
+
+class IndependentStudentDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
+):
+    template_name = "portal/play/independent_student_dashboard.html"
+    login_url = reverse_lazy("independent_student_login")
+
+    def test_func(self) -> Optional[bool]:
+        return logged_in_as_independent_student(self.request.user)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        student = self.request.user.new_student
+        (
+            num_completed,
+            num_top_scores_20,
+            num_top_scores_10,
+            total_score,
+        ) = _compute_rapid_router_scores(student)
+
+        return {
+            "num_completed": num_completed,
+            "num_top_scores_20": num_top_scores_20,
+            "num_top_scores_10": num_top_scores_10,
+            "total_score": total_score,
+        }
+
+
+def _compute_rapid_router_scores(student: Student) -> (int, int, int, float):
+    levels = sort_levels(Level.objects.all())
+    num_completed = num_top_scores_20 = num_top_scores_10 = 0
+    total_score = 0.0
+    best_attempts = Attempt.objects.filter(
+        level__in=levels, student=student, is_best_attempt=True
+    ).select_related("level")
+
+    if best_attempts:
+        attempts_dict = {
+            best_attempt.level.id: best_attempt for best_attempt in best_attempts
+        }
+        for level in levels:
+            max_score = 10 if level.disable_route_score else 20
+            attempt = attempts_dict.get(level.id)
+
+            if attempt and attempt.score:
+                num_completed += 1
+                if attempt.score == max_score:
+                    if max_score == 20:
+                        num_top_scores_20 += 1
+                    else:
+                        num_top_scores_10 += 1
+
+                total_score += attempt.score
+
+    return num_completed, num_top_scores_20, num_top_scores_10, total_score
 
 
 def username_labeller(request):

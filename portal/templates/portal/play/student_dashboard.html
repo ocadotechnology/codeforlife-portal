@@ -1,0 +1,74 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block subNav %}
+<section class="banner banner--student row mx-0">
+    <div>
+        <h1 class="banner__text--primary">Welcome, {{ user|make_into_username }}</h1>
+        <h4>This is where you can access your games</h4>
+    </div>
+</section>
+{% endblock subNav %}
+
+{% block content %}
+<div id="play_dashboard_page">
+    <div class="background container">
+        <section><h4>Your games</h4></section>
+        <div class="grid-games col-center col-sm-9">
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="{% static 'portal/img/RR_logo_grass_background.png' %}">
+                </div>
+                <div class="card__text">
+                    <h5 class="card__title">Rapid Router</h5>
+                    <p>Rapid Router guides you, and makes learning to code easy and great fun. Using Blockly, you can
+                        advance through the levels to become an Ocado delivery hero.</p>
+                    <div class="button-group">
+                        <a href="{% url 'levels'%}" class="button button--primary">Play</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card__images">
+                    <img class="card__image" src="{% static 'portal/img/kurono_logo.svg' %}">
+                </div>
+                <div class="card__text">
+                    <h5 class="card__title">Kurono</h5>
+                    <p>It is the year 3000 and the museum is in big trouble! The priceless artifacts are lost and scattered
+                        across timelines. Your team&rsquo;s mission is to travel through time and bring them back into the museum.</p>
+                    <div class="button-group">
+                        <a href="{% url 'play_aimmo' %}" class="button button--primary">Play</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="background background--primary">
+        <div class="container">
+            <div class="col-center col-sm-9">
+                <section><img src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
+                <h4>You have completed {{ num_completed }} Rapid Router levels!</h4>
+                <h4>You have {{ num_top_scores_20 }} top scores of 20/20 and {{ num_top_scores_10 }} top scores of 10/10!</h4>
+                <h4>You have a score of {{ total_score }}. There are XX available points.</h4>
+                <section>
+                    <a href="{% url 'scoreboard' %}" class="button button--primary button-right-arrow">Check scoreboard</a>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="background container">
+        <div class="col-center col-sm-9">
+            <section>
+                <img class="col-center col-sm-5" src="{% static 'portal/img/kurono_logo.svg' %}">
+                {% if worksheet_id %}
+                    <h4>You are exploring Challenge {{ worksheet_id }} with your class!</h4>
+                    <img src="{% static 'portal/img/kurono_landing_hero.png' %}">
+                {% else %}
+                    <h4>You do not have any Kurono games yet.</h4>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

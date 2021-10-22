@@ -123,7 +123,7 @@ $column--icon-width: 3%;
     @include _column-gap($spacing * 10);
     display: grid;
     grid-auto-flow: column;
-    grid-template: auto auto auto / auto;
+    //grid-template: auto auto auto / auto;
 
     img {
       min-height: 240px;
