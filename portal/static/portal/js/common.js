@@ -96,3 +96,41 @@ $(document).ready(function () {
     placement: "auto top",
   });
 });
+
+/**
+ * Import students' names from a 'Name' column in a CSV file and prepend them to an element.
+ * @param {String} triggerSelector The selector of the element triggering the file input on click
+ * @param {String} targetSelector The ID of the element where the CSV contents will be prepended
+ */
+function importStudentsFromCsv(triggerSelector, targetSelector) {
+  $(triggerSelector).on("click", function () {
+    const fileInput = $("<input>").attr({
+      type: "file",
+    });
+
+    fileInput.on("change", function () {
+      $(this).parse({
+        config: {
+          header: true,
+          // make the header case insensitive
+          transformHeader: function (header) {
+            return header.toLowerCase();
+          },
+          complete: function (results) {
+            if (!results.meta.fields.includes("name")) {
+              return alert("'Name' column not found in CSV file.");
+            }
+            const newStudents = results.data
+              .map((row) => row["name"])
+              .join("\n");
+            const currentStudents = $(targetSelector).val();
+            $(targetSelector).val(`${newStudents}\n${currentStudents}`);
+          },
+          skipEmptyLines: true,
+        },
+      });
+    });
+
+    fileInput.trigger("click");
+  });
+}
