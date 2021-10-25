@@ -98,6 +98,33 @@ $(document).ready(function () {
 });
 
 /**
+ * OnChange function that parses the selected students CSV file and populate a target with the contents.
+ * @param {String} targetSelector The ID of the element where the CSV contents will be prepended.
+ */
+function studentsCsvChange(targetSelector) {
+  return function () {
+    $(this).parse({
+      config: {
+        header: true,
+        // make the header case insensitive
+        transformHeader: function (header) {
+          return header.toLowerCase();
+        },
+        complete: function (results) {
+          if (!results.meta.fields.includes("name")) {
+            return alert("'Name' column not found in CSV file.");
+          }
+          const newStudents = results.data.map((row) => row["name"]).join("\n");
+          const currentStudents = $(targetSelector).val();
+          $(targetSelector).val(`${newStudents}\n${currentStudents}`);
+        },
+        skipEmptyLines: true,
+      },
+    });
+  };
+}
+
+/**
  * Import students' names from a 'Name' column in a CSV file and prepend them to an element.
  * @param {String} triggerSelector The selector of the element triggering the file input on click
  * @param {String} targetSelector The ID of the element where the CSV contents will be prepended
@@ -107,30 +134,7 @@ function importStudentsFromCsv(triggerSelector, targetSelector) {
     const fileInput = $("<input>").attr({
       type: "file",
     });
-
-    fileInput.on("change", function () {
-      $(this).parse({
-        config: {
-          header: true,
-          // make the header case insensitive
-          transformHeader: function (header) {
-            return header.toLowerCase();
-          },
-          complete: function (results) {
-            if (!results.meta.fields.includes("name")) {
-              return alert("'Name' column not found in CSV file.");
-            }
-            const newStudents = results.data
-              .map((row) => row["name"])
-              .join("\n");
-            const currentStudents = $(targetSelector).val();
-            $(targetSelector).val(`${newStudents}\n${currentStudents}`);
-          },
-          skipEmptyLines: true,
-        },
-      });
-    });
-
+    fileInput.on("change", studentsCsvChange(targetSelector));
     fileInput.trigger("click");
   });
 }
