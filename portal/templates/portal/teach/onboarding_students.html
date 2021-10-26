@@ -17,20 +17,16 @@
                 </div>
             </div>
 
-            <p>
-                Add the students' names to the box with one student name per line. Students' names will be used in
-                their login details, and so each name should be unique.
-            </p>
-            <p>
-                You have the option to use students' first names only, or first and last names. Students' names and the
-                class access code are required to sign in.
-            </p>
+            <p>Add the student names to the box with one name per line or separated by a comma.</p>
+            <p>Student names and the class access code are required to sign in.</p>
 
-            <div class="d-flex align-items-center mt-5">
+            <div class="mt-5">
                 <button id="studentsCsvButton" type="button" class="button button--secondary button--secondary--dark button--icon">
                     Import CSV file<span class="iconify" data-icon="mdi:upload"></span>
                 </button>
-                <small class="ml-5">Students' names must be under a header called 'Name'.</small>
+            </div>
+            <div class="mt-4">
+                <small><b>Please note: if using the import option, student names must be under a heading labelled 'name'.</b></small>
             </div>
 
             <form id="form-create-students" method="POST">
