@@ -64,9 +64,10 @@ $column--icon-width: 3%;
   }
 
   .card__image {
+    border-radius: 4px;
     display: block;
     margin: auto;
-    border-radius: 4px;
+    object-fit: cover;
   }
 
   .card__thumbnail {

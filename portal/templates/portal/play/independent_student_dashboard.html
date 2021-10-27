@@ -18,7 +18,7 @@
         <div class="col-center col-sm-4">
             <div class="card">
                 <div class="card__images">
-                    <img class="card__image" src="{% static 'portal/img/RR_logo_grass_background.png' %}">
+                    <img title="Rapid Router" alt="Rapid Router" class="card__image" src="{% static 'portal/img/RR_logo_green.svg' %}">
                 </div>
                 <div class="card__text">
                     <h5 class="card__title">Rapid Router</h5>
@@ -34,17 +34,17 @@
     <div class="background background--primary">
         <div class="container">
             <div class="col-center col-sm-9">
-                <section><img src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
-                <h4>You have completed {{ num_completed }} Rapid Router levels!</h4>
-                <h4>You have {{ num_top_scores_20 }} top scores of 20/20 and {{ num_top_scores_10 }} top scores of 10/10!</h4>
-                <h4>You have a score of {{ total_score }}. There are XX available points.</h4>
+                <section><img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
+                <h4>You have completed {{ num_completed }} Rapid Router level{{ num_completed|pluralize }}!</h4>
+                <h4>You have {{ num_top_scores }} top score{{ num_top_scores|pluralize }}!</h4>
+                <h4>You have a score of {{ total_score }}. There are {{ total_available_score }} available points.</h4>
             </div>
         </div>
     </div>
     <div class="background container">
         <div class="col-center col-sm-12">
             <section>
-                <img class="col-center col-sm-5" src="{% static 'portal/img/kurono_logo.svg' %}">
+                <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-5" src="{% static 'portal/img/kurono_logo.svg' %}">
                 <h4>Kurono is only available as part of a school or club. Your teacher, parent or guardian can set up
                 a club for you and create a class.</h4>
                 <video autoplay muted loop class="col-sm-12 video--aimmo--play-online">

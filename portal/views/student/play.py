@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
 from aimmo.models import Game
 from common import email_messages
@@ -13,11 +13,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.query import QuerySet
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from game.models import Level, Attempt, sort_levels
+from game.models import Level, Attempt
 
 from portal.forms.play import StudentJoinOrganisationForm
 
@@ -32,28 +33,52 @@ class SchoolStudentDashboard(
         return logged_in_as_school_student(self.request.user)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        """
+        Gathers the context data required by the template. First, the student's scores
+        for the original Rapid Router levels is gathered, second, the student's scores
+        for any levels shared with them by their teacher, and third, the student's
+        Kurono game information if they have one.
+        """
+        # Get score data for all original levels
+        levels = Level.objects.sorted_levels()
         student = self.request.user.new_student
         (
             num_completed,
-            num_top_scores_20,
-            num_top_scores_10,
+            num_top_scores,
             total_score,
-        ) = _compute_rapid_router_scores(student)
+            total_available_score,
+        ) = _compute_rapid_router_scores(student, levels)
 
         context_data = {
             "num_completed": num_completed,
-            "num_top_scores_20": num_top_scores_20,
-            "num_top_scores_10": num_top_scores_10,
+            "num_top_scores": num_top_scores,
             "total_score": total_score,
+            "total_available_score": total_available_score,
         }
 
+        # Find any custom levels created by the teacher and shared with the student
         klass = student.class_field
+        teacher = klass.teacher.user
+        custom_levels = student.new_user.shared.filter(owner=teacher)
+
+        if custom_levels:
+            (
+                _,
+                _,
+                total_custom_score,
+                total_custom_available_score,
+            ) = _compute_rapid_router_scores(student, custom_levels)
+
+            context_data["total_custom_score"] = total_custom_score
+            context_data["total_custom_available_score"] = total_custom_available_score
+
+        # Get Kurono game info if the class has a game linked to it
         try:
             aimmo_game = Game.objects.get(game_class=klass)
             active_worksheet = aimmo_game.worksheet
 
             context_data["worksheet_id"] = active_worksheet.id
-            context_data["worksheet_image"] = active_worksheet.active_image_path
+            context_data["worksheet_image"] = active_worksheet.image_path
 
         except ObjectDoesNotExist:
             pass
@@ -71,49 +96,71 @@ class IndependentStudentDashboard(
         return logged_in_as_independent_student(self.request.user)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        levels = Level.objects.sorted_levels()
         student = self.request.user.new_student
         (
             num_completed,
-            num_top_scores_20,
-            num_top_scores_10,
+            num_top_scores,
             total_score,
-        ) = _compute_rapid_router_scores(student)
+            total_available_score,
+        ) = _compute_rapid_router_scores(student, levels)
 
         return {
             "num_completed": num_completed,
-            "num_top_scores_20": num_top_scores_20,
-            "num_top_scores_10": num_top_scores_10,
+            "num_top_scores": num_top_scores,
             "total_score": total_score,
+            "total_available_score": total_available_score,
         }
 
 
-def _compute_rapid_router_scores(student: Student) -> (int, int, int, float):
-    levels = sort_levels(Level.objects.all())
-    num_completed = num_top_scores_20 = num_top_scores_10 = 0
+def _compute_rapid_router_scores(
+    student: Student, levels: List[Level] or QuerySet
+) -> (int, int, int, int):
+    """
+    Finds Rapid Router progress and score data for a specific student and a specific
+    set of levels. This is used to show quick score data to the student on their
+    dashboard.
+    :param student: the student whose progress this is looking for
+    :param levels: the list of levels to gather the progress data of
+    :return: a 4-tuple of integers:
+    - num_completed: number of completed levels. A completed level is a level that has a
+    successful attempt (van made it to the final house) regardless of the final score.
+    - num_top_scores: number of levels that have been completed with a full final score
+    of either 10/10 or 20/20 (depending on whether the level has route score enabled)
+    - total_score: the addition of all the completed levels' final scores
+    - total_available_score: the addition of the maximum attainable score of all levels
+    """
+    num_completed = num_top_scores = total_available_score = 0
     total_score = 0.0
+    # Get a QuerySet of best attempts for each level
     best_attempts = Attempt.objects.filter(
         level__in=levels, student=student, is_best_attempt=True
     ).select_related("level")
 
+    # Calculate total available score. A level has a max score of 20 by default unless
+    # its route score is disabled or it is a custom level (not in an episode)
+    for level in levels:
+        max_score = 10 if level.disable_route_score or not level.episode else 20
+        total_available_score += max_score
+
+    # For each level, compare best attempt's score with level's max score and increment
+    # variables as needed
     if best_attempts:
         attempts_dict = {
             best_attempt.level.id: best_attempt for best_attempt in best_attempts
         }
         for level in levels:
-            max_score = 10 if level.disable_route_score else 20
+            max_score = 10 if level.disable_route_score or not level.episode else 20
             attempt = attempts_dict.get(level.id)
 
             if attempt and attempt.score:
                 num_completed += 1
                 if attempt.score == max_score:
-                    if max_score == 20:
-                        num_top_scores_20 += 1
-                    else:
-                        num_top_scores_10 += 1
+                    num_top_scores += 1
 
                 total_score += attempt.score
 
-    return num_completed, num_top_scores_20, num_top_scores_10, total_score
+    return num_completed, num_top_scores, int(total_score), total_available_score
 
 
 def username_labeller(request):

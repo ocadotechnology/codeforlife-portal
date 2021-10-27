@@ -79,7 +79,11 @@ from portal.views.student.edit_account_details import (
     SchoolStudentEditAccountView,
     student_edit_account,
 )
-from portal.views.student.play import SchoolStudentDashboard, IndependentStudentDashboard, student_join_organisation
+from portal.views.student.play import (
+    SchoolStudentDashboard,
+    IndependentStudentDashboard,
+    student_join_organisation,
+)
 from portal.views.teach import teach
 from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.dashboard import (
@@ -309,7 +313,11 @@ urlpatterns = [
     url(r"^teach/invite", invite_teacher, name="invite_teacher"),
     url(r"^play/$", play_landing_page, name="play"),
     url(r"^play/details/$", SchoolStudentDashboard.as_view(), name="student_details"),
-    url(r"^play/details/independent$", IndependentStudentDashboard.as_view(), name="independent_student_details"),
+    url(
+        r"^play/details/independent$",
+        IndependentStudentDashboard.as_view(),
+        name="independent_student_details",
+    ),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
     url(
         r"^play/account/independent/$",
