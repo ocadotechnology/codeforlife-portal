@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.10.4 (2021-10-27)
+### Fix
+* Hide account details during onboarding ([#1597](https://github.com/ocadotechnology/codeforlife-portal/issues/1597)) ([`99eb890`](https://github.com/ocadotechnology/codeforlife-portal/commit/99eb8908611877d0188949ae14221c37b295a3ac))
+
+## v5.10.3 (2021-10-27)
+### Fix
+* Smooth scroll to account details ([#1596](https://github.com/ocadotechnology/codeforlife-portal/issues/1596)) ([`90333d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/90333d7a15114df52f4c6213e1ebcdb84cb885ec))
+
+## v5.10.2 (2021-10-27)
+### Fix
+* Close message ([#1595](https://github.com/ocadotechnology/codeforlife-portal/issues/1595)) ([`38b2356`](https://github.com/ocadotechnology/codeforlife-portal/commit/38b2356e6c18c1db51b5b39f3da8e491f0977181))
+
 ## v5.10.1 (2021-10-21)
 ### Fix
 * Update onboarding pending request page ([#1592](https://github.com/ocadotechnology/codeforlife-portal/issues/1592)) ([`ebc9daa`](https://github.com/ocadotechnology/codeforlife-portal/commit/ebc9daa5f964c40937400e1166e802091982a508))

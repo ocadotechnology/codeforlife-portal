@@ -167,6 +167,8 @@
 
 {% block scripts %}
 <script>
+    let bannerHeight;
+
     $(function() {
         $('input, textarea').placeholder();
     });
@@ -210,13 +212,11 @@
     }
 
     $(document).ready(function() {
-        let bannerHeight = $('.sticky-subnav').height();
-        if(bannerHeight) {
-            animateScroll(bannerHeight);
+        bannerHeight = $('.sticky-subnav').height();
+        if(!bannerHeight) {
+            bannerHeight = $('.menu').height() * 1.25
         }
-        else {
-            animateScroll($('.menu').height() * 1.25);
-        }
+        animateScroll(bannerHeight);
     });
 
     $(window).on('scroll', function() {
