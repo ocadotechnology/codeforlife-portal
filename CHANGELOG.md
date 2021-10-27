@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.10.2 (2021-10-27)
+### Fix
+* Close message ([#1595](https://github.com/ocadotechnology/codeforlife-portal/issues/1595)) ([`38b2356`](https://github.com/ocadotechnology/codeforlife-portal/commit/38b2356e6c18c1db51b5b39f3da8e491f0977181))
+
 ## v5.10.1 (2021-10-21)
 ### Fix
 * Update onboarding pending request page ([#1592](https://github.com/ocadotechnology/codeforlife-portal/issues/1592)) ([`ebc9daa`](https://github.com/ocadotechnology/codeforlife-portal/commit/ebc9daa5f964c40937400e1166e802091982a508))
