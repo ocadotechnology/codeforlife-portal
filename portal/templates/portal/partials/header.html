@@ -91,13 +91,15 @@
                     </li>
                     {% endif %}
                     {% if user|is_logged_in_as_teacher %}
-                        <li class="dropdown-menu__option">
-                            {# if the current page is teacher dashboard, trigger a tab change instead #}
-                            <a class="button--regular" aria-labelledby="Update my details"
-                              href="{% url 'dashboard' %}#account" {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
-                                <div class="dropdown-menu__option__text">Update account details</div>
-                                <span class="material-icons-outlined">manage_accounts</span></a>
-                        </li>
+                        {% if user|has_teacher_finished_onboarding %}
+                            <li class="dropdown-menu__option">
+                                {# if the current page is teacher dashboard, trigger a tab change instead #}
+                                <a class="button--regular" aria-labelledby="Update my details"
+                                href="{% url 'dashboard' %}#account" {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
+                                    <div class="dropdown-menu__option__text">Update account details</div>
+                                    <span class="material-icons-outlined">manage_accounts</span></a>
+                            </li>
+                        {% endif %}
                     {% else %}
                         <li class="dropdown-menu__option">
                             <a class="button--regular" aria-labelledby="Change password"
@@ -222,12 +224,14 @@
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% if user|is_logged_in %}
             {% if user|is_logged_in_as_teacher %}
-                {# if the current page is teacher dashboard, trigger a tab change instead #}
-                <a class="button button--menu__item" href="{% url 'dashboard' %}#account"
-                  {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
-                    Update account details
-                    <span class="material-icons-outlined md-32">chevron_right</span>
-                </a>
+                {% if user|has_teacher_finished_onboarding %}
+                    {# if the current page is teacher dashboard, trigger a tab change instead #}
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account"
+                    {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
+                        Update account details
+                        <span class="material-icons-outlined md-32">chevron_right</span>
+                    </a>
+                {% endif %}
             {% endif %}
             <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
                 <span class="material-icons-outlined md-32">chevron_right</span></a>
