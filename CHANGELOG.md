@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.11.0 (2021-10-27)
+### Feature
+* Import students from CSV ([#1594](https://github.com/ocadotechnology/codeforlife-portal/issues/1594)) ([`4be94d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/4be94d64c64f92b9b8af864821cc1b5676a62a52))
+
 ## v5.10.4 (2021-10-27)
 ### Fix
 * Hide account details during onboarding ([#1597](https://github.com/ocadotechnology/codeforlife-portal/issues/1597)) ([`99eb890`](https://github.com/ocadotechnology/codeforlife-portal/commit/99eb8908611877d0188949ae14221c37b295a3ac))
