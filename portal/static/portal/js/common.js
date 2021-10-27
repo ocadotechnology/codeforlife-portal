@@ -133,6 +133,7 @@ function importStudentsFromCsv(triggerSelector, targetSelector) {
   $(triggerSelector).on("click", function () {
     const fileInput = $("<input>").attr({
       type: "file",
+      accept: "text/csv",
     });
     fileInput.on("change", studentsCsvChange(targetSelector));
     fileInput.trigger("click");
