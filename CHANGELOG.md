@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.10.3 (2021-10-27)
+### Fix
+* Smooth scroll to account details ([#1596](https://github.com/ocadotechnology/codeforlife-portal/issues/1596)) ([`90333d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/90333d7a15114df52f4c6213e1ebcdb84cb885ec))
+
 ## v5.10.2 (2021-10-27)
 ### Fix
 * Close message ([#1595](https://github.com/ocadotechnology/codeforlife-portal/issues/1595)) ([`38b2356`](https://github.com/ocadotechnology/codeforlife-portal/commit/38b2356e6c18c1db51b5b39f3da8e491f0977181))
