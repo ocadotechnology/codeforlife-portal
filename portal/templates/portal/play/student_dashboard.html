@@ -14,7 +14,7 @@
 {% block content %}
 <div id="play_dashboard_page">
     <div class="background container">
-        <section><h4>Your games</h4></section>
+        <section><h4>Your class games</h4></section>
         <div class="grid-games col-center col-sm-9">
             <div class="card">
                 <div class="card__images">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="card__text">
                     <h5 class="card__title">Kurono</h5>
-                    <p>It is the year 3000 and the museum is in big trouble! The priceless artifacts are lost and scattered
+                    <p>It is the year 2405 and the museum is in big trouble! The priceless artifacts are lost and scattered
                         across timelines. Your team&rsquo;s mission is to travel through time and bring them back into the museum.</p>
                     <div class="button-group">
                         <a href="{% url 'student_aimmo_dashboard' %}" class="button button--primary">Play</a>
@@ -54,19 +54,19 @@
                 {% if total_custom_available_score %}
                     <h4>You have a score of {{ total_custom_score }} out of {{ total_custom_available_score }} available points on custom levels.</h4>
                 {% endif %}
-                <section class="mt-5">
+                <section>
                     <a href="{% url 'scoreboard' %}" class="button button--primary button-right-arrow">Check scoreboard</a>
                 </section>
             </div>
         </div>
     </div>
     <div class="background container">
-        <div class="col-center col-sm-9">
+        <div class="col-center col-sm-12">
             <section>
-                <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-5" src="{% static 'portal/img/kurono_logo.svg' %}">
+                <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-4" src="{% static 'portal/img/kurono_logo.svg' %}">
                 {% if worksheet_id %}
                     <h4>You are exploring Challenge {{ worksheet_id }} with your class!</h4>
-                    <img title="Kurono active game" alt="Kurono active game" src="{{ worksheet_image | cloud_storage }}">
+                    <img class="col-center col-sm-9" title="Kurono active game" alt="Kurono active game" src="{{ worksheet_image | cloud_storage }}">
                 {% else %}
                     <h4>You do not have any Kurono games yet.</h4>
                 {% endif %}

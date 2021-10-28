@@ -30,6 +30,7 @@ h3 {
 
 h4 {
   @include _font-size(30px);
+  @include _padding(10px, 0px, 10px, 0px);
   font-weight: 500;
 }
 

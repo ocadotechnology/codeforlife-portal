@@ -160,6 +160,12 @@
   color: $color-text-primary;
 }
 
+.success,
+.info,
+.warning {
+  border-bottom: 1px solid $color-message-border;
+}
+
 .hijacked-warning {
   .close {
     display: none;
