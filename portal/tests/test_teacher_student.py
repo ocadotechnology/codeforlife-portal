@@ -6,6 +6,7 @@ import pytest
 from django.test import Client
 from django.urls import reverse
 from django.contrib.auth.models import User
+from selenium.webdriver.common.alert import Alert
 
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -141,6 +142,76 @@ class TestTeacherStudent(BaseTest):
         )
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
+
+    def test_onboarding_import_from_csv(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        create_class_directly(email)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_students(email, password)
+            .import_students_from_csv("test_students_names.csv")
+        )
+
+        assert page.get_students_input_value() == "Student 1\nStudent 2\n"
+
+    def test_onboarding_import_from_csv_error(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        create_class_directly(email)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_students(email, password)
+            .import_students_from_csv("test_students_names_no_name.csv")
+        )
+
+        alert = Alert(page.browser)
+        assert alert.text == "'Name' column not found in CSV file."
+        alert.dismiss()
+
+    def test_class_students_import_from_csv(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+            .import_students_from_csv("test_students_names.csv")
+        )
+
+        assert page.get_students_input_value() == "Student 1\nStudent 2\n"
+
+    def test_class_students_import_from_csv_error(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
+            .import_students_from_csv("test_students_names_no_name.csv")
+        )
+
+        alert = Alert(page.browser)
+        assert alert.text == "'Name' column not found in CSV file."
+        alert.dismiss()
 
     def test_add_to_existing_class(self):
         email, password = signup_teacher_directly()

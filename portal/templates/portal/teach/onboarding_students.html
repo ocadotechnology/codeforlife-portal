@@ -17,14 +17,17 @@
                 </div>
             </div>
 
-            <p>
-                Add the students' names to the box with one student name per line. Students' names will be used in
-                their login details, and so each name should be unique.
-            </p>
-            <p>
-                You have the option to use students' first names only, or first and last names. Students' names and the
-                class access code are required to sign in.
-            </p>
+            <p>Add the student names to the box with one name per line or separated by a comma.</p>
+            <p>Student names and the class access code are required to sign in.</p>
+
+            <div class="mt-5">
+                <button id="studentsCsvButton" type="button" class="button button--secondary button--secondary--dark button--icon">
+                    Import CSV file<span class="iconify" data-icon="mdi:upload"></span>
+                </button>
+            </div>
+            <div class="mt-4">
+                <small><strong>Please note: if using the import option, student names must be under a heading labelled 'name'.</strong></small>
+            </div>
 
             <form id="form-create-students" method="POST">
 
@@ -40,7 +43,7 @@
 
                     <div class="col-md-6 col-xs-3">
                         <button id="submitStudents" type="submit" class="button button--primary button--icon m-0" name="new_students" value="Add students">
-                            Add Students<span class="iconify" data-icon="mdi:plus"></span>
+                            Add students<span class="iconify" data-icon="mdi:plus"></span>
                         </button>
                     </div>
                 </div>
@@ -52,6 +55,8 @@
 <script>
   $(document).ready(function(){
     $('#form-create-students').submit(disableOnClick('#submitStudents'));
+
+    importStudentsFromCsv('#studentsCsvButton', '#{{ new_students_form.names.auto_id }}')
   });
 </script>
 
