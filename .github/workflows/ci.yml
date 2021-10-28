@@ -27,6 +27,7 @@ jobs:
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
+          pip uninstall -y rapid-router
           pip install -U "git+https://github.com/ocadotechnology/rapid-router.git@test_utils_attempt"
           yarn --frozen-lockfile
       - name: Collect static
