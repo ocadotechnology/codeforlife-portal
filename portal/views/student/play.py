@@ -42,19 +42,8 @@ class SchoolStudentDashboard(
         # Get score data for all original levels
         levels = Level.objects.sorted_levels()
         student = self.request.user.new_student
-        (
-            num_completed,
-            num_top_scores,
-            total_score,
-            total_available_score,
-        ) = _compute_rapid_router_scores(student, levels)
 
-        context_data = {
-            "num_completed": num_completed,
-            "num_top_scores": num_top_scores,
-            "total_score": total_score,
-            "total_available_score": total_available_score,
-        }
+        context_data = _compute_rapid_router_scores(student, levels)
 
         # Find any custom levels created by the teacher and shared with the student
         klass = student.class_field
@@ -62,15 +51,10 @@ class SchoolStudentDashboard(
         custom_levels = student.new_user.shared.filter(owner=teacher)
 
         if custom_levels:
-            (
-                _,
-                _,
-                total_custom_score,
-                total_custom_available_score,
-            ) = _compute_rapid_router_scores(student, custom_levels)
+            custom_levels_data = _compute_rapid_router_scores(student, custom_levels)
 
-            context_data["total_custom_score"] = total_custom_score
-            context_data["total_custom_available_score"] = total_custom_available_score
+            context_data["total_custom_score"] = custom_levels_data["total_score"]
+            context_data["total_custom_available_score"] = custom_levels_data["total_available_score"]
 
         # Get Kurono game info if the class has a game linked to it
         try:
@@ -98,31 +82,20 @@ class IndependentStudentDashboard(
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         levels = Level.objects.sorted_levels()
         student = self.request.user.new_student
-        (
-            num_completed,
-            num_top_scores,
-            total_score,
-            total_available_score,
-        ) = _compute_rapid_router_scores(student, levels)
 
-        return {
-            "num_completed": num_completed,
-            "num_top_scores": num_top_scores,
-            "total_score": total_score,
-            "total_available_score": total_available_score,
-        }
+        return _compute_rapid_router_scores(student, levels)
 
 
 def _compute_rapid_router_scores(
     student: Student, levels: List[Level] or QuerySet
-) -> (int, int, int, int):
+) -> Dict[str, int]:
     """
     Finds Rapid Router progress and score data for a specific student and a specific
     set of levels. This is used to show quick score data to the student on their
     dashboard.
     :param student: the student whose progress this is looking for
     :param levels: the list of levels to gather the progress data of
-    :return: a 4-tuple of integers:
+    :return: a dictionary of integers:
     - num_completed: number of completed levels. A completed level is a level that has a
     successful attempt (van made it to the final house) regardless of the final score.
     - num_top_scores: number of levels that have been completed with a full final score
@@ -160,7 +133,12 @@ def _compute_rapid_router_scores(
 
                 total_score += attempt.score
 
-    return num_completed, num_top_scores, int(total_score), total_available_score
+    return {
+        "num_completed": num_completed,
+        "num_top_scores": num_top_scores,
+        "total_score": int(total_score),
+        "total_available_score": total_available_score,
+    }
 
 
 def username_labeller(request):

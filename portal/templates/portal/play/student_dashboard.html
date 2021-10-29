@@ -61,17 +61,15 @@
         </div>
     </div>
     <div class="background container">
-        <div class="col-center col-sm-12">
-            <section>
-                <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-4" src="{% static 'portal/img/kurono_logo.svg' %}">
-                {% if worksheet_id %}
-                    <h4>You are exploring Challenge {{ worksheet_id }} with your class!</h4>
-                    <img class="col-center col-sm-9" title="Kurono active game" alt="Kurono active game" src="{{ worksheet_image | cloud_storage }}">
-                {% else %}
-                    <h4>You do not have any Kurono games yet.</h4>
-                {% endif %}
-            </section>
-        </div>
+        <section>
+            <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-4" src="{% static 'portal/img/kurono_logo.svg' %}">
+            {% if worksheet_id %}
+                <h4>You are exploring Challenge {{ worksheet_id }} with your class!</h4>
+                <img class="col-center col-sm-9" title="Kurono active game" alt="Kurono active game" src="{{ worksheet_image | cloud_storage }}">
+            {% else %}
+                <h4>You do not have any Kurono games yet.</h4>
+            {% endif %}
+        </section>
     </div>
 </div>
 {% endblock %}

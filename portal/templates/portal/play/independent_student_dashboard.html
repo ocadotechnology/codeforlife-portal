@@ -42,20 +42,20 @@
         </div>
     </div>
     <div class="background container">
-        <div class="col-center col-sm-12">
-            <section>
-                <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-4" src="{% static 'portal/img/kurono_logo.svg' %}">
-                <h4>Kurono is only available as part of a school or club. Your teacher, parent or guardian can set up
+        <section>
+            <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-4" src="{% static 'portal/img/kurono_logo.svg' %}">
+            <h4>Kurono is only available as part of a school or club. Your teacher, parent or guardian can set up
                 a club for you and create a class.</h4>
-                <video autoplay muted loop class="col-sm-12 video--aimmo--play-online">
-                    <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
-                </video>
-            </section>
-        </div>
+            <video autoplay muted loop class="col-xs-12 video--aimmo--play-online">
+                <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
+            </video>
+        </section>
     </div>
     <div class="background background--primary">
-        <h4 class="text-center">Meet the characters</h4>
-        {% character_list %}
+        <div class="container">
+            <h4 class="text-center">Meet the characters</h4>
+            {% character_list %}
+        </div>
     </div>
 </div>
 {% endblock %}
