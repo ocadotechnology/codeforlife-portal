@@ -64,7 +64,7 @@ $column--icon-width: 3%;
   }
 
   .card__image {
-    border-radius: 4px;
+    border-radius: 4px 4px 0 0;
     display: block;
     margin: auto;
     object-fit: cover;
