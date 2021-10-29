@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.12.0 (2021-10-29)
+### Feature
+* Redesign student dashboards ([#1598](https://github.com/ocadotechnology/codeforlife-portal/issues/1598)) ([`df873e2`](https://github.com/ocadotechnology/codeforlife-portal/commit/df873e219cc87f2c73a52fea41ca912dc13dbe4a))
+
 ## v5.11.0 (2021-10-27)
 ### Feature
 * Import students from CSV ([#1594](https://github.com/ocadotechnology/codeforlife-portal/issues/1594)) ([`4be94d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/4be94d64c64f92b9b8af864821cc1b5676a62a52))
