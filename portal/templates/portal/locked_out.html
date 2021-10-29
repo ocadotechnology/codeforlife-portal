@@ -3,28 +3,20 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="error-page">
-        <div class="banner banner--error-page banner--homepage--teacher row mx-0">
-            <div class="col-sm-5 col-sm-offset-2">
-                <h1>Temporary lock out</h1>
-                <h4>Your account has been temporarily blocked as there were too many unsuccessful requests.</h4>
-                {% if is_teacher %}
-                    <p>If you wish to proceed, please
-                        <a href="{% url 'teacher_password_reset' %}">reset your password</a>.</p>
-                {% else %}
-                    <p>If you wish to proceed, please
-                        <a href="{% url 'student_password_reset' %}">reset your password</a>.</p>
-                {% endif %}
-                <p>Alternatively, you will need to wait 24 hours for your account to be unlocked.</p>
-            </div>
+<div class="error-page background container">
+    <div class="row d-flex justify-content-between">
+        <div>
+            <h1>Temporary lock out!</h1>
+            <h5>Your account has been temporarily blocked as there were too many unsuccessful requests.</h5>
+            <p>If you wish to proceed, please
+            {% if is_teacher %}
+                <a href="{% url 'teacher_password_reset' %}">reset your password</a>.
+            {% else %}
+                <a href="{% url 'student_password_reset' %}">reset your password</a>.
+            {% endif %}
+            Alternatively, you will need to wait 24 hours for your account to be unlocked again.</p>
         </div>
-
-        <div class="background col-sm-offset-2">
-            <a class="button button--primary" href="{% url 'home' %}">
-                Back to homepage</a>
-        </div>
-
         <img title="Phil" alt="Phil" src="{% static 'portal/img/phil_hi_res.png' %}"/>
     </div>
-
+</div>
 {% endblock content %}
