@@ -62,7 +62,10 @@
     </div>
     <div class="background container">
         <section>
-            <img title="Kurono logo" alt="Kurono logo" class="col-center col-sm-4" src="{% static 'portal/img/kurono_logo.svg' %}">
+            <div class="row">
+                <img title="Kurono logo" alt="Kurono logo" class="col-xs-offset-3 col-sm-offset-4 col-xs-6 col-sm-4"
+                     src="{% static 'portal/img/kurono_logo.svg' %}">
+            </div>
             {% if worksheet_id %}
                 <h4>You are exploring Challenge {{ worksheet_id }} with your class!</h4>
                 <img class="col-center col-sm-9" title="Kurono active game" alt="Kurono active game" src="{{ worksheet_image | cloud_storage }}">
