@@ -45,8 +45,14 @@
             {% else %}
                 <a href="{% url 'play' %}" class="button--menu button--menu--primary">Student</a>
                 <div class="dropdown">
-                    <a href="{% url 'student_details' %}" id="student_dashboard_button"
-                      class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
+                    <a
+                        {% if user|is_independent_student %}
+                            href="{% url 'independent_student_details' %}"
+                        {% else %}
+                            href="{% url 'student_details' %}"
+                        {% endif %}
+                        id="student_dashboard_button"
+                        class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
                     <div class="dropdown-content">
                         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
                         {% if not user|is_independent_student %}
