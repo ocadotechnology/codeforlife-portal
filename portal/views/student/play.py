@@ -54,7 +54,9 @@ class SchoolStudentDashboard(
             custom_levels_data = _compute_rapid_router_scores(student, custom_levels)
 
             context_data["total_custom_score"] = custom_levels_data["total_score"]
-            context_data["total_custom_available_score"] = custom_levels_data["total_available_score"]
+            context_data["total_custom_available_score"] = custom_levels_data[
+                "total_available_score"
+            ]
 
         # Get Kurono game info if the class has a game linked to it
         try:
