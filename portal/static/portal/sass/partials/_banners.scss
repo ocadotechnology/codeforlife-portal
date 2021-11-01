@@ -163,6 +163,11 @@
   background-position: top left;
 }
 
+.banner--independent-student {
+  background-color: $color-secondary;
+  background-position: top left;
+}
+
 .banner-home-content {
   display: table;
 
@@ -203,7 +208,8 @@
 }
 
 .banner--teacher,
-.banner--student {
+.banner--student,
+.banner--independent-student {
   align-items: center;
   display: flex;
   height: 64 * $spacing;

@@ -61,7 +61,8 @@
   z-index: $nav-bar-level + 1;
 }
 
-.sub-nav--warning {
+.sub-nav--warning,
+.sub-nav--message {
   background-color: $color-background-sub-banner;
   color: $color-text-primary;
 
@@ -72,6 +73,15 @@
       background-color: $color-background-tertiary;
       color: $color-text-secondary;
     }
+  }
+}
+
+.message--student {
+  background-color: $color-tertiary-300;
+  color: $color-text-secondary;
+
+  .x-icon {
+    color: $color-text-secondary;
   }
 }
 
@@ -153,7 +163,6 @@
 .success,
 .info,
 .warning {
-  background-color: $color-background-sub-banner;
   border-bottom: 1px solid $color-message-border;
 }
 

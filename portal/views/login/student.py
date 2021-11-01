@@ -1,14 +1,12 @@
+from common.models import UserSession, Student
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, FormView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.html import escape
-from django.http import HttpResponseRedirect
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
-from common.models import UserSession, Student
 
 
 class StudentClassCodeView(FormView):
@@ -46,18 +44,12 @@ class StudentLoginView(LoginView):
     def _add_logged_in_as_message(self, request):
         student = request.user.userprofile.student
         student_class = student.class_field
-        student_school = student_class.teacher.school
 
         messages.info(
             request,
-            (
-                "You are logged in as a member of class: <strong>"
-                + escape(student_class.name)
-                + "</strong>, in school or club: <strong>"
-                + escape(student_school.name)
-                + "</strong>."
-            ),
-            extra_tags="safe",
+            f"<strong>You are logged in to class: "
+            f"{escape(student_class.name)}</strong>",
+            extra_tags="safe message--student",
         )
 
     def get_success_url(self):

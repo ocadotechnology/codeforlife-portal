@@ -19,7 +19,7 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="button-group">
-                        <a class="button button--secondary button--secondary--dark" href="{% url 'student_details' %}">Back</a>
+                        <a class="button button--secondary button--secondary--dark" href="{% url 'independent_student_details' %}">Back</a>
                         <input type="submit" name="revoke_join_request" class="button button--primary" value="Cancel request"/>
                     </div>
                 </form>
@@ -41,7 +41,7 @@
                     {{ request_form.access_code }}
 
                     <div class="button-group">
-                        <a class="button button--secondary button--secondary--dark" href="{% url 'student_details' %}">Cancel</a>
+                        <a class="button button--secondary button--secondary--dark" href="{% url 'independent_student_details' %}">Cancel</a>
                         <input id="request_join_a_school_or_club_button" type="submit" name="class_join_request" class="button button--primary" value="Request"/>
                     </div>
                 </form>

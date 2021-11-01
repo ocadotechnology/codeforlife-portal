@@ -4,6 +4,7 @@ import json
 from datetime import timedelta
 
 import PyPDF2
+from aimmo.models import Game, Worksheet
 from common.models import Teacher, UserSession, Student, Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -20,6 +21,9 @@ from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
+from game.models import Level
+from game.tests.utils.attempt import create_attempt
+from game.tests.utils.level import create_save_level
 
 from deploy import captcha
 from portal.views.teacher.teach import (
@@ -208,13 +212,7 @@ class TestLoginViews(TestCase):
             url = reverse("student_login", kwargs={"access_code": class_access_code})
 
         c = Client()
-        response = c.post(
-            url,
-            {
-                "username": name,
-                "password": password,
-            },
-        )
+        response = c.post(url, {"username": name, "password": password})
         return response, c
 
     def test_teacher_login_redirect(self):
@@ -228,7 +226,7 @@ class TestLoginViews(TestCase):
     def test_teacher_session(self):
         email, password, _, _, _ = self._set_up_test_data()
         c = Client()
-        response = c.post(
+        c.post(
             reverse("teacher_login"),
             {
                 "auth-username": email,
@@ -253,13 +251,7 @@ class TestLoginViews(TestCase):
 
         c = Client()
         url = reverse("student_login", kwargs={"access_code": class_access_code})
-        response = c.post(
-            url,
-            {
-                "username": name,
-                "password": password,
-            },
-        )
+        c.post(url, {"username": name, "password": password})
         # check if there's a UserSession data within the last minute
         now = timezone.now()
         oneminago = now - timedelta(minutes=1)
@@ -279,13 +271,7 @@ class TestLoginViews(TestCase):
         username, password, student = create_independent_student_directly()
         c = Client()
         url = reverse("independent_student_login")
-        response = c.post(
-            url,
-            {
-                "username": username,
-                "password": password,
-            },
-        )
+        c.post(url, {"username": username, "password": password})
         # check if there's a UserSession data within the last minute
         now = timezone.now()
         oneminago = now - timedelta(minutes=1)
@@ -380,3 +366,101 @@ class TestViews(TestCase):
         page_url = reverse("contribute")
         response = c.get(page_url)
         assert response.status_code == 200
+
+    def test_student_dashboard_view(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        klass, _, class_access_code = create_class_directly(teacher_email)
+        student_name, student_password, student = create_school_student_directly(
+            class_access_code
+        )
+
+        # Expected context data when a student hasn't played anything yet
+        EXPECTED_DATA_FIRST_LOGIN = {
+            "num_completed": 0,
+            "num_top_scores": 0,
+            "total_score": 0,
+            "total_available_score": 2070,
+        }
+
+        # Expected context data when a student has attempted some RR levels
+        EXPECTED_DATA_WITH_ATTEMPTS = {
+            "num_completed": 2,
+            "num_top_scores": 1,
+            "total_score": 39,
+            "total_available_score": 2070,
+        }
+
+        # Expected context data when a student has also attempted some custom RR levels
+        EXPECTED_DATA_WITH_CUSTOM_ATTEMPTS = {
+            "num_completed": 2,
+            "num_top_scores": 1,
+            "total_score": 39,
+            "total_available_score": 2070,
+            "total_custom_score": 10,
+            "total_custom_available_score": 20,
+        }
+
+        # Expected context data when a student also has access to a Kurono game
+        EXPECTED_DATA_WITH_KURONO_GAME = {
+            "num_completed": 2,
+            "num_top_scores": 1,
+            "total_score": 39,
+            "total_available_score": 2070,
+            "total_custom_score": 10,
+            "total_custom_available_score": 20,
+            "worksheet_id": 3,
+            "worksheet_image": "images/worksheets/ancient.jpg",
+        }
+
+        c = Client()
+
+        # Login and check initial data
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
+        c.post(url, {"username": student_name, "password": student_password})
+
+        student_dashboard_url = reverse("student_details")
+        response = c.get(student_dashboard_url)
+
+        assert response.status_code == 200
+        assert response.context_data == EXPECTED_DATA_FIRST_LOGIN
+
+        # Attempt the first two levels, one perfect attempt, one not
+        level1 = Level.objects.get(name="1")
+        level2 = Level.objects.get(name="2")
+
+        create_attempt(student, level1, 20)
+        create_attempt(student, level2, 19)
+
+        response = c.get(student_dashboard_url)
+
+        assert response.status_code == 200
+        assert response.context_data == EXPECTED_DATA_WITH_ATTEMPTS
+
+        # Teacher creates 3 custom levels, only shares the first 2 with the student.
+        # Check that the total available score only includes the levels shared with the
+        # student. Student attempts one level only.
+        custom_level1_id = create_save_level(student.class_field.teacher)
+        custom_level2_id = create_save_level(student.class_field.teacher)
+        create_save_level(student.class_field.teacher)
+        custom_level1 = Level.objects.get(id=custom_level1_id)
+        custom_level2 = Level.objects.get(id=custom_level2_id)
+
+        student.new_user.shared.add(custom_level1, custom_level2)
+        student.new_user.save()
+
+        create_attempt(student, custom_level2, 10)
+
+        response = c.get(student_dashboard_url)
+
+        assert response.status_code == 200
+        assert response.context_data == EXPECTED_DATA_WITH_CUSTOM_ATTEMPTS
+
+        # Link Kurono game to student's class
+        game = Game(game_class=klass, worksheet=Worksheet.objects.get(id=3))
+        game.save()
+
+        response = c.get(student_dashboard_url)
+
+        assert response.status_code == 200
+        assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
