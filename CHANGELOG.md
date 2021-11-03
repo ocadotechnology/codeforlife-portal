@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.15.0 (2021-11-03)
+### Feature
+* About us page update ([#1603](https://github.com/ocadotechnology/codeforlife-portal/issues/1603)) ([`4ccb288`](https://github.com/ocadotechnology/codeforlife-portal/commit/4ccb2880136bb123ed1b3358c3268b89687285ee))
+
 ## v5.14.0 (2021-11-03)
 ### Feature
 * Remove ocado logo from the game ([#1601](https://github.com/ocadotechnology/codeforlife-portal/issues/1601)) ([`cfa4a0f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfa4a0f40cfde3349641fa726dfb261b25026ba0))
