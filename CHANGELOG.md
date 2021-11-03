@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.12.1 (2021-11-03)
+### Fix
+* Fixes for student deletion ([#1600](https://github.com/ocadotechnology/codeforlife-portal/issues/1600)) ([`aac79ea`](https://github.com/ocadotechnology/codeforlife-portal/commit/aac79eae1f51d16b3b209d974372e8a0bb967791))
+
 ## v5.12.0 (2021-10-29)
 ### Feature
 * Redesign student dashboards ([#1598](https://github.com/ocadotechnology/codeforlife-portal/issues/1598)) ([`df873e2`](https://github.com/ocadotechnology/codeforlife-portal/commit/df873e219cc87f2c73a52fea41ca912dc13dbe4a))

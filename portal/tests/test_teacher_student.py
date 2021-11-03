@@ -17,6 +17,7 @@ from common.tests.utils.student import (
     create_many_school_students,
     create_school_student,
     create_school_student_directly,
+    create_student_with_direct_login,
 )
 from common.tests.utils.teacher import signup_teacher_directly
 
@@ -425,9 +426,12 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        student_name, student_password, student = create_school_student_directly(
-            access_code
-        )
+        (
+            student,
+            login_id,
+            student_name,
+            student_password,
+        ) = create_student_with_direct_login(access_code)
 
         # "active student" is one who has logged in
         c = Client()
@@ -448,6 +452,17 @@ class TestTeacherStudent(BaseTest):
         u = User.objects.get(id=student.new_user.id)
         assert u.first_name == "Deleted"
         assert u.is_active == False
+
+        student.refresh_from_db()
+        assert student.login_id == ""
+
+        # try to login as inactive student, it should fail
+        url = f"/u/{student.user.id}/{login_id}/"
+        response = c.get(url)
+
+        # assert redirects to home page (failed to login)
+        assert response.status_code == 302
+        assert response.url == "/"
 
     def test_reset_passwords(self):
         email, password = signup_teacher_directly()
