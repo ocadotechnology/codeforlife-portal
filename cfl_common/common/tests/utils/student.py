@@ -49,7 +49,7 @@ def create_student_with_direct_login(access_code) -> Tuple[Student, str]:
     login_id, hashed_login_id = generate_login_id()
     student = Student.objects.schoolFactory(klass, name, password, hashed_login_id)
 
-    return student, login_id
+    return student, login_id, name, password
 
 
 def create_independent_student_directly(preverified=True):

@@ -134,7 +134,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     """
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
-    students = Student.objects.filter(class_field=klass).order_by(
+    students = Student.objects.filter(class_field=klass, new_user__is_active=True).order_by(
         "new_user__first_name"
     )
 
@@ -284,6 +284,9 @@ def teacher_delete_students(request, access_code):
         user = student.new_user
         if user.last_login:
             __anonymise(user)
+            # remove login id so they can't log in with direct link anymore
+            student.login_id = ""
+            student.save()
         else:  # otherwise, just delete
             student.new_user.delete()
 
