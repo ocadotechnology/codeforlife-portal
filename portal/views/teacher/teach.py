@@ -284,6 +284,9 @@ def teacher_delete_students(request, access_code):
         user = student.new_user
         if user.last_login:
             __anonymise(user)
+            # remove login id so they can't log in with direct link anymore
+            student.login_id = ""
+            student.save()
         else:  # otherwise, just delete
             student.new_user.delete()
 
