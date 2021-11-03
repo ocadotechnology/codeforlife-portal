@@ -283,7 +283,7 @@ class TestLoginViews(TestCase):
 
     def test_student_direct_login(self):
         _, _, _, _, class_access_code = self._set_up_test_data()
-        student, login_id = create_student_with_direct_login(class_access_code)
+        student, login_id, _, _ = create_student_with_direct_login(class_access_code)
 
         c = Client()
         assert c.login(user_id=student.new_user.id, login_id=login_id) == True

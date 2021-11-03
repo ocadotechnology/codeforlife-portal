@@ -146,6 +146,15 @@ blockquote {
 
 .text--brand-tertiary {
   color: $color-tertiary;
+
+.error-page {
+  h2 {
+    @include _margin(30px, 0px, 40px, 0px);
+  }
+
+  h5 {
+    @include _margin(20px, 0px, 20px, 0px);
+  }
 }
 
 @media (min-width: $desktop-large-min-width) {
