@@ -6,7 +6,6 @@ body {
 
 h1 {
   @include _font-size(60px);
-  @include _margin(30px, 0px, 40px, 0px);
   font-weight: 500;
 
   a,
@@ -37,7 +36,6 @@ h4 {
 
 h5 {
   @include _font-size(24px);
-  @include _margin(20px, 0px, 20px, 0px);
   font-weight: 500;
 }
 
@@ -145,6 +143,16 @@ blockquote {
       position: relative;
       text-align: left;
     }
+  }
+}
+
+.error-page {
+  h2 {
+    @include _margin(30px, 0px, 40px, 0px);
+  }
+
+  h5 {
+    @include _margin(20px, 0px, 20px, 0px);
   }
 }
 
