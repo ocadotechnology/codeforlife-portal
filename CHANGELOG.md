@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.14.0 (2021-11-03)
+### Feature
+* Remove ocado logo from the game ([#1601](https://github.com/ocadotechnology/codeforlife-portal/issues/1601)) ([`cfa4a0f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfa4a0f40cfde3349641fa726dfb261b25026ba0))
+
 ## v5.13.0 (2021-11-03)
 ### Feature
 * Redesign lockout page ([#1599](https://github.com/ocadotechnology/codeforlife-portal/issues/1599)) ([`e1bcda2`](https://github.com/ocadotechnology/codeforlife-portal/commit/e1bcda2484b3e0faf5377a198660d31f658d7cc4))
