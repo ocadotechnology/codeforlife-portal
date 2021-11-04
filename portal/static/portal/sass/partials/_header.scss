@@ -153,6 +153,7 @@
     @include _font-size(27px);
     @include _margin(0px, 40px, 0px, 10px);
     color: $color-text-tertiary;
+    font-family: "Space Grotesk", sans-serif;
   }
 }
 
