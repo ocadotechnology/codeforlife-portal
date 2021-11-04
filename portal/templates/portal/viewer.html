@@ -8,7 +8,7 @@
 {% if user|is_logged_in_as_teacher %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <a href="{% url 'materials' %}" class="button button--secondary button--secondary--light">KS1-3 teaching packs</a>
-    <a href="{% url 'kurono_packs' %}#ks1" class="button button--secondary button--secondary--light">KS3-4 teaching packs</a>
+    <a href="{% url 'kurono_packs' %}" class="button button--secondary button--secondary--light">KS3-4 teaching packs</a>
 </div>
 {% endif %}
 
