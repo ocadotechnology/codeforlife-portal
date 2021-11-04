@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.16.1 (2021-11-04)
+### Fix
+* Student navbar and center RR stats ([#1602](https://github.com/ocadotechnology/codeforlife-portal/issues/1602)) ([`9606421`](https://github.com/ocadotechnology/codeforlife-portal/commit/9606421bc36744f7807c0b0574678dcafc3ea915))
+
 ## v5.16.0 (2021-11-04)
 ### Feature
 * Link Kurono resources to Gitbook ([#1604](https://github.com/ocadotechnology/codeforlife-portal/issues/1604)) ([`3195a90`](https://github.com/ocadotechnology/codeforlife-portal/commit/3195a90da2da7bafb5839fa8bd707811220d7d16))
