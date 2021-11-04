@@ -74,6 +74,14 @@ def test_kurono_resources(teacher1: TeacherLoginDetails):
 
     assert response.status_code == 200
 
+    # Test kurono packs redirects to resources
+    kurono_packs_url = reverse("kurono_packs")
+    response = c.get(kurono_packs_url, follow=True)
+
+    assert response.status_code == 200
+    assert len(response.redirect_chain) == 1
+    assert response.redirect_chain[0] == ("/teach/kurono_resources/", 302)
+
 
 # check all the urls are valid and accessible
 def test_pdfs(caplog):
