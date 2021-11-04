@@ -148,6 +148,13 @@
   .dropdown-menu {
     max-width: 350px;
   }
+
+  .menu--title {
+    @include _font-size(27px);
+    @include _margin(0px, 40px, 0px, 10px);
+    color: $color-text-tertiary;
+    font-family: "Space Grotesk", sans-serif;
+  }
 }
 
 @media (min-width: $tablet-large-min-width) {
@@ -305,7 +312,8 @@
       @include _margin($spacing * 3, $spacing, 0px, $spacing);
     }
 
-    .button--menu {
+    .button--menu,
+    .menu--title {
       display: none;
     }
   }

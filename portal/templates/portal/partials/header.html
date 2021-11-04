@@ -43,16 +43,24 @@
                     <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                 {% endif %}
             {% else %}
-                <a href="{% url 'play' %}" class="button--menu button--menu--primary">Student</a>
+                {% if user|is_independent_student %}
+                    <div class="menu--title">Independent</div>
+                {% else %}
+                    <div class="menu--title">Student</div>
+                {% endif %}
+                <a
+                    {% if user|is_independent_student %}
+                        href="{% url 'independent_student_details' %}"
+                    {% else %}
+                        href="{% url 'student_details' %}"
+                    {% endif %}
+                    id="student_dashboard_button"
+                    class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
                 <div class="dropdown">
-                    <a
-                        {% if user|is_independent_student %}
-                            href="{% url 'independent_student_details' %}"
-                        {% else %}
-                            href="{% url 'student_details' %}"
-                        {% endif %}
-                        id="student_dashboard_button"
-                        class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
+                    <a class="button--menu button--menu--secondary button--menu--enabled">
+                        Games
+                        <span class="material-icons-outlined md-32">arrow_drop_down</span>
+                    </a>
                     <div class="dropdown-content">
                         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
                         {% if not user|is_independent_student %}
@@ -61,13 +69,8 @@
                     </div>
                 </div>
                 {% if user|is_logged_in_as_school_user %}
-                <div class="dropdown">
-                    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
-                      class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
-                    </div>
-                </div>
+                <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
+                    class="button--menu button--menu--secondary button--menu--enabled">Scoreboard</a>
                 {% endif %}
                 {% if not user.new_student.class_field %}
                     <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
@@ -172,26 +175,31 @@
                 </div>
             {% else %}
                 <button class="button--menu__item button--menu__item--sub-header"
-                        data-toggle="collapse" data-target="#student-tabs">Student</button>
+                        data-toggle="collapse" data-target="#student-tabs">{% if user|is_independent_student %}Independent{% else %}Student{% endif %}</button>
                 <div id="student-tabs" class="collapse">
-                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
-                            data-toggle="collapse" data-target="#games-tabs">My Games</button>
+                    <a
+                        {% if user|is_independent_student %}
+                            href="{% url 'independent_student_details' %}"
+                        {% else %}
+                            href="{% url 'student_details' %}"
+                        {% endif %}
+                        class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %}">Dashboard</a>
+                    <button class="button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#games-tabs">Games</button>
                     <div id="games-tabs" class="collapse">
-                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                        <a class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item__sub"
                           href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% if not user|is_independent_student %}
                             <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
                               href="{% url_for_aimmo_dashboard %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% endif %}
                     </div>
-                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
-                            data-toggle="collapse" data-target="#scoreboards-tabs">View Scoreboards</button>
-                    <div id="scoreboards-tabs" class="collapse">
-                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                          href="{% url 'scoreboard' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
-                    </div>
-                {% if not user.new_student.class_field %}
+                    {% if user|is_logged_in_as_school_user %}
                     <a class="button button--menu__item button--menu__item--student"
+                        href="{% url 'scoreboard' %}">Scoreboard<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    {% endif %}
+                {% if not user.new_student.class_field %}
+                    <a class="button button--menu__item button--menu__item--independent"
                       href="{% url 'student_join_organisation' %}">Join a school<span class="material-icons-outlined md-32">chevron_right</span></a>
                 {% endif %}
                 </div>

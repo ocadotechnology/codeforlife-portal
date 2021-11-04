@@ -441,6 +441,13 @@ table {
 
   .button--menu__item--student {
     background-color: $color-background-play;
+
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      color: $color-text-secondary;
+    }
   }
 
   .button--menu__item--independent {
