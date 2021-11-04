@@ -58,7 +58,7 @@ def test_materials_viewer_redirect(client: Client, teacher1: TeacherLoginDetails
 
 
 @pytest.mark.django_db
-def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
+def test_kurono_resources(teacher1: TeacherLoginDetails):
     c = Client()
     teacher_login_url = reverse("teacher_login")
     data = {
@@ -69,7 +69,7 @@ def test_student_aimmo_dashboard_loads(teacher1: TeacherLoginDetails):
 
     c.post(teacher_login_url, data)
 
-    kurono_teaching_packs_url = reverse("kurono_packs")
+    kurono_teaching_packs_url = reverse("kurono_teaching_resources")
     response = c.get(kurono_teaching_packs_url)
 
     assert response.status_code == 200
