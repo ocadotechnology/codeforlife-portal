@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.16.0 (2021-11-04)
+### Feature
+* Link Kurono resources to Gitbook ([#1604](https://github.com/ocadotechnology/codeforlife-portal/issues/1604)) ([`3195a90`](https://github.com/ocadotechnology/codeforlife-portal/commit/3195a90da2da7bafb5839fa8bd707811220d7d16))
+
 ## v5.15.0 (2021-11-03)
 ### Feature
 * About us page update ([#1603](https://github.com/ocadotechnology/codeforlife-portal/issues/1603)) ([`4ccb288`](https://github.com/ocadotechnology/codeforlife-portal/commit/4ccb2880136bb123ed1b3358c3268b89687285ee))
