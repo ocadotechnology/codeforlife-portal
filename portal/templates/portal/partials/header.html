@@ -175,7 +175,7 @@
                 </div>
             {% else %}
                 <button class="button--menu__item button--menu__item--sub-header"
-                        data-toggle="collapse" data-target="#student-tabs">Student</button>
+                        data-toggle="collapse" data-target="#student-tabs">{% if user|is_independent_student %}Independent{% else %}Student{% endif %}</button>
                 <div id="student-tabs" class="collapse">
                     <a
                         {% if user|is_independent_student %}
@@ -183,11 +183,11 @@
                         {% else %}
                             href="{% url 'student_details' %}"
                         {% endif %}
-                        class="button button--menu__item button--menu__item--student">Dashboard</a>
-                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
+                        class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %}">Dashboard</a>
+                    <button class="button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item--sub-header"
                             data-toggle="collapse" data-target="#games-tabs">Games</button>
                     <div id="games-tabs" class="collapse">
-                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                        <a class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item__sub"
                           href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% if not user|is_independent_student %}
                             <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
@@ -199,7 +199,7 @@
                         href="{% url 'scoreboard' %}">Scoreboard<span class="material-icons-outlined md-32">chevron_right</span></a>
                     {% endif %}
                 {% if not user.new_student.class_field %}
-                    <a class="button button--menu__item button--menu__item--student"
+                    <a class="button button--menu__item button--menu__item--independent"
                       href="{% url 'student_join_organisation' %}">Join a school<span class="material-icons-outlined md-32">chevron_right</span></a>
                 {% endif %}
                 </div>

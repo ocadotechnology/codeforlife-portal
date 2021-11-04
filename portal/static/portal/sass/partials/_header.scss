@@ -312,7 +312,8 @@
       @include _margin($spacing * 3, $spacing, 0px, $spacing);
     }
 
-    .button--menu {
+    .button--menu,
+    .menu--title {
       display: none;
     }
   }
