@@ -55,11 +55,6 @@ h6 {
   font-weight: 500;
 }
 
-.quote {
-  @include _font-size(24px);
-  font-weight: 500;
-}
-
 a {
   color: $color-text-tertiary;
   text-decoration: underline;
@@ -125,6 +120,7 @@ small {
 
 blockquote {
   border-left: none;
+  padding: 0;
 
   p {
     @include _font-size(20px);
@@ -138,12 +134,18 @@ blockquote {
       @include _font-size(24px);
       @include _line-height(30px);
       font-weight: 500;
-      color: $color-quote-text;
-      padding: 0 0 0 2.5rem;
       position: relative;
       text-align: left;
     }
   }
+}
+
+.text--brand-primary {
+  color: $color-primary;
+}
+
+.text--brand-tertiary {
+  color: $color-tertiary;
 }
 
 .error-page {
