@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.16.2 (2021-11-05)
+### Fix
+* Student dashboard logo link ([#1605](https://github.com/ocadotechnology/codeforlife-portal/issues/1605)) ([`7f69d3e`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f69d3ebefa3b29a0293eb8db3c862514fc5ce91))
+
 ## v5.16.1 (2021-11-04)
 ### Fix
 * Student navbar and center RR stats ([#1602](https://github.com/ocadotechnology/codeforlife-portal/issues/1602)) ([`9606421`](https://github.com/ocadotechnology/codeforlife-portal/commit/9606421bc36744f7807c0b0574678dcafc3ea915))
