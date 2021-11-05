@@ -5,9 +5,20 @@
 <div class="header">
     <div class="menu">
         <div class="menu__brand">
-            <a href="{% url 'home' %}">
-                <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
-            </a>
+            {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                    {# TODO: update teacher home URL when changing its nav #}
+                    <a href="{% url 'home' %}">
+                {% elif user|is_independent_student %}
+                    <a href="{% url 'independent_student_details' %}">
+                {% else %}
+                    <a href="{% url 'student_details' %}">
+                {% endif %}
+            {% else %}
+                <a href="{% url 'home' %}">
+            {% endif %}
+                    <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
+                </a>
             <a class="menu__brand--ocado" target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
                 <img title="Proudly developed by Ocado Group" alt="Proudly developed by Ocado Group"
                 src="{% static 'portal/img/logo_ocado_group.svg' %}">
