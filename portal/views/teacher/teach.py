@@ -75,7 +75,9 @@ def teacher_onboarding_create_class(request):
     Onboarding view for creating a class (and organisation if there isn't one, yet)
     """
     teacher = request.user.new_teacher
-    requests = Student.objects.filter(pending_class_request__teacher=teacher)
+    requests = Student.objects.filter(
+        pending_class_request__teacher=teacher, new_user__is_active=True
+    )
 
     if not teacher.school:
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
@@ -134,9 +136,9 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     """
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
-    students = Student.objects.filter(class_field=klass, new_user__is_active=True).order_by(
-        "new_user__first_name"
-    )
+    students = Student.objects.filter(
+        class_field=klass, new_user__is_active=True
+    ).order_by("new_user__first_name")
 
     check_user_is_authorised(request, klass)
 
@@ -241,7 +243,7 @@ def teacher_delete_class(request, access_code):
     if request.user.new_teacher != klass.teacher:
         raise Http404
 
-    if Student.objects.filter(class_field=klass).exists():
+    if Student.objects.filter(class_field=klass, new_user__is_active=True).exists():
         messages.info(
             request,
             "This class still has students, please remove or delete them all before deleting the class.",
@@ -716,9 +718,9 @@ def teacher_move_students_to_class(request, access_code):
     ]
 
     # get new class' students
-    new_class_students = Student.objects.filter(class_field=new_class).order_by(
-        "new_user__first_name"
-    )
+    new_class_students = Student.objects.filter(
+        class_field=new_class, new_user__is_active=True
+    ).order_by("new_user__first_name")
 
     TeacherMoveStudentDisambiguationFormSet = formset_factory(
         wraps(TeacherMoveStudentDisambiguationForm)(
