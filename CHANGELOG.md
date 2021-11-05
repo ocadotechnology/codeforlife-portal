@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v5.16.3 (2021-11-05)
+### Fix
+* Class deletion ([`5ef4f0a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5ef4f0a32f20544e7adb8c5c7d99e23ba24b27aa))
+* About us image ([#1620](https://github.com/ocadotechnology/codeforlife-portal/issues/1620)) ([`324ec08`](https://github.com/ocadotechnology/codeforlife-portal/commit/324ec089a2f693301bcdd777bc0b23bb3314f11a))
+
 ## v5.16.2 (2021-11-05)
 ### Fix
 * Student dashboard logo link ([#1605](https://github.com/ocadotechnology/codeforlife-portal/issues/1605)) ([`7f69d3e`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f69d3ebefa3b29a0293eb8db3c862514fc5ce91))
