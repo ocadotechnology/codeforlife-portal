@@ -1,4 +1,5 @@
-from common.models import UserSession, Student
+from common.models import UserSession, Student, Class
+from django import forms
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, FormView
@@ -25,12 +26,14 @@ class StudentClassCodeView(FormView):
     def get_success_url(self):
         class_code = self.form.cleaned_data["access_code"]
         return reverse_lazy(
-            "student_login",
+            "student_login_form",
             kwargs={"access_code": class_code},
         )
 
 
 class StudentLoginView(LoginView):
+    """View for login with class link"""
+
     template_name = "portal/login/student.html"
     form_class = StudentLoginForm
     success_url = reverse_lazy("student_details")
@@ -62,6 +65,40 @@ class StudentLoginView(LoginView):
 
         return self.success_url
 
+    def _add_login_data(self, form, login_type):
+        class_code = self.kwargs["access_code"]
+        classes = Class.objects.filter(access_code__iexact=class_code)
+        if len(classes) != 1:
+            raise forms.ValidationError("Invalid class code")
+        klass = classes[0]
+
+        name = form.cleaned_data.get("username")
+        students = Student.objects.filter(
+            new_user__first_name__iexact=name, class_field=klass
+        )
+        if len(students) != 1:
+            raise forms.ValidationError("Name and class not found")
+        student = students[0]
+
+        # Log the login time, class, and login type
+        session = UserSession(
+            user=student.new_user, class_field=klass, login_type=login_type
+        )
+        session.save()
+
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        self._add_login_data(form, "classlink")
+        return super(StudentLoginView, self).form_valid(form)
+
+
+class StudentLoginFormView(StudentLoginView):
+    """View for login with class form"""
+
+    def form_valid(self, form):
+        self._add_login_data(form, "classform")
+        return super(StudentLoginView, self).form_valid(form)
+
 
 def student_direct_login(request, user_id, login_id):
     """Direct login for student with unique url without username and password"""
@@ -70,7 +107,9 @@ def student_direct_login(request, user_id, login_id):
     if user:
         # Log the login time and class
         student = Student.objects.get(new_user=user)
-        session = UserSession(user=user, class_field=student.class_field)
+        session = UserSession(
+            user=user, class_field=student.class_field, login_type="direct"
+        )
         session.save()
 
         login(request, user)
