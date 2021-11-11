@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.17.0 (2021-11-11)
+### Feature
+* Add login type to user session data ([#1622](https://github.com/ocadotechnology/codeforlife-portal/issues/1622)) ([`84afb5b`](https://github.com/ocadotechnology/codeforlife-portal/commit/84afb5be1373fde7493375fad208863c3d9af895))
+
 ## v5.16.3 (2021-11-05)
 ### Fix
 * Class deletion ([`5ef4f0a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5ef4f0a32f20544e7adb8c5c7d99e23ba24b27aa))
