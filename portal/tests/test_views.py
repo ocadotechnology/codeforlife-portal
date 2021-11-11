@@ -266,7 +266,8 @@ class TestLoginViews(TestCase):
         assert resp.status_code == 302
         nexturl = resp.url
         assert nexturl == reverse(
-            "student_login_form", kwargs={"access_code": class_access_code}
+            "student_login",
+            kwargs={"access_code": class_access_code, "login_type": "classform"},
         )
         c.post(nexturl, {"username": name, "password": password})
 

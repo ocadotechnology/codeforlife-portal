@@ -54,7 +54,6 @@ from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import (
     StudentLoginView,
-    StudentLoginFormView,
     StudentClassCodeView,
     student_direct_login,
 )
@@ -219,14 +218,9 @@ urlpatterns = [
         name="teacher_login",
     ),
     url(
-        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/$",
+        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:/(?P<login_type>classform)/)?$",
         StudentLoginView.as_view(),
         name="student_login",
-    ),
-    url(
-        rf"^login/student/classform/(?P<access_code>{ACCESS_CODE_REGEX})/$",
-        StudentLoginFormView.as_view(),
-        name="student_login_form",
     ),
     url(
         r"^login/student/$",

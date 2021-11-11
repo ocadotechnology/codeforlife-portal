@@ -26,8 +26,8 @@ class StudentClassCodeView(FormView):
     def get_success_url(self):
         class_code = self.form.cleaned_data["access_code"]
         return reverse_lazy(
-            "student_login_form",
-            kwargs={"access_code": class_code},
+            "student_login",
+            kwargs={"access_code": class_code, "login_type": "classform"},
         )
 
 
@@ -66,18 +66,15 @@ class StudentLoginView(LoginView):
         return self.success_url
 
     def _add_login_data(self, form, login_type):
+        # class and student have been validated by this point
         class_code = self.kwargs["access_code"]
         classes = Class.objects.filter(access_code__iexact=class_code)
-        if len(classes) != 1:
-            raise forms.ValidationError("Invalid class code")
         klass = classes[0]
 
         name = form.cleaned_data.get("username")
         students = Student.objects.filter(
             new_user__first_name__iexact=name, class_field=klass
         )
-        if len(students) != 1:
-            raise forms.ValidationError("Name and class not found")
         student = students[0]
 
         # Log the login time, class, and login type
@@ -88,15 +85,12 @@ class StudentLoginView(LoginView):
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-        self._add_login_data(form, "classlink")
-        return super(StudentLoginView, self).form_valid(form)
 
+        login_type = self.kwargs["login_type"]
+        if not login_type:
+            login_type = "classlink"  # default if not specified
 
-class StudentLoginFormView(StudentLoginView):
-    """View for login with class form"""
-
-    def form_valid(self, form):
-        self._add_login_data(form, "classform")
+        self._add_login_data(form, login_type)
         return super(StudentLoginView, self).form_valid(form)
 
 
