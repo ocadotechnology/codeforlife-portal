@@ -303,6 +303,22 @@ class TestLoginViews(TestCase):
         assert q[0].class_field == klass
         assert q[0].login_type == "classlink"
 
+    def test_student_login_failed(self):
+        """Failed login via class link"""
+        _, _, name, password, class_access_code = self._set_up_test_data()
+        randomname = "randomname"
+
+        c = Client()
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
+        resp = c.post(url, {"username": randomname, "password": "xx"})
+
+        # check if there's a UserSession data within the last 10 secs
+        now = timezone.now()
+        markedtime = now - timedelta(seconds=10)
+
+        q = UserSession.objects.filter(login_time__range=(markedtime, now))
+        assert len(q) == 0  # login data not found
+
     def test_indep_student_session(self):
         username, password, student = create_independent_student_directly()
         c = Client()
