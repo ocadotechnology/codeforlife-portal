@@ -246,26 +246,78 @@ class TestLoginViews(TestCase):
         teacher = Teacher.objects.get(new_user=user)
         assert q[0].school == teacher.school
 
-    def test_student_session(self):
-        _, _, name, password, class_access_code = self._set_up_test_data()
-
-        c = Client()
-        url = reverse("student_login", kwargs={"access_code": class_access_code})
-        c.post(url, {"username": name, "password": password})
-        # check if there's a UserSession data within the last minute
-        now = timezone.now()
-        oneminago = now - timedelta(minutes=1)
-
+    def _get_user_class(self, name, class_access_code):
         klass = Class.objects.get(access_code=class_access_code)
         students = Student.objects.filter(
             new_user__first_name__iexact=name, class_field=klass
         )
         assert len(students) == 1
         user = students[0].new_user
+        return user, klass
+
+    def test_student_session_class_form(self):
+        """Login via class form"""
+        _, _, name, password, class_access_code = self._set_up_test_data()
+        c = Client()
+
+        resp = c.post(
+            reverse("student_login_access_code"), {"access_code": class_access_code}
+        )
+        assert resp.status_code == 302
+        nexturl = resp.url
+        assert nexturl == reverse(
+            "student_login",
+            kwargs={"access_code": class_access_code, "login_type": "classform"},
+        )
+        c.post(nexturl, {"username": name, "password": password})
+
+        # check if there's a UserSession data within the last 10 secs
+        now = timezone.now()
+        markedtime = now - timedelta(seconds=10)
+
+        user, klass = self._get_user_class(name, class_access_code)
+
         q = UserSession.objects.filter(user=user)
-        q = q.filter(login_time__range=(oneminago, now))
+        q = q.filter(login_time__range=(markedtime, now))
         assert len(q) == 1
         assert q[0].class_field == klass
+        assert q[0].login_type == "classform"
+
+    def test_student_session_class_link(self):
+        """Login via class link"""
+        _, _, name, password, class_access_code = self._set_up_test_data()
+
+        c = Client()
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
+        c.post(url, {"username": name, "password": password})
+
+        # check if there's a UserSession data within the last 10 secs
+        now = timezone.now()
+        markedtime = now - timedelta(seconds=10)
+
+        user, klass = self._get_user_class(name, class_access_code)
+
+        q = UserSession.objects.filter(user=user)
+        q = q.filter(login_time__range=(markedtime, now))
+        assert len(q) == 1
+        assert q[0].class_field == klass
+        assert q[0].login_type == "classlink"
+
+    def test_student_login_failed(self):
+        """Failed login via class link"""
+        _, _, name, password, class_access_code = self._set_up_test_data()
+        randomname = "randomname"
+
+        c = Client()
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
+        resp = c.post(url, {"username": randomname, "password": "xx"})
+
+        # check if there's a UserSession data within the last 10 secs
+        now = timezone.now()
+        markedtime = now - timedelta(seconds=10)
+
+        q = UserSession.objects.filter(login_time__range=(markedtime, now))
+        assert len(q) == 0  # login data not found
 
     def test_indep_student_session(self):
         username, password, student = create_independent_student_directly()
@@ -308,6 +360,7 @@ class TestLoginViews(TestCase):
         assert len(q) == 1
         klass = Class.objects.get(access_code=class_access_code)
         assert q[0].class_field == klass
+        assert q[0].login_type == "direct"
 
     def test_teacher_already_logged_in_login_page_redirect(self):
         _, c = self._create_and_login_teacher()

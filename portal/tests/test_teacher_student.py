@@ -435,10 +435,8 @@ class TestTeacherStudent(BaseTest):
 
         # "active student" is one who has logged in
         c = Client()
-        c.post(
-            f"/login/student/{access_code}",
-            {"username": student_name, "password": student_password},
-        )
+        url = reverse("student_login", kwargs={"access_code": access_code})
+        c.post(url, {"username": student_name, "password": student_password})
 
         # teacher login
         c.login(username=email, password=password)

@@ -218,7 +218,7 @@ urlpatterns = [
         name="teacher_login",
     ),
     url(
-        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})$",
+        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
         StudentLoginView.as_view(),
         name="student_login",
     ),
