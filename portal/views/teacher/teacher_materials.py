@@ -1,13 +1,10 @@
-from builtins import range
-from builtins import str
+from builtins import range, str
 
-from aimmo.models import Worksheet
 from common.permissions import logged_in_as_teacher
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-
-from portal.strings.kurono_teaching_packs import KURONO_TEACHING_PACKS_BANNER
 from portal.strings.materials import MATERIALS_BANNER
 from portal.views.teacher.pdfs import PDF_DATA
 
@@ -183,12 +180,4 @@ def update_session_number_based_on_key_stage(key_stage_name):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def kurono_teaching_packs(request):
-    worksheets = Worksheet.objects.all()
-    return render(
-        request,
-        "portal/teach/kurono_teaching_packs.html",
-        {
-            "worksheets": worksheets,
-            "KURONO_TEACHING_PACKS_BANNER": KURONO_TEACHING_PACKS_BANNER,
-        },
-    )
+    return HttpResponseRedirect(reverse_lazy("kurono_teaching_resources"))

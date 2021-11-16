@@ -35,6 +35,10 @@ def logged_in_as_independent_student(u):
     return logged_in_as_student(u) and u.userprofile.student.is_independent()
 
 
+def logged_in_as_school_student(u):
+    return logged_in_as_student(u) and not u.userprofile.student.is_independent()
+
+
 def not_logged_in(u):
     try:
         if u.userprofile:

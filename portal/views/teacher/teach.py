@@ -75,7 +75,9 @@ def teacher_onboarding_create_class(request):
     Onboarding view for creating a class (and organisation if there isn't one, yet)
     """
     teacher = request.user.new_teacher
-    requests = Student.objects.filter(pending_class_request__teacher=teacher)
+    requests = Student.objects.filter(
+        pending_class_request__teacher=teacher, new_user__is_active=True
+    )
 
     if not teacher.school:
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
@@ -97,7 +99,7 @@ def teacher_onboarding_create_class(request):
                 )
             )
     else:
-        form = ClassCreationForm(initial={"classmate_progress": "False"})
+        form = ClassCreationForm()
 
     classes = Class.objects.filter(teacher=teacher)
 
@@ -109,9 +111,7 @@ def teacher_onboarding_create_class(request):
 
 
 def create_class(form, teacher):
-    classmate_progress = False
-    if form.cleaned_data["classmate_progress"] == "True":
-        classmate_progress = True
+    classmate_progress = bool(form.cleaned_data["classmate_progress"])
     klass = Class.objects.create(
         name=form.cleaned_data["class_name"],
         teacher=teacher,
@@ -136,9 +136,9 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     """
     klass = get_object_or_404(Class, access_code=access_code)
     teacher = request.user.new_teacher
-    students = Student.objects.filter(class_field=klass).order_by(
-        "new_user__first_name"
-    )
+    students = Student.objects.filter(
+        class_field=klass, new_user__is_active=True
+    ).order_by("new_user__first_name")
 
     check_user_is_authorised(request, klass)
 
@@ -243,7 +243,7 @@ def teacher_delete_class(request, access_code):
     if request.user.new_teacher != klass.teacher:
         raise Http404
 
-    if Student.objects.filter(class_field=klass).exists():
+    if Student.objects.filter(class_field=klass, new_user__is_active=True).exists():
         messages.info(
             request,
             "This class still has students, please remove or delete them all before deleting the class.",
@@ -272,9 +272,25 @@ def teacher_delete_students(request, access_code):
         get_object_or_404(Student, id=i, class_field=klass) for i in student_ids
     ]
 
+    def __anonymise(user):
+        # Delete all personal data from inactive user and mark as inactive.
+        # Student only has random username, password, first_name
+        user.first_name = "Deleted"
+        user.last_name = "User"
+        user.is_active = False
+        user.save()
+
     # Delete all of the students
     for student in students:
-        student.new_user.delete()
+        # If the student has previously logged in, anonymise
+        user = student.new_user
+        if user.last_login:
+            __anonymise(user)
+            # remove login id so they can't log in with direct link anymore
+            student.login_id = ""
+            student.save()
+        else:  # otherwise, just delete
+            student.new_user.delete()
 
     return HttpResponseRedirect(
         reverse_lazy("view_class", kwargs={"access_code": access_code})
@@ -702,9 +718,9 @@ def teacher_move_students_to_class(request, access_code):
     ]
 
     # get new class' students
-    new_class_students = Student.objects.filter(class_field=new_class).order_by(
-        "new_user__first_name"
-    )
+    new_class_students = Student.objects.filter(
+        class_field=new_class, new_user__is_active=True
+    ).order_by("new_user__first_name")
 
     TeacherMoveStudentDisambiguationFormSet = formset_factory(
         wraps(TeacherMoveStudentDisambiguationForm)(

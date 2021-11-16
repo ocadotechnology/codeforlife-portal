@@ -64,9 +64,10 @@ $column--icon-width: 3%;
   }
 
   .card__image {
+    border-radius: 4px 4px 0 0;
     display: block;
     margin: auto;
-    border-radius: 4px;
+    object-fit: cover;
   }
 
   .card__thumbnail {
@@ -123,7 +124,6 @@ $column--icon-width: 3%;
     @include _column-gap($spacing * 10);
     display: grid;
     grid-auto-flow: column;
-    grid-template: auto auto auto / auto;
 
     img {
       min-height: 240px;

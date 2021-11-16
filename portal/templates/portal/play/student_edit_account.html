@@ -54,7 +54,13 @@
         </div>
 
         <div class="button-group">
-            <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'student_details' %}">Cancel</a>
+            <a id="cancel_button" class="button button--secondary button--secondary--dark"
+                {% if user.new_student.class_field %}
+                    href="{% url 'student_details' %}"
+                {% else %}
+                    href="{% url 'independent_student_details' %}"
+                {% endif %}
+            >Cancel</a>
             <input id="update_button" type="submit" class="button button--primary" value="Update"/>
         </div>
     </form>

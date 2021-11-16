@@ -15,28 +15,35 @@
 {% if teacher.pending_join_request %}
 <div id="onboarding_revoke_request_page"></div>
 
-<div class="background background--primary">
-    <div class="col-sm-6 col-center">
-        <section>
-            <h4>Join a school</h4><br>
-        </section>
-        <h6>You have a pending request to join <b>{{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}</b>.<br>Once the administrator of your school or club has approved your request you will be able
-            to continue.</h6>
-    </div>
-    <div class="col-sm-6 col-center">
-        <p>Please note: You may only have one request to join a school or club at a time. If you wish to join another school or club, you must revoke
-            your pending request first.</p><br>
-        <form id="revoke_form" method="post">
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            <h4>Join an existing school or club</h4>
 
-            {% csrf_token %}
+            <p class="text-danger">
+                <b>
+                    You have a pending request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}.<br>
+                    Once the administrator of your school or club has approved your request, you will be able to continue.
+                </b>
+            </p>
 
-            <div class="section group">
-                <button class="button button--secondary button--secondary--dark button--icon" type="submit"
-                    name="revoke_join_request">Revoke request to {{ teacher.pending_join_request.name }}<span class="iconify" data-icon="mdi:block"></span>
-                </button>
-            </div>
+            <p>
+                Please note: You may only have one request to join a school or club at a time. If you wish to join
+                another school or club, you must withdraw your pending request first.
+            </p>
 
-        </form>
+            <form id="revoke_form" method="post" class="p-0">
+
+                {% csrf_token %}
+
+                <div class="section group">
+                    <button class="button button--primary" type="submit"
+                        name="revoke_join_request">Withdraw request
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
 {% else %}
@@ -50,92 +57,121 @@
     </div>
 </div>
 {% else %}
-<div class="background background--primary">
-    <div class="form col-sm-4 col-center">
-        <ul class="tab">
-            <li>
-                <a href="javascript:void(0)" class="tablinks" id="defaultOpen" onclick="openForm(event, 'Create')">Create a school or club</a>
-                <img id="left-arrow" src="{% static 'portal/img/form_chooser_arrow.png' %}">
-            </li>
-            <li>
-                <a href="javascript:void(0)" class="tablinks" id="join-tab" onclick="openForm(event, 'Join')">Join a school or club</a>
-                <img id="right-arrow" src="{% static 'portal/img/form_chooser_arrow.png' %}">
-            </li>
-        </ul>
-        <div id="Create" class="tabcontent">
-            <form id="form-create-organisation" method="post">
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            <div id="create-header">
+                <div class="d-flex justify-content-between align-items-end">
+                    <h4>Create a school or club</h4>
+                    <a id="join-button" class="button button--secondary button--secondary--dark" href="#join" aria-controls="join" role="tab" data-toggle="tab">
+                        <div class="d-flex align-items-center">
+                            <div>Join an existing school</div>
+                            <span class="iconify ml-3" data-icon="mdi:arrow-right"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div id="join-header" class="hidden">
+                <div class="d-flex justify-content-between align-items-end">
+                    <h4>Join an existing school or club</h4>
+                    <a id="create-button" class="button button--secondary button--secondary--dark" href="#create" aria-controls="create" role="tab" data-toggle="tab">
+                        <div class="d-flex align-items-center">
+                            <span class="iconify mr-3" data-icon="mdi:arrow-left"></span>
+                            <div>Create a school or club</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-                {% csrf_token %}
+            <p class="mb-3">Progress &lt; 1 of 4 &gt;</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                    <span class="sr-only">25% Complete</span>
+                </div>
+            </div>
 
-                {{ create_form.non_field_errors }}
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="create">
+                    <p>As the first person from your school or club to register for Code for Life, by default, you become the organisation's administrator.</p>
 
-                {% for field in create_form %}
-                <label for="id_{{ field.name }}">{{ field.label }}</label>
-                {{ field }}
-                {{ field.errors }}
-                {% endfor %}
+                    <form id="form-create-organisation" method="post">
 
-                <div class="section group">
-                    <button type="submit" class="button button--primary" name="create_organisation">Create school or club</button>
+                        {% csrf_token %}
+
+                        {{ create_form.non_field_errors }}
+
+                        {% for field in create_form %}
+                            <div class="row form--row">
+                                <div class="form--row__input col-sm-6 col-xs-12">
+                                    <div class="input--icon">
+                                        {{ field }}
+                                        {% if not field == create_form.country %}
+                                            <span class="iconify" data-icon="mdi:domain"></span>
+                                        {% endif %}
+                                    </div>
+                                    <small>{{ field.help_text }}</small>
+                                    {{ field.errors }}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="section group">
+                            <button type="submit" class="button button--primary" name="create_organisation">Create school or club</button>
+                        </div>
+
+                    </form>
                 </div>
 
-            </form>
-        </div>
-        <div id="Join" class="tabcontent">
-            <form id="form-join-organisation" method="post">
+                <div role="tabpanel" class="tab-pane" id="join">
+                    <p>You can search for your school or club by name and/or postcode below. A request will be sent to the school or club administrator for processing.</p>
+                    <form id="form-join-organisation" method="post">
 
-                {% csrf_token %}
+                        {% csrf_token %}
 
-                {{ join_form.non_field_errors }}
+                        {{ join_form.non_field_errors }}
 
-                <label for="id_{{ join_form.fuzzy_name.html_name }}">{{ join_form.fuzzy_name.label }}</label>
-                {{ join_form.fuzzy_name }}
-                {{ join_form.fuzzy_name.errors }}
+                        <div class="row form--row">
+                            <div class="form--row__input col-md-6 col-sm-9 col-xs-12">
+                                <div class="input--icon">
+                                    {{ join_form.fuzzy_name }}
+                                    <span class="iconify" data-icon="mdi:magnify"></span>
+                                </div>
+                                <small>{{ join_form.fuzzy_name.help_text }}</small>
+                                {{ join_form.fuzzy_name.errors }}
+                            </div>
+                        </div>
+                        <div class="row form--row">
+                            <div class="form--row__input col-md-6 col-sm-9 col-xs-12">
+                                <div class="input--icon">
+                                    {{ join_form.chosen_org }}
+                                </div>
+                                <small>{{ join_form.chosen_org.help_text }}</small>
+                                {{ join_form.chosen_org.errors }}
+                            </div>
+                        </div>
 
-                <label for="id_{{ join_form.chosen_org.html_name }}">{{ join_form.chosen_org.label }}</label>
-                {{ join_form.chosen_org }}
-                {{ join_form.chosen_org.errors }}
+                        <div class="section group">
+                            <button type="submit" class="button button--primary" name="join_organisation">Join school or club</button>
+                        </div>
 
-                <div class="section group">
-                    <button type="submit" class="button button--primary" name="join_organisation">Join school or club</button>
+                    </form>
                 </div>
-
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById("defaultOpen").click();
-
-    function openForm(evt, formName) {
-        // Declare all variables
-        var i, tabcontent, tablinks;
-
-        // Get all elements with class="tabcontent" and hide them
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        // Show the current tab, and add an "active" class to the link that opened the tab
-        document.getElementById(formName).style.display = "block";
-        evt.currentTarget.className += " active";
-
-        if (formName == "Create" )  {
-            document.getElementById("left-arrow").style.display = "block";
-            document.getElementById("right-arrow").style.display = "none";
-        } else {
-            document.getElementById("left-arrow").style.display = "none";
-            document.getElementById("right-arrow").style.display = "block";
-        }
-    }
+    $('#join-button').on('show.bs.tab', function() {
+        // hide create header and show join header
+        $('#create-header').addClass('hidden')
+        $('#join-header').removeClass('hidden')
+    })
+    $('#create-button').on('show.bs.tab', function() {
+        // hide join header and show create header
+        $('#join-header').addClass('hidden')
+        $('#create-header').removeClass('hidden')
+    })
 </script>
 {% endif %}
 {% endif %}

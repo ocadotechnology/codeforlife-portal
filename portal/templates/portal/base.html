@@ -48,6 +48,7 @@
     <script type="text/javascript" src="{% static 'portal/js/deleteWorkspaces.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/lib/jquery.colorbox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/lib/papaparse.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
     <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"
             integrity="sha256-pRhh6noOilGT8GyGitRuoRwdp5k1p8QJW2lvyGz4B9M="
@@ -118,14 +119,21 @@
         <div class="sub-nav--message">
             {% for message in messages %}
             <div class="sub-nav {{ message.tags }}">
-                {% if 'error' in message.tags or 'warning' in message.tags %}
-                    <span class="material-icons-outlined md-32">error</span>
-                {% else %}
-                    <span class="material-icons-outlined md-32">info</span>
-                {% endif %}
-                <p>
-                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</p>
-                <a class="x-icon"><span class="material-icons-outlined">close</span></a>
+                <div class="container">
+                    <div class="row">
+                        <div class="d-flex col-sm-12 align-items-center">
+                            {% if 'error' in message.tags or 'warning' in message.tags %}
+                                <span class="material-icons-outlined md-32">error</span>
+                            {% else %}
+                                <span class="material-icons-outlined md-32">info</span>
+                            {% endif %}
+                            <p class="flex-grow-1">
+                                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                            </p>
+                            <a class="x-icon"><span class="sr-only">Close</span> <span class="iconify" data-icon="mdi:close"></span></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -159,6 +167,8 @@
 
 {% block scripts %}
 <script>
+    let bannerHeight;
+
     $(function() {
         $('input, textarea').placeholder();
     });
@@ -202,13 +212,11 @@
     }
 
     $(document).ready(function() {
-        let bannerHeight = $('.sticky-subnav').height();
-        if(bannerHeight) {
-            animateScroll(bannerHeight);
+        bannerHeight = $('.sticky-subnav').height();
+        if(!bannerHeight) {
+            bannerHeight = $('.menu').height() * 1.25
         }
-        else {
-            animateScroll($('.menu').height() * 1.25);
-        }
+        animateScroll(bannerHeight);
     });
 
     $(window).on('scroll', function() {

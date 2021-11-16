@@ -62,15 +62,15 @@
 <div class="background--primary">
     <section class="background col-sm-8 col-center">
         <h4>Teaching resources</h4>
-        <p>A set of individual and collaborative worksheets keep the students engaged and having fun whilst embedding
-            important Python skills, supported by lesson guides and resource sheets.</p>
+        <p>
+            We have moved our resources to Gitbook. There you will find a set of individual and collaborative
+            worksheets that keep the students engaged and having fun whilst embedding important Python skills,
+            supported by lesson guides and resource sheets.
+        </p>
         <div class="background button-group button-group__icon">
-            <a href="{% url 'kurono_packs' %}" class="button button--primary button-right-arrow">
-                View Kurono teaching packs
-            </a>
-            <a href="{{ 'kurono/latest/kurono.zip'|cloud_storage }}"
-                onclick='send_event("kurono/latest/kurono.zip", "Downloaded");'
-                class="button button--primary button--icon">Download all resources<span class="iconify" data-icon="mdi:tray-arrow-down"></span>
+            <a href="{{ teacher_resources_url }}"
+              class="button button--primary button--icon" target="_blank">
+                Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
             </a>
         </div>
     </section>

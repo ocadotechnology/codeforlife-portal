@@ -2,6 +2,71 @@
 
 <!--next-version-placeholder-->
 
+## v5.17.0 (2021-11-11)
+### Feature
+* Add login type to user session data ([#1622](https://github.com/ocadotechnology/codeforlife-portal/issues/1622)) ([`84afb5b`](https://github.com/ocadotechnology/codeforlife-portal/commit/84afb5be1373fde7493375fad208863c3d9af895))
+
+## v5.16.3 (2021-11-05)
+### Fix
+* Class deletion ([`5ef4f0a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5ef4f0a32f20544e7adb8c5c7d99e23ba24b27aa))
+* About us image ([#1620](https://github.com/ocadotechnology/codeforlife-portal/issues/1620)) ([`324ec08`](https://github.com/ocadotechnology/codeforlife-portal/commit/324ec089a2f693301bcdd777bc0b23bb3314f11a))
+
+## v5.16.2 (2021-11-05)
+### Fix
+* Student dashboard logo link ([#1605](https://github.com/ocadotechnology/codeforlife-portal/issues/1605)) ([`7f69d3e`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f69d3ebefa3b29a0293eb8db3c862514fc5ce91))
+
+## v5.16.1 (2021-11-04)
+### Fix
+* Student navbar and center RR stats ([#1602](https://github.com/ocadotechnology/codeforlife-portal/issues/1602)) ([`9606421`](https://github.com/ocadotechnology/codeforlife-portal/commit/9606421bc36744f7807c0b0574678dcafc3ea915))
+
+## v5.16.0 (2021-11-04)
+### Feature
+* Link Kurono resources to Gitbook ([#1604](https://github.com/ocadotechnology/codeforlife-portal/issues/1604)) ([`3195a90`](https://github.com/ocadotechnology/codeforlife-portal/commit/3195a90da2da7bafb5839fa8bd707811220d7d16))
+
+## v5.15.0 (2021-11-03)
+### Feature
+* About us page update ([#1603](https://github.com/ocadotechnology/codeforlife-portal/issues/1603)) ([`4ccb288`](https://github.com/ocadotechnology/codeforlife-portal/commit/4ccb2880136bb123ed1b3358c3268b89687285ee))
+
+## v5.14.0 (2021-11-03)
+### Feature
+* Remove ocado logo from the game ([#1601](https://github.com/ocadotechnology/codeforlife-portal/issues/1601)) ([`cfa4a0f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfa4a0f40cfde3349641fa726dfb261b25026ba0))
+
+## v5.13.0 (2021-11-03)
+### Feature
+* Redesign lockout page ([#1599](https://github.com/ocadotechnology/codeforlife-portal/issues/1599)) ([`e1bcda2`](https://github.com/ocadotechnology/codeforlife-portal/commit/e1bcda2484b3e0faf5377a198660d31f658d7cc4))
+
+## v5.12.1 (2021-11-03)
+### Fix
+* Fixes for student deletion ([#1600](https://github.com/ocadotechnology/codeforlife-portal/issues/1600)) ([`aac79ea`](https://github.com/ocadotechnology/codeforlife-portal/commit/aac79eae1f51d16b3b209d974372e8a0bb967791))
+
+## v5.12.0 (2021-10-29)
+### Feature
+* Redesign student dashboards ([#1598](https://github.com/ocadotechnology/codeforlife-portal/issues/1598)) ([`df873e2`](https://github.com/ocadotechnology/codeforlife-portal/commit/df873e219cc87f2c73a52fea41ca912dc13dbe4a))
+
+## v5.11.0 (2021-10-27)
+### Feature
+* Import students from CSV ([#1594](https://github.com/ocadotechnology/codeforlife-portal/issues/1594)) ([`4be94d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/4be94d64c64f92b9b8af864821cc1b5676a62a52))
+
+## v5.10.4 (2021-10-27)
+### Fix
+* Hide account details during onboarding ([#1597](https://github.com/ocadotechnology/codeforlife-portal/issues/1597)) ([`99eb890`](https://github.com/ocadotechnology/codeforlife-portal/commit/99eb8908611877d0188949ae14221c37b295a3ac))
+
+## v5.10.3 (2021-10-27)
+### Fix
+* Smooth scroll to account details ([#1596](https://github.com/ocadotechnology/codeforlife-portal/issues/1596)) ([`90333d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/90333d7a15114df52f4c6213e1ebcdb84cb885ec))
+
+## v5.10.2 (2021-10-27)
+### Fix
+* Close message ([#1595](https://github.com/ocadotechnology/codeforlife-portal/issues/1595)) ([`38b2356`](https://github.com/ocadotechnology/codeforlife-portal/commit/38b2356e6c18c1db51b5b39f3da8e491f0977181))
+
+## v5.10.1 (2021-10-21)
+### Fix
+* Update onboarding pending request page ([#1592](https://github.com/ocadotechnology/codeforlife-portal/issues/1592)) ([`ebc9daa`](https://github.com/ocadotechnology/codeforlife-portal/commit/ebc9daa5f964c40937400e1166e802091982a508))
+
+## v5.10.0 (2021-10-20)
+### Feature
+* Anonymise active student on delete ([#1590](https://github.com/ocadotechnology/codeforlife-portal/issues/1590)) ([`652866e`](https://github.com/ocadotechnology/codeforlife-portal/commit/652866e7ad2fe6b3856b548e4e94a8b90ba8e2e7))
+
 ## v5.9.0 (2021-10-15)
 ### Feature
 * Add school and class data ([#1589](https://github.com/ocadotechnology/codeforlife-portal/issues/1589)) ([`add1f8f`](https://github.com/ocadotechnology/codeforlife-portal/commit/add1f8ffb138451ef6d2e2eb3543ea5b589f8416))

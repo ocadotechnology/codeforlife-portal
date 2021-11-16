@@ -28,6 +28,8 @@ from portal.helpers.ratelimit import (
 )
 from two_factor.utils import devices_for_user
 
+from .teach import create_class
+
 
 def _get_update_account_rate(group, request):
     """
@@ -86,6 +88,8 @@ def dashboard_teacher_view(request, is_admin):
 
     backup_tokens = check_backup_tokens(request)
 
+    show_onboarding_complete = False
+
     if request.method == "POST":
         if can_process_update_school_form(request, is_admin):
             anchor = "school-details"
@@ -98,7 +102,7 @@ def dashboard_teacher_view(request, is_admin):
             anchor = "new-class"
             create_class_form = ClassCreationForm(request.POST)
             if create_class_form.is_valid():
-                created_class = create_class_new(create_class_form, teacher)
+                created_class = create_class(create_class_form, teacher)
                 messages.success(
                     request,
                     "The class '{className}' has been created successfully.".format(
@@ -110,6 +114,9 @@ def dashboard_teacher_view(request, is_admin):
                         "view_class", kwargs={"access_code": created_class.access_code}
                     )
                 )
+
+        elif request.POST.get("show_onboarding_complete") == "1":
+            show_onboarding_complete = True
 
         else:
             anchor = "account"
@@ -158,6 +165,7 @@ def dashboard_teacher_view(request, is_admin):
             "update_account_form": update_account_form,
             "anchor": anchor,
             "backup_tokens": backup_tokens,
+            "show_onboarding_complete": show_onboarding_complete,
         },
     )
 
@@ -208,19 +216,6 @@ def process_update_school_form(request, school, old_anchor):
         anchor = old_anchor
 
     return anchor
-
-
-def create_class_new(form, teacher):
-    classmate_progress = False
-    if form.cleaned_data["classmate_progress"] == "True":
-        classmate_progress = True
-    klass = Class.objects.create(
-        name=form.cleaned_data["class_name"],
-        teacher=teacher,
-        access_code=generate_access_code(),
-        classmates_data_viewable=classmate_progress,
-    )
-    return klass
 
 
 def process_update_account_form(request, teacher, old_anchor):

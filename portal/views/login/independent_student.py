@@ -1,6 +1,7 @@
 from common.models import Student, UserSession
-from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -12,12 +13,20 @@ from . import has_user_lockout_expired
 class IndependentStudentLoginView(LoginView):
     template_name = "portal/login/independent_student.html"
     form_class = IndependentStudentLoginForm
-    success_url = reverse_lazy("student_details")
-    redirect_authenticated_user = reverse_lazy("student_details")
+    success_url = reverse_lazy("independent_student_details")
+    redirect_authenticated_user = reverse_lazy("independent_student_details")
 
     def get_success_url(self):
         url = self.get_redirect_url()
         return url or self.success_url
+
+    def _add_logged_in_as_message(self, request):
+        messages.info(
+            request,
+            "<strong>You are logged in as an independent student. If you want to join "
+            "a school, you need to request to join one.</strong>",
+            extra_tags="safe",
+        )
 
     def post(self, request, *args, **kwargs):
         """
@@ -43,6 +52,8 @@ class IndependentStudentLoginView(LoginView):
         return super(IndependentStudentLoginView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        self._add_logged_in_as_message(self.request)
+
         # Reset ratelimit cache upon successful login
         clear_ratelimit_cache_for_user(form.cleaned_data["username"])
 

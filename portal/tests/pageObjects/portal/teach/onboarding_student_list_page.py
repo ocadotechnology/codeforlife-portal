@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from . import class_page
+from . import class_page, dashboard_page
 from .teach_base_page import TeachBasePage
 
 
@@ -14,9 +14,12 @@ class OnboardingStudentListPage(TeachBasePage):
         return name in self.browser.find_element_by_id("student_table").text
 
     def is_student_password(self, password):
-        return password in self.browser.find_element_by_xpath(
-            "//table[@id='student_table']/tbody/tr[4]/td[2]"
-        ).text
+        return (
+            password
+            in self.browser.find_element_by_xpath(
+                "//table[@id='student_table']/tbody/tr[4]/td[2]"
+            ).text
+        )
 
     def go_back_to_class(self):
         self.browser.find_element_by_id("back_to_class_button").click()
@@ -26,3 +29,7 @@ class OnboardingStudentListPage(TeachBasePage):
         return self.browser.find_element_by_xpath(
             "//table[@id='student_table']/tbody/tr[4]/td[4]/div/div[1]"
         ).text
+
+    def complete_setup(self):
+        self.browser.find_element_by_id("complete_setup_button").click()
+        return dashboard_page.TeachDashboardPage(self.browser)

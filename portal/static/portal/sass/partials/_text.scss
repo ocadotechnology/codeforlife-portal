@@ -30,6 +30,7 @@ h3 {
 
 h4 {
   @include _font-size(30px);
+  @include _margin(20px, 0px, 20px, 0px);
   font-weight: 500;
 }
 
@@ -51,11 +52,6 @@ h6 {
 .subtitle2 {
   font-family: "Inter", sans-serif;
   @include _font-size(20px);
-  font-weight: 500;
-}
-
-.quote {
-  @include _font-size(24px);
   font-weight: 500;
 }
 
@@ -124,6 +120,7 @@ small {
 
 blockquote {
   border-left: none;
+  padding: 0;
 
   p {
     @include _font-size(20px);
@@ -137,11 +134,27 @@ blockquote {
       @include _font-size(24px);
       @include _line-height(30px);
       font-weight: 500;
-      color: $color-quote-text;
-      padding: 0 0 0 2.5rem;
       position: relative;
       text-align: left;
     }
+  }
+}
+
+.text--brand-primary {
+  color: $color-primary;
+}
+
+.text--brand-tertiary {
+  color: $color-tertiary;
+}
+
+.error-page {
+  h2 {
+    @include _margin(30px, 0px, 40px, 0px);
+  }
+
+  h5 {
+    @include _margin(20px, 0px, 20px, 0px);
   }
 }
 

@@ -106,12 +106,9 @@
 section {
   text-align: center;
 
-  button {
-    @include _margin(0px, $spacing * 2, 0px, $spacing * 2);
-  }
-
-  h4 {
-    @include _padding($spacing * 4, 0px, $spacing * 4, 0px);
+  button,
+  .button {
+    @include _margin(30px, 20px, 0px, 20px);
   }
 
   .youtube img {

@@ -2,57 +2,69 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block createJoinSchoolStep %}
-<div class="onboarding-step onboarding-step--done">
-    <p><img title="Done" alt="Step done" src="{% static 'portal/img/step_done.png' %}">Create / Join school</p>
-</div>
-{% endblock createJoinSchoolStep %}
-{% block createClassStep %}
-<div class="onboarding-step onboarding-step--in-progress">
-    <p><img title="In progress" alt="Step in progress" src="{% static 'portal/img/step_in_progress.png' %}">Create class</p>
-</div>
-{% endblock createClassStep %}
-
 {% block content %}
 <div id="onboarding_classes_page"></div>
 
 {% if classes %}
-<div class="background background--primary">
-    <div class="form col-sm-8 col-center">
-        {% for class in classes %}
-        <section class="background">
-            <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
-            <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class="button button--primary" >Add students</a>
-        </section>
-        {% endfor %}
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            {% for class in classes %}
+            <section class="background">
+                <h3>It looks like you've already created a class ({{ class.name }}) in your school ({{ user.new_teacher.school.name }})</h3>
+                <a id="add_students" href="{% url 'onboarding-class' class.access_code %}" class="button button--primary" >Add students</a>
+            </section>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% else %}
-<div class="background background--primary">
-    <div class="form col-sm-4 col-center">
-        <h4>{{ user.new_teacher.school.name }}</h4>
-        <h3>Create a class</h3>
-        <form id="form-create-class" method="post">
+<div class="background container">
+    <div class="row">
+        <div class="form col-sm-12">
+            <h4>Create a class</h4>
 
-            {% csrf_token %}
-
-            {{ form.non_field_errors }}
-
-            <div class="section group">
-
-                <label for="id_{{ form.class_name.html_name }}">{{ form.class_name.label }}</label>
-                {{ form.class_name.errors }}
-                {{ form.class_name }}
-                <div class="col span_1_of_3">
-                    <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
-                    {{ form.classmate_progress.errors }}
+            <p class="mb-3">Progress &lt; 2 of 4 &gt;</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                    <span class="sr-only">50% Complete</span>
                 </div>
-                <div class="col span_1_of_3">
-                    {{ form.classmate_progress }}
-                </div>
-                <button id="create_class_button" type="submit" class="button button--primary">Create class</button>
             </div>
-        </form>
+
+            <p>
+                When you set up a new class, a unique class access code will automatically be generated, with you being
+                identified as the teacher for that class.
+            </p>
+
+            <form id="form-create-class" method="post">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class="row form--row">
+                    <div class="form--row__input col-sm-6 col-md-6">
+                        <div class="input--icon">
+                            {{ form.class_name }}
+                            <span class="iconify" data-icon="mdi:account-multiple"></span>
+                        </div>
+                        <small>{{ form.class_name.help_text }}</small>
+                        {{ form.class_name.errors }}
+                    </div>
+                    <div class="form--row__input col-sm-12 col-md-6">
+                        <div class="form__checkbox">
+                            <div class="form__checkbox-input">
+                                {{ form.classmate_progress }}
+                            </div>
+                            <label for="id_{{ form.classmate_progress.html_name }}" class="font-weight-normal">{{ form.classmate_progress.label }}</label>
+                        </div>
+                        {{ form.classmate_progress.errors }}
+                    </div>
+                </div>
+
+                <button id="create_class_button" type="submit" class="button button--primary">Create class</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endif %}

@@ -5,9 +5,20 @@
 <div class="header">
     <div class="menu">
         <div class="menu__brand">
-            <a href="{% url 'home' %}">
-                <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
-            </a>
+            {% if user|is_logged_in %}
+                {% if user|is_logged_in_as_teacher %}
+                    {# TODO: update teacher home URL when changing its nav #}
+                    <a href="{% url 'home' %}">
+                {% elif user|is_independent_student %}
+                    <a href="{% url 'independent_student_details' %}">
+                {% else %}
+                    <a href="{% url 'student_details' %}">
+                {% endif %}
+            {% else %}
+                <a href="{% url 'home' %}">
+            {% endif %}
+                    <img class="logo" src="{% static 'portal/img/logo_cfl.png' %}">
+                </a>
             <a class="menu__brand--ocado" target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
                 <img title="Proudly developed by Ocado Group" alt="Proudly developed by Ocado Group"
                 src="{% static 'portal/img/logo_ocado_group.svg' %}">
@@ -43,10 +54,24 @@
                     <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                 {% endif %}
             {% else %}
-                <a href="{% url 'play' %}" class="button--menu button--menu--primary">Student</a>
+                {% if user|is_independent_student %}
+                    <div class="menu--title">Independent</div>
+                {% else %}
+                    <div class="menu--title">Student</div>
+                {% endif %}
+                <a
+                    {% if user|is_independent_student %}
+                        href="{% url 'independent_student_details' %}"
+                    {% else %}
+                        href="{% url 'student_details' %}"
+                    {% endif %}
+                    id="student_dashboard_button"
+                    class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
                 <div class="dropdown">
-                    <a href="{% url 'student_details' %}" id="student_dashboard_button"
-                      class="button--menu button--menu--secondary button--menu--enabled">My Games</a>
+                    <a class="button--menu button--menu--secondary button--menu--enabled">
+                        Games
+                        <span class="material-icons-outlined md-32">arrow_drop_down</span>
+                    </a>
                     <div class="dropdown-content">
                         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
                         {% if not user|is_independent_student %}
@@ -55,13 +80,8 @@
                     </div>
                 </div>
                 {% if user|is_logged_in_as_school_user %}
-                <div class="dropdown">
-                    <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
-                      class="button--menu button--menu--secondary button--menu--enabled">View Scoreboards</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'scoreboard' %}"><small>Rapid Router</small></a>
-                    </div>
-                </div>
+                <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
+                    class="button--menu button--menu--secondary button--menu--enabled">Scoreboard</a>
                 {% endif %}
                 {% if not user.new_student.class_field %}
                     <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
@@ -91,13 +111,15 @@
                     </li>
                     {% endif %}
                     {% if user|is_logged_in_as_teacher %}
-                        <li class="dropdown-menu__option">
-                            {# if the current page is teacher dashboard, trigger a tab change instead #}
-                            <a class="button--regular" aria-labelledby="Update my details"
-                              href="{% url 'dashboard' %}#account" {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
-                                <div class="dropdown-menu__option__text">Update account details</div>
-                                <span class="material-icons-outlined">manage_accounts</span></a>
-                        </li>
+                        {% if user|has_teacher_finished_onboarding %}
+                            <li class="dropdown-menu__option">
+                                {# if the current page is teacher dashboard, trigger a tab change instead #}
+                                <a class="button--regular" aria-labelledby="Update my details"
+                                href="{% url 'dashboard' %}#account" {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
+                                    <div class="dropdown-menu__option__text">Update account details</div>
+                                    <span class="material-icons-outlined">manage_accounts</span></a>
+                            </li>
+                        {% endif %}
                     {% else %}
                         <li class="dropdown-menu__option">
                             <a class="button--regular" aria-labelledby="Change password"
@@ -164,26 +186,31 @@
                 </div>
             {% else %}
                 <button class="button--menu__item button--menu__item--sub-header"
-                        data-toggle="collapse" data-target="#student-tabs">Student</button>
+                        data-toggle="collapse" data-target="#student-tabs">{% if user|is_independent_student %}Independent{% else %}Student{% endif %}</button>
                 <div id="student-tabs" class="collapse">
-                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
-                            data-toggle="collapse" data-target="#games-tabs">My Games</button>
+                    <a
+                        {% if user|is_independent_student %}
+                            href="{% url 'independent_student_details' %}"
+                        {% else %}
+                            href="{% url 'student_details' %}"
+                        {% endif %}
+                        class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %}">Dashboard</a>
+                    <button class="button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#games-tabs">Games</button>
                     <div id="games-tabs" class="collapse">
-                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
+                        <a class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item__sub"
                           href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% if not user|is_independent_student %}
                             <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
                               href="{% url_for_aimmo_dashboard %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
                         {% endif %}
                     </div>
-                    <button class="button--menu__item button--menu__item--student button--menu__item--sub-header"
-                            data-toggle="collapse" data-target="#scoreboards-tabs">View Scoreboards</button>
-                    <div id="scoreboards-tabs" class="collapse">
-                        <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                          href="{% url 'scoreboard' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
-                    </div>
-                {% if not user.new_student.class_field %}
+                    {% if user|is_logged_in_as_school_user %}
                     <a class="button button--menu__item button--menu__item--student"
+                        href="{% url 'scoreboard' %}">Scoreboard<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    {% endif %}
+                {% if not user.new_student.class_field %}
+                    <a class="button button--menu__item button--menu__item--independent"
                       href="{% url 'student_join_organisation' %}">Join a school<span class="material-icons-outlined md-32">chevron_right</span></a>
                 {% endif %}
                 </div>
@@ -222,12 +249,14 @@
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% if user|is_logged_in %}
             {% if user|is_logged_in_as_teacher %}
-                {# if the current page is teacher dashboard, trigger a tab change instead #}
-                <a class="button button--menu__item" href="{% url 'dashboard' %}#account"
-                  {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
-                    Update account details
-                    <span class="material-icons-outlined md-32">chevron_right</span>
-                </a>
+                {% if user|has_teacher_finished_onboarding %}
+                    {# if the current page is teacher dashboard, trigger a tab change instead #}
+                    <a class="button button--menu__item" href="{% url 'dashboard' %}#account"
+                    {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
+                        Update account details
+                        <span class="material-icons-outlined md-32">chevron_right</span>
+                    </a>
+                {% endif %}
             {% endif %}
             <a class="button button--menu__item" href="{% url 'logout_view' %}">Logout
                 <span class="material-icons-outlined md-32">chevron_right</span></a>

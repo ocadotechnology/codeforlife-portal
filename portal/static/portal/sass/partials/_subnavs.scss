@@ -61,7 +61,8 @@
   z-index: $nav-bar-level + 1;
 }
 
-.sub-nav--warning {
+.sub-nav--warning,
+.sub-nav--message {
   background-color: $color-background-sub-banner;
   color: $color-text-primary;
 
@@ -72,6 +73,15 @@
       background-color: $color-background-tertiary;
       color: $color-text-secondary;
     }
+  }
+}
+
+.message--student {
+  background-color: $color-tertiary-300;
+  color: $color-text-secondary;
+
+  .x-icon {
+    color: $color-text-secondary;
   }
 }
 
@@ -125,6 +135,10 @@
       text-decoration: none;
     }
   }
+
+  .sub-nav--icon {
+    color: $color-text-secondary;
+  }
 }
 
 .sub-nav--student {
@@ -153,13 +167,24 @@
 .success,
 .info,
 .warning {
-  background-color: $color-background-sub-banner;
   border-bottom: 1px solid $color-message-border;
 }
 
 .hijacked-warning {
   .close {
     display: none;
+  }
+}
+
+.x-icon {
+  @include _font-size(24px);
+  text-decoration: none;
+  display: flex;
+
+  &:hover,
+  &:active,
+  &:focus {
+    font-weight: normal;
   }
 }
 

@@ -79,7 +79,11 @@ from portal.views.student.edit_account_details import (
     SchoolStudentEditAccountView,
     student_edit_account,
 )
-from portal.views.student.play import student_details, student_join_organisation
+from portal.views.student.play import (
+    SchoolStudentDashboard,
+    IndependentStudentDashboard,
+    student_join_organisation,
+)
 from portal.views.teach import teach
 from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.dashboard import (
@@ -214,7 +218,7 @@ urlpatterns = [
         name="teacher_login",
     ),
     url(
-        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})$",
+        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
         StudentLoginView.as_view(),
         name="student_login",
     ),
@@ -306,14 +310,14 @@ urlpatterns = [
         teacher_download_csv,
         name="teacher_download_csv",
     ),
-    url(
-        r"^teach/onboarding-complete",
-        TemplateView.as_view(template_name="portal/teach/onboarding_complete.html"),
-        name="onboarding-complete",
-    ),
     url(r"^teach/invite", invite_teacher, name="invite_teacher"),
     url(r"^play/$", play_landing_page, name="play"),
-    url(r"^play/details/$", student_details, name="student_details"),
+    url(r"^play/details/$", SchoolStudentDashboard.as_view(), name="student_details"),
+    url(
+        r"^play/details/independent$",
+        IndependentStudentDashboard.as_view(),
+        name="independent_student_details",
+    ),
     url(r"^play/account/$", student_edit_account, name="student_edit_account"),
     url(
         r"^play/account/independent/$",

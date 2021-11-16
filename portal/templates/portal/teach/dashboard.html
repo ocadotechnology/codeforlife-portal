@@ -8,6 +8,10 @@
 <script>
     var CONFIRMATION_DATA = {};
 
+    // store current hash, then remove it so the page doesn't jump to the section
+    const currentHash = window.location.hash
+    window.location.hash = ''
+
     function updateLocationHash(hash) {
         // using replaceState as changing hash directly will scroll to element
         history.replaceState({}, '', hash)
@@ -17,12 +21,14 @@
         // select the tab based on the current location hash
         const tabs = $('.sub-nav [data-toggle="tab"]')
         const tabNames = tabs.map((index, element) => $(element).attr('href')).toArray()
-        const currentTabIndex = tabNames.indexOf(window.location.hash)
+        const currentTabIndex = tabNames.indexOf(currentHash)
         if (currentTabIndex < 0) {
             updateLocationHash(tabNames[0])
         }
         else {
+            updateLocationHash(tabNames[currentTabIndex])
             tabs[currentTabIndex].click()
+            animate($(tabNames[currentTabIndex]).offset().top - bannerHeight)
         }
 
         // make each tab update the current location hash on click
@@ -33,6 +39,13 @@
         $("#update-details").on("click", () => {
             $("#tab-account").click()
         })
+
+        {% if show_onboarding_complete %}
+            let title = "Registration complete! 🎉";
+            let text = "<div class='popup-text'><small>You have successfully completed your registration and can now access and edit all of the information for your students through the teacher dashboard.</small></div>";
+
+            showInfoPopup(title, text);
+        {% endif %}
     })
 </script>
 {% endblock scripts %}
@@ -52,6 +65,10 @@
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
+
+{% if show_onboarding_complete %}
+    {% include "portal/partials/info_popup.html" %}
+{% endif %}
 
 <div id="teach_dashboard_page"></div>
 
@@ -328,7 +345,7 @@
                                 <div class="form__checkbox-input">
                                     {{ create_class_form.classmate_progress }}
                                 </div>
-                                <label for="id_{{ form.classmate_progress.html_name }}">{{ create_class_form.classmate_progress.label }}</label>
+                                <label for="id_{{ create_class_form.classmate_progress.html_name }}">{{ create_class_form.classmate_progress.label }}</label>
                             </div>
                             {{ create_class_form.classmate_progress.errors }}
                         </div>

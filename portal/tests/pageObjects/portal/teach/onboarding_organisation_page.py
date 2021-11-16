@@ -31,7 +31,7 @@ class OnboardingOrganisationPage(TeachBasePage):
         return self
 
     def join_empty_organisation(self):
-        self.browser.find_element_by_id("join-tab").click()
+        self.browser.find_element_by_id("join-button").click()
         self._click_join_school_button()
 
         return self
@@ -74,7 +74,7 @@ class OnboardingOrganisationPage(TeachBasePage):
         return error in errors
 
     def join_organisation(self, name):
-        self.browser.find_element_by_id("join-tab").click()
+        self.browser.find_element_by_id("join-button").click()
         self.browser.find_element_by_id("id_fuzzy_name").send_keys(name)
         time.sleep(1)
         self._click_join_school_button()

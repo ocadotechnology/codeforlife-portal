@@ -1,0 +1,64 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags character_list_tags %}
+
+{% block subNav %}
+<section class="banner banner--independent-student row mx-0">
+    <div>
+        <h1 class="banner__text--primary">Welcome, {{ user|make_into_username }}</h1>
+        <h4>This is where you can access your games</h4>
+    </div>
+</section>
+{% endblock subNav %}
+
+{% block content %}
+<div id="play_dashboard_page">
+    <div class="background container">
+        <section><h4>Your games</h4></section>
+        <div class="grid-games col-center col-sm-4">
+            <div class="card">
+                <div class="card__images">
+                    <img title="Rapid Router" alt="Rapid Router" class="card__image" src="{% static 'portal/img/RR_logo_green.svg' %}">
+                </div>
+                <div class="card__text">
+                    <h5 class="card__title">Rapid Router</h5>
+                    <p>Rapid Router guides you, and makes learning to code easy and great fun. Using Blockly, you can
+                        advance through the levels to become an Ocado delivery hero.</p>
+                    <div class="button-group">
+                        <a href="{% url 'levels'%}" class="button button--primary">Play</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="background background--primary">
+        <div class="container">
+            <div class="col-center text-center col-sm-9">
+                <section><img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
+                <h4>You have completed {{ num_completed }} Rapid Router level{{ num_completed|pluralize }}!</h4>
+                <h4>You have {{ num_top_scores }} top score{{ num_top_scores|pluralize }}!</h4>
+                <h4>You have a score of {{ total_score }}. There are {{ total_available_score }} available points.</h4>
+            </div>
+        </div>
+    </div>
+    <div class="background container">
+        <section>
+            <div class="row">
+                <img title="Kurono logo" alt="Kurono logo" class="col-xs-offset-3 col-sm-offset-4 col-xs-6 col-sm-4"
+                     src="{% static 'portal/img/kurono_logo.svg' %}">
+            </div>
+            <h4>Kurono is only available as part of a school or club. Your teacher, parent or guardian can set up
+                a club for you and create a class.</h4>
+            <video autoplay muted loop class="col-xs-12 video--aimmo--play-online">
+                <source src={% static 'portal/video/aimmo_play_now_background_video.mp4' %}>
+            </video>
+        </section>
+    </div>
+    <div class="background background--primary">
+        <div class="container">
+            <h4 class="text-center">Meet the characters</h4>
+            {% character_list %}
+        </div>
+    </div>
+</div>
+{% endblock %}

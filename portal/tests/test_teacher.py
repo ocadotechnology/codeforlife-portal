@@ -421,9 +421,9 @@ class TestTeacher(BaseTest):
 
         assert self.is_pdf_viewer_page(page)
 
-        page = page.go_to_kurono_resources_page().go_to_kurono_packs_page()
+        page = page.go_to_kurono_resources_page()
 
-        assert self.is_kurono_packs_page(page)
+        assert self.is_kurono_resources_page(page)
 
     def test_edit_details(self):
         email, password = signup_teacher_directly()
@@ -598,6 +598,25 @@ class TestTeacher(BaseTest):
 
         assert len(mail.outbox) == 0
 
+    def test_onboarding_complete(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        create_class_directly(email)
+
+        student_name = "Test Student"
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_students(email, password)
+            .type_student_name(student_name)
+            .create_students()
+            .complete_setup()
+        )
+
+        assert page.has_onboarding_complete_popup()
+
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
         page = (
@@ -616,8 +635,8 @@ class TestTeacher(BaseTest):
     def is_materials_page(self, page):
         return page.__class__.__name__ == "MaterialsPage"
 
-    def is_kurono_packs_page(self, page):
-        return page.__class__.__name__ == "KuronoPacksPage"
+    def is_kurono_resources_page(self, page):
+        return page.__class__.__name__ == "KuronoResourcesPage"
 
     def is_pdf_viewer_page(self, page):
         return page.__class__.__name__ == "PDFViewerPage"

@@ -114,7 +114,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         elif self.changing_password:
             return reverse_lazy("independent_student_login")
         else:
-            return reverse_lazy("student_details")
+            return reverse_lazy("independent_student_details")
 
     def form_valid(self, form):
         return _process_form(
