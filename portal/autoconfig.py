@@ -59,9 +59,6 @@ SETTINGS = {
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
-        "hijack",
-        "compat",
-        "hijack_admin",
         "wagtail.contrib.forms",
         "wagtail.contrib.redirects",
         "wagtail.embeds",
@@ -125,10 +122,6 @@ SETTINGS = {
     "RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME": "portal.beta.has_beta_access",
     "SECURE_CONTENT_TYPE_NOSNIFF": True,
     "SECURE_BROWSER_XSS_FILTER": True,
-    "HIJACK_LOGIN_REDIRECT_URL": "/",
-    "HIJACK_LOGOUT_REDIRECT_URL": "/administration/",
-    "HIJACK_USE_BOOTSTRAP": True,
-    "HIJACK_ALLOW_GET_REQUESTS": True,
     "RECAPTCHA_DOMAIN": "www.recaptcha.net",
     "AUTHENTICATION_BACKENDS": [
         "django.contrib.auth.backends.ModelBackend",
