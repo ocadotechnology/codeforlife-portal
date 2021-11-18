@@ -145,6 +145,7 @@ SETTINGS = {
         "'self'",
         "https://fonts.gstatic.com/",
         "https://fonts.googleapis.com/",
+        "unsafe-inline",
     ),
     "CSP_IMG_SRC": (
         "https://cdn-ukwest.onetrust.com/",
