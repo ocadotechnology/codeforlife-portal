@@ -174,7 +174,6 @@ SETTINGS = {
         "https://euc-widget.freshworks.com/",
         "https://cdn-ukwest.onetrust.com/",
         "https://fonts.googleapis.com/",
-        f"{domain()}/static/hijack/",
         f"{domain()}/static/portal/",
     ),
     "CSP_FRAME_SRC": (
@@ -183,7 +182,6 @@ SETTINGS = {
         "https://www.recaptcha.net/",
         "https://www.google.com/recaptcha/",
     ),
-    "CSP_REPORT_ONLY": False,
 }
 
 RELATIONSHIPS = [
