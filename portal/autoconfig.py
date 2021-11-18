@@ -149,7 +149,7 @@ SETTINGS = {
     "CSP_IMG_SRC": (
         "https://cdn-ukwest.onetrust.com/",
         f"{domain()}/static/portal/img/",
-        "'unsafe-inline'",
+        "data:",
     ),
     "CSP_SCRIPT_SRC": (
         "'self'",
