@@ -2,7 +2,6 @@
 {% load app_tags %}
 
 {% load sekizai_tags %}
-{% load hijack_tags %}
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +26,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon"> 
     <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
     {% endblock css %}
 
     {% include "portal/tag_manager/tag_manager_head.html" %}
@@ -102,7 +100,6 @@
 
 <body id="top">
 {% include "portal/tag_manager/tag_manager_body.html" %}
-{% hijack_notification %}
 {% render_block "js" %}
 {% include 'portal/mouseflow.html' %}
 

@@ -1,7 +1,6 @@
 @import "base";
 
-.sub-nav,
-.hijacked-warning {
+.sub-nav {
   @include _padding(0px, 20px, 0px, 20px);
   align-items: center;
   display: flex;
@@ -168,12 +167,6 @@
 .info,
 .warning {
   border-bottom: 1px solid $color-message-border;
-}
-
-.hijacked-warning {
-  .close {
-    display: none;
-  }
 }
 
 .x-icon {

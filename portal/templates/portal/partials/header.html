@@ -1,6 +1,5 @@
 {% load staticfiles %}
 {% load app_tags %}
-{% load hijack_tags %}
 
 <div class="header">
     <div class="menu">
@@ -102,14 +101,12 @@
                     <div class="dropdown__text">{{ user|make_into_username }}</div>
                 </button>
                 <ul class="dropdown-menu header__account-details-dropdown-menu">
-                    {% if not request|is_hijacked %}
                     <li class="dropdown-menu__option">
                         <a class="button--regular" id="logout_button" aria-labelledby="Log out"
                           href="{% url 'logout_view' %}" onclick="deleteAllLocalStorageWorkspaces();">
                             <div class="dropdown-menu__option__text">Log out</div>
                             <span class="material-icons-outlined">logout</span></a>
                     </li>
-                    {% endif %}
                     {% if user|is_logged_in_as_teacher %}
                         {% if user|has_teacher_finished_onboarding %}
                             <li class="dropdown-menu__option">

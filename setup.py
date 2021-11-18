@@ -41,8 +41,6 @@ setup(
         "libsass==0.20.1",
         "phonenumbers==8.12.12",
         "more-itertools==8.6.0",
-        "django-hijack==2.1.10",
-        "django-hijack-admin==2.1.10",
         "future==0.18.2",
         f"cfl-common=={version}",
         "django-ratelimit==3.0.1",

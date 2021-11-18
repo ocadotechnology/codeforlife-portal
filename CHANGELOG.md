@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.17.1 (2021-11-17)
+### Fix
+* Remove django-hijack ([#1625](https://github.com/ocadotechnology/codeforlife-portal/issues/1625)) ([`8b8bc94`](https://github.com/ocadotechnology/codeforlife-portal/commit/8b8bc94e6a3b60ebde31f5b96b8c69ccf9062bae))
+
 ## v5.17.0 (2021-11-11)
 ### Feature
 * Add login type to user session data ([#1622](https://github.com/ocadotechnology/codeforlife-portal/issues/1622)) ([`84afb5b`](https://github.com/ocadotechnology/codeforlife-portal/commit/84afb5be1373fde7493375fad208863c3d9af895))
