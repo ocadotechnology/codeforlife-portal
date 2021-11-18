@@ -1,5 +1,5 @@
 import pytest
-from aimmo.models import Worksheet
+from aimmo.worksheets import WORKSHEETS, Worksheet
 from common.models import Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
@@ -20,8 +20,8 @@ def class1(db, teacher1_email) -> Class:
 
 
 @pytest.fixture
-def worksheet(db) -> Worksheet:
-    return Worksheet.objects.create(name="Test worksheet", starter_code="Trout")
+def worksheet() -> Worksheet:
+    return WORKSHEETS.get(1)
 
 
 def test_create_game(class1: Class):

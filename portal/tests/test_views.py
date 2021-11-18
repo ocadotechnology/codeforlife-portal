@@ -4,7 +4,7 @@ import json
 from datetime import timedelta
 
 import PyPDF2
-from aimmo.models import Game, Worksheet
+from aimmo.models import Game
 from common.models import Teacher, UserSession, Student, Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -510,7 +510,7 @@ class TestViews(TestCase):
         assert response.context_data == EXPECTED_DATA_WITH_CUSTOM_ATTEMPTS
 
         # Link Kurono game to student's class
-        game = Game(game_class=klass, worksheet=Worksheet.objects.get(id=3))
+        game = Game(game_class=klass, worksheet_id=3)
         game.save()
 
         response = c.get(student_dashboard_url)
