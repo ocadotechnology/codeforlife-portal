@@ -38,6 +38,7 @@ MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
 # Boolean indicating if OneTrust cookie management is enabled or not
 COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)
 
+
 def domain():
     """Returns the full domain depending on whether it's local, dev, staging or prod."""
     domain = "https://www.codeforlife.education"
