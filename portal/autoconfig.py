@@ -145,11 +145,11 @@ SETTINGS = {
         "'self'",
         "https://fonts.gstatic.com/",
         "https://fonts.googleapis.com/",
-        "unsafe-inline",
     ),
     "CSP_IMG_SRC": (
         "https://cdn-ukwest.onetrust.com/",
         f"{domain()}/static/portal/img/",
+        "unsafe-inline",
     ),
     "CSP_SCRIPT_SRC": (
         "'self'",
