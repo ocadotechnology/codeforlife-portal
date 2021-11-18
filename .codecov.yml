@@ -12,8 +12,6 @@ ignore:
   - "setup.py"
   - "cfl_common/setup.py"
   - "cfl_common/common/apps.py"
-  - "docs/*"
-  - "create_test_site.py"
   - "portal/helpers/ratelimit.py"
   - "portal/autoconfig.py"
   - "cfl_common/common/app_settings.py"
