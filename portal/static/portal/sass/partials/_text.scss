@@ -36,11 +36,13 @@ h4 {
 
 h5 {
   @include _font-size(24px);
+  @include _margin(20px, 0px, 20px, 0px);
   font-weight: 500;
 }
 
 h6 {
   @include _font-size(20px);
+  @include _margin(20px, 0px, 0px, 0px);
   font-weight: 500;
 }
 
@@ -146,6 +148,36 @@ blockquote {
 
 .text--brand-tertiary {
   color: $color-tertiary;
+}
+
+.content-header {
+  @include _font-size(30px);
+  @include _padding(10px, 0px, 10px, 0px);
+  @include _margin(15px, 0px, 0px, 0px);
+  letter-spacing: 1px;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.content-header-primary {
+  background-color: $color-primary;
+  color: $color-text-secondary;
+}
+
+.content-header-secondary {
+  background-color: $color-secondary;
+  color: $color-text-primary;
+}
+
+.content-header-tertiary {
+  background-color: $color-tertiary;
+  color: $color-text-secondary;
+}
+
+.content-footer {
+  background-color: $color-tertiary;
+  color: $color-text-secondary;
+  @include _padding(15px, 0px, 15px, 0px);
+  @include _margin(20px, 0px, 0px, 0px);
 }
 
 .error-page {
