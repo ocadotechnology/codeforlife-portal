@@ -1,7 +1,7 @@
 HOME_LEARNING_BANNER = {
     "title": "Home learning",
-    "subtitle": "Teach your child to code at home — our Rapid Router game is easy to teach "
-    "and free to use – forever.",
+    "subtitle": "Whether you're a parent, a caregiver, or a motivated student — our Rapid Router game is easy to use "
+    "and free – forever.",
     "text": "",
-    "image_class": "banner--picture--educate",
+    "image_class": "banner--picture--homelearning",
 }

@@ -153,6 +153,7 @@ blockquote {
 .content-header {
   @include _font-size(30px);
   @include _padding(10px, 0px, 10px, 0px);
+  @include _margin(15px, 0px, 0px, 0px);
   letter-spacing: 1px;
   font-family: "Space Grotesk", sans-serif;
 }
@@ -170,6 +171,14 @@ blockquote {
 .content-header-tertiary {
   background-color: $color-tertiary;
   color: $color-text-secondary;
+}
+
+.content-footer {
+  background-color: $color-tertiary;
+  color: $color-text-secondary;
+  padding: 15px;
+  @include _padding(15px, 0px, 15px, 0px);
+  @include _margin(20px, 0px, 0px, 0px);
 }
 
 .error-page {
