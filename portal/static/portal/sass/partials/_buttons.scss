@@ -5,8 +5,7 @@ a {
 }
 
 button,
-.button,
-.hijacked-warning .btn {
+.button {
   @include _font-size(16px);
   display: inline-block;
   font-family: "Inter", sans-serif;
@@ -136,8 +135,7 @@ table {
 }
 
 .button--regular,
-.ui-dialog-buttonset button,
-.hijacked-warning .btn {
+.ui-dialog-buttonset button {
   @include _padding(10px, 15px, 10px, 15px);
 }
 
@@ -181,8 +179,7 @@ table {
 }
 
 .button--primary--danger,
-.ui-dialog-buttonset button,
-.hijacked-warning .btn {
+.ui-dialog-buttonset button {
   background: $color-button-primary-action-danger;
   color: $color-text-secondary;
 
@@ -202,10 +199,6 @@ table {
     @include _font-size(22px);
     @include _margin(0px, 0px, 0px, 20px);
   }
-}
-
-.django-hijack-button-bootstrap {
-  @include _margin(0px, 0px, 0px, 50px);
 }
 
 .button--dropdown {
