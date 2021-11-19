@@ -176,7 +176,6 @@ blockquote {
 .content-footer {
   background-color: $color-tertiary;
   color: $color-text-secondary;
-  padding: 15px;
   @include _padding(15px, 0px, 15px, 0px);
   @include _margin(20px, 0px, 0px, 0px);
 }
