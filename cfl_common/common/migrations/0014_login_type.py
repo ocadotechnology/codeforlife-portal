@@ -7,23 +7,23 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0013_class_school'),
+        ("common", "0013_class_school"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='usersession',
-            name='login_type',
+            model_name="usersession",
+            name="login_type",
             field=models.CharField(max_length=100, null=True),
         ),
         migrations.AlterField(
-            model_name='class',
-            name='creation_time',
+            model_name="class",
+            name="creation_time",
             field=models.DateTimeField(default=django.utils.timezone.now, null=True),
         ),
         migrations.AlterField(
-            model_name='school',
-            name='creation_time',
+            model_name="school",
+            name="creation_time",
             field=models.DateTimeField(default=django.utils.timezone.now, null=True),
         ),
     ]
