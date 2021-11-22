@@ -41,7 +41,7 @@ class StudentLoginView(LoginView):
 
     def get_form_kwargs(self):
         kwargs = super(StudentLoginView, self).get_form_kwargs()
-        kwargs["access_code"] = self.kwargs["access_code"]
+        kwargs["access_code"] = self.kwargs["access_code"].upper()
         return kwargs
 
     def _add_logged_in_as_message(self, request):
