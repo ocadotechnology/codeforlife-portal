@@ -1,8 +1,7 @@
 HOME_LEARNING_BANNER = {
-    "title": "#KeepKidsCoding",
-    "subtitle": "Teach your child to code at home — our Rapid Router game supports the "
-    "National Curriculum Computing strand, is easy to teach and free to "
-    "use – forever.",
+    "title": "Home learning",
+    "subtitle": "Whether you're a parent, a caregiver, or a curious student — our Rapid Router game is easy to use "
+    "and free – forever.",
     "text": "",
-    "image_class": "banner--picture--educate",
+    "image_class": "banner--picture--homelearning",
 }
