@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.19.1 (2021-11-23)
+### Fix
+* Make class code case-insensitive and fully check Regex ([#1639](https://github.com/ocadotechnology/codeforlife-portal/issues/1639)) ([`27b731e`](https://github.com/ocadotechnology/codeforlife-portal/commit/27b731e7ed56f21b1abaac6cda30a6606333d29d))
+
 ## v5.19.0 (2021-11-23)
 ### Feature
 * Update terms & private policy pages designs ([#1629](https://github.com/ocadotechnology/codeforlife-portal/issues/1629)) ([`3cb34a5`](https://github.com/ocadotechnology/codeforlife-portal/commit/3cb34a520066cf4d9a7a1285f966431d4fea77e4))
