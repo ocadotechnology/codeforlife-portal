@@ -120,7 +120,6 @@ from portal.views.teacher.teacher_resources import (
     teacher_kurono_resources,
     teacher_rapid_router_resources,
 )
-from portal.views.terms import terms
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -342,7 +341,9 @@ urlpatterns = [
     url(r"^about", about, name="about"),
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),
-    url(r"^terms", terms, name="terms"),
+    url(
+        r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"
+    ),
     url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
