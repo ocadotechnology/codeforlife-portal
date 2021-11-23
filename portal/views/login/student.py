@@ -24,7 +24,7 @@ class StudentClassCodeView(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        class_code = self.form.cleaned_data["access_code"]
+        class_code = self.form.cleaned_data["access_code"].upper()
         return reverse_lazy(
             "student_login",
             kwargs={"access_code": class_code, "login_type": "classform"},
@@ -41,7 +41,7 @@ class StudentLoginView(LoginView):
 
     def get_form_kwargs(self):
         kwargs = super(StudentLoginView, self).get_form_kwargs()
-        kwargs["access_code"] = self.kwargs["access_code"]
+        kwargs["access_code"] = self.kwargs["access_code"].upper()
         return kwargs
 
     def _add_logged_in_as_message(self, request):
