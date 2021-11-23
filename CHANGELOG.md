@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.20.0 (2021-11-23)
+### Feature
+* Remove worksheet model ([#1628](https://github.com/ocadotechnology/codeforlife-portal/issues/1628)) ([`2556285`](https://github.com/ocadotechnology/codeforlife-portal/commit/25562857f53b72e373f42b4d9be331ae39059d23))
+
 ## v5.19.1 (2021-11-23)
 ### Fix
 * Make class code case-insensitive and fully check Regex ([#1639](https://github.com/ocadotechnology/codeforlife-portal/issues/1639)) ([`27b731e`](https://github.com/ocadotechnology/codeforlife-portal/commit/27b731e7ed56f21b1abaac6cda30a6606333d29d))
