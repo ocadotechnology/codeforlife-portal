@@ -3,6 +3,8 @@ import os
 
 from django_autoconfig.autoconfig import OrderingRelationship
 
+from .csp_config import CSP_CONFIG
+
 DEFAULT_SETTINGS = {
     "AUTOCONFIG_INDEX_VIEW": "home",
     "LANGUAGE_CODE": "en-gb",
@@ -90,6 +92,7 @@ SETTINGS = {
         "django_otp.middleware.OTPMiddleware",
         "wagtail.contrib.redirects.middleware.RedirectMiddleware",
         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+        "csp.middleware.CSPMiddleware",
     ],
     "TEMPLATES": [
         {
@@ -127,6 +130,8 @@ SETTINGS = {
     ],
     "USE_TZ": True,
 }
+
+SETTINGS.update(CSP_CONFIG)
 
 RELATIONSHIPS = [
     OrderingRelationship(
