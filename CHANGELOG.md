@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.21.0 (2021-11-23)
+### Feature
+* Implement CSP header ([#1570](https://github.com/ocadotechnology/codeforlife-portal/issues/1570)) ([`4eaaf6f`](https://github.com/ocadotechnology/codeforlife-portal/commit/4eaaf6f6befdefdf8718ed34cc7ff5a9fae5c972))
+
 ## v5.20.0 (2021-11-23)
 ### Feature
 * Remove worksheet model ([#1628](https://github.com/ocadotechnology/codeforlife-portal/issues/1628)) ([`2556285`](https://github.com/ocadotechnology/codeforlife-portal/commit/25562857f53b72e373f42b4d9be331ae39059d23))
