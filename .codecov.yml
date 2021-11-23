@@ -15,6 +15,7 @@ ignore:
   - "portal/helpers/ratelimit.py"
   - "portal/autoconfig.py"
   - "cfl_common/common/app_settings.py"
+  - "portal/csp_config.py"
 
 comment:
   layout: "reach, diff, flags, files"
