@@ -1,7 +1,8 @@
 from typing import Any, Dict, List, Optional
 
 from aimmo.game_creator import create_game
-from aimmo.models import Game, Worksheet
+from aimmo.models import Game
+from aimmo.worksheets import WORKSHEETS, Worksheet, get_worksheets_excluding_id
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
@@ -66,8 +67,8 @@ class StudentAimmoDashboard(
         try:
             aimmo_game = Game.objects.get(game_class=klass)
 
-            active_worksheet = aimmo_game.worksheet
-            inactive_worksheets = Worksheet.objects.exclude(id=active_worksheet.id)
+            active_worksheet = WORKSHEETS.get(aimmo_game.worksheet_id)
+            inactive_worksheets = get_worksheets_excluding_id(active_worksheet.id)
 
             return {
                 "BANNER": AIMMO_DASHBOARD_BANNER,

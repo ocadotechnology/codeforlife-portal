@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import time
 
-from aimmo.models import Game, Worksheet
+from aimmo.models import Game
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -51,9 +51,6 @@ class TestTeachers(TestCase):
 
         c = Client()
         c.login(username=email, password=password)
-        worksheet: Worksheet = Worksheet.objects.create(
-            name="test", starter_code="test"
-        )
         c.post(
             reverse("teacher_aimmo_dashboard"),
             {"game_class": klass.id},
@@ -95,9 +92,6 @@ class TestTeachers(TestCase):
         c.logout()
 
         c.login(username=email, password=password)
-        worksheet: Worksheet = Worksheet.objects.create(
-            name="test", starter_code="test"
-        )
         c.post(
             reverse("teacher_aimmo_dashboard"),
             {"game_class": klass.pk},
@@ -119,9 +113,6 @@ class TestTeachers(TestCase):
             - Students in each class still only have access to their class games
             - Teacher 2 has access to both games and teacher 1 has access to none
         """
-        worksheet: Worksheet = Worksheet.objects.create(
-            name="test", starter_code="test"
-        )
 
         # Create teacher 1 -> class 1 -> student 1
         email1, password1 = signup_teacher_directly()
@@ -210,9 +201,6 @@ class TestTeachers(TestCase):
         When a teacher transfers them to another class with a new teacher,
         Then the student should only have access to the new teacher's games
         """
-        worksheet: Worksheet = Worksheet.objects.create(
-            name="test", starter_code="test"
-        )
 
         email1, password1 = signup_teacher_directly()
         school_name, postcode = create_organisation_directly(email1)
@@ -284,9 +272,6 @@ class TestTeachers(TestCase):
         create the exact same game again,
         Then the class should only have one game, and an error message should appear.
         """
-        worksheet: Worksheet = Worksheet.objects.create(
-            name="test", starter_code="test"
-        )
 
         email, password = signup_teacher_directly()
         _, _ = create_organisation_directly(email)

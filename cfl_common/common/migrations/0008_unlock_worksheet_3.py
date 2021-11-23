@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(
-            load_data_from_file("unlock_worksheet3.json"),
-            reverse_code=migrations.RunPython.noop,
+            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop
         )
     ]
