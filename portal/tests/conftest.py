@@ -13,7 +13,6 @@ from common.tests.utils.student import (
 from common.tests.utils.teacher import signup_teacher_directly
 
 from .utils.aimmo_games import create_aimmo_game_directly
-from .utils.worksheets import create_worksheet_directly
 
 SchoolStudent = namedtuple("student", ["username", "password"])
 IndependentStudent = namedtuple("independent_student", ["username", "password"])
@@ -46,10 +45,7 @@ def independent_student1(db) -> IndependentStudent:
 
 @pytest.fixture
 def aimmo_game1(db, class1) -> Game:
-    worksheet = create_worksheet_directly()
-    worksheet.student_pdf_name = "TestPDFName"
-    worksheet.save()
-    return create_aimmo_game_directly(class1, worksheet)
+    return create_aimmo_game_directly(klass=class1, worksheet_id=1)
 
 
 @pytest.fixture(autouse=True)

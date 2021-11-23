@@ -1,9 +1,9 @@
-from aimmo.models import Worksheet
 from aimmo.templatetags.players_utils import get_user_playable_games
+from aimmo.worksheets import get_complete_worksheets, get_incomplete_worksheets
+from common import app_settings as common_app_settings
 from common.models import EmailVerification
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
-from common import app_settings as common_app_settings
 from django import template
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,7 +11,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import reverse
 from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
-
 from portal import __version__, beta
 
 register = template.Library()
@@ -68,11 +67,8 @@ def has_beta_access(request):
 def games_table(context, base_url):
     playable_games = get_user_playable_games(context, base_url)
 
-    complete_worksheets = Worksheet.objects.exclude(thumbnail_text="Coming Soon")
-    incomplete_worksheets = Worksheet.objects.filter(thumbnail_text="Coming Soon")
-
-    playable_games["complete_worksheets"] = complete_worksheets
-    playable_games["incomplete_worksheets"] = incomplete_worksheets
+    playable_games["complete_worksheets"] = get_complete_worksheets()
+    playable_games["incomplete_worksheets"] = get_incomplete_worksheets()
 
     return playable_games
 

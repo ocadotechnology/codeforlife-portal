@@ -9,11 +9,8 @@ class Migration(migrations.Migration):
         ("aimmo", "0020_add_info_to_worksheet"),
     ]
 
-    def dummy_reverse_code(app, schema_editor):
-        pass
-
     operations = [
         migrations.RunPython(
-            load_data_from_file("worksheets.json"), reverse_code=dummy_reverse_code
+            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop
         )
     ]
