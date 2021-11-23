@@ -1,10 +1,11 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
-{% load banner_tags %}
 
 {% block subNav %}
-{% banner banner_name="BANNER" %}
+<section class="banner banner--teacher">
+    <h1 class="banner__text--primary">Privacy policy</h1>
+</section>
 {% endblock subNav %}
 
 {% block content %}
@@ -17,7 +18,7 @@
         to your personal information, for example, the right to say no to the use of your information in certain cases,
         and how to contact us if you want to find out more about your rights or if you have other questions about this
         policy.</p>
-    <ol>
+    <ol class="list--two-columns">
         <li><p><a href="#commitment">Our commitment</a></p></li>
         <li><p><a href="#who-we-are">Who we are</a></p></li>
         <li><p><a href="#types-of-information">Types of information we hold about you</a></p></li>
@@ -33,7 +34,8 @@
         <li><p><a href="#contact-us">How to contact us</a></p></li>
         <li><p><a href="#extra-help">Do you need extra help?</a></p></li>
     </ol>
-    <p></p>
+
+    <hr>
 
     <h5 id="commitment">1. Our commitment</h5>
     <p>We are deeply committed to creating a safe and secure online learning environment for all students, teachers,
@@ -48,11 +50,15 @@
             lessons.</p></li>
     </ol>
 
+    <hr>
+
     <h5 id="who-we-are">2. Who we are</h5>
     <p>We are a company called “Ocado Innovation Limited” or “Ocado Technology”, and we own the Code for Life learning
         portal. In this policy, we also use the name “Ocado” when we refer to us. Our office is at Buildings 1 & 2
         Trident Place, Hatfield Business Park, Mosquito Way, Hatfield, AL10 9UL.</p>
     <p>We are responsible for the personal information we collect about you on the Code for Life portal.</p>
+
+    <hr>
 
     <h5 id="types-of-information">3. Types of information we hold about you</h5>
     <p>Your personal data, or personal information, is any information relating to you. It does not include anonymous
@@ -123,6 +129,8 @@
             of non-essential cookies.</p></li>
         <li><p>Your email address and marketing preferences, if you select to sign up to our newsletter.</p></li>
     </ul>
+
+    <hr>
 
     <h5 id="information-use">4. How we will use information about you</h5>
     <p>We need all the categories of information that we describe above, so that we can:</p>
@@ -238,11 +246,15 @@
         (unless the law gives us another valid ground to do so). You can obtain further information about how we assess
         our legitimate interests against any potential impact on you in respect of specific activities by contacting us.</p>
 
+    <hr>
+
     <h5 id="change-of-purpose">5. Change of purpose</h5>
     <p>We will only use your personal information for the purposes for which we collected it or for other compatible
         purposes. If we need to use your personal information for an unrelated purpose, we will notify you and we will
         explain the basis on which we do so. Please note that we do not always need to rely on your consent to collect
         and process your personal information, and we will not seek your consent unless this is required by law.</p>
+
+    <hr>
 
     <h5 id="cookies">6. Cookies</h5>
     <h6>6.1 What are Cookies?</h6>
@@ -331,6 +343,8 @@
         <!-- OneTrust Cookies Settings button end -->
     </p>
 
+    <hr>
+
     <h5 id="third-parties">7. Sharing your personal information with other persons</h5>
     <ul>
         <li><p>We share your personal information with our <strong>employees</strong>, to the extent this is necessary
@@ -376,6 +390,8 @@
             courts or such public authority, as necessary.</p></li>
     </ul>
 
+    <hr>
+
     <h5 id="data-retention">8. How long will we keep your personal information?</h5>
     <p>We will only retain your personal information for as long as you have an active account, unless we need to retain
         this information for longer, after your account is deactivated, in order to protect our legal interests and
@@ -384,6 +400,8 @@
         business analytics.</p>
     <p>For users that have registered but whose accounts are inactive, we will delete your personal information after 3
         years of inactivity.</p>
+
+    <hr>
 
     <h5 id="your-rights">9. Your rights</h5>
     <p>Under data protection laws, you have certain rights in relation to your personal information, which you can
@@ -416,6 +434,8 @@
         unsubscribe link which you can find at the bottom of our emails, in order to be removed from our mailing list.
         It could take up to 72 hours to process the update through our systems.</p>
 
+    <hr>
+
     <h5 id="security">10. Keeping your personal information secure</h5>
     <p>We have security measures in place to prevent personal information from being accidentally lost, or used or
         accessed in an unauthorised way. We limit access to your personal information to those persons who have a
@@ -428,6 +448,8 @@
         <a href="https://www.getsafeonline.org" target="_blank">www.getsafeonline.org</a>. Get Safe Online is supported
         by HM Government and leading businesses.</p>
 
+    <hr>
+
     <h5 id="how-to-complain">11. How to complain</h5>
     <p>We hope that we or our Data Protection Officer can resolve any query or concern you raise about this Privacy
         Policy or how we use your information.</p>
@@ -438,15 +460,21 @@
         <a href="https://ico.org.uk/concerns/" target="_blank">https://ico.org.uk/concerns/</a> or telephone:
         +44 303 123 1113.</p>
 
+    <hr>
+
     <h5 id="changes">12. Changes to this Privacy Policy</h5>
     <p>This Privacy Policy was last updated on {{ last_updated }}.</p>
     <p>We may change this Privacy Policy from time to time and you should check it regularly. If we make any material
         changes to this notice we will inform via appropriate means (e.g. email).</p>
 
+    <hr>
+
     <h5 id="contact-us">13. How to contact us</h5>
     <p>Please contact our Data Protection Officer or us at
         <a href="mailto:privacy@ocado.com">privacy@ocado.com</a> if you have any questions about this Privacy Policy or
         the information we hold about you.</p>
+
+    <hr>
 
     <h5 id="extra-help">14. Do you need extra help?</h5>
     <p>If you would like this Policy in another format (for example: audio, large print, braille) please contact us

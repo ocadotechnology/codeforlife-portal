@@ -1,107 +1,254 @@
 {% extends 'portal/base.html' %}
 {% load staticfiles %}
 {% load app_tags %}
-{% load banner_tags %}
 
 {% block subNav %}
-{% banner banner_name="BANNER" %}
+<section class="banner banner--teacher">
+    <h1 class="banner__text--primary">Terms of use</h1>
+</section>
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+    <ul class="nav is-flex" role="tablist">
+        <li class="active"><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#introduction">Introduction</a></li>
+        <li><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#terms">Terms of use</a></li>
+    </ul>
+</div>
 {% endblock subNav %}
 
 {% block content %}
-<div class="col-sm-8 col-center background">
-    <ul>
-        <li><p><a href="#introduction">Introduction</a></p></li>
-        <li><p><a href="#terms-of-use">Terms of Use</a></p></li>
-        <li><p><a href="#registration-and-types-of-membership">Registration and Types of Membership</a></p></li>
-        <li><p><a href="#misuse-of-code-for-life-site">Misuse of Code for Life site</a></p></li>
-        <li><p><a href="#prohibitions">Prohibitions</a></p></li>
-        <li><p><a href="#alerting-code-for-life">Alerting Code for Life</a></p></li>
-        <li><p><a href="#intellectual-property">Intellectual Property</a></p></li>
-        <li><p><a href="#our-liability">Our Liability</a></p></li>
-        <li><p><a href="#miscellaneous">Miscellaneous</a></p></li>
-    </ul>
+<div class="tab-content background container">
+    <div id="introduction" class="tab-pane active">
+        <section><h4 id="introduction">Introduction</h4></section>
+        <div class="row d-flex">
+            <div class="col-sm-6">
+                <p>Ocado Innovation Limited (as &ldquo;Ocado Technology&rdquo;), the division that powers Ocado.com, the world&rsquo;s
+                    largest online-only grocery retailer, has launched Code for Life. Code for Life is a nationwide
+                    corporate social responsibility initiative to help support primary and secondary school teachers
+                    deliver the new computer science curriculum. The aim of the initiative is to equip every child in
+                    the country with the &ldquo;coding survival skills&rdquo; that will enable them to flourish in an increasingly
+                    digital world.</p>
+                <p>Ocado Innovation Limited is committed to protecting any data that we collect concerning you. By using
+                    our services on this website you are agreeing to the use of the data that we collect in accordance
+                    with the Privacy Policy and the Terms of Use (together, the &ldquo;Terms & Conditions&rdquo;), so please read
+                    these carefully.</p>
+            </div>
+            <div class="col-sm-6">
+                <p>Ocado Innovation Limited is committed to providing a valuable source of supporting materials for
+                    teachers to deliver the current primary school curriculum, as well as a fun, educational web
+                    application from which students can learn. The Terms & Conditions form a legal document which sets
+                    out your rights and obligations, and those of Ocado Innovation Limited, a company registered in
+                    England under registered company number 08813912 with its registered office at Buildings One & Two
+                    Trident Place, Mosquito Way, Hatfield, Hertfordshire, United Kingdom, AL10 9UL (&ldquo;Ocado Innovation
+                    Limited&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo; or &ldquo;us&rdquo; as appropriate in the context), in relation to the entire contents of
+                    the Code for Life website and the games, platforms and other products or services offered by Ocado
+                    Technology from time to time (collectively, &ldquo;Code for Life&rdquo;).</p>
+            </div>
+        </div>
+    </div>
 
-    <section>
-        <h4 id="introduction">Introduction</h4>
-    </section>
-    <p>Ocado Innovation Limited (as &ldquo;Ocado Technology&rdquo;), the division that powers Ocado.com, the world&rsquo;s largest online-only grocery retailer, has launched Code for Life. Code for Life is a nationwide corporate social responsibility initiative to help support primary and secondary school teachers deliver the new computer science curriculum. The aim of the initiative is to equip every child in the country with the &ldquo;coding survival skills&rdquo; that will enable them to flourish in an increasingly digital world.</p>
-    <p>Ocado Innovation Limited is committed to protecting any data that we collect concerning you. By using our services on this website you are agreeing to the use of the data that we collect in accordance with the Privacy Policy and the Terms of Use (together, the &ldquo;Terms & Conditions&rdquo;), so please read these carefully. Ocado Innovation Limited is committed to providing a valuable source of supporting materials for teachers to deliver the current primary school curriculum, as well as a fun, educational web application from which students can learn. The Terms & Conditions form a legal document which sets out your rights and obligations, and those of Ocado Innovation Limited, a company registered in England under registered company number 08813912 with its registered office at Buildings One & Two Trident Place, Mosquito Way, Hatfield, Hertfordshire, United Kingdom, AL10 9UL (&ldquo;Ocado Innovation Limited&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo; or &ldquo;us&rdquo; as appropriate in the context), in relation to the entire contents of the Code for Life website and the games, platforms and other products or services offered by Ocado Technology from time to time (collectively, &ldquo;Code for Life&rdquo;).</p>
+    <div id="terms" class="tab-pane">
+        <section><h4 id="terms-of-use">Terms of Use</h4></section>
 
-    <section>
-        <h4 id="terms-of-use">Terms of Use</h4>
-    </section>
-    <p><strong>Important:</strong> If you are under 13 years of age you must have your parent, guardian or carer&rsquo;s consent to register for a Code for Life account, and to use their email address. If you are using this at school, you must first have your teacher&rsquo;s permission to use this site. These Terms of Use were most recently updated on 27 December 2018.</p>
+        <ol class="list--two-columns">
+            <li><p><a href="#registration-and-types-of-membership">Registration and Types of Membership</a></p></li>
+            <li><p><a href="#misuse-of-code-for-life-site">Misuse of Code for Life site</a></p></li>
+            <li><p><a href="#prohibitions">Prohibitions</a></p></li>
+            <li><p><a href="#alerting-code-for-life">Alerting Code for Life</a></p></li>
+            <li><p><a href="#intellectual-property">Intellectual Property</a></p></li>
+            <li><p><a href="#our-liability">Our Liability</a></p></li>
+            <li><p><a href="#miscellaneous">Miscellaneous</a></p></li>
+        </ol>
 
-    <p>Code for Life includes all versions of &ldquo;Rapid Router&rdquo;, &ldquo;Kurono&rdquo; and any other games, platforms and other products or services released by us (whether online or otherwise), from time to time, including all Code for Life websites used to play the games, platforms and any other products or services that we make available. &ldquo;Code for Life&rdquo; and &ldquo;Rapid Router&rdquo; are registered UK trade marks of Ocado Innovation Limited.</p>
+        <hr>
 
-    <p>You must take the time to read and understand the Terms of Use and the Privacy Policy before registering for Code for Life. By registering, you accept that you are entering into a contract with us  in accordance with the Terms & Conditions and the Privacy Policy. Visitors to the Code for Life portal who do not register to become a User, similarly affirm that they are bound by the Terms & Conditions and the Privacy Policy each time they access the Code for Life site. We reserve the right to update the Terms of Use at any time, so please check them periodically, as all changes will be binding on you provided that you use the website after they have been made. To assist you in determining whether the Terms & Conditions have changed since your most recent visit to the website, we will display the date when the Terms of Use and Privacy Policy were most recently updated. </p>
+        <div class="row d-flex">
+            <div class="col-sm-6">
+                <p><strong>Important: If you are under 13 years of age you must have your parent, guardian or carer&rsquo;s
+                    consent to register for a Code for Life account, and to use their email address. If you are using
+                    this at school, you must first have your teacher&rsquo;s permission to use this site. These Terms of Use
+                    were most recently updated on 27 December 2018.</strong></p>
+                <p>Code for Life includes all versions of &ldquo;Rapid Router&rdquo;, &ldquo;Kurono&rdquo; and any other games, platforms and
+                    other products or services released by us (whether online or otherwise), from time to time,
+                    including all Code for Life websites used to play the games, platforms and any other products or
+                    services that we make available. &ldquo;Code for Life&rdquo; and &ldquo;Rapid Router&rdquo; are registered UK trade marks of
+                    Ocado Innovation Limited.</p>
+                <p>You must take the time to read and understand the Terms of Use and the Privacy Policy before
+                    registering for Code for Life.</p>
+            </div>
+            <div class="col-sm-6">
+                <p><strong>By registering, you accept that you are entering into a contract with us in accordance with
+                    the Terms & Conditions and the Privacy Policy. Visitors to the Code for Life portal who do not
+                    register to become a User, similarly affirm that they are bound by the Terms & Conditions and the
+                    Privacy Policy each time they access the Code for Life site. We reserve the right to update the
+                    Terms of Use at any time, so please check them periodically, as all changes will be binding on you
+                    provided that you use the website after they have been made. To assist you in determining whether
+                    the Terms & Conditions have changed since your most recent visit to the website, we will display the
+                    date when the Terms of Use and Privacy Policy were most recently updated.</strong></p>
+                <p><strong>Important: You must ensure that any email address we hold for you is kept up-to-date and that
+                    you have full access to it. Important notifications are sent to the email address you provide.
+                    Failure to keep this information updated can result in your Code for Life account being deleted
+                    and/or restricted.</strong></p>
+            </div>
+        </div>
 
-    <p><strong>Important:</strong> You must ensure that any email address we hold for you is kept up-to-date and that you have full access to it. Important notifications are sent to the email address you provide. Failure to keep this information updated can result in your Code for Life account being deleted and/or restricted.</p>
+        <hr>
 
-    <h5 id="registration-and-types-of-membership">Registration and Types of Membership</h5>
-    <p><strong>Membership falls into the following categories under the Agreement outlined in this policy:</strong></p>
-    <ul>
-        <li><p>Administrators: person or persons assigned responsibility for the management and security of membership by other Users;</p></li>
-        <li><p>Users: any person using the Code for Life website, Rapid Router, Kurono or any other game, application or platform of ours regardless of membership;</p></li>
-        <li><p>Students: Users who are provided with login information for Code for Life by a teacher, parent, guardian or carer;</p></li>
-        <li><p>Teachers; and</p></li>
-        <li><p>Guardian, parents, carers.</p></li>
-    </ul>
-    <p>Many features of Code for Life require you to register as a User. Access to certain resources will be restricted from non-registered Users and Users who are not part of a participating school. Parents, guardians or carers of students registered through their school or club, should contact the child&rsquo;s teacher directly to request copies of the teaching resources, to assist with homework or progression in learning how to program. Teachers should provide a valid and professional email address when registering on the Code for Life site.</p>
-    <p>If you register a school or club, you will automatically become the responsible ‘Administrator&rsquo;. You should provide a valid and professional email address when registering as a teacher. If you create a school on the Code for Life site, you, by default become an ‘Administrator&rsquo; for your school.</p>
-    <p><strong>As an Administrator, you warrant that:</strong></p>
-    <ul>
-        <li><p>you are responsible and accountable for ensuring the online safety of the school or club for whom you are acting and that only legitimate institutional addresses should be accepted at sign up;</p></li>
-        <li><p>all registration information you submit is accurate, complete and truthful;</p></li>
-        <li><p>you will maintain the accuracy of such information; and</p></li>
-        <li><p>if you are accepting the Terms & Conditions on behalf of a school or club, you have the authority to bind that institution, company or legal entity to the Terms & Conditions.</p></li>
-    </ul>
-    <p>As a User, you further warrant that you will only grant access codes to teachers, staff members and students who are current employees or students known to your school or club. Upon termination of a teacher or other staff member&rsquo;s employment with you, you will ensure they assign over all existing classes and/or students to another teacher within your school or club. If at any time you become aware of a User who falsely claims to be affiliated with your school or club, you are obliged to notify the Code for Life team immediately.</p>
-    <p>A Code for Life User must not choose a username or institution name that could potentially infringe anyone&rsquo;s rights, which is intended to confuse, or which is offensive, hurtful or otherwise inappropriate, as reasonably determined by us. We reserve the right to change a username if we think it offends the Terms & Conditions. Users who are provided with login information for Code for Life by your teacher, parent, guardian or carer, are &ldquo;Students&rdquo;. Students are divided between those who are registered by a teacher through a school or club, or set up as an independent student using a parent, guardian, or carer email address.</p>
-    <p>Please note that we are not an internet service provider. All Users of Code for Life must have internet access and the necessary software for email and web usage.</p>
-    <p>Code for Life&rsquo;s Privacy Policy forms part of the Terms & Conditions, and your acceptance of the Terms & Conditions constitutes consent to the way we may handle your personal data as detailed in that policy.</p>
+        <h5 id="registration-and-types-of-membership">1. Registration and Types of Membership</h5>
+        <p><strong>Membership falls into the following categories under the Agreement outlined in this policy:</strong></p>
+        <ul>
+            <li><p>Administrators: person or persons assigned responsibility for the management and security of
+                membership by other Users;</p></li>
+            <li><p>Users: any person using the Code for Life website, Rapid Router, Kurono or any other game,
+                application or platform of ours regardless of membership;</p></li>
+            <li><p>Students: Users who are provided with login information for Code for Life by a teacher, parent,
+                guardian or carer;</p></li>
+            <li><p>Teachers; and</p></li>
+            <li><p>Guardian, parents, carers.</p></li>
+        </ul>
+        <p>Many features of Code for Life require you to register as a User. Access to certain resources will be
+            restricted from non-registered Users and Users who are not part of a participating school. Parents,
+            guardians or carers of students registered through their school or club, should contact the child&rsquo;s teacher
+            directly to request copies of the teaching resources, to assist with homework or progression in learning how
+            to program. Teachers should provide a valid and professional email address when registering on the Code for
+            Life site.</p>
+        <p>If you register a school or club, you will automatically become the responsible ‘Administrator&rsquo;. You should
+            provide a valid and professional email address when registering as a teacher. If you create a school on the
+            Code for Life site, you, by default become an ‘Administrator&rsquo; for your school.</p>
+        <p><strong>As an Administrator, you warrant that:</strong></p>
+        <ul>
+            <li><p>you are responsible and accountable for ensuring the online safety of the school or club for whom you
+                are acting and that only legitimate institutional addresses should be accepted at sign up;</p></li>
+            <li><p>all registration information you submit is accurate, complete and truthful;</p></li>
+            <li><p>you will maintain the accuracy of such information; and</p></li>
+            <li><p>if you are accepting the Terms & Conditions on behalf of a school or club, you have the authority to
+                bind that institution, company or legal entity to the Terms & Conditions.</p></li>
+        </ul>
+        <p>As a User, you further warrant that you will only grant access codes to teachers, staff members and students
+            who are current employees or students known to your school or club. Upon termination of a teacher or other
+            staff member&rsquo;s employment with you, you will ensure they assign over all existing classes and/or students to
+            another teacher within your school or club. If at any time you become aware of a User who falsely claims to
+            be affiliated with your school or club, you are obliged to notify the Code for Life team immediately.</p>
+        <p>A Code for Life User must not choose a username or institution name that could potentially infringe anyone&rsquo;s
+            rights, which is intended to confuse, or which is offensive, hurtful or otherwise inappropriate, as
+            reasonably determined by us. We reserve the right to change a username if we think it offends the Terms &
+            Conditions. Users who are provided with login information for Code for Life by your teacher, parent,
+            guardian or carer, are &ldquo;Students&rdquo;. Students are divided between those who are registered by a teacher
+            through a school or club, or set up as an independent student using a parent, guardian, or carer email
+            address.</p>
+        <p>Please note that we are not an internet service provider. All Users of Code for Life must have internet
+            access and the necessary software for email and web usage.</p>
+        <p>Code for Life&rsquo;s Privacy Policy forms part of the Terms & Conditions, and your acceptance of the Terms &
+            Conditions constitutes consent to the way we may handle your personal data as detailed in that policy.</p>
 
-    <h5 id="misuse-of-code-for-life-site">Misuse of Code for Life site</h5>
-    <p>We reserve the right (a) to suspend or terminate any User&rsquo;s access to Code for Life, or parts of it, and/or (b) to remove, or require the User to remove, material posted on Code for Life, if the User or material appears to us, or to someone who has complained to us, to be in breach of any provision of the Terms & Conditions.</p>
-    <p>Any person whose access has been suspended or terminated may not re-register for, or re-access, the Code for Life portal without our prior written consent. You are responsible for everything which is done on or through the Code for Life portal through your registered email address(es) or whilst your Users account is logged on to the Code for Life site. In addition, we reserve the right to suspend or terminate any User&rsquo;s access to Code for Life, or parts of it, if the relevant User is abusive, discriminatory or threatening, or harasses or communicates offensive messages or images to another User; irrespective of whether this is done through the Code for Life site. </p>
-    <p>We endeavour to ensure that the Code for Life website and access to your account and our games, platforms and other products or services are available 24 hours a day, but occasionally your access to the Code for Life website or to your account (including any old or live games or avatars) may be restricted to allow for repairs, maintenance or the introduction of new features or services. We aim to provide the best service possible, but we do not warrant that the Code for Life website, access to your account or any of the games, platforms or any of our other products or services (whether online or otherwise) will be fault, virus or error free. If you detect a problem or fault, please contact us using the <a class="freshdesk__contact-us">contact us form</a> and we will endeavour to correct the fault as quickly as we can. </p>
-    <p>Notwithstanding any of the above, we reserve the right to decline any new registrations or suspend or cancel a User&rsquo;s account at any time and at our sole discretion (and without telling you beforehand), and we reserve the right to terminate your access to all or part of the games, platforms and other products or services that we make available from time to time (whether online or otherwise) which shall include any old or live games or avatar(s) you have created.</p>
-    <p><strong>The Code for Life portal is intended to be used by its Users and Students for the purposes we describe in the Terms & Conditions and not for any other purposes. Accordingly, Users and Students must not:</strong></p>
-    <ul>
-        <li><p>place material on, or otherwise use, the Code for Life for any business or commercial purpose; or</p></li>
-        <li><p>use their access to the Code for Life, or information gathered from it, in connection with the sending of unsolicited bulk email (sometimes known as spam).</p></li>
-    </ul>
+        <hr>
 
-    <h5 id="prohibitions">Prohibitions</h5>
-    <p>You must ensure that any activity and or communication through the Code for Life site, is not capable of (a) infringing the intellectual property or other rights of any person or entity, (b) breaching any applicable laws, regulations or codes of practice, whether criminal, tortuous or otherwise, (c) appearing to be offensive, harassing, threatening, harmful, vulgar, abusive, discriminatory, obscene, pornographic, false, libellous, defamatory, unreliable or misleading,  (d) being perceived as antisocial or disruptive, (e) gaining unauthorised access to other computer systems, (f) interfering with any other person&rsquo;s use or enjoyment of the Code for Life website or their account(s), or (g) engaging in any technically harmful behaviour, which includes but is not limited to, computer viruses, logic bombs, Trojan horses, worms, harmful components, corrupted data and other malicious software or harmful data.</p>
+        <h5 id="misuse-of-code-for-life-site">2. Misuse of Code for Life site</h5>
+        <p>We reserve the right (a) to suspend or terminate any User&rsquo;s access to Code for Life, or parts of it, and/or
+            (b) to remove, or require the User to remove, material posted on Code for Life, if the User or material
+            appears to us, or to someone who has complained to us, to be in breach of any provision of the Terms &
+            Conditions.</p>
+        <p>Any person whose access has been suspended or terminated may not re-register for, or re-access, the Code for
+            Life portal without our prior written consent. You are responsible for everything which is done on or
+            through the Code for Life portal through your registered email address(es) or whilst your Users account is
+            logged on to the Code for Life site. In addition, we reserve the right to suspend or terminate any User&rsquo;s
+            access to Code for Life, or parts of it, if the relevant User is abusive, discriminatory or threatening, or
+            harasses or communicates offensive messages or images to another User; irrespective of whether this is done
+            through the Code for Life site. </p>
+        <p>We endeavour to ensure that the Code for Life website and access to your account and our games, platforms and
+            other products or services are available 24 hours a day, but occasionally your access to the Code for Life
+            website or to your account (including any old or live games or avatars) may be restricted to allow for
+            repairs, maintenance or the introduction of new features or services. We aim to provide the best service
+            possible, but we do not warrant that the Code for Life website, access to your account or any of the games,
+            platforms or any of our other products or services (whether online or otherwise) will be fault, virus or
+            error free. If you detect a problem or fault, please contact us using the
+            <a class="freshdesk__contact-us">contact us form</a> and we will endeavour to correct the fault as quickly
+            as we can. </p>
+        <p>Notwithstanding any of the above, we reserve the right to decline any new registrations or suspend or cancel
+            a User&rsquo;s account at any time and at our sole discretion (and without telling you beforehand), and we reserve
+            the right to terminate your access to all or part of the games, platforms and other products or services
+            that we make available from time to time (whether online or otherwise) which shall include any old or live
+            games or avatar(s) you have created.</p>
+        <p><strong>The Code for Life portal is intended to be used by its Users and Students for the purposes we
+            describe in the Terms & Conditions and not for any other purposes. Accordingly, Users and Students must not:</strong></p>
+        <ul>
+            <li><p>place material on, or otherwise use, the Code for Life for any business or commercial purpose; or</p></li>
+            <li><p>use their access to the Code for Life, or information gathered from it, in connection with the
+                sending of unsolicited bulk email (sometimes known as spam).</p></li>
+        </ul>
 
-    <h5 id="alerting-code-for-life">Alerting Code for Life</h5>
-    <p>If you see anything on the Code for Life portal which appears to infringe any part of the Terms & Conditions, then please inform us via the <a class="freshdesk__contact-us">Contact Us</a> section of this site.</p>
-    <p>We do not endorse or take responsibility for the content of any third party sites that link to or from Code for Life.</p>
+        <hr>
 
-    <h5 id="intellectual-property">Intellectual Property</h5>
-    <p>You acknowledge that all copyright, trademarks, and other intellectual property rights in and relating to Code for Life (including all content of the Code for Life website, the Rapid Router application, the Kurono application, related software (including any drawn and/or animated avatars, whether or not such avatars have any modifications) and any other games, applications or any other content that we make available from time to time) are owned by Ocado Innovation Limited. These rights protect all of the applications, games, products and services you see on the Code for Life website from time to time, including the graphics of those games, their structure, gameplay and their &ldquo;look and feel&rdquo;. It is easy to copy material which appears on websites, but this does not mean it is legal. Therefore, no-one may copy, modify, distribute, show in public or create any derivative work from the Code for Life portal, or any part of the games or other material which is found on the Code for Life unless properly licensed to do so by us.</p>
+        <h5 id="prohibitions">3. Prohibitions</h5>
+        <p>You must ensure that any activity and or communication through the Code for Life site, is not capable of (a)
+            infringing the intellectual property or other rights of any person or entity, (b) breaching any applicable
+            laws, regulations or codes of practice, whether criminal, tortuous or otherwise, (c) appearing to be
+            offensive, harassing, threatening, harmful, vulgar, abusive, discriminatory, obscene, pornographic, false,
+            libellous, defamatory, unreliable or misleading,  (d) being perceived as antisocial or disruptive, (e)
+            gaining unauthorised access to other computer systems, (f) interfering with any other person&rsquo;s use or
+            enjoyment of the Code for Life website or their account(s), or (g) engaging in any technically harmful
+            behaviour, which includes but is not limited to, computer viruses, logic bombs, Trojan horses, worms,
+            harmful components, corrupted data and other malicious software or harmful data.</p>
 
-    <h5 id="our-liability">Our Liability</h5>
-    <p>The website, use of the application and games, and access to any accounts is provided by us on an &ldquo;as is&rdquo; basis without any warranties or guarantees. We do not accept responsibility for any errors, omissions, or for the results obtained from the use of such information or for any technical problems you may experience with the website.</p>
-    <p>We shall not be liable for:</p>
-    <ul>
-        <li><p>any viruses or other disabling features that affect your access to or use of the website (including your account);</p></li>
-        <li><p>incompatibility of the Code for Life website with any of your equipment, software or telecommunications links;</p></li>
-        <li><p>delays or failures which you may experience whilst conducting any activity on the Code for Life website;</p></li>
-        <li><p>technical problems including errors or interruptions of the Code for Life website;</p></li>
-        <li><p>unsuitability, unreliability or inaccuracy of the Code for Life website, or the inadequacy of the Code for Life website to meet your requirements; or</p></li>
-        <li><p>consequential or incidental damages (including but not limited to loss of revenue, loss of profits, loss of anticipated savings, wasted expenditure and loss of data) or any other indirect, special or punitive damages whatsoever that arise out of or are related to the Code for Life website.</p></li>
-    </ul>
-    <p>Nothing in the Terms & Conditions shall exclude or limit our liability for:</p>
-    <ul>
-        <li><p>death or personal injury caused by our negligence;</p></li>
-        <li><p>fraud or fraudulent misrepresentation by us; or</p></li>
-        <li><p>any liability which we cannot exclude or limit by law. </p></li>
-    </ul>
+        <hr>
 
-    <h5 id="miscellaneous">Miscellaneous</h5>
-    <p>The delay or failure of any party to exercise its rights provided for in these Terms & Conditions shall not be deemed a waiver of any further rights hereunder. If any provision of the Terms & Conditions is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary to enable the Terms & Conditions to remain in full force and effect. The Terms & Conditions shall be governed by and construed in accordance with the laws of England and Wales and the parties shall submit to the exclusive jurisdiction of the English courts.</p>
+        <h5 id="alerting-code-for-life">4. Alerting Code for Life</h5>
+        <p>If you see anything on the Code for Life portal which appears to infringe any part of the Terms & Conditions,
+            then please inform us via the <a class="freshdesk__contact-us">Contact Us</a> section of this site.</p>
+        <p>We do not endorse or take responsibility for the content of any third party sites that link to or from Code
+            for Life.</p>
+
+        <hr>
+
+        <h5 id="intellectual-property">5. Intellectual Property</h5>
+        <p>You acknowledge that all copyright, trademarks, and other intellectual property rights in and relating to
+            Code for Life (including all content of the Code for Life website, the Rapid Router application, the Kurono
+            application, related software (including any drawn and/or animated avatars, whether or not such avatars have
+            any modifications) and any other games, applications or any other content that we make available from time
+            to time) are owned by Ocado Innovation Limited. These rights protect all of the applications, games,
+            products and services you see on the Code for Life website from time to time, including the graphics of
+            those games, their structure, gameplay and their &ldquo;look and feel&rdquo;. It is easy to copy material which appears
+            on websites, but this does not mean it is legal. Therefore, no-one may copy, modify, distribute, show in
+            public or create any derivative work from the Code for Life portal, or any part of the games or other
+            material which is found on the Code for Life unless properly licensed to do so by us.</p>
+
+        <hr>
+
+        <h5 id="our-liability">6. Our Liability</h5>
+        <p>The website, use of the application and games, and access to any accounts is provided by us on an &ldquo;as is&rdquo;
+            basis without any warranties or guarantees. We do not accept responsibility for any errors, omissions, or
+            for the results obtained from the use of such information or for any technical problems you may experience
+            with the website.</p>
+        <p>We shall not be liable for:</p>
+        <ul>
+            <li><p>any viruses or other disabling features that affect your access to or use of the website (including
+                your account);</p></li>
+            <li><p>incompatibility of the Code for Life website with any of your equipment, software or
+                telecommunications links;</p></li>
+            <li><p>delays or failures which you may experience whilst conducting any activity on the Code for Life
+                website;</p></li>
+            <li><p>technical problems including errors or interruptions of the Code for Life website;</p></li>
+            <li><p>unsuitability, unreliability or inaccuracy of the Code for Life website, or the inadequacy of the
+                Code for Life website to meet your requirements; or</p></li>
+            <li><p>consequential or incidental damages (including but not limited to loss of revenue, loss of profits,
+                loss of anticipated savings, wasted expenditure and loss of data) or any other indirect, special or
+                punitive damages whatsoever that arise out of or are related to the Code for Life website.</p></li>
+        </ul>
+        <p>Nothing in the Terms & Conditions shall exclude or limit our liability for:</p>
+        <ul>
+            <li><p>death or personal injury caused by our negligence;</p></li>
+            <li><p>fraud or fraudulent misrepresentation by us; or</p></li>
+            <li><p>any liability which we cannot exclude or limit by law. </p></li>
+        </ul>
+
+        <hr>
+
+        <h5 id="miscellaneous">7. Miscellaneous</h5>
+        <p>The delay or failure of any party to exercise its rights provided for in these Terms & Conditions shall not
+            be deemed a waiver of any further rights hereunder. If any provision of the Terms & Conditions is found to
+            be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary
+            to enable the Terms & Conditions to remain in full force and effect. The Terms & Conditions shall be
+            governed by and construed in accordance with the laws of England and Wales and the parties shall submit to
+            the exclusive jurisdiction of the English courts.</p>
+    </div>
 </div>
 
 {% endblock content %}
