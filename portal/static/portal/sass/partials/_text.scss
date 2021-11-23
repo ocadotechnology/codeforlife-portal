@@ -190,6 +190,12 @@ blockquote {
   }
 }
 
+@media (min-width: $tablet-small-min-width) {
+  .list--two-columns {
+    columns: 2;
+  }
+}
+
 @media (min-width: $desktop-large-min-width) {
   html {
     font-size: 10px;
