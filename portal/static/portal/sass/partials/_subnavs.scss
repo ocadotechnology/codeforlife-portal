@@ -119,8 +119,8 @@
 
   .button:hover,
   .button:focus {
-    background: none;
-    text-decoration: underline;
+    background: $color-button-contained;
+    text-decoration: none;
   }
 
   /* Inverted outline button for sub nav bar */
