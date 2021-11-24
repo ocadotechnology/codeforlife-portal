@@ -323,6 +323,10 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  img {
+    width: 40%;
+  }
 }
 
 .banner--aimmo--background {
@@ -330,6 +334,11 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  img {
+    @include _margin(60px, 0px, 60px, 0px);
+    width: 40%;
+  }
 }
 
 .banner--aimmo--blurred-background {
