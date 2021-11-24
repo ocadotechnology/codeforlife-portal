@@ -12,6 +12,8 @@ def banner(context, banner_name):
     - title: the heading of the banner
     - subtitle (optional): a smaller heading below the title
     - text (optional): a description paragraph below the subtitle
+    - button (optional): a dictionary containing the text and link of a button below
+    the text elements
     - image_class: the CSS class of the image to be shown in the hexagon
     """
     return context[banner_name]

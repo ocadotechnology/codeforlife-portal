@@ -1,10 +1,7 @@
 {% extends 'portal/base.html' %}
+{% load static %}
 {% load staticfiles %}
-{% load app_tags %}
-{% load banner_tags %}
-{% load game_banner_tags %}
-{% load headline_tags %}
-{% load benefits_tags %}
+{% load app_tags banner_tags headline_tags game_banner_tags character_list_tags %}
 
 {% block subNav %}
 {% banner banner_name="BANNER" %}
@@ -12,17 +9,89 @@
 
 {% block content %}
 
-<section class="background">
+<div class="background">
     {% headline headline_name="HEADLINE" %}
-</section>
-
-<div>
-    {% benefits %}
 </div>
 
-<div class="container-fluid">
-    {% game_banner game_banner_name="RAPID_ROUTER_BANNER" %}
-    {% game_banner game_banner_name="KURONO_BANNER" %}
+<div class="background container">
+    <section class="banner--rapid-router--background">
+        <img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo.svg' %}">
+    </section>
+    <div class="background row">
+        <div class="col-sm-6">
+            <h4>Starting with Blockly</h4>
+            <p>Starting with Blockly, you can learn to become a coding superhero, amaze your friends with your high
+                scores. Create levels for your friends and compete for the most coins.</p>
+            <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
+            <div class="background">
+                <a href="https://www.google.com" class="button button--primary button--icon" target="_blank">
+                    Learn more about Blockly<span class="iconify" data-icon="mdi:open-in-new"></span></a>
+            </div>
+            <div class="background">
+                <a href="{% url 'levels' %}" class="button button--primary button-right-arrow">Play Rapid Router</a>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <a href="https://www.youtube-nocookie.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
+                <img title="Watch Video" alt="Watch Video" src="{% static 'portal/img/thumbnail_intro_rr.jpg' %}">
+            </a>
+        </div>
+    </div>
+</div>
+
+<section class="background background--primary">
+    <h4>Meet the characters</h4>
+    <div class="col-sm-10 col-center image-row">
+        <div>
+            <img title="Wes" alt="Wes image" src="{% static 'portal/img/wes.png' %}">
+            <p>Wes is as cunning as a fox, which is weird, because he&rsquo;s actually a wolf.</p>
+        </div>
+        <div>
+            <img title="Kirsty" alt="Kirsty image" src="{% static 'portal/img/kirsty.png' %}">
+            <p>Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world!</p>
+        </div>
+        <div>
+            <img title="Dee" alt="Dee image" src="{% static 'portal/img/dee.png' %}">
+            <p>Dee is a Mark II DeliviBot. She&rsquo;s super friendly and her wire hair sparks when she laughs.</p>
+        </div>
+        <div>
+            <img title="Nigel" alt="Nigel image" src="{% static 'portal/img/nigel.png' %}">
+            <p>Nigel is the tallest kid in his class, and he&rsquo;s growing taller by the day.</p>
+        </div>
+        <div>
+            <img title="Phil" alt="Phil image" src="{% static 'portal/img/phil.png' %}">
+            <p>Phil is a Boarsnark, however, he is different to most Boarsnarks because he&rsquo;s very kind, and very gentle.</p>
+        </div>
+    </div>
+</section>
+
+<div class="background container">
+    <section class="banner--aimmo--background">
+        <img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/kurono_logo.svg' %}">
+    </section>
+    <div class="background row">
+        <div class="col-sm-6">
+            <h4>Progressing to Python</h4>
+            <p>Kurono guides you and makes learning to code great fun.</p>
+            <p>Using Python, you can travel with your classmates through time to collect all the museum artefacts.</p>
+            <p>Ask your teacher or tutor to <a href="{% url 'register' %}">register</a>.</p>
+            <div class="background">
+                <a href="{% url 'student_login_access_code' %}" class="button button--primary button-right-arrow" >Login to get started</a>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <a href="https://www.youtube-nocookie.com/embed/PQFyF3R6Xts?rel=0&amp;autoplay=1" class="youtube">
+                <img title="Watch Video" alt="Watch Video" src="{% static 'portal/img/thumbnail_intro_rr.jpg' %}">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="background background--primary">
+    <div class="container">
+        <h4 class="text-center">Meet the characters</h4>
+        {% character_list %}
+    </div>
 </div>
 
 {% endblock content %}
