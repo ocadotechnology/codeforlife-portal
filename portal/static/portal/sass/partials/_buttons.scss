@@ -79,8 +79,8 @@ table {
 
   &:active,
   &:focus {
-    border-width: 3px;
     text-decoration: none;
+    cursor: grab;
   }
 }
 
