@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.21.2 (2021-11-25)
+### Fix
+* Fix links ([#1642](https://github.com/ocadotechnology/codeforlife-portal/issues/1642)) ([`3f55d9f`](https://github.com/ocadotechnology/codeforlife-portal/commit/3f55d9fd194c3d803ab86968d3517dab461951bb))
+
 ## v5.21.1 (2021-11-25)
 ### Fix
 * Add GCP bucket to CSP list ([#1641](https://github.com/ocadotechnology/codeforlife-portal/issues/1641)) ([`d1987dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/d1987dcc33c038fec36bb62e2400d094238cbc77))
