@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v5.21.2 (2021-11-25)
+### Fix
+* Fix links ([#1642](https://github.com/ocadotechnology/codeforlife-portal/issues/1642)) ([`3f55d9f`](https://github.com/ocadotechnology/codeforlife-portal/commit/3f55d9fd194c3d803ab86968d3517dab461951bb))
+
+## v5.21.1 (2021-11-25)
+### Fix
+* Add GCP bucket to CSP list ([#1641](https://github.com/ocadotechnology/codeforlife-portal/issues/1641)) ([`d1987dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/d1987dcc33c038fec36bb62e2400d094238cbc77))
+
+## v5.21.0 (2021-11-23)
+### Feature
+* Implement CSP header ([#1570](https://github.com/ocadotechnology/codeforlife-portal/issues/1570)) ([`4eaaf6f`](https://github.com/ocadotechnology/codeforlife-portal/commit/4eaaf6f6befdefdf8718ed34cc7ff5a9fae5c972))
+
+## v5.20.0 (2021-11-23)
+### Feature
+* Remove worksheet model ([#1628](https://github.com/ocadotechnology/codeforlife-portal/issues/1628)) ([`2556285`](https://github.com/ocadotechnology/codeforlife-portal/commit/25562857f53b72e373f42b4d9be331ae39059d23))
+
 ## v5.19.1 (2021-11-23)
 ### Fix
 * Make class code case-insensitive and fully check Regex ([#1639](https://github.com/ocadotechnology/codeforlife-portal/issues/1639)) ([`27b731e`](https://github.com/ocadotechnology/codeforlife-portal/commit/27b731e7ed56f21b1abaac6cda30a6606333d29d))
