@@ -19,6 +19,7 @@ CSP_CONFIG = {
         "https://fonts.googleapis.com/",
     ),
     "CSP_IMG_SRC": (
+        "https://storage.googleapis.com/codeforlife-assets/images/",
         "https://cdn-ukwest.onetrust.com/",
         f"{domain()}/static/portal/img/",
         "data:",

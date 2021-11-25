@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.21.1 (2021-11-25)
+### Fix
+* Add GCP bucket to CSP list ([#1641](https://github.com/ocadotechnology/codeforlife-portal/issues/1641)) ([`d1987dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/d1987dcc33c038fec36bb62e2400d094238cbc77))
+
 ## v5.21.0 (2021-11-23)
 ### Feature
 * Implement CSP header ([#1570](https://github.com/ocadotechnology/codeforlife-portal/issues/1570)) ([`4eaaf6f`](https://github.com/ocadotechnology/codeforlife-portal/commit/4eaaf6f6befdefdf8718ed34cc7ff5a9fae5c972))
