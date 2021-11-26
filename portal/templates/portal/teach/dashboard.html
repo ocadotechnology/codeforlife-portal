@@ -34,6 +34,7 @@
         // make each tab update the current location hash on click
         tabs.on('shown.bs.tab', (event) => {
             updateLocationHash(event.target.hash)
+            window.scrollTo(0, 0)
         })
 
         $("#update-details").on("click", () => {
