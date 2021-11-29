@@ -4,6 +4,10 @@ a {
   cursor: pointer;
 }
 
+a:focus {
+  cursor: default;
+}
+
 button,
 .button {
   @include _font-size(16px);
@@ -58,6 +62,7 @@ table {
     @include material-shadow();
     background: $color-button-contained-hover;
     color: $color-text-primary;
+    text-decoration: none;
   }
 
   &:active {
@@ -79,7 +84,6 @@ table {
 
   &:active,
   &:focus {
-    border-width: 3px;
     text-decoration: none;
   }
 }
@@ -124,6 +128,10 @@ table {
 }
 
 .button-drop-down {
+  &.button.button--primary:hover {
+    text-decoration: none;
+  }
+
   &:after {
     content: "\e5c5";
     font-family: "Material Icons Outlined";
