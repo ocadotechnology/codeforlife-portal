@@ -6,6 +6,7 @@ local_settings.py
 /env/
 *.iml
 *~
+/gitignore/
 
 __pycache__
 .settings
@@ -30,3 +31,4 @@ node_modules
 
 # Cypress generated folder
 /cypress
+pyproject.toml

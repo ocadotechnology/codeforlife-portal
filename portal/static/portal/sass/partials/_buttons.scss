@@ -54,7 +54,7 @@ table {
 
 /* Yellow contained button */
 .button--primary {
-  @include _padding(9px, 15px, 11px, 15px);
+  @include _padding(10px, 15px, 10px, 15px);
   background: $color-button-contained;
   color: $color-text-primary;
 
@@ -128,7 +128,8 @@ table {
 }
 
 .button-drop-down {
-  &.button.button--primary:hover {
+  &.button.button--primary:hover,
+  &.button.button--primary:focus {
     text-decoration: none;
   }
 
