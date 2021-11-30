@@ -217,9 +217,15 @@
                     <a class="button button--menu__item button--menu__item--student"
                         href="{% url 'scoreboard' %}">Scoreboard<span class="material-icons-outlined md-32">chevron_right</span></a>
                     {% endif %}
+                <!-- independent student -->
                 {% if not user.new_student.class_field %}
-                    <a class="button button--menu__item button--menu__item--independent"
-                      href="{% url 'student_join_organisation' %}">Join a school<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    <button class="button--menu__item button--menu__item--independent button--menu__item--sub-header"
+                            data-toggle="collapse" data-target="#resources-tabs">Learning Resources</button>
+                    <div id="resources-tabs" class="collapse">
+                        <a class="button button--menu__item button--menu__item--independent button--menu__item__sub"
+                          href="https://code-for-life.gitbook.io/independent-student-resources/" target="_blank">
+                          Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    </div>
                 {% endif %}
                 </div>
             {% endif %}
