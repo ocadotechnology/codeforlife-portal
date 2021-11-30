@@ -32,11 +32,12 @@
                 {% if user|has_teacher_finished_onboarding %}
                     <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
                     <div class="dropdown">
-                        <a class="button--menu button--menu--secondary button--menu--enabled">
+                        <a id="games_button"
+                            class="button--menu button--menu--secondary button--menu--enabled">
                             Games <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
                         <div class="dropdown-content">
                             <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-                            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
+                            <a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button"><small>Kurono</small></a>
                         </div>
                     </div>
                     <div class="dropdown">
