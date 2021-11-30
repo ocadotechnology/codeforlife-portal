@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.21.3 (2021-11-26)
+### Fix
+* Add GA connection to CSP policy ([#1646](https://github.com/ocadotechnology/codeforlife-portal/issues/1646)) ([`368e11d`](https://github.com/ocadotechnology/codeforlife-portal/commit/368e11d2482c3786aed151de165c3c2b86923a6c))
+
 ## v5.21.2 (2021-11-25)
 ### Fix
 * Fix links ([#1642](https://github.com/ocadotechnology/codeforlife-portal/issues/1642)) ([`3f55d9f`](https://github.com/ocadotechnology/codeforlife-portal/commit/3f55d9fd194c3d803ab86968d3517dab461951bb))
