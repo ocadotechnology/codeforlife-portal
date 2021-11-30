@@ -12,6 +12,7 @@ CSP_CONFIG = {
         "https://api.iconify.design/",
         "https://api.simplesvg.com/",
         "https://api.unisvg.com/",
+        "https://www.google-analytics.com/",
     ),
     "CSP_FONT_SRC": (
         "'self'",
