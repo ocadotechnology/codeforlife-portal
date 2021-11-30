@@ -24,7 +24,8 @@ class IndependentStudentLoginView(LoginView):
         messages.info(
             request,
             "<strong>You are logged in as an independent student. If you want to join "
-            "a school, you need to request to join one.</strong>",
+            "a school, you need to <a href='/play/join'>request "
+            "to join one</a>.</strong>",
             extra_tags="safe",
         )
 

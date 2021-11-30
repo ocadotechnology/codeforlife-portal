@@ -6,8 +6,7 @@
         <div class="menu__brand">
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
-                    {# TODO: update teacher home URL when changing its nav #}
-                    <a href="{% url 'home' %}">
+                    <a href="{% url 'dashboard' %}">
                 {% elif user|is_independent_student %}
                     <a href="{% url 'independent_student_details' %}">
                 {% else %}
@@ -29,12 +28,17 @@
         {% if user|is_logged_in %}
         <div class="menu__left-side col-md-7">
             {% if user|is_logged_in_as_teacher %}
-                <a href="{% url 'teach' %}" class="button--menu button--menu--primary">Teacher</a>
+                <div class="menu--title">Teacher</div>
                 {% if user|has_teacher_finished_onboarding %}
-                    <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
-                    <a href="{% url 'levels' %}" class="button--menu button--menu--secondary button--menu--enabled">Rapid Router</a>
-                    <a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button"
-                       class="button--menu button--menu--secondary button--menu--enabled">Kurono</a>
+                    <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
+                    <div class="dropdown">
+                        <a class="button--menu button--menu--secondary button--menu--enabled">
+                            Games <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
+                            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
+                        </div>
+                    </div>
                     <div class="dropdown">
                         <a id="teaching_resources_button"
                             class="button--menu button--menu--secondary button--menu--enabled">
@@ -47,9 +51,8 @@
                         </div>
                     </div>
                 {% else %}
-                    <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">School / Club</a>
-                    <a class="button--menu button--menu--secondary button--menu--disabled">Rapid Router</a>
-                    <a class="button--menu button--menu--secondary button--menu--disabled">Kurono</a>
+                    <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
+                    <a class="button--menu button--menu--secondary button--menu--disabled">Games</a>
                     <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
                 {% endif %}
             {% else %}
@@ -82,9 +85,17 @@
                 <a href="{% url 'scoreboard' %}" id="student_scoreboards_button"
                     class="button--menu button--menu--secondary button--menu--enabled">Scoreboard</a>
                 {% endif %}
+                <!-- independent student -->
                 {% if not user.new_student.class_field %}
-                    <a href="{% url 'student_join_organisation' %}" id="student_join_school_button"
-                      class="button--menu button--menu--secondary button--menu--enabled">Join a school</a>
+                    <div class="dropdown">
+                        <a id="teaching_resources_button"
+                            class="button--menu button--menu--secondary button--menu--enabled">
+                            Learning Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
+                        <div class="dropdown-content">
+                            <a href="https://code-for-life.gitbook.io/independent-student-resources/" target="_blank">
+                                <small>Rapid Router</small></a>
+                        </div>
+                    </div>
                 {% endif %}
             {% endif %}
         {% else %}
