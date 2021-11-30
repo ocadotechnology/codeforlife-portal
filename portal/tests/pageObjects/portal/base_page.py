@@ -99,6 +99,7 @@ class BasePage(object):
         return KuronoResourcesPage(self.browser)
 
     def go_to_kurono_teacher_dashboard_page(self):
+        self.browser.find_element_by_id("games_button").click()
         self.browser.find_element_by_id("teacher_kurono_dashboard_button").click()
         from .kurono_teacher_dashboard_page import KuronoTeacherDashboardPage
 

@@ -15,6 +15,7 @@ class IndependentStudentLoginView(LoginView):
     form_class = IndependentStudentLoginForm
     success_url = reverse_lazy("independent_student_details")
     redirect_authenticated_user = reverse_lazy("independent_student_details")
+    join_class_url = reverse_lazy("student_join_organisation")
 
     def get_success_url(self):
         url = self.get_redirect_url()
@@ -23,8 +24,9 @@ class IndependentStudentLoginView(LoginView):
     def _add_logged_in_as_message(self, request):
         messages.info(
             request,
-            "<strong>You are logged in as an independent student. If you want to join "
-            "a school, you need to request to join one.</strong>",
+            f"<strong>You are logged in as an independent student. If you want to join "
+            f"a school, you need to <a href='{self.join_class_url}' id='student_join_school_link'> "
+            f"request to join one</a>.</strong>",
             extra_tags="safe",
         )
 
