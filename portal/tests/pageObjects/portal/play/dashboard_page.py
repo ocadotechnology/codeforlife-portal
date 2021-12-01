@@ -13,6 +13,6 @@ class PlayDashboardPage(PlayBasePage):
         assert self.on_correct_page("play_dashboard_page")
 
     def go_to_join_a_school_or_club_page(self):
-        self.browser.find_element_by_id("student_join_school_button").click()
+        self.browser.find_element_by_id("student_join_school_link").click()
 
         return JoinSchoolOrClubPage(self.browser)
