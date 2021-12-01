@@ -65,6 +65,10 @@
   background-color: $color-background-sub-banner;
   color: $color-text-primary;
 
+  a {
+    color: $color-text-primary;
+  }
+
   .button--secondary--dark {
     &:hover,
     &:active,
@@ -119,7 +123,6 @@
 
   .button:hover,
   .button:focus {
-    background: none;
     text-decoration: underline;
   }
 

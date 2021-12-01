@@ -254,7 +254,7 @@ def teacher_delete_class(request, access_code):
 
     klass.delete()
 
-    return HttpResponseRedirect(reverse_lazy("dashboard"))
+    return HttpResponseRedirect(reverse_lazy("dashboard") + "#classes")
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))

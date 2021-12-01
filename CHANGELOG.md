@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.22.1 (2021-12-01)
+### Fix
+* Dashboard and buttons fix ([#1648](https://github.com/ocadotechnology/codeforlife-portal/issues/1648)) ([`85cff35`](https://github.com/ocadotechnology/codeforlife-portal/commit/85cff359f7e3c78ef84f7455078b365348d24ad9))
+
+## v5.22.0 (2021-11-30)
+### Feature
+* Navbar updates for indep and teacher ([#1649](https://github.com/ocadotechnology/codeforlife-portal/issues/1649)) ([`70fe806`](https://github.com/ocadotechnology/codeforlife-portal/commit/70fe8062ac061e6dbdb41288d11bb94bf5170fd6))
+
+## v5.21.3 (2021-11-26)
+### Fix
+* Add GA connection to CSP policy ([#1646](https://github.com/ocadotechnology/codeforlife-portal/issues/1646)) ([`368e11d`](https://github.com/ocadotechnology/codeforlife-portal/commit/368e11d2482c3786aed151de165c3c2b86923a6c))
+
 ## v5.21.2 (2021-11-25)
 ### Fix
 * Fix links ([#1642](https://github.com/ocadotechnology/codeforlife-portal/issues/1642)) ([`3f55d9f`](https://github.com/ocadotechnology/codeforlife-portal/commit/3f55d9fd194c3d803ab86968d3517dab461951bb))
