@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.22.1 (2021-12-01)
+### Fix
+* Dashboard and buttons fix ([#1648](https://github.com/ocadotechnology/codeforlife-portal/issues/1648)) ([`85cff35`](https://github.com/ocadotechnology/codeforlife-portal/commit/85cff359f7e3c78ef84f7455078b365348d24ad9))
+
 ## v5.22.0 (2021-11-30)
 ### Feature
 * Navbar updates for indep and teacher ([#1649](https://github.com/ocadotechnology/codeforlife-portal/issues/1649)) ([`70fe806`](https://github.com/ocadotechnology/codeforlife-portal/commit/70fe8062ac061e6dbdb41288d11bb94bf5170fd6))
