@@ -31,10 +31,6 @@
     text-decoration: none;
   }
 
-  .row {
-    @include _padding(0px, 0px, 30px, 0px);
-  }
-
   .banner--rapid-router--content {
     @include _padding(30px, 0px, 30px, 0px);
   }
@@ -43,10 +39,6 @@
     @include _padding(20 * $spacing, 0px, 20 * $spacing, 0px);
     display: flex;
     justify-content: center;
-  }
-
-  div[class^="col-sm"] {
-    padding: 0;
   }
 }
 
@@ -200,6 +192,7 @@
 
 .banner__text--primary {
   color: $color-text-secondary;
+  @include _margin(60px, auto, 10px, auto);
 }
 
 .banner__text--secondary {

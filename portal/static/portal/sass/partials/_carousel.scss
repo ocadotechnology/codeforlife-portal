@@ -1,0 +1,49 @@
+.carousel {
+  margin-bottom: 8px;
+}
+
+.carousel-inner {
+  > .item {
+    @include _padding(30px, 30px, 30px, 30px);
+
+    background-color: $color-background-tint-primary;
+    align-items: center;
+
+    &.active,
+    &.next,
+    &.prev {
+      display: flex;
+    }
+
+    > .carousel-image-wrapper {
+      @include _padding(30px, 30px, 30px, 30px);
+
+      background-color: $color-background-secondary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 415px;
+    }
+
+    > .carousel-text {
+      @include _padding(0px, 30px, 0px, 30px);
+    }
+  }
+}
+
+.carousel-indicators {
+  bottom: -42px;
+
+  li {
+    background-color: $color-carousel-inactive-indicator;
+    border-color: $color-carousel-inactive-indicator;
+  }
+
+  .active {
+    background-color: $color-secondary;
+    border-color: $color-secondary;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+  }
+}
