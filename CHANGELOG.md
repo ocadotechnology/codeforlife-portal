@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v5.23.0 (2021-12-02)
+### Feature
+* Educate page ([#1651](https://github.com/ocadotechnology/codeforlife-portal/issues/1651)) ([`b0dfa8a`](https://github.com/ocadotechnology/codeforlife-portal/commit/b0dfa8ac017f574beb1b5ac9300fc58966f393e8))
+
+### Fix
+* Primary text fix ([#1656](https://github.com/ocadotechnology/codeforlife-portal/issues/1656)) ([`283f281`](https://github.com/ocadotechnology/codeforlife-portal/commit/283f281c2d2baaa9d8dcc281be1fffd9d918070c))
+
 ## v5.22.3 (2021-12-02)
 ### Fix
 * Adjusted buttons in tables to a height of 35px ([#1655](https://github.com/ocadotechnology/codeforlife-portal/issues/1655)) ([`dc0a7b0`](https://github.com/ocadotechnology/codeforlife-portal/commit/dc0a7b0e4de63e35d1d36354836dc61143c54bb1))
