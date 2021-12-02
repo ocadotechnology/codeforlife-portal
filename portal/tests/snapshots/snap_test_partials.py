@@ -16,6 +16,7 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher row mx-0">
         
             <p>Test text</p>
         
+        
     </div>
     <div class="col-sm-5">
         <div class="banner--picture">
@@ -197,21 +198,10 @@ snapshots['test_character_list 1'] = '''
 </div>
 '''
 
-snapshots['test_game_banner 1'] = '''
-
-<div class="banner--game col-center col-lg-8 col-sm-12 test--class">
-    <div>
-        <h4>Test ages</h4>
-        <h2>Test title</h2>
-        <p class="banner--game__text"><strong>Test description</strong></p>
-        <a href="/play/"
-           class="button button--home button-right-arrow">Test button</a>
-    </div>
-</div>
-'''
-
-snapshots['test_headline 1'] = '''<h4>Test title</h4>
-<div class="col-sm-6 col-center">Test description</div>
+snapshots['test_headline 1'] = '''<section>
+    <h4>Test title</h4>
+</section>
+<p class="container">Test description</p>
 '''
 
 snapshots['test_hero_card 1'] = '''
