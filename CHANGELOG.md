@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.23.1 (2021-12-02)
+### Fix
+* Student kurono page - centring ([#1657](https://github.com/ocadotechnology/codeforlife-portal/issues/1657)) ([`2c44e58`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c44e588b0157b9051e812e3d50feafca1ab7b51))
+
 ## v5.23.0 (2021-12-02)
 ### Feature
 * Educate page ([#1651](https://github.com/ocadotechnology/codeforlife-portal/issues/1651)) ([`b0dfa8a`](https://github.com/ocadotechnology/codeforlife-portal/commit/b0dfa8ac017f574beb1b5ac9300fc58966f393e8))
