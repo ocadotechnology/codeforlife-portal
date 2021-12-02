@@ -49,6 +49,10 @@ img {
   img {
     vertical-align: bottom;
   }
+
+  h5 {
+    @include _margin(10px, 0px, 0px, 0px);
+  }
 }
 
 .portrait {
