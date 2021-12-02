@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.24.2 (2021-12-02)
+### Fix
+* Fix Add class Kurono button ([#1660](https://github.com/ocadotechnology/codeforlife-portal/issues/1660)) ([`0ffc264`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ffc264eaf4b8c164a28cee7a376ca817e81d1ec))
+
 ## v5.24.1 (2021-12-02)
 ### Fix
 * Kurono dashboard characters spacing ([#1661](https://github.com/ocadotechnology/codeforlife-portal/issues/1661)) ([`c0170dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/c0170dc27ef35b1357ea07b9d174856d3e726f4f))
