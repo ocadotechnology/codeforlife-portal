@@ -7,9 +7,7 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots[
-    "test_banner 1"
-] = """<div class="banner banner--teacher row mx-0">
+snapshots['test_banner 1'] = '''<div class="banner banner--teacher row mx-0">
     <div class="col-sm-5 col-sm-offset-2">
         <h1 class="banner__text--primary">Test title</h1>
         
@@ -20,14 +18,18 @@ snapshots[
         
     </div>
     <div class="col-sm-5">
-        <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 test--image--class"></div></div></div>
+        <div class="banner--picture">
+            <div class="banner--picture__inside1">
+                <div class="banner--picture__inside2 test--image--class"
+                     >
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-"""
+'''
 
-snapshots[
-    "test_benefits 1"
-] = """
+snapshots['test_benefits 1'] = '''
 
 <div class="grid-benefits col-sm-8 col-center">
     
@@ -67,11 +69,9 @@ snapshots[
         </div>
     
 </div>
-"""
+'''
 
-snapshots[
-    "test_card_list 1"
-] = """
+snapshots['test_card_list 1'] = '''
 
 
 <div class="grid grid-worksheets grid__fit col-sm-8 col-center">
@@ -169,11 +169,9 @@ snapshots[
         </div>
     
 </div>
-"""
+'''
 
-snapshots[
-    "test_character_list 1"
-] = """
+snapshots['test_character_list 1'] = '''
 
 
 <div class="grid grid-characters grid__fit">
@@ -197,11 +195,9 @@ snapshots[
         </div>
     
 </div>
-"""
+'''
 
-snapshots[
-    "test_game_banner 1"
-] = """
+snapshots['test_game_banner 1'] = '''
 
 <div class="banner--game col-center col-lg-8 col-sm-12 test--class">
     <div>
@@ -212,17 +208,13 @@ snapshots[
            class="button button--home button-right-arrow">Test button</a>
     </div>
 </div>
-"""
+'''
 
-snapshots[
-    "test_headline 1"
-] = """<h4>Test title</h4>
+snapshots['test_headline 1'] = '''<h4>Test title</h4>
 <div class="col-sm-6 col-center">Test description</div>
-"""
+'''
 
-snapshots[
-    "test_hero_card 1"
-] = """
+snapshots['test_hero_card 1'] = '''
 
 
 <div class="card col-sm-8 col-center">
@@ -240,4 +232,4 @@ snapshots[
         </div>
     </div>
 </div>
-"""
+'''
