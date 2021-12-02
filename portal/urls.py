@@ -64,9 +64,7 @@ from portal.views.organisation import (
     organisation_leave,
     organisation_manage,
 )
-from portal.views.play_aimmo import play_aimmo
 from portal.views.play_landing_page import play_landing_page
-from portal.views.play_rapid_router import play_rapid_router
 from portal.views.privacy_policy import privacy_policy
 from portal.views.registration import (
     password_reset_check_and_confirm,
@@ -336,8 +334,6 @@ urlpatterns = [
         name="school_student_edit_account",
     ),
     url(r"^play/join/$", student_join_organisation, name="student_join_organisation"),
-    url(r"^play/rapid-router/$", play_rapid_router, name="play_rapid_router"),
-    url(r"^play/kurono/$", play_aimmo, name="play_aimmo"),
     url(r"^about", about, name="about"),
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),

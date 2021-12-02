@@ -341,13 +341,6 @@
   }
 }
 
-.banner--aimmo--blurred-background {
-  background-image: url("../img/kurono_landing_hero_blurred.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .banner--aimmo--video--container {
   @include _padding(12 * $spacing, 0px, 12 * $spacing, 0px);
   align-items: center;
