@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.24.0 (2021-12-02)
+### Feature
+* Update play page ([#1659](https://github.com/ocadotechnology/codeforlife-portal/issues/1659)) ([`1dd8adb`](https://github.com/ocadotechnology/codeforlife-portal/commit/1dd8adb802fd533c1c4f9580fecb8acbc7e0ed42))
+
 ## v5.23.2 (2021-12-02)
 ### Fix
 * Align header and footer ([#1654](https://github.com/ocadotechnology/codeforlife-portal/issues/1654)) ([`c7c5782`](https://github.com/ocadotechnology/codeforlife-portal/commit/c7c5782f0bad4ae68addaa88786c962ba8fec69e))

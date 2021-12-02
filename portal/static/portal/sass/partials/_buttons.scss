@@ -188,7 +188,10 @@ table {
 
 td .button--primary--danger,
 td .button--primary {
-  height: 35px;
+  align-items: center;
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
 }
 
 .button--icon {
