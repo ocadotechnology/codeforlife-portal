@@ -15,5 +15,6 @@ def banner(context, banner_name):
     - button (optional): a dictionary containing the text and link of a button below
     the text elements
     - image_class: the CSS class of the image to be shown in the hexagon
+    - image_description (optional): an image description that appears when hovering over the image
     """
     return context[banner_name]
