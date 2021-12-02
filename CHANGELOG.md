@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.24.1 (2021-12-02)
+### Fix
+* Kurono dashboard characters spacing ([#1661](https://github.com/ocadotechnology/codeforlife-portal/issues/1661)) ([`c0170dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/c0170dc27ef35b1357ea07b9d174856d3e726f4f))
+
 ## v5.24.0 (2021-12-02)
 ### Feature
 * Update play page ([#1659](https://github.com/ocadotechnology/codeforlife-portal/issues/1659)) ([`1dd8adb`](https://github.com/ocadotechnology/codeforlife-portal/commit/1dd8adb802fd533c1c4f9580fecb8acbc7e0ed42))
