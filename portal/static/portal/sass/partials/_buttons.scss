@@ -203,6 +203,11 @@ table {
   }
 }
 
+td .button--primary--danger,
+td .button--primary--primary {
+  height: 35px;
+}
+
 .button--icon {
   align-items: center;
   display: inline-flex;
