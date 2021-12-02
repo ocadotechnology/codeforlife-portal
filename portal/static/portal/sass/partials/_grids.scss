@@ -11,7 +11,7 @@ $column--icon-width: 3%;
 .grid {
   @include _column-gap($spacing * 4);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax($card-minimum-width, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   text-align: start;
   justify-content: center;
 
@@ -229,12 +229,17 @@ $column--icon-width: 3%;
     ks2: 3,
     lower-ks3: 4,
     intermediate-ks3: 2,
-    upper-ks3: 3
+    upper-ks3: 3,
   );
 
-  @each $key-stage, $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage {
+  @each $key-stage,
+    $max-resource-sheets-number in $max-resource-sheets-numbers-per-key-stage
+  {
     .grid-resources--#{$key-stage} {
-      grid-template-columns: $column--info-width repeat($max-resource-sheets-number, auto);
+      grid-template-columns: $column--info-width repeat(
+          $max-resource-sheets-number,
+          auto
+        );
     }
   }
 }
