@@ -26,12 +26,18 @@
 
   .dropdown-menu {
     width: 100%;
+    border: 2px solid $color-button-contained;
 
     .dropdown-menu__option {
       .button {
-        border-bottom: 1px solid $color-button-outlined-border;
+        border-bottom: 1px solid $color-button-contained;
       }
     }
+  }
+
+  .button--dropdown {
+    background: $color-button-contained;
+    border: 2px solid $color-button-contained;
   }
 
   form {
