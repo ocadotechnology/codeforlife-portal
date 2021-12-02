@@ -1,18 +1,24 @@
-<div class="banner banner--teacher row mx-0">
-    <div class="col-sm-5 col-sm-offset-2">
-        <h1 class="banner__text--primary">{{ title }}</h1>
-        {% if subtitle %}
-            <h4>{{ subtitle }}</h4>
-        {% endif %}
-        {% if text %}
-            <p>{{ text }}</p>
-        {% endif %}
-    </div>
-    <div class="col-sm-5">
-        <div class="banner--picture">
-            <div class="banner--picture__inside1">
-                <div class="banner--picture__inside2 {{ image_class }}"
-                     {% if image_description %}title="{{ image_description }}"{% endif %}>
+<div class="banner banner--teacher">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 d-flex">
+                <div>
+                    <h1 class="banner__text--primary">{{ title }}</h1>
+                    {% if subtitle %}
+                        <h4>{{ subtitle }}</h4>
+                    {% endif %}
+                    {% if text %}
+                        <p>{{ text }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <div class="banner--picture">
+                        <div class="banner--picture__inside1">
+                            <div class="banner--picture__inside2 {{ image_class }}"
+                                 {% if image_description %}title="{{ image_description }}"{% endif %}>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

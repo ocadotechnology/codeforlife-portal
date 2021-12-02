@@ -2,52 +2,54 @@
 {% load app_tags %}
 
 <div class="footer">
-    <div class="row col-sm-8 col-center">
-        <div class="col-sm-8">
-            <div class="footer-links is-flex">
-                <div class="col-sm-4 col-xs-12">
-                    <p><a href="{% url 'about' %}">About us</a></p>
-                    <p><a class="freshdesk__contact-us">Help and support</a></p>
-                    <p><a class="optanon-toggle-display">Cookie settings</a></p>
-                </div>
-                <div class="col-sm-4 col-xs-12">
-                    <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
-                    <p><a href="{% url 'terms' %}">Terms of use</a></p>
-                </div>
-                <div class="col-sm-4 col-xs-12">
-                    <p><a href="{% url 'home-learning' %}">Home learning</a></p>
-                    <p><a href="{% url 'getinvolved' %}">Get involved</a></p>
-                </div>
-            </div>
-            <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post">
-                {{ news_form.non_field_errors }}
-                <div class="form--row">
-                    <div class="form--row__input">
-                        <label>{{ news_form.email.label }}</label>
-                        <div class="input--icon">
-                            {{ news_form.email }}
-                            <span class="iconify" data-icon="mdi:email-outline"></span>
-                        </div>
-                        <small>{{ news_form.email.help_text }}</small>
-                        {{ news_form.email.errors }}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="footer-links is-flex">
+                    <div class="col-sm-4 col-xs-12">
+                        <p><a href="{% url 'about' %}">About us</a></p>
+                        <p><a class="freshdesk__contact-us">Help and support</a></p>
+                        <p><a class="optanon-toggle-display">Cookie settings</a></p>
                     </div>
-                    <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button--primary">Sign up</button>
+                    <div class="col-sm-4 col-xs-12">
+                        <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
+                        <p><a href="{% url 'terms' %}">Terms of use</a></p>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <p><a href="{% url 'home-learning' %}">Home learning</a></p>
+                        <p><a href="{% url 'getinvolved' %}">Get involved</a></p>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-4">
-            <img class="landscape-logo hidden-sm hidden-xs" title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
-            <div class="external-links">
-                <div class="social-media">
-                    <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><span class="iconify" data-icon="mdi:facebook"></span></a>
-                    <a target="_blank" href="https://twitter.com/codeforlifeuk"><span class="iconify" data-icon="ant-design:twitter-circle-filled"></span></a>
+                <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post">
+                    {{ news_form.non_field_errors }}
+                    <div class="form--row">
+                        <div class="form--row__input">
+                            <label>{{ news_form.email.label }}</label>
+                            <div class="input--icon">
+                                {{ news_form.email }}
+                                <span class="iconify" data-icon="mdi:email-outline"></span>
+                            </div>
+                            <small>{{ news_form.email.help_text }}</small>
+                            {{ news_form.email.errors }}
+                        </div>
+                        <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button--primary">Sign up</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <img class="landscape-logo hidden-sm hidden-xs" title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
+                <div class="external-links">
+                    <div class="social-media">
+                        <a target="_blank" href="https://www.facebook.com/codeforlifeuk/"><span class="iconify" data-icon="mdi:facebook"></span></a>
+                        <a target="_blank" href="https://twitter.com/codeforlifeuk"><span class="iconify" data-icon="ant-design:twitter-circle-filled"></span></a>
+                    </div>
+                    <img class="landscape-logo visible-sm visible-xs" title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
+                    <a target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
+                        <img title="Ocado Group" alt="Ocado Group" src="{% static 'portal/img/logo_ocado_group_white.svg' %}">
+                    </a>
                 </div>
-                <img class="landscape-logo visible-sm visible-xs" title="Code for Life" alt="Code for Life" src="{% static 'portal/img/logo_cfl_white_landscape.png' %}">
-                <a target="_blank" href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future">
-                    <img title="Ocado Group" alt="Ocado Group" src="{% static 'portal/img/logo_ocado_group_white.svg' %}">
-                </a>
             </div>
         </div>
+        <p class="copyright">&copy; Ocado Group {% now "Y" %}</p>
     </div>
-    <p class="copyright">&copy; Ocado Group {% now "Y" %}</p>
 </div>
