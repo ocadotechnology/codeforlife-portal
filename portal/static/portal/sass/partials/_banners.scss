@@ -89,6 +89,10 @@
   background-image: url("../img/home_play_hero.jpg");
 }
 
+.banner--picture--resources {
+  background-image: url("../img/resources_hero.jpg");
+}
+
 .banner--picture--about {
   background-image: url("../img/about_us_hero.jpg");
 }
@@ -312,6 +316,10 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  img {
+    width: 40%;
+  }
 }
 
 .banner--aimmo--background {
@@ -319,13 +327,11 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-}
 
-.banner--aimmo--blurred-background {
-  background-image: url("../img/kurono_landing_hero_blurred.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  img {
+    @include _margin(60px, 0px, 60px, 0px);
+    width: 40%;
+  }
 }
 
 .banner--aimmo--video--container {

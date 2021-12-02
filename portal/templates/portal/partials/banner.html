@@ -10,6 +10,9 @@
                     {% if text %}
                         <p>{{ text }}</p>
                     {% endif %}
+                    {% if button %}
+                        <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                    {% endif %}
                 </div>
                 <div>
                     <div class="banner--picture">
