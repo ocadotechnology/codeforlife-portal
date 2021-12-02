@@ -21,7 +21,13 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
                     
                 </div>
                 <div>
-                    <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 test--image--class"></div></div></div>
+                    <div class="banner--picture">
+                        <div class="banner--picture__inside1">
+                            <div class="banner--picture__inside2 test--image--class"
+                                 >
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

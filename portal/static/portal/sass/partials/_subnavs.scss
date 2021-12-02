@@ -65,6 +65,10 @@
   background-color: $color-background-sub-banner;
   color: $color-text-primary;
 
+  a {
+    color: $color-text-primary;
+  }
+
   .button--secondary--dark {
     &:hover,
     &:active,
@@ -119,8 +123,8 @@
 
   .button:hover,
   .button:focus {
-    background: none;
     text-decoration: underline;
+    background: none;
   }
 
   /* Inverted outline button for sub nav bar */
@@ -132,6 +136,7 @@
       background-color: $color-background-secondary;
       color: $color-primary-300;
       text-decoration: none;
+      cursor: default;
     }
   }
 

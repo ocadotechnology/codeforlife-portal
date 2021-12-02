@@ -12,7 +12,13 @@
                     {% endif %}
                 </div>
                 <div>
-                    <div class="banner--picture"><div class="banner--picture__inside1"><div class="banner--picture__inside2 {{ image_class }}"></div></div></div>
+                    <div class="banner--picture">
+                        <div class="banner--picture__inside1">
+                            <div class="banner--picture__inside2 {{ image_class }}"
+                                 {% if image_description %}title="{{ image_description }}"{% endif %}>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
