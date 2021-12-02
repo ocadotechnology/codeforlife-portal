@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.22.2 (2021-12-02)
+### Fix
+* Teacher dashboard bug fix ([#1653](https://github.com/ocadotechnology/codeforlife-portal/issues/1653)) ([`91cf385`](https://github.com/ocadotechnology/codeforlife-portal/commit/91cf38555a30f63ab10ae9302dbb81350fd57488))
+
 ## v5.22.1 (2021-12-01)
 ### Fix
 * Dashboard and buttons fix ([#1648](https://github.com/ocadotechnology/codeforlife-portal/issues/1648)) ([`85cff35`](https://github.com/ocadotechnology/codeforlife-portal/commit/85cff359f7e3c78ef84f7455078b365348d24ad9))
