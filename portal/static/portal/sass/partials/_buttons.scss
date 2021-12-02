@@ -82,7 +82,10 @@ table {
     text-decoration: underline;
   }
 
-  &:active,
+  &:active {
+    border-width: 3px;
+    text-decoration: none;
+  }
   &:focus {
     text-decoration: none;
   }
@@ -131,6 +134,7 @@ table {
   &.button.button--primary:focus,
   &.button.button--primary:hover {
     text-decoration: none;
+    background: $color-button-contained;
   }
 
   &:after {
@@ -197,6 +201,11 @@ table {
     background: $color-button-primary-action-danger-hover;
     color: $color-text-secondary;
   }
+}
+
+td .button--primary--danger,
+td .button--primary--primary {
+  height: 35px;
 }
 
 .button--icon {

@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v5.22.3 (2021-12-02)
+### Fix
+* Adjusted buttons in tables to a height of 35px ([#1655](https://github.com/ocadotechnology/codeforlife-portal/issues/1655)) ([`dc0a7b0`](https://github.com/ocadotechnology/codeforlife-portal/commit/dc0a7b0e4de63e35d1d36354836dc61143c54bb1))
+
+## v5.22.2 (2021-12-02)
+### Fix
+* Teacher dashboard bug fix ([#1653](https://github.com/ocadotechnology/codeforlife-portal/issues/1653)) ([`91cf385`](https://github.com/ocadotechnology/codeforlife-portal/commit/91cf38555a30f63ab10ae9302dbb81350fd57488))
+
 ## v5.22.1 (2021-12-01)
 ### Fix
 * Dashboard and buttons fix ([#1648](https://github.com/ocadotechnology/codeforlife-portal/issues/1648)) ([`85cff35`](https://github.com/ocadotechnology/codeforlife-portal/commit/85cff359f7e3c78ef84f7455078b365348d24ad9))

@@ -124,6 +124,7 @@
   .button:hover,
   .button:focus {
     text-decoration: underline;
+    background: none;
   }
 
   /* Inverted outline button for sub nav bar */
@@ -135,6 +136,7 @@
       background-color: $color-background-secondary;
       color: $color-primary-300;
       text-decoration: none;
+      cursor: default;
     }
   }
 
