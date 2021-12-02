@@ -17,18 +17,25 @@
     <section class="banner--rapid-router--background">
         <img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo.svg' %}">
     </section>
-    <div class="background row d-flex align-items-center">
-        <div class="col-sm-6">
-            <h4>Starting with Blockly</h4>
-            <p>Starting with Blockly, you can learn to become a coding superhero, amaze your friends with your high
-                scores. Create levels for your friends and compete for the most coins.</p>
-            <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
-            <div>
-                <a href="https://docs.codeforlife.education/rapid-router/blockly-guide" class="button button--primary button--icon" target="_blank">
-                    Learn more about Blockly<span class="iconify" data-icon="mdi:open-in-new"></span></a>
+    <div class="background row d-flex">
+        <div class="col-sm-6 d-flex flex-column">
+            <div class="flex-grow-1">
+                <h4>Starting with Blockly</h4>
+                <p>Starting with Blockly, you can learn to become a coding superhero, amaze your friends with your high
+                    scores. Create levels for your friends and compete for the most coins.</p>
+                <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
             </div>
-            <div class="background">
-                <a href="{% url 'levels' %}" class="button button--primary button-right-arrow">Play Rapid Router</a>
+            <div class="row my-4">
+                <div class="col-sm-12">
+                    <a href="https://docs.codeforlife.education/rapid-router/blockly-guide" class="button button--primary button--icon col-sm-8" target="_blank">
+                        Learn more about Blockly<span class="iconify" data-icon="mdi:open-in-new"></span></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="{% url 'levels' %}" class="button button--primary button--icon col-sm-8">
+                        Play Rapid Router <span class="iconify" data-icon="mdi:chevron-right"></span></a>
+                </div>
             </div>
         </div>
         <div class="col-sm-6">
