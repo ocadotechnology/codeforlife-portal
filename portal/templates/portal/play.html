@@ -20,7 +20,7 @@
     <div class="background row d-flex">
         <div class="col-sm-6 d-flex flex-column">
             <div class="flex-grow-1">
-                <h4>Starting with Blockly</h4>
+                <h4 class="mt-0">Starting with Blockly</h4>
                 <p>Starting with Blockly, you can learn to become a coding superhero, amaze your friends with your high
                     scores. Create levels for your friends and compete for the most coins.</p>
                 <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
@@ -81,15 +81,17 @@
 
 <div class="background container">
     <section class="banner--aimmo--background">
-        <img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/kurono_logo.svg' %}">
+        <img title="Kurono logo" alt="Kurono logo" src="{% static 'portal/img/kurono_logo.svg' %}">
     </section>
-    <div class="background row d-flex align-items-center">
-        <div class="col-sm-6">
-            <h4>Progressing to Python</h4>
-            <p>Kurono guides you and makes learning to code great fun.</p>
-            <p>Using Python, you can travel with your classmates through time to collect all the museum artefacts.</p>
-            <p>Ask your teacher or tutor to <a href="{% url 'register' %}">register</a>.</p>
-            <div class="background">
+    <div class="background row d-flex">
+        <div class="col-sm-6 d-flex flex-column">
+            <div class="flex-grow-1">
+                <h4 class="mt-0">Progressing to Python</h4>
+                <p>Kurono guides you and makes learning to code great fun.</p>
+                <p>Using Python, you can travel with your classmates through time to collect all the museum artefacts.</p>
+                <p>Ask your teacher or tutor to <a href="{% url 'register' %}">register</a>.</p>
+            </div>
+            <div>
                 <a href="{% url 'student_login_access_code' %}" class="button button--primary button-right-arrow" >Login to get started</a>
             </div>
         </div>
