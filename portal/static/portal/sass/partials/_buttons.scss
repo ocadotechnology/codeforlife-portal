@@ -130,23 +130,6 @@ table {
   }
 }
 
-.button-drop-down {
-  &.button.button--primary:focus,
-  &.button.button--primary:hover {
-    text-decoration: none;
-    background: $color-button-contained;
-  }
-
-  &:after {
-    content: "\e5c5";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    left: 5px;
-    line-height: 0.9em;
-  }
-}
-
 .button--regular,
 .ui-dialog-buttonset button {
   @include _padding(10px, 15px, 10px, 15px);
