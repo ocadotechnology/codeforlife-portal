@@ -47,8 +47,11 @@ img {
   }
 
   img {
-    @include _padding(0px, 20px, 0px, 20px);
     vertical-align: bottom;
+  }
+
+  h5 {
+    @include _margin(10px, 0px, 0px, 0px);
   }
 }
 
