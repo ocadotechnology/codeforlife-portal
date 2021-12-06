@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.25.0 (2021-12-06)
+### Feature
+* Add password to csv ([#1663](https://github.com/ocadotechnology/codeforlife-portal/issues/1663)) ([`b5e1460`](https://github.com/ocadotechnology/codeforlife-portal/commit/b5e14606ce8bf97459448880493e2e2644dad65e))
+
 ## v5.24.2 (2021-12-02)
 ### Fix
 * Fix Add class Kurono button ([#1660](https://github.com/ocadotechnology/codeforlife-portal/issues/1660)) ([`0ffc264`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ffc264eaf4b8c164a28cee7a376ca817e81d1ec))
