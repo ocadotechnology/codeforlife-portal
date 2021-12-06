@@ -3,20 +3,16 @@
 
 {% block content %}
 
-<div class="error-page">
-    <div class="banner banner--error-page banner--homepage--teacher row mx-0">
-        <div class="col-sm-5 col-sm-offset-2">
-            <h1>Uh oh!</h1>
-            <h4>Sorry, Nigel can&rsquo;t find the page you were looking for.</h4>
+<div class="error-page background container">
+    <div class="row mx-0 d-flex justify-content-between">
+        <div class="flex-grow-1">
+            <h2>Uh oh!</h2>
+            <h5>Sorry, Nigel can&rsquo;t find the page you were looking for.</h5>
             <p>This might be because you have entered a web address incorrectly or the page has moved.</p>
         </div>
+        <img title="Nigel" alt="Nigel" src="{% static 'portal/img/nigel.png' %}"/>
     </div>
 
-    <div class="background col-sm-offset-2">
-        <a class="button button--primary" href="{% url 'home' %}">Back to homepage</a>
-    </div>
-
-    <img title="Nigel" alt="Nigel" src="{% static 'portal/img/nigel_hi_res.png' %}"/>
 </div>
 
 {% endblock content %}
