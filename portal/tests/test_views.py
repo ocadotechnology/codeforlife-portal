@@ -104,11 +104,12 @@ class TestTeacherViews(TestCase):
         url = reverse("teacher_download_csv", args=[self.class_access_code])
         NAME1 = "Test name"
         NAME2 = "Another name"
+        PASSWORD = "easy"
         URL_PLACEHOLDER = "http://_____"
 
         studentlist = [
-            {"name": NAME1, "login_url": URL_PLACEHOLDER},
-            {"name": NAME2, "login_url": URL_PLACEHOLDER},
+            {"name": NAME1, "password": PASSWORD, "login_url": URL_PLACEHOLDER},
+            {"name": NAME2, "password": PASSWORD, "login_url": URL_PLACEHOLDER},
         ]
         data = {"data": json.dumps(studentlist)}
 
@@ -122,7 +123,8 @@ class TestTeacherViews(TestCase):
         assert row0[0].strip() == self.class_access_code
         row1 = next(reader)
         assert row1[0] == NAME1
-        assert row1[1] == URL_PLACEHOLDER
+        assert row1[1] == PASSWORD
+        assert row1[2] == URL_PLACEHOLDER
         row2 = next(reader)
         assert row2[0] == NAME2
 
