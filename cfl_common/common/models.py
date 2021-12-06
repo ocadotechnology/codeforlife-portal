@@ -122,6 +122,19 @@ class Teacher(models.Model):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
+class DailyActivity(models.Model):
+    """
+    A model to record sets of daily activity. Currently used to record the amount of
+    student details download clicks, through the CSV and login cards methods, per day.
+    """
+    date = models.DateField(default=timezone.now)
+    csv_click_count = models.PositiveIntegerField(default=0)
+    login_cards_click_count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Activity on {self.date}: student details CSV clicks: {self.csv_click_count}, student login cards clicks: {self.login_cards_click_count}"
+
+
 class ClassModelManager(models.Manager):
     def all_members(self, user):
         members = []
