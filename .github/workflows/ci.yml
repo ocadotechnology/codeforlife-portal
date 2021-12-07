@@ -27,6 +27,7 @@ jobs:
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
+          pip install -U "git+https://github.com/ocadotechnology/aimmo@link_to_gitbook"
           yarn --frozen-lockfile
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
