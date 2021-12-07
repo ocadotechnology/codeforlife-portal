@@ -14,4 +14,7 @@ KURONO_RESOURCES_BANNER = {
     "image_class": "banner--picture--aimmo-resources",
 }
 
-TEACHER_RESOURCES_URL = "https://code-for-life.gitbook.io/teacher/"
+TEACHER_RAPID_ROUTER_RESOURCES_URL = (
+    "https://code-for-life.gitbook.io/rapid-router-resources/"
+)
+TEACHER_KURONO_RESOURCES_URL = "https://code-for-life.gitbook.io/kurono-resources/"

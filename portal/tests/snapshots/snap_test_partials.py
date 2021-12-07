@@ -7,7 +7,9 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
+snapshots[
+    "test_banner 1"
+] = """<div class="banner banner--teacher">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 d-flex">
@@ -34,9 +36,11 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
         </div>
     </div>
 </div>
-'''
+"""
 
-snapshots['test_benefits 1'] = '''
+snapshots[
+    "test_benefits 1"
+] = """
 
 <div class="grid-benefits col-sm-8 col-center">
     
@@ -76,9 +80,11 @@ snapshots['test_benefits 1'] = '''
         </div>
     
 </div>
-'''
+"""
 
-snapshots['test_card_list 1'] = '''
+snapshots[
+    "test_card_list 1"
+] = """
 
 
 <div class="grid grid-worksheets grid__fit col-sm-8 col-center">
@@ -176,9 +182,11 @@ snapshots['test_card_list 1'] = '''
         </div>
     
 </div>
-'''
+"""
 
-snapshots['test_character_list 1'] = '''
+snapshots[
+    "test_character_list 1"
+] = """
 
 
 <div class="grid grid-characters grid__fit">
@@ -202,15 +210,19 @@ snapshots['test_character_list 1'] = '''
         </div>
     
 </div>
-'''
+"""
 
-snapshots['test_headline 1'] = '''<section>
+snapshots[
+    "test_headline 1"
+] = """<section>
     <h4>Test title</h4>
 </section>
 <p class="container">Test description</p>
-'''
+"""
 
-snapshots['test_hero_card 1'] = '''
+snapshots[
+    "test_hero_card 1"
+] = """
 
 
 <div class="card col-sm-8 col-center">
@@ -219,8 +231,8 @@ snapshots['test_hero_card 1'] = '''
         <h4 class="card__title">Test title</h4>
         <p>Test description</p>
         <div class="button-group button-group__icon">
-            <a href="/materials/test_pdf_name" class="button button--primary button-right-arrow">
-                Test button 1
+            <a target="_blank" href="https://www.codeforlife.education" class="button button--primary button--icon">
+                Test button 1<span class="iconify" data-icon="mdi:open-in-new"></span>
             </a>
             <a href="/kurono/play/1/" class="button button--primary button-right-arrow">
                 Test button 2
@@ -228,4 +240,4 @@ snapshots['test_hero_card 1'] = '''
         </div>
     </div>
 </div>
-'''
+"""

@@ -88,8 +88,7 @@ class StudentAimmoDashboard(
             "description": active_worksheet.description,
             "button1": {
                 "text": "Read challenge",
-                "url": "materials_viewer",
-                "url_args": active_worksheet.student_pdf_name,
+                "url": "active_worksheet.student_file_url",
             },
             "button2": {
                 "text": "Start challenge",

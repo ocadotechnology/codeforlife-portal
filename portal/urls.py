@@ -58,7 +58,6 @@ from portal.views.login.student import (
     student_direct_login,
 )
 from portal.views.login.teacher import TeacherLoginView
-from portal.views.materials_viewer import MaterialsViewer
 from portal.views.organisation import (
     OrganisationFuzzyLookup,
     organisation_leave,
@@ -83,7 +82,6 @@ from portal.views.student.play import (
     student_join_organisation,
 )
 from portal.views.teach import teach
-from portal.views.teacher import materials_viewer_redirect
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_allow_join,
@@ -94,9 +92,7 @@ from portal.views.teacher.dashboard import (
     teacher_disable_2FA,
     teacher_reject_student_request,
 )
-from portal.views.teacher.solutions_level_selector import levels
 from portal.views.teacher.teach import (
-    default_solution,
     invite_teacher,
     teacher_class_password_reset,
     teacher_delete_class,
@@ -113,10 +109,11 @@ from portal.views.teacher.teach import (
     teacher_download_csv,
     teacher_view_class,
 )
-from portal.views.teacher.teacher_materials import kurono_teaching_packs, materials
 from portal.views.teacher.teacher_resources import (
     teacher_kurono_resources,
     teacher_rapid_router_resources,
+    kurono_teaching_packs,
+    materials,
 )
 
 js_info_dict = {"packages": ("conf.locale",)}
@@ -190,12 +187,6 @@ urlpatterns = [
     url(r"^", include((two_factor_patterns, "two_factor"), namespace="two_factor")),
     url(r"^i18n/", include("django.conf.urls.i18n")),
     url(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
-    url(r"^teach/solutions_navigation/$", levels, name="teacher_level_solutions"),
-    url(
-        r"^teach/solutions_navigation/(?P<levelName>[A-Z0-9]+)/$",
-        default_solution,
-        name="default_solution",
-    ),
     url(r"^(?P<levelName>[A-Z0-9]+)/$", play_default_level, name="play_default_level"),
     url(r"^$", home, name="home"),
     url(r"^home-learning", home_learning, name="home-learning"),
@@ -343,16 +334,6 @@ urlpatterns = [
     url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
-    url(
-        r"^teach/materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
-        materials_viewer_redirect,
-        name="materials_viewer_redirect",
-    ),
-    url(
-        r"^materials/(?P<pdf_name>[a-zA-Z0-9\/\-_]+)$",
-        MaterialsViewer.as_view(),
-        name="materials_viewer",
-    ),
     url(
         r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"
     ),

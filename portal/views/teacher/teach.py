@@ -57,19 +57,6 @@ REMINDER_CARDS_PDF_WARNING_TEXT = (
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def default_solution(request, levelName):
-    if 80 <= int(levelName) <= 91:
-        return render(
-            request, "portal/teach/teacher_solutionPY.html", {"levelName": levelName}
-        )
-    else:
-        return render(
-            request, "portal/teach/teacher_solution.html", {"levelName": levelName}
-        )
-
-
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_onboarding_create_class(request):
     """
     Onboarding view for creating a class (and organisation if there isn't one, yet)
