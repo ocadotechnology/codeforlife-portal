@@ -132,7 +132,7 @@ class DailyActivity(models.Model):
     login_cards_click_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"Activity on {self.date}: student details CSV clicks: {self.csv_click_count}, student login cards clicks: {self.login_cards_click_count}"
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}"
 
 
 class ClassModelManager(models.Manager):

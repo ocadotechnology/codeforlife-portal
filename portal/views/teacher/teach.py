@@ -3,6 +3,7 @@ from __future__ import division
 import csv
 import json
 from datetime import timedelta, datetime
+from enum import Enum
 from functools import partial, wraps
 from uuid import uuid4
 
@@ -20,7 +21,6 @@ from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.core.exceptions import ObjectDoesNotExist
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -798,6 +798,11 @@ def process_move_students_form(request, formset, old_class, new_class):
     )
 
 
+class DownloadType(Enum):
+    CSV = 1
+    LOGIN_CARDS = 2
+
+
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_print_reminder_cards(request, access_code):
@@ -908,7 +913,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     p.save()
 
-    count_student_details_click("LOGIN_CARDS")
+    count_student_details_click(DownloadType.LOGIN_CARDS)
 
     return response
 
@@ -934,7 +939,7 @@ def teacher_download_csv(request, access_code):
                 [student["name"], student["password"], student["login_url"]]
             )
 
-    count_student_details_click("CSV")
+    count_student_details_click(DownloadType.CSV)
 
     return response
 
@@ -962,9 +967,9 @@ def compute_show_page_end(p, x, y):
 def count_student_details_click(download_type):
     activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
 
-    if download_type == "CSV":
+    if download_type == DownloadType.CSV:
         activity_today.csv_click_count += 1
-    elif download_type == "LOGIN_CARDS":
+    elif download_type == DownloadType.LOGIN_CARDS:
         activity_today.login_cards_click_count += 1
     else:
         raise Exception("Unknown download type")
