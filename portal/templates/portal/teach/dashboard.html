@@ -371,6 +371,7 @@
 
     <div id="account" class="tab-pane">
         <div class="background col-sm-8 col-center">
+            <div class="container">
             <section>
                 <h4>Your account</h4>
             </section>
@@ -433,27 +434,29 @@
                 <button id="update_button" type="submit" class="button button--primary" name="update_account">Update details</button>
             </form>
         </div>
+        </div>
 
         <div class="background background--primary">
             <div class="col-sm-8 col-center">
-                <h5>Two Factor Authentication</h5>
-                <p>Use your smartphone or tablet to enhance your account's security by installing an authenticator app.</p>
-
-                {% if user|has_2FA %}
+                    <div class="container">
+                    <h5>Two Factor Authentication</h5>
+                    <p>Use your smartphone or tablet to enhance your account's security by installing an authenticator app.</p>
+                    
+                    {% if user|has_2FA %}
                     <div class="row row--regular">
                         <div class="col-sm-6">
                             <h6>Backup tokens</h6>
                             <p>If you don't have your smartphone or tablet with you, you can access your account using backup tokens.
                                 {% if backup_tokens == 1 %}
-                                    You have only one backup token remaining.
+                                You have only one backup token remaining.
                                 {% else %}
-                                    You have {{ backup_tokens }} backup tokens remaining.
+                                You have {{ backup_tokens }} backup tokens remaining.
                                 {% endif %}
                             </p>
                             <p>View and create backup tokens for your account.</p>
                             <div class="background">
                                 <a class="button button--primary"
-                                   href="{% url 'two_factor:backup_tokens' %}">Manage backup tokens</a>
+                                href="{% url 'two_factor:backup_tokens' %}">Manage backup tokens</a>
                             </div>
                             <small class="text-danger"><strong>Note: Please make sure that you store any login details in a secure place.</strong></small>
                         </div>
@@ -463,18 +466,19 @@
                             <div class="background">
                                 <a class="button button--primary button--primary--danger button--icon" href="{% url 'two_factor:disable' %}">
                                     Disable 2FA<span class="iconify" data-icon="mdi:alert-circle-outline"></span></a>
+                                </div>
                             </div>
                         </div>
+                        {% else %}
+                        <p>Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
+                        <div class="background">
+                            <a class="button button--primary"
+                            href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
+                        </div>
+                        {% endif %}
                     </div>
-                {% else %}
-                    <p>Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
-                    <div class="background">
-                        <a class="button button--primary"
-                           href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
-                    </div>
-                {% endif %}
+                </div>
             </div>
-        </div>
     </div>
 </div>
 
