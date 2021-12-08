@@ -121,8 +121,11 @@ class TestTeacherViews(TestCase):
         content = response.content.decode("utf-8")
         reader = csv.reader(io.StringIO(content))
 
+        access_code = self.class_access_code
+        class_url = reverse("student_login", kwargs={"access_code": access_code})
         row0 = next(reader)
-        assert row0[0].strip() == self.class_access_code
+        assert row0[0].strip() == access_code
+        assert class_url in row0[1].strip()
         row1 = next(reader)
         assert row1[0] == NAME1
         assert row1[1] == PASSWORD
