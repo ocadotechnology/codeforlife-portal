@@ -402,9 +402,6 @@ class TestTeacher(BaseTest):
 
         assert self.is_resources_page(page)
 
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-
         page = page.go_to_kurono_resources_page()
 
         assert self.is_resources_page(page)
