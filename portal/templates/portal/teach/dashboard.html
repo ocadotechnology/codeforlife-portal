@@ -88,7 +88,7 @@
                     <h4>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h4>
                 </section>
                 {% if is_admin %}
-                <p class="col-sm-14 col-center">As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
+                <p>As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
                     administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
                     joining your organisation.</p>
                     <section>
@@ -96,7 +96,7 @@
                             Invite a teacher<span class="iconify" data-icon="mdi:account-plus"></span></a>
                         </section>
                         {% else %}
-                        <h5 class="col-sm-14 col-center">You can see which other teachers in your school or club are registered here. Should you need to leave the
+                        <h5>You can see which other teachers in your school or club are registered here. Should you need to leave the
                             school or club, you can do so below.</h5>
                             <section>
                                 <button id="leave_organisation_button" class="button button--secondary button--secondary--dark"
@@ -215,7 +215,7 @@
                 
                 <div id="school-details" class="background background--primary">
                     <div class="container">
-                        <div class="col-sm-14 col-center">
+                        <div>
                             <h5>Update details of your school or club</h5>
                         <p>Update your school or club’s name and/or postcode.</p>
                         <strong>These details are used to allow other teachers to join your team.</strong>
@@ -249,13 +249,14 @@
 
     <div id="classes" class="tab-pane">
         <div class="background col-sm-8 col-center">
+            <div class="container">
             <section>
                 <h4>Your classes</h4>
             </section>
             <p>Below is a list of all the classes you teach. You can add a class or edit your existing classes. You can also accept or deny
                 requests from independent students wanting to join one of your classes.</p>
         </div>
-        <div class="col-sm-8 col-center">
+        <div class="container">
             {% if classes %}
                 <table id="classes-table" class="header-primary data-primary">
                     <tr>
@@ -329,9 +330,11 @@
                 <p><strong>No students have currently requested to join your classes.</strong></p>
             {% endif %}
         </div>
+        </div>
 
         <div id="new-class" class="background background--primary">
             <div class="col-sm-8 col-center">
+                <div class="container">
                 <h5>Create a new class</h5>
                 <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                     class.</p>
@@ -361,6 +364,7 @@
                     </div>
                     <button id="create_class_button" type="submit" class="button button--primary" name="create_class">Create class</button>
                 </form>
+            </div>
             </div>
         </div>
     </div>
