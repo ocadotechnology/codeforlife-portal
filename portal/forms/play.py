@@ -29,10 +29,10 @@ class StudentClassCodeForm(forms.Form):
     )
 
     def clean(self):
-        access_code = self.cleaned_data.get("access_code", None).upper()
+        access_code = self.cleaned_data.get("access_code", None)
 
         if access_code:
-            if re.fullmatch(ACCESS_CODE_PATTERN, access_code) is None:
+            if re.fullmatch(ACCESS_CODE_PATTERN, access_code.upper()) is None:
                 raise forms.ValidationError(
                     "Uh oh! You didn't input a valid class code."
                 )

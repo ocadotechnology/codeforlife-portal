@@ -3,23 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <title>Code For Life - there has been an error</title>
 
     {% include "common/onetrust_cookies_consent_notice.html" %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'portal.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
     <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
-
-    <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"
-            integrity="sha256-pRhh6noOilGT8GyGitRuoRwdp5k1p8QJW2lvyGz4B9M="
-            crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -29,20 +21,16 @@
     {% endblock topBar %}
 
     <div class="content">
-        <div class="error-page">
-            <div class="banner banner--error-page banner--homepage--teacher row mx-0">
-                <div class="col-sm-5 col-sm-offset-2">
-                    <h1>Zap!</h1>
-                    <h4>Oh dear! Something technical has gone wrong.</h4>
+        <div class="error-page background container">
+            <div class="row mx-0 d-flex justify-content-between">
+                <div class="flex-grow-1">
+                    <h2>Zap!</h2>
+                    <h5>Oh dear! Something technical has gone wrong.</h5>
                     <p>Dee will attempt to fix this soon.</p>
+                    <a class="button button--primary" href="{% url 'home' %}">Back to homepage</a>
                 </div>
+                <img title="Dee" alt="Dee" src="{% static 'portal/img/dee.png' %}"/>
             </div>
-
-            <div class="background col-sm-offset-2">
-                <a class="button button--primary" href="{% url 'home' %}">Back to homepage</a>
-            </div>
-
-            <img title="Dee" alt="Dee" src="{% static 'portal/img/dee.png' %}"/>
         </div>
     </div>
 

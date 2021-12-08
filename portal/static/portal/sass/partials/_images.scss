@@ -78,10 +78,6 @@ img {
   border: 1px solid $color-background-secondary;
 }
 
-.error-page img {
-  width: 20%;
-}
-
 .grid-benefits__image {
   @include _padding(0px, 0px, 3 * $spacing, 0px);
   justify-self: center;
