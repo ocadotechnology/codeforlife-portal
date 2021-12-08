@@ -15,6 +15,8 @@ KURONO_RESOURCES_BANNER = {
 }
 
 TEACHER_RAPID_ROUTER_RESOURCES_URL = (
-    "https://code-for-life.gitbook.io/rapid-router-resources/"
+    "https://code-for-life.gitbook.io/teaching-resources/"
 )
-TEACHER_KURONO_RESOURCES_URL = "https://code-for-life.gitbook.io/kurono-resources/"
+TEACHER_KURONO_RESOURCES_URL = (
+    "https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
+)
