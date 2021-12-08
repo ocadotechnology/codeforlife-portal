@@ -13,10 +13,3 @@ KURONO_RESOURCES_BANNER = {
     "text": "",
     "image_class": "banner--picture--aimmo-resources",
 }
-
-TEACHER_RAPID_ROUTER_RESOURCES_URL = (
-    "https://code-for-life.gitbook.io/teaching-resources/"
-)
-TEACHER_KURONO_RESOURCES_URL = (
-    "https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
-)

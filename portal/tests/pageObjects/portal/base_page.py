@@ -91,6 +91,13 @@ class BasePage(object):
 
         return ResourcesPage(self.browser)
 
+    def go_to_kurono_resources_page(self):
+        self.hover_over_resources_dropdown()
+        self.browser.find_element_by_id("kurono_resources_button").click()
+        from .resources_page import ResourcesPage
+
+        return ResourcesPage(self.browser)
+
     def go_to_kurono_teacher_dashboard_page(self):
         self.browser.find_element_by_id("games_button").click()
         self.browser.find_element_by_id("teacher_kurono_dashboard_button").click()
