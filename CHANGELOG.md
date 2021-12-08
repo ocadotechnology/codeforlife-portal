@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.1 (2021-12-08)
+### Fix
+* Empty class code and error pages fix ([#1668](https://github.com/ocadotechnology/codeforlife-portal/issues/1668)) ([`04799bd`](https://github.com/ocadotechnology/codeforlife-portal/commit/04799bd9fc8f6938c9c0130dae6243fc12deee0e))
+
 ## v5.26.0 (2021-12-08)
 ### Feature
 * Gather daily counts of student details downloads (CSV and login cards) ([#1665](https://github.com/ocadotechnology/codeforlife-portal/issues/1665)) ([`d4b855f`](https://github.com/ocadotechnology/codeforlife-portal/commit/d4b855f7183f19481611fec62a57906c75c3ef5a))
