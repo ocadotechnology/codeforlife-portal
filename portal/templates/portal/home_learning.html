@@ -10,6 +10,7 @@
 {% block content %}
 <div class="background">
     <div class="col-sm-8 col-center">
+        <div class="container">
         <section>
             <h4>About Rapid Router</h4>
         </section>
@@ -38,16 +39,18 @@
             {% endif %}
         </div>
     </div>
+    </div>
 </div>
 
 <div class="content-header content-header-tertiary">
-    <div class="col-sm-8 col-center">
+    <div class="container">
         < Beginner >
     </div>
 </div>
 
 <div class="background">
     <div class="col-sm-8 col-center">
+        <div class="container">
         <div class="row">
             <div class="col-sm-4">
                 <div class="card">
@@ -88,16 +91,18 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
 
 <div class="content-header content-header-secondary">
-    <div class="col-sm-8 col-center">
+    <div class="container">
         < Intermediate >
     </div>
 </div>
 
 <div class="background">
     <div class="col-sm-8 col-center">
+        <div class="container">
         <div class="row">
             <div class="col-sm-8">
                 <h5>Level 17-28</h5>
@@ -137,17 +142,18 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 </div>
 
 <div class="content-header content-header-primary">
-    <div class="col-sm-8 col-center">
+    <div class="container">
         < Advanced >
     </div>
 </div>
 
 <div class="background">
-    <div class="col-sm-8 col-center">
+    <div class="container">
         <div class="row">
             <div class="col-sm-4">
                 <div class="card">
@@ -187,13 +193,16 @@
         </div>
     </div>
 </div>
+</div>
 
 <div class="col-sm-8 col-center text-right background">
-    {% if user|is_logged_in %}
-        <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
-    {% else %}
-        <a href="{% url 'register' %}" class="button button--primary register">Register now</a>
-    {% endif %}
+    <div class="container">
+        {% if user|is_logged_in %}
+            <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="button button--primary register">Register now</a>
+        {% endif %}
+</div>
 </div>
 
 <div class="content-footer text-center">

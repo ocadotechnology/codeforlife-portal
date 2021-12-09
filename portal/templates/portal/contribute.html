@@ -9,12 +9,12 @@
 
 {% block content %}
 <div class="background">
+    <div class="container">
     <section>
         <div class="col-sm-12 col-center">
             <h4>How to get involved and gain experience</h4>
         </div>
     </section>
-    <div class="col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
                 <p>Code for Life would not have been possible without the dedication of our volunteers.
@@ -39,12 +39,15 @@
             </a>
         </div>
     </div>
+    </div>
 </div>
 
 <div class="background background--primary">
     <div class="row">
         <div class="col-sm-8 col-center">
-            <div class="col-sm-6">
+            <div class="container">
+            <div class="d-flex flex-row">
+            <div class="p-2 col-sm-6">
                 <h4>Our products</h4>
 
                 <p><b>The portal or website</b></p>
@@ -65,15 +68,19 @@
                 move their avatar around in order to complete tasks. Parts of Kurono are still in development.
                 </p>
             </div>
-            <div class="col-sm-6 bg-image">
+            <div class="p-2 col-sm-6">
                 <img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/rapidrouter.png' %}">
             </div>
         </div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
 
 <div class="background">
     <div class="col-sm-8 col-center">
+        <div class="container">
         <div class="row">
             <div class="col-sm-6 bg-image">
                 <img title="Gitbook" alt="Gitbook" src="{% static 'portal/img/gitbook.png' %}" class="img-border">
@@ -96,6 +103,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock content %}
