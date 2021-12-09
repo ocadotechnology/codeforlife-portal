@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.3 (2021-12-09)
+### Fix
+* Add class link to csv ([#1670](https://github.com/ocadotechnology/codeforlife-portal/issues/1670)) ([`fa9d257`](https://github.com/ocadotechnology/codeforlife-portal/commit/fa9d257a5d7a74db85ec7306f8da571f72e0e3c9))
+
 ## v5.26.2 (2021-12-08)
 ### Fix
 * Add check and log for student not found ([`84477de`](https://github.com/ocadotechnology/codeforlife-portal/commit/84477de7dcc14533620807ac2285a87eba0bb31b))
