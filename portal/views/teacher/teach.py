@@ -916,11 +916,15 @@ def teacher_download_csv(request, access_code):
     if klass.teacher.new_user != request.user:
         raise Http404
 
+    class_url = request.build_absolute_uri(
+        reverse("student_login", kwargs={"access_code": access_code})
+    )
+
     # Use data from the query string if given
     student_data = get_student_data(request)
     if student_data:
         writer = csv.writer(response)
-        writer.writerow([access_code])
+        writer.writerow([access_code, class_url])
         for student in student_data:
             writer.writerow(
                 [student["name"], student["password"], student["login_url"]]
