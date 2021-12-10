@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.4 (2021-12-10)
+### Fix
+* Remove Rapid Router Resources ([#1669](https://github.com/ocadotechnology/codeforlife-portal/issues/1669)) ([`4edcc1b`](https://github.com/ocadotechnology/codeforlife-portal/commit/4edcc1b798671816aabfd1f7d9bc888fa085b8b0))
+
 ## v5.26.3 (2021-12-09)
 ### Fix
 * Add class link to csv ([#1670](https://github.com/ocadotechnology/codeforlife-portal/issues/1670)) ([`fa9d257`](https://github.com/ocadotechnology/codeforlife-portal/commit/fa9d257a5d7a74db85ec7306f8da571f72e0e3c9))
