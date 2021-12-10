@@ -111,15 +111,6 @@
   z-index: $nav-bar-level - 1;
 }
 
-.sub-nav--key-stage {
-  background-color: $color-background-key-stage;
-
-  .sub-nav__text {
-    color: $color-text-secondary;
-    margin: 0;
-  }
-}
-
 .sub-nav--filler {
   padding-top: 0;
 }

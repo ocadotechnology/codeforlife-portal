@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:3b422198b7d527c3af7c4d1b1ea3918b15b263bf420cac07616f51b6e9ea437b",
-                "sha256:42cfeaffe81eabf4b72a560d3150c2407c1450e9627da320d13bdeed4f198957"
+                "sha256:0d2254ea9eae3e80df13d2edb8e2be5232b891b25216faf27c5e50d48993d38a",
+                "sha256:d4bf2dee2794433d4fb898b521bcf224761ba06d0b6654b932dabdcb00cd688a"
             ],
-            "version": "==1.2.0"
+            "version": "==1.3.1"
         },
         "anyascii": {
             "hashes": [
@@ -561,10 +561,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:93dd826bb7513633d3b320a55826e96916e6044d90fa92eadb00840dc1a4fa4d",
-                "sha256:c9c0f9f3ae4c8fd27dd47b0604a954a0b3d33aa5281ad3cac96d2f026622f048"
+                "sha256:0de88e406e7e706278bb2e5665e1b83d2a07d097d06548ea238af69126d98c53",
+                "sha256:32cb772b0b4d5a67f401ae36a9e73756dd1012ad98461f821b4ea9098fe7f2b0"
             ],
-            "version": "==3.4.0"
+            "version": "==3.4.4"
         },
         "reportlab": {
             "hashes": [
@@ -695,11 +695,11 @@
         },
         "websocket-client": {
             "hashes": [
-                "sha256:0133d2f784858e59959ce82ddac316634229da55b498aac311f1620567a710ec",
-                "sha256:8dfb715d8a992f5712fff8c843adae94e22b22a99b2c5e6b0ec4a1a981cc4e0d"
+                "sha256:1315816c0acc508997eb3ae03b9d3ff619c9d12d544c9a9b553704b1cc4f6af5",
+                "sha256:2eed4cc58e4d65613ed6114af2f380f7910ff416fc8c46947f6e76b6815f56c0"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==1.2.1"
+            "version": "==1.2.3"
         },
         "willow": {
             "hashes": [
@@ -748,11 +748,11 @@
         },
         "charset-normalizer": {
             "hashes": [
-                "sha256:e019de665e2bcf9c2b64e2e5aa025fa991da8720daa3c1138cadd2fd1856aed0",
-                "sha256:f7af805c321bfa1ce6714c51f254e0d5bb5e5834039bc17db7ebe3a4cec9492b"
+                "sha256:1eecaa09422db5be9e29d7fc65664e6c33bd06f9ced7838578ba40d58bdf3721",
+                "sha256:b0b883e8e874edfdece9c28f314e3dd5badf067342e42fb162203335ae61aa2c"
             ],
             "markers": "python_version >= '3'",
-            "version": "==2.0.7"
+            "version": "==2.0.9"
         },
         "django": {
             "hashes": [

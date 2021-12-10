@@ -70,8 +70,7 @@ def test_hero_card(snapshot):
         "description": "Test description",
         "button1": {
             "text": "Test button 1",
-            "url": "materials_viewer",
-            "url_args": "test_pdf_name",
+            "url": "https://www.codeforlife.education",
         },
         "button2": {"text": "Test button 2", "url": "kurono/play", "url_args": 1},
     }
