@@ -53,17 +53,14 @@
 {% endblock subNav %}
 
 {% block content %}
-<section class="background">
-    <div class="container">
+<section class="background container">
     <h4>My games</h4>
     {% games_table 'kurono/play' %}
-    </div>
 </section>
 
 <div id="kurono_teacher_dashboard_page"></div>
 <div class="background--primary">
-    <section class="background col-sm-8 col-center">
-        <div class="container">
+    <section class="background col-center container">
         <h4>Teaching resources</h4>
         <p>
             We have moved our resources to Gitbook. There you will find a set of individual and collaborative
@@ -76,24 +73,21 @@
                 Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
             </a>
         </div>
-    </div>
     </section>
 </div>
 <div>
-    <section class="background col-sm-8 col-center">
-        <div class="container">
-            <h4>Tell us what you think of Kurono...</h4>
-            <p>Your testing and feedback will help Code for Life deliver an enjoyable game, and will allow us to consult
-                with you on resources that will be relevant to teaching computing classes in secondary schools
-                (13 &mdash; 18 year olds).</p>
-                <div class="background button-group button-group__icon">
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
-                    class="button button--primary" target="_blank">Give feedback
-                    <span class="material-icons-outlined">open_in_new</span>
-                </a>
-            </div>
+    <section class="background col-center container">
+        <h4>Tell us what you think of Kurono...</h4>
+        <p>Your testing and feedback will help Code for Life deliver an enjoyable game, and will allow us to consult
+            with you on resources that will be relevant to teaching computing classes in secondary schools
+            (13 &mdash; 18 year olds).</p>
+            <div class="background button-group button-group__icon">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
+                class="button button--primary" target="_blank">Give feedback
+                <span class="material-icons-outlined">open_in_new</span>
+            </a>
         </div>
-        </section>
+    </section>
 </div>
 
 {% endblock content %}

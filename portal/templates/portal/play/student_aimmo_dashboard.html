@@ -9,53 +9,43 @@
 {% block content %}
 {% if not user|is_independent_student %}
     {% if HERO_CARD %}
-        <div class="background">
+        <div class="background container">
             {% hero_card hero_card_name="HERO_CARD" %}
         </div>
 
-        <div class="background">
+        <div class="background container">
             {% card_list %}
         </div>
     {% else %}
-        <div class="background text-center">
+        <div class="background text-center container">
             <h4>My Games</h4>
             <p>Oh no! It doesn’t look like you have access to any games, yet.<br>
                 You’ll need to ask your teacher to set some up.</p>
         </div>
     {% endif %}
 
-    <div class="background background--primary row mx-0">
-        <div class="container">
-            <div class="d-flex flex-row">
-            <div class="p-2">
-                <h5 class="grid-item__title">User Guide</h5>
-                <p class="grid-item__expand">Find out more about the game and learn the basics for using the code editor and game map.</p>
-                <div class="button-group button-group__icon">
-                    <a href="{% url 'materials_viewer' pdf_name='Kurono_student_user_guide' %}" class="button button--primary">
-                        User Guide<span class="material-icons-outlined">arrow_forward_ios</span>
-                    </a>
-                </div>
-            </div>
-            <div class="p-2">
-                <h5 class="grid-item__title">Cheat Sheet</h5>
-                <p class="grid-item__expand">This cheat sheet will give you what you need to communicate with Kurono in Python.</p>
-                <div class="button-group button-group__icon">
-                    <a href="{% url 'materials_viewer' pdf_name='Kurono_cheat_sheet' %}" class="button button--primary">
-                        Cheat Sheet<span class="material-icons-outlined">arrow_forward_ios</span>
-                    </a>
-                </div>
-            </div>
-            </div>
+    <div class="background background--primary row mx-0 container d-flex flex-row">
+        <h5 class="grid-item__title">User Guide</h5>
+        <p class="grid-item__expand">Find out more about the game and learn the basics for using the code editor and game map.</p>
+        <div class="button-group button-group__icon">
+            <a href="{% url 'materials_viewer' pdf_name='Kurono_student_user_guide' %}" class="button button--primary">
+                User Guide<span class="material-icons-outlined">arrow_forward_ios</span>
+            </a>
+        </div>
+        <h5 class="grid-item__title">Cheat Sheet</h5>
+        <p class="grid-item__expand">This cheat sheet will give you what you need to communicate with Kurono in Python.</p>
+        <div class="button-group button-group__icon">
+            <a href="{% url 'materials_viewer' pdf_name='Kurono_cheat_sheet' %}" class="button button--primary">
+                Cheat Sheet<span class="material-icons-outlined">arrow_forward_ios</span>
+            </a>
         </div>
     </div>
-    <div class="background">
-        <div class="container">
+    <div class="background container">
             <h4 class="text-center">Meet the characters</h4>
             {% character_list %}
-        </div>
     </div>
 {% else %}
-    <div class="background text-center col-sm-8 col-center">
+    <div class="background text-center col-sm-8 col-center container">
         <h4>My Games</h4>
         <p>Hi there! 👋 We are sorry, but Kurono is designed to be used in a classroom, and therefore it is not
             available to independent students at this time.</p>

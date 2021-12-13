@@ -8,38 +8,34 @@
 {% endblock subNav %}
 
 {% block content %}
-<div class="background">
-    <div class="col-sm-8 col-center">
-        <div class="container">
-            <section>
-                <h4>About Rapid Router</h4>
-            </section>
-            <div class="row">
-                <div class="col-sm-6">
-                    <p>Rapid Router is our shopping delivery game that makes it easy for children aged 5–14 to learn
-                        how to code using Blockly and Python.</p>
-                    <p>The game and lessons support the English National Curriculum Computing strand, and Teachers across
-                        the world love them.</p>
-                </div>
-                <div class="col-sm-6">
-                    <p>We’ve made lessons available for parents and caregivers to teach at home, so we can
-                        #KeepKidsCoding. If you're a curious independent student this will also be perfect for you.
-                        The lessons are free and easy, but most of all, they’re fun!
-                    </p>
-                    <p>To begin, you can read our learning guide and start at Level 1.
-                        We encourage you to first register as an independent student to ensure the level progress is saved.
-                    </p>
-                </div>
-            </div>
-            <div class="background text-right">
-                {% if user|is_logged_in %}
-                    <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
-                {% else %}
-                    <a href="{% url 'register' %}" class="button button--primary register">Register now</a>
-                {% endif %}
-            </div>
+<div class="background col-center container">
+    <section>
+        <h4>About Rapid Router</h4>
+    </section>
+    <div class="row">
+        <div class="col-sm-6">
+            <p>Rapid Router is our shopping delivery game that makes it easy for children aged 5–14 to learn
+                how to code using Blockly and Python.</p>
+            <p>The game and lessons support the English National Curriculum Computing strand, and Teachers across
+                the world love them.</p>
+        </div>
+        <div class="col-sm-6">
+            <p>We’ve made lessons available for parents and caregivers to teach at home, so we can
+                #KeepKidsCoding. If you're a curious independent student this will also be perfect for you.
+                The lessons are free and easy, but most of all, they’re fun!
+            </p>
+            <p>To begin, you can read our learning guide and start at Level 1.
+                We encourage you to first register as an independent student to ensure the level progress is saved.
+            </p>
         </div>
     </div>
+    <div class="background text-right">
+        {% if user|is_logged_in %}
+            <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="button button--primary register">Register now</a>
+        {% endif %}
+        </div>
 </div>
 
 <div class="content-header content-header-tertiary">
@@ -48,48 +44,44 @@
     </div>
 </div>
 
-<div class="background">
-    <div class="col-sm-8 col-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="card">
-                        <img class="card__image" src="{% static 'portal/img/rr_beginner.png' %}">
-                        <div class="card__text">
-                            <h5>Beginner</h5>
-                            <div>
-                                <div>Teach your child about problem-solving and logical reasoning as they play. They’ll explore
-                                    algorithms, and learn how to create and debug simple programs. Designed for children aged 5–7,
-                                    but start here if you’ve never played Rapid Router.
-                                </div>
-                                <a class="button" href="https://code-for-life.gitbook.io/independent-student-resources/beginner/" target="_blank">
-                                    <button class="button--primary button--icon">
-                                        Go to lessons<span class="iconify" data-icon="mdi:open-in-new">
-                                    </button>
-                                </a>
-                            </div>
+<div class="background col-center container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <img class="card__image" src="{% static 'portal/img/rr_beginner.png' %}">
+                <div class="card__text">
+                    <h5>Beginner</h5>
+                    <div>
+                        <div>Teach your child about problem-solving and logical reasoning as they play. They’ll explore
+                            algorithms, and learn how to create and debug simple programs. Designed for children aged 5–7,
+                            but start here if you’ve never played Rapid Router.
                         </div>
+                        <a class="button" href="https://code-for-life.gitbook.io/independent-student-resources/beginner/" target="_blank">
+                            <button class="button--primary button--icon">
+                                Go to lessons<span class="iconify" data-icon="mdi:open-in-new">
+                            </button>
+                        </a>
                     </div>
                 </div>
-                <div class="col-sm-8">
-                    <h5>Levels 1–16 </h5>
-                    <h6>Session 1</h6>
-                    <p>Print off the worksheets, and cut them out to play offline. This helps children see that they need to
-                        give the computer clear instructions so it can understand how to move the van.</p>
-                    <h6>Session 2</h6>
-                    <p>Explore Rapid Router online and learn how to play. Print the left-right van on page 6, to help avoid
-                        any confusion between left and right. Once a child has understood the basics, they can work on
-                        levels 1 to 5.</p>
-                    <h6>Session 3</h6>
-                    <p>Plan longer routes with more turns to learn how to create more complex algorithms. The direct drive
-                        buttons make things a little easier for younger children, or those with learning difficulties while
-                        they build confidence.</p>
-                    <h6>Session 4 & 5</h6>
-                    <p>Print off worksheets focusing on efficient routes and planning using levels 13 and 14. Levels 15–16
-                        include routes where there is more than one delivery to make and some complex and tangled
-                        routes.</p>
-                </div>
             </div>
+        </div>
+        <div class="col-sm-8">
+            <h5>Levels 1–16 </h5>
+            <h6>Session 1</h6>
+            <p>Print off the worksheets, and cut them out to play offline. This helps children see that they need to
+                give the computer clear instructions so it can understand how to move the van.</p>
+            <h6>Session 2</h6>
+            <p>Explore Rapid Router online and learn how to play. Print the left-right van on page 6, to help avoid
+                any confusion between left and right. Once a child has understood the basics, they can work on
+                levels 1 to 5.</p>
+            <h6>Session 3</h6>
+            <p>Plan longer routes with more turns to learn how to create more complex algorithms. The direct drive
+                buttons make things a little easier for younger children, or those with learning difficulties while
+                they build confidence.</p>
+            <h6>Session 4 & 5</h6>
+            <p>Print off worksheets focusing on efficient routes and planning using levels 13 and 14. Levels 15–16
+                include routes where there is more than one delivery to make and some complex and tangled
+                routes.</p>
         </div>
     </div>
 </div>
@@ -100,45 +92,41 @@
     </div>
 </div>
 
-<div class="background">
-    <div class="col-sm-8 col-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h5>Level 17-28</h5>
-                    <h6>Session 1</h6>
-                    <p>Start delivering shopping to lots of different places. It can be easier to plan routes on the paper
-                        worksheets before trying on a computer.</p>
-                    <h6>Session 2</h6>
-                    <p>Print out the three lesson worksheets. Then, watch the video together to learn about repeat loops.
-                        Encourage your child to look for patterns in their code. If they spot a repeated pattern, they can
-                        use a repeat loop to make it shorter. Talk about repeated patterns away from the world of computers
-                        with poems and exercises.</p>
-                    <h6>Session 3</h6>
-                    <p>Get stuck in with more complex loops – even loops inside loops! The printable worksheets help your
-                        child plan their code before trying it in Rapid Router. Printable left-right vans can help overcome
-                        any confusions between left and right.</p>
-                    <h6>Sessions 4 & 5</h6>
-                    <p>Guide your child through creating their own routes in Rapid Router. Perhaps you can join in and try
-                        each other’s routes?</p>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card">
-                        <img class="card__image" src="{% static 'portal/img/rr_intermediate.png' %}">
-                        <div class="card__text">
-                            <h5>Intermediate</h5>
-                            <div>
-                                <div>Children confident with coding can move up to the next challenge — more complex maps and new
-                                    programming constructs. Designed for children aged 8–11, but anyone can progress here if
-                                    ready.
-                                </div>
-                                <a class="button" href="https://code-for-life.gitbook.io/independent-student-resources/intermediate/" target="_blank">
-                                    <button class="button--primary button--icon">
-                                        Go to lessons<span class="iconify" data-icon="mdi:open-in-new">
-                                    </button>
-                                </a>
-                            </div>
+<div class="background col-center container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h5>Level 17-28</h5>
+            <h6>Session 1</h6>
+            <p>Start delivering shopping to lots of different places. It can be easier to plan routes on the paper
+                worksheets before trying on a computer.</p>
+            <h6>Session 2</h6>
+            <p>Print out the three lesson worksheets. Then, watch the video together to learn about repeat loops.
+                Encourage your child to look for patterns in their code. If they spot a repeated pattern, they can
+                use a repeat loop to make it shorter. Talk about repeated patterns away from the world of computers
+                with poems and exercises.</p>
+            <h6>Session 3</h6>
+            <p>Get stuck in with more complex loops – even loops inside loops! The printable worksheets help your
+                child plan their code before trying it in Rapid Router. Printable left-right vans can help overcome
+                any confusions between left and right.</p>
+            <h6>Sessions 4 & 5</h6>
+            <p>Guide your child through creating their own routes in Rapid Router. Perhaps you can join in and try
+                each other’s routes?</p>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <img class="card__image" src="{% static 'portal/img/rr_intermediate.png' %}">
+                <div class="card__text">
+                    <h5>Intermediate</h5>
+                    <div>
+                        <div>Children confident with coding can move up to the next challenge — more complex maps and new
+                            programming constructs. Designed for children aged 8–11, but anyone can progress here if
+                            ready.
                         </div>
+                        <a class="button" href="https://code-for-life.gitbook.io/independent-student-resources/intermediate/" target="_blank">
+                            <button class="button--primary button--icon">
+                                Go to lessons<span class="iconify" data-icon="mdi:open-in-new">
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -152,56 +140,52 @@
     </div>
 </div>
 
-<div class="background">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card">
-                    <img class="card__image" src="{% static 'portal/img/rr_advanced.png' %}">
-                    <div class="card__text">
-                        <h5>Advanced</h5>
-                        <div>
-                            <div>Let’s get advanced! Learn about repeat loops and selection, variables, and how to create
-                                efficient code. Designed for children aged 12–14, but open to all.
-                            </div>
-                            <a class="button" href="https://code-for-life.gitbook.io/independent-student-resources/advanced/" target="_blank">
-                                <button class="button--primary button--icon">
-                                    Go to lessons<span class="iconify" data-icon="mdi:open-in-new">
-                                </button>
-                            </a>
+<div class="background container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <img class="card__image" src="{% static 'portal/img/rr_advanced.png' %}">
+                <div class="card__text">
+                    <h5>Advanced</h5>
+                    <div>
+                        <div>Let’s get advanced! Learn about repeat loops and selection, variables, and how to create
+                            efficient code. Designed for children aged 12–14, but open to all.
                         </div>
+                        <a class="button" href="https://code-for-life.gitbook.io/independent-student-resources/advanced/" target="_blank">
+                            <button class="button--primary button--icon">
+                                Go to lessons<span class="iconify" data-icon="mdi:open-in-new">
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8">
-                <h5>Level 29-109</h5>
-                <h6>Session 1</h6>
-                <p>Recap earlier levels before looking at repeat loops. Encourage your child to plan ahead on the
-                    printable worksheet before writing more complex programs. If they’re unsure about using loops, ask
-                    them to write the code without loops and then look for repeating patterns.</p>
-                <h6>Session 2</h6>
-                <p>A video and printable resources support this lesson, which builds your child’s understanding of loops
-                    with a new loop, repeat-until.</p>
-                <h6>Session 3 & 4</h6>
-                <p>Extra tasks for children who want a challenge! Watch the if...do video to learn about selection
-                    statements. Ask your child to explain how their finished program works!</p>
-                <h6>Extended</h6>
-                <p>Build on everything learned so far with traffic lights, limited blocks, procedures and brain teasers.
-                    Older children might even like to start learning to program using the Python language using levels
-                    80 onwards.</p>
-            </div>
+        </div>
+        <div class="col-sm-8">
+            <h5>Level 29-109</h5>
+            <h6>Session 1</h6>
+            <p>Recap earlier levels before looking at repeat loops. Encourage your child to plan ahead on the
+                printable worksheet before writing more complex programs. If they’re unsure about using loops, ask
+                them to write the code without loops and then look for repeating patterns.</p>
+            <h6>Session 2</h6>
+            <p>A video and printable resources support this lesson, which builds your child’s understanding of loops
+                with a new loop, repeat-until.</p>
+            <h6>Session 3 & 4</h6>
+            <p>Extra tasks for children who want a challenge! Watch the if...do video to learn about selection
+                statements. Ask your child to explain how their finished program works!</p>
+            <h6>Extended</h6>
+            <p>Build on everything learned so far with traffic lights, limited blocks, procedures and brain teasers.
+                Older children might even like to start learning to program using the Python language using levels
+                80 onwards.</p>
         </div>
     </div>
 </div>
 
-<div class="col-sm-8 col-center text-right background">
-    <div class="container">
-        {% if user|is_logged_in %}
-            <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
-        {% else %}
-            <a href="{% url 'register' %}" class="button button--primary register">Register now</a>
-        {% endif %}
-    </div>
+<div class="col-center text-right background container">
+    {% if user|is_logged_in %}
+        <a href="{% url 'levels' %}" class="button button--primary">Play now</a>
+    {% else %}
+        <a href="{% url 'register' %}" class="button button--primary register">Register now</a>
+    {% endif %}
 </div>
 
 <div class="content-footer text-center">
