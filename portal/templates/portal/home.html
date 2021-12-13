@@ -76,56 +76,38 @@
 <section class="background background--primary">
     <h3>Why you'll love Code for Life</h3>
     <div class="col-sm-6 col-center subtitle1">Don't just take our word for it, here are some lovely quotes from our fabulous teacher friends.
-        Interested in getting involved? <a href="{% url 'getinvolved' %}">Get in touch</a>.
+        Interested in getting involved? <a href="/getinvolved">Get in touch</a>.
     </div>
 
     <div class="col-sm-10 col-center image-row">
         <div class="col-sm-4">
-            <img title="Reuben" alt="Reuben portrait" class="portrait" src="{% static 'portal/img/reuben.png' %}">
+            <img title="Reuben" alt="Reuben portrait" class="portrait" src="/static/portal/img/reuben.png">
             <blockquote>
                 <p class="says">“My year 10's have been using Rapid Router to develop their Python skills and it has been a great transition into the Python IDE."</p>
+                <p><small><b>Reuben</b>
+                <br>Computer Science teacher
+                </small></p>
             </blockquote>
         </div>
         <div class="col-sm-4">
-            <img title="Sian" alt="Sian portrait" class="portrait" src="{% static 'portal/img/sian.png' %}">
+            <img title="Sian" alt="Sian portrait" class="portrait" src="/static/portal/img/sian.png">
             <blockquote>
                 <p class="says">“I like the slow build of layers of block coding that allows students to work at their own pace and fully embed their understanding of the different blocks."</p>
+                <p><small><b>Sian</b>
+                <br>Head of ICT
+                </small></p>
             </blockquote>
         </div>
         <div class="col-sm-4">
-            <img title="Rob" alt="Rob portrait" class="portrait" src="{% static 'portal/img/rob.png' %}">
+            <img title="Rob" alt="Rob portrait" class="portrait" src="/static/portal/img/rob.png">
             <blockquote>
                 <p class="says">“You can hit all of the computing curriculum, in a structured way. It is perfect for teachers who are struggling."</p>
-            </blockquote>
-        </div>
-    </div>
-</section>
-
-<section class="background background--primary">
-    <div class="col-sm-10 col-center image-row">
-        <div class="col-sm-4">
-            <blockquote>
-                <p><small><b>Reuben</b>
-                <br />Computer Science teacher
-                </small></p>
-            </blockquote>
-        </div>
-        <div class="col-sm-4">
-            <blockquote>
-                <p><small><b>Sian</b>
-                <br />Head of ICT
-                </small></p>
-            </blockquote>
-        </div>
-        <div class="col-sm-4">
-            <blockquote>
                 <p><small><b>Rob</b>
-                <br />ICT teacher
+                <br>ICT teacher
                 </small></p>
             </blockquote>
         </div>
     </div>
 </section>
-
 
 {% endblock content %}

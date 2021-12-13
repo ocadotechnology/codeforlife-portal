@@ -105,7 +105,7 @@
         </div>
 
         {% if is_admin %}
-            <div class="background col-center container">
+            <div class="background container">
             <h5>These teachers are already part of your school or club</h5>
             <table id="teachers_table" class="header-primary data-primary">
                     <tr>
@@ -155,7 +155,7 @@
                         with their smartphone or tablet.</strong>
                     </div>
                     {% else %}
-                    <div class="background secondary-table col-center container">
+                    <div class="background secondary-table container">
                         <h5>These teachers are already part of your school or club</h5>
                         <table class="header-primary data-primary">
                         <tr>
@@ -174,8 +174,9 @@
                         </div>
                     {% endif %}
                 </div>
+                    
         {% if is_admin %}
-        <div id="requests" class="background col-center container">
+        <div id="requests" class="background container">
             {% if join_requests %}
             <h5>These teachers have requested to join your school or club</h5>
             <table id="request_table" class="header-primary data-primary">
@@ -203,42 +204,40 @@
                 <h5>No teachers have currently requested to join your school or club.</h5>
                 {% endif %}
         </div>
-                <div id="school-details" class="background--primary">
-                    <div class="background container">
-                        <div>
-                            <h5>Update details of your school or club</h5>
-                        <p>Update your school or club’s name and/or postcode.</p>
-                        <strong>These details are used to allow other teachers to join your team.</strong>
-                        <form id="edit_form" method="post">
-                            {% csrf_token %}
-                            
-                            {{ update_school_form.non_field_errors }}
-                            <div class="row form--row">
-                                {% for field in update_school_form %}
-                                <div class="form--row__input col-sm-6 col-md-4">
-                                    <div class="input--icon">
-                                        {{ field }}
-                                        {% if not field == update_school_form.country %}
-                                        <span class="iconify" data-icon="mdi:domain"></span>
-                                        {% endif %}
-                                    </div>
-                                    <small>{{ field.help_text }}</small>
-                                    {{ field.errors }}
-                                </div>
-                                {% endfor %}
+        <div id="school-details" class="background background--primary">
+            <div class="container">
+                    <h5>Update details of your school or club</h5>
+                <p>Update your school or club’s name and/or postcode.</p>
+                <strong>These details are used to allow other teachers to join your team.</strong>
+                <form id="edit_form" method="post">
+                    {% csrf_token %}
+                    
+                    {{ update_school_form.non_field_errors }}
+                    <div class="row form--row">
+                        {% for field in update_school_form %}
+                        <div class="form--row__input col-sm-6 col-md-4">
+                            <div class="input--icon">
+                                {{ field }}
+                                {% if not field == update_school_form.country %}
+                                <span class="iconify" data-icon="mdi:domain"></span>
+                                {% endif %}
                             </div>
-                            <div class="section group">
-                                <button id="update_details_button" type="submit" class="button button--primary" name="update_school">Update details</button>
-                            </div>
-                        </form>
+                            <small>{{ field.help_text }}</small>
+                            {{ field.errors }}
+                        </div>
+                        {% endfor %}
                     </div>
-                </div>
-                {% endif %}
-            </div>
+                    <div class="section group">
+                        <button id="update_details_button" type="submit" class="button button--primary" name="update_school">Update details</button>
+                    </div>
+                </form>
+        </div>
+        {% endif %}
+    </div>
     </div>
 
     <div id="classes" class="tab-pane">
-        <div class="background col-center container">
+        <div class="background container">
             <section>
                 <h4>Your classes</h4>
             </section>
@@ -318,8 +317,8 @@
             {% endif %}
         </div>
 
-        <div id="new-class" class="background--primary">
-            <div class="background container col-center">
+        <div id="new-class" class="background background--primary">
+            <div class="container">
                 <h5>Create a new class</h5>
                 <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
                     class.</p>
@@ -354,7 +353,7 @@
     </div>
 
     <div id="account" class="tab-pane">
-        <div class="background col-center container">
+        <div class="background container">
             <section>
                 <h4>Your account</h4>
             </section>
@@ -418,11 +417,10 @@
             </form>
         </div>
 
-        <div class="background--primary">
-            <div class="background col-center container">
-                    <h5>Two Factor Authentication</h5>
+        <div class="background background--primary">
+            <div class="container">
+                    <h5>Two Fator Authentication</h5>
                     <p>Use your smartphone or tablet to enhance your account's security by installing an authenticator app.</p>
-                    
                     {% if user|has_2FA %}
                     <div class="row row--regular">
                         <div class="col-sm-6">
@@ -471,4 +469,3 @@
 </script>
 
 {% endblock content %}
-
