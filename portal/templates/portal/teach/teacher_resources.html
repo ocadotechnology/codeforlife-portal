@@ -1,0 +1,68 @@
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+{% load banner_tags %}
+
+{% block subNav %}
+{% banner banner_name="BANNER" %}
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 sub-nav">
+                <span class="iconify sub-nav--icon" data-icon="mdi:information-outline"></span>
+                <p class="flex-grow-1">
+                    <strong>We have moved our resources to Gitbook.</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock subNav %}
+
+{% block content %}
+<div id="resources_page"></div>
+
+<div class="background container">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h4>You can find our resources on our new Gitbook space</h4>
+        </div>
+    </div>
+
+    <div class="row d-flex">
+        <div class="col-sm-6 d-flex flex-column">
+            <div class="flex-grow-1">
+                <p>Our resources have been moved to Gitbook to give you better experience. Please visit our dedicated
+                    {% if rapid_router_resources %}
+                        <a href="https://code-for-life.gitbook.io/teaching-resources/" target="_blank">Code for Life Space</a>
+                    {% else %}
+                        <a href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
+                           target="_blank">Code for Life Space</a>
+                    {% endif %}
+                    to find everything you need from lesson plans to solutions.
+                </p>
+                <p>This space is only available to teachers.</p>
+            </div>
+            <div>
+                {% if rapid_router_resources %}
+                    <a href="https://code-for-life.gitbook.io/teaching-resources/"
+                       class="button button--primary button--icon" target="_blank">
+                        Open Rapid Router resources<span class="iconify" data-icon="mdi:open-in-new"></span>
+                    </a>
+                {% else %}
+                    <a href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
+                      class="button button--primary button--icon" target="_blank">
+                        Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <img src="{% static 'portal/img/gitbook_space.png' %}">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

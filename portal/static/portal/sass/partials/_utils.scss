@@ -141,16 +141,6 @@ section {
   }
 }
 
-.ks-tag {
-  @include _font-size(16px);
-  @include _margin(0px, 0px, 0px, $spacing * 2);
-  @include _padding(3px, $spacing, 3px, $spacing);
-  background-color: $color-background-materials-tag;
-  color: $color-text-materials-tag;
-  font-weight: normal;
-  vertical-align: middle;
-}
-
 .tab {
   list-style-type: none;
   margin: auto;
@@ -196,26 +186,6 @@ section {
 
 iframe {
   border: none;
-}
-
-.viewer-frame {
-  margin-right: $spacing * 6;
-  height: 800px;
-}
-
-.pdf-list {
-  p:not(:first-of-type) {
-    &:after {
-      @include _margin(0px, $spacing, 0px, $spacing * 2);
-      background: url("../img/icon_pdf.png") no-repeat center;
-      background-size: contain;
-      content: "";
-      display: inline-block;
-      height: 20px;
-      vertical-align: sub;
-      width: 20px;
-    }
-  }
 }
 
 input.input-invalid {

@@ -1,11 +1,12 @@
 import csv
 import io
 import json
-from datetime import timedelta
+from datetime import timedelta, date
 
 import PyPDF2
+import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class
+from common.models import Teacher, UserSession, Student, Class, DailyActivity
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -30,6 +31,7 @@ from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_ROWS,
     REMINDER_CARDS_PDF_COLUMNS,
     REMINDER_CARDS_PDF_WARNING_TEXT,
+    count_student_details_click,
 )
 
 
@@ -38,7 +40,7 @@ class TestTeacherViews(TestCase):
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
         _, _, cls.class_access_code = create_class_directly(cls.email)
-        create_school_student_directly(cls.class_access_code)
+        _, _, cls.student = create_school_student_directly(cls.class_access_code)
 
     def login(self):
         c = Client()
@@ -104,11 +106,12 @@ class TestTeacherViews(TestCase):
         url = reverse("teacher_download_csv", args=[self.class_access_code])
         NAME1 = "Test name"
         NAME2 = "Another name"
+        PASSWORD = "easy"
         URL_PLACEHOLDER = "http://_____"
 
         studentlist = [
-            {"name": NAME1, "login_url": URL_PLACEHOLDER},
-            {"name": NAME2, "login_url": URL_PLACEHOLDER},
+            {"name": NAME1, "password": PASSWORD, "login_url": URL_PLACEHOLDER},
+            {"name": NAME2, "password": PASSWORD, "login_url": URL_PLACEHOLDER},
         ]
         data = {"data": json.dumps(studentlist)}
 
@@ -118,11 +121,15 @@ class TestTeacherViews(TestCase):
         content = response.content.decode("utf-8")
         reader = csv.reader(io.StringIO(content))
 
+        access_code = self.class_access_code
+        class_url = reverse("student_login", kwargs={"access_code": access_code})
         row0 = next(reader)
-        assert row0[0].strip() == self.class_access_code
+        assert row0[0].strip() == access_code
+        assert class_url in row0[1].strip()
         row1 = next(reader)
         assert row1[0] == NAME1
-        assert row1[1] == URL_PLACEHOLDER
+        assert row1[1] == PASSWORD
+        assert row1[2] == URL_PLACEHOLDER
         row2 = next(reader)
         assert row2[0] == NAME2
 
@@ -151,6 +158,54 @@ class TestTeacherViews(TestCase):
         assert response.status_code == 405
         response = client.post(url)
         assert response.status_code == 302
+
+    def test_daily_activity_student_details(self):
+        c = self.login()
+        url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
+
+        data = {
+            "data": json.dumps(
+                [
+                    {
+                        "name": self.student.new_user.first_name,
+                        "password": self.student.new_user.password,
+                        "login_url": self.student.login_id,
+                    },
+                ]
+            )
+        }
+
+        # Check there are no DailyActivity rows
+        assert DailyActivity.objects.count() == 0
+
+        # Load student login cards
+        response = c.post(url, data)
+        assert response.status_code == 200
+
+        # Expect a DailyActivity to have been created for today, and expect login cards
+        # count to have been incremented
+        assert DailyActivity.objects.count() == 1
+        daily_activity = DailyActivity.objects.get(id=1)
+        assert daily_activity.date == date.today()
+        assert daily_activity.csv_click_count == 0
+        assert daily_activity.login_cards_click_count == 1
+
+        url = reverse("teacher_download_csv", args=[self.class_access_code])
+
+        # Download student details CSV
+        response = c.post(url, data)
+        assert response.status_code == 200
+
+        # Expect the same DailyActivity row to be there (no new rows), expect CSV click
+        # count to have been incremented and login cards to stay the same
+        assert DailyActivity.objects.count() == 1
+        daily_activity = DailyActivity.objects.get(id=1)
+        assert daily_activity.date == date.today()
+        assert daily_activity.csv_click_count == 1
+        assert daily_activity.login_cards_click_count == 1
+
+        with pytest.raises(Exception):
+            count_student_details_click("Wrong download method")
 
 
 class TestLoginViews(TestCase):

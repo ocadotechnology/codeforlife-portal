@@ -1,5 +1,4 @@
 from common.models import UserSession, Student, Class
-from django import forms
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, FormView
@@ -8,6 +7,10 @@ from django.urls import reverse_lazy
 from django.utils.html import escape
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
+
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 
 class StudentClassCodeView(FormView):
@@ -75,7 +78,12 @@ class StudentLoginView(LoginView):
         students = Student.objects.filter(
             new_user__first_name__iexact=name, class_field=klass
         )
-        student = students[0]
+        try:
+            student = students[0]
+        except IndexError:
+            msg = f"Student {name} in class {class_code} is not found!"
+            LOGGER.error(msg)
+            raise Exception(msg)
 
         # Log the login time, class, and login type
         session = UserSession(

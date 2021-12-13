@@ -26,12 +26,19 @@
 
   .dropdown-menu {
     width: 100%;
+    border: 2px solid $color-button-contained;
+    background-color: #fff;
 
     .dropdown-menu__option {
       .button {
-        border-bottom: 1px solid $color-button-outlined-border;
+        border-bottom: 1px solid $color-button-contained;
       }
     }
+  }
+
+  .button--dropdown {
+    background: $color-button-contained;
+    border: 2px solid $color-button-contained;
   }
 
   form {
@@ -102,15 +109,6 @@
   top: $menu-height;
   width: 100%;
   z-index: $nav-bar-level - 1;
-}
-
-.sub-nav--key-stage {
-  background-color: $color-background-key-stage;
-
-  .sub-nav__text {
-    color: $color-text-secondary;
-    margin: 0;
-  }
 }
 
 .sub-nav--filler {

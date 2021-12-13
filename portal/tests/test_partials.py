@@ -63,27 +63,6 @@ def test_benefits(snapshot):
     snapshot.assert_match(rendered_template)
 
 
-def test_game_banner(snapshot):
-    test_game_banner = {
-        "title": "Test title",
-        "description": "Test description",
-        "button_text": "Test button",
-        "button_link": "play",
-        "ages": "Test ages",
-        "background_image_class": "test--class",
-    }
-
-    context = Context({"GAME_BANNER": test_game_banner})
-
-    template_to_render = Template(
-        "{% load game_banner_tags %}" "{% game_banner game_banner_name='GAME_BANNER' %}"
-    )
-
-    rendered_template = template_to_render.render(context)
-
-    snapshot.assert_match(rendered_template)
-
-
 def test_hero_card(snapshot):
     test_hero_card = {
         "image": "images/worksheets/future_active.png",
@@ -91,8 +70,7 @@ def test_hero_card(snapshot):
         "description": "Test description",
         "button1": {
             "text": "Test button 1",
-            "url": "materials_viewer",
-            "url_args": "test_pdf_name",
+            "url": "https://www.codeforlife.education",
         },
         "button2": {"text": "Test button 2", "url": "kurono/play", "url_args": 1},
     }

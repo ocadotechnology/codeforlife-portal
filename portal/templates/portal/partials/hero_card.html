@@ -7,8 +7,8 @@
         <h4 class="card__title">{{ title }}</h4>
         <p>{{ description }}</p>
         <div class="button-group button-group__icon">
-            <a href="{% url button1.url pdf_name=button1.url_args %}" class="button button--primary button-right-arrow">
-                {{ button1.text }}
+            <a target="_blank" href="{{ button1.url }}" class="button button--primary button--icon">
+                {{ button1.text }}<span class="iconify" data-icon="mdi:open-in-new"></span>
             </a>
             <a href="{% url button2.url id=button2.url_args %}" class="button button--primary button-right-arrow">
                 {{ button2.text }}

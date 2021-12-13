@@ -5,7 +5,7 @@
 {% block content %}
 <div class="error-page background container">
     <div class="row mx-0 d-flex justify-content-between">
-        <div>
+        <div class="flex-grow-1">
             <h2>Temporary lock out!</h2>
             <h5>Your account has been temporarily blocked as there were too many unsuccessful requests.</h5>
             <p>If you wish to proceed, please
@@ -16,7 +16,7 @@
             {% endif %}
             Alternatively, you will need to wait 24 hours for your account to be unlocked again.</p>
         </div>
-        <img title="Phil" alt="Phil" src="{% static 'portal/img/phil_hi_res.png' %}"/>
+        <img title="Phil" alt="Phil" src="{% static 'portal/img/phil.png' %}"/>
     </div>
 </div>
 {% endblock content %}

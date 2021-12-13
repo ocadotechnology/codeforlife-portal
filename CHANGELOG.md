@@ -2,6 +2,46 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.4 (2021-12-10)
+### Fix
+* Remove Rapid Router Resources ([#1669](https://github.com/ocadotechnology/codeforlife-portal/issues/1669)) ([`4edcc1b`](https://github.com/ocadotechnology/codeforlife-portal/commit/4edcc1b798671816aabfd1f7d9bc888fa085b8b0))
+
+## v5.26.3 (2021-12-09)
+### Fix
+* Add class link to csv ([#1670](https://github.com/ocadotechnology/codeforlife-portal/issues/1670)) ([`fa9d257`](https://github.com/ocadotechnology/codeforlife-portal/commit/fa9d257a5d7a74db85ec7306f8da571f72e0e3c9))
+
+## v5.26.2 (2021-12-08)
+### Fix
+* Add check and log for student not found ([`84477de`](https://github.com/ocadotechnology/codeforlife-portal/commit/84477de7dcc14533620807ac2285a87eba0bb31b))
+
+## v5.26.1 (2021-12-08)
+### Fix
+* Empty class code and error pages fix ([#1668](https://github.com/ocadotechnology/codeforlife-portal/issues/1668)) ([`04799bd`](https://github.com/ocadotechnology/codeforlife-portal/commit/04799bd9fc8f6938c9c0130dae6243fc12deee0e))
+
+## v5.26.0 (2021-12-08)
+### Feature
+* Gather daily counts of student details downloads (CSV and login cards) ([#1665](https://github.com/ocadotechnology/codeforlife-portal/issues/1665)) ([`d4b855f`](https://github.com/ocadotechnology/codeforlife-portal/commit/d4b855f7183f19481611fec62a57906c75c3ef5a))
+
+## v5.25.0 (2021-12-06)
+### Feature
+* Add password to csv ([#1663](https://github.com/ocadotechnology/codeforlife-portal/issues/1663)) ([`b5e1460`](https://github.com/ocadotechnology/codeforlife-portal/commit/b5e14606ce8bf97459448880493e2e2644dad65e))
+
+## v5.24.2 (2021-12-02)
+### Fix
+* Fix Add class Kurono button ([#1660](https://github.com/ocadotechnology/codeforlife-portal/issues/1660)) ([`0ffc264`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ffc264eaf4b8c164a28cee7a376ca817e81d1ec))
+
+## v5.24.1 (2021-12-02)
+### Fix
+* Kurono dashboard characters spacing ([#1661](https://github.com/ocadotechnology/codeforlife-portal/issues/1661)) ([`c0170dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/c0170dc27ef35b1357ea07b9d174856d3e726f4f))
+
+## v5.24.0 (2021-12-02)
+### Feature
+* Update play page ([#1659](https://github.com/ocadotechnology/codeforlife-portal/issues/1659)) ([`1dd8adb`](https://github.com/ocadotechnology/codeforlife-portal/commit/1dd8adb802fd533c1c4f9580fecb8acbc7e0ed42))
+
+## v5.23.2 (2021-12-02)
+### Fix
+* Align header and footer ([#1654](https://github.com/ocadotechnology/codeforlife-portal/issues/1654)) ([`c7c5782`](https://github.com/ocadotechnology/codeforlife-portal/commit/c7c5782f0bad4ae68addaa88786c962ba8fec69e))
+
 ## v5.23.1 (2021-12-02)
 ### Fix
 * Student kurono page - centring ([#1657](https://github.com/ocadotechnology/codeforlife-portal/issues/1657)) ([`2c44e58`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c44e588b0157b9051e812e3d50feafca1ab7b51))

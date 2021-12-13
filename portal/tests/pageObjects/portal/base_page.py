@@ -87,16 +87,16 @@ class BasePage(object):
     def go_to_rapid_router_resources_page(self):
         self.hover_over_resources_dropdown()
         self.browser.find_element_by_id("rapid_router_resources_button").click()
-        from .rapid_router_resources_page import RapidRouterResourcesPage
+        from .resources_page import ResourcesPage
 
-        return RapidRouterResourcesPage(self.browser)
+        return ResourcesPage(self.browser)
 
     def go_to_kurono_resources_page(self):
         self.hover_over_resources_dropdown()
         self.browser.find_element_by_id("kurono_resources_button").click()
-        from .kurono_resources_page import KuronoResourcesPage
+        from .resources_page import ResourcesPage
 
-        return KuronoResourcesPage(self.browser)
+        return ResourcesPage(self.browser)
 
     def go_to_kurono_teacher_dashboard_page(self):
         self.browser.find_element_by_id("games_button").click()

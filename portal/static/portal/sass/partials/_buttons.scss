@@ -130,23 +130,6 @@ table {
   }
 }
 
-.button-drop-down {
-  &.button.button--primary:focus,
-  &.button.button--primary:hover {
-    text-decoration: none;
-    background: $color-button-contained;
-  }
-
-  &:after {
-    content: "\e5c5";
-    font-family: "Material Icons Outlined";
-    position: relative;
-    top: 2px;
-    left: 5px;
-    line-height: 0.9em;
-  }
-}
-
 .button--regular,
 .ui-dialog-buttonset button {
   @include _padding(10px, 15px, 10px, 15px);
@@ -205,7 +188,10 @@ table {
 
 td .button--primary--danger,
 td .button--primary {
-  height: 35px;
+  align-items: center;
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
 }
 
 .button--icon {
@@ -287,15 +273,6 @@ td .button--primary {
     .material-icons-outlined {
       @include _margin(0px, 0px, 0px, $spacing * 2);
     }
-  }
-}
-
-.resource-buttons {
-  @include _padding(40px, 0px, 0px, 0px);
-
-  a {
-    @include _margin(0px, 20px, 20px, 0px);
-    display: inline-flex;
   }
 }
 

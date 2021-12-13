@@ -28,7 +28,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="game_class" id="id_game_class">
             </form>
-            <button class="button button--primary button-drop-down" data-toggle="dropdown"
+            <button class="button--primary button--dropdown" data-toggle="dropdown"
                 aria-expanded="false" id="add_class_dropdown">
                 Add class
             </button>
@@ -68,7 +68,7 @@
             supported by lesson guides and resource sheets.
         </p>
         <div class="background button-group button-group__icon">
-            <a href="{{ teacher_resources_url }}"
+            <a href="{{ teacher_kurono_resources_url }}"
               class="button button--primary button--icon" target="_blank">
                 Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
             </a>
