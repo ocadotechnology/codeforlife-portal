@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.5 (2021-12-13)
+### Fix
+* Bump django from 2.2.24 to 2.2.25 ([#1672](https://github.com/ocadotechnology/codeforlife-portal/issues/1672)) ([`4836154`](https://github.com/ocadotechnology/codeforlife-portal/commit/4836154f5323d92bf2c86d71632fd039769dff8b))
+
 ## v5.26.4 (2021-12-10)
 ### Fix
 * Remove Rapid Router Resources ([#1669](https://github.com/ocadotechnology/codeforlife-portal/issues/1669)) ([`4edcc1b`](https://github.com/ocadotechnology/codeforlife-portal/commit/4edcc1b798671816aabfd1f7d9bc888fa085b8b0))
