@@ -8,13 +8,19 @@ $column--icon-width: 3%;
   width: 100%;
 }
 
+div.container.grid:before,
+div.container.grid:after {
+  content: none;
+}
+
 .grid {
   @include _column-gap($spacing * 4);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-row: auto;
   text-align: start;
   justify-content: center;
-
+  
   & > * {
     display: flex;
     flex-direction: column;
