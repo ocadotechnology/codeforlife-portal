@@ -4,13 +4,13 @@
 {% block content %}
 <div id="teach_move_class_page"></div>
 
-<section class="background col-sm-6 col-center">
+<section class="background container">
     <h4>Transfer class {{ class.name }} ({{ class.access_code }}) to another teacher</h4>
     <h6>Transfer this class to another teacher in the school or club.</h6>
 </section>
 
 <div class="background background--quaternary">
-    <div class="col-sm-6 col-center">
+    <div class="container">
         <h4>New teacher to take over class</h4>
 
         <p>Select a new teacher from your school or club to take over the above class from the list below.</p>
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="background col-sm-6 col-center">
+<div class="background container">
     <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 

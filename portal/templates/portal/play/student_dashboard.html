@@ -15,7 +15,7 @@
 <div id="play_dashboard_page">
     <div class="background container">
         <section><h4>Your class games</h4></section>
-        <div class="grid-games col-center col-sm-9">
+        <div class="grid-games">
             <div class="card">
                 <div class="card__images">
                     <img title="Rapid Router" alt="Rapid Router" class="card__image" src="{% static 'portal/img/RR_logo_green.svg' %}">
@@ -46,7 +46,7 @@
     </div>
     <div class="background background--primary">
         <div class="container">
-            <div class="col-center text-center col-sm-9">
+            <div class="text-center">
                 <section><img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
                 <h4>You have completed {{ num_completed }} Rapid Router level{{ num_completed|pluralize }}!</h4>
                 <h4>You have {{ num_top_scores }} top score{{ num_top_scores|pluralize }}!</h4>
