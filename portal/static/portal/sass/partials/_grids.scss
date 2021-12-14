@@ -13,6 +13,7 @@ $column--icon-width: 3%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   text-align: start;
+  justify-content: center;
   
   & > * {
     display: flex;
