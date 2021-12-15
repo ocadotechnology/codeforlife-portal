@@ -7,6 +7,7 @@ from common.helpers.emails import (
 )
 from common.models import Teacher, Student
 from common.permissions import logged_in_as_student, logged_in_as_teacher
+from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
@@ -207,19 +208,20 @@ def redirect_teacher_to_correct_page(request, teacher):
         if classes:
             classes_count = classes.count()
             if classes_count > 1 or classes[0].has_students():
-                link = reverse("two_factor:profile")
-                messages.info(
-                    request,
-                    (
-                        "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account’s security.</br>"
-                        + "Click <a href='"
-                        + link
-                        + "'>here</a> to find out more and "
-                        + "set it up or go to your account page at any time."
-                    ),
-                    extra_tags="safe",
-                )
+                if not using_two_factor(request.user):
+                    link = reverse("two_factor:profile")
+                    messages.info(
+                        request,
+                        (
+                            "You are not currently set up with two-factor authentication. "
+                            + "Use your phone or tablet to enhance your account’s security.</br>"
+                            + "Click <a href='"
+                            + link
+                            + "'>here</a> to find out more and "
+                            + "set it up or go to your account page at any time."
+                        ),
+                        extra_tags="safe",
+                    )
                 return reverse_lazy("dashboard")
             else:
                 return reverse_lazy(
