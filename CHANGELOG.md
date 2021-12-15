@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.7 (2021-12-15)
+### Fix
+* Add QR code pic to CSP config ([#1676](https://github.com/ocadotechnology/codeforlife-portal/issues/1676)) ([`5e3e405`](https://github.com/ocadotechnology/codeforlife-portal/commit/5e3e40537b392a5ff4883ffd80b0bcb8d93fa804))
+
 ## v5.26.6 (2021-12-15)
 ### Fix
 * Ensuring everything is contained inside a container ([#1671](https://github.com/ocadotechnology/codeforlife-portal/issues/1671)) ([`72356ea`](https://github.com/ocadotechnology/codeforlife-portal/commit/72356eabece47ccca7769d33860aac97bbaac3dd))
