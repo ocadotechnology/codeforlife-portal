@@ -87,7 +87,7 @@ snapshots[
 ] = """
 
 
-<div class="grid grid-worksheets grid__fit col-sm-8 col-center">
+<div class="grid grid-worksheets grid__fit">
     
         <div class="card">
             <div class="card__images">
@@ -225,7 +225,7 @@ snapshots[
 ] = """
 
 
-<div class="card col-sm-8 col-center">
+<div class="card">
     <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/worksheets/future_active.png">
     <div class="card__text">
         <h4 class="card__title">Test title</h4>
