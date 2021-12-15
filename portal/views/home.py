@@ -208,8 +208,8 @@ def redirect_teacher_to_correct_page(request, teacher):
         if classes:
             classes_count = classes.count()
             if classes_count > 1 or classes[0].has_students():
+                link = reverse("two_factor:profile")
                 if not using_two_factor(request.user):
-                    link = reverse("two_factor:profile")
                     messages.info(
                         request,
                         (
