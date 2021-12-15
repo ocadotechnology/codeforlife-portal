@@ -3,14 +3,14 @@
 {% block content %}
 <div id="teach_edit_class_page"></div>
 
-<section class="background col-sm-6 col-center">
+<section class="background container">
     <h4>Update settings for class {{ class.name }} ({{ class.access_code }})</h4>
     <h6>You may change the name of the class, or change permissions to allow external requests from independent students to join this class. You may also
         transfer the class to another teacher, or change permissions to allow pupils to see their classmates' progress.</h6>
 </section>
 
 <div class="background background--primary">
-    <div class="col-sm-6 col-center">
+    <div class="container">
         <form method="post">
 
             {% csrf_token %}
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div class="background col-sm-6 col-center">
+<div class="background container">
     <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

@@ -53,22 +53,22 @@
 {% endblock subNav %}
 
 {% block content %}
-<section class="background">
+<section class="background container">
     <h4>My games</h4>
     {% games_table 'kurono/play' %}
 </section>
 
 <div id="kurono_teacher_dashboard_page"></div>
-<div class="background--primary">
-    <section class="background col-sm-8 col-center">
+<div class="background background--primary">
+    <section class="container">
         <h4>Teaching resources</h4>
-        <p>
+        <p>>
             We have moved our resources to Gitbook. There you will find a set of individual and collaborative
             worksheets that keep the students engaged and having fun whilst embedding important Python skills,
             supported by lesson guides and resource sheets.
         </p>
         <div class="background button-group button-group__icon">
-            <a href="{{ teacher_kurono_resources_url }}"
+            <a href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
               class="button button--primary button--icon" target="_blank">
                 Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
             </a>
@@ -76,13 +76,13 @@
     </section>
 </div>
 <div>
-    <section class="background col-sm-8 col-center">
+    <section class="background container">
         <h4>Tell us what you think of Kurono...</h4>
         <p>Your testing and feedback will help Code for Life deliver an enjoyable game, and will allow us to consult
             with you on resources that will be relevant to teaching computing classes in secondary schools
             (13 &mdash; 18 year olds).</p>
-        <div class="background button-group button-group__icon">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
+            <div class="background button-group button-group__icon">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
                 class="button button--primary" target="_blank">Give feedback
                 <span class="material-icons-outlined">open_in_new</span>
             </a>

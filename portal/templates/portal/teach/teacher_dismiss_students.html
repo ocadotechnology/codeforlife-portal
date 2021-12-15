@@ -4,13 +4,13 @@
 {% block content %}
 <div id="dismiss_students_page"></div>
 
-<section class="background col-sm-6 col-center">
+<section class="background container">
     <h4>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h4><br>
     <h6>Convert students into independent students.</h6>
 </section>
 
 <div class="background background--primary">
-    <div class="col-sm-6 col-center">
+    <div class="container">
         <h4>Students to release from school</h4>
 
         <p>You are about to remove students from your class and set them up as independent students. Neither you nor your school will
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="background col-sm-6 col-center">
+<div class="background container">
     <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 

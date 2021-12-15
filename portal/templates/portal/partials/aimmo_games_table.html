@@ -6,89 +6,87 @@
 
 {% if open_play_games %}
     {% include "portal/partials/popup.html" %}
-    <div class="col-sm-8 col-lg-8 col-center">
-        <table id="games-table" class="games-table header-primary data-primary">
-            <tr class="games-table__header">
-                <th class="cell-left">
-                    <p>Class</p>
-                </th>
-                <th class="cell-left col-xs-6">
-                    <p>Challenge</p>
-                </th>
-                <th class="cell-center">
-                    <p>Action</p>
-                </th>
-                <th class="cell-center">
-                    <p>Select</p>
-                </th>
-            </tr>
-            {% for game in open_play_games %}
-            <tr>
-                <td>
-                    <div class="games-table__cell">
-                        <p>{{ game.game_class.name }}</p>
-                    </div>
-                </td>
-                <td>
-                    <div class="games-table__cell">
-                        <div class="dropdown">
-                            <button id="worksheets_dropdown" class="button button--dropdown" data-toggle="dropdown" aria-expanded="false">
-                                <div class="dropdown__text">{{ game.worksheet.id }} - {{ game.worksheet.name }}</div>
-                            </button>
-                            <ul id="worksheets_dropdown_menu" class="dropdown-menu">
-                                {% for worksheet in complete_worksheets %}
-                                    <li class="dropdown-menu__option">
-                                        {% if worksheet.name == game.worksheet.name %}
-                                            <a class="button button--regular disabled">
-                                                <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
-                                                <span class="material-icons-outlined">check</span>
-                                            </a>
-                                        {% else %}
-                                            <a class="button button--regular" id="worksheet_{{ worksheet.id }}"
-                                               onclick="changeWorksheetConfirmation('{{ game.id|escapejs }}',
-                                                       '{{ game.game_class.name|escapejs }}',
-                                                       '{{ worksheet.id|escapejs }}')">
-                                                <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
-                                            </a>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                                {% for worksheet in incomplete_worksheets %}
-                                    <li class="dropdown-menu__option">
+    <table id="games-table" class="games-table header-primary data-primary">
+        <tr class="games-table__header">
+            <th class="cell-left">
+                <p>Class</p>
+            </th>
+            <th class="cell-left col-xs-6">
+                <p>Challenge</p>
+            </th>
+            <th class="cell-center">
+                <p>Action</p>
+            </th>
+            <th class="cell-center">
+                <p>Select</p>
+            </th>
+        </tr>
+        {% for game in open_play_games %}
+        <tr>
+            <td>
+                <div class="games-table__cell">
+                    <p>{{ game.game_class.name }}</p>
+                </div>
+            </td>
+            <td>
+                <div class="games-table__cell">
+                    <div class="dropdown">
+                        <button id="worksheets_dropdown" class="button button--dropdown" data-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown__text">{{ game.worksheet.id }} - {{ game.worksheet.name }}</div>
+                        </button>
+                        <ul id="worksheets_dropdown_menu" class="dropdown-menu">
+                            {% for worksheet in complete_worksheets %}
+                                <li class="dropdown-menu__option">
+                                    {% if worksheet.name == game.worksheet.name %}
                                         <a class="button button--regular disabled">
                                             <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
+                                            <span class="material-icons-outlined">check</span>
                                         </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                                    {% else %}
+                                        <a class="button button--regular" id="worksheet_{{ worksheet.id }}"
+                                            onclick="changeWorksheetConfirmation('{{ game.id|escapejs }}',
+                                                    '{{ game.game_class.name|escapejs }}',
+                                                    '{{ worksheet.id|escapejs }}')">
+                                            <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            {% for worksheet in incomplete_worksheets %}
+                                <li class="dropdown-menu__option">
+                                    <a class="button button--regular disabled">
+                                        <p class="dropdown-menu__option__text">{{ worksheet.id }} - {{ worksheet.name }}</p>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                </td>
-                <td>
-                    <div class="games-table__buttons">
-                        <a class="button button--small button--primary"
-                            href="{% url base_url id=game.id %}">Play</a>
-                    </div>
-                </td>
-                <td class="cell-center">
-                    <input type="checkbox" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
-                </td>
-            </tr>
-            {% endfor %}
-            <tr>
-                <td colspan="3" class="no-bg"></td>
-                <td class="no-bg">
-                    <div class="button-group button-group__icon">
-                        <a class="button button--primary"
-                            onclick="clickDeleteGames()">
-                                Delete
-                                <span class="material-icons-outlined">delete</span>
-                            </a>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
+                </div>
+            </td>
+            <td>
+                <div class="games-table__buttons">
+                    <a class="button button--small button--primary"
+                        href="{% url base_url id=game.id %}">Play</a>
+                </div>
+            </td>
+            <td class="cell-center">
+                <input type="checkbox" name="game_ids" value="{{ game.id }}" data-class-name="{{ game.game_class.name }}">
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3" class="no-bg"></td>
+            <td class="no-bg">
+                <div class="button-group button-group__icon">
+                    <a class="button button--primary"
+                        onclick="clickDeleteGames()">
+                            Delete
+                            <span class="material-icons-outlined">delete</span>
+                        </a>
+                </div>
+            </td>
+        </tr>
+    </table>
 {% else %}
     <p>It doesn&rsquo;t look like you have any games created. To create a game, use the &lsquo;Add class&rsquo;
         button above.</p>
