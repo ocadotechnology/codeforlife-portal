@@ -3,13 +3,13 @@
 {% block content %}
 <div id="move_students_disambiguate_page"></div>
 
-<section class="background col-sm-6 col-center">
+<section class="background container">
     <h4>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h4>
     <h6>Move students to another class.</h6>
 </section>
 
 <div class="background">
-    <div class="col-sm-6 col-center">
+    <div class="container">
         <h5>Students currently in destination class</h5>
 
         {% if new_class_students %}
@@ -70,7 +70,7 @@
     </div>
 </div>
 
-<div class="background col-sm-6 col-center">
+<div class="background container">
     <p><a href="{% url 'view_class' old_class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

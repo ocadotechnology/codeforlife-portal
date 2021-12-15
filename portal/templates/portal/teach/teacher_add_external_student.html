@@ -4,11 +4,11 @@
 {% block content %}
 <div id="add_independent_student_to_class"></div>
 
-<section class="background col-sm-6 col-center">
+<section class="background container">
     <h4>Add external student to class {{ class.name }} ({{ class.access_code }})</h4>
 </section>
 
-<div class="col-sm-8 col-center">
+<div class="container">
     <div class="row">
         <div class="col-sm-5">
             <h4>Students currently in class</h4>
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div class="background col-sm-8 col-center">
+<div class="background container">
     <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 

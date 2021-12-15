@@ -3,13 +3,13 @@
 {% block content %}
 <div id="edit_student_page"></div>
 
-<section id="student_details" class="background col-sm-6 col-center">
+<section id="student_details" class="background container">
     <h4>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h4>
     <h5>Edit this student&rsquo;s name and manage their password and direct access link.</h5>
 </section>
 
 <div class="background background--primary">
-    <div class="col-sm-6 col-center">
+    <div class="container">
         <h5>Update name</h5>
 
         <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<div class="background col-sm-6 col-center">
+<div class="background container">
     <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

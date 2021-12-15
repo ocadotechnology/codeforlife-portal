@@ -8,13 +8,10 @@
 {% endblock subNav %}
 
 {% block content %}
-<div class="background">
+<div class="background container">
     <section>
-        <div class="col-sm-12 col-center">
-            <h4>How to get involved and gain experience</h4>
-        </div>
+        <h4>How to get involved and gain experience</h4>
     </section>
-    <div class="col-sm-8 col-center">
         <div class="row">
             <div class="col-sm-6">
                 <p>Code for Life would not have been possible without the dedication of our volunteers.
@@ -43,7 +40,7 @@
 
 <div class="background background--primary">
     <div class="row">
-        <div class="col-sm-8 col-center">
+        <div class="container d-flex flex-row">
             <div class="col-sm-6">
                 <h4>Our products</h4>
 
@@ -65,34 +62,32 @@
                 move their avatar around in order to complete tasks. Parts of Kurono are still in development.
                 </p>
             </div>
-            <div class="col-sm-6 bg-image">
+            <div class="col-sm-6">
                 <img title="Rapid Router" alt="Rapid Router" src="{% static 'portal/img/rapidrouter.png' %}">
             </div>
         </div>
     </div>
 </div>
 
-<div class="background">
-    <div class="col-sm-8 col-center">
-        <div class="row">
-            <div class="col-sm-6 bg-image">
-                <img title="Gitbook" alt="Gitbook" src="{% static 'portal/img/gitbook.png' %}" class="img-border">
-            </div>
-            <div class="col-sm-6">
-                <h4>How you can contribute</h4>
-                <p>Today, there is a small dedicated team working full time on Code for Life.
-                In 2021, we're expecting to reach over 100,000 newly registered teachers and students.
-                We need your help to do even more.
-                </p>
-                <p>
-                If contributing to open-source projects to support education in coding and technology
-                sounds exciting for you, we'd love to have you on board!
-                </p>
-                <div class="text-right">
-                    <a href="https://docs.codeforlife.education/" target="_blank" class="button button--primary button-right-arrow">
-                        Read our developer guide
-                    </a>
-                </div>
+<div class="background container">
+    <div class="row">
+        <div class="col-sm-6 bg-image">
+            <img title="Gitbook" alt="Gitbook" src="{% static 'portal/img/gitbook.png' %}" class="img-border">
+        </div>
+        <div class="col-sm-6">
+            <h4>How you can contribute</h4>
+            <p>Today, there is a small dedicated team working full time on Code for Life.
+            In 2021, we're expecting to reach over 100,000 newly registered teachers and students.
+            We need your help to do even more.
+            </p>
+            <p>
+            If contributing to open-source projects to support education in coding and technology
+            sounds exciting for you, we'd love to have you on board!
+            </p>
+            <div class="text-right">
+                <a href="https://docs.codeforlife.education/" target="_blank" class="button button--primary button-right-arrow">
+                    Read our developer guide
+                </a>
             </div>
         </div>
     </div>
