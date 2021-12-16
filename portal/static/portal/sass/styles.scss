@@ -17,14 +17,17 @@
 @import "partials/utils";
 @import "partials/videos";
 
-@media (min-width: $desktop-small-min-width) {
-  body {
+.content-footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+
+  @media (min-width: $desktop-small-min-width) {
     padding-top: $menu-height;
   }
-}
 
-@media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
-  body {
+  @media (min-width: $tablet-large-min-width) and (max-width: $tablet-large-max-width) {
     padding-top: $menu-height-xs;
   }
 }
