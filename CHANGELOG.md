@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.8 (2021-12-16)
+### Fix
+* Remove wagtail ([#1677](https://github.com/ocadotechnology/codeforlife-portal/issues/1677)) ([`d028f09`](https://github.com/ocadotechnology/codeforlife-portal/commit/d028f097d593e70e7010f4a06ce9799b0fd0e339))
+
+## v5.26.7 (2021-12-15)
+### Fix
+* Add QR code pic to CSP config ([#1676](https://github.com/ocadotechnology/codeforlife-portal/issues/1676)) ([`5e3e405`](https://github.com/ocadotechnology/codeforlife-portal/commit/5e3e40537b392a5ff4883ffd80b0bcb8d93fa804))
+
+## v5.26.6 (2021-12-15)
+### Fix
+* Ensuring everything is contained inside a container ([#1671](https://github.com/ocadotechnology/codeforlife-portal/issues/1671)) ([`72356ea`](https://github.com/ocadotechnology/codeforlife-portal/commit/72356eabece47ccca7769d33860aac97bbaac3dd))
+
 ## v5.26.5 (2021-12-13)
 ### Fix
 * Bump django from 2.2.24 to 2.2.25 ([#1672](https://github.com/ocadotechnology/codeforlife-portal/issues/1672)) ([`4836154`](https://github.com/ocadotechnology/codeforlife-portal/commit/4836154f5323d92bf2c86d71632fd039769dff8b))
