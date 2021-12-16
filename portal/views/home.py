@@ -7,7 +7,7 @@ from common.helpers.emails import (
 )
 from common.models import Teacher, Student
 from common.permissions import logged_in_as_student, logged_in_as_teacher
-from common.utils import using_two_factor
+from common.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
@@ -209,7 +209,7 @@ def redirect_teacher_to_correct_page(request, teacher):
             classes_count = classes.count()
             if classes_count > 1 or classes[0].has_students():
                 link = reverse("two_factor:profile")
-                if not using_two_factor(request.user):
+                if not _using_two_factor(request.user):
                     messages.info(
                         request,
                         (
