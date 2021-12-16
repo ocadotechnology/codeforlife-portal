@@ -18,7 +18,6 @@ setup(
         "djangorestframework==3.12.2",
         "django-two-factor-auth==1.13",
         "django-countries==6.1.3",
-        "wagtail==2.11.*",
     ],
     tests_require=[],
     test_suite="tests",
