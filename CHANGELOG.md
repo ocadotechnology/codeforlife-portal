@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.8 (2021-12-16)
+### Fix
+* Remove wagtail ([#1677](https://github.com/ocadotechnology/codeforlife-portal/issues/1677)) ([`d028f09`](https://github.com/ocadotechnology/codeforlife-portal/commit/d028f097d593e70e7010f4a06ce9799b0fd0e339))
+
 ## v5.26.7 (2021-12-15)
 ### Fix
 * Add QR code pic to CSP config ([#1676](https://github.com/ocadotechnology/codeforlife-portal/issues/1676)) ([`5e3e405`](https://github.com/ocadotechnology/codeforlife-portal/commit/5e3e40537b392a5ff4883ffd80b0bcb8d93fa804))
