@@ -12,7 +12,6 @@ DEFAULT_SETTINGS = {
     "MEDIA_ROOT": os.path.join(
         os.path.join(os.path.dirname(__file__), "static"), "email_media/"
     ),
-    "MEDIA_URL": "/media/",
 }
 
 SETTINGS = {
