@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.10 (2021-12-16)
+### Fix
+* No gap under footer ([#1679](https://github.com/ocadotechnology/codeforlife-portal/issues/1679)) ([`53ed359`](https://github.com/ocadotechnology/codeforlife-portal/commit/53ed359d4d5f77af20547a5347ab472b388935ff))
+
 ## v5.26.9 (2021-12-16)
 ### Fix
 * Fixed 2FA tag displaying regardless of if user has it enabled ([#1678](https://github.com/ocadotechnology/codeforlife-portal/issues/1678)) ([`959717e`](https://github.com/ocadotechnology/codeforlife-portal/commit/959717e3d5b1fa64e5bce177418eb74956f1903c))
