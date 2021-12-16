@@ -58,8 +58,6 @@ SETTINGS = {
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
-        "modelcluster",
-        "taggit",
         "preventconcurrentlogins",
     ],
     "LANGUAGES": [("en-gb", "English")],
