@@ -15,31 +15,33 @@
 </head>
 <body>
 
-<div id="contentWrapper">
-    {% block topBar %}
-    {% include 'portal/partials/header.html' %}
-    {% endblock topBar %}
+<div class="content-footer-wrapper">
+    <div id="contentWrapper">
+        {% block topBar %}
+        {% include 'portal/partials/header.html' %}
+        {% endblock topBar %}
 
-    <div class="content">
-        <div class="error-page background container">
-            <div class="row mx-0 d-flex justify-content-between">
-                <div class="flex-grow-1">
-                    <h2>Zap!</h2>
-                    <h5>Oh dear! Something technical has gone wrong.</h5>
-                    <p>Dee will attempt to fix this soon.</p>
-                    <a class="button button--primary" href="{% url 'home' %}">Back to homepage</a>
+        <div class="content">
+            <div class="error-page background container">
+                <div class="row mx-0 d-flex justify-content-between">
+                    <div class="flex-grow-1">
+                        <h2>Zap!</h2>
+                        <h5>Oh dear! Something technical has gone wrong.</h5>
+                        <p>Dee will attempt to fix this soon.</p>
+                        <a class="button button--primary" href="{% url 'home' %}">Back to homepage</a>
+                    </div>
+                    <img title="Dee" alt="Dee" src="{% static 'portal/img/dee.png' %}"/>
                 </div>
-                <img title="Dee" alt="Dee" src="{% static 'portal/img/dee.png' %}"/>
             </div>
         </div>
+
+        <div class="push"></div>
     </div>
 
-    <div class="push"></div>
+    {% block footer %}
+        {% include 'portal/partials/footer.html' %}
+    {% endblock footer %}
 </div>
-
-{% block footer %}
-    {% include 'portal/partials/footer.html' %}
-{% endblock footer %}
 
 </body>
 </html>

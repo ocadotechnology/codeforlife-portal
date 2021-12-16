@@ -1,8 +1,6 @@
 from aimmo.urls import HOMEPAGE_REGEX
 from common.permissions import teacher_verified
-from django.conf import settings
 from django.conf.urls import include, url
-from django.conf.urls.static import static
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
@@ -453,7 +451,3 @@ urlpatterns = [
         ),
     ),
 ]
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

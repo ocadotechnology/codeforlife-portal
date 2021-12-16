@@ -103,62 +103,64 @@
 {% render_block "js" %}
 {% include 'portal/mouseflow.html' %}
 
-{% block contentWrapper %}
-<div {% block pageID %}id="contentWrapper"{% endblock %}>
-    {% block topBar %}
-    {% include 'portal/partials/header.html' %}
-    {% endblock topBar %}
+<div class="content-footer-wrapper">
+    {% block contentWrapper %}
+    <div {% block pageID %}id="contentWrapper"{% endblock %}>
+        {% block topBar %}
+        {% include 'portal/partials/header.html' %}
+        {% endblock topBar %}
 
-    {% block subNav %}
-    {% endblock subNav %}
-    <div id="messages">
-        {% if messages %}
-        <div class="sub-nav--message">
-            {% for message in messages %}
-            <div class="sub-nav {{ message.tags }}">
-                <div class="container">
-                    <div class="row">
-                        <div class="d-flex col-sm-12 align-items-center">
-                            {% if 'error' in message.tags or 'warning' in message.tags %}
-                                <span class="material-icons-outlined md-32">error</span>
-                            {% else %}
-                                <span class="material-icons-outlined md-32">info</span>
-                            {% endif %}
-                            <p class="flex-grow-1">
-                                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-                            </p>
-                            <a class="x-icon"><span class="sr-only">Close</span> <span class="iconify" data-icon="mdi:close"></span></a>
+        {% block subNav %}
+        {% endblock subNav %}
+        <div id="messages">
+            {% if messages %}
+            <div class="sub-nav--message">
+                {% for message in messages %}
+                <div class="sub-nav {{ message.tags }}">
+                    <div class="container">
+                        <div class="row">
+                            <div class="d-flex col-sm-12 align-items-center">
+                                {% if 'error' in message.tags or 'warning' in message.tags %}
+                                    <span class="material-icons-outlined md-32">error</span>
+                                {% else %}
+                                    <span class="material-icons-outlined md-32">info</span>
+                                {% endif %}
+                                <p class="flex-grow-1">
+                                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                                </p>
+                                <a class="x-icon"><span class="sr-only">Close</span> <span class="iconify" data-icon="mdi:close"></span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            {% endif %}
         </div>
-        {% endif %}
+        <!--[if lt IE 10]>
+        <ul class="messages">
+            <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser.</li>
+        </ul>
+        <![endif]-->
+
+        {% block contentDiv %}
+        <div class="content">
+
+            {% block content %}
+            {% block base_new_content %}{% endblock %}
+            {% endblock content %}
+
+        </div>
+        {% endblock contentDiv %}
+
+        <div class="push"></div>
     </div>
-    <!--[if lt IE 10]>
-    <ul class="messages">
-        <li class="error">You appear to be using an old version of Internet Explorer. You will be unable to play Rapid Router, unless you upgrade to Internet Explorer 10, or consider using another browser.</li>
-    </ul>
-    <![endif]-->
+    {% endblock contentWrapper %}
 
-    {% block contentDiv %}
-    <div class="content">
-
-        {% block content %}
-        {% block base_new_content %}{% endblock %}
-        {% endblock content %}
-
-    </div>
-    {% endblock contentDiv %}
-
-    <div class="push"></div>
+    {% block footer %}
+        {% include 'portal/partials/footer.html' %}
+    {% endblock footer %}
 </div>
-{% endblock contentWrapper %}
-
-{% block footer %}
-    {% include 'portal/partials/footer.html' %}
-{% endblock footer %}
 
 <div id="confirmation-dialog" title=""></div>
 

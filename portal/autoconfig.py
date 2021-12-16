@@ -12,7 +12,6 @@ DEFAULT_SETTINGS = {
     "MEDIA_ROOT": os.path.join(
         os.path.join(os.path.dirname(__file__), "static"), "email_media/"
     ),
-    "MEDIA_URL": "/media/",
 }
 
 SETTINGS = {
@@ -59,8 +58,6 @@ SETTINGS = {
         "sekizai",  # for javascript and css management
         "treebeard",
         "two_factor",
-        "modelcluster",
-        "taggit",
         "preventconcurrentlogins",
     ],
     "LANGUAGES": [("en-gb", "English")],
