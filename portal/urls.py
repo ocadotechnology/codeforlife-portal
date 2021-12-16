@@ -16,9 +16,6 @@ from two_factor.views import (
     SetupCompleteView,
     SetupView,
 )
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.core import urls as wagtail_urls
-from wagtail.documents import urls as wagtaildocs_urls
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
@@ -455,9 +452,6 @@ urlpatterns = [
             ]
         ),
     ),
-    url(r"^cms/", include(wagtailadmin_urls)),
-    url(r"^documents/", include(wagtaildocs_urls)),
-    url(r"^pages/", include(wagtail_urls)),
 ]
 
 
