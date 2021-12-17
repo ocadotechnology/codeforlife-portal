@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.13 (2021-12-17)
+### Fix
+* Fix Play page headers ([#1687](https://github.com/ocadotechnology/codeforlife-portal/issues/1687)) ([`8c7ec6b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c7ec6b34aa20a6f7c1f076e542d2a6126ebd32d))
+
 ## v5.26.12 (2021-12-17)
 ### Fix
 * Update curriculum links ([#1681](https://github.com/ocadotechnology/codeforlife-portal/issues/1681)) ([`5256d86`](https://github.com/ocadotechnology/codeforlife-portal/commit/5256d86474d8c5023d3bf422ba3c172fa4654557))
