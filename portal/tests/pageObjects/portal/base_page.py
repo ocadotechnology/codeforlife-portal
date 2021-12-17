@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 
-FADE_TIME = 0.2
+FADE_TIME = 0.3
 
 
 class BasePage(object):
