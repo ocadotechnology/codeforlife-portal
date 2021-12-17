@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.11 (2021-12-16)
+### Fix
+* Alignment on the non logged in play page ([#1680](https://github.com/ocadotechnology/codeforlife-portal/issues/1680)) ([`80a4072`](https://github.com/ocadotechnology/codeforlife-portal/commit/80a4072ea137db9f83f1f516a87298c82ee69a7d))
+
 ## v5.26.10 (2021-12-16)
 ### Fix
 * No gap under footer ([#1679](https://github.com/ocadotechnology/codeforlife-portal/issues/1679)) ([`53ed359`](https://github.com/ocadotechnology/codeforlife-portal/commit/53ed359d4d5f77af20547a5347ab472b388935ff))
