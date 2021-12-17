@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.12 (2021-12-17)
+### Fix
+* Update curriculum links ([#1681](https://github.com/ocadotechnology/codeforlife-portal/issues/1681)) ([`5256d86`](https://github.com/ocadotechnology/codeforlife-portal/commit/5256d86474d8c5023d3bf422ba3c172fa4654557))
+
 ## v5.26.11 (2021-12-16)
 ### Fix
 * Alignment on the non logged in play page ([#1680](https://github.com/ocadotechnology/codeforlife-portal/issues/1680)) ([`80a4072`](https://github.com/ocadotechnology/codeforlife-portal/commit/80a4072ea137db9f83f1f516a87298c82ee69a7d))
