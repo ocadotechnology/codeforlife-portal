@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.14 (2021-12-17)
+### Fix
+* Add sleep to tests ([#1688](https://github.com/ocadotechnology/codeforlife-portal/issues/1688)) ([`b4876fc`](https://github.com/ocadotechnology/codeforlife-portal/commit/b4876fc367c7e732817ad834c1975ab12ad4017f))
+
 ## v5.26.13 (2021-12-17)
 ### Fix
 * Fix Play page headers ([#1687](https://github.com/ocadotechnology/codeforlife-portal/issues/1687)) ([`8c7ec6b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c7ec6b34aa20a6f7c1f076e542d2a6126ebd32d))
