@@ -72,9 +72,14 @@ td {
 }
 
 .table-footer {
+  button:first-child {
+    @include _margin(0px, 19px, 0px, 0px);
+  }
+  button:last-child {
+    @include _margin(0px, 0px, 0px, 19px);
+  }
   button {
     @include _margin(0px, 19px, 0px, 19px);
-    float: left;
   }
 }
 
