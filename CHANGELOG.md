@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.14 (2021-12-17)
+### Fix
+* Add sleep to tests ([#1688](https://github.com/ocadotechnology/codeforlife-portal/issues/1688)) ([`b4876fc`](https://github.com/ocadotechnology/codeforlife-portal/commit/b4876fc367c7e732817ad834c1975ab12ad4017f))
+
+## v5.26.13 (2021-12-17)
+### Fix
+* Fix Play page headers ([#1687](https://github.com/ocadotechnology/codeforlife-portal/issues/1687)) ([`8c7ec6b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c7ec6b34aa20a6f7c1f076e542d2a6126ebd32d))
+
+## v5.26.12 (2021-12-17)
+### Fix
+* Update curriculum links ([#1681](https://github.com/ocadotechnology/codeforlife-portal/issues/1681)) ([`5256d86`](https://github.com/ocadotechnology/codeforlife-portal/commit/5256d86474d8c5023d3bf422ba3c172fa4654557))
+
 ## v5.26.11 (2021-12-16)
 ### Fix
 * Alignment on the non logged in play page ([#1680](https://github.com/ocadotechnology/codeforlife-portal/issues/1680)) ([`80a4072`](https://github.com/ocadotechnology/codeforlife-portal/commit/80a4072ea137db9f83f1f516a87298c82ee69a7d))
