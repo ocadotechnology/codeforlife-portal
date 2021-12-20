@@ -104,7 +104,10 @@
 }
 
 section {
-  text-align: center;
+  text-align: left;
+  > h1, h2, h3, h4 {
+    text-align: center;
+  }
 
   button,
   .button {
