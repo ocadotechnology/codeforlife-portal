@@ -31,55 +31,51 @@
     <a id="return_to_classes_button" href="{% url 'dashboard' %}#classes" class="button--menu button--menu--enabled">< Back to Classes</a>
     <p>Here you can view and manage all of your students within this class. You can add new students, transfer
         existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</p>
-</section>
     
-    <div class="background">
-        <div class="container">
-            <h5>Current students</h5>
-            <p>Select an individual student to change their details, including their name and password.</p>
-            <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
-                make them an independent Code for Life user, or delete them permanently.</p>
-        </div>
-        <div class="container">
-            <table id="student_table" class="header-primary data-primary">
-                <tr>
-                    <th class="col-sm-6">Student details</th>
-                    <th>
-                        <div class="d-flex flex-row justify-content-between align-items-center">
-                            <p>Select
-                            </p>
-                            <input id="selectedStudentsListToggle" name="selectedStudentsListToggle" type="checkbox" value="">
-                        </div>
-                    </th>
-                    <th class="col-sm-3 cell-center">Action</th>
-                </tr>
-                {% for student in students %}
-                <tr>
-                    <td>
-                        <div class="student-table__cell">
-                            <p><small>{{ student.new_user.first_name }}</small></p>
-                        </div>
-                    </td>
-                    <td class="cell-center"><input id="student_checkbox" type="checkbox" class="student" name="{{ student.id }}" value=""></td>
-                    <td class="cell-center">
-                        <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--primary">Edit</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <p class="container d-flex flex-row justify-content-end"><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
-        <div class="container table-footer d-flex flex-row justify-content-end">
-            <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-            id="moveSelectedStudents" class="button--small button--primary">Move</button>
-            <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
-            id="dismissSelectedStudents" class="button--small button--primary">Release</button>
-            <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
-            id="resetSelectedStudents" class="button--small button--primary">Reset password and login link</button>
-            <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
-            id="deleteSelectedStudents" class="p-2 button button--primary--danger button--icon">
-            Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
-        </div>
+    <h5>Current students</h5>
+    <p>Select an individual student to change their details, including their name and password.</p>
+    <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
+        make them an independent Code for Life user, or delete them permanently.</p>
+</section>
+<div class="container">
+    <table id="student_table" class="header-primary data-primary">
+        <tr>
+            <th class="col-sm-7">Student details</th>
+            <th>
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                    <input id="selectedStudentsListToggle" name="selectedStudentsListToggle" type="checkbox" value="">
+                </div>
+            </th>
+            <th class="col-sm-3 cell-center">Action</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>
+                <div class="student-table__cell">
+                    <p><small>{{ student.new_user.first_name }}</small></p>
+                </div>
+            </td>
+            <td class="cell-center"><input id="student_checkbox" type="checkbox" class="student" name="{{ student.id }}" value=""></td>
+            <td class="cell-center">
+                <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--primary button--icon">Edit details
+                    <span class="iconify" data-icon="mdi:pencil"></span>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p class="d-flex flex-row justify-content-end"><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
+    <div class="button-group background d-flex flex-row justify-content-end">
+        <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
+        id="moveSelectedStudents" class="button--small button--primary">Move</button>
+        <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
+        id="dismissSelectedStudents" class="button--small button--primary">Release</button>
+        <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
+        id="resetSelectedStudents" class="button--small button--primary button--icon">Reset password and login link
+    <span class="iconify" data-icon="mdi:security"></span></button>
+        <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
+        id="deleteSelectedStudents" class="button button--primary--danger button--icon">
+        Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
     </div>
 </div>
 
