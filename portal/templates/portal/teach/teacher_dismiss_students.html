@@ -5,11 +5,12 @@
 <div id="dismiss_students_page"></div>
 
 <section class="background container">
-    <h4>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h4><br>
-    <h6>Convert students into independent students.</h6>
+    <h4>Release student from {{ class.name }} ({{ class.access_code }})</h4><br>
+    <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">< Back to Edit class</a></p>
+    <p>Convert students into independent students.</p>
 </section>
 
-<div class="background background--primary">
+<div class="background">
     <div class="container">
         <h4>Students to release from school</h4>
 
@@ -33,8 +34,8 @@
 
             {% for form in formset %}
             <div class="background">
-                <div class="row row--under">
-                    <div class="col-sm-6">
+                <div class="row form--row">
+                    <div class="form--row__input col-sm-6">
                         <p><small>Original Student Name</small></p>
                         {{ form.orig_name }}
                     </div>
@@ -65,10 +66,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div class="background container">
-    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}

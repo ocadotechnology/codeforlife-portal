@@ -405,7 +405,7 @@ def check_passwords(password, confirm_password):
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
     new_class = forms.ChoiceField(
-        label="Choose a new class from the drop down menu for the selected student(s).",
+        label="Choose a new class from the drop down menu for the selected students.",
         widget=forms.Select(attrs={"class": "wide"}),
     )
 
@@ -480,11 +480,12 @@ class TeacherDismissStudentsForm(forms.Form):
         label="Original Name",
         widget=forms.TextInput(
             attrs={
-                "readonly": "readonly",
+                "class": "form--row__input",
                 "placeholder": "Original Name",
-                "style": "background-color: lightgray; margin: 0; border: 0",
+                "style": "margin: 0",
             }
         ),
+        help_text="This is help text",
     )
     name = forms.CharField(
         label="New Name",
