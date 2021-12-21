@@ -5,14 +5,15 @@
 
 <section id="student_details" class="background container">
     <h4>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h4>
+    <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled" >&lt; Back to Edit class</a></p>
     <h5>Edit this student&rsquo;s name and manage their password and direct access link.</h5>
 </section>
 
-<div class="background background--primary">
+<div class="background">
     <div class="container">
         <h5>Update name</h5>
 
-        <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
+        <p>Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
 
         <form id="form-edit-student" method="post">
 
@@ -51,6 +52,5 @@
 </div>
 
 <div class="background container">
-    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}

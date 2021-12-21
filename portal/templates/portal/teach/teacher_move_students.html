@@ -5,7 +5,7 @@
 
 <section class="background container">
     <h4>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h4>
-    <p><a href="{% url 'view_class' old_class.access_code %}" class="button--menu button--menu--enabled">< Back to Edit class</a></p>
+    <p><a href="{% url 'view_class' old_class.access_code %}" class="button--menu button--menu--enabled">&lt; Back to Edit class</a></p>
     <p>Choose a class from the drop down menu below to move the student.</p>
 </section>
 
@@ -19,7 +19,7 @@
         
         {% for field in form %}
         <label for="id_{{ field.html_name }}">{{ field.label }}</label>
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-col">
             {{ field }}
             {{ field.errors }}
             {% endfor %}
