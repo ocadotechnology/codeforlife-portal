@@ -1,5 +1,11 @@
 @import "base";
 
+div {
+  > table {
+    margin: 0px;
+  }
+}
+
 table {
   margin: 20px auto 20px auto;
   width: 100%;
@@ -71,17 +77,6 @@ td {
   text-align: start;
 }
 
-.table-footer {
-  button:first-child {
-    @include _margin(0px, 19px, 0px, 0px);
-  }
-  button:last-child {
-    @include _margin(0px, 0px, 0px, 19px);
-  }
-  button {
-    @include _margin(0px, 19px, 0px, 19px);
-  }
-}
 
 .status-indicator {
   -moz-border-radius: 50%;

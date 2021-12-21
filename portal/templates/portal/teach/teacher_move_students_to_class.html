@@ -5,7 +5,8 @@
 
 <section class="background container">
     <h4>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h4>
-    <h6>Move students to another class.</h6>
+    <p><a href="{% url 'view_class' old_class.access_code %}" class="button--menu button--menu--enabled">< Back to Edit class</a></p>
+    <p>Choose a class from the drop down menu below to move the student</p>
 </section>
 
 <div class="background">
@@ -15,16 +16,18 @@
         {% if new_class_students %}
             <p>The following students are in class {{ new_class.name }} ({{ new_class.access_code }}) into which you
                 are about to move students from class {{ old_class.name }} ({{ old_class.access_code }}).</p>
-            <table class="student-table table--move header-primary data-primary">
-                <tr>
-                    <th><p>Student Name</p></th>
-                </tr>
-                {% for student in new_class_students %}
-                <tr>
-                    <td><p><small>{{ student.new_user.first_name }}</small></p></td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div class="d-flex">
+                <table class="header-primary data-primary col-sm-6">
+                    <tr>
+                        <th><p>Student name</p></th>
+                    </tr>
+                    {% for student in new_class_students %}
+                    <tr>
+                        <td><p><small>{{ student.new_user.first_name }}</small></p></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         {% else %}
             <p>There are no students in the class {{ new_class.name }} ({{ new_class.access_code }}).</p>
         {% endif %}
@@ -41,10 +44,10 @@
 
             {{ formset.management_form }}
 
-            <table class="student-table table--move header-primary data-primary">
+            <table class="header-primary data-primary">
                 <tr>
-                    <th><p>Original Student Name</p></th>
-                    <th><p>New Student Name</p></th>
+                    <th class="col-sm-6"><p>Existing name</p></th>
+                    <th class="col-sm-6"><p>New student name</p></th>
                 </tr>
                 {{ formset.non_form_errors }}
                 {% for dict in formset.errors %}
@@ -60,17 +63,14 @@
                 {% endfor %}
             </table>
 
-            <section class="background button-group">
-                <input type="hidden" name="new_class" value="{{ new_class.id }}"/>
-                <button id="move_button" name="submit_disambiguation" type="submit" class="button button--primary">Save</button>
+            <section class="background button-group d-flex flex-row justify-content-end align-items-end">
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+                <button id="move_button" name="submit_disambiguation" type="submit" class="button button--primary">Save</button>
             </section>
+            <input type="hidden" name="new_class" value="{{ new_class.id }}"/>
 
         </form>
     </div>
 </div>
 
-<div class="background container">
-    <p><a href="{% url 'view_class' old_class.access_code %}">&#10229; Back to Class</a></p>
-</div>
 {% endblock %}

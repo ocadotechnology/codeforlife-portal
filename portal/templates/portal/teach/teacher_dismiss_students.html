@@ -5,11 +5,12 @@
 <div id="dismiss_students_page"></div>
 
 <section class="background container">
-    <h4>Release student from {{ class.teacher.school.name }} and class {{ class.name }} ({{ class.access_code }})</h4><br>
-    <h6>Convert students into independent students.</h6>
+    <h4>Release student from {{ class.name }} ({{ class.access_code }})</h4><br>
+    <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">< Back to Edit class</a></p>
+    <p>Convert students into independent students.</p>
 </section>
 
-<div class="background background--primary">
+<div class="background">
     <div class="container">
         <h4>Students to release from school</h4>
 
@@ -33,42 +34,48 @@
 
             {% for form in formset %}
             <div class="background">
-                <div class="row row--under">
-                    <div class="col-sm-6">
+                <div class="row form--row">
+                    <div class="form--row__input col-sm-6">
+                        <div class="input--icon">
+                            {{ form.orig_name }} <span class="iconify" data-icon="mdi:account-multiple"></span>
+                        </div>
                         <p><small>Original Student Name</small></p>
-                        {{ form.orig_name }}
                     </div>
                     <div class="col-sm-6">
+                        <div class="input--icon">
+                            {{ form.name }} <span class="iconify" data-icon="mdi:account-multiple"></span>
+                            {{ form.name.errors }}
+                        </div>
                         <p><small>New Student Username</small></p>
-                        {{ form.name }}
-                        {{ form.name.errors }}
                     </div>
                 </div>
-                <div class="row row--under">
+                <div class="row form--row">
                     <div class="col-sm-6">
+                        <div class="input--icon">
+                            {{ form.email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
+                            {{ form.email.errors }}
+                        </div>
+                        {{ form.help_text}}
                         <p><small>Email Address</small></p>
-                        {{ form.email }}
-                        {{ form.email.errors }}
                     </div>
                     <div class="col-sm-6">
+                        <div class="input--icon">
+                            {{ form.confirm_email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
+                            {{ form.email.confirm_errors }}
+                        </div>
                         <p><small>Confirm Email Address</small></p>
-                        {{ form.confirm_email }}
-                        {{ form.email.confirm_errors }}
                     </div>
                 </div>
             </div>
             {% endfor %}
 
             <div class="button-group">
-                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger">Remove student</button>
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
+                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger button--icon">Remove student <span class="iconify" data-icon="bx:bx-user-minus"></span>
+</button>
             </div>
         </form>
     </div>
-</div>
-
-<div class="background container">
-    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 
 {% endblock %}

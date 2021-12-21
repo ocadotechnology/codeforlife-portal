@@ -9,29 +9,29 @@
     <p>Choose a class from the drop down menu below to move the student.</p>
 </section>
 
-<div class="background">
-    <div class="container">
-        <h4>Select destination class</h4>
-
-        <form method="post" action="{% url 'teacher_move_students_to_class' old_class.access_code %}">
-
-            {% csrf_token %}
-
-            {{ form.non_field_errors }}
-
-            {% for field in form %}
-            <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+<div class="background container">
+    <h4>Select destination class</h4>
+    <form method="post" action="{% url 'teacher_move_students_to_class' old_class.access_code %}">
+        
+        {% csrf_token %}
+        
+        {{ form.non_field_errors }}
+        
+        {% for field in form %}
+        <label for="id_{{ field.html_name }}">{{ field.label }}</label>
+        <div class="d-flex flex-column">
             {{ field }}
             {{ field.errors }}
             {% endfor %}
-
-            <input type="hidden" name="transfer_students" value="{{ transfer_students }}"/>
-            <div class="background button-group">
-                <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
-                <button id="move_button" type="submit" class="button button--primary">Continue</button>
-            </div>
-        </form>
-    </div>
+            <small>Choose class</small>
+        </div>
+        
+        <input type="hidden" name="transfer_students" value="{{ transfer_students }}"/>
+        <div class="background button-group">
+            <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+            <button id="move_button" type="submit" class="button button--primary">Continue</button>
+        </div>
+    </form>
 </div>
 
 <div class="background container">

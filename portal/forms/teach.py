@@ -484,9 +484,8 @@ class TeacherDismissStudentsForm(forms.Form):
         label="Original Name",
         widget=forms.TextInput(
             attrs={
-                "readonly": "readonly",
                 "placeholder": "Original Name",
-                "style": "background-color: lightgray; margin: 0; border: 0",
+                "style": "margin: 0",
             }
         ),
     )
