@@ -36,33 +36,43 @@
             <div class="background">
                 <div class="row form--row">
                     <div class="form--row__input col-sm-6">
+                        <div class="input--icon">
+                            {{ form.orig_name }} <span class="iconify" data-icon="mdi:account-multiple"></span>
+                        </div>
                         <p><small>Original Student Name</small></p>
-                        {{ form.orig_name }}
                     </div>
                     <div class="col-sm-6">
+                        <div class="input--icon">
+                            {{ form.name }} <span class="iconify" data-icon="mdi:account-multiple"></span>
+                            {{ form.name.errors }}
+                        </div>
                         <p><small>New Student Username</small></p>
-                        {{ form.name }}
-                        {{ form.name.errors }}
                     </div>
                 </div>
-                <div class="row row--under">
+                <div class="row form--row">
                     <div class="col-sm-6">
+                        <div class="input--icon">
+                            {{ form.email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
+                            {{ form.email.errors }}
+                        </div>
+                        {{ form.help_text}}
                         <p><small>Email Address</small></p>
-                        {{ form.email }}
-                        {{ form.email.errors }}
                     </div>
                     <div class="col-sm-6">
+                        <div class="input--icon">
+                            {{ form.confirm_email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
+                            {{ form.email.confirm_errors }}
+                        </div>
                         <p><small>Confirm Email Address</small></p>
-                        {{ form.confirm_email }}
-                        {{ form.email.confirm_errors }}
                     </div>
                 </div>
             </div>
             {% endfor %}
 
             <div class="button-group">
-                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger">Remove student</button>
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
+                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger button--icon">Remove student <span class="iconify" data-icon="bx:bx-user-minus"></span>
+</button>
             </div>
         </form>
     </div>

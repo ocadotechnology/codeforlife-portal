@@ -480,12 +480,10 @@ class TeacherDismissStudentsForm(forms.Form):
         label="Original Name",
         widget=forms.TextInput(
             attrs={
-                "class": "form--row__input",
                 "placeholder": "Original Name",
                 "style": "margin: 0",
             }
         ),
-        help_text="This is help text",
     )
     name = forms.CharField(
         label="New Name",
