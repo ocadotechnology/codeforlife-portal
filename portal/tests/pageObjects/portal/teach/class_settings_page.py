@@ -5,7 +5,7 @@ from builtins import str
 from selenium.webdriver.support.ui import Select
 
 from . import class_page
-from . import move_class_page
+from . import dashboard_page
 from .teach_base_page import TeachBasePage
 
 
@@ -21,9 +21,10 @@ class TeachClassSettingsPage(TeachBasePage):
 
     def change_class_details(self, details):
         if "classmates_data_viewable" in details:
-            Select(
-                self.browser.find_element_by_id("id_classmate_progress")
-            ).select_by_value(str(details["classmates_data_viewable"]))
+            # click the checkbox if the value is different than in `details`
+            checkbox_element = self.browser.find_element_by_id("id_classmate_progress")
+            if details["classmates_data_viewable"] != checkbox_element.is_selected():
+                checkbox_element.click()
             del details["classmates_data_viewable"]
 
         for field, value in list(details.items()):
@@ -41,10 +42,9 @@ class TeachClassSettingsPage(TeachBasePage):
         correct = True
 
         if "classmates_data_viewable" in details:
-            correct &= Select(
-                self.browser.find_element_by_id("id_classmate_progress")
-            ).first_selected_option.get_attribute("value") == str(
-                details["classmates_data_viewable"]
+            correct &= (
+                self.browser.find_element_by_id("id_classmate_progress").is_selected()
+                == details["classmates_data_viewable"]
             )
             del details["classmates_data_viewable"]
 
@@ -56,6 +56,19 @@ class TeachClassSettingsPage(TeachBasePage):
 
         return correct
 
+    def get_teachers_list_length(self):
+        return len(
+            self.browser.find_element_by_id("id_new_teacher").find_elements_by_tag_name(
+                "option"
+            )
+        )
+
+    def select_teacher_by_index(self, teacher_index):
+        Select(self.browser.find_element_by_id("id_new_teacher")).select_by_index(
+            teacher_index
+        )
+        return self
+
     def transfer_class(self):
-        self.browser.find_element_by_id("transfer_button").click()
-        return move_class_page.TeachMoveClassPage(self.browser)
+        self.browser.find_element_by_id("move_button").click()
+        return dashboard_page.TeachDashboardPage(self.browser)

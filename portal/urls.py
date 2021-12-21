@@ -95,7 +95,6 @@ from portal.views.teacher.teach import (
     teacher_dismiss_students,
     teacher_edit_class,
     teacher_edit_student,
-    teacher_move_class,
     teacher_move_students,
     teacher_move_students_to_class,
     teacher_onboarding_create_class,
@@ -412,11 +411,6 @@ urlpatterns = [
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/dismiss/$",
         teacher_dismiss_students,
         name="teacher_dismiss_students",
-    ),
-    url(
-        rf"^teach/class/move/(?P<access_code>{ACCESS_CODE_REGEX})$",
-        teacher_move_class,
-        name="teacher_move_class",
     ),
     url(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/$",
