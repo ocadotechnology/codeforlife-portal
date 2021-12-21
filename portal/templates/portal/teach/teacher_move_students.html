@@ -5,10 +5,11 @@
 
 <section class="background container">
     <h4>Move students from class {{ old_class.name }} ({{ old_class.access_code }})</h4>
-    <h6>Move students to another class.</h6>
+    <p><a href="{% url 'view_class' old_class.access_code %}" class="button--menu button--menu--enabled">< Back to Edit class</a></p>
+    <p>Choose a class from the drop down menu below to move the student.</p>
 </section>
 
-<div class="background background--primary">
+<div class="background">
     <div class="container">
         <h4>Select destination class</h4>
 
@@ -24,16 +25,15 @@
             {{ field.errors }}
             {% endfor %}
 
+            <input type="hidden" name="transfer_students" value="{{ transfer_students }}"/>
             <div class="background button-group">
-                <input type="hidden" name="transfer_students" value="{{ transfer_students }}"/>
-                <button id="move_button" type="submit" class="button button--primary">Continue</button>
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' old_class.access_code %}">Cancel</a>
+                <button id="move_button" type="submit" class="button button--primary">Continue</button>
             </div>
         </form>
     </div>
 </div>
 
 <div class="background container">
-    <p><a href="{% url 'view_class' old_class.access_code %}">&#10229; Back to Class</a></p>
 </div>
 {% endblock %}
