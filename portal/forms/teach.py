@@ -405,7 +405,7 @@ def check_passwords(password, confirm_password):
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
     new_class = forms.ChoiceField(
-        label="Choose a new class from the drop down menu for the selected students.",
+        label="Choose a new class from the drop down menu for the selected student(s).",
         widget=forms.Select(attrs={"class": "wide"}),
     )
 
