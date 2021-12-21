@@ -168,8 +168,8 @@ class TestTeachers(TestCase):
         # Transfer class 1 over to teacher 2
         c.login(username=email1, password=password1)
         response = c.post(
-            reverse("teacher_move_class", kwargs={"access_code": access_code1}),
-            {"new_teacher": teacher2.pk},
+            reverse("teacher_edit_class", kwargs={"access_code": access_code1}),
+            {"new_teacher": teacher2.pk, "class_move_submit": ""},
         )
         assert response.status_code == 302
         c.logout()

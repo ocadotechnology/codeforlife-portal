@@ -1,62 +1,127 @@
 {% extends 'portal/base.html' %}
+{% load app_tags %}
+
+{% block subNav %}
+<section class="banner banner--teacher">
+    <h1 class="banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
+</section>
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+    <ul class="nav is-flex">
+        <li><a class="button button--secondary button--secondary--light" href="{% url 'dashboard' %}#school">Your school</a></li>
+        <li class="active"><a class="button button--secondary button--secondary--light" href="{% url 'dashboard' %}#classes">Your classes</a></li>
+        <li><a class="button button--secondary button--secondary--light" href="{% url 'dashboard' %}#account">Your account</a></li>
+    </ul>
+</div>
+{% endblock subNav %}
 
 {% block content %}
 <div id="teach_edit_class_page"></div>
 
-<section class="background container">
-    <h4>Update settings for class {{ class.name }} ({{ class.access_code }})</h4>
-    <h6>You may change the name of the class, or change permissions to allow external requests from independent students to join this class. You may also
-        transfer the class to another teacher, or change permissions to allow pupils to see their classmates' progress.</h6>
-</section>
-
-<div class="background background--primary">
+<div class="background">
     <div class="container">
-        <form method="post">
+        <section>
+            <h4>Additional settings for class {{ class.name }} ({{ class.access_code }})</h4>
+        </section>
 
+        <p>
+            <a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">&lt; Back to Edit Class</a>
+        </p>
+
+        <p>
+            You may change the name of the class, or change permissions to allow external requests from independent
+            students to join this class. You may also transfer the class to another teacher, or change permissions to
+            allow pupils to see their classmates' progress.
+        </p>
+
+        <form method="post" class="pb-3">
             {% csrf_token %}
 
             {{ form.non_field_errors }}
 
             <h5>Class details</h5>
-            <label for="id_{{ form.name.html_name }}">{{ form.name.label }}</label>
-            {{ form.name }}
-            {{ form.name.errors }}
 
-            <div class="section group">
-                <div class="col span_2_of_3">
-                    <label for="id_{{ form.classmate_progress.html_name }}">{{ form.classmate_progress.label }}</label>
+            <div class="row form--row">
+                <div class="form--row__input col-sm-6 col-md-6">
+                    <div class="input--icon">
+                        {{ form.name }}
+                        <span class="iconify" data-icon="mdi:account-multiple"></span>
+                    </div>
+                    <small>{{ form.name.help_text }}</small>
+                    {{ form.name.errors }}
                 </div>
-                <div class="col span_1_of_3">
-                    {{ form.classmate_progress }}
+                <div class="form--row__input col-sm-12 col-md-6">
+                    <div class="form__checkbox">
+                        <div class="form__checkbox-input">
+                            {{ form.classmate_progress }}
+                        </div>
+                        <label for="id_{{ form.classmate_progress.html_name }}" class="font-weight-normal">{{ form.classmate_progress.label }}</label>
+                    </div>
                     {{ form.classmate_progress.errors }}
                 </div>
             </div>
 
             <div class="background">
                 <h5>External requests setting</h5>
-                <p>You can set up permissions for this class allowing students to send requests asking to join your class from outside of your school or club.</p>
+                <p>
+                    You can set up permissions for this class allowing students to send requests asking to join your class
+                    from outside of your school or club.
+                </p>
 
                 <p class="background"><strong>{{ external_requests_message }}</strong></p>
-                <label for="id_{{ form.external_requests.html_name }}">{{ form.external_requests.label }}</label>
-                {{ form.external_requests }}
-                {{ form.external_requests.errors }}
+                <div class="row form--row">
+                    <div class="form--row__input col-md-6">
+                        <label for="id_{{ form.external_requests.html_name }}" class="font-weight-normal">{{ form.external_requests.label }}</label>
+                        {{ form.external_requests }}
+                        <small>{{ form.external_requests.help_text }}</small>
+                        {{ form.external_requests.errors }}
+                    </div>
+                </div>
             </div>
 
             <div class="button-group">
-                <button id="update_button" type="submit" class="button button--primary" value="Update">Update</button>
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
+                <button id="update_button" type="submit" class="button button--primary" name="class_edit_submit">Update</button>
             </div>
-        </form>
 
-        <div class="background alternative-section">
-            <h5>Transfer class to another teacher</h5>
-            <p>To transfer this class to another teacher in your school or club, click 'Transfer'</p>
-        </div>
-        <a id="transfer_button" class="button button--primary" href="{% url 'teacher_move_class' class.access_code %}">Transfer</a>
+        </form>
+        
     </div>
+    
 </div>
 
-<div class="background container">
-    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
+<div class="background background--primary">
+    <div class="container">
+        <h5>Transfer class to another teacher</h5>
+
+        <p>Select a new teacher from your school or club to take over the above class from the list below.</p>
+
+        <p class="text-danger">
+            <strong>
+                Warning: The class will move immediately to the new teacher. Should you wish to undo this action,
+                please contact that teacher.
+            </strong>
+        </p>
+        
+        <form method="post" class="pb-0">
+
+            {% csrf_token %}
+
+            {{ class_move_form.non_field_errors }}
+
+            <div class="row form--row">
+                <div class="form--row__input col-md-6">
+                    <label for="id_{{ class_move_form.new_teacher.html_name }}" class="font-weight-normal"><strong>{{ class_move_form.new_teacher.label }}</strong></label>
+                    {{ class_move_form.new_teacher }}
+                    <small>{{ class_move_form.new_teacher.help_text }}</small>
+                    {{ class_move_form.new_teacher.errors }}
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="move_button" class="button button--primary" type="submit" name="class_move_submit">Transfer class</button>
+            </div>
+
+        </form>
+    </div>
 </div>
 {% endblock %}

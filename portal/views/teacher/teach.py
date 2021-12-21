@@ -292,6 +292,10 @@ def teacher_edit_class(request, access_code):
     Editing class details
     """
     klass = get_object_or_404(Class, access_code=access_code)
+    old_teacher = klass.teacher
+    other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(
+        user=old_teacher.user
+    )
 
     # check user authorised to see class
     if request.user.new_teacher != klass.teacher:
@@ -299,24 +303,30 @@ def teacher_edit_class(request, access_code):
 
     external_requests_message = klass.get_requests_message()
 
-    if request.method == "POST":
-        form = ClassEditForm(request.POST)
-        if form.is_valid():
-            return process_edit_class_form(request, klass, form)
+    form = ClassEditForm(
+        initial={
+            "name": klass.name,
+            "classmate_progress": klass.classmates_data_viewable,
+        }
+    )
+    class_move_form = ClassMoveForm(other_teachers)
 
-    else:
-        form = ClassEditForm(
-            initial={
-                "name": klass.name,
-                "classmate_progress": klass.classmates_data_viewable,
-            }
-        )
+    if request.method == "POST":
+        if "class_edit_submit" in request.POST:
+            form = ClassEditForm(request.POST)
+            if form.is_valid():
+                return process_edit_class_form(request, klass, form)
+        elif "class_move_submit" in request.POST:
+            class_move_form = ClassMoveForm(other_teachers, request.POST)
+            if class_move_form.is_valid():
+                return process_move_class_form(request, klass, class_move_form)
 
     return render(
         request,
         "portal/teach/teacher_edit_class.html",
         {
             "form": form,
+            "class_move_form": class_move_form,
             "class": klass,
             "external_requests_message": external_requests_message,
         },
@@ -325,10 +335,8 @@ def teacher_edit_class(request, access_code):
 
 def process_edit_class_form(request, klass, form):
     name = form.cleaned_data["name"]
-    classmate_progress = False
+    classmate_progress = bool(form.cleaned_data["classmate_progress"])
 
-    if form.cleaned_data["classmate_progress"] == "True":
-        classmate_progress = True
     external_requests_setting = form.cleaned_data["external_requests"]
     if external_requests_setting != "":
         # Change submitted for external requests
@@ -372,6 +380,20 @@ def process_edit_class_form(request, klass, form):
     return HttpResponseRedirect(
         reverse_lazy("view_class", kwargs={"access_code": klass.access_code})
     )
+
+
+def process_move_class_form(request, klass, form):
+    new_teacher_id = form.cleaned_data["new_teacher"]
+    new_teacher = get_object_or_404(Teacher, id=new_teacher_id)
+
+    klass.teacher = new_teacher
+    klass.save()
+
+    messages.success(
+        request,
+        "The class has been successfully assigned to a different teacher.",
+    )
+    return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -616,43 +638,6 @@ def teacher_class_password_reset(request, access_code):
                 reverse("student_login", kwargs={"access_code": klass.access_code})
             ),
         },
-    )
-
-
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def teacher_move_class(request, access_code):
-    """
-    Move a class to another teacher
-    """
-    klass = get_object_or_404(Class, access_code=access_code)
-    old_teacher = klass.teacher
-    other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(
-        user=old_teacher.user
-    )
-
-    # check user authorised to see class
-    if request.user.new_teacher != old_teacher:
-        raise Http404
-
-    if request.method == "POST":
-        form = ClassMoveForm(other_teachers, request.POST)
-        if form.is_valid():
-            new_teacher_id = form.cleaned_data["new_teacher"]
-            new_teacher = get_object_or_404(Teacher, id=new_teacher_id)
-
-            klass.teacher = new_teacher
-            klass.save()
-
-            messages.success(
-                request,
-                "The class has been successfully assigned to a different teacher.",
-            )
-            return HttpResponseRedirect(reverse_lazy("dashboard"))
-    else:
-        form = ClassMoveForm(other_teachers)
-    return render(
-        request, "portal/teach/teacher_move_class.html", {"form": form, "class": klass}
     )
 
 

@@ -8,7 +8,7 @@ from common.tests.utils.organisation import (
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 
-from portal.tests.utils.classes import create_class, transfer_class
+from portal.tests.utils.classes import create_class
 from .base_test import BaseTest
 from .utils.messages import (
     is_class_created_message_showing,
@@ -146,26 +146,6 @@ class TestClass(BaseTest):
             {"name": new_class_name, "classmates_data_viewable": True}
         )
 
-    def test_transfer_cancel(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, class_name, access_code = create_class_directly(email)
-        create_school_student_directly(access_code)
-
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_classes_tab()
-            .go_to_class_page()
-            .go_to_class_settings_page()
-        )
-
-        page = page.transfer_class()
-        assert page.get_list_length() == 0
-        page = page.cancel()
-        assert page.__class__.__name__ == "TeachClassPage"
-
     def test_transfer(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
@@ -183,7 +163,9 @@ class TestClass(BaseTest):
             .go_to_class_settings_page()
         )
 
-        page = transfer_class(page, 0)
+        assert page.get_teachers_list_length() == 1
+
+        page = page.select_teacher_by_index(0).transfer_class()
         assert page.does_not_have_classes()
 
         page = (
