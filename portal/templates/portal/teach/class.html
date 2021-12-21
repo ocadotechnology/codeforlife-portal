@@ -66,10 +66,10 @@
     </table>
     <p class="d-flex flex-row justify-content-end"><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
     <div class="button-group background d-flex flex-row justify-content-end">
-        <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-        id="moveSelectedStudents" class="button--small button--primary">Move</button>
         <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
         id="dismissSelectedStudents" class="button--small button--primary">Release</button>
+        <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
+        id="moveSelectedStudents" class="button--small button--primary">Move</button>
         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
         id="resetSelectedStudents" class="button--small button--primary button--icon">Reset password and login link
     <span class="iconify" data-icon="mdi:security"></span></button>
