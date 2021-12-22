@@ -35,7 +35,11 @@
 
 <section class="background container">
     <h4>Update settings for {{ class.name }} ({{ class.access_code }})</h4>
+</section>
+<div class="container">
     <a id="return_to_classes_button" href="{% url 'dashboard' %}#classes" class="button--menu button--menu--enabled">< Back to Classes</a>
+</div>
+<div class="background container">
     <p>Here you can view and manage all of your students within this class. You can add new students, transfer
         existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</p>
     
@@ -43,7 +47,7 @@
     <p>Select an individual student to change their details, including their name and password.</p>
     <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
         make them an independent Code for Life user, or delete them permanently.</p>
-</section>
+</div>
 <div class="container">
     <table id="student_table" class="header-primary data-primary">
         <tr>
