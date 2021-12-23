@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.15 (2021-12-23)
+### Fix
+* Keep dropdown open while scrolling ([#1691](https://github.com/ocadotechnology/codeforlife-portal/issues/1691)) ([`bc5cd2a`](https://github.com/ocadotechnology/codeforlife-portal/commit/bc5cd2a58489dcbca8006fa7ebba44d619e07cbb))
+
 ## v5.26.14 (2021-12-17)
 ### Fix
 * Add sleep to tests ([#1688](https://github.com/ocadotechnology/codeforlife-portal/issues/1688)) ([`b4876fc`](https://github.com/ocadotechnology/codeforlife-portal/commit/b4876fc367c7e732817ad834c1975ab12ad4017f))
