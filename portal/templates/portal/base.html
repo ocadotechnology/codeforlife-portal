@@ -217,14 +217,6 @@
         }
         animateScroll(bannerHeight);
     });
-
-    $(window).on('scroll', function() {
-        let scroll = $(window).scrollTop();
-        if (scroll > 0 && $('.dropdown').hasClass('open')) {
-            $('.dropdown').removeClass('open');
-            $('.button--dropdown').attr("aria-expanded", "false");
-        }
-    });
 </script>
 {% include "common/freshdesk_widget.html" %}
 <script>
