@@ -82,10 +82,10 @@
         <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
         id="moveSelectedStudents" class="button--small button--primary--disabled">Move</button>
         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
-        id="resetSelectedStudents" class="button--small button--primary button--icon">Reset password and login link
+        id="resetSelectedStudents" class="button--small button--primary--disabled button--icon">Reset password and login link
     <span class="iconify" data-icon="mdi:shield-refresh-outline"></span></button>
         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
-        id="deleteSelectedStudents" class="button button--primary--danger--disabled button--icon">
+        id="deleteSelectedStudents" class="button--small button--primary--danger--disabled button--icon">
         Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
     </div>
 </div>
@@ -143,48 +143,6 @@
 </div>
 
 <script>
-
-    classNameHash = {
-        "button--small button--primary--danger button--icon" : "button--small button--primary--danger--disabled button--icon",
-        "button--small button--primary button--icon" : "button--small button--primary button--icon",
-        "button--small button--primary" : "button--small button--primary",
-
-        "button--small button--primary--danger--disabled button--icon" : "button--small button--primary--danger button--icon",
-        "button--small button--primary--disabled button--icon" : "button--small button--primary button--icon",
-        "button--small button--primary--disabled" : "button--small button--primary",
-    }
-
-
-    const any = (checkboxesStateArray) => {
-
-        for (state of checkboxesStateArray) {
-            if (state) return true
-        }
-        return false
-    }
-
-    /*
-    0
-    1
-    1
-
-
-    */
-
-
-    let disabledButtons = $.makeArray($('.button--primary--disabled')).concat($.makeArray($('.button--primary--danger--disabled')))
-    let selectAll = $('div > input:checkbox').on('click', event => {
-        console.log($.makeArray($('input:checkbox')).map(button => button.checked))
-        console.log('at least one is on')
-        if ($.makeArray($('div > input:checkbox'))[0].checked == true) {
-            $.makeArray($('td > input:checkbox')).map(button => button.checked=false)
-        }
-    })
-    let restCheckboxes = $('td > input:checkbox').on('click', event => {
-        console.log($.makeArray($('input:checkbox')).map(button => button.checked))
-        console.log('at least one is on')
-    })
-
 </script>
 
 {% endblock content %}
