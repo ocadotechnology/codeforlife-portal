@@ -49,8 +49,8 @@
                         <div class="input--icon">
                             {{ form.name }} <span class="iconify" data-icon="ic:baseline-person-outline"></span>
                         </div>
-                        {{ form.name.errors }}
                         <p><small>New Student Username</small></p>
+                        {{ form.name.errors }}
                     </div>
                 </div>
                 <div class="row form--row">
@@ -58,16 +58,15 @@
                         <div class="input--icon">
                             {{ form.email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
                         </div>
-                        {{ form.email.errors }}
-                        {{ form.help_text}}
                         <p><small>Email Address</small></p>
+                        {{ form.email.errors }}
                     </div>
                     <div class="col-sm-6">
                         <div class="input--icon">
                             {{ form.confirm_email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
-                            {{ form.email.confirm_errors }}
                         </div>
                         <p><small>Confirm Email Address</small></p>
+                        {{ form.email.confirm_errors }}
                     </div>
                 </div>
             </div>
