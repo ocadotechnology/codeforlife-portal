@@ -22,6 +22,12 @@ form {
       border: 1px solid $color-message-border;
       outline: none;
     }
+
+    &:read-only {
+      background: $color-background-tint-primary;
+      border-color: $color-background-tint-primary;
+    }
+
   }
 
   input[type="checkbox"] {
@@ -85,6 +91,7 @@ form {
   width: 40%;
 }
 
+
 .form--register--teacher {
   color: $color-text-secondary;
   background-color: $color-primary-400;
@@ -97,6 +104,7 @@ form {
   input {
     color: $color-text-primary;
   }
+
 
   .errorlist {
     color: $color-text-secondary;

@@ -17,7 +17,6 @@ function handleDisabledButtons(state) {
         $('div > [class="button--small button--primary--disabled"]').attr('class', 'button--small button--primary')
         $('div > .button--small.button--primary--disabled.button--icon').attr('class', 'button--small button--primary button--icon')
         $('div > .button--small.button--primary--danger--disabled.button--icon').attr('class', 'button--small button--primary--danger button--icon')
-
     }
 
     else {
@@ -86,7 +85,6 @@ $('td > input:checkbox').click(() => {
         handleDisabledButtons(true)
     }
     else {
-        console.log('huh')
         handleDisabledButtons(false)
     }
 })
