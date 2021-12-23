@@ -51,13 +51,13 @@
 <div class="container">
     <table id="student_table" class="header-primary data-primary">
         <tr>
-            <th class="col-sm-7">Student details</th>
+            <th class="col-sm-7"><p>Student details</p></th>
             <th>
                 <div class="d-flex flex-row justify-content-center align-items-center">
                     <input id="selectedStudentsListToggle" name="selectedStudentsListToggle" type="checkbox" value="">
                 </div>
             </th>
-            <th class="col-sm-3 cell-center">Action</th>
+            <th class="col-sm-3 cell-center"><p>Action</p></th>
         </tr>
         {% for student in students %}
         <tr>
@@ -78,14 +78,14 @@
     <p class="d-flex flex-row justify-content-end"><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
     <div class="button-group background d-flex flex-row justify-content-end">
         <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
-        id="dismissSelectedStudents" class="button--small button--primary">Release</button>
+        id="dismissSelectedStudents" class="button--small button--primary--disabled">Release</button>
         <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-        id="moveSelectedStudents" class="button--small button--primary">Move</button>
+        id="moveSelectedStudents" class="button--small button--primary--disabled">Move</button>
         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
         id="resetSelectedStudents" class="button--small button--primary button--icon">Reset password and login link
     <span class="iconify" data-icon="mdi:shield-refresh-outline"></span></button>
         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
-        id="deleteSelectedStudents" class="button button--primary--danger button--icon">
+        id="deleteSelectedStudents" class="button button--primary--danger--disabled button--icon">
         Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
     </div>
 </div>
@@ -141,19 +141,50 @@
                 id="deleteClass" class="button button--primary button--primary--danger">Delete class</button>
     </div>
 </div>
-<!--
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            if ($(window).width() > 760) {
-                toggleStickySubnav($('.menu').innerHeight());
-            }
-            
-            $('#form-create-students').submit(disableOnClick('#submitStudents'));
-            
-            importStudentsFromCsv('#studentsCsvButton', '#{{ new_students_form.names.auto_id }}')
-        });
-    </script>
--->
+<script>
+
+    classNameHash = {
+        "button--small button--primary--danger button--icon" : "button--small button--primary--danger--disabled button--icon",
+        "button--small button--primary button--icon" : "button--small button--primary button--icon",
+        "button--small button--primary" : "button--small button--primary",
+
+        "button--small button--primary--danger--disabled button--icon" : "button--small button--primary--danger button--icon",
+        "button--small button--primary--disabled button--icon" : "button--small button--primary button--icon",
+        "button--small button--primary--disabled" : "button--small button--primary",
+    }
+
+
+    const any = (checkboxesStateArray) => {
+
+        for (state of checkboxesStateArray) {
+            if (state) return true
+        }
+        return false
+    }
+
+    /*
+    0
+    1
+    1
+
+
+    */
+
+
+    let disabledButtons = $.makeArray($('.button--primary--disabled')).concat($.makeArray($('.button--primary--danger--disabled')))
+    let selectAll = $('div > input:checkbox').on('click', event => {
+        console.log($.makeArray($('input:checkbox')).map(button => button.checked))
+        console.log('at least one is on')
+        if ($.makeArray($('div > input:checkbox'))[0].checked == true) {
+            $.makeArray($('td > input:checkbox')).map(button => button.checked=false)
+        }
+    })
+    let restCheckboxes = $('td > input:checkbox').on('click', event => {
+        console.log($.makeArray($('input:checkbox')).map(button => button.checked))
+        console.log('at least one is on')
+    })
+
+</script>
 
 {% endblock content %}

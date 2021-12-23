@@ -538,7 +538,7 @@ def teacher_dismiss_students(request, access_code):
         initial_data = [
             {
                 "orig_name": student.new_user.first_name,
-                "name": "",
+                "name": student.new_user.first_name,
                 "email": "",
             }
             for student in students

@@ -486,7 +486,7 @@ class TeacherDismissStudentsForm(forms.Form):
             attrs={
                 "readonly": "readonly",
                 "placeholder": "Original Name",
-                "style": "margin: 0",
+                "style": "margin: 0; background: rgb(241 236 236); border-color: rgb(241 236 236)",
             }
         ),
     )

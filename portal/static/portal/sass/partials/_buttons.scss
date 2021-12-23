@@ -8,6 +8,19 @@ a:focus {
   cursor: default;
 }
 
+.button--primary--disabled {
+  @include _padding(10px, 15px, 10px, 15px);
+  background: $color-button-contained-disabled;
+  color: $color-text-primary-disabled;
+  cursor: default;
+}
+
+.button--primary--danger--disabled {
+  background: $color-button-primary-action-danger-disabled;
+  color: $color-text-secondary;
+  cursor: default;
+}
+
 button,
 .button {
   @include _font-size(16px);
