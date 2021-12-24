@@ -19,9 +19,7 @@
 {% endblock subNav %}
 
 {% block content %}
-<!--
     {% include "portal/partials/popup.html" %}
--->
 <div id="teach_class_page"></div>
 
 <section class="background container">
@@ -133,7 +131,16 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($(window).width() > 760) {
+            toggleStickySubnav($('.menu').innerHeight());
+        }
+
+        $('#form-create-students').submit(disableOnClick('#submitStudents'));
+
+        importStudentsFromCsv('#studentsCsvButton', '#{{ new_students_form.names.auto_id }}')
+    });
 </script>
 
 {% endblock content %}
