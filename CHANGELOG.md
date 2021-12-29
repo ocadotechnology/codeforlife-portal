@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.26.16 (2021-12-24)
+### Fix
+* Independent student check ([#1693](https://github.com/ocadotechnology/codeforlife-portal/issues/1693)) ([`2108652`](https://github.com/ocadotechnology/codeforlife-portal/commit/2108652aff7e711cdb4c9cf62d2d61952571b397))
+
 ## v5.26.15 (2021-12-23)
 ### Fix
 * Keep dropdown open while scrolling ([#1691](https://github.com/ocadotechnology/codeforlife-portal/issues/1691)) ([`bc5cd2a`](https://github.com/ocadotechnology/codeforlife-portal/commit/bc5cd2a58489dcbca8006fa7ebba44d619e07cbb))
