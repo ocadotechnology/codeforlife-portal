@@ -143,8 +143,42 @@
   }
 }
 
+.button.sub-nav--teacher-active,
+.button.sub-nav--teacher-active:hover,
+.button.sub-nav--teacher-active:active,
+.button.sub-nav--teacher-active:focus {
+  background-color: $color-background-secondary;
+  color: $color-primary-300;
+  text-decoration: none;
+  cursor: default;
+}
+
 .sub-nav--student {
-  background-color: $color-background-play;
+  background-color: $color-tertiary-300;
+}
+
+.button.sub-nav--student-active,
+.button.sub-nav--student-active:hover,
+.button.sub-nav--student-active:active,
+.button.sub-nav--student-active:focus {
+  background-color: $color-background-secondary;
+  color: $color-tertiary-300;
+  text-decoration: none;
+  cursor: default;
+}
+
+.sub-nav--independent {
+  background-color: $color-secondary-300;
+}
+
+.button.sub-nav--independent-active,
+.button.sub-nav--independent-active:hover,
+.button.sub-nav--independent-active:active,
+.button.sub-nav--independent-active:focus {
+  background-color: $color-background-secondary;
+  color: $color-secondary-600;
+  text-decoration: none;
+  cursor: default;
 }
 
 .sub-nav__content {
