@@ -214,6 +214,7 @@ td .button--primary {
   flex-wrap: nowrap;
   justify-content: space-between;
   outline: none;
+  height: 42px;
 
   .glyphicon {
     @include _font-size(20px);
