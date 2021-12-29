@@ -90,12 +90,22 @@ def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, "teacher")
 
 
+@register.filter(name="is_logged_in_as_student")
+def is_logged_in_as_student(u):
+    return (
+        is_logged_in(u)
+        and u.userprofile
+        and hasattr(u.userprofile, "student")
+        and u.userprofile.student.class_field != None
+    )
+
+
 @register.filter(name="is_independent_student")
 def is_independent_student(u):
     return (
         is_logged_in(u)
         and u.userprofile
-        and u.userprofile.student
+        and hasattr(u.userprofile, "student")
         and u.userprofile.student.is_independent()
     )
 
