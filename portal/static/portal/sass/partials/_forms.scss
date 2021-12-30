@@ -23,11 +23,12 @@ form {
       outline: none;
     }
 
-    &:read-only {
-      background: $color-background-tint-primary;
-      border-color: $color-background-tint-primary;
-    }
 
+  }
+
+  input:read-only {
+    background: $color-background-tint-primary;
+    border-color: $color-background-tint-primary;
   }
 
   input[type="checkbox"] {
