@@ -39,6 +39,8 @@
   .button--dropdown {
     background: $color-button-contained;
     border: 2px solid $color-button-contained;
+    color: $color-text-primary;
+    @include _padding(7px, 12px, 7px, 12px);
   }
 
   form {
