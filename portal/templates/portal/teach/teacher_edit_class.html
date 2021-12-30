@@ -72,11 +72,8 @@
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
                 <button id="update_button" type="submit" class="button button--primary" name="class_edit_submit">Update</button>
             </div>
-
         </form>
-        
     </div>
-    
 </div>
 
 <div class="background background--primary">
@@ -91,7 +88,7 @@
                 please contact that teacher.
             </strong>
         </p>
-        
+
         <form method="post" class="pb-0">
 
             {% csrf_token %}

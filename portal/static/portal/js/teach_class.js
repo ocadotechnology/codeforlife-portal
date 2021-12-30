@@ -4,7 +4,7 @@
 
 var CONFIRMATION_DATA = {};
 
-function any(checkboxesArray) {
+function isAnyChecked(checkboxesArray) {
     for (checkbox of checkboxesArray) {
         if (checkbox.checked) return true
     }
@@ -12,17 +12,16 @@ function any(checkboxesArray) {
 }
 
 function handleDisabledButtons(state) {
-    
     if (state) {
-        $('div > [class="button--small button--primary--disabled"]').attr('class', 'button--small button--primary')
-        $('div > .button--small.button--primary--disabled.button--icon').attr('class', 'button--small button--primary button--icon')
-        $('div > .button--small.button--primary--danger--disabled.button--icon').attr('class', 'button--small button--primary--danger button--icon')
+        $('div#currentStudentsActions > [class="button--small button--primary disabled"]').removeClass('disabled')
+        $('div#currentStudentsActions > .button--small.button--primary.button--icon.disabled').removeClass('disabled')
+        $('div#currentStudentsActions > .button--small.button--primary--danger.disabled.button--icon').removeClass('disabled')
     }
 
     else {
-        $('div > [class="button--small button--primary"]').attr('class', 'button--small button--primary--disabled')
-        $('div > .button--small.button--primary.button--icon').attr('class', 'button--small button--primary--disabled button--icon')
-        $('div > .button--small.button--primary--danger.button--icon').attr('class', 'button--small button--primary--danger--disabled button--icon')
+        $('div#currentStudentsActions > [class="button--small button--primary"]').addClass('disabled')
+        $('div#currentStudentsActions > .button--small.button--primary.button--icon').addClass('disabled')
+        $('div#currentStudentsActions > .button--small.button--primary--danger.button--icon').addClass('disabled')
     }
 }
 
@@ -42,7 +41,6 @@ $(function () {
             }
             $('#selectedStudentsListToggle')[0].checked = true;
             $('#num_students_selected').text(students.length)
-            
         }
         else {
             // unselect all students
@@ -52,7 +50,7 @@ $(function () {
             $('#selectedStudentsListToggle')[0].checked = false;
             $('#num_students_selected').text("0")
         }    
-        if (any($.makeArray($('input:checkbox')))) {
+        if (isAnyChecked($.makeArray($('input:checkbox').closest('table#student_table')))) {
             handleDisabledButtons(true)
         }
         else {
@@ -80,8 +78,8 @@ $(function () {
     });
 });
 
-$('td > input:checkbox').click(() => {
-    if (any($.makeArray($('input:checkbox')))) {
+$('input:checkbox').closest('table#student_table').click(() => {
+    if (isAnyChecked($.makeArray($('input:checkbox')))) {
         handleDisabledButtons(true)
     }
     else {
@@ -93,7 +91,6 @@ function deleteClassConfirmation(path) {
     var title = "Delete class";
     var text = "<div class='popup-text'><p class='body-text'>This class will be permanently deleted. Are you sure?</p></div>";
     var confirm_handler = "postWithCsrf('" + path + "')";
-    
     showPopupConfirmation(title, text, confirm_handler);
 }
 
@@ -102,7 +99,6 @@ function deleteStudentsConfirmation(path) {
         var title = "Delete students";
         var text = "<div class='popup-text'><p class='body-text'>These students will be permanently deleted. Are you sure?</p></div>";
         var confirm_handler = "postSelectedStudents('" + path + "')";
-        
         showPopupConfirmation(title, text, confirm_handler);
     })
 }
@@ -112,7 +108,6 @@ function resetStudentPasswords(path) {
         var title = "Reset student passwords";
         var text = "<div class='popup-text'><p class='body-text'>These students will have their passwords permanently changed. You will be given the option to print out the new passwords. Are you sure that you want to continue?</p></div>";
         var confirm_handler = "postSelectedStudents('" + path + "')";
-        
         showPopupConfirmation(title, text, confirm_handler);
     })
 }
@@ -134,7 +129,6 @@ function runIfStudentsSelected(func) {
             selectedStudents.push(students[i].name)
         }
     }
-    
     if (selectedStudents.length > 0) {
         func(selectedStudents);
     }

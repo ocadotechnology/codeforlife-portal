@@ -18,11 +18,8 @@
     <form method="post" action="{% url 'teacher_move_students_to_class' old_class.access_code %}">
 
         {% csrf_token %}
-        
         {{ form.non_field_errors }}
-        
         {% for field in form %}
-        
         <label for="id_{{ field.html_name }}">{{ field.label }}</label>
         <div class="row form--row">
             <div class="d-flex flex-col col-sm-6 col-md-6">

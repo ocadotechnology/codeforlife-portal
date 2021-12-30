@@ -14,7 +14,7 @@
 <div class="background">
     <div class="container">
         <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled" >&lt; Back to Edit class</a></p>
-        <p>Edit this student&rsquo;s name and manage their password and direct access link.</p>
+        <p>Edit this student's name and manage their password and direct access link.</p>
         <h5>Update name</h5>
 
         <p>Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
@@ -24,21 +24,18 @@
             {% csrf_token %}
 
             {{ name_form.non_field_errors }}
-            <div class="row form-row">            
+            <div class="row form-row">
                 <div class="form--row__input col-sm-6 col-md-6">
-
-                    
                     {{ name_form.name }}
                     {{ name_form.name.errors }}
-                    
-                    <small>Choose a name</small>
+                    <small>{{ name_form.name.help_text }}</small>
                 </div>
             </div>
             <button id="update_name_button" type="submit" name="update_details" class="button button--primary">Update</button>
 
         </form>
 
-        <h5 id="set-password">Set password</h5>
+        <h5 id="set-password">Update password</h5>
 
         <p>You can set this student's password. Setting the password will also regenerate their direct access link.</p>
 
@@ -51,22 +48,22 @@
 
             {{ password_form.non_field_errors }}
 
-            <div class="row form-row">            
+            <div class="row form-row">
                 <div class="form--row__input col-sm-6 col-md-6">
                     {{ password_form.password }}
                     {{ password_form.password.errors }}
-                    <small>Enter new password</small>
+                    <small>{{ password_form.password.help_text}}</small>
                 </div>
             </div>
 
-            <div class="row form-row">            
+            <div class="row form-row">
                 <div class="form--row__input col-sm-6 col-md-6">
                     {{ password_form.confirm_password }}
                     {{ password_form.confirm_password.errors }}
-                    <small>Confirm new password</small>
+                    <small>{{ password_form.confirm_password.help_text }}</small>
                 </div>
             </div>
-            <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Set</button>
+            <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Update</button>
         </form>
     </div>
 </div>

@@ -281,7 +281,9 @@ class ClassMoveForm(forms.Form):
 
 class TeacherEditStudentForm(forms.Form):
     name = forms.CharField(
-        label="Name", widget=forms.TextInput(attrs={"placeholder": "Name"})
+        label="Name",
+        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+        help_text="Choose a name",
     )
 
     def __init__(self, student, *args, **kwargs):
@@ -316,10 +318,12 @@ class TeacherEditStudentForm(forms.Form):
 class TeacherSetStudentPass(forms.Form):
     password = forms.CharField(
         label="New password",
+        help_text="Enter new password",
         widget=forms.PasswordInput(attrs={"placeholder": "New password"}),
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
+        help_text="Confirm new password",
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password"}),
     )
 
@@ -409,7 +413,7 @@ def check_passwords(password, confirm_password):
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
     new_class = forms.ChoiceField(
-        label="Choose a new class from the drop down menu for the selected students.",
+        label="Choose a new class from the drop down menu for the student(s).",
         widget=forms.Select(attrs={"class": "wide"}),
     )
 
@@ -482,6 +486,7 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(
         label="Original Name",
+        help_text="Original student_name",
         widget=forms.TextInput(
             attrs={
                 "readonly": "readonly",
@@ -492,21 +497,23 @@ class TeacherDismissStudentsForm(forms.Form):
     )
     name = forms.CharField(
         label="New Name",
-        help_text="",
+        help_text="New student name",
         widget=forms.TextInput(
-            attrs={"placeholder": "New Name", "style": "margin : 0px"}
+            attrs={"placeholder": "Enter new student name", "style": "margin : 0px"}
         ),
     )
     email = forms.EmailField(
         label="Email",
+        help_text="Current email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Email Address", "style": "margin : 0px"}
+            attrs={"placeholder": "Enter email address", "style": "margin : 0px"}
         ),
     )
     confirm_email = forms.EmailField(
         label="Confirm Email",
+        help_text="New email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Confirm Email Address", "style": "margin : 0px"}
+            attrs={"placeholder": "Confirm email address", "style": "margin : 0px"}
         ),
     )
 

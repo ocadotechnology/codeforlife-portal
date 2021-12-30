@@ -9,7 +9,7 @@
 <div id="dismiss_students_page"></div>
 
 <section class="background container">
-    <h4>Release student from {{ class.name }} ({{ class.access_code }})</h4><br>
+    <h4>Release student from class {{ class.name }} ({{ class.access_code }})</h4><br>
 </section>
 
 <div class="background">
@@ -26,7 +26,7 @@
             Independent students do not need to provide a class access code.</p>
 
         <p>Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts.
-            If a student is too young to own an email address, a parent or guardian&rsquo;s email address will be required. These email addresses will
+            If a student is too young to own an email address, a parent or guardian's email address will be required. These email addresses will
             have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
 
         <form method="POST">
@@ -43,29 +43,29 @@
                         <div class="input--icon">
                             {{ form.orig_name }}
                         </div>
-                        <p><small>Original Student Name</small></p>
+                        <p><small>{{ form.orig_name.help_text }}</small></p>
                     </div>
                     <div class="col-sm-6">
                         <div class="input--icon">
-                            {{ form.name }} <span class="iconify" data-icon="ic:baseline-person-outline"></span>
+                            {{ form.name }} <span class="iconify" data-icon="mdi:account-outline"></span>
                         </div>
-                        <p><small>New Student Username</small></p>
+                        <p><small>{{ form.name.help_text }}</small></p>
                         {{ form.name.errors }}
                     </div>
                 </div>
                 <div class="row form--row">
                     <div class="col-sm-6">
                         <div class="input--icon">
-                            {{ form.email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
+                            {{ form.email }} <span class="iconify" data-icon="mdi:email-outline"></span>
                         </div>
-                        <p><small>Email Address</small></p>
+                        <p><small>{{ form.email.help_text }}</small></p>
                         {{ form.email.errors }}
                     </div>
                     <div class="col-sm-6">
                         <div class="input--icon">
-                            {{ form.confirm_email }} <span class="iconify" data-icon="ant-design:mail-outlined"></span>
+                            {{ form.confirm_email }} <span class="iconify" data-icon="mdi:email-outline"></span>
                         </div>
-                        <p><small>Confirm Email Address</small></p>
+                        <p><small>{{ form.confirm_email.help_text }}</small></p>
                         {{ form.email.confirm_errors }}
                     </div>
                 </div>
@@ -74,7 +74,7 @@
 
             <div class="button-group">
                 <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
-                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger button--icon">Remove student <span class="iconify" data-icon="bx:bx-user-minus"></span>
+                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger button--icon">Remove student <span class="iconify" data-icon="ic:outline-person-remove"></span>
 </button>
             </div>
         </form>

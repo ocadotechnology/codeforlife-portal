@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-    {% block css %}
+{% block css %}
     {{ block.super }}
     <link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
 {% endblock css %}
@@ -13,13 +13,12 @@
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 {% endblock scripts %}
 
-
 {% block subNav %}
     {% include "portal/partials/teacher_non_dashboard_subnav.html" %}
 {% endblock subNav %}
 
 {% block content %}
-    {% include "portal/partials/popup.html" %}
+{% include "portal/partials/popup.html" %}
 <div id="teach_class_page"></div>
 
 <section class="background container">
@@ -31,7 +30,6 @@
 <div class="background container">
     <p>Here you can view and manage all of your students within this class. You can add new students, transfer
         existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</p>
-    
     <h5>Current students</h5>
     <p>Select an individual student to change their details, including their name and password.</p>
     <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
@@ -65,16 +63,16 @@
         {% endfor %}
     </table>
     <p class="d-flex flex-row justify-content-end"><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
-    <div class="button-group background d-flex flex-row justify-content-end">
+    <div id="currentStudentActions" class="button-group background d-flex flex-row justify-content-end">
         <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
-        id="dismissSelectedStudents" class="button--small button--primary--disabled">Release</button>
+        id="dismissSelectedStudents" class="button--small button--primary disabled">Release</button>
         <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-        id="moveSelectedStudents" class="button--small button--primary--disabled">Move</button>
+        id="moveSelectedStudents" class="button--small button--primary disabled">Move</button>
         <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
-        id="resetSelectedStudents" class="button--small button--primary--disabled button--icon">Reset password and login link
-    <span class="iconify" data-icon="mdi:shield-refresh-outline"></span></button>
+        id="resetSelectedStudents" class="button--small button--primary disabled button--icon">Reset password and login link
+        <span class="iconify" data-icon="mdi:shield-refresh-outline"></span></button>
         <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
-        id="deleteSelectedStudents" class="button--small button--primary--danger--disabled button--icon">
+        id="deleteSelectedStudents" class="button--small button--primary--danger disabled button--icon">
         Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
     </div>
 </div>
@@ -109,7 +107,7 @@
                     {{ new_students_form.names }}
                 </div>
 
-                <div class="col-md-6 col-xs-3">
+                <div class="col-md-3 col-xs-3">
                     <button id="submitStudents" type="submit" class="button button--primary button--icon m-0" name="new_students" value="Add students">
                         Add students<span class="iconify" data-icon="mdi:plus"></span>
                     </button>
