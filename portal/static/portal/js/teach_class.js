@@ -13,15 +13,15 @@ function isAnyChecked(checkboxesArray) {
 
 function handleDisabledButtons(state) {
     if (state) {
-        $('div#currentStudentsActions > [class="button--small button--primary disabled"]').removeClass('disabled')
-        $('div#currentStudentsActions > .button--small.button--primary.button--icon.disabled').removeClass('disabled')
-        $('div#currentStudentsActions > .button--small.button--primary--danger.disabled.button--icon').removeClass('disabled')
+        $('div#currentStudentActions > [class="button--small button--primary disabled"]').removeClass('disabled')
+        $('div#currentStudentActions > .button--small.button--primary.button--icon.disabled').removeClass('disabled')
+        $('div#currentStudentActions > .button--small.button--primary--danger.disabled.button--icon').removeClass('disabled')
     }
 
     else {
-        $('div#currentStudentsActions > [class="button--small button--primary"]').addClass('disabled')
-        $('div#currentStudentsActions > .button--small.button--primary.button--icon').addClass('disabled')
-        $('div#currentStudentsActions > .button--small.button--primary--danger.button--icon').addClass('disabled')
+        $('div#currentStudentActions > [class="button--small button--primary"]').addClass('disabled')
+        $('div#currentStudentActions > .button--small.button--primary.button--icon').addClass('disabled')
+        $('div#currentStudentActions > .button--small.button--primary--danger.button--icon').addClass('disabled')
     }
 }
 
@@ -49,7 +49,7 @@ $(function () {
             }
             $('#selectedStudentsListToggle')[0].checked = false;
             $('#num_students_selected').text("0")
-        }    
+        }
         if (isAnyChecked($.makeArray($('input:checkbox').closest('table#student_table')))) {
             handleDisabledButtons(true)
         }
@@ -111,7 +111,6 @@ function resetStudentPasswords(path) {
         showPopupConfirmation(title, text, confirm_handler);
     })
 }
-
 
 function postSelectedStudents(path) {
     runIfStudentsSelected(function (selectedStudents) {

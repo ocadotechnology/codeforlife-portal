@@ -319,7 +319,7 @@ class TeacherSetStudentPass(forms.Form):
     password = forms.CharField(
         label="New password",
         help_text="Enter new password",
-        widget=forms.PasswordInput(attrs={"placeholder": "New password"}),
+        widget=forms.PasswordInput(attrs={"placeholder": "Enter new password"}),
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
