@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.1 (2021-12-30)
+### Fix
+* Fix filter dropdown sizes etc ([#1695](https://github.com/ocadotechnology/codeforlife-portal/issues/1695)) ([`4cbaaa1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4cbaaa1abe9960b5a938efc9bcb5287b0757c9a1))
+
 ## v5.27.0 (2021-12-29)
 ### Feature
 * Add subnav styles and fix login check ([#1694](https://github.com/ocadotechnology/codeforlife-portal/issues/1694)) ([`ca12ac7`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca12ac72bf3f899431d69024aa6244c813cb80dc))
