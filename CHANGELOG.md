@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.2 (2021-12-30)
+### Fix
+* Student class page ([#1692](https://github.com/ocadotechnology/codeforlife-portal/issues/1692)) ([`38daef7`](https://github.com/ocadotechnology/codeforlife-portal/commit/38daef72821246651a3093073ee1747b1d50e225))
+
 ## v5.27.1 (2021-12-30)
 ### Fix
 * Fix filter dropdown sizes etc ([#1695](https://github.com/ocadotechnology/codeforlife-portal/issues/1695)) ([`4cbaaa1`](https://github.com/ocadotechnology/codeforlife-portal/commit/4cbaaa1abe9960b5a938efc9bcb5287b0757c9a1))
