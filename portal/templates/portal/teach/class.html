@@ -131,10 +131,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        if ($(window).width() > 760) {
-            toggleStickySubnav($('.menu').innerHeight());
-        }
-
         $('#form-create-students').submit(disableOnClick('#submitStudents'));
 
         importStudentsFromCsv('#studentsCsvButton', '#{{ new_students_form.names.auto_id }}')
