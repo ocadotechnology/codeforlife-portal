@@ -123,9 +123,13 @@
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
         their classmates' progress.</p>
     <div class="background button-group">
-        <a id="class_settings_button" href="{% url 'teacher_edit_class' class.access_code %}" class="button button--primary">Edit settings</a>
+        <a id="class_settings_button" href="{% url 'teacher_edit_class' class.access_code %}" class="button button--primary button--icon">Edit settings
+            <span class="iconify" data-icon="mdi:pencil"></span>
+        </a>
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class' class.access_code %}')"
-                id="deleteClass" class="button button--primary button--primary--danger">Delete class</button>
+                id="deleteClass" class="button button--primary button--primary--danger button--icon">Delete class
+                <span class="iconify" data-icon="mdi:delete-outline"></span>
+        </button>
     </div>
 </div>
 
