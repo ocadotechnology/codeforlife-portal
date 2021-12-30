@@ -22,6 +22,13 @@ form {
       border: 1px solid $color-message-border;
       outline: none;
     }
+
+
+  }
+
+  input:read-only {
+    background: $color-background-tint-primary;
+    border-color: $color-background-tint-primary;
   }
 
   input[type="checkbox"] {
@@ -211,6 +218,10 @@ form {
     @include _margin(0px, 15px, 0px, 0px);
     position: absolute;
   }
+}
+
+.row.form--row {
+  display: block;
 }
 
 @media (max-width: $tablet-large-max-width) {

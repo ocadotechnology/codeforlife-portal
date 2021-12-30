@@ -3,8 +3,8 @@
 {% load app_tags %}
 
 {% block css %}
-{{ block.super }}
-<link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
+    {{ block.super }}
+    <link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block scripts %}
@@ -14,73 +14,67 @@
 {% endblock scripts %}
 
 {% block subNav %}
-<div class="sticky-subnav sub-nav sub-nav--teacher">
-    <a href="{% url 'dashboard' %}#school" class="button button--secondary button--secondary--light">Your school</a>
-    <a href="{% url 'dashboard' %}#classes" class="button button--secondary button--secondary--light">Your classes</a>
-    <a href="{% url 'dashboard' %}#account" class="button button--secondary button--secondary--light">Your account</a>
-</div>
+    {% include "portal/partials/teacher_non_dashboard_subnav.html" %}
 {% endblock subNav %}
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
-
 <div id="teach_class_page"></div>
 
-<section class="background">
-    <h4>{{ user|make_into_username }}, {{ class.name }} ({{ class.access_code }})</h4>
-    <h6 class="col-sm-6 col-center">Here you can view and manage all of your students within this class. You can add new students, transfer
-        existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</h6>
-    <a href="#add_new_students" class="button button--secondary button--secondary--dark">Add students</a>
+<section class="background container">
+    <h4>Update settings for {{ class.name }} ({{ class.access_code }})</h4>
 </section>
-
+<div class="container">
+    <a id="return_to_classes_button" href="{% url 'dashboard' %}#classes" class="button--menu button--menu--enabled">< Back to Classes</a>
+</div>
 <div class="background container">
-    <div class="row">
-        <div class="col-sm-5">
-            <h5>Current students</h5>
-            <p>Select an individual student to change their details, including their name and password.</p>
-            <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
-                make them an independent Code for Life user, or delete them permanently.</p>
-        </div>
-        <div class="col-sm-7">
-            <table id="student_table" class="student-table header-primary data-primary">
-                <tr class="student-table__header">
-                    <th class="cell-center">
-                        <p>Select</p>
-                        <div class="student-table__cell">
-                            <input id="selectedStudentsListToggle" name="selectedStudentsListToggle" type="checkbox" value="">
-                            <p><small>Select all</small></p>
-                        </div>
-                    </th>
-                    <th class="cell-center">Student details</th>
-                </tr>
-                {% for student in students %}
-                <tr>
-                    <td class="cell-center"><input id="student_checkbox" type="checkbox" class="student" name="{{ student.id }}" value=""></td>
-                    <td>
-                        <div class="student-table__cell">
-                            <p><small>{{ student.new_user.first_name }}</small></p>
-                            <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--small button--secondary button--secondary--dark">Edit</a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td class="table-footer" colspan="3" rowspan="2">
-                        <p><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
-                        <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
-                                id="moveSelectedStudents" class="button--small button--primary">Move</button>
-                        <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
-                                id="dismissSelectedStudents" class="button--small button--primary">Release</button>
-                        <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
-                                id="deleteSelectedStudents" class="button--small button--primary--danger">Delete</button>
-                        <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
-                                id="resetSelectedStudents" class="button--small button--primary--danger">Reset password and login link</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
+    <p>Here you can view and manage all of your students within this class. You can add new students, transfer
+        existing students to another one of your classes or to another teacher within your school or club, or remove students altogether.</p>
+    <h5>Current students</h5>
+    <p>Select an individual student to change their details, including their name and password.</p>
+    <p>Select multiple students using the checkboxes to reset their passwords, move them to another class, release them from your school and
+        make them an independent Code for Life user, or delete them permanently.</p>
+</div>
+<div class="container">
+    <table id="student_table" class="header-primary data-primary">
+        <tr>
+            <th class="col-sm-7"><p>Student details</p></th>
+            <th>
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                    <input id="selectedStudentsListToggle" name="selectedStudentsListToggle" type="checkbox" value="">
+                </div>
+            </th>
+            <th class="col-sm-3 cell-center"><p>Action</p></th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>
+                <div class="student-table__cell">
+                    <p><small>{{ student.new_user.first_name }}</small></p>
+                </div>
+            </td>
+            <td class="cell-center"><input id="student_checkbox" type="checkbox" class="student" name="{{ student.id }}" value=""></td>
+            <td class="cell-center">
+                <a id="edit_student_button" href="{% url 'teacher_edit_student' student.id %}" class="button button--primary button--icon">Edit details
+                    <span class="iconify" data-icon="mdi:pencil"></span>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p class="d-flex flex-row justify-content-end"><small><span id="num_students_selected">0</span>/{{ num_students }} selected</small></p>
+    <div id="currentStudentActions" class="button-group background d-flex flex-row justify-content-end">
+        <button onclick="postSelectedStudents('{% url 'teacher_dismiss_students' class.access_code %}')"
+        id="dismissSelectedStudents" class="button--small button--primary disabled">Release</button>
+        <button onclick="postSelectedStudents('{% url 'teacher_move_students' class.access_code %}');"
+        id="moveSelectedStudents" class="button--small button--primary disabled">Move</button>
+        <button onclick="resetStudentPasswords('{% url 'teacher_class_password_reset' class.access_code %}')"
+        id="resetSelectedStudents" class="button--small button--primary disabled button--icon">Reset password and login link
+        <span class="iconify" data-icon="mdi:shield-refresh-outline"></span></button>
+        <button onclick="deleteStudentsConfirmation('{% url 'teacher_delete_students' class.access_code %}')"
+        id="deleteSelectedStudents" class="button--small button--primary--danger disabled button--icon">
+        Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
     </div>
-    <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
 <div id="add_new_students" class="background background--primary">
@@ -98,7 +92,9 @@
         <div class="mt-4">
             <small><strong>Please note: if using the import option, student names must be under a heading labelled 'name'.</strong></small>
         </div>
+    </div>
 
+    <div class="container">
         <form id="form-create-students" method="POST">
 
             {% csrf_token %}
@@ -106,12 +102,12 @@
             {{ new_students_form.non_field_errors }}
 
             <div class="row d-flex align-items-end">
-                <div class="col-md-6 col-xs-9 d-flex">
+                <div class="col-md-9 col-xs-9 d-flex">
                     {{ new_students_form.names.errors }}
                     {{ new_students_form.names }}
                 </div>
 
-                <div class="col-md-6 col-xs-3">
+                <div class="col-md-3 col-xs-3">
                     <button id="submitStudents" type="submit" class="button button--primary button--icon m-0" name="new_students" value="Add students">
                         Add students<span class="iconify" data-icon="mdi:plus"></span>
                     </button>
@@ -131,15 +127,10 @@
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class' class.access_code %}')"
                 id="deleteClass" class="button button--primary button--primary--danger">Delete class</button>
     </div>
-    <p><a id="return_to_classes_button" href="{% url 'dashboard' %}#classes">&#10229; Back to Classes</a></p>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        if ($(window).width() > 760) {
-            toggleStickySubnav($('.menu').innerHeight());
-        }
-
         $('#form-create-students').submit(disableOnClick('#submitStudents'));
 
         importStudentsFromCsv('#studentsCsvButton', '#{{ new_students_form.names.auto_id }}')

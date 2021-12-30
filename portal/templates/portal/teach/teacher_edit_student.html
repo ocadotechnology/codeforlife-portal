@@ -1,33 +1,41 @@
 {% extends 'portal/base.html' %}
 
+{% block subNav %}
+    {% include "portal/partials/teacher_non_dashboard_subnav.html" %}
+{% endblock subNav %}
+
 {% block content %}
 <div id="edit_student_page"></div>
 
 <section id="student_details" class="background container">
     <h4>Edit student details for {{ student.new_user.first_name }} from class {{ student.class_field.name }} ({{ student.class_field.access_code }})</h4>
-    <h5>Edit this student&rsquo;s name and manage their password and direct access link.</h5>
 </section>
 
-<div class="background background--primary">
+<div class="background">
     <div class="container">
+        <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled" >&lt; Back to Edit class</a></p>
+        <p>Edit this student's name and manage their password and direct access link.</p>
         <h5>Update name</h5>
 
-        <p>Remember this is the name they use to log in with, so you should tell them what you&rsquo;ve changed it to.</p>
+        <p>Remember this is the name they use to log in with, so you should tell them what you've changed it to.</p>
 
         <form id="form-edit-student" method="post">
 
             {% csrf_token %}
 
             {{ name_form.non_field_errors }}
-
-            {{ name_form.name }}
-            {{ name_form.name.errors }}
-
+            <div class="row form-row">
+                <div class="form--row__input col-sm-6 col-md-6">
+                    {{ name_form.name }}
+                    {{ name_form.name.errors }}
+                    <small>{{ name_form.name.help_text }}</small>
+                </div>
+            </div>
             <button id="update_name_button" type="submit" name="update_details" class="button button--primary">Update</button>
 
         </form>
 
-        <h5 id="set-password">Set password</h5>
+        <h5 id="set-password">Update password</h5>
 
         <p>You can set this student's password. Setting the password will also regenerate their direct access link.</p>
 
@@ -40,17 +48,24 @@
 
             {{ password_form.non_field_errors }}
 
-            {{ password_form.password }}
-            {{ password_form.password.errors }}
+            <div class="row form-row">
+                <div class="form--row__input col-sm-6 col-md-6">
+                    {{ password_form.password }}
+                    {{ password_form.password.errors }}
+                    <small>{{ password_form.password.help_text}}</small>
+                </div>
+            </div>
 
-            {{ password_form.confirm_password }}
-            {{ password_form.confirm_password.errors }}
-            <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Set</button>
+            <div class="row form-row">
+                <div class="form--row__input col-sm-6 col-md-6">
+                    {{ password_form.confirm_password }}
+                    {{ password_form.confirm_password.errors }}
+                    <small>{{ password_form.confirm_password.help_text }}</small>
+                </div>
+            </div>
+            <button id="set_new_password_button" type="submit" name="set_password" class="button button--primary">Update</button>
         </form>
     </div>
 </div>
 
-<div class="background container">
-    <p><a href="{% url 'view_class' class.access_code %}">&#10229; Back to Class</a></p>
-</div>
 {% endblock %}

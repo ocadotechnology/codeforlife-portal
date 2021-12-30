@@ -36,6 +36,11 @@ label {
   font-weight: 700;
 }
 
+form {
+  > label {
+  font-weight: 100;
+  }
+}
 
 // Normalize form controls
 //

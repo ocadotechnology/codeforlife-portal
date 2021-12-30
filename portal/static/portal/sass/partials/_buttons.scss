@@ -8,6 +8,19 @@ a:focus {
   cursor: default;
 }
 
+.button--primary--disabled {
+  @include _padding(10px, 15px, 10px, 15px);
+  background: $color-button-contained-disabled;
+  color: $color-text-primary-disabled;
+  cursor: default;
+}
+
+.button--primary--danger--disabled {
+  background: $color-button-primary-action-danger-disabled;
+  color: $color-text-secondary;
+  cursor: default;
+}
+
 button,
 .button {
   @include _font-size(16px);
@@ -58,18 +71,25 @@ table {
   background: $color-button-contained;
   color: $color-text-primary;
 
-  &:hover {
+  &.disabled {
+    background: $color-button-contained-disabled;
+    color: $color-text-primary-disabled;
+    cursor: default;
+  }
+
+  &:hover:not(.disabled){
     @include material-shadow();
     background: $color-button-contained-hover;
     color: $color-text-primary;
     text-decoration: none;
   }
 
-  &:active {
+  &:active:not(.disabled) {
     background: $color-button-contained-active;
     color: $color-text-primary;
     box-shadow: none;
   }
+
 }
 
 /* Outlined button */
@@ -179,7 +199,13 @@ table {
   background: $color-button-primary-action-danger;
   color: $color-text-secondary;
 
-  &:hover {
+  &.disabled {
+    background: $color-button-primary-action-danger-disabled;
+    color: $color-text-secondary;
+    cursor: default;
+  }
+
+  &:hover:not(.disabled){
     @include material-shadow();
     background: $color-button-primary-action-danger-hover;
     color: $color-text-secondary;

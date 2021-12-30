@@ -71,12 +71,6 @@ td {
   text-align: start;
 }
 
-.table-footer {
-  button {
-    @include _margin(0px, 19px, 0px, 19px);
-    float: left;
-  }
-}
 
 .status-indicator {
   -moz-border-radius: 50%;

@@ -196,7 +196,7 @@ class ClassCreationForm(forms.Form):
         help_text="Enter a class name",
     )
     classmate_progress = forms.BooleanField(
-        label="Allow students to see their classmates' progress",
+        label="Allow students to see their classmates' progress?",
         widget=forms.CheckboxInput(),
         initial=False,
         required=False,
@@ -204,7 +204,6 @@ class ClassCreationForm(forms.Form):
 
 
 class ClassEditForm(forms.Form):
-    classmate_choices = [("True", "Yes"), ("False", "No")]
     # select dropdown choices for potentially limiting time in which external students may join
     # class
     # 0 value = don't allow
@@ -223,7 +222,7 @@ class ClassEditForm(forms.Form):
                 + str(hours)
                 + " hours",
             )
-            for hours in range(4, 24, 4)
+            for hours in range(4, 28, 4)
         ]
     )
     join_choices.extend(
@@ -241,24 +240,29 @@ class ClassEditForm(forms.Form):
         ("1000", "Always allow external requests to this class (not recommended)")
     )
     name = forms.CharField(
-        label="Class Name", widget=forms.TextInput(attrs={"placeholder": "Class Name"})
+        widget=forms.TextInput(attrs={"placeholder": "Enter class name"}),
+        help_text="Enter class name",
     )
-    classmate_progress = forms.ChoiceField(
+    classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress?",
-        choices=classmate_choices,
-        widget=forms.Select(attrs={"class": "wide"}),
+        widget=forms.CheckboxInput(),
+        initial=False,
+        required=False,
     )
     external_requests = forms.ChoiceField(
         label="Set up external requests to this class",
+        help_text="Choose your setting",
         required=False,
         choices=join_choices,
-        widget=forms.Select(attrs={"class": "wide"}),
+        widget=forms.Select(),
     )
 
 
 class ClassMoveForm(forms.Form):
     new_teacher = forms.ChoiceField(
-        label="Teachers", widget=forms.Select(attrs={"class": "wide"})
+        label="New teacher to take over class",
+        help_text="Select teacher",
+        widget=forms.Select(),
     )
 
     def __init__(self, teachers, *args, **kwargs):
@@ -277,7 +281,9 @@ class ClassMoveForm(forms.Form):
 
 class TeacherEditStudentForm(forms.Form):
     name = forms.CharField(
-        label="Name", widget=forms.TextInput(attrs={"placeholder": "Name"})
+        label="Name",
+        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+        help_text="Choose a name",
     )
 
     def __init__(self, student, *args, **kwargs):
@@ -312,10 +318,12 @@ class TeacherEditStudentForm(forms.Form):
 class TeacherSetStudentPass(forms.Form):
     password = forms.CharField(
         label="New password",
-        widget=forms.PasswordInput(attrs={"placeholder": "New password"}),
+        help_text="Enter new password",
+        widget=forms.PasswordInput(attrs={"placeholder": "Enter new password"}),
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
+        help_text="Confirm new password",
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password"}),
     )
 
@@ -405,7 +413,7 @@ def check_passwords(password, confirm_password):
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
     new_class = forms.ChoiceField(
-        label="Choose a new class from the drop down menu for the selected students.",
+        label="Choose a new class from the drop down menu for the student(s).",
         widget=forms.Select(attrs={"class": "wide"}),
     )
 
@@ -482,26 +490,29 @@ class TeacherDismissStudentsForm(forms.Form):
             attrs={
                 "readonly": "readonly",
                 "placeholder": "Original Name",
-                "style": "background-color: lightgray; margin: 0; border: 0",
+                "style": "margin: 0",
             }
         ),
     )
     name = forms.CharField(
         label="New Name",
+        help_text="New student name",
         widget=forms.TextInput(
-            attrs={"placeholder": "New Name", "style": "margin : 0px"}
+            attrs={"placeholder": "Enter new student name", "style": "margin : 0px"}
         ),
     )
     email = forms.EmailField(
         label="Email",
+        help_text="Current email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Email Address", "style": "margin : 0px"}
+            attrs={"placeholder": "Enter email address", "style": "margin : 0px"}
         ),
     )
     confirm_email = forms.EmailField(
         label="Confirm Email",
+        help_text="New email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Confirm Email Address", "style": "margin : 0px"}
+            attrs={"placeholder": "Confirm email address", "style": "margin : 0px"}
         ),
     )
 
