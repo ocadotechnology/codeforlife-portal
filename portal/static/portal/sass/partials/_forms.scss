@@ -22,8 +22,6 @@ form {
       border: 1px solid $color-message-border;
       outline: none;
     }
-
-
   }
 
   input:read-only {
@@ -218,10 +216,6 @@ form {
     @include _margin(0px, 15px, 0px, 0px);
     position: absolute;
   }
-}
-
-.row.form--row {
-  display: block;
 }
 
 @media (max-width: $tablet-large-max-width) {
