@@ -22,7 +22,7 @@
 <div id="teach_class_page"></div>
 
 <section class="background container">
-    <h4>Update settings for {{ class.name }} ({{ class.access_code }})</h4>
+    <h4>Update details or {{ class.name }} ({{ class.access_code }})</h4>
 </section>
 <div class="container">
     <a id="return_to_classes_button" href="{% url 'dashboard' %}#classes" class="button--menu button--menu--enabled">< Back to Classes</a>
@@ -123,7 +123,7 @@
         accept requests from external students, or delete classes for which there are no students. You can also create permissions for students in this class to see
         their classmates' progress.</p>
     <div class="background button-group">
-        <a id="class_settings_button" href="{% url 'teacher_edit_class' class.access_code %}" class="button button--primary button--icon">Edit settings
+        <a id="class_settings_button" href="{% url 'teacher_edit_class' class.access_code %}" class="button button--primary button--icon">Edit details
             <span class="iconify" data-icon="mdi:pencil"></span>
         </a>
         <button onclick="deleteClassConfirmation('{% url 'teacher_delete_class' class.access_code %}')"
