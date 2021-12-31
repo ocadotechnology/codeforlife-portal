@@ -161,6 +161,12 @@
 .banner--independent-student {
   background-color: $color-secondary;
   background-position: top left;
+  color: $color-text-primary;
+
+  .banner__text--primary,
+  h4 {
+    color: $color-text-primary;
+  }
 }
 
 .banner-home-content {
