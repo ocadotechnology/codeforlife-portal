@@ -50,7 +50,7 @@ $(function () {
             $('#selectedStudentsListToggle')[0].checked = false;
             $('#num_students_selected').text("0")
         }
-        if (isAnyChecked($.makeArray($('input:checkbox').closest('table#student_table')))) {
+        if (isAnyChecked($.makeArray($('#selectedStudentsListToggle, .student').closest('table#student_table')))) {
             handleDisabledButtons(true)
         }
         else {
@@ -78,8 +78,8 @@ $(function () {
     });
 });
 
-$('input:checkbox').closest('table#student_table').click(() => {
-    if (isAnyChecked($.makeArray($('input:checkbox')))) {
+$('#selectedStudnetsListToggle, .student').closest('table#student_table').click(() => {
+    if (isAnyChecked($.makeArray($('selectedStudentsListToggle, .student')))) {
         handleDisabledButtons(true)
     }
     else {
