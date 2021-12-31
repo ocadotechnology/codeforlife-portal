@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.3 (2021-12-31)
+### Fix
+* Fix indep student subnav ([`ff8c956`](https://github.com/ocadotechnology/codeforlife-portal/commit/ff8c956667d6984242cbab3946209bb99bb3c47d))
+
 ## v5.27.2 (2021-12-30)
 ### Fix
 * Student class page ([#1692](https://github.com/ocadotechnology/codeforlife-portal/issues/1692)) ([`38daef7`](https://github.com/ocadotechnology/codeforlife-portal/commit/38daef72821246651a3093073ee1747b1d50e225))
