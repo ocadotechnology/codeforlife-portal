@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.5 (2021-12-31)
+### Fix
+* Align filter and search on scoreboard ([#1701](https://github.com/ocadotechnology/codeforlife-portal/issues/1701)) ([`61e9dc2`](https://github.com/ocadotechnology/codeforlife-portal/commit/61e9dc27dec5b28de9c75dc379f219429f9a623f))
+
 ## v5.27.4 (2021-12-31)
 ### Fix
 * Fixed class edit disabled buttons when cookies are enabled ([#1699](https://github.com/ocadotechnology/codeforlife-portal/issues/1699)) ([`318ad78`](https://github.com/ocadotechnology/codeforlife-portal/commit/318ad78c4c7355a20ed9ff9a5b535951ff3ad58e))
