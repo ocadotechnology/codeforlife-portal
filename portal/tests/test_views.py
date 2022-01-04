@@ -417,20 +417,6 @@ class TestLoginViews(TestCase):
         assert q[0].class_field == klass
         assert q[0].login_type == "direct"
 
-    def test_teacher_already_logged_in_login_page_redirect(self):
-        _, c = self._create_and_login_teacher()
-
-        url = reverse("teacher_login")
-        response = c.get(url)
-        self.assertRedirects(response, "/teach/dashboard/")
-
-    def test_student_already_logged_in_login_page_redirect(self):
-        _, c = self._create_and_login_school_student()
-
-        url = reverse("student_login_access_code")
-        response = c.get(url)
-        self.assertRedirects(response, "/play/details/")
-
     def test_teacher_already_logged_in_register_page_redirect(self):
         _, c = self._create_and_login_teacher()
 
