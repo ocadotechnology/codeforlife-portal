@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.6 (2022-01-04)
+### Fix
+* Updated text to class details ([#1697](https://github.com/ocadotechnology/codeforlife-portal/issues/1697)) ([`4ede413`](https://github.com/ocadotechnology/codeforlife-portal/commit/4ede413412b986fbe7e219baef287fe82d62c77a))
+
 ## v5.27.5 (2021-12-31)
 ### Fix
 * Align filter and search on scoreboard ([#1701](https://github.com/ocadotechnology/codeforlife-portal/issues/1701)) ([`61e9dc2`](https://github.com/ocadotechnology/codeforlife-portal/commit/61e9dc27dec5b28de9c75dc379f219429f9a623f))
