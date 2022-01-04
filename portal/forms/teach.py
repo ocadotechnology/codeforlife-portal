@@ -486,6 +486,7 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(
         label="Original Name",
+        help_text="Original student name",
         widget=forms.TextInput(
             attrs={
                 "readonly": "readonly",
