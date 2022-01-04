@@ -17,11 +17,6 @@ class StudentClassCodeView(FormView):
     template_name = "portal/login/student_class_code.html"
     form_class = StudentClassCodeForm
 
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return HttpResponseRedirect(reverse_lazy("student_details"))
-        return super(StudentClassCodeView, self).get(request, *args, **kwargs)
-
     def form_valid(self, form):
         self.form = form
         return HttpResponseRedirect(self.get_success_url())
@@ -40,7 +35,6 @@ class StudentLoginView(LoginView):
     template_name = "portal/login/student.html"
     form_class = StudentLoginForm
     success_url = reverse_lazy("student_details")
-    redirect_authenticated_user = reverse_lazy("student_details")
 
     def get_form_kwargs(self):
         kwargs = super(StudentLoginView, self).get_form_kwargs()
@@ -48,13 +42,10 @@ class StudentLoginView(LoginView):
         return kwargs
 
     def _add_logged_in_as_message(self, request):
-        student = request.user.userprofile.student
-        student_class = student.class_field
-
+        class_name = self.kwargs["access_code"].upper()
         messages.info(
             request,
-            f"<strong>You are logged in to class: "
-            f"{escape(student_class.name)}</strong>",
+            f"<strong>You are logged in to class: " f"{escape(class_name)}</strong>",
             extra_tags="safe message--student",
         )
 

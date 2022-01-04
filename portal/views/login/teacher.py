@@ -21,13 +21,6 @@ class TeacherLoginView(LoginView):
         ("backup", BackupTokenForm),
     )
 
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if logged_in_as_teacher(request.user):
-                return redirect(reverse_lazy("dashboard"))
-            return redirect(reverse_lazy("home"))
-        return super(TeacherLoginView, self).get(request, *args, **kwargs)
-
     def get_success_url(self):
         url = self.get_redirect_url()
         return url or redirect_teacher_to_correct_page(
