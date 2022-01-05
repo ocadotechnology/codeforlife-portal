@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.8 (2022-01-05)
+### Fix
+* Missing text under readonly input ([#1710](https://github.com/ocadotechnology/codeforlife-portal/issues/1710)) ([`fbb660d`](https://github.com/ocadotechnology/codeforlife-portal/commit/fbb660dee50ac856749a00405b41bae9f1c1410d))
+
 ## v5.27.7 (2022-01-04)
 ### Fix
 * Allow any login view after logging in ([#1711](https://github.com/ocadotechnology/codeforlife-portal/issues/1711)) ([`845294f`](https://github.com/ocadotechnology/codeforlife-portal/commit/845294f28db53c1df4cac32d854ac3e91805ce27))
