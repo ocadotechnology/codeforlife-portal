@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.7 (2022-01-04)
+### Fix
+* Allow any login view after logging in ([#1711](https://github.com/ocadotechnology/codeforlife-portal/issues/1711)) ([`845294f`](https://github.com/ocadotechnology/codeforlife-portal/commit/845294f28db53c1df4cac32d854ac3e91805ce27))
+
 ## v5.27.6 (2022-01-04)
 ### Fix
 * Updated text to class details ([#1697](https://github.com/ocadotechnology/codeforlife-portal/issues/1697)) ([`4ede413`](https://github.com/ocadotechnology/codeforlife-portal/commit/4ede413412b986fbe7e219baef287fe82d62c77a))

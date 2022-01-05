@@ -14,7 +14,6 @@ class IndependentStudentLoginView(LoginView):
     template_name = "portal/login/independent_student.html"
     form_class = IndependentStudentLoginForm
     success_url = reverse_lazy("independent_student_details")
-    redirect_authenticated_user = reverse_lazy("independent_student_details")
     join_class_url = reverse_lazy("student_join_organisation")
 
     def get_success_url(self):
