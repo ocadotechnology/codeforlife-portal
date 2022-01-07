@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.9 (2022-01-07)
+### Fix
+* Rename RR banner class ([#1712](https://github.com/ocadotechnology/codeforlife-portal/issues/1712)) ([`206385d`](https://github.com/ocadotechnology/codeforlife-portal/commit/206385d57c9a4f84eb81d6ae0e57e8ef9e804348))
+
 ## v5.27.8 (2022-01-05)
 ### Fix
 * Missing text under readonly input ([#1710](https://github.com/ocadotechnology/codeforlife-portal/issues/1710)) ([`fbb660d`](https://github.com/ocadotechnology/codeforlife-portal/commit/fbb660dee50ac856749a00405b41bae9f1c1410d))
