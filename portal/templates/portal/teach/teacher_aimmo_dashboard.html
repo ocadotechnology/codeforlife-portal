@@ -8,18 +8,9 @@
 {% endblock scripts %}
 
 {% block subNav %}
-<div class="banner banner--teacher banner--aimmo-home banner--teacher--create-aimmo-game row mx-0">
-    <div class="kurono-logo col-sm-4 col-sm-offset-3">
-        <img src="{% static 'portal/img/kurono_logo.svg' %}" alt="Kurono logo" title="Kurono logo">
-    </div>
-    <div class="col-sm-6">
-        <div class="banner--picture">
-            <div class="banner--picture__inside1">
-                <div class="banner--picture__inside2 banner--picture--aimmo"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<section class="banner banner--aimmo">
+    <img title="Kurono logo" alt="Kurono logo" src="{% static 'portal/img/kurono_logo.svg' %}">
+</section>
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <div class="col-sm-12 col-md-11 col-lg-9 sub-nav__content">
         <p>Select a class from the dropdown menu to add a new game below</p>
@@ -28,20 +19,19 @@
                 {% csrf_token %}
                 <input type="hidden" name="game_class" id="id_game_class">
             </form>
-            <button class="button--dropdown" data-toggle="dropdown"
-                aria-expanded="false" id="add_class_dropdown">
-                Add class
+            <button class="button--dropdown" data-toggle="dropdown" aria-expanded="false" id="add_class_dropdown">
+                Select class
             </button>
             <ul id="add-class-dropdown-menu" class="dropdown-menu">
                 {% for game_class in form.game_class.field.queryset %}
                 <li class="dropdown-menu__option">
                     {% if game_class.game %}
-                    <a class="button button--regular disabled" data-class-id="{{ game_class.id }}">
-                        {% else %}
+                        <a class="button button--regular disabled" data-class-id="{{ game_class.id }}">
+                    {% else %}
                         <a class="button button--regular" id="class_{{ game_class.id }}"
                             data-class-id="{{ game_class.id }}"
                             onclick='send_event("Kurono", "Clicked", "Create game button");'>
-                            {% endif %}
+                    {% endif %}
                             <p class="dropdown-menu__option__text">{{ game_class.name }}</p>
                         </a>
                 </li>
@@ -53,41 +43,51 @@
 {% endblock subNav %}
 
 {% block content %}
-<section class="background container">
-    <h4>My games</h4>
+<div class="background container">
+    <section><h4>My games</h4></section>
     {% games_table 'kurono/play' %}
-</section>
+</div>
 
 <div id="kurono_teacher_dashboard_page"></div>
 <div class="background background--primary">
-    <section class="container">
-        <h4>Teaching resources</h4>
-        <p>>
-            We have moved our resources to Gitbook. There you will find a set of individual and collaborative
-            worksheets that keep the students engaged and having fun whilst embedding important Python skills,
-            supported by lesson guides and resource sheets.
-        </p>
-        <div class="background button-group button-group__icon">
-            <a href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
-              class="button button--primary button--icon" target="_blank">
-                Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
-            </a>
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-sm-6 d-flex flex-column">
+                <div class="flex-grow-1">
+                    <h5 class="mt-0">Kurono Resources</h5>
+                    <p>We have a set of individual and collaborative worksheets that keep the students engaged and having fun whilst
+                        embedding important Python skills, supported by lesson guides and resource sheets.</p>
+                    <p>Please visit our dedicated Code for Life Space to find everything you need from lesson plans to solutions.</p>
+                    <p>This space is only available to teachers.</p>
+                </div>
+                <div>
+                    <a href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/"
+                       class="button button--primary button--icon col-sm-6" target="_blank">
+                        Open Kurono resources<span class="iconify" data-icon="mdi:open-in-new"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <img alt="Kurono Resources" title="Kurono Resources" src="{% static 'portal/img/thumbnail_kurono_resources.png' %}">
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 <div>
-    <section class="background container">
-        <h4>Tell us what you think of Kurono...</h4>
+    <div class="background container">
+        <h5>Tell us what you think of Kurono...</h5>
         <p>Your testing and feedback will help Code for Life deliver an enjoyable game, and will allow us to consult
             with you on resources that will be relevant to teaching computing classes in secondary schools
             (13 &mdash; 18 year olds).</p>
-            <div class="background button-group button-group__icon">
+        <div class="row background">
+            <div class="col-sm-6">
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdNGbf-oLanNhIqCQ-Yz7mbiTBBjX-8rpdXQUB8XIgBvwwuJg/viewform?usp=sf_link"
-                class="button button--primary" target="_blank">Give feedback
-                <span class="material-icons-outlined">open_in_new</span>
-            </a>
+                   class="button button--primary button--icon col-sm-6" target="_blank">
+                    Give feedback<span class="iconify" data-icon="mdi:open-in-new"></span>
+                </a>
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 
 {% endblock content %}
