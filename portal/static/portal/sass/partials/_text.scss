@@ -46,6 +46,12 @@ h6 {
   font-weight: 500;
 }
 
+h7 {
+  @include _font-size(18px);
+  font-weight: 500;
+  text-align: left;
+}
+
 .subtitle1 {
   font-family: "Inter", sans-serif;
   @include _font-size(22px);

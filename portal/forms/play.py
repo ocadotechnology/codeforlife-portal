@@ -206,18 +206,27 @@ class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
         label="Name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off"}),
+        help_text="Enter full name",
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Full name"}
+        ),
     )
 
     username = forms.CharField(
         label="Username",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off"}),
+        help_text="Enter a username",
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Username"}
+        ),
     )
 
     email = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(attrs={"autocomplete": "off"}),
+        help_text="Enter your email address",
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
     )
 
     newsletter_ticked = forms.BooleanField(initial=False, required=False)
@@ -225,12 +234,19 @@ class IndependentStudentSignupForm(forms.Form):
     is_over_required_age = forms.BooleanField(initial=False, required=True)
 
     password = forms.CharField(
-        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+        label="Password",
+        help_text="Enter a password",
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
     )
 
     confirm_password = forms.CharField(
         label="Confirm Password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off"}),
+        help_text="Repeat password",
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Repeat password"}
+        ),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)

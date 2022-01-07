@@ -94,7 +94,8 @@
 
 .password-strength-text {
   @include _padding(0px, 0px, 0px, $spacing * 2);
-  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .password-strength-text-old {

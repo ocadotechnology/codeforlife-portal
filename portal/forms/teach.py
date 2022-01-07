@@ -20,17 +20,26 @@ class TeacherSignupForm(forms.Form):
 
     teacher_first_name = forms.CharField(
         label="First name",
+        help_text="Enter your first name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "First name"}
+        ),
     )
     teacher_last_name = forms.CharField(
         label="Last name",
+        help_text="Enter your last name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Last name"}
+        ),
     )
     teacher_email = forms.EmailField(
         label="Email address",
-        widget=forms.EmailInput(attrs={"autocomplete": "off"}),
+        help_text="Enter your email address",
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
     )
 
     newsletter_ticked = forms.BooleanField(
@@ -38,11 +47,18 @@ class TeacherSignupForm(forms.Form):
     )
 
     teacher_password = forms.CharField(
-        label="Password", widget=forms.PasswordInput(attrs={"autocomplete": "off"})
+        label="Password",
+        help_text="Enter a password",
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
     )
     teacher_confirm_password = forms.CharField(
         label="Confirm Password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off"}),
+        help_text="Repeat password",
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Repeat password"}
+        ),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)

@@ -57,7 +57,7 @@ form {
 }
 
 .form--register {
-  @include _padding(80px, 0px, 30px, 0px);
+  @include _padding(20px, 0px, 0px, 0px);
   text-align: center;
 
   h1 {
@@ -121,6 +121,37 @@ form {
     color: $color-text-primary;
   }
 }
+/*
+#form-reg-teacher {
+  > div:last-child {
+    outline: 3px solid limegreen;
+    flex-grow: 1;
+  }
+}
+
+#form-signup-independent-student {
+  > div:last-child {
+    outline:  3px solid blue;
+    flex-grow: 1;
+  }
+}
+*/
+
+form {
+  > div:last-child {
+    outline: 3px solid black;
+    flex-grow: 1;
+  }
+  outline: 5px solid cyan;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.form-div {
+  height: 100%;
+  box-sizing: border-box;
+  outline: 2px solid blue;
+}
 
 .form--register--indep-student {
   color: $color-text-primary;
@@ -136,6 +167,20 @@ form {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
+}
+
+div {
+  > .form--register:first-child {
+    @include _margin(40px, 20px, 40px, 0px);
+  }
+  > .form--register:last-child {
+    @include _margin(40px, 0px, 40px, 20px);
+  }
+}
+
+.home--button--container {
+  display: flex;
+  justify-content: flex-;
 }
 
 .form__checkbox {
