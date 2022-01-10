@@ -57,7 +57,7 @@ form {
 }
 
 .form--register {
-  @include _padding(20px, 0px, 0px, 0px);
+  @include _padding(30px, 50px, 30px, 50px);
   text-align: center;
 
   h1 {
@@ -138,19 +138,14 @@ form {
 */
 
 form {
-  > div:last-child {
-    outline: 3px solid black;
-    flex-grow: 1;
-  }
-  outline: 5px solid cyan;
-  flex-grow: 1;
   height: 100%;
 }
 
 .form-div {
   height: 100%;
   box-sizing: border-box;
-  outline: 2px solid blue;
+  display:flex;
+  flex-direction: column;
 }
 
 .form--register--indep-student {
@@ -169,12 +164,19 @@ form {
   flex-direction: column;
 }
 
-div {
-  > .form--register:first-child {
-    @include _margin(40px, 20px, 40px, 0px);
+
+@media (min-width: $mobile-max-width) {
+  .registration {
+    display: flex;
+    flex-direction: row;
   }
-  > .form--register:last-child {
-    @include _margin(40px, 0px, 40px, 20px);
+  div {
+    > .form--register:first-child {
+      @include _margin(40px, 20px, 40px, 0px);
+    }
+    > .form--register:last-child {
+      @include _margin(40px, 0px, 40px, 20px);
+    }
   }
 }
 
@@ -269,7 +271,17 @@ div {
   }
 }
 
+
 @media (max-width: $mobile-max-width) {
+  div {
+    > .form--register {
+      @include _margin(40px, 20px, 40px, 0px);
+      display: flex;
+      flex-direction: column;
+      @include _padding(20px, 50px, 20px, 50px);
+    }
+  }
+
   .form--login {
     width: 85%;
     @include _margin(30px, auto, 30px, auto);
@@ -280,7 +292,6 @@ div {
   }
 
   .form--register {
-    @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
   }
 
