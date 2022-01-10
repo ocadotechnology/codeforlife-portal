@@ -122,15 +122,16 @@ form {
   }
 }
 
-form {
-  height: 100%;
-}
 
 .form-div {
   height: 100%;
   box-sizing: border-box;
   display:flex;
   flex-direction: column;
+
+  > form {
+    height: 100%;
+  }
 }
 
 .form--register--indep-student {
