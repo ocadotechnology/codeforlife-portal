@@ -121,21 +121,6 @@ form {
     color: $color-text-primary;
   }
 }
-/*
-#form-reg-teacher {
-  > div:last-child {
-    outline: 3px solid limegreen;
-    flex-grow: 1;
-  }
-}
-
-#form-signup-independent-student {
-  > div:last-child {
-    outline:  3px solid blue;
-    flex-grow: 1;
-  }
-}
-*/
 
 form {
   height: 100%;
@@ -163,7 +148,6 @@ form {
   display: flex;
   flex-direction: column;
 }
-
 
 @media (min-width: $mobile-max-width) {
   .registration {
@@ -270,7 +254,6 @@ form {
     width: 70%;
   }
 }
-
 
 @media (max-width: $mobile-max-width) {
   div {
