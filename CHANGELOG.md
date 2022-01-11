@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.27.10 (2022-01-11)
+### Fix
+* Implemented the new design for the registration form ([#1714](https://github.com/ocadotechnology/codeforlife-portal/issues/1714)) ([`c536ae4`](https://github.com/ocadotechnology/codeforlife-portal/commit/c536ae4a08aea02e6ea7d3aca2e999f4c4ca43ad))
+
 ## v5.27.9 (2022-01-07)
 ### Fix
 * Rename RR banner class ([#1712](https://github.com/ocadotechnology/codeforlife-portal/issues/1712)) ([`206385d`](https://github.com/ocadotechnology/codeforlife-portal/commit/206385d57c9a4f84eb81d6ae0e57e8ef9e804348))
