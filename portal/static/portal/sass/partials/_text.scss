@@ -146,6 +146,9 @@ blockquote {
   color: $color-tertiary;
 }
 
+.semi-bold {
+  font-weight: 500;
+}
 .content-header {
   @include _font-size(30px);
   @include _padding(10px, 0px, 10px, 0px);
