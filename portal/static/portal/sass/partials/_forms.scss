@@ -165,16 +165,15 @@ form {
   }
 }
 
-.home--button--container {
-  display: flex;
-  justify-content: flex-;
-}
-
 .form__checkbox {
   display: flex;
   align-items: center;
   font-size: 75%;
   padding: 1.2% 0% 2.5% 1.2%;
+
+  > p {
+    font-weight: 501; // from 100 to 500 the text doesn't seem to get bold?
+  }
 }
 
 .form__checkbox-input {
@@ -219,6 +218,9 @@ form {
   input[type="password"],
   input[type="email"] {
     @include _padding(0px, 40px, 0px, 15px);
+  }
+  > .iconify {
+    color: black;
   }
 }
 

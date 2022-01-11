@@ -11,7 +11,7 @@
             <div class="form-div form">
                 <h4>Teacher/Tutor</h4>
                 <div class="row form--row">
-                    <p>Once you've registered your personal details and logged in, you'll be able to create your school or club, or join other teachers at your institution.<br/></p>
+                    <p>Once you've registered your personal details and logged in, you'll be able to create your school or club, or join other teachers at your institution.</p>
                 </div>
                     <form class="d-flex flex-column" method="post" id="form-reg-teacher" autocomplete="off">
 
@@ -59,12 +59,12 @@
                         {{ teacher_signup_form.teacher_confirm_password.errors }}
                     </div>
 
-                        <div class="row--under">
-                            <div class="password-strength-container">
-                                <div id="teacher-password-sign" class="password-strength-sign"></div>
-                                <div id="teacher-password-text" class="password-strength-text"></div>
-                            </div>
+                    <div class="row--under">
+                        <div class="password-strength-container">
+                            <div id="teacher-password-sign" class="password-strength-sign"></div>
+                            <div id="teacher-password-text" class="password-strength-text"></div>
                         </div>
+                    </div>
 
                     <div class="row">
                         {{ teacher_signup_form.captcha }}
@@ -79,7 +79,7 @@
 
         <div class="form--register--text form--register form--register--indep-student col-sm-6">
             <div class="form-div">
-                <h4>Independent learder</h4>
+                <h4>Independent learner</h4>
                 <div class="row form--row">
                     <h7>Register below if you are not part of a school or club.</h7>
                     <p>Are you part of a school or club? If so, please log in <a href="{% url 'student_login_access_code' %}">here</a> or speak to your teacher.

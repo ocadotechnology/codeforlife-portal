@@ -19,7 +19,6 @@ from portal.templatetags.app_tags import is_verified
 class TeacherSignupForm(forms.Form):
 
     teacher_first_name = forms.CharField(
-        label="First name",
         help_text="Enter your first name",
         max_length=100,
         widget=forms.TextInput(
@@ -27,7 +26,6 @@ class TeacherSignupForm(forms.Form):
         ),
     )
     teacher_last_name = forms.CharField(
-        label="Last name",
         help_text="Enter your last name",
         max_length=100,
         widget=forms.TextInput(
@@ -35,7 +33,6 @@ class TeacherSignupForm(forms.Form):
         ),
     )
     teacher_email = forms.EmailField(
-        label="Email address",
         help_text="Enter your email address",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off", "placeholder": "Email address"}
@@ -47,14 +44,12 @@ class TeacherSignupForm(forms.Form):
     )
 
     teacher_password = forms.CharField(
-        label="Password",
         help_text="Enter a password",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "Password"}
         ),
     )
     teacher_confirm_password = forms.CharField(
-        label="Confirm Password",
         help_text="Repeat password",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "Repeat password"}

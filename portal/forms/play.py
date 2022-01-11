@@ -204,7 +204,6 @@ def are_password_and_confirm_password_different(password, confirm_password):
 
 class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
-        label="Name",
         max_length=100,
         help_text="Enter full name",
         widget=forms.TextInput(
@@ -213,7 +212,6 @@ class IndependentStudentSignupForm(forms.Form):
     )
 
     username = forms.CharField(
-        label="Username",
         max_length=100,
         help_text="Enter a username",
         widget=forms.TextInput(
@@ -222,7 +220,6 @@ class IndependentStudentSignupForm(forms.Form):
     )
 
     email = forms.EmailField(
-        label="Email address",
         help_text="Enter your email address",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off", "placeholder": "Email address"}
@@ -234,7 +231,6 @@ class IndependentStudentSignupForm(forms.Form):
     is_over_required_age = forms.BooleanField(initial=False, required=True)
 
     password = forms.CharField(
-        label="Password",
         help_text="Enter a password",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "Password"}
@@ -242,7 +238,6 @@ class IndependentStudentSignupForm(forms.Form):
     )
 
     confirm_password = forms.CharField(
-        label="Confirm Password",
         help_text="Repeat password",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "Repeat password"}

@@ -335,12 +335,6 @@ td .button--primary {
   }
 }
 
-.input--icon {
-  > .iconify {
-    color: black;
-  }
-}
-
 @media (max-width: $tablet-large-max-width) {
   .button--icon {
     justify-content: center;
