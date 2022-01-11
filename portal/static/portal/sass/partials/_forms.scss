@@ -170,9 +170,13 @@ form {
   align-items: center;
   font-size: 75%;
   padding: 1.2% 0% 2.5% 1.2%;
+}
 
-  > p {
-    font-weight: 501; // from 100 to 500 the text doesn't seem to get bold?
+.form-div {
+  > .row.form--row {
+    > small {
+        text-align: left;
+    }
   }
 }
 
