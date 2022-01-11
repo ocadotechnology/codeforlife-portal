@@ -57,7 +57,7 @@ form {
 }
 
 .form--register {
-  @include _padding(80px, 0px, 30px, 0px);
+  @include _padding(30px, 50px, 30px, 50px);
   text-align: center;
 
   h1 {
@@ -122,6 +122,18 @@ form {
   }
 }
 
+
+.form-div {
+  height: 100%;
+  box-sizing: border-box;
+  display:flex;
+  flex-direction: column;
+
+  > form {
+    height: 100%;
+  }
+}
+
 .form--register--indep-student {
   color: $color-text-primary;
   background-color: $color-secondary-400;
@@ -138,11 +150,34 @@ form {
   flex-direction: column;
 }
 
+@media (min-width: $mobile-max-width) {
+  .registration {
+    display: flex;
+    flex-direction: row;
+  }
+  div {
+    > .form--register:first-child {
+      @include _margin(40px, 20px, 40px, 0px);
+    }
+    > .form--register:last-child {
+      @include _margin(40px, 0px, 40px, 20px);
+    }
+  }
+}
+
 .form__checkbox {
   display: flex;
   align-items: center;
   font-size: 75%;
   padding: 1.2% 0% 2.5% 1.2%;
+}
+
+.form-div {
+  > .row.form--row {
+    > small {
+        text-align: left;
+    }
+  }
 }
 
 .form__checkbox-input {
@@ -188,6 +223,9 @@ form {
   input[type="email"] {
     @include _padding(0px, 40px, 0px, 15px);
   }
+  > .iconify {
+    color: black;
+  }
 }
 
 .checkbox--labelled {
@@ -225,6 +263,15 @@ form {
 }
 
 @media (max-width: $mobile-max-width) {
+  div {
+    > .form--register {
+      @include _margin(40px, 20px, 40px, 0px);
+      display: flex;
+      flex-direction: column;
+      @include _padding(20px, 50px, 20px, 50px);
+    }
+  }
+
   .form--login {
     width: 85%;
     @include _margin(30px, auto, 30px, auto);
@@ -235,7 +282,6 @@ form {
   }
 
   .form--register {
-    @include _padding(40px, 0px, 30px, 0px);
     width: 100%;
   }
 
