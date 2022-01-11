@@ -2,24 +2,37 @@
 {% load static %}
 {% load app_tags %}
 
+{% block subNav %}
+{% if user.new_student.class_field %}
+    <section class="banner banner--student row mx-0">
+{% else %}
+    <section class="banner banner--independent-student row mx-0">
+{% endif %}
+        <div>
+            <h1 class="banner__text--primary">Welcome, {{ user|make_into_username }}</h1>
+        </div>
+    </section>
+{% endblock subNav %}
+
 {% block content %}
 <div id="play_account_page"></div>
 <div class="background container">
-    <h4>{% if user.new_student.class_field %}Password{% else %}Account{% endif %}</h4>
+    <section><h4>
+        {% if user.new_student.class_field %}
+            Update your password
+        {% else %}
+            Update your account details
+        {% endif %}
+    </h4></section>
+        
     {% if user.new_student.class_field %}
-        <h5>Update my password</h5>
-        <p>Change your password here to something memorable.</p>
-    {% else %}
-        <h5>Edit my details</h5>
-        <p>You may edit your account details below, including your name, email and password.</p>
-    {% endif %}
-    <h5>{% if user.new_student.class_field %}Update password{% else %}Update account details{% endif %}</h5>
-    {% if user.new_student.class_field %}
-        <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
+        <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and 
+            stealing all of your hard work. Choose something memorable though.</p>
         <p>If you have any problems, ask a teacher to help you.</p>
     {% else %}
-        <p>You may edit your account details below, including your name, password, and registered email address. If you change your email address, you will have to verify it belongs to you, or your parent or guardian by following the instructions on the verification email.</p>
-        <p>Your password must be long enough and hard enough to stop your friends guessing it and stealing all of your hard work.</p>
+        <p>You can update your account details below.</p>
+        <p>Please note: If you change your email address, you will need to re-verify it.</br>
+            Please ensure your password is strong enough to be secure.</p>
     {% endif %}
 
     <form id="student_account_form" method="post">
@@ -27,24 +40,37 @@
         {{ form.non_field_errors }}
         {% if not user.new_student.class_field %}
             {{ form.name.errors }}
-            <label for="{{ form.name.html_name }}">{{ form.name.label }}</label>
             {{ form.name }}
+            <small>{{ form.name.help_text }}</small>
+
             {{ form.email.errors }}
-            <label for="{{ form.name.html_name }}">{{ form.email.label }}</label>
             {{ form.email }}
+            <small>{{ form.email.help_text }}</small>
         {% endif %}
 
-        {{ form.password.errors }}
-        <label for="{{ form.password.html_name }}">{{ form.password.label }}</label>
-        {{ form.password }}
-
-        {{ form.confirm_password.errors }}
-        <label for="{{ form.confirm_password.html_name }}">{{ form.confirm_password.label }}</label>
-        {{ form.confirm_password }}
-
-        {{ form.current_password.errors }}
-        <label for="{{ form.current_password.html_name }}">{{ form.current_password.label }}</label>
-        {{ form.current_password }}
+        <div class="row form--row">
+            <div class="form--row__input col-md-4">
+                {{ form.password.errors }}
+                <div class="input--icon">
+                    {{ form.password }}
+                    <span class="iconify" data-icon="mdi:security"></span>
+                </div>
+                <small>{{ form.password.help_text }}</small>
+            </div>
+            <div class="form--row__input col-md-4">
+                {{ form.confirm_password.errors }}
+                {{ form.confirm_password }}
+                <small>{{ form.confirm_password.help_text }}</small>
+            </div>
+            <div class="form--row__input col-md-4">
+                {{ form.current_password.errors }}
+                <div class="input--icon">
+                    {{ form.current_password }}
+                    <span class="iconify" data-icon="mdi:security"></span>
+                </div>
+                <small>{{ form.current_password.help_text }}</small>
+            </div>
+        </div>
 
         <div class="row--under">
             <div class="password-strength-container">
@@ -61,7 +87,8 @@
                     href="{% url 'independent_student_details' %}"
                 {% endif %}
             >Cancel</a>
-            <input id="update_button" type="submit" class="button button--primary" value="Update"/>
+            <button id="update_button" type="submit" class="button button--primary" value="Update"/>
+                Update details</button>
         </div>
     </form>
     {% if not user.new_student.class_field %}
