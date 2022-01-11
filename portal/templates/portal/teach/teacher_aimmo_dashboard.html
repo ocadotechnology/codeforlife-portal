@@ -11,32 +11,34 @@
 <section class="banner banner--aimmo">
     <img title="Kurono logo" alt="Kurono logo" src="{% static 'portal/img/kurono_logo.svg' %}">
 </section>
-<div class="sticky-subnav sub-nav sub-nav--teacher">
-    <div class="col-sm-12 col-md-11 col-lg-9 sub-nav__content">
-        <p>Select a class from the dropdown menu to add a new game below</p>
-        <div class="dropdown">
-            <form autocomplete="off" id="create-game-form" method="post" class="hidden">
-                {% csrf_token %}
-                <input type="hidden" name="game_class" id="id_game_class">
-            </form>
-            <button class="button--dropdown" data-toggle="dropdown" aria-expanded="false" id="add_class_dropdown">
-                Select class
-            </button>
-            <ul id="add-class-dropdown-menu" class="dropdown-menu">
-                {% for game_class in form.game_class.field.queryset %}
-                <li class="dropdown-menu__option">
-                    {% if game_class.game %}
-                        <a class="button button--regular disabled" data-class-id="{{ game_class.id }}">
-                    {% else %}
-                        <a class="button button--regular" id="class_{{ game_class.id }}"
-                            data-class-id="{{ game_class.id }}"
-                            onclick='send_event("Kurono", "Clicked", "Create game button");'>
-                    {% endif %}
+<div class="sub-nav sub-nav--teacher">
+    <div class="container">
+        <div class="sub-nav__content">
+            <p>Select a class from the dropdown menu to add a new game below</p>
+            <div class="dropdown">
+                <form autocomplete="off" id="create-game-form" method="post" class="hidden">
+                    {% csrf_token %}
+                    <input type="hidden" name="game_class" id="id_game_class">
+                </form>
+                <button class="button--dropdown" data-toggle="dropdown" aria-expanded="false" id="add_class_dropdown">
+                    Select class
+                </button>
+                <ul id="add-class-dropdown-menu" class="dropdown-menu">
+                    {% for game_class in form.game_class.field.queryset %}
+                        <li class="dropdown-menu__option">
+                            {% if game_class.game %}
+                                <a class="button button--regular disabled" data-class-id="{{ game_class.id }}">
+                            {% else %}
+                                <a class="button button--regular" id="class_{{ game_class.id }}"
+                                   data-class-id="{{ game_class.id }}"
+                                   onclick='send_event("Kurono", "Clicked", "Create game button");'>
+                            {% endif %}
                             <p class="dropdown-menu__option__text">{{ game_class.name }}</p>
-                        </a>
-                </li>
-                {% endfor %}
-            </ul>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </div>
