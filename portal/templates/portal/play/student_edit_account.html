@@ -38,17 +38,29 @@
     <form id="student_account_form" method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
-        {% if not user.new_student.class_field %}
-            {{ form.name.errors }}
-            {{ form.name }}
-            <small>{{ form.name.help_text }}</small>
-
-            {{ form.email.errors }}
-            {{ form.email }}
-            <small>{{ form.email.help_text }}</small>
-        {% endif %}
 
         <div class="row form--row">
+
+        {% if not user.new_student.class_field %}
+            <div class="form--row__input col-md-6">
+                {{ form.name.errors }}
+                <div class="input--icon">
+                    {{ form.name }}
+                    <span class="iconify" data-icon="mdi:account-outline"></span>
+                </div>
+                <small>{{ form.name.help_text }}</small>
+            </div>
+
+            <div class="form--row__input col-md-6">
+                {{ form.email.errors }}
+                <div class="input--icon">
+                    {{ form.email }}
+                    <span class="iconify" data-icon="mdi:email-outline"></span>
+                </div>
+                <small>{{ form.email.help_text }}</small>
+            </div>
+        {% endif %}
+
             <div class="form--row__input col-md-4">
                 {{ form.password.errors }}
                 <div class="input--icon">
@@ -91,12 +103,17 @@
                 Update details</button>
         </div>
     </form>
-    {% if not user.new_student.class_field %}
+</div>
+
+{% if not user.new_student.class_field %}
+<div class="background background--primary">
+    <div class="container">
         <h5>Join a school or club</h5>
         <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
         <a class="button button--primary" href="{% url 'student_join_organisation' %}">Join</a>
-    {% endif %}
+    </div>
 </div>
+{% endif %}
 
 <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
 <script>
