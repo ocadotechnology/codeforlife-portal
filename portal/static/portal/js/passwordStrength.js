@@ -6,9 +6,9 @@ let most_used_passwords = ['Abcd1234', 'Password1', 'Qwerty123'];
 
 let password_strengths = [
     { name: 'No password!', colour: '#FF0000' },
-    { name: 'Password too weak', colour: '#DBA901' },
-    { name: 'Strong password', colour: '#088A08' },
-    { name: 'Password too common', colour: '#DBA901' }
+    { name: 'Password too weak!', colour: '#DBA901' },
+    { name: 'Strong password!', colour: '#088A08' },
+    { name: 'Password too common!', colour: '#DBA901' }
 ];
 
 $(function() {
