@@ -11,9 +11,7 @@
             <div class="form-div form">
                 <h4>Teacher/Tutor</h4>
                 <div class="row form--row">
-                    <strong>
-                        <p>Once you've registered your personal details and logged in, you'll be able to create your school or club, or join other teachers at your institution.</p>
-                    </strong>
+                    <p class="semi-bold">Once you've registered your personal details and logged in, you'll be able to create your school or club, or join other teachers at your institution.</p>
                 </div>
                 <form class="d-flex flex-column" method="post" id="form-reg-teacher" autocomplete="off">
 
@@ -41,9 +39,7 @@
                         {{ teacher_signup_form.teacher_email.errors }}
                     </div>
                     <div class="row form--row">
-                        <strong>
-                            {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=teacher_signup_form.newsletter_ticked %}
-                        </strong>
+                        {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=teacher_signup_form.newsletter_ticked %}
                     </div>
                     <div class="row form--row">
                         <label for="id_teacher_signup-teacher_password"></label>
@@ -84,15 +80,11 @@
             <div class="form-div">
                 <h4>Independent learner</h4>
                 <div class="row form--row">
-                    <p>
-                        <strong>
-                            Register below if you are not part of a school or club.
-                        </strong>
+                    <p class="semi-bold">
+                        Register below if you are not part of a school or club.
                     </p>
-                    <small>
-                        <strong>
-                            Are you part of a school or club? If so, please log in <a href="{% url 'student_login_access_code' %}">here</a> or speak to your teacher.
-                        </strong>
+                    <small class="semi-bold">
+                        Are you part of a school or club? If so, please log in <a href="{% url 'student_login_access_code' %}">here</a> or speak to your teacher.
                     </small>
                 </div>
                 <form id="form-signup-independent-student" method="post" autocomplete="off" class="d-flex flex-column">
@@ -122,15 +114,11 @@
                         {{ independent_student_signup_form.email.errors }}
                     </div>
                     <div class="row form--row">
-                        <strong>
-                            {% include 'portal/partials/register_over_required_age_tickbox.html' with is_over_required_age=independent_student_signup_form.is_over_required_age %}
-                        </strong>
+                        {% include 'portal/partials/register_over_required_age_tickbox.html' with is_over_required_age=independent_student_signup_form.is_over_required_age %}
                     </div>
 
                     <div class="row form--row">
-                        <strong>
-                            {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=independent_student_signup_form.newsletter_ticked %}
-                        </strong>
+                        {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=independent_student_signup_form.newsletter_ticked %}
                     </div>
 
                     <div class="row form--row">
