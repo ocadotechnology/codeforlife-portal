@@ -421,7 +421,7 @@
         <div class="background background--primary">
             <div class="container">
                 <h5>Two Factor Authentication</h5>
-                <p>Use your smartphone or tablet to enhance your account's security by installing an authenticator app.</p>
+                <p>Use your smartphone or tablet to enhance your account's security by using an authenticator app.</p>
                 {% if user|has_2FA %}
                     <div class="row row--regular">
                         <div class="col-sm-6">
@@ -450,7 +450,6 @@
                         </div>
                     </div>
                 {% else %}
-                    <p>Find out more about Two Factor Authentication and how it helps keep your account secure.</p>
                     <div class="background">
                         <a class="button button--primary"
                         href="{% url 'two_factor:profile' %}">Setup Two Factor Authentication</a>
