@@ -93,7 +93,7 @@ class TeachClassPage(TeachBasePage):
 
     def go_to_class_settings_page(self):
         self.browser.find_element_by_id("class_settings_button").click()
-        time.sleep(1)
+        time.sleep(3)
 
         import portal.tests.pageObjects.portal.teach.class_settings_page as class_settings_page
 

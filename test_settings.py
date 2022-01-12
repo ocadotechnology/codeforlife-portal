@@ -6,8 +6,11 @@ DEBUG = True
 
 headless_chrome_options = webdriver.ChromeOptions()
 headless_chrome_options.add_argument("--headless")
+headless_chrome_options.add_argument("--window-size=1920,1080")
+headless_chrome_options.add_argument("--start-maximized")
 headless_chrome_options.add_argument("--disable-gpu")
 headless_chrome_options.add_argument("--no-sandbox")
+headless_chrome_options.add_argument("--disable-extensions")
 headless_chrome_options.add_argument("--disable-dev-shm-usage")
 
 SELENIUM_WEBDRIVERS = {
@@ -47,7 +50,7 @@ TEMPLATES = [
 if os.environ.get("SELENIUM_HEADLESS", None):
     from pyvirtualdisplay import Display
 
-    display = Display(visible=0, size=(1624, 1024))
+    display = Display(visible=False, size=(1920, 1080))
     display.start()
     import atexit
 
