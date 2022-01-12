@@ -42,7 +42,7 @@
         <div class="row form--row">
 
         {% if not user.new_student.class_field %}
-            <div class="form--row__input col-md-6">                
+            <div class="form--row__input col-md-6">
                 <div class="input--icon">
                     {{ form.name }}
                     <span class="iconify" data-icon="mdi:account-outline"></span>
@@ -69,11 +69,11 @@
                 <small>{{ form.password.help_text }}</small>
                 {{ form.password.errors }}
             </div>
-                <div class="form--row__input col-md-4">
-                    {{ form.confirm_password }}
-                </div>
+            <div class="form--row__input col-md-4">
+                {{ form.confirm_password }}
                 <small>{{ form.confirm_password.help_text }}</small>
                 {{ form.confirm_password.errors }}
+            </div>
             <div class="form--row__input col-md-4">
                 <div class="input--icon">
                     {{ form.current_password }}
