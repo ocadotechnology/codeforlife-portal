@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.28.0 (2022-01-12)
+### Feature
+* Update student account details pages ([#1715](https://github.com/ocadotechnology/codeforlife-portal/issues/1715)) ([`b293c68`](https://github.com/ocadotechnology/codeforlife-portal/commit/b293c689a7c4448497ec3d603c63382e51d2f296))
+
 ## v5.27.10 (2022-01-11)
 ### Fix
 * Implemented the new design for the registration form ([#1714](https://github.com/ocadotechnology/codeforlife-portal/issues/1714)) ([`c536ae4`](https://github.com/ocadotechnology/codeforlife-portal/commit/c536ae4a08aea02e6ea7d3aca2e999f4c4ca43ad))
