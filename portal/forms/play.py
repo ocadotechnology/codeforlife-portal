@@ -119,9 +119,7 @@ class StudentEditAccountForm(forms.Form):
         help_text="Confirm new password",
     )
     current_password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={"placeholder": "Enter your current password"}
-        ),
+        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
         help_text="Enter your current password",
     )
 
@@ -161,9 +159,7 @@ class IndependentStudentEditAccountForm(forms.Form):
     )
     current_password = forms.CharField(
         label="Current password",
-        widget=forms.PasswordInput(
-            attrs={"placeholder": "Enter your current password"}
-        ),
+        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
         help_text="Enter your current password",
     )
 

@@ -24,7 +24,7 @@
             Update your account details
         {% endif %}
     </h4></section>
-        
+
     {% if user.new_student.class_field %}
         <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and 
             stealing all of your hard work. Choose something memorable though.</p>
@@ -42,45 +42,45 @@
         <div class="row form--row">
 
         {% if not user.new_student.class_field %}
-            <div class="form--row__input col-md-6">
-                {{ form.name.errors }}
+            <div class="form--row__input col-md-6">                
                 <div class="input--icon">
                     {{ form.name }}
                     <span class="iconify" data-icon="mdi:account-outline"></span>
                 </div>
                 <small>{{ form.name.help_text }}</small>
+                {{ form.name.errors }}
             </div>
 
             <div class="form--row__input col-md-6">
-                {{ form.email.errors }}
                 <div class="input--icon">
                     {{ form.email }}
                     <span class="iconify" data-icon="mdi:email-outline"></span>
                 </div>
                 <small>{{ form.email.help_text }}</small>
+                {{ form.email.errors }}
             </div>
         {% endif %}
 
             <div class="form--row__input col-md-4">
-                {{ form.password.errors }}
                 <div class="input--icon">
                     {{ form.password }}
                     <span class="iconify" data-icon="mdi:security"></span>
                 </div>
                 <small>{{ form.password.help_text }}</small>
+                {{ form.password.errors }}
             </div>
-            <div class="form--row__input col-md-4">
-                {{ form.confirm_password.errors }}
-                {{ form.confirm_password }}
+                <div class="form--row__input col-md-4">
+                    {{ form.confirm_password }}
+                </div>
                 <small>{{ form.confirm_password.help_text }}</small>
-            </div>
+                {{ form.confirm_password.errors }}
             <div class="form--row__input col-md-4">
-                {{ form.current_password.errors }}
                 <div class="input--icon">
                     {{ form.current_password }}
                     <span class="iconify" data-icon="mdi:security"></span>
                 </div>
                 <small>{{ form.current_password.help_text }}</small>
+                {{ form.current_password.errors }}
             </div>
         </div>
 
