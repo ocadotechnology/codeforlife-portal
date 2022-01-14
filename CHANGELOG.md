@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.29.0 (2022-01-14)
+### Feature
+* Redesign teacher Kurono dashboard ([#1713](https://github.com/ocadotechnology/codeforlife-portal/issues/1713)) ([`51af956`](https://github.com/ocadotechnology/codeforlife-portal/commit/51af956cb2c87151bb60242443c83f939af785c8))
+
 ## v5.28.1 (2022-01-12)
 ### Fix
 * Additional account details updates ([#1719](https://github.com/ocadotechnology/codeforlife-portal/issues/1719)) ([`073e74d`](https://github.com/ocadotechnology/codeforlife-portal/commit/073e74d7589b213a2f1c9788a69b97883ba6061e))
