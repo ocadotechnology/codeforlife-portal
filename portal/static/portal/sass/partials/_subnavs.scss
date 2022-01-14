@@ -191,7 +191,7 @@
 .sub-nav__content {
   align-items: center;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   .button-group {
     padding: 0;
@@ -262,10 +262,6 @@
   .sub-nav {
     @include _padding(20px, 20px, 20px, 20px);
     height: auto;
-
-    .button {
-      @include _margin(0px, 3px, 0px, 3px);
-    }
   }
 
   .sub-nav__content {
@@ -281,5 +277,14 @@
 
   .sub-nav--filler {
     @include _padding(60px, 0px, 0px, 0px);
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  .sub-nav {
+    .container {
+      flex-grow: 1;
+      padding: 0;
+    }
   }
 }
