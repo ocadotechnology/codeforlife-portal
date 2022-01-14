@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.29.2 (2022-01-14)
+### Fix
+* **deps:** Bump django from 2.2.25 to 2.2.26 ([#1724](https://github.com/ocadotechnology/codeforlife-portal/issues/1724)) ([`d8ecedb`](https://github.com/ocadotechnology/codeforlife-portal/commit/d8ecedb36578c5903bd0103ab552ba2de123c20b))
+
 ## v5.29.1 (2022-01-14)
 ### Fix
 * Update cookies test script ([#1726](https://github.com/ocadotechnology/codeforlife-portal/issues/1726)) ([`7d2eadd`](https://github.com/ocadotechnology/codeforlife-portal/commit/7d2eadd3b01b5eaa7992b70c0aabc1df29b977a6))
