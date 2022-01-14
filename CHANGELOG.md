@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.29.1 (2022-01-14)
+### Fix
+* Update cookies test script ([#1726](https://github.com/ocadotechnology/codeforlife-portal/issues/1726)) ([`7d2eadd`](https://github.com/ocadotechnology/codeforlife-portal/commit/7d2eadd3b01b5eaa7992b70c0aabc1df29b977a6))
+
 ## v5.29.0 (2022-01-14)
 ### Feature
 * Redesign teacher Kurono dashboard ([#1713](https://github.com/ocadotechnology/codeforlife-portal/issues/1713)) ([`51af956`](https://github.com/ocadotechnology/codeforlife-portal/commit/51af956cb2c87151bb60242443c83f939af785c8))
