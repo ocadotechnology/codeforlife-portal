@@ -233,6 +233,7 @@ td .button--primary {
 
 .button--dropdown {
   @extend .dropdown;
+  align-items: center;
   background: transparent;
   border: 2px solid $color-secondary-600;
   color: $color-text-tertiary;
@@ -324,14 +325,23 @@ td .button--primary {
   }
 
   .button--dropdown {
-    border: none;
+    background: $color-background-secondary;
+    height: 34px;
     margin: 0;
-    width: 100%;
     max-width: 100%;
+    width: 100%;
   }
 
   .dropdown-menu {
     width: 100%;
+  }
+
+  .dropdown-menu__option {
+    height: 34px;
+
+    .button {
+      @include _padding(3px, 10px, 3px, 10px);
+    }
   }
 }
 

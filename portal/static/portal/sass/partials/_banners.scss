@@ -332,7 +332,7 @@
   }
 }
 
-.banner--aimmo--background {
+.banner--aimmo {
   background-image: url("../img/kurono_landing_hero.png");
   background-position: center center;
   background-repeat: no-repeat;
@@ -341,6 +341,10 @@
   img {
     @include _margin(60px, 0px, 60px, 0px);
     width: 40%;
+  }
+
+  &.banner img {
+    width: 25%;
   }
 }
 
