@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.29.3 (2022-01-17)
+### Fix
+* Reference button correctly in games table ([#1729](https://github.com/ocadotechnology/codeforlife-portal/issues/1729)) ([`8dd3de5`](https://github.com/ocadotechnology/codeforlife-portal/commit/8dd3de58762d924a4d992e086ae4aeef7c8e6d7f))
+
 ## v5.29.2 (2022-01-14)
 ### Fix
 * **deps:** Bump django from 2.2.25 to 2.2.26 ([#1724](https://github.com/ocadotechnology/codeforlife-portal/issues/1724)) ([`d8ecedb`](https://github.com/ocadotechnology/codeforlife-portal/commit/d8ecedb36578c5903bd0103ab552ba2de123c20b))
