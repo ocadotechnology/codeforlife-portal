@@ -45,9 +45,12 @@
     .button--regular,
     .button--regular:hover,
     .button--regular:focus,
-    .button--regular:visited {
+    .button--regular:visited,
+    .button--small,
+    .button--small:hover,
+    .button--small:focus,
+    .button--small:visited {
       @include _line-height($spacing * 5);
-      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       align-items: center;
       background: $color-background-secondary;
       border-bottom: 2px solid $color-secondary-600;
@@ -60,13 +63,32 @@
         text-decoration: none;
       }
 
+      &.disabled,
+      &.disabled:hover,
+      &.disabled:focus,
+      &.disabled:visited {
+        color: $color-text-disabled;
+        cursor: default;
+        text-decoration: none;
+
+        .dropdown-menu__option__text {
+          cursor: default;
+          text-decoration: none;
+        }
+      }
+
       .glyphicon {
         @include _font-size(18px);
         @include _padding(0px, $spacing * 2, 0px, 0px);
       }
     }
 
-    .button--regular:hover {
+    .button--regular {
+      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
+    }
+
+    .button--regular:hover,
+    .button--small:hover {
       .dropdown-menu__option__text {
         cursor: pointer;
         text-decoration: underline;
@@ -74,7 +96,8 @@
     }
 
     &:last-of-type {
-      .button--regular {
+      .button--regular,
+      .button--small {
         border: none;
       }
     }

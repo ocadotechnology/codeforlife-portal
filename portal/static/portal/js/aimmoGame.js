@@ -92,3 +92,15 @@ function changeWorksheet() {
     },
   });
 }
+
+$(document).ready(function () {
+  // Handlers for the games checklist and select all checklist
+  $('[id^="game_"]').on("click", () => {
+    $("#gamesListToggle").prop("checked",
+        $('[id^="game_"]:checked').length === $('[id^="game_"]').length);
+  });
+
+  $("#gamesListToggle").on("click", () => {
+    $('[id^="game_"]').prop("checked", $("#gamesListToggle").is(":checked"));
+  });
+});

@@ -14,7 +14,7 @@ setup(
     version=version,
     include_package_data=True,
     install_requires=[
-        "django==2.2.25",
+        "django==2.2.26",
         "djangorestframework==3.12.2",
         "django-two-factor-auth==1.13",
         "django-countries==6.1.3",

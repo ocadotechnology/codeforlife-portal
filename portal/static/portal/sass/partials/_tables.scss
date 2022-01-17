@@ -26,10 +26,18 @@ td {
   }
 }
 
-table,
-th,
-td {
-  border: 2px solid $color-text-secondary;
+// Allows for tables with borders everywhere except the edges (aligns table to container)
+table {
+  border-collapse: collapse;
+}
+
+td + td,
+th + th {
+  border-left: 2px solid $color-background-secondary;
+}
+
+tr + tr {
+  border-top: 2px solid $color-background-secondary;
 }
 
 .header-primary {
@@ -129,6 +137,11 @@ td {
 .games-table {
   table-layout: fixed;
   text-align: start;
+
+  input[type="checkbox"] {
+    height: 15px;
+    width: 15px;
+  }
 }
 
 .games-table__header {
@@ -148,7 +161,6 @@ td {
   text-align: center;
 
   .button--small {
-    @include _margin(0px, $spacing, $spacing, 0px);
     @include _padding($spacing, 3 * $spacing, $spacing, 3 * $spacing);
   }
 }
