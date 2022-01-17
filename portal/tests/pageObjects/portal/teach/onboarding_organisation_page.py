@@ -76,7 +76,7 @@ class OnboardingOrganisationPage(TeachBasePage):
     def join_organisation(self, name):
         self.browser.find_element_by_id("join-button").click()
         self.browser.find_element_by_id("id_fuzzy_name").send_keys(name)
-        time.sleep(3)
+        time.sleep(1)
         self._click_join_school_button()
 
         if self.on_correct_page("onboarding_revoke_request_page"):

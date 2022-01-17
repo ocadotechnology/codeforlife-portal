@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import time
-
 from . import email_verification_needed_page
 from .base_page import BasePage
 
@@ -96,21 +94,3 @@ class SignupPage(BasePage):
             return EmailVerificationNeededPage(self.browser)
         else:
             return self
-
-    def has_independent_student_signup_failed(self, error):
-        time.sleep(3)
-        errors = (
-            self.browser.find_element_by_id("form-signup-independent-student")
-            .find_element_by_class_name("errorlist")
-            .text
-        )
-        return error in errors
-
-    def has_teacher_signup_failed(self, error):
-        time.sleep(3)
-        errors = (
-            self.browser.find_element_by_id("form-reg-teacher")
-            .find_element_by_class_name("errorlist")
-            .text
-        )
-        return error in errors

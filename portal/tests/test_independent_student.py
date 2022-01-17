@@ -4,17 +4,23 @@ import time
 
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+)
 from common.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
     create_school_student_directly,
     signup_duplicate_independent_student_fail,
-    submit_independent_student_signup_form,
     verify_email,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from common.tests.utils.teacher import (
+    signup_teacher_directly,
+    verify_email,
+)
 from django.core import mail
+from django.test import Client, TestCase
+from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
@@ -28,6 +34,103 @@ from .utils.messages import (
     is_email_updated_message_showing,
     is_password_updated_message_showing,
 )
+
+
+class TestIndependentStudents(TestCase):
+    def test_signup_short_password_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-username": "TestUsername",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-password": "pass",
+                "independent_student_signup-confirm_password": "pass",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers and making it hard to guess." in response.content.decode()
+
+    def test_signup_common_password_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-username": "TestUsername",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-password": "Password1",
+                "independent_student_signup-confirm_password": "Password1",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers and making it hard to guess." in response.content.decode()
+
+    def test_signup_passwords_do_not_match_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-username": "TestUsername",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-password": "Password1!",
+                "independent_student_signup-confirm_password": "Password2!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert "Your passwords do not match" in response.content.decode()
+
+    def test_signup_invalid_name_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-name": "///",
+                "independent_student_signup-username": "TestUsername",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-password": "Password1!",
+                "independent_student_signup-confirm_password": "Password1!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert "Names may only contain letters, numbers, dashes, underscores, and spaces." in response.content.decode()
+
+    def test_signup_invalid_username_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-username": "///",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-password": "Password1!",
+                "independent_student_signup-confirm_password": "Password1!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert "Usernames may only contain letters, numbers, dashes, and underscores." in response.content.decode()
 
 
 class TestIndependentStudent(BaseTest):
@@ -68,51 +171,6 @@ class TestIndependentStudent(BaseTest):
         assert mail.outbox[0].subject == "Code for Life: Username already taken"
 
         assert self.is_login_page(page)
-
-    def test_signup_failure_short_password(self):
-        page = self.go_to_homepage()
-        page = submit_independent_student_signup_form(page, password="test")
-        assert page.has_independent_student_signup_failed(
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-        )
-
-    def test_signup_failure_common_password(self):
-        page = self.go_to_homepage()
-        page = submit_independent_student_signup_form(page, password="Password1")
-        assert page.has_independent_student_signup_failed(
-            "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers"
-        )
-
-    def test_signup_invalid_name(self):
-        page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup(
-            "Florian!", "Florian", "e@mail.com", "Password2", "Password2", success=False
-        )
-
-        assert self.is_signup_page(page)
-        assert page.has_independent_student_signup_failed(
-            "Names may only contain letters, numbers, dashes, underscores, and spaces."
-        )
-
-    def test_signup_invalid_username(self):
-        page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup(
-            "Florian", "///", "e@mail.com", "Password2", "Password2", success=False
-        )
-
-        assert self.is_signup_page(page)
-        assert page.has_independent_student_signup_failed(
-            "Usernames may only contain letters, numbers, dashes, and underscores."
-        )
-
-    def test_signup_password_do_not_match(self):
-        page = self.go_to_homepage().go_to_signup_page()
-        page = page.independent_student_signup(
-            "Florian", "Florian", "e@mail.com", "Password2", "Password3", success=False
-        )
-
-        assert self.is_signup_page(page)
-        assert page.has_independent_student_signup_failed("Your passwords do not match")
 
     def test_login_failure(self):
         page = self.go_to_homepage()
@@ -459,9 +517,6 @@ class TestIndependentStudent(BaseTest):
 
     def wait_for_email(self):
         WebDriverWait(self.selenium, 2).until(lambda driver: len(mail.outbox) == 1)
-
-    def is_signup_page(self, page):
-        return page.__class__.__name__ == "SignupPage"
 
     def is_dashboard(self, page):
         return page.__class__.__name__ == "PlayDashboardPage"

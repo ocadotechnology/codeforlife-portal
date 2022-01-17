@@ -18,7 +18,6 @@ from common.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,
     signup_teacher_directly,
-    submit_teacher_signup_form,
     verify_email,
 )
 from django.core import mail
@@ -298,6 +297,69 @@ class TestTeachers(TestCase):
         assert len([m for m in messages if m.tags == "warning"]) == 1
         assert messages[0].message == "Game with this Class already exists."
 
+    def test_signup_short_password_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "test",
+                "teacher_signup-teacher_confirm_password": "test",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert (
+            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
+            in response.content.decode()
+        )
+
+    def test_signup_common_password_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "Password1",
+                "teacher_signup-teacher_confirm_password": "Password1",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert (
+            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
+            in response.content.decode()
+        )
+
+    def test_signup_passwords_do_not_match_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "StrongPassword1!",
+                "teacher_signup-teacher_confirm_password": "StrongPassword2!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 200
+        assert (
+            "The password and the confirmation password do not match"
+            in response.content.decode()
+        )
+
 
 class TestTeacher(BaseTest):
     def test_signup_without_newsletter(self):
@@ -322,22 +384,6 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page, _, _ = signup_duplicate_teacher_fail(page, email)
         assert self.is_login_page(page)
-
-    def test_signup_failure_short_password(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = submit_teacher_signup_form(page, password="test")
-        assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
-        )
-
-    def test_signup_failure_common_password(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = submit_teacher_signup_form(page, password="Password1")
-        assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
-        )
 
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)
