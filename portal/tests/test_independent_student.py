@@ -14,10 +14,7 @@ from common.tests.utils.student import (
     signup_duplicate_independent_student_fail,
     verify_email,
 )
-from common.tests.utils.teacher import (
-    signup_teacher_directly,
-    verify_email,
-)
+from common.tests.utils.teacher import signup_teacher_directly
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
