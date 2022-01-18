@@ -36,7 +36,7 @@ from .utils.messages import (
 )
 
 
-class TestTeachers(TestCase):
+class TestTeacher(TestCase):
     def test_new_student_can_play_games(self):
         """
         Given a teacher has an kurono game,
@@ -361,7 +361,7 @@ class TestTeachers(TestCase):
         )
 
 
-class TestTeacher(BaseTest):
+class TestTeacherFrontend(BaseTest):
     def test_signup_without_newsletter(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)

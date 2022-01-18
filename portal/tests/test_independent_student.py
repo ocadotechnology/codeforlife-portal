@@ -33,7 +33,7 @@ from .utils.messages import (
 )
 
 
-class TestIndependentStudents(TestCase):
+class TestIndependentStudent(TestCase):
     def test_signup_short_password_fails(self):
         c = Client()
 
@@ -130,7 +130,7 @@ class TestIndependentStudents(TestCase):
         assert "Usernames may only contain letters, numbers, dashes, and underscores." in response.content.decode()
 
 
-class TestIndependentStudent(BaseTest):
+class TestIndependentStudentFrontend(BaseTest):
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
