@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.30.1 (2022-01-18)
+### Fix
+* Add common static to manifest ([#1730](https://github.com/ocadotechnology/codeforlife-portal/issues/1730)) ([`3e81557`](https://github.com/ocadotechnology/codeforlife-portal/commit/3e81557fdc790ded4d16e937b85f761ba034edb6))
+
 ## v5.30.0 (2022-01-18)
 ### Feature
 * Move rapid-router banner width to portal ([#1723](https://github.com/ocadotechnology/codeforlife-portal/issues/1723)) ([`ee0011c`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee0011c877a3b5ed1f556548a38778d2088be65c))
