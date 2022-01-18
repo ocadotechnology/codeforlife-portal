@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.30.0 (2022-01-18)
+### Feature
+* Move rapid-router banner width to portal ([#1723](https://github.com/ocadotechnology/codeforlife-portal/issues/1723)) ([`ee0011c`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee0011c877a3b5ed1f556548a38778d2088be65c))
+
 ## v5.29.3 (2022-01-17)
 ### Fix
 * Reference button correctly in games table ([#1729](https://github.com/ocadotechnology/codeforlife-portal/issues/1729)) ([`8dd3de5`](https://github.com/ocadotechnology/codeforlife-portal/commit/8dd3de58762d924a4d992e086ae4aeef7c8e6d7f))
