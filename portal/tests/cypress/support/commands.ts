@@ -25,6 +25,11 @@ Cypress.Commands.add('loginAsSuperuser', (username, password) => {
   cy.get('.button--login').click()
 })
 
+Cypress.Commands.add('logout', () => {
+  cy.get('#logout_menu').click();
+  cy.get('#logout_button').click();
+})
+
 Cypress.Commands.add('changeAdminPassword', (oldPassword, newPassword) => {
   cy.get('#id_old_password').type(oldPassword)
   cy.get('#id_new_password1').type(newPassword)

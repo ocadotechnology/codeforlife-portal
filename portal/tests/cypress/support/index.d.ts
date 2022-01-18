@@ -9,6 +9,12 @@ declare namespace Cypress {
     loginAsSuperuser(username, password): Chainable<Element>
 
     /**
+     * Custom command to logout.
+     * @example cy.logout()
+     */
+    logout(): Chainable<Element>
+
+    /**
      * Custom command to change one's own password via the admin site.
      * @example cy.changeAdminPassword("password1", "password2")
      */

@@ -12,16 +12,12 @@
         <section>
             <h4>Additional settings for class {{ class.name }} ({{ class.access_code }})</h4>
         </section>
-
         <p>
-            <a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">&lt; Back to Edit Class</a>
+            <a id="return_to_class_button" href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">&lt; Back to Edit Class</a>
         </p>
-
-        <p>
-            You may change the name of the class, or change permissions to allow external requests from independent
+        <p>You may change the name of the class, or change permissions to allow external requests from independent
             students to join this class. You may also transfer the class to another teacher, or change permissions to
-            allow pupils to see their classmates' progress.
-        </p>
+            allow pupils to see their classmates' progress.</p>
 
         <form method="post" class="pb-3">
             {% csrf_token %}
@@ -52,11 +48,8 @@
 
             <div class="background">
                 <h5>External requests setting</h5>
-                <p>
-                    You can set up permissions for this class allowing students to send requests asking to join your class
-                    from outside of your school or club.
-                </p>
-
+                <p>You can set up permissions for this class allowing students to send requests asking to join your class
+                    from outside of your school or club.</p>
                 <p class="background"><strong>{{ external_requests_message }}</strong></p>
                 <div class="row form--row">
                     <div class="form--row__input col-md-6">
@@ -79,7 +72,6 @@
 <div class="background background--primary">
     <div class="container">
         <h5>Transfer class to another teacher</h5>
-
         <p>Select a new teacher from your school or club to take over the above class from the list below.</p>
 
         <p class="text-danger">
@@ -90,7 +82,6 @@
         </p>
 
         <form method="post" class="pb-0">
-
             {% csrf_token %}
 
             {{ class_move_form.non_field_errors }}
@@ -107,7 +98,6 @@
             <div class="button-group">
                 <button id="move_button" class="button button--primary" type="submit" name="class_move_submit">Transfer class</button>
             </div>
-
         </form>
     </div>
 </div>

@@ -5,7 +5,7 @@ export function testRegistration(registerFunction, registrationDetails, successf
   registerFunction(...registrationDetails);
 
   if (!successful) {
-      cy.get('.errorlist').should('be.visible')
-      cy.get('.errorlist').should('have.text', errorMessage)
+    cy.get('.errorlist').should('be.visible')
+    cy.get('.errorlist').should('have.text', errorMessage)
   }
 }
