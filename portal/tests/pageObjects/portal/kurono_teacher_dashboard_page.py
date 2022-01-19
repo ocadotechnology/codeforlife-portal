@@ -33,9 +33,7 @@ class KuronoTeacherDashboardPage(BasePage):
             ).click()
 
         # Click delete
-        self.browser.find_element_by_xpath(
-            '//*[@id="games-table"]/tbody/tr[4]/td[2]/div/a'
-        ).click()
+        self.browser.find_element_by_id("deleteGamesButton").click()
 
         self.confirm_dialog()
 
