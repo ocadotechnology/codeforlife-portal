@@ -234,8 +234,8 @@ class TestTeacher(TestCase):
         student1 = Student.objects.get(class_field=klass1)
         student2 = Student.objects.get(class_field=klass2)
 
-        self.assertTrue(game1.can_user_play(student1.new_user))
-        self.assertTrue(game2.can_user_play(student2.new_user))
+        assert game1.can_user_play(student1.new_user)
+        assert game2.can_user_play(student2.new_user)
 
         c.post(
             reverse("teacher_move_students", kwargs={"access_code": access_code1}),
@@ -261,8 +261,8 @@ class TestTeacher(TestCase):
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)
 
-        self.assertTrue(not game1.can_user_play(student1.new_user))
-        self.assertTrue(game2.can_user_play(student1.new_user))
+        assert not game1.can_user_play(student1.new_user)
+        assert game2.can_user_play(student1.new_user)
 
     def test_teacher_cannot_create_duplicate_game(self):
         """
@@ -312,11 +312,10 @@ class TestTeacher(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert (
-            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
-            in response.content.decode()
-        )
+        assert not hasattr(response, "url")
 
     def test_signup_common_password_fails(self):
         c = Client()
@@ -333,11 +332,10 @@ class TestTeacher(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert (
-            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
-            in response.content.decode()
-        )
+        assert not hasattr(response, "url")
 
     def test_signup_passwords_do_not_match_fails(self):
         c = Client()
@@ -354,13 +352,13 @@ class TestTeacher(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert (
-            "The password and the confirmation password do not match"
-            in response.content.decode()
-        )
+        assert not hasattr(response, "url")
 
 
+# Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestTeacherFrontend(BaseTest):
     def test_signup_without_newsletter(self):
         self.selenium.get(self.live_server_url)

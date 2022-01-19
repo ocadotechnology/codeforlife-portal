@@ -50,8 +50,10 @@ class TestIndependentStudent(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers and making it hard to guess." in response.content.decode()
+        assert not hasattr(response, "url")
 
     def test_signup_common_password_fails(self):
         c = Client()
@@ -69,8 +71,10 @@ class TestIndependentStudent(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert "Password not strong enough, consider using at least 8 characters, upper and lower case letters, and numbers and making it hard to guess." in response.content.decode()
+        assert not hasattr(response, "url")
 
     def test_signup_passwords_do_not_match_fails(self):
         c = Client()
@@ -88,6 +92,8 @@ class TestIndependentStudent(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
         assert "Your passwords do not match" in response.content.decode()
 
@@ -107,8 +113,10 @@ class TestIndependentStudent(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert "Names may only contain letters, numbers, dashes, underscores, and spaces." in response.content.decode()
+        assert not hasattr(response, "url")
 
     def test_signup_invalid_username_fails(self):
         c = Client()
@@ -126,10 +134,13 @@ class TestIndependentStudent(TestCase):
             },
         )
 
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert "Usernames may only contain letters, numbers, dashes, and underscores." in response.content.decode()
+        assert not hasattr(response, "url")
 
 
+# Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestIndependentStudentFrontend(BaseTest):
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()

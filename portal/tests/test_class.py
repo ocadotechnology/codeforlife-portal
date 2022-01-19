@@ -45,7 +45,7 @@ class TestClass(TestCase):
 
         assert len(teacher_classes) == 1
 
-        # Try to delete the class, check that it can't be delete since it's not empty
+        # Try to delete the class, check that it can't be deleted since it's not empty
         response = c.post(url)
 
         teacher_classes = Class.objects.filter(teacher=teacher)
@@ -153,6 +153,7 @@ class TestClass(TestCase):
         assert teacher2.teaches(student2.user)
 
 
+# Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestClassFrontend(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
