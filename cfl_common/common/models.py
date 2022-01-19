@@ -169,7 +169,6 @@ class Class(models.Model):
     @property
     def active_game(self):
         games = self.game_set.filter(game_class=self, is_archived=False)
-        print(games)
         if len(games) == 1:
             return games[0]
         elif len(games) > 1:
