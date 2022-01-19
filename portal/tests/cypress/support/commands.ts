@@ -25,6 +25,11 @@ Cypress.Commands.add('loginAsSuperuser', (username, password) => {
   cy.get('.button--login').click()
 })
 
+Cypress.Commands.add('logout', () => {
+  cy.get('#logout_menu').click();
+  cy.get('#logout_button').click();
+})
+
 Cypress.Commands.add('changeAdminPassword', (oldPassword, newPassword) => {
   cy.get('#id_old_password').type(oldPassword)
   cy.get('#id_new_password1').type(newPassword)
@@ -92,4 +97,27 @@ Cypress.Commands.add('loginAsIndependentStudent', () => {
     })
     cy.visit('/')
   })
+})
+
+Cypress.Commands.add('signupAsTeacher', (firstName, lastName, email, password, confirmPassword ) => {
+  cy.visit('/register_form/')
+  cy.get('#id_teacher_signup-teacher_first_name').type(firstName);
+  cy.get('#id_teacher_signup-teacher_last_name').type(lastName);
+  cy.get('#id_teacher_signup-teacher_email').type(email);
+  cy.get('#id_teacher_signup-teacher_password').type(password);
+  cy.get('#id_teacher_signup-teacher_confirm_password').type(confirmPassword);
+
+  cy.get('[name="teacher_signup"]').click();
+})
+
+Cypress.Commands.add('signupAsIndependentStudent', (name, username, email, password, confirmPassword ) => {
+  cy.visit('/register_form/')
+  cy.get('#id_independent_student_signup-name').type(name);
+  cy.get('#id_independent_student_signup-username').type(username);
+  cy.get('#id_independent_student_signup-email').type(email);
+  cy.get('#id_independent_student_signup-is_over_required_age').check();
+  cy.get('#id_independent_student_signup-password').type(password);
+  cy.get('#id_independent_student_signup-confirm_password').type(confirmPassword);
+
+  cy.get('[name="independent_student_signup"]').click();
 })

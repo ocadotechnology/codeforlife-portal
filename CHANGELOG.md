@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.30.2 (2022-01-19)
+### Fix
+* Replace randomly failing Selenium tests with Unit and Cypress tests ([#1720](https://github.com/ocadotechnology/codeforlife-portal/issues/1720)) ([`a477955`](https://github.com/ocadotechnology/codeforlife-portal/commit/a47795541e176ae468e0d25eeaee72c8ea9c3ab1))
+
 ## v5.30.1 (2022-01-18)
 ### Fix
 * Add common static to manifest ([#1730](https://github.com/ocadotechnology/codeforlife-portal/issues/1730)) ([`3e81557`](https://github.com/ocadotechnology/codeforlife-portal/commit/3e81557fdc790ded4d16e937b85f761ba034edb6))
