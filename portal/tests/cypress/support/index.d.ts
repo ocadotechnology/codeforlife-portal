@@ -9,6 +9,12 @@ declare namespace Cypress {
     loginAsSuperuser(username, password): Chainable<Element>
 
     /**
+     * Custom command to logout.
+     * @example cy.logout()
+     */
+    logout(): Chainable<Element>
+
+    /**
      * Custom command to change one's own password via the admin site.
      * @example cy.changeAdminPassword("password1", "password2")
      */
@@ -38,5 +44,17 @@ declare namespace Cypress {
      * @example cy.loginAsIndependentStudent()
      */
     loginAsIndependentStudent(): Chainable<Element>
+
+    /**
+     * Custom command to signup as teacher.
+     * @example cy.signupAsTeacher("Test Name", "Test Last Name", "test@email.com", "testPassword", "testPassword")
+     */
+    signupAsTeacher(firstName, lastName, email, password, confirmPassword): Chainable<Element>
+
+    /**
+     * Custom command to signup as an independent student.
+     * @example cy.signupAsIndependentStudent("Test Name", "TestUsername", "test@email.com", "testPassword", "testPassword")
+     */
+    signupAsIndependentStudent(name, username, email, password, confirmPassword): Chainable<Element>
   }
 }
