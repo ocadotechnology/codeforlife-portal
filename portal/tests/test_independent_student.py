@@ -95,7 +95,7 @@ class TestIndependentStudent(TestCase):
         # Assert response isn't a redirect (submit failure) and doesn't have a URL
         # attribute (as opposed to verify email URL)
         assert response.status_code == 200
-        assert "Your passwords do not match" in response.content.decode()
+        assert not hasattr(response, "url")
 
     def test_signup_invalid_name_fails(self):
         c = Client()
