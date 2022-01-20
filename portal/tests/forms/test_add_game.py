@@ -4,7 +4,6 @@ from aimmo.models import Game
 from common.models import Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
-from django.core.exceptions import ValidationError
 
 from portal.forms.add_game import AddGameForm
 
@@ -44,8 +43,6 @@ def test_form_with_non_existing_class():
         Class.objects.all(),
         data={"game_class": 12345},
     )
-    with pytest.raises(ValidationError) as e:
-        form.clean()
 
     assert not form.is_valid()
 
