@@ -43,6 +43,9 @@ def test_form_with_non_existing_class():
         Class.objects.all(),
         data={"game_class": 12345},
     )
+    with pytest.raises(Exception) as e:
+        form.clean()
+
     assert not form.is_valid()
 
 
