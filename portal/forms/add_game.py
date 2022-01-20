@@ -21,9 +21,10 @@ class AddGameForm(ModelForm):
         ]
 
     def clean(self):
-        try:
-            game_class: Class = self.cleaned_data.get("game_class")
-        except Exception:
+        super(AddGameForm, self).clean()
+        game_class: Class = self.cleaned_data.get("game_class")
+
+        if not game_class:
             raise ValidationError("An invalid class was entered")
 
         if Game.objects.filter(game_class=game_class, is_archived=False).exists():
