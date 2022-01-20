@@ -170,6 +170,7 @@ class Class(models.Model):
     def active_game(self):
         games = self.game_set.filter(game_class=self, is_archived=False)
         if len(games) >= 1:
+            assert len(games) == 1  # there should NOT be more than one active game
             return games[0]
         return None
 
