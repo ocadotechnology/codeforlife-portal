@@ -26,7 +26,7 @@
                 <ul id="add-class-dropdown-menu" class="dropdown-menu">
                     {% for game_class in form.game_class.field.queryset %}
                         <li class="dropdown-menu__option">
-                            {% if game_class.game %}
+                            {% if game_class.active_game %}
                                 <a class="button button--regular disabled" data-class-id="{{ game_class.id }}">
                             {% else %}
                                 <a class="button button--regular" id="class_{{ game_class.id }}"

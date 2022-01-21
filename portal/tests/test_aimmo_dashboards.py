@@ -117,7 +117,8 @@ def test_student_aimmo_dashboard_loads(
     assert "CARD_LIST" not in response.context
 
 
-class TestAimmoDashboards(BaseTest):
+# Selenium tests
+class TestAimmoDashboardFrontend(BaseTest):
     def test_worksheet_dropdown_changes_worksheet(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
@@ -167,4 +168,5 @@ class TestAimmoDashboards(BaseTest):
         )
         page.go_to_kurono_teacher_dashboard_page().delete_games([game1.id, game2.id])
 
-        assert Game.objects.count() == 0
+        assert Game.objects.filter(is_archived=False).count() == 0
+        assert Game.objects.filter(is_archived=True).count() == 2

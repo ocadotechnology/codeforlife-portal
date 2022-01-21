@@ -284,7 +284,8 @@ class TestTeacher(TestCase):
         )
 
         assert game1_response.status_code == 302
-        assert hasattr(klass, "game")
+        assert Game.objects.filter(game_class=klass, is_archived=False).count() == 1
+        assert klass.active_game != None
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
@@ -292,10 +293,10 @@ class TestTeacher(TestCase):
             reverse("teacher_aimmo_dashboard"),
             {"game_class": klass.pk},
         )
-        assert hasattr(klass, "game")
+
         messages = list(game2_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 1
-        assert messages[0].message == "Game with this Class already exists."
+        assert messages[0].message == "An active game already exists for this class"
 
     def test_signup_short_password_fails(self):
         c = Client()
