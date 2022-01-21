@@ -110,3 +110,63 @@ class InactiveUsersView(generics.ListAPIView):
             user.save()
             deleted_users.append(user.username)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DuplicateIndyStudentsView(generics.ListAPIView):
+    """
+    To test:
+
+    Run one instance ./run
+    On another shell: py -c "import requests; requests.get('http://localhost:8000/indycleanup')"
+    """
+
+    queryset = Student.objects.filter(class_field__isnull=True).select_related(
+        "new_user"
+    )
+
+    def get(self, request, *args, **kwargs):
+        print("*** GET")
+        indystudents = self.get_queryset()
+
+        # dictionary of duplicate emails and list of students
+        studentdict = {}
+        for student in indystudents:
+            email = student.new_user.email
+            assert email != ""
+
+            if not studentdict.get(email):
+                studentdict[email] = []
+            studentdict[email].append(student)
+
+            print(student)
+            print("email=", student.new_user.email)
+            print("date joined=", student.new_user.date_joined)
+            print("last login=", student.new_user.last_login)
+            print("**")
+
+        print(studentdict)
+
+        for email, students in studentdict.items():
+            print(email)
+            print(students)
+            if len(students) <= 1:
+                continue  # no duplicate
+            # else do something about it
+
+            logged_in_students = []
+            # collect accounts who have last_login
+            for student in students:
+                if student.new_user.last_login:
+                    logged_in_students.append(student)
+
+            print("Logged in students=", logged_in_students)
+
+            # if there's no login at all, keep the one with the most recent date_joined,
+            # anonymise the rest
+
+            # if there's one with login, keep that one, anonymise the rest
+
+            # if there's more than one with login, keep the most recent login, anonymise the rest
+
+        context = {"success"}
+        return Response(status=status.HTTP_204_NO_CONTENT)
