@@ -18,7 +18,6 @@ from common.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,
     signup_teacher_directly,
-    submit_teacher_signup_form,
     verify_email,
 )
 from django.core import mail
@@ -37,7 +36,7 @@ from .utils.messages import (
 )
 
 
-class TestTeachers(TestCase):
+class TestTeacher(TestCase):
     def test_new_student_can_play_games(self):
         """
         Given a teacher has an kurono game,
@@ -235,8 +234,8 @@ class TestTeachers(TestCase):
         student1 = Student.objects.get(class_field=klass1)
         student2 = Student.objects.get(class_field=klass2)
 
-        self.assertTrue(game1.can_user_play(student1.new_user))
-        self.assertTrue(game2.can_user_play(student2.new_user))
+        assert game1.can_user_play(student1.new_user)
+        assert game2.can_user_play(student2.new_user)
 
         c.post(
             reverse("teacher_move_students", kwargs={"access_code": access_code1}),
@@ -262,8 +261,8 @@ class TestTeachers(TestCase):
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)
 
-        self.assertTrue(not game1.can_user_play(student1.new_user))
-        self.assertTrue(game2.can_user_play(student1.new_user))
+        assert not game1.can_user_play(student1.new_user)
+        assert game2.can_user_play(student1.new_user)
 
     def test_teacher_cannot_create_duplicate_game(self):
         """
@@ -285,7 +284,8 @@ class TestTeachers(TestCase):
         )
 
         assert game1_response.status_code == 302
-        assert hasattr(klass, "game")
+        assert Game.objects.filter(game_class=klass, is_archived=False).count() == 1
+        assert klass.active_game != None
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
@@ -293,13 +293,74 @@ class TestTeachers(TestCase):
             reverse("teacher_aimmo_dashboard"),
             {"game_class": klass.pk},
         )
-        assert hasattr(klass, "game")
+
         messages = list(game2_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 1
-        assert messages[0].message == "Game with this Class already exists."
+        assert messages[0].message == "An active game already exists for this class"
+
+    def test_signup_short_password_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "test",
+                "teacher_signup-teacher_confirm_password": "test",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
+        assert response.status_code == 200
+        assert not hasattr(response, "url")
+
+    def test_signup_common_password_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "Password1",
+                "teacher_signup-teacher_confirm_password": "Password1",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
+        assert response.status_code == 200
+        assert not hasattr(response, "url")
+
+    def test_signup_passwords_do_not_match_fails(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "StrongPassword1!",
+                "teacher_signup-teacher_confirm_password": "StrongPassword2!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        # Assert response isn't a redirect (submit failure) and doesn't have a URL
+        # attribute (as opposed to verify email URL)
+        assert response.status_code == 200
+        assert not hasattr(response, "url")
 
 
-class TestTeacher(BaseTest):
+# Class for Selenium tests. We plan to replace these and turn them into Cypress tests
+class TestTeacherFrontend(BaseTest):
     def test_signup_without_newsletter(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -322,22 +383,6 @@ class TestTeacher(BaseTest):
         page = HomePage(self.selenium)
         page, _, _ = signup_duplicate_teacher_fail(page, email)
         assert self.is_login_page(page)
-
-    def test_signup_failure_short_password(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = submit_teacher_signup_form(page, password="test")
-        assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
-        )
-
-    def test_signup_failure_common_password(self):
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = submit_teacher_signup_form(page, password="Password1")
-        assert page.has_teacher_signup_failed(
-            "Password not strong enough, consider using at least 10 characters, upper and lower case letters, numbers, special characters and making it hard to guess."
-        )
 
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)

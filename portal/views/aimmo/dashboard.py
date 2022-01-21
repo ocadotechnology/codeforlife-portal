@@ -64,9 +64,8 @@ class StudentAimmoDashboard(
         if klass is None:
             return {"BANNER": AIMMO_DASHBOARD_BANNER}
 
-        try:
-            aimmo_game = Game.objects.get(game_class=klass)
-
+        aimmo_game = klass.active_game
+        if aimmo_game:
             active_worksheet = WORKSHEETS.get(aimmo_game.worksheet_id)
             inactive_worksheets = get_worksheets_excluding_id(active_worksheet.id)
 
@@ -75,8 +74,7 @@ class StudentAimmoDashboard(
                 "HERO_CARD": self._get_hero_card(active_worksheet, aimmo_game),
                 "CARD_LIST": {"cards": self._get_card_list(inactive_worksheets)},
             }
-
-        except ObjectDoesNotExist:
+        else:
             return {"BANNER": AIMMO_DASHBOARD_BANNER}
 
     def _get_hero_card(

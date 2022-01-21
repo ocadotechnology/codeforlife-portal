@@ -59,13 +59,5 @@ def is_class_created_message_showing(browser, name):
     )
 
 
-def is_class_nonempty_message_showing(browser):
-    return is_message_showing(
-        browser,
-        "This class still has students, please remove or delete them all before "
-        "deleting the class.",
-    )
-
-
 def is_contact_message_sent_message_showing(browser):
     return is_message_showing(browser, "Your message was sent successfully.")

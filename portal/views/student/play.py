@@ -59,15 +59,12 @@ class SchoolStudentDashboard(
             ]
 
         # Get Kurono game info if the class has a game linked to it
-        try:
-            aimmo_game = Game.objects.get(game_class=klass)
+        aimmo_game = klass.active_game
+        if aimmo_game:
             active_worksheet = aimmo_game.worksheet
 
             context_data["worksheet_id"] = active_worksheet.id
             context_data["worksheet_image"] = active_worksheet.image_path
-
-        except ObjectDoesNotExist:
-            pass
 
         return context_data
 

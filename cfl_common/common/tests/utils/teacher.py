@@ -78,18 +78,3 @@ def verify_email(page):
     mail.outbox = []
 
     return page
-
-
-def submit_teacher_signup_form(page, password="test"):
-    page = page.go_to_signup_page()
-
-    first_name, last_name, email_address, _ = generate_details()
-    return page.signup(
-        first_name,
-        last_name,
-        email_address,
-        password=password,
-        confirm_password=password,
-        success=False,
-        newsletter=True,
-    )

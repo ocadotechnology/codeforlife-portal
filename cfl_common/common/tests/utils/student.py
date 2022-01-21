@@ -1,13 +1,10 @@
 from builtins import range
 from typing import Tuple
-from uuid import uuid4
-
-from django.core import mail
 
 from common.helpers.emails import generate_token
-from common.models import Class, Student
-
 from common.helpers.generators import generate_login_id
+from common.models import Class, Student
+from django.core import mail
 
 from . import email
 
@@ -165,12 +162,3 @@ def verify_email(page):
     mail.outbox = []
 
     return page
-
-
-def submit_independent_student_signup_form(page, password="test"):
-    page = page.go_to_signup_page()
-
-    name, username, email_address, _ = generate_independent_student_details()
-    return page.independent_student_signup(
-        name, username, email_address, password, password, success=False
-    )

@@ -1,5 +1,6 @@
 import pytest
 from aimmo.worksheets import WORKSHEETS, Worksheet
+from aimmo.models import Game
 from common.models import Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
@@ -42,6 +43,7 @@ def test_form_with_non_existing_class():
         Class.objects.all(),
         data={"game_class": 12345},
     )
+
     assert not form.is_valid()
 
 
@@ -61,9 +63,11 @@ def test_cannot_create_duplicate_game(class1: Class):
     )
 
     assert not form.is_valid()
-    assert "Game with this Class already exists." in (
-        message for errors in form.errors.values() for message in errors
-    )
+
+    # test only one active game at a time
+    assert Game.objects.filter(game_class=class1, is_archived=False).count() == 1
+
+    assert class1.active_game != None
 
 
 @pytest.mark.django_db
