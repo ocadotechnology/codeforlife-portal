@@ -6,6 +6,7 @@ local_settings.py
 /env/
 *.iml
 *~
+frontend
 
 __pycache__
 .settings
