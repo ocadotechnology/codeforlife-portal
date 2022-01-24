@@ -5,18 +5,31 @@
 {% block content %}
 <div id="emailVerificationNeeded_page"></div>
 
+<section class="row mx-0">
 {% if is_teacher %}
-<div class="form--register form--register--teacher is-flex">
+    <span class="oval-blue login-shape-left"></span>
+    <span class="polygon-yellow login-shape-right"></span>
+    <div class="form--login is-flex form--register--teacher">
 {% else %}
-<div class="form--register form--register--indep-student is-flex">
+    <span class="oval-pink login-shape-left"></span>
+    <span class="polygon-blue login-shape-right"></span>
+    <div class="form--login is-flex form--register--indep-student">
 {% endif %}
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
-        <h4>We need to verify your email address</h4>
-        <img class="background" title="Paper Plane" alt="Verification email sent" src="{% static 'portal/img/paper_plane.png' %}">
-        <p>An email has been sent to the address you provided.<br>Please follow the link within the email to verify your details.</p>
-        <p>If you don't receive the email within the next few minutes, check your spam folder.</p>
-        <a id="home_button" href="{% url 'home' %}">Back to homepage</a>
+        <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">
+            <h4>We need to verify your email address</h4>
+            <img class="background" title="Paper Plane" alt="Verification email sent" src="{% static 'portal/img/paper_plane.png' %}">
+            <p class="text-left">An email has been sent to the address you provided.</p>
+            <p class="text-left">Please follow the link within the email to verify your details. This will expire in 1 hour.</p>
+            <p class="text-left">If you don't receive the email within the next few minutes, check your spam folder.</p>
+            <div>
+                {% if is_teacher %}
+                    <a id="home_button" href="{% url 'home' %}" class="button button--primary button--login">Back to homepage</a>
+                {% else %}
+                    <a id="home_button" href="{% url 'home' %}" class="button button--home">Back to homepage</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 {% endblock content %}

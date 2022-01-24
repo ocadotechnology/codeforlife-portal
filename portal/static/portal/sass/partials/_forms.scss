@@ -99,7 +99,8 @@ form {
     color: $color-text-secondary;
   }
 
-  input {
+  input,
+  .button--primary {
     color: $color-text-primary;
   }
 
@@ -139,8 +140,14 @@ form {
   background-color: $color-secondary-400;
 
   a,
-  a:hover {
+  a:hover,
+  a:active,
+  a:focus, {
     color: $color-text-primary;
+  }
+
+  .button--secondary {
+    border-color: $color-text-primary;
   }
 }
 

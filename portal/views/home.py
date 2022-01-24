@@ -133,7 +133,12 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user)
 
-    return HttpResponseRedirect(reverse("email_verification"), {"is_teacher": True})
+    return render(
+        request,
+        "portal/email_verification_needed.html",
+        {"is_teacher": True},
+        status=302,
+    )
 
 
 def process_independent_student_signup_form(request, data):
@@ -152,7 +157,7 @@ def process_independent_student_signup_form(request, data):
             email_message["subject"],
             email_message["message"],
         )
-        return HttpResponseRedirect(reverse("email_verification"))
+        return render(request, "portal/email_verification_needed.html", status=302)
 
     if is_independent_username_already_used(username, independent_students):
         email_message = email_messages.indepStudentUsernameAlreadyExistsEmail(
@@ -164,7 +169,7 @@ def process_independent_student_signup_form(request, data):
             email_message["subject"],
             email_message["message"],
         )
-        return HttpResponseRedirect(reverse("email_verification"))
+        return render(request, "portal/email_verification_needed.html", status=302)
 
     student = Student.objects.independentStudentFactory(
         username=data["username"],
@@ -179,7 +184,7 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user)
 
-    return HttpResponseRedirect(reverse("email_verification"))
+    return render(request, "portal/email_verification_needed.html", status=302)
 
 
 def is_independent_email_already_used(email, independent_students):
