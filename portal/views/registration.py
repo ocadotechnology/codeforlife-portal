@@ -29,12 +29,12 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
 def student_password_reset(request):
-    usertype = "STUDENT"
+    usertype = "INDEP_STUDENT"
     return password_reset(
         request,
         usertype,
         from_email=PASSWORD_RESET_EMAIL,
-        template_name="portal/reset_password_student.html",
+        template_name="portal/reset_password.html",
         password_reset_form=StudentPasswordResetForm,
     )
 
@@ -46,7 +46,7 @@ def teacher_password_reset(request):
         request,
         usertype,
         from_email=PASSWORD_RESET_EMAIL,
-        template_name="portal/reset_password_teach.html",
+        template_name="portal/reset_password.html",
         password_reset_form=TeacherPasswordResetForm,
     )
 
@@ -55,7 +55,7 @@ def teacher_password_reset(request):
 def password_reset(
     request,
     usertype,
-    template_name="portal/reset_password_teach.html",
+    template_name="portal/reset_password.html",
     email_template_name="portal/reset_password_email.html",
     subject_template_name="registration/password_reset_subject.txt",
     password_reset_form=PasswordResetForm,
@@ -95,6 +95,7 @@ def password_reset(
         "title": _("Password reset"),
         "settings": app_settings,
         "should_use_recaptcha": captcha.CAPTCHA_ENABLED,
+        "usertype": usertype,
     }
 
     update_context_and_apps(request, context, current_app, extra_context)
@@ -210,7 +211,7 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None):
     except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None
     if user and hasattr(user, "new_student"):
-        usertype = "STUDENT"
+        usertype = "INDEP_STUDENT"
         return password_reset_confirm(
             request,
             usertype,

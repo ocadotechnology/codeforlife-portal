@@ -50,10 +50,8 @@ class TestIndependentStudent(TestCase):
             },
         )
 
-        # Assert response isn't a redirect (submit failure) and doesn't have a URL
-        # attribute (as opposed to verify email URL)
+        # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
-        assert not hasattr(response, "url")
 
     def test_signup_common_password_fails(self):
         c = Client()
@@ -71,10 +69,8 @@ class TestIndependentStudent(TestCase):
             },
         )
 
-        # Assert response isn't a redirect (submit failure) and doesn't have a URL
-        # attribute (as opposed to verify email URL)
+        # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
-        assert not hasattr(response, "url")
 
     def test_signup_passwords_do_not_match_fails(self):
         c = Client()
@@ -92,10 +88,8 @@ class TestIndependentStudent(TestCase):
             },
         )
 
-        # Assert response isn't a redirect (submit failure) and doesn't have a URL
-        # attribute (as opposed to verify email URL)
+        # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
-        assert not hasattr(response, "url")
 
     def test_signup_invalid_name_fails(self):
         c = Client()
@@ -113,10 +107,8 @@ class TestIndependentStudent(TestCase):
             },
         )
 
-        # Assert response isn't a redirect (submit failure) and doesn't have a URL
-        # attribute (as opposed to verify email URL)
+        # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
-        assert not hasattr(response, "url")
 
     def test_signup_invalid_username_fails(self):
         c = Client()
@@ -134,10 +126,8 @@ class TestIndependentStudent(TestCase):
             },
         )
 
-        # Assert response isn't a redirect (submit failure) and doesn't have a URL
-        # attribute (as opposed to verify email URL)
+        # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
-        assert not hasattr(response, "url")
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests

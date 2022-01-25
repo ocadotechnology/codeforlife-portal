@@ -1,22 +1,19 @@
-{% extends 'portal/base.html' %}
+{% extends 'portal/form_shapes.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block content %}
-<div id="emailVerificationNeeded_page"></div>
-
-{% if is_teacher %}
-<div class="form--register form--register--teacher is-flex">
-{% else %}
-<div class="form--register form--register--indep-student is-flex">
-{% endif %}
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4 center-block">
-        <h4>We need to verify your email address</h4>
-        <img class="background" title="Paper Plane" alt="Verification email sent" src="{% static 'portal/img/paper_plane.png' %}">
-        <p>An email has been sent to the address you provided.<br>Please follow the link within the email to verify your details.</p>
-        <p>If you don't receive the email within the next few minutes, check your spam folder.</p>
-        <a id="home_button" href="{% url 'home' %}">Back to homepage</a>
+{% block form_content %}
+    <div id="emailVerificationNeeded_page"></div>
+    <h4>We need to verify your email address</h4>
+    <img class="background" title="Paper Plane" alt="Verification email sent" src="{% static 'portal/img/paper_plane.png' %}">
+    <p class="text-left">An email has been sent to the address you provided.</p>
+    <p class="text-left">Please follow the link within the email to verify your details. This will expire in 1 hour.</p>
+    <p class="text-left">If you don't receive the email within the next few minutes, check your spam folder.</p>
+    <div>
+        {% if usertype == "TEACHER" %}
+            <a id="home_button" href="{% url 'home' %}" class="button button--primary button--login">Back to homepage</a>
+        {% else %}
+            <a id="home_button" href="{% url 'home' %}" class="button button--home">Back to homepage</a>
+        {% endif %}
     </div>
-</div>
-
-{% endblock content %}
+{% endblock form_content %}
