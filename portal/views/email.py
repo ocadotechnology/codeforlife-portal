@@ -5,7 +5,6 @@ from common.models import EmailVerification, School, Student, Teacher
 from common.permissions import logged_in_as_independent_student, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -19,19 +18,23 @@ from portal.app_settings import CONTACT_FORM_EMAILS
 def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
 
+    if not verifications.exists():
+        return render(
+            request,
+            "portal/email_verification_failed.html",
+            {"usertype": "INDEP_STUDENT"},
+        )
+
     verification = verifications[0]
     user = verification.user
 
-    is_teacher = False
-
-    try:
-        is_teacher = Teacher.objects.get(new_user=user)
-    except ObjectDoesNotExist:
-        pass
+    usertype = (
+        "TEACHER" if Teacher.objects.filter(new_user=user).exists() else "INDEP_STUDENT"
+    )
 
     if has_verification_failed(verifications):
         return render(
-            request, "portal/email_verification_failed.html", {"is_teacher": is_teacher}
+            request, "portal/email_verification_failed.html", {"usertype": usertype}
         )
 
     verification.verified = True
@@ -59,7 +62,7 @@ def verify_email(request, token):
 
 def has_verification_failed(verifications):
     return (
-        len(verifications) != 1
+        len(verifications) > 1
         or verifications[0].verified
         or (verifications[0].expiry - timezone.now()) < timedelta()
     )

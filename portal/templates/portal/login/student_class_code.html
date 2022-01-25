@@ -1,35 +1,25 @@
-{% extends 'portal/base.html' %}
+{% extends 'portal/form_shapes.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block content %}
-<div id="student_login_page_class_code"></div>
+{% block form_content %}
+    <div id="student_login_page_class_code"></div>
+    <h4 class="center-block">Welcome</h4>
+    <h5>Please enter your class code.</h5>
+    <form id="form-login-school-class-code" method="post" autocomplete="off">
 
-<section class="row mx-0">
-    <span class="oval-yellow login-shape-left"></span>
-    <span class="polygon-pink login-shape-right"></span>
-    <div class="form--login is-flex form--register--student">
-        <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">
-            <h4 class="center-block">Welcome</h4>
-            <h5>Please enter your class code.</h5>
-            <form id="form-login-school-class-code" method="post" autocomplete="off">
+        {% csrf_token %}
 
-                {% csrf_token %}
+        {{ form.non_field_errors }}
 
-                {{ form.non_field_errors }}
-
-                <div class="form__input">
-                    {{ form.access_code }}
-                    <small>{{ form.access_code.help_text }}</small>
-                    {{ form.access_code.errors }}
-                </div>
-
-                <button type="submit" name="school_login_class_code" class="button button--primary button--login">Log in</button>
-            </form>
-
-            <p>Forgotten your login details? Please check with your teacher.</p>
+        <div class="form__input">
+            {{ form.access_code }}
+            <small>{{ form.access_code.help_text }}</small>
+            {{ form.access_code.errors }}
         </div>
-    </div>
-</section>
 
-{% endblock content %}
+        <button type="submit" name="school_login_class_code" class="button button--primary button--login">Log in</button>
+    </form>
+
+    <p>Forgotten your login details? Please check with your teacher.</p>
+{% endblock form_content %}

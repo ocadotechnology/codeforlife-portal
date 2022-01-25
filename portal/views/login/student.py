@@ -16,6 +16,7 @@ LOGGER = logging.getLogger(__name__)
 class StudentClassCodeView(FormView):
     template_name = "portal/login/student_class_code.html"
     form_class = StudentClassCodeForm
+    extra_context = {"usertype": "SCHOOL_STUDENT"}
 
     def form_valid(self, form):
         self.form = form
@@ -35,6 +36,7 @@ class StudentLoginView(LoginView):
     template_name = "portal/login/student.html"
     form_class = StudentLoginForm
     success_url = reverse_lazy("student_details")
+    extra_context = {"usertype": "SCHOOL_STUDENT"}
 
     def get_form_kwargs(self):
         kwargs = super(StudentLoginView, self).get_form_kwargs()

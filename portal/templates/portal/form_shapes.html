@@ -1,0 +1,30 @@
+<!-- This is a "base" template for the login-type forms with coloured shapes.
+It needs to know what the usertype is so it can render the right background colour
+as well as the right shapes. The block `form_content` can then be extended in
+other templates to add custom content. -->
+
+{% extends 'portal/base.html' %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block content %}
+<section class="row mx-0">
+{% if usertype == "TEACHER" %}
+    <span class="oval-blue login-shape-left"></span>
+    <span class="polygon-yellow login-shape-right"></span>
+    <div class="form--login is-flex form--register--teacher">
+{% elif usertype == "SCHOOL_STUDENT" %}
+    <span class="oval-yellow login-shape-left"></span>
+    <span class="polygon-pink login-shape-right"></span>
+    <div class="form--login is-flex form--register--student">
+{% elif usertype == "INDEP_STUDENT" %}
+    <span class="oval-pink login-shape-left"></span>
+    <span class="polygon-blue login-shape-right"></span>
+    <div class="form--login is-flex form--register--indep-student">
+{% endif %}
+        <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">
+            {% block form_content %}{% endblock form_content %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

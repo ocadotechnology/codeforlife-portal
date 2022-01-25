@@ -1,33 +1,17 @@
-{% extends 'portal/base.html' %}
+{% extends 'portal/form_shapes.html' %}
 {% load staticfiles %}
 {% load app_tags %}
 
-{% block content %}
-
-<section class="row mx-0">
-{% if is_teacher %}
-    <span class="oval-blue login-shape-left"></span>
-    <span class="polygon-yellow login-shape-right"></span>
-    <div class="form--login is-flex form--register--teacher">
-{% else %}
-    <span class="oval-pink login-shape-left"></span>
-    <span class="polygon-blue login-shape-right"></span>
-    <div class="form--login is-flex form--register--indep-student">
-{% endif %}
-        <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">
-            <h4>Your email address verification failed</h4>
-            <img class="background" title="Sad Face" alt="Verification failure" src="{% static 'portal/img/sadface.png' %}">
-            <p class="text-left">You used an invalid link, either you mistyped the URL or that link is expired.</p>
-            <p class="text-left">When you next attempt to log in, you will be sent a new verification email.</p>
-            <div>
-                {% if is_teacher %}
-                    <a href="{% url 'home' %}" class="button button--primary button--login">Back to homepage</a>
-                {% else %}
-                    <a href="{% url 'home' %}" class="button button--home">Back to homepage</a>
-                {% endif %}
-            </div>
-        </div>
+{% block form_content %}
+    <h4>Your email address verification failed</h4>
+    <img class="background" title="Sad Face" alt="Verification failure" src="{% static 'portal/img/sadface.png' %}">
+    <p class="text-left">You used an invalid link, either you mistyped the URL or that link is expired.</p>
+    <p class="text-left">When you next attempt to log in, you will be sent a new verification email.</p>
+    <div>
+        {% if usertype == "TEACHER" %}
+            <a href="{% url 'home' %}" class="button button--primary button--login">Back to homepage</a>
+        {% else %}
+            <a href="{% url 'home' %}" class="button button--home">Back to homepage</a>
+        {% endif %}
     </div>
-</section>
-
-{% endblock content %}
+{% endblock form_content %}
