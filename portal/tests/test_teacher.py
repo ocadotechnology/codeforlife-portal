@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import time
+import re
 
 from aimmo.models import Game
 from common.models import Class, Student, Teacher
@@ -351,6 +352,47 @@ class TestTeacher(TestCase):
 
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
+
+    def test_signup_email_verification(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "StrongPassword1!",
+                "teacher_signup-teacher_confirm_password": "StrongPassword1!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 302
+        assert len(mail.outbox) == 1
+
+        # Try verification URL with a fake token
+        bad_url = reverse("verify_email", kwargs={"token": "abcdef"})
+        bad_verification_response = c.get(bad_url)
+
+        # Assert response isn't a redirect (get failure)
+        assert bad_verification_response.status_code == 200
+
+        # Get verification link from email
+        message = str(mail.outbox[0].body)
+        verification_url = re.search("http.+/", message).group(0)
+
+        # Verify the email properly
+        verification_response = c.get(verification_url)
+
+        # Assert response redirects and succeeds
+        assert verification_response.status_code == 302
+
+        # Try verifying the email a second time
+        second_verification_response = c.get(verification_url)
+
+        # Assert response isn't a redirect (get failure)
+        assert second_verification_response.status_code == 200
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
