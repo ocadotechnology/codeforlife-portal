@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.31.0 (2022-01-25)
+### Feature
+* Reset password and email verification pages redesign ([#1733](https://github.com/ocadotechnology/codeforlife-portal/issues/1733)) ([`25423b4`](https://github.com/ocadotechnology/codeforlife-portal/commit/25423b4045e5482141bed7cec7f28fc3a688b96a))
+
 ## v5.30.3 (2022-01-21)
 ### Fix
 * Fix various things on archiving game ([`2f43209`](https://github.com/ocadotechnology/codeforlife-portal/commit/2f43209119fd6ae5266ac0ef1ffc4eb566c7947e))
