@@ -15,6 +15,7 @@ class IndependentStudentLoginView(LoginView):
     form_class = IndependentStudentLoginForm
     success_url = reverse_lazy("independent_student_details")
     join_class_url = reverse_lazy("student_join_organisation")
+    extra_context = {"usertype": "INDEP_STUDENT"}
 
     def get_success_url(self):
         url = self.get_redirect_url()

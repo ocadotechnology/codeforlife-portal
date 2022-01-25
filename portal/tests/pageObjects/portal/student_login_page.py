@@ -1,5 +1,3 @@
-import time
-
 from .base_page import BasePage
 from .play import dashboard_page
 
