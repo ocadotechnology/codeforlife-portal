@@ -74,6 +74,15 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
         return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
 
 
+def _anonymise(user):
+    user.username = uuid.uuid4().hex
+    user.first_name = "Deleted"
+    user.last_name = "User"
+    user.email = ""
+    user.is_active = False
+    user.save()
+
+
 class InactiveUsersView(generics.ListAPIView):
     """
     This API view endpoint allows us to see our inactive users.
@@ -100,32 +109,24 @@ class InactiveUsersView(generics.ListAPIView):
     def delete(self, request: HttpRequest):
         """Delete all personal data from inactive users and mark them as inactive."""
         inactive_users = self.get_queryset()
-        deleted_users = []
         for user in inactive_users:
-            user.username = uuid.uuid4().hex
-            user.first_name = "Deleted"
-            user.last_name = "User"
-            user.email = ""
-            user.is_active = False
-            user.save()
-            deleted_users.append(user.username)
+            _anonymise(user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class DuplicateIndyStudentsView(generics.ListAPIView):
     """
-    To test:
-
-    Run one instance ./run
-    On another shell: py -c "import requests; requests.get('http://localhost:8000/indycleanup')"
+    This API endpoint deletes the independent student accounts with duplicate emails.
     """
 
-    queryset = Student.objects.filter(class_field__isnull=True).select_related(
-        "new_user"
-    )
+    queryset = Student.objects.filter(
+        class_field__isnull=True, new_user__is_active=True
+    ).select_related("new_user")
 
-    def get(self, request, *args, **kwargs):
-        print("*** GET")
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAdminOrGoogleAppEngine,)
+
+    def delete(self, request, *args, **kwargs):
         indystudents = self.get_queryset()
 
         # dictionary of duplicate emails and list of students
@@ -138,20 +139,36 @@ class DuplicateIndyStudentsView(generics.ListAPIView):
                 studentdict[email] = []
             studentdict[email].append(student)
 
-            print(student)
-            print("email=", student.new_user.email)
-            print("date joined=", student.new_user.date_joined)
-            print("last login=", student.new_user.last_login)
-            print("**")
+        def _get_last_joined(students):
+            # get the student with the latest date_joined
+            last_joined = None
+            for student in students:
+                if not last_joined:
+                    last_joined = student
+                else:
+                    if student.new_user.date_joined > last_joined.new_user.date_joined:
+                        last_joined = student
+            return last_joined
 
-        print(studentdict)
+        def _get_last_login(students):
+            # get the student with the latest last_login
+            last_login = None
+            for student in students:
+                if not last_login:
+                    last_login = student
+                else:
+                    if student.new_user.last_login > last_login.new_user.last_login:
+                        last_login = student
+            return last_login
+
+        def _anonymise_others(students, kept_student):
+            for student in students:
+                if student != kept_student:
+                    _anonymise(student.new_user)
 
         for email, students in studentdict.items():
-            print(email)
-            print(students)
             if len(students) <= 1:
                 continue  # no duplicate
-            # else do something about it
 
             logged_in_students = []
             # collect accounts who have last_login
@@ -159,14 +176,16 @@ class DuplicateIndyStudentsView(generics.ListAPIView):
                 if student.new_user.last_login:
                     logged_in_students.append(student)
 
-            print("Logged in students=", logged_in_students)
+            # if there's no login at all, keep the one with the most recent date_joined
+            if len(logged_in_students) == 0:
+                last_joined = _get_last_joined(students)
+                _anonymise_others(students, last_joined)
+            elif len(logged_in_students) == 1:
+                # if there's one with login, keep that one, anonymise the rest
+                _anonymise_others(students, logged_in_students[0])
+            else:
+                # if there's more than one with login, keep the most recent login, anonymise the rest
+                last_login = _get_last_login(logged_in_students)
+                _anonymise_others(students, last_login)
 
-            # if there's no login at all, keep the one with the most recent date_joined,
-            # anonymise the rest
-
-            # if there's one with login, keep that one, anonymise the rest
-
-            # if there's more than one with login, keep the most recent login, anonymise the rest
-
-        context = {"success"}
         return Response(status=status.HTTP_204_NO_CONTENT)
