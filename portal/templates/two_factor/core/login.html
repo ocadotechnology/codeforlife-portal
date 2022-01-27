@@ -2,7 +2,11 @@
 
 {% load i18n two_factor %}
 
-<div class="container">
+  <section class="row mx-0">
+      <span class="oval-blue login-shape-left"></span>
+      <span class="polygon-yellow login-shape-right"></span>
+      <div class="form--login is-flex form--register--teacher">
+          <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">
   <h1>{% block title %}{% trans "Login" %}{% endblock %}</h1>
 
   {% if wizard.steps.current == 'auth' %}
@@ -24,12 +28,15 @@
       enter one of these backup tokens to login to your account.{% endblocktrans %}</p>
   {% endif %}
 
-  <form action="" method="post">{% csrf_token %}
-    {% include "two_factor/_wizard_forms.html" %}
+  <form action="" method="post" class="d-flex flex-column">{% csrf_token %}
+    {% if wizard.steps.current == 'backup' %}
+      {% include "two_factor/_wizard_forms_token.html" %}
+    {% else %}
+      {% include "two_factor/_wizard_forms.html" %}
+    {% endif %}
 
     {# hidden submit button to enable [enter] key #}
-    <input type="submit" value="" class="hidden" />
-
+    <input placeholder="" type="submit" value="" class="hidden" />
     {% if other_devices %}
       <p>{% trans "Or, alternatively, use one of your backup phones:" %}</p>
       <p>
@@ -41,13 +48,20 @@
       {% endfor %}</p>
     {% endif %}
     {% if backup_tokens %}
-      <p>{% trans "As a last resort, you can use a backup token:" %}</p>
       <p>
-        <button name="wizard_goto_step" type="submit" value="backup"
-                class="btn btn-secondary">{% trans "Use Backup Token" %}</button>
-      </p>
-    {% endif %}
+        <div class="d-flex flex-column justify-content-start align-items-start">
 
-    {% include "two_factor/_wizard_actions.html" %}
-  </form>
+          <button name="wizard_goto_step" type="submit" value="backup"
+          class="button button--primary">{% trans "Use a backup token" %}</button>
+        </div>
+        </p>
+        {% endif %}
+
+              {% include "two_factor/_wizard_actions.html" %}
+            </form>
+
+
+          </div>
+        </div>
+      </section>
 </div>

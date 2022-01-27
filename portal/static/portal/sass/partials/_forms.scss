@@ -56,6 +56,23 @@ form {
   display: flex;
 }
 
+.warningText {
+  color: $color-error;
+  text-align: left
+}
+
+.d-flex.flex-column.justify-content-start.align-items-start {
+  & > .button.button--primary {
+    @include _margin(0px, 0px, 50px, 0px);
+  }
+}
+
+.button-group.d-flex.flex-row.justify-content-between.align-items-end {
+  & > .button.button--secondary.button--secondary--light {
+    margin: 0;
+  }
+}
+
 .form--register {
   @include _padding(30px, 50px, 30px, 50px);
   text-align: center;

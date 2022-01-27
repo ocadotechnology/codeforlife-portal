@@ -1,7 +1,7 @@
 # Copied all urls from two_factor.urls, except "account/login/"
 
 from django.urls import path
-
+from .core import SetupView
 from two_factor.views import (
     BackupTokensView,
     DisableView,
@@ -10,8 +10,8 @@ from two_factor.views import (
     ProfileView,
     QRGeneratorView,
     SetupCompleteView,
-    SetupView,
 )
+
 
 core = [
     path(

@@ -4,10 +4,10 @@
 {% load i18n future %}
 
 {% block content %}
-<h4>{% block title %}{% trans "Enable Two-Factor Authentication" %}{% endblock %}</h4>
+<h4>{% block title %}{% trans "Two-Factor authentication set up complete" %}{% endblock %}</h4>
 
-<p>{% blocktrans %}Congratulations, you've successfully enabled two-factor
-    authentication.{% endblocktrans %}
+<p>{% blocktrans %}You have successfully set up 2FA.{% endblocktrans %}</p>
+<p>{% blocktrans %}You will now need to use your code generator the next time you log in.{% endblocktrans %}</p>
 
 <p><a href="{% url 'dashboard' %}" class="button button--primary">{% trans "OK" %}</a></p>
 {% endblock %}

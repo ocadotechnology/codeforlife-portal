@@ -5,6 +5,7 @@
 
 {% block content %}
     <h4>{% block title %}{% trans "Backup Tokens" %}{% endblock %}</h4>
+    <a id="return_to_classes_button" href="{% url 'dashboard' %}#account" class="button--menu button--menu--enabled">< Back to Your account</a>
     <p>{% blocktrans trimmed %}Backup tokens can be used when your primary and backup
         phone numbers aren't available. The backup tokens below can be used
         for login verification. If you've used up all your backup tokens, you
@@ -17,7 +18,8 @@
                 <li>{{ token.token }}</li>
             {% endfor %}
         </ul>
-        <p>{% blocktrans %}Print these tokens and keep them somewhere safe.{% endblocktrans %}</p>
+        <p class="warningText">{% blocktrans %}When you generate new recovery codes, you must download or print the new codes.
+            Your old codes won't work anymore.{% endblocktrans %}</p>
     {% else %}
         <p>{% trans "You don't have any backup codes yet." %}</p>
     {% endif %}
@@ -25,7 +27,6 @@
     <form method="post">{% csrf_token %}{{ form }}
         <div class="button-group">
             <button class="button--primary" type="submit">{% trans "Generate Tokens" %}</button>
-            <a href="{% url 'two_factor:profile'%}">{% trans "Back to Account Security" %}</a>
         </div>
     </form>
 {% endblock %}
