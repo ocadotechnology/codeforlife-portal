@@ -2,12 +2,12 @@
 
 from django.urls import path
 from .core import SetupView
+from .profile import DisableView
 from two_factor.views import (
+    ProfileView,
     BackupTokensView,
-    DisableView,
     PhoneDeleteView,
     PhoneSetupView,
-    ProfileView,
     QRGeneratorView,
     SetupCompleteView,
 )
