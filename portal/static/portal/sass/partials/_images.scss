@@ -141,34 +141,34 @@ img {
 }
 
 .login-shape-left {
-  position: relative;
-  left: -17vw;
   @include _top(250px);
   @include _margin(-250px, 0px, 0px, 0px);
+  position: relative;
+  left: -17vw;
 }
 
 .login-shape-right {
-  position: relative;
-  left: 17vw;
   @include _top(500px);
   @include _margin(-500px, 0px, 0px, 0px);
+  position: relative;
+  left: 17vw;
 }
 
 @media (max-width: $tablet-large-max-width) {
   .login-shape-left {
+    @include _top(300px);
+    @include _margin(-300px, 0px, 0px, 0px);
     position: relative;
     left: -30vw;
     width: 150px;
-    @include _top(300px);
-    @include _margin(-300px, 0px, 0px, 0px);
   }
 
   .login-shape-right {
+    @include _top(550px);
+    @include _margin(-550px, 0px, 0px, 0px);
     position: relative;
     left: 30vw;
     width: 130px;
-    @include _top(550px);
-    @include _margin(-550px, 0px, 0px, 0px);
   }
 }
 

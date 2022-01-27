@@ -1,32 +1,44 @@
 from datetime import timedelta
 
-from django.contrib import messages as messages
-from django.contrib.auth.models import User
-from django.urls import reverse_lazy
-from django.db.models import Count
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.utils import timezone
-from django_countries import countries
-
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.models import EmailVerification, School, Student, Teacher
 from common.permissions import logged_in_as_independent_student, logged_in_as_teacher
+from django.contrib import messages as messages
+from django.contrib.auth.models import User
+from django.db.models import Count
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django_countries import countries
+
 from portal.app_settings import CONTACT_FORM_EMAILS
 
 
 def verify_email(request, token):
     verifications = EmailVerification.objects.filter(token=token)
 
-    if has_verification_failed(verifications):
-        return render(request, "portal/email_verification_failed.html")
+    if not verifications.exists():
+        return render(
+            request,
+            "portal/email_verification_failed.html",
+            {"usertype": "INDEP_STUDENT"},
+        )
 
     verification = verifications[0]
+    user = verification.user
+
+    usertype = (
+        "TEACHER" if Teacher.objects.filter(new_user=user).exists() else "INDEP_STUDENT"
+    )
+
+    if has_verification_failed(verifications):
+        return render(
+            request, "portal/email_verification_failed.html", {"usertype": usertype}
+        )
 
     verification.verified = True
     verification.save()
-
-    user = verification.user
 
     if verification.email:  # verifying change of email address
         user.email = verification.email
@@ -50,7 +62,7 @@ def verify_email(request, token):
 
 def has_verification_failed(verifications):
     return (
-        len(verifications) != 1
+        len(verifications) > 1
         or verifications[0].verified
         or (verifications[0].expiry - timezone.now()) < timedelta()
     )
