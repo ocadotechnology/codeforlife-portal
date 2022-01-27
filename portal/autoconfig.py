@@ -111,6 +111,7 @@ SETTINGS = {
         "portal.backends.StudentLoginBackend",
     ],
     "USE_TZ": True,
+    "PASSWORD_RESET_TIMEOUT_DAYS": 1,
 }
 
 SETTINGS.update(CSP_CONFIG)

@@ -33,6 +33,7 @@ from portal.views.admin import (
 from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
     InactiveUsersView,
+    DuplicateIndyStudentsView,
     last_connected_since,
     number_users_per_country,
     registered_users,
@@ -173,6 +174,7 @@ urlpatterns = [
     url(r"^admin/data/$", aggregated_data, name="aggregated_data"),
     url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),
     url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
+    url(r"^indycleanup/", DuplicateIndyStudentsView.as_view(), name="indy_cleanup"),
     url(
         r"^locked_out/$",
         TemplateView.as_view(template_name="portal/locked_out.html"),

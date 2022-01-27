@@ -3,9 +3,11 @@ from __future__ import absolute_import
 from unittest.mock import patch
 
 import pytest
+from common.models import Student
 from common.tests.utils.user import create_user_directly, get_superuser
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
@@ -113,6 +115,75 @@ class APITests(APITestCase):
             assert not client.login(username=user.username, password="password")
         response = client.get(url)
         assert len(response.data) == 0
+
+    def _create_indy_directly(self, username, email):
+        """Create an indy in the database."""
+        student = Student.objects.independentStudentFactory(
+            username=username,
+            name=username,
+            email=email,
+            password="Password1",
+        )
+        return student
+
+    @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
+    def test_get_duplicate_indies(self, mock_is_cloud_scheduler_function):
+        client = APIClient()
+        url = reverse("indy_cleanup")
+
+        # 1) if users never log in, the one with the latest date_joined is kept
+        SAME_EMAIL = "same@email.com"
+        student1 = self._create_indy_directly("student one", SAME_EMAIL)
+        student1.new_user.date_joined = timezone.now() - timezone.timedelta(days=10)
+        student1.new_user.save()
+
+        student2 = self._create_indy_directly("student two", SAME_EMAIL)
+        student2.new_user.date_joined = timezone.now() - timezone.timedelta(days=20)
+        student2.new_user.save()
+
+        students = Student.objects.filter(new_user__email=SAME_EMAIL)
+        assert len(students) == 2
+
+        response = client.delete(url)
+        assert mock_is_cloud_scheduler_function.called
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+
+        students = Student.objects.filter(new_user__email=SAME_EMAIL)
+        assert len(students) == 1
+
+        # 2) if there's one with login, keep that one, anonymise the rest
+        student2 = self._create_indy_directly("student two", SAME_EMAIL)
+        student2.new_user.date_joined = timezone.now() - timezone.timedelta(days=20)
+        student2.new_user.last_login = timezone.now() - timezone.timedelta(days=19)
+        student2.new_user.save()
+
+        students = Student.objects.filter(new_user__email=SAME_EMAIL)
+        assert len(students) == 2
+
+        response = client.delete(url)
+
+        students = Student.objects.filter(new_user__email=SAME_EMAIL)
+        assert len(students) == 1
+        assert students[0] == student2  # student 2 should be kept
+
+        # 3) if there's more than one with login, keep the most recent login, anonymise the rest
+        student1 = self._create_indy_directly("student one", SAME_EMAIL)
+        student1.new_user.date_joined = timezone.now() - timezone.timedelta(days=10)
+        student1.new_user.last_login = timezone.now() - timezone.timedelta(days=9)
+        student1.new_user.save()
+
+        student3 = self._create_indy_directly("student three", SAME_EMAIL)
+        student3.new_user.date_joined = timezone.now() - timezone.timedelta(days=5)
+        student3.new_user.save()
+
+        students = Student.objects.filter(new_user__email=SAME_EMAIL)
+        assert len(students) == 3
+
+        response = client.delete(url)
+
+        students = Student.objects.filter(new_user__email=SAME_EMAIL)
+        assert len(students) == 1
+        assert students[0] == student1  # student 1 should be kept
 
 
 def has_status_code(status_code):

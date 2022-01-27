@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v5.32.0 (2022-01-26)
+### Feature
+* Indy student cleanup ([`7f2b64f`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f2b64ff33b2d99f66d9215aae58b6118bc2855f))
+
+## v5.31.0 (2022-01-25)
+### Feature
+* Reset password and email verification pages redesign ([#1733](https://github.com/ocadotechnology/codeforlife-portal/issues/1733)) ([`25423b4`](https://github.com/ocadotechnology/codeforlife-portal/commit/25423b4045e5482141bed7cec7f28fc3a688b96a))
+
 ## v5.30.3 (2022-01-21)
 ### Fix
 * Fix various things on archiving game ([`2f43209`](https://github.com/ocadotechnology/codeforlife-portal/commit/2f43209119fd6ae5266ac0ef1ffc4eb566c7947e))
