@@ -64,21 +64,18 @@ class StepsHelper:
     @property
     def first(self):
         "Returns the name of the first step."
-        print("first")
         print(dir(self))
         return self.all[0]
 
     @property
     def last(self):
         "Returns the name of the last step."
-        print("last")
         print(dir(self))
         return self.all[-1]
 
     @property
     def next(self):
         "Returns the next step."
-        print("next")
         print(dir(self))
         return self._wizard.get_next_step()
 
@@ -223,7 +220,6 @@ class WizardView(TemplateView):
 
         # build the kwargs for the wizardview instances
         kwargs["form_list"] = computed_form_list
-        print("\n" * 20)
         return kwargs
 
     def get_prefix(self, request, *args, **kwargs):

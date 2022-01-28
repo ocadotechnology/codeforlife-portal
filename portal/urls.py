@@ -22,7 +22,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
-from portal.two_factor_urls import urlpatterns as two_factor_urls
+from portal.two_factor.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,

@@ -14,7 +14,7 @@ from django.utils.encoding import force_bytes
 from django.utils.translation import gettext as _
 from formtools.wizard.forms import ManagementForm
 from formtools.wizard.storage.session import SessionStorage
-from .wizard import SessionWizardView
+from .views import SessionWizardView
 
 
 logger = logging.getLogger(__name__)
@@ -97,7 +97,7 @@ class IdempotentSessionWizardView(SessionWizardView):
         """
         Returns the previous step before the given `step`. If there are no
         steps available, None will be returned. If the `step` argument is
-        None, the current step will be determined automatically.
+        None, the current step wwizardill be determined automatically.
         """
         if step is None:
             step = self.steps.current
