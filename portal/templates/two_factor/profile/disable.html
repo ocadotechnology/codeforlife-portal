@@ -3,7 +3,18 @@
 {% extends "two_factor/_base_focus.html" %}
 {% load i18n %}
 
+
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+{% endblock scripts %}
+
 {% block content %}
+{% include "portal/partials/popup.html" %}
     <h4>{% block title %}{% trans "Disable Two-factor Authentication" %}{% endblock %}</h4>
     <a id="return_to_classes_button" href="{% url 'dashboard' %}#account" class="button--menu button--menu--enabled">< Back to Your account</a>
     <p>{% blocktrans trimmed %}Disabling 2FA makes your account security weaker. Are you sure?{% endblocktrans %}</p>
@@ -12,6 +23,6 @@
         <div class="row is-flex">
             {{ form }}
         </div>
-        <button class="button--primary button--primary--danger" type="submit">{% trans "Disable 2FA" %}</button>
+        <button onclick="disable2FA('{% url 'two_factor:disable' %}')" class="button--primary button--primary--danger" type="button">Disable 2FA</button>
     </form>
 {% endblock %}
