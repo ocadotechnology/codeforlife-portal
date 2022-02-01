@@ -107,7 +107,7 @@ function disable2FA(path) {
 	const title = "Disable Two-factor";
 	const text =
 		"<div class='popup-text'><p class='body-text'>Disabling 2FA makes your account security weaker. Are you sure?</p></div>";
-	const confirm_handler = "postDisabledForm('" + path + "')";
+	const confirm_handler = "postDisabled2FAForm('" + path + "')";
 	showPopupConfirmation(title, text, confirm_handler);
 }
 
@@ -139,7 +139,7 @@ function resetStudentPasswords(path) {
 	});
 }
 
-function postDisabledForm(path) {
+function postDisabled2FAForm(path) {
 	post(path, {
 		csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
 		understand: "on",

@@ -12,7 +12,7 @@ from two_factor.views import (
     QRGeneratorView,
     SetupCompleteView,
 )
-from portal.two_factor.core import ClassName
+from portal.two_factor.core import CustomSetupView
 from portal.two_factor.profile import DisableView
 
 from portal.helpers.decorators import ratelimit
@@ -113,7 +113,7 @@ from portal.views.teacher.teacher_resources import (
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"^account/two_factor/setup/$", ClassName.as_view(), name="setup"),
+    url(r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
     url(
         r"^account/two_factor/setup/complete/$",

@@ -1,8 +1,0 @@
-{
-    "search.useGlobalIgnoreFiles": true,
-    "search.exclude": {
-        "**/*.code-search": false,
-        "**/bower_components": false,
-        "**/node_modules": false
-    }
-}
