@@ -1,5 +1,32 @@
 @import "base";
 
+#id_token-otp_token {
+  width: 100%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#id_understand {
+  display: none
+}
+
+
+[for="id_token-otp_token"],
+[for="id_generator-token"]
+ {
+    display: none;
+}
+
 form {
   @include _padding(20px, 0px, 30px, 0px);
 

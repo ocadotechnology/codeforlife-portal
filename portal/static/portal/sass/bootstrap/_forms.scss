@@ -29,30 +29,6 @@ legend {
   border-bottom: 1px solid $legend-border-color;
 }
 
-#id_token-otp_token {
-  width: 100%;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-
-[for="id_token-otp_token"],
-[for="id_generator-token"]
- {
-    display: none;
-}
-
-
 label {
   display: inline-block;
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)

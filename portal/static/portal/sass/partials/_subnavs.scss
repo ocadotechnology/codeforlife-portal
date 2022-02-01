@@ -280,12 +280,6 @@
   }
 }
 
-.container {
-  & > h4 {
-    text-align: center;
-  }
-}
-
 @media (max-width: $mobile-max-width) {
   .sub-nav {
     .container {
