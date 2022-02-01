@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.shortcuts import redirect, resolve_url
 from django.utils.functional import lazy
 from django.views.decorators.cache import never_cache

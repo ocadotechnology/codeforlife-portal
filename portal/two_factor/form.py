@@ -1,6 +1,3 @@
-from binascii import unhexlify
-from time import time
-
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
