@@ -1,6 +1,6 @@
 import time
 from unittest import mock
-
+from _pytest.monkeypatch import MonkeyPatch
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import create_school_student_directly
@@ -25,14 +25,11 @@ class TestAdminAccessMiddleware(TestCase):
     """
 
     def setUp(self) -> None:
-        self.patcher = mock.patch("deploy.middleware.admin_access.MODULE_NAME", "test")
-        self.mock_module_name = self.patcher.start()
-
         self.client = Client()
         self.email, self.password = self._setup_user()
 
-    def tearDown(self) -> None:
-        self.patcher.stop()
+        self.monkeypatch = MonkeyPatch()
+        self.monkeypatch.setattr("deploy.middleware.admin_access.MODULE_NAME", "test")
 
     def _setup_user(self) -> (str, str):
         email, password = signup_teacher_directly()
@@ -85,6 +82,9 @@ class TestAdminAccessMiddleware(TestCase):
         autospec=True,
     )
     def test_non_superuser_with_2FA_is_redirected(self, mock_using_two_factor):
+        self.monkeypatch.setattr(
+            "deploy.middleware.admin_access.using_two_factor", True
+        )
         self.client.login(username=self.email, password=self.password)
 
         response = self.client.get("/administration/")
@@ -139,6 +139,11 @@ class TestSessionTimeoutMiddleware(TestCase):
         self.client = Client()
         self.email, self.password = self._setup_user()
 
+        self.monkeypatch = MonkeyPatch()
+        self.monkeypatch.setattr(
+            "deploy.middleware.session_timeout.SESSION_EXPIRY_TIME", 5
+        )
+
     def _setup_user(self) -> (str, str):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -147,10 +152,6 @@ class TestSessionTimeoutMiddleware(TestCase):
 
         return email, password
 
-    @mock.patch(
-        "deploy.middleware.session_timeout.SESSION_EXPIRY_TIME",
-        MOCKED_SESSION_EXPIRY_TIME,
-    )
     def test_session_timeout(self):
         self.client.login(username=self.email, password=self.password)
 
