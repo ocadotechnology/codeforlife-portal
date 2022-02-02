@@ -1,17 +1,24 @@
 {# Overriding the original "two_factor" template #}
-
 {% extends "two_factor/_base_focus.html" %}
 {% load i18n %}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
+{% endblock scripts %}
 
 {% block content %}
+{% include "portal/partials/popup.html" %}
     <h4>{% block title %}{% trans "Disable Two-factor Authentication" %}{% endblock %}</h4>
-    <p>{% blocktrans trimmed %}You are about to disable two-factor authentication. This
-        weakens your account security, are you sure?{% endblocktrans %}</p>
+    <a id="return_to_classes_button" href="{% url 'dashboard' %}#account" class="button--menu button--menu--enabled">< Back to Your account</a>
+    <p>{% blocktrans trimmed %}You can disable your two-factor authentication below.{% endblocktrans %}</p>
     <form method="post">
         {% csrf_token %}
         <div class="row is-flex">
             {{ form }}
         </div>
-        <button class="button--primary button--primary--danger" type="submit">{% trans "Disable" %}</button>
+        <button onclick="disable2FA('{% url 'two_factor:disable' %}')" class="button--primary button--primary--danger" type="button">Disable 2FA</button>
     </form>
 {% endblock %}

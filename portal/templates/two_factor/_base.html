@@ -1,6 +1,9 @@
 {# Overriden the original "two_factor" template to style #}
 
 {% extends 'portal/base.html' %}
+{% block subNav %}
+    {% include "portal/partials/teacher_non_dashboard_subnav_account.html" %}
+{% endblock subNav %}
 {% load future %}
 
 {% block contentDiv %}

@@ -8,12 +8,12 @@ from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
 from two_factor.views import (
     BackupTokensView,
-    DisableView,
     ProfileView,
     QRGeneratorView,
     SetupCompleteView,
-    SetupView,
 )
+from portal.two_factor.core import CustomSetupView
+from portal.two_factor.profile import CustomDisableView
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
@@ -22,7 +22,6 @@ from portal.helpers.ratelimit import (
     RATELIMIT_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
-from portal.two_factor_urls import urlpatterns as two_factor_urls
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
@@ -114,8 +113,7 @@ from portal.views.teacher.teacher_resources import (
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(r"", include(two_factor_urls, "two_factor")),
-    url(r"^account/two_factor/setup/$", SetupView.as_view(), name="setup"),
+    url(r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
     url(
         r"^account/two_factor/setup/complete/$",
@@ -134,7 +132,7 @@ two_factor_patterns = [
     ),
     url(
         r"^account/two_factor/disable/$",
-        teacher_verified(DisableView.as_view()),
+        teacher_verified(CustomDisableView.as_view()),
         name="disable",
     ),
 ]
