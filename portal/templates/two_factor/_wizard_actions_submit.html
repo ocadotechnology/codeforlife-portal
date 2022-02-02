@@ -1,0 +1,6 @@
+{# Overriding the original "two_factor" template #}
+{% load i18n %}
+<div class="button-group d-flex flex-row justify-content-between align-items-end">
+    <a href="{% url 'dashboard' %}" class="button button--secondary button--secondary--light">{% trans "Cancel" %}</a>
+    <button type="submit" class="button--primary">{% trans "Submit" %}</button>
+</div>
