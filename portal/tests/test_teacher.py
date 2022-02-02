@@ -573,7 +573,7 @@ class TestTeacherFrontend(BaseTest):
         mail.outbox = []
 
         # Try changing email to an existing indy student's email, should fail
-        _, _, _, indy_email = create_independent_student_directly()
+        indy_email, _, _ = create_independent_student_directly()
         page = self.go_to_homepage()
         page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
 
