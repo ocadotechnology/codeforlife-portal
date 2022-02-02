@@ -420,6 +420,11 @@ class TestTeacherFrontend(BaseTest):
         page, _, _ = signup_duplicate_teacher_fail(page, email)
         assert self.is_login_page(page)
 
+        # Test sign up with an existing indy student's email
+        _, _, _, indy_email = create_independent_student_directly()
+        page = self.go_to_homepage()
+        page, _, _ = signup_duplicate_teacher_fail(page, indy_email)
+
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -555,13 +560,8 @@ class TestTeacherFrontend(BaseTest):
 
         other_email, _ = signup_teacher_directly()
 
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_account_tab()
-        )
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
 
         # Try changing email to an existing email, should fail
         page = page.change_email("Test", "Teacher", other_email, password)
@@ -572,13 +572,21 @@ class TestTeacherFrontend(BaseTest):
         assert subject == "Code for Life: Duplicate account error"
         mail.outbox = []
 
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_account_tab()
-        )
+        # Try changing email to an existing indy student's email, should fail
+        _, _, _, indy_email = create_independent_student_directly()
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
+
+        page = page.change_email("Test", "Teacher", indy_email, password)
+        assert self.is_email_verification_page(page)
+        assert is_email_updated_message_showing(self.selenium)
+
+        subject = str(mail.outbox[0].subject)
+        assert subject == "Code for Life: Duplicate account error"
+        mail.outbox = []
+
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
 
         # Try changing email to a new one, should succeed
         new_email = "another-email@codeforlife.com"

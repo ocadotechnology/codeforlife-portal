@@ -10,6 +10,7 @@ from common.email_messages import (
     emailVerificationNeededEmail,
 )
 from common.models import EmailVerification, Teacher, Student
+from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 from django.template import loader
@@ -220,7 +221,9 @@ def update_email(user: Teacher or Student, request, data):
 
     if new_email != "" and new_email != user.new_user.email:
         changing_email = True
-        if _is_email_already_taken(new_email, user):
+        users_with_email = User.objects.filter(email=new_email)
+        # email is already taken
+        if users_with_email.exists() and users_with_email[0] != user:
             email_message = emailChangeDuplicateNotificationEmail(request, new_email)
             send_email(
                 NOTIFICATION_EMAIL,
@@ -232,12 +235,3 @@ def update_email(user: Teacher or Student, request, data):
             # new email to set and verify
             send_verification_email(request, user.new_user, new_email)
     return changing_email, new_email
-
-
-def _is_email_already_taken(new_email, user):
-    teachers_with_email = Teacher.objects.filter(new_user__email=new_email)
-    students_with_email = Student.objects.filter(new_user__email=new_email)
-
-    return (teachers_with_email.exists() and teachers_with_email[0] != user) or (
-        students_with_email.exists() and students_with_email[0] != user
-    )

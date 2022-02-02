@@ -64,7 +64,7 @@ def create_independent_student_directly(preverified=True):
     # verify student
     generate_token(student.new_user, preverified=preverified)
 
-    return username, password, student
+    return username, password, student, email
 
 
 def create_school_student(page):
