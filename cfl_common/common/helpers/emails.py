@@ -223,7 +223,7 @@ def update_email(user: Teacher or Student, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
         # email is already taken
-        if users_with_email.exists() and users_with_email[0] != user:
+        if users_with_email.exists():
             email_message = emailChangeDuplicateNotificationEmail(request, new_email)
             send_email(
                 NOTIFICATION_EMAIL,
