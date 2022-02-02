@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.32.1 (2022-02-02)
+### Fix
+* 2FA pages updated ([#1736](https://github.com/ocadotechnology/codeforlife-portal/issues/1736)) ([`8c8f1ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c8f1ae1f0c5976be3b09664ed28bb323475d01c))
+
 ## v5.32.0 (2022-01-26)
 ### Feature
 * Indy student cleanup ([`7f2b64f`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f2b64ff33b2d99f66d9215aae58b6118bc2855f))
