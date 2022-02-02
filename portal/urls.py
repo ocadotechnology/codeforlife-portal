@@ -12,8 +12,6 @@ from two_factor.views import (
     QRGeneratorView,
     SetupCompleteView,
 )
-from portal.two_factor.core import CustomSetupView
-from portal.two_factor.profile import CustomDisableView
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
@@ -109,6 +107,8 @@ from portal.views.teacher.teacher_resources import (
     kurono_teaching_packs,
     materials,
 )
+from portal.views.two_factor.core import CustomSetupView
+from portal.views.two_factor.profile import CustomDisableView
 
 js_info_dict = {"packages": ("conf.locale",)}
 
