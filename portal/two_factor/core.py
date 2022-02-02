@@ -1,7 +1,4 @@
-from django.utils.translation import gettext as _
-
 from two_factor.forms import TOTPDeviceForm
-
 from two_factor.views.core import SetupView
 
 # This custom class gets rid of the 'welcome' step of 2FA
