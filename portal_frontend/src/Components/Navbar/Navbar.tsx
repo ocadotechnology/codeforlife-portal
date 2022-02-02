@@ -13,6 +13,8 @@ import UserButton from "./UserButton";
 import { userInfo } from "os";
 import SubMenu from "./SubMenu";
 
+// The first image is imported from the public folder
+
 type UserType = "student" | "independent" | "teacher";
 
 interface Props {
@@ -25,8 +27,8 @@ const Navbar = ({ name, userType }: Props) => {
 		<Toolbar sx={{ display: "flex" }}>
 			<NavBarStyled elevation={5}>
 				<img
-					src="https://www.codeforlife.education/static/portal/img/logo_cfl.png"
-					alt="somethigns"
+					src="/TestImages/logo_cfl.png" // Here is where an image is being imported
+					alt="cfl_logo"
 					style={{
 						height: "80px",
 					}}
