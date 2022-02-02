@@ -421,7 +421,7 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_login_page(page)
 
         # Test sign up with an existing indy student's email
-        _, _, _, indy_email = create_independent_student_directly()
+        indy_email, _, _ = create_independent_student_directly()
         page = self.go_to_homepage()
         page, _, _ = signup_duplicate_teacher_fail(page, indy_email)
 
