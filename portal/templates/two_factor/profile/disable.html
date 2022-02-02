@@ -13,7 +13,7 @@
 {% include "portal/partials/popup.html" %}
     <h4>{% block title %}{% trans "Disable Two-factor Authentication" %}{% endblock %}</h4>
     <a id="return_to_classes_button" href="{% url 'dashboard' %}#account" class="button--menu button--menu--enabled">< Back to Your account</a>
-    <p>{% blocktrans trimmed %}Disabling 2FA makes your account security weaker. Are you sure?{% endblocktrans %}</p>
+    <p>{% blocktrans trimmed %}You can disable your two-factor authentication below.{% endblocktrans %}</p>
     <form method="post">
         {% csrf_token %}
         <div class="row is-flex">
