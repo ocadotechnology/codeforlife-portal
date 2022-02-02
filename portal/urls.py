@@ -13,7 +13,8 @@ from two_factor.views import (
     SetupCompleteView,
 )
 from portal.two_factor.core import CustomSetupView
-from portal.two_factor.profile import DisableView
+from portal.two_factor.profile import CustomDisableView
+from two_factor.views.core import SetupView
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
@@ -132,7 +133,7 @@ two_factor_patterns = [
     ),
     url(
         r"^account/two_factor/disable/$",
-        teacher_verified(DisableView.as_view()),
+        teacher_verified(CustomDisableView.as_view()),
         name="disable",
     ),
 ]

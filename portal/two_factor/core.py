@@ -1,6 +1,3 @@
-import logging
-
-from django.conf import settings
 from django.utils.translation import gettext as _
 
 from two_factor.forms import (
@@ -11,15 +8,8 @@ from two_factor.forms import (
 )
 from two_factor.views.core import SetupView
 
-try:
-    from otp_yubikey.models import RemoteYubikeyDevice, ValidationService
-except ImportError:
-    ValidationService = RemoteYubikeyDevice = None
-
-
-logger = logging.getLogger(__name__)
-
-
+# This custom class gets rid of the 'welcome' step of 2FA
+# which the new design not needs any more
 class CustomSetupView(SetupView):
     form_list = (
         ("generator", TOTPDeviceForm),
@@ -27,3 +17,5 @@ class CustomSetupView(SetupView):
         ("validation", DeviceValidationForm),
         ("yubikey", YubiKeyDeviceForm),
     )
+
+    condition_dict = {}

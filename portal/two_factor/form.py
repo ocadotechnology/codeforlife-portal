@@ -1,6 +1,4 @@
 from django import forms
-from django.conf import settings
-
 
 # This is the form that asks if the user
 # wants to disable 2FA after clicking disable
