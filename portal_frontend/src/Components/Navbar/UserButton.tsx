@@ -4,15 +4,15 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { UserButtonStyled } from "./NavbarStyle";
 
 interface Username {
-	name: string;
+  name: string;
 }
 
 const UserButton = (props: Username) => {
-	return (
-		<UserButtonStyled color="secondary" variant="outlined">
-			{props.name} <PersonOutlineIcon />
-		</UserButtonStyled>
-	);
+  return (
+    <UserButtonStyled color="secondary" variant="outlined">
+      {props.name} <PersonOutlineIcon />
+    </UserButtonStyled>
+  );
 };
 
 export default UserButton;

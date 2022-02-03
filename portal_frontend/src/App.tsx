@@ -28,30 +28,30 @@ let name: string = "First Name";
 let userType: UserType = "independent";
 
 const App: React.FC = () => {
-	return (
-		<div>
-			<ThemeProvider theme={theme}>
-				<Navbar name={name} userType={userType} />
-				<Welcome name={name} />
-				<Container
-					sx={{
-						display: "flex",
-						flexDirection: "column",
-						padding: "5% 0 5% 0",
-						width: "70%",
-						justifyContent: "center",
-						alignItems: "center",
-					}}
-				>
-					<YourGames />
-				</Container>
-				<RapidRouterScores />
-				<KuronoWidget />
-				<MeetTheCharacters />
-				<Footer />
-			</ThemeProvider>
-		</div>
-	);
+  return (
+    <div>
+      <ThemeProvider theme={theme}>
+        <Navbar name={name} userType={userType} />
+        <Welcome name={name} />
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "5% 0 5% 0",
+            width: "70%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <YourGames />
+        </Container>
+        <RapidRouterScores />
+        <KuronoWidget />
+        <MeetTheCharacters />
+        <Footer />
+      </ThemeProvider>
+    </div>
+  );
 };
 
 export default App;
