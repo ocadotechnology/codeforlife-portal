@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.32.4 (2022-02-03)
+### Fix
+* Update test cookies consent script ([#1752](https://github.com/ocadotechnology/codeforlife-portal/issues/1752)) ([`cfaa2ec`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfaa2ec828d20398754b34e152273a3388776b59))
+
 ## v5.32.3 (2022-02-03)
 ### Fix
 * Make two_factor a module to fix deployment (and move to /views/) ([#1751](https://github.com/ocadotechnology/codeforlife-portal/issues/1751)) ([`b162c30`](https://github.com/ocadotechnology/codeforlife-portal/commit/b162c309ac6df2dfd1b4ebf2f9497251aea32ad6))
