@@ -157,6 +157,25 @@ class TestIndependentStudentFrontend(BaseTest):
 
         assert self.is_login_page(page)
 
+    def test_signup_duplicate_email_with_teacher(self):
+        teacher_email, _ = signup_teacher_directly()
+
+        page = self.go_to_homepage()
+        page = page.go_to_signup_page()
+
+        page = page.independent_student_signup(
+            "indy",
+            teacher_email,
+            teacher_email,
+            password="Password1!",
+            confirm_password="Password1!",
+        )
+
+        page = page.return_to_home_page()
+
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
+
     def test_signup_duplicate_username_failure(self):
         username, _, _ = create_independent_student_directly()
 
@@ -293,6 +312,24 @@ class TestIndependentStudentFrontend(BaseTest):
 
         # Try changing email to an existing email, should fail
         page = page.change_email(other_email, password)
+        assert self.is_email_verification_page(page)
+        assert is_student_details_updated_message_showing(self.selenium)
+        assert is_email_updated_message_showing(self.selenium)
+
+        subject = str(mail.outbox[0].subject)
+        assert subject == "Code for Life: Duplicate account error"
+        mail.outbox = []
+
+        # Try changing email to an existing teacher's email
+        teacher_email, _ = signup_teacher_directly()
+
+        page = (
+            homepage.go_to_independent_student_login_page()
+            .independent_student_login(student_username, password)
+            .go_to_account_page()
+        )
+
+        page = page.change_email(teacher_email, password)
         assert self.is_email_verification_page(page)
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)

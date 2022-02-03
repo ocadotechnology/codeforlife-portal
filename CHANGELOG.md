@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.32.2 (2022-02-03)
+### Fix
+* Unique email for teacher and indy student ([`43927a4`](https://github.com/ocadotechnology/codeforlife-portal/commit/43927a4dda86a8af806023e5d12e1ecab264b17a))
+
 ## v5.32.1 (2022-02-02)
 ### Fix
 * 2FA pages updated ([#1736](https://github.com/ocadotechnology/codeforlife-portal/issues/1736)) ([`8c8f1ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c8f1ae1f0c5976be3b09664ed28bb323475d01c))
