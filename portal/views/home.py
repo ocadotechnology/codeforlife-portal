@@ -10,6 +10,7 @@ from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -111,7 +112,7 @@ def _newsletter_ticked(form_data):
 def process_signup_form(request, data):
     email = data["teacher_email"]
 
-    if email and Teacher.objects.filter(new_user__email=email).exists():
+    if email and User.objects.filter(email=email).exists():
         email_message = email_messages.userAlreadyRegisteredEmail(request, email)
         send_email(
             NOTIFICATION_EMAIL,
@@ -147,7 +148,7 @@ def process_independent_student_signup_form(request, data):
 
     independent_students = Student.objects.filter(class_field=None)
 
-    if is_independent_email_already_used(email, independent_students):
+    if email and User.objects.filter(email=email).exists():
         email_message = email_messages.userAlreadyRegisteredEmail(
             request, email, is_independent_student=True
         )
@@ -164,7 +165,7 @@ def process_independent_student_signup_form(request, data):
             status=302,
         )
 
-    if is_independent_username_already_used(username, independent_students):
+    if username and independent_students.filter(new_user__username=username).exists():
         email_message = email_messages.indepStudentUsernameAlreadyExistsEmail(
             request, username
         )
@@ -199,16 +200,6 @@ def process_independent_student_signup_form(request, data):
         "portal/email_verification_needed.html",
         {"usertype": "INDEP_STUDENT"},
         status=302,
-    )
-
-
-def is_independent_email_already_used(email, independent_students):
-    return email and independent_students.filter(new_user__email=email).exists()
-
-
-def is_independent_username_already_used(username, independent_students):
-    return (
-        username and independent_students.filter(new_user__username=username).exists()
     )
 
 

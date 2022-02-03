@@ -1,0 +1,12 @@
+{% load app_tags %}
+
+<section class="banner banner--teacher">
+  <h1 class="banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
+</section>
+<div class="sticky-subnav sub-nav sub-nav--teacher">
+  <ul class="nav is-flex">
+      <li><a class="button button--secondary button--secondary--light" href="{% url 'dashboard' %}#school">Your school</a></li>
+      <li><a class="button button--secondary button--secondary--light cursor-pointer" href="{% url 'dashboard' %}#classes">Your classes</a></li>
+      <li class="active"><a class="button button--secondary button--secondary--light" href="{% url 'dashboard' %}#account">Your account</a></li>
+  </ul>
+</div>

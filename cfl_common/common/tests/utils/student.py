@@ -89,10 +89,10 @@ def create_many_school_students(page, number_of_students):
 
 def generate_independent_student_details():
     name = "Independent Student %d" % generate_independent_student_details.next_id
-    username = "Student user %d" % generate_independent_student_details.next_id
     email_address = (
-        "Student%d@codeforlife.com" % generate_independent_student_details.next_id
+        "student%d@codeforlife.com" % generate_independent_student_details.next_id
     )
+    username = email_address
     password = "Password2"
 
     generate_independent_student_details.next_id += 1
