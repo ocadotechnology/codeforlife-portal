@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
+const FONT_FAMILY = '"Space Grotesk", sans-serif';
+
 export const theme = createTheme({
 	// Paste the code below this line
 	// from https://bareynol.github.io/mui-theme-creator/?firstName=&lastName=&email=&password=
@@ -13,43 +15,43 @@ export const theme = createTheme({
 	},
 	typography: {
 		h1: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		h2: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		h3: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		h4: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		h5: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		h6: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		subtitle1: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		subtitle2: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		body1: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		body2: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		button: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		caption: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 		overline: {
-			fontFamily: '"Space Grotesk", sans-serif',
+			fontFamily: FONT_FAMILY,
 		},
 	},
 });
