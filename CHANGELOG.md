@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.32.3 (2022-02-03)
+### Fix
+* Make two_factor a module to fix deployment (and move to /views/) ([#1751](https://github.com/ocadotechnology/codeforlife-portal/issues/1751)) ([`b162c30`](https://github.com/ocadotechnology/codeforlife-portal/commit/b162c309ac6df2dfd1b4ebf2f9497251aea32ad6))
+
 ## v5.32.2 (2022-02-03)
 ### Fix
 * Unique email for teacher and indy student ([`43927a4`](https://github.com/ocadotechnology/codeforlife-portal/commit/43927a4dda86a8af806023e5d12e1ecab264b17a))
