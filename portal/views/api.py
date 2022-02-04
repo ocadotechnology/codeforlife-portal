@@ -137,13 +137,13 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
                     _anonymise(usrtwo)
                 elif usrone.date_joined < usrtwo.date_joined:
                     _anonymise(usrone)
-                else:
-                    pass  # should not happen, but if it does, leave them
+                # else: should not happen, but if it does, leave them
             # if there's one with login, keep that one
             elif usrone.last_login and not usrtwo.last_login:
                 _anonymise(usrtwo)
             elif not usrone.last_login and usrtwo.last_login:
                 _anonymise(usrone)
+            # else: both have logged in, we don't want to automatically choose for teacher+indy duplicates
 
         for student in indystudents:
             email = student.new_user.email
