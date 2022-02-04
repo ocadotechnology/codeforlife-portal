@@ -114,9 +114,9 @@ class InactiveUsersView(generics.ListAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class DuplicateIndyStudentsView(generics.ListAPIView):
+class DuplicateIndyTeacherView(generics.ListAPIView):
     """
-    This API endpoint deletes the independent student accounts with duplicate emails.
+    This API endpoint deletes teacher or independent student accounts with duplicate emails.
     """
 
     queryset = Student.objects.filter(
@@ -129,63 +129,38 @@ class DuplicateIndyStudentsView(generics.ListAPIView):
     def delete(self, request, *args, **kwargs):
         indystudents = self.get_queryset()
 
-        # dictionary of duplicate emails and list of students
-        studentdict = {}
+        def _tidyup(usrone, usrtwo):
+
+            # if there's no login at all, keep the one with the most recent date_joined
+            if not usrone.last_login and not usrtwo.last_login:
+                if usrone.date_joined > usrtwo.date_joined:
+                    _anonymise(usrtwo)
+                elif usrone.date_joined < usrtwo.date_joined:
+                    _anonymise(usrone)
+                else:
+                    pass  # should not happen, but if it does, leave them
+            # if there's one with login, keep that one
+            elif usrone.last_login and not usrtwo.last_login:
+                _anonymise(usrtwo)
+            elif not usrone.last_login and usrtwo.last_login:
+                _anonymise(usrone)
+            else:
+                # both have logged in
+                pass  # we don't want to automatically choose for teacher+indy duplicates
+
         for student in indystudents:
             email = student.new_user.email
             assert email != ""
 
-            if not studentdict.get(email):
-                studentdict[email] = []
-            studentdict[email].append(student)
+            teachers = Teacher.objects.filter(
+                new_user__is_active=True, new_user__email=email
+            ).select_related("new_user")
 
-        def _get_last_joined(students):
-            # get the student with the latest date_joined
-            last_joined = None
-            for student in students:
-                if not last_joined:
-                    last_joined = student
-                else:
-                    if student.new_user.date_joined > last_joined.new_user.date_joined:
-                        last_joined = student
-            return last_joined
-
-        def _get_last_login(students):
-            # get the student with the latest last_login
-            last_login = None
-            for student in students:
-                if not last_login:
-                    last_login = student
-                else:
-                    if student.new_user.last_login > last_login.new_user.last_login:
-                        last_login = student
-            return last_login
-
-        def _anonymise_others(students, kept_student):
-            for student in students:
-                if student != kept_student:
-                    _anonymise(student.new_user)
-
-        for email, students in studentdict.items():
-            if len(students) <= 1:
+            if not teachers.exists():
                 continue  # no duplicate
 
-            logged_in_students = []
-            # collect accounts who have last_login
-            for student in students:
-                if student.new_user.last_login:
-                    logged_in_students.append(student)
-
-            # if there's no login at all, keep the one with the most recent date_joined
-            if len(logged_in_students) == 0:
-                last_joined = _get_last_joined(students)
-                _anonymise_others(students, last_joined)
-            elif len(logged_in_students) == 1:
-                # if there's one with login, keep that one, anonymise the rest
-                _anonymise_others(students, logged_in_students[0])
-            else:
-                # if there's more than one with login, keep the most recent login, anonymise the rest
-                last_login = _get_last_login(logged_in_students)
-                _anonymise_others(students, last_login)
+            # else there's a duplicate
+            assert len(teachers) == 1
+            _tidyup(student.new_user, teachers[0].new_user)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
