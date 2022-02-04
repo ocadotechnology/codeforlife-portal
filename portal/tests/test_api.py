@@ -176,6 +176,8 @@ class APITests(APITestCase):
         teacher.new_user.date_joined = timezone.now() - timezone.timedelta(days=20)
         teacher.new_user.last_login = timezone.now() - timezone.timedelta(days=19)
         teacher.new_user.save()
+        student.new_user.last_login = None
+        student.new_user.save()
 
         response = client.delete(url)
 
