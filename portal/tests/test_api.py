@@ -157,6 +157,8 @@ class APITests(APITestCase):
 
         user = User.objects.get(email=SAME_EMAIL)
         assert user == student.new_user
+        user = User.objects.get(id=teacher.new_user.id)
+        assert user.email != SAME_EMAIL  # anonymised
 
         # now teacher created later
         teacher = self._create_teacher_directly(SAME_EMAIL)
@@ -167,6 +169,8 @@ class APITests(APITestCase):
 
         user = User.objects.get(email=SAME_EMAIL)
         assert user == teacher.new_user
+        user = User.objects.get(id=student.new_user.id)
+        assert user.email != SAME_EMAIL  # anonymised
 
         # 2) if there's one with login, keep that one, anonymise the other
         teacher.new_user.date_joined = timezone.now() - timezone.timedelta(days=20)
@@ -177,11 +181,12 @@ class APITests(APITestCase):
 
         user = User.objects.get(email=SAME_EMAIL)
         assert user == teacher.new_user
+        user = User.objects.get(id=student.new_user.id)
+        assert user.email != SAME_EMAIL  # anonymised
 
         # now try the student to log in and not teacher
         teacher.new_user.last_login = None
         teacher.new_user.save()
-
         student.new_user.last_login = timezone.now() - timezone.timedelta(days=9)
         student.new_user.save()
 
@@ -189,6 +194,8 @@ class APITests(APITestCase):
 
         user = User.objects.get(email=SAME_EMAIL)
         assert user == student.new_user
+        user = User.objects.get(id=teacher.new_user.id)
+        assert user.email != SAME_EMAIL  # anonymised
 
 
 def has_status_code(status_code):
