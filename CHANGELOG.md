@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.32.4 (2022-02-03)
+### Fix
+* Update test cookies consent script ([#1752](https://github.com/ocadotechnology/codeforlife-portal/issues/1752)) ([`cfaa2ec`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfaa2ec828d20398754b34e152273a3388776b59))
+
+## v5.32.3 (2022-02-03)
+### Fix
+* Make two_factor a module to fix deployment (and move to /views/) ([#1751](https://github.com/ocadotechnology/codeforlife-portal/issues/1751)) ([`b162c30`](https://github.com/ocadotechnology/codeforlife-portal/commit/b162c309ac6df2dfd1b4ebf2f9497251aea32ad6))
+
+## v5.32.2 (2022-02-03)
+### Fix
+* Unique email for teacher and indy student ([`43927a4`](https://github.com/ocadotechnology/codeforlife-portal/commit/43927a4dda86a8af806023e5d12e1ecab264b17a))
+
 ## v5.32.1 (2022-02-02)
 ### Fix
 * 2FA pages updated ([#1736](https://github.com/ocadotechnology/codeforlife-portal/issues/1736)) ([`8c8f1ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/8c8f1ae1f0c5976be3b09664ed28bb323475d01c))
