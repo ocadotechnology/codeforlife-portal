@@ -27,7 +27,7 @@ const Navbar = ({ name, userType }: Props) => {
     <Toolbar sx={{ display: "flex" }}>
       <NavBarStyled elevation={5}>
         <img
-          src="/TestImages/logo_cfl.png" // Here is where an image is being imported
+          src="/images/logo_cfl.png" // Here is where an image is being imported
           alt="cfl_logo"
           style={{
             height: "80px",
