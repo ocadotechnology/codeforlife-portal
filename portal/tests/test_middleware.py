@@ -82,9 +82,6 @@ class TestAdminAccessMiddleware(TestCase):
         autospec=True,
     )
     def test_non_superuser_with_2FA_is_redirected(self, mock_using_two_factor):
-        self.monkeypatch.setattr(
-            "deploy.middleware.admin_access.using_two_factor", True
-        )
         self.client.login(username=self.email, password=self.password)
 
         response = self.client.get("/administration/")
