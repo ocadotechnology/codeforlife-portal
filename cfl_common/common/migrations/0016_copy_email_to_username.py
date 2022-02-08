@@ -1,12 +1,12 @@
-from django.db import migrations, models
+from django.db import migrations
 
 
 def copy_email_to_username(apps, schema):
     Student = apps.get_model("common", "Student")
-    for student in Student.objects.all():
-        if not student.user.user.is_staff and student.user.user.email:
-            student.user.user.username = student.user.user.email
-            student.user.user.save()
+    independent_students = Student.objects.filter(class_field=None)
+    for student in independent_students:
+        student.new_user.username = student.new_user.email
+        student.new_user.save()
 
 
 class Migration(migrations.Migration):
@@ -15,4 +15,8 @@ class Migration(migrations.Migration):
         ("common", "0015_dailyactivity"),
     ]
 
-    operations = [migrations.RunPython(code=copy_email_to_username)]
+    operations = [
+        migrations.RunPython(
+            code=copy_email_to_username, reverse_code=migrations.RunPython.noop
+        )
+    ]
