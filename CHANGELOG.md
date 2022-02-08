@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.33.0 (2022-02-07)
+### Feature
+* Implement session timeout middleware ([#1749](https://github.com/ocadotechnology/codeforlife-portal/issues/1749)) ([`cf5373e`](https://github.com/ocadotechnology/codeforlife-portal/commit/cf5373e849d06700ce9328356862510797108db9))
+
 ## v5.32.4 (2022-02-03)
 ### Fix
 * Update test cookies consent script ([#1752](https://github.com/ocadotechnology/codeforlife-portal/issues/1752)) ([`cfaa2ec`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfaa2ec828d20398754b34e152273a3388776b59))
