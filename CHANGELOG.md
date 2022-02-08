@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.33.2 (2022-02-08)
+### Fix
+* Revert "fix: update test cookies consent script (#1752)" ([#1756](https://github.com/ocadotechnology/codeforlife-portal/issues/1756)) ([`d63bdf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d63bdf5aa5d79b51e40f4fb227008fb36e1e1565))
+
 ## v5.33.1 (2022-02-08)
 ### Fix
 * Cleanup duplicate teacher + indy ([`b73f545`](https://github.com/ocadotechnology/codeforlife-portal/commit/b73f5451e7c30b7b45053711d99d5bb9eaca1e78))
