@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.33.1 (2022-02-08)
+### Fix
+* Cleanup duplicate teacher + indy ([`b73f545`](https://github.com/ocadotechnology/codeforlife-portal/commit/b73f5451e7c30b7b45053711d99d5bb9eaca1e78))
+
 ## v5.33.0 (2022-02-07)
 ### Feature
 * Implement session timeout middleware ([#1749](https://github.com/ocadotechnology/codeforlife-portal/issues/1749)) ([`cf5373e`](https://github.com/ocadotechnology/codeforlife-portal/commit/cf5373e849d06700ce9328356862510797108db9))
