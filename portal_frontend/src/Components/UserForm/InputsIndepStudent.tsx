@@ -8,7 +8,7 @@ import { TextField } from "@mui/material";
 import SecurityIcon from "@mui/icons-material/Security";
 import { Box } from "@mui/system";
 
-const InputsIndeStudent = () => {
+const InputsIndepStudent = () => {
   const inputStyles = form();
 
   return (
@@ -104,4 +104,4 @@ const InputsIndeStudent = () => {
   );
 };
 
-export default InputsIndeStudent;
+export default InputsIndepStudent;
