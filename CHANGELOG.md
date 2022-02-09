@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.33.3 (2022-02-09)
+### Fix
+* Indy teacher cleanup in batches ([`200c6ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/200c6ae560919b65eb9fbb7e270927aa27b7e417))
+
 ## v5.33.2 (2022-02-08)
 ### Fix
 * Revert "fix: update test cookies consent script (#1752)" ([#1756](https://github.com/ocadotechnology/codeforlife-portal/issues/1756)) ([`d63bdf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d63bdf5aa5d79b51e40f4fb227008fb36e1e1565))
