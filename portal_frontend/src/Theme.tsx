@@ -65,7 +65,7 @@ export const theme = createTheme({
     },
     body2: {
       fontFamily: FONT_SECONDARY,
-      fontSize: "16px"
+      fontSize: "16px",
     },
     button: {
       fontFamily: FONT_SECONDARY,
