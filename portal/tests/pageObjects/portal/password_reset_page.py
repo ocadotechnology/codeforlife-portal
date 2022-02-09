@@ -4,11 +4,11 @@ from .base_page import BasePage
 from .home_page import HomePage
 
 
-class TeacherPasswordResetFormPage(BasePage):
+class PasswordResetPage(BasePage):
     def __init__(self, browser):
-        super(TeacherPasswordResetFormPage, self).__init__(browser)
+        super(PasswordResetPage, self).__init__(browser)
 
-        assert self.on_correct_page("reset_password_teacher_page")
+        assert self.on_correct_page("reset_password_page")
 
     def cancel(self):
         self.browser.find_element_by_id("cancel_button").click()

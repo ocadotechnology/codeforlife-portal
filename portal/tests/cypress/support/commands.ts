@@ -110,10 +110,9 @@ Cypress.Commands.add('signupAsTeacher', (firstName, lastName, email, password, c
   cy.get('[name="teacher_signup"]').click();
 })
 
-Cypress.Commands.add('signupAsIndependentStudent', (name, username, email, password, confirmPassword) => {
+Cypress.Commands.add('signupAsIndependentStudent', (name, email, password, confirmPassword) => {
   cy.visit('/register_form/')
   cy.get('#id_independent_student_signup-name').type(name);
-  cy.get('#id_independent_student_signup-username').type(username);
   cy.get('#id_independent_student_signup-email').type(email);
   cy.get('#id_independent_student_signup-is_over_required_age').check();
   cy.get('#id_independent_student_signup-password').type(password);

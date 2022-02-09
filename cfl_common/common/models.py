@@ -235,9 +235,9 @@ class StudentModelManager(models.Manager):
             login_id=login_id,
         )
 
-    def independentStudentFactory(self, username, name, email, password):
+    def independentStudentFactory(self, name, email, password):
         user = User.objects.create_user(
-            username=username, email=email, password=password, first_name=name
+            username=email, email=email, password=password, first_name=name
         )
 
         user_profile = UserProfile.objects.create(user=user)
