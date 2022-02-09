@@ -10,7 +10,7 @@ const BOLD: number = 500
 
 export const theme = createTheme({
   // Paste the code below this line
-  // from https://bareynol.github.io/mui-theme-creator/?firstName=&lastName=&email=&password=
+  // from https://bareynol.github.io/mui-theme-creator/
   palette: {
     primary: {
       main: "rgb(244, 0, 77)",
