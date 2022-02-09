@@ -5,8 +5,9 @@ def copy_email_to_username(apps, schema):
     Student = apps.get_model("common", "Student")
     independent_students = Student.objects.filter(class_field=None)
     for student in independent_students:
-        student.new_user.username = student.new_user.email
-        student.new_user.save()
+        if student.new_user.is_active:
+            student.new_user.username = student.new_user.email
+            student.new_user.save()
 
 
 class Migration(migrations.Migration):
