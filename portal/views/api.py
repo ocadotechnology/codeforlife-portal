@@ -127,10 +127,7 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
     def delete(self, request, *args, **kwargs):
-        indystudents = self.get_queryset()
-
         def _tidyup(usrone, usrtwo):
-
             # if there's no login at all, keep the one with the most recent date_joined
             if not usrone.last_login and not usrtwo.last_login:
                 if usrone.date_joined > usrtwo.date_joined:
@@ -145,19 +142,30 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
                 _anonymise(usrone)
             # else: both have logged in, we don't want to automatically choose for teacher+indy duplicates
 
-        for student in indystudents:
-            email = student.new_user.email
-            assert email != ""
+        def _tidyup_students(students):
+            for student in students:
+                email = student.new_user.email
+                assert email != ""
 
-            teachers = Teacher.objects.filter(
-                new_user__is_active=True, new_user__email=email
-            ).select_related("new_user")
+                teachers = Teacher.objects.filter(
+                    new_user__is_active=True, new_user__email=email
+                ).select_related("new_user")
 
-            if not teachers.exists():
-                continue  # no duplicate
+                if not teachers.exists():
+                    continue  # no duplicate
 
-            # else there's a duplicate
-            assert len(teachers) == 1
-            _tidyup(student.new_user, teachers[0].new_user)
+                # else there's a duplicate
+                assert len(teachers) == 1
+                _tidyup(student.new_user, teachers[0].new_user)
+
+        # do it in batches
+        offset = 0
+        LIMIT = 1000
+
+        indystudents = self.get_queryset()[offset : (offset + LIMIT)]
+        while indystudents.exists():
+            _tidyup_students(indystudents)
+            offset += LIMIT
+            indystudents = self.get_queryset()[offset : (offset + LIMIT)]
 
         return Response(status=status.HTTP_204_NO_CONTENT)
