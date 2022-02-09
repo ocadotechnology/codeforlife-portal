@@ -1,11 +1,11 @@
 import { createTheme } from "@mui/material/styles";
-import { fontWeight } from "@mui/system";
 
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
 
+const MEDIUM: number = 500
 const SEMI_BOLD: number = 600
-const BOLD: number = 500
+const BOLD: number = 700
 
 
 export const theme = createTheme({
@@ -23,32 +23,32 @@ export const theme = createTheme({
     h1: {
       fontFamily: FONT_PRIMARY,
       fontSize: "65px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
     h2: {
       fontFamily: FONT_PRIMARY,
       fontSize: "55px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
     h3: {
       fontFamily: FONT_PRIMARY,
       fontSize: "45px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
     h4: {
       fontFamily: FONT_PRIMARY,
       fontSize: "30px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
     h5: {
       fontFamily: FONT_PRIMARY,
       fontSize: "24px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
     h6: {
       fontFamily: FONT_PRIMARY,
       fontSize: "20px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
     subtitle1: {
       fontFamily: FONT_SECONDARY,
@@ -56,7 +56,8 @@ export const theme = createTheme({
     },
     subtitle2: {
       fontFamily: FONT_SECONDARY,
-      fontSize: "20px"
+      fontSize: "20px",
+      fontWeight: MEDIUM,
     },
     body1: {
       fontFamily: FONT_SECONDARY,
@@ -78,7 +79,7 @@ export const theme = createTheme({
     overline: {
       fontFamily: FONT_SECONDARY,
       fontSize: "10px",
-      fontWeight: BOLD,
+      fontWeight: MEDIUM,
     },
   },
 });
