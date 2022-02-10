@@ -607,4 +607,4 @@ class TestTeacherStudentFrontend(BaseTest):
         # check whether a record is created correctly
         logs = JoinReleaseStudent.objects.filter(student=student)
         assert len(logs) == 1
-        assert logs[0].type == JoinReleaseStudent.RELEASE
+        assert logs[0].action_type == JoinReleaseStudent.RELEASE

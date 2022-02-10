@@ -579,7 +579,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
 
         # log the data
         joinrelease = JoinReleaseStudent.objects.create(
-            student=student, type=JoinReleaseStudent.RELEASE
+            student=student, action_type=JoinReleaseStudent.RELEASE
         )
         joinrelease.save()
 

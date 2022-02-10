@@ -500,7 +500,7 @@ class TestIndependentStudentFrontend(BaseTest):
         # check whether a record is created correctly
         logs = JoinReleaseStudent.objects.filter(student=student)
         assert len(logs) == 1
-        assert logs[0].type == JoinReleaseStudent.JOIN
+        assert logs[0].action_type == JoinReleaseStudent.JOIN
 
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()

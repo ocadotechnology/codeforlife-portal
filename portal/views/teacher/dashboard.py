@@ -466,7 +466,7 @@ def teacher_accept_student_request(request, pk):
 
             # log the data
             joinrelease = JoinReleaseStudent.objects.create(
-                student=student, type=JoinReleaseStudent.JOIN
+                student=student, action_type=JoinReleaseStudent.JOIN
             )
             joinrelease.save()
 
