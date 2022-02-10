@@ -65,6 +65,7 @@ SETTINGS = {
     "MIDDLEWARE": [
         "deploy.middleware.admin_access.AdminAccessMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
+        "deploy.middleware.session_timeout.SessionTimeoutMiddleware",
         "django.middleware.locale.LocaleMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",
