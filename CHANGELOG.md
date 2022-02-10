@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.33.4 (2022-02-10)
+### Fix
+* **deps:** Bump django from 2.2.26 to 2.2.27 ([#1758](https://github.com/ocadotechnology/codeforlife-portal/issues/1758)) ([`22e64e8`](https://github.com/ocadotechnology/codeforlife-portal/commit/22e64e894679473bafc6e734a0ff7510abf0f14a))
+
 ## v5.33.3 (2022-02-09)
 ### Fix
 * Indy teacher cleanup in batches ([`200c6ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/200c6ae560919b65eb9fbb7e270927aa27b7e417))
