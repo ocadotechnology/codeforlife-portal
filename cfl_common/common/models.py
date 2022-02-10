@@ -1,5 +1,6 @@
 import re
 from datetime import timedelta
+from enum import Enum
 from uuid import uuid4
 
 from django.contrib.auth.models import User
@@ -280,6 +281,23 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
+
+
+class JoinReleaseStudent(models.Model):
+    """
+    To keep track when a student is released to be independent student or
+    joins a class to be a school student.
+    """
+
+    JOIN = "join"
+    RELEASE = "release"
+
+    student = models.ForeignKey(
+        Student, related_name="student", on_delete=models.CASCADE
+    )
+    # action type: either "release" or "join"
+    type = models.CharField(max_length=64)
+    action_time = models.DateTimeField(default=timezone.now)
 
 
 def stripStudentName(name):

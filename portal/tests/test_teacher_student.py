@@ -3,11 +3,9 @@ from __future__ import absolute_import
 import json
 import pytest
 
-from django.test import Client
-from django.urls import reverse
-from django.contrib.auth.models import User
-from selenium.webdriver.common.alert import Alert
+from .base_test import BaseTest
 
+from common.models import JoinReleaseStudent
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -21,11 +19,17 @@ from common.tests.utils.student import (
 )
 from common.tests.utils.teacher import signup_teacher_directly
 
+from django.test import Client
+from django.urls import reverse
+from django.contrib.auth.models import User
+from django.test import Client, TestCase
+
 from portal.tests.pageObjects.portal.home_page import HomePage
-from .base_test import BaseTest
+
+from selenium.webdriver.common.alert import Alert
 
 
-class TestTeacherStudent(BaseTest):
+class TestTeacherStudentFrontend(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -574,7 +578,7 @@ class TestTeacherStudent(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        student_name_1, _, _ = create_school_student_directly(access_code)
+        student_name_1, _, student = create_school_student_directly(access_code)
         _, _, _ = create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
@@ -599,3 +603,8 @@ class TestTeacherStudent(BaseTest):
             .dismiss()
         )
         assert not page.student_exists(student_name_1)
+
+        # check whether a record is created correctly
+        logs = JoinReleaseStudent.objects.filter(student=student)
+        assert len(logs) == 1
+        assert logs[0].type == JoinReleaseStudent.RELEASE

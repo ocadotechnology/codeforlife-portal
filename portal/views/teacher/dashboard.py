@@ -1,7 +1,7 @@
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
 from common.helpers.generators import generate_access_code, get_random_username
-from common.models import Class, Student, Teacher
+from common.models import Class, Student, Teacher, JoinReleaseStudent
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
@@ -463,6 +463,12 @@ def teacher_accept_student_request(request, pk):
             student.save()
             student.new_user.save()
             student.new_user.userprofile.save()
+
+            # log the data
+            joinrelease = JoinReleaseStudent.objects.create(
+                student=student, type=JoinReleaseStudent.JOIN
+            )
+            joinrelease.save()
 
             return render(
                 request,

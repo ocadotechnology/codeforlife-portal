@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import time
 
+from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -471,17 +472,12 @@ class TestIndependentStudentFrontend(BaseTest):
         klass.save()
 
         homepage = self.go_to_homepage()
+        page = homepage.go_to_independent_student_login_page()
 
-        (
-            play_page,
-            student_name,
-            student_username,
-            _,
-            password,
-        ) = create_independent_student(homepage)
+        username, password, student = create_independent_student_directly()
 
         page = (
-            play_page.independent_student_login(student_username, password)
+            page.independent_student_login(username, password)
             .go_to_join_a_school_or_club_page()
             .join_a_school_or_club(access_code)
         )
@@ -495,11 +491,16 @@ class TestIndependentStudentFrontend(BaseTest):
             .login(teacher_email, teacher_password)
             .open_classes_tab()
             .accept_independent_join_request()
-            .save(student_name)
+            .save(username)
             .return_to_class()
         )
 
-        assert page.student_exists(student_name)
+        assert page.student_exists(username)
+
+        # check whether a record is created correctly
+        logs = JoinReleaseStudent.objects.filter(student=student)
+        assert len(logs) == 1
+        assert logs[0].type == JoinReleaseStudent.JOIN
 
     def test_join_class_denied(self):
         teacher_email, teacher_password = signup_teacher_directly()
