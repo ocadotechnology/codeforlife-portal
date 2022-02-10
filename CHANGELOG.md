@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.33.5 (2022-02-10)
+### Fix
+* Update pyyaml to 5.4.1 ([#1761](https://github.com/ocadotechnology/codeforlife-portal/issues/1761)) ([`02b12ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/02b12ef5980aeaf1bcdc995406edd1641dbb4f0f))
+
 ## v5.33.4 (2022-02-10)
 ### Fix
 * **deps:** Bump django from 2.2.26 to 2.2.27 ([#1758](https://github.com/ocadotechnology/codeforlife-portal/issues/1758)) ([`22e64e8`](https://github.com/ocadotechnology/codeforlife-portal/commit/22e64e894679473bafc6e734a0ff7510abf0f14a))
