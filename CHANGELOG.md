@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.34.0 (2022-02-11)
+### Feature
+* Student join release data tracking ([#1760](https://github.com/ocadotechnology/codeforlife-portal/issues/1760)) ([`5b74f64`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b74f64a1a0a3fb1b1c5325abac529b3a4555c66))
+
 ## v5.33.5 (2022-02-10)
 ### Fix
 * Update pyyaml to 5.4.1 ([#1761](https://github.com/ocadotechnology/codeforlife-portal/issues/1761)) ([`02b12ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/02b12ef5980aeaf1bcdc995406edd1641dbb4f0f))
