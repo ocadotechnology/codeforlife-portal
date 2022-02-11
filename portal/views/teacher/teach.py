@@ -16,7 +16,7 @@ from common.helpers.generators import (
     generate_password,
     get_hashed_login_id,
 )
-from common.models import Class, Student, Teacher, DailyActivity
+from common.models import Class, Student, Teacher, DailyActivity, JoinReleaseStudent
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -576,6 +576,12 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         student.save()
         student.new_user.save()
         student.new_user.userprofile.save()
+
+        # log the data
+        joinrelease = JoinReleaseStudent.objects.create(
+            student=student, action_type=JoinReleaseStudent.RELEASE
+        )
+        joinrelease.save()
 
         send_verification_email(request, student.new_user)
 
