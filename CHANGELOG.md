@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.34.1 (2022-02-14)
+### Fix
+* Update cookies categories ([#1753](https://github.com/ocadotechnology/codeforlife-portal/issues/1753)) ([`63a06e7`](https://github.com/ocadotechnology/codeforlife-portal/commit/63a06e72792bbb779065a36fab0795b2f815894f))
+
 ## v5.34.0 (2022-02-11)
 ### Feature
 * Student join release data tracking ([#1760](https://github.com/ocadotechnology/codeforlife-portal/issues/1760)) ([`5b74f64`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b74f64a1a0a3fb1b1c5325abac529b3a4555c66))
