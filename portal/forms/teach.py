@@ -505,35 +505,33 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(
-        label="Original Name",
         help_text="Original student name",
         widget=forms.TextInput(
             attrs={
                 "readonly": "readonly",
                 "placeholder": "Original Name",
-                "style": "margin: 0",
+                "class": "m-0",
             }
         ),
     )
     name = forms.CharField(
-        label="New Name",
         help_text="New student name",
         widget=forms.TextInput(
-            attrs={"placeholder": "Enter new student name", "style": "margin : 0px"}
+            attrs={"placeholder": "Enter new student name", "class": "m-0"}
         ),
     )
     email = forms.EmailField(
         label="Email",
-        help_text="Current email address",
+        help_text="New email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Enter email address", "style": "margin : 0px"}
+            attrs={"placeholder": "Enter email address", "class": "m-0"}
         ),
     )
     confirm_email = forms.EmailField(
         label="Confirm Email",
-        help_text="New email address",
+        help_text="Confirm email address",
         widget=forms.EmailInput(
-            attrs={"placeholder": "Confirm email address", "style": "margin : 0px"}
+            attrs={"placeholder": "Confirm email address", "class": "m-0"}
         ),
     )
 
@@ -544,9 +542,6 @@ class TeacherDismissStudentsForm(forms.Form):
             raise forms.ValidationError(
                 "'" + self.cleaned_data.get("name", "") + "' is not a valid name"
             )
-
-        if User.objects.filter(username=name).exists():
-            raise forms.ValidationError("That username is already in use")
 
         return name
 

@@ -12,7 +12,6 @@ from common.helpers.emails import INVITE_FROM, send_email, send_verification_ema
 from common.helpers.generators import (
     generate_access_code,
     generate_login_id,
-    generate_new_student_name,
     generate_password,
     get_hashed_login_id,
 )
@@ -571,7 +570,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
 
         student.class_field = None
         student.new_user.first_name = data["name"]
-        student.new_user.username = data["name"]
+        student.new_user.username = data["email"]
         student.new_user.email = data["email"]
         student.save()
         student.new_user.save()
