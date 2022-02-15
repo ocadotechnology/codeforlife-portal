@@ -3,6 +3,19 @@ import { Button } from "@mui/material"
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+
+export const SubButtonStyled = styled(MenuItem)(({ theme }) => ({
+    width: "155px",
+    fontSize: "15px",
+    border: "2px solid rgb(255, 200, 0)",
+    display: "flex",
+    justifyContent: "space-between",
+    "&:hover": {
+        background: "white",
+        textDecoration: "underline"
+    }
+}))
+
 export const LogInButtonStyled = styled(Button)(({ theme }) => ({
 
     color: "black",
@@ -15,7 +28,6 @@ export const LogInButtonStyled = styled(Button)(({ theme }) => ({
     "&:hover": {
         border: "2px solid rgb(255, 200, 0)",
         textDecoration: "underline",
-        background: "rgba(255, 200, 0, 0.2)",
     },
     [theme.breakpoints.down("lg")]: {
         display: "none"
@@ -26,7 +38,6 @@ export const LogInMenuStyled = styled(Menu)(({ theme }) => ({
     "& > div > ul": {
         paddingTop: "0",
         paddingBottom: "0",
-        buttonRipple: "rgb(255, 200, 0)",
     }
 }))
 

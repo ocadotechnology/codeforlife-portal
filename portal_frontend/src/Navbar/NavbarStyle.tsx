@@ -1,3 +1,5 @@
+import { MenuItem, Menu } from '@mui/material';
+import { Button } from '@mui/material';
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles"
@@ -66,6 +68,27 @@ export const ActionsStyled = styled("div")(({ theme }) => ({
 
 export const ActionsTypographyStyled = styled(Typography)(({ theme }) => ({
     margin: "2rem",
+}))
+
+export const NavBarButtonStyled = styled(Button)(({ theme }) => ({
+    color: "black",
+    textTransform: "none",
+    fontWeight: "500"
+}))
+
+export const NavButtonItemStyled = styled(MenuItem)(({ theme }) => ({
+    "&:hover": {
+        background: "none",
+        textDecoration: "underline",
+    }
+}))
+export const NavbarMenuStyled = styled(Menu)(({ theme }) => ({
+    "& > div > ul": {
+        paddingTop: "0",
+        paddingBottom: "0",
+        paddingLeft: "1rem",
+        paddingRight: "3rem"
+    }
 }))
 
 export default AppBarStyled

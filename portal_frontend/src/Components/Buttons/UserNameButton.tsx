@@ -6,43 +6,32 @@ import { UserMenuStyled } from './UserNameButtonStyled';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { User, UserType } from '../../Navbar/Navbar';
 
-interface Settings {
-    Student: {
-        navFieldText: string[]
-        navFieldURLs: string[]
-        navFieldIcons: JSX.Element[]
-    }
-    Independent: {
-        navFieldText: string[]
-        navFieldURLs: string[]
-        navFieldIcons: JSX.Element[]
-    },
-
-    Teacher: {
-        navFieldText: string[]
-        navFieldURLs: string[]
-        navFieldIcons: JSX.Element[]
-    }
-}
-
-const logInSettings: Settings = {
+const logInSettings = {
     "Student": {
         "navFieldText": ["Log out", "Change Password"],
         "navFieldURLs": ["", ""],
-        "navFieldIcons": [],
+        "navFieldIcons": [<LogoutIcon />, <LockOutlinedIcon />],
     },
     "Independent": {
         "navFieldText": ["Log out", "Update account details"],
         "navFieldURLs": ["", ""],
-        "navFieldIcons": [],
+        "navFieldIcons": [<LogoutIcon />, <ManageAccountsIcon />],
     },
     "Teacher": {
         "navFieldText": ["Log out", "Update account details"],
         "navFieldURLs": ["", ""],
         "navFieldIcons": [<LogoutIcon />, <ManageAccountsIcon />],
+    },
+    // This field is just so TypeScript
+    // does not complain :)
+    "None": {
+        "navFieldText": [],
+        "navFieldURLs": [],
+        "navFieldIcons": [],
     }
 }
 
@@ -84,8 +73,8 @@ const UserNameButton: React.FC<User> = ({ userType, userName }) => {
                             <div>
                                 <UserItemStyled
                                     onClick={handleClose}
-                                    endIcon={logInSettings[user].navFieldIcons[i]}
-                                    href={logInSettings[user].navField}
+                                    endIcon={logInSettings[userType].navFieldIcons[i]}
+                                    href={logInSettings[userType].navFieldURLs[i]}
                                 >{element}</UserItemStyled>
                             </div>
 
