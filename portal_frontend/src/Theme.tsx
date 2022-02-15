@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
-const SPACE_GROTESK: string = '"Space Grotesk", sans-serif';
-const INTER: string = '"Inter", sans-serif';
+const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
+const FONT_SECONDARY: string = '"Inter", sans-serif';
 
 const MEDIUM: number = 500
 const SEMI_BOLD: number = 600
@@ -21,68 +21,68 @@ export const theme = createTheme({
   },
   typography: {
     h1: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "65px",
       fontWeight: MEDIUM,
     },
     h2: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "55px",
       fontWeight: MEDIUM,
     },
     h3: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "45px",
       fontWeight: MEDIUM,
     },
     h4: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "30px",
       fontWeight: MEDIUM,
     },
     h5: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "24px",
       fontWeight: MEDIUM,
     },
     h6: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "20px",
       fontWeight: MEDIUM,
     },
     subtitle1: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "22px",
     },
     subtitle2: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "20px",
       fontWeight: MEDIUM,
     },
     bodyText1: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "18px"
     },
     bodyText2: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "16px",
     },
     quote: {
-      fontFamily: SPACE_GROTESK,
+      fontFamily: FONT_PRIMARY,
       fontSize: "24px",
       fontWeight: MEDIUM
     },
     buttonText: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "16px",
       fontWeight: SEMI_BOLD,
     },
     caption: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "13px"
     },
     overline: {
-      fontFamily: INTER,
+      fontFamily: FONT_SECONDARY,
       fontSize: "10px",
       fontWeight: MEDIUM,
     },
