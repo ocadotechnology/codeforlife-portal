@@ -8,9 +8,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import { User, UserType } from '../../Navbar/Navbar';
-import LogInButton from './LogInButton';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material';
 
 interface Settings {
     Student: {
