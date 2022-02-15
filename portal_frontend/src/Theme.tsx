@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
+
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
 
@@ -81,6 +82,12 @@ export const theme = createTheme({
       fontSize: "10px",
       fontWeight: MEDIUM,
     },
+    poster: {
+      fontSize: "100px"
+    },
+    quote: {
+      fontSize: "20px"
+    }
   },
 });
 
