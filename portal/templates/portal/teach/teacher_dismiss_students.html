@@ -8,77 +8,92 @@
 {% block content %}
 <div id="dismiss_students_page"></div>
 
-<section class="background container">
-    <h4>Release student from class {{ class.name }} ({{ class.access_code }})</h4><br>
-</section>
+<div class="background container">
+    <section>
+        <h4>Release student from class {{ class.name }} ({{ class.access_code }})</h4>
+    </section>
+    <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">< Back to Edit class</a></p>
+    <p>Convert students into independent students.</p>
+    <h5>Students to release from school</h5>
 
-<div class="background">
-    <div class="container">
-        <p><a href="{% url 'view_class' class.access_code %}" class="button--menu button--menu--enabled">&lt; Back to Edit class</a></p>
-        <p>Convert students into independent students.</p>
-        <h4>Students to release from school</h4>
+    <p>You are about to remove students from your class and set them up as independent students. Neither you nor
+        your school will be able to manage them once you have submitted this request.</p>
 
-        <p>You are about to remove students from your class and set them up as independent students. Neither you nor your school will
-            be able to manage them once you have submitted this request.</p>
+    <p>Please also set and confirm email addresses for the students. Email addresses are required for independent
+        student accounts. If a student is too young to own an email address, a parent or guardian's email address
+        will be required. These email addresses will have to be validated through a verification email before the
+        student can log in. These addresses have to be unique and need not be used for other Code for Life accounts.</p>
 
-        <p>You may want to change the username for these students to something more memorable. The students will then log in with
-            these new usernames via the <a href="{% url 'independent_student_login' %}" target="_blank">independent student login</a>. Their passwords will stay the same.
-            Independent students do not need to provide a class access code.</p>
+    <p>The students will then log in with their new email via the
+        <a href="{% url 'independent_student_login' %}" target="_blank">independent student login</a>. Their passwords
+        will stay the same. Independent students do not need to provide a class access code.</p>
 
-        <p>Please also set and confirm email addresses for the students. Email addresses are required for independent student accounts.
-            If a student is too young to own an email address, a parent or guardian's email address will be required. These email addresses will
-            have to be validated through a verification email before the student can log in. More than one student can be registered to the same email address.</p>
+    <form method="POST">
 
-        <form method="POST">
+        {% csrf_token %}
 
-            {% csrf_token %}
+        {{ formset.management_form }}
+        {{ formset.non_form_errors }}
 
-            {{ formset.management_form }}
-            {{ formset.non_form_errors }}
-
-            {% for form in formset %}
-            <div class="background">
-                <div class="row form--row">
-                    <div class="form--row__input col-sm-6">
-                        <div class="input--icon">
-                            {{ form.orig_name }}
-                        </div>
-                        <p><small>{{ form.orig_name.help_text }}</small></p>
+        {% for form in formset %}
+        <div class="background">
+            <div class="row form--row">
+                <div class="form--row__input col-sm-6">
+                    <div class="input--icon">
+                        {{ form.orig_name }}
                     </div>
-                    <div class="col-sm-6">
-                        <div class="input--icon">
-                            {{ form.name }} <span class="iconify" data-icon="mdi:account-outline"></span>
-                        </div>
-                        <p><small>{{ form.name.help_text }}</small></p>
-                        {{ form.name.errors }}
-                    </div>
+                    <p><small>{{ form.orig_name.help_text }}</small></p>
                 </div>
-                <div class="row form--row">
-                    <div class="col-sm-6">
-                        <div class="input--icon">
-                            {{ form.email }} <span class="iconify" data-icon="mdi:email-outline"></span>
-                        </div>
-                        <p><small>{{ form.email.help_text }}</small></p>
-                        {{ form.email.errors }}
+                <div class="col-sm-6">
+                    <div class="input--icon">
+                        {{ form.name }} <span class="iconify" data-icon="mdi:account-outline"></span>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="input--icon">
-                            {{ form.confirm_email }} <span class="iconify" data-icon="mdi:email-outline"></span>
-                        </div>
-                        <p><small>{{ form.confirm_email.help_text }}</small></p>
-                        {{ form.email.confirm_errors }}
-                    </div>
+                    <p><small>{{ form.name.help_text }}</small></p>
                 </div>
             </div>
-            {% endfor %}
-
-            <div class="button-group">
-                <a id="cancel_button" class="button button--secondary button--secondary--dark" href="{% url 'view_class' class.access_code %}">Cancel</a>
-                <button id="dismiss_button" type="submit" name="submit_dismiss" class="button button--primary button--primary--danger button--icon">Remove student <span class="iconify" data-icon="ic:outline-person-remove"></span>
-</button>
+            <div class="row form--row">
+                <div class="col-sm-6">
+                    {{ form.orig_name.errors }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form.name.errors }}
+                </div>
             </div>
-        </form>
-    </div>
+            <div class="row form--row">
+                <div class="col-sm-6">
+                    <div class="input--icon mt-3">
+                        {{ form.email }} <span class="iconify" data-icon="mdi:email-outline"></span>
+                    </div>
+                    <p><small>{{ form.email.help_text }}</small></p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input--icon mt-3">
+                        {{ form.confirm_email }} <span class="iconify" data-icon="mdi:email-outline"></span>
+                    </div>
+                    <p><small>{{ form.confirm_email.help_text }}</small></p>
+                </div>
+            </div>
+            <div class="row form--row">
+                <div class="col-sm-6">
+                    {{ form.email.errors }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form.confirm_email.errors }}
+                </div>
+            </div>
+            {{ form.non_field_errors }}
+        </div>
+        {% endfor %}
+
+        <div class="button-group">
+            <a id="cancel_button" class="button button--secondary button--secondary--dark"
+               href="{% url 'view_class' class.access_code %}">Cancel</a>
+            <button id="dismiss_button" type="submit" name="submit_dismiss"
+                    class="button button--primary button--primary--danger button--icon">Remove student
+                <span class="iconify" data-icon="ic:outline-person-remove"></span>
+            </button>
+        </div>
+    </form>
 </div>
 
 {% endblock %}

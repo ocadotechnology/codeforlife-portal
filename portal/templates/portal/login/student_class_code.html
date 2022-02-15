@@ -18,8 +18,11 @@
             {{ form.access_code.errors }}
         </div>
 
-        <button type="submit" name="school_login_class_code" class="button button--primary button--login">Log in</button>
-    </form>
+        <p class="background text-left"><strong>Forgotten your login details? Please check with your teacher.</strong></p>
 
-    <p>Forgotten your login details? Please check with your teacher.</p>
+        <div class="d-flex justify-content-end row">
+            <button type="submit" name="school_login_class_code"
+                    class="button button--primary button--login button-right-arrow">Log in</button>
+        </div>
+    </form>
 {% endblock form_content %}

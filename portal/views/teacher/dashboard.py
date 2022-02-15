@@ -137,7 +137,7 @@ def dashboard_teacher_view(request, is_admin):
                 return render(
                     request,
                     "portal/email_verification_needed.html",
-                    {"is_teacher": True},
+                    {"usertype": "TEACHER"},
                 )
 
             if changing_password:
