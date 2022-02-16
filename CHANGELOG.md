@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.34.2 (2022-02-16)
+### Fix
+* Trim ci flow ([#1764](https://github.com/ocadotechnology/codeforlife-portal/issues/1764)) ([`37adc09`](https://github.com/ocadotechnology/codeforlife-portal/commit/37adc09b5998e4ed1817c975b4dba83548effee3))
+
 ## v5.34.1 (2022-02-14)
 ### Fix
 * Update cookies categories ([#1753](https://github.com/ocadotechnology/codeforlife-portal/issues/1753)) ([`63a06e7`](https://github.com/ocadotechnology/codeforlife-portal/commit/63a06e72792bbb779065a36fab0795b2f815894f))
