@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.34.3 (2022-02-16)
+### Fix
+* No duplicate email on student release ([#1766](https://github.com/ocadotechnology/codeforlife-portal/issues/1766)) ([`2b85f48`](https://github.com/ocadotechnology/codeforlife-portal/commit/2b85f4816a6172e815d6ecfd254b444a002d4a81))
+
 ## v5.34.2 (2022-02-16)
 ### Fix
 * Trim ci flow ([#1764](https://github.com/ocadotechnology/codeforlife-portal/issues/1764)) ([`37adc09`](https://github.com/ocadotechnology/codeforlife-portal/commit/37adc09b5998e4ed1817c975b4dba83548effee3))
