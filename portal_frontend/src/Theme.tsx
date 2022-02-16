@@ -59,11 +59,11 @@ export const theme = createTheme({
       fontSize: "20px",
       fontWeight: MEDIUM,
     },
-    bodyText1: {
+    body1: {
       fontFamily: FONT_SECONDARY,
       fontSize: "18px"
     },
-    bodyText2: {
+    body2: {
       fontFamily: FONT_SECONDARY,
       fontSize: "16px",
     },
@@ -72,7 +72,7 @@ export const theme = createTheme({
       fontSize: "24px",
       fontWeight: MEDIUM
     },
-    buttonText: {
+    button: {
       fontFamily: FONT_SECONDARY,
       fontSize: "16px",
       fontWeight: SEMI_BOLD,
