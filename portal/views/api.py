@@ -74,7 +74,7 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
         return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
 
 
-def _anonymise(user):
+def anonymise(user):
     user.username = uuid.uuid4().hex
     user.first_name = "Deleted"
     user.last_name = "User"
@@ -110,7 +110,7 @@ class InactiveUsersView(generics.ListAPIView):
         """Delete all personal data from inactive users and mark them as inactive."""
         inactive_users = self.get_queryset()
         for user in inactive_users:
-            _anonymise(user)
+            anonymise(user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -131,15 +131,15 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
             # if there's no login at all, keep the one with the most recent date_joined
             if not usrone.last_login and not usrtwo.last_login:
                 if usrone.date_joined > usrtwo.date_joined:
-                    _anonymise(usrtwo)
+                    anonymise(usrtwo)
                 elif usrone.date_joined < usrtwo.date_joined:
-                    _anonymise(usrone)
+                    anonymise(usrone)
                 # else: should not happen, but if it does, leave them
             # if there's one with login, keep that one
             elif usrone.last_login and not usrtwo.last_login:
-                _anonymise(usrtwo)
+                anonymise(usrtwo)
             elif not usrone.last_login and usrtwo.last_login:
-                _anonymise(usrone)
+                anonymise(usrone)
             # else: both have logged in, we don't want to automatically choose for teacher+indy duplicates
 
         def _tidyup_students(students):
