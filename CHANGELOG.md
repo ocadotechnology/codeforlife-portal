@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.35.1 (2022-02-17)
+### Fix
+* Add anonymise action in Django admin ([#1769](https://github.com/ocadotechnology/codeforlife-portal/issues/1769)) ([`14e5396`](https://github.com/ocadotechnology/codeforlife-portal/commit/14e5396c2666856eadf38f6625ace6be82c84b90))
+
 ## v5.35.0 (2022-02-17)
 ### Feature
 * Added react example for independent student ([#1731](https://github.com/ocadotechnology/codeforlife-portal/issues/1731)) ([`685b694`](https://github.com/ocadotechnology/codeforlife-portal/commit/685b6949bb707439d8c529be8d1dad7c34cb8f3f))
