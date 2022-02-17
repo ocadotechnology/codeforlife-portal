@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,7 +11,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 export const LogInButton: React.FC = () => {
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log(event)
@@ -20,6 +21,15 @@ export const LogInButton: React.FC = () => {
         setAnchorEl(null);
     };
 
+    // Bug where the open dropdown follows
+    // window resize, so close it on resize
+
+    useEffect(() => {
+        const handleResize = () => {
+            handleClose()
+        }
+        window.addEventListener('resize', handleResize)
+    })
 
     return (
         <div>

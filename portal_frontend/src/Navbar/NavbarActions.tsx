@@ -4,28 +4,41 @@ import RegisterButton from "../Components/Buttons/RegisterButton"
 import { User } from "./Navbar"
 import { ActionsStyled, ActionsTypographyStyled, NavbarMenuStyled } from './NavbarStyle';
 
-import { Button, Typography } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
 import NavBarDropDown from './NavBarDropDown';
+import { LinkStyled } from './NavbarStyle';
 
-const navbarActions = {
+export const navbarActions = {
     "Student": {
-        "navField": ["Games", "Scoreboard"],
+        "navField": {
+            "text": ["Games", "Scoreboard"],
+            "link": ["", ""]
+        },
         "games": ["Rapid Router", "Kurono"],
         "resources": []
     },
     "Independent": {
-        "navField": ["Games", "Learning Resources"],
+        "navField": {
+            "text": ["Games", "Learning Resources"],
+            "link": ["", ""]
+        },
         "games": ["Rapid Router"],
         "resources": ["Rapid Router"]
     },
     "Teacher": {
-        "navField": ["Games", "Teaching Resources"],
+        "navField": {
+            "text": ["Games", "Teaching Resources"],
+            "link": ["", ""]
+        },
         "games": ["Rapid Router", "Kurono"],
         "resources": ["Rapid Router", "Kurono"],
 
     },
     "None": {
-        "navField": ["Teachers", "Students"],
+        "navField": {
+            "text": ["Teachers", "Students"],
+            "links": ["https://www.codeforlife.education/teach/", "https://www.codeforlife.education/play/"]
+        },
         "games": [],
         "resources": []
     },
@@ -37,15 +50,19 @@ const NavbarActions: React.FC<User> = ({ userType, userName }) => {
     return (
         <ActionsStyled>
             <ActionsTypographyStyled variant="h4" > {userType !== "None" ? userType : null}</ActionsTypographyStyled>
-            {userType === "None" ? navbarActions[userType].navField.map(element => {
-                return <ActionsTypographyStyled variant="h6">{element}</ActionsTypographyStyled>
+            {userType === "None" ? navbarActions[userType].navField.text.map((element: string, i: number) => {
+                return <LinkStyled
+                    href={navbarActions[userType].navField.links[i]}
+                    variant="h4"
+                    color="inherit"
+                >{element}</LinkStyled>
             }) :
                 <>
                     <ActionsTypographyStyled variant="h6">Dashboard</ActionsTypographyStyled>
                     <NavBarDropDown title="Games" subTitles={navbarActions[userType].games} />
-                    {userType === "Student" ? <ActionsTypographyStyled variant="h6" >{navbarActions[userType].navField[1]}</ActionsTypographyStyled> :
+                    {userType === "Student" ? <ActionsTypographyStyled variant="h6" >{navbarActions[userType].navField.text[1]}</ActionsTypographyStyled> :
                         <NavBarDropDown
-                            title={navbarActions[userType].navField[1]}
+                            title={navbarActions[userType].navField.text[1]}
                             subTitles={navbarActions[userType].games}
                         />
                     }

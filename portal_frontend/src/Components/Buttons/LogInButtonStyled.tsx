@@ -28,6 +28,7 @@ export const LogInButtonStyled = styled(Button)(({ theme }) => ({
     "&:hover": {
         border: "2px solid rgb(255, 200, 0)",
         textDecoration: "underline",
+        background: "none"
     },
     [theme.breakpoints.down("lg")]: {
         display: "none"

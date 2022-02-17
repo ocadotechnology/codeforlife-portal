@@ -6,6 +6,7 @@ const RegisterButton: React.FC = () => {
         <RegisterButtonStyled
             variant="contained"
             color="secondary"
+
         >
             Register</RegisterButtonStyled>
     )

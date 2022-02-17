@@ -8,6 +8,8 @@ const MEDIUM: number = 500
 const SEMI_BOLD: number = 600
 const BOLD: number = 700
 
+const FONT_COLOR: string = "rgb(56, 59, 59)"
+
 
 export const theme = createTheme({
   // Paste the code below this line
@@ -60,14 +62,16 @@ export const theme = createTheme({
       fontSize: "20px",
       fontWeight: MEDIUM,
     },
-    body1: {
+    bodyText1: {
       fontFamily: FONT_SECONDARY,
       fontSize: "18px"
     },
-    body2: {
+    bodyText2: {
       fontFamily: FONT_SECONDARY,
       fontSize: "16px",
     },
+    // This has to be button as otherwise
+    // the buttons will not get styled at all
     button: {
       fontFamily: FONT_SECONDARY,
       fontSize: "16px",
@@ -81,9 +85,6 @@ export const theme = createTheme({
       fontFamily: FONT_SECONDARY,
       fontSize: "10px",
       fontWeight: MEDIUM,
-    },
-    poster: {
-      fontSize: "100px"
     },
     quote: {
       fontSize: "20px"

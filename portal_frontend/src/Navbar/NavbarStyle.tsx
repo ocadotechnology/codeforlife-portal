@@ -1,7 +1,15 @@
-import { MenuItem, Menu } from '@mui/material';
-import { Button } from '@mui/material';
+import {
+    MenuItem,
+    Menu,
+    Button,
+    Box,
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    Link
+} from '@mui/material';
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { styled } from "@mui/material/styles"
 
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
@@ -47,13 +55,16 @@ export const LogoCfl = styled("img")(({ theme }) => ({
 export const LogoOcado = styled("img")(({ theme }) => ({
     [theme.breakpoints.up("lg")]: {
         height: "52px",
-        marginLeft: "5%"
+        marginLeft: "4rem"
     }
 }))
 
 export const IconButtonStyled = styled(IconButton)(({ theme }) => ({
     [theme.breakpoints.up("lg")]: {
         display: "none",
+    },
+    "&:hover": {
+        background: "none"
     }
 }))
 
@@ -89,6 +100,28 @@ export const NavbarMenuStyled = styled(Menu)(({ theme }) => ({
         paddingLeft: "1rem",
         paddingRight: "3rem"
     }
+}))
+
+export const LinkStyled = styled(Link)(({ theme }) => ({
+    marginRight: "2rem",
+    textDecoration: "none",
+    "&:hover": {
+        textDecoration: "underline",
+        cursor: "pointer"
+    }
+}))
+
+export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
+    color: "black",
+    "&:hover": {
+        background: "rgba(0,0,0,0.2)"
+    }
+}))
+
+
+export const SmallMenuBarUserName = styled(Typography)(({ theme }) => ({
+    background: "#f0f0f0",
+    textAlign: "center"
 }))
 
 export default AppBarStyled
