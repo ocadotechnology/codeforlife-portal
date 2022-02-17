@@ -1,12 +1,16 @@
+import time
 from unittest import mock
-
+from _pytest.monkeypatch import MonkeyPatch
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
+from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.test import Client, TestCase
+
+MOCKED_SESSION_EXPIRY_TIME = 5
 
 
 class TestAdminAccessMiddleware(TestCase):
@@ -21,18 +25,11 @@ class TestAdminAccessMiddleware(TestCase):
     """
 
     def setUp(self) -> None:
-        self.patcher = mock.patch(
-            "deploy.middleware.admin_access.MODULE_NAME",
-            return_value="test",
-            autospec=True,
-        )
-        self.mock_module_name = self.patcher.start()
-
         self.client = Client()
         self.email, self.password = self._setup_user()
 
-    def tearDown(self) -> None:
-        self.patcher.stop()
+        self.monkeypatch = MonkeyPatch()
+        self.monkeypatch.setattr("deploy.middleware.admin_access.MODULE_NAME", "test")
 
     def _setup_user(self) -> (str, str):
         email, password = signup_teacher_directly()
@@ -127,3 +124,42 @@ class TestSecurityMiddleware(TestCase):
         assert response._headers["x-content-type-options"][1] == "nosniff"
         assert response._headers["x-frame-options"][1] == "SAMEORIGIN"
         assert response._headers["x-xss-protection"][1] == "0"
+
+
+class TestSessionTimeoutMiddleware(TestCase):
+    """
+    This tests the SessionTimeoutMiddleware class and checks the user is logged out
+    after the defined time of inactivity.
+    """
+
+    def setUp(self) -> None:
+        self.client = Client()
+        self.email, self.password = self._setup_user()
+
+        self.monkeypatch = MonkeyPatch()
+        self.monkeypatch.setattr(
+            "deploy.middleware.session_timeout.SESSION_EXPIRY_TIME", 5
+        )
+
+    def _setup_user(self) -> (str, str):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        return email, password
+
+    def test_session_timeout(self):
+        self.client.login(username=self.email, password=self.password)
+
+        self.client.get("/")
+        user = auth.get_user(self.client)
+
+        assert user.is_authenticated
+
+        time.sleep(MOCKED_SESSION_EXPIRY_TIME)
+
+        self.client.get("/")
+        user = auth.get_user(self.client)
+
+        assert not user.is_authenticated

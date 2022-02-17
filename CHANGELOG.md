@@ -2,6 +2,46 @@
 
 <!--next-version-placeholder-->
 
+## v5.34.3 (2022-02-16)
+### Fix
+* No duplicate email on student release ([#1766](https://github.com/ocadotechnology/codeforlife-portal/issues/1766)) ([`2b85f48`](https://github.com/ocadotechnology/codeforlife-portal/commit/2b85f4816a6172e815d6ecfd254b444a002d4a81))
+
+## v5.34.2 (2022-02-16)
+### Fix
+* Trim ci flow ([#1764](https://github.com/ocadotechnology/codeforlife-portal/issues/1764)) ([`37adc09`](https://github.com/ocadotechnology/codeforlife-portal/commit/37adc09b5998e4ed1817c975b4dba83548effee3))
+
+## v5.34.1 (2022-02-14)
+### Fix
+* Update cookies categories ([#1753](https://github.com/ocadotechnology/codeforlife-portal/issues/1753)) ([`63a06e7`](https://github.com/ocadotechnology/codeforlife-portal/commit/63a06e72792bbb779065a36fab0795b2f815894f))
+
+## v5.34.0 (2022-02-11)
+### Feature
+* Student join release data tracking ([#1760](https://github.com/ocadotechnology/codeforlife-portal/issues/1760)) ([`5b74f64`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b74f64a1a0a3fb1b1c5325abac529b3a4555c66))
+
+## v5.33.5 (2022-02-10)
+### Fix
+* Update pyyaml to 5.4.1 ([#1761](https://github.com/ocadotechnology/codeforlife-portal/issues/1761)) ([`02b12ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/02b12ef5980aeaf1bcdc995406edd1641dbb4f0f))
+
+## v5.33.4 (2022-02-10)
+### Fix
+* **deps:** Bump django from 2.2.26 to 2.2.27 ([#1758](https://github.com/ocadotechnology/codeforlife-portal/issues/1758)) ([`22e64e8`](https://github.com/ocadotechnology/codeforlife-portal/commit/22e64e894679473bafc6e734a0ff7510abf0f14a))
+
+## v5.33.3 (2022-02-09)
+### Fix
+* Indy teacher cleanup in batches ([`200c6ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/200c6ae560919b65eb9fbb7e270927aa27b7e417))
+
+## v5.33.2 (2022-02-08)
+### Fix
+* Revert "fix: update test cookies consent script (#1752)" ([#1756](https://github.com/ocadotechnology/codeforlife-portal/issues/1756)) ([`d63bdf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d63bdf5aa5d79b51e40f4fb227008fb36e1e1565))
+
+## v5.33.1 (2022-02-08)
+### Fix
+* Cleanup duplicate teacher + indy ([`b73f545`](https://github.com/ocadotechnology/codeforlife-portal/commit/b73f5451e7c30b7b45053711d99d5bb9eaca1e78))
+
+## v5.33.0 (2022-02-07)
+### Feature
+* Implement session timeout middleware ([#1749](https://github.com/ocadotechnology/codeforlife-portal/issues/1749)) ([`cf5373e`](https://github.com/ocadotechnology/codeforlife-portal/commit/cf5373e849d06700ce9328356862510797108db9))
+
 ## v5.32.4 (2022-02-03)
 ### Fix
 * Update test cookies consent script ([#1752](https://github.com/ocadotechnology/codeforlife-portal/issues/1752)) ([`cfaa2ec`](https://github.com/ocadotechnology/codeforlife-portal/commit/cfaa2ec828d20398754b34e152273a3388776b59))
