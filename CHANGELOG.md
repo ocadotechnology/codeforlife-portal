@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v5.35.2 (2022-02-21)
+### Fix
+* Remove now unnecessary workspace clearing ([#1771](https://github.com/ocadotechnology/codeforlife-portal/issues/1771)) ([`4138df7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4138df760a3d818b4bc1ce3780a75116dffe9fdd))
+
+## v5.35.1 (2022-02-17)
+### Fix
+* Add anonymise action in Django admin ([#1769](https://github.com/ocadotechnology/codeforlife-portal/issues/1769)) ([`14e5396`](https://github.com/ocadotechnology/codeforlife-portal/commit/14e5396c2666856eadf38f6625ace6be82c84b90))
+
+## v5.35.0 (2022-02-17)
+### Feature
+* Added react example for independent student ([#1731](https://github.com/ocadotechnology/codeforlife-portal/issues/1731)) ([`685b694`](https://github.com/ocadotechnology/codeforlife-portal/commit/685b6949bb707439d8c529be8d1dad7c34cb8f3f))
+
+## v5.34.3 (2022-02-16)
+### Fix
+* No duplicate email on student release ([#1766](https://github.com/ocadotechnology/codeforlife-portal/issues/1766)) ([`2b85f48`](https://github.com/ocadotechnology/codeforlife-portal/commit/2b85f4816a6172e815d6ecfd254b444a002d4a81))
+
 ## v5.34.2 (2022-02-16)
 ### Fix
 * Trim ci flow ([#1764](https://github.com/ocadotechnology/codeforlife-portal/issues/1764)) ([`37adc09`](https://github.com/ocadotechnology/codeforlife-portal/commit/37adc09b5998e4ed1817c975b4dba83548effee3))

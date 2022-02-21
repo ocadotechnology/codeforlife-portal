@@ -20,6 +20,7 @@ from common.models import Class, Student, Teacher, DailyActivity, JoinReleaseStu
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -564,7 +565,15 @@ def is_right_dismiss_form(request):
 
 
 def process_dismiss_student_form(request, formset, klass, access_code):
+    failed_users = []  # users that failed to be transferred
     for data in formset.cleaned_data:
+        # check if email is already used
+        users_with_email = User.objects.filter(email=data["email"])
+        # email is already taken, skip this user
+        if users_with_email.exists():
+            failed_users.append(data["orig_name"])
+            continue
+
         student = get_object_or_404(
             Student, class_field=klass, new_user__first_name__iexact=data["orig_name"]
         )
@@ -585,9 +594,17 @@ def process_dismiss_student_form(request, formset, klass, access_code):
 
         send_verification_email(request, student.new_user)
 
-    messages.success(
-        request, "The students have been removed successfully from the class."
-    )
+    if not failed_users:
+        messages.success(
+            request, "The students have been released successfully from the class."
+        )
+    else:
+        messages.warning(
+            request,
+            f"The following students could not be released: {', '.join(failed_users)}. "
+            "Please make sure the email has not been registered to another account."
+        )
+
     return HttpResponseRedirect(
         reverse_lazy("view_class", kwargs={"access_code": access_code})
     )

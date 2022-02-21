@@ -11,6 +11,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 from portal.forms.admin import AdminUserCreationForm, AdminChangeUserPasswordForm
+from portal.views.api import anonymise
 
 
 class ClassAdmin(admin.ModelAdmin):
@@ -92,10 +93,19 @@ class EmailVerificationAdmin(admin.ModelAdmin):
     readonly_fields = ["user", "token"]
 
 
+def anonymise_user(user_admin, request, queryset):
+    for user in queryset:
+        anonymise(user)
+
+
+anonymise_user.short_description = "Anonymise selected users"
+
+
 UserAdmin.list_display += ("date_joined",)
 UserAdmin.list_filter += ("date_joined",)
 UserAdmin.add_form = AdminUserCreationForm
 UserAdmin.change_password_form = AdminChangeUserPasswordForm
+UserAdmin.actions.append(anonymise_user)
 
 
 admin.site.register(Class, ClassAdmin)
