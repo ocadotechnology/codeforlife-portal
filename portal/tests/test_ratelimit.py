@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from datetime import datetime, timedelta
 
+import pytest
 import pytz
 import re
 from common.models import Teacher, Student
@@ -10,8 +11,12 @@ from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
+    generate_independent_student_details,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from common.tests.utils.teacher import (
+    signup_teacher_directly,
+    generate_details,
+)
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -309,3 +314,62 @@ class TestRatelimit(TestCase):
 
         assert login_response.status_code == 302
         assert not self._is_user_blocked(Teacher, email)
+
+
+@pytest.mark.django_db
+def test_teacher_already_registered_email(client, mocker):
+    first_name, last_name, email, password = generate_details()
+    register_url = reverse("register")
+    data = {
+        "teacher_signup-teacher_first_name": first_name,
+        "teacher_signup-teacher_last_name": last_name,
+        "teacher_signup-teacher_email": email,
+        "teacher_signup-teacher_password": password,
+        "teacher_signup-teacher_confirm_password": password,
+        "g-recaptcha-response": "something",
+    }
+
+    # Register the teacher first time
+    client.post(register_url, data)
+
+    # Patch send_email
+    mocked_send_email = mocker.patch("portal.views.home.send_email")
+
+    # Register with the same email again - send_email should be called
+    client.post(register_url, data)
+    mocked_send_email.assert_called_once()
+
+    # Reset mock and register with the same email one more time - send_email should be blocked now
+    mocked_send_email.reset_mock()
+    client.post(register_url, data)
+    mocked_send_email.assert_not_called()
+
+
+@pytest.mark.django_db
+def test_independent_student_already_registered_email(client, mocker):
+    name, username, email_address, password = generate_independent_student_details()
+    register_url = reverse("register")
+    data = {
+        "independent_student_signup-name": name,
+        "independent_student_signup-username": username,
+        "independent_student_signup-email": email_address,
+        "independent_student_signup-is_over_required_age": "on",
+        "independent_student_signup-password": password,
+        "independent_student_signup-confirm_password": password,
+        "g-recaptcha-response": "something",
+    }
+
+    # Register the independent student first time
+    client.post(register_url, data)
+
+    # Patch send_email
+    mocked_send_email = mocker.patch("portal.views.home.send_email")
+
+    # Register with the same email again - send_email should be called
+    client.post(register_url, data)
+    mocked_send_email.assert_called_once()
+
+    # Reset mock and register with the same email one more time - send_email should be blocked now
+    mocked_send_email.reset_mock()
+    client.post(register_url, data)
+    mocked_send_email.assert_not_called()

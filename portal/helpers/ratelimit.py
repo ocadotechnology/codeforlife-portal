@@ -37,18 +37,21 @@ from ratelimit.core import (
 )
 
 
-RATELIMIT_GROUP = "login"
-RATELIMIT_RATE = "5/d"
+RATELIMIT_LOGIN_GROUP = "login"
+RATELIMIT_LOGIN_RATE = "5/d"
 RATELIMIT_METHOD = "POST"
+
+RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP = "user_already_registered_email"
+RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE = "1/d"
 
 
 def get_ratelimit_cache_key_for_user(user: str):
-    _, period = _split_rate(rate=RATELIMIT_RATE)
+    _, period = _split_rate(rate=RATELIMIT_LOGIN_RATE)
     window = _get_window(value=user, period=period)
     cache_key = _make_cache_key(
-        group=RATELIMIT_GROUP,
+        group=RATELIMIT_LOGIN_GROUP,
         window=window,
-        rate=RATELIMIT_RATE,
+        rate=RATELIMIT_LOGIN_RATE,
         value=user,
         methods=RATELIMIT_METHOD,
     )
