@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.35.2 (2022-02-21)
+### Fix
+* Remove now unnecessary workspace clearing ([#1771](https://github.com/ocadotechnology/codeforlife-portal/issues/1771)) ([`4138df7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4138df760a3d818b4bc1ce3780a75116dffe9fdd))
+
 ## v5.35.1 (2022-02-17)
 ### Fix
 * Add anonymise action in Django admin ([#1769](https://github.com/ocadotechnology/codeforlife-portal/issues/1769)) ([`14e5396`](https://github.com/ocadotechnology/codeforlife-portal/commit/14e5396c2666856eadf38f6625ace6be82c84b90))
