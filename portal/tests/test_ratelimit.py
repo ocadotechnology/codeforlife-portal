@@ -317,7 +317,7 @@ class TestRatelimit(TestCase):
 
 
 @pytest.mark.django_db
-def test_teacher_already_registered_email(client, mocker):
+def test_teacher_already_registered_email(client):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
     data = {
@@ -329,24 +329,21 @@ def test_teacher_already_registered_email(client, mocker):
         "g-recaptcha-response": "something",
     }
 
-    # Register the teacher first time
+    # Register the teacher first time, there should be a registration email
     client.post(register_url, data)
+    assert len(mail.outbox) == 1
 
-    # Patch send_email
-    mocked_send_email = mocker.patch("portal.views.home.send_email")
-
-    # Register with the same email again - send_email should be called
+    # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
-    mocked_send_email.assert_called_once()
+    assert len(mail.outbox) == 2
 
-    # Reset mock and register with the same email one more time - send_email should be blocked now
-    mocked_send_email.reset_mock()
+    # Register with the same email one more time, there shouldn't be any new emails
     client.post(register_url, data)
-    mocked_send_email.assert_not_called()
+    assert len(mail.outbox) == 2
 
 
 @pytest.mark.django_db
-def test_independent_student_already_registered_email(client, mocker):
+def test_independent_student_already_registered_email(client):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
     data = {
@@ -359,17 +356,14 @@ def test_independent_student_already_registered_email(client, mocker):
         "g-recaptcha-response": "something",
     }
 
-    # Register the independent student first time
+    # Register the independent student first time, there should be a registration email
     client.post(register_url, data)
+    assert len(mail.outbox) == 1
 
-    # Patch send_email
-    mocked_send_email = mocker.patch("portal.views.home.send_email")
-
-    # Register with the same email again - send_email should be called
+    # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
-    mocked_send_email.assert_called_once()
+    assert len(mail.outbox) == 2
 
-    # Reset mock and register with the same email one more time - send_email should be blocked now
-    mocked_send_email.reset_mock()
+    # Reset mock and register with the same email one more time, there shouldn't be any new emails
     client.post(register_url, data)
-    mocked_send_email.assert_not_called()
+    assert len(mail.outbox) == 2
