@@ -70,7 +70,7 @@ class APITests(APITestCase):
         client.force_authenticate(user=superuser)
         url = reverse("inactive_users")
         response = client.get(url)
-        self.assertEqual(len(response.data), 1)
+        assert len(response.data) == 1
 
     @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
     def test_get_inactive_users_if_appengine(self, mock_is_cloud_scheduler_function):
@@ -89,7 +89,7 @@ class APITests(APITestCase):
         create_user_directly(active=True)
         url = reverse("inactive_users")
         response = client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
     @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
     def test_delete_inactive_users_if_appengine(self, mock_is_cloud_scheduler_function):

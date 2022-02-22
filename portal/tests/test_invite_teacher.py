@@ -8,7 +8,7 @@ class TestInviteTeacher(TestCase):
         client = Client()
         data = {"email": "valid_email@example.com"}
         response = client.post(url, data)
-        self.assertEquals(response.status_code, 200)
+        assert response.status_code == 200
         self.assertTemplateUsed(response, "portal/email_invitation_sent.html")
 
     def test_invite_teacher_fail(self):

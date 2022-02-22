@@ -32,11 +32,11 @@ MAPS_API_GEOCODE_JSON = "https://maps.googleapis.com/maps/api/geocode/json?"
 class TestLocation(unittest.TestCase):
     def assert_default_coord(self, town, lat, lng):
         # default values returned when error occurs in lookup_coord()
-        self.assertEqual((town, lat, lng), (0, 0, 0))
+        assert (town, lat, lng) == (0, 0, 0)
 
     def assert_default_country_and_coord(self, country, town, lat, lng):
         # default values returned when error occurs in lookup_country()
-        self.assertEqual((country, town, lat, lng), ("GB", 0, 55.378051, -3.435973))
+        assert (country, town, lat, lng) == ("GB", 0, 55.378051, -3.435973)
 
     @responses.activate
     def test_lookup_coord_call_api_once(self):
@@ -48,7 +48,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_coord("SW72AZ", "GB")
-        self.assertEqual(len(responses.calls), 1, "API was called more than once")
+        assert len(responses.calls) == 1, "API was called more than once"
 
     @responses.activate
     def test_lookup_coord_json_unchanged(self):
@@ -60,9 +60,8 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_coord("SW72AZ", "GB")
-        self.assertEqual(
-            responses.calls[0].response.json(),
-            json.loads(read_json_from_file(datafile("sw72az_gb.json"))),
+        assert responses.calls[0].response.json() == json.loads(
+            read_json_from_file(datafile("sw72az_gb.json"))
         )
 
     @responses.activate
@@ -75,7 +74,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_coord("SW72AZ", "GB")
-        self.assertEqual(result, (None, "GB", "London", 51.5005046, -0.1782187))
+        assert result == (None, "GB", "London", 51.5005046, -0.1782187)
 
     @responses.activate
     def test_lookup_coord_valid_postcode_country_gb2(self):
@@ -87,7 +86,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_coord("AL10 9NE", "GB")
-        self.assertEqual(result, (None, "GB", "Hatfield", 51.7623259, -0.2438929))
+        assert result == (None, "GB", "Hatfield", 51.7623259, -0.2438929)
 
     # Default to coordinates of country
     @responses.activate
@@ -100,7 +99,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_coord("10000", "GB")
-        self.assertEqual(result, (None, "GB", 0, 55.378051, -3.435973))
+        assert result == (None, "GB", 0, 55.378051, -3.435973)
 
     @responses.activate
     def test_lookup_coord_invalid_postcode_country_kr(self):
@@ -112,7 +111,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_coord("AL109NE", "KR")
-        self.assertEqual(result, (None, "KR", 0, 35.907757, 127.766922))
+        assert result == (None, "KR", 0, 35.907757, 127.766922)
 
     @responses.activate
     def test_lookup_coord_connection_error(self):
@@ -170,7 +169,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_country("SW72AZ")
-        self.assertEqual(result, (None, "GB", "London", 51.5005046, -0.1782187))
+        assert result == (None, "GB", "London", 51.5005046, -0.1782187)
 
     @responses.activate
     def test_lookup_country_valid_postcode2(self):
@@ -182,7 +181,7 @@ class TestLocation(unittest.TestCase):
             content_type="application/json",
         )
         result = lookup_country("AL10 9NE")
-        self.assertEqual(result, (None, "GB", "Hatfield", 51.7623259, -0.2438929))
+        assert result == (None, "GB", "Hatfield", 51.7623259, -0.2438929)
 
     @responses.activate
     def test_lookup_country_invalid_postcode_zero_results(self):
