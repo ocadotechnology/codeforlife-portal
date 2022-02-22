@@ -19,6 +19,7 @@ export const SubButtonStyled = styled(MenuItem)(({ theme }) => ({
 export const LogInButtonStyled = styled(Button)(({ theme }) => ({
 
     color: "black",
+    borderRadius: "0",
     height: "45px",
     width: "155px",
     marginLeft: "10%",
@@ -31,7 +32,9 @@ export const LogInButtonStyled = styled(Button)(({ theme }) => ({
         background: "none"
     },
     [theme.breakpoints.down("lg")]: {
-        display: "none"
+        width: "100%",
+        marginLeft: "0",
+        border: "none"
     }
 }))
 
@@ -39,6 +42,7 @@ export const LogInMenuStyled = styled(Menu)(({ theme }) => ({
     "& > div > ul": {
         paddingTop: "0",
         paddingBottom: "0",
+        zIndex: "1500"
     }
 }))
 

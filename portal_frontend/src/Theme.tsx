@@ -21,6 +21,9 @@ export const theme = createTheme({
     secondary: {
       main: "rgb(255, 200, 0)",
     },
+    neutral: {
+      main: "rgb(59, 59, 59)",
+    }
   },
   typography: {
     h1: {

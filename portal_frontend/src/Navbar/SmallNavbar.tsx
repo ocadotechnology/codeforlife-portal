@@ -1,27 +1,19 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import Navbar, { User } from './Navbar';
-
-import { MenuIconButtonStyled, SmallMenuBarUserName } from './NavbarStyle';
+import { User } from './Navbar';
+import { useEffect } from 'react';
+import { DrawerStyled, LinkTypography, ListItemIconStyled, ListSingleItem, ListStyled, MenuIconButtonStyled, SmallMenuBarUserName, SmallNavbarRegisterButton, TypographyHover } from './NavbarStyle';
 import MenuIcon from '@mui/icons-material/Menu';
-
-import { navbarActions } from './NavbarActions';
 
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import CookieOutlinedIcon from '@mui/icons-material/CookieOutlined';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import Mail from '@mui/icons-material/Mail';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
@@ -30,60 +22,22 @@ import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import PanToolOutlinedIcon from '@mui/icons-material/PanToolOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { Toolbar, Typography } from '@mui/material';
-import { LogInButtonStyled } from '../Components/Buttons/LogInButtonStyled';
-import RegisterButton from '../Components/Buttons/RegisterButton';
 import { RegisterButtonSmallMenuStyled } from '../Components/Buttons/RegisterButtonStyled';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+
+import { ListItemStyled } from './NavbarStyle';
+import CloseIcon from '@mui/icons-material/Close';
+import { Button, Link, Typography } from '@mui/material';
+import LogInButton from '../Components/Buttons/LogInButton';
+import RegisterButton from '../Components/Buttons/RegisterButton';
+import Collapse from "@mui/material/Collapse"
+import SmallReactiveMenu from './SmallReactiveMenu';
+
+
 
 const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
 
-    const dynamicContent = {
-        "Student": {
-            "navField": {
-                "text": ["Games", "Scoreboard"],
-                "link": ["", ""],
-            },
-            "games": {
-                "text": ["Rapid Router"],
-                "link": [""],
-            }
-        },
-        "Independent": {
-            "navField": {
-                "text": ["Games", "Learning Resources"],
-                "link": ["", ""],
-            },
-            "games": {
-                "text": ["Rapid Router"],
-                "link": [""]
-            }
-        },
-        "Teacher": {
-            "navField": {
-                "text": ["Games", "Scoreboard"],
-                "link": ["", ""],
-            },
-            "games": {
-                "text": ["Rapid Router"],
-                "link": [""],
-            }
-        },
-        "None": {
-            "navField": {
-                "text": [],
-                "link": [],
-            },
-            "games": {
-                "text": [],
-                "link": [],
-            }
-
-        }
-    }
-    const dynamicContentIcons = [
-        <SportsEsportsOutlinedIcon />,
-        <ArticleOutlinedIcon />
-    ]
 
     const staticContent = [
         "About us",
@@ -95,6 +49,16 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
         "Get involved",
     ]
 
+    const staticContentLinks = [
+        "https://www.codeforlife.education/about",
+        "",
+        "",
+        "https://www.codeforlife.education/privacy-policy/",
+        "https://www.codeforlife.education/terms",
+        "https://www.codeforlife.education/home-learning",
+        "https://www.codeforlife.education/getinvolved"
+    ]
+
     const staticContentIcons = [
         <InfoOutlinedIcon />,
         <HelpOutlineOutlinedIcon />,
@@ -104,6 +68,7 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
         <LocalLibraryOutlinedIcon />,
         <PanToolOutlinedIcon />,
     ]
+
 
     const accountContent = [
         "Update account details",
@@ -117,8 +82,12 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
 
 
     const [state, setState] = React.useState({
-        bottom: false,
+        top: false,
+        menu: false,
+        gamesMenu: false,
+        resourcesMenu: false,
     });
+
 
     const toggleDrawer =
         (anchor: any, open: boolean) =>
@@ -134,72 +103,117 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
                 setState({ ...state, [anchor]: open });
             };
 
+    const handleClick = () => {
+        toggleDrawer("top", true)
+        setState({
+            ...state, menu: !state["menu"]
+        })
+    }
+
     const list = (anchor: any) => (
         <Box
-            sx={{ width: anchor === 'bottom' || anchor === 'bottom' ? 'auto' : 'auto' }}
-            role="presentation"
-            onClick={toggleDrawer(anchor, false)}
-            onKeyDown={toggleDrawer(anchor, false)}
+            sx={{
+                width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250,
+            }}
         >
             <SmallMenuBarUserName variant="h3">
                 {userType !== "None" ? userName : null}
             </SmallMenuBarUserName>
-            <List>
-                <ListItem>
-                    <RegisterButtonSmallMenuStyled />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>{userType !== "None" ? <GridViewOutlinedIcon /> : <LoginOutlinedIcon />}</ListItemIcon>
-                    <ListItemText primary={userType !== "None" ? "Dashboard" : "Log in"}></ListItemText>
-                </ListItem>
-                {dynamicContent[userType].navField.text.map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {dynamicContentIcons[index]}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+            <SmallReactiveMenu userType={userType} />
             <Divider />
-            <List>
+            <ListStyled >
                 {staticContent.map((text, index) => (
-                    <ListItem button key={text}>
+                    <ListSingleItem>
                         <ListItemIcon>
                             {staticContentIcons[index]}
                         </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
+                        <LinkTypography underline="hover" href={staticContentLinks[index]} variant="subtitle2">{text}</LinkTypography>
+                    </ListSingleItem>
                 ))}
-            </List>
+            </ListStyled>
             <Divider />
-            <List>
+            <ListStyled>
                 {userType !== "None" ? accountContent.map((text, index) => {
-                    return (<ListItem button key={text}>
+                    return (<ListSingleItem>
                         <ListItemIcon>
                             {accountContentIcons[index]}
                         </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>)
+                        <LinkTypography underline="hover" variant="subtitle2">{text}</LinkTypography>
+                    </ListSingleItem>)
                 }) : null}
-            </List>
-        </Box>
+            </ListStyled>
+        </Box >
     );
+    // Bug where the open dropdown follows
+    // window resize, so close it on resize
 
     return (
         <div>
-            <React.Fragment>
-                <MenuIconButtonStyled onClick={toggleDrawer("bottom", true)}
-                >{<MenuIcon />}</MenuIconButtonStyled>
-                <Drawer
-                    anchor={"bottom"}
-                    open={state["bottom"]}
-                    onClose={toggleDrawer("bottom", false)}
+            <React.Fragment
+            >
+                <MenuIconButtonStyled disableRipple={true} onClick={toggleDrawer("top", !state["top"])}
+                >{state["top"] ? <CloseIcon /> : <MenuIcon />}</MenuIconButtonStyled>
+                <DrawerStyled
+                    anchor={"top"}
+                    open={state["top"]}
+                    onClose={() => toggleDrawer("top", false)}
                 >
-                    {list("bottom")}
-                </Drawer>
+                    {list("top")}
+                </DrawerStyled>
             </React.Fragment >
         </div >
     );
 }
 export default SmallNavbar
+/*
+            <ListStyled >
+                {userType !== "None" ?
+                    <ListItem onClick={handleClick}
+                    >
+                        <ListItemIcon>
+                            {userType === "Teacher" ? <PersonOutlinedIcon /> : <SchoolOutlinedIcon />}
+                        </ListItemIcon>
+                        <ListItemText primary={userType} />
+                    </ListItem>
+                    :
+                    <div>
+                        <RegisterButton
+                        />
+                        <div onClick={handleClick}>
+                            <LogInButton small={true} />
+                        </div>
+                    </div>
+                }
+                <Collapse in={state["menu"]} >
+
+                    {dynamicContent[userType].navField.text.map((text, index) => (
+                        <div
+                            onClick={() => toggleDrawer(anchor, false)}
+                        >
+                            <ListItemStyled
+                                userType={userType}
+                                key={text}>
+                                <ListItemIconStyled userType={userType}>
+                                    {dynamicContentIcons[index]}
+                                </ListItemIconStyled>
+                                {
+                                    text === "Dashboard" || text === "Scoreboard" ?
+                                        <ListItemText primary={text} /> :
+                                        <div>
+                                            <ListItemText primary={text} />
+                                            <Collapse in={state[text === "Games" ? "games" : "resources"]}>
+                                                <ListItemStyled userType={userType}>
+
+                                                    {dynamicContent[userType].games.text.map((element: string) => {
+                                                        return <Typography variant='body1'>{element}</Typography>
+                                                    })}
+                                                </ListItemStyled>
+                                            </Collapse>
+                                        </div>
+                                }
+                            </ListItemStyled>
+                        </div>
+                    ))
+                    }
+                </Collapse>
+            </ListStyled>*/

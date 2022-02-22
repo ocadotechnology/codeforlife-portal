@@ -12,12 +12,14 @@ import React from "react";
 import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import Navbar from "./Navbar/Navbar"
+import TestButton from "./Navbar/TestButton";
+import { Button } from "@mui/material";
 
 const App: React.FC = () => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Navbar userType="Teacher" userName="Albert Einstein" />
+        <Navbar userType="Independent" userName="Albert Einstein" />
       </ThemeProvider>
     </div>
   );

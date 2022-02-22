@@ -14,7 +14,7 @@ export type UserType = "Student" | "Independent" | "Teacher" | "None";
 
 export interface User {
     userType: UserType
-    userName: string
+    userName?: string
 }
 
 const Navbar: React.FC<User> = ({ userType, userName }) => {
@@ -23,13 +23,20 @@ const Navbar: React.FC<User> = ({ userType, userName }) => {
     return (
         <AppBarStyled position="fixed">
             <ToolbarStyled disableGutters>
-                <LogoCfl src="/images/navbar/logo_cfl.png" />
-                <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
+                <a href="http://www.localhost:3000">
+                    <LogoCfl src="/images/navbar/logo_cfl.png" />
+                </a>
+                <a
+                    href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future"
+                    target="_blank"
+                >
+                    <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
+                </a>
                 <NavbarActions userType={userType} userName={userName} />
                 {userType === "None" ?
                     <NotLoggedIn />
                     : <UserNameButton userType={userType} userName={userName} />}
-                <IconButtonStyled
+                <IconButtonStyled disableRipple={true}
                     size="large"
                     aria-label="account of current user"
                     aria-controls="menu-appbar"

@@ -10,6 +10,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { User, UserType } from '../../Navbar/Navbar';
 
+import { useEffect } from 'react';
+
 const logInSettings = {
     "Student": {
         "navFieldText": ["Log out", "Change Password"],
@@ -35,7 +37,6 @@ const logInSettings = {
     }
 }
 
-
 const UserNameButton: React.FC<User> = ({ userType, userName }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -43,11 +44,20 @@ const UserNameButton: React.FC<User> = ({ userType, userName }) => {
         console.log(event)
         setAnchorEl(event.currentTarget);
     };
+    // Bug where the open dropdown follows
+    // window resize, so close it on resize
+
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    const user = String(userType)
+
+    useEffect(() => {
+        const handleResize = () => {
+            handleClose()
+        }
+        window.addEventListener('resize', handleResize)
+    })
     return (
         <UserButtonDivStyled>
 

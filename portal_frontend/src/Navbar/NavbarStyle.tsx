@@ -7,15 +7,22 @@ import {
     Toolbar,
     IconButton,
     Typography,
-    Link
+    Link,
+    Drawer,
+    List,
+    ListItem,
+    ListItemIcon
 } from '@mui/material';
 import React from 'react';
 import { styled } from "@mui/material/styles"
+import { User, UserType } from "./Navbar"
+import { useState } from 'react';
 
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
+    zIndex: "1201",
     background: "white",
     color: "black",
-    padding: "0px 0.5rem 0px 1rem"
+    padding: "0px 0px 0px 1rem"
 }))
 
 export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
@@ -111,6 +118,10 @@ export const LinkStyled = styled(Link)(({ theme }) => ({
     }
 }))
 
+export const LinkTypography = styled(Link)(({ theme }) => ({
+    color: "rgb(59, 59, 59)"
+}))
+
 export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
     color: "black",
     "&:hover": {
@@ -122,6 +133,122 @@ export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
 export const SmallMenuBarUserName = styled(Typography)(({ theme }) => ({
     background: "#f0f0f0",
     textAlign: "center"
+}))
+
+export const DrawerStyled = styled(Drawer)(({ theme }) => ({
+    [theme.breakpoints.up("lg")]: {
+        display: "none"
+    },
+    // Move the mobile dropdown down
+    // no other way to select it
+    "& > .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorTop.css-1nvnyqx-MuiPaper-root-MuiDrawer-paper": {
+        [theme.breakpoints.down("lg")]: {
+            top: "80px"
+        },
+        [theme.breakpoints.down("md")]: {
+            top: "65px"
+        }
+    }
+}))
+
+export const ListStyled = styled(List)(({ theme }) => ({
+    padding: "0"
+}))
+
+const dynamicColor = {
+    "Student": {
+        "background": "rgb(0, 163, 224)",
+        "color": "white",
+        "outline": "none",
+    },
+    "Independent": {
+        "background": "rgb(255, 200, 0)",
+        "color": "black",
+        "outline": "none",
+    },
+    "Teacher": {
+        "background": "rgb(224, 0, 77)",
+        "color": "white",
+        "outline": "none",
+    },
+    "None": {
+        "background": "white",
+        "color": "black",
+        "outline": "2px solid rgb(255, 200, 0)"
+    }
+}
+
+export const ListItemStyled: React.FC<User> = (props) => (
+
+    <ListItem
+        sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            background: dynamicColor[props.userType].background,
+            color: dynamicColor[props.userType].color,
+            outline: dynamicColor[props.userType].outline,
+            "&:hover": {
+                cursor: "pointer",
+                textDecoration: "underline",
+            },
+        }}
+        // Make the component wrapping
+        {...props}
+    />
+)
+
+export const ListSingleItem = styled(ListItem)(({ theme }) => ({
+    display: "flex",
+    "&:hover": {
+        cursor: "pointer",
+        textDecoration: "underline",
+    },
+}))
+
+export const ListItemIconStyled: React.FC<User> = props => (
+    <ListItemIcon
+        sx={{
+            color: dynamicColor[props.userType].color,
+        }}
+        {...props}
+    />
+)
+
+
+export const DropDownStyled = (props: any) => {
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    (
+
+        <Menu
+            open={open}
+            onClose={handleClose}
+            sx={{
+                "& > div > ul": {
+                    paddingTop: "0",
+                    paddingBottom: "0",
+                    zIndex: "1500"
+                }
+
+            }}
+            {...props}
+        />
+    )
+}
+
+export const SmallNavbarRegisterButton = styled("div")(({ theme }) => ({
+    background: "rgb(255, 200, 0)"
+}))
+
+export const TypographyHover = styled(Typography)(({ theme }) => ({
+    "&:hover": {
+        textDecoration: "underlined"
+    }
 }))
 
 export default AppBarStyled
