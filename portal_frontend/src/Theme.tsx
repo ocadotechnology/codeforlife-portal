@@ -1,14 +1,11 @@
 import { createTheme } from "@mui/material/styles";
 
-
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
 
 const MEDIUM: number = 500
 const SEMI_BOLD: number = 600
 const BOLD: number = 700
-
-const FONT_COLOR: string = "rgb(56, 59, 59)"
 
 
 export const theme = createTheme({
@@ -65,16 +62,19 @@ export const theme = createTheme({
       fontSize: "20px",
       fontWeight: MEDIUM,
     },
-    bodyText1: {
+    body1: {
       fontFamily: FONT_SECONDARY,
       fontSize: "18px"
     },
-    bodyText2: {
+    body2: {
       fontFamily: FONT_SECONDARY,
       fontSize: "16px",
     },
-    // This has to be button as otherwise
-    // the buttons will not get styled at all
+    quote: {
+      fontFamily: FONT_PRIMARY,
+      fontSize: "24px",
+      fontWeight: MEDIUM
+    },
     button: {
       fontFamily: FONT_SECONDARY,
       fontSize: "16px",
@@ -89,9 +89,6 @@ export const theme = createTheme({
       fontSize: "10px",
       fontWeight: MEDIUM,
     },
-    quote: {
-      fontSize: "20px"
-    }
   },
 });
 

@@ -1,3 +1,5 @@
+import logging
+
 from common import email_messages
 from common.helpers.emails import (
     send_verification_email,
@@ -20,7 +22,15 @@ from deploy import captcha
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
+from portal.helpers.ratelimit import (
+    RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
+    RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
+    is_ratelimited,
+)
 from portal.strings.home_learning import HOME_LEARNING_BANNER
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 def teach_email_labeller(request):
@@ -114,12 +124,25 @@ def process_signup_form(request, data):
 
     if email and User.objects.filter(email=email).exists():
         email_message = email_messages.userAlreadyRegisteredEmail(request, email)
-        send_email(
-            NOTIFICATION_EMAIL,
-            [email],
-            email_message["subject"],
-            email_message["message"],
+        is_email_ratelimited = is_ratelimited(
+            request=request,
+            group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
+            key=lambda *_: email,
+            rate=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
+            increment=True,
         )
+
+        if not is_email_ratelimited:
+            send_email(
+                NOTIFICATION_EMAIL,
+                [email],
+                email_message["subject"],
+                email_message["message"],
+            )
+        else:
+            LOGGER.warn(
+                f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
+            )
     else:
         teacher = Teacher.objects.factory(
             first_name=data["teacher_first_name"],
@@ -152,12 +175,25 @@ def process_independent_student_signup_form(request, data):
         email_message = email_messages.userAlreadyRegisteredEmail(
             request, email, is_independent_student=True
         )
-        send_email(
-            NOTIFICATION_EMAIL,
-            [email],
-            email_message["subject"],
-            email_message["message"],
+        is_email_ratelimited = is_ratelimited(
+            request=request,
+            group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
+            key=lambda *_: email,
+            rate=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
+            increment=True,
         )
+
+        if not is_email_ratelimited:
+            send_email(
+                NOTIFICATION_EMAIL,
+                [email],
+                email_message["subject"],
+                email_message["message"],
+            )
+        else:
+            LOGGER.warn(
+                f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
+            )
         return render(
             request,
             "portal/email_verification_needed.html",
