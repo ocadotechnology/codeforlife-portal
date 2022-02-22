@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.35.3 (2022-02-22)
+### Fix
+* Duplicate postcode test ([#1775](https://github.com/ocadotechnology/codeforlife-portal/issues/1775)) ([`ee57c9c`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee57c9cf2e0ecdaf9d76777e47918ffe4d74663e))
+
 ## v5.35.2 (2022-02-21)
 ### Fix
 * Remove now unnecessary workspace clearing ([#1771](https://github.com/ocadotechnology/codeforlife-portal/issues/1771)) ([`4138df7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4138df760a3d818b4bc1ce3780a75116dffe9fdd))
