@@ -173,7 +173,7 @@ class TestLocation(unittest.TestCase):
         self.assertEqual(result, (None, "GB", "London", 51.5005046, -0.1782187))
 
     @responses.activate
-    def test_lookup_country_valid_postcode1(self):
+    def test_lookup_country_valid_postcode2(self):
         responses.add(
             responses.GET,
             MAPS_API_GEOCODE_JSON + "components=postal_code:AL10 9NE",
