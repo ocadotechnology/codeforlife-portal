@@ -60,10 +60,6 @@ form {
     height: 20px;
   }
 
-  p {
-    padding: 0;
-  }
-
   textarea {
     @include _margin(10px, 0px, 10px, 0px);
     @include _padding(10px, 0px, 0px, 10px);
