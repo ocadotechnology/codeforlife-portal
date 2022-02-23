@@ -2,11 +2,11 @@ import React from "react";
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 
-interface Username {
+interface User {
   name: string;
   userType: string;
 }
-const Welcome: React.FC<Username> = ({ name, userType }) => {
+const Welcome = ({ name, userType }: User) => {
   let bgcolor, color;
   if (userType === "independent") {
     bgcolor = "secondary.main"

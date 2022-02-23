@@ -15,6 +15,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import Welcome from "./Components/Banner/Welcome";
+import RapidRouter from "./Components/Banner/RapidRouter";
 import YourGames from "./Components/YourGames/YourGames";
 import RapidRouterScores from "./Components/RapidRouterScores/RapidRouterScores";
 import KuronoWidget from "./Components/KuronoWidget/KuronoWidget";
