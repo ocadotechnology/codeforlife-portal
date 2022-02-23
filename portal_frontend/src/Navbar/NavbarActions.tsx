@@ -51,10 +51,9 @@ const NavbarActions: React.FC<User> = ({ userType, userName }) => {
         <ActionsStyled>
             <ActionsTypographyStyled variant="h4" > {userType !== "None" ? userType : null}</ActionsTypographyStyled>
             {userType === "None" ? navbarActions[userType].navField.text.map((element: string, i: number) => {
-                return <LinkStyled
+                return <LinkStyled userType={userType}
                     href={navbarActions[userType].navField.links[i]}
                     variant="h4"
-                    color="inherit"
                 >{element}</LinkStyled>
             }) :
                 <>

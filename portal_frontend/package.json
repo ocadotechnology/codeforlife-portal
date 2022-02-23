@@ -1,10 +1,4 @@
 {
-<<<<<<< HEAD
-=======
-  "devDependencies": {
-    "prettier": "2.5.1"
-  },
->>>>>>> master
   "name": "frontend",
   "version": "0.1.0",
   "private": true,

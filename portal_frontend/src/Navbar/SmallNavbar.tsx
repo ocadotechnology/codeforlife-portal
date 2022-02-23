@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { User } from './Navbar';
 import { useEffect } from 'react';
-import { DrawerStyled, LinkTypography, ListItemIconStyled, ListSingleItem, ListStyled, MenuIconButtonStyled, SmallMenuBarUserName, SmallNavbarRegisterButton, TypographyHover } from './NavbarStyle';
+import { DrawerStyled, LinkStyled, LinkTypography, ListItemIconStyled, ListSingleItem, ListStyled, MenuIconButtonStyled, SmallMenuBarUserName, SmallNavbarRegisterButton, TypographyHover } from './NavbarStyle';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
@@ -75,6 +75,11 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
         "Logout"
     ]
 
+    const accountLinks = [
+        "",
+        ""
+    ]
+
     const accountContentIcons = [
         <ManageAccountsOutlinedIcon />,
         <LogoutOutlinedIcon />,
@@ -83,14 +88,11 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
 
     const [state, setState] = React.useState({
         top: false,
-        menu: false,
-        gamesMenu: false,
-        resourcesMenu: false,
     });
 
 
     const toggleDrawer =
-        (anchor: any, open: boolean) =>
+        (anchor: "top", open: boolean) =>
             (event: React.KeyboardEvent | React.MouseEvent) => {
                 if (
                     event.type === 'keydown' &&
@@ -106,7 +108,7 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
     const handleClick = () => {
         toggleDrawer("top", true)
         setState({
-            ...state, menu: !state["menu"]
+            ...state, top: !state["top"]
         })
     }
 
@@ -133,12 +135,12 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
             </ListStyled>
             <Divider />
             <ListStyled>
-                {userType !== "None" ? accountContent.map((text, index) => {
+                {userType !== "None" ? accountContent.map((text: string, index: number) => {
                     return (<ListSingleItem>
-                        <ListItemIcon>
+                        <ListItemIcon >
                             {accountContentIcons[index]}
                         </ListItemIcon>
-                        <LinkTypography underline="hover" variant="subtitle2">{text}</LinkTypography>
+                        <LinkTypography href={accountLinks[index]} underline="hover" variant="subtitle2">{text}</LinkTypography>
                     </ListSingleItem>)
                 }) : null}
             </ListStyled>
@@ -156,7 +158,7 @@ const SmallNavbar: React.FC<User> = ({ userType, userName }) => {
                 <DrawerStyled
                     anchor={"top"}
                     open={state["top"]}
-                    onClose={() => toggleDrawer("top", false)}
+                    onClose={() => setState({ top: false })}
                 >
                     {list("top")}
                 </DrawerStyled>

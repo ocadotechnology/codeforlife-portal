@@ -17,6 +17,9 @@ import React from 'react';
 import { styled } from "@mui/material/styles"
 import { User, UserType } from "./Navbar"
 import { useState } from 'react';
+import { OverridableStringUnion } from "@mui/types/index"
+import { TypographyPropsVariantOverrides } from "@mui/material/Typography"
+import { Variant } from '@mui/material/styles/createTypography';
 
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
     zIndex: "1201",
@@ -109,14 +112,35 @@ export const NavbarMenuStyled = styled(Menu)(({ theme }) => ({
     }
 }))
 
-export const LinkStyled = styled(Link)(({ theme }) => ({
-    marginRight: "2rem",
-    textDecoration: "none",
-    "&:hover": {
-        textDecoration: "underline",
-        cursor: "pointer"
-    }
-}))
+
+interface LinkAttr {
+    variant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>,
+    href?: string,
+    userType: UserType,
+}
+
+export const LinkStyled: React.FC<LinkAttr> = (props) => {
+
+    return (
+        <Link
+            href={props.href}
+            variant={props.variant}
+            sx={{
+                marginRight: "2rem",
+                textDecoration: "none",
+                background: dynamicColor[props.userType].background,
+                color: dynamicColor[props.userType].color,
+                //outline: dynamicColor[props.userType].outline,
+                "&:hover": {
+                    textDecoration: "underline",
+                    cursor: "pointer"
+                },
+
+            }}
+            {...props}
+        />
+    )
+}
 
 export const LinkTypography = styled(Link)(({ theme }) => ({
     color: "rgb(59, 59, 59)"
@@ -152,7 +176,7 @@ export const DrawerStyled = styled(Drawer)(({ theme }) => ({
 }))
 
 export const ListStyled = styled(List)(({ theme }) => ({
-    padding: "0"
+    padding: "0",
 }))
 
 const dynamicColor = {
@@ -183,19 +207,37 @@ export const ListItemStyled: React.FC<User> = (props) => (
     <ListItem
         sx={{
             display: "flex",
-            alignItems: "flex-start",
+            alignItems: "start",
             background: dynamicColor[props.userType].background,
             color: dynamicColor[props.userType].color,
             outline: dynamicColor[props.userType].outline,
             "&:hover": {
                 cursor: "pointer",
-                textDecoration: "underline",
             },
         }}
         // Make the component wrapping
         {...props}
     />
 )
+
+export const SubMenuStyled: React.FC<User> = props => (
+    <ListItem
+        sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "start",
+            background: dynamicColor[props.userType].background,
+            color: dynamicColor[props.userType].color,
+            outline: dynamicColor[props.userType].outline,
+            "&:hover": {
+                cursor: "pointer",
+            },
+        }}
+        // Make the component wrapping
+        {...props}
+    />
+)
+
 
 export const ListSingleItem = styled(ListItem)(({ theme }) => ({
     display: "flex",
@@ -209,6 +251,7 @@ export const ListItemIconStyled: React.FC<User> = props => (
     <ListItemIcon
         sx={{
             color: dynamicColor[props.userType].color,
+            marginTop: "0.1rem"
         }}
         {...props}
     />

@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import TwitterLogo from "./images/twitter.svg";
-import OcadoLogo from "./images/logo_ocado_group_white.svg";
+// import TwitterLogo from "./images/twitter.svg";
+// import OcadoLogo from "./images/logo_ocado_group_white.svg";
 
 const ExternalLinks = () => {
   return (

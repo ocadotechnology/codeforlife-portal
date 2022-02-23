@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { LinkStyled, ListSingleItem, ListStyled, TypographyHover } from './NavbarStyle'
+import { LinkStyled, ListSingleItem, ListStyled, SubMenuStyled, TypographyHover } from './NavbarStyle'
 import { Link, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import { User } from './Navbar'
 import RegisterButton from '../Components/Buttons/RegisterButton'
 import LogInButton from '../Components/Buttons/LogInButton'
 import { Collapse } from '@mui/material'
 import { ListItemStyled, ListItemIconStyled } from './NavbarStyle'
-import { Typography } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 
 
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
@@ -16,26 +16,99 @@ import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
 
 
+interface StringBoolHash {
+    [variable: string]: boolean
+}
 
 const SmallReactiveMenu: React.FC<User> = ({ userType }) => {
 
+    const isGame = (text: string) => {
+        return text === "Games" ? "games" : "resources"
+    }
+    // Strings that are not considered for dropdown menu
 
+    const NotDropDown: StringBoolHash = {
+        "Dashboard": true,
+        "Scoreboard": true,
+        "Teacher": true,
+        "Student": true,
+        "Independent": true
+    }
 
     const dynamicContentIcons = [
         <GridViewOutlinedIcon />,
         <SportsEsportsOutlinedIcon />,
         <ArticleOutlinedIcon />
     ]
+    interface ContentTemplate {
+        Student: {
+            navField: {
+                text: string[],
+                link: string[]
+            },
+            games: {
+                text: string[],
+                link: string[]
+            },
+            resources: {
+                text: string[],
+                link: string[]
+            }
+        },
+        Independent: {
+            navField: {
+                text: string[],
+                link: string[]
+            },
+            games: {
+                text: string[],
+                link: string[]
+            },
+            resources: {
+                text: string[],
+                link: string[]
+            }
+        },
+        Teacher: {
 
-    const dynamicContent = {
+            navField: {
+                text: string[],
+                link: string[]
+            },
+            games: {
+                text: string[],
+                link: string[]
+            },
+            resources: {
+                text: string[],
+                link: string[]
+            }
+        },
+        None: {
+            navField: {
+                text: string[],
+                link: string[]
+            },
+            games: {
+                text: string[],
+                link: string[]
+            },
+            resources: {
+                text: string[],
+                link: string[]
+            }
+        }
+    }
+
+    const dynamicContent: ContentTemplate = {
         "Student": {
             "navField": {
                 "text": ["Dashboard", "Games", "Scoreboard"],
-                "link": ["", "", ""],
+                "link": ["https://www.codeforlife.education/teach/dashboard/#school", "", ""],
             },
             "games": {
                 "text": ["Rapid Router"],
-                "link": [""],
+                "link": ["https://www.codeforlife.education/rapidrouter/"],
             },
             "resources": {
                 "text": ["Rapid Router"],
@@ -62,16 +135,22 @@ const SmallReactiveMenu: React.FC<User> = ({ userType }) => {
                 "link": ["", "", ""],
             },
             "games": {
-                "text": ["Rapid Router", "Kurono"],
-                "link": [""],
+                "text": ["Rapid Router"],
+                "link": ["https://www.codeforlife.education/rapidrouter/"],
             },
-            "resources": ["Rapid Router", "Kurono"],
-            "link": [""]
+            "resources": {
+                "text": ["Rapid Router", "Kurono"],
+                "link": ["", ""]
+            }
         },
         "None": {
             "navField": {
                 "text": ["Teacher", "Student", "Independent"],
-                "link": [""],
+                "link": [
+                    "https://www.codeforlife.education/login/teacher/",
+                    "https://www.codeforlife.education/login/student/",
+                    "https://www.codeforlife.education/login/independent/"
+                ],
             },
             "games": {
                 "text": [""],
@@ -96,7 +175,7 @@ const SmallReactiveMenu: React.FC<User> = ({ userType }) => {
                     <ListItemIcon>
                         {userType === "Teacher" ? <PersonOutlinedIcon /> : <SchoolOutlinedIcon />}
                     </ListItemIcon>
-                    <TypographyHover variant="subtitle2">{userType}</TypographyHover>
+                    <Typography variant="subtitle2">{userType}</Typography>
                 </ListSingleItem>
                 :
                 <div>
@@ -109,9 +188,9 @@ const SmallReactiveMenu: React.FC<User> = ({ userType }) => {
             }
             <Collapse in={menu} >
 
-                {dynamicContent[userType].navField.text.map((text, index) => (
-                    <div
-                    >
+                <Box
+                >
+                    {dynamicContent[userType].navField.text.map((text, index) => (
                         <ListItemStyled
                             userType={userType}
                             key={text}>
@@ -119,24 +198,34 @@ const SmallReactiveMenu: React.FC<User> = ({ userType }) => {
                                 {dynamicContentIcons[index]}
                             </ListItemIconStyled>
                             {
-                                text === "Dashboard" || text === "Scoreboard" ?
-                                    <TypographyHover variant="subtitle2">{text}</TypographyHover> :
+                                // Dashboard and Scoreboard never have dropdown buttons
+                                NotDropDown[text] ?
+                                    <LinkStyled href={userType === "None" ? dynamicContent[userType].navField.text[index] : ""} userType={userType} variant="subtitle2">{text}</LinkStyled> :
+                                    // Alter between games and resources
                                     <div onClick={() => text === "Games" ? setGames(!games) : setResources(!resources)}>
-                                        <TypographyHover variant="subtitle2">{text}</TypographyHover>
+                                        <LinkStyled userType={userType} variant="subtitle2">{text}</LinkStyled>
                                         <Collapse orientation="vertical" in={text === "Games" ? games : resources}>
-                                            <ListItemStyled userType={userType}>
+                                            <SubMenuStyled userType={userType}>
 
-                                                {dynamicContent[userType].games.text.map((element: string) => {
-                                                    return <Typography onClick={() => console.log(element)} variant="subtitle2">{element}</Typography>
+                                                {dynamicContent[userType][isGame(text)].text.map((element: string, index: number) => {
+                                                    return (
+                                                        <LinkStyled
+                                                            href={dynamicContent[userType][isGame(text)].link[index]}
+                                                            userType={userType}
+                                                            variant="subtitle2">
+                                                            {element}
+                                                        </LinkStyled>
+                                                    )
                                                 })}
-                                            </ListItemStyled>
+                                            </SubMenuStyled>
                                         </Collapse>
                                     </div>
                             }
                         </ListItemStyled>
-                    </div>
-                ))
-                }
+                    ))
+                    }
+                </Box>
+
             </Collapse >
         </ListStyled >
     )
