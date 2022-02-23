@@ -94,7 +94,11 @@ export const ActionsTypographyStyled = styled(Typography)(({ theme }) => ({
 export const NavBarButtonStyled = styled(Button)(({ theme }) => ({
     color: "black",
     textTransform: "none",
-    fontWeight: "500"
+    fontWeight: "500",
+    "&:hover": {
+        background: "none",
+        textDecoration: "underline",
+    }
 }))
 
 export const NavButtonItemStyled = styled(MenuItem)(({ theme }) => ({

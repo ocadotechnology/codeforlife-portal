@@ -52,12 +52,16 @@ export const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
 }))
 
 export const UserItemStyled = styled(Button)(({ theme }) => ({
+    textAlign: "left",
     display: "flex",
-    width: "310px",
     border: "2px solid rgb(255, 200, 0)",
     color: "black",
     textTransform: "none",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    width: "17vw",
+    "&:hover": {
+        background: "none"
+    }
 }))
 
 export const UserButtonDivStyled = styled("div")(({ theme }) => ({

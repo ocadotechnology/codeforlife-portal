@@ -11,27 +11,50 @@ import { LinkStyled } from './NavbarStyle';
 export const navbarActions = {
     "Student": {
         "navField": {
-            "text": ["Games", "Scoreboard"],
-            "link": ["", ""]
+            "text": ["Dashboard", "Games", "Scoreboard"],
+            "link": ["", "", ""]
         },
-        "games": ["Rapid Router", "Kurono"],
-        "resources": []
+        "games": {
+            "text":
+                ["Dashboard", "Rapid Router", "Kurono"],
+            "link": ["", "", ""]
+        },
+        "resources": {
+            "text": [""],
+            "link": [""],
+        },
     },
     "Independent": {
         "navField": {
             "text": ["Games", "Learning Resources"],
             "link": ["", ""]
         },
-        "games": ["Rapid Router"],
-        "resources": ["Rapid Router"]
+        "games": {
+            "text":
+                ["Rapid Router"],
+            "link": [""]
+        },
+        "resources": {
+            "text":
+                ["Rapid Router"],
+            "link": [""]
+        }
     },
     "Teacher": {
         "navField": {
             "text": ["Games", "Teaching Resources"],
             "link": ["", ""]
         },
-        "games": ["Rapid Router", "Kurono"],
-        "resources": ["Rapid Router", "Kurono"],
+        "games": {
+            "text":
+                ["Rapid Router", "Kurono"],
+            "link": [""]
+        },
+        "resources": {
+            "text":
+                ["Rapid Router", "Kurono"],
+            "link": [""]
+        },
 
     },
     "None": {
@@ -39,13 +62,32 @@ export const navbarActions = {
             "text": ["Teachers", "Students"],
             "links": ["https://www.codeforlife.education/teach/", "https://www.codeforlife.education/play/"]
         },
-        "games": [],
-        "resources": []
+        "games": {
+            "text":
+                [""],
+            "link": [""]
+        },
+        "resources": {
+            "text": [""],
+            "link": [""]
+        }
     },
 }
 
+interface StringBoolHash {
+    [key: string]: boolean
+}
 
+const NotDropDown: StringBoolHash = {
+    "Dashboard": true,
+    "Scoreboard": true,
+}
 
+const isGame = (text: string) => {
+    return text === "Games" ? "games" : "resources"
+}
+
+// TODO: Make this component resemble the mobile version
 const NavbarActions: React.FC<User> = ({ userType, userName }) => {
     return (
         <ActionsStyled>
@@ -57,13 +99,10 @@ const NavbarActions: React.FC<User> = ({ userType, userName }) => {
                 >{element}</LinkStyled>
             }) :
                 <>
-                    <ActionsTypographyStyled variant="h6">Dashboard</ActionsTypographyStyled>
-                    <NavBarDropDown title="Games" subTitles={navbarActions[userType].games} />
-                    {userType === "Student" ? <ActionsTypographyStyled variant="h6" >{navbarActions[userType].navField.text[1]}</ActionsTypographyStyled> :
-                        <NavBarDropDown
-                            title={navbarActions[userType].navField.text[1]}
-                            subTitles={navbarActions[userType].games}
-                        />
+                    {navbarActions[userType].navField.text.map((element: string, index: number) => {
+                        return NotDropDown[element] ? <LinkStyled userType={userType}>{element}</LinkStyled> :
+                            <NavBarDropDown title={element} subTitles={navbarActions[userType][isGame(element)].text} />
+                    })
                     }
                 </>
             }

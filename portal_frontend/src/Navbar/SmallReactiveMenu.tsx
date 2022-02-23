@@ -17,7 +17,7 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
 
 
 interface StringBoolHash {
-    [variable: string]: boolean
+    [key: string]: boolean
 }
 
 const SmallReactiveMenu: React.FC<User> = ({ userType }) => {
