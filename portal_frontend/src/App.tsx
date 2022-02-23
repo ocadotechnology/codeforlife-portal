@@ -17,7 +17,7 @@ const App: React.FC = () => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Navbar userType="Independent" userName="Albert Einstein" />
+        <Navbar userType="Teacher" userName="Albert Einstein" />
       </ThemeProvider>
     </div>
   );
