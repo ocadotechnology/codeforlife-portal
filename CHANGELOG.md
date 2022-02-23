@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.37.0 (2022-02-23)
+### Feature
+* Kick / leave teacher page update ([#1779](https://github.com/ocadotechnology/codeforlife-portal/issues/1779)) ([`c4f2918`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4f29188a7ad42a699ee1c65fe74382d0d89e9aa))
+
 ## v5.36.1 (2022-02-23)
 ### Fix
 * Remove assertEqual/s ([#1777](https://github.com/ocadotechnology/codeforlife-portal/issues/1777)) ([`d727634`](https://github.com/ocadotechnology/codeforlife-portal/commit/d727634d4433e32a53a5357d7c3a52880b219cbd))
