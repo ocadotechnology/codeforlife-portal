@@ -45,6 +45,31 @@ $column--icon-width: 3%;
   background-color: $color-background-secondary;
   padding: 0;
 
+  &.activated-card {
+    border: 3px solid $color-tertiary;
+    position: relative;
+
+    .activated-text {
+      @include _font-size(20px);
+      @include _padding(10px, 20px, 10px, 20px);
+      background: $color-tertiary;
+      border-radius: 0 0 4px 4px;
+      color: $color-text-secondary;
+      display: inline-block;
+      position: absolute;
+      right: 36px;
+      line-height: 1;
+    }
+
+    .card__image {
+      border-radius: 1px 1px 0 0;
+      width: -moz-available;
+      width: -webkit-fill-available;
+      width: fill-available;
+      height: 220px;
+    }
+  }
+
   .card__title {
     margin: 0;
     padding: 0;
@@ -55,7 +80,6 @@ $column--icon-width: 3%;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: space-between;
   }
 
   .card__images {
@@ -88,18 +112,15 @@ $column--icon-width: 3%;
 }
 
 .grid-characters {
-  .card__title {
-    @include _padding($spacing * 4, $spacing * 4, $spacing * 4, $spacing * 4);
-    color: $color-teacher-blue;
-    margin: 0;
-    text-align: center;
-  }
-
-  .card__image {
+  .grid-character-image {
     @include _padding(0px, $spacing * 4, 0px, $spacing * 4);
     display: block;
     max-height: $character-card-image-max-height;
     margin: 0 auto;
+  }
+
+  .grid-character-title {
+    margin-bottom: 0;
   }
 }
 

@@ -3,7 +3,9 @@
 {% load app_tags banner_tags hero_card_tags card_list_tags character_list_tags %}
 
 {% block subNav %}
-{% banner banner_name="BANNER" %}
+<section class="banner banner--aimmo">
+    <img title="Kurono logo" alt="Kurono logo" src="{% static 'portal/img/kurono_logo.svg' %}">
+</section>
 {% endblock subNav %}
 
 {% block content %}
@@ -24,33 +26,10 @@
         </div>
     {% endif %}
 
-    <div class="background background--primary">
+    <div class="background  background--primary">
         <div class="container">
-            <div class="grid">
-                <div>
-                    <h5 class="grid-item__title">User Guide</h5>
-                    <p class="grid-item__expand">Find out more about the game and learn the basics for using the code editor and game map.</p>
-                    <div class="button-group button-group__icon">
-                        <a href="https://code-for-life.gitbook.io/learning-resources/student-challenges/student-user-guide" class="button button--primary">
-                            User Guide<span class="material-icons-outlined">arrow_forward_ios</span>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h5 class="grid-item__title">Cheat Sheet</h5>
-                    <p class="grid-item__expand">This cheat sheet will give you what you need to communicate with Kurono in Python.</p>
-                    <div class="button-group button-group__icon">
-                        <a href="https://code-for-life.gitbook.io/learning-resources/student-challenges/kurono-cheat-sheet" class="button button--primary">
-                            Cheat Sheet<span class="material-icons-outlined">arrow_forward_ios</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="background container">
-            <h4 class="text-center">Meet the characters</h4>
             {% character_list %}
+        </div>
     </div>
 {% else %}
     <div class="background text-center container">

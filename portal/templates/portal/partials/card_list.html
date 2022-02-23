@@ -6,22 +6,11 @@
         <div class="card">
             <div class="card__images">
                 <img class="card__image" src="{{ card.image | cloud_storage }}">
-                {% if card.thumbnail_text %}
-                    <h3 class="card__thumbnail">{{ card.thumbnail_text }}</h3>
-                {% elif card.thumbnail_image %}
-                    <img class="card__thumbnail" src="{{ card.thumbnail_image | cloud_storage }}">
-                {% endif %}
             </div>
             <div class="card__text">
                 <h5 class="card__title">{{ card.title }}</h5>
                 {% if card.description %}
                     <p>{{ card.description }}</p>
-                {% elif card.button_text %}
-                    <div class="button-group button-group__icon">
-                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary button-right-arrow">
-                            {{ card.button_text }}
-                        </a>
-                    </div>
                 {% endif %}
             </div>
         </div>
