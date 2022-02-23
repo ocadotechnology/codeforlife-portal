@@ -449,7 +449,7 @@ class TestViews(TestCase):
 
         response = c.get(page_url)
 
-        self.assertEquals(200, response.status_code)
+        assert response.status_code == 200
 
     def test_contributor(self):
         c = Client()
