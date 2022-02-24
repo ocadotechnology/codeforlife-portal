@@ -29,8 +29,8 @@ export const navbarActions = {
   },
   Independent: {
     navField: {
-      text: ["Games", "Learning Resources"],
-      link: ["", ""],
+      text: ["Dashboard", "Games", "Learning Resources"],
+      link: ["", "", ""],
     },
     games: {
       text: ["Rapid Router"],
@@ -43,8 +43,8 @@ export const navbarActions = {
   },
   Teacher: {
     navField: {
-      text: ["Games", "Teaching Resources"],
-      link: ["", ""],
+      text: ["Dashboard", "Games", "Teaching Resources"],
+      link: ["", "", ""],
     },
     games: {
       text: ["Rapid Router", "Kurono"],
