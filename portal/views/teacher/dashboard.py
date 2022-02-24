@@ -1,6 +1,6 @@
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
-from common.helpers.generators import generate_access_code, get_random_username
+from common.helpers.generators import get_random_username
 from common.models import Class, Student, Teacher, JoinReleaseStudent
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
@@ -11,6 +11,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
+from two_factor.utils import devices_for_user
+
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
@@ -26,8 +28,6 @@ from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_RATE,
     clear_ratelimit_cache_for_user,
 )
-from two_factor.utils import devices_for_user
-
 from .teach import create_class
 
 
@@ -362,7 +362,7 @@ def organisation_kick(request, pk):
                 "original_teacher": teacher,
                 "classes": classes,
                 "teachers": teachers,
-                "submit_button_text": "Remove teacher",
+                "submit_button_text": "Move classes and remove teacher",
             },
         )
 

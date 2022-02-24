@@ -36,7 +36,7 @@ class SecurityTestCase(TestCase):
         non_existant_page = reverse(view_name, args=["AAAAA"])
         non_existant_code = c.get(non_existant_page).status_code
 
-        self.assertEqual(non_existant_code, invalid_login_code)
+        assert non_existant_code == invalid_login_code
 
     def test_reminder_cards_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""
@@ -55,9 +55,9 @@ class SecurityTestCase(TestCase):
         stu = Student(user=profile)
         stu.save()
 
-        self.assertEqual(
-            c.get(reverse("teacher_edit_student", kwargs={"pk": "9999"})).status_code,
-            c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code,
+        assert (
+            c.get(reverse("teacher_edit_student", kwargs={"pk": "9999"})).status_code
+            == c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code
         )
 
     def test_cannot_lookup_schools_if_not_logged_in(self):
@@ -67,7 +67,7 @@ class SecurityTestCase(TestCase):
         data = {"fuzzy_name": ["A"]}
         response = client.get(url, data=data)
 
-        self.assertEqual(403, response.status_code)
+        assert response.status_code == 403
 
     def test_cannot_create_school_with_email_as_name(self):
         number_of_existing_schools = len(School.objects.all())
@@ -87,7 +87,7 @@ class SecurityTestCase(TestCase):
 
         client.post(url, data)
 
-        self.assertEqual(number_of_existing_schools, len(School.objects.all()))
+        assert number_of_existing_schools == len(School.objects.all())
 
     def test_reminder_cards_wrong_teacher(self):
         """Try and view reminder cards without being the teacher for that class."""
