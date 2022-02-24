@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.37.2 (2022-02-24)
+### Fix
+* Remove padding in dropdown options ([#1781](https://github.com/ocadotechnology/codeforlife-portal/issues/1781)) ([`cc0ee7f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cc0ee7fd10461ff966b0b803c01c9c1ea4d49980))
+
 ## v5.37.1 (2022-02-24)
 ### Fix
 * Run Black formatter ([`b938fce`](https://github.com/ocadotechnology/codeforlife-portal/commit/b938fce07eefb7abfe4404ea4cc2f40b00de38ed))
