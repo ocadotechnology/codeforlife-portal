@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.37.1 (2022-02-24)
+### Fix
+* Run Black formatter ([`b938fce`](https://github.com/ocadotechnology/codeforlife-portal/commit/b938fce07eefb7abfe4404ea4cc2f40b00de38ed))
+
 ## v5.37.0 (2022-02-23)
 ### Feature
 * Kick / leave teacher page update ([#1779](https://github.com/ocadotechnology/codeforlife-portal/issues/1779)) ([`c4f2918`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4f29188a7ad42a699ee1c65fe74382d0d89e9aa))
