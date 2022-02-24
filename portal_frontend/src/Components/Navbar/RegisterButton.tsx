@@ -1,22 +1,18 @@
-import { RegisterButtonStyled } from './NavbarStyle';
-import React from 'react';
-
+import { RegisterButtonStyled } from "./NavbarStyle";
+import React from "react";
 
 interface OnClick {
-    onClick?: (anchor: string, on: boolean) => void,
-    anchor?: string,
-    on?: boolean,
+  onClick?: (anchor: string, on: boolean) => void;
+  anchor?: string;
+  on?: boolean;
 }
 
 const RegisterButton: React.FC<OnClick> = () => {
-    return (
-        <RegisterButtonStyled
-            variant="contained"
-            color="secondary"
-
-        >
-            Register</RegisterButtonStyled >
-    )
+  return (
+    <RegisterButtonStyled variant="contained" color="secondary">
+      Register
+    </RegisterButtonStyled>
+  );
 };
 
 export default RegisterButton;

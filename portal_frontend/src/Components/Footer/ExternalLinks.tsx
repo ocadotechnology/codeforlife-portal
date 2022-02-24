@@ -10,14 +10,26 @@ const ExternalLinks = () => {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <a href="https://www.facebook.com">
-            <img style={{ width: "100%" }} src="/images/facebook.svg" alt="Facebook" />
+            <img
+              style={{ width: "100%" }}
+              src="/images/facebook.svg"
+              alt="Facebook"
+            />
           </a>
         </Grid>
         <Grid item xs={3}>
-          <img style={{ width: "100%" }} src="/images/twitter.svg" alt="Twitter" />
+          <img
+            style={{ width: "100%" }}
+            src="/images/twitter.svg"
+            alt="Twitter"
+          />
         </Grid>
         <Grid item xs={6}>
-          <img src="/images/ocado.svg" alt="Ocado Group" style={{ width: "100%" }} />
+          <img
+            src="/images/ocado.svg"
+            alt="Ocado Group"
+            style={{ width: "100%" }}
+          />
         </Grid>
       </Grid>
     </Box>

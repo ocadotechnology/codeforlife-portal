@@ -3,10 +3,9 @@ import { createTheme } from "@mui/material/styles";
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
 
-const MEDIUM: number = 500
-const SEMI_BOLD: number = 600
-const BOLD: number = 700
-
+const MEDIUM: number = 500;
+const SEMI_BOLD: number = 600;
+const BOLD: number = 700;
 
 export const theme = createTheme({
   // Paste the code below this line
@@ -20,7 +19,7 @@ export const theme = createTheme({
     },
     neutral: {
       main: "rgb(59, 59, 59)",
-    }
+    },
   },
   typography: {
     h1: {
@@ -64,7 +63,7 @@ export const theme = createTheme({
     },
     body1: {
       fontFamily: FONT_SECONDARY,
-      fontSize: "18px"
+      fontSize: "18px",
     },
     body2: {
       fontFamily: FONT_SECONDARY,
@@ -73,7 +72,7 @@ export const theme = createTheme({
     quote: {
       fontFamily: FONT_PRIMARY,
       fontSize: "24px",
-      fontWeight: MEDIUM
+      fontWeight: MEDIUM,
     },
     button: {
       fontFamily: FONT_SECONDARY,
@@ -82,7 +81,7 @@ export const theme = createTheme({
     },
     caption: {
       fontFamily: FONT_SECONDARY,
-      fontSize: "13px"
+      fontSize: "13px",
     },
     overline: {
       fontFamily: FONT_SECONDARY,

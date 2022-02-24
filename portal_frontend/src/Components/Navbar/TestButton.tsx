@@ -1,10 +1,8 @@
-import React from 'react'
-import { Button } from '@mui/material'
+import React from "react";
+import { Button } from "@mui/material";
 
 const TestButton = () => {
-    return (
-        null
-    )
-}
+  return null;
+};
 
-export default TestButton
+export default TestButton;
