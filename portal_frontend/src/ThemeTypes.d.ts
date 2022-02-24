@@ -1,14 +1,6 @@
 import React from "react";
 
 declare module "@mui/material/styles" {
-  interface PaletteVariantOptions {
-    default?: React.CSSProperties;
-  }
-  declare module "@mui/material/Palette" {
-    interface PalettePropsVariantOverrides {
-      default: true;
-    }
-  }
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     quote?: React.CSSProperties;
