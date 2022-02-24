@@ -3,8 +3,8 @@ import { NavBarButtonStyled, NavButtonItemStyled } from './NavbarStyle';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import { LogInMenuStyled } from '../Components/Buttons/LogInButtonStyled';
-import { MenuItemStyled } from '../Components/Buttons/LogInButtonStyled';
+import { LogInMenuStyled } from './NavbarStyle';
+import { MenuItemStyled } from './NavbarStyle';
 
 import { User } from './Navbar';
 

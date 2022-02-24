@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { LogInButtonStyled, LogInMenuStyled, MenuItemStyled, SubButtonStyled } from './LogInButtonStyled';
+import { LogInButtonStyled, LogInMenuStyled, MenuItemStyled, SubButtonStyled } from './NavbarStyle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import RegisterButtonStyled from './RegisterButtonStyled';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 interface Small {

@@ -1,4 +1,4 @@
-import RegisterButtonStyled from './RegisterButtonStyled';
+import { RegisterButtonStyled } from './NavbarStyle';
 import React from 'react';
 
 

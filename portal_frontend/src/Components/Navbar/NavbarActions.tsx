@@ -1,6 +1,6 @@
-import LogInButton from '../Components/Buttons/LogInButton';
+import LogInButton from './LogInButton';
 import React from 'react'
-import RegisterButton from "../Components/Buttons/RegisterButton"
+import RegisterButton from "./RegisterButton"
 import { User } from "./Navbar"
 import { ActionsStyled, ActionsTypographyStyled, NavbarMenuStyled } from './NavbarStyle';
 

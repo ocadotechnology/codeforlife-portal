@@ -11,13 +11,13 @@ Libraries that seem to be breaking the app without notice
 import React from "react";
 import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
-import Navbar from "./Navbar/Navbar"
+import Navbar from "./Components/Navbar/Navbar"
 
 const App: React.FC = () => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Navbar userType="Teacher" userName="Albert Einstein" />
+        <Navbar userType="None" userName="Albert Einstein" />
       </ThemeProvider>
     </div>
   );

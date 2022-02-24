@@ -1,52 +1,49 @@
-import { MenuStyled } from "./NavbarStyle";
-import React from "react";
-import { Toolbar } from "@mui/material";
-import { Button } from "@mui/material";
-import { NavBarStyled, MenuIconStyled } from "./NavbarStyle";
-import { Typography } from "@mui/material";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
-import { MenuWrap } from "./NavbarStyle";
-import MenuIconNavBar from "./MenuIconNavBar";
-import UserButton from "./UserButton";
-import { userInfo } from "os";
-import SubMenu from "./SubMenu";
+import * as React from 'react';
 
-// The first image is imported from the public folder
+import { IconButtonStyled, AppBarStyled, ToolbarStyled, LogoCfl, LogoOcado } from "./NavbarStyle"
+import NavbarActions from './NavbarActions';
+import UserNameButton from "./UserNameButton"
+import NotLoggedIn from './NotLoggedIn';
+import SmallNavbar from "./SmallNavbar";
 
-type UserType = "student" | "independent" | "teacher";
 
-interface Props {
-  name: string;
-  userType: UserType;
+export type UserType = "Student" | "Independent" | "Teacher" | "None";
+
+export interface User {
+    userType: UserType
+    userName?: string
 }
 
-const Navbar = ({ name, userType }: Props) => {
-  return (
-    <Toolbar sx={{ display: "flex" }}>
-      <NavBarStyled elevation={5}>
-        <img
-          src="/images/logo_cfl.png" // Here is where an image is being imported
-          alt="cfl_logo"
-          style={{
-            height: "80px",
-          }}
-        />
-        <img
-          style={{
-            height: "150px",
-          }}
-          src="https://image.pitchbook.com/J9YjXxMlKawW33vJmEuU86TyL8V1625027225121_200x200"
-          alt="hello"
-        />
-        <SubMenu userType={userType} />
+const Navbar: React.FC<User> = ({ userType, userName }) => {
 
-        <MenuIconNavBar />
-        <UserButton name={name} />
-      </NavBarStyled>
-    </Toolbar>
-  );
+
+    return (
+        <AppBarStyled position="fixed">
+            <ToolbarStyled disableGutters>
+                <a href="http://www.localhost:3000">
+                    <LogoCfl src="/images/navbar/logo_cfl.png" />
+                </a>
+                <a
+                    href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future"
+                    target="_blank"
+                >
+                    <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
+                </a>
+                <NavbarActions userType={userType} userName={userName} />
+                {userType === "None" ?
+                    <NotLoggedIn />
+                    : <UserNameButton userType={userType} userName={userName} />}
+                <IconButtonStyled disableRipple={true}
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <SmallNavbar userType={userType} userName={userName} />
+                </IconButtonStyled>
+            </ToolbarStyled>
+        </AppBarStyled>
+    );
 };
-
 export default Navbar;

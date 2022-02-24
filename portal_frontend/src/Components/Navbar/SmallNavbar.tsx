@@ -22,15 +22,15 @@ import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import PanToolOutlinedIcon from '@mui/icons-material/PanToolOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { RegisterButtonSmallMenuStyled } from '../Components/Buttons/RegisterButtonStyled';
+import { RegisterButtonSmallMenuStyled } from './NavbarStyle';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 import { ListItemStyled } from './NavbarStyle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Link, Typography } from '@mui/material';
-import LogInButton from '../Components/Buttons/LogInButton';
-import RegisterButton from '../Components/Buttons/RegisterButton';
+import LogInButton from './LogInButton';
+import RegisterButton from './RegisterButton';
 import Collapse from "@mui/material/Collapse"
 import SmallReactiveMenu from './SmallReactiveMenu';
 

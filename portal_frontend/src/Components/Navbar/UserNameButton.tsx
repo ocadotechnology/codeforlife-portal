@@ -1,14 +1,14 @@
 import React from 'react'
-import { UserNameButtonStyled } from './UserNameButtonStyled'
+import { UserNameButtonStyled } from './NavbarStyle'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { UserItemStyled, UserButtonDivStyled } from './LogInButtonStyled';
-import { UserMenuStyled } from './UserNameButtonStyled';
+import { UserItemStyled, UserButtonDivStyled } from './NavbarStyle';
+import { UserMenuStyled } from './NavbarStyle';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-import { User, UserType } from '../../Navbar/Navbar';
+import { User, UserType } from './Navbar';
 
 import { useEffect } from 'react';
 
