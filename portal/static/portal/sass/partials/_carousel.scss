@@ -47,3 +47,84 @@
     margin: 1px;
   }
 }
+
+/* 3 cards visible on desktop, scroll one at a time */
+.carousel-cards {
+  .carousel-inner {
+    display: flex;
+
+    .next,
+    .prev {
+      display: flex;
+      width: 33.33333333%;
+    }
+
+    .item {
+      align-items: stretch;
+      .card {
+        margin: 0;
+      }
+    }
+
+    /* show 3 items */
+    .active,
+    .active + .item,
+    .active + .item + .item {
+      display: flex;
+    }
+
+    .item.active:not(.right):not(.left),
+    .item.active:not(.right):not(.left) + .item,
+    .item.active:not(.right):not(.left) + .item + .item {
+      transition: none;
+    }
+
+    .item.next {
+      position: relative;
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* next animation */
+    .active.left + .item.next.left,
+    .item.next.left + .item,
+    .item.next.left + .item + .item,
+    .item.next.left + .item + .item + .item {
+      position: relative;
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+    }
+
+    /* prev animation */
+    .active.right + .item.prev.right,
+    .item.prev.right + .item,
+    .item.prev.right + .item + .item,
+    .item.prev.right + .item + .item + .item {
+      display: flex;
+      position: relative;
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+    }
+
+    /* position previous card outside carousel for animation */
+    .item.prev.right {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      visibility: visible;
+      height: 100%;
+    }
+
+    /* position next card outside carousel for animation */
+    .active.item + .item + .item + .item {
+      display: flex;
+      position: absolute;
+      top: 0;
+      right: -33.33333333%;
+      z-index: -1;
+      visibility: visible;
+      height: 100%;
+    }
+  }
+}
