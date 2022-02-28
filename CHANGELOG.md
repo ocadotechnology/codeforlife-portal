@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.38.0 (2022-02-28)
+### Feature
+* Add React banner ([#1780](https://github.com/ocadotechnology/codeforlife-portal/issues/1780)) ([`bdc5e32`](https://github.com/ocadotechnology/codeforlife-portal/commit/bdc5e32267da6e437f9a1efd052fdfb102a5951f))
+
 ## v5.37.2 (2022-02-24)
 ### Fix
 * Remove padding in dropdown options ([#1781](https://github.com/ocadotechnology/codeforlife-portal/issues/1781)) ([`cc0ee7f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cc0ee7fd10461ff966b0b803c01c9c1ea4d49980))
