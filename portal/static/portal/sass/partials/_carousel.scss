@@ -150,3 +150,8 @@
     }
   }
 }
+
+.carousel-cards-container {
+  /* shrink padding because cards have their own */
+  @include _padding(0px, 2px, 0px, 2px);
+}
