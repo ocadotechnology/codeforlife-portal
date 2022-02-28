@@ -13,11 +13,11 @@ import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import Navbar from "./Components/Navbar/Navbar";
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Navbar userType="None" userName="Albert Einstein" />
+        <Navbar userType="Independent" userName="Albert Einstein" />
       </ThemeProvider>
     </div>
   );
