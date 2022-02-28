@@ -10,8 +10,6 @@ const RapidRouter = () => {
     <Box
       sx={{
         height: "320px",
-        justifyContent: "center",
-        alignItems: "center",
         textAlign: "center",
         backgroundImage: `url(${RRBackground})`
       }}

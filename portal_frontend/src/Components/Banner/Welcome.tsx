@@ -19,10 +19,9 @@ const Welcome = ({ name, userType }: User) => {
     color = "tertiary.contrastText"
   }
 
-  const subtitle = (userType === "independent") ? (
-    <Typography variant="h4">
+  const subtitle = (userType === "teacher") ? "" :
+    (<Typography variant="h4">
       This is where you can access your games</Typography>)
-    : ""
 
   return (
     <Box
@@ -31,9 +30,9 @@ const Welcome = ({ name, userType }: User) => {
         flexDirection: "column",
         height: "320px",
         justifyContent: "center",
+        alignItems: "center",
         bgcolor: bgcolor,
-        color: color,
-        alignItems: "center"
+        color: color
       }}
     >
       <Typography variant="h1">Welcome, {name}</Typography>
