@@ -61,6 +61,9 @@
 
     .item {
       align-items: stretch;
+      background-color: transparent;
+      @include _padding(13px, 13px, 13px, 13px); // padding for card shadow
+
       .card {
         margin: 0;
       }
@@ -125,6 +128,20 @@
       z-index: -1;
       visibility: visible;
       height: 100%;
+    }
+  }
+
+  .carousel-nav {
+    .button {
+      font-size: calculate-rem(40px);
+      line-height: 1;
+      min-width: auto;
+
+      &.disabled {
+        opacity: 0.38;
+        pointer-events: none;
+        cursor: default;
+      }
     }
   }
 }
