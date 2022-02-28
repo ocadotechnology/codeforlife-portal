@@ -134,13 +134,18 @@
   .carousel-nav {
     .button {
       font-size: calculate-rem(40px);
-      line-height: 1;
+      border-radius: calculate-rem(20px);
+      line-height: 0;
       min-width: auto;
 
       &.disabled {
         opacity: 0.38;
         pointer-events: none;
         cursor: default;
+      }
+
+      &:hover:not(.disabled) {
+        background-color: rgba(0, 0, 0, 0.04);
       }
     }
   }
