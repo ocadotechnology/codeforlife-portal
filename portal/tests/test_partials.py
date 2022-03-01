@@ -114,10 +114,6 @@ def test_card_list(snapshot):
                 "title": "Test card 5",
                 "description": "Test description 5",
             },
-            {
-                "image": "images/worksheets/kurono_logo.svg",
-                "title": "Test card 6",
-            },
         ]
     }
 

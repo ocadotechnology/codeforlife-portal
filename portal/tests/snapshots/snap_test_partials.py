@@ -156,18 +156,6 @@ snapshots['test_card_list 1'] = '''
                 </div>
             </div>
         
-            <div class="item col-xs-4 ">
-                <div class="card">
-                    <div class="card__images">
-                        <img class="card__image" src="https://storage.googleapis.com/codeforlife-assets/images/worksheets/kurono_logo.svg">
-                    </div>
-                    <div class="card__text">
-                        <h5 class="card__title">Test card 6</h5>
-                        
-                    </div>
-                </div>
-            </div>
-        
     </div>
 
     <div class="carousel-nav text-center">
@@ -183,7 +171,7 @@ snapshots['test_card_list 1'] = '''
 </div>
 
 <script>
-    setUpCarouselCards(6)
+    setUpCarouselCards(5)
 </script>
 '''
 
