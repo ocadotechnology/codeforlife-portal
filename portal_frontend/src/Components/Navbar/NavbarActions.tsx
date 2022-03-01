@@ -2,6 +2,7 @@ import { User } from "../../App";
 import {
     ActionsStyled,
     ActionsTypographyStyled,
+    StaticLink,
 } from "./NavbarStyle";
 
 import NavBarDropDown from "./NavBarDropDown";
@@ -101,13 +102,13 @@ const NavbarActions = ({ userType, userName }: User) => {
                     navbarActions[userType].navField.text.map(
                         (element: string, i: number) => {
                             return (
-                                <LinkStyled
+                                <StaticLink
                                     userType={userType}
                                     href={navbarActions[userType].navField.links[i]}
                                     variant="h4"
                                 >
                                     {element}
-                                </LinkStyled>
+                                </StaticLink>
                             );
                         }
                     )

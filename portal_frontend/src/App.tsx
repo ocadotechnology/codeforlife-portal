@@ -25,7 +25,7 @@ export interface User {
 }
 
 let name: string = "Ada";
-let userType: UserType = "teacher";
+let userType: UserType = "none";
 
 const App = () => {
   return (

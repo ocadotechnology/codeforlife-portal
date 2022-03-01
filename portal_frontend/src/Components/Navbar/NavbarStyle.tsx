@@ -124,6 +124,28 @@ interface LinkAttr {
     children?: React.ReactNode
 }
 
+
+export const StaticLink = (props: LinkAttr) => {
+    return (
+        <Link
+            href={props.href}
+            variant={props.variant}
+            sx={{
+                marginRight: "4rem",
+                textDecoration: "none",
+                background: "none",
+                color: "#3B3838",
+                outline: "none",
+                "&:hover": {
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                },
+            }}
+            {...props}
+        />
+    )
+}
+
 export const LinkStyled = (props: LinkAttr) => {
     return (
         <Link
