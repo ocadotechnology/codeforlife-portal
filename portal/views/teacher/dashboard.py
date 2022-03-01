@@ -338,6 +338,10 @@ def organisation_kick(request, pk):
 
     check_teacher_is_authorised(teacher, user)
 
+    success_message = (
+        "The teacher has been successfully removed from your school or club."
+    )
+
     classes = Class.objects.filter(teacher=teacher)
     for klass in classes:
         teacher_id = request.POST.get(klass.access_code, None)
@@ -345,6 +349,10 @@ def organisation_kick(request, pk):
             new_teacher = get_object_or_404(Teacher, id=teacher_id)
             klass.teacher = new_teacher
             klass.save()
+
+            success_message = success_message.replace(
+                ".", " and their classes were successfully transferred."
+            )
 
     classes = Class.objects.filter(teacher=teacher)
     teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
@@ -369,10 +377,7 @@ def organisation_kick(request, pk):
     teacher.school = None
     teacher.save()
 
-    messages.success(
-        request,
-        "The teacher has been successfully removed from your school or club.",
-    )
+    messages.success(request, success_message)
 
     emailMessage = email_messages.kickedEmail(request, user.school.name)
 
