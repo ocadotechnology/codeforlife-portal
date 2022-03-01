@@ -8,9 +8,12 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import { User, UserType } from "./Navbar";
+import { User } from "./Navbar";
 
 import { useEffect } from "react";
+
+
+
 
 const logInSettings = {
   Student: {
@@ -41,7 +44,6 @@ const UserNameButton: React.FC<User> = ({ userType, userName }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event);
     setAnchorEl(event.currentTarget);
   };
   // Bug where the open dropdown follows

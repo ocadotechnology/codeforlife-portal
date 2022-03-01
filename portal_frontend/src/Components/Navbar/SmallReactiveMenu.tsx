@@ -27,8 +27,8 @@ const SmallReactiveMenu = ({ userType }: User) => {
     const isGame = (text: string) => {
         return text === "Games" ? "games" : "resources";
     };
-    // Strings that are not considered for dropdown menu
 
+    // Strings that are not considered for dropdown menu
     const NotDropDown: StringBoolHash = {
         Dashboard: true,
         Scoreboard: true,
@@ -42,66 +42,8 @@ const SmallReactiveMenu = ({ userType }: User) => {
         <SportsEsportsOutlinedIcon />,
         <ArticleOutlinedIcon />,
     ];
-    interface ContentTemplate {
-        Student: {
-            navField: {
-                text: string[];
-                link: string[];
-            };
-            games: {
-                text: string[];
-                link: string[];
-            };
-            resources: {
-                text: string[];
-                link: string[];
-            };
-        };
-        Independent: {
-            navField: {
-                text: string[];
-                link: string[];
-            };
-            games: {
-                text: string[];
-                link: string[];
-            };
-            resources: {
-                text: string[];
-                link: string[];
-            };
-        };
-        Teacher: {
-            navField: {
-                text: string[];
-                link: string[];
-            };
-            games: {
-                text: string[];
-                link: string[];
-            };
-            resources: {
-                text: string[];
-                link: string[];
-            };
-        };
-        None: {
-            navField: {
-                text: string[];
-                link: string[];
-            };
-            games: {
-                text: string[];
-                link: string[];
-            };
-            resources: {
-                text: string[];
-                link: string[];
-            };
-        };
-    }
 
-    const dynamicContent: ContentTemplate = {
+    const dynamicContent = {
         Student: {
             navField: {
                 text: ["Dashboard", "Games", "Scoreboard"],
@@ -112,7 +54,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
                 ],
             },
             games: {
-                text: ["Rapid Router"],
+                text: ["Rapid Router", "Kurono"],
                 link: ["https://www.codeforlife.education/rapidrouter/"],
             },
             resources: {

@@ -2,7 +2,6 @@ import {
     MenuItem,
     Menu,
     Button,
-    Box,
     AppBar,
     Toolbar,
     IconButton,
@@ -23,7 +22,7 @@ import { Variant } from "@mui/material/styles/createTypography";
 
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
     zIndex: "1201",
-    background: "white",
+    background: theme.palette.neutral.main,
     color: "black",
     padding: "0px 0px 0px 1rem",
 }));
@@ -109,10 +108,7 @@ export const NavButtonItemStyled = styled(MenuItem)(({ theme }) => ({
 }));
 export const NavbarMenuStyled = styled(Menu)(({ theme }) => ({
     "& > div > ul": {
-        paddingTop: "0",
-        paddingBottom: "0",
-        paddingLeft: "1rem",
-        paddingRight: "3rem",
+        padding: "0, 3rem, 0, 1rem",
     },
 }));
 
@@ -123,10 +119,10 @@ interface LinkAttr {
     >;
     href?: string;
     userType?: UserType | undefined;
+    children?: React.ReactNode
 }
 
-// Here is the component I've been trying to fix :/
-export const LinkStyled: React.FC<LinkAttr> = props => {
+export const LinkStyled = (props: LinkAttr) => {
     return (
         <Link
             href={props.href}
@@ -136,7 +132,7 @@ export const LinkStyled: React.FC<LinkAttr> = props => {
                 textDecoration: "none",
                 background: props.userType === undefined ? "none" : dynamicColor[props.userType].background,
                 color: props.userType === undefined ? "black" : dynamicColor[props.userType].color,
-                //outline: dynamicColor[props.userType].outline,
+                outline: props.userType === undefined ? "none" : dynamicColor[props.userType].outline,
                 "&:hover": {
                     textDecoration: "underline",
                     cursor: "pointer",
@@ -207,7 +203,7 @@ const dynamicColor = {
     },
 };
 
-export const ListItemStyled: React.FC<User> = (props) => (
+export const ListItemStyled = (props: User) => (
     <ListItem
         sx={{
             display: "flex",
@@ -224,7 +220,7 @@ export const ListItemStyled: React.FC<User> = (props) => (
     />
 );
 
-export const SubMenuStyled: React.FC<User> = (props) => (
+export const SubMenuStyled = (props: User) => (
     <ListItem
         sx={{
             display: "flex",

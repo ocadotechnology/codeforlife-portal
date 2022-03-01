@@ -84,14 +84,6 @@ const SmallNavbar = ({ userType, userName }: User) => {
                 setState({ ...state, [anchor]: open });
             };
 
-    const handleClick = () => {
-        toggleDrawer("top", true);
-        setState({
-            ...state,
-            top: !state["top"],
-        });
-    };
-
     const list = (anchor: any) => (
         <Box
             sx={{
@@ -162,55 +154,3 @@ const SmallNavbar = ({ userType, userName }: User) => {
     );
 };
 export default SmallNavbar;
-/*
-            <ListStyled >
-                {userType !== "None" ?
-                    <ListItem onClick={handleClick}
-                    >
-                        <ListItemIcon>
-                            {userType === "Teacher" ? <PersonOutlinedIcon /> : <SchoolOutlinedIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={userType} />
-                    </ListItem>
-                    :
-                    <div>
-                        <RegisterButton
-                        />
-                        <div onClick={handleClick}>
-                            <LogInButton small={true} />
-                        </div>
-                    </div>
-                }
-                <Collapse in={state["menu"]} >
-
-                    {dynamicContent[userType].navField.text.map((text, index) => (
-                        <div
-                            onClick={() => toggleDrawer(anchor, false)}
-                        >
-                            <ListItemStyled
-                                userType={userType}
-                                key={text}>
-                                <ListItemIconStyled userType={userType}>
-                                    {dynamicContentIcons[index]}
-                                </ListItemIconStyled>
-                                {
-                                    text === "Dashboard" || text === "Scoreboard" ?
-                                        <ListItemText primary={text} /> :
-                                        <div>
-                                            <ListItemText primary={text} />
-                                            <Collapse in={state[text === "Games" ? "games" : "resources"]}>
-                                                <ListItemStyled userType={userType}>
-
-                                                    {dynamicContent[userType].games.text.map((element: string) => {
-                                                        return <Typography variant='body1'>{element}</Typography>
-                                                    })}
-                                                </ListItemStyled>
-                                            </Collapse>
-                                        </div>
-                                }
-                            </ListItemStyled>
-                        </div>
-                    ))
-                    }
-                </Collapse>
-            </ListStyled>*/

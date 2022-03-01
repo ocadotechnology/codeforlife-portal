@@ -1,14 +1,9 @@
-import LogInButton from "./LogInButton";
-import React from "react";
-import RegisterButton from "./RegisterButton";
 import { User } from "./Navbar";
 import {
     ActionsStyled,
     ActionsTypographyStyled,
-    NavbarMenuStyled,
 } from "./NavbarStyle";
 
-import { Button, Link, Typography } from "@mui/material";
 import NavBarDropDown from "./NavBarDropDown";
 import { LinkStyled } from "./NavbarStyle";
 
@@ -78,6 +73,8 @@ interface StringBoolHash {
     [key: string]: boolean;
 }
 
+// Dashboard and Scoreboard buttons will
+// not show as dropdowns on the navbar
 const NotDropDown: StringBoolHash = {
     Dashboard: true,
     Scoreboard: true,
@@ -86,6 +83,8 @@ const NotDropDown: StringBoolHash = {
 const isGame = (text: string) => {
     return text === "Games" ? "games" : "resources";
 };
+
+
 
 const NavbarActions = ({ userType, userName }: User) => {
     return (

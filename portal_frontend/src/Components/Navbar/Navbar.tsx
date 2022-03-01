@@ -17,6 +17,7 @@ export type UserType = "Student" | "Independent" | "Teacher" | "None";
 export interface User {
     userType: UserType;
     userName?: string;
+    children?: React.ReactNode;
 }
 
 const Navbar = ({ userType, userName }: User) => {
@@ -29,6 +30,7 @@ const Navbar = ({ userType, userName }: User) => {
                 <a
                     href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future"
                     target="_blank"
+                    rel="noreferrer"
                 >
                     <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
                 </a>

@@ -1,8 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-// import TwitterLogo from "./images/twitter.svg";
-// import OcadoLogo from "./images/logo_ocado_group_white.svg";
 
 const ExternalLinks = () => {
   return (
@@ -12,7 +10,7 @@ const ExternalLinks = () => {
           <a href="https://www.facebook.com">
             <img
               style={{ width: "100%" }}
-              src="/images/facebook.svg"
+              src="/images/footer/facebook.svg"
               alt="Facebook"
             />
           </a>
@@ -20,13 +18,13 @@ const ExternalLinks = () => {
         <Grid item xs={3}>
           <img
             style={{ width: "100%" }}
-            src="/images/twitter.svg"
+            src="/images/footer/twitter.svg"
             alt="Twitter"
           />
         </Grid>
         <Grid item xs={6}>
           <img
-            src="/images/ocado.svg"
+            src="/images/footer/ocado.svg"
             alt="Ocado Group"
             style={{ width: "100%" }}
           />
