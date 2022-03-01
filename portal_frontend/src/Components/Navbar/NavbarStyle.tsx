@@ -349,6 +349,7 @@ export const UserItemStyled = styled(Button)(({ theme }) => ({
     padding: "0.5rem 1rem 0.5rem 1rem",
     "&:hover": {
         background: "none",
+        textDecoration: "underline",
     },
 }));
 

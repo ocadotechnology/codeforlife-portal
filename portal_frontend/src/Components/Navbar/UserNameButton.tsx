@@ -5,7 +5,7 @@ import { UserItemStyled, UserButtonDivStyled } from "./NavbarStyle";
 import { UserMenuStyled } from "./NavbarStyle";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { User } from "../../App";
@@ -24,12 +24,12 @@ const logInSettings = {
   independent: {
     navFieldText: ["Log out", "Update account details"],
     navFieldURLs: ["", ""],
-    navFieldIcons: [<LogoutIcon />, <ManageAccountsIcon />],
+    navFieldIcons: [<LogoutIcon />, <ManageAccountsOutlinedIcon />],
   },
   teacher: {
     navFieldText: ["Log out", "Update account details"],
     navFieldURLs: ["", ""],
-    navFieldIcons: [<LogoutIcon />, <ManageAccountsIcon />],
+    navFieldIcons: [<LogoutIcon />, <ManageAccountsOutlinedIcon />],
   },
   // This field is just so TypeScript
   // does not complain :)
