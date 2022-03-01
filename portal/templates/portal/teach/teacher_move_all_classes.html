@@ -9,51 +9,38 @@
 {% block content %}
 <div id="move_all_classes_page"></div>
 
-<section class="background container">
-    <h4>Move all classes for teacher {{ original_teacher.new_user|make_into_username }}</h4><br>
+<div class="background container">
+    <section>
+        <h4>Move all classes for teacher {{ original_teacher.new_user|make_into_username }}</h4>
+    </section>
+    <p><a href="{% url 'dashboard' %}" class="button--menu button--menu--enabled">< Back to dashboard</a></p>
+    <p>Please specify which teacher you would like the classes below to be moved to.</p>
 
-    <h6>Move all classes assigned to teacher {{ original_teacher.new_user.first_name }}
-        {{ original_teacher.new_user.last_name }} to other teachers in {{ original_teacher.school.name }}.</h6>
-</section>
-
-<div class="background background--primary secondary-table">
-    <div class="container">
-        <h4>Move all classes</h4>
-
-        <p>Select teachers to take over the classes from the lists below.</p>
-
-        <form method="post">
-            {% csrf_token %}
-            <table class="header-primary data-primary">
+    <form method="post">
+        {% csrf_token %}
+        <table class="header-primary data-primary">
+            <tr>
+                <th><p>Class name</p></th>
+                <th><p>New teacher</p></th>
+            </tr>
+            {% for class in classes %}
                 <tr>
-                    <th><p>Class</p></th>
-                    <th><p>New Teacher</p></th>
-                </tr>
-                {% for class in classes %}
-                <tr>
-                    <td><p><small>{{ class.name }} ({{ class.access_code }})</small></p></td>
+                    <td><p><small>{{ class.name }}</small></p></td>
                     <td>
                         <select class="wide" name="{{ class.access_code }}">
                             {% for teacher in teachers %}
-                            <option value="{{ teacher.id }}">{{ teacher.new_user.first_name }} {{ teacher.new_user.last_name }}</option>
+                                <option value="{{ teacher.id }}">
+                                    {{ teacher.new_user.first_name }} {{ teacher.new_user.last_name }}</option>
                             {% endfor %}
                         </select>
                     </td>
                 </tr>
-                {% endfor %}
-            </table>
-            <div class="background button-group">
-                <a class="button button--secondary button--secondary--dark" href="{% url 'dashboard' %}">Cancel</a>
-                <button type="submit" id="move_classes_button" class="button button--primary">{{ submit_button_text }}</button>
-            </div>
-        </form>
-    </div>
+            {% endfor %}
+        </table>
+        <div class="button-group">
+            <a class="button button--secondary button--secondary--dark" href="{% url 'dashboard' %}">Cancel</a>
+            <button type="submit" id="move_classes_button" class="button button--primary">{{ submit_button_text }}</button>
+        </div>
+    </form>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        toggleStickySubnav($('.banner').outerHeight() + $('.menu').outerHeight());
-    });
-</script>
-
 {% endblock %}

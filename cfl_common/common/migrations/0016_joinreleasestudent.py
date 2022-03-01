@@ -8,17 +8,35 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0015_dailyactivity'),
+        ("common", "0015_dailyactivity"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='JoinReleaseStudent',
+            name="JoinReleaseStudent",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('action_type', models.CharField(max_length=64)),
-                ('action_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='student', to='common.Student')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("action_type", models.CharField(max_length=64)),
+                (
+                    "action_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "student",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="student",
+                        to="common.Student",
+                    ),
+                ),
             ],
         ),
     ]
