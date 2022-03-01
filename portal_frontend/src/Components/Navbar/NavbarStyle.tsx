@@ -81,7 +81,7 @@ export const IconButtonStyled = styled(IconButton)(({ theme }) => ({
 
 export const ActionsStyled = styled("div")(({ theme }) => ({
     display: "flex",
-    alignItems: "center",
+    alignItems: "baseline",
     flexDirection: "row",
     [theme.breakpoints.down("lg")]: {
         display: "none",

@@ -20,7 +20,7 @@ const NavBarDropDown = ({ title, subTitles }: Props) => {
     };
 
     return (
-        <div>
+        <>
             <NavBarButtonStyled
                 aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="true"
@@ -39,7 +39,7 @@ const NavBarDropDown = ({ title, subTitles }: Props) => {
                     );
                 })}
             </NavbarMenuStyled>
-        </div>
+        </>
     );
 };
 
