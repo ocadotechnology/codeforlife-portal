@@ -85,7 +85,8 @@ const isGame = (text: string) => {
 };
 
 
-
+// Responsible for all the actions on the left side of
+// the navbar after the ocado logo.
 const NavbarActions = ({ userType, userName }: User) => {
     return (
         <ActionsStyled>
