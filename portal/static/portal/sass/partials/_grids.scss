@@ -68,6 +68,10 @@ $column--icon-width: 3%;
       width: fill-available;
       height: 220px;
     }
+
+    .button-group > :not(:first-child) {
+      margin-left: calculate-rem(20px);
+    }
   }
 
   .card__title {

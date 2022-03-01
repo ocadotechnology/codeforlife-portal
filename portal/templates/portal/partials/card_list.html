@@ -1,6 +1,8 @@
 {% load staticfiles %}
 {% load app_tags %}
 
+<script type="text/javascript" src="{% static 'portal/js/carouselCards.js' %}"></script>
+
 <div id="carouselCards" class="carousel carousel-cards slide" data-ride="carousel" data-interval="false">
     <div class="carousel-inner" role="listbox">
         {% for card in cards %}
@@ -33,29 +35,5 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('#carouselCards').on('slide.bs.carousel', function (event) {
-            let cardIndex = $(event.relatedTarget).index();
-            let indexLimit = {{ cards | length }} - 3;
-
-            // don't slide if the card is out of range
-            if (cardIndex > indexLimit) {
-                return false;
-            }
-
-            // add disabled classes if it's the first or last card
-            if (cardIndex === 0) {
-                $('.carousel-nav > .prev').addClass('disabled');
-            }
-            else {
-                $('.carousel-nav > .prev').removeClass('disabled');
-            }
-            if (cardIndex >= 2) {
-                $('.carousel-nav > .next').addClass('disabled');
-            }
-            else {
-                $('.carousel-nav > .next').removeClass('disabled');
-            }
-        })
-    })
+    setUpCarouselCards({{ cards | length }})
 </script>

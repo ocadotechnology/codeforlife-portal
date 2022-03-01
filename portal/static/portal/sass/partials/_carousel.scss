@@ -133,7 +133,7 @@
 
   .carousel-nav {
     .button {
-      font-size: calculate-rem(40px);
+      @include _font-size(40px);
       border-radius: calculate-rem(20px);
       line-height: 0;
       min-width: auto;

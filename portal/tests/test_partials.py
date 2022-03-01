@@ -117,8 +117,6 @@ def test_card_list(snapshot):
             {
                 "image": "images/worksheets/kurono_logo.svg",
                 "title": "Test card 6",
-                "button_text": "Test button",
-                "button_link": "home",
             },
         ]
     }
