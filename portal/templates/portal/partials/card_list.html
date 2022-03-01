@@ -1,29 +1,39 @@
 {% load staticfiles %}
 {% load app_tags %}
 
-<div class="grid grid-worksheets grid__fit">
-    {% for card in cards %}
-        <div class="card">
-            <div class="card__images">
-                <img class="card__image" src="{{ card.image | cloud_storage }}">
-                {% if card.thumbnail_text %}
-                    <h3 class="card__thumbnail">{{ card.thumbnail_text }}</h3>
-                {% elif card.thumbnail_image %}
-                    <img class="card__thumbnail" src="{{ card.thumbnail_image | cloud_storage }}">
-                {% endif %}
-            </div>
-            <div class="card__text">
-                <h5 class="card__title">{{ card.title }}</h5>
-                {% if card.description %}
-                    <p>{{ card.description }}</p>
-                {% elif card.button_text %}
-                    <div class="button-group button-group__icon">
-                        <a target="_blank" href="{{ card.button_link }}" class="button button--primary button-right-arrow">
-                            {{ card.button_text }}
-                        </a>
+<script type="text/javascript" src="{% static 'portal/js/carouselCards.js' %}"></script>
+
+<div id="carouselCards" class="carousel carousel-cards slide" data-ride="carousel" data-interval="false">
+    <div class="carousel-inner" role="listbox">
+        {% for card in cards %}
+            <div class="item col-xs-4 {% if forloop.first %}active{% endif %}">
+                <div class="card">
+                    <div class="card__images">
+                        <img class="card__image" src="{{ card.image | cloud_storage }}">
                     </div>
-                {% endif %}
+                    <div class="card__text">
+                        <h5 class="card__title">{{ card.title }}</h5>
+                        {% if card.description %}
+                            <p>{{ card.description }}</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+
+    <div class="carousel-nav text-center">
+        <a class="button prev disabled" data-target="#carouselCards" data-slide="prev">
+            <span class="iconify" data-icon="mdi:chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="button next" data-target="#carouselCards" data-slide="next">
+            <span class="iconify" data-icon="mdi:chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 </div>
+
+<script>
+    setUpCarouselCards({{ cards | length }})
+</script>
