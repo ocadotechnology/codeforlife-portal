@@ -188,12 +188,12 @@ const dynamicColor = {
         outline: "none",
     },
     independent: {
-        background: "rgb(255, 200, 0)",
+        background: `${theme.palette.secondary.main}`,
         color: "black",
         outline: "none",
     },
     teacher: {
-        background: "rgb(224, 0, 77)",
+        background: `${theme.palette.primary.main}`,
         color: "white",
         outline: "none",
     },
