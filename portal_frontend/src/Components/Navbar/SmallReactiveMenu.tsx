@@ -125,7 +125,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
                             <SchoolOutlinedIcon />
                         )}
                     </ListItemIcon>
-                    <Typography variant="subtitle2">{userType}</Typography>
+                    <Typography variant="subtitle2">{userType.charAt(0).toUpperCase() + userType.slice(1)}</Typography>
                 </ListSingleItem>
             ) : (
                 <div>

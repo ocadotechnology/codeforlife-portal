@@ -146,8 +146,8 @@ export const LinkStyled = (props: LinkAttr) => {
 };
 
 export const LinkTypography = styled(Link)(({ theme }) => ({
-    color: "grey",
-}));
+    color: "#3B3838",
+}))
 
 export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
     color: "black",

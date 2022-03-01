@@ -91,7 +91,7 @@ const SmallNavbar = ({ userType, userName }: User) => {
             }}
         >
             <SmallMenuBarUserName variant="h3">
-                {userType !== "none" ? userName : null}
+                {userType !== "none" ? userName + "3" : null}
             </SmallMenuBarUserName>
             <SmallReactiveMenu userType={userType} />
             <Divider />
