@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.39.0 (2022-03-01)
+### Feature
+* Student aimmo dashboard ([#1786](https://github.com/ocadotechnology/codeforlife-portal/issues/1786)) ([`9c1771c`](https://github.com/ocadotechnology/codeforlife-portal/commit/9c1771cafa4fd790e51bf69d0d315db64b5a75c1))
+
 ## v5.38.0 (2022-02-28)
 ### Feature
 * Add React banner ([#1780](https://github.com/ocadotechnology/codeforlife-portal/issues/1780)) ([`bdc5e32`](https://github.com/ocadotechnology/codeforlife-portal/commit/bdc5e32267da6e437f9a1efd052fdfb102a5951f))
