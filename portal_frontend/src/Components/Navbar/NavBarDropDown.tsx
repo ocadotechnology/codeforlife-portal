@@ -1,13 +1,6 @@
 import React from "react";
 import { NavBarButtonStyled, NavButtonItemStyled } from "./NavbarStyle";
-
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import { LogInMenuStyled } from "./NavbarStyle";
-import { MenuItemStyled } from "./NavbarStyle";
-
-import { User } from "./Navbar";
-
 import { NavbarMenuStyled } from "./NavbarStyle";
 
 interface Props {

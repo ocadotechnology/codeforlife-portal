@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import {
     LogInButtonStyled,
     LogInMenuStyled,
-    MenuItemStyled,
     SubButtonStyled,
 } from "./NavbarStyle";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";

@@ -22,6 +22,13 @@ let theme = createTheme({
     tertiary: {
       main: "#00a3e0",
       contrastText: "#fff"
+    },
+    student: {
+      main: "#00a3e0",
+      contrastText: "#fff"
+    },
+    teacher: {
+
     }
   },
   typography: {

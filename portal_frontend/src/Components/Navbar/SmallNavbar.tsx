@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { User } from "./Navbar";
+import { User } from "../../App";
 import {
     DrawerStyled,
     LinkTypography,
@@ -91,7 +91,7 @@ const SmallNavbar = ({ userType, userName }: User) => {
             }}
         >
             <SmallMenuBarUserName variant="h3">
-                {userType !== "None" ? userName : null}
+                {userType !== "none" ? userName : null}
             </SmallMenuBarUserName>
             <SmallReactiveMenu userType={userType} />
             <Divider />
@@ -111,7 +111,7 @@ const SmallNavbar = ({ userType, userName }: User) => {
             </ListStyled>
             <Divider />
             <ListStyled>
-                {userType !== "None"
+                {userType !== "none"
                     ? accountContent.map((text: string, index: number) => {
                         return (
                             <ListSingleItem>

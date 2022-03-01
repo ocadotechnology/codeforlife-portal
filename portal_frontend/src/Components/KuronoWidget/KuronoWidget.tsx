@@ -1,5 +1,4 @@
-import { Typography, Box, Paper } from "@mui/material";
-import React from "react";
+import { Typography } from "@mui/material";
 import { PaperStyled, StyledBox } from "./KuronoWidgetStyle";
 
 // For this component to work you need to run the

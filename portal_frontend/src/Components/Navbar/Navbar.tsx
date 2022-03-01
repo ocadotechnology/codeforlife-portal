@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import {
     IconButtonStyled,
     AppBarStyled,
@@ -11,14 +9,8 @@ import NavbarActions from "./NavbarActions";
 import UserNameButton from "./UserNameButton";
 import NotLoggedIn from "./NotLoggedIn";
 import SmallNavbar from "./SmallNavbar";
+import { User } from "../../App";
 
-export type UserType = "Student" | "Independent" | "Teacher" | "None";
-
-export interface User {
-    userType: UserType;
-    userName?: string;
-    children?: React.ReactNode;
-}
 
 const Navbar = ({ userType, userName }: User) => {
     return (
@@ -35,7 +27,7 @@ const Navbar = ({ userType, userName }: User) => {
                     <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
                 </a>
                 <NavbarActions userType={userType} userName={userName} />
-                {userType === "None" ? (
+                {userType === "none" ? (
                     <NotLoggedIn />
                 ) : (
                     <UserNameButton userType={userType} userName={userName} />

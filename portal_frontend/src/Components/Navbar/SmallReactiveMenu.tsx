@@ -6,7 +6,7 @@ import {
     SubMenuStyled,
 } from "./NavbarStyle";
 import { ListItemIcon } from "@mui/material";
-import { User } from "./Navbar";
+import { User } from "../../App";
 import RegisterButton from "./RegisterButton";
 import LogInButton from "./LogInButton";
 import { Collapse } from "@mui/material";
@@ -44,7 +44,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
     ];
 
     const dynamicContent = {
-        Student: {
+        student: {
             navField: {
                 text: ["Dashboard", "Games", "Scoreboard"],
                 link: [
@@ -62,7 +62,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
                 link: [""],
             },
         },
-        Independent: {
+        independent: {
             navField: {
                 text: ["Dashboard", "Games", "Learning Resources"],
                 link: ["", "", ""],
@@ -76,7 +76,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
                 link: [""],
             },
         },
-        Teacher: {
+        teacher: {
             navField: {
                 text: ["Dashboard", "Games", "Teaching Resources"],
                 link: ["", "", ""],
@@ -90,7 +90,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
                 link: ["", ""],
             },
         },
-        None: {
+        none: {
             navField: {
                 text: ["Teacher", "Student", "Independent"],
                 link: [
@@ -116,10 +116,10 @@ const SmallReactiveMenu = ({ userType }: User) => {
 
     return (
         <ListStyled>
-            {userType !== "None" ? (
+            {userType !== "none" ? (
                 <ListSingleItem onClick={() => setMenu(!menu)}>
                     <ListItemIcon>
-                        {userType === "Teacher" ? (
+                        {userType === "teacher" ? (
                             <PersonOutlinedIcon />
                         ) : (
                             <SchoolOutlinedIcon />
@@ -147,7 +147,7 @@ const SmallReactiveMenu = ({ userType }: User) => {
                                 NotDropDown[text] ? (
                                     <LinkStyled
                                         href={
-                                            userType === "None"
+                                            userType === "none"
                                                 ? dynamicContent[userType].navField.text[index]
                                                 : ""
                                         }

@@ -14,15 +14,17 @@ import {
 } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { User, UserType } from "./Navbar";
+import { UserType, User } from "../../App";
 import { useState } from "react";
 import { OverridableStringUnion } from "@mui/types/index";
 import { TypographyPropsVariantOverrides } from "@mui/material/Typography";
 import { Variant } from "@mui/material/styles/createTypography";
 
+import theme from "../../Theme";
+
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
     zIndex: "1201",
-    background: theme.palette.neutral.main,
+    background: "white",
     color: "black",
     padding: "0px 0px 0px 1rem",
 }));
@@ -128,7 +130,7 @@ export const LinkStyled = (props: LinkAttr) => {
             href={props.href}
             variant={props.variant}
             sx={{
-                marginRight: "2rem",
+                marginRight: "1rem",
                 textDecoration: "none",
                 background: props.userType === undefined ? "none" : dynamicColor[props.userType].background,
                 color: props.userType === undefined ? "black" : dynamicColor[props.userType].color,
@@ -144,14 +146,11 @@ export const LinkStyled = (props: LinkAttr) => {
 };
 
 export const LinkTypography = styled(Link)(({ theme }) => ({
-    color: "rgb(59, 59, 59)",
+    color: "grey",
 }));
 
 export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
     color: "black",
-    "&:hover": {
-        background: "rgba(0,0,0,0.2)",
-    },
 }));
 
 export const SmallMenuBarUserName = styled(Typography)(({ theme }) => ({
@@ -180,26 +179,28 @@ export const ListStyled = styled(List)(({ theme }) => ({
     padding: "0",
 }));
 
+// TODO: make the colours work with
+// the theme object from Theme.tsx
 const dynamicColor = {
-    Student: {
-        background: "rgb(0, 163, 224)",
+    student: {
+        background: "#00a3e0",
         color: "white",
         outline: "none",
     },
-    Independent: {
+    independent: {
         background: "rgb(255, 200, 0)",
         color: "black",
         outline: "none",
     },
-    Teacher: {
+    teacher: {
         background: "rgb(224, 0, 77)",
         color: "white",
         outline: "none",
     },
-    None: {
+    none: {
         background: "white",
         color: "black",
-        outline: "2px solid rgb(255, 200, 0)",
+        outline: `2px solid ${theme.palette.secondary.main}`,
     },
 };
 
@@ -278,7 +279,7 @@ export const DropDownStyled = (props: any) => {
 };
 
 export const SmallNavbarRegisterButton = styled("div")(({ theme }) => ({
-    background: "rgb(255, 200, 0)",
+    background: theme.palette.primary.main,
 }));
 
 export const TypographyHover = styled(Typography)(({ theme }) => ({
@@ -291,7 +292,7 @@ export const SubButtonStyled = styled(MenuItem)(({ theme }) => ({
     borderRadius: "0",
     width: "155px",
     fontSize: "15px",
-    border: "2px solid rgb(255, 200, 0)",
+    border: theme.palette.primary.main,
     display: "flex",
     justifyContent: "space-between",
     "&:hover": {
@@ -308,10 +309,10 @@ export const LogInButtonStyled = styled(Button)(({ theme }) => ({
     width: "155px",
     marginLeft: "10%",
     textTransform: "none",
-    border: "2px solid rgb(255, 200, 0)",
+    border: `2px solid ${theme.palette.secondary.main}`,
     transition: "250ms",
     "&:hover": {
-        border: "2px solid rgb(255, 200, 0)",
+        border: `2px solid ${theme.palette.secondary.main}`,
         textDecoration: "underline",
         background: "none",
     },
@@ -332,18 +333,20 @@ export const LogInMenuStyled = styled(Menu)(({ theme }) => ({
 
 export const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
     width: "155px",
-    border: "2px solid rgb(255, 200, 0)",
+    border: `2px solid ${theme.palette.secondary.main}`,
 }));
 
 export const UserItemStyled = styled(Button)(({ theme }) => ({
     borderRadius: "0",
     textAlign: "left",
     display: "flex",
-    border: "2px solid rgb(255, 200, 0)",
+    border: `2px solid ${theme.palette.secondary.main}`,
     color: "black",
     textTransform: "none",
     justifyContent: "space-between",
     width: "17vw",
+    fontWeight: "100",
+    padding: "0.5rem 1rem 0.5rem 1rem",
     "&:hover": {
         background: "none",
     },
@@ -389,7 +392,7 @@ export const RegisterButtonStyled = styled(Button)(({ theme }) => ({
     "&:hover": {
         boxShadow:
             "0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12),0px 3px 5px 0px rgba(0,0,0,0.2)",
-        background: "rgb(255, 200, 0)",
+        background: `${theme.palette.secondary.main}`,
     },
 }));
 
@@ -401,6 +404,7 @@ export const RegisterButtonSmallMenuStyled = styled(RegisterButtonStyled)(
 
 export const UserNameButtonStyled = styled(Button)(({ theme }) => ({
     color: "black",
+    padding: "0.5rem 1rem 0.5rem 1rem",
     borderRadius: "0",
     height: "45px",
     width: "17vw",
@@ -409,7 +413,7 @@ export const UserNameButtonStyled = styled(Button)(({ theme }) => ({
     marginLeft: "auto",
     marginRight: "0",
     textTransform: "none",
-    border: "2px solid rgb(255, 200, 0)",
+    border: `2px solid ${theme.palette.secondary.main}`,
     transition: "250ms",
     "&:hover": {
         textDecoration: "underline",

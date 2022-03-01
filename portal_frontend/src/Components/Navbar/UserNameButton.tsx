@@ -8,7 +8,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import { User } from "./Navbar";
+import { User } from "../../App";
 
 import { useEffect } from "react";
 
@@ -16,24 +16,24 @@ import { useEffect } from "react";
 
 
 const logInSettings = {
-  Student: {
+  student: {
     navFieldText: ["Log out", "Change Password"],
     navFieldURLs: ["", ""],
     navFieldIcons: [<LogoutIcon />, <LockOutlinedIcon />],
   },
-  Independent: {
+  independent: {
     navFieldText: ["Log out", "Update account details"],
     navFieldURLs: ["", ""],
     navFieldIcons: [<LogoutIcon />, <ManageAccountsIcon />],
   },
-  Teacher: {
+  teacher: {
     navFieldText: ["Log out", "Update account details"],
     navFieldURLs: ["", ""],
     navFieldIcons: [<LogoutIcon />, <ManageAccountsIcon />],
   },
   // This field is just so TypeScript
   // does not complain :)
-  None: {
+  none: {
     navFieldText: [],
     navFieldURLs: [],
     navFieldIcons: [],
