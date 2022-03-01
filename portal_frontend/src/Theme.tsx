@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
@@ -7,24 +7,27 @@ const MEDIUM: number = 500;
 const SEMI_BOLD: number = 600;
 const BOLD: number = 700;
 
-export const theme = createTheme({
+let theme = createTheme({
   // Paste the code below this line
   // from https://bareynol.github.io/mui-theme-creator/
   palette: {
     primary: {
-      main: "rgb(244, 0, 77)",
+      main: "#e0004d",
+      contrastText: "#fff"
     },
     secondary: {
-      main: "rgb(255, 200, 0)",
+      main: "#f6be00",
+      contrastText: "#000"
     },
-    neutral: {
-      main: "rgb(59, 59, 59)",
-    },
+    tertiary: {
+      main: "#00a3e0",
+      contrastText: "#fff"
+    }
   },
   typography: {
     h1: {
       fontFamily: FONT_PRIMARY,
-      fontSize: "65px",
+      fontSize: "60px",
       fontWeight: MEDIUM,
     },
     h2: {
@@ -41,6 +44,7 @@ export const theme = createTheme({
       fontFamily: FONT_PRIMARY,
       fontSize: "30px",
       fontWeight: MEDIUM,
+      margin: "1rem 0 2rem 0"
     },
     h5: {
       fontFamily: FONT_PRIMARY,
@@ -90,5 +94,7 @@ export const theme = createTheme({
     },
   },
 });
+
+theme = responsiveFontSizes(theme);
 
 export default theme;
