@@ -7,6 +7,7 @@ from common.helpers.emails import (
     add_contact_to_address_book,
     add_consent_record_to_dotmailer_user,
     send_dotmailer_consent_confirmation_email_to_user,
+    DotmailerUserType,
 )
 from django.core import mail
 from django.test import Client
@@ -18,7 +19,10 @@ from test_settings import (
     DOTMAILER_PUT_CONSENT_DATA_URL,
     DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID,
     DOTMAILER_CREATE_CONTACT_URL,
-    DOTMAILER_ADDRESS_BOOK_URL,
+    DOTMAILER_MAIN_ADDRESS_BOOK_URL,
+    DOTMAILER_TEACHER_ADDRESS_BOOK_URL,
+    DOTMAILER_STUDENT_ADDRESS_BOOK_URL,
+    DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL,
 )
 
 FAKE_TIME = datetime.datetime(2020, 12, 25, 17, 5, 55)
@@ -48,7 +52,9 @@ def test_newsletter_calls_correct_requests(mocker, monkeypatch):
         "common.helpers.emails.add_contact_to_address_book"
     )
 
-    add_to_dotmailer("Ray", "Charles", "ray.charles@example.com")
+    add_to_dotmailer(
+        "Ray", "Charles", "ray.charles@example.com", DotmailerUserType.TEACHER
+    )
 
     mocked_create_contact.assert_called_once()
     mocked_add_to_address_book.assert_called_once()
@@ -105,10 +111,52 @@ def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_dateti
         json=expected_body1,
     )
 
-    add_contact_to_address_book("Ray", "Charles", "ray.charles@example.com")
+    add_contact_to_address_book(
+        "Ray", "Charles", "ray.charles@example.com", DotmailerUserType.TEACHER
+    )
 
-    mocked_post.assert_called_with(
-        DOTMAILER_ADDRESS_BOOK_URL,
+    assert mocked_post.call_count == 3
+
+    mocked_post.assert_any_call(
+        DOTMAILER_MAIN_ADDRESS_BOOK_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
+    )
+
+    mocked_post.assert_any_call(
+        DOTMAILER_TEACHER_ADDRESS_BOOK_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
+    )
+
+    add_contact_to_address_book(
+        "Ray", "Charles", "ray.charles@example.com", DotmailerUserType.STUDENT
+    )
+
+    mocked_post.assert_any_call(
+        DOTMAILER_MAIN_ADDRESS_BOOK_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
+    )
+
+    mocked_post.assert_any_call(
+        DOTMAILER_STUDENT_ADDRESS_BOOK_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
+    )
+
+    add_contact_to_address_book(
+        "Ray", "Charles", "ray.charles@example.com", DotmailerUserType.NO_ACCOUNT
+    )
+
+    mocked_post.assert_any_call(
+        DOTMAILER_MAIN_ADDRESS_BOOK_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        json=expected_body2,
+    )
+
+    mocked_post.assert_any_call(
+        DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL,
         auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
         json=expected_body2,
     )
