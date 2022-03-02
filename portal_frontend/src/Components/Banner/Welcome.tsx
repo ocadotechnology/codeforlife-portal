@@ -1,5 +1,5 @@
 import React from "react";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 interface User {
@@ -9,19 +9,24 @@ interface User {
 const Welcome = ({ name, userType }: User) => {
   let bgcolor, color;
   if (userType === "independent") {
-    bgcolor = "secondary.main"
-    color = "secondary.contrastText"
+    bgcolor = "secondary.main";
+    color = "secondary.contrastText";
   } else if (userType === "teacher") {
-    bgcolor = "primary.main"
-    color = "primary.contrastText"
+    bgcolor = "primary.main";
+    color = "primary.contrastText";
   } else if (userType === "student") {
-    bgcolor = "tertiary.main"
-    color = "tertiary.contrastText"
+    bgcolor = "tertiary.main";
+    color = "tertiary.contrastText";
   }
 
-  const subtitle = (userType === "teacher") ? "" :
-    (<Typography variant="h4">
-      This is where you can access your games</Typography>)
+  const subtitle =
+    userType === "teacher" ? (
+      ""
+    ) : (
+      <Typography variant="h4">
+        This is where you can access your games
+      </Typography>
+    );
 
   return (
     <Box
@@ -32,7 +37,7 @@ const Welcome = ({ name, userType }: User) => {
         justifyContent: "center",
         alignItems: "center",
         bgcolor: bgcolor,
-        color: color
+        color: color,
       }}
     >
       <Typography variant="h1">Welcome, {name}</Typography>

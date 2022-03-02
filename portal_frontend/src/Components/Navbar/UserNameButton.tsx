@@ -10,10 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { User } from "../../App";
 
-import { useEffect } from "react";
-
-
-
+import { useEffect, useState } from "react";
+import theme from "../../Theme";
 
 const logInSettings = {
   student: {
@@ -40,20 +38,24 @@ const logInSettings = {
   },
 };
 
-const UserNameButton: React.FC<User> = ({ userType, userName }) => {
+const UserNameButton = ({ userType, userName }: User) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [bottomBorder, setBorder] = useState(
+    `2px solid ${theme.palette.secondary.main}`
+  );
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    setBorder("none");
   };
-  // Bug where the open dropdown follows
-  // window resize, so close it on resize
 
   const handleClose = () => {
     setAnchorEl(null);
+    setBorder(`2px solid ${theme.palette.secondary.main}`);
   };
 
   useEffect(() => {
+    // Bug where the open dropdown follows window resize, so close it on resize
     const handleResize = () => {
       handleClose();
     };
@@ -62,6 +64,7 @@ const UserNameButton: React.FC<User> = ({ userType, userName }) => {
   return (
     <UserButtonDivStyled>
       <UserNameButtonStyled
+        style={{ borderBottom: bottomBorder }}
         endIcon={<PersonOutlineIcon />}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -74,15 +77,13 @@ const UserNameButton: React.FC<User> = ({ userType, userName }) => {
         {logInSettings[userType].navFieldText.map(
           (element: string, i: number) => {
             return (
-              <div>
-                <UserItemStyled
-                  onClick={handleClose}
-                  endIcon={logInSettings[userType].navFieldIcons[i]}
-                  href={logInSettings[userType].navFieldURLs[i]}
-                >
-                  {element}
-                </UserItemStyled>
-              </div>
+              <UserItemStyled
+                onClick={handleClose}
+                endIcon={logInSettings[userType].navFieldIcons[i]}
+                href={logInSettings[userType].navFieldURLs[i]}
+              >
+                {element}
+              </UserItemStyled>
             );
           }
         )}

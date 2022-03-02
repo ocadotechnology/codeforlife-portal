@@ -26,7 +26,7 @@ export const AppBarStyled = styled(AppBar)(({ theme }) => ({
     zIndex: "1201",
     background: "white",
     color: "black",
-    padding: "0px 0px 0px 1rem",
+    padding: "0px 0rem 0px 1rem",
 }));
 
 export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
@@ -89,10 +89,11 @@ export const ActionsStyled = styled("div")(({ theme }) => ({
 }));
 
 export const ActionsTypographyStyled = styled(Typography)(({ theme }) => ({
-    margin: "2rem",
+    margin: "3.5rem",
 }));
 
 export const NavBarButtonStyled = styled(Button)(({ theme }) => ({
+    marginLeft: "2rem",
     color: "black",
     textTransform: "none",
     fontWeight: "500",
@@ -121,9 +122,8 @@ interface LinkAttr {
     >;
     href?: string;
     userType?: UserType | undefined;
-    children?: React.ReactNode
+    children?: React.ReactNode;
 }
-
 
 export const StaticLink = (props: LinkAttr) => {
     return (
@@ -143,8 +143,8 @@ export const StaticLink = (props: LinkAttr) => {
             }}
             {...props}
         />
-    )
-}
+    );
+};
 
 export const LinkStyled = (props: LinkAttr) => {
     return (
@@ -152,11 +152,19 @@ export const LinkStyled = (props: LinkAttr) => {
             href={props.href}
             variant={props.variant}
             sx={{
-                marginRight: "1rem",
                 textDecoration: "none",
-                background: props.userType === undefined ? "none" : dynamicColor[props.userType].background,
-                color: props.userType === undefined ? "black" : dynamicColor[props.userType].color,
-                outline: props.userType === undefined ? "none" : dynamicColor[props.userType].outline,
+                background:
+                    props.userType === undefined
+                        ? "none"
+                        : dynamicColor[props.userType].background,
+                color:
+                    props.userType === undefined
+                        ? "black"
+                        : dynamicColor[props.userType].color,
+                outline:
+                    props.userType === undefined
+                        ? "none"
+                        : dynamicColor[props.userType].outline,
                 "&:hover": {
                     textDecoration: "underline",
                     cursor: "pointer",
@@ -169,13 +177,13 @@ export const LinkStyled = (props: LinkAttr) => {
 
 export const LinkTypography = styled(Link)(({ theme }) => ({
     color: "#3B3838",
-}))
+}));
 
 export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
     color: "black",
 }));
 
-export const SmallMenuBarUserName = styled(Typography)(({ theme }) => ({
+export const MobileMenuBarUserName = styled(Typography)(({ theme }) => ({
     background: "#f0f0f0",
     textAlign: "center",
 }));
@@ -269,7 +277,7 @@ export const ListSingleItem = styled(ListItem)(({ theme }) => ({
     },
 }));
 
-export const ListItemIconStyled: React.FC<User> = (props) => (
+export const ListItemIconStyled = (props: User) => (
     <ListItemIcon
         sx={{
             color: dynamicColor[props.userType].color,
@@ -314,12 +322,17 @@ export const SubButtonStyled = styled(MenuItem)(({ theme }) => ({
     borderRadius: "0",
     width: "155px",
     fontSize: "15px",
-    border: theme.palette.primary.main,
+    borderLeft: `2px solid ${theme.palette.secondary.main}`,
+    borderBottom: `2px solid ${theme.palette.secondary.main}`,
+    borderRight: `2px solid ${theme.palette.secondary.main}`,
     display: "flex",
     justifyContent: "space-between",
     "&:hover": {
         background: "white",
         textDecoration: "underline",
+    },
+    "&:first-child": {
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
     },
 }));
 
@@ -359,10 +372,13 @@ export const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
 }));
 
 export const UserItemStyled = styled(Button)(({ theme }) => ({
-    borderRadius: "0",
+    fontSize: "14px",
+    borderRadius: "0px",
     textAlign: "left",
     display: "flex",
-    border: `2px solid ${theme.palette.secondary.main}`,
+    borderLeft: `2px solid ${theme.palette.secondary.main}`,
+    borderRight: `2px solid ${theme.palette.secondary.main}`,
+    borderBottom: `2px solid ${theme.palette.secondary.main}`,
     color: "black",
     textTransform: "none",
     justifyContent: "space-between",
@@ -373,11 +389,14 @@ export const UserItemStyled = styled(Button)(({ theme }) => ({
         background: "none",
         textDecoration: "underline",
     },
+    "&:first-child": {
+        borderTop: `2px solid ${theme.palette.secondary.main}`,
+    }
 }));
 
 export const UserButtonDivStyled = styled("div")(({ theme }) => ({
     display: "flex",
-    marginRight: "2rem",
+    marginRight: "1rem",
     flexDirection: "row",
     [theme.breakpoints.up("lg")]: {
         marginLeft: "auto",
@@ -436,6 +455,7 @@ export const UserNameButtonStyled = styled(Button)(({ theme }) => ({
     marginLeft: "auto",
     marginRight: "0",
     textTransform: "none",
+    borderTop: "none",
     border: `2px solid ${theme.palette.secondary.main}`,
     transition: "250ms",
     "&:hover": {

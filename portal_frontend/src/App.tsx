@@ -7,7 +7,7 @@ Libraries that seem to be breaking the app without notice
 
 
 */
-
+import Footer from "./Components/Footer/Footer";
 import React from "react";
 import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
@@ -24,8 +24,8 @@ export interface User {
   children?: React.ReactNode;
 }
 
-let name: string = "Ada";
-let userType: UserType = "none";
+let name: string = "Kamil Sosinski";
+let userType: UserType = "independent";
 
 const App = () => {
   return (
@@ -36,6 +36,7 @@ const App = () => {
         <RapidRouterScores />
         <KuronoWidget />
         <MeetTheCharacters />
+        <Footer />
       </ThemeProvider>
     </div>
   );

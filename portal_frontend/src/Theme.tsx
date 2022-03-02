@@ -13,23 +13,21 @@ let theme = createTheme({
   palette: {
     primary: {
       main: "#e0004d",
-      contrastText: "#fff"
+      contrastText: "#fff",
     },
     secondary: {
       main: "#f6be00",
-      contrastText: "#000"
+      contrastText: "#000",
     },
     tertiary: {
       main: "#00a3e0",
-      contrastText: "#fff"
+      contrastText: "#fff",
     },
     student: {
       main: "#00a3e0",
-      contrastText: "#fff"
+      contrastText: "#fff",
     },
-    teacher: {
-
-    }
+    teacher: {},
   },
   typography: {
     h1: {
@@ -51,7 +49,6 @@ let theme = createTheme({
       fontFamily: FONT_PRIMARY,
       fontSize: "30px",
       fontWeight: MEDIUM,
-      margin: "1rem 0 2rem 0"
     },
     h5: {
       fontFamily: FONT_PRIMARY,

@@ -4,12 +4,12 @@ import RegisterButton from "./RegisterButton";
 import { NotLoggedInStyled } from "./NavbarStyle";
 
 const NotLoggedIn = () => {
-    return (
-        <NotLoggedInStyled>
-            <RegisterButton />
-            <LogInButton />
-        </NotLoggedInStyled>
-    );
+  return (
+    <NotLoggedInStyled>
+      <RegisterButton />
+      <LogInButton />
+    </NotLoggedInStyled>
+  );
 };
 
 export default NotLoggedIn;

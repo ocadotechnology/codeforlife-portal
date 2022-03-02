@@ -12,7 +12,6 @@ const NavBarDropDown = ({ title, subTitles }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(event);
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {

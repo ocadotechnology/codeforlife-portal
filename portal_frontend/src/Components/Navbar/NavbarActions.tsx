@@ -96,8 +96,7 @@ const NavbarActions = ({ userType, userName }: User) => {
                     userType !== "none" ? userType.charAt(0).toUpperCase() + userType.slice(1) : null
                 }
             </ActionsTypographyStyled>
-            { // If not logged in, Teacher
-                // and Student links returned
+            { // If not logged in, Teacher and Student links returned
                 userType === "none" ? (
                     navbarActions[userType].navField.text.map(
                         (element: string, i: number) => {
@@ -114,8 +113,7 @@ const NavbarActions = ({ userType, userName }: User) => {
                     )
                 ) : (
                     <>
-                        { // else return the user actions with
-                            // their dropdown buttons if they're needed
+                        { // else return the user actions with their dropdown buttons if they're needed
                             navbarActions[userType].navField.text.map(
                                 (element: string, index: number) => {
                                     return NotDropDown[element] ? (
