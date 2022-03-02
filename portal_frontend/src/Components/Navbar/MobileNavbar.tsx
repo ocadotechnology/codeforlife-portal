@@ -26,7 +26,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import SmallReactiveMenu from "./MobileReactiveMenu";
 
-const MobileNavbar = ({ userType, userName }: User) => {
+const MobileNavbar = ({ userType, name }: User) => {
   const staticContent = [
     "About us",
     "Help and support",
@@ -91,7 +91,7 @@ const MobileNavbar = ({ userType, userName }: User) => {
       }}
     >
       <MobileMenuBarUserName variant="h3">
-        {userType !== "none" ? userName : null}
+        {userType !== "none" ? name : null}
       </MobileMenuBarUserName>
       <SmallReactiveMenu userType={userType} />
       <Divider />

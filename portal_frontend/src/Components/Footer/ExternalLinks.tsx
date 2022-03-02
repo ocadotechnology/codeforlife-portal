@@ -7,7 +7,7 @@ const ExternalLinks = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={3}>
-          <a href="https://www.facebook.com">
+          <a href="https://www.facebook.com/codeforlifeuk/">
             <img
               style={{ width: "100%" }}
               src="/images/footer/facebook.svg"

@@ -23,11 +23,6 @@ let theme = createTheme({
       main: "#00a3e0",
       contrastText: "#fff",
     },
-    student: {
-      main: "#00a3e0",
-      contrastText: "#fff",
-    },
-    teacher: {},
   },
   typography: {
     h1: {

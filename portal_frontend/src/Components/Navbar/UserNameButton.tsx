@@ -14,31 +14,54 @@ import { useEffect, useState } from "react";
 import theme from "../../Theme";
 
 const logInSettings = {
-  student: {
-    navFieldText: ["Log out", "Change Password"],
-    navFieldURLs: ["", ""],
-    navFieldIcons: [<LogoutIcon />, <LockOutlinedIcon />],
-  },
-  independent: {
-    navFieldText: ["Log out", "Update account details"],
-    navFieldURLs: ["", ""],
-    navFieldIcons: [<LogoutIcon />, <ManageAccountsOutlinedIcon />],
-  },
-  teacher: {
-    navFieldText: ["Log out", "Update account details"],
-    navFieldURLs: ["", ""],
-    navFieldIcons: [<LogoutIcon />, <ManageAccountsOutlinedIcon />],
-  },
+  student: [
+    {
+      navFieldText: "Log out",
+      navFieldURLs: "",
+      navFieldIcons: <LogoutIcon />,
+    },
+    {
+      navFieldText: "Change Password",
+      navFieldURLs: "",
+      navFieldIcons: <LockOutlinedIcon />,
+    },
+  ],
+  independent: [
+    {
+      navFieldText: "Log out",
+      navFieldURLs: "",
+      navFieldIcons: <LogoutIcon />,
+    },
+    {
+      navFieldText: "Update account details",
+      navFieldURLs: "",
+      navFieldIcons: <ManageAccountsOutlinedIcon />,
+    },
+  ],
+  teacher: [
+    {
+      navFieldText: "Log out",
+      navFieldURLs: "",
+      navFieldIcons: <LogoutIcon />,
+    },
+    {
+      navFieldText: "Update account details",
+      navFieldURLs: "",
+      navFieldIcons: <ManageAccountsOutlinedIcon />,
+    },
+  ],
   // This field is just so TypeScript
   // does not complain :)
-  none: {
-    navFieldText: [],
-    navFieldURLs: [],
-    navFieldIcons: [],
-  },
+  none: [
+    {
+      navFieldText: "",
+      navFieldURLs: "",
+      navFieldIcons: <></>,
+    },
+  ],
 };
 
-const UserNameButton = ({ userType, userName }: User) => {
+const UserNameButton = ({ userType, name }: User) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [bottomBorder, setBorder] = useState(
@@ -71,22 +94,20 @@ const UserNameButton = ({ userType, userName }: User) => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        {userName}
+        {name}
       </UserNameButtonStyled>
       <UserMenuStyled anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {logInSettings[userType].navFieldText.map(
-          (element: string, i: number) => {
-            return (
-              <UserItemStyled
-                onClick={handleClose}
-                endIcon={logInSettings[userType].navFieldIcons[i]}
-                href={logInSettings[userType].navFieldURLs[i]}
-              >
-                {element}
-              </UserItemStyled>
-            );
-          }
-        )}
+        {logInSettings[userType].map((element) => {
+          return (
+            <UserItemStyled
+              onClick={handleClose}
+              endIcon={element.navFieldIcons}
+              href={element.navFieldURLs}
+            >
+              {element.navFieldText}
+            </UserItemStyled>
+          );
+        })}
       </UserMenuStyled>
     </UserButtonDivStyled>
   );

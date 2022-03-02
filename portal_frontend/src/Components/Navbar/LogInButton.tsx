@@ -10,11 +10,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { BorderBottom } from "@mui/icons-material";
 import theme from "../../Theme";
 
-interface Small {
-  small?: Boolean;
+interface ScreenProps {
+  smallScreen?: Boolean;
 }
 
-export const LogInButton = ({ small }: Small) => {
+export const LogInButton = ({ smallScreen }: ScreenProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [bottomBorder, setBorder] = useState(
@@ -52,7 +52,7 @@ export const LogInButton = ({ small }: Small) => {
       >
         Log in
       </LogInButtonStyled>
-      {small ? null : (
+      {smallScreen ? null : (
         <LogInMenuStyled anchorEl={anchorEl} open={open} onClose={handleClose}>
           <SubButtonStyled onClick={handleClose}>
             Teacher <ChevronRightIcon />

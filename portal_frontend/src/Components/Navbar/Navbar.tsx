@@ -11,7 +11,7 @@ import NotLoggedIn from "./NotLoggedIn";
 import MobileNavbar from "./MobileNavbar";
 import { User } from "../../App";
 
-const Navbar = ({ userType, userName }: User) => {
+const Navbar = ({ userType, name }: User) => {
   return (
     <AppBarStyled position="fixed">
       <ToolbarStyled disableGutters>
@@ -25,11 +25,11 @@ const Navbar = ({ userType, userName }: User) => {
         >
           <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
         </a>
-        <NavbarActions userType={userType} userName={userName} />
+        <NavbarActions userType={userType} name={name} />
         {userType === "none" ? (
           <NotLoggedIn />
         ) : (
-          <UserNameButton userType={userType} userName={userName} />
+          <UserNameButton userType={userType} name={name} />
         )}
         <IconButtonStyled
           disableRipple={true}
@@ -39,7 +39,7 @@ const Navbar = ({ userType, userName }: User) => {
           aria-haspopup="true"
           color="inherit"
         >
-          <MobileNavbar userType={userType} userName={userName} />
+          <MobileNavbar userType={userType} name={name} />
         </IconButtonStyled>
       </ToolbarStyled>
     </AppBarStyled>

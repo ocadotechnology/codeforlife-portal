@@ -18,23 +18,11 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-
-interface StringBoolHash {
-  [key: string]: boolean;
-}
+import { IsDropDown } from "./NavbarActions";
 
 const MobileReactiveMenu = ({ userType }: User) => {
   const isGame = (text: string) => {
     return text === "Games" ? "games" : "resources";
-  };
-
-  // Strings that are not considered for dropdown menu
-  const NotDropDown: StringBoolHash = {
-    Dashboard: true,
-    Scoreboard: true,
-    Teacher: true,
-    Student: true,
-    Independent: true,
   };
 
   const dynamicContentIcons = [
@@ -42,7 +30,7 @@ const MobileReactiveMenu = ({ userType }: User) => {
     <SportsEsportsOutlinedIcon />,
     <ArticleOutlinedIcon />,
   ];
-
+  // TODO - All the links need to eventually be relative path, as we need them to work locally and on staging as well.
   const dynamicContent = {
     student: {
       navField: {
@@ -133,7 +121,7 @@ const MobileReactiveMenu = ({ userType }: User) => {
         <div>
           <RegisterButton />
           <div onClick={() => setMenu(!menu)}>
-            <LogInButton small={true} />
+            <LogInButton smallScreen={true} />
           </div>
         </div>
       )}
@@ -146,19 +134,7 @@ const MobileReactiveMenu = ({ userType }: User) => {
               </ListItemIconStyled>
               {
                 // Dashboard and Scoreboard never have dropdown buttons
-                NotDropDown[text] ? (
-                  <LinkStyled
-                    href={
-                      userType === "none"
-                        ? dynamicContent[userType].navField.text[index]
-                        : ""
-                    }
-                    userType={userType}
-                    variant="subtitle2"
-                  >
-                    {text}
-                  </LinkStyled>
-                ) : (
+                IsDropDown[text] ? (
                   // Alter between games and resources
                   <div
                     onClick={() =>
@@ -195,6 +171,18 @@ const MobileReactiveMenu = ({ userType }: User) => {
                       </SubMenuStyled>
                     </Collapse>
                   </div>
+                ) : (
+                  <LinkStyled
+                    href={
+                      userType === "none"
+                        ? dynamicContent[userType].navField.text[index]
+                        : ""
+                    }
+                    userType={userType}
+                    variant="subtitle2"
+                  >
+                    {text}
+                  </LinkStyled>
                 )
               }
             </ListItemStyled>
