@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.39.1 (2022-03-02)
+### Fix
+* Upgrade semantic-release version ([#1789](https://github.com/ocadotechnology/codeforlife-portal/issues/1789)) ([`ae2911a`](https://github.com/ocadotechnology/codeforlife-portal/commit/ae2911ae2d7fbe6842fca41bccd388851d967764))
+
 ## v5.39.0 (2022-03-01)
 ### Feature
 * Student aimmo dashboard ([#1786](https://github.com/ocadotechnology/codeforlife-portal/issues/1786)) ([`9c1771c`](https://github.com/ocadotechnology/codeforlife-portal/commit/9c1771cafa4fd790e51bf69d0d315db64b5a75c1))
