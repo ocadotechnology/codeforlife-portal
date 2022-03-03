@@ -93,7 +93,7 @@ const UserLogInButton = ({ name }: NameProps) => {
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                width: { md: "14.5vw", lg: "17vw" },
+                width: { md: "14.5vw", lg: "15vw" },
                 borderLeft: `2px solid ${theme.palette.secondary.main}`,
                 borderRight: `2px solid ${theme.palette.secondary.main}`,
                 borderBottom: `2px solid ${theme.palette.secondary.main}`,
@@ -101,6 +101,7 @@ const UserLogInButton = ({ name }: NameProps) => {
                 textTransform: "none",
                 borderRadius: "0",
                 fontWeight: "100",
+                textAlign: "left",
                 "&:hover": {
                   background: "none",
                   borderLeft: `2px solid ${theme.palette.secondary.main}`,
