@@ -31,6 +31,7 @@ const LearningResources = ({ games }: GamesProps) => {
           paddingLeft: "0",
           paddingRight: "0",
           marginLeft: "1vw",
+          marginRight: "0.5vw",
           fontWeight: "100",
           marginLeddft: "0rem",
           background: "white",

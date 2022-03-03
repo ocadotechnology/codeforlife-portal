@@ -6,6 +6,7 @@ import { KeyboardArrowRight } from "@mui/icons-material";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useEffect } from "react";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 interface NameProps {
   name: string;
@@ -49,12 +50,12 @@ const UserLogInButton = ({ name }: NameProps) => {
         onClick={handleClick}
         color="secondary"
         variant="outlined"
-        endIcon={<ManageAccountsOutlinedIcon />}
+        endIcon={<PersonOutlineOutlinedIcon />}
         sx={{
           display: { xs: "none", sm: "none", md: "none", lg: "flex" },
           justifyContent: "space-between",
           marginLeft: "auto",
-          width: "17vw",
+          width: "15vw",
           border: `2px solid ${theme.palette.secondary.main}`,
           color: "black",
           textTransform: "none",
