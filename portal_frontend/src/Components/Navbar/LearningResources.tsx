@@ -1,13 +1,11 @@
 import React from "react";
 import { GamesProps } from "./Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, Popover, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const LearningResources = ({ games }: GamesProps) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +17,14 @@ const LearningResources = ({ games }: GamesProps) => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  useEffect(() => {
+    // Bug where the open dropdown follows window resize, so close it on resize
+    const handleResize = () => {
+      handleClose();
+    };
+    window.addEventListener("resize", handleResize);
+  });
 
   return (
     <Box
@@ -63,7 +69,19 @@ const LearningResources = ({ games }: GamesProps) => {
         }}
       >
         {games.map((element) => {
-          return <Typography sx={{ p: 2 }}>{element}</Typography>;
+          return (
+            <Typography
+              sx={{
+                p: 2,
+                "&:hover": {
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                },
+              }}
+            >
+              {element}
+            </Typography>
+          );
         })}
       </Popover>
     </Box>

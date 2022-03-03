@@ -84,6 +84,7 @@ const UserNameButton = ({ userType, name }: User) => {
     };
     window.addEventListener("resize", handleResize);
   });
+
   return (
     <UserButtonDivStyled>
       <UserNameButtonStyled
