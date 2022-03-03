@@ -155,6 +155,8 @@ def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_dateti
         "Ray", "Charles", "ray.charles@example.com", DotmailerUserType.NO_ACCOUNT
     )
 
+    assert mocked_post.call_count == 2
+
     mocked_post.assert_any_call(
         DOTMAILER_MAIN_ADDRESS_BOOK_URL,
         auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
