@@ -5,11 +5,13 @@ const Dashboard = () => {
   return (
     <Link
       href=""
-      variant="body1"
+      variant="button"
       sx={{
         marginLeft: "3rem",
         color: "black",
         textDecoration: "none",
+        textTransform: "none",
+        fontWeight: "100",
         "&:hover": {
           textDecoration: "underline",
         },
