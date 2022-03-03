@@ -106,7 +106,9 @@ def is_verified(user):
     return len(verifications) != 0
 
 
-def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type):
+def add_to_dotmailer(
+    first_name: str, last_name: str, email: str, user_type: DotmailerUserType
+):
     try:
         create_contact(first_name, last_name, email)
         add_contact_to_address_book(first_name, last_name, email, user_type)
@@ -147,7 +149,9 @@ def create_contact(first_name, last_name, email):
     )
 
 
-def add_contact_to_address_book(first_name, last_name, email, user_type):
+def add_contact_to_address_book(
+    first_name: str, last_name: str, email: str, user_type: DotmailerUserType
+):
     main_address_book_url = app_settings.DOTMAILER_MAIN_ADDRESS_BOOK_URL
 
     body = {
@@ -167,14 +171,12 @@ def add_contact_to_address_book(first_name, last_name, email, user_type):
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
     )
 
-    specific_address_book_url = ""
+    specific_address_book_url = app_settings.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL
 
     if user_type == DotmailerUserType.TEACHER:
         specific_address_book_url = app_settings.DOTMAILER_TEACHER_ADDRESS_BOOK_URL
     elif user_type == DotmailerUserType.STUDENT:
         specific_address_book_url = app_settings.DOTMAILER_STUDENT_ADDRESS_BOOK_URL
-    else:
-        specific_address_book_url = app_settings.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL
 
     post(
         specific_address_book_url,
