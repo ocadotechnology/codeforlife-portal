@@ -20,7 +20,7 @@ import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { IsDropDown } from "./NavbarActions";
 
-const MobileReactiveMenu = ({ userType }: User) => {
+const MobileReactiveMenu = ({ userType, name }: User) => {
   const isGame = (text: string) => {
     return text === "Games" ? "games" : "resources";
   };
@@ -128,8 +128,8 @@ const MobileReactiveMenu = ({ userType }: User) => {
       <Collapse in={menu}>
         <Box>
           {dynamicContent[userType].navField.text.map((text, index) => (
-            <ListItemStyled userType={userType} key={text}>
-              <ListItemIconStyled userType={userType}>
+            <ListItemStyled name={name} userType={userType} key={text}>
+              <ListItemIconStyled name={name} userType={userType}>
                 {dynamicContentIcons[index]}
               </ListItemIconStyled>
               {
@@ -150,7 +150,7 @@ const MobileReactiveMenu = ({ userType }: User) => {
                       orientation="vertical"
                       in={text === "Games" ? games : resources}
                     >
-                      <SubMenuStyled userType={userType}>
+                      <SubMenuStyled name={name} userType={userType}>
                         {dynamicContent[userType][isGame(text)].text.map(
                           (element: string, index: number) => {
                             return (

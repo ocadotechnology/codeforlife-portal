@@ -20,7 +20,7 @@ import MeetTheCharacters from "./Components/MeetTheCharacters/MeetTheCharacters"
 export type UserType = "student" | "independent" | "teacher" | "none";
 export interface User {
   userType: UserType;
-  name?: string;
+  name: string;
   children?: React.ReactNode;
 }
 

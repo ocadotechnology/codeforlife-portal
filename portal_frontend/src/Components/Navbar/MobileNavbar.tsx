@@ -93,7 +93,7 @@ const MobileNavbar = ({ userType, name }: User) => {
       <MobileMenuBarUserName variant="h3">
         {userType !== "none" ? name : null}
       </MobileMenuBarUserName>
-      <SmallReactiveMenu userType={userType} />
+      <SmallReactiveMenu name={name} userType={userType} />
       <Divider />
       <ListStyled>
         {staticContent.map((text, index) => (
