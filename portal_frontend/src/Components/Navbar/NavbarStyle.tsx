@@ -192,17 +192,14 @@ export const DrawerStyled = styled(Drawer)(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
     display: "none",
   },
-  // Move the mobile dropdown down
-  // no other way to select it
-  "& > .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorTop.css-1nvnyqx-MuiPaper-root-MuiDrawer-paper":
-    {
-      [theme.breakpoints.down("lg")]: {
-        top: "80px",
-      },
-      [theme.breakpoints.down("md")]: {
-        top: "65px",
-      },
+  "&:nth-child(3)": {
+    [theme.breakpoints.down("lg")]: {
+      top: "80px",
     },
+    [theme.breakpoints.down("md")]: {
+      top: "65px",
+    },
+  },
 }));
 
 export const ListStyled = styled(List)(({ theme }) => ({
