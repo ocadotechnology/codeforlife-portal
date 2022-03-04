@@ -79,19 +79,6 @@ export const IconButtonStyled = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export const ActionsStyled = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "baseline",
-  flexDirection: "row",
-  [theme.breakpoints.down("lg")]: {
-    display: "none",
-  },
-}));
-
-export const ActionsTypographyStyled = styled(Typography)(({ theme }) => ({
-  margin: "3.5rem",
-}));
-
 export const NavBarButtonStyled = styled(Button)(({ theme }) => ({
   marginLeft: "2rem",
   color: "black",
@@ -124,27 +111,6 @@ interface LinkAttr {
   userType?: UserType | undefined;
   children?: React.ReactNode;
 }
-
-export const StaticLink = (props: LinkAttr) => {
-  return (
-    <Link
-      href={props.href}
-      variant={props.variant}
-      sx={{
-        marginRight: "4rem",
-        textDecoration: "none",
-        background: "none",
-        color: "#3B3838",
-        outline: "none",
-        "&:hover": {
-          textDecoration: "underline",
-          cursor: "pointer",
-        },
-      }}
-      {...props}
-    />
-  );
-};
 
 export const LinkStyled = (props: LinkAttr) => {
   return (
@@ -284,27 +250,6 @@ export const ListItemIconStyled = (props: User) => (
   />
 );
 
-export const DropDownStyled = (props: any) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  <Menu
-    open={open}
-    onClose={handleClose}
-    sx={{
-      "& > div > ul": {
-        paddingTop: "0",
-        paddingBottom: "0",
-        zIndex: "1500",
-      },
-    }}
-    {...props}
-  />;
-};
-
 export const SmallNavbarRegisterButton = styled("div")(({ theme }) => ({
   background: theme.palette.primary.main,
 }));
@@ -363,58 +308,6 @@ export const LogInMenuStyled = styled(Menu)(({ theme }) => ({
   },
 }));
 
-export const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
-  width: "155px",
-  border: `2px solid ${theme.palette.secondary.main}`,
-}));
-
-export const UserItemStyled = styled(Button)(({ theme }) => ({
-  fontSize: "14px",
-  borderRadius: "0px",
-  textAlign: "left",
-  display: "flex",
-  borderLeft: `2px solid ${theme.palette.secondary.main}`,
-  borderRight: `2px solid ${theme.palette.secondary.main}`,
-  borderBottom: `2px solid ${theme.palette.secondary.main}`,
-  color: "black",
-  textTransform: "none",
-  justifyContent: "space-between",
-  width: "17vw",
-  fontWeight: "100",
-  padding: "0.5rem 1rem 0.5rem 1rem",
-  "&:hover": {
-    background: "none",
-    textDecoration: "underline",
-  },
-  "&:first-child": {
-    borderTop: `2px solid ${theme.palette.secondary.main}`,
-  },
-}));
-
-export const UserButtonDivStyled = styled("div")(({ theme }) => ({
-  display: "flex",
-  marginRight: "1rem",
-  flexDirection: "row",
-  [theme.breakpoints.up("lg")]: {
-    marginLeft: "auto",
-  },
-  [theme.breakpoints.down("lg")]: {
-    display: "none",
-  },
-}));
-
-export const NotLoggedInStyled = styled("div")(({ theme }) => ({
-  display: "flex",
-  marginRight: "2rem",
-  flexDirection: "row",
-  [theme.breakpoints.up("lg")]: {
-    marginLeft: "auto",
-  },
-  [theme.breakpoints.down("lg")]: {
-    display: "none",
-  },
-}));
-
 export const RegisterButtonStyled = styled(Button)(({ theme }) => ({
   marginLeft: "auto",
   height: "45px",
@@ -432,47 +325,6 @@ export const RegisterButtonStyled = styled(Button)(({ theme }) => ({
     boxShadow:
       "0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12),0px 3px 5px 0px rgba(0,0,0,0.2)",
     background: `${theme.palette.secondary.main}`,
-  },
-}));
-
-export const RegisterButtonSmallMenuStyled = styled(RegisterButtonStyled)(
-  ({ theme }) => ({
-    marginLeft: "0",
-  })
-);
-
-export const UserNameButtonStyled = styled(Button)(({ theme }) => ({
-  color: "black",
-  padding: "0.5rem 1rem 0.5rem 1rem",
-  borderRadius: "0",
-  height: "45px",
-  width: "17vw",
-  display: "flex",
-  justifyContent: "space-between",
-  marginLeft: "auto",
-  marginRight: "0",
-  textTransform: "none",
-  borderTop: "none",
-  border: `2px solid ${theme.palette.secondary.main}`,
-  transition: "250ms",
-  "&:hover": {
-    textDecoration: "underline",
-    background: "none",
-  },
-  [theme.breakpoints.down("lg")]: {
-    display: "none",
-  },
-  "& > div > ul": {
-    paddingTop: "0",
-    paddingBottom: "0",
-  },
-}));
-
-export const UserMenuStyled = styled(Menu)(({ theme }) => ({
-  backgorund: "black",
-  "& > div > ul": {
-    paddingTop: "0",
-    paddingBottom: "0",
   },
 }));
 

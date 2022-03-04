@@ -17,9 +17,16 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import { IsDropDown } from "./NavbarActions";
+import ArticleNavbarActionsOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
+interface StringBoolHash {
+  [key: string]: boolean;
+}
+const IsDropDown: StringBoolHash = {
+  Games: true,
+  "Teaching Resources": true,
+  "Learning Resources": true,
+};
 const MobileReactiveMenu = ({ userType, name }: User) => {
   const isGame = (text: string) => {
     return text === "Games" ? "games" : "resources";
@@ -28,7 +35,7 @@ const MobileReactiveMenu = ({ userType, name }: User) => {
   const dynamicContentIcons = [
     <GridViewOutlinedIcon />,
     <SportsEsportsOutlinedIcon />,
-    <ArticleOutlinedIcon />,
+    <ArticleNavbarActionsOutlinedIcon />,
   ];
   // TODO - All the links need to eventually be relative path, as we need them to work locally and on staging as well.
   const dynamicContent = {
