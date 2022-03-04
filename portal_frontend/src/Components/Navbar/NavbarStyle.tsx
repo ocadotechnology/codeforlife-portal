@@ -158,7 +158,7 @@ export const DrawerStyled = styled(Drawer)(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
     display: "none",
   },
-  "&:nth-child(3)": {
+  "& > div:nth-child(3)": {
     [theme.breakpoints.down("lg")]: {
       top: "80px",
     },
