@@ -6,16 +6,16 @@ name = "pypi"
 [packages]
 codeforlife-portal = {path = ".",editable = true}
 cfl-common = {editable = true,path = "./cfl_common"}
-django-autoconfig = { git = 'https://github.com/ocadotechnology/django-autoconfig.git', ref = 'master' }
+django-autoconfig = { git = 'https://github.com/ocadotechnology/django-autoconfig.git', ref = 'upgrade-django' }
 
 [dev-packages]
-django-selenium-clean = "==0.3.2"
-django-test-migrations = "==1.1.0"
-responses = "==0.12.1"
+django-selenium-clean = "==0.3.3"
+django-test-migrations = "==1.2.0"
+responses = "==0.18.0"
 selenium = "==3.141.0"
 snapshottest = "==0.6.0"
-pytest-django = "==4.1.0"
-pytest = "==6.*"
+pytest-django = "==4.5.2"
+pytest = "==7.*"
 pyvirtualdisplay = "*"
 pytest-mock = "*"
 PyPDF2 = "1.26.0"

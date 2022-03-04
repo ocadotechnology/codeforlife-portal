@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import sys
+import os
 
 from setuptools import find_packages, setup
 
@@ -22,14 +23,16 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "django==2.2.27",
-        "django-countries==6.1.3",
-        "djangorestframework==3.12.2",
-        "django-pipeline==1.6.14",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
+        "django==3.2.12",
+        "django-countries==7.3.1",
+        "djangorestframework==3.13.1",
+        "django-pipeline==2.0.8",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
-        "rapid-router >= 1.0.0.post.dev1",
-        "aimmo",
+        # "rapid-router >= 1.0.0.post.dev1",
+        f"rapid-router @ file://localhost/{os.getcwd()}/../rapid-router/",  # TODO
+        # "aimmo",
+        f"aimmo @ file://localhost/{os.getcwd()}/../aimmo/",  # TODO
         "reportlab==3.6.1",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
@@ -45,7 +48,7 @@ setup(
         f"cfl-common=={version}",
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
-        "django-csp==3.7"
+        "django-csp==3.7",
     ],
     classifiers=[
         "Programming Language :: Python",
