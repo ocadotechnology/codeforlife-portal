@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.0 (2022-03-04)
+### Feature
+* Add users to specific address books based on user type ([#1790](https://github.com/ocadotechnology/codeforlife-portal/issues/1790)) ([`06b9ed3`](https://github.com/ocadotechnology/codeforlife-portal/commit/06b9ed311a5124b00816fec05a04a66b430ee5e4))
+
 ## v5.39.1 (2022-03-02)
 ### Fix
 * Upgrade semantic-release version ([#1789](https://github.com/ocadotechnology/codeforlife-portal/issues/1789)) ([`ae2911a`](https://github.com/ocadotechnology/codeforlife-portal/commit/ae2911ae2d7fbe6842fca41bccd388851d967764))
