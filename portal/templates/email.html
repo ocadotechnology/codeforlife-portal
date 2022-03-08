@@ -20,6 +20,35 @@
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 {% endblock scripts %}
 
+<style>
+
+.email.h2, .email.h6{
+        text-align: center;
+        color: $color-primary;
+}
+
+.email-footer.p, .email-footer.a {
+    color: white;
+    font-size: 12px;
+}
+
+.email-footer.a.contact {
+    font-size: 14px;
+    color: white;
+}
+
+.email-footer.a:hover {
+    color: white
+}
+
+.email-footer {
+  padding(4.5rem, 2rem, 4.5rem, 2rem);
+  background-color:#e0004d;
+  box-shadow: 0 -2px 7px 1px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+</style>
+
 <div class="email">
 
     <div class="d-flex flex-row justify-content-between">
