@@ -1,4 +1,76 @@
 {% load static %}
 
 
-{{ content|urlize|linebreaks }}
+{% load staticfiles %}
+{% load app_tags %}
+
+{% block email_header %}
+
+{% block css %}
+<link href="{% static 'portal/css/jquery-ui.css' %}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href='{% static "portal.css" %}'>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+<link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+{% endblock css %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'portal/js/teach_class.js' %}"></script>
+<script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+{% endblock scripts %}
+
+<div class="email">
+
+    <div class="d-flex flex-row justify-content-between">
+
+        <img src="https://i.emlfiles.com/cmpimg/7/1/6/2/2/2/files/944449_logo_whitebg.png" width="81"
+            style="width: 81px; min-height: auto;  max-width: 100%;" class="ee_editable ee_no_upscale">
+
+
+        <img src="https://i.emlfiles.com/cmpimg/7/1/6/2/2/2/files/911712_ocadogrouplogo_rgb_grey.png" height="57"
+            width="150" class="ee_editable">
+    </div>
+    {% endblock email_header %}
+
+    {{ content|urlize|linebreaks }}
+    {% block email_footer %}
+    <h6 class="text-center">Code for Life team</h6>
+
+    <div class="d-flex justify-content-center mt-5 mb-3">
+
+        <a href="https://www.facebook.com/codeforlifeuk/"><img border="0"
+                style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px; color: rgb(205, 173, 37); font-family: Arial, sans-serif; font-size: 12px; height: 32px; width: 32px;"
+                height="32" width="32" src="https://i.emlfiles.com/cmpimg/sys/socnet/facebook-v2.png"
+                title="Facebook"></a>
+        <a style="padding-left: 30px" href="https://twitter.com/codeforlifeuk"><img border="0"
+                style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px; color: rgb(205, 173, 37); font-family: Arial, sans-serif; font-size: 12px; height: 32px; width: 32px;"
+                height="32" width="32" src="https://i.emlfiles.com/cmpimg/sys/socnet/twitter-v2.png"
+                title="Twitter"></a>
+    </div>
+
+    <div class="email-footer">
+        <a class="contact">
+            Contact us
+        </a>
+
+        <p>
+            Ocado Innovation Limited is registered in England under registered company number 08813912 with its
+            registered office at Buildings One & Two Trident Place, Mosquito Way, Hatfield, Hertfordshire, United
+            Kingdom, AL10 9UL
+        </p>
+
+        <p>
+            You can find out about our privacy policy <a
+                href="https://www.codeforlife.education/privacy-policy/?campaignkw=Privacy%20policy">here</a>
+        </p>
+    </div>
+</div>
+{% endblock email_footer %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#form-create-students').submit(disableOnClick('#submitStudents'));
+
+        importStudentsFromCsv('#studentsCsvButton', '#{{ new_students_form.names.auto_id }}')
+    });
+</script>

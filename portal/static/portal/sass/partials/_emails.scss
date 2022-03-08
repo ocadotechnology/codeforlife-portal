@@ -1,0 +1,35 @@
+
+@import "base";
+
+.email {
+    h2, h6 {
+        text-align: center;
+        color: $color-primary;
+    }
+}
+
+.email-footer {
+  @include _padding(45px, 20px, 45px, 20px);
+  background-color: $color-background-primary;
+  box-shadow: 0 -2px 7px 1px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  p {
+    color: white;
+    font-size: 12px;
+  }
+
+  a {
+    color: white;
+    font-size: 12px;
+  }
+
+  a.contact {
+    font-size: 14px;
+    color: white;
+  }
+
+  a:hover {
+    color:white;
+  }
+}
