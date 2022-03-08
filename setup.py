@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
 import sys
-import os
 
 from setuptools import find_packages, setup
 
@@ -30,9 +29,9 @@ setup(
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
         # "rapid-router >= 1.0.0.post.dev1",
-        f"rapid-router @ file://localhost/{os.getcwd()}/../rapid-router/",  # TODO
+        f"rapid-router @ git+https://github.com/ocadotechnology/rapid-router@upgrade-django#egg=rapid-router",  # TODO
         # "aimmo",
-        f"aimmo @ file://localhost/{os.getcwd()}/../aimmo/",  # TODO
+        f"aimmo @ git+https://github.com/ocadotechnology/aimmo@upgrade-django#egg=aimmo",  # TODO
         "reportlab==3.6.1",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
