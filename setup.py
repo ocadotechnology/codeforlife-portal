@@ -40,7 +40,7 @@ setup(
         "django-sekizai==2.0.0",
         "django-classy-tags==2.0.0",
         "sqlparse==0.4.2",
-        "libsass==0.20.1",
+        "libsass==0.21.0",
         "phonenumbers==8.12.12",
         "more-itertools==8.6.0",
         "future==0.18.2",
