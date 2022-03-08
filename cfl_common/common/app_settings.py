@@ -5,7 +5,10 @@ EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.educati
 
 # Dotmailer URLs for adding users to the newsletter address book
 DOTMAILER_CREATE_CONTACT_URL = getattr(settings, "DOTMAILER_CREATE_CONTACT_URL", "")
-DOTMAILER_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_ADDRESS_BOOK_URL", "")
+DOTMAILER_MAIN_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
+DOTMAILER_TEACHER_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
+DOTMAILER_STUDENT_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
 
 # Dotmailer username for API authentication
 DOTMAILER_USER = getattr(settings, "DOTMAILER_USER", "")

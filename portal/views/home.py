@@ -6,10 +6,12 @@ from common.helpers.emails import (
     send_email,
     NOTIFICATION_EMAIL,
     add_to_dotmailer,
+    DotmailerUserType,
 )
 from common.models import Teacher, Student
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
+from deploy import captcha
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -17,8 +19,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.cache import cache_control
-
-from deploy import captcha
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
@@ -28,7 +28,6 @@ from portal.helpers.ratelimit import (
     is_ratelimited,
 )
 from portal.strings.home_learning import HOME_LEARNING_BANNER
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -153,7 +152,9 @@ def process_signup_form(request, data):
 
         if _newsletter_ticked(data):
             user = teacher.user.user
-            add_to_dotmailer(user.first_name, user.last_name, user.email)
+            add_to_dotmailer(
+                user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER
+            )
 
         send_verification_email(request, teacher.user.user)
 
@@ -227,7 +228,9 @@ def process_independent_student_signup_form(request, data):
 
     if _newsletter_ticked(data):
         user = student.new_user
-        add_to_dotmailer(user.first_name, user.last_name, user.email)
+        add_to_dotmailer(
+            user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT
+        )
 
     send_verification_email(request, student.new_user)
 

@@ -3,10 +3,10 @@
 
 <div class="grid grid-characters grid__fit">
     {% for character in characters %}
-        <div class="card">
-            <h5 class="card__title">{{ character.name }}</h5>
-            <img class="card__image" src="{{ character.image_path | cloud_storage }}">
-            <p class="card__text">{{ character.description }}</p>
+        <div>
+            <img class="grid-character-image" src="{{ character.image_path | cloud_storage }}">
+            <h5 class="grid-character-title">{{ character.name }}</h5>
+            <p>{{ character.description }}</p>
         </div>
     {% endfor %}
 </div>

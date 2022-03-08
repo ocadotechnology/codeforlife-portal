@@ -93,37 +93,26 @@ def test_card_list(snapshot):
                 "image": "images/worksheets/future2.jpg",
                 "title": "Test card 1",
                 "description": "Test description 1",
-                "thumbnail_image": "images/worksheets/lock.png",
             },
             {
                 "image": "images/worksheets/ancient.jpg",
                 "title": "Test card 2",
                 "description": "Test description 2",
-                "thumbnail_text": "Coming Soon",
             },
             {
                 "image": "images/worksheets/modern_day.jpg",
                 "title": "Test card 3",
                 "description": "Test description 3",
-                "thumbnail_text": "Coming Soon",
             },
             {
                 "image": "images/worksheets/prehistory.jpg",
                 "title": "Test card 4",
                 "description": "Test description 4",
-                "thumbnail_text": "Coming Soon",
             },
             {
                 "image": "images/worksheets/broken_future.jpg",
                 "title": "Test card 5",
                 "description": "Test description 5",
-                "thumbnail_text": "Coming Soon",
-            },
-            {
-                "image": "images/worksheets/kurono_logo.svg",
-                "title": "Test card 6",
-                "button_text": "Test button",
-                "button_link": "home",
             },
         ]
     }
