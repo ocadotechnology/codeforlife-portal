@@ -120,10 +120,10 @@ class TestSecurityMiddleware(TestCase):
         response = client.get("/")
 
         assert response.status_code == 200
-        assert response._headers["cache-control"][1] == "private"
-        assert response._headers["x-content-type-options"][1] == "nosniff"
-        assert response._headers["x-frame-options"][1] == "SAMEORIGIN"
-        assert response._headers["x-xss-protection"][1] == "0"
+        assert response.headers["cache-control"] == "private"
+        assert response.headers["x-content-type-options"] == "nosniff"
+        assert response.headers["x-frame-options"] == "DENY"
+        assert response.headers["x-xss-protection"] == "0"
 
 
 class TestSessionTimeoutMiddleware(TestCase):
