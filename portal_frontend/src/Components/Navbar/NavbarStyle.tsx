@@ -26,7 +26,7 @@ export const AppBarStyled = styled(AppBar)(({ theme }) => ({
   zIndex: "1201",
   background: "white",
   color: "black",
-  padding: "0px 0rem 0px 1rem",
+  padding: "0 0 0 1rem",
 }));
 
 export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
