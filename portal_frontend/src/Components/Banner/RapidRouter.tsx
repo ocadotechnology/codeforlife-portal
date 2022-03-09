@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 
-import RRBackground from "../../img/rapid_router_landing_hero.png";
-import RRLogo from "../../img/RR_logo.svg";
+import RRBackground from "img/rapid_router_landing_hero.png";
+import RRLogo from "img/RR_logo.svg";
 
 const RapidRouter = () => {
   return (
