@@ -8,6 +8,7 @@ const RapidRouter = () => {
   return (
     <Box
       sx={{
+        margin: "6rem 0 0 0",
         height: "320px",
         textAlign: "center",
         backgroundImage: `url(${RRBackground})`,

@@ -25,8 +25,7 @@ import theme from "../../Theme";
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
   zIndex: "1201",
   background: "white",
-  color: "black",
-  padding: "0 0 0 1rem",
+  padding: "0 0 0 1rem"
 }));
 
 export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
