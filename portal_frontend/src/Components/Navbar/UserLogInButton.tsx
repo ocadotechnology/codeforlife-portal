@@ -55,7 +55,7 @@ const UserLogInButton = ({ name }: NameProps) => {
           display: { xs: "none", sm: "none", md: "none", lg: "flex" },
           justifyContent: "space-between",
           marginLeft: "auto",
-          width: "15vw",
+          width: "17vw",
           border: `2px solid ${theme.palette.secondary.main}`,
           color: "black",
           textTransform: "none",
@@ -93,7 +93,7 @@ const UserLogInButton = ({ name }: NameProps) => {
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                width: { md: "14.5vw", lg: "15vw" },
+                width: { md: "14.5vw", lg: "17vw" },
                 borderLeft: `2px solid ${theme.palette.secondary.main}`,
                 borderRight: `2px solid ${theme.palette.secondary.main}`,
                 borderBottom: `2px solid ${theme.palette.secondary.main}`,
