@@ -20,6 +20,8 @@
 <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
 {% endblock scripts %}
 
+
+{% block style %}
 <style>
 
 .email.h2, .email.h6{
@@ -48,6 +50,8 @@
   text-align: center;
 }
 </style>
+
+{% endblock style %}
 
 <div class="email">
 
@@ -79,7 +83,7 @@
     </div>
 
     <div style="background: #e0004d;" class="email-footer">
-        <a class="contact">
+        <a style="color: #e0004d" class="contact">
             Contact us
         </a>
 
