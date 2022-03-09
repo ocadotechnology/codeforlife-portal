@@ -42,7 +42,7 @@ setup(
         "phonenumbers==8.12.12",
         "more-itertools==8.6.0",
         "future==0.18.2",
-        f"cfl-common=={version}",
+        # f"cfl-common=={version}",  # TODO uncomment after Django upgrade
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
         "django-csp==3.7",
