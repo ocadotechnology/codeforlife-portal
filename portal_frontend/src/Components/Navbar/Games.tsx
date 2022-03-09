@@ -61,6 +61,9 @@ const Games = ({ games }: GamesProps) => {
         <Collapse
           orientation="vertical"
           in={open}
+          sx={{
+
+          }}
         >
           <Box>
             <ListItem>
@@ -68,13 +71,18 @@ const Games = ({ games }: GamesProps) => {
                 return (
                   <Typography
                     sx={{
+                      marginLeft: "1vw",
                       background: "white",
+                      fontSize: "14px",
+                      boxShadow:
+                        "0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12),0px 3px 5px 0px rgba(0,0,0,0.2)",
                       p: 2,
                       "&:hover": {
                         textDecoration: "underline",
                         cursor: "pointer",
                       },
                     }}
+                    variant="caption"
                   >
                     {element}
                   </Typography>
@@ -84,7 +92,7 @@ const Games = ({ games }: GamesProps) => {
           </Box>
         </Collapse>
       </Box>
-    </ResponsiveDiv>
+    </ResponsiveDiv >
   );
 };
 

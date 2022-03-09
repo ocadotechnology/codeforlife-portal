@@ -100,6 +100,7 @@ const UserLogInButton = ({ name }: NameProps) => {
                 color: "black",
                 textTransform: "none",
                 borderRadius: "0",
+                fontSize: "14px",
                 fontWeight: "100",
                 textAlign: "left",
                 "&:hover": {
