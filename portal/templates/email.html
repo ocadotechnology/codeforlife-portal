@@ -53,16 +53,15 @@
 
 {% endblock style %}
 
-<div>
+<div style="text-align: center;">
 
     <div style="display: flex; justify-content: space-between;" class="d-flex flex-row justify-content-between">
 
         <img src="https://i.emlfiles.com/cmpimg/7/1/6/2/2/2/files/944449_logo_whitebg.png" width="81"
             style="width: 81px; min-height: auto;  max-width: 100%;" class="ee_editable ee_no_upscale">
 
-
         <img src="https://i.emlfiles.com/cmpimg/7/1/6/2/2/2/files/911712_ocadogrouplogo_rgb_grey.png" height="57"
-            width="150" class="ee_editable">
+            width="150" class="ee_editable" style="margin-left:auto;">
     </div>
     {% endblock email_header %}
 
@@ -94,11 +93,13 @@
         </p>
 
         <p>
-            You can find out about our privacy policy <a
-                href="https://www.codeforlife.education/privacy-policy/?campaignkw=Privacy%20policy">here</a>
+            You can find out about our privacy policy
+            <a
+            style="color: white; text-decoration: underline; text-align: center;"
+            href="https://www.codeforlife.education/privacy-policy/?campaignkw=Privacy%20policy"
+                >here</a>
         </p>
     </div>
-</div>
 {% endblock email_footer %}
 <script type="text/javascript">
     $(document).ready(function () {
