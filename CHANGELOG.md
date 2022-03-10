@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.2 (2022-03-10)
+### Fix
+* Re-versioning ([`50ee56c`](https://github.com/ocadotechnology/codeforlife-portal/commit/50ee56c5db7af83dee8a3717a255ef93f1380c73))
+
 ## v5.40.1 (2022-03-10)
 ### Fix
 * The last indy/teacher clean up ([#1793](https://github.com/ocadotechnology/codeforlife-portal/issues/1793)) ([`7f56383`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f563839fe438b196d447ba06463cc82f733ce7e))
