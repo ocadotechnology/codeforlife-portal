@@ -24,7 +24,7 @@ import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlin
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 import CloseIcon from "@mui/icons-material/Close";
-import SmallReactiveMenu from "./MobileReactiveMenu";
+import SmallReactiveMenu from "./MobileMenu";
 
 const MobileNavbar = ({ userType, name }: User) => {
   const staticContent = [
@@ -72,17 +72,17 @@ const MobileNavbar = ({ userType, name }: User) => {
 
   const toggleDrawer =
     (anchor: "top", open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
+      (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (
+          event.type === "keydown" &&
+          ((event as React.KeyboardEvent).key === "Tab" ||
+            (event as React.KeyboardEvent).key === "Shift")
+        ) {
+          return;
+        }
 
-      setState({ ...state, [anchor]: open });
-    };
+        setState({ ...state, [anchor]: open });
+      };
 
   const list = (anchor: any) => (
     <Box
@@ -113,19 +113,19 @@ const MobileNavbar = ({ userType, name }: User) => {
       <ListStyled>
         {userType !== "none"
           ? accountContent.map((text: string, index: number) => {
-              return (
-                <ListSingleItem>
-                  <ListItemIcon>{accountContentIcons[index]}</ListItemIcon>
-                  <LinkTypography
-                    href={accountLinks[index]}
-                    underline="hover"
-                    variant="subtitle2"
-                  >
-                    {text}
-                  </LinkTypography>
-                </ListSingleItem>
-              );
-            })
+            return (
+              <ListSingleItem>
+                <ListItemIcon>{accountContentIcons[index]}</ListItemIcon>
+                <LinkTypography
+                  href={accountLinks[index]}
+                  underline="hover"
+                  variant="subtitle2"
+                >
+                  {text}
+                </LinkTypography>
+              </ListSingleItem>
+            );
+          })
           : null}
       </ListStyled>
     </Box>

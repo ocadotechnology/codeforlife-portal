@@ -30,7 +30,10 @@ export const AppBarStyled = styled(AppBar)(({ theme }) => ({
 
 export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
   display: "flex",
+  alignItems: "center",
+  paddingTop: "auto",
   flexDirection: "row",
+
   [theme.breakpoints.up("lg")]: {
     height: "100px",
     justifyContent: "start",
@@ -51,6 +54,7 @@ export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
 }));
 
 export const LogoCfl = styled("img")(({ theme }) => ({
+  marginTop: "auto",
   [theme.breakpoints.up("lg")]: {
     height: "70px",
   },
@@ -326,5 +330,16 @@ export const RegisterButtonStyled = styled(Button)(({ theme }) => ({
     background: `${theme.palette.secondary.main}`,
   },
 }));
+
+
+export const ResponsiveDiv = styled("div")(({ theme }) => ({
+  alignSelf: "flex-start",
+  [theme.breakpoints.up("lg")]: {
+    marginTop: "31px",
+  },
+  [theme.breakpoints.down("lg")]: {
+    display: "none"
+  }
+}))
 
 export default AppBarStyled;

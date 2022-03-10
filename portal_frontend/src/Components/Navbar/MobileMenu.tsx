@@ -27,7 +27,7 @@ const IsDropDown: StringBoolHash = {
   "Teaching Resources": true,
   "Learning Resources": true,
 };
-const MobileReactiveMenu = ({ userType, name }: User) => {
+const MobileMenu = ({ userType, name }: User) => {
   const isGame = (text: string) => {
     return text === "Games" ? "games" : "resources";
   };
@@ -164,7 +164,7 @@ const MobileReactiveMenu = ({ userType, name }: User) => {
                               <LinkStyled
                                 href={
                                   dynamicContent[userType][isGame(text)].link[
-                                    index
+                                  index
                                   ]
                                 }
                                 userType={userType}
@@ -200,4 +200,4 @@ const MobileReactiveMenu = ({ userType, name }: User) => {
   );
 };
 
-export default MobileReactiveMenu;
+export default MobileMenu;
