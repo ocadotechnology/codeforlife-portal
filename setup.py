@@ -25,7 +25,7 @@ setup(
         "django==3.2.12",
         "django-countries==7.3.1",
         "djangorestframework==3.13.1",
-        "django-pipeline==2.0.8",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
+        "django-pipeline==2.0.8",
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
         # "rapid-router >= 1.0.0.post.dev1",  # TODO uncomment after Django upgrade
