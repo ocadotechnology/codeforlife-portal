@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.4 (2022-03-10)
+### Fix
+* Continue publishing after pypi error ([#1794](https://github.com/ocadotechnology/codeforlife-portal/issues/1794)) ([`0ae38ff`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ae38ff5987688cd7d5302f51e8d8d228871b693))
+
 ## v5.40.3 (2022-03-10)
 ### Fix
 * Re-versioning 2 ([`9178eff`](https://github.com/ocadotechnology/codeforlife-portal/commit/9178effe8db877156fdd68d0e0956e1c6260dfab))
