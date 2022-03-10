@@ -31,6 +31,7 @@ const Welcome = ({ name, userType }: User) => {
   return (
     <Box
       sx={{
+        margin: "6rem 0 0 0",
         display: "flex",
         flexDirection: "column",
         height: "320px",
