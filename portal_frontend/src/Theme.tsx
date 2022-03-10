@@ -23,15 +23,15 @@ let theme = createTheme({
       contrastText: "#fff",
     },
     text: {
-      primary: "#383b3b"
-    }
+      primary: "#383b3b",
+    },
   },
   typography: {
     h1: {
       fontFamily: FONT_PRIMARY,
       fontSize: "60px",
       fontWeight: MEDIUM,
-      margin: "1rem 0 1rem 0"
+      margin: "1rem 0 1rem 0",
     },
     h2: {
       fontFamily: FONT_PRIMARY,

@@ -1,11 +1,8 @@
-import React from "react";
 import { GamesProps } from "./Navbar";
 import { useState, useEffect } from "react";
-import { Box, Button, Collapse, ListItem, Popover, Typography } from "@mui/material";
+import { Box, Button, Collapse, ListItem, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { HiddenButton } from "./NavbarStyle";
-
-
 
 const LearningResources = ({ games }: GamesProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -55,7 +52,7 @@ const LearningResources = ({ games }: GamesProps) => {
               background: "none",
               color: "black",
               textDecoration: "underline",
-              boxShadow: "none"
+              boxShadow: "none",
             },
           }}
           aria-describedby={id}
@@ -73,10 +70,8 @@ const LearningResources = ({ games }: GamesProps) => {
             position: "absolute",
           }}
         >
-          <Box
-          >
-            <ListItem
-            >
+          <Box>
+            <ListItem>
               {games.map((element) => {
                 return (
                   <Typography
@@ -108,4 +103,3 @@ const LearningResources = ({ games }: GamesProps) => {
 };
 
 export default LearningResources;
-

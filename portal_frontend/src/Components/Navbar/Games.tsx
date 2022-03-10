@@ -1,7 +1,6 @@
-import React from "react";
 import { GamesProps } from "./Navbar";
 import { useState, useEffect } from "react";
-import { Box, Button, CardContent, Collapse, ListItem, Menu, Popover, Typography } from "@mui/material";
+import { Box, Button, Collapse, ListItem, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { HiddenButton } from "./NavbarStyle";
 
@@ -27,15 +26,12 @@ const Games = ({ games }: GamesProps) => {
     window.addEventListener("resize", handleResize);
   });
 
-
-
   return (
     <HiddenButton
       onMouseOverCapture={handleOpen}
       onMouseOutCapture={handleClose}
     >
-      <Box
-      >
+      <Box>
         <Button
           sx={{
             fontWeight: "100",
@@ -67,12 +63,8 @@ const Games = ({ games }: GamesProps) => {
             position: "absolute",
           }}
         >
-          <Box
-          >
-            <ListItem
-              sx={{
-              }}
-            >
+          <Box>
+            <ListItem sx={{}}>
               {games.map((element) => {
                 return (
                   <Typography

@@ -13,7 +13,7 @@ const UserTypeTitle = ({ userType }: UserProps) => {
       sx={{
         marginLeft: "3vw",
         display: { xs: "none", sm: "none", md: "none", lg: "flex" },
-        color: "text.primary"
+        color: "text.primary",
       }}
     >
       {userType !== "none"

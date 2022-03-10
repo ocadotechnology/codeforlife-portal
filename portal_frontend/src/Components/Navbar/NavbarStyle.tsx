@@ -25,7 +25,7 @@ import theme from "../../Theme";
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
   zIndex: "1201",
   background: "white",
-  padding: "0 0 0 1rem"
+  padding: "0 0 0 1rem",
 }));
 
 export const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
@@ -336,8 +336,8 @@ export const RegisterButtonStyled = styled(Button)(({ theme }) => ({
  * **/
 export const HiddenButton = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("lg")]: {
-    display: "none"
-  }
-}))
+    display: "none",
+  },
+}));
 
 export default AppBarStyled;

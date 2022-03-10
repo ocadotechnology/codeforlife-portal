@@ -19,6 +19,8 @@ import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
 import ArticleNavbarActionsOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
+// TODO: replicate the desktop structure on mobile navbar
+
 interface StringBoolHash {
   [key: string]: boolean;
 }
@@ -51,7 +53,7 @@ const MobileMenu = ({ userType, name }: User) => {
         <GridViewOutlinedIcon />,
         <SportsEsportsOutlinedIcon />,
         <ArticleNavbarActionsOutlinedIcon />,
-      ]
+      ],
     },
   };
 
@@ -113,9 +115,8 @@ const MobileMenu = ({ userType, name }: User) => {
                             return (
                               <LinkStyled
                                 href={
-                                  dynamicContent["independent"][isGame(text)].link[
-                                  index
-                                  ]
+                                  dynamicContent["independent"][isGame(text)]
+                                    .link[index]
                                 }
                                 userType={userType}
                                 variant="subtitle2"
