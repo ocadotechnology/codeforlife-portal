@@ -163,7 +163,7 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
 
         # do it in batches
         offset = 0
-        LIMIT = 1000
+        LIMIT = 500
 
         indystudents = self.get_queryset()[offset : (offset + LIMIT)]
         while indystudents.exists():
