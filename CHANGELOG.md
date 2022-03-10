@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.1 (2022-03-10)
+### Fix
+* The last indy/teacher clean up ([#1793](https://github.com/ocadotechnology/codeforlife-portal/issues/1793)) ([`7f56383`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f563839fe438b196d447ba06463cc82f733ce7e))
+
 ## v5.40.0 (2022-03-04)
 ### Feature
 * Add users to specific address books based on user type ([#1790](https://github.com/ocadotechnology/codeforlife-portal/issues/1790)) ([`06b9ed3`](https://github.com/ocadotechnology/codeforlife-portal/commit/06b9ed311a5124b00816fec05a04a66b430ee5e4))
