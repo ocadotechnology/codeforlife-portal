@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.5 (2022-03-10)
+### Fix
+* Indy cleanup - priorities last login ([#1795](https://github.com/ocadotechnology/codeforlife-portal/issues/1795)) ([`469f87b`](https://github.com/ocadotechnology/codeforlife-portal/commit/469f87b1e8efd35135368729997c3f8ae89564aa))
+
 ## v5.40.4 (2022-03-10)
 ### Fix
 * Continue publishing after pypi error ([#1794](https://github.com/ocadotechnology/codeforlife-portal/issues/1794)) ([`0ae38ff`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ae38ff5987688cd7d5302f51e8d8d228871b693))
