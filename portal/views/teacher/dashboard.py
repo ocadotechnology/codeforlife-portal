@@ -1,7 +1,7 @@
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
-from common.helpers.generators import generate_access_code, get_random_username
-from common.models import Class, Student, Teacher
+from common.helpers.generators import get_random_username
+from common.models import Class, Student, Teacher, JoinReleaseStudent
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
@@ -11,6 +11,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
+from two_factor.utils import devices_for_user
+
 from portal.forms.organisation import OrganisationForm
 from portal.forms.teach import (
     ClassCreationForm,
@@ -21,13 +23,11 @@ from portal.helpers.decorators import ratelimit
 from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
-    RATELIMIT_GROUP,
+    RATELIMIT_LOGIN_GROUP,
     RATELIMIT_METHOD,
-    RATELIMIT_RATE,
+    RATELIMIT_LOGIN_RATE,
     clear_ratelimit_cache_for_user,
 )
-from two_factor.utils import devices_for_user
-
 from .teach import create_class
 
 
@@ -40,7 +40,7 @@ def _get_update_account_rate(group, request):
     do not want to ratelimit those.
     :return: the rate used in the decorator below.
     """
-    return RATELIMIT_RATE if "update_account" in request.POST else None
+    return RATELIMIT_LOGIN_RATE if "update_account" in request.POST else None
 
 
 def _get_update_account_ratelimit_key(group, request):
@@ -54,7 +54,7 @@ def _get_update_account_ratelimit_key(group, request):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 @ratelimit(
-    group=RATELIMIT_GROUP,
+    group=RATELIMIT_LOGIN_GROUP,
     key=_get_update_account_ratelimit_key,
     method=RATELIMIT_METHOD,
     rate=_get_update_account_rate,
@@ -338,6 +338,10 @@ def organisation_kick(request, pk):
 
     check_teacher_is_authorised(teacher, user)
 
+    success_message = (
+        "The teacher has been successfully removed from your school or club."
+    )
+
     classes = Class.objects.filter(teacher=teacher)
     for klass in classes:
         teacher_id = request.POST.get(klass.access_code, None)
@@ -345,6 +349,10 @@ def organisation_kick(request, pk):
             new_teacher = get_object_or_404(Teacher, id=teacher_id)
             klass.teacher = new_teacher
             klass.save()
+
+            success_message = success_message.replace(
+                ".", " and their classes were successfully transferred."
+            )
 
     classes = Class.objects.filter(teacher=teacher)
     teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
@@ -362,17 +370,14 @@ def organisation_kick(request, pk):
                 "original_teacher": teacher,
                 "classes": classes,
                 "teachers": teachers,
-                "submit_button_text": "Remove teacher",
+                "submit_button_text": "Move classes and remove teacher",
             },
         )
 
     teacher.school = None
     teacher.save()
 
-    messages.success(
-        request,
-        "The teacher has been successfully removed from your school or club.",
-    )
+    messages.success(request, success_message)
 
     emailMessage = email_messages.kickedEmail(request, user.school.name)
 
@@ -463,6 +468,12 @@ def teacher_accept_student_request(request, pk):
             student.save()
             student.new_user.save()
             student.new_user.userprofile.save()
+
+            # log the data
+            joinrelease = JoinReleaseStudent.objects.create(
+                student=student, action_type=JoinReleaseStudent.JOIN
+            )
+            joinrelease.save()
 
             return render(
                 request,

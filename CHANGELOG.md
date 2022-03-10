@@ -2,6 +2,102 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.4 (2022-03-10)
+### Fix
+* Continue publishing after pypi error ([#1794](https://github.com/ocadotechnology/codeforlife-portal/issues/1794)) ([`0ae38ff`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ae38ff5987688cd7d5302f51e8d8d228871b693))
+
+## v5.40.3 (2022-03-10)
+### Fix
+* Re-versioning 2 ([`9178eff`](https://github.com/ocadotechnology/codeforlife-portal/commit/9178effe8db877156fdd68d0e0956e1c6260dfab))
+
+## v5.40.2 (2022-03-10)
+### Fix
+* Re-versioning ([`50ee56c`](https://github.com/ocadotechnology/codeforlife-portal/commit/50ee56c5db7af83dee8a3717a255ef93f1380c73))
+
+## v5.40.1 (2022-03-10)
+### Fix
+* The last indy/teacher clean up ([#1793](https://github.com/ocadotechnology/codeforlife-portal/issues/1793)) ([`7f56383`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f563839fe438b196d447ba06463cc82f733ce7e))
+
+## v5.40.0 (2022-03-04)
+### Feature
+* Add users to specific address books based on user type ([#1790](https://github.com/ocadotechnology/codeforlife-portal/issues/1790)) ([`06b9ed3`](https://github.com/ocadotechnology/codeforlife-portal/commit/06b9ed311a5124b00816fec05a04a66b430ee5e4))
+
+## v5.39.1 (2022-03-02)
+### Fix
+* Upgrade semantic-release version ([#1789](https://github.com/ocadotechnology/codeforlife-portal/issues/1789)) ([`ae2911a`](https://github.com/ocadotechnology/codeforlife-portal/commit/ae2911ae2d7fbe6842fca41bccd388851d967764))
+
+## v5.39.0 (2022-03-01)
+### Feature
+* Student aimmo dashboard ([#1786](https://github.com/ocadotechnology/codeforlife-portal/issues/1786)) ([`9c1771c`](https://github.com/ocadotechnology/codeforlife-portal/commit/9c1771cafa4fd790e51bf69d0d315db64b5a75c1))
+
+## v5.38.0 (2022-02-28)
+### Feature
+* Add React banner ([#1780](https://github.com/ocadotechnology/codeforlife-portal/issues/1780)) ([`bdc5e32`](https://github.com/ocadotechnology/codeforlife-portal/commit/bdc5e32267da6e437f9a1efd052fdfb102a5951f))
+
+## v5.37.2 (2022-02-24)
+### Fix
+* Remove padding in dropdown options ([#1781](https://github.com/ocadotechnology/codeforlife-portal/issues/1781)) ([`cc0ee7f`](https://github.com/ocadotechnology/codeforlife-portal/commit/cc0ee7fd10461ff966b0b803c01c9c1ea4d49980))
+
+## v5.37.1 (2022-02-24)
+### Fix
+* Run Black formatter ([`b938fce`](https://github.com/ocadotechnology/codeforlife-portal/commit/b938fce07eefb7abfe4404ea4cc2f40b00de38ed))
+
+## v5.37.0 (2022-02-23)
+### Feature
+* Kick / leave teacher page update ([#1779](https://github.com/ocadotechnology/codeforlife-portal/issues/1779)) ([`c4f2918`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4f29188a7ad42a699ee1c65fe74382d0d89e9aa))
+
+## v5.36.1 (2022-02-23)
+### Fix
+* Remove assertEqual/s ([#1777](https://github.com/ocadotechnology/codeforlife-portal/issues/1777)) ([`d727634`](https://github.com/ocadotechnology/codeforlife-portal/commit/d727634d4433e32a53a5357d7c3a52880b219cbd))
+
+## v5.36.0 (2022-02-22)
+### Feature
+* Registration improvement ([#1774](https://github.com/ocadotechnology/codeforlife-portal/issues/1774)) ([`eed5e2c`](https://github.com/ocadotechnology/codeforlife-portal/commit/eed5e2c5db2182ecd3a5dcce17c80da7ee3a21fe))
+
+## v5.35.3 (2022-02-22)
+### Fix
+* Duplicate postcode test ([#1775](https://github.com/ocadotechnology/codeforlife-portal/issues/1775)) ([`ee57c9c`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee57c9cf2e0ecdaf9d76777e47918ffe4d74663e))
+
+## v5.35.2 (2022-02-21)
+### Fix
+* Remove now unnecessary workspace clearing ([#1771](https://github.com/ocadotechnology/codeforlife-portal/issues/1771)) ([`4138df7`](https://github.com/ocadotechnology/codeforlife-portal/commit/4138df760a3d818b4bc1ce3780a75116dffe9fdd))
+
+## v5.35.1 (2022-02-17)
+### Fix
+* Add anonymise action in Django admin ([#1769](https://github.com/ocadotechnology/codeforlife-portal/issues/1769)) ([`14e5396`](https://github.com/ocadotechnology/codeforlife-portal/commit/14e5396c2666856eadf38f6625ace6be82c84b90))
+
+## v5.35.0 (2022-02-17)
+### Feature
+* Added react example for independent student ([#1731](https://github.com/ocadotechnology/codeforlife-portal/issues/1731)) ([`685b694`](https://github.com/ocadotechnology/codeforlife-portal/commit/685b6949bb707439d8c529be8d1dad7c34cb8f3f))
+
+## v5.34.3 (2022-02-16)
+### Fix
+* No duplicate email on student release ([#1766](https://github.com/ocadotechnology/codeforlife-portal/issues/1766)) ([`2b85f48`](https://github.com/ocadotechnology/codeforlife-portal/commit/2b85f4816a6172e815d6ecfd254b444a002d4a81))
+
+## v5.34.2 (2022-02-16)
+### Fix
+* Trim ci flow ([#1764](https://github.com/ocadotechnology/codeforlife-portal/issues/1764)) ([`37adc09`](https://github.com/ocadotechnology/codeforlife-portal/commit/37adc09b5998e4ed1817c975b4dba83548effee3))
+
+## v5.34.1 (2022-02-14)
+### Fix
+* Update cookies categories ([#1753](https://github.com/ocadotechnology/codeforlife-portal/issues/1753)) ([`63a06e7`](https://github.com/ocadotechnology/codeforlife-portal/commit/63a06e72792bbb779065a36fab0795b2f815894f))
+
+## v5.34.0 (2022-02-11)
+### Feature
+* Student join release data tracking ([#1760](https://github.com/ocadotechnology/codeforlife-portal/issues/1760)) ([`5b74f64`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b74f64a1a0a3fb1b1c5325abac529b3a4555c66))
+
+## v5.33.5 (2022-02-10)
+### Fix
+* Update pyyaml to 5.4.1 ([#1761](https://github.com/ocadotechnology/codeforlife-portal/issues/1761)) ([`02b12ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/02b12ef5980aeaf1bcdc995406edd1641dbb4f0f))
+
+## v5.33.4 (2022-02-10)
+### Fix
+* **deps:** Bump django from 2.2.26 to 2.2.27 ([#1758](https://github.com/ocadotechnology/codeforlife-portal/issues/1758)) ([`22e64e8`](https://github.com/ocadotechnology/codeforlife-portal/commit/22e64e894679473bafc6e734a0ff7510abf0f14a))
+
+## v5.33.3 (2022-02-09)
+### Fix
+* Indy teacher cleanup in batches ([`200c6ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/200c6ae560919b65eb9fbb7e270927aa27b7e417))
+
 ## v5.33.2 (2022-02-08)
 ### Fix
 * Revert "fix: update test cookies consent script (#1752)" ([#1756](https://github.com/ocadotechnology/codeforlife-portal/issues/1756)) ([`d63bdf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d63bdf5aa5d79b51e40f4fb227008fb36e1e1565))

@@ -15,9 +15,9 @@ from two_factor.views import (
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
-    RATELIMIT_GROUP,
+    RATELIMIT_LOGIN_GROUP,
     RATELIMIT_METHOD,
-    RATELIMIT_RATE,
+    RATELIMIT_LOGIN_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
 from portal.views.about import about, getinvolved, contribute
@@ -189,10 +189,10 @@ urlpatterns = [
         # It checks against the username value specifically. If the number of requests
         # exceeds the specified rate, then the user will be blocked (if block = True).
         ratelimit(
-            group=RATELIMIT_GROUP,
+            group=RATELIMIT_LOGIN_GROUP,
             key="post:auth-username",
             method=RATELIMIT_METHOD,
-            rate=RATELIMIT_RATE,
+            rate=RATELIMIT_LOGIN_RATE,
             block=True,
         )(TeacherLoginView.as_view()),
         name="teacher_login",
@@ -215,10 +215,10 @@ urlpatterns = [
     url(
         r"^login/independent/$",
         ratelimit(
-            group=RATELIMIT_GROUP,
+            group=RATELIMIT_LOGIN_GROUP,
             key="post:username",
             method=RATELIMIT_METHOD,
-            rate=RATELIMIT_RATE,
+            rate=RATELIMIT_LOGIN_RATE,
             block=True,
             is_teacher=False,
         )(IndependentStudentLoginView.as_view()),
@@ -302,10 +302,10 @@ urlpatterns = [
     url(
         r"^play/account/independent/$",
         ratelimit(
-            group=RATELIMIT_GROUP,
+            group=RATELIMIT_LOGIN_GROUP,
             key="post:name",
             method=RATELIMIT_METHOD,
-            rate=RATELIMIT_RATE,
+            rate=RATELIMIT_LOGIN_RATE,
             block=True,
             is_teacher=False,
         )(IndependentStudentEditAccountView.as_view()),

@@ -10,9 +10,9 @@ class TeachDismissStudentsPage(TeachBasePage):
 
         assert self.on_correct_page("dismiss_students_page")
 
-    def enter_email(self, email):
-        self.browser.find_element_by_id("id_form-0-email").send_keys(email)
-        self.browser.find_element_by_id("id_form-0-confirm_email").send_keys(email)
+    def enter_email(self, email, id=0):
+        self.browser.find_element_by_id(f"id_form-{id}-email").send_keys(email)
+        self.browser.find_element_by_id(f"id_form-{id}-confirm_email").send_keys(email)
         return self
 
     def cancel(self):

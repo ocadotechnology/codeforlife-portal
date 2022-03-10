@@ -3,6 +3,7 @@ from common.helpers.emails import (
     get_dotmailer_user_by_email,
     send_dotmailer_consent_confirmation_email_to_user,
     add_consent_record_to_dotmailer_user,
+    DotmailerUserType,
 )
 from django.contrib import messages as messages
 from django.http import HttpResponseRedirect, HttpResponse
@@ -19,7 +20,7 @@ def process_newsletter_form(request):
         newsletter_form = NewsletterForm(data=request.POST)
         if newsletter_form.is_valid():
             user_email = newsletter_form.cleaned_data["email"]
-            add_to_dotmailer("", "", user_email)
+            add_to_dotmailer("", "", user_email, DotmailerUserType.NO_ACCOUNT)
             messages.success(request, "Thank you for signing up! 🎉")
             return HttpResponseRedirect(reverse_lazy("home"))
         messages.error(

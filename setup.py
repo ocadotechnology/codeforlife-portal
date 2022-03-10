@@ -22,12 +22,12 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "django==2.2.26",
+        "django==2.2.27",
         "django-countries==6.1.3",
         "djangorestframework==3.12.2",
         "django-pipeline==1.6.14",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
         "django-recaptcha==2.0.6",
-        "pyyaml==5.4",
+        "pyyaml==5.4.1",
         "rapid-router >= 1.0.0.post.dev1",
         "aimmo",
         "reportlab==3.6.1",

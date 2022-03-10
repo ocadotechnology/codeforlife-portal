@@ -1,5 +1,6 @@
 import re
 from datetime import timedelta
+from enum import Enum
 from uuid import uuid4
 
 from django.contrib.auth.models import User
@@ -118,20 +119,6 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
-
-
-class DailyActivity(models.Model):
-    """
-    A model to record sets of daily activity. Currently used to record the amount of
-    student details download clicks, through the CSV and login cards methods, per day.
-    """
-
-    date = models.DateField(default=timezone.now)
-    csv_click_count = models.PositiveIntegerField(default=0)
-    login_cards_click_count = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}"
 
 
 class ClassModelManager(models.Manager):
@@ -301,3 +288,37 @@ class AimmoCharacter(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# -----------------------------------------------------------------------
+# Below are models used for data tracking
+# -----------------------------------------------------------------------
+class JoinReleaseStudent(models.Model):
+    """
+    To keep track when a student is released to be independent student or
+    joins a class to be a school student.
+    """
+
+    JOIN = "join"
+    RELEASE = "release"
+
+    student = models.ForeignKey(
+        Student, related_name="student", on_delete=models.CASCADE
+    )
+    # either "release" or "join"
+    action_type = models.CharField(max_length=64)
+    action_time = models.DateTimeField(default=timezone.now)
+
+
+class DailyActivity(models.Model):
+    """
+    A model to record sets of daily activity. Currently used to record the amount of
+    student details download clicks, through the CSV and login cards methods, per day.
+    """
+
+    date = models.DateField(default=timezone.now)
+    csv_click_count = models.PositiveIntegerField(default=0)
+    login_cards_click_count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}"

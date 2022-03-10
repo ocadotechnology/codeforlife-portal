@@ -67,6 +67,10 @@ class TeachClassPage(TeachBasePage):
         self.browser.find_element_by_id("student_checkbox").click()
         return self
 
+    def toggle_all_students(self):
+        self.browser.find_element_by_id("selectedStudentsListToggle").click()
+        return self
+
     def has_students(self):
         return self.element_exists_by_id("student_table")
 

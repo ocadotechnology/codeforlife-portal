@@ -75,7 +75,7 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
         return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
 
 
-def _anonymise(user):
+def anonymise(user):
     user.username = uuid.uuid4().hex
     user.first_name = "Deleted"
     user.last_name = "User"
@@ -111,5 +111,5 @@ class InactiveUsersView(generics.ListAPIView):
         """Delete all personal data from inactive users and mark them as inactive."""
         inactive_users = self.get_queryset()
         for user in inactive_users:
-            _anonymise(user)
+            anonymise(user)
         return Response(status=status.HTTP_204_NO_CONTENT)
