@@ -331,12 +331,10 @@ export const RegisterButtonStyled = styled(Button)(({ theme }) => ({
   },
 }));
 
-
-export const ResponsiveDiv = styled("div")(({ theme }) => ({
-  alignSelf: "flex-start",
-  [theme.breakpoints.up("lg")]: {
-    marginTop: "31px",
-  },
+/**
+ *  This is to make Games and resources removed on mobile
+ * **/
+export const HiddenButton = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("lg")]: {
     display: "none"
   }

@@ -3,7 +3,7 @@ import { GamesProps } from "./Navbar";
 import { useState, useEffect } from "react";
 import { Box, Button, CardContent, Collapse, ListItem, Menu, Popover, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { ResponsiveDiv } from "./NavbarStyle";
+import { HiddenButton } from "./NavbarStyle";
 
 const Games = ({ games }: GamesProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -30,16 +30,16 @@ const Games = ({ games }: GamesProps) => {
 
 
   return (
-    <ResponsiveDiv
+    <HiddenButton
       onMouseOverCapture={handleOpen}
       onMouseOutCapture={handleClose}
     >
       <Box
-
       >
         <Button
           sx={{
             fontWeight: "100",
+            fontSize: "18px",
             marginLeft: "2vw",
             background: "white",
             color: "black",
@@ -62,15 +62,22 @@ const Games = ({ games }: GamesProps) => {
           orientation="vertical"
           in={open}
           sx={{
-
+            // TODO: this should ideally be a popover
+            // for now it is an accordion which is not ideal
+            position: "absolute",
           }}
         >
-          <Box>
-            <ListItem>
+          <Box
+          >
+            <ListItem
+              sx={{
+              }}
+            >
               {games.map((element) => {
                 return (
                   <Typography
                     sx={{
+                      color: "black",
                       marginLeft: "1vw",
                       background: "white",
                       fontSize: "14px",
@@ -92,7 +99,7 @@ const Games = ({ games }: GamesProps) => {
           </Box>
         </Collapse>
       </Box>
-    </ResponsiveDiv >
+    </HiddenButton>
   );
 };
 

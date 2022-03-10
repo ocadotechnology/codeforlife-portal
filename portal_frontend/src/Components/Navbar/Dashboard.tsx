@@ -5,7 +5,7 @@ const Dashboard = () => {
   return (
     <Link
       href=""
-      variant="button"
+      variant="body1"
       sx={{
         marginLeft: "3rem",
         color: "black",

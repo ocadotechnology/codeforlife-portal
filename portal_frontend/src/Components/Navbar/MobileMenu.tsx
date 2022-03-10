@@ -27,36 +27,13 @@ const IsDropDown: StringBoolHash = {
   "Teaching Resources": true,
   "Learning Resources": true,
 };
+
 const MobileMenu = ({ userType, name }: User) => {
   const isGame = (text: string) => {
     return text === "Games" ? "games" : "resources";
   };
-
-  const dynamicContentIcons = [
-    <GridViewOutlinedIcon />,
-    <SportsEsportsOutlinedIcon />,
-    <ArticleNavbarActionsOutlinedIcon />,
-  ];
   // TODO - All the links need to eventually be relative path, as we need them to work locally and on staging as well.
   const dynamicContent = {
-    student: {
-      navField: {
-        text: ["Dashboard", "Games", "Scoreboard"],
-        link: [
-          "https://www.codeforlife.education/teach/dashboard/#school",
-          "",
-          "",
-        ],
-      },
-      games: {
-        text: ["Rapid Router"],
-        link: ["https://www.codeforlife.education/rapidrouter/"],
-      },
-      resources: {
-        text: ["Rapid Router"],
-        link: [""],
-      },
-    },
     independent: {
       navField: {
         text: ["Dashboard", "Games", "Learning Resources"],
@@ -70,38 +47,11 @@ const MobileMenu = ({ userType, name }: User) => {
         text: ["Rapid Router"],
         link: [""],
       },
-    },
-    teacher: {
-      navField: {
-        text: ["Dashboard", "Games", "Teaching Resources"],
-        link: ["", "", ""],
-      },
-      games: {
-        text: ["Rapid Router"],
-        link: ["https://www.codeforlife.education/rapidrouter/"],
-      },
-      resources: {
-        text: ["Rapid Router", "Kurono"],
-        link: ["", ""],
-      },
-    },
-    none: {
-      navField: {
-        text: ["Teacher", "Student", "Independent"],
-        link: [
-          "https://www.codeforlife.education/login/teacher/",
-          "https://www.codeforlife.education/login/student/",
-          "https://www.codeforlife.education/login/independent/",
-        ],
-      },
-      games: {
-        text: [""],
-        link: [""],
-      },
-      resources: {
-        text: [""],
-        link: [""],
-      },
+      icons: [
+        <GridViewOutlinedIcon />,
+        <SportsEsportsOutlinedIcon />,
+        <ArticleNavbarActionsOutlinedIcon />,
+      ]
     },
   };
 
@@ -134,10 +84,10 @@ const MobileMenu = ({ userType, name }: User) => {
       )}
       <Collapse in={menu}>
         <Box>
-          {dynamicContent[userType].navField.text.map((text, index) => (
+          {dynamicContent["independent"].navField.text.map((text, index) => (
             <ListItemStyled name={name} userType={userType} key={text}>
               <ListItemIconStyled name={name} userType={userType}>
-                {dynamicContentIcons[index]}
+                {dynamicContent["independent"].icons[index]}
               </ListItemIconStyled>
               {
                 // Dashboard and Scoreboard never have dropdown buttons
@@ -158,12 +108,12 @@ const MobileMenu = ({ userType, name }: User) => {
                       in={text === "Games" ? games : resources}
                     >
                       <SubMenuStyled name={name} userType={userType}>
-                        {dynamicContent[userType][isGame(text)].text.map(
+                        {dynamicContent["independent"][isGame(text)].text.map(
                           (element: string, index: number) => {
                             return (
                               <LinkStyled
                                 href={
-                                  dynamicContent[userType][isGame(text)].link[
+                                  dynamicContent["independent"][isGame(text)].link[
                                   index
                                   ]
                                 }
@@ -182,7 +132,7 @@ const MobileMenu = ({ userType, name }: User) => {
                   <LinkStyled
                     href={
                       userType === "none"
-                        ? dynamicContent[userType].navField.text[index]
+                        ? dynamicContent["independent"].navField.text[index]
                         : ""
                     }
                     userType={userType}

@@ -3,7 +3,7 @@ import { GamesProps } from "./Navbar";
 import { useState, useEffect } from "react";
 import { Box, Button, Collapse, ListItem, Popover, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { ResponsiveDiv } from "./NavbarStyle";
+import { HiddenButton } from "./NavbarStyle";
 
 
 
@@ -30,7 +30,7 @@ const LearningResources = ({ games }: GamesProps) => {
   });
 
   return (
-    <ResponsiveDiv
+    <HiddenButton
       onMouseOverCapture={handleOpen}
       onMouseOutCapture={handleClose}
     >
@@ -40,8 +40,6 @@ const LearningResources = ({ games }: GamesProps) => {
             background: "white",
             color: "black",
             textDecoration: "underline",
-            boxShadow:
-              "0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12),0px 3px 5px 0px rgba(0,0,0,0.2)",
           },
         }}
       >
@@ -49,11 +47,12 @@ const LearningResources = ({ games }: GamesProps) => {
           sx={{
             fontWeight: "100",
             background: "white",
+            fontSize: "18px",
             color: "black",
             boxShadow: "none",
             textTransform: "none",
             "&:hover": {
-              background: "white",
+              background: "none",
               color: "black",
               textDecoration: "underline",
               boxShadow: "none"
@@ -69,20 +68,26 @@ const LearningResources = ({ games }: GamesProps) => {
           orientation="vertical"
           in={open}
           sx={{
-
+            // TODO: this should ideally be a popover
+            // for now it is an accordion which is not ideal
+            position: "absolute",
           }}
         >
-          <Box>
+          <Box
+          >
             <ListItem
             >
               {games.map((element) => {
                 return (
                   <Typography
                     sx={{
+                      color: "black",
                       marginLeft: "1vw",
                       background: "white",
                       fontSize: "14px",
                       p: 2,
+                      boxShadow:
+                        "0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12),0px 3px 5px 0px rgba(0,0,0,0.2)",
                       "&:hover": {
                         textDecoration: "underline",
                         cursor: "pointer",
@@ -98,7 +103,7 @@ const LearningResources = ({ games }: GamesProps) => {
           </Box>
         </Collapse>
       </Box>
-    </ResponsiveDiv >
+    </HiddenButton>
   );
 };
 
