@@ -97,13 +97,3 @@ const Games = ({ games }: GamesProps) => {
 };
 
 export default Games;
-/*
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-
-        onMouseOutCapture={handleClose}
-      >
-
-      </Menu>*/
