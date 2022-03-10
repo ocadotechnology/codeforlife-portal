@@ -140,7 +140,11 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
                 anonymise(usrtwo)
             elif not usrone.last_login and usrtwo.last_login:
                 anonymise(usrone)
-            # else: both have logged in, we don't want to automatically choose for teacher+indy duplicates
+            else:  # both have logged in, choose the last logged in
+                if usrone.last_login > usrtwo.last_login:
+                    anonymise(usrtwo)
+                elif usrone.last_login < usrtwo.last_login:
+                    anonymise(usrone)
 
         def _tidyup_students(students):
             for student in students:

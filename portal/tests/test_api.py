@@ -203,6 +203,22 @@ class APITests(APITestCase):
         user = User.objects.get(id=teacher.new_user.id)
         assert user.email != SAME_EMAIL  # teacher anonymised
 
+        # 3) if both have logged in, keep the last logged in, anonymise the other
+        teacher = self._create_teacher_directly(SAME_EMAIL)
+        teacher.new_user.last_login = timezone.now() - timezone.timedelta(days=1)
+        teacher.new_user.save()
+
+        student.new_user.last_login = timezone.now() - timezone.timedelta(days=20)
+        student.new_user.save()
+
+        response = client.delete(url)
+
+        # student anonymised
+        user = User.objects.get(email=SAME_EMAIL)
+        assert user == teacher.new_user
+        user = User.objects.get(id=student.new_user.id)
+        assert user.email != SAME_EMAIL
+
 
 def has_status_code(status_code):
     return HasStatusCode(status_code)
