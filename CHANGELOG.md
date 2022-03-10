@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.3 (2022-03-10)
+### Fix
+* Re-versioning 2 ([`9178eff`](https://github.com/ocadotechnology/codeforlife-portal/commit/9178effe8db877156fdd68d0e0956e1c6260dfab))
+
 ## v5.40.2 (2022-03-10)
 ### Fix
 * Re-versioning ([`50ee56c`](https://github.com/ocadotechnology/codeforlife-portal/commit/50ee56c5db7af83dee8a3717a255ef93f1380c73))
