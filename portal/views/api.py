@@ -128,22 +128,21 @@ class DuplicateIndyTeacherView(generics.ListAPIView):
 
     def delete(self, request, *args, **kwargs):
         def _tidyup(usrone, usrtwo):
-            # if there's no login at all, keep the one with the most recent date_joined
-            if not usrone.last_login and not usrtwo.last_login:
-                if usrone.date_joined > usrtwo.date_joined:
+            if usrone.last_login and usrtwo.last_login:
+                # both have logged in, choose the last logged in
+                if usrone.last_login > usrtwo.last_login:
                     anonymise(usrtwo)
-                elif usrone.date_joined < usrtwo.date_joined:
+                elif usrone.last_login < usrtwo.last_login:
                     anonymise(usrone)
-                # else: should not happen, but if it does, leave them
             # if there's one with login, keep that one
             elif usrone.last_login and not usrtwo.last_login:
                 anonymise(usrtwo)
             elif not usrone.last_login and usrtwo.last_login:
                 anonymise(usrone)
-            else:  # both have logged in, choose the last logged in
-                if usrone.last_login > usrtwo.last_login:
+            else:  # no login at all, keep the one with the most recent date_joined
+                if usrone.date_joined > usrtwo.date_joined:
                     anonymise(usrtwo)
-                elif usrone.last_login < usrtwo.last_login:
+                elif usrone.date_joined < usrtwo.date_joined:
                     anonymise(usrone)
 
         def _tidyup_students(students):
