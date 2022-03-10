@@ -213,7 +213,7 @@ class APITests(APITestCase):
 
         response = client.delete(url)
 
-        # student anonymised here
+        # student anonymised
         user = User.objects.get(email=SAME_EMAIL)
         assert user == teacher.new_user
         user = User.objects.get(id=student.new_user.id)
