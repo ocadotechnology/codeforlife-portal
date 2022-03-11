@@ -80,8 +80,9 @@ class TeacherPasswordResetForm(forms.Form):
 
         email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
         if html_email_template_name is not None:
-            html_email = loader.render_to_string(html_email_template_name, context)
-            email_message.attach_alternative(html_email, "text/html")
+            html_email = loader.get_template(html_email_template_name)
+            html_body = html_email.render(context)
+            email_message.attach_alternative(html_body, "text/html")
 
         email_message.send()
 
