@@ -64,7 +64,7 @@ const Games = ({ games }: GamesProps) => {
           }}
         >
           <Box>
-            <ListItem sx={{}}>
+            <ListItem>
               {games.map((element) => {
                 return (
                   <Typography

@@ -7,8 +7,6 @@ import {
 } from "./NavbarStyle";
 import { ListItemIcon } from "@mui/material";
 import { User } from "../../App";
-import RegisterButton from "./RegisterButton";
-import LogInButton from "./LogInButton";
 import { Collapse } from "@mui/material";
 import { ListItemStyled, ListItemIconStyled } from "./NavbarStyle";
 import { Typography, Box } from "@mui/material";
@@ -60,7 +58,7 @@ const MobileMenu = ({ userType, name }: User) => {
   const [menu, setMenu] = useState(false);
   const [games, setGames] = useState(false);
   const [resources, setResources] = useState(false);
-
+  // TODO: once the above is changed, remove the isDropDown and reformat it with AJAX
   return (
     <ListStyled>
       {userType !== "none" ? (
@@ -76,14 +74,7 @@ const MobileMenu = ({ userType, name }: User) => {
             {userType.charAt(0).toUpperCase() + userType.slice(1)}
           </Typography>
         </ListSingleItem>
-      ) : (
-        <div>
-          <RegisterButton />
-          <div onClick={() => setMenu(!menu)}>
-            <LogInButton smallScreen={true} />
-          </div>
-        </div>
-      )}
+      ) : null}
       <Collapse in={menu}>
         <Box>
           {dynamicContent["independent"].navField.text.map((text, index) => (
