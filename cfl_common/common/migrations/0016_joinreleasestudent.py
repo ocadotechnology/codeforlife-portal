@@ -8,7 +8,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("common", "0016_copy_email_to_username"),
+        ("common", "0015_dailyactivity"),
     ]
 
     operations = [

@@ -14,7 +14,7 @@ def copy_email_to_username(apps, schema):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("common", "0015_dailyactivity"),
+        ("common", "0016_joinreleasestudent"),
     ]
 
     operations = [
