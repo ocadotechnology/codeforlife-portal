@@ -53,7 +53,6 @@ class SignupPage(BasePage):
     def independent_student_signup(
         self,
         name,
-        username,
         email_address,
         password,
         confirm_password,
@@ -64,9 +63,6 @@ class SignupPage(BasePage):
         self.browser.find_element_by_id("id_independent_student_signup-name").send_keys(
             name
         )
-        self.browser.find_element_by_id(
-            "id_independent_student_signup-username"
-        ).send_keys(username)
         self.browser.find_element_by_id(
             "id_independent_student_signup-email"
         ).send_keys(email_address)

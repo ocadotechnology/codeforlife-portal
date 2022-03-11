@@ -4,29 +4,42 @@
 
 {% block form_content %}
     <div id="independent_login_page"></div>
-    <h4 class="center-block">Log in as an independent student</h4>
+    <h4 class="center-block">Welcome</h4>
+    <h5>Please enter your login details.</h5>
     <form id="independent_student_login_form" method="post" autocomplete="off">
 
         {% csrf_token %}
 
         {{ form.non_field_errors }}
 
-        <label for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
-        {{ form.username }}
-        {{ form.username.errors }}
+        <div class="form__input">
+            {{ form.username }}
+            <small>{{ form.username.help_text }}</small>
+            {{ form.username.errors }}
+        </div>
 
-        <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
-        {{ form.password }}
-        {{ form.password.errors }}
+        <div class="form__input">
+            {{ form.password }}
+            <small>{{ form.password.help_text }}</small>
+            {{ form.password.errors }}
+        </div>
 
         {{ form.captcha }}
 
-        <button type="submit" name="independent_student_login" class="button button--home button--login">Log in</button>
-    </form>
+        <div class="background">
+            <p class="text-left"><strong>Forgotten your password?</strong></p>
+            <p class="text-left">Don't worry, you can
+                <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
+            </p>
+        </div>
 
-    <p><strong>Forgotten your password?</strong></p>
-    <p>Don't worry, you can
-        <a id="student_forgotten_password_button" href="{% url 'student_password_reset' %}">reset your password</a>.
-    </p>
-    <p>Part of a school or club? <a href="{% url 'student_login_access_code' %}">Log in here</a>.</p>
+        <p class="text-left"><strong>Part of a school or club?
+            <a href="{% url 'student_login_access_code' %}">Log in here</a>.
+        </strong></p>
+
+        <div class="d-flex justify-content-end row">
+            <button type="submit" name="independent_student_login"
+                    class="button button--home button--login button-right-arrow">Log in</button>
+        </div>
+    </form>
 {% endblock form_content %}

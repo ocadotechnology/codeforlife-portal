@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.models import EmailVerification, School, Student, Teacher
-from common.permissions import logged_in_as_independent_student, logged_in_as_teacher
+from common.permissions import logged_in_as_independent_student
 from django.contrib import messages as messages
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -42,8 +42,7 @@ def verify_email(request, token):
 
     if verification.email:  # verifying change of email address
         user.email = verification.email
-        if logged_in_as_teacher(user):
-            user.username = verification.email
+        user.username = verification.email
         user.save()
 
         user.email_verifications.exclude(email=user.email).delete()
