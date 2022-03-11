@@ -2,6 +2,26 @@
 
 <!--next-version-placeholder-->
 
+## v5.40.5 (2022-03-10)
+### Fix
+* Indy cleanup - priorities last login ([#1795](https://github.com/ocadotechnology/codeforlife-portal/issues/1795)) ([`469f87b`](https://github.com/ocadotechnology/codeforlife-portal/commit/469f87b1e8efd35135368729997c3f8ae89564aa))
+
+## v5.40.4 (2022-03-10)
+### Fix
+* Continue publishing after pypi error ([#1794](https://github.com/ocadotechnology/codeforlife-portal/issues/1794)) ([`0ae38ff`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ae38ff5987688cd7d5302f51e8d8d228871b693))
+
+## v5.40.3 (2022-03-10)
+### Fix
+* Re-versioning 2 ([`9178eff`](https://github.com/ocadotechnology/codeforlife-portal/commit/9178effe8db877156fdd68d0e0956e1c6260dfab))
+
+## v5.40.2 (2022-03-10)
+### Fix
+* Re-versioning ([`50ee56c`](https://github.com/ocadotechnology/codeforlife-portal/commit/50ee56c5db7af83dee8a3717a255ef93f1380c73))
+
+## v5.40.1 (2022-03-10)
+### Fix
+* The last indy/teacher clean up ([#1793](https://github.com/ocadotechnology/codeforlife-portal/issues/1793)) ([`7f56383`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f563839fe438b196d447ba06463cc82f733ce7e))
+
 ## v5.40.0 (2022-03-04)
 ### Feature
 * Add users to specific address books based on user type ([#1790](https://github.com/ocadotechnology/codeforlife-portal/issues/1790)) ([`06b9ed3`](https://github.com/ocadotechnology/codeforlife-portal/commit/06b9ed311a5124b00816fec05a04a66b430ee5e4))
