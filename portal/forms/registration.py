@@ -61,34 +61,30 @@ class TeacherPasswordResetForm(forms.Form):
 
         return email
 
-    def send_email(
-        sender,
-        recipients,
-        subject,
-        text_content,
-        html_content=None,
-        plaintext_template="portal/reset_password_email.txt",
-        html_template="portal/reset_password_email.html",
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name="portal/reset_password_email.html",
     ):
-        # add in template for templates to message
+        """
+        Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
+        """
+        subject = loader.render_to_string(subject_template_name, context)
+        # Email subject *must not* contain newlines
+        subject = "".join(subject.splitlines())
+        html_email = loader.render_to_string(html_email_template_name, context)
 
-        # setup templates
-        plaintext = loader.get_template(plaintext_template)
-        html = loader.get_template(html_template)
-        plaintext_email_context = {"content": text_content}
-        html_email_context = {"content": text_content}
-        if html_content:
-            html_email_context = {"content": html_content}
+        email_message = EmailMultiAlternatives(
+            subject, html_email, from_email, [to_email]
+        )
+        if html_email_template_name is not None:
+            email_message.attach_alternative(html_email, "text/html")
 
-        # render templates
-        plaintext_body = plaintext.render(plaintext_email_context)
-        html_body = html.render(html_email_context)
-
-        # make message using templates
-        message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
-        message.attach_alternative(html_body, "text/html")
-
-        message.send()
+        email_message.send()
 
     def save(
         self,
