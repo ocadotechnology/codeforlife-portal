@@ -4,7 +4,6 @@ from common.models import Student, Teacher
 from django import forms
 from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
@@ -131,13 +130,10 @@ class TeacherPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
+        teacher = Teacher.objects.filter(new_user__email=email)
         # Check such an email exists
-        if User.objects.filter(email=email).exists():
-            teacher = Teacher.objects.filter(new_user__email=email)
-            # Check such an email is associated with a teacher
-            if teacher.exists():
-                self.username = teacher[0].new_user.username
-
+        if teacher.exists():
+            self.username = teacher[0].new_user.username
         return email
 
 
@@ -145,11 +141,8 @@ class StudentPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
+        student = Student.objects.filter(new_user__email=email)
         # Check such an email exists
-        if User.objects.filter(email=email).exists():
-            student = Student.objects.filter(new_user__email=email)
-            # Check such an email is associated with a student
-            if student.exists():
-                self.username = student[0].new_user.username
-
+        if student.exists():
+            self.username = student[0].new_user.username
         return email
