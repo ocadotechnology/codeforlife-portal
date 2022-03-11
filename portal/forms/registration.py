@@ -64,12 +64,11 @@ class TeacherPasswordResetForm(forms.Form):
     def send_mail(
         self,
         subject_template_name,
+        email_template_name,
         context,
         from_email,
         to_email,
-        plaintext_template="portal/reset_password_email.txt",
-        html_template="portal/reset_password_email.html",
-        html_content=None,
+        html_email_template_name="portal/reset_password_email.html",
     ):
         """
         Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
@@ -77,7 +76,6 @@ class TeacherPasswordResetForm(forms.Form):
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
         subject = "".join(subject.splitlines())
-        """
         body = loader.render_to_string(email_template_name, context)
 
         email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
@@ -86,23 +84,6 @@ class TeacherPasswordResetForm(forms.Form):
             email_message.attach_alternative(html_email, "text/html")
 
         email_message.send()
-        """
-        plaintext = loader.get_template(plaintext_template)
-        html = loader.get_template(html_template)
-        plaintext_email_context = {"content": text_content}
-        html_email_context = {"content": text_content}
-        if html_content:
-            html_email_context = {"content": html_content}
-
-        # render templates
-        plaintext_body = plaintext.render(plaintext_email_context)
-        html_body = html.render(html_email_context)
-
-        # make message using templates
-        message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
-        message.attach_alternative(html_body, "text/html")
-
-        message.send()
 
     def save(
         self,
@@ -113,7 +94,7 @@ class TeacherPasswordResetForm(forms.Form):
         token_generator=default_token_generator,
         from_email=None,
         request=None,
-        html_email_template_name="portal/reset_password_email.html",
+        html_email_template_name="",
     ):
         """
         Generates a one-use only link for resetting password and sends to the
