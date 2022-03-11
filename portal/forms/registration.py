@@ -68,7 +68,7 @@ class TeacherPasswordResetForm(forms.Form):
         context,
         from_email,
         to_email,
-        html_email_template_name=None,
+        html_email_template_name="portal/reset_password_email.html",
     ):
         """
         Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
@@ -94,7 +94,7 @@ class TeacherPasswordResetForm(forms.Form):
         token_generator=default_token_generator,
         from_email=None,
         request=None,
-        html_email_template_name="portal/reset_password_email.html",
+        html_email_template_name=None,
     ):
         """
         Generates a one-use only link for resetting password and sends to the
