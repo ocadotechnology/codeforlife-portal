@@ -1,10 +1,7 @@
-import time
-
 from .base_page import BasePage
+from .password_reset_page import PasswordResetPage
 from .teach import dashboard_page as teach_dashboard_page
-from .teach import onboarding_classes_page
-from .teach import onboarding_students_page
-from .teacher_password_reset_form_page import TeacherPasswordResetFormPage
+from .teach import onboarding_classes_page, onboarding_students_page
 
 
 class TeacherLoginPage(BasePage):
@@ -52,4 +49,4 @@ class TeacherLoginPage(BasePage):
 
     def go_to_teacher_forgotten_password_page(self):
         self.browser.find_element_by_id("teacher_forgotten_password_button").click()
-        return TeacherPasswordResetFormPage(self.browser)
+        return PasswordResetPage(self.browser)

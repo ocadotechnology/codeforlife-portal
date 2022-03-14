@@ -13,7 +13,7 @@ const teacherPassword = 'Password1'
 const studentUsername = 'Leonardo'
 const studentAccessCode = 'AB123'
 const studentPassword = 'Password1'
-const independentStudentUsername = 'indy'
+const independentStudentUsername = 'indianajones@codeforlife.com'
 const independentStudentPassword = 'Password1'
 
 Cypress.Commands.add('loginAsSuperuser', (username, password) => {
@@ -99,7 +99,7 @@ Cypress.Commands.add('loginAsIndependentStudent', () => {
   })
 })
 
-Cypress.Commands.add('signupAsTeacher', (firstName, lastName, email, password, confirmPassword ) => {
+Cypress.Commands.add('signupAsTeacher', (firstName, lastName, email, password, confirmPassword) => {
   cy.visit('/register_form/')
   cy.get('#id_teacher_signup-teacher_first_name').type(firstName);
   cy.get('#id_teacher_signup-teacher_last_name').type(lastName);
@@ -110,10 +110,9 @@ Cypress.Commands.add('signupAsTeacher', (firstName, lastName, email, password, c
   cy.get('[name="teacher_signup"]').click();
 })
 
-Cypress.Commands.add('signupAsIndependentStudent', (name, username, email, password, confirmPassword ) => {
+Cypress.Commands.add('signupAsIndependentStudent', (name, email, password, confirmPassword) => {
   cy.visit('/register_form/')
   cy.get('#id_independent_student_signup-name').type(name);
-  cy.get('#id_independent_student_signup-username').type(username);
   cy.get('#id_independent_student_signup-email').type(email);
   cy.get('#id_independent_student_signup-is_over_required_age').check();
   cy.get('#id_independent_student_signup-password').type(password);

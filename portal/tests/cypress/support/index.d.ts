@@ -53,8 +53,8 @@ declare namespace Cypress {
 
     /**
      * Custom command to signup as an independent student.
-     * @example cy.signupAsIndependentStudent("Test Name", "TestUsername", "test@email.com", "testPassword", "testPassword")
+     * @example cy.signupAsIndependentStudent("Test Name", "test@email.com", "testPassword", "testPassword")
      */
-    signupAsIndependentStudent(name, username, email, password, confirmPassword): Chainable<Element>
+    signupAsIndependentStudent(name, email, password, confirmPassword): Chainable<Element>
   }
 }

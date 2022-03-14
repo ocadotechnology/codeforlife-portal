@@ -59,7 +59,7 @@ def create_independent_student_directly(preverified=True):
     """
     name, username, email, password = generate_independent_student_details()
 
-    student = Student.objects.independentStudentFactory(username, name, email, password)
+    student = Student.objects.independentStudentFactory(name, email, password)
 
     # verify student
     generate_token(student.new_user, preverified=preverified)
@@ -104,7 +104,7 @@ generate_independent_student_details.next_id = 1
 
 
 def signup_duplicate_independent_student_fail(
-    page, duplicate_username=None, duplicate_email=None, newsletter=False
+    page, duplicate_email=None, newsletter=False
 ):
     page = page.go_to_signup_page()
 
@@ -113,12 +113,8 @@ def signup_duplicate_independent_student_fail(
     if not duplicate_email:
         duplicate_email = email_address
 
-    if not duplicate_username:
-        duplicate_username = username
-
     page = page.independent_student_signup(
         name,
-        duplicate_username,
         duplicate_email,
         password=password,
         confirm_password=password,
@@ -140,7 +136,6 @@ def create_independent_student(page, newsletter=False):
     name, username, email_address, password = generate_independent_student_details()
     page = page.independent_student_signup(
         name,
-        username,
         email_address,
         password=password,
         confirm_password=password,

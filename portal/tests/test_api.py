@@ -8,7 +8,6 @@ from common.models import Student, Teacher
 from common.tests.utils.user import create_user_directly, get_superuser
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.utils import timezone
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
@@ -135,89 +134,6 @@ class APITests(APITestCase):
         generate_token(teacher.new_user, preverified=True)
         teacher.user.save()
         return teacher
-
-    @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
-    def test_cleanup_duplicate_teacher_indy(self, mock_is_cloud_scheduler_function):
-        client = APIClient()
-        url = reverse("teacher_indy_cleanup")
-
-        # 1) if users never log in, the one with the latest date_joined is kept
-        SAME_EMAIL = "same@email.com"
-        student = self._create_indy_directly(SAME_EMAIL)
-        student.new_user.date_joined = timezone.now() - timezone.timedelta(days=10)
-        student.new_user.save()
-
-        teacher = self._create_teacher_directly(SAME_EMAIL)
-        teacher.new_user.date_joined = timezone.now() - timezone.timedelta(days=20)
-        teacher.new_user.save()
-
-        response = client.delete(url)
-        assert mock_is_cloud_scheduler_function.called
-        assert response.status_code == status.HTTP_204_NO_CONTENT
-
-        user = User.objects.get(email=SAME_EMAIL)
-        assert user == student.new_user
-        user = User.objects.get(id=teacher.new_user.id)
-        assert user.email != SAME_EMAIL  # teacher anonymised
-
-        # now teacher created later
-        teacher = self._create_teacher_directly(SAME_EMAIL)
-        teacher.new_user.date_joined = timezone.now() - timezone.timedelta(days=5)
-        teacher.new_user.save()
-
-        response = client.delete(url)
-
-        user = User.objects.get(email=SAME_EMAIL)
-        assert user == teacher.new_user
-        user = User.objects.get(id=student.new_user.id)
-        assert user.email != SAME_EMAIL  # student anonymised
-
-        # 2) if there's one with login, keep that one, anonymise the other
-        teacher.new_user.date_joined = timezone.now() - timezone.timedelta(days=20)
-        teacher.new_user.last_login = timezone.now() - timezone.timedelta(days=19)
-        teacher.new_user.save()
-
-        student = self._create_indy_directly(SAME_EMAIL)
-        student.new_user.last_login = None
-        student.new_user.save()
-
-        response = client.delete(url)
-
-        user = User.objects.get(email=SAME_EMAIL)
-        assert user == teacher.new_user
-        user = User.objects.get(id=student.new_user.id)
-        assert user.email != SAME_EMAIL  # student anonymised
-
-        # now try the student to log in and not teacher
-        teacher.new_user.last_login = None
-        teacher.new_user.save()
-
-        student = self._create_indy_directly(SAME_EMAIL)
-        student.new_user.last_login = timezone.now() - timezone.timedelta(days=9)
-        student.new_user.save()
-
-        response = client.delete(url)
-
-        user = User.objects.get(email=SAME_EMAIL)
-        assert user == student.new_user
-        user = User.objects.get(id=teacher.new_user.id)
-        assert user.email != SAME_EMAIL  # teacher anonymised
-
-        # 3) if both have logged in, keep the last logged in, anonymise the other
-        teacher = self._create_teacher_directly(SAME_EMAIL)
-        teacher.new_user.last_login = timezone.now() - timezone.timedelta(days=1)
-        teacher.new_user.save()
-
-        student.new_user.last_login = timezone.now() - timezone.timedelta(days=20)
-        student.new_user.save()
-
-        response = client.delete(url)
-
-        # student anonymised
-        user = User.objects.get(email=SAME_EMAIL)
-        assert user == teacher.new_user
-        user = User.objects.get(id=student.new_user.id)
-        assert user.email != SAME_EMAIL
 
 
 def has_status_code(status_code):

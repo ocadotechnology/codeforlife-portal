@@ -1,7 +1,5 @@
 from common.models import Teacher
-from common.permissions import logged_in_as_teacher
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.shortcuts import render
 from two_factor.views import LoginView
 from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
 

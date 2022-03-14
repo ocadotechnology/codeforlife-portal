@@ -36,9 +36,9 @@ class IndependentStudentLoginView(LoginView):
         account, this redirects the user to the locked out page. However, if the lockout
         time is more than 24 hours before this is executed, the account is unlocked.
         """
-        username = request.POST.get("username")
-        if Student.objects.filter(new_user__username=username).exists():
-            student = Student.objects.get(new_user__username=username)
+        email = request.POST.get("username")
+        if Student.objects.filter(new_user__email=email).exists():
+            student = Student.objects.get(new_user__email=email)
 
             if student.blocked_time is not None:
                 if has_user_lockout_expired(student):
@@ -60,8 +60,8 @@ class IndependentStudentLoginView(LoginView):
         clear_ratelimit_cache_for_user(form.cleaned_data["username"])
 
         # Log the login time
-        username = self.request.POST.get("username")
-        user = User.objects.get(username=username)
+        email = self.request.POST.get("username")
+        user = User.objects.get(email=email)
         session = UserSession(user=user)
         session.save()
 
