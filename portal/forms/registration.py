@@ -64,10 +64,10 @@ class TeacherPasswordResetForm(forms.Form):
     def send_mail(
         self,
         subject_template_name,
-        email_template_name,
         context,
         from_email,
         to_email,
+        email_template_name="portal/reset_password_email.txt",
         html_email_template_name="portal/reset_password_email.html",
     ):
         """
