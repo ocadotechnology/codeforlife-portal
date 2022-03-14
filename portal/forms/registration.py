@@ -79,7 +79,7 @@ class TeacherPasswordResetForm(forms.Form):
         body = loader.get_template(email_template_name, context)
 
         email_message = EmailMultiAlternatives(
-            subject, body.render(context), from_email, [to_email]
+            subject, body.render({"content": context}), from_email, [to_email]
         )
         if html_email_template_name is not None:
             html_email = loader.get_template(html_email_template_name)
