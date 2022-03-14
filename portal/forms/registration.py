@@ -76,7 +76,7 @@ class TeacherPasswordResetForm(forms.Form):
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
         subject = "".join(subject.splitlines())
-        body = loader.get_template(email_template_name, context)
+        body = loader.get_template(email_template_name)
 
         email_message = EmailMultiAlternatives(
             subject, body.render({"content": context}), from_email, [to_email]
