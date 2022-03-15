@@ -20,6 +20,7 @@ import YourGames from "./Components/YourGames/YourGames";
 import RapidRouterScores from "./Components/RapidRouterScores/RapidRouterScores";
 import KuronoWidget from "./Components/KuronoWidget/KuronoWidget";
 import MeetTheCharacters from "./Components/MeetTheCharacters/MeetTheCharacters";
+import SubNav from "./Components/SubNav/SubNav";
 
 type UserType = "student" | "independent" | "teacher";
 
@@ -32,6 +33,7 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <Navbar name={name} userType={userType} />
         <Welcome name={name} userType={userType} />
+        <SubNav />
         <Container
           sx={{
             display: "flex",
