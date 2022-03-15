@@ -78,7 +78,7 @@ class TeacherPasswordResetForm(forms.Form):
         # body = loader.render_to_string(email_template_name, context)
 
         email_message = EmailMultiAlternatives(
-            subject, "hello world", from_email, to_email
+            subject, "hello world", from_email, [to_email]
         )
         if html_email_template_name is not None:
             html_email = loader.get_template(html_email_template_name)
