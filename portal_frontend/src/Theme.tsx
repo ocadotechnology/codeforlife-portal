@@ -3,10 +3,8 @@ import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
 
-const MEDIUM: number = 500
-const SEMI_BOLD: number = 600
-const BOLD: number = 700
-
+const MEDIUM: number = 500;
+const SEMI_BOLD: number = 600;
 
 let theme = createTheme({
   // Paste the code below this line
@@ -14,22 +12,26 @@ let theme = createTheme({
   palette: {
     primary: {
       main: "#e0004d",
-      contrastText: "#fff"
+      contrastText: "#fff",
     },
     secondary: {
       main: "#f6be00",
-      contrastText: "#000"
+      contrastText: "#000",
     },
     tertiary: {
       main: "#00a3e0",
-      contrastText: "#fff"
-    }
+      contrastText: "#fff",
+    },
+    text: {
+      primary: "#383b3b",
+    },
   },
   typography: {
     h1: {
       fontFamily: FONT_PRIMARY,
       fontSize: "60px",
       fontWeight: MEDIUM,
+      margin: "1rem 0 1rem 0",
     },
     h2: {
       fontFamily: FONT_PRIMARY,
@@ -45,7 +47,6 @@ let theme = createTheme({
       fontFamily: FONT_PRIMARY,
       fontSize: "30px",
       fontWeight: MEDIUM,
-      margin: "1rem 0 2rem 0"
     },
     h5: {
       fontFamily: FONT_PRIMARY,
@@ -68,7 +69,7 @@ let theme = createTheme({
     },
     body1: {
       fontFamily: FONT_SECONDARY,
-      fontSize: "18px"
+      fontSize: "18px",
     },
     body2: {
       fontFamily: FONT_SECONDARY,
@@ -77,7 +78,7 @@ let theme = createTheme({
     quote: {
       fontFamily: FONT_PRIMARY,
       fontSize: "24px",
-      fontWeight: MEDIUM
+      fontWeight: MEDIUM,
     },
     button: {
       fontFamily: FONT_SECONDARY,
@@ -86,7 +87,7 @@ let theme = createTheme({
     },
     caption: {
       fontFamily: FONT_SECONDARY,
-      fontSize: "13px"
+      fontSize: "13px",
     },
     overline: {
       fontFamily: FONT_SECONDARY,
