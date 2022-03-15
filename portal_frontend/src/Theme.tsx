@@ -6,7 +6,6 @@ const FONT_SECONDARY: string = '"Inter", sans-serif';
 
 const MEDIUM: number = 500;
 const SEMI_BOLD: number = 600;
-const BOLD: number = 700;
 
 let theme = createTheme({
   // Paste the code below this line
@@ -24,12 +23,16 @@ let theme = createTheme({
       main: "#00a3e0",
       contrastText: "#fff",
     },
+    text: {
+      primary: "#383b3b",
+    },
   },
   typography: {
     h1: {
       fontFamily: FONT_PRIMARY,
       fontSize: "60px",
       fontWeight: MEDIUM,
+      margin: "1rem 0 1rem 0",
     },
     h2: {
       fontFamily: FONT_PRIMARY,
@@ -45,7 +48,6 @@ let theme = createTheme({
       fontFamily: FONT_PRIMARY,
       fontSize: "30px",
       fontWeight: MEDIUM,
-      margin: "1rem 0 2rem 0",
     },
     h5: {
       fontFamily: FONT_PRIMARY,

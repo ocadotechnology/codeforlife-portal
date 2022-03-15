@@ -1,5 +1,4 @@
-import React from "react";
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { StyledBox } from "./RapidRouterScoresStyled";
 
 const RapidRouterScores = () => {
