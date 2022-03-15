@@ -6,12 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
-from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
+
+from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
 
 THREE_YEARS_IN_DAYS = 1095
 
@@ -111,64 +112,4 @@ class InactiveUsersView(generics.ListAPIView):
         inactive_users = self.get_queryset()
         for user in inactive_users:
             anonymise(user)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class DuplicateIndyTeacherView(generics.ListAPIView):
-    """
-    This API endpoint deletes teacher or independent student accounts with duplicate emails.
-    """
-
-    queryset = Student.objects.filter(
-        class_field__isnull=True, new_user__is_active=True
-    ).select_related("new_user")
-
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAdminOrGoogleAppEngine,)
-
-    def delete(self, request, *args, **kwargs):
-        def _tidyup(usrone, usrtwo):
-            if usrone.last_login and usrtwo.last_login:
-                # both have logged in, choose the last logged in
-                if usrone.last_login > usrtwo.last_login:
-                    anonymise(usrtwo)
-                elif usrone.last_login < usrtwo.last_login:
-                    anonymise(usrone)
-            # if there's one with login, keep that one
-            elif usrone.last_login and not usrtwo.last_login:
-                anonymise(usrtwo)
-            elif not usrone.last_login and usrtwo.last_login:
-                anonymise(usrone)
-            else:  # no login at all, keep the one with the most recent date_joined
-                if usrone.date_joined > usrtwo.date_joined:
-                    anonymise(usrtwo)
-                elif usrone.date_joined < usrtwo.date_joined:
-                    anonymise(usrone)
-
-        def _tidyup_students(students):
-            for student in students:
-                email = student.new_user.email
-                assert email != ""
-
-                teachers = Teacher.objects.filter(
-                    new_user__is_active=True, new_user__email=email
-                ).select_related("new_user")
-
-                if not teachers.exists():
-                    continue  # no duplicate
-
-                # else there's a duplicate
-                assert len(teachers) == 1
-                _tidyup(student.new_user, teachers[0].new_user)
-
-        # do it in batches
-        offset = 0
-        LIMIT = 500
-
-        indystudents = self.get_queryset()[offset : (offset + LIMIT)]
-        while indystudents.exists():
-            _tidyup_students(indystudents)
-            offset += LIMIT
-            indystudents = self.get_queryset()[offset : (offset + LIMIT)]
-
         return Response(status=status.HTTP_204_NO_CONTENT)

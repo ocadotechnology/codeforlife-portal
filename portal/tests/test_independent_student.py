@@ -42,7 +42,6 @@ class TestIndependentStudent(TestCase):
             reverse("register"),
             {
                 "independent_student_signup-name": "Test Name",
-                "independent_student_signup-username": "TestUsername",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-is_over_required_age": "on",
                 "independent_student_signup-password": "pass",
@@ -61,7 +60,6 @@ class TestIndependentStudent(TestCase):
             reverse("register"),
             {
                 "independent_student_signup-name": "Test Name",
-                "independent_student_signup-username": "TestUsername",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-is_over_required_age": "on",
                 "independent_student_signup-password": "Password1",
@@ -80,7 +78,6 @@ class TestIndependentStudent(TestCase):
             reverse("register"),
             {
                 "independent_student_signup-name": "Test Name",
-                "independent_student_signup-username": "TestUsername",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-is_over_required_age": "on",
                 "independent_student_signup-password": "Password1!",
@@ -99,26 +96,6 @@ class TestIndependentStudent(TestCase):
             reverse("register"),
             {
                 "independent_student_signup-name": "///",
-                "independent_student_signup-username": "TestUsername",
-                "independent_student_signup-email": "test@email.com",
-                "independent_student_signup-is_over_required_age": "on",
-                "independent_student_signup-password": "Password1!",
-                "independent_student_signup-confirm_password": "Password1!",
-                "g-recaptcha-response": "something",
-            },
-        )
-
-        # Assert response isn't a redirect (submit failure)
-        assert response.status_code == 200
-
-    def test_signup_invalid_username_fails(self):
-        c = Client()
-
-        response = c.post(
-            reverse("register"),
-            {
-                "independent_student_signup-name": "Test Name",
-                "independent_student_signup-username": "///",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-is_over_required_age": "on",
                 "independent_student_signup-password": "Password1!",
@@ -167,34 +144,20 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.independent_student_signup(
             "indy",
             teacher_email,
-            teacher_email,
             password="Password1!",
             confirm_password="Password1!",
         )
 
-        page = page.return_to_home_page()
+        page.return_to_home_page()
 
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
-
-    def test_signup_duplicate_username_failure(self):
-        username, _, _ = create_independent_student_directly()
-
-        page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(
-            page, duplicate_username=username
-        )
-
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life: Username already taken"
-
-        assert self.is_login_page(page)
 
     def test_login_failure(self):
         page = self.go_to_homepage()
         page = page.go_to_independent_student_login_page()
         page = page.independent_student_login_failure(
-            "Non existent username", "Incorrect password"
+            "non-existent-email@codeforlife.com", "Incorrect password"
         )
 
         assert page.has_login_failed(
@@ -232,7 +195,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page, name, username, _, _ = create_independent_student(page)
         page = self.get_to_forgotten_password_page()
 
-        page.reset_username_submit(username)
+        page.reset_email_submit(username)
 
         self.wait_for_email()
 
@@ -256,9 +219,8 @@ class TestIndependentStudentFrontend(BaseTest):
 
     def test_reset_password_fail(self):
         page = self.get_to_forgotten_password_page()
-
-        fake_username = "fake_username"
-        page.reset_username_submit(fake_username)
+        fake_email = "fake_email@fakeemail.com"
+        page.reset_email_submit(fake_email)
 
         time.sleep(5)
 
@@ -304,11 +266,11 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_change_email(self):
         homepage = self.go_to_homepage()
 
-        _, _, student_username, _, password = create_independent_student(homepage)
+        _, _, _, student_email, password = create_independent_student(homepage)
         play_page, _, _, other_email, _ = create_independent_student(homepage)
 
         page = play_page.independent_student_login(
-            student_username, password
+            student_email, password
         ).go_to_account_page()
 
         # Try changing email to an existing email, should fail
@@ -326,7 +288,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = (
             homepage.go_to_independent_student_login_page()
-            .independent_student_login(student_username, password)
+            .independent_student_login(student_email, password)
             .go_to_account_page()
         )
 
@@ -342,7 +304,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = (
             self.go_to_homepage()
             .go_to_independent_student_login_page()
-            .independent_student_login(student_username, password)
+            .independent_student_login(student_email, password)
             .go_to_account_page()
         )
 
@@ -359,7 +321,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = (
             self.go_to_homepage()
             .go_to_independent_student_login_page()
-            .independent_student_login(student_username, password)
+            .independent_student_login(student_email, password)
         )
         assert self.is_dashboard(page)
 
@@ -370,7 +332,7 @@ class TestIndependentStudentFrontend(BaseTest):
         )
         mail.outbox = []
 
-        page = page.independent_student_login(student_username, password)
+        page = page.independent_student_login(new_email, password)
 
         assert self.is_dashboard(page)
 

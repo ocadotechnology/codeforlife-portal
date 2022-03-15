@@ -223,14 +223,6 @@ class IndependentStudentSignupForm(forms.Form):
         ),
     )
 
-    username = forms.CharField(
-        max_length=100,
-        help_text="Enter a username",
-        widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "Username"}
-        ),
-    )
-
     email = forms.EmailField(
         help_text="Enter your email address",
         widget=forms.EmailInput(
@@ -267,16 +259,6 @@ class IndependentStudentSignupForm(forms.Form):
 
         return name
 
-    def clean_username(self):
-        username = self.cleaned_data.get("username", None)
-
-        if re.match(re.compile("[\w]+"), username) is None:
-            raise forms.ValidationError(
-                "Usernames may only contain letters, numbers, dashes, and underscores."
-            )
-
-        return username
-
     def clean_password(self):
         return form_clean_password(self, "password", PasswordStrength.INDEPENDENT)
 
@@ -291,8 +273,24 @@ class IndependentStudentSignupForm(forms.Form):
 
 
 class IndependentStudentLoginForm(AuthenticationForm):
-    username = forms.CharField(label="Username", widget=forms.TextInput())
-    password = forms.CharField(label="Password", widget=forms.PasswordInput())
+    username = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "Email address",
+            }
+        ),
+        help_text="Enter your email address",
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "Password",
+            }
+        ),
+        help_text="Enter your password",
+    )
 
     def clean(self):
         super().clean()

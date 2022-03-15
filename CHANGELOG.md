@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v5.42.0 (2022-03-14)
+### Feature
+* Add videos for play and educate pages ([#1798](https://github.com/ocadotechnology/codeforlife-portal/issues/1798)) ([`b656360`](https://github.com/ocadotechnology/codeforlife-portal/commit/b6563600f7cdc332f9a4c3f82205df6fbafda818))
+
+## v5.41.1 (2022-03-11)
+### Fix
+* Login forms inconsistencies ([#1797](https://github.com/ocadotechnology/codeforlife-portal/issues/1797)) ([`da46d29`](https://github.com/ocadotechnology/codeforlife-portal/commit/da46d29bd3b03d9adbb3884acd30c07534f57755))
+
+## v5.41.0 (2022-03-11)
+### Feature
+* Remove username ([#1796](https://github.com/ocadotechnology/codeforlife-portal/issues/1796)) ([`611fe0c`](https://github.com/ocadotechnology/codeforlife-portal/commit/611fe0c1cf8fd48e66906c9ceb77441a2417bcc1))
+
 ## v5.40.5 (2022-03-10)
 ### Fix
 * Indy cleanup - priorities last login ([#1795](https://github.com/ocadotechnology/codeforlife-portal/issues/1795)) ([`469f87b`](https://github.com/ocadotechnology/codeforlife-portal/commit/469f87b1e8efd35135368729997c3f8ae89564aa))
