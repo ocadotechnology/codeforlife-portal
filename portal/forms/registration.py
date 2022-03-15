@@ -58,7 +58,6 @@ class TeacherPasswordResetForm(forms.Form):
             # Check such an email is associated with a teacher
             if teacher.exists():
                 self.username = teacher[0].new_user.username
-
         return email
 
     def send_mail(

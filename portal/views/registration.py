@@ -1,3 +1,4 @@
+from common import email_messages
 from common.helpers.emails import PASSWORD_RESET_EMAIL
 from common.models import Teacher, Student
 from common.permissions import not_logged_in, not_fully_logged_in
@@ -14,6 +15,15 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+
+
+from common.helpers.emails import (
+    send_verification_email,
+    send_email,
+    NOTIFICATION_EMAIL,
+    add_to_dotmailer,
+    DotmailerUserType,
+)
 
 from deploy import captcha
 from portal import app_settings
@@ -51,6 +61,11 @@ def teacher_password_reset(request):
     )
 
 
+def process_reset_password(request, data):
+
+    send_email(NOTIFICATION_EMAIL, [email], email_message["subject"])
+
+
 @csrf_protect
 def password_reset(
     request,
@@ -80,6 +95,8 @@ def password_reset(
                 "html_email_template_name": html_email_template_name,
             }
             form.save(**opts)
+
+            process_reset_password(request, form.cleaned_data)
 
             return render(
                 request, "portal/reset_password_email_sent.html", {"usertype": usertype}
