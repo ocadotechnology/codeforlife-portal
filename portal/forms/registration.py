@@ -14,6 +14,8 @@ from django.utils.http import urlsafe_base64_encode
 
 from portal.helpers.password import PasswordStrength, form_clean_password
 
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email
+
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
@@ -75,7 +77,7 @@ class TeacherPasswordResetForm(forms.Form):
         subject = loader.render_to_string(subject_template_name, context)
         # Email subject *must not* contain newlines
         subject = "".join(subject.splitlines())
-        body = loader.render_to_string(html_email_template_name, context)
+        body = loader.render_to_string(email_template_name, context)
 
         email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
         if html_email_template_name is not None:
@@ -125,13 +127,8 @@ class TeacherPasswordResetForm(forms.Form):
                     "protocol": compute_protocol(use_https),
                 }
 
-                self.send_mail(
-                    subject_template_name,
-                    email_template_name,
-                    context,
-                    from_email,
-                    user.email,
-                    html_email_template_name=html_email_template_name,
+                send_email(
+                    NOTIFICATION_EMAIL, user.email, subject_template_name, context
                 )
 
 
