@@ -61,11 +61,6 @@ def teacher_password_reset(request):
     )
 
 
-def process_reset_password(request, data):
-
-    send_email(NOTIFICATION_EMAIL, [email], email_message["subject"])
-
-
 @csrf_protect
 def password_reset(
     request,
