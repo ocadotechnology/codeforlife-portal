@@ -22,14 +22,14 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "django==2.2.27",
-        "django-countries==6.1.3",
-        "djangorestframework==3.12.2",
-        "django-pipeline==1.6.14",  # Setting this to 1.6.14 as 1.7 causes issue with compiling SCSS files
+        "django==3.2.12",
+        "django-countries==7.3.1",
+        "djangorestframework==3.13.1",
+        "django-pipeline==2.0.8",
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
-        "rapid-router >= 1.0.0.post.dev1",
-        "aimmo",
+        # "rapid-router >= 1.0.0.post.dev1",  # TODO uncomment after Django upgrade
+        # "aimmo",  # TODO uncomment after Django upgrade
         "reportlab==3.6.1",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
@@ -38,14 +38,14 @@ setup(
         "django-sekizai==2.0.0",
         "django-classy-tags==2.0.0",
         "sqlparse==0.4.2",
-        "libsass==0.20.1",
+        "libsass==0.21.0",
         "phonenumbers==8.12.12",
         "more-itertools==8.6.0",
         "future==0.18.2",
-        f"cfl-common=={version}",
+        # f"cfl-common=={version}",  # TODO uncomment after Django upgrade
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
-        "django-csp==3.7"
+        "django-csp==3.7",
     ],
     classifiers=[
         "Programming Language :: Python",
