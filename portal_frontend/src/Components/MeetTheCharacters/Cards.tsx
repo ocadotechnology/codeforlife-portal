@@ -1,7 +1,5 @@
-import React from "react";
-import { Box, Card, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { CardStyled, CardsStyled } from "./MeetTheCharactersStyle";
-import { BoxStyled } from "./MeetTheCharactersStyle";
 
 const NAMES = ["Xian", "Jools", "Zayed"];
 const DESCRIPTIONS = [
@@ -22,7 +20,7 @@ const Cards = () => {
         return (
           <CardStyled elevation={5}>
             <Typography variant="h5">{name}</Typography>
-            <img src={IMAGES[i]} />
+            <img src={IMAGES[i]} alt={NAMES[i]} />
             <Typography variant="subtitle1">{DESCRIPTIONS[i]}</Typography>
           </CardStyled>
         );
