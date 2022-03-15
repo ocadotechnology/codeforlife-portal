@@ -91,8 +91,6 @@ def password_reset(
             }
             form.save(**opts)
 
-            process_reset_password(request, form.cleaned_data)
-
             return render(
                 request, "portal/reset_password_email_sent.html", {"usertype": usertype}
             )
