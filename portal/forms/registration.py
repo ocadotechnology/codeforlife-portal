@@ -131,7 +131,7 @@ class TeacherPasswordResetForm(forms.Form):
                     NOTIFICATION_EMAIL,
                     [user.email],
                     subject_template_name,
-                    email_template_name,
+                    html_email_template_name,
                 )
 
 

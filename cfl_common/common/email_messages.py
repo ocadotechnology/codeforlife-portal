@@ -1,6 +1,13 @@
 from django.urls import reverse
 
 
+def reset_email_password(request, token):
+    return {
+        "subject": f"{emailSubjectPrefix()}: Email reset password request",
+        "message": f"Please go to ",
+    }
+
+
 def emailSubjectPrefix():
     return "Code for Life"
 
