@@ -128,7 +128,10 @@ class TeacherPasswordResetForm(forms.Form):
                 }
 
                 send_email(
-                    NOTIFICATION_EMAIL, [user.email], subject_template_name, context
+                    NOTIFICATION_EMAIL,
+                    [user.email],
+                    subject_template_name,
+                    email_template_name,
                 )
 
 
