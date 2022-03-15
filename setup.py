@@ -28,8 +28,8 @@ setup(
         "django-pipeline==2.0.8",
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
-        # "rapid-router >= 1.0.0.post.dev1",  # TODO uncomment after Django upgrade
-        # "aimmo",  # TODO uncomment after Django upgrade
+        "rapid-router>=4",
+        "aimmo>=2",
         "reportlab==3.6.1",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
@@ -42,7 +42,7 @@ setup(
         "phonenumbers==8.12.12",
         "more-itertools==8.6.0",
         "future==0.18.2",
-        # f"cfl-common=={version}",  # TODO uncomment after Django upgrade
+        f"cfl-common=={version}",
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
         "django-csp==3.7",
