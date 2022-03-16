@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v6.0.1 (2022-03-15)
+### Fix
+* Cleanup ci and update pipfile ([#1800](https://github.com/ocadotechnology/codeforlife-portal/issues/1800)) ([`bff3df8`](https://github.com/ocadotechnology/codeforlife-portal/commit/bff3df8e7db4ac6f89eba0637228b5fc94d33cc7))
+
+## v6.0.0 (2022-03-15)
+### Feature
+* Upgrade from Django 2.2 to 3.2 ([#1791](https://github.com/ocadotechnology/codeforlife-portal/issues/1791)) ([`8006307`](https://github.com/ocadotechnology/codeforlife-portal/commit/80063073a0a8359dc468b4694444c54f8b94b5f8))
+
+### Breaking
+* Upgrade from Django 2.2 to 3.2 ([#1791](https://github.com/ocadotechnology/codeforlife-portal/issues/1791)) ([`8006307`](https://github.com/ocadotechnology/codeforlife-portal/commit/80063073a0a8359dc468b4694444c54f8b94b5f8))
+
 ## v5.43.0 (2022-03-15)
 ### Feature
 * Currently fixing the mobile navbar ([#1778](https://github.com/ocadotechnology/codeforlife-portal/issues/1778)) ([`2a56fff`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a56fff1e2346aee1f340140fda5b2cef08108d7))
