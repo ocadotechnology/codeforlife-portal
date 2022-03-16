@@ -17,6 +17,10 @@ from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 
 from django.contrib.auth.models import User
 
+from django.urls import reverse_lazy
+
+from portal.views.registration import password_reset
+
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
@@ -103,12 +107,17 @@ class PasswordResetForm(forms.Form):
                     "token": token_generator.make_token(user),
                     "protocol": self._compute_protocol(use_https),
                 }
+                password_reset_uri = reverse_lazy(
+                    "password_reset_check_and_confirm",
+                    kwargs={"uidb64": context["uid"], "token": context["token"]},
+                )
+                url = f"{context['protocol']}://{domain}{password_reset_uri}"
 
                 send_email(
                     NOTIFICATION_EMAIL,
                     [user.email],
                     subject_template_name,
-                    context,
+                    url,
                 )
 
     def _compute_protocol(self, use_https):
