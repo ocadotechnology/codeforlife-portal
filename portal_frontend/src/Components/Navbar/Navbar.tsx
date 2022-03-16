@@ -1,52 +1,49 @@
-import { MenuStyled } from "./NavbarStyle";
-import React from "react";
-import { Toolbar } from "@mui/material";
-import { Button } from "@mui/material";
-import { NavBarStyled, MenuIconStyled } from "./NavbarStyle";
-import { Typography } from "@mui/material";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
-import { MenuWrap } from "./NavbarStyle";
-import MenuIconNavBar from "./MenuIconNavBar";
-import UserButton from "./UserButton";
-import { userInfo } from "os";
-import SubMenu from "./SubMenu";
+import {
+  IconButtonStyled,
+  AppBarStyled,
+  ToolbarStyled,
+  LogoCfl,
+  LogoOcado,
+} from "./NavbarStyle";
+import { User } from "../../App";
+import Dashboard from "./Dashboard";
+import Games from "./Games";
+import LearningResources from "./LearningResources";
+import UserTypeTitle from "./UserTypeTitle";
+import UserLogInButton from "./UserLogInButton";
+import MobileNavbarIcon from "./MobileNavbarIcon";
 
-// The first image is imported from the public folder
-
-type UserType = "student" | "independent" | "teacher";
-
-interface Props {
-  name: string;
-  userType: UserType;
+export interface GamesProps {
+  games: string[];
 }
 
-const Navbar = ({ name, userType }: Props) => {
+const Navbar = ({ userType, name }: User) => {
   return (
-    <Toolbar sx={{ display: "flex" }}>
-      <NavBarStyled elevation={5}>
-        <img
-          src="/images/logo_cfl.png" // Here is where an image is being imported
-          alt="cfl_logo"
-          style={{
-            height: "80px",
-          }}
-        />
-        <img
-          style={{
-            height: "150px",
-          }}
-          src="https://image.pitchbook.com/J9YjXxMlKawW33vJmEuU86TyL8V1625027225121_200x200"
-          alt="hello"
-        />
-        <SubMenu userType={userType} />
-
-        <MenuIconNavBar />
-        <UserButton name={name} />
-      </NavBarStyled>
-    </Toolbar>
+    <AppBarStyled position="fixed">
+      <ToolbarStyled
+        sx={{
+          paddingRight: "1rem",
+        }}
+        disableGutters
+      >
+        <a href="http://www.localhost:3000">
+          <LogoCfl src="/images/navbar/logo_cfl.png" />
+        </a>
+        <a
+          href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
+        </a>
+        <UserTypeTitle userType="independent" />
+        <Dashboard />
+        <Games games={["Rapid Router"]} />
+        <LearningResources games={["Rapid Router"]} />
+        <UserLogInButton name={name} />
+        <MobileNavbarIcon userType={userType} name={name} />
+      </ToolbarStyled>
+    </AppBarStyled>
   );
 };
-
 export default Navbar;

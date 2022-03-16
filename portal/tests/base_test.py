@@ -1,6 +1,7 @@
 import socket
 import time
 
+from django.contrib.sites.models import Site
 from django.urls import reverse
 
 from deploy import captcha
@@ -41,3 +42,16 @@ class BaseTest(SeleniumTestCase):
             else:
                 break
             attempts += 1
+
+    def __call__(self, result=None):
+        self._set_site_to_local_domain()
+        return super().__call__(result)
+
+    def _set_site_to_local_domain(self):
+        """
+        Sets the Site Django object to the local domain (locally, localhost:8000).
+        Needed to generate valid registration and password reset links in tests.
+        """
+        current_site = Site.objects.get_current()
+        current_site.domain = f"{self.server_thread.host}:{self.server_thread.port}"
+        current_site.save()

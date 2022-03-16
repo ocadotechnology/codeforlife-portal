@@ -2,6 +2,53 @@
 
 <!--next-version-placeholder-->
 
+## v6.0.1 (2022-03-15)
+### Fix
+* Cleanup ci and update pipfile ([#1800](https://github.com/ocadotechnology/codeforlife-portal/issues/1800)) ([`bff3df8`](https://github.com/ocadotechnology/codeforlife-portal/commit/bff3df8e7db4ac6f89eba0637228b5fc94d33cc7))
+
+## v6.0.0 (2022-03-15)
+### Feature
+* Upgrade from Django 2.2 to 3.2 ([#1791](https://github.com/ocadotechnology/codeforlife-portal/issues/1791)) ([`8006307`](https://github.com/ocadotechnology/codeforlife-portal/commit/80063073a0a8359dc468b4694444c54f8b94b5f8))
+
+### Breaking
+* Upgrade from Django 2.2 to 3.2 ([#1791](https://github.com/ocadotechnology/codeforlife-portal/issues/1791)) ([`8006307`](https://github.com/ocadotechnology/codeforlife-portal/commit/80063073a0a8359dc468b4694444c54f8b94b5f8))
+
+## v5.43.0 (2022-03-15)
+### Feature
+* Currently fixing the mobile navbar ([#1778](https://github.com/ocadotechnology/codeforlife-portal/issues/1778)) ([`2a56fff`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a56fff1e2346aee1f340140fda5b2cef08108d7))
+
+## v5.42.0 (2022-03-14)
+### Feature
+* Add videos for play and educate pages ([#1798](https://github.com/ocadotechnology/codeforlife-portal/issues/1798)) ([`b656360`](https://github.com/ocadotechnology/codeforlife-portal/commit/b6563600f7cdc332f9a4c3f82205df6fbafda818))
+
+## v5.41.1 (2022-03-11)
+### Fix
+* Login forms inconsistencies ([#1797](https://github.com/ocadotechnology/codeforlife-portal/issues/1797)) ([`da46d29`](https://github.com/ocadotechnology/codeforlife-portal/commit/da46d29bd3b03d9adbb3884acd30c07534f57755))
+
+## v5.41.0 (2022-03-11)
+### Feature
+* Remove username ([#1796](https://github.com/ocadotechnology/codeforlife-portal/issues/1796)) ([`611fe0c`](https://github.com/ocadotechnology/codeforlife-portal/commit/611fe0c1cf8fd48e66906c9ceb77441a2417bcc1))
+
+## v5.40.5 (2022-03-10)
+### Fix
+* Indy cleanup - priorities last login ([#1795](https://github.com/ocadotechnology/codeforlife-portal/issues/1795)) ([`469f87b`](https://github.com/ocadotechnology/codeforlife-portal/commit/469f87b1e8efd35135368729997c3f8ae89564aa))
+
+## v5.40.4 (2022-03-10)
+### Fix
+* Continue publishing after pypi error ([#1794](https://github.com/ocadotechnology/codeforlife-portal/issues/1794)) ([`0ae38ff`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ae38ff5987688cd7d5302f51e8d8d228871b693))
+
+## v5.40.3 (2022-03-10)
+### Fix
+* Re-versioning 2 ([`9178eff`](https://github.com/ocadotechnology/codeforlife-portal/commit/9178effe8db877156fdd68d0e0956e1c6260dfab))
+
+## v5.40.2 (2022-03-10)
+### Fix
+* Re-versioning ([`50ee56c`](https://github.com/ocadotechnology/codeforlife-portal/commit/50ee56c5db7af83dee8a3717a255ef93f1380c73))
+
+## v5.40.1 (2022-03-10)
+### Fix
+* The last indy/teacher clean up ([#1793](https://github.com/ocadotechnology/codeforlife-portal/issues/1793)) ([`7f56383`](https://github.com/ocadotechnology/codeforlife-portal/commit/7f563839fe438b196d447ba06463cc82f733ce7e))
+
 ## v5.40.0 (2022-03-04)
 ### Feature
 * Add users to specific address books based on user type ([#1790](https://github.com/ocadotechnology/codeforlife-portal/issues/1790)) ([`06b9ed3`](https://github.com/ocadotechnology/codeforlife-portal/commit/06b9ed311a5124b00816fec05a04a66b430ee5e4))

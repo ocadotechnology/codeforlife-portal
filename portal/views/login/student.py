@@ -87,9 +87,9 @@ class StudentLoginView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in."""
 
-        login_type = self.kwargs["login_type"]
-        if not login_type:
-            login_type = "classlink"  # default if not specified
+        login_type = self.kwargs.get(
+            "login_type", "classlink"
+        )  # default to "classlink" if not specified
 
         self._add_login_data(form, login_type)
         return super(StudentLoginView, self).form_valid(form)
