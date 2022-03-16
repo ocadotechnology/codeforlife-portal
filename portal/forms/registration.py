@@ -20,6 +20,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+from common.email_messages import reset_email_password_message
+
+
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
         super(TeacherPasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
@@ -105,17 +108,20 @@ class PasswordResetForm(forms.Form):
                     "token": token_generator.make_token(user),
                     "protocol": self._compute_protocol(use_https),
                 }
-                password_reset_uri = reverse(
-                    "password_reset_check_and_confirm",
-                    kwargs={"uidb64": context["uid"], "token": context["token"]},
+
+                email_subject_content = reset_email_password_message(
+                    request,
+                    domain,
+                    context["uid"],
+                    context["token"],
+                    context["protocol"],
                 )
-                url = f"{context['protocol']}://{domain}{password_reset_uri}"
 
                 send_email(
                     NOTIFICATION_EMAIL,
                     [user.email],
-                    subject_template_name,
-                    url,
+                    email_subject_content["subject"],
+                    email_subject_content["message"],
                 )
 
     def _compute_protocol(self, use_https):
