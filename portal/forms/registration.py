@@ -17,6 +17,7 @@ from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 
 from django.contrib.auth.models import User
 
+
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
         super(TeacherPasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
@@ -114,14 +115,6 @@ class PasswordResetForm(forms.Form):
         return "https" if use_https else "http"
 
 
-<<<<<<< HEAD
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [user.email],
-                    "hello world",
-                    "this is a subject",
-                )
-=======
 class TeacherPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
@@ -131,7 +124,6 @@ class TeacherPasswordResetForm(PasswordResetForm):
         if teacher.exists():
             self.username = teacher[0].new_user.username
         return email
->>>>>>> master
 
 
 class StudentPasswordResetForm(PasswordResetForm):
