@@ -19,8 +19,6 @@ from django.contrib.auth.models import User
 
 from django.urls import reverse
 
-from portal.views.registration import password_reset
-
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
