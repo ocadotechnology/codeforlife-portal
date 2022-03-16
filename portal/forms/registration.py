@@ -17,7 +17,7 @@ from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 
 from django.contrib.auth.models import User
 
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 from portal.views.registration import password_reset
 
@@ -107,7 +107,7 @@ class PasswordResetForm(forms.Form):
                     "token": token_generator.make_token(user),
                     "protocol": self._compute_protocol(use_https),
                 }
-                password_reset_uri = reverse_lazy(
+                password_reset_uri = reverse(
                     "password_reset_check_and_confirm",
                     kwargs={"uidb64": context["uid"], "token": context["token"]},
                 )
