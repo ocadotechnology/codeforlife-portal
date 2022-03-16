@@ -33,7 +33,6 @@ def emailVerificationNeededEmail(request, token):
             f"Please go to "
             f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
             f"to verify your email address."
-            f"{emailBodySignOff(request)}"
         ),
     }
 

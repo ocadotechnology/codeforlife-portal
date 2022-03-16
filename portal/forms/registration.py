@@ -122,6 +122,7 @@ class PasswordResetForm(forms.Form):
                     [user.email],
                     email_subject_content["subject"],
                     email_subject_content["message"],
+                    email_subject_content["subject"],
                 )
 
     def _compute_protocol(self, use_https):

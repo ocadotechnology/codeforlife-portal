@@ -38,6 +38,7 @@ def send_email(
     recipients,
     subject,
     text_content,
+    title,
     html_content=None,
     plaintext_template="email.txt",
     html_template="email.html",
@@ -50,7 +51,7 @@ def send_email(
     plaintext_email_context = {"content": text_content}
     html_email_context = {"content": text_content}
     if html_content:
-        html_email_context = {"content": html_content}
+        html_email_context = {"content": html_content, "title": title}
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)

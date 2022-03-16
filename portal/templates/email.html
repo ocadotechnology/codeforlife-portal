@@ -1,7 +1,9 @@
 {% extends 'portal/email_style_template.html' %}
 
+
 {% load static %}
 
 {% block email_content %}
+<h3>{{ title }}</h3>
 {{ content|urlize|linebreaks }}
 {% endblock email_content %}
