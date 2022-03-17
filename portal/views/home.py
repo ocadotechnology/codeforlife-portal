@@ -137,6 +137,7 @@ def process_signup_form(request, data):
                 [email],
                 email_message["subject"],
                 email_message["message"],
+                email_message["subject"],
             )
         else:
             LOGGER.warn(
@@ -187,6 +188,7 @@ def process_independent_student_signup_form(request, data):
                 [email],
                 email_message["subject"],
                 email_message["message"],
+                email_message["subject"],
             )
         else:
             LOGGER.warn(

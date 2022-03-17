@@ -38,7 +38,7 @@ def send_email(
     recipients,
     subject,
     text_content,
-    title,
+    title="hello",
     html_content=None,
     plaintext_template="email.txt",
     html_template="email.html",
@@ -49,9 +49,7 @@ def send_email(
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
     plaintext_email_context = {"content": text_content}
-    html_email_context = {"content": text_content}
-    if html_content:
-        html_email_context = {"content": html_content, "title": title}
+    html_email_context = {"content": html_content, "title": title}
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
@@ -84,7 +82,11 @@ def send_verification_email(request, user, new_email=None):
 
         message = emailVerificationNeededEmail(request, verification.token)
         send_email(
-            VERIFICATION_EMAIL, [user.email], message["subject"], message["message"]
+            VERIFICATION_EMAIL,
+            [user.email],
+            message["subject"],
+            message["message"],
+            message["subject"],
         )
 
     else:  # verifying change of email address.
@@ -92,12 +94,20 @@ def send_verification_email(request, user, new_email=None):
 
         message = emailChangeVerificationEmail(request, verification.token)
         send_email(
-            VERIFICATION_EMAIL, [new_email], message["subject"], message["message"]
+            VERIFICATION_EMAIL,
+            [user.email],
+            message["subject"],
+            message["message"],
+            message["subject"],
         )
 
         message = emailChangeNotificationEmail(request)
         send_email(
-            VERIFICATION_EMAIL, [user.email], message["subject"], message["message"]
+            VERIFICATION_EMAIL,
+            [user.email],
+            message["subject"],
+            message["message"],
+            message["subject"],
         )
 
 

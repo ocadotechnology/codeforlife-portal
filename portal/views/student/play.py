@@ -193,6 +193,7 @@ def process_join_organisation_form(request_form, request, student):
             [student.new_user.email],
             email_message["subject"],
             email_message["message"],
+            email_message["subject"],
         )
 
         email_message = email_messages.studentJoinRequestNotifyEmail(
@@ -206,6 +207,7 @@ def process_join_organisation_form(request_form, request, student):
             [student.pending_class_request.teacher.new_user.email],
             email_message["subject"],
             email_message["message"],
+            email_message["subject"],
         )
 
         messages.success(
