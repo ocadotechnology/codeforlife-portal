@@ -96,6 +96,16 @@ let theme = createTheme({
       fontWeight: MEDIUM,
     },
   },
+  // components: {
+  //   MuiButton: {
+  //     styleOverrides: {
+  //       outlined: {
+  //         color: "#000000",
+  //         borderRadius: 0,
+  //       },
+  //     },
+  //   },
+  // },
 });
 
 theme = responsiveFontSizes(theme);
