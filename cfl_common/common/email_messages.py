@@ -9,7 +9,8 @@ def reset_email_password_message(request, domain, uid, token, protocol):
     url = f"{protocol}://{domain}{password_reset_uri}"
     return {
         "subject": f"Password reset on www.{domain}",
-        "message": f"You are receiving this e-mail because you requested a password reset for your Code For Life user account.\n\n"
+        "message": f"You are receiving this e-mail because you requested "
+        f"a password reset for your Code For Life user account.\n\n"
         f"Please go to the following page and choose a new password: "
         f"{url}",
     }
