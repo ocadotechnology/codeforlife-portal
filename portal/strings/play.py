@@ -5,6 +5,8 @@ PLAY_BANNER = {
     "text": "",
     "button": {"text": "Play Rapid Router", "link": "levels"},
     "image_class": "banner--picture--play",
+    "alt": "Boy playing on ipad",
+    "image_description": "Credit: Annie Spratt, Unsplash",
 }
 
 PLAY_HEADLINE = {
