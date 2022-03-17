@@ -283,7 +283,7 @@ class AimmoCharacter(models.Model):
     description = models.TextField()
     image_path = models.CharField(max_length=255)
     sort_order = models.IntegerField()
-
+    alt = models.CharField(max_length=255, null=True)
     objects = AimmoCharacterManager()
 
     def __str__(self) -> str:

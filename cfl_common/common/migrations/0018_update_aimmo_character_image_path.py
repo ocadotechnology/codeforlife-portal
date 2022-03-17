@@ -1,5 +1,5 @@
 from common.helpers.data_migration_loader import load_data_from_file
-from django.db import migrations
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -10,8 +10,15 @@ class Migration(migrations.Migration):
         pass
 
     operations = [
-        migrations.RunPython(
-            load_data_from_file("aimmo_characters3.json"),
-            reverse_code=dummy_reverse_code,
-        )
+        migrations.AddField(
+            "AimmoCharacter",
+            "alt",
+            models.CharField(max_length=255, null=True),
+        ),
     ]
+    """
+    migrations.RunPython(
+        load_data_from_file("aimmo_characters3.json"),
+        reverse_code=dummy_reverse_code,
+    ),
+    """

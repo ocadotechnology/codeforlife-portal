@@ -4,7 +4,7 @@
 <div class="grid grid-characters grid__fit">
     {% for character in characters %}
         <div>
-            <img class="grid-character-image" src="{{ character.image_path | cloud_storage }}">
+            <img class="grid-character-image" src="{{ character.image_path | cloud_storage }}" alt="{{ character.alt }}">
             <h5 class="grid-character-title">{{ character.name }}</h5>
             <p>{{ character.description }}</p>
         </div>
