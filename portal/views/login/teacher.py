@@ -1,4 +1,5 @@
 from common.models import Teacher
+from django.contrib import messages as messages
 from django.shortcuts import render
 from two_factor.views import LoginView
 from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
@@ -48,5 +49,10 @@ class TeacherLoginView(LoginView):
                             "portal/locked_out.html",
                             {"is_teacher": True},
                         )
+
+        messages.warning(
+            request,
+            "Apologies for the disruption in running Rapid Router. We're working on a fix. Please bear with us.",
+        )
 
         return super(TeacherLoginView, self).post(request, *args, **kwargs)

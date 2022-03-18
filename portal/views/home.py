@@ -270,6 +270,11 @@ def home(request):
     sub banner (right under the page header). Other functions can be used to indicate a
     warning, an error or a simple information.
     """
+    messages.warning(
+        request,
+        "Apologies for the disruption in running Rapid Router. We're working on a fix. Please bear with us.",
+    )
+
     return render(request, "portal/home.html")
 
 
