@@ -16,15 +16,6 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-
-from common.helpers.emails import (
-    send_verification_email,
-    send_email,
-    NOTIFICATION_EMAIL,
-    add_to_dotmailer,
-    DotmailerUserType,
-)
-
 from deploy import captcha
 from portal import app_settings
 from portal.forms.registration import (

@@ -57,17 +57,6 @@ class PasswordResetForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email", None)
-        self.username = ""
-        # Check such an email exists
-        if User.objects.filter(email=email).exists():
-            teacher = Teacher.objects.filter(new_user__email=email)
-            # Check such an email is associated with a teacher
-            if teacher.exists():
-                self.username = teacher[0].new_user.username
-        return email
-
     def save(
         self,
         domain_override=None,
