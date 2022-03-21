@@ -17,7 +17,7 @@ from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 
 from django.contrib.auth.models import User
 
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 
 from common.email_messages import reset_email_password_message
@@ -105,6 +105,10 @@ class PasswordResetForm(forms.Form):
                     context["token"],
                     context["protocol"],
                 )
+                password_reset_uri = reverse_lazy(
+                    "password_reset_check_and_confirm",
+                    kwargs={"uidb64": context["uid"], "token": context["token"]},
+                )
 
                 send_email(
                     NOTIFICATION_EMAIL,
@@ -112,6 +116,7 @@ class PasswordResetForm(forms.Form):
                     email_subject_content["subject"],
                     email_subject_content["message"],
                     email_subject_content["subject"],
+                    f"{context['protocol']}://{domain}{password_reset_uri}",
                 )
 
     def _compute_protocol(self, use_https):

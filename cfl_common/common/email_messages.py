@@ -1,6 +1,10 @@
 from django.urls import reverse, reverse_lazy
 
 
+def button(button_text, link):
+    return f"<a style='word-wrap:break-word;word-break:break-word;border:0px solid #000000;padding:10px 25px;color:#ffffff;font-family:Arial,sans-serif;font-size:18px;text-align:center;text-decoration:none;display:block;border-radius:8px;font-weight:bold;height:100%;font-style:normal;line-height:inherit' src='{link}'>{button_text}</a>"
+
+
 def reset_email_password_message(request, domain, uid, token, protocol):
     password_reset_uri = reverse_lazy(
         "password_reset_check_and_confirm",
@@ -12,7 +16,7 @@ def reset_email_password_message(request, domain, uid, token, protocol):
         "message": f"You are receiving this e-mail because you requested "
         f"a password reset for your Code For Life user account.\n\n"
         f"Please go to the following page and choose a new password: "
-        f"{url}",
+        f"{button('Reset password', url)}",
     }
 
 
@@ -218,4 +222,14 @@ def inviteTeacherEmail(request):
             f"{request.build_absolute_uri(reverse('register'))}"
             f"{emailBodySignOff(request)}"
         ),
+    }
+
+
+def successfulAccountDelete(request):
+    return {
+        "subject": f"{emailSubjectPrefix()}: We are sorry to see you go",
+        "title": "Your account was successfully deleted",
+        "message": f"If you have a minute before you go completely"
+        f" please let us know why you are leaving through the super quick survey below."
+        f"\nThank you for being part of theCode for Life community!",
     }

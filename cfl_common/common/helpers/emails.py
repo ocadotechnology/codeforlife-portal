@@ -39,6 +39,7 @@ def send_email(
     subject,
     text_content,
     title,
+    button_content=False,
     html_content=None,
     plaintext_template="email.txt",
     html_template="email.html",
@@ -49,7 +50,11 @@ def send_email(
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
     plaintext_email_context = {"content": text_content}
-    html_email_context = {"content": text_content, "title": title}
+    html_email_context = {
+        "content": text_content,
+        "title": title,
+        "link": button_content,
+    }
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
