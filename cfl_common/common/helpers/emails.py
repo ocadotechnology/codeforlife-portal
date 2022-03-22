@@ -16,7 +16,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
-from requests import post, get, put
+from requests import post, get, put, delete
 from requests.exceptions import RequestException
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -183,6 +183,19 @@ def add_contact_to_address_book(
         json=body,
         auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
     )
+
+
+def delete_contact(email: str):
+    user = get_dotmailer_user_by_email(email)
+    id = user.get("id")
+    if id:
+        url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace(
+            "ID", str(user["id"])
+        )
+        delete(
+            url,
+            auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+        )
 
 
 def get_dotmailer_user_by_email(email):

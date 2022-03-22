@@ -146,3 +146,30 @@ class StudentPasswordResetForm(PasswordResetForm):
         if student.exists():
             self.username = student[0].new_user.username
         return email
+
+
+class DeleteAccountForm(forms.Form):
+    confirm_password = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirm password"}),
+        help_text="Confirm password",
+    )
+
+    unsubscribe_newsletter = forms.BooleanField(
+        label="Please remove me from the newsletter and marketing emails too.",
+        widget=forms.CheckboxInput(),
+        initial=False,
+        required=False,
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(DeleteAccountForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if any(self.errors):
+            return
+
+        confirm_password = self.cleaned_data.get("confirm_password", None)
+        if not self.user.check_password(confirm_password):
+            raise forms.ValidationError("Incorrect password")

@@ -62,6 +62,7 @@ from portal.views.registration import (
     password_reset_done,
     student_password_reset,
     teacher_password_reset,
+    delete_account,
 )
 from portal.views.student.edit_account_details import (
     IndependentStudentEditAccountView,
@@ -420,6 +421,7 @@ urlpatterns = [
         teacher_move_students_to_class,
         name="teacher_move_students_to_class",
     ),
+    url(r"^delete/account/$", delete_account, name="delete_account"),
     url(
         r"^api/",
         include(
