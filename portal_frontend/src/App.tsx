@@ -7,16 +7,17 @@ Libraries that seem to be breaking the app without notice
 
 
 */
-import Footer from "./Components/Footer/Footer";
-import React from "react";
-import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
-import Navbar from "./Components/Navbar/Navbar";
+import React from "react";
 import Welcome from "./Components/Banner/Welcome";
-import RapidRouterScores from "./Components/RapidRouterScores/RapidRouterScores";
+import Footer from "./Components/Footer/Footer";
 import KuronoWidget from "./Components/KuronoWidget/KuronoWidget";
 import MeetTheCharacters from "./Components/MeetTheCharacters/MeetTheCharacters";
+import Navbar from "./Components/Navbar/Navbar";
+import RapidRouterScores from "./Components/RapidRouterScores/RapidRouterScores";
 import SubNav from "./Components/SubNav/SubNav";
+import SubNavItem from "./Components/SubNav/SubNavItem";
+import theme from "./Theme";
 
 export type UserType = "student" | "independent" | "teacher" | "none";
 export interface User {
@@ -34,7 +35,17 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Navbar userType={userType} name={name} />
         <Welcome name={name} userType={userType} />
-        <SubNav />
+        <SubNav userType={userType} initialValue="levels">
+          <SubNavItem value="levels" aria-label="levels">
+            Levels
+          </SubNavItem>
+          <SubNavItem value="create" aria-label="create">
+            Create
+          </SubNavItem>
+          <SubNavItem value="scoreboard" aria-label="scoreboard">
+            Scoreboard
+          </SubNavItem>
+        </SubNav>
         <RapidRouterScores />
         <KuronoWidget />
         <MeetTheCharacters />
