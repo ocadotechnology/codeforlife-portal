@@ -116,7 +116,8 @@ class PasswordResetForm(forms.Form):
                     email_subject_content["subject"],
                     email_subject_content["message"],
                     email_subject_content["subject"],
-                    f"{context['protocol']}://{domain}{password_reset_uri}",
+                    button_text="Reset password",
+                    button_link=f"{context['protocol']}://{domain}{password_reset_uri}",
                 )
 
     def _compute_protocol(self, use_https):

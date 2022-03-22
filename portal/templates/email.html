@@ -3,4 +3,9 @@
 {% block email_content %}
 <h1 style="color:rgb(224,0,77);font-family: 'space grotesk';font-size: 2rem;">{{ title }}</h1>
 {{ content|urlize|linebreaks }}
+<a style="word-wrap:break-word;word-break:break-word;border:0px solid #000000;padding:10px 25px;color:#ffffff;font-family:Arial,sans-serif;font-size:18px;text-align:center;text-decoration:none;display:block;border-radius:8px;font-weight:bold;height:100%;font-style:normal;line-height:inherit"
+src="{{ button_link }}">
+> {{ button_text }}
+</a>
+
 {% endblock email_content %}
