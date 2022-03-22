@@ -16,9 +16,3 @@ class Migration(migrations.Migration):
             models.CharField(max_length=255, null=True),
         ),
     ]
-    """
-    migrations.RunPython(
-        load_data_from_file("aimmo_characters3.json"),
-        reverse_code=dummy_reverse_code,
-    ),
-    """
