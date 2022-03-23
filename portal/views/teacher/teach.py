@@ -601,7 +601,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         messages.warning(
             request,
             f"The following students could not be released: {', '.join(failed_users)}. "
-            "Please make sure the email has not been registered to another account."
+            "Please make sure the email has not been registered to another account.",
         )
 
     return HttpResponseRedirect(
@@ -986,6 +986,7 @@ def invite_teacher(request):
                 [email_address],
                 email_message["subject"],
                 email_message["message"],
+                email_message["subject"],
             )
             return render(request, "portal/email_invitation_sent.html")
 

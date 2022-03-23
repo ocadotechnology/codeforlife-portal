@@ -39,8 +39,6 @@ def send_email(
     subject,
     text_content,
     title,
-    button_text=None,
-    button_link=None,
     html_content=None,
     plaintext_template="email.txt",
     html_template="email.html",
@@ -55,9 +53,6 @@ def send_email(
         "content": text_content,
         "title": title,
     }
-    if button_text and button_link:
-        html_email_context["button_content"] = button_text
-        html_email_context["button_link"] = button_link
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
@@ -274,6 +269,7 @@ def update_email(user: Teacher or Student, request, data):
                 [user.new_user.email],
                 email_message["subject"],
                 email_message["message"],
+                email_message["subject"],
             )
         else:
             # new email to set and verify
