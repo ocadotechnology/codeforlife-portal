@@ -162,6 +162,7 @@ class TestClassFrontend(BaseTest):
             self.go_to_homepage()
             .go_to_teacher_login_page()
             .login_no_class(email, password)
+            .open_classes_tab()
         )
 
         assert page.does_not_have_classes()

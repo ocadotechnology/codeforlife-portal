@@ -670,20 +670,17 @@ class TestTeacherFrontend(BaseTest):
 
     def test_onboarding_complete(self):
         email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        create_class_directly(email)
-
-        student_name = "Test Student"
 
         self.selenium.get(self.live_server_url)
         page = (
             HomePage(self.selenium)
             .go_to_teacher_login_page()
-            .login_no_students(email, password)
-            .type_student_name(student_name)
-            .create_students()
-            .complete_setup()
+            .login_no_school(email, password)
         )
+
+        page = page.create_organisation("Test school", "W1", "GB")
+        page = page.create_class("Test class", True)
+        page = page.type_student_name("Test Student").create_students().complete_setup()
 
         assert page.has_onboarding_complete_popup()
 

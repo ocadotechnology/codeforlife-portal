@@ -30,7 +30,7 @@ from selenium.webdriver.common.alert import Alert
 
 
 class TestTeacherStudentFrontend(BaseTest):
-    def test_create(self):
+    def test_create_valid_name(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         create_class_directly(email)
@@ -40,52 +40,20 @@ class TestTeacherStudentFrontend(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login_no_students(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
         )
-
-        page, student_name = create_school_student(page)
-        assert page.student_exists(student_name)
-
-        assert page.__class__.__name__ == "OnboardingStudentListPage"
-
-    def test_create_valid_name_dash(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        create_class_directly(email)
 
         student_name = "Florian-Gilbert"
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_students(email, password)
-        )
-
-        page = page.type_student_name(student_name).create_students()
+        page = page.type_student_name(student_name)
+        
+        student_name2 = "Florian_Gilbert"
+        page = page.type_student_name(student_name2)
+        
+        page.click_create_students()
 
         assert page.student_exists(student_name)
-
-        assert page.__class__.__name__ == "OnboardingStudentListPage"
-
-    def test_create_valid_name_underscore(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        create_class_directly(email)
-
-        student_name = "Florian_Gilbert"
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_students(email, password)
-        )
-
-        page = page.type_student_name(student_name).create_students()
-
-        assert page.student_exists(student_name)
-
-        assert page.__class__.__name__ == "OnboardingStudentListPage"
+        assert page.student_exists(student_name2)
 
     def test_create_invalid_name(self):
         email, password = signup_teacher_directly()
@@ -99,9 +67,11 @@ class TestTeacherStudentFrontend(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login_no_students(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
         )
 
-        page = page.type_student_name(student_name).create_students_failure()
+        page = page.type_student_name(student_name).click_create_students()
 
         assert page.adding_students_failed()
         assert page.was_form_invalid(
@@ -119,6 +89,8 @@ class TestTeacherStudentFrontend(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login_no_students(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
         )
 
         page, student_names = create_many_school_students(page, 12)
@@ -138,12 +110,14 @@ class TestTeacherStudentFrontend(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login_no_students(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
         )
 
         page = (
             page.type_student_name(student_name)
             .type_student_name(student_name)
-            .create_students_failure()
+            .click_create_students()
         )
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
@@ -158,6 +132,8 @@ class TestTeacherStudentFrontend(BaseTest):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login_no_students(email, password)
+            .open_classes_tab()
+            .go_to_class_page()
             .import_students_from_csv("test_students_names.csv")
         )
 
