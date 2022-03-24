@@ -150,7 +150,7 @@ class StudentPasswordResetForm(PasswordResetForm):
 
 class DeleteAccountForm(forms.Form):
     confirm_password = forms.CharField(
-        required=False,
+        required=True,
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm password"}),
         help_text="Confirm password",
     )

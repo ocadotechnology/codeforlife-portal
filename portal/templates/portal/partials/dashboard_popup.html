@@ -1,0 +1,18 @@
+{# A popup for delete account with Review classes button. #}
+<section id="popup-delete-review" class="popup-wrapper">
+    <div class="popup-box">
+        <div>
+            <button type="button" onclick="hideDeleteAccountPopup()" class="close m-2" aria-label="Close" style="min-width:0;">
+                <span class="iconify" data-icon="mdi:close"></span>
+            </button>
+        </div>
+        <div class="popup-box__title"></div>
+        <div class="popup-box__msg"></div>
+        <div class="popup-box__buttons  justify-content-center">
+            <a id="review_button" class="button button--primary" onclick="" aria-labelledby="review_button">Review classes</a>
+            <a id="cancel_button" class="button button--secondary button--secondary--dark" onclick="hideDeleteAccountPopup()" aria-labelledby="cancel_button">Cancel</a>
+            <a id="delete_button" class='button button--primary button--primary--danger button--icon' onclick="" aria-labelledby="delete_button">
+                Delete <span class="iconify" data-icon="mdi:delete-outline"></span></a>
+        </div>
+    </div>
+</section>
