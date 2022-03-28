@@ -50,10 +50,6 @@
             -ms-interpolation-mode: bicubic
         }
 
-        .yshortcuts a {
-            border-bottom: none !important
-        }
-
         .mobile-link--footer a,
         a[x-apple-data-detectors] {
             color: inherit !important;
@@ -74,11 +70,11 @@
                 min-width: 100% !important
             }
 
-            body .ee-show-on-desktop {
+            body {
                 display: none !important
             }
 
-            table .ee-hide-on-desktop {
+            table {
                 display: table;
                 max-height: none;
                 visibility: visible;
@@ -93,20 +89,6 @@
         @media only screen and (min-width:505px) {
             .row .stack-column {
                 min-width: 0 !important
-            }
-
-            .ee-show-on-desktop {
-                display: block !important
-            }
-
-            table.ee-show-on-desktop {
-                display: table !important
-            }
-
-            .ee_columns.ee-hide-on-desktop,
-            .ee_element.ee-hide-on-desktop,
-            .ee_element.x_ee-hide-on-desktop {
-                display: none !important
             }
         }
 
@@ -129,32 +111,6 @@
             min-width: 100% !important
         }
 
-        [owa] .ee-show-on-desktop {
-            display: block !important
-        }
-
-        [owa] table.ee-show-on-desktop {
-            display: table !important
-        }
-
-        .ee-hide-on-desktop {
-            visibility: hidden;
-            width: 0 !important;
-            max-height: 0;
-            display: block
-        }
-
-        body .ee-hide-on-desktop {
-            visibility: visible;
-            width: 100% !important;
-            display: table;
-            max-height: none
-        }
-
-        #MessageViewBody .ee-show-on-desktop {
-            display: none !important
-        }
-
         a[x-apple-data-detectors] {
             color: inherit !important;
             text-decoration: none !important;
@@ -162,15 +118,6 @@
             font-family: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important
-        }
-
-        #MessageViewBody a {
-            color: inherit;
-            text-decoration: none;
-            font-size: inherit;
-            font-family: inherit;
-            font-weight: inherit;
-            line-height: inherit
         }
 
         u+#body a {
@@ -182,20 +129,7 @@
             line-height: inherit
         }
 
-        span.MsoHyperlink,
-        span.MsoHyperlinkFollowed {
-            mso-style-priority: 99 !important;
-            color: inherit !important;
-            text-decoration: none !important
-        }
-
         @media screen and (max-width:504px) {
-
-            [owa] .ee-show-on-desktop,
-            body .ee-show-on-desktop {
-                display: none !important
-            }
-
             .two-cols-per-row>tbody>tr>td>.stack-column {
                 max-width: 100% !important;
                 min-width: 50% !important;
@@ -205,31 +139,6 @@
         }
     </style>
     <style type="text/css" id="editor_required_inline" ee-render="inline">
-        .visually-hidden {
-            display: none;
-            font-size: 1px;
-            line-height: 1px;
-            max-height: 0;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            mso-hide: all;
-            font-family: sans-serif
-        }
-
-        .banner-img {
-            border: 0;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            vertical-align: bottom
-        }
-
-        .background-image-txt {
-            background-position: center center !important;
-            background-size: cover !important
-        }
-
         td.row-container {
             padding: 0;
             text-align: center;
@@ -249,11 +158,10 @@
         .no-stack-column {
             display: inline-block;
             vertical-align: top;
-            float: left
         }
 
         .stack-column-row {
-            display: inline-block
+            display: inline-block;
         }
 
         .col-font-reset,
@@ -269,16 +177,8 @@
             word-break: break-all !important
         }
 
-        .text-center {
-            text-align: center
-        }
-
         .margin-0-auto {
             margin: 0 auto
-        }
-
-        .border-0 {
-            border: 0
         }
 
         .border-collapse {
@@ -293,20 +193,8 @@
             Margin: auto
         }
 
-        .mso-height-rule-exactly {
-            mso-height-rule: exactly
-        }
-
         .f-size-0 {
             font-size: 0
-        }
-
-        .ee_externaldccontent {
-            font-size: initial
-        }
-
-        .table-layout-fixed {
-            table-layout: fixed !important
         }
 
         img {
@@ -316,185 +204,12 @@
         ul li {
             margin: 0
         }
-
-        .ee-show-on-desktop {
-            display: none
-        }
-
-        .ee_columns.dc-content-hide-on-desktop,
-        .ee_columns.dc-content-hide-on-desktop *,
-        .ee_columns.ee-hide-on-desktop,
-        .ee_columns.ee-hide-on-desktop *,
-        .ee_element.dc-content-hide-on-desktop,
-        .ee_element.dc-content-hide-on-desktop *,
-        .ee_element.ee-hide-on-desktop,
-        .ee_element.ee-hide-on-desktop * {
-            mso-hide: all
-        }
-
-        .button-container {
-            text-align: left
-        }
-
-        .button-container.button-left {
-            text-align: left
-        }
-
-        .button-container.button-left .button-wrapper {
-            float: left;
-            width: initial
-        }
-
-        .button-container.button-right {
-            text-align: right
-        }
-
-        .button-container.button-right .button-wrapper {
-            float: right;
-            width: initial
-        }
-
-        .button-container.button-center {
-            text-align: center
-        }
-
-        .button-container.button-center .button-wrapper {
-            float: none;
-            margin: 0 auto;
-            width: initial
-        }
-
-        .button-container.button-full-width {
-            text-align: center
-        }
-
-        .button-container.button-full-width .button-wrapper {
-            width: 100%;
-            display: table
-        }
-
-        .button-wrapper {
-            text-align: center;
-            display: inline-block
-        }
-
-        .button-td {
-            border-radius: 3px;
-            background: #222;
-            text-align: center
-        }
-
-        .button-td .button-a,
-        .button-td .ee_editable.button-a {
-            margin-bottom: 0;
-            text-align: center;
-            line-height: 140%;
-            color: #fff
-        }
-
-        .button-td .button-a a,
-        .button-td .ee_editable.button-a a {
-            border: 0 solid #000;
-            padding: 15px 25px;
-            color: inherit;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            text-align: inherit;
-            text-decoration: none;
-            display: block;
-            border-radius: 3px;
-            font-weight: 700
-        }
-
-        .button-td .button-a a font,
-        .button-td .ee_editable.button-a a font {
-            color: inherit;
-            word-break: break-word;
-            word-wrap: break-word
-        }
-
-        .button-container-v2 {
-            width: 100%
-        }
-
-        .button-container-v2.button-left {
-            text-align: left
-        }
-
-        .button-container-v2.button-left table .button-td {
-            float: left
-        }
-
-        .button-container-v2.button-right {
-            text-align: right
-        }
-
-        .button-container-v2.button-right table .button-td {
-            float: right
-        }
-
-        .button-container-v2.button-center {
-            text-align: center
-        }
-
-        .button-container-v2.button-center table .button-td {
-            margin: 0 auto
-        }
-
-        .button-container-v2.button-full-width table {
-            display: table;
-            width: 100%
-        }
-
-        .button-container-v2.button-full-width table .button-td {
-            display: block;
-            width: auto
-        }
-
-        .button-container-v2.button-center table,
-        .button-container-v2.button-left table,
-        .button-container-v2.button-right table {
-            display: block;
-            width: auto
-        }
-
-        .button-container-v2.button-center table tbody,
-        .button-container-v2.button-center table tr,
-        .button-container-v2.button-left table tbody,
-        .button-container-v2.button-left table tr,
-        .button-container-v2.button-right table tbody,
-        .button-container-v2.button-right table tr {
-            display: block
-        }
-
-        .button-container-v2.button-center table tbody .button-td,
-        .button-container-v2.button-center table tr .button-td,
-        .button-container-v2.button-left table tbody .button-td,
-        .button-container-v2.button-left table tr .button-td,
-        .button-container-v2.button-right table tbody .button-td,
-        .button-container-v2.button-right table tr .button-td {
-            display: inline-block
-        }
-
-        .button-container-v2 table {
-            border-collapse: collapse;
-            border-spacing: 0
-        }
-
-        .button-container-v2 a {
-            display: block;
-            width: auto;
-            box-sizing: border-box
-        }
     </style>
     <style>
         * {
             font-family: sans-serif !important;
         }
 
-        .button-wrapper {
-            padding: 12px 16px 12px 16px;
-        }
     </style>
     <style type="text/css">
         .stack-column {
@@ -515,9 +230,6 @@
         }
     </style>
     <style>
-        .banner {
-            width: 900 !important;
-        }
     </style>
     <style type="text/css" id="editor_required_emailwidth" ee-render="inline">
         .email-full-width {
@@ -549,15 +261,6 @@
             padding: 0 0
         }
 
-        .row .row .row-inner.ee_basketcontent,
-        .row .row .row-inner.ee_productcontent {
-            padding: 10px
-        }
-
-        .ee_dynamic .row-inner.element-pad {
-            padding: 0 10px
-        }
-
         .col-inner {
             border-width: 0;
             padding: 0
@@ -587,11 +290,6 @@
         .row-inner {
             border-width: 0;
             padding: 0 10px
-        }
-
-        .row-inner.ee_basketcontent,
-        .row-inner.ee_productcontent {
-            padding: 10px
         }
 
         .element-bord {
@@ -697,18 +395,8 @@
             width: 12.5%
         }
 
-        .banner-padding {
-            padding: 0 0
-        }
-
         .hero-image-padding {
             padding: 0 0
-        }
-
-        .background-image-txt-mso {
-            width: 680px;
-            height: 175px;
-            background-position: center center !important
         }
 
         .bg-img-txt-width {
@@ -720,77 +408,20 @@
         }
 
         .col-font-reset,
-        .ee_element,
         .font-reset {
             min-width: 100%
         }
 
-        .button-wrapper {
-            min-width: auto
-        }
     </style>
     <style type="text/css" ee-render="inline">
-        .ExternalClass p {
-            MARGIN: 0px;
-        }
-
-        .ee_editable p,
-        .ee_editable li,
-        .ee_editable td,
-        .ee_editable a,
-        .ee_editable font {
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-
-        .ee_element .button-container.button-left {
-            text-align: left;
-        }
-
-        .ee_element .button-container.button-left .button-wrapper {
-            float: left;
-        }
-
-        .ee_element .button-container.button-right {
-            text-align: right;    display: block;
-
-        }
-
-        .ee_element .button-container.button-right .button-wrapper {
-            float: right;
-        }
-
-        .ee_element .button-container.button-center {
-            text-align: center;
-        }
-
-        .ee_element .button-container.button-center .button-wrapper {
-            float: none;
-            margin: 0 auto;
-        }
-
-        .ee_element .button-container.button-full-width {
-            text-align: center;
-        }
-
-        .ee_element .button-container.button-full-width .button-wrapper {
-            width: 100%;
-            display: table;
-        }
-
-        .button-wrapper {
-            text-align: center;
-            display: inline-block;
-        }
-
         .button-td .button-a,
-        .button-td .ee_editable.button-a {
+        .button-td .element-editable.button-a {
             color: #fff;
             margin-bottom: 0;
         }
 
         .button-td .button-a a,
-        .button-td .ee_editable.button-a a {
+        .button-td .element-editable.button-a a {
             color: inherit;
             text-align: inherit;
             display: block;
@@ -798,7 +429,7 @@
         }
 
         .button-td .button-a a font,
-        .button-td .ee_editable.button-a a font {
+        .button-td .element-editable.button-a a font {
             color: inherit;
             word-break: break-word;
             word-wrap: break-word;
@@ -808,50 +439,35 @@
     </style>
     <style ee-render="inline">
         /* Auto-generated style block.  Only edit if you know what you are doing! */
-        .base-styles {
-            color: #3a3a3a;
-            font-family: "Source Sans Pro", sans-serif;
-            font-size: 18px;
-            line-height: 31px;
-            Margin: 0px;
-            text-align: center;
-        }
-
         body,
         td {
             font-family: "Source Sans Pro", sans-serif;
         }
 
-        .ee_editable:not(img),
-        .ee_editable td,
-        .ee_rsscontent {
-            color: #3a3a3a;
-            font-size: 18px;
-            line-height: 31px;
-        }
-
-        .ee_editable p {
+        .element-editable:not(img),
+        .element-editable td,
+        .element-editable p {
             Margin: 0px;
             text-align: center;
         }
 
-        .ee_editable p.menu-item {
+        .element-editable p.menu-item {
             font-size: 14px;
             color: #939393;
             line-height: 24px;
             text-align: center;
         }
 
-        .ee_editable p.disclaimer {
+        .element-editable p.disclaimer {
             font-size: 12px;
             color: #3a3a3a;
             line-height: 19px;
             text-align: center;
         }
 
-        .ee_editable .h1,
-        .h1.ee_editable,
-        .ee_editable h1 {
+        .element-editable .h1,
+        .h1.element-editable,
+        .element-editable h1 {
             font-size: 26px;
             font-weight: bold;
             color: #333333;
@@ -860,9 +476,9 @@
             text-decoration: none;
         }
 
-        .ee_editable .h2,
-        .h2.ee_editable,
-        .ee_editable h2 {
+        .element-editable .h2,
+        .h2.element-editable,
+        .element-editable h2 {
             font-size: 22px;
             font-weight: bold;
             color: #3a3a3a;
@@ -872,9 +488,9 @@
             text-decoration: none;
         }
 
-        .ee_editable .h3,
-        .h3.ee_editable,
-        .ee_editable h3 {
+        .element-editable .h3,
+        .h3.element-editable,
+        .element-editable h3 {
             font-size: 20px;
             font-weight: bold;
             color: #3a3a3a;
@@ -883,9 +499,9 @@
             text-decoration: none;
         }
 
-        .ee_editable .h4,
-        .h4.ee_editable,
-        .ee_editable h4 {
+        .element-editable .h4,
+        .h4.element-editable,
+        .element-editable h4 {
             font-size: 20px;
             font-weight: normal;
             line-height: 28px;
@@ -908,130 +524,6 @@
             background: #f42f6b;
             text-decoration: none;
             min-width: 200px;
-        }
-
-        .button-container.Red {
-            text-align: center;
-        }
-
-        .button-container.Red .button-wrapper {
-            float: none;
-            Margin: 0px auto;
-        }
-
-        .button-container.Red .button-td {
-            border-radius: 0px;
-            background: #f42f6b;
-            min-width: 200px;
-        }
-
-        .button-container.Red .button-td .button-a,
-        .button-container.Red .ee_editable.button-a {
-            color: #ffffff;
-            line-height: 20px;
-            text-align: center;
-        }
-
-        .button-container.Red .button-td .button-a a,
-        .button-container.Red .ee_editable.button-a a {
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            font-size: 15px;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 20px;
-            text-align: center;
-            border: 0px solid #000000;
-            border-radius: 0px;
-            padding: 10px 25px;
-            text-decoration: none;
-        }
-
-        .button-td.Default.definition {
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            font-style: normal;
-            font-weight: bold;
-            line-height: 24px;
-            text-align: center;
-            border: 0px solid #000000;
-            border-radius: 8px;
-            padding: 10px 25px;
-            align-items: center;
-            background: #f4ce2f;
-            text-decoration: none;
-            min-width: 200px;
-        }
-
-        .button-container {
-            text-align: center;
-        }
-
-        .button-container .button-wrapper {
-            float: none;
-            Margin: 0px auto;
-        }
-
-        .button-container .button-td {
-            border-radius: 8px;
-            background: #f4ce2f;
-            min-width: 200px;
-        }
-
-        .button-container .button-td .button-a,
-        .button-container .ee_editable.button-a {
-            color: #ffffff;
-            line-height: 24px;
-            text-align: center;
-        }
-
-        .button-container .button-td .button-a a,
-        .button-container .ee_editable.button-a a {
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            font-style: normal;
-            font-weight: bold;
-            line-height: 24px;
-            text-align: center;
-            border: 0px solid #000000;
-            border-radius: 8px;
-            padding: 10px 25px;
-            text-decoration: none;
-        }
-
-        .rsstitle {
-            Margin: 0px;
-            text-align: left;
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        .rsstitle a {
-            color: #0000ee;
-            Margin: 0px;
-            text-align: left;
-            text-decoration: underline;
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        .rsssummary {
-            Margin: 0px;
-            text-align: left;
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        .rsslink,
-        .rsslink a {
-            color: #0000ee;
-            Margin: 0px;
-            text-align: left;
-            text-decoration: underline;
-            font-weight: normal;
-            font-style: normal;
         }
     </style>
 </head>
@@ -1221,7 +713,7 @@
                                                                                                                                 align="left"
                                                                                                                                 class="element-pad element-bord"
                                                                                                                                 style="padding-top: 15px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
-                                                                                                                                <div class="ee_editable"
+                                                                                                                                <div class="element-editable"
                                                                                                                                     style="position: static;">
                                                                                                                                     <p dir="ltr"
                                                                                                                                         style="line-height: 25px; margin-top: 0pt; margin-bottom: 0pt; font-size: 20px;">
@@ -1342,7 +834,7 @@
                                                                                             <div
                                                                                                 style="position: static;">
                                                                                                 <p class="disclaimer"
-                                                                                                    style="font-size: 14px; line-height: 22px; font-family: inter, sans-serif; color: rgb(255, 255, 255);">
+                                                                                                    style="font-size: 14px; line-height: 22px; font-family: inter, sans-serif; color: rgb(255, 255, 255); text-align: center;">
                                                                                                     <font>
                                                                                                         Contact us
                                                                                                     </font>
@@ -1352,7 +844,7 @@
                                                                                                     <br>
                                                                                                 </p>
                                                                                                 <p class="disclaimer"
-                                                                                                    style="font-family: inter, sans-serif; color: rgb(255, 255, 255);">
+                                                                                                    style="text-align: center; font-family: inter, sans-serif; color: rgb(255, 255, 255);">
                                                                                                     <font>Ocado
                                                                                                         Innovation
                                                                                                         Limited is&nbsp;
@@ -1376,7 +868,9 @@
                                                                                                     style="font-family: inter, sans-serif; color: rgb(255, 255, 255);">
                                                                                                     <br>
                                                                                                 </p>
-                                                                                                <p class="disclaimer">
+                                                                                                <p class="disclaimer"
+                                                                                                    style="text-align: center;"
+                                                                                                    >
                                                                                                     <font
                                                                                                         style="font-family: inter, sans-serif; color: rgb(255, 255, 255);">
                                                                                                         You can find out
