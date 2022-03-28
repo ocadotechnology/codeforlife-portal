@@ -9,7 +9,7 @@ import { primaryColour, secondaryColour, tertiaryColour } from "colours";
 import React from "react";
 
 // TODO: move this to a future User object or theme
-function getSubNavBackgroundColor(userType?: UserType) {
+const getSubNavBackgroundColor = (userType?: UserType) => {
   switch (userType) {
     case "student":
       return tertiaryColour[300];
@@ -20,10 +20,10 @@ function getSubNavBackgroundColor(userType?: UserType) {
     default:
       return primaryColour[300];
   }
-}
+};
 
 // TODO: move this to a future User object or theme
-function getSubNavTextColor(theme: Theme, userType?: UserType) {
+const getSubNavTextColor = (theme: Theme, userType?: UserType) => {
   switch (userType) {
     case "student":
       return theme.palette.tertiary.contrastText;
@@ -34,7 +34,7 @@ function getSubNavTextColor(theme: Theme, userType?: UserType) {
     default:
       return theme.palette.primary.contrastText;
   }
-}
+};
 
 interface SubNavProps extends ToggleButtonGroupProps {
   initialValue?: string;
