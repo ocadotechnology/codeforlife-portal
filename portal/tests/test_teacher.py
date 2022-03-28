@@ -649,7 +649,7 @@ class TestTeacherFrontend(BaseTest):
 
         new_password = "AnotherPassword12!"
 
-        # page.teacher_reset_password(new_password)
+        page.teacher_reset_password(new_password)
 
         self.selenium.get(self.live_server_url)
         page = (
