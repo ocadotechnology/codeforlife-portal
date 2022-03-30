@@ -40,6 +40,7 @@ def send_email(
     text_content,
     title,
     html_content=None,
+    image_path=None,
     plaintext_template="email.txt",
     html_template="email.html",
 ):
@@ -52,6 +53,7 @@ def send_email(
     html_email_context = {
         "content": text_content,
         "title": title,
+        "image_path": image_path,
     }
 
     # render templates
