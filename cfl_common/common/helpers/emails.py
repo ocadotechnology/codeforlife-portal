@@ -186,14 +186,19 @@ def add_contact_to_address_book(
 
 
 def delete_contact(email: str):
-    user = get_dotmailer_user_by_email(email)
-    user_id = user.get("id")
-    if user_id:
-        url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace("ID", str(user_id))
-        delete(
-            url,
-            auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
-        )
+    try:
+        user = get_dotmailer_user_by_email(email)
+        user_id = user.get("id")
+        if user_id:
+            url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace(
+                "ID", str(user_id)
+            )
+            delete(
+                url,
+                auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+            )
+    except RequestException:
+        return HttpResponse(status=404)
 
 
 def get_dotmailer_user_by_email(email):

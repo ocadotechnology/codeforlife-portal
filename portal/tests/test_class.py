@@ -52,6 +52,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
         assert len(teacher_classes) == 1
+        assert teacher.has_class() == True
 
         # Delete the student, and try again, check the class is deleted successfully
         student.delete()
@@ -62,6 +63,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
         assert len(teacher_classes) == 0
+        assert teacher.has_class() == False
 
     def test_edit_class(self):
         email1, password1 = signup_teacher_directly()

@@ -562,6 +562,8 @@ class TestViews(TestCase):
 
     def test_delete_account(self):
         email, password = signup_teacher_directly()
+        u = User.objects.get(email=email)
+        usrid = u.id
 
         c = Client()
         url = reverse("teacher_login")
@@ -574,29 +576,20 @@ class TestViews(TestCase):
             },
         )
 
+        # fail to delete with incorrect password
         url = reverse("delete_account")
-        with pytest.raises(requests.exceptions.ConnectionError):
-            # unsubscribe to dotmailer raises exception because it's test env
-            response = c.post(
-                url, {"password": password, "unsubscribe_newsletter": True}
-            )
+        response = c.post(url, {"password": "wrongPassword"})
 
-        email, password = signup_teacher_directly()
+        assert response.status_code == 302
+        assert response.url == reverse("dashboard")
+
+        # user has not been anonymised
         u = User.objects.get(email=email)
-        usrid = u.id
+        assert u.id == usrid
 
-        url = reverse("teacher_login")
-        response = c.post(
-            url,
-            {
-                "auth-username": email,
-                "auth-password": password,
-                "teacher_login_view-current_step": "auth",
-            },
-        )
-
+        # try again with the correct password
         url = reverse("delete_account")
-        response = c.post(url, {"password": password})
+        response = c.post(url, {"password": password, "unsubscribe_newsletter": "on"})
 
         assert response.status_code == 302
         assert response.url == reverse("home")
