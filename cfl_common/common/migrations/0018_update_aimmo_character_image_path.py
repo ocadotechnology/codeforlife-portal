@@ -6,9 +6,6 @@ class Migration(migrations.Migration):
 
     dependencies = [("common", "0017_copy_email_to_username")]
 
-    def dummy_reverse_code(app, schema_editor):
-        pass
-
     operations = [
         migrations.AddField(
             "AimmoCharacter",
