@@ -5,20 +5,20 @@ import {
   useTheme,
 } from "@mui/material";
 import { UserType } from "App";
-import { primaryColour, secondaryColour, tertiaryColour } from "colours";
+import { primaryColor, secondaryColor, tertiaryColor } from "@cfl/colors";
 import React from "react";
 
 // TODO: move this to a future User object or theme
 const getSubNavBackgroundColor = (userType?: UserType) => {
   switch (userType) {
     case "student":
-      return tertiaryColour[300];
+      return tertiaryColor[300];
     case "independent":
-      return secondaryColour[300];
+      return secondaryColor[300];
     case "teacher":
     case "none":
     default:
-      return primaryColour[300];
+      return primaryColor[300];
   }
 };
 

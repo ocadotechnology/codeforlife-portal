@@ -1,4 +1,4 @@
-const tertiaryColour = {
+const tertiaryColor = {
   50: "#85ddff",
   100: "#4dceff",
   200: "#27c4ff",
@@ -10,4 +10,4 @@ const tertiaryColour = {
   800: "#007faf",
   900: "#01668c",
 };
-export default tertiaryColour;
+export default tertiaryColor;

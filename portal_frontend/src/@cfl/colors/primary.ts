@@ -1,4 +1,4 @@
-const primaryColour = {
+const primaryColor = {
   50: "#ff9abc",
   100: "#ff6699",
   200: "#ff397c",
@@ -10,4 +10,4 @@ const primaryColour = {
   800: "#be0947",
   900: "#a60039",
 };
-export default primaryColour;
+export default primaryColor;

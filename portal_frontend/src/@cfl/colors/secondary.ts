@@ -1,4 +1,4 @@
-const secondaryColour = {
+const secondaryColor = {
   50: "#ffedad",
   100: "#ffe382",
   200: "#ffda5c",
@@ -10,4 +10,4 @@ const secondaryColour = {
   800: "#cfa30b",
   900: "#bf9400",
 };
-export default secondaryColour;
+export default secondaryColor;
