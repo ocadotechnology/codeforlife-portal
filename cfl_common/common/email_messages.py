@@ -15,8 +15,7 @@ def reset_email_password_message(request, domain, uid, token, protocol):
         "subject": f"Password reset on {domain}",
         "message": f"You are receiving this e-mail because you requested "
         f"a password reset for your Code For Life user account.\n\n"
-        f"Please go to the following page and choose a new password: "
-        f"{button('Reset password', url)}",
+        f"Please go to the following page and choose a new password: {url}",
     }
 
 
