@@ -1,10 +1,6 @@
 from django.urls import reverse, reverse_lazy
 
 
-def button(button_text, link):
-    return f"<a style='word-wrap:break-word;word-break:break-word;border:0px solid #000000;padding:10px 25px;color:#ffffff;font-family:Arial,sans-serif;font-size:18px;text-align:center;text-decoration:none;display:block;border-radius:8px;font-weight:bold;height:100%;font-style:normal;line-height:inherit' src='{link}'>{button_text}</a>"
-
-
 def reset_email_password_message(request, domain, uid, token, protocol):
     password_reset_uri = reverse_lazy(
         "password_reset_check_and_confirm",
