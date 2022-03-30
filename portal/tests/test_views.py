@@ -1,6 +1,7 @@
 import csv
 import io
 import json
+import requests
 from datetime import timedelta, date
 
 import PyPDF2
@@ -433,7 +434,7 @@ class TestLoginViews(TestCase):
 
 
 class TestViews(TestCase):
-    def test_covid_response_page(self):
+    def test_home_learning(self):
         c = Client()
         home_url = reverse("home")
         response = c.get(home_url)
@@ -558,3 +559,49 @@ class TestViews(TestCase):
 
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
+
+    def test_delete_account(self):
+        email, password = signup_teacher_directly()
+
+        c = Client()
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email,
+                "auth-password": password,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        url = reverse("delete_account")
+        with pytest.raises(requests.exceptions.ConnectionError):
+            # unsubscribe to dotmailer raises exception because it's test env
+            response = c.post(
+                url, {"password": password, "unsubscribe_newsletter": True}
+            )
+
+        email, password = signup_teacher_directly()
+        u = User.objects.get(email=email)
+        usrid = u.id
+
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email,
+                "auth-password": password,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password})
+
+        assert response.status_code == 302
+        assert response.url == reverse("home")
+
+        # user has been anonymised
+        u = User.objects.get(id=usrid)
+        assert u.first_name == "Deleted"
+        assert u.is_active == False

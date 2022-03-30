@@ -251,7 +251,7 @@ def delete_account(request):
     anonymise(user)
 
     # remove from dotmailer
-    if request.POST.get("unsubscribe_newsletter", False):
+    if bool(request.POST.get("unsubscribe_newsletter")):
         delete_contact(user.email)
 
     # send email
