@@ -775,6 +775,9 @@ class TestTeacherFrontend(BaseTest):
     def wait_for_email(self):
         WebDriverWait(self.selenium, 2).until(lambda driver: len(mail.outbox) == 1)
 
+    def is_dashboard_page(self, page):
+        return page.__class__.__name__ == "TeachDashboardPage"
+
     def is_resources_page(self, page):
         return page.__class__.__name__ == "ResourcesPage"
 
