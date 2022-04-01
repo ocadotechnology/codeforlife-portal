@@ -114,6 +114,7 @@ class PasswordResetForm(forms.Form):
                     email_subject_content["subject"],
                     image_path=f"{context['protocol']}://{domain}",
                 )
+        print(f"{context['protocol']}://{domain}")
 
     def _compute_protocol(self, use_https):
         return "https" if use_https else "http"
