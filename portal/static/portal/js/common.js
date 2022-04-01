@@ -62,48 +62,6 @@ function postWithCsrf(path, params = undefined) {
   });
 }
 
-/**
- * Show an account delete confirmation popup with a red delete button and either a Cancel or a Review classes button.
- * See dashboard.html for the popup declaration.
- */
-function showDeleteAccountConfirmation(delete_path, delete_password, unsubscribe_newsletter, review_path = undefined) {
-  let popup = $("#popup-delete-review");
-
-  if (review_path) {
-    popup.find(".popup-box__title").text("You still have classes associated with this account");
-    popup
-      .find(".popup-box__msg")
-      .append("Review classes if you would like to download the scoreboard or transfer students first.");
-
-    popup.find("#review_button").attr("onclick", "postWithCsrf('" + review_path + "')");
-    popup.find("#cancel_button").hide();
-  } else {
-    popup.find(".popup-box__title").text("You are about to delete your account");
-    popup.find(".popup-box__msg").append("This action is not reversible. Are you sure you wish to proceed?");
-
-    popup.find("#review_button").hide();
-  }
-
-  popup
-    .find("#delete_button")
-    .attr(
-      "onclick",
-      "postWithCsrf('" +
-        delete_path +
-        "', {password: '" +
-        delete_password +
-        "', unsubscribe_newsletter: '" +
-        unsubscribe_newsletter +
-        "'})"
-    );
-
-  popup.addClass("popup--fade");
-}
-
-function hideDeleteAccountPopup() {
-  $("#popup-delete-review").removeClass("popup--fade");
-}
-
 function disableOnClick(id) {
   return function () {
     let button = $(id);

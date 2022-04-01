@@ -149,7 +149,7 @@ class StudentPasswordResetForm(PasswordResetForm):
 
 
 class DeleteAccountForm(forms.Form):
-    confirm_password = forms.CharField(
+    delete_password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm password"}),
         help_text="Confirm password",
@@ -170,6 +170,6 @@ class DeleteAccountForm(forms.Form):
         if any(self.errors):
             return
 
-        confirm_password = self.cleaned_data.get("confirm_password", None)
-        if not self.user.check_password(confirm_password):
+        delete_password = self.cleaned_data.get("delete_password", None)
+        if not self.user.check_password(delete_password):
             raise forms.ValidationError("Incorrect password")

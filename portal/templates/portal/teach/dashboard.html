@@ -43,9 +43,9 @@
 
         {% if delete_account_confirm %}
             {% if user.new_teacher.has_class %}
-                showDeleteAccountConfirmation("{% url 'delete_account' %}", "{{ delete_account_form.confirm_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", "{% url 'dashboard' %}#classes");
+                showDeleteAccountConfirmation("{% url 'delete_account' %}", "{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", "{% url 'dashboard' %}#classes");
             {% else %}
-                showDeleteAccountConfirmation("{% url 'delete_account' %}", "{{ delete_account_form.confirm_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}");
+                showDeleteAccountConfirmation("{% url 'delete_account' %}", "{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}");
             {% endif %}
         {% endif %}
 
@@ -485,11 +485,11 @@
                 <div class="row form--row">
                     <div class="form--row__input col-sm-6 col-md-4">
                         <div class="input--icon">
-                            {{ delete_account_form.confirm_password }}
+                            {{ delete_account_form.delete_password }}
                             <span class="iconify" data-icon="mdi:security"></span>
                         </div>
-                        <small>{{ delete_account_form.confirm_password.help_text }}</small>
-                        {{ delete_account_form.confirm_password.errors }}
+                        <small>{{ delete_account_form.delete_password.help_text }}</small>
+                        {{ delete_account_form.delete_password.errors }}
                     </div>
                     <div class="form--row__input col-sm-6 col-md-8">
                         <div class="form__checkbox">
