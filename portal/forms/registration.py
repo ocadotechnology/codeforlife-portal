@@ -105,18 +105,6 @@ class PasswordResetForm(forms.Form):
                     context["token"],
                     context["protocol"],
                 )
-                password_reset_uri = reverse_lazy(
-                    "password_reset_check_and_confirm",
-                    kwargs={"uidb64": context["uid"], "token": context["token"]},
-                )
-                """
-                image_path = (
-                    domain[: domain.index("http") + 4]
-                    + "s"
-                    + domain[domain.index("http") + 4 :]
-                )
-                print(image_path)
-                """
 
                 send_email(
                     NOTIFICATION_EMAIL,
@@ -124,7 +112,7 @@ class PasswordResetForm(forms.Form):
                     email_subject_content["subject"],
                     email_subject_content["message"],
                     email_subject_content["subject"],
-                    image_path=f"{context['protocol']}://{domain}",
+                    # image_path=f"{context['protocol']}://{domain}",
                 )
 
     def _compute_protocol(self, use_https):
