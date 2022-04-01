@@ -1,6 +1,13 @@
-from common.helpers.emails import PASSWORD_RESET_EMAIL, delete_contact
+from common.email_messages import accountDeletionEmail
+from common.helpers.emails import (
+    delete_contact,
+    NOTIFICATION_EMAIL,
+    PASSWORD_RESET_EMAIL,
+    send_email,
+)
 from common.models import Teacher, Student
 from common.permissions import not_logged_in, not_fully_logged_in
+
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test, login_required
@@ -254,6 +261,8 @@ def delete_account(request):
     if bool(request.POST.get("unsubscribe_newsletter")):
         delete_contact(user.email)
 
-    # send email
+    # send confirmation email
+    message = accountDeletionEmail(request)
+    send_email(NOTIFICATION_EMAIL, [user.email], message["subject"], message["message"])
 
     return HttpResponseRedirect(reverse_lazy("home"))

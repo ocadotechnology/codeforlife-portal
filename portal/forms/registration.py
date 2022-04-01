@@ -167,9 +167,6 @@ class DeleteAccountForm(forms.Form):
         super(DeleteAccountForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        if any(self.errors):
-            return
-
         delete_password = self.cleaned_data.get("delete_password", None)
         if not self.user.check_password(delete_password):
             raise forms.ValidationError("Incorrect password")

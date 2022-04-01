@@ -205,3 +205,15 @@ def inviteTeacherEmail(request):
             f"{emailBodySignOff(request)}"
         ),
     }
+
+
+def accountDeletionEmail(request):
+    return {
+        "subject": f"{emailSubjectPrefix()}: We are sorry to see you go",
+        "title": "Your account was successfully deleted",
+        "message": f"If you have a minute before you go completely"
+        f" please let us know why you are leaving through the super quick survey below."
+        f"\nGive feedback: https://usabi.li/do/d8e0313a31d7/5bef"
+        f"\nThank you for being part of theCode for Life community!"
+        f"{emailBodySignOff(request)}",
+    }

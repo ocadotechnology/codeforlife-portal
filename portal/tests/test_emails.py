@@ -1,11 +1,13 @@
 import datetime
+from logging import raiseExceptions
 
 import pytest
 from common.helpers.emails import (
+    add_consent_record_to_dotmailer_user,
+    add_contact_to_address_book,
     add_to_dotmailer,
     create_contact,
-    add_contact_to_address_book,
-    add_consent_record_to_dotmailer_user,
+    delete_contact,
     send_dotmailer_consent_confirmation_email_to_user,
     DotmailerUserType,
 )
@@ -19,6 +21,7 @@ from test_settings import (
     DOTMAILER_PUT_CONSENT_DATA_URL,
     DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID,
     DOTMAILER_CREATE_CONTACT_URL,
+    DOTMAILER_DELETE_USER_BY_ID_URL,
     DOTMAILER_MAIN_ADDRESS_BOOK_URL,
     DOTMAILER_TEACHER_ADDRESS_BOOK_URL,
     DOTMAILER_STUDENT_ADDRESS_BOOK_URL,
@@ -66,6 +69,18 @@ def test_newsletter_get_not_allowed():
     response = c.get(reverse("process_newsletter_form"))
 
     assert response.status_code == 405
+
+
+def test_delete_account(mocker):
+    mocked_delete = mocker.patch("common.helpers.emails.delete")
+    mocker.patch("common.helpers.emails.get_dotmailer_user_by_email")
+
+    delete_contact("example@mail.com")
+
+    mocked_delete.assert_called_once_with(
+        DOTMAILER_DELETE_USER_BY_ID_URL,
+        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+    )
 
 
 def test_newsletter_sends_correct_request_data(mocker, monkeypatch, patch_datetime_now):
