@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.0.2 (2022-03-30)
+### Fix
+* Remove missing script ([#1815](https://github.com/ocadotechnology/codeforlife-portal/issues/1815)) ([`fdea770`](https://github.com/ocadotechnology/codeforlife-portal/commit/fdea770278cc4be0f5d962b924f8cddcae0153b1))
+
 ## v6.0.1 (2022-03-15)
 ### Fix
 * Cleanup ci and update pipfile ([#1800](https://github.com/ocadotechnology/codeforlife-portal/issues/1800)) ([`bff3df8`](https://github.com/ocadotechnology/codeforlife-portal/commit/bff3df8e7db4ac6f89eba0637228b5fc94d33cc7))
