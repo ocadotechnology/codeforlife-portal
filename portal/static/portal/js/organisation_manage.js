@@ -63,7 +63,6 @@ function showDeleteAccountConfirmation(delete_path, delete_password, unsubscribe
     "', unsubscribe_newsletter: '" +
     unsubscribe_newsletter +
     "'})";
-  console.log(handler);
 
   popup.find("#delete_button").attr("onclick", handler);
 

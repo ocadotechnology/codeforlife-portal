@@ -698,7 +698,7 @@ class TestTeacherFrontend(BaseTest):
 
         time.sleep(FADE_TIME)
         assert page.browser.find_element_by_id("popup-delete-review").is_displayed()
-        assert page.browser.find_element_by_id("review_button").is_displayed() == False
+        assert not page.browser.find_element_by_id("review_button").is_displayed()
         page.browser.find_element_by_id("cancel_popup_button").click()
         time.sleep(FADE_TIME)
 

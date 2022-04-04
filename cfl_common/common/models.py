@@ -118,7 +118,7 @@ class Teacher(models.Model):
         return self.school is not (None or "")
 
     def has_class(self):
-        return (self.class_teacher.exists())
+        return self.class_teacher.exists()
 
     def __str__(self):
         return f"{self.new_user.first_name} {self.new_user.last_name}"

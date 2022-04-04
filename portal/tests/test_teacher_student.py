@@ -46,10 +46,10 @@ class TestTeacherStudentFrontend(BaseTest):
 
         student_name = "Florian-Gilbert"
         page = page.type_student_name(student_name)
-        
+
         student_name2 = "Florian_Gilbert"
         page = page.type_student_name(student_name2)
-        
+
         page.click_create_students()
 
         assert page.student_exists(student_name)

@@ -1,6 +1,4 @@
 import datetime
-from logging import raiseExceptions
-
 import pytest
 from common.helpers.emails import (
     add_consent_record_to_dotmailer_user,

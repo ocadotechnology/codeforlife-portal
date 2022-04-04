@@ -52,6 +52,11 @@
       font-family: "Space Grotesk", sans-serif;
       @include _font-size(21px);
     }
+
+    .popup-box__close {
+      min-width:0;
+      @include _margin(8px, 8px, 8px, 8px);
+    }
   }
 }
 

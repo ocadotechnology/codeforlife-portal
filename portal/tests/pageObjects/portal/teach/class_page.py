@@ -30,10 +30,7 @@ class TeachClassPage(TeachBasePage):
             "form-create-students"
         ).find_element_by_class_name("errorlist")
 
-        if error_list.text:
-            return True
-        else:
-            return False
+        return error_list.text
 
     def duplicate_students(self, name):
         if not self.element_exists_by_css(".errorlist"):

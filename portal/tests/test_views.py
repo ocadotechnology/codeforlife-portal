@@ -597,4 +597,4 @@ class TestViews(TestCase):
         # user has been anonymised
         u = User.objects.get(id=usrid)
         assert u.first_name == "Deleted"
-        assert u.is_active == False
+        assert not u.is_active
