@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import { primaryColor, secondaryColor, tertiaryColor } from "@cfl/colors";
 
 const FONT_PRIMARY: string = '"Space Grotesk", sans-serif';
 const FONT_SECONDARY: string = '"Inter", sans-serif';
@@ -11,15 +12,15 @@ let theme = createTheme({
   // from https://bareynol.github.io/mui-theme-creator/
   palette: {
     primary: {
-      main: "#e0004d",
+      main: primaryColor[500],
       contrastText: "#fff",
     },
     secondary: {
-      main: "#f6be00",
+      main: secondaryColor[500],
       contrastText: "#000",
     },
     tertiary: {
-      main: "#00a3e0",
+      main: tertiaryColor[500],
       contrastText: "#fff",
     },
     text: {
