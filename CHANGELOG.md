@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.1.0 (2022-04-04)
+### Feature
+* React subnav ([#1811](https://github.com/ocadotechnology/codeforlife-portal/issues/1811)) ([`79f214c`](https://github.com/ocadotechnology/codeforlife-portal/commit/79f214c26f8f538ec929a8afd5d5a8bc50ca895a))
+
 ## v6.0.2 (2022-03-30)
 ### Fix
 * Remove missing script ([#1815](https://github.com/ocadotechnology/codeforlife-portal/issues/1815)) ([`fdea770`](https://github.com/ocadotechnology/codeforlife-portal/commit/fdea770278cc4be0f5d962b924f8cddcae0153b1))
