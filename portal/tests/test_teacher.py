@@ -670,7 +670,7 @@ class TestTeacherFrontend(BaseTest):
         assert len(mail.outbox) == 0
 
     def test_delete_account(self):
-        FADE_TIME = 0.6  # often fails with 0.3
+        FADE_TIME = 0.7  # often fails with 0.3
 
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
