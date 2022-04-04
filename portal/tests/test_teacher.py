@@ -670,7 +670,7 @@ class TestTeacherFrontend(BaseTest):
         assert len(mail.outbox) == 0
 
     def test_delete_account(self):
-        FADE_TIME = 0.7  # often fails with 0.3
+        FADE_TIME = 0.6  # often fails with 0.3
 
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -698,7 +698,7 @@ class TestTeacherFrontend(BaseTest):
 
         time.sleep(FADE_TIME)
         assert page.browser.find_element_by_id("popup-delete-review").is_displayed()
-        assert not page.browser.find_element_by_id("review_button").is_displayed()
+        assert page.browser.find_element_by_id("review_button").is_displayed() == False
         page.browser.find_element_by_id("cancel_popup_button").click()
         time.sleep(FADE_TIME)
 
