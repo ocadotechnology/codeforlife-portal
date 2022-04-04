@@ -696,9 +696,8 @@ class TestTeacherFrontend(BaseTest):
         page.browser.find_element_by_id("id_delete_password").send_keys(password)
         page.browser.find_element_by_id("delete_account_button").click()
 
-        time.sleep(1)
+        time.sleep(FADE_TIME)
         assert page.browser.find_element_by_id("popup-delete-review").is_displayed()
-        assert not page.browser.find_element_by_id("review_button").is_displayed()
         page.browser.find_element_by_id("cancel_popup_button").click()
         time.sleep(FADE_TIME)
 
