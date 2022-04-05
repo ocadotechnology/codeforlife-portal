@@ -1,6 +1,6 @@
 {% extends 'portal/email_style_template.html' %}
 {% load static %}
 {% block email_content %}
-<h1 style="color:rgb(224,0,77);font-family: 'space grotesk';font-size: 2rem;">{{ title }}</h1>
+<h1 style="text-align: center;color:rgb(224,0,77);font-family: 'space grotesk';font-size: 2rem;">{{ title }}</h1>
 {{ content|urlize|linebreaks }}
 {% endblock email_content %}
