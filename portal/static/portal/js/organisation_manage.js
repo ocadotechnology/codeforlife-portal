@@ -38,9 +38,8 @@ function showDisable2FAConfirmation(path, name) {
  * See dashboard.html for the popup declaration.
  */
 function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, has_class = true) {
-  let popup = $("#popup-delete-review");
+  const popup = $("#popup-delete-review");
 
-  console.log(has_class);
   if (has_class) {
     popup.find(".popup-box__title").text("You still have classes associated with this account");
     popup
@@ -55,10 +54,9 @@ function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, 
     popup.find("#review_button").hide();
   }
 
-  let delete_button = popup.find("#delete_button");
-  let delete_path = delete_button.attr("onclick");
-  console.log(delete_path);
-  let handler =
+  const delete_button = popup.find("#delete_button");
+  const delete_path = delete_button.attr("data-delete-path");
+  const handler =
     "postWithCsrf('" +
     delete_path +
     "', {password: '" +
