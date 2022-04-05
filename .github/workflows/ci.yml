@@ -38,7 +38,7 @@ jobs:
         with:
           browser: chrome
           install: false
-          start: bash ./run
+          start: bash ./run_testserver
           wait-on: http://localhost:8000
           wait-on-timeout: 300
           record: true

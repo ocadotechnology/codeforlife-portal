@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.1.1 (2022-04-05)
+### Fix
+* Hide anonymised teachers from dashboard ([#1816](https://github.com/ocadotechnology/codeforlife-portal/issues/1816)) ([`82b2dc3`](https://github.com/ocadotechnology/codeforlife-portal/commit/82b2dc33114c350abeeb2f1dea927152478872f2))
+
 ## v6.1.0 (2022-04-04)
 ### Feature
 * React subnav ([#1811](https://github.com/ocadotechnology/codeforlife-portal/issues/1811)) ([`79f214c`](https://github.com/ocadotechnology/codeforlife-portal/commit/79f214c26f8f538ec929a8afd5d5a8bc50ca895a))

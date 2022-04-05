@@ -84,6 +84,10 @@ class TeacherModelManager(models.Manager):
 
         return Teacher.objects.create(user=user_profile, new_user=user)
 
+    # Filter out non active teachers by default
+    def get_queryset(self):
+        return super().get_queryset().filter(new_user__is_active=True)
+
 
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
