@@ -58,7 +58,7 @@ function hideInfoPopup() {
 function postWithCsrf(path, params = undefined) {
   post(path, {
     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-    ...params
+    ...params,
   });
 }
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
   $('[data-toggle="copyToClipboardTooltip"]').tooltip({
     title: "Copied to clipboard!",
     trigger: "manual",
-    placement: "auto top"
+    placement: "auto top",
   });
 });
 
@@ -119,8 +119,8 @@ function studentsCsvChange(targetSelector) {
           const currentStudents = $(targetSelector).val();
           $(targetSelector).val(`${newStudents}\n${currentStudents}`);
         },
-        skipEmptyLines: true
-      }
+        skipEmptyLines: true,
+      },
     });
   };
 }
@@ -134,7 +134,7 @@ function importStudentsFromCsv(triggerSelector, targetSelector) {
   $(triggerSelector).on("click", function () {
     const fileInput = $("<input>").attr({
       type: "file",
-      accept: "text/csv"
+      accept: "text/csv",
     });
     fileInput.on("change", studentsCsvChange(targetSelector));
     fileInput.trigger("click");

@@ -42,11 +42,7 @@
         })
 
         {% if delete_account_confirm %}
-            {% if user.new_teacher.has_class %}
-                showDeleteAccountConfirmation("{% url 'delete_account' %}", "{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", "{% url 'dashboard' %}#classes");
-            {% else %}
-                showDeleteAccountConfirmation("{% url 'delete_account' %}", "{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}");
-            {% endif %}
+            showDeleteAccountConfirmation("{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", {{ user.new_teacher.has_class|yesno:"true,false" }});
         {% endif %}
 
         {% if show_onboarding_complete %}
@@ -74,7 +70,7 @@
 
 {% block content %}
 {% include "portal/partials/popup.html" %}
-{% include "portal/partials/dashboard_popup.html" %}
+{% include "portal/partials/delete_popup.html" %}
 
 {% if show_onboarding_complete %}
     {% include "portal/partials/info_popup.html" %}

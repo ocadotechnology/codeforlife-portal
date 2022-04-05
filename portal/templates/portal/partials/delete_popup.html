@@ -9,9 +9,9 @@
         <div class="popup-box__title"></div>
         <div class="popup-box__msg"></div>
         <div class="popup-box__buttons justify-content-center">
-            <a id="review_button" class="button button--primary" onclick="" aria-labelledby="review_button">Review classes</a>
+            <a id="review_button" class="button button--primary" href="{% url 'dashboard' %}#classes" onclick="$('#tab-classes').click(); hideDeleteAccountPopup();" aria-labelledby="review_button">Review classes</a>
             <a id="cancel_popup_button" class="button button--secondary button--secondary--dark" onclick="hideDeleteAccountPopup()" aria-labelledby="cancel_popup_button">Cancel</a>
-            <a id="delete_button" class='button button--primary button--primary--danger button--icon' onclick="" aria-labelledby="delete_button">
+            <a id="delete_button" class='button button--primary button--primary--danger button--icon' onclick="{% url 'delete_account' %}" aria-labelledby="delete_button">
                 Delete <span class="iconify" data-icon="mdi:delete-outline"></span></a>
         </div>
     </div>

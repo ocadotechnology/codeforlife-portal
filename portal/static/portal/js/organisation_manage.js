@@ -37,16 +37,16 @@ function showDisable2FAConfirmation(path, name) {
  * Show an account delete confirmation popup with a red delete button and either a Cancel or a Review classes button.
  * See dashboard.html for the popup declaration.
  */
-function showDeleteAccountConfirmation(delete_path, delete_password, unsubscribe_newsletter, review_path = undefined) {
+function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, has_class = true) {
   let popup = $("#popup-delete-review");
 
-  if (review_path) {
+  console.log(has_class);
+  if (has_class) {
     popup.find(".popup-box__title").text("You still have classes associated with this account");
     popup
       .find(".popup-box__msg")
       .append("Review classes if you would like to download the scoreboard or transfer students first.");
 
-    popup.find("#review_button").attr("onclick", "postWithCsrf('" + review_path + "')");
     popup.find("#cancel_popup_button").hide();
   } else {
     popup.find(".popup-box__title").text("You are about to delete your account");
@@ -55,6 +55,9 @@ function showDeleteAccountConfirmation(delete_path, delete_password, unsubscribe
     popup.find("#review_button").hide();
   }
 
+  let delete_button = popup.find("#delete_button");
+  let delete_path = delete_button.attr("onclick");
+  console.log(delete_path);
   let handler =
     "postWithCsrf('" +
     delete_path +
@@ -64,7 +67,7 @@ function showDeleteAccountConfirmation(delete_path, delete_password, unsubscribe
     unsubscribe_newsletter +
     "'})";
 
-  popup.find("#delete_button").attr("onclick", handler);
+  delete_button.attr("onclick", handler);
 
   popup.addClass("popup--fade");
 }
