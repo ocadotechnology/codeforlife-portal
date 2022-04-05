@@ -1,0 +1,18 @@
+{# A popup for delete account with Review classes button. #}
+<section id="popup-delete-review" class="popup-wrapper">
+    <div class="popup-box">
+        <div>
+            <button class="close popup-box__close" type="button" id="close_popup_button" onclick="hideDeleteAccountPopup()" aria-label="Close">
+                <span class="iconify" data-icon="mdi:close"></span>
+            </button>
+        </div>
+        <div class="popup-box__title"></div>
+        <div class="popup-box__msg"></div>
+        <div class="popup-box__buttons justify-content-center">
+            <a id="review_button" class="button button--primary" href="{% url 'dashboard' %}#classes" onclick="$('#tab-classes').click(); hideDeleteAccountPopup();" aria-labelledby="review_button">Review classes</a>
+            <a id="cancel_popup_button" class="button button--secondary button--secondary--dark" onclick="hideDeleteAccountPopup()" aria-labelledby="cancel_popup_button">Cancel</a>
+            <a id="delete_button" class='button button--primary button--primary--danger button--icon' data-delete-path="{% url 'delete_account' %}" onclick="" aria-labelledby="delete_button">
+                Delete <span class="iconify" data-icon="mdi:delete-outline"></span></a>
+        </div>
+    </div>
+</section>

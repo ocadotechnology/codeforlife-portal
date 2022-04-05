@@ -113,12 +113,9 @@ def is_independent_student(u):
 @register.filter(name="has_teacher_finished_onboarding")
 def has_teacher_finished_onboarding(u):
     teacher = u.userprofile.teacher
-    classes = teacher.class_teacher.all()
     return (
         is_logged_in_as_teacher(u)
         and teacher.has_school()
-        and classes
-        and (classes.count() > 1 or classes[0].has_students())
     )
 
 

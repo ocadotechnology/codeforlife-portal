@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.2.0 (2022-04-05)
+### Feature
+* Delete account function for teacher ([#1812](https://github.com/ocadotechnology/codeforlife-portal/issues/1812)) ([`0301952`](https://github.com/ocadotechnology/codeforlife-portal/commit/0301952cbf324a6267347f0b6c6d9a96b3ef62ff))
+
 ## v6.1.1 (2022-04-05)
 ### Fix
 * Hide anonymised teachers from dashboard ([#1816](https://github.com/ocadotechnology/codeforlife-portal/issues/1816)) ([`82b2dc3`](https://github.com/ocadotechnology/codeforlife-portal/commit/82b2dc33114c350abeeb2f1dea927152478872f2))
