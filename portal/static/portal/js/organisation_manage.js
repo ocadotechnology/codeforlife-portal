@@ -55,7 +55,7 @@ function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, 
   }
 
   const delete_button = popup.find("#delete_button");
-  const delete_path = delete_button.attr("data-delete-path");
+  const delete_path = delete_button.data("delete-path");
   const handler =
     "postWithCsrf('" +
     delete_path +
