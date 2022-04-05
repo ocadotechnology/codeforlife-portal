@@ -54,7 +54,7 @@ def send_email(
     html_email_context = {
         "content": text_content,
         "title": title,
-        "image_prefix": f"https://{domain()}",
+        "image_prefix": domain(),
     }
 
     # render templates
