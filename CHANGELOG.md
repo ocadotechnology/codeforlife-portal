@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.2.1 (2022-04-05)
+### Fix
+* Fix sending email on account deletion ([#1818](https://github.com/ocadotechnology/codeforlife-portal/issues/1818)) ([`467b10a`](https://github.com/ocadotechnology/codeforlife-portal/commit/467b10aa665e883210fd856088323bb80cb74ad7))
+
 ## v6.2.0 (2022-04-05)
 ### Feature
 * Delete account function for teacher ([#1812](https://github.com/ocadotechnology/codeforlife-portal/issues/1812)) ([`0301952`](https://github.com/ocadotechnology/codeforlife-portal/commit/0301952cbf324a6267347f0b6c6d9a96b3ef62ff))
