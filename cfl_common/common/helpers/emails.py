@@ -18,6 +18,7 @@ from django.template import loader
 from django.utils import timezone
 from requests import post, get, put
 from requests.exceptions import RequestException
+from common.app_settings import domain
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -40,10 +41,10 @@ def send_email(
     text_content,
     title,
     html_content=None,
-    image_path=None,
     plaintext_template="email.txt",
     html_template="email.html",
 ):
+
     # add in template for templates to message
 
     # setup templates
@@ -53,7 +54,7 @@ def send_email(
     html_email_context = {
         "content": text_content,
         "title": title,
-        "image_path": image_path,
+        "image_prefix": f"https://{domain()}",
     }
 
     # render templates

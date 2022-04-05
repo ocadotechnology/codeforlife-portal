@@ -304,9 +304,7 @@ class TestRatelimit(TestCase):
 
         # Get reset link from email
         message = str(mail.outbox[0].body)
-        print(message)
         url = re.search("http.+/", message).group(0)
-        print(url)
 
         new_password = "AnotherPassword12!"
 
