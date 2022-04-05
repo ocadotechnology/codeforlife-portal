@@ -2,7 +2,12 @@
 {# A confirmation popup with Cancel and Confirm buttons. #}
 <section id="popup" class="popup-wrapper">
     <div class="popup-box">
-        <div class="popup-box__title"><h3></h3></div>
+        <div>
+            <button type="button" onclick="hidePopupConfirmation()" class="close popup-box__close" aria-label="Close">
+                <span class="iconify" data-icon="mdi:close"></span>
+            </button>
+        </div>
+        <div class="popup-box__title"></div>
         <div class="popup-box__msg"></div>
         <div class="popup-box__buttons">
             <a id="cancel_button" class="button button--small button--secondary button--secondary--dark" onclick="hidePopupConfirmation()" aria-labelledby="cancel_button"> Cancel </a>

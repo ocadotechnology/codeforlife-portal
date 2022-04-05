@@ -227,33 +227,21 @@ def is_developer(request):
 
 def redirect_teacher_to_correct_page(request, teacher):
     if teacher.has_school():
-        classes = teacher.class_teacher.all()
-        if classes:
-            classes_count = classes.count()
-            if classes_count > 1 or classes[0].has_students():
-                link = reverse("two_factor:profile")
-                if not _using_two_factor(request.user):
-                    messages.info(
-                        request,
-                        (
-                            "You are not currently set up with two-factor authentication. "
-                            + "Use your phone or tablet to enhance your account’s security.</br>"
-                            + "Click <a href='"
-                            + link
-                            + "'>here</a> to find out more and "
-                            + "set it up or go to your account page at any time."
-                        ),
-                        extra_tags="safe",
-                    )
-                return reverse_lazy("dashboard")
-            else:
-                return reverse_lazy(
-                    "onboarding-class",
-                    kwargs={"access_code": classes[0].access_code},
-                )
-
-        else:
-            return reverse_lazy("onboarding-classes")
+        link = reverse("two_factor:profile")
+        if not _using_two_factor(request.user):
+            messages.info(
+                request,
+                (
+                    "You are not currently set up with two-factor authentication. "
+                    + "Use your phone or tablet to enhance your account’s security.</br>"
+                    + "Click <a href='"
+                    + link
+                    + "'>here</a> to find out more and "
+                    + "set it up or go to your account page at any time."
+                ),
+                extra_tags="safe",
+            )
+        return reverse_lazy("dashboard")
     else:
         return reverse_lazy("onboarding-organisation")
 
