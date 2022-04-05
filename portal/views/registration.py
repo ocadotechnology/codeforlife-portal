@@ -255,14 +255,15 @@ def delete_account(request):
         )
         return HttpResponseRedirect(reverse_lazy("dashboard"))
 
+    email = user.email
     anonymise(user)
 
     # remove from dotmailer
     if bool(request.POST.get("unsubscribe_newsletter")):
-        delete_contact(user.email)
+        delete_contact(email)
 
     # send confirmation email
     message = accountDeletionEmail(request)
-    send_email(NOTIFICATION_EMAIL, [user.email], message["subject"], message["message"])
+    send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"])
 
     return HttpResponseRedirect(reverse_lazy("home"))
