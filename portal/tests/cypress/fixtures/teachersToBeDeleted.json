@@ -1,0 +1,104 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1001,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
+      "last_login": "2022-04-02T19:54:34.998Z",
+      "is_superuser": false,
+      "username": "teacher.to.be.deleted1@codeforlife.com",
+      "first_name": "Teacher To Be Deleted",
+      "last_name": "1",
+      "email": "teacher.to.be.deleted1@codeforlife.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-04-02T19:48:52.416Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1002,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
+      "last_login": "2022-04-02T19:54:34.998Z",
+      "is_superuser": false,
+      "username": "teacher.to.be.deleted2@codeforlife.com",
+      "first_name": "Teacher To Be Deleted",
+      "last_name": "2",
+      "email": "teacher.to.be.deleted2@codeforlife.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-04-02T19:48:52.416Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "common.teacher",
+    "pk": 1001,
+    "fields": {
+      "user": 1001,
+      "new_user": 1001,
+      "school": null,
+      "is_admin": false,
+      "pending_join_request": 1,
+      "blocked_time": null
+    }
+  },
+  {
+    "model": "common.teacher",
+    "pk": 1002,
+    "fields": {
+      "user": 1002,
+      "new_user": 1002,
+      "school": 1,
+      "is_admin": false,
+      "pending_join_request": null,
+      "blocked_time": null
+    }
+  },
+  {
+    "model": "common.emailverification",
+    "pk": 1001,
+    "fields": {
+      "user": 1001,
+      "token": "da3b1201ac724169b0049bb785fd0c",
+      "email": "",
+      "expiry": "2022-04-02T20:48:52.883Z",
+      "verified": true
+    }
+  },
+  {
+    "model": "common.emailverification",
+    "pk": 1002,
+    "fields": {
+      "user": 1002,
+      "token": "da3b1201ac724169b0049bb785fd0c",
+      "email": "",
+      "expiry": "2022-04-02T20:48:52.883Z",
+      "verified": true
+    }
+  },
+  {
+    "model": "common.userprofile",
+    "pk": 1001,
+    "fields": {
+      "user": 1001,
+      "can_view_aggregated_data": false,
+      "developer": false,
+      "awaiting_email_verification": false
+    }
+  },
+  {
+    "model": "common.userprofile",
+    "pk": 1002,
+    "fields": {
+      "user": 1002,
+      "can_view_aggregated_data": false,
+      "developer": false,
+      "awaiting_email_verification": false
+    }
+  }
+]
