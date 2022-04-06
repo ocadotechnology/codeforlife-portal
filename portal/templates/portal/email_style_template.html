@@ -151,23 +151,59 @@
             margin: 0
         }
 
-        * {
-            font-family: sans-serif !important;
-        }
-
         body,
         td {
-            font-family: "Source Sans Pro", sans-serif;
+            font-family: "inter", sans-serif;
         }
 
         .element-editable:not(img),
         .element-editable td,
         .element-editable p {
+            line-height: 25px;
             Margin: 0px;
             text-align: center;
         }
 
-    </style>
+        .icons {
+          padding-top: 15px;
+          padding-right: 10px;
+          padding-bottom: 10px;
+          padding-left: 10px;
+        }
+
+        .icon-link {
+          padding-top: 0px;
+          padding-right: 0px;
+          padding-bottom: 0px;
+          padding-left: 0px;
+          color: rgb(205, 173, 37);
+          font-family: Arial, sans-serif;
+          font-size: 12px;
+          height: 32px;
+          width: 32px;
+        }
+
+        .footer {
+          position: static;
+        }
+
+        .footer > p {
+          text-align: center;
+          color: #fff
+        }
+
+        .footer > p > a {
+          text-decoration: underline;
+          color: #fff;
+        }
+
+        .cfl-team {
+          color: rgb(224, 0, 77);
+          font-family: "space grotesk";
+          font-size: 18px;
+        }
+
+  </style>
 </head>
 
 <body>
@@ -237,13 +273,12 @@
                     <tbody>
                       <tr>
                         <td valign="top" align="left" class="element-pad element-bord" style="padding-top: 15px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
-                          <div class="element-editable" style="position: static;">
-                            <p dir="ltr" style="line-height: 25px; margin-top: 0pt; margin-bottom: 0pt; font-size: 20px;"></p>
-                            <p dir="ltr" style="line-height: 24px;"><font style="font-family: inter, sans-serif;">{% block email_content %} {% endblock email_content %}</font></p>
-                            <p dir="ltr" style="line-height: 24px;"><br></p>
-                            <p dir="ltr" style="line-height: 24px;"><font style="font-family: inter, sans-serif; font-size: 16px;">All the best,</font></p>
-                            <p dir="ltr" style="line-height: 24px;"><br></p>
-                            <p dir="ltr" style="line-height: 24px; color: rgb(224, 0, 77); font-family: &quot;space grotesk&quot;; font-size: 18px;"><font><font>Code for Life team</font></font></p>
+                          <div class="element-editable">
+                            <p dir="ltr">{% block email_content %} {% endblock email_content %}</p>
+                            <p dir="ltr"><br></p>
+                            <p dir="ltr">All the best,</p>
+                            <p dir="ltr"><br></p>
+                            <p dir="ltr" class="cfl-team">Code for Life team</p>
                           </div>
                         </td>
                       </tr>
@@ -260,15 +295,15 @@
 <table cellpadding="0" cellspacing="0" width="100%" data-title="Social links" style="table-layout: auto;">
   <tbody>
     <tr>
-      <td valign="top" class="element-pad element-bord root-element-pad" style="padding-top: 15px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;">
+      <td valign="top" class="icons">
           <table cellpadding="0" cellspacing="0" style="table-layout: auto;" class="align-center" align="center" margin="0px auto">
             <tbody>
               <tr>
                 <td style="padding-top: 3px;padding-right: 15px;padding-bottom: 3px;padding-left: 15px;">
-                  <a href="https://www.facebook.com/codeforlifeuk/"><img border="0" style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px; color: rgb(205, 173, 37); font-family: Arial, sans-serif; font-size: 12px; height: 32px; width: 32px;" height="32" width="32" src="{{ image_prefix }}/static/portal/img/facebook.png" title="Facebook" alt="facebook"></a>
+                  <a href="https://www.facebook.com/codeforlifeuk/"><img border="0" class="icon-link" height="32" width="32" src="{{ image_prefix }}/static/portal/img/facebook.png" title="Facebook" alt="facebook"></a>
                 </td>
                 <td style="padding-top: 3px;padding-right: 15px;padding-bottom: 3px;padding-left: 15px;">
-                  <a href="https://twitter.com/codeforlifeuk"><img border="0" style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px; color: rgb(205, 173, 37); font-family: Arial, sans-serif; font-size: 12px; height: 32px; width: 32px;" height="32" width="32" src="{{ image_prefix }}/static/portal/img/twitter.png" title="Twitter" alt="twitter"></a>
+                  <a href="https://twitter.com/codeforlifeuk"><img border="0" class="icon-link" height="32" width="32" src="{{ image_prefix }}/static/portal/img/twitter.png" title="Twitter" alt="twitter"></a>
                 </td>
               </tr>
             </tbody>
@@ -281,12 +316,12 @@
   <tbody>
     <tr>
       <td valign="top" align="left" class="element-pad element-bord root-element-pad" style="padding-top: 40px;padding-right: 40px;padding-bottom: 40px;padding-left: 40px;">
-        <div style="position: static;">
-          <p style="font-size: 14px; line-height: 22px; font-family: inter, sans-serif; color: rgb(255, 255, 255); text-align: center;"><font>Contact us</font></p>
-          <p style="line-height: 19px; font-family: inter, sans-serif; color: rgb(255, 255, 255);"><br></p>
-          <p style="text-align: center; font-family: inter, sans-serif; color: rgb(255, 255, 255);"><font>Ocado Innovation Limited is&nbsp; registered in England under registered company number 08813912 with its registered office at Buildings One & Two Trident Place, Mosquito Way, Hatfield, Hertfordshire, United Kingdom, AL10 9UL</font></p>
-          <p style="font-family: inter, sans-serif; color: rgb(255, 255, 255);"><br></p>
-          <p style="text-align: center;"><font style="font-family: inter, sans-serif; color: rgb(255, 255, 255);">You can find out about our privacy policy</font> <a href="{{ image_prefix }}/privacy-policy?campaignkw=Privacy%20policy" title="Privacy Policy" style="text-decoration: underline; font-family: inter, sans-serif; color: rgb(255, 255, 255);"><font><font><font><font>here</font></font></font></font></a></p>
+        <div class="footer">
+          <p>Contact us</p>
+          <p><br></pe=>
+          <p>Ocado Innovation Limited is&nbsp; registered in England under registered company number 08813912 with its registered office at Buildings One & Two Trident Place, Mosquito Way, Hatfield, Hertfordshire, United Kingdom, AL10 9UL</pe=>
+          <p><br></p>
+          <p>You can find out about our privacy policy <a href="{{ image_prefix }}/privacy-policy?campaignkw=Privacy%20policy" title="Privacy Policy">here</a></p=>
         </div>
       </td>
     </tr>
