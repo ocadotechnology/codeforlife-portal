@@ -1,10 +1,19 @@
-from common.helpers.emails import PASSWORD_RESET_EMAIL
+from common.email_messages import accountDeletionEmail
+from common.helpers.emails import (
+    delete_contact,
+    NOTIFICATION_EMAIL,
+    PASSWORD_RESET_EMAIL,
+    send_email,
+)
 from common.models import Teacher, Student
 from common.permissions import not_logged_in, not_fully_logged_in
+
+from django.contrib import messages as messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
@@ -14,6 +23,7 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.http import require_POST
 
 from deploy import captcha
 from portal import app_settings
@@ -25,6 +35,7 @@ from portal.forms.registration import (
 )
 from portal.helpers.captcha import remove_captcha_from_form
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
+from portal.views.api import anonymise
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
@@ -230,3 +241,29 @@ def password_reset_check_and_confirm(request, uidb64=None, token=None):
             token=token,
             extra_context={"usertype": usertype},
         )
+
+
+@require_POST
+@login_required(login_url=reverse_lazy("teacher_login"))
+def delete_account(request):
+    user = request.user
+    password = request.POST.get("password")
+
+    if not user.check_password(password):
+        messages.error(
+            request, "Your account was not deleted due to incorrect password."
+        )
+        return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+    email = user.email
+    anonymise(user)
+
+    # remove from dotmailer
+    if bool(request.POST.get("unsubscribe_newsletter")):
+        delete_contact(email)
+
+    # send confirmation email
+    message = accountDeletionEmail(request)
+    send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"])
+
+    return HttpResponseRedirect(reverse_lazy("home"))

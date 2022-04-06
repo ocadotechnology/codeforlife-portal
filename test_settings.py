@@ -65,6 +65,7 @@ STATIC_ROOT = "static"
 SECRET_KEY = "bad_test_secret"
 
 DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
+DOTMAILER_DELETE_USER_BY_ID_URL = "https://test-delete-contact/"
 DOTMAILER_MAIN_ADDRESS_BOOK_URL = "https://test-main-address-book/"
 DOTMAILER_TEACHER_ADDRESS_BOOK_URL = "https://test-teacher-address-book/"
 DOTMAILER_STUDENT_ADDRESS_BOOK_URL = "https://test-student-address-book/"

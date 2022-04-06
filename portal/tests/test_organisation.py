@@ -120,7 +120,7 @@ class TestOrganisation(BaseTest, BasePage):
             page.logout().go_to_teacher_login_page().login_no_class(email_2, password_2)
         )
 
-        assert page.__class__.__name__ == "OnboardingClassesPage"
+        assert page.__class__.__name__ == "TeachDashboardPage"
 
     def test_deny_join(self):
         email_1, password_1 = signup_teacher_directly()
