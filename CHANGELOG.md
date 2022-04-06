@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.2.2 (2022-04-06)
+### Fix
+* Deletion email minor updates ([#1819](https://github.com/ocadotechnology/codeforlife-portal/issues/1819)) ([`4a8680d`](https://github.com/ocadotechnology/codeforlife-portal/commit/4a8680d8839bdf481ca2583e2806bb53f3a2cad0))
+
 ## v6.2.1 (2022-04-05)
 ### Fix
 * Fix sending email on account deletion ([#1818](https://github.com/ocadotechnology/codeforlife-portal/issues/1818)) ([`467b10a`](https://github.com/ocadotechnology/codeforlife-portal/commit/467b10aa665e883210fd856088323bb80cb74ad7))
