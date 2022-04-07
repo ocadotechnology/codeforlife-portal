@@ -34,6 +34,7 @@ from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
+from portal.views.api import anonymise
 
 
 class TestTeacherViews(TestCase):
@@ -593,11 +594,28 @@ class TestViews(TestCase):
 
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
+        email3, password3 = signup_teacher_directly()
+        email4, password4 = signup_teacher_directly()
 
         user1 = User.objects.get(email=email1)
+        user1.last_name = "Amir"
+        user1.save()
         usrid1 = user1.id
+
         user2 = User.objects.get(email=email2)
+        user2.last_name = "Bee"
+        user2.save()
         usrid2 = user2.id
+
+        user3 = User.objects.get(email=email3)
+        user3.last_name = "Jung"
+        user3.save()
+        usrid3 = user3.id
+
+        user4 = User.objects.get(email=email4)
+        user4.last_name = "Kook"
+        user4.save()
+        usrid4 = user4.id
 
         school_name, postcode = create_organisation_directly(email1)
         _, _, access_code_1 = create_class_directly(email1)
@@ -606,6 +624,9 @@ class TestViews(TestCase):
         join_teacher_to_organisation(email2, school_name, postcode, is_admin=False)
         _, _, access_code_2 = create_class_directly(email2)
         create_school_student_directly(access_code_2)
+
+        join_teacher_to_organisation(email3, school_name, postcode, is_admin=False)
+        join_teacher_to_organisation(email4, school_name, postcode, is_admin=False)
 
         c = Client()
         url = reverse("teacher_login")
@@ -629,12 +650,42 @@ class TestViews(TestCase):
         school = School.objects.get(name=school_name)
         school_id = school.id
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
-        assert len(teachers) == 1
+        assert len(teachers) == 3
 
-        # teacher2 should be admin
+        # one of the remaining teachers should be admin (the second in our case, as it's alphabetical)
         u = User.objects.get(id=usrid2)
         assert u.new_teacher.is_admin
 
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email3,
+                "auth-password": password3,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # now delete teacher3 account
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password3})
+
+        # 2 teachers left
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        assert len(teachers) == 2
+
+        # teacher2 should still be admin
+        u = User.objects.get(id=usrid2)
+        assert u.new_teacher.is_admin
+
+        # teacher4 is not passed admin role because there is teacher2
+        u = User.objects.get(id=usrid4)
+        assert not u.new_teacher.is_admin
+
+        # delete teacher4
+        anonymise(user4)
+
+        # delete teacher2 (the last one left)
         url = reverse("teacher_login")
         response = c.post(
             url,
@@ -645,7 +696,6 @@ class TestViews(TestCase):
             },
         )
 
-        # now delete teacher2 account
         url = reverse("delete_account")
         response = c.post(url, {"password": password2})
 
