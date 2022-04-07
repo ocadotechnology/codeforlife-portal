@@ -240,7 +240,7 @@ def teacher_delete_class(request, access_code):
             reverse_lazy("view_class", kwargs={"access_code": access_code})
         )
 
-    klass.delete()
+    klass.anonymise()
 
     return HttpResponseRedirect(reverse_lazy("dashboard") + "#classes")
 
@@ -601,7 +601,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         messages.warning(
             request,
             f"The following students could not be released: {', '.join(failed_users)}. "
-            "Please make sure the email has not been registered to another account."
+            "Please make sure the email has not been registered to another account.",
         )
 
     return HttpResponseRedirect(

@@ -143,17 +143,22 @@ class ClassModelManager(models.Manager):
             members.extend(c.students.all())
         return members
 
+    # Filter out non active classes by default
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
     teacher = models.ForeignKey(
         Teacher, related_name="class_teacher", on_delete=models.CASCADE
     )
-    access_code = models.CharField(max_length=5)
+    access_code = models.CharField(max_length=5, null=True)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
     accept_requests_until = models.DateTimeField(null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
+    is_active = models.BooleanField(default=True)
 
     objects = ClassModelManager()
 
@@ -193,6 +198,12 @@ class Class(models.Model):
             )
 
         return external_requests_message
+
+    def anonymise(self):
+        self.name = uuid4().hex
+        self.access_code = ""
+        self.is_active = False
+        self.save()
 
     class Meta(object):
         verbose_name_plural = "classes"
