@@ -687,6 +687,11 @@ class TestViews(TestCase):
         # delete teacher4
         anonymise(user4)
 
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        assert len(teachers) == 1
+        u = User.objects.get(id=usrid2)
+        assert u.new_teacher.is_admin
+
         # delete teacher2 (the last one left)
         url = reverse("teacher_login")
         response = c.post(
