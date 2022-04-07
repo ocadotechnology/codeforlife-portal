@@ -264,6 +264,12 @@ def delete_account(request):
 
     # send confirmation email
     message = accountDeletionEmail(request)
-    send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"])
+    send_email(
+        NOTIFICATION_EMAIL,
+        [email],
+        message["subject"],
+        message["message"],
+        message["subjects"],
+    )
 
     return HttpResponseRedirect(reverse_lazy("home"))
