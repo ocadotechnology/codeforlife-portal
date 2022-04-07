@@ -21,7 +21,7 @@ class TestClass(TestCase):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         create_organisation_directly(email1)
-        _, _, access_code = create_class_directly(email1)
+        klass, klass_name, access_code = create_class_directly(email1)
         _, _, student = create_school_student_directly(access_code)
 
         c = Client()
@@ -64,6 +64,12 @@ class TestClass(TestCase):
         assert response.status_code == 302
         assert len(teacher_classes) == 0
         assert teacher.has_class() == False
+
+        # Check class is anonymised
+        new_klass = Class._base_manager.get(pk=klass.id)
+        assert new_klass.name != klass_name
+        assert new_klass.access_code == ""
+        assert not new_klass.is_active
 
     def test_edit_class(self):
         email1, password1 = signup_teacher_directly()
