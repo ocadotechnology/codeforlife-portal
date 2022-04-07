@@ -1,6 +1,7 @@
 import csv
 import io
 import json
+import requests
 from datetime import timedelta, date
 
 import PyPDF2
@@ -433,7 +434,7 @@ class TestLoginViews(TestCase):
 
 
 class TestViews(TestCase):
-    def test_covid_response_page(self):
+    def test_home_learning(self):
         c = Client()
         home_url = reverse("home")
         response = c.get(home_url)
@@ -558,3 +559,42 @@ class TestViews(TestCase):
 
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
+
+    def test_delete_account(self):
+        email, password = signup_teacher_directly()
+        u = User.objects.get(email=email)
+        usrid = u.id
+
+        c = Client()
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email,
+                "auth-password": password,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # fail to delete with incorrect password
+        url = reverse("delete_account")
+        response = c.post(url, {"password": "wrongPassword"})
+
+        assert response.status_code == 302
+        assert response.url == reverse("dashboard")
+
+        # user has not been anonymised
+        u = User.objects.get(email=email)
+        assert u.id == usrid
+
+        # try again with the correct password
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password, "unsubscribe_newsletter": "on"})
+
+        assert response.status_code == 302
+        assert response.url == reverse("home")
+
+        # user has been anonymised
+        u = User.objects.get(id=usrid)
+        assert u.first_name == "Deleted"
+        assert not u.is_active
