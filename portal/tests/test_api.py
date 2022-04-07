@@ -16,9 +16,7 @@ from rest_framework.test import APIClient, APITestCase
 
 class APITests(APITestCase):
     def test_valid_date_registered(self):
-        url = reverse(
-            "registered-users", kwargs={"year": "2016", "month": "04", "day": "01"}
-        )
+        url = reverse("registered-users", kwargs={"year": "2016", "month": "04", "day": "01"})
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
@@ -26,18 +24,14 @@ class APITests(APITestCase):
         assert_that(isinstance(response.data, int))
 
     def test_invalid_date_registered(self):
-        url = reverse(
-            "registered-users", kwargs={"year": "2016", "month": "05", "day": "35"}
-        )
+        url = reverse("registered-users", kwargs={"year": "2016", "month": "05", "day": "35"})
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
     def test_valid_date_lastconnectedsince(self):
-        url = reverse(
-            "last-connected-since", kwargs={"year": "2016", "month": "04", "day": "01"}
-        )
+        url = reverse("last-connected-since", kwargs={"year": "2016", "month": "04", "day": "01"})
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
@@ -45,9 +39,7 @@ class APITests(APITestCase):
         assert_that(isinstance(response.data, int))
 
     def test_invalid_date_lastconnectedsince(self):
-        url = reverse(
-            "last-connected-since", kwargs={"year": "2016", "month": "05", "day": "35"}
-        )
+        url = reverse("last-connected-since", kwargs={"year": "2016", "month": "05", "day": "35"})
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
@@ -116,25 +108,6 @@ class APITests(APITestCase):
         response = client.get(url)
         assert len(response.data) == 0
 
-    def _create_indy_directly(self, email):
-        """Create an indy in the database."""
-        student = Student.objects.independentStudentFactory(
-            username="indiana",
-            name="some student",
-            email=email,
-            password="Password1",
-        )
-        return student
-
-    def _create_teacher_directly(self, email):
-        first_name = "some"
-        last_name = "teacher"
-        password = "Password1!"
-        teacher = Teacher.objects.factory(first_name, last_name, email, password)
-        generate_token(teacher.new_user, preverified=True)
-        teacher.user.save()
-        return teacher
-
 
 def has_status_code(status_code):
     return HasStatusCode(status_code)
@@ -151,6 +124,4 @@ class HasStatusCode(BaseMatcher):
         description.append_text("has status code ").append_text(self.status_code)
 
     def describe_mismatch(self, response, mismatch_description):
-        mismatch_description.append_text("had status code ").append_text(
-            response.status_code
-        )
+        mismatch_description.append_text("had status code ").append_text(response.status_code)

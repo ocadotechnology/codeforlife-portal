@@ -7,7 +7,7 @@ from datetime import timedelta, date
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class, DailyActivity
+from common.models import Teacher, UserSession, Student, Class, DailyActivity, School
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -225,9 +225,7 @@ class TestLoginViews(TestCase):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
         _, _, class_access_code = create_class_directly(teacher_email)
-        student_name, student_password, _ = create_school_student_directly(
-            class_access_code
-        )
+        student_name, student_password, _ = create_school_student_directly(class_access_code)
 
         return (
             teacher_email,
@@ -260,10 +258,7 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
         if next_url:
-            url = (
-                reverse("student_login", kwargs={"access_code": class_access_code})
-                + "?next=/"
-            )
+            url = reverse("student_login", kwargs={"access_code": class_access_code}) + "?next=/"
         else:
             url = reverse("student_login", kwargs={"access_code": class_access_code})
 
@@ -304,9 +299,7 @@ class TestLoginViews(TestCase):
 
     def _get_user_class(self, name, class_access_code):
         klass = Class.objects.get(access_code=class_access_code)
-        students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=klass
-        )
+        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
         assert len(students) == 1
         user = students[0].new_user
         return user, klass
@@ -316,9 +309,7 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
         c = Client()
 
-        resp = c.post(
-            reverse("student_login_access_code"), {"access_code": class_access_code}
-        )
+        resp = c.post(reverse("student_login_access_code"), {"access_code": class_access_code})
         assert resp.status_code == 302
         nexturl = resp.url
         assert nexturl == reverse(
@@ -466,9 +457,7 @@ class TestViews(TestCase):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
         klass, _, class_access_code = create_class_directly(teacher_email)
-        student_name, student_password, student = create_school_student_directly(
-            class_access_code
-        )
+        student_name, student_password, student = create_school_student_directly(class_access_code)
 
         # Expected context data when a student hasn't played anything yet
         EXPECTED_DATA_FIRST_LOGIN = {
@@ -598,3 +587,68 @@ class TestViews(TestCase):
         u = User.objects.get(id=usrid)
         assert u.first_name == "Deleted"
         assert not u.is_active
+
+    def test_delete_account_admin(self):
+        """test the passing of admin role after deletion of an admin account"""
+
+        email1, password1 = signup_teacher_directly()
+        email2, password2 = signup_teacher_directly()
+
+        user1 = User.objects.get(email=email1)
+        usrid1 = user1.id
+        user2 = User.objects.get(email=email2)
+        usrid2 = user2.id
+
+        school_name, postcode = create_organisation_directly(email1)
+        _, _, access_code_1 = create_class_directly(email1)
+        create_school_student_directly(access_code_1)
+
+        join_teacher_to_organisation(email2, school_name, postcode, is_admin=False)
+        _, _, access_code_2 = create_class_directly(email2)
+        create_school_student_directly(access_code_2)
+
+        c = Client()
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email1,
+                "auth-password": password1,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # delete teacher1 account
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password1})
+
+        # user has been anonymised
+        u = User.objects.get(id=usrid1)
+        assert not u.is_active
+
+        school = School.objects.get(name=school_name)
+        school_id = school.id
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        assert len(teachers) == 1
+
+        # teacher2 should be admin
+        u = User.objects.get(id=usrid2)
+        assert u.new_teacher.is_admin
+
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email2,
+                "auth-password": password2,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # now delete teacher2 account
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password2})
+
+        # school name should be scrambled
+        school = School.objects.get(id=school_id)
+        assert school.name != school_name
