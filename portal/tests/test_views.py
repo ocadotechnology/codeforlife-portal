@@ -655,6 +655,10 @@ class TestViews(TestCase):
         # one of the remaining teachers should be admin (the second in our case, as it's alphabetical)
         u = User.objects.get(id=usrid2)
         assert u.new_teacher.is_admin
+        u = User.objects.get(id=usrid3)
+        assert not u.new_teacher.is_admin
+        u = User.objects.get(id=usrid4)
+        assert not u.new_teacher.is_admin
 
         url = reverse("teacher_login")
         response = c.post(
@@ -674,11 +678,9 @@ class TestViews(TestCase):
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         assert len(teachers) == 2
 
-        # teacher2 should still be admin
+        # teacher2 should still be admin, teacher4 is not passed admin role because there is teacher2
         u = User.objects.get(id=usrid2)
         assert u.new_teacher.is_admin
-
-        # teacher4 is not passed admin role because there is teacher2
         u = User.objects.get(id=usrid4)
         assert not u.new_teacher.is_admin
 
