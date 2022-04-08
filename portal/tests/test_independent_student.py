@@ -131,7 +131,7 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
+        assert mail.outbox[0].subject == "Duplicate account error"
 
         assert self.is_login_page(page)
 
@@ -151,7 +151,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page.return_to_home_page()
 
         assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
+        assert mail.outbox[0].subject == "Duplicate account error"
 
     def test_login_failure(self):
         page = self.go_to_homepage()
