@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v6.3.1 (2022-04-08)
+### Fix
+* Delete class and students on account deletion ([#1822](https://github.com/ocadotechnology/codeforlife-portal/issues/1822)) ([`3120051`](https://github.com/ocadotechnology/codeforlife-portal/commit/312005167b8df2385c440a62c1a7eaa5d889320c))
+
+## v6.3.0 (2022-04-08)
+### Feature
+* Pass admin role on acc deletion ([#1820](https://github.com/ocadotechnology/codeforlife-portal/issues/1820)) ([`1ecfddb`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ecfddbe8e7075aebceddb9eb866381d2b13bf73))
+
 ## v6.2.3 (2022-04-07)
 ### Fix
 * Added alt texts to all images from the spreadsheet ([#1810](https://github.com/ocadotechnology/codeforlife-portal/issues/1810)) ([`034f27a`](https://github.com/ocadotechnology/codeforlife-portal/commit/034f27a1174da8e9688b46bf7301531d60e39c8b))
