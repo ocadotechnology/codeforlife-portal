@@ -661,8 +661,8 @@ class TestViews(TestCase):
         assert not u.new_teacher.is_admin
 
         # make teacher 3 admin
-        user3.is_admin = True
-        user3.save()
+        user3.new_teacher.is_admin = True
+        user3.new_teacher.save()
 
         url = reverse("teacher_login")
         response = c.post(
