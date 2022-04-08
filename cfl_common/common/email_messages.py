@@ -1,38 +1,34 @@
 from django.urls import reverse, reverse_lazy
 
 
-def reset_email_password_message(request, domain, uid, token, protocol):
+def resetEamilPasswordMessage(request, domain, uid, token, protocol):
     password_reset_uri = reverse_lazy(
         "password_reset_check_and_confirm",
         kwargs={"uidb64": uid, "token": token},
     )
     url = f"{protocol}://{domain}{password_reset_uri}"
     return {
-        "subject": f"Password reset on {domain}",
-        "message": f"You are receiving this e-mail because you requested "
-        f"a password reset for your Code For Life user account.\n\n"
-        f"Please go to the following page and choose a new password: {url}",
+        "subject": f"Password reset request",
+        "message": (
+            f"You are receiving this email because you requested "
+            f"a password reset for your Code For Life user account.\n\n"
+            f"Please go to the following page and choose a new password: "
+            f"{url}",
+        ),
     }
 
 
-def emailSubjectPrefix():
-    return "Code for Life"
-
-
 def emailVerificationNeededEmail(request, token):
+    url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
     return {
-        "subject": f"{emailSubjectPrefix()}: Email address verification needed",
-        "message": (
-            f"Please go to "
-            f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
-            f"to verify your email address."
-        ),
+        "subject": f"Email verification ",
+        "message": f"Please go to " f"{url}" f"to verify your email address.",
     }
 
 
 def emailChangeVerificationEmail(request, token):
     return {
-        "subject": f"{emailSubjectPrefix()}: Email address verification needed",
+        "subject": f"Email verification needed",
         "message": (
             f"You are changing your email, please go to "
             f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
@@ -42,22 +38,22 @@ def emailChangeVerificationEmail(request, token):
     }
 
 
-def emailChangeNotificationEmail(request):
+def emailChangeNotificationEmail(request, new_email_address):
     return {
-        "subject": f"{emailSubjectPrefix()}: Email address changed",
+        "subject": f"Email address update",
         "message": (
-            f"Someone has tried to change the email address of your account. If this "
-            f"was not you, please get in contact with us."
+            f"There is a request to change the email address of your account to"
+            f"{new_email_address}. If this was not you, please get in contact with us."
         ),
     }
 
 
 def emailChangeDuplicateNotificationEmail(request, email):
     return {
-        "subject": f"{emailSubjectPrefix()}: Duplicate account error",
+        "subject": f"Duplicate account",
         "message": (
             f"A user is already registered with this email address: {email}.\n"
-            f"Please change your email address to something else."
+            f"Please change your email address to something else.",
         ),
     }
 
@@ -68,51 +64,50 @@ def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
     else:
         login_url = reverse("teacher_login")
 
+    url = request.build_absolute_uri(login_url)
     return {
-        "subject": f"{emailSubjectPrefix()}: Duplicate account error",
+        "subject": f"Duplicate account",
         "message": (
             f"A user is already registered with this email address: {email}.\n"
             f"If you've already registered, please login: "
-            f"{request.build_absolute_uri(login_url)}.\n"
-            f"Otherwise please register with a different email address."
+            f"{url}.\n"
+            f"Otherwise please register with a different email address.",
         ),
     }
 
 
 def joinRequestPendingEmail(request, pendingAddress):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request pending",
+        "subject": f"School or club join request",
         "message": (
             f"Someone with the email address '{pendingAddress}' has asked to join your "
-            f"school or club, please go to "
-            f"{request.build_absolute_uri(reverse('dashboard'))} to view the pending "
-            f"join request."
+            f"school or club. Please log in"
+            f"to your dashboard to view "
+            f"the pending join request."
         ),
     }
 
 
 def joinRequestSentEmail(request, schoolName):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request sent",
+        "subject": f"School or club join request sent",
         "message": (
             f"Your request to join the school or club '{schoolName}' has been sent. "
-            f"Someone will either accept or deny your request soon."
+            f"The teacher or the admin of the class has been notified.",
         ),
     }
 
 
 def joinRequestAcceptedEmail(request, schoolName):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request accepted",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' has been accepted."
-        ),
+        "subject": f"School or club join request accepted",
+        "message": f"Your request to join the school or club '{schoolName}' has been accepted.",
     }
 
 
 def joinRequestDeniedEmail(request, schoolName):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request denied",
+        "subject": f"School or club join request denied",
         "message": (
             f"Your request to join the school or club '{schoolName}' has been denied. "
             f"If you think this was in error you should speak to the administrator of "
@@ -123,21 +118,24 @@ def joinRequestDeniedEmail(request, schoolName):
 
 def kickedEmail(request, schoolName):
     return {
-        "subject": f"{emailSubjectPrefix()}: You were removed from your school or club",
+        "subject": f"You were successfully released from your school or club",
         "message": (
-            f"You have been removed from the school or club '{schoolName}'. "
+            f"You have been released from the school or club '{schoolName}'. "
             f"If you think this was an error, please contact the administrator of that "
-            f"school or club."
+            f"school or club.",
         ),
     }
 
 
 def adminGivenEmail(request, schoolName):
+
+    url = request.build_absolute_uri(reverse("dashboard"))
+
     return {
-        "subject": f"{emailSubjectPrefix()}: You have been made a school or club administrator",
+        "subject": f"You have been made a school or club administrator",
         "message": (
             f"Administrator control of the school or club '{schoolName}' has been "
-            f"given to you. Go to {request.build_absolute_uri(reverse('dashboard'))} "
+            f"given to you. Go to {url} "
             f"to start managing your school or club."
         ),
     }
@@ -145,18 +143,18 @@ def adminGivenEmail(request, schoolName):
 
 def adminRevokedEmail(request, schoolName):
     return {
-        "subject": f"{emailSubjectPrefix()}: You are no longer a school or club administrator",
+        "subject": f"You are no longer a school or club administrator",
         "message": (
             f"Your administrator control of the school or club '{schoolName}' has been "
             f"revoked. If you think this is an error, please contact one of the other "
-            f"administrators in your school or club."
+            f"administrators in your school or club.",
         ),
     }
 
 
 def studentJoinRequestSentEmail(request, schoolName, accessCode):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request sent",
+        "subject": f"School or club join request sent",
         "message": (
             f"Your request to join the school or club '{schoolName}' in class "
             f"{accessCode} has been sent to that class's teacher, who will either "
@@ -167,18 +165,18 @@ def studentJoinRequestSentEmail(request, schoolName, accessCode):
 
 def studentJoinRequestNotifyEmail(request, username, email, accessCode):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request by student {username}",
+        "subject": f"School or club join request",
         "message": (
             f"There is a request waiting from student with username '{username}' and "
-            f"email {email} to join your class {accessCode}. Go to "
-            f"{request.build_absolute_uri(reverse('dashboard'))} to review the request."
+            f"email {email} to join your class {accessCode}. "
+            f"Please log in to your dashboard to review the request."
         ),
     }
 
 
 def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
     return {
-        "subject": f"{emailSubjectPrefix()}: School or club join request rejected",
+        "subject": f"School or club join request rejected",
         "message": (
             f"Your request to join the school or club '{schoolName}' in class "
             f"{accessCode} has been rejected. Speak to your teacher if you think this "
@@ -189,18 +187,17 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
 
 def inviteTeacherEmail(request):
     return {
-        "subject": f"{emailSubjectPrefix()}: You've been invited to join Code for Life",
+        "subject": f"You've been invited to join Code for Life",
         "message": (
             f"A colleague at your school or code club has invited you to become part of "
             f"Code for Life.\n\nPlease register your details to get started.\n\n"
-            f"{request.build_absolute_uri(reverse('register'))}"
         ),
     }
 
 
 def accountDeletionEmail(request):
     return {
-        "subject": f"{emailSubjectPrefix()}: We are sorry to see you go",
+        "subject": f"We are sorry to see you go",
         "title": "Your account was successfully deleted",
         "message": f"If you have a minute before you go completely"
         f" please let us know why you are leaving through the super quick survey below."

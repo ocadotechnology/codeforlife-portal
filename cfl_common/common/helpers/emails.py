@@ -107,7 +107,7 @@ def send_verification_email(request, user, new_email=None):
             message["subject"],
         )
 
-        message = emailChangeNotificationEmail(request)
+        message = emailChangeNotificationEmail(request, new_email)
         send_email(
             VERIFICATION_EMAIL,
             [user.email],
