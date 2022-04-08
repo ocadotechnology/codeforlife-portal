@@ -618,8 +618,10 @@ class TestViews(TestCase):
         usrid4 = user4.id
 
         school_name, postcode = create_organisation_directly(email1)
-        _, _, access_code_1 = create_class_directly(email1)
-        create_school_student_directly(access_code_1)
+        klass, class_name, access_code_1 = create_class_directly(email1)
+        class_id = klass.id
+        _, _, student = create_school_student_directly(access_code_1)
+        student_user_id = student.new_user.id
 
         join_teacher_to_organisation(email2, school_name, postcode, is_admin=False)
         _, _, access_code_2 = create_class_directly(email2)
@@ -646,6 +648,12 @@ class TestViews(TestCase):
         # user has been anonymised
         u = User.objects.get(id=usrid1)
         assert not u.is_active
+
+        # check that the class and student have been deleted/anonymised
+        # TODO: change this later when we have class anonymisation
+        assert not Class.objects.filter(id=class_id).exists()
+        student_user1 = User.objects.get(id=student_user_id)
+        assert not student_user1.is_active
 
         school = School.objects.get(name=school_name)
         school_id = school.id
