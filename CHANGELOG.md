@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.2.3 (2022-04-07)
+### Fix
+* Added alt texts to all images from the spreadsheet ([#1810](https://github.com/ocadotechnology/codeforlife-portal/issues/1810)) ([`034f27a`](https://github.com/ocadotechnology/codeforlife-portal/commit/034f27a1174da8e9688b46bf7301531d60e39c8b))
+
 ## v6.2.2 (2022-04-06)
 ### Fix
 * Deletion email minor updates ([#1819](https://github.com/ocadotechnology/codeforlife-portal/issues/1819)) ([`4a8680d`](https://github.com/ocadotechnology/codeforlife-portal/commit/4a8680d8839bdf481ca2583e2806bb53f3a2cad0))
