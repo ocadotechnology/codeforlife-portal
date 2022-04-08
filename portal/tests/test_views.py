@@ -660,6 +660,10 @@ class TestViews(TestCase):
         u = User.objects.get(id=usrid4)
         assert not u.new_teacher.is_admin
 
+        # make teacher 3 admin
+        user3.is_admin = True
+        user3.save()
+
         url = reverse("teacher_login")
         response = c.post(
             url,
