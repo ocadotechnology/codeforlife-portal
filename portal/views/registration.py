@@ -269,7 +269,7 @@ def delete_account(request):
         [email],
         message["subject"],
         message["message"],
-        message["subjects"],
+        message["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("home"))
