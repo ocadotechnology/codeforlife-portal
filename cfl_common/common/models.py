@@ -205,6 +205,9 @@ class Class(models.Model):
         self.is_active = False
         self.save()
 
+        # Remove independent students' requests to join this class
+        self.class_request.clear()
+
     class Meta(object):
         verbose_name_plural = "classes"
 
