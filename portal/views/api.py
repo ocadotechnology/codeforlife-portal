@@ -99,7 +99,7 @@ def anonymise(user):
 
     __anonymise_user(user)
 
-    # if teacher, anonymise classes students
+    # if teacher, anonymise classes and students
     if teacher:
         classes = Class.objects.filter(teacher=teacher)
         for klass in classes:
