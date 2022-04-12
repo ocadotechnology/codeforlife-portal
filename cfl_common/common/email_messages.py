@@ -70,8 +70,8 @@ def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
         "message": (
             f"A user is already registered with this email address: {email}.\n"
             f"If you've already registered, please login: "
-            f"{url}.\n"
-            f"Otherwise please register with a different email address.",
+            f"{request.build_absolute_uri(login_url)}.\n"
+            f"Otherwise please register with a different email address."
         ),
     }
 
