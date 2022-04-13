@@ -20,7 +20,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 
 
-from common.email_messages import resetEamilPasswordMessage
+from common.email_messages import resetEmailPasswordMessage
 
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
@@ -98,7 +98,7 @@ class PasswordResetForm(forms.Form):
                     "protocol": self._compute_protocol(use_https),
                 }
 
-                email_subject_content = resetEamilPasswordMessage(
+                email_subject_content = resetEmailPasswordMessage(
                     request,
                     domain,
                     context["uid"],

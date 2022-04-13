@@ -1,7 +1,7 @@
 from django.urls import reverse, reverse_lazy
 
 
-def resetEamilPasswordMessage(request, domain, uid, token, protocol):
+def resetEmailPasswordMessage(request, domain, uid, token, protocol):
     password_reset_uri = reverse_lazy(
         "password_reset_check_and_confirm",
         kwargs={"uidb64": uid, "token": token},
@@ -64,7 +64,6 @@ def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
     else:
         login_url = reverse("teacher_login")
 
-    url = request.build_absolute_uri(login_url)
     return {
         "subject": f"Duplicate account",
         "message": (
