@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0019_aimmocharacter_alt'),
+        ("common", "0019_aimmocharacter_alt"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='class',
-            name='is_active',
+            model_name="class",
+            name="is_active",
             field=models.BooleanField(default=True),
         ),
         migrations.AlterField(
-            model_name='class',
-            name='access_code',
+            model_name="class",
+            name="access_code",
             field=models.CharField(max_length=5, null=True),
         ),
     ]

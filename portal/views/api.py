@@ -21,9 +21,7 @@ THREE_YEARS_IN_DAYS = 1095
 @login_required(login_url=reverse_lazy("administration_login"))
 def registered_users(request, year, month, day):
     try:
-        nbr_reg = User.objects.filter(
-            date_joined__startswith=datetime.date(int(year), int(month), int(day))
-        ).count()
+        nbr_reg = User.objects.filter(date_joined__startswith=datetime.date(int(year), int(month), int(day))).count()
         return Response(nbr_reg)
     except ValueError:
         return HttpResponse(status=404)
@@ -33,9 +31,7 @@ def registered_users(request, year, month, day):
 @login_required(login_url=reverse_lazy("administration_login"))
 def last_connected_since(request, year, month, day):
     try:
-        nbr_active_users = User.objects.filter(
-            last_login__gte=datetime.date(int(year), int(month), int(day))
-        ).count()
+        nbr_active_users = User.objects.filter(last_login__gte=datetime.date(int(year), int(month), int(day))).count()
         return Response(nbr_active_users)
     except ValueError:
         return HttpResponse(status=404)
@@ -47,9 +43,7 @@ def number_users_per_country(request, country):
     try:
         nbr_reg = (
             Teacher.objects.filter(school__country__exact=country).count()
-            + Student.objects.filter(
-                class_field__teacher__school__country__exact=country
-            ).count()
+            + Student.objects.filter(class_field__teacher__school__country__exact=country).count()
         )
         return Response(nbr_reg)
     except ValueError:
@@ -110,9 +104,7 @@ def anonymise(user):
 
     # if user is admin and the school does not have another admin, appoint another teacher as admin
     if is_admin:
-        teachers = Teacher.objects.filter(school=school).order_by(
-            "new_user__last_name", "new_user__first_name"
-        )
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         if not teachers:
             # no other teacher, scramble the school name
             school.name = uuid.uuid4().hex
@@ -140,14 +132,10 @@ class InactiveUsersView(generics.ListAPIView):
     """
 
     queryset = User.objects.filter(is_active=True) & (
-        User.objects.filter(
-            last_login__lte=timezone.now()
-            - timezone.timedelta(days=THREE_YEARS_IN_DAYS)
-        )
+        User.objects.filter(last_login__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS))
         | User.objects.filter(
             last_login__isnull=True,
-            date_joined__lte=timezone.now()
-            - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
+            date_joined__lte=timezone.now() - timezone.timedelta(days=THREE_YEARS_IN_DAYS),
         )
     )
     authentication_classes = (SessionAuthentication,)
