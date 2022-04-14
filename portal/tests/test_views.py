@@ -649,9 +649,8 @@ class TestViews(TestCase):
         u = User.objects.get(id=usrid1)
         assert not u.is_active
 
-        # check that the class and student have been deleted/anonymised
-        # TODO: change this later when we have class anonymisation
-        assert not Class.objects.filter(id=class_id).exists()
+        # check that the class and student have been anonymised
+        assert not Class._base_manager.get(pk=class_id).is_active
         student_user1 = User.objects.get(id=student_user_id)
         assert not student_user1.is_active
 

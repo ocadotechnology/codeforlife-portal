@@ -28,7 +28,7 @@ class TestModels(TestCase):
         indep_student.pending_class_request = klass
         indep_student.save()
 
-        klass.delete()
+        klass.anonymise()
 
         indep_student = Student.objects.get(new_user__username=username)
 

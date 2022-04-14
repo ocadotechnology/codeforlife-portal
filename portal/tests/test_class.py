@@ -21,7 +21,7 @@ class TestClass(TestCase):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         create_organisation_directly(email1)
-        _, _, access_code = create_class_directly(email1)
+        klass, klass_name, access_code = create_class_directly(email1)
         _, _, student = create_school_student_directly(access_code)
 
         c = Client()
@@ -64,6 +64,12 @@ class TestClass(TestCase):
         assert response.status_code == 302
         assert len(teacher_classes) == 0
         assert teacher.has_class() == False
+
+        # Check class is anonymised
+        new_klass = Class._base_manager.get(pk=klass.id)
+        assert new_klass.name != klass_name
+        assert new_klass.access_code == ""
+        assert not new_klass.is_active
 
     def test_edit_class(self):
         email1, password1 = signup_teacher_directly()
@@ -160,12 +166,7 @@ class TestClassFrontend(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login_no_class(email, password)
-            .open_classes_tab()
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login_no_class(email, password).open_classes_tab()
 
         assert page.does_not_have_classes()
 
@@ -178,12 +179,7 @@ class TestClassFrontend(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_classes_tab()
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password).open_classes_tab()
 
         page, class_name = create_class(page)
 
@@ -199,12 +195,7 @@ class TestClassFrontend(BaseTest):
         klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(email_2, password_2)
-            .open_classes_tab()
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email_2, password_2).open_classes_tab()
 
         page, class_name_3 = create_class(page)
 
