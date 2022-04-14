@@ -22,7 +22,7 @@ def emailVerificationNeededEmail(request, token):
     url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
     return {
         "subject": f"Email verification ",
-        "message": f"Please go to " f"{url}" f"to verify your email address.",
+        "message": f"Please go to {url} to verify your email address.",
     }
 
 
@@ -42,7 +42,7 @@ def emailChangeNotificationEmail(request, new_email_address):
     return {
         "subject": f"Email address update",
         "message": (
-            f"There is a request to change the email address of your account to"
+            f"There is a request to change the email address of your account to "
             f"{new_email_address}. If this was not you, please get in contact with us."
         ),
     }
@@ -80,9 +80,7 @@ def joinRequestPendingEmail(request, pendingAddress):
         "subject": f"School or club join request",
         "message": (
             f"Someone with the email address '{pendingAddress}' has asked to join your "
-            f"school or club. Please log in"
-            f"to your dashboard to view "
-            f"the pending join request."
+            f"school or club. Please log in to your dashboard to view the pending join request."
         ),
     }
 
@@ -198,8 +196,10 @@ def accountDeletionEmail(request):
     return {
         "subject": f"We are sorry to see you go",
         "title": "Your account was successfully deleted",
-        "message": f"If you have a minute before you go completely"
-        f" please let us know why you are leaving through the super quick survey below."
-        f"\n\nGive feedback: https://usabi.li/do/d8e0313a31d7/5bef"
-        f"\n\nThank you for being part of the Code for Life community!",
+        "message": (
+            f"If you have a moment before you leave us completely, please "
+            f"let us know the reason through our super short survey below."
+            f"\n\nGive feedback: https://usabi.li/do/d8e0313a31d7/5bef"
+            f"\n\nThank you for being part of the Code for Life community!",
+        ),
     }
