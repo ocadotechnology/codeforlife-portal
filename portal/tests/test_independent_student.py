@@ -131,7 +131,7 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
+        assert mail.outbox[0].subject == "Duplicate account"
 
         assert self.is_login_page(page)
 
@@ -151,7 +151,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page.return_to_home_page()
 
         assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life: Duplicate account error"
+        assert mail.outbox[0].subject == "Duplicate account"
 
     def test_login_failure(self):
         page = self.go_to_homepage()
@@ -280,7 +280,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Code for Life: Duplicate account error"
+        assert subject == "Duplicate account"
         mail.outbox = []
 
         # Try changing email to an existing teacher's email
@@ -298,7 +298,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Code for Life: Duplicate account error"
+        assert subject == "Duplicate account"
         mail.outbox = []
 
         page = (

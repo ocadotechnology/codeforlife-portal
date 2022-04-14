@@ -570,7 +570,7 @@ class TestTeacherFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Code for Life: Duplicate account error"
+        assert subject == "Duplicate account"
         mail.outbox = []
 
         # Try changing email to an existing indy student's email, should fail
@@ -583,7 +583,7 @@ class TestTeacherFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Code for Life: Duplicate account error"
+        assert subject == "Duplicate account"
         mail.outbox = []
 
         page = self.go_to_homepage()

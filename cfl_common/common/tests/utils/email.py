@@ -52,9 +52,7 @@ def _follow_duplicate_account_email_link(page, email):
 
 def follow_reset_email_link(browser, email):
     message = str(email.body)
-
-    link = re.search("http.+/", message).group(0)
-
+    link = re.search("http.+/", message).group(0)[:-1]
     browser.get(link)
 
     from portal.tests.pageObjects.portal.password_reset_form_page import (

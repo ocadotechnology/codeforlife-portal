@@ -148,6 +148,7 @@ def send_pending_requests_emails(school, email_message):
             [admin.new_user.email],
             email_message["subject"],
             email_message["message"],
+            email_message["subject"],
         )
 
 
@@ -173,6 +174,7 @@ def process_join_form(
             [teacher.new_user.email],
             email_message["subject"],
             email_message["message"],
+            email_message["subject"],
         )
 
         messages.success(
