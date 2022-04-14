@@ -93,16 +93,14 @@ def anonymise(user):
 
     __anonymise_user(user)
 
-    # if teacher, clean up classes and anonymise students
+    # if teacher, anonymise classes and students
     if teacher:
-        # delete classes
         classes = Class.objects.filter(teacher=teacher)
         for klass in classes:
-            # anonymise the students
             students = Student.objects.filter(class_field=klass)
             for student in students:
                 __anonymise_user(student.new_user)
-            klass.delete()  # TODO: update to anonymise later
+            klass.anonymise()
 
     # if user is admin and the school does not have another admin, appoint another teacher as admin
     if is_admin:
