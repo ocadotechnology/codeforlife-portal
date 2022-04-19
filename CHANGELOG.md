@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v6.4.1 (2022-04-14)
+### Fix
+* Added styling to emails ([#1801](https://github.com/ocadotechnology/codeforlife-portal/issues/1801)) ([`0726319`](https://github.com/ocadotechnology/codeforlife-portal/commit/0726319142a376a18bfc4b25d67801d8136b182e))
+
+## v6.4.0 (2022-04-14)
+### Feature
+* Anonymise classes ([#1821](https://github.com/ocadotechnology/codeforlife-portal/issues/1821)) ([`50cda04`](https://github.com/ocadotechnology/codeforlife-portal/commit/50cda0432c471510b66cbc1ab5253fbfa48e0bfd))
+
 ## v6.3.1 (2022-04-08)
 ### Fix
 * Delete class and students on account deletion ([#1822](https://github.com/ocadotechnology/codeforlife-portal/issues/1822)) ([`3120051`](https://github.com/ocadotechnology/codeforlife-portal/commit/312005167b8df2385c440a62c1a7eaa5d889320c))

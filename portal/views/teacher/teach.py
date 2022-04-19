@@ -927,6 +927,7 @@ def invite_teacher(request):
                 [email_address],
                 email_message["subject"],
                 email_message["message"],
+                email_message["subject"],
             )
             return render(request, "portal/email_invitation_sent.html")
 

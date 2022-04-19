@@ -109,5 +109,6 @@ def send_new_users_report(request):
             active_users=active_users,
             countries_counter=countries_count,
         ),
+        "new users",
     )
     return HttpResponse("success")

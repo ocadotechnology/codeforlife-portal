@@ -13,6 +13,15 @@ from django.utils.http import urlsafe_base64_encode
 
 from portal.helpers.password import PasswordStrength, form_clean_password
 
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email
+
+from django.contrib.auth.models import User
+
+from django.urls import reverse, reverse_lazy
+
+
+from common.email_messages import resetEmailPasswordMessage
+
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
@@ -48,40 +57,16 @@ class PasswordResetForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def send_mail(
-        self,
-        subject_template_name,
-        email_template_name,
-        context,
-        from_email,
-        to_email,
-        html_email_template_name=None,
-    ):
-        """
-        Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
-        """
-        subject = loader.render_to_string(subject_template_name, context)
-        # Email subject *must not* contain newlines
-        subject = "".join(subject.splitlines())
-        body = loader.render_to_string(email_template_name, context)
-
-        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
-        if html_email_template_name is not None:
-            html_email = loader.render_to_string(html_email_template_name, context)
-            email_message.attach_alternative(html_email, "text/html")
-
-        email_message.send()
-
     def save(
         self,
         domain_override=None,
-        subject_template_name="registration/password_reset_subject.txt",
-        email_template_name="portal/reset_password_email.html",
+        subject_template_name=None,
+        email_template_name="portal/reset_password_email.txt",
         use_https=False,
         token_generator=default_token_generator,
         from_email=None,
         request=None,
-        html_email_template_name=None,
+        html_email_template_name="portal/reset_password_email.html",
     ):
         """
         Generates a one-use only link for resetting password and sends to the
@@ -113,13 +98,20 @@ class PasswordResetForm(forms.Form):
                     "protocol": self._compute_protocol(use_https),
                 }
 
-                self.send_mail(
-                    subject_template_name,
-                    email_template_name,
-                    context,
-                    from_email,
-                    user.email,
-                    html_email_template_name=html_email_template_name,
+                email_subject_content = resetEmailPasswordMessage(
+                    request,
+                    domain,
+                    context["uid"],
+                    context["token"],
+                    context["protocol"],
+                )
+
+                send_email(
+                    NOTIFICATION_EMAIL,
+                    [user.email],
+                    email_subject_content["subject"],
+                    email_subject_content["message"],
+                    email_subject_content["subject"],
                 )
 
     def _compute_protocol(self, use_https):

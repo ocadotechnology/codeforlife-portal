@@ -302,6 +302,7 @@ def organisation_allow_join(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -333,6 +334,7 @@ def organisation_deny_join(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -400,6 +402,7 @@ def organisation_kick(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -429,6 +432,7 @@ def organisation_toggle_admin(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -547,6 +551,7 @@ def teacher_reject_student_request(request, pk):
         [student.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     student.pending_class_request = None
