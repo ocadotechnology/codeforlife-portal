@@ -92,9 +92,7 @@ def password_reset(
             }
             form.save(**opts)
 
-            return render(
-                request, "portal/reset_password_email_sent.html", {"usertype": usertype}
-            )
+            return render(request, "portal/reset_password_email_sent.html", {"usertype": usertype})
     else:
         form = password_reset_form()
 
@@ -174,9 +172,7 @@ def password_reset_confirm(
 
                 _check_and_unblock_user(user.username, usertype)
 
-                return render(
-                    request, "portal/reset_password_done.html", {"usertype": usertype}
-                )
+                return render(request, "portal/reset_password_done.html", {"usertype": usertype})
         else:
             form = set_password_form(user)
     else:
@@ -250,9 +246,7 @@ def delete_account(request):
     password = request.POST.get("password")
 
     if not user.check_password(password):
-        messages.error(
-            request, "Your account was not deleted due to incorrect password."
-        )
+        messages.error(request, "Your account was not deleted due to incorrect password.")
         return HttpResponseRedirect(reverse_lazy("dashboard"))
 
     email = user.email
@@ -264,6 +258,12 @@ def delete_account(request):
 
     # send confirmation email
     message = accountDeletionEmail(request)
-    send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"])
+    send_email(
+        NOTIFICATION_EMAIL,
+        [email],
+        message["subject"],
+        message["message"],
+        message["title"],
+    )
 
     return HttpResponseRedirect(reverse_lazy("home"))
