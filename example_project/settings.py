@@ -1,12 +1,15 @@
 """Django settings for example_project project."""
 import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 DEBUG = True
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "OPTIONS": {"debug": DEBUG},
+        "DIRS": [os.path.join(BASE_DIR, ("portal_frontend/build"))],
     }
 ]
 
@@ -44,6 +47,10 @@ INSTALLED_APPS = ("portal", "captcha")
 PIPELINE_ENABLED = False
 
 COOKIE_MANAGEMENT_ENABLED = False
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "portal_frontend/build/static"),
+]
 
 from django_autoconfig import autoconfig
 

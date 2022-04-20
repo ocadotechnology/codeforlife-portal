@@ -8,6 +8,7 @@ Libraries that seem to be breaking the app without notice
 
 */
 import { ThemeProvider } from "@mui/material/styles";
+import RapidRouter from "Components/Banner/RapidRouter";
 import React from "react";
 import Welcome from "./Components/Banner/Welcome";
 import Footer from "./Components/Footer/Footer";
@@ -18,6 +19,7 @@ import RapidRouterScores from "./Components/RapidRouterScores/RapidRouterScores"
 import SubNav from "./Components/SubNav/SubNav";
 import SubNavItem from "./Components/SubNav/SubNavItem";
 import theme from "./Theme";
+import "./portal.css";
 
 export type UserType = "student" | "independent" | "teacher" | "none";
 export interface User {
@@ -34,7 +36,7 @@ const App = () => {
     <div>
       <ThemeProvider theme={theme}>
         <Navbar userType={userType} name={name} />
-        <Welcome name={name} userType={userType} />
+        <RapidRouter />
         <SubNav userType={userType} initialValue="levels">
           <SubNavItem value="levels" aria-label="levels">
             Levels
