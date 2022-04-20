@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.acb3d7db.css",
+    "main.js": "/static/js/main.88b6f6a1.js",
+    "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
+    "static/media/RR_logo.svg": "/static/media/RR_logo.871d94e1e2227fcaf57bb8c97027a0a4.svg",
+    "static/media/rapid_router_landing_hero.png": "/static/media/rapid_router_landing_hero.7ec13b0b93df9ca79365.png",
+    "static/media/logo_cfl.png": "/static/media/logo_cfl.06fffc34beb6c215ab01.png",
+    "static/media/ocado.svg": "/static/media/ocado.5e7ae9a2adbc50ec6f96f3f6366eea25.svg",
+    "static/media/logo_ocado_group.svg": "/static/media/logo_ocado_group.bf2daf768df6901d40924159853b612d.svg",
+    "index.html": "/index.html",
+    "static/media/twitter.svg": "/static/media/twitter.3f190a3549dea2464ca62924d629b961.svg",
+    "static/media/facebook.svg": "/static/media/facebook.2bdba6ecdf25da4a6d91d9df9e3f5830.svg",
+    "main.acb3d7db.css.map": "/static/css/main.acb3d7db.css.map",
+    "main.88b6f6a1.js.map": "/static/js/main.88b6f6a1.js.map",
+    "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.acb3d7db.css",
+    "static/js/main.88b6f6a1.js"
+  ]
+}
