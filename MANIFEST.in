@@ -5,3 +5,4 @@ graft portal/static
 graft portal/templates
 prune cfl_common
 prune example_project
+graft portal_frontend
