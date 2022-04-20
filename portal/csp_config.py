@@ -23,6 +23,7 @@ CSP_CONFIG = {
         "https://storage.googleapis.com/codeforlife-assets/images/",
         "https://cdn-ukwest.onetrust.com/",
         f"{domain()}/static/portal/img/",
+        f"{domain()}/favicon.ico",
         f"{domain()}/img/",
         f"{domain()}/account/two_factor/qrcode/",
         "data:",
