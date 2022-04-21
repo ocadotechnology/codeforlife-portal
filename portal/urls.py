@@ -12,7 +12,6 @@ from two_factor.views import (
     QRGeneratorView,
     SetupCompleteView,
 )
-from django.views.generic import TemplateView as Template_View
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
@@ -21,6 +20,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
+from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
@@ -442,5 +442,5 @@ urlpatterns = [
             ]
         ),
     ),
-    url("reactTestSpace/", Template_View.as_view(template_name="index.html")),
+    url("reactTestSpace/", reactTestSpace),
 ]

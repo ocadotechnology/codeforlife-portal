@@ -6,3 +6,5 @@ graft portal/templates
 prune cfl_common
 prune example_project
 graft portal_frontend
+prude portal_frontend/node_modules
+prude portal_frontend/build
