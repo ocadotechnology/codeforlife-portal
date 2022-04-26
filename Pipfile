@@ -18,7 +18,7 @@ pytest-django = "==4.5.2"
 pytest = "==7.*"
 pyvirtualdisplay = "*"
 pytest-mock = "*"
-PyPDF2 = "1.27.5"
+PyPDF2 = "1.27.9"
 
 [requires]
 python_version = "3.7"
