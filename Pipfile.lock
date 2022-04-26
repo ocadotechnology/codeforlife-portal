@@ -56,12 +56,7 @@
         },
         "cfl-common": {
             "editable": true,
-            "hashes": [
-                "sha256:14d1564ba3b751f0bbbe82b4bc2dab7b11bb787d1e70252c0fd77bc40d158b97",
-                "sha256:b012d453a0c82477043f4501ae8ce22f67e352ec2585baf11c1521bc2be0654d"
-            ],
-            "path": "./cfl_common",
-            "version": "==6.4.1"
+            "path": "./cfl_common"
         },
         "chardet": {
             "hashes": [
@@ -549,10 +544,6 @@
             "markers": "python_version >= '3.6'",
             "version": "==4.8"
         },
-        "sanitized-package": {
-            "editable": true,
-            "path": "./cfl_common"
-        },
         "setuptools": {
             "hashes": [
                 "sha256:26ead7d1f93efc0f8c804d9fafafbe4a44b179580a7105754b245155f9af05a8",
@@ -729,19 +720,19 @@
         },
         "pypdf2": {
             "hashes": [
-                "sha256:7c18c1d48e56547b1c33f772dc15d6adbd1f4020b62e64bb4a0bc0ee2ab94511",
-                "sha256:9c81fc06be50fbf2e6199e8c2eac05f3eaafae4b3905ecca41200f5b02ac43d7"
+                "sha256:5e29ffaf2efcfb77c25206e3b8df517a18af84e64ebe1b3a93abac8d01176374",
+                "sha256:5f7937fd94ba387a2a241db8858770e53091d8ffab9922512c0bf48e3f4cc615"
             ],
             "index": "pypi",
-            "version": "==1.27.5"
+            "version": "==1.27.9"
         },
         "pytest": {
             "hashes": [
-                "sha256:841132caef6b1ad17a9afde46dc4f6cfa59a05f9555aae5151f73bdf2820ca63",
-                "sha256:92f723789a8fdd7180b6b06483874feca4c48a5c76968e03bb3e7f806a1869ea"
+                "sha256:13d0e3ccfc2b6e26be000cb6568c832ba67ba32e719443bfe725814d3c42433c",
+                "sha256:a06a0425453864a270bc45e71f783330a7428defb4230fb5e6a731fde06ecd45"
             ],
             "index": "pypi",
-            "version": "==7.1.1"
+            "version": "==7.1.2"
         },
         "pytest-django": {
             "hashes": [
