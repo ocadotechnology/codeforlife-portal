@@ -1,6 +1,5 @@
 import re
 from datetime import timedelta
-from enum import Enum
 from uuid import uuid4
 
 from django.contrib.auth.models import User
@@ -15,6 +14,8 @@ class UserProfile(models.Model):
     developer = models.BooleanField(default=False)
 
     awaiting_email_verification = models.BooleanField(default=False)
+
+    kurono_badges = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
@@ -216,10 +217,7 @@ class StudentModelManager(models.Manager):
         user_profile = UserProfile.objects.create(user=user)
 
         return Student.objects.create(
-            class_field=klass,
-            user=user_profile,
-            new_user=user,
-            login_id=login_id,
+            class_field=klass, user=user_profile, new_user=user, login_id=login_id
         )
 
     def independentStudentFactory(self, name, email, password):
