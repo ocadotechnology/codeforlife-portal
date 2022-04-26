@@ -1,6 +1,11 @@
 name: "Semantic PR check"
 
-on: [pull_request]
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
 
 jobs:
   main:
