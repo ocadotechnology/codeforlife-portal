@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:1f66f1e357e7e28a7e0b54a3b2f5074ac8c82cb56de50c9bd99d1d7b6ecc00af",
-                "sha256:4f455cdef6ca470ba404d04c6d7ad2891f5c7f0c490e825a0b6e5275d0cd6e45"
+                "sha256:34b87d3006feffc8411e941b51cf0884240385e35a9cb1b61006e2dded889966",
+                "sha256:953fc738a2d3591756570a82f7198cc9c7904558d69c0be3a6fbaccacab8fcba"
             ],
-            "version": "==2.0.1"
+            "version": "==2.0.4"
         },
         "asgiref": {
             "hashes": [
@@ -71,11 +71,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:9772e6935703e59e993960832d66a614cf0233a1c5123bc6224ecc6ad69e41e2",
-                "sha256:9b06c289f9ba3a8abea16c9c9505f25107809fb933676f6c891ded270039d965"
+                "sha256:6d93497a0a9bf6ba0e0b1a29cccdc40efbfc76297255b1309b3a884a688ec4b6",
+                "sha256:b896ca61edc079eb6bbaa15cf6071eb69d6aac08cce5211583cfb41515644fdf"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==3.2.12"
+            "version": "==3.2.13"
         },
         "django-autoconfig": {
             "git": "https://github.com/ocadotechnology/django-autoconfig.git",
@@ -205,7 +205,7 @@
             "hashes": [
                 "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"
             ],
-            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==0.18.2"
         },
         "google-auth": {
@@ -432,7 +432,7 @@
                 "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86",
                 "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==2.8.2"
         },
         "pytz": {
@@ -486,10 +486,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:266ac26764469027a2ec0ec541dbb0746fa55b69e4f819054bb3f6f81c4352b3",
-                "sha256:b604bb7bc85f0180a8f3885dac15865cf3e2714f88d0a275d368cda24a57aa96"
+                "sha256:0f179ff9013c1bef4533cf19ed3424aae7b3766bb22a521106b9a77b27986bbf",
+                "sha256:fe89bf9367cd5cbbfce6aaf90b66c7012e162a3d94524d0683c45ce931edded7"
             ],
-            "version": "==4.0.6"
+            "version": "==4.0.7"
         },
         "reportlab": {
             "hashes": [
@@ -557,7 +557,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==1.16.0"
         },
         "sortedcontainers": {
@@ -634,11 +634,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:9772e6935703e59e993960832d66a614cf0233a1c5123bc6224ecc6ad69e41e2",
-                "sha256:9b06c289f9ba3a8abea16c9c9505f25107809fb933676f6c891ded270039d965"
+                "sha256:6d93497a0a9bf6ba0e0b1a29cccdc40efbfc76297255b1309b3a884a688ec4b6",
+                "sha256:b896ca61edc079eb6bbaa15cf6071eb69d6aac08cce5211583cfb41515644fdf"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==3.2.12"
+            "version": "==3.2.13"
         },
         "django-selenium-clean": {
             "hashes": [
@@ -794,7 +794,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
             "version": "==1.16.0"
         },
         "snapshottest": {
