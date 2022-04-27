@@ -10,7 +10,6 @@ Libraries that seem to be breaking the app without notice
 import { ThemeProvider } from "@mui/material/styles";
 import RapidRouter from "Components/Banner/RapidRouter";
 import React from "react";
-import Welcome from "./Components/Banner/Welcome";
 import Footer from "./Components/Footer/Footer";
 import KuronoWidget from "./Components/KuronoWidget/KuronoWidget";
 import MeetTheCharacters from "./Components/MeetTheCharacters/MeetTheCharacters";

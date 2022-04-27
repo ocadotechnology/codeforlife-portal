@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.acb3d7db.css",
-    "main.js": "/static/js/main.cf53f80d.js",
-    "static/js/787.9750ae9a.chunk.js": "/static/js/787.9750ae9a.chunk.js",
+    "main.js": "/static/js/main.6bbd8009.js",
+    "static/js/651.172df4f7.chunk.js": "/static/js/651.172df4f7.chunk.js",
     "static/media/RR_logo.svg": "/static/media/RR_logo.871d94e1e2227fcaf57bb8c97027a0a4.svg",
     "static/media/rapid_router_landing_hero.png": "/static/media/rapid_router_landing_hero.7ec13b0b93df9ca79365.png",
     "static/media/logo_cfl.png": "/static/media/logo_cfl.06fffc34beb6c215ab01.png",
@@ -12,11 +12,11 @@
     "static/media/twitter.svg": "/static/media/twitter.3f190a3549dea2464ca62924d629b961.svg",
     "static/media/facebook.svg": "/static/media/facebook.2bdba6ecdf25da4a6d91d9df9e3f5830.svg",
     "main.acb3d7db.css.map": "/static/css/main.acb3d7db.css.map",
-    "main.cf53f80d.js.map": "/static/js/main.cf53f80d.js.map",
-    "787.9750ae9a.chunk.js.map": "/static/js/787.9750ae9a.chunk.js.map"
+    "main.6bbd8009.js.map": "/static/js/main.6bbd8009.js.map",
+    "651.172df4f7.chunk.js.map": "/static/js/651.172df4f7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.acb3d7db.css",
-    "static/js/main.cf53f80d.js"
+    "static/js/main.6bbd8009.js"
   ]
 }
