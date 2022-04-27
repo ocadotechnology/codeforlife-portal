@@ -33,4 +33,4 @@ node_modules
 /cypress
 
 # react frontend
-!portal_frontend/build
+/portal/frontend

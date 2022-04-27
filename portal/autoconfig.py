@@ -11,8 +11,8 @@ DEFAULT_SETTINGS = {
     "SITE_ID": 1,
     "MEDIA_ROOT": os.path.join(os.path.join(os.path.dirname(__file__), "static"), "email_media/"),
 }
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 
 SETTINGS = {
     "AUTOCONFIG_DISABLED_APPS": [
@@ -93,7 +93,7 @@ SETTINGS = {
                     "portal.context_processors.process_newsletter_form",
                 ]
             },
-            "DIRS": [os.path.join(BASE_DIR, ("portal_frontend/build"))],
+            "DIRS": ["portal/frontend"],
         }
     ],
     "CODEFORLIFE_WEBSITE": "www.codeforlife.education",
@@ -115,7 +115,7 @@ SETTINGS = {
     "USE_TZ": True,
     "PASSWORD_RESET_TIMEOUT_DAYS": 1,
     "STATICFILES_DIRS": [
-        os.path.join(BASE_DIR, "portal_frontend/build/static"),
+        "portal/frontend/static",
     ],
 }
 
