@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.4.4 (2022-04-28)
+### Fix
+* Email error ([#1842](https://github.com/ocadotechnology/codeforlife-portal/issues/1842)) ([`9fe37d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9fe37d7bd5cd81903f57127d0abe7568c885b3b7))
+
 ## v6.4.3 (2022-04-28)
 ### Fix
 * Bump ejs from 3.1.6 to 3.1.7 in /portal_frontend ([#1841](https://github.com/ocadotechnology/codeforlife-portal/issues/1841)) ([`ca8a9a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca8a9a21ba9dd6c2a46fe74880a0c2cbe6cc2d42))
