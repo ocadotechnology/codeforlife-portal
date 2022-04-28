@@ -93,7 +93,7 @@ SETTINGS = {
                     "portal.context_processors.process_newsletter_form",
                 ]
             },
-            "DIRS": ["portal/frontend"],
+            "DIRS": [os.path.join(BASE_DIR, "portal/frontend")],
         }
     ],
     "CODEFORLIFE_WEBSITE": "www.codeforlife.education",
@@ -115,7 +115,7 @@ SETTINGS = {
     "USE_TZ": True,
     "PASSWORD_RESET_TIMEOUT_DAYS": 1,
     "STATICFILES_DIRS": [
-        "portal/frontend/static",
+        os.path.join(BASE_DIR, "portal/frontend/static"),
     ],
 }
 
