@@ -2,6 +2,58 @@
 
 <!--next-version-placeholder-->
 
+## v6.4.4 (2022-04-28)
+### Fix
+* Email error ([#1842](https://github.com/ocadotechnology/codeforlife-portal/issues/1842)) ([`9fe37d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9fe37d7bd5cd81903f57127d0abe7568c885b3b7))
+
+## v6.4.3 (2022-04-28)
+### Fix
+* Bump ejs from 3.1.6 to 3.1.7 in /portal_frontend ([#1841](https://github.com/ocadotechnology/codeforlife-portal/issues/1841)) ([`ca8a9a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca8a9a21ba9dd6c2a46fe74880a0c2cbe6cc2d42))
+
+## v6.4.2 (2022-04-26)
+### Fix
+* Bump pypdf2 to 1.27.9 and django to 3.2.13 ([#1834](https://github.com/ocadotechnology/codeforlife-portal/issues/1834)) ([`36e59d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/36e59d7e2aa3a5f338d1fabec9632f24d0cbdc4b))
+
+## v6.4.1 (2022-04-14)
+### Fix
+* Added styling to emails ([#1801](https://github.com/ocadotechnology/codeforlife-portal/issues/1801)) ([`0726319`](https://github.com/ocadotechnology/codeforlife-portal/commit/0726319142a376a18bfc4b25d67801d8136b182e))
+
+## v6.4.0 (2022-04-14)
+### Feature
+* Anonymise classes ([#1821](https://github.com/ocadotechnology/codeforlife-portal/issues/1821)) ([`50cda04`](https://github.com/ocadotechnology/codeforlife-portal/commit/50cda0432c471510b66cbc1ab5253fbfa48e0bfd))
+
+## v6.3.1 (2022-04-08)
+### Fix
+* Delete class and students on account deletion ([#1822](https://github.com/ocadotechnology/codeforlife-portal/issues/1822)) ([`3120051`](https://github.com/ocadotechnology/codeforlife-portal/commit/312005167b8df2385c440a62c1a7eaa5d889320c))
+
+## v6.3.0 (2022-04-08)
+### Feature
+* Pass admin role on acc deletion ([#1820](https://github.com/ocadotechnology/codeforlife-portal/issues/1820)) ([`1ecfddb`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ecfddbe8e7075aebceddb9eb866381d2b13bf73))
+
+## v6.2.3 (2022-04-07)
+### Fix
+* Added alt texts to all images from the spreadsheet ([#1810](https://github.com/ocadotechnology/codeforlife-portal/issues/1810)) ([`034f27a`](https://github.com/ocadotechnology/codeforlife-portal/commit/034f27a1174da8e9688b46bf7301531d60e39c8b))
+
+## v6.2.2 (2022-04-06)
+### Fix
+* Deletion email minor updates ([#1819](https://github.com/ocadotechnology/codeforlife-portal/issues/1819)) ([`4a8680d`](https://github.com/ocadotechnology/codeforlife-portal/commit/4a8680d8839bdf481ca2583e2806bb53f3a2cad0))
+
+## v6.2.1 (2022-04-05)
+### Fix
+* Fix sending email on account deletion ([#1818](https://github.com/ocadotechnology/codeforlife-portal/issues/1818)) ([`467b10a`](https://github.com/ocadotechnology/codeforlife-portal/commit/467b10aa665e883210fd856088323bb80cb74ad7))
+
+## v6.2.0 (2022-04-05)
+### Feature
+* Delete account function for teacher ([#1812](https://github.com/ocadotechnology/codeforlife-portal/issues/1812)) ([`0301952`](https://github.com/ocadotechnology/codeforlife-portal/commit/0301952cbf324a6267347f0b6c6d9a96b3ef62ff))
+
+## v6.1.1 (2022-04-05)
+### Fix
+* Hide anonymised teachers from dashboard ([#1816](https://github.com/ocadotechnology/codeforlife-portal/issues/1816)) ([`82b2dc3`](https://github.com/ocadotechnology/codeforlife-portal/commit/82b2dc33114c350abeeb2f1dea927152478872f2))
+
+## v6.1.0 (2022-04-04)
+### Feature
+* React subnav ([#1811](https://github.com/ocadotechnology/codeforlife-portal/issues/1811)) ([`79f214c`](https://github.com/ocadotechnology/codeforlife-portal/commit/79f214c26f8f538ec929a8afd5d5a8bc50ca895a))
+
 ## v6.0.2 (2022-03-30)
 ### Fix
 * Remove missing script ([#1815](https://github.com/ocadotechnology/codeforlife-portal/issues/1815)) ([`fdea770`](https://github.com/ocadotechnology/codeforlife-portal/commit/fdea770278cc4be0f5d962b924f8cddcae0153b1))

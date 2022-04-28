@@ -55,9 +55,10 @@ function hideInfoPopup() {
   $("#info-popup").removeClass("popup--fade");
 }
 
-function postWithCsrf(path) {
+function postWithCsrf(path, params = undefined) {
   post(path, {
     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+    ...params,
   });
 }
 

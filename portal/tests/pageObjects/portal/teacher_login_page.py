@@ -28,12 +28,12 @@ class TeacherLoginPage(BasePage):
     def login_no_class(self, email, password):
         self._login(email, password)
 
-        return onboarding_classes_page.OnboardingClassesPage(self.browser)
+        return teach_dashboard_page.TeachDashboardPage(self.browser)
 
     def login_no_students(self, email, password):
         self._login(email, password)
 
-        return onboarding_students_page.OnboardingStudentsPage(self.browser)
+        return teach_dashboard_page.TeachDashboardPage(self.browser)
 
     def login_failure(self, email, password):
         self._login(email, password)

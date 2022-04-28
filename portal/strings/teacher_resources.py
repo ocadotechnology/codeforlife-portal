@@ -4,6 +4,8 @@ RAPID_ROUTER_RESOURCES_BANNER = {
     "teach students Computing.",
     "text": "",
     "image_class": "banner--picture--play",
+    "image_description": "Credit: Annie Spratt, Unsplash",
+    "alt": "Boy playing on ipad",
 }
 
 KURONO_RESOURCES_BANNER = {
@@ -12,4 +14,6 @@ KURONO_RESOURCES_BANNER = {
     "teach students the UK National Computing Curriculum.",
     "text": "",
     "image_class": "banner--picture--aimmo-resources",
+    "alt": "Two teenage girls laughing whilst working on laptops",
+    "image_description": "Credit: Brooke Cagle, Unsplash",
 }

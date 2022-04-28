@@ -14,6 +14,7 @@ from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
 from portal.forms.organisation import OrganisationForm
+from portal.forms.registration import DeleteAccountForm
 from portal.forms.teach import (
     ClassCreationForm,
     TeacherAddExternalStudentForm,
@@ -84,6 +85,9 @@ def dashboard_teacher_view(request, is_admin):
     update_account_form.fields["first_name"].initial = request.user.first_name
     update_account_form.fields["last_name"].initial = request.user.last_name
 
+    delete_account_form = DeleteAccountForm(request.user)
+    delete_account_confirm = False
+
     anchor = ""
 
     backup_tokens = check_backup_tokens(request)
@@ -118,6 +122,14 @@ def dashboard_teacher_view(request, is_admin):
         elif request.POST.get("show_onboarding_complete") == "1":
             show_onboarding_complete = True
 
+        elif "delete_account" in request.POST:
+            delete_account_form = DeleteAccountForm(request.user, request.POST)
+            if not delete_account_form.is_valid():
+                messages.warning(
+                    request, "Your account was not deleted due to incorrect password."
+                )
+            else:
+                delete_account_confirm = True
         else:
             anchor = "account"
             update_account_form = TeacherEditAccountForm(request.user, request.POST)
@@ -163,6 +175,8 @@ def dashboard_teacher_view(request, is_admin):
             "update_school_form": update_school_form,
             "create_class_form": create_class_form,
             "update_account_form": update_account_form,
+            "delete_account_form": delete_account_form,
+            "delete_account_confirm": delete_account_confirm,
             "anchor": anchor,
             "backup_tokens": backup_tokens,
             "show_onboarding_complete": show_onboarding_complete,
@@ -288,6 +302,7 @@ def organisation_allow_join(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -319,6 +334,7 @@ def organisation_deny_join(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -386,6 +402,7 @@ def organisation_kick(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -415,6 +432,7 @@ def organisation_toggle_admin(request, pk):
         [teacher.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -533,6 +551,7 @@ def teacher_reject_student_request(request, pk):
         [student.new_user.email],
         emailMessage["subject"],
         emailMessage["message"],
+        emailMessage["subject"],
     )
 
     student.pending_class_request = None

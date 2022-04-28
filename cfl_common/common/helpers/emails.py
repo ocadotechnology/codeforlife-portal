@@ -16,8 +16,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
-from requests import post, get, put
+from requests import post, get, put, delete
 from requests.exceptions import RequestException
+from common.app_settings import domain
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -38,19 +39,23 @@ def send_email(
     recipients,
     subject,
     text_content,
+    title,
     html_content=None,
     plaintext_template="email.txt",
     html_template="email.html",
 ):
+
     # add in template for templates to message
 
     # setup templates
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
     plaintext_email_context = {"content": text_content}
-    html_email_context = {"content": text_content}
-    if html_content:
-        html_email_context = {"content": html_content}
+    html_email_context = {
+        "content": text_content,
+        "title": title,
+        "url_prefix": domain(),
+    }
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
@@ -83,7 +88,11 @@ def send_verification_email(request, user, new_email=None):
 
         message = emailVerificationNeededEmail(request, verification.token)
         send_email(
-            VERIFICATION_EMAIL, [user.email], message["subject"], message["message"]
+            VERIFICATION_EMAIL,
+            [user.email],
+            message["subject"],
+            message["message"],
+            message["subject"],
         )
 
     else:  # verifying change of email address.
@@ -91,12 +100,20 @@ def send_verification_email(request, user, new_email=None):
 
         message = emailChangeVerificationEmail(request, verification.token)
         send_email(
-            VERIFICATION_EMAIL, [new_email], message["subject"], message["message"]
+            VERIFICATION_EMAIL,
+            [user.email],
+            message["subject"],
+            message["message"],
+            message["subject"],
         )
 
-        message = emailChangeNotificationEmail(request)
+        message = emailChangeNotificationEmail(request, new_email)
         send_email(
-            VERIFICATION_EMAIL, [user.email], message["subject"], message["message"]
+            VERIFICATION_EMAIL,
+            [user.email],
+            message["subject"],
+            message["message"],
+            message["subject"],
         )
 
 
@@ -185,6 +202,22 @@ def add_contact_to_address_book(
     )
 
 
+def delete_contact(email: str):
+    try:
+        user = get_dotmailer_user_by_email(email)
+        user_id = user.get("id")
+        if user_id:
+            url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace(
+                "ID", str(user_id)
+            )
+            delete(
+                url,
+                auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+            )
+    except RequestException:
+        return HttpResponse(status=404)
+
+
 def get_dotmailer_user_by_email(email):
     url = app_settings.DOTMAILER_GET_USER_BY_EMAIL_URL.replace("EMAIL", email)
 
@@ -255,6 +288,7 @@ def update_email(user: Teacher or Student, request, data):
                 [user.new_user.email],
                 email_message["subject"],
                 email_message["message"],
+                email_message["subject"],
             )
         else:
             # new email to set and verify

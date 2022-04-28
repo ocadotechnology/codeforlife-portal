@@ -85,6 +85,10 @@ class TeacherModelManager(models.Manager):
 
         return Teacher.objects.create(user=user_profile, new_user=user)
 
+    # Filter out non active teachers by default
+    def get_queryset(self):
+        return super().get_queryset().filter(new_user__is_active=True)
+
 
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
@@ -118,6 +122,9 @@ class Teacher(models.Model):
     def has_school(self):
         return self.school is not (None or "")
 
+    def has_class(self):
+        return self.class_teacher.exists()
+
     def __str__(self):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
 
@@ -137,17 +144,22 @@ class ClassModelManager(models.Manager):
             members.extend(c.students.all())
         return members
 
+    # Filter out non active classes by default
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
     teacher = models.ForeignKey(
         Teacher, related_name="class_teacher", on_delete=models.CASCADE
     )
-    access_code = models.CharField(max_length=5)
+    access_code = models.CharField(max_length=5, null=True)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
     accept_requests_until = models.DateTimeField(null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
+    is_active = models.BooleanField(default=True)
 
     objects = ClassModelManager()
 
@@ -187,6 +199,15 @@ class Class(models.Model):
             )
 
         return external_requests_message
+
+    def anonymise(self):
+        self.name = uuid4().hex
+        self.access_code = ""
+        self.is_active = False
+        self.save()
+
+        # Remove independent students' requests to join this class
+        self.class_request.clear()
 
     class Meta(object):
         verbose_name_plural = "classes"
@@ -281,7 +302,7 @@ class AimmoCharacter(models.Model):
     description = models.TextField()
     image_path = models.CharField(max_length=255)
     sort_order = models.IntegerField()
-
+    alt = models.CharField(max_length=255, null=True)
     objects = AimmoCharacterManager()
 
     def __str__(self) -> str:

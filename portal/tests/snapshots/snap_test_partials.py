@@ -25,6 +25,7 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
                     <div class="banner--picture">
                         <div class="banner--picture__inside1">
                             <div class="banner--picture__inside2 test--image--class"
+                                 
                                  >
                             </div>
                         </div>
@@ -181,21 +182,21 @@ snapshots['test_character_list 1'] = '''
 <div class="grid grid-characters grid__fit">
     
         <div>
-            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png">
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
             <h5 class="grid-character-title">Xian</h5>
             <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
         </div>
     
         <div>
-            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png">
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
             <h5 class="grid-character-title">Jools</h5>
-            <p>A quick-witted kid who wasn’t expecting to embark in a time-warping journey but can’t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
         </div>
     
         <div>
-            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png">
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
             <h5 class="grid-character-title">Zayed</h5>
-            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in first place.</p>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
         </div>
     
 </div>

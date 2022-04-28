@@ -12,14 +12,37 @@ class TeachClassPage(TeachBasePage):
         return self
 
     def create_students(self):
-        self._click_create_students()
+        self.click_create_students()
 
         import portal.tests.pageObjects.portal.teach.onboarding_student_list_page as onboarding_student_list_page
 
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
-    def _click_create_students(self):
+    def click_create_students(self):
         self.browser.find_element_by_name("new_students").click()
+        return self
+
+    def adding_students_failed(self):
+        if not self.element_exists_by_css(".errorlist"):
+            return False
+
+        error_list = self.browser.find_element_by_id(
+            "form-create-students"
+        ).find_element_by_class_name("errorlist")
+
+        return error_list.text
+
+    def duplicate_students(self, name):
+        if not self.element_exists_by_css(".errorlist"):
+            return False
+
+        errors = (
+            self.browser.find_element_by_id("form-create-students")
+            .find_element_by_class_name("errorlist")
+            .text
+        )
+        error = "You cannot add more than one student called '{0}'".format(name)
+        return error in errors
 
     def student_exists(self, name):
         return name in self.browser.find_element_by_id("student_table").text

@@ -1,12 +1,13 @@
 import csv
 import io
 import json
+import requests
 from datetime import timedelta, date
 
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class, DailyActivity
+from common.models import Teacher, UserSession, Student, Class, DailyActivity, School
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -33,6 +34,7 @@ from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
+from portal.views.api import anonymise
 
 
 class TestTeacherViews(TestCase):
@@ -224,9 +226,7 @@ class TestLoginViews(TestCase):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
         _, _, class_access_code = create_class_directly(teacher_email)
-        student_name, student_password, _ = create_school_student_directly(
-            class_access_code
-        )
+        student_name, student_password, _ = create_school_student_directly(class_access_code)
 
         return (
             teacher_email,
@@ -259,10 +259,7 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
         if next_url:
-            url = (
-                reverse("student_login", kwargs={"access_code": class_access_code})
-                + "?next=/"
-            )
+            url = reverse("student_login", kwargs={"access_code": class_access_code}) + "?next=/"
         else:
             url = reverse("student_login", kwargs={"access_code": class_access_code})
 
@@ -303,9 +300,7 @@ class TestLoginViews(TestCase):
 
     def _get_user_class(self, name, class_access_code):
         klass = Class.objects.get(access_code=class_access_code)
-        students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=klass
-        )
+        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
         assert len(students) == 1
         user = students[0].new_user
         return user, klass
@@ -315,9 +310,7 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
         c = Client()
 
-        resp = c.post(
-            reverse("student_login_access_code"), {"access_code": class_access_code}
-        )
+        resp = c.post(reverse("student_login_access_code"), {"access_code": class_access_code})
         assert resp.status_code == 302
         nexturl = resp.url
         assert nexturl == reverse(
@@ -433,7 +426,7 @@ class TestLoginViews(TestCase):
 
 
 class TestViews(TestCase):
-    def test_covid_response_page(self):
+    def test_home_learning(self):
         c = Client()
         home_url = reverse("home")
         response = c.get(home_url)
@@ -465,9 +458,7 @@ class TestViews(TestCase):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
         klass, _, class_access_code = create_class_directly(teacher_email)
-        student_name, student_password, student = create_school_student_directly(
-            class_access_code
-        )
+        student_name, student_password, student = create_school_student_directly(class_access_code)
 
         # Expected context data when a student hasn't played anything yet
         EXPECTED_DATA_FIRST_LOGIN = {
@@ -558,3 +549,174 @@ class TestViews(TestCase):
 
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
+
+    def test_delete_account(self):
+        email, password = signup_teacher_directly()
+        u = User.objects.get(email=email)
+        usrid = u.id
+
+        c = Client()
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email,
+                "auth-password": password,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # fail to delete with incorrect password
+        url = reverse("delete_account")
+        response = c.post(url, {"password": "wrongPassword"})
+
+        assert response.status_code == 302
+        assert response.url == reverse("dashboard")
+
+        # user has not been anonymised
+        u = User.objects.get(email=email)
+        assert u.id == usrid
+
+        # try again with the correct password
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password, "unsubscribe_newsletter": "on"})
+
+        assert response.status_code == 302
+        assert response.url == reverse("home")
+
+        # user has been anonymised
+        u = User.objects.get(id=usrid)
+        assert u.first_name == "Deleted"
+        assert not u.is_active
+
+    def test_delete_account_admin(self):
+        """test the passing of admin role after deletion of an admin account"""
+
+        email1, password1 = signup_teacher_directly()
+        email2, password2 = signup_teacher_directly()
+        email3, password3 = signup_teacher_directly()
+        email4, password4 = signup_teacher_directly()
+
+        user1 = User.objects.get(email=email1)
+        user1.last_name = "Amir"
+        user1.save()
+        usrid1 = user1.id
+
+        user2 = User.objects.get(email=email2)
+        user2.last_name = "Bee"
+        user2.save()
+        usrid2 = user2.id
+
+        user3 = User.objects.get(email=email3)
+        user3.last_name = "Jung"
+        user3.save()
+        usrid3 = user3.id
+
+        user4 = User.objects.get(email=email4)
+        user4.last_name = "Kook"
+        user4.save()
+        usrid4 = user4.id
+
+        school_name, postcode = create_organisation_directly(email1)
+        klass, class_name, access_code_1 = create_class_directly(email1)
+        class_id = klass.id
+        _, _, student = create_school_student_directly(access_code_1)
+        student_user_id = student.new_user.id
+
+        join_teacher_to_organisation(email2, school_name, postcode, is_admin=False)
+        _, _, access_code_2 = create_class_directly(email2)
+        create_school_student_directly(access_code_2)
+
+        join_teacher_to_organisation(email3, school_name, postcode, is_admin=False)
+        join_teacher_to_organisation(email4, school_name, postcode, is_admin=False)
+
+        c = Client()
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email1,
+                "auth-password": password1,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # delete teacher1 account
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password1})
+
+        # user has been anonymised
+        u = User.objects.get(id=usrid1)
+        assert not u.is_active
+
+        # check that the class and student have been anonymised
+        assert not Class._base_manager.get(pk=class_id).is_active
+        student_user1 = User.objects.get(id=student_user_id)
+        assert not student_user1.is_active
+
+        school = School.objects.get(name=school_name)
+        school_id = school.id
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        assert len(teachers) == 3
+
+        # one of the remaining teachers should be admin (the second in our case, as it's alphabetical)
+        u = User.objects.get(id=usrid2)
+        assert u.new_teacher.is_admin
+        u = User.objects.get(id=usrid3)
+        assert not u.new_teacher.is_admin
+        u = User.objects.get(id=usrid4)
+        assert not u.new_teacher.is_admin
+
+        # make teacher 3 admin
+        user3.new_teacher.is_admin = True
+        user3.new_teacher.save()
+
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email3,
+                "auth-password": password3,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        # now delete teacher3 account
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password3})
+
+        # 2 teachers left
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        assert len(teachers) == 2
+
+        # teacher2 should still be admin, teacher4 is not passed admin role because there is teacher2
+        u = User.objects.get(id=usrid2)
+        assert u.new_teacher.is_admin
+        u = User.objects.get(id=usrid4)
+        assert not u.new_teacher.is_admin
+
+        # delete teacher4
+        anonymise(user4)
+
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        assert len(teachers) == 1
+        u = User.objects.get(id=usrid2)
+        assert u.new_teacher.is_admin
+
+        # delete teacher2 (the last one left)
+        url = reverse("teacher_login")
+        response = c.post(
+            url,
+            {
+                "auth-username": email2,
+                "auth-password": password2,
+                "teacher_login_view-current_step": "auth",
+            },
+        )
+
+        url = reverse("delete_account")
+        response = c.post(url, {"password": password2})
+
+        # school name should be scrambled
+        school = School.objects.get(id=school_id)
+        assert school.name != school_name
