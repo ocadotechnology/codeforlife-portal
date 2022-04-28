@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.4.2 (2022-04-26)
+### Fix
+* Bump pypdf2 to 1.27.9 and django to 3.2.13 ([#1834](https://github.com/ocadotechnology/codeforlife-portal/issues/1834)) ([`36e59d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/36e59d7e2aa3a5f338d1fabec9632f24d0cbdc4b))
+
 ## v6.4.1 (2022-04-14)
 ### Fix
 * Added styling to emails ([#1801](https://github.com/ocadotechnology/codeforlife-portal/issues/1801)) ([`0726319`](https://github.com/ocadotechnology/codeforlife-portal/commit/0726319142a376a18bfc4b25d67801d8136b182e))
