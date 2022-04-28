@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.4.3 (2022-04-28)
+### Fix
+* Bump ejs from 3.1.6 to 3.1.7 in /portal_frontend ([#1841](https://github.com/ocadotechnology/codeforlife-portal/issues/1841)) ([`ca8a9a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca8a9a21ba9dd6c2a46fe74880a0c2cbe6cc2d42))
+
 ## v6.4.2 (2022-04-26)
 ### Fix
 * Bump pypdf2 to 1.27.9 and django to 3.2.13 ([#1834](https://github.com/ocadotechnology/codeforlife-portal/issues/1834)) ([`36e59d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/36e59d7e2aa3a5f338d1fabec9632f24d0cbdc4b))
