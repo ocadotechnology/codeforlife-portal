@@ -4,7 +4,7 @@ import re
 import os
 from setuptools import find_packages, setup
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, "portal/__init__.py"), "r") as fd:
     version = re.search(
