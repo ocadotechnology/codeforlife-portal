@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0017_copy_email_to_username'),
+        ('common', '0020_class_is_active_and_null_access_code'),
     ]
 
     operations = [
