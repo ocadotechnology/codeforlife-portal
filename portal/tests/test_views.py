@@ -717,6 +717,10 @@ class TestViews(TestCase):
         url = reverse("delete_account")
         response = c.post(url, {"password": password2})
 
-        # school name should be scrambled
-        school = School.objects.get(id=school_id)
+        # school should be anonymised
+        school = School._base_manager.get(id=school_id)
         assert school.name != school_name
+        assert not school.is_active
+
+        with pytest.raises(School.DoesNotExist):
+            School.objects.get(id=school_id)
