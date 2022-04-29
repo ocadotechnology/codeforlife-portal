@@ -83,6 +83,9 @@ class School(models.Model):
         self.is_active = False
         self.save()
 
+        # Remove teachers' requests to join this school
+        self.join_request.clear()
+
 
 class TeacherModelManager(models.Manager):
     def factory(self, first_name, last_name, email, password):
