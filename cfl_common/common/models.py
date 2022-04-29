@@ -254,13 +254,6 @@ class StudentModelManager(models.Manager):
 
         return Student.objects.create(user=user_profile, new_user=user)
 
-    def independent_students(self):
-        """
-        Returns all independent students in the database.
-        :return: A list of all independent students.
-        """
-        return [student for student in Student.objects.all() if student.is_independent()]
-
 
 class Student(models.Model):
     class_field = models.ForeignKey(Class, related_name="students", null=True, on_delete=models.CASCADE)
