@@ -1,8 +1,6 @@
 """Django settings for example_project project."""
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
 DEBUG = True
 
 TEMPLATES = [
