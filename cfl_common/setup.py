@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
 
-import os
 from setuptools import find_packages, setup
 
 with open("../portal/__init__.py", "r") as fd:
