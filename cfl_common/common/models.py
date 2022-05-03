@@ -11,7 +11,6 @@ from django_countries.fields import CountryField
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
 
     awaiting_email_verification = models.BooleanField(default=False)
@@ -50,20 +49,11 @@ class SchoolModelManager(models.Manager):
 class School(models.Model):
     name = models.CharField(max_length=200)
     postcode = models.CharField(max_length=10, null=True)
-    town = models.CharField(max_length=200, null=True)
-    latitude = models.CharField(max_length=20)
-    longitude = models.CharField(max_length=20)
     country = CountryField(blank_label="(select country)")
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
 
     objects = SchoolModelManager()
-
-    class Meta(object):
-        permissions = (
-            ("view_aggregated_data", "Can see available aggregated data"),
-            ("view_map_data", "Can see schools' location displayed on map"),
-        )
 
     def __str__(self):
         return self.name
@@ -81,7 +71,6 @@ class School(models.Model):
     def anonymise(self):
         self.name = uuid4().hex
         self.postcode = ""
-        self.town = ""
         self.is_active = False
         self.save()
 

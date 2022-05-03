@@ -6,10 +6,11 @@ from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.test.utils import override_settings
 from django.conf import settings
+from django.urls import reverse
 
 from django_otp.util import random_hex
 from django_otp.oath import totp
-from django_otp import DEVICE_ID_SESSION_KEY
+from django_otp import DEVICE_ID_SESSION_KEY, user_has_device
 
 
 class Test2FA(TestCase):
@@ -43,9 +44,7 @@ class Test2FA(TestCase):
 
         # In production tolerance value is 1 by default, which means it will accept any of three
         # tokens: the current one, the previous one, and the next one.
-        device = user.totpdevice_set.create(
-            name="default", key=random_hex(), tolerance=0
-        )
+        device = user.totpdevice_set.create(name="default", key=random_hex(), tolerance=0)
 
         # For us the authentication is done in 2 steps. First step is 'auth'.
         response = _post(
@@ -66,11 +65,7 @@ class Test2FA(TestCase):
                 "teacher_login_view-current_step": "token",
             },
         )
-        INVALID_ERR = {
-            "__all__": [
-                "Invalid token. Please make sure you have entered it correctly."
-            ]
-        }
+        INVALID_ERR = {"__all__": ["Invalid token. Please make sure you have entered it correctly."]}
         assert response.context_data["wizard"]["form"].errors == INVALID_ERR
 
         # reset throttle to allow us to continue after failure
@@ -97,8 +92,12 @@ class Test2FA(TestCase):
             }
         )
 
-        self.assertRedirects(
-            response, settings.LOGIN_REDIRECT_URL, fetch_redirect_response=False
-        )
+        self.assertRedirects(response, settings.LOGIN_REDIRECT_URL, fetch_redirect_response=False)
 
         assert device.persistent_id == self.client.session.get(DEVICE_ID_SESSION_KEY)
+
+        # test delete 2FA
+        url = reverse("teacher_disable_2FA", kwargs={"pk": user.new_teacher.id})
+        self.client.post(url)
+
+        assert not user_has_device(user)
