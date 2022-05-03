@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from builtins import str
 from django.db import models, migrations
-from portal.helpers import location
 
 
 class Migration(migrations.Migration):
@@ -12,7 +11,12 @@ class Migration(migrations.Migration):
 
         School = apps.get_model("portal", "School")
         for school in School.objects.all():
-            error, country, town, lat, lng = location.lookup_country(school.postcode)
+            country, town, lat, lng = (
+                "GB",
+                "0",
+                "0",
+                "0",
+            )
             school.country = str(country)
             school.town = town
             school.lat = lat

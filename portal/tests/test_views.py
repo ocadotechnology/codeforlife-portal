@@ -721,7 +721,6 @@ class TestViews(TestCase):
         school = School._base_manager.get(id=school_id)
         assert school.name != school_name
         assert school.postcode == ""
-        assert school.town == ""
         assert not school.is_active
 
         with pytest.raises(School.DoesNotExist):
