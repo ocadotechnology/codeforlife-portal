@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.5.1 (2022-05-03)
+### Fix
+* Remove lat, long, town, agg data, map ([#1845](https://github.com/ocadotechnology/codeforlife-portal/issues/1845)) ([`caf5e96`](https://github.com/ocadotechnology/codeforlife-portal/commit/caf5e96c3bc8c619f2cda16ab266332d87262ba1))
+
 ## v6.5.0 (2022-05-03)
 ### Feature
 * Anonymise school ([#1844](https://github.com/ocadotechnology/codeforlife-portal/issues/1844)) ([`0e5eaf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/0e5eaf553999131095d9df4b1b29a8a848ccc687))
