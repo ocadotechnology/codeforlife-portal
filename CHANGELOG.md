@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.5.0 (2022-05-03)
+### Feature
+* Anonymise school ([#1844](https://github.com/ocadotechnology/codeforlife-portal/issues/1844)) ([`0e5eaf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/0e5eaf553999131095d9df4b1b29a8a848ccc687))
+
 ## v6.4.4 (2022-04-28)
 ### Fix
 * Email error ([#1842](https://github.com/ocadotechnology/codeforlife-portal/issues/1842)) ([`9fe37d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9fe37d7bd5cd81903f57127d0abe7568c885b3b7))
