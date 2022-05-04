@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.5.2 (2022-05-04)
+### Fix
+* Fix email tuples ([#1846](https://github.com/ocadotechnology/codeforlife-portal/issues/1846)) ([`a39aa47`](https://github.com/ocadotechnology/codeforlife-portal/commit/a39aa4768e46df7e46e22bcf16c885ca7d37fe1e))
+
 ## v6.5.1 (2022-05-03)
 ### Fix
 * Remove lat, long, town, agg data, map ([#1845](https://github.com/ocadotechnology/codeforlife-portal/issues/1845)) ([`caf5e96`](https://github.com/ocadotechnology/codeforlife-portal/commit/caf5e96c3bc8c619f2cda16ab266332d87262ba1))
