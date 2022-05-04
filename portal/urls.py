@@ -25,8 +25,6 @@ from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
     AdminChangePasswordView,
-    aggregated_data,
-    schools_map,
 )
 from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
@@ -166,12 +164,6 @@ urlpatterns = [
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    url(
-        r"^admin/$",
-        RedirectView.as_view(url=reverse_lazy("aggregated_data"), permanent=True),
-    ),
-    url(r"^admin/map/$", schools_map, name="map"),
-    url(r"^admin/data/$", aggregated_data, name="aggregated_data"),
     url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),
     url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     url(

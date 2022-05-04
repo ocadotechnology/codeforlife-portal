@@ -2,6 +2,26 @@
 
 <!--next-version-placeholder-->
 
+## v6.5.1 (2022-05-03)
+### Fix
+* Remove lat, long, town, agg data, map ([#1845](https://github.com/ocadotechnology/codeforlife-portal/issues/1845)) ([`caf5e96`](https://github.com/ocadotechnology/codeforlife-portal/commit/caf5e96c3bc8c619f2cda16ab266332d87262ba1))
+
+## v6.5.0 (2022-05-03)
+### Feature
+* Anonymise school ([#1844](https://github.com/ocadotechnology/codeforlife-portal/issues/1844)) ([`0e5eaf5`](https://github.com/ocadotechnology/codeforlife-portal/commit/0e5eaf553999131095d9df4b1b29a8a848ccc687))
+
+## v6.4.4 (2022-04-28)
+### Fix
+* Email error ([#1842](https://github.com/ocadotechnology/codeforlife-portal/issues/1842)) ([`9fe37d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9fe37d7bd5cd81903f57127d0abe7568c885b3b7))
+
+## v6.4.3 (2022-04-28)
+### Fix
+* Bump ejs from 3.1.6 to 3.1.7 in /portal_frontend ([#1841](https://github.com/ocadotechnology/codeforlife-portal/issues/1841)) ([`ca8a9a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca8a9a21ba9dd6c2a46fe74880a0c2cbe6cc2d42))
+
+## v6.4.2 (2022-04-26)
+### Fix
+* Bump pypdf2 to 1.27.9 and django to 3.2.13 ([#1834](https://github.com/ocadotechnology/codeforlife-portal/issues/1834)) ([`36e59d7`](https://github.com/ocadotechnology/codeforlife-portal/commit/36e59d7e2aa3a5f338d1fabec9632f24d0cbdc4b))
+
 ## v6.4.1 (2022-04-14)
 ### Fix
 * Added styling to emails ([#1801](https://github.com/ocadotechnology/codeforlife-portal/issues/1801)) ([`0726319`](https://github.com/ocadotechnology/codeforlife-portal/commit/0726319142a376a18bfc4b25d67801d8136b182e))
