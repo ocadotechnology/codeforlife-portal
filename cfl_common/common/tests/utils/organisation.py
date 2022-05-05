@@ -16,9 +16,7 @@ generate_details.next_id = 1
 def create_organisation_directly(teacher_email, **kwargs):
     name, postcode = generate_details(**kwargs)
 
-    school = School.objects.create(
-        name=name, postcode=postcode, country="GB", town="", latitude="", longitude=""
-    )
+    school = School.objects.create(name=name, postcode=postcode, country="GB")
 
     teacher = Teacher.objects.get(new_user__email=teacher_email)
     teacher.school = school

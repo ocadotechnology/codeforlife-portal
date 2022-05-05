@@ -21,7 +21,6 @@ from portal.forms.teach import (
     TeacherEditAccountForm,
 )
 from portal.helpers.decorators import ratelimit
-from portal.helpers.location import lookup_coord
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_GROUP,
@@ -65,9 +64,7 @@ def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
 
-    coworkers = Teacher.objects.filter(school=school).order_by(
-        "new_user__last_name", "new_user__first_name"
-    )
+    coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
     join_requests = Teacher.objects.filter(pending_join_request=school).order_by(
         "new_user__last_name", "new_user__first_name"
@@ -97,9 +94,7 @@ def dashboard_teacher_view(request, is_admin):
     if request.method == "POST":
         if can_process_update_school_form(request, is_admin):
             anchor = "school-details"
-            update_school_form = OrganisationForm(
-                request.POST, user=request.user, current_school=school
-            )
+            update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
             anchor = process_update_school_form(request, school, anchor)
 
         elif "create_class" in request.POST:
@@ -109,14 +104,10 @@ def dashboard_teacher_view(request, is_admin):
                 created_class = create_class(create_class_form, teacher)
                 messages.success(
                     request,
-                    "The class '{className}' has been created successfully.".format(
-                        className=created_class.name
-                    ),
+                    "The class '{className}' has been created successfully.".format(className=created_class.name),
                 )
                 return HttpResponseRedirect(
-                    reverse_lazy(
-                        "view_class", kwargs={"access_code": created_class.access_code}
-                    )
+                    reverse_lazy("view_class", kwargs={"access_code": created_class.access_code})
                 )
 
         elif request.POST.get("show_onboarding_complete") == "1":
@@ -125,9 +116,7 @@ def dashboard_teacher_view(request, is_admin):
         elif "delete_account" in request.POST:
             delete_account_form = DeleteAccountForm(request.user, request.POST)
             if not delete_account_form.is_valid():
-                messages.warning(
-                    request, "Your account was not deleted due to incorrect password."
-                )
+                messages.warning(request, "Your account was not deleted due to incorrect password.")
             else:
                 delete_account_confirm = True
         else:
@@ -201,9 +190,7 @@ def check_backup_tokens(request):
 
 
 def process_update_school_form(request, school, old_anchor):
-    update_school_form = OrganisationForm(
-        request.POST, user=request.user, current_school=school
-    )
+    update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
     if update_school_form.is_valid():
         data = update_school_form.cleaned_data
         name = data.get("name", "")
@@ -213,11 +200,6 @@ def process_update_school_form(request, school, old_anchor):
         school.name = name
         school.postcode = postcode
         school.country = country
-
-        error, country, town, lat, lng = lookup_coord(postcode, country)
-        school.town = town
-        school.latitude = lat
-        school.longitude = lng
         school.save()
 
         anchor = "#"
@@ -241,9 +223,7 @@ def process_update_account_form(request, teacher, old_anchor):
         data = update_account_form.cleaned_data
 
         # check not default value for CharField
-        changing_password = check_update_password(
-            update_account_form, teacher.new_user, request, data
-        )
+        changing_password = check_update_password(update_account_form, teacher.new_user, request, data)
 
         teacher.new_user.first_name = data["first_name"]
         teacher.new_user.last_name = data["last_name"]
@@ -258,9 +238,7 @@ def process_update_account_form(request, teacher, old_anchor):
         # Reset ratelimit cache after successful account details update
         clear_ratelimit_cache_for_user(teacher.new_user.username)
 
-        messages.success(
-            request, "Your account details have been successfully changed."
-        )
+        messages.success(request, "Your account details have been successfully changed.")
     else:
         anchor = old_anchor
 
@@ -322,13 +300,9 @@ def organisation_deny_join(request, pk):
     teacher.pending_join_request = None
     teacher.save()
 
-    messages.success(
-        request, "The request to join your school or club has been successfully denied."
-    )
+    messages.success(request, "The request to join your school or club has been successfully denied.")
 
-    emailMessage = email_messages.joinRequestDeniedEmail(
-        request, request.user.new_teacher.school.name
-    )
+    emailMessage = email_messages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
     send_email(
         NOTIFICATION_EMAIL,
         [teacher.new_user.email],
@@ -354,9 +328,7 @@ def organisation_kick(request, pk):
 
     check_teacher_is_authorised(teacher, user)
 
-    success_message = (
-        "The teacher has been successfully removed from your school or club."
-    )
+    success_message = "The teacher has been successfully removed from your school or club."
 
     classes = Class.objects.filter(teacher=teacher)
     for klass in classes:
@@ -366,9 +338,7 @@ def organisation_kick(request, pk):
             klass.teacher = new_teacher
             klass.save()
 
-            success_message = success_message.replace(
-                ".", " and their classes were successfully transferred."
-            )
+            success_message = success_message.replace(".", " and their classes were successfully transferred.")
 
     classes = Class.objects.filter(teacher=teacher)
     teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
@@ -448,11 +418,7 @@ def teacher_disable_2FA(request, pk):
     if teacher.school != user.school or not user.is_admin:
         raise Http404
 
-    [
-        device.delete()
-        for device in devices_for_user(teacher.new_user)
-        if request.method == "POST"
-    ]
+    [device.delete() for device in devices_for_user(teacher.new_user) if request.method == "POST"]
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
@@ -466,14 +432,10 @@ def teacher_accept_student_request(request, pk):
 
     check_student_can_be_accepted(request, student)
 
-    students = Student.objects.filter(
-        class_field=student.pending_class_request
-    ).order_by("new_user__first_name")
+    students = Student.objects.filter(class_field=student.pending_class_request).order_by("new_user__first_name")
 
     if request.method == "POST":
-        form = TeacherAddExternalStudentForm(
-            student.pending_class_request, request.POST
-        )
+        form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
         if form.is_valid():
             data = form.cleaned_data
             student.class_field = student.pending_class_request
@@ -488,9 +450,7 @@ def teacher_accept_student_request(request, pk):
             student.new_user.userprofile.save()
 
             # log the data
-            joinrelease = JoinReleaseStudent.objects.create(
-                student=student, action_type=JoinReleaseStudent.JOIN
-            )
+            joinrelease = JoinReleaseStudent.objects.create(student=student, action_type=JoinReleaseStudent.JOIN)
             joinrelease.save()
 
             return render(

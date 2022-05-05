@@ -86,7 +86,6 @@
     "pk": 1001,
     "fields": {
       "user": 1001,
-      "can_view_aggregated_data": false,
       "developer": false,
       "awaiting_email_verification": false
     }
@@ -96,7 +95,6 @@
     "pk": 1002,
     "fields": {
       "user": 1002,
-      "can_view_aggregated_data": false,
       "developer": false,
       "awaiting_email_verification": false
     }

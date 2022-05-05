@@ -32,9 +32,7 @@ class OrganisationFuzzyLookup(APIView):
         if fuzzy_name and len(fuzzy_name) > 2:
             schools = School.objects.all()
             for part in fuzzy_name.split():
-                schools = schools.filter(
-                    Q(name__icontains=part) | Q(postcode__icontains=part)
-                )
+                schools = schools.filter(Q(name__icontains=part) | Q(postcode__icontains=part))
 
             self._search_schools(schools, school_data)
 
@@ -58,9 +56,7 @@ class OrganisationFuzzyLookup(APIView):
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(
-    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
-)
+@user_passes_test(permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_create(request):
 
     teacher = request.user.new_teacher
@@ -77,19 +73,9 @@ def organisation_create(request):
                 postcode = data.get("postcode", "").upper()
                 country = data.get("country", "")
 
-                error, town, lat, lng = (
-                    "",
-                    "0",
-                    "0",
-                    "0",
-                )  # lookup_coord(postcode, country)
-
                 school = School.objects.create(
                     name=name,
                     postcode=postcode,
-                    town=town,
-                    latitude=lat,
-                    longitude=lng,
                     country=country,
                 )
 
@@ -99,17 +85,13 @@ def organisation_create(request):
 
                 messages.success(
                     request,
-                    "The school or club '"
-                    + teacher.school.name
-                    + "' has been successfully added.",
+                    "The school or club '" + teacher.school.name + "' has been successfully added.",
                 )
 
                 return HttpResponseRedirect(reverse_lazy("onboarding-classes"))
 
         elif "join_organisation" in request.POST:
-            process_join_form(
-                request, teacher, OrganisationJoinForm, OrganisationJoinForm
-            )
+            process_join_form(request, teacher, OrganisationJoinForm, OrganisationJoinForm)
 
         else:
             return process_revoke_request(request, teacher)
@@ -123,21 +105,13 @@ def organisation_create(request):
     return res
 
 
-def compute_input_join_form(
-    OrganisationJoinFormWithCaptcha, OrganisationJoinForm, using_captcha
-):
-    InputOrganisationJoinForm = (
-        OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
-    )
+def compute_input_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, using_captcha):
+    InputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if using_captcha else OrganisationJoinForm
     return InputOrganisationJoinForm
 
 
-def compute_output_join_form(
-    OrganisationJoinFormWithCaptcha, OrganisationJoinForm, should_use_captcha
-):
-    OutputOrganisationJoinForm = (
-        OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
-    )
+def compute_output_join_form(OrganisationJoinFormWithCaptcha, OrganisationJoinForm, should_use_captcha):
+    OutputOrganisationJoinForm = OrganisationJoinFormWithCaptcha if should_use_captcha else OrganisationJoinForm
     return OutputOrganisationJoinForm
 
 
@@ -152,9 +126,7 @@ def send_pending_requests_emails(school, email_message):
         )
 
 
-def process_join_form(
-    request, teacher, InputOrganisationJoinForm, OutputOrganisationJoinForm
-):
+def process_join_form(request, teacher, InputOrganisationJoinForm, OutputOrganisationJoinForm):
     join_form = InputOrganisationJoinForm(request.POST)
     if join_form.is_valid():
         school = get_object_or_404(School, id=join_form.cleaned_data["chosen_org"])
@@ -162,9 +134,7 @@ def process_join_form(
         teacher.pending_join_request = school
         teacher.save()
 
-        email_message = email_messages.joinRequestPendingEmail(
-            request, teacher.new_user.email
-        )
+        email_message = email_messages.joinRequestPendingEmail(request, teacher.new_user.email)
 
         send_pending_requests_emails(school, email_message)
 
@@ -206,17 +176,13 @@ def process_revoke_request(request, teacher):
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(
-    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
-)
+@user_passes_test(permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_manage(request):
     return organisation_create(request)
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(
-    permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login")
-)
+@user_passes_test(permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_leave(request):
     teacher = request.user.new_teacher
 

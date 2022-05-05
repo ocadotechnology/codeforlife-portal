@@ -10,7 +10,6 @@ from django_countries.fields import CountryField
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
 
     awaiting_email_verification = models.BooleanField(default=False)
@@ -42,20 +41,20 @@ class EmailVerification(models.Model):
         return f"Email verification for {self.user.username}, ({self.email})"
 
 
+class SchoolModelManager(models.Manager):
+    # Filter out inactive schools by default
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+
 class School(models.Model):
     name = models.CharField(max_length=200)
-    postcode = models.CharField(max_length=10)
-    town = models.CharField(max_length=200)
-    latitude = models.CharField(max_length=20)
-    longitude = models.CharField(max_length=20)
+    postcode = models.CharField(max_length=10, null=True)
     country = CountryField(blank_label="(select country)")
     creation_time = models.DateTimeField(default=timezone.now, null=True)
+    is_active = models.BooleanField(default=True)
 
-    class Meta(object):
-        permissions = (
-            ("view_aggregated_data", "Can see available aggregated data"),
-            ("view_map_data", "Can see schools' location displayed on map"),
-        )
+    objects = SchoolModelManager()
 
     def __str__(self):
         return self.name
@@ -69,6 +68,15 @@ class School(models.Model):
                     classes.extend(list(teacher.class_teacher.all()))
             return classes
         return None
+
+    def anonymise(self):
+        self.name = uuid4().hex
+        self.postcode = ""
+        self.is_active = False
+        self.save()
+
+        # Remove teachers' requests to join this school
+        self.join_request.clear()
 
 
 class TeacherModelManager(models.Manager):
@@ -99,9 +107,7 @@ class Teacher(models.Model):
         blank=True,
         on_delete=models.CASCADE,
     )
-    school = models.ForeignKey(
-        School, related_name="teacher_school", null=True, on_delete=models.SET_NULL
-    )
+    school = models.ForeignKey(School, related_name="teacher_school", null=True, on_delete=models.SET_NULL)
     is_admin = models.BooleanField(default=False)
     pending_join_request = models.ForeignKey(
         School,
@@ -151,9 +157,7 @@ class ClassModelManager(models.Manager):
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
-    teacher = models.ForeignKey(
-        Teacher, related_name="class_teacher", on_delete=models.CASCADE
-    )
+    teacher = models.ForeignKey(Teacher, related_name="class_teacher", on_delete=models.CASCADE)
     access_code = models.CharField(max_length=5, null=True)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
@@ -180,13 +184,8 @@ class Class(models.Model):
 
     def get_requests_message(self):
         if self.always_accept_requests:
-            external_requests_message = (
-                "This class is currently set to always accept requests."
-            )
-        elif (
-            self.accept_requests_until is not None
-            and (self.accept_requests_until - timezone.now()) >= timedelta()
-        ):
+            external_requests_message = "This class is currently set to always accept requests."
+        elif self.accept_requests_until is not None and (self.accept_requests_until - timezone.now()) >= timedelta():
             external_requests_message = (
                 "This class is accepting external requests until "
                 + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
@@ -194,9 +193,7 @@ class Class(models.Model):
                 + timezone.get_current_timezone_name()
             )
         else:
-            external_requests_message = (
-                "This class is not currently accepting external requests."
-            )
+            external_requests_message = "This class is not currently accepting external requests."
 
         return external_requests_message
 
@@ -232,9 +229,7 @@ class StudentModelManager(models.Manager):
                 return random_username
 
     def schoolFactory(self, klass, name, password, login_id=None):
-        user = User.objects.create_user(
-            username=self.get_random_username(), password=password, first_name=name
-        )
+        user = User.objects.create_user(username=self.get_random_username(), password=password, first_name=name)
         user_profile = UserProfile.objects.create(user=user)
 
         return Student.objects.create(
@@ -242,28 +237,15 @@ class StudentModelManager(models.Manager):
         )
 
     def independentStudentFactory(self, name, email, password):
-        user = User.objects.create_user(
-            username=email, email=email, password=password, first_name=name
-        )
+        user = User.objects.create_user(username=email, email=email, password=password, first_name=name)
 
         user_profile = UserProfile.objects.create(user=user)
 
         return Student.objects.create(user=user_profile, new_user=user)
 
-    def independent_students(self):
-        """
-        Returns all independent students in the database.
-        :return: A list of all independent students.
-        """
-        return [
-            student for student in Student.objects.all() if student.is_independent()
-        ]
-
 
 class Student(models.Model):
-    class_field = models.ForeignKey(
-        Class, related_name="students", null=True, on_delete=models.CASCADE
-    )
+    class_field = models.ForeignKey(Class, related_name="students", null=True, on_delete=models.CASCADE)
     # hashed uuid used for the unique direct login url
     login_id = models.CharField(max_length=64, null=True)
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
@@ -274,9 +256,7 @@ class Student(models.Model):
         blank=True,
         on_delete=models.CASCADE,
     )
-    pending_class_request = models.ForeignKey(
-        Class, related_name="class_request", null=True, on_delete=models.SET_NULL
-    )
+    pending_class_request = models.ForeignKey(Class, related_name="class_request", null=True, on_delete=models.SET_NULL)
     blocked_time = models.DateTimeField(null=True)
 
     objects = StudentModelManager()
@@ -321,9 +301,7 @@ class JoinReleaseStudent(models.Model):
     JOIN = "join"
     RELEASE = "release"
 
-    student = models.ForeignKey(
-        Student, related_name="student", on_delete=models.CASCADE
-    )
+    student = models.ForeignKey(Student, related_name="student", on_delete=models.CASCADE)
     # either "release" or "join"
     action_type = models.CharField(max_length=64)
     action_time = models.DateTimeField(default=timezone.now)

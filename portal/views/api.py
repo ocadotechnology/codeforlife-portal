@@ -106,9 +106,8 @@ def anonymise(user):
     if is_admin:
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         if not teachers:
-            # no other teacher, scramble the school name
-            school.name = uuid.uuid4().hex
-            school.save()
+            # no other teacher, anonymise the school
+            school.anonymise()
             return
 
         admin_exists = False

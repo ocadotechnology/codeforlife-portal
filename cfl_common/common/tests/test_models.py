@@ -34,29 +34,10 @@ class TestModels(TestCase):
 
         assert indep_student.pending_class_request is None
 
-    def test_teacher_school_on_delete(self):
-        """
-        Given a school and a teacher in that school,
-        When the school is deleted,
-        Then the teacher's school field is set to null.
-        """
-        teacher_email, _ = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher_email)
-
-        teacher = Teacher.objects.get(new_user__email=teacher_email)
-        school = School.objects.get(name=school_name)
-
-        assert teacher.school == school
-
-        school.delete()
-        teacher = Teacher.objects.get(new_user__email=teacher_email)
-
-        assert teacher.school is None
-
     def test_teacher_pending_join_request_on_delete(self):
         """
         Given a school and a teacher without a school,
-        When the teacher requests to join the school, and that school is deleted,
+        When the teacher requests to join the school, and that school is anonymised,
         Then the teacher's pending join request field is set to null.
         """
         teacher1_email, _ = signup_teacher_directly()
@@ -74,7 +55,7 @@ class TestModels(TestCase):
         teacher2.pending_join_request = school
         teacher2.save()
 
-        school.delete()
+        school.anonymise()
 
         teacher2 = Teacher.objects.get(new_user__email=teacher2_email)
 
