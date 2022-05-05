@@ -23,7 +23,7 @@ jobs:
         run: |
           pip install codecov
           pip install pytest-cov
-          pip install pipenv
+          pip install pipenv==2022.4.30
           pipenv install --dev --system
           yarn --frozen-lockfile
       - name: Collect static
