@@ -12,18 +12,14 @@ def resetEmailPasswordMessage(request, domain, uid, token, protocol):
         "message": (
             f"You are receiving this email because you requested "
             f"a password reset for your Code For Life user account.\n\n"
-            f"Please go to the following page and choose a new password: "
-            f"{url}",
+            f"Please go to the following page and choose a new password: {url}"
         ),
     }
 
 
 def emailVerificationNeededEmail(request, token):
     url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
-    return {
-        "subject": f"Email verification ",
-        "message": f"Please go to {url} to verify your email address.",
-    }
+    return {"subject": f"Email verification ", "message": f"Please go to {url} to verify your email address."}
 
 
 def emailChangeVerificationEmail(request, token):
@@ -53,7 +49,7 @@ def emailChangeDuplicateNotificationEmail(request, email):
         "subject": f"Duplicate account",
         "message": (
             f"A user is already registered with this email address: {email}.\n"
-            f"Please change your email address to something else.",
+            f"Please change your email address to something else."
         ),
     }
 
@@ -90,7 +86,7 @@ def joinRequestSentEmail(request, schoolName):
         "subject": f"School or club join request sent",
         "message": (
             f"Your request to join the school or club '{schoolName}' has been sent. "
-            f"The teacher or the admin of the class has been notified.",
+            f"The teacher or the admin of the class has been notified."
         ),
     }
 
@@ -119,7 +115,7 @@ def kickedEmail(request, schoolName):
         "message": (
             f"You have been released from the school or club '{schoolName}'. "
             f"If you think this was an error, please contact the administrator of that "
-            f"school or club.",
+            f"school or club."
         ),
     }
 
@@ -132,8 +128,7 @@ def adminGivenEmail(request, schoolName):
         "subject": f"You have been made a school or club administrator",
         "message": (
             f"Administrator control of the school or club '{schoolName}' has been "
-            f"given to you. Go to {url} "
-            f"to start managing your school or club."
+            f"given to you. Go to {url} to start managing your school or club."
         ),
     }
 
@@ -144,7 +139,7 @@ def adminRevokedEmail(request, schoolName):
         "message": (
             f"Your administrator control of the school or club '{schoolName}' has been "
             f"revoked. If you think this is an error, please contact one of the other "
-            f"administrators in your school or club.",
+            f"administrators in your school or club."
         ),
     }
 
@@ -187,7 +182,7 @@ def inviteTeacherEmail(request):
         "subject": f"You've been invited to join Code for Life",
         "message": (
             f"A colleague at your school or code club has invited you to become part of "
-            f"Code for Life.\n\nPlease register your details to get started.\n\n"
+            f"Code for Life.\n\nPlease register your details to get started."
         ),
     }
 
@@ -200,6 +195,6 @@ def accountDeletionEmail(request):
             f"If you have a moment before you leave us completely, please "
             f"let us know the reason through our super short survey below."
             f"\n\nGive feedback: https://usabi.li/do/d8e0313a31d7/5bef"
-            f"\n\nThank you for being part of the Code for Life community!",
+            f"\n\nThank you for being part of the Code for Life community!"
         ),
     }
