@@ -1,8 +1,13 @@
+import uuid
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
 from django.core.cache import cache
 from django.core.exceptions import FieldDoesNotExist
 from two_factor.utils import default_device
+
+from .models import Class, Student, Teacher
 
 
 def two_factor_cache_key(user):
@@ -40,6 +45,61 @@ def field_exists(model, field):
     except FieldDoesNotExist:
         return False
     return True
+
+
+def __anonymise_user(user: User):
+    # the actual user anonymisation
+    user.username = uuid.uuid4().hex
+    user.first_name = "Deleted"
+    user.last_name = "User"
+    user.email = ""
+    user.is_active = False
+    user.save()
+
+
+def anonymise(user: User):
+    """Anonymise user. If admin teacher, pass the admin role to another teacher (if exists).
+    If the only teacher, anonymise the school.
+    """
+    is_admin = False
+    teacher = None
+    teacher_set = Teacher.objects.filter(new_user=user)
+    if teacher_set:
+        is_admin = teacher_set[0].is_admin
+        school = teacher_set[0].school
+        teacher = teacher_set[0]
+
+    __anonymise_user(user)
+
+    # if teacher, anonymise classes and students
+    if teacher:
+        classes = Class.objects.filter(teacher=teacher)
+        for klass in classes:
+            students = Student.objects.filter(class_field=klass)
+            for student in students:
+                __anonymise_user(student.new_user)
+            klass.anonymise()
+
+    # if user is admin and the school does not have another admin, appoint another teacher as admin
+    if is_admin:
+        teachers = Teacher.objects.filter(school=school).order_by(
+            "new_user__last_name", "new_user__first_name"
+        )
+        if not teachers:
+            # no other teacher, anonymise the school
+            school.anonymise()
+            return
+
+        admin_exists = False
+        for teacher in teachers:
+            if teacher.is_admin:
+                admin_exists = True
+                break
+
+        # if no admin, appoint the first teacher as admin
+        if not admin_exists:
+            teachers[0].is_admin = True
+            teachers[0].save()
 
 
 class LoginRequiredNoErrorMixin(LoginRequiredMixin):

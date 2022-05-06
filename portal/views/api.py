@@ -1,7 +1,7 @@
 import datetime
-import uuid
 
-from common.models import Student, Teacher, Class
+from common.models import Student, Teacher
+from common.utils import anonymise
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
@@ -67,59 +67,6 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
     def has_permission(self, request: HttpRequest, view):
         is_admin = super(IsAdminOrGoogleAppEngine, self).has_permission(request, view)
         return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
-
-
-def __anonymise_user(user):
-    # the actual user anonymisation
-    user.username = uuid.uuid4().hex
-    user.first_name = "Deleted"
-    user.last_name = "User"
-    user.email = ""
-    user.is_active = False
-    user.save()
-
-
-def anonymise(user):
-    """Anonymise user. If admin teacher, pass the admin role to another teacher (if exists).
-    If the only teacher, anonymise the school.
-    """
-    is_admin = False
-    teacher = None
-    teacher_set = Teacher.objects.filter(new_user=user)
-    if teacher_set:
-        is_admin = teacher_set[0].is_admin
-        school = teacher_set[0].school
-        teacher = teacher_set[0]
-
-    __anonymise_user(user)
-
-    # if teacher, anonymise classes and students
-    if teacher:
-        classes = Class.objects.filter(teacher=teacher)
-        for klass in classes:
-            students = Student.objects.filter(class_field=klass)
-            for student in students:
-                __anonymise_user(student.new_user)
-            klass.anonymise()
-
-    # if user is admin and the school does not have another admin, appoint another teacher as admin
-    if is_admin:
-        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
-        if not teachers:
-            # no other teacher, anonymise the school
-            school.anonymise()
-            return
-
-        admin_exists = False
-        for teacher in teachers:
-            if teacher.is_admin:
-                admin_exists = True
-                break
-
-        # if no admin, appoint the first teacher as admin
-        if not admin_exists:
-            teachers[0].is_admin = True
-            teachers[0].save()
 
 
 class InactiveUsersView(generics.ListAPIView):
