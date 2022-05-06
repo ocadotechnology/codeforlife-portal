@@ -434,5 +434,5 @@ urlpatterns = [
             ]
         ),
     ),
-    url("reactTestSpace/", reactTestSpace),
+    url(r"^reactTestSpace/", reactTestSpace),
 ]

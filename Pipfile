@@ -19,6 +19,10 @@ pytest = "==7.*"
 pyvirtualdisplay = "*"
 pytest-mock = "*"
 PyPDF2 = "1.27.9"
+black = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
