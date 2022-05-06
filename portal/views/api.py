@@ -1,19 +1,20 @@
 import datetime
+import logging
+import uuid
 
-from common.models import Student, Teacher
-from common.utils import anonymise
+from common.models import Class, Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
+from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
 
-from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
-
+LOGGER = logging.getLogger(__name__)
 THREE_YEARS_IN_DAYS = 1095
 
 
@@ -69,6 +70,60 @@ class IsAdminOrGoogleAppEngine(permissions.IsAdminUser):
         return IS_CLOUD_SCHEDULER_FUNCTION(request) or is_admin
 
 
+def __anonymise_user(user):
+    # the actual user anonymisation
+    user.username = uuid.uuid4().hex
+    user.first_name = "Deleted"
+    user.last_name = "User"
+    user.email = ""
+    user.is_active = False
+    user.save()
+
+
+def anonymise(user):
+    """Anonymise user. If admin teacher, pass the admin role to another teacher (if exists).
+    If the only teacher, anonymise the school.
+    """
+    is_admin = False
+    teacher = None
+    teacher_set = Teacher._base_manager.filter(new_user=user)
+    if teacher_set:
+        is_admin = teacher_set[0].is_admin
+        school = teacher_set[0].school
+        teacher = teacher_set[0]
+
+    print(teacher)
+    __anonymise_user(user)
+
+    # if teacher, anonymise classes and students
+    if teacher:
+        classes = Class.objects.filter(teacher=teacher)
+        for klass in classes:
+            students = Student.objects.filter(class_field=klass)
+            for student in students:
+                __anonymise_user(student.new_user)
+            klass.anonymise()
+
+    # if user is admin and the school does not have another admin, appoint another teacher as admin
+    if is_admin:
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        if not teachers:
+            # no other teacher, anonymise the school
+            school.anonymise()
+            return
+
+        admin_exists = False
+        for teacher in teachers:
+            if teacher.is_admin:
+                admin_exists = True
+                break
+
+        # if no admin, appoint the first teacher as admin
+        if not admin_exists:
+            teachers[0].is_admin = True
+            teachers[0].save()
+
+
 class InactiveUsersView(generics.ListAPIView):
     """
     This API view endpoint allows us to see our inactive users.
@@ -93,4 +148,17 @@ class InactiveUsersView(generics.ListAPIView):
         inactive_users = self.get_queryset()
         for user in inactive_users:
             anonymise(user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AnonymiseOrphanSchoolsView(generics.ListAPIView):
+    authentication_classes = (SessionAuthentication,)
+    serializer_class = InactiveUserSerializer
+    permission_classes = (IsAdminOrGoogleAppEngine,)
+
+    def get(self, request: HttpRequest, start_id):
+        # Re-anonymise all inactive teachers so their schools (if necessary) and classes/students are anonymised
+        for teacher in Teacher._base_manager.filter(pk__gte=start_id, new_user__is_active=False):
+            anonymise(teacher.new_user)
+            LOGGER.info(f"Anonymising teacher ID {teacher.pk}")
         return Response(status=status.HTTP_204_NO_CONTENT)
