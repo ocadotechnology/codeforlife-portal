@@ -14,7 +14,7 @@ class UserProfile(models.Model):
 
     awaiting_email_verification = models.BooleanField(default=False)
 
-    kurono_badges = models.CharField(max_length=200, null=True, blank=True)
+    aimmo_badges = models.CharField(max_length=200, null=True, default="", blank=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
