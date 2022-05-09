@@ -32,6 +32,7 @@ jobs:
           yarn --frozen-lockfile
           npm install --save-dev @babel/plugin-proposal-private-property-in-object
           cd portal_frontend
+          yarn install
           yarn build
           mv build ../portal/frontend
           popd
