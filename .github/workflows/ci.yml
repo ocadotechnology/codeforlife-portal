@@ -27,7 +27,6 @@ jobs:
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
-          pushd codeforlife-portal/portal_frontend
           nvm install 16.15.0
           nvm use 16.15.0
           yarn --frozen-lockfile
