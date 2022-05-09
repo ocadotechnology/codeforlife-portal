@@ -86,13 +86,13 @@ def anonymise(user):
     """
     is_admin = False
     teacher = None
+    # Find the teacher even if they're anonymised
     teacher_set = Teacher._base_manager.filter(new_user=user)
     if teacher_set:
         is_admin = teacher_set[0].is_admin
         school = teacher_set[0].school
         teacher = teacher_set[0]
 
-    print(teacher)
     __anonymise_user(user)
 
     # if teacher, anonymise classes and students
@@ -160,5 +160,5 @@ class AnonymiseOrphanSchoolsView(generics.ListAPIView):
         # Re-anonymise all inactive teachers so their schools (if necessary) and classes/students are anonymised
         for teacher in Teacher._base_manager.filter(pk__gte=start_id, new_user__is_active=False):
             anonymise(teacher.new_user)
-            LOGGER.info(f"Anonymising teacher ID {teacher.pk}")
+            LOGGER.info(f"Anonymised teacher ID {teacher.pk}")
         return Response(status=status.HTTP_204_NO_CONTENT)
