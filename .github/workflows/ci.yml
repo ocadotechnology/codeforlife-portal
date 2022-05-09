@@ -35,8 +35,6 @@ jobs:
           yarn install
           yarn build
           mv build ../portal/frontend
-          pip install -t lib --upgrade ./codeforlife-portal
-          pip install -t lib --upgrade ./codeforlife-portal/cfl_common
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests
