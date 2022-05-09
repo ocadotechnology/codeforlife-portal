@@ -2,9 +2,10 @@ import datetime
 import logging
 import uuid
 
-from common.models import Class, Student, Teacher
+from common.models import Class, School, Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Exists, OuterRef
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
 from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
@@ -161,4 +162,14 @@ class AnonymiseOrphanSchoolsView(generics.ListAPIView):
         for teacher in Teacher._base_manager.filter(pk__gte=start_id, new_user__is_active=False):
             anonymise(teacher.new_user)
             LOGGER.info(f"Anonymised teacher ID {teacher.pk}")
+
+        # Anonymise schools without any active teachers
+        for school in School.objects.filter(
+            Exists(
+                Teacher._base_manager.filter(school=OuterRef("pk")),
+                negated=True,
+            )
+        ):
+            school.anonymise()
+
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -152,6 +152,19 @@ class APITests(APITestCase):
         school3_teacher2.new_user.is_active = False
         school3_teacher2.new_user.save()
 
+        # Create a school with no active teachers
+        school4_teacher1_email, _ = signup_teacher_directly()
+        school4_name, school4_postcode = create_organisation_directly(school4_teacher1_email)
+        school4_teacher1 = Teacher.objects.get(new_user__email=school4_teacher1_email)
+        school4_teacher1.new_user.is_active = False
+        school4_teacher1.new_user.save()
+
+        # Create a school with no teachers
+        school5_teacher1_email, _ = signup_teacher_directly()
+        school5_name, school5_postcode = create_organisation_directly(school5_teacher1_email)
+        school5_teacher1 = Teacher.objects.get(new_user__email=school5_teacher1_email)
+        school5_teacher1.delete()
+
         # Call the API
         url = reverse("anonymise_orphan_schools", kwargs={"start_id": 1})
         response = client.get(url)
@@ -177,6 +190,12 @@ class APITests(APITestCase):
         assert not Class.objects.filter(pk=klass32.pk).exists()
         assert not Student.objects.get(pk=student31.pk).new_user.is_active
         assert not Student.objects.get(pk=student32.pk).new_user.is_active
+
+        # Check that the fourth school is anonymised
+        assert not School.objects.filter(name=school4_name, postcode=school4_postcode).exists()
+
+        # Check that the fifth school is anonymised
+        assert not School.objects.filter(name=school5_name, postcode=school5_postcode).exists()
 
 
 def has_status_code(status_code):
