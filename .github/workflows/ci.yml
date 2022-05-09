@@ -25,6 +25,8 @@ jobs:
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
+          nvm install 16.15.0
+          nvm use 16.15.0
           yarn --frozen-lockfile
           npm install --save-dev @babel/plugin-proposal-private-property-in-object
           yarn build
