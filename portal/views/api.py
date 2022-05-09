@@ -163,7 +163,7 @@ class AnonymiseOrphanSchoolsView(generics.ListAPIView):
             anonymise(teacher.new_user)
             LOGGER.info(f"Anonymised teacher ID {teacher.pk}")
 
-        # Anonymise schools without any active teachers
+        # Anonymise schools without any teachers
         for school in School.objects.filter(
             Exists(
                 Teacher._base_manager.filter(school=OuterRef("pk")),
