@@ -28,6 +28,7 @@ from portal.views.admin import (
 )
 from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
+    AnonymiseOrphanSchoolsView,
     InactiveUsersView,
     last_connected_since,
     number_users_per_country,
@@ -412,6 +413,9 @@ urlpatterns = [
         name="teacher_move_students_to_class",
     ),
     url(r"^delete/account/$", delete_account, name="delete_account"),
+    url(
+        r"^schools/anonymise/(?P<start_id>\d+)/", AnonymiseOrphanSchoolsView.as_view(), name="anonymise_orphan_schools"
+    ),
     url(
         r"^api/",
         include(
