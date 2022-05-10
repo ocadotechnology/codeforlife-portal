@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.6.0 (2022-05-10)
+### Feature
+* Anonymise orphan schools ([#1851](https://github.com/ocadotechnology/codeforlife-portal/issues/1851)) ([`53165c9`](https://github.com/ocadotechnology/codeforlife-portal/commit/53165c994f81fbf4b4abc2ea373879ca0bcc16ad))
+
 ## v6.5.2 (2022-05-04)
 ### Fix
 * Fix email tuples ([#1846](https://github.com/ocadotechnology/codeforlife-portal/issues/1846)) ([`a39aa47`](https://github.com/ocadotechnology/codeforlife-portal/commit/a39aa4768e46df7e46e22bcf16c885ca7d37fe1e))
