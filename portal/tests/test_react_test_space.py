@@ -7,20 +7,12 @@ from django.contrib.auth.models import User
 
 
 class TestReactTestSpace(BaseTest):
-    def test_access_denined(self):
+    def test_restrictions(self):
+        username = "portaladmin"
+        password = "abc123"
         c = Client()
         response = c.get("/reactTestSpace/")
         assert response.status_code == 403
-
-    def test_restrictions(self):
-        password = "abc123"
-
-        admin = User.objects.create_superuser("admin", "admin@admin.com", password)
-
-        c = Client()
-
-        c.login(username=admin.username, password=password)
-
+        c.login(username=username, password=password)
         response = c.get("/reactTestSpace/")
-
         assert response.status_code == 200
