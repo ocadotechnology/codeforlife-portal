@@ -36,7 +36,7 @@ const App = () => {
     <div>
       <ThemeProvider theme={theme}>
         <Navbar userType={userType} name={name} />
-        <Welcome />
+        <Welcome name={name} userType={userType} />
         <SubNav userType={userType} initialValue="levels">
           <SubNavItem value="levels" aria-label="levels">
             Levels
