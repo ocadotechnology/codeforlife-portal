@@ -19,6 +19,7 @@ import SubNav from "./Components/SubNav/SubNav";
 import SubNavItem from "./Components/SubNav/SubNavItem";
 import theme from "./Theme";
 import "./portal.css";
+import Welcome from "Components/Banner/Welcome";
 
 export type UserType = "student" | "independent" | "teacher" | "none";
 export interface User {
@@ -35,7 +36,7 @@ const App = () => {
     <div>
       <ThemeProvider theme={theme}>
         <Navbar userType={userType} name={name} />
-        <RapidRouter />
+        <Welcome />
         <SubNav userType={userType} initialValue="levels">
           <SubNavItem value="levels" aria-label="levels">
             Levels
