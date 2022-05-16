@@ -14,6 +14,10 @@ class UserProfile(models.Model):
 
     awaiting_email_verification = models.BooleanField(default=False)
 
+    # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
+    # deleted every time the Game gets deleted.
+    # This is a string showing which badges in which worksheets have been earned. The format is "X:Y" where X is the
+    # worksheet ID and Y is the badge ID. This repeats for all badges and each pair is comma-separated.
     aimmo_badges = models.CharField(max_length=200, null=True, default="", blank=True)
 
     def __str__(self):
