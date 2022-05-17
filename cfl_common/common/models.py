@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     # deleted every time the Game gets deleted.
     # This is a string showing which badges in which worksheets have been earned. The format is "X:Y" where X is the
     # worksheet ID and Y is the badge ID. This repeats for all badges and each pair is comma-separated.
-    aimmo_badges = models.CharField(max_length=200, default="", blank=True)
+    aimmo_badges = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
