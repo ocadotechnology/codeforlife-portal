@@ -30,6 +30,8 @@ jobs:
           nvm install 16.15.0
           nvm use 16.15.0
           yarn --frozen-lockfile
+          # This throwing an error that a package is missing, hence
+          # that is why we are installing it here
           npm install --save-dev @babel/plugin-proposal-private-property-in-object
           cd portal_frontend
           yarn install
