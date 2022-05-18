@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.1 (2022-05-18)
+### Fix
+* Bump async from 3.2.0 to 3.2.3 ([#1857](https://github.com/ocadotechnology/codeforlife-portal/issues/1857)) ([`9f42aa7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9f42aa79f779f2ccf10006dd692df8d866a9872a))
+
 ## v6.8.0 (2022-05-18)
 ### Feature
 * Add react test space ([#1825](https://github.com/ocadotechnology/codeforlife-portal/issues/1825)) ([`e0fef80`](https://github.com/ocadotechnology/codeforlife-portal/commit/e0fef80ea5b8b03ce42636e9944391ae7110e682))
