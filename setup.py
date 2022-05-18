@@ -46,6 +46,7 @@ setup(
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
         "django-csp==3.7",
+        "setuptools==62.1.0",
     ],
     classifiers=[
         "Programming Language :: Python",
