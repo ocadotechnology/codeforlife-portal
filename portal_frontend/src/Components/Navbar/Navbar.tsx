@@ -1,10 +1,4 @@
-import {
-  IconButtonStyled,
-  AppBarStyled,
-  ToolbarStyled,
-  LogoCfl,
-  LogoOcado,
-} from "./NavbarStyle";
+import { AppBarStyled, ToolbarStyled, LogoCfl, LogoOcado } from "./NavbarStyle";
 import { User } from "../../App";
 import Dashboard from "./Dashboard";
 import Games from "./Games";
@@ -12,6 +6,9 @@ import LearningResources from "./LearningResources";
 import UserTypeTitle from "./UserTypeTitle";
 import UserLogInButton from "./UserLogInButton";
 import MobileNavbarIcon from "./MobileNavbarIcon";
+
+import cflLogo from "img/navbar/logo_cfl.png";
+import ocadoLogo from "img/navbar/logo_ocado_group.svg";
 
 export interface GamesProps {
   games: string[];
@@ -26,15 +23,15 @@ const Navbar = ({ userType, name }: User) => {
         }}
         disableGutters
       >
-        <a href="http://www.localhost:3000">
-          <LogoCfl src="/images/navbar/logo_cfl.png" />
+        <a href={window.location.href}>
+          <LogoCfl src={cflLogo} />
         </a>
         <a
           href="https://www.ocadogroup.com/our-responsible-business/corporate-responsibility/skills-for-the-future"
           target="_blank"
           rel="noreferrer"
         >
-          <LogoOcado src="/images/navbar/logo_ocado_group.svg" />
+          <LogoOcado src={ocadoLogo} />
         </a>
         <UserTypeTitle userType="independent" />
         <Dashboard />

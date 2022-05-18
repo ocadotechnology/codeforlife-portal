@@ -9,7 +9,6 @@ Libraries that seem to be breaking the app without notice
 */
 import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
-import Welcome from "./Components/Banner/Welcome";
 import Footer from "./Components/Footer/Footer";
 import KuronoWidget from "./Components/KuronoWidget/KuronoWidget";
 import MeetTheCharacters from "./Components/MeetTheCharacters/MeetTheCharacters";
@@ -18,6 +17,8 @@ import RapidRouterScores from "./Components/RapidRouterScores/RapidRouterScores"
 import SubNav from "./Components/SubNav/SubNav";
 import SubNavItem from "./Components/SubNav/SubNavItem";
 import theme from "./Theme";
+import "./portal.css";
+import Welcome from "Components/Banner/Welcome";
 
 export type UserType = "student" | "independent" | "teacher" | "none";
 export interface User {

@@ -1,8 +1,6 @@
-import { Button, Popover, Typography } from "@mui/material";
+import { Button, Popover } from "@mui/material";
 import React from "react";
 import theme from "../../Theme";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import { KeyboardArrowRight } from "@mui/icons-material";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useEffect } from "react";

@@ -20,6 +20,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
+from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
@@ -63,6 +64,7 @@ from portal.views.registration import (
     teacher_password_reset,
     delete_account,
 )
+
 from portal.views.student.edit_account_details import (
     IndependentStudentEditAccountView,
     SchoolStudentEditAccountView,
@@ -436,4 +438,5 @@ urlpatterns = [
             ]
         ),
     ),
+    url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
 ]

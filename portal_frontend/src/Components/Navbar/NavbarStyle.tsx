@@ -15,7 +15,6 @@ import {
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { UserType, User } from "../../App";
-import { useState } from "react";
 import { OverridableStringUnion } from "@mui/types/index";
 import { TypographyPropsVariantOverrides } from "@mui/material/Typography";
 import { Variant } from "@mui/material/styles/createTypography";
