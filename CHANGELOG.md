@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.0 (2022-05-18)
+### Feature
+* Add react test space ([#1825](https://github.com/ocadotechnology/codeforlife-portal/issues/1825)) ([`e0fef80`](https://github.com/ocadotechnology/codeforlife-portal/commit/e0fef80ea5b8b03ce42636e9944391ae7110e682))
+
 ## v6.7.0 (2022-05-18)
 ### Feature
 * Add aimmo badges to UserProfile ([#1852](https://github.com/ocadotechnology/codeforlife-portal/issues/1852)) ([`2c9075c`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c9075c5f94de74e5a8b2bc6b499005580366224))
