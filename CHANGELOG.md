@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.7.0 (2022-05-18)
+### Feature
+* Add aimmo badges to UserProfile ([#1852](https://github.com/ocadotechnology/codeforlife-portal/issues/1852)) ([`2c9075c`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c9075c5f94de74e5a8b2bc6b499005580366224))
+
 ## v6.6.0 (2022-05-10)
 ### Feature
 * Anonymise orphan schools ([#1851](https://github.com/ocadotechnology/codeforlife-portal/issues/1851)) ([`53165c9`](https://github.com/ocadotechnology/codeforlife-portal/commit/53165c994f81fbf4b4abc2ea373879ca0bcc16ad))
