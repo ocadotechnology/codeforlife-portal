@@ -20,15 +20,15 @@ from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
+from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
     AdminChangePasswordView,
-    aggregated_data,
-    schools_map,
 )
 from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
+    AnonymiseOrphanSchoolsView,
     InactiveUsersView,
     last_connected_since,
     number_users_per_country,
@@ -64,6 +64,7 @@ from portal.views.registration import (
     teacher_password_reset,
     delete_account,
 )
+
 from portal.views.student.edit_account_details import (
     IndependentStudentEditAccountView,
     SchoolStudentEditAccountView,
@@ -164,12 +165,6 @@ urlpatterns = [
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    url(
-        r"^admin/$",
-        RedirectView.as_view(url=reverse_lazy("aggregated_data"), permanent=True),
-    ),
-    url(r"^admin/map/$", schools_map, name="map"),
-    url(r"^admin/data/$", aggregated_data, name="aggregated_data"),
     url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),
     url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     url(
@@ -321,15 +316,11 @@ urlpatterns = [
     url(r"^about", about, name="about"),
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),
-    url(
-        r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"
-    ),
+    url(r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"),
     url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
-    url(
-        r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"
-    ),
+    url(r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"),
     url(
         r"^teach/kurono_resources/$",
         teacher_kurono_resources,
@@ -423,6 +414,9 @@ urlpatterns = [
     ),
     url(r"^delete/account/$", delete_account, name="delete_account"),
     url(
+        r"^schools/anonymise/(?P<start_id>\d+)/", AnonymiseOrphanSchoolsView.as_view(), name="anonymise_orphan_schools"
+    ),
+    url(
         r"^api/",
         include(
             [
@@ -444,4 +438,5 @@ urlpatterns = [
             ]
         ),
     ),
+    url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
 ]

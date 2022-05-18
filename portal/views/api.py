@@ -1,19 +1,21 @@
 import datetime
+import logging
 import uuid
 
-from common.models import Student, Teacher, Class
+from common.models import Class, School, Student, Teacher
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Exists, OuterRef
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
+from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
 from rest_framework import generics, permissions, serializers, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
 
-from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
-
+LOGGER = logging.getLogger(__name__)
 THREE_YEARS_IN_DAYS = 1095
 
 
@@ -85,7 +87,8 @@ def anonymise(user):
     """
     is_admin = False
     teacher = None
-    teacher_set = Teacher.objects.filter(new_user=user)
+    # Find the teacher even if they're anonymised
+    teacher_set = Teacher._base_manager.filter(new_user=user)
     if teacher_set:
         is_admin = teacher_set[0].is_admin
         school = teacher_set[0].school
@@ -106,9 +109,8 @@ def anonymise(user):
     if is_admin:
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         if not teachers:
-            # no other teacher, scramble the school name
-            school.name = uuid.uuid4().hex
-            school.save()
+            # no other teacher, anonymise the school
+            school.anonymise()
             return
 
         admin_exists = False
@@ -147,4 +149,27 @@ class InactiveUsersView(generics.ListAPIView):
         inactive_users = self.get_queryset()
         for user in inactive_users:
             anonymise(user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AnonymiseOrphanSchoolsView(generics.ListAPIView):
+    authentication_classes = (SessionAuthentication,)
+    serializer_class = InactiveUserSerializer
+    permission_classes = (IsAdminOrGoogleAppEngine,)
+
+    def get(self, request: HttpRequest, start_id):
+        # Re-anonymise all inactive teachers so their schools (if necessary) and classes/students are anonymised
+        for teacher in Teacher._base_manager.filter(pk__gte=start_id, new_user__is_active=False):
+            anonymise(teacher.new_user)
+            LOGGER.info(f"Anonymised teacher ID {teacher.pk}")
+
+        # Anonymise schools without any teachers
+        for school in School.objects.filter(
+            Exists(
+                Teacher._base_manager.filter(school=OuterRef("pk")),
+                negated=True,
+            )
+        ):
+            school.anonymise()
+
         return Response(status=status.HTTP_204_NO_CONTENT)

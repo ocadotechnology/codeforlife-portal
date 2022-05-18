@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-
 from setuptools import find_packages, setup
 
 with open("../portal/__init__.py", "r") as fd:
@@ -14,7 +13,7 @@ setup(
     version=version,
     include_package_data=True,
     install_requires=[
-        "django==3.2.12",
+        "django==3.2.13",
         "djangorestframework==3.13.1",
         "django-two-factor-auth==1.13.2",
         "django-countries==7.3.1",
