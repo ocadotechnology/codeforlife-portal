@@ -29,11 +29,11 @@ jobs:
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
+          yarn --frozen-lockfile
           cd portal_frontend
-          yarn install
+          yarn --frozen-lockfile
           yarn build
           mv build ../portal/frontend
-          yarn --frozen-lockfile
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests
