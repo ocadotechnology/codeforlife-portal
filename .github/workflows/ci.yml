@@ -21,22 +21,11 @@ jobs:
           architecture: "x64"
       - name: Install dependencies
         run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
           pip install codecov
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
-          nvm install 16.15.0
-          nvm use 16.15.0
           yarn --frozen-lockfile
-          # This throwing an error that a package is missing, hence
-          # that is why we are installing it here
-          npm install --save-dev @babel/plugin-proposal-private-property-in-object
-          cd portal_frontend
-          yarn install
-          yarn build
-          mv build ../portal/frontend
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests

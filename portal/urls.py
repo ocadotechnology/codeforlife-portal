@@ -20,7 +20,8 @@ from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_RATE,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX
-from portal.reactTestSpace import reactTestSpace
+
+# from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import (
     AdminChangePasswordDoneView,
@@ -438,5 +439,5 @@ urlpatterns = [
             ]
         ),
     ),
-    url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
+    # url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
 ]
