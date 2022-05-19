@@ -19,12 +19,20 @@ jobs:
         with:
           python-version: "3.7"
           architecture: "x64"
-      - name: Install dependencies
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install dependencies and build frontend
         run: |
           pip install codecov
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system
+          cd portal_frontend
+          yarn install
+          yarn build
+          mv build ../portal/frontend
           yarn --frozen-lockfile
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
