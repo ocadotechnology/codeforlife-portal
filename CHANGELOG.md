@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.2 (2022-05-19)
+### Fix
+* Remove CI steps that broke deployment ([`69cf0f7`](https://github.com/ocadotechnology/codeforlife-portal/commit/69cf0f7fc41e8860ca48b498f3af9932f83667b0))
+
 ## v6.8.1 (2022-05-18)
 ### Fix
 * Bump async from 3.2.0 to 3.2.3 ([#1857](https://github.com/ocadotechnology/codeforlife-portal/issues/1857)) ([`9f42aa7`](https://github.com/ocadotechnology/codeforlife-portal/commit/9f42aa79f779f2ccf10006dd692df8d866a9872a))
