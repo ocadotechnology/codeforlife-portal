@@ -1,4 +1,7 @@
-from common.helpers.emails import update_email
+from audioop import reverse
+from traceback import print_list
+from common.email_messages import accountDeletionEmail
+from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_email
 from common.models import Student
 from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
@@ -7,11 +10,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
+from portal.forms.registration import DeleteAccountForm
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
+from portal.views.api import anonymise
 
 
 def _get_form(self, form_class):
@@ -68,9 +73,7 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
         # check not default value for CharField
         changing_password = check_update_password(form, student.new_user, request, data)
 
-        messages.success(
-            request, "Your account details have been changed successfully."
-        )
+        messages.success(request, "Your account details have been changed successfully.")
 
         if changing_password:
             logout(request)
@@ -88,21 +91,64 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
     """
     A FormView for editing an independent student's account details. This forms enables
     an independent student to change their name, their email and / or their password.
+    Additionally it also deletes the independent students account with its second form
+
+    Django makes it very difficult to have multiple forms in one view hence the second
+    form itegration is a bit cluncky
     """
 
     login_url = reverse_lazy("independent_student_login")
     form_class = IndependentStudentEditAccountForm
+    # second form for account deletion
+    second_form_class = DeleteAccountForm
     template_name = "../templates/portal/play/student_edit_account.html"
     model = Student
     initial = {"name": "Could not find name"}
     changing_email = False
     changing_password = False
 
+    # adding additional form into the forms simultaneously
+    def get_context_data(self, **kwargs):
+        context = super(IndependentStudentEditAccountView, self).get_context_data(**kwargs)
+        if "form" not in context:
+            context["form"] = self.form_class(request=self.request)
+        if "delete_account_form" not in context:
+            context["delete_account_form"] = self.second_form_class(user=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        # making sure not both forms are submited
+        if "form" in request.POST:
+            form_class = self.get_form_class()
+            form_name = "form"
+
+        elif "delete_account" in request.POST:
+            user = request.user
+            password = request.POST.get("delete_password")
+            form_class = self.second_form_class
+            form_name = "delete_account_form"
+            if not user.check_password(password):
+                messages.warning(request, "Your account was not deleted due to incorrect password.")
+            else:
+                email = user.email
+                anonymise(user)
+                # remove the user from the newsletter subscription
+                if bool(request.POST.get("unsubscribe_newsletter")):
+                    delete_contact(email)
+                message = accountDeletionEmail(request)
+                send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"], message["title"])
+                return HttpResponseRedirect(reverse_lazy("home"))
+
+        form = self.get_form(form_class)
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(**{form_name: form})
+
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
-        kwargs["initial"]["name"] = "{}{}".format(
-            self.request.user.first_name, self.request.user.last_name
-        )
+        kwargs["initial"]["name"] = "{}{}".format(self.request.user.first_name, self.request.user.last_name)
         return kwargs
 
     def get_form(self, form_class=None):
@@ -128,9 +174,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         data = form.cleaned_data
 
         # check not default value for CharField
-        self.changing_password = check_update_password(
-            form, student.new_user, request, data
-        )
+        self.changing_password = check_update_password(form, student.new_user, request, data)
 
         # allow individual students to update more
         self.changing_email, new_email = update_email(student, request, data)
@@ -140,9 +184,7 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         # Reset ratelimit cache after successful account details update
         clear_ratelimit_cache_for_user(student.new_user.username)
 
-        messages.success(
-            request, "Your account details have been changed successfully."
-        )
+        messages.success(request, "Your account details have been changed successfully.")
 
         if self.changing_email:
             logout(request)

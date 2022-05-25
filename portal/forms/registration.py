@@ -49,9 +49,7 @@ class StudentPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
 
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.EmailInput(
-            attrs={"autocomplete": "off", "placeholder": "Email address"}
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
         help_text="Enter your email address",
     )
 
@@ -74,9 +72,7 @@ class PasswordResetForm(forms.Form):
         """
         UserModel = get_user_model()
         if self.username:
-            active_users = UserModel._default_manager.filter(
-                username=self.username, is_active=True
-            )
+            active_users = UserModel._default_manager.filter(username=self.username, is_active=True)
             for user in active_users:
                 # Make sure that no email is sent to a user that actually has
                 # a password marked as unusable
@@ -138,6 +134,10 @@ class StudentPasswordResetForm(PasswordResetForm):
         if student.exists():
             self.username = student[0].new_user.username
         return email
+
+
+class TestForm(forms.Form):
+    name = forms.CharField(label="Hello")
 
 
 class DeleteAccountForm(forms.Form):
