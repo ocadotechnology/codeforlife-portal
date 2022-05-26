@@ -32,7 +32,7 @@ jobs:
       - name: "Install, build and move frontned"
         run: |
             cd portal_frontend
-            yarn install
+            yarn --frozen-lockfile
             yarn build
             mv build ../portal/frontend
       - name: Release codeforlife-portal

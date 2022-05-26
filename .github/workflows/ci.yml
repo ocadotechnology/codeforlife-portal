@@ -30,6 +30,8 @@ jobs:
           pip install pipenv
           pipenv install --dev --system
           yarn --frozen-lockfile
+      - name: Build frontend
+        run: |
           cd portal_frontend
           yarn --frozen-lockfile
           yarn build
