@@ -112,7 +112,6 @@ class TestIndependentStudent(TestCase):
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
-from time import sleep
 
 
 class TestIndependentStudentFrontend(BaseTest):
@@ -125,6 +124,19 @@ class TestIndependentStudentFrontend(BaseTest):
         # save the user to check if it was anonymised
         user = User.objects.get(email=email)
         user_id = user.id
+
+        # first check if a wrong password triggers the error
+
+        unsubstribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
+        unsubstribe_newsletter_checkbox.click()
+
+        delete_account_form = page.browser.find_element_by_name("delete_password")
+        delete_account_form.send_keys("123")  # wrong password
+
+        delete_account_button = page.browser.find_element_by_id("delete_account_button")
+        delete_account_button.click()
+
+        # now delete the account
 
         unsubstribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
         unsubstribe_newsletter_checkbox.click()
