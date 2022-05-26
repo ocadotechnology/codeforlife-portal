@@ -121,11 +121,8 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
 
     def post(self, request, *args, **kwargs):
         # making sure not both forms are submited
-        if "form" in request.POST:
-            form_class = self.get_form_class()
-            form_name = "form"
 
-        elif "delete_account" in request.POST:
+        if "delete_account" in request.POST:
             user = request.user
             password = request.POST.get("delete_password")
             form_class = self.second_form_class
@@ -141,13 +138,17 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
                 message = accountDeletionEmail(request)
                 send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"], message["title"])
                 return HttpResponseRedirect(reverse_lazy("home"))
+        else:
+            print("\n-----------" * 100)
+            form_class = self.form_class
+            form_name = "form"
 
         form = self.get_form(form_class)
 
         if form.is_valid():
             return self.form_valid(form)
         else:
-            return self.form_invalid(**{form_name: form})
+            return self.form_invalid(form)
 
     def get_form_kwargs(self):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
