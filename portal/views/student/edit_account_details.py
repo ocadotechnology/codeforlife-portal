@@ -116,6 +116,9 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
             context["delete_account_form"] = self.second_form_class(user=self.request.user)
         return context
 
+    def get_form(self, form_class=None):
+        return _get_form(self, form_class)
+
     def post(self, request, *args, **kwargs):
         # making sure not both forms are submited
         if "form" in request.POST:
@@ -150,9 +153,6 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
         kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
         kwargs["initial"]["name"] = "{}{}".format(self.request.user.first_name, self.request.user.last_name)
         return kwargs
-
-    def get_form(self, form_class=None):
-        return _get_form(self, form_class)
 
     def get_success_url(self):
         if self.changing_email:

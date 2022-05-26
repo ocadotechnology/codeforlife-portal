@@ -2,6 +2,8 @@ from __future__ import absolute_import
 
 import time
 
+from django.contrib.auth.models import User
+
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -22,6 +24,7 @@ from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
+from portal.views.registration import delete_account
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -109,7 +112,36 @@ class TestIndependentStudent(TestCase):
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
+from time import sleep
+
+
 class TestIndependentStudentFrontend(BaseTest):
+    def test_delete_indy_account(self):
+        page = self.go_to_homepage()
+        page, _, _, email, password = create_independent_student(page)
+        page = page.independent_student_login(email, password)
+        page = page.go_to_account_page()
+
+        # save the user to check if it was anonymised
+        user = User.objects.get(email=email)
+        user_id = user.id
+
+        unsubstribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
+        unsubstribe_newsletter_checkbox.click()
+
+        delete_account_form = page.browser.find_element_by_name("delete_password")
+        delete_account_form.send_keys(password)
+
+        delete_account_button = page.browser.find_element_by_id("delete_account_button")
+        delete_account_button.click()
+
+        # check if can still login to the account
+        page = self.go_to_homepage()
+        assert page.go_to_independent_student_login_page().independent_student_login_failure(email, password)
+
+        # now check if anonymised
+        assert not User.objects.get(id=user_id).is_active
+
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
@@ -126,9 +158,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_email_verified_message_showing(self.selenium)
 
         page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(
-            page, duplicate_email=email
-        )
+        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, duplicate_email=email)
 
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Duplicate account"
@@ -156,13 +186,9 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_login_failure(self):
         page = self.go_to_homepage()
         page = page.go_to_independent_student_login_page()
-        page = page.independent_student_login_failure(
-            "non-existent-email@codeforlife.com", "Incorrect password"
-        )
+        page = page.independent_student_login_failure("non-existent-email@codeforlife.com", "Incorrect password")
 
-        assert page.has_login_failed(
-            "independent_student_login_form", INVALID_LOGIN_MESSAGE
-        )
+        assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
 
     def test_login_success(self):
         page = self.go_to_homepage()
@@ -177,9 +203,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_independent_student_login_page()
         page = page.independent_student_login_failure(username, password)
 
-        assert page.has_login_failed(
-            "independent_student_login_form", INVALID_LOGIN_MESSAGE
-        )
+        assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
 
         verify_email(page)
 
@@ -229,13 +253,9 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_update_name_success(self):
         homepage = self.go_to_homepage()
 
-        play_page, name, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, name, student_username, _, password = create_independent_student(homepage)
 
-        page = play_page.independent_student_login(
-            student_username, password
-        ).go_to_account_page()
+        page = play_page.independent_student_login(student_username, password).go_to_account_page()
 
         assert page.check_account_details({"name": name})
 
@@ -247,9 +267,7 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_update_name_failure(self):
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, _, student_username, _, password = create_independent_student(homepage)
 
         page = (
             play_page.independent_student_login(student_username, password)
@@ -269,9 +287,7 @@ class TestIndependentStudentFrontend(BaseTest):
         _, _, _, student_email, password = create_independent_student(homepage)
         play_page, _, _, other_email, _ = create_independent_student(homepage)
 
-        page = play_page.independent_student_login(
-            student_email, password
-        ).go_to_account_page()
+        page = play_page.independent_student_login(student_email, password).go_to_account_page()
 
         # Try changing email to an existing email, should fail
         page = page.change_email(other_email, password)
@@ -327,9 +343,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        page = email_utils.follow_change_email_link_to_independent_dashboard(
-            page, mail.outbox[0]
-        )
+        page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[0])
         mail.outbox = []
 
         page = page.independent_student_login(new_email, password)
@@ -339,13 +353,9 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_change_password(self):
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, _, student_username, _, password = create_independent_student(homepage)
 
-        page = play_page.independent_student_login(
-            student_username, password
-        ).go_to_account_page()
+        page = play_page.independent_student_login(student_username, password).go_to_account_page()
 
         new_password = "AnotherPassword12"
         page = page.update_password_success(new_password, password, is_independent=True)
@@ -361,9 +371,7 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_join_class_nonexistent_class(self):
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, _, student_username, _, password = create_independent_student(homepage)
 
         page = (
             play_page.independent_student_login(student_username, password)
@@ -372,9 +380,7 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert self.is_join_class_page(page)
-        assert page.has_join_request_failed(
-            "Cannot find the school or club and/or class"
-        )
+        assert page.has_join_request_failed("Cannot find the school or club and/or class")
 
     def test_join_class_not_accepting_requests(self):
         teacher_email, _ = signup_teacher_directly()
@@ -384,9 +390,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, _, student_username, _, password = create_independent_student(homepage)
 
         page = (
             play_page.independent_student_login(student_username, password)
@@ -395,9 +399,7 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert self.is_join_class_page(page)
-        assert page.has_join_request_failed(
-            "Cannot find the school or club and/or class"
-        )
+        assert page.has_join_request_failed("Cannot find the school or club and/or class")
 
     def test_join_class_revoked(self):
         teacher_email, _ = signup_teacher_directly()
@@ -409,9 +411,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, _, student_username, _, password = create_independent_student(homepage)
 
         page = (
             play_page.independent_student_login(student_username, password)
@@ -474,9 +474,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         homepage = self.go_to_homepage()
 
-        play_page, _, student_username, _, password = create_independent_student(
-            homepage
-        )
+        play_page, _, student_username, _, password = create_independent_student(homepage)
 
         page = (
             play_page.independent_student_login(student_username, password)
@@ -506,11 +504,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_independent_student_login_page()
-            .go_to_indep_forgotten_password_page()
-        )
+        page = HomePage(self.selenium).go_to_independent_student_login_page().go_to_indep_forgotten_password_page()
         return page
 
     def wait_for_email(self):
