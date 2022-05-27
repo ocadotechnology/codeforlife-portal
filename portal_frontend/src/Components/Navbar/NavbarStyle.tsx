@@ -23,7 +23,7 @@ import theme from "../../Theme";
 
 export const AppBarStyled = styled(AppBar)(({ theme }) => ({
   zIndex: "1201",
-  background: "white",
+  background: "#fff",
   padding: "0 0 0 1rem",
 }));
 
@@ -83,7 +83,7 @@ export const IconButtonStyled = styled(IconButton)(({ theme }) => ({
 
 export const NavBarButtonStyled = styled(Button)(({ theme }) => ({
   marginLeft: "2rem",
-  color: "black",
+  color: "#000",
   textTransform: "none",
   fontWeight: "500",
   "&:hover": {
@@ -127,7 +127,7 @@ export const LinkStyled = (props: LinkAttr) => {
             : dynamicColor[props.userType].background,
         color:
           props.userType === undefined
-            ? "black"
+            ? "#000"
             : dynamicColor[props.userType].color,
         outline:
           props.userType === undefined
@@ -148,7 +148,7 @@ export const LinkTypography = styled(Link)(({ theme }) => ({
 }));
 
 export const MenuIconButtonStyled = styled(Button)(({ theme }) => ({
-  color: "black",
+  color: "#000",
 }));
 
 export const MobileMenuBarUserName = styled(Typography)(({ theme }) => ({
@@ -179,22 +179,22 @@ export const ListStyled = styled(List)(({ theme }) => ({
 const dynamicColor = {
   student: {
     background: "#00a3e0",
-    color: "white",
+    color: "#fff",
     outline: "none",
   },
   independent: {
     background: `${theme.palette.secondary.main}`,
-    color: "black",
+    color: "#000",
     outline: "none",
   },
   teacher: {
     background: `${theme.palette.primary.main}`,
-    color: "white",
+    color: "#fff",
     outline: "none",
   },
   none: {
-    background: "white",
-    color: "black",
+    background: "#fff",
+    color: "#000",
     outline: `2px solid ${theme.palette.secondary.main}`,
   },
 };
@@ -272,7 +272,7 @@ export const SubButtonStyled = styled(MenuItem)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   "&:hover": {
-    background: "white",
+    background: "#fff",
     textDecoration: "underline",
   },
   "&:first-child": {
@@ -282,7 +282,7 @@ export const SubButtonStyled = styled(MenuItem)(({ theme }) => ({
 
 export const LogInButtonStyled = styled(Button)(({ theme }) => ({
   borderRight: "0",
-  color: "black",
+  color: "#000",
   borderRadius: "0",
   height: "45px",
   width: "155px",
