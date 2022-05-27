@@ -34,8 +34,8 @@ const LearningResources = ({ games }: GamesProps) => {
       <Box
         sx={{
           "&:hover": {
-            background: "white",
-            color: "black",
+            background: "#fff",
+            color: "#000",
             textDecoration: "underline",
           },
         }}
@@ -43,14 +43,14 @@ const LearningResources = ({ games }: GamesProps) => {
         <Button
           sx={{
             fontWeight: "100",
-            background: "white",
+            background: "#fff",
             fontSize: "18px",
-            color: "black",
+            color: "#000",
             boxShadow: "none",
             textTransform: "none",
             "&:hover": {
               background: "none",
-              color: "black",
+              color: "#000",
               textDecoration: "underline",
               boxShadow: "none",
             },
@@ -76,9 +76,9 @@ const LearningResources = ({ games }: GamesProps) => {
                 return (
                   <Typography
                     sx={{
-                      color: "black",
+                      color: "#000",
                       marginLeft: "1vw",
-                      background: "white",
+                      background: "#fff",
                       fontSize: "14px",
                       p: 2,
                       boxShadow:

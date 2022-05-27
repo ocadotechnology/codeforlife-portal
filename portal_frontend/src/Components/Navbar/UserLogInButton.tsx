@@ -55,7 +55,7 @@ const UserLogInButton = ({ name }: NameProps) => {
           marginLeft: "auto",
           width: "17vw",
           border: `2px solid ${theme.palette.secondary.main}`,
-          color: "black",
+          color: "#000",
           textTransform: "none",
           borderRadius: "0",
           "&:hover": {
@@ -95,7 +95,7 @@ const UserLogInButton = ({ name }: NameProps) => {
                 borderLeft: `2px solid ${theme.palette.secondary.main}`,
                 borderRight: `2px solid ${theme.palette.secondary.main}`,
                 borderBottom: `2px solid ${theme.palette.secondary.main}`,
-                color: "black",
+                color: "#000",
                 textTransform: "none",
                 borderRadius: "0",
                 fontSize: "14px",
