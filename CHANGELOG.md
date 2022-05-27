@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.3 (2022-05-27)
+### Fix
+* Edit the deployment for react test space ([#1859](https://github.com/ocadotechnology/codeforlife-portal/issues/1859)) ([`a0d22b2`](https://github.com/ocadotechnology/codeforlife-portal/commit/a0d22b231378f140e49d01fde138c1dc06d86766))
+
 ## v6.8.2 (2022-05-19)
 ### Fix
 * Remove CI steps that broke deployment ([`69cf0f7`](https://github.com/ocadotechnology/codeforlife-portal/commit/69cf0f7fc41e8860ca48b498f3af9932f83667b0))
