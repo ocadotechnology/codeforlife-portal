@@ -12,6 +12,8 @@ DEFAULT_SETTINGS = {
     "MEDIA_ROOT": os.path.join(os.path.join(os.path.dirname(__file__), "static"), "email_media/"),
 }
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 SETTINGS = {
     "AUTOCONFIG_DISABLED_APPS": [
         "django_otp",
@@ -91,6 +93,7 @@ SETTINGS = {
                     "portal.context_processors.process_newsletter_form",
                 ]
             },
+            "DIRS": [os.path.join(BASE_DIR, "portal/frontend")],
         }
     ],
     "CODEFORLIFE_WEBSITE": "www.codeforlife.education",
@@ -111,6 +114,7 @@ SETTINGS = {
     ],
     "USE_TZ": True,
     "PASSWORD_RESET_TIMEOUT_DAYS": 1,
+    "STATICFILES_DIRS": [os.path.join(BASE_DIR, "portal/frontend/static")],
 }
 
 SETTINGS.update(CSP_CONFIG)
